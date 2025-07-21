@@ -311,14 +311,17 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         # Explicit activate checks
         err_codes = [
             # 'C0103',  # invalid-name
-            # 'C0114',  # missing-module-docstring
-            # 'C0115',  # missing-clas-docstring
+            'C0114',  # missing-module-docstring
+            # 'C0115',  # missing-class-docstring
             # 'C0116',  # missing-function-docstring
+            'C0200',  # consider-using-enumerate
+            'C0201',  # consider-iterating-dictionary
             'C0301',  # line-too-long
             'C0305',  # trailing-newlines
             'C0321',  # multiple-statements
             'C0325',  # superfluous-parens
             'C0410',  # multiple-imports
+            # 'C0411',  # wrong-import-order
             'C0303',  # trailing-whitespace
             'E0100',  # init-is-generator
             'E0101',  # return-in-init
@@ -331,10 +334,16 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'E1101',  # no-member
             'E1120',  # no-value-for-parameter
             'E1121',  # too-many-function-args
+            'E1123',  # unexpected-keyword-arg
             'I0021',  # useless-suppression
             'R0202',  # no-classmethod-decorator
             'R0203',  # no-staticmethod-decorator
             'R0801',  # duplicate-code
+            # 'R0902',  # too-many-instance-attributes
+            # 'R0904',  # too-many-public-methods
+            # 'R0912',  # too-many-branches
+            # 'R0913',  # too-many-arguments
+            # 'R0915',  # too-many-statements
             'W0107',  # unnecessary-pass
             'W0123',  # eval-used
             'W0201',  # attribute-defined-outside-init
@@ -345,8 +354,12 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'W0603',  # global-statement
             'W0611',  # unused-import
             'W0612',  # unused-variable
+            'W0613',  # unused-argument
             'W0614',  # unused-wildcard-import
+            # 'W0702',  # bare-except
+            # 'W0703',  # broad-except
             'W0707',  # raise-missing-from
+            'W0711',  # binary-op-exception
             'W1301',  # unused-format-string-key
             'W1401',  # anomalous-backslash-in-string (invalid escape sequence)
             'W1515',  # forgotten-debug-statement

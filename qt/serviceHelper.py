@@ -56,6 +56,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 # --- End of MIT License permission notice ---
+"""Handling udev rules via DBUS service"""
 import os
 import re
 from subprocess import Popen, PIPE

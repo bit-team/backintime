@@ -14,6 +14,7 @@ import os
 import sys
 import dbus
 import logger
+import bitbase
 
 
 class InhibitSuspend:
@@ -51,7 +52,7 @@ class InhibitSuspend:
         # Side effect: In BiT <= 1.4.1 root still tried to connect to the dbus
         # user session and it may have worked sometimes (without logging we
         # don't know) so as root suspend can no longer inhibited.
-        if os.geteuid() == 0:  # is root
+        if bitbase.IS_IN_ROOT_MODE:
             # Dev note (buhtz, 2025-04): But does this need to be a "Fail"?
             logger.debug(
                 'Inhibit Suspend aborted because BIT was started as root.')
@@ -63,8 +64,10 @@ class InhibitSuspend:
         try:
             self.bus = dbus.bus.BusConnection(
                 os.environ['DBUS_SESSION_BUS_ADDRESS'])
+
         except KeyError:
             pass
+
         except dbus.exceptions.DBusException as exc:
             logger.error(f'Unable to open DBus session bus. {exc}')
 
@@ -75,6 +78,7 @@ class InhibitSuspend:
             # This code may hang forever (if BIT is run as root via cron
             # job and no user is logged in). See #1592
             self.bus = dbus.SessionBus()
+
         except dbus.exceptions.DBusException as exc:
             logger.error(f'Unable to open DBus session bus. {exc}')
 

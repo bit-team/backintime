@@ -139,7 +139,7 @@ def startApp(app_name='backintime'):
         tools.addSourceToPathEnviron()
 
     # Warn about sudo
-    if (tools.usingSudo()
+    if (os.getenv('SUDO_USER')  # exists only if sudo was used
             and os.getenv('BIT_SUDO_WARNING_PRINTED', 'false') == 'false'):
 
         os.putenv('BIT_SUDO_WARNING_PRINTED', 'true')

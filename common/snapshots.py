@@ -42,6 +42,7 @@ from inhibitsuspend import InhibitSuspend
 from applicationinstance import ApplicationInstance
 from exceptions import MountException
 from uniquenessset import UniquenessSet
+from status import BackupStatus
 
 
 class Snapshots:
@@ -981,9 +982,11 @@ class Snapshots:
                                 # code
                                 ret_val, ret_error = self.takeSnapshot(
                                     sid, now, include_folders)
+                                BackupStatus(cfg = self.config).update_status(now)
 
                             except:  # TODO too broad exception
-                                new = NewSnapshot(self.config)
+                                BackupStatus(self.config).update_status(now)
+                                new = NewSnapshot(cfg = self.config)
 
                                 if new.exists():
                                     new.saveToContinue = False
@@ -1578,6 +1581,7 @@ class Snapshots:
             self.snapshotLog.flush()
             with open(self.snapshotLog.logFileName, 'rb') as logfile:
                 new_snapshot.setLog(logfile.read())
+
 
         except Exception as e:
             logger.debug('Failed to write takeSnapshot log %s into '

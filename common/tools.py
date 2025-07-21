@@ -20,7 +20,6 @@ import shlex
 import signal
 import re
 import errno
-import gzip
 import locale
 import gettext
 import hashlib
@@ -30,7 +29,7 @@ from datetime import datetime, timedelta
 from collections.abc import MutableMapping
 from packaging.version import Version
 from typing import Union
-from bitbase import TimeUnit
+from bitbase import TimeUnit, BINARY_NAME_BASE
 from storagesize import StorageSize, SizeUnit
 import logger
 
@@ -136,34 +135,10 @@ def as_backintime_path(*path: str) -> str:
     return str(result)
 
 
-def docPath():
-    """Not sure what this path is about.
-    """
-    path = pathlib.Path(sharePath()) / 'doc' / 'backintime-common'
-
-    # Dev note (buhtz, aryoda, 2024-02):
-    # This piece of code originally resisted in Config.__init__() and was
-    # introduced by Dan in 2008. The reason for the existence of this "if"
-    # is unclear.
-
-    # Makefile (in common) does only install into share/doc/backintime-common
-    # but never into the the backintime "binary" path so I guess the if is
-    # a) either a distro-specific exception for a distro package that
-    # (manually?) installs the LICENSE into another path
-    # b) or a left-over from old code where the LICENSE was installed
-    # differently...
-
-    license_file = pathlib.Path(as_backintime_path()) / 'LICENSE'
-    if license_file.exists():
-        path = as_backintime_path()
-
-    return str(path)
-
-
 # |---------------------------------------------------|
 # | Internationalization (i18n) & localization (L10n) |
 # |---------------------------------------------------|
-_GETTEXT_DOMAIN = 'backintime'
+_GETTEXT_DOMAIN = BINARY_NAME_BASE
 _GETTEXT_LOCALE_DIR = pathlib.Path(sharePath()) / 'locale'
 
 
@@ -757,68 +732,6 @@ def get_git_repository_info(path=None, hash_length=None):
     return result
 
 
-def readFile(path, default=None):
-    """
-    Read the file in ``path`` or its '.gz' compressed variant and return its
-    content or ``default`` if ``path`` does not exist.
-
-    Args:
-        path (str):             full path to file that should be read.
-                                '.gz' will be added automatically if the file
-                                is compressed
-        default (str):          default if ``path`` does not exist
-
-    Returns:
-        str:                    content of file in ``path``
-    """
-    ret_val = default
-
-    try:
-        if os.path.exists(path):
-
-            with open(path) as f:
-                ret_val = f.read()
-
-        elif os.path.exists(path + '.gz'):
-
-            with gzip.open(path + '.gz', 'rt') as f:
-                ret_val = f.read()
-
-    except:
-        pass
-
-    return ret_val
-
-
-def readFileLines(path, default=None):
-    """
-    Read the file in ``path`` or its '.gz' compressed variant and return its
-    content as a list of lines or ``default`` if ``path`` does not exist.
-
-    Args:
-        path (str):             full path to file that should be read.
-                                '.gz' will be added automatically if the file
-                                is compressed
-        default (list):         default if ``path`` does not exist
-
-    Returns:
-        list:                   content of file in ``path`` split by lines.
-    """
-    ret_val = default
-
-    try:
-        if os.path.exists(path):
-            with open(path) as f:
-                ret_val = [x.rstrip('\n') for x in f.readlines()]
-        elif os.path.exists(path + '.gz'):
-            with gzip.open(path + '.gz', 'rt') as f:
-                ret_val = [x.rstrip('\n') for x in f.readlines()]
-    except:
-        pass
-
-    return ret_val
-
-
 def older_than(dt: datetime, value: int, unit: TimeUnit) -> bool:
     """Return ``True`` if ``dt`` is older than ``value`` months, weeks, days or
     hours compared to the current time (`datetime.now()`).
@@ -872,7 +785,7 @@ def older_than(dt: datetime, value: int, unit: TimeUnit) -> bool:
                        'Please report it via a bug ticket.')
 
 
-def checkCommand(cmd):
+def checkCommand(cmd: str) -> bool:
     """Check if command ``cmd`` is a file in 'PATH' environment.
 
     Args:
@@ -985,16 +898,6 @@ def mkdir(path, mode=0o755, enforce_permissions=True):
     return os.path.isdir(path)
 
 
-def pids():
-    """
-    List all PIDs currently running on the system.
-
-    Returns:
-        list:   PIDs as int
-    """
-    return [int(x) for x in os.listdir('/proc') if x.isdigit()]
-
-
 def processStat(pid):
     """
     Get the stat's of the process with ``pid``.
@@ -1077,8 +980,16 @@ def pidsWithName(name):
     Returns:
         list:       PIDs as int
     """
+    all_pids = [
+        int(fp.name)
+        for fp in pathlib.Path('/proc').iterdir()
+        if fp.name.isdigit()
+    ]
+
     # /proc/###/stat stores just the first 16 chars of the process name
-    return [x for x in pids() if processName(x) == name[:15]]
+    name_to_look_for = name[:15]
+
+    return [pid for pid in all_pids if processName(pid) == name_to_look_for]
 
 
 def processExists(name):
@@ -1179,12 +1090,12 @@ def is_Qt_working(systray_required=False):
     # Spawns a new process since it may crash with a SIGABRT and we
     # don't want to crash BiT if this happens...
 
-    try:
-        path = os.path.join(as_backintime_path("common"), "qt_probing.py")
-        cmd = [sys.executable, path]
-        if logger.DEBUG:
-            cmd.append('--debug')
+    path = os.path.join(as_backintime_path("common"), "qt_probing.py")
+    cmd = [sys.executable, path]
+    if logger.DEBUG:
+        cmd.append('--debug')
 
+    try:
         with subprocess.Popen(cmd,
                               stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE,
@@ -1198,26 +1109,28 @@ def is_Qt_working(systray_required=False):
 
             # if some Qt parts are missing: Show details
             if proc.returncode != 2 or logger.DEBUG:
-                logger.debug(f"Qt probing stdout:\n{std_output}")
-                logger.debug(f"Qt probing errout:\n{error_output}")
+                logger.debug(f'Qt probing stdout: "{std_output}"')
+                logger.debug(f'Qt probing errout: "{error_output}"')
 
-            return proc.returncode == 2 or (proc.returncode == 1 and systray_required is False)
+            rc = proc.returncode
+
+            return rc == 2 or (rc == 1 and systray_required is False)
 
     except FileNotFoundError:
-        logger.error(f"Qt probing script not found: {cmd[0]}")
+        logger.error(f'Qt probing script not found: {cmd[0]}')
         raise
 
     # Fix for #1592 (qt_probing.py may hang as root): Kill after timeout
     except subprocess.TimeoutExpired:
         proc.kill()
         outs, errs = proc.communicate()
-        logger.info("Qt probing sub process killed after timeout "
-                    "without response")
-        logger.debug(f"Qt probing stdout:\n{outs}")
-        logger.debug(f"Qt probing errout:\n{errs}")
+        logger.info('Qt probing sub process killed after timeout '
+                    'without response')
+        logger.debug(f'Qt probing stdout: "{outs}"')
+        logger.debug(f'Qt probing errout: "{errs}"')
 
-    except Exception as e:
-        logger.error(f"Error: {repr(e)}")
+    except Exception as exc:
+        logger.critical(f'Unknown Error: {exc}')
         raise
 
 
@@ -1286,29 +1199,34 @@ def onBattery():
     return False
 
 
-def rsyncCaps(data=None):
+def rsyncCaps() -> list[str]:
     """
     Get capabilities of the installed rsync binary. This can be different from
     version to version and also on build arguments used when building rsync.
 
-    Args:
-        data (str): 'rsync --version' output. This is just for unittests.
+    Dev note (buhtz, 2025-07): BIT uses --xattrs and --acls only. Both are
+    introduced with rsync 3.0.0 in year 2008. Might be worth to keep this
+    check.
 
     Returns:
-        list:       List of str with rsyncs capabilities
+        List of str with rsyncs capabilities.
     """
-    if not data:
-        proc = subprocess.Popen(['rsync', '--version'],
-                                stdout=subprocess.PIPE,
-                                universal_newlines=True)
-        data = proc.communicate()[0]
+    proc = subprocess.Popen(['rsync', '--version'],
+                            stdout=subprocess.PIPE,
+                            universal_newlines=True)
+    data = proc.communicate()[0]
+
     caps = []
 
     # rsync >= 3.1 does provide --info=progress2
-    matchers = [r'rsync\s*version\s*(\d\.\d)', r'rsync\s*version\s*v(\d\.\d.\d)']
+    matchers = (
+        r'rsync\s*version\s*(\d\.\d)',
+        r'rsync\s*version\s*v(\d\.\d.\d)'
+    )
 
     for matcher in matchers:
         m = re.match(matcher, data)
+
         if m and Version(m.group(1)) >= Version('3.1'):
             caps.append('progress2')
             break
@@ -1322,6 +1240,7 @@ def rsyncCaps(data=None):
     for line in m.group(1).split('\n'):
         caps.extend(
             [i.strip(' \n') for i in line.split(',') if i.strip(' \n')])
+
     return caps
 
 
@@ -1397,6 +1316,7 @@ def rsyncPrefix(config,
 
     if no_perms:
         cmd.extend(('--no-perms', '--no-group', '--no-owner'))
+
     else:
         cmd.extend(('--perms',          # preserve permissions
                     '--executability',  # preserve executability
@@ -1531,18 +1451,22 @@ def checkCronPattern(s):
     """
     if s.find(' ') >= 0:
         return False
+
     try:
         if s.startswith('*/'):
             if s[2:].isdigit() and int(s[2:]) <= 24:
                 return True
             else:
                 return False
+
         for i in s.split(','):
             if i.isdigit() and int(i) <= 24:
                 continue
             else:
                 return False
+
         return True
+
     except ValueError:
         return False
 
@@ -1746,7 +1670,7 @@ def decodeOctalEscape(s):
     return re.sub(r'\\(\d{3})', repl, s)
 
 
-def mountArgs(path):
+def mountArgs(path: str) -> list | None:
     """
     Get all /etc/mtab args for the filesystem of ``path`` as a list.
     Example::
@@ -1759,7 +1683,7 @@ def mountArgs(path):
         path (str): full path
 
     Returns:
-        list:       mount args
+        The mount args.
     """
     mp = mountpoint(path)
 
@@ -1960,29 +1884,6 @@ def uuidFromPath(path):
     return uuidFromDev(device(path))
 
 
-def isRoot():
-    """
-    Check if we are root.
-
-    Returns:
-        bool:   ``True`` if we are root
-    """
-
-    # The EUID (Effective UID) may be different from the UID (user ID)
-    # in case of SetUID or using "sudo" (where EUID is "root" and UID
-    # is the original user who executed "sudo").
-    return os.geteuid() == 0
-
-
-def usingSudo():
-    """
-    Check if 'sudo' was used to start this process.
-
-    Returns:
-        bool:   ``True`` if the process was started with sudo
-    """
-    return isRoot() and os.getenv('HOME', '/root') != '/root'
-
 re_wildcard = re.compile(r'(?:\[|\]|\?)')
 re_asterisk = re.compile(r'\*')
 re_separate_asterisk = re.compile(r'(?:^\*+[^/\*]|[^/\*]\*+[^/\*]|[^/\*]\*+|\*+[^/\*]|[^/\*]\*+$)')
@@ -2115,19 +2016,6 @@ def escapeIPv6Address(address):
         return f'[{address}]'
 
     return address
-
-
-def camelCase(s):
-    """
-    Remove underlines and make every first char uppercase.
-
-    Args:
-        s (str):    string separated by underlines (foo_bar)
-
-    Returns:
-        str:        string without underlines but uppercase chars (FooBar)
-    """
-    return ''.join([x.capitalize() for x in s.split('_')])
 
 
 class Alarm:

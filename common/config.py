@@ -53,7 +53,6 @@ from exceptions import PermissionDeniedByPolicy
 
 class Config(configfile.ConfigFileWithProfiles):
     APP_NAME = bitbase.APP_NAME
-    COPYRIGHT = bitbase.COPYRIGHT
 
     CONFIG_VERSION = 6
     """Latest or highest possible version of Back in Time's config file."""

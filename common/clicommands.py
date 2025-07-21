@@ -32,6 +32,7 @@ import mount
 from exceptions import MountException
 from applicationinstance import ApplicationInstance
 from shutdownagent import ShutdownAgent
+from status import BackupStatus
 
 
 def _deprecation_msg(cmd_flag: str, replacement: str) -> str:
@@ -448,17 +449,17 @@ def shutdown(args: argparse.Namespace):
     profile = '='.join((cfg.currentProfile(), cfg.profileName()))
 
     if not instance.busy():
-        logger.info('Skip shutdown because there is no active snapshot '
+        logger.info('Skip shutdown because there is no active bacukp '
                     f'for profile {profile}.')
         sys.exit(bitbase.RETURN_ERR)
 
-    print(f'Shutdown is waiting for the snapshot in profile {profile} to end.'
-          '\nPress CTRL+C to interrupt shutdown.\n')
+    print(f'Shutdown is waiting for the running backup in profile {profile} '
+          'to end.\nPress CTRL+C to interrupt shutdown.\n')
     sd.activate_shutdown = True
 
     try:
         while instance.busy():
-            logger.debug('Snapshot is still active. Wait for shutdown.')
+            logger.debug('Backup is still active. Wait for shutdown.')
             sleep(5)
 
     except KeyboardInterrupt:
@@ -601,9 +602,11 @@ def show_backups(args: argparse.Namespace):
 
     sys.exit(bitbase.RETURN_OK)
 
+
 def smart_remove(args: argparse.Namespace):
     show_deprecation_message('smart-remove')
     prune(args)
+
 
 def prune(args: argparse.Namespace):
     """Run Remove & Retention (aka Smart-Removal).
@@ -640,6 +643,24 @@ def prune(args: argparse.Namespace):
     # else
     logger.error('Remove & Retention is not configured.')
     sys.exit(bitbase.RETURN_NO_CFG)
+
+
+def status(args: argparse.Namespace):
+    """Handler for CLI command 'status'.
+
+    Args:
+        args (argparse.Namespace):
+                        Parsed command-line arguments.
+    """
+    cfg = _get_config(args)
+
+    status_object = BackupStatus(
+        cfg=cfg,
+        all_status=False if args.profile else True,
+        format_json=args.json
+    )
+
+    print(status_object.get_status())
 
 
 def unmount(args):

@@ -315,12 +315,17 @@ def open_man_page(manpage: str) -> None:
         logger.error(str(exc))
 
     else:
+        # Workaround until min Python version is 3.12
+        extra_args = {}
+        if sys.version_info >= (3, 12):
+            extra_args['delete_on_close'] = False
+
         # Write content to temp text file
         with NamedTemporaryFile(mode='w',
                                 encoding='utf-8',
                                 suffix='.txt',
                                 delete=False,
-                                delete_on_close=False) as temp_file:
+                                **extra_args) as temp_file:
             temp_file.write(content)
 
         # open text file with associated default application
@@ -481,7 +486,7 @@ def createQApplication(app_name=bitbase.APP_NAME):
 
     try:
 
-        if tools.isRoot():
+        if bitbase.IS_IN_ROOT_MODE:
             qapp.setApplicationName(app_name + " (root)")
             qapp.setDesktopFileName("backintime-qt-root")
 
@@ -492,7 +497,7 @@ def createQApplication(app_name=bitbase.APP_NAME):
         logger.warning('Could not set App ID (required for Wayland App icon '
                        f'and more). Reason: {exc}')
 
-    if (os.geteuid() == 0
+    if (bitbase.IS_IN_ROOT_MODE
             and qapp.style().objectName().lower() == 'windows'
             and 'GTK+' in QStyleFactory.keys()):
 

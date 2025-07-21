@@ -318,7 +318,7 @@ def _get_rsync_info():
         )
 
     elif isinstance(info, dict):
-        # Rsync (>= 3.2.7)provided its information in JSON format.
+        # Rsync (>= 3.2.7) provide its information in JSON format.
         # Remove some irrelevant information.
         for key in ['program', 'copyright', 'url', 'license', 'caveat']:
             try:
