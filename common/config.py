@@ -39,6 +39,7 @@ except NameError:
     _ = lambda val: val
 
 import bitbase
+import bitlicense
 import tools
 import configfile
 import logger
@@ -53,7 +54,7 @@ from exceptions import PermissionDeniedByPolicy
 
 class Config(configfile.ConfigFileWithProfiles):
     APP_NAME = bitbase.APP_NAME
-    COPYRIGHT = bitbase.COPYRIGHT
+    COPYRIGHT = bitlicense.COPYRIGHT
 
     CONFIG_VERSION = 6
     """Latest or highest possible version of Back in Time's config file."""

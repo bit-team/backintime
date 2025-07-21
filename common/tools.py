@@ -29,7 +29,7 @@ from datetime import datetime, timedelta
 from collections.abc import MutableMapping
 from packaging.version import Version
 from typing import Union
-from bitbase import TimeUnit
+from bitbase import TimeUnit, BINARY_NAME_BASE
 from storagesize import StorageSize, SizeUnit
 import logger
 
@@ -135,34 +135,10 @@ def as_backintime_path(*path: str) -> str:
     return str(result)
 
 
-def docPath():
-    """Not sure what this path is about.
-    """
-    path = pathlib.Path(sharePath()) / 'doc' / 'backintime-common'
-
-    # Dev note (buhtz, aryoda, 2024-02):
-    # This piece of code originally resisted in Config.__init__() and was
-    # introduced by Dan in 2008. The reason for the existence of this "if"
-    # is unclear.
-
-    # Makefile (in common) does only install into share/doc/backintime-common
-    # but never into the the backintime "binary" path so I guess the if is
-    # a) either a distro-specific exception for a distro package that
-    # (manually?) installs the LICENSE into another path
-    # b) or a left-over from old code where the LICENSE was installed
-    # differently...
-
-    license_file = pathlib.Path(as_backintime_path()) / 'LICENSE'
-    if license_file.exists():
-        path = as_backintime_path()
-
-    return str(path)
-
-
 # |---------------------------------------------------|
 # | Internationalization (i18n) & localization (L10n) |
 # |---------------------------------------------------|
-_GETTEXT_DOMAIN = 'backintime'
+_GETTEXT_DOMAIN = BINARY_NAME_BASE
 _GETTEXT_LOCALE_DIR = pathlib.Path(sharePath()) / 'locale'
 
 
