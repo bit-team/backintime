@@ -374,6 +374,13 @@ class ScanFileSystem(threading.Thread):
         return its path. Exclude all paths from excludes and also
         all backintime/FOO/BAR/1/2345/backup
         """
+
+        # Excludes in Find einbauen
+        # find / \( -path /proc -prune \) -o \( -path /var -prune \) -o \(
+        # -path /tmp -prune \) -o \( -path /run -prune \) -o \( -path /sys
+        # -prune \) -o \( -type f -name config -print \)
+        # Note: IN subprocess braucht man die Klammern nicht zu escapen
+
         cmd = [
             'find', str(root),
             '-type',
