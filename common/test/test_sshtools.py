@@ -24,6 +24,11 @@ import sshtools
 import tools
 from exceptions import MountException
 
+try:
+    _('Warning')
+except NameError:
+    _ = lambda val: val
+
 
 @unittest.skipIf(not generic.LOCAL_SSH, generic.SKIP_SSH_TEST_MESSAGE)
 class General(generic.SSHTestCase):

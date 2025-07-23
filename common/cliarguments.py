@@ -34,6 +34,7 @@ import tools
 # E.g. when using --diagnostics and other argparse.Action
 tools.initiate_translation(None)
 import bitbase  # noqa: E402
+import bitlicense  # noqa: E402
 import diagnostics  # noqa: E402
 import logger  # noqa: E402
 import clicommands  # noqa: E402
@@ -71,9 +72,9 @@ def _license_info() -> tuple[str, str]:
 
     # all used licenses
     licenses = None
-    if bitbase.DIR_LICENSES:
+    if bitlicense.DIR_LICENSES:
         licenses = [
-            f.with_suffix('').name for f in bitbase.DIR_LICENSES.iterdir()]
+            f.with_suffix('').name for f in bitlicense.DIR_LICENSES.iterdir()]
 
         if result:
             licenses.remove(result)
@@ -93,7 +94,7 @@ def _license_info() -> tuple[str, str]:
         result = (
             result[0],
             'Unable to extract licenses from LICENSES '
-            f'directory "{bitbase.DIR_LICENSES}".')
+            f'directory "{bitlicense.DIR_LICENSES}".')
         logger.error(result[1])
 
     return result
@@ -214,13 +215,13 @@ class ParserAgent:
             '-v', '--version',
             action='version',
             version='%(prog)s ' + __version__,
-            help="show %(prog)s's version number.")
+            help="show %(prog)s's version number")
 
         parser.add_argument(
             '--license',
             action=ActionPrintLicense,
             nargs=0,
-            help="show %(prog)s's license")
+            help="show %(prog)s's license details")
 
         parser.add_argument(
             '--diagnostics',
@@ -1004,17 +1005,19 @@ def parse_arguments(args: Namespace,
 
 
 class ActionPrintLicense(argparse.Action):
-    """Print license text."""
+    """Print license details."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
     def __call__(self, *args, **kwargs):
-        license_path = Path(tools.docPath()) / 'LICENSE'
-        # Dev note (buhtz, 2025-05): ToDo
-        # display aboutdlg license text (see bitbase)
-        # and show path of all license files in LICENSES dir
-        print(license_path.read_text('utf-8'))
+        text_gpl = bitlicense.get_gpl_short_text()
+        text_licenses = bitlicense.TXT_LICENSES.format(
+                dir_link=bitlicense.DIR_LICENSES,
+                readme_link=bitlicense.DIR_LICENSES.parent / 'LICENSES.md')
+
+        print(f'{text_gpl}\n{text_licenses}')
+
         sys.exit(bitbase.RETURN_OK)
 
 

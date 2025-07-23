@@ -427,9 +427,6 @@ def create_test_files(path):
 
 @contextmanager
 def mockPermissions(path, mode=0o000):
-    """
-    """
-
     st = os.stat(path)
     os.chmod(path, mode)
     yield

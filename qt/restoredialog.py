@@ -8,6 +8,7 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""Module offering RestoreDialog"""
 from pathlib import Path
 from PyQt6.QtGui import QDesktopServices
 from PyQt6.QtWidgets import (QDialog,
@@ -124,7 +125,7 @@ class RestoreThread(QThread):
 
         self.log.close()
 
-    def callback(self, line, *args):
+    def callback(self, line, *_args):
         """
         write into log file and provide thread save string for log window
         """

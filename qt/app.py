@@ -10,6 +10,7 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""Entry of GUI application."""
 import os
 import sys
 if not os.getenv('DISPLAY', ''):
@@ -979,7 +980,7 @@ class MainWindow(QMainWindow):
                 dlg = encfsmsgbox.EncfsCreateWarning(self)
                 dlg.exec()
 
-    def comboProfileChanged(self, index):
+    def comboProfileChanged(self, _index):
         if self.disableProfileChanged:
             return
 
@@ -1687,7 +1688,7 @@ class MainWindow(QMainWindow):
     def updateFilesView(self,
                         changed_from,
                         selected_file=None,
-                        show_snapshots=False):
+                        _show_snapshots=False):
         """
         changed_from? WTF!
             0 - files view change directory,

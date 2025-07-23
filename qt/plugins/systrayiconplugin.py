@@ -15,7 +15,10 @@
 # mainly "share-path" and "config" (path to the config file).
 # Otherwise e.g. unit tests or special user path settings may lead to
 # wrong status info in the systray icon!
+"""Plugin starting the systray icon process
 
+Dev note (buhtz, 2025-07): Not sure why this is needed.
+"""
 import sys
 import os
 import pluginmanager

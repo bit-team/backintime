@@ -13,6 +13,7 @@ import os
 import subprocess
 import dbus
 import logger
+import bitbase
 
 
 class ShutdownAgent:
@@ -118,7 +119,7 @@ class ShutdownAgent:
     }
 
     def __init__(self):
-        if self._am_i_root():
+        if bitbase.IS_IN_ROOT_MODE:
             self.proxy, self.args = None, None
         else:
             self.proxy, self.args = self._prepair()
@@ -127,9 +128,6 @@ class ShutdownAgent:
         # and who sets it.
         self.activate_shutdown = False
         self.started = False
-
-    def _am_i_root(self) -> bool:
-        return os.geteuid() == 0
 
     def _prepair(self):
         """Try to connect to the given dbus services. If successful it will
@@ -184,7 +182,7 @@ class ShutdownAgent:
     def can_shutdown(self):
         """Indicate if a valid dbus service is available to shutdown system.
         """
-        return self.proxy is not None or self._am_i_root()
+        return self.proxy is not None or bitbase.IS_IN_ROOT_MODE
 
     def ask_before_quit(self):
         """
@@ -217,7 +215,7 @@ class ShutdownAgent:
         """
 
         # As root
-        if self._am_i_root():
+        if bitbase.IS_IN_ROOT_MODE:
             return self._shutdown_via_shell()
 
         # As user
