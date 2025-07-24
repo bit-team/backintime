@@ -30,6 +30,7 @@ from PyQt6.QtWidgets import (QDialog,
                              QTreeView)
 from PyQt6.QtCore import (Qt,
                           QDir,
+                          QModelIndex,
                           QSortFilterProxyModel,
                           )
 import logger
@@ -197,8 +198,12 @@ class RestoreConfigDialog(QDialog):
         return the index for path which can be used in treeView
         """
         idx = self._tree_model.index(path)
+        print(f'_index_from_path() :: {path=} {idx.isValid()=} {idx.row()=} {idx.column()=}')
 
-        return self._filter_proxy.mapFromSource(idx)
+        print(f'{self._filter_proxy.rowCount()=}')
+        result = self._filter_proxy.mapFromSource(idx)
+        print(f'\t{result.isValid()=} {result.row()=} {result.column()=}')
+        return result
 
     def _slot_index_changed(self, current, _previous):
         """Called every time a new item is chosen in treeView.
@@ -257,22 +262,24 @@ class RestoreConfigDialog(QDialog):
 
         return None
 
+    def _expand_with_parents(self, index: QModelIndex):
+        parent_index = index.parent()
+
+        # expand the entries parent
+        if parent_index.isValid():  # reached root?
+            self._expand_with_parents(parent_index)
+
+        # expand the entry itself
+        p = self._path_from_index(index)
+        print(f' expand... {p=} {index.row()=} {index.column()=}')
+        self._tree_view.expand(index)
+
     def _expand_all(self, path):
         """Expand all folders from filesystem root to given path
 
-        ???
         """
-        paths = [path, ]
-
-        while len(path) > 1:
-            path = os.path.dirname(path)
-            paths.append(path)
-
-        paths.append('/')
-        paths.reverse()
-
-        for p in paths:
-            self._tree_view.expand(self._index_from_path(p))
+        print(f'\n\n_expand_all() :: {path=}')
+        self._expand_with_parents(self._index_from_path(path))
 
     def _show_profile(self, cfg):
         """
@@ -301,7 +308,7 @@ class RestoreConfigDialog(QDialog):
         """
         scan hit a config. Expand the snapshot folder.
         """
-        print(f'handle_scan_found() :: {path=}')
+        # print(f'handle_scan_found() :: {path=}')
         self._expand_all(os.path.dirname(path))
 
     def _slot_on_context_menu(self, point):
