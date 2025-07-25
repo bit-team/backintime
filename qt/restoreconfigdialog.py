@@ -25,7 +25,14 @@ from collections.abc import Callable
 from queue import Queue
 from config import Config
 from snapshots import SID, Snapshots
-from PyQt6.QtGui import QBrush, QColor, QFont, QGuiApplication, QFileSystemModel, QPalette
+from PyQt6.QtGui import (QBrush,
+                         QColor,
+                         QFont,
+                         QGuiApplication,
+                         QFileSystemModel,
+                         QIcon,
+                         QPalette,
+                         QShortcut)
 from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
                              QGridLayout,
@@ -33,6 +40,8 @@ from PyQt6.QtWidgets import (QDialog,
                              QWidget,
                              QLabel,
                              QMenu,
+                             QPushButton,
+                             QToolButton,
                              QTreeView,
                              QWidget)
 from PyQt6.QtCore import (Qt,
@@ -40,8 +49,7 @@ from PyQt6.QtCore import (Qt,
                           QMetaObject,
                           QModelIndex,
                           QSortFilterProxyModel,
-                          QTimer
-                          )
+                          QTimer)
 
 
 class _CfgFileSystemModel(QFileSystemModel):
@@ -98,6 +106,21 @@ class RestoreConfigDialog(QDialog):
         layout = QVBoxLayout(self)
         layout.addWidget(self._create_hint_label())
 
+        # -------
+        btn = QToolButton(self)
+        btn.setText(_('Show hidden directories'))
+        btn.setIcon(icon.SHOW_HIDDEN)
+        btn.setToolTip(_('Show/hide hidden directories (Ctrl+H)'))
+        btn.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
+        btn.setCheckable(True)
+        btn.setChecked(False)
+        btn.toggled.connect(self._slot_show_hidden)
+        shortcut = QShortcut('Ctrl+H', self)
+        shortcut.activated.connect(btn.toggle)
+
+        layout.addWidget(btn)
+
+        # -------
         self._tree_view, self._tree_model = self._create_tree()
         layout.addWidget(self._tree_view)
 
