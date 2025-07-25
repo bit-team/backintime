@@ -116,18 +116,18 @@ class RestoreConfigDialog(QDialog):
 
         layout.addLayout(self._create_hint())
 
-        hbox = QHBoxLayout()
-        hbox.addWidget(self._create_button_show_hidden())
-        hbox.addStretch()
         self._lbl_spinner = QLabel(_('Searching…'), self)
-        hbox.addWidget(self._lbl_spinner)
         self._spinner = Spinner(self, font_scale=2)
-        hbox.addWidget(self._spinner)
-
-        #
         self._btn_scan = QPushButton(_('Scan again'), self)
+        self._btn_scan.setIcon(icon.REFRESH)
         self._btn_scan.clicked.connect(self.start_scanning)
+
+        hbox = QHBoxLayout()
+        hbox.addWidget(self._lbl_spinner)
+        hbox.addWidget(self._spinner)
         hbox.addWidget(self._btn_scan)
+        hbox.addStretch()
+        hbox.addWidget(self._create_button_show_hidden())
         layout.addLayout(hbox)
 
         self._tree_view, self._tree_model = self._create_tree()
