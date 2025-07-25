@@ -25,6 +25,7 @@ from collections.abc import Callable
 from queue import Queue
 from config import Config
 from snapshots import SID, Snapshots
+from bitwidgets import Spinner
 from PyQt6.QtGui import (QBrush,
                          QColor,
                          QFont,
@@ -90,6 +91,12 @@ class RestoreConfigDialog(QDialog):
     """
     Show a dialog that will help to restore BITs configuration.
     User can select a config from previous snapshots.
+
+    Dev note (2025-07, buhtz): Experiencing the dialog as slow or temporary
+    freezing is usual, because the QFileSystemModel is resource consuming and
+    blocking the rest of the event loop. Unfold directories in the tree and the
+    directories parents is very time consuming because QFileSystemModel access
+    the file system each time.
     """
 
     def __init__(self, config: Config, snapshots: Snapshots):
@@ -120,8 +127,13 @@ class RestoreConfigDialog(QDialog):
 
         layout.addWidget(btn)
 
+        # ----
+        self._spinner = Spinner(self, font_scale=3)
+        layout.addWidget(self._spinner)
+
         # -------
         self._tree_view, self._tree_model = self._create_tree()
+        self._tree_view.setAnimated(False)
         layout.addWidget(self._tree_view)
 
         # expand users home
@@ -177,10 +189,11 @@ class RestoreConfigDialog(QDialog):
 
         self._pool_timer = QTimer(self)
         self._pool_timer.timeout.connect(self._process_found_queue)
-        self._pool_timer.start(500)  # milliseconds
+        self._pool_timer.start(1500)  # milliseconds
 
         self._scan_fs_thread = ScanFileSystem(queue=self._queue)
         self._scan_fs_thread.start()
+        self._spinner.start(interval_ms=200)
 
         QTimer.singleShot(5, self._resize_to_full_hight)
 
@@ -209,11 +222,10 @@ class RestoreConfigDialog(QDialog):
         view = QTreeView(self)
         view.setModel(model)
 
-        # ???
-        for col in range(view.header().count()):
-            view.setColumnHidden(col, col != 0)
+        # Hide all columns (size, typ, mod date) except the first (name)
+        for col in range(1, view.header().count()+1):
+            view.setColumnHidden(col, True)
 
-        # ???
         view.header().hide()
 
         return view, model
@@ -304,6 +316,7 @@ class RestoreConfigDialog(QDialog):
     def _search_config(self, path: str) -> Config:
         """Try to find config file in couple possible subdirectories.
         """
+        print('_search_config() - ENTRY')
         backup_path = os.path.join(
             'backintime', self.config.host(), getpass.getuser())
 
@@ -321,6 +334,7 @@ class RestoreConfigDialog(QDialog):
                     cfg = Config(cfg_path)
 
                     if cfg.isConfigured():
+                        print('    _search_config() - FIN')
                         return cfg
 
                 # Dev note (2025-07, buhtz): Remove it soon.
@@ -331,20 +345,39 @@ class RestoreConfigDialog(QDialog):
                         f'SettingsDialog.searchConfig()\n{exc}',
                         self)
 
+        print('    _search_config() - FIN')
         return None
 
-    def _expand_with_parents(self, index: QModelIndex):
+    def _DEPRECATED_expand_with_parents(self, index: QModelIndex):
         parent_index = index.parent()
 
         # expand the entries parent
         if parent_index.isValid():  # reached root?
             self._expand_with_parents(parent_index)
 
-        # p = self._path_from_index(index)
-        # print(f' expand... {p=} {index.row()=} {index.column()=}')
-
         # expand the entry itself
         self._tree_view.expand(index)
+
+    def _expand_with_parents(self, index: QModelIndex):
+        stack = []
+
+        current = index
+
+        while current.isValid():
+            stack.insert(0, current)
+            current = current.parent()
+
+        def expand_next():
+            try:
+                self._tree_view.expand(stack.pop(0))
+                # Sligthely reduce slowdown/freeze because of resource
+                # hungry QFileSystemModel
+                QTimer.singleShot(50, expand_next)
+
+            except IndexError:
+                pass
+
+        expand_next()
 
     def _show_profile(self, cfg):
         """
@@ -370,10 +403,16 @@ class RestoreConfigDialog(QDialog):
         self._wdg_profiles.show()
 
     def _process_found_queue(self) -> None:
+        self._tree_view.setUpdatesEnabled(False)
         while not self._queue.empty():
             path = self._queue.get()
+            print(f'   :: {self._queue.qsize()=} {path=}')
+
             self._tree_model.add_path(Path(path))
+            print('expand_with_parents')
             self._expand_with_parents(self._index_from_path(path))
+            print('\t FIN expand')
+        self._tree_view.setUpdatesEnabled(True)
 
     def _slot_on_context_menu(self, point):
         self._context_menu.exec(self._tree_view.mapToGlobal(point))
@@ -437,13 +476,13 @@ class ScanFileSystem(threading.Thread):
             exclude = search_order[:]
             exclude.remove(path_to_scan)
 
-            print(f'{path_to_scan=} {exclude=}')
+            # print(f'{path_to_scan=} {exclude=}')
 
             for found in self._scan(path_to_scan, exclude):
                 if self._stop_event.is_set():
                     return
 
-                print(f'    queue.put({found=}')
+                # print(f'    queue.put({found=}')
                 self._queue.put(found)
 
     def _scan(self, root: Path, excludes: list[Path]):
