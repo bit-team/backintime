@@ -190,12 +190,11 @@ class RestoreConfigDialog(QDialog):
             # center horizontal
             screen.center().x() - (new_width // 2),
             # vertical to top
-            screen.y()+100,
+            screen.y(),
             # the desired width
             new_width,
             # full height on available screen
-            # screen.height() - screen.y())
-            800)
+            screen.height() - screen.y())
 
     def _create_tree(self) -> tuple[QTreeView, QFileSystemModel]:
         model = _CfgFileSystemModel(self)
