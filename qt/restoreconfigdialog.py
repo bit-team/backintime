@@ -19,7 +19,7 @@ import threading
 import subprocess
 from pathlib import Path
 from collections.abc import Callable
-from PyQt6.QtGui import QPalette, QColor, QFileSystemModel
+from PyQt6.QtGui import QColor, QGuiApplication, QFileSystemModel, QPalette
 from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
                              QGridLayout,
@@ -32,6 +32,7 @@ from PyQt6.QtCore import (Qt,
                           QDir,
                           QModelIndex,
                           QSortFilterProxyModel,
+                          QTimer
                           )
 import logger
 import bitbase
@@ -118,31 +119,46 @@ class RestoreConfigDialog(QDialog):
 
         self._scan_fs_thread.start()
 
-        self.resize(600, 700)
+        QTimer.singleShot(5, self._resize_to_full_hight)
+
+    def _resize_to_full_hight(self):
+        """Resize dialog to full height and center it horizontal"""
+        screen = QGuiApplication.screenAt(self.pos()).availableGeometry()
+
+        new_width = screen.width() // 2
+
+        self.setGeometry(
+            # center horizontal
+            screen.center().x() - (new_width // 2),
+            # vertical to top
+            screen.y(),
+            # the desired width
+            new_width,
+            # full height on available screen
+            screen.height() - screen.y())
 
     def _create_tree(self):
         view = QTreeView(self)  # MyTreeView(self)
         model = QFileSystemModel(self)
         model.setRootPath(QDir().rootPath())
         model.setReadOnly(True)
-        model.setFilter(QDir.Filter.AllDirs |
-                        QDir.Filter.NoDotAndDotDot |
-                        QDir.Filter.Hidden)
+        model.setFilter(QDir.Filter.AllDirs | QDir.Filter.NoDotAndDotDot)
 
-        filter_proxy = QSortFilterProxyModel(self)
-        filter_proxy.setDynamicSortFilter(True)
-        filter_proxy.setSourceModel(model)
+        # filter_proxy = QSortFilterProxyModel(self)
+        # filter_proxy.setDynamicSortFilter(True)
+        # filter_proxy.setSourceModel(model)
 
-        filter_proxy.setFilterRegularExpression(r'^[^\.]')
+        # filter_proxy.setFilterRegularExpression(r'^[^\.]')
 
-        view.setModel(filter_proxy)
+        # view.setModel(filter_proxy)
+        view.setModel(model)
 
         for col in range(view.header().count()):
             view.setColumnHidden(col, col != 0)
 
         view.header().hide()
 
-        return view, model, filter_proxy
+        return view, model, None  # filter_proxy
 
     @staticmethod
     def _red_and_green() -> tuple[QColor, QColor]:
@@ -189,9 +205,10 @@ class RestoreConfigDialog(QDialog):
         """
         return a path string for a given treeView index
         """
-        idx_source = self._filter_proxy.mapToSource(index)
+        # idx_source = self._filter_proxy.mapToSource(index)
 
-        return str(self._tree_model.filePath(idx_source))
+        # return str(self._tree_model.filePath(idx_source))
+        return str(self._tree_model.filePath(index))
 
     def _index_from_path(self, path: str) -> int:
         """
@@ -200,9 +217,10 @@ class RestoreConfigDialog(QDialog):
         idx = self._tree_model.index(path)
         print(f'_index_from_path() :: {path=} {idx.isValid()=} {idx.row()=} {idx.column()=}')
 
-        print(f'{self._filter_proxy.rowCount()=}')
-        result = self._filter_proxy.mapFromSource(idx)
-        print(f'\t{result.isValid()=} {result.row()=} {result.column()=}')
+        # print(f'{self._filter_proxy.rowCount()=}')
+        # result = self._filter_proxy.mapFromSource(idx)
+        # print(f'\t{result.isValid()=} {result.row()=} {result.column()=}')
+        result = idx
         return result
 
     def _slot_index_changed(self, current, _previous):
@@ -316,9 +334,15 @@ class RestoreConfigDialog(QDialog):
 
     def _slot_show_hidden(self, checked):
         if checked:
-            self._filter_proxy.setFilterRegularExpression(r'')
+            flags = QDir.Filter.AllDirs \
+                | QDir.Filter.NoDotAndDotDot \
+                | QDir.Filter.Hidden
+
         else:
-            self._filter_proxy.setFilterRegularExpression(r'^[^\.]')
+            flags = QDir.Filter.AllDirs \
+                | QDir.Filter.NoDotAndDotDot \
+
+        self._tree_model.setFilter(flags)
 
     def accept(self):
         """
