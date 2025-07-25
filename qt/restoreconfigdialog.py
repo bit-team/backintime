@@ -19,6 +19,7 @@ import threading
 import subprocess
 import logger
 import bitbase
+import qttools
 from typing import Any
 from pathlib import Path
 from collections.abc import Callable
@@ -35,15 +36,16 @@ from PyQt6.QtGui import (QBrush,
                          QPalette,
                          QShortcut)
 from PyQt6.QtWidgets import (QDialog,
-                             QVBoxLayout,
-                             QGridLayout,
                              QDialogButtonBox,
-                             QWidget,
+                             QGridLayout,
+                             QHBoxLayout,
                              QLabel,
+                             QLayout,
                              QMenu,
                              QPushButton,
                              QToolButton,
                              QTreeView,
+                             QVBoxLayout,
                              QWidget)
 from PyQt6.QtCore import (Qt,
                           QDir,
@@ -69,8 +71,7 @@ class _CfgFileSystemModel(QFileSystemModel):
             Qt.ItemDataRole.FontRole: self._font
         }
 
-
-    def add_path(self, path: Path) -> None:
+    def highlight_this(self, path: Path) -> None:
         self._paths.append(path)
 
         # notify (redraw) the view
@@ -111,44 +112,24 @@ class RestoreConfigDialog(QDialog):
         self.setWindowTitle(_('Import configuration'))
 
         layout = QVBoxLayout(self)
-        layout.addWidget(self._create_hint_label())
 
-        # -------
-        btn = QToolButton(self)
-        btn.setText(_('Show hidden directories'))
-        btn.setIcon(icon.SHOW_HIDDEN)
-        btn.setToolTip(_('Show/hide hidden directories (Ctrl+H)'))
-        btn.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
-        btn.setCheckable(True)
-        btn.setChecked(False)
-        btn.toggled.connect(self._slot_show_hidden)
-        shortcut = QShortcut('Ctrl+H', self)
-        shortcut.activated.connect(btn.toggle)
+        layout.addLayout(self._create_hint())
 
-        layout.addWidget(btn)
+        hbox = QHBoxLayout()
+        hbox.addWidget(self._create_button_show_hidden())
+        hbox.addStretch()
+        self._lbl_spinner = QLabel(_('Searching…'), self)
+        hbox.addWidget(self._lbl_spinner)
+        self._spinner = Spinner(self, font_scale=2)
+        hbox.addWidget(self._spinner)
+        layout.addLayout(hbox)
 
-        # ----
-        self._spinner = Spinner(self, font_scale=3)
-        layout.addWidget(self._spinner)
-
-        # -------
         self._tree_view, self._tree_model = self._create_tree()
         self._tree_view.setAnimated(False)
         layout.addWidget(self._tree_view)
 
         # expand users home
         self._expand_with_parents(self._index_from_path(Path.home()))
-
-        # context menu
-        self._tree_view.setContextMenuPolicy(
-            Qt.ContextMenuPolicy.CustomContextMenu)
-        self._tree_view.customContextMenuRequested.connect(
-            self._slot_on_context_menu)
-        self._context_menu = QMenu(self)
-        self._btn_show_hidden = self._context_menu.addAction(
-            icon.SHOW_HIDDEN, _('Show hidden files'))
-        self._btn_show_hidden.setCheckable(True)
-        self._btn_show_hidden.toggled.connect(self._slot_show_hidden)
 
         # colors
         self._color_red, self._color_green = __class__._red_and_green()
@@ -201,7 +182,7 @@ class RestoreConfigDialog(QDialog):
         """Resize dialog to full height and center it horizontal"""
         screen = QGuiApplication.screenAt(self.pos()).availableGeometry()
 
-        new_width = screen.width() // 2
+        new_width = screen.width() // 3
 
         self.setGeometry(
             # center horizontal
@@ -240,7 +221,7 @@ class RestoreConfigDialog(QDialog):
 
         return red, green
 
-    def _create_hint_label(self):
+    def _create_hint(self) -> QLayout:
         """Create the label to explain how and where to find existing config
         file.
 
@@ -269,7 +250,31 @@ class RestoreConfigDialog(QDialog):
         label = QLabel(f'<p>{text_a}</p><p>{text_b}</p>', self)
         label.setWordWrap(True)
 
-        return label
+        layout = QHBoxLayout()
+        layout.addWidget(qttools.create_icon_label_info(icon_scale_factor=2))
+        layout.addWidget(label, stretch=1)
+
+        return layout
+
+    def _create_button_show_hidden(self) -> QToolButton:
+        # pylint: disable-next=import-outside-toplevel
+        import icon  # noqa: PLC0415
+
+        btn = QToolButton(self)
+        btn.setText(_('Show hidden directories'))
+        btn.setIcon(icon.SHOW_HIDDEN)
+        btn.setToolTip(_('Show/hide hidden directories (Ctrl+H)'))
+        btn.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
+        btn.setCheckable(True)
+
+        shortcut = QShortcut('Ctrl+H', self)
+        shortcut.activated.connect(btn.toggle)
+
+        btn.setChecked(False)
+        btn.toggled.connect(self._slot_show_hidden)
+
+        return btn
+
 
     def _path_from_index(self, index: int) -> str:
         """
@@ -348,21 +353,11 @@ class RestoreConfigDialog(QDialog):
         print('    _search_config() - FIN')
         return None
 
-    def _DEPRECATED_expand_with_parents(self, index: QModelIndex):
-        parent_index = index.parent()
-
-        # expand the entries parent
-        if parent_index.isValid():  # reached root?
-            self._expand_with_parents(parent_index)
-
-        # expand the entry itself
-        self._tree_view.expand(index)
-
     def _expand_with_parents(self, index: QModelIndex):
         stack = []
 
+        # Remember index's of the entry and all its parents
         current = index
-
         while current.isValid():
             stack.insert(0, current)
             current = current.parent()
@@ -404,18 +399,20 @@ class RestoreConfigDialog(QDialog):
 
     def _process_found_queue(self) -> None:
         self._tree_view.setUpdatesEnabled(False)
+
         while not self._queue.empty():
             path = self._queue.get()
-            print(f'   :: {self._queue.qsize()=} {path=}')
-
-            self._tree_model.add_path(Path(path))
-            print('expand_with_parents')
+            self._tree_model.highlight_this(Path(path))
             self._expand_with_parents(self._index_from_path(path))
-            print('\t FIN expand')
+
         self._tree_view.setUpdatesEnabled(True)
 
-    def _slot_on_context_menu(self, point):
-        self._context_menu.exec(self._tree_view.mapToGlobal(point))
+        # stop spinner and queue pooling if thread is empty
+        if not self._scan_fs_thread.is_alive():
+            self._spinner.stop()
+            self._lbl_spinner.setText(_('Search complete.'))
+            self._pool_timer.stop()
+
 
     def _slot_show_hidden(self, checked):
         if checked:

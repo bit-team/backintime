@@ -188,7 +188,8 @@ class WrappedCheckBox(QWidget):
 
 class Spinner(QLabel):
     """An activity indicator widget using unicode characters"""
-    STOP = '⠿'
+    # STOP = '⠿'
+    STOP = ' '
 
     def __init__(self,
                  parent: QWidget = None,
@@ -221,3 +222,4 @@ class Spinner(QLabel):
 
     def stop(self) -> None:
         self._timer.stop()
+        self.setText(Spinner.STOP)
