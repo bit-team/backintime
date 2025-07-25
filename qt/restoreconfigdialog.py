@@ -17,13 +17,13 @@ import datetime
 import getpass
 import threading
 import subprocess
-from typing import Any
+from typing import Any, Generator
 from pathlib import Path
 from queue import Queue
 import logger
 import bitbase
 from config import Config
-from snapshots import SID, Snapshots
+from snapshots import SID
 from PyQt6.QtGui import (QBrush,
                          QColor,
                          QFont,
@@ -101,11 +101,8 @@ class RestoreConfigDialog(QDialog):
     the file system each time.
     """
 
-    def __init__(self, config: Config, snapshots: Snapshots):
+    def __init__(self, config: Config):
         super().__init__()
-
-        self.config = config
-        self.snapshots = snapshots
 
         # pylint: disable-next=import-outside-toplevel
         import icon  # noqa: PLC0415
@@ -114,24 +111,13 @@ class RestoreConfigDialog(QDialog):
 
         layout = QVBoxLayout(self)
 
-        layout.addLayout(self._create_hint())
+        self._create_hint(layout, config)
+        self._lbl_spinner, self._spinner, self._btn_scan \
+            = self._create_scan_controls(layout)
 
-        self._lbl_spinner = QLabel(_('Searching…'), self)
-        self._spinner = Spinner(self, font_scale=2)
-        self._btn_scan = QPushButton(_('Scan again'), self)
-        self._btn_scan.setIcon(icon.REFRESH)
         self._btn_scan.clicked.connect(self.start_scanning)
 
-        hbox = QHBoxLayout()
-        hbox.addWidget(self._lbl_spinner)
-        hbox.addWidget(self._spinner)
-        hbox.addWidget(self._btn_scan)
-        hbox.addStretch()
-        hbox.addWidget(self._create_button_show_hidden())
-        layout.addLayout(hbox)
-
         self._tree_view, self._tree_model = self._create_tree()
-        self._tree_view.setAnimated(False)
         layout.addWidget(self._tree_view)
 
         # expand users home
@@ -161,15 +147,18 @@ class RestoreConfigDialog(QDialog):
         self._tree_view.selectionModel().currentChanged.connect(
             self._slot_index_changed)
 
-        btn_box = QDialogButtonBox(self)
-
-        self._btn_restore = btn_box.addButton(
-            _('Import'), QDialogButtonBox.ButtonRole.AcceptRole)
-        self._btn_restore.setEnabled(False)
-
-        btn_box.addButton(QDialogButtonBox.StandardButton.Cancel)
+        btn_box = QDialogButtonBox(
+            QDialogButtonBox.StandardButton.Ok
+            | QDialogButtonBox.StandardButton.Cancel,
+            self
+        )
         btn_box.accepted.connect(self.accept)
         btn_box.rejected.connect(self.reject)
+
+        self._btn_restore = btn_box.button(QDialogButtonBox.StandardButton.Ok)
+        self._btn_restore.setText(_('Import'))
+        self._btn_restore.setEnabled(False)
+
         layout.addWidget(btn_box)
 
         self._queue = Queue()
@@ -201,11 +190,12 @@ class RestoreConfigDialog(QDialog):
             # center horizontal
             screen.center().x() - (new_width // 2),
             # vertical to top
-            screen.y(),
+            screen.y()+100,
             # the desired width
             new_width,
             # full height on available screen
-            screen.height() - screen.y())
+            # screen.height() - screen.y())
+            800)
 
     def _create_tree(self) -> tuple[QTreeView, QFileSystemModel]:
         model = _CfgFileSystemModel(self)
@@ -215,6 +205,7 @@ class RestoreConfigDialog(QDialog):
 
         view = QTreeView(self)
         view.setModel(model)
+        view.setAnimated(False)
 
         # Hide all columns (size, typ, mod date) except the first (name)
         for col in range(1, view.header().count()+1):
@@ -234,7 +225,9 @@ class RestoreConfigDialog(QDialog):
 
         return red, green
 
-    def _create_hint(self) -> QLayout:
+    def _create_hint(self,
+                     parent_layout: QLayout,
+                     config: Config) -> None:
         """Create the label to explain how and where to find existing config
         file.
 
@@ -244,9 +237,9 @@ class RestoreConfigDialog(QDialog):
 
         sample_path = os.path.join(
             'backintime',
-            self.config.host(),
+            config.host(),
             getpass.getuser(), '1',
-            SID(datetime.datetime.now(), self.config).sid
+            SID(datetime.datetime.now(), config).sid
         )
         sample_path = f'</ br><code>{sample_path}</code>'
 
@@ -267,7 +260,29 @@ class RestoreConfigDialog(QDialog):
         layout.addWidget(qttools.create_icon_label_info(icon_scale_factor=2))
         layout.addWidget(label, stretch=1)
 
-        return layout
+        parent_layout.addLayout(layout)
+
+    def _create_scan_controls(self, parent_layout: QLayout
+                              ) -> tuple[QLabel, Spinner, QPushButton]:
+        # pylint: disable-next=import-outside-toplevel
+        import icon  # noqa: PLC0415
+
+        lbl_spinner = QLabel(_('Searching…'), self)
+        spinner = Spinner(self, font_scale=2)
+
+        btn_scan = QPushButton(_('Scan again'), self)
+        btn_scan.setIcon(icon.REFRESH)
+
+        hbox = QHBoxLayout()
+        hbox.addWidget(lbl_spinner)
+        hbox.addWidget(spinner)
+        hbox.addWidget(btn_scan)
+        hbox.addStretch()
+        hbox.addWidget(self._create_button_show_hidden())
+
+        parent_layout.addLayout(hbox)
+
+        return lbl_spinner, spinner, btn_scan
 
     def _create_button_show_hidden(self) -> QToolButton:
         # pylint: disable-next=import-outside-toplevel
@@ -288,11 +303,11 @@ class RestoreConfigDialog(QDialog):
 
         return btn
 
-    def _path_from_index(self, index: int) -> str:
+    def _path_from_index(self, index: QModelIndex) -> Path:
         """
         return a path string for a given treeView index
         """
-        return str(self._tree_model.filePath(index))
+        return Path(self._tree_model.filePath(index))
 
     def _index_from_path(self, path: str | Path) -> QModelIndex:
         """
@@ -312,7 +327,7 @@ class RestoreConfigDialog(QDialog):
         """
         # pylint: disable=protected-access
         fp = self._path_from_index(current)
-        cfg = self._search_config(fp)
+        cfg = _get_valid_config(fp / bitbase.FILENAME_CONFIG)
 
         if cfg:
             self._expand_with_parents(current)
@@ -329,41 +344,6 @@ class RestoreConfigDialog(QDialog):
             self._config_to_restore = None
 
         self._btn_restore.setEnabled(bool(cfg))
-
-    def _search_config(self, path: str) -> Config:
-        """Try to find config file in couple possible subdirectories.
-        """
-        print('_search_config() - ENTRY')
-        backup_path = os.path.join(
-            'backintime', self.config.host(), getpass.getuser())
-
-        try_paths = ['', '..', 'last_snapshot']
-        try_paths.extend([
-            os.path.join(backup_path, str(i), 'last_snapshot')
-            for i in range(10)])
-
-        for p in try_paths:
-            cfg_path = os.path.join(path, p, 'config')
-
-            if os.path.exists(cfg_path):
-
-                try:
-                    cfg = Config(cfg_path)
-
-                    if cfg.isConfigured():
-                        print('    _search_config() - FIN')
-                        return cfg
-
-                # Dev note (2025-07, buhtz): Remove it soon.
-                # pylint: disable-next=broad-exception-caught
-                except Exception as exc:
-                    logger.critical(
-                        f'Unhandled branch in code! See in {__file__} '
-                        f'SettingsDialog.searchConfig()\n{exc}',
-                        self)
-
-        print('    _search_config() - FIN')
-        return None
 
     def _expand_with_parents(self, index: QModelIndex):
         stack = []
@@ -387,9 +367,6 @@ class RestoreConfigDialog(QDialog):
         expand_next()
 
     def _show_profile(self, cfg):
-        """
-        show information about the profiles inside cfg
-        """
         child = self._grid_layout.takeAt(0)
 
         while child:
@@ -469,51 +446,47 @@ class ScanFileSystem(threading.Thread):
         self._stop_event = stop_event or threading.Event()
 
     def run(self):
-        """Search in order of hopefully fastest way to find the backups.
-
-        1. /home/USER 2. /media 3. /mnt and at last filesystem root.
-        Already searched paths will be excluded.
-        """
-        search_order = [
-            Path.home(),
-            Path('/media'),
-            Path('/mnt'),
-            Path('/'),
+        """Run several searches for config files"""
+        search_paths = [
+            str(Path.home()),
+            '/media',
+            '/mnt',
+            '/',  # keep root at the end!
         ]
 
-        for path_to_scan in search_order:
-            exclude = search_order[:]
-            exclude.remove(path_to_scan)
+        for path_to_scan in search_paths:
+            # Exclude the other dirs if searching in root
+            if path_to_scan == search_paths[-1]:
+                excludes = search_paths[:-1][:]
+            else:
+                excludes = []
 
-            # print(f'{path_to_scan=} {exclude=}')
-
-            for found in self._scan(path_to_scan, exclude):
+            for found in self._scan(path_to_scan, excludes):
                 if self._stop_event.is_set():
                     return
 
-                # print(f'    queue.put({found=}')
+                # print(f'queue.put({found=}')
                 self._queue.put(found)
 
-    def _scan(self, root: Path, excludes: list[Path]):
-        """Walk through all directories and try to find 'config' file.
+    def _scan(self, search_path: Path, excludes: list[str]
+              ) -> Generator[Path, None, None]:
+        """Use `find` on shell to search for `config` files."""
 
-        If found make sure it is nested in backintime/FOO/BAR/1/2345/config and
-        return its path. Exclude all paths from excludes and also
-        all backintime/FOO/BAR/1/2345/backup
-        """
+        logger.debug(f'Scanning in {search_path} for config files', self)
+        cmd = ['find', str(search_path)]
 
-        # Excludes in Find einbauen
-        # find / \( -path /proc -prune \) -o \( -path /var -prune \) -o \(
-        # -path /tmp -prune \) -o \( -path /run -prune \) -o \( -path /sys
-        # -prune \) -o \( -type f -name config -print \)
-        # Note: IN subprocess braucht man die Klammern nicht zu escapen
+        # exclude directories: defaults + extras
+        for exclude in ['/proc', '/var', '/sys', '/tmp', '/run'] + excludes:
+            cmd = cmd + ['(', '-path', exclude, '-prune', ')', '-o']
 
-        cmd = [
-            'find', str(root),
+        cmd = cmd + [
+            '(',
             '-type',
             'f',
             '-name',
             bitbase.FILENAME_CONFIG,
+            '-print',
+            ')'
         ]
 
         with subprocess.Popen(cmd,
@@ -528,24 +501,26 @@ class ScanFileSystem(threading.Thread):
 
                 path = Path(line.strip())
 
-                # # Skip excluded
-                # if any(path.is_relative_to(entry) for entry in excludes):
-                #     continue
-
-                # Example: .../backintime/FOO/BAR/1/2345/config
-                try:
-                    if path.parts[-5] == bitbase.BINARY_NAME_BASE:
-                        if 'backup' in path.parts:
-                            continue
-
-                except IndexError:
-                    print(f'   IndexError: {path=}')
-                    continue
-
-                else:
+                if _get_valid_config(path):
                     yield path.parent
 
     def stop(self):
         """Prepare stop and wait for finish."""
         self._stop_event.set()
         self.join()
+
+
+def _get_valid_config(path: Path) -> Config | None:
+    try:
+        cfg = Config(str(path))
+        if cfg.isConfigured():
+            return cfg
+
+    except (FileNotFoundError, UnicodeDecodeError):
+        pass
+
+    # pylint: disable-next=broad-exception-caught
+    except Exception as exc:
+        logger.critical(f'Unhandled branch in code!\n{exc}\n{__file__}')
+
+    return None

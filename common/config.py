@@ -1440,8 +1440,9 @@ class Config(configfile.ConfigFileWithProfiles):
             return True
 
         logger.debug(f'Profile ({profile_id=}) is not configured because '
-                        f'snapshot path is "{bool(path)}" and/or includes '
-                        f'are "{bool(includes)}".', self)
+                     f'backup path is "{bool(path)}" and/or includes '
+                     f'are "{bool(includes)}".', self)
+
         return False
 
     def canBackup(self, profile_id=None):
