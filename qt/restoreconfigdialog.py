@@ -17,9 +17,15 @@ import datetime
 import getpass
 import threading
 import subprocess
+import logger
+import bitbase
+from typing import Any
 from pathlib import Path
 from collections.abc import Callable
-from PyQt6.QtGui import QColor, QGuiApplication, QFileSystemModel, QPalette
+from queue import Queue
+from config import Config
+from snapshots import SID, Snapshots
+from PyQt6.QtGui import QBrush, QColor, QFont, QGuiApplication, QFileSystemModel, QPalette
 from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
                              QGridLayout,
@@ -27,17 +33,48 @@ from PyQt6.QtWidgets import (QDialog,
                              QWidget,
                              QLabel,
                              QMenu,
-                             QTreeView)
+                             QTreeView,
+                             QWidget)
 from PyQt6.QtCore import (Qt,
                           QDir,
+                          QMetaObject,
                           QModelIndex,
                           QSortFilterProxyModel,
                           QTimer
                           )
-import logger
-import bitbase
-from config import Config
-from snapshots import SID, Snapshots
+
+
+class _CfgFileSystemModel(QFileSystemModel):
+    def __init__(self, parent: QWidget):
+        super().__init__(parent)
+        self._paths = []
+
+        # self._brush = QBrush(parent.palette().color(QPalette.ColorRole.Link))
+        self._brush = QBrush(parent.palette().color(QPalette.ColorRole.Highlight))
+
+        self._font = QFont()
+        self._font.setBold(True)
+
+        self._role_result = {
+            Qt.ItemDataRole.ForegroundRole: self._brush,
+            Qt.ItemDataRole.FontRole: self._font
+        }
+
+
+    def add_path(self, path: Path) -> None:
+        self._paths.append(path)
+
+        # notify (redraw) the view
+        self.layoutChanged.emit()
+
+    def data(self, index: QModelIndex, role: Qt.ItemDataRole) -> Any:
+        if role in self._role_result.keys():
+            file_path = Path(self.filePath(index))
+
+            if file_path in self._paths:
+                return self._role_result[role]
+
+        return super().data(index, role)
 
 
 # pylint: disable-next=too-many-instance-attributes
@@ -61,8 +98,7 @@ class RestoreConfigDialog(QDialog):
         layout = QVBoxLayout(self)
         layout.addWidget(self._create_hint_label())
 
-        self._tree_view, self._tree_model, self._filter_proxy \
-            = self._create_tree()
+        self._tree_view, self._tree_model = self._create_tree()
         layout.addWidget(self._tree_view)
 
         # expand users home
@@ -100,9 +136,6 @@ class RestoreConfigDialog(QDialog):
 
         self._config_to_restore = None
 
-        self._scan_fs_thread = ScanFileSystem(
-            found_handler=self.handle_scan_found)
-
         self._tree_view.selectionModel().currentChanged.connect(
             self._slot_index_changed)
 
@@ -117,6 +150,13 @@ class RestoreConfigDialog(QDialog):
         btn_box.rejected.connect(self.reject)
         layout.addWidget(btn_box)
 
+        self._queue = Queue()
+
+        self._pool_timer = QTimer(self)
+        self._pool_timer.timeout.connect(self._process_found_queue)
+        self._pool_timer.start(500)  # milliseconds
+
+        self._scan_fs_thread = ScanFileSystem(queue=self._queue)
         self._scan_fs_thread.start()
 
         QTimer.singleShot(5, self._resize_to_full_hight)
@@ -137,28 +177,23 @@ class RestoreConfigDialog(QDialog):
             # full height on available screen
             screen.height() - screen.y())
 
-    def _create_tree(self):
-        view = QTreeView(self)  # MyTreeView(self)
-        model = QFileSystemModel(self)
+    def _create_tree(self) -> tuple[QTreeView, QFileSystemModel]:
+        model = _CfgFileSystemModel(self)
         model.setRootPath(QDir().rootPath())
         model.setReadOnly(True)
         model.setFilter(QDir.Filter.AllDirs | QDir.Filter.NoDotAndDotDot)
 
-        # filter_proxy = QSortFilterProxyModel(self)
-        # filter_proxy.setDynamicSortFilter(True)
-        # filter_proxy.setSourceModel(model)
-
-        # filter_proxy.setFilterRegularExpression(r'^[^\.]')
-
-        # view.setModel(filter_proxy)
+        view = QTreeView(self)
         view.setModel(model)
 
+        # ???
         for col in range(view.header().count()):
             view.setColumnHidden(col, col != 0)
 
+        # ???
         view.header().hide()
 
-        return view, model, None  # filter_proxy
+        return view, model
 
     @staticmethod
     def _red_and_green() -> tuple[QColor, QColor]:
@@ -205,9 +240,6 @@ class RestoreConfigDialog(QDialog):
         """
         return a path string for a given treeView index
         """
-        # idx_source = self._filter_proxy.mapToSource(index)
-
-        # return str(self._tree_model.filePath(idx_source))
         return str(self._tree_model.filePath(index))
 
     def _index_from_path(self, path: str | Path) -> QModelIndex:
@@ -218,13 +250,7 @@ class RestoreConfigDialog(QDialog):
         idx = self._tree_model.index(
             str(path) if isinstance(path, Path) else path)
 
-        print(f'_index_from_path() :: {path=} {idx.isValid()=} {idx.row()=} {idx.column()=}')
-
-        # print(f'{self._filter_proxy.rowCount()=}')
-        # result = self._filter_proxy.mapFromSource(idx)
-        # print(f'\t{result.isValid()=} {result.row()=} {result.column()=}')
-        result = idx
-        return result
+        return idx
 
     def _slot_index_changed(self, current, _previous):
         """Called every time a new item is chosen in treeView.
@@ -320,10 +346,11 @@ class RestoreConfigDialog(QDialog):
         self._grid_layout.setColumnStretch(col, 1)
         self._wdg_profiles.show()
 
-    def handle_scan_found(self, path):
-        """ scan hit a config. Expand the snapshot folder.
-        """
-        self._expand_with_parents(self._index_from_path(path))
+    def _process_found_queue(self) -> None:
+        while not self._queue.empty():
+            path = self._queue.get()
+            self._tree_model.add_path(Path(path))
+            self._expand_with_parents(self._index_from_path(path))
 
     def _slot_on_context_menu(self, point):
         self._context_menu.exec(self._tree_view.mapToGlobal(point))
@@ -364,10 +391,10 @@ class ScanFileSystem(threading.Thread):
     """A thread scanning the file system for config files related to BIT."""
     # foundConfig = pyqtSignal(str)
 
-    def __init__(self, found_handler: Callable, stop_event=None):
+    def __init__(self, queue: Queue, stop_event=None):
         super().__init__()
 
-        self._handler_found_config = found_handler
+        self._queue = queue
         self._stop_event = stop_event or threading.Event()
 
     def run(self):
@@ -387,12 +414,14 @@ class ScanFileSystem(threading.Thread):
             exclude = search_order[:]
             exclude.remove(path_to_scan)
 
+            print(f'{path_to_scan=} {exclude=}')
+
             for found in self._scan(path_to_scan, exclude):
                 if self._stop_event.is_set():
                     return
 
-                # Fire signal
-                self._handler_found_config(str(found))
+                print(f'    queue.put({found=}')
+                self._queue.put(found)
 
     def _scan(self, root: Path, excludes: list[Path]):
         """Walk through all directories and try to find 'config' file.
@@ -428,9 +457,9 @@ class ScanFileSystem(threading.Thread):
 
                 path = Path(line.strip())
 
-                # Skip excluded
-                if any(path.is_relative_to(entry) for entry in excludes):
-                    continue
+                # # Skip excluded
+                # if any(path.is_relative_to(entry) for entry in excludes):
+                #     continue
 
                 # Example: .../backintime/FOO/BAR/1/2345/config
                 try:
@@ -439,6 +468,7 @@ class ScanFileSystem(threading.Thread):
                             continue
 
                 except IndexError:
+                    print(f'   IndexError: {path=}')
                     continue
 
                 else:
