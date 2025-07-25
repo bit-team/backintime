@@ -218,8 +218,10 @@ class Spinner(QLabel):
             lambda: self.setText(next(self._sequence)))
 
     def start(self, interval_ms: int = 150) -> None:
+        """Start the spinner"""
         self._timer.start(interval_ms)
 
     def stop(self) -> None:
+        """Stop the spinner using `self.STOP` as label."""
         self._timer.stop()
         self.setText(Spinner.STOP)

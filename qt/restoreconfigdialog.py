@@ -22,7 +22,6 @@ import bitbase
 import qttools
 from typing import Any
 from pathlib import Path
-from collections.abc import Callable
 from queue import Queue
 from config import Config
 from snapshots import SID, Snapshots
@@ -32,7 +31,6 @@ from PyQt6.QtGui import (QBrush,
                          QFont,
                          QGuiApplication,
                          QFileSystemModel,
-                         QIcon,
                          QPalette,
                          QShortcut)
 from PyQt6.QtWidgets import (QDialog,
@@ -41,7 +39,6 @@ from PyQt6.QtWidgets import (QDialog,
                              QHBoxLayout,
                              QLabel,
                              QLayout,
-                             QMenu,
                              QPushButton,
                              QToolButton,
                              QTreeView,
@@ -49,38 +46,42 @@ from PyQt6.QtWidgets import (QDialog,
                              QWidget)
 from PyQt6.QtCore import (Qt,
                           QDir,
-                          QMetaObject,
                           QModelIndex,
-                          QSortFilterProxyModel,
                           QTimer)
 
 
 class _CfgFileSystemModel(QFileSystemModel):
+    """A sub-classed file-system model to visualy highlight some of its
+    entries."""
     def __init__(self, parent: QWidget):
         super().__init__(parent)
         self._paths = []
 
-        # self._brush = QBrush(parent.palette().color(QPalette.ColorRole.Link))
-        self._brush = QBrush(parent.palette().color(QPalette.ColorRole.Highlight))
+        font = QFont()
+        font.setBold(True)
 
-        self._font = QFont()
-        self._font.setBold(True)
-
+        # See data() for details
         self._role_result = {
-            Qt.ItemDataRole.ForegroundRole: self._brush,
-            Qt.ItemDataRole.FontRole: self._font
+            Qt.ItemDataRole.ForegroundRole: QBrush(
+                parent.palette().color(QPalette.ColorRole.Highlight)),
+            Qt.ItemDataRole.FontRole: font
         }
 
     def highlight_this(self, path: Path) -> None:
+        """Remember the path to draw with different font"""
         self._paths.append(path)
 
         # notify (redraw) the view
         self.layoutChanged.emit()
 
     def data(self, index: QModelIndex, role: Qt.ItemDataRole) -> Any:
+        """Draw an entry with bold font and highlted font color if in
+        `self._paths`.
+        """
         if role in self._role_result.keys():
             file_path = Path(self.filePath(index))
 
+            # Return font or brush
             if file_path in self._paths:
                 return self._role_result[role]
 
@@ -122,6 +123,11 @@ class RestoreConfigDialog(QDialog):
         hbox.addWidget(self._lbl_spinner)
         self._spinner = Spinner(self, font_scale=2)
         hbox.addWidget(self._spinner)
+
+        #
+        self._btn_scan = QPushButton(_('Scan again'), self)
+        self._btn_scan.clicked.connect(self.start_scanning)
+        hbox.addWidget(self._btn_scan)
         layout.addLayout(hbox)
 
         self._tree_view, self._tree_model = self._create_tree()
@@ -170,13 +176,19 @@ class RestoreConfigDialog(QDialog):
 
         self._pool_timer = QTimer(self)
         self._pool_timer.timeout.connect(self._process_found_queue)
-        self._pool_timer.start(1500)  # milliseconds
 
-        self._scan_fs_thread = ScanFileSystem(queue=self._queue)
-        self._scan_fs_thread.start()
-        self._spinner.start(interval_ms=200)
+        self._scan_fs_thread = None
 
         QTimer.singleShot(5, self._resize_to_full_hight)
+
+        self.start_scanning()
+
+    def start_scanning(self):
+        self._btn_scan.setVisible(False)
+        self._pool_timer.start(1500)  # milliseconds
+        self._spinner.start(interval_ms=200)
+        self._scan_fs_thread = ScanFileSystem(queue=self._queue)
+        self._scan_fs_thread.start()
 
     def _resize_to_full_hight(self):
         """Resize dialog to full height and center it horizontal"""
@@ -274,7 +286,6 @@ class RestoreConfigDialog(QDialog):
         btn.toggled.connect(self._slot_show_hidden)
 
         return btn
-
 
     def _path_from_index(self, index: int) -> str:
         """
@@ -412,7 +423,7 @@ class RestoreConfigDialog(QDialog):
             self._spinner.stop()
             self._lbl_spinner.setText(_('Search complete.'))
             self._pool_timer.stop()
-
+            self._btn_scan.setVisible(True)
 
     def _slot_show_hidden(self, checked):
         if checked:
