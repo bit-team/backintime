@@ -17,15 +17,13 @@ import datetime
 import getpass
 import threading
 import subprocess
-import logger
-import bitbase
-import qttools
 from typing import Any
 from pathlib import Path
 from queue import Queue
+import logger
+import bitbase
 from config import Config
 from snapshots import SID, Snapshots
-from bitwidgets import Spinner
 from PyQt6.QtGui import (QBrush,
                          QColor,
                          QFont,
@@ -48,6 +46,8 @@ from PyQt6.QtCore import (Qt,
                           QDir,
                           QModelIndex,
                           QTimer)
+import qttools
+from bitwidgets import Spinner
 
 
 class _CfgFileSystemModel(QFileSystemModel):
@@ -78,7 +78,7 @@ class _CfgFileSystemModel(QFileSystemModel):
         """Draw an entry with bold font and highlted font color if in
         `self._paths`.
         """
-        if role in self._role_result.keys():
+        if role in self._role_result:
             file_path = Path(self.filePath(index))
 
             # Return font or brush
@@ -184,6 +184,7 @@ class RestoreConfigDialog(QDialog):
         self.start_scanning()
 
     def start_scanning(self):
+        """Start the file system scanning thread and prepare the GUI"""
         self._btn_scan.setVisible(False)
         self._pool_timer.start(1500)  # milliseconds
         self._spinner.start(interval_ms=200)
