@@ -63,10 +63,10 @@ class RestoreConfigDialog(QDialog):
 
         self._tree_view, self._tree_model, self._filter_proxy \
             = self._create_tree()
+        layout.addWidget(self._tree_view)
 
         # expand users home
-        self._expand_all(os.path.expanduser('~'))
-        layout.addWidget(self._tree_view)
+        self._expand_with_parents(self._index_from_path(Path.home()))
 
         # context menu
         self._tree_view.setContextMenuPolicy(
@@ -210,11 +210,14 @@ class RestoreConfigDialog(QDialog):
         # return str(self._tree_model.filePath(idx_source))
         return str(self._tree_model.filePath(index))
 
-    def _index_from_path(self, path: str) -> int:
+    def _index_from_path(self, path: str | Path) -> QModelIndex:
         """
         return the index for path which can be used in treeView
         """
-        idx = self._tree_model.index(path)
+
+        idx = self._tree_model.index(
+            str(path) if isinstance(path, Path) else path)
+
         print(f'_index_from_path() :: {path=} {idx.isValid()=} {idx.row()=} {idx.column()=}')
 
         # print(f'{self._filter_proxy.rowCount()=}')
@@ -230,12 +233,13 @@ class RestoreConfigDialog(QDialog):
         available information about the config.
         """
         # pylint: disable=protected-access
-        cfg = self._search_config(self._path_from_index(current))
+        fp = self._path_from_index(current)
+        cfg = self._search_config(fp)
 
         if cfg:
-            self._expand_all(
-                os.path.dirname(os.path.dirname(cfg._LOCAL_CONFIG_PATH)))
-            self._lbl_found.setText(cfg._LOCAL_CONFIG_PATH)
+            self._expand_with_parents(current)
+
+            self._lbl_found.setText(str(fp))
             self._lbl_found.setPalette(self._color_green)
             self._show_profile(cfg)
             self._config_to_restore = cfg
@@ -287,17 +291,11 @@ class RestoreConfigDialog(QDialog):
         if parent_index.isValid():  # reached root?
             self._expand_with_parents(parent_index)
 
+        # p = self._path_from_index(index)
+        # print(f' expand... {p=} {index.row()=} {index.column()=}')
+
         # expand the entry itself
-        p = self._path_from_index(index)
-        print(f' expand... {p=} {index.row()=} {index.column()=}')
         self._tree_view.expand(index)
-
-    def _expand_all(self, path):
-        """Expand all folders from filesystem root to given path
-
-        """
-        print(f'\n\n_expand_all() :: {path=}')
-        self._expand_with_parents(self._index_from_path(path))
 
     def _show_profile(self, cfg):
         """
@@ -323,11 +321,9 @@ class RestoreConfigDialog(QDialog):
         self._wdg_profiles.show()
 
     def handle_scan_found(self, path):
+        """ scan hit a config. Expand the snapshot folder.
         """
-        scan hit a config. Expand the snapshot folder.
-        """
-        # print(f'handle_scan_found() :: {path=}')
-        self._expand_all(os.path.dirname(path))
+        self._expand_with_parents(self._index_from_path(path))
 
     def _slot_on_context_menu(self, point):
         self._context_menu.exec(self._tree_view.mapToGlobal(point))
