@@ -50,44 +50,6 @@ import qttools
 from bitwidgets import Spinner
 
 
-class _CfgFileSystemModel(QFileSystemModel):
-    """A sub-classed file-system model to visualy highlight some of its
-    entries."""
-    def __init__(self, parent: QWidget):
-        super().__init__(parent)
-        self._paths = []
-
-        font = QFont()
-        font.setBold(True)
-
-        # See data() for details
-        self._role_result = {
-            Qt.ItemDataRole.ForegroundRole: QBrush(
-                parent.palette().color(QPalette.ColorRole.Highlight)),
-            Qt.ItemDataRole.FontRole: font
-        }
-
-    def highlight_this(self, path: Path) -> None:
-        """Remember the path to draw with different font"""
-        self._paths.append(path)
-
-        # notify (redraw) the view
-        self.layoutChanged.emit()
-
-    def data(self, index: QModelIndex, role: Qt.ItemDataRole) -> Any:
-        """Draw an entry with bold font and highlted font color if in
-        `self._paths`.
-        """
-        if role in self._role_result:
-            file_path = Path(self.filePath(index))
-
-            # Return font or brush
-            if file_path in self._paths:
-                return self._role_result[role]
-
-        return super().data(index, role)
-
-
 # pylint: disable-next=too-many-instance-attributes
 class RestoreConfigDialog(QDialog):
     """
@@ -168,33 +130,49 @@ class RestoreConfigDialog(QDialog):
 
         self._scan_fs_thread = None
 
-        QTimer.singleShot(5, self._resize_to_full_hight)
-
         self.start_scanning()
+
+        # See _resize_to_full_height() for details.
+        self._resize_tries = 10
+        QTimer.singleShot(1, self._resize_to_full_hight)
 
     def start_scanning(self):
         """Start the file system scanning thread and prepare the GUI"""
         self._btn_scan.setVisible(False)
         self._pool_timer.start(1500)  # milliseconds
+        self._lbl_spinner.setText(_('Searching…'))
         self._spinner.start(interval_ms=200)
-        self._scan_fs_thread = ScanFileSystem(queue=self._queue)
+        self._scan_fs_thread = _ScanFileSystem(queue=self._queue)
         self._scan_fs_thread.start()
 
     def _resize_to_full_hight(self):
-        """Resize dialog to full height and center it horizontal"""
-        screen = QGuiApplication.screenAt(self.pos()).availableGeometry()
+        """Resize dialog to full height and center it horizontal.
+        """
+        screen = QGuiApplication.screenAt(self.pos())
+        geom = screen.availableGeometry()
 
-        new_width = screen.width() // 3
+        # Determine the height of the dialog's title bar and border. This
+        # value is unknown or incorrect until the dialg is fully drawn.
+        # That is the reason why we use this workaround.
+        deco_height = self.frameGeometry().height() - self.geometry().height()
+        if deco_height == 0 and self._resize_tries > 0:
+            self._resize_tries -= 1
+            QTimer.singleShot(1, self._resize_to_full_hight)
+            return
 
-        self.setGeometry(
+        new_width = geom.width() // 3
+
+        self.move(
             # center horizontal
-            screen.center().x() - (new_width // 2),
+            geom.center().x() - (new_width // 2),
             # vertical to top
-            screen.y(),
+            geom.y()
+        )
+        self.resize(
             # the desired width
             new_width,
-            # full height on available screen
-            screen.height() - screen.y())
+            # full height (incl. window decoration) on available screen
+            geom.height() - deco_height)
 
     def _create_tree(self) -> tuple[QTreeView, QFileSystemModel]:
         model = _CfgFileSystemModel(self)
@@ -434,7 +412,46 @@ class RestoreConfigDialog(QDialog):
         return ret
 
 
-class ScanFileSystem(threading.Thread):
+class _CfgFileSystemModel(QFileSystemModel):
+    """A sub-classed file-system model to visualy highlight some of its
+    entries."""
+
+    def __init__(self, parent: QWidget):
+        super().__init__(parent)
+        self._paths = []
+
+        font = QFont()
+        font.setBold(True)
+
+        # See data() for details
+        self._role_result = {
+            Qt.ItemDataRole.ForegroundRole: QBrush(
+                parent.palette().color(QPalette.ColorRole.Highlight)),
+            Qt.ItemDataRole.FontRole: font
+        }
+
+    def highlight_this(self, path: Path) -> None:
+        """Remember the path to draw with different font"""
+        self._paths.append(path)
+
+        # notify (redraw) the view
+        self.layoutChanged.emit()
+
+    def data(self, index: QModelIndex, role: Qt.ItemDataRole) -> Any:
+        """Draw an entry with bold font and highlted font color if in
+        `self._paths`.
+        """
+        if role in self._role_result:
+            file_path = Path(self.filePath(index))
+
+            # Return font or brush
+            if file_path in self._paths:
+                return self._role_result[role]
+
+        return super().data(index, role)
+
+
+class _ScanFileSystem(threading.Thread):
     """A thread scanning the file system for config files related to BIT."""
     # foundConfig = pyqtSignal(str)
 
