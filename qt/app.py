@@ -1433,6 +1433,48 @@ class MainWindow(QMainWindow):
 
         return messagebox.question(text=msg, widget_to_center_on=self)
 
+    def _restore_to_(self, paths: list[str]):
+        with self.suspend_mouse_button_navigation():
+            dir_dialog = FileDialog(
+                parent=self,
+                title=_('Restore to …'),
+                show_hidden=True,
+                allow_multiselection=False,
+                dirs_only=True)
+
+            path_restore_to = dir_dialog.result()
+
+            if not path_restore_to:
+                return
+
+            path_restore_to = self.config.preparePath(path_restore_to)
+
+            confirm_dlg = ConfirmRestoreDialog(
+                parent=self,
+                paths=paths,
+                to_path=path_restore_to,
+                backup_on_restore=self.config.backupOnRestore(),
+                backup_suffix=self.snapshots.backupSuffix()
+            )
+
+            if not confirm_dlg.answer():
+                return
+
+            opt = confirm_dlg.get_values_as_dict()
+
+            if opt['delete'] \
+               and not self.confirmDelete(
+                   warnRoot='/' in paths, restoreTo=path_restore_to):
+                return
+
+        rd = RestoreDialog(self,
+                           self.sid,
+                           paths if len(paths) > 1 else paths[0],
+                           path_restore_to,
+                           **opt)
+
+        rd.exec()
+
     def restoreThis(self):
         if self.sid.isRoot:
             return
@@ -1467,36 +1509,9 @@ class MainWindow(QMainWindow):
     def restoreThisTo(self):
         """Restore current in GUI selected backup to ..."""
 
-        paths = [f for f, idx in self.multiFileSelected(fullPath=True)]
+        paths = [f for f, _idx in self.multiFileSelected(fullPath=True)]
 
-        with self.suspend_mouse_button_navigation():
-            restoreTo = qttools.getExistingDirectory(self, _('Restore to …'))
-
-            if not restoreTo:
-                return
-
-            restoreTo = self.config.preparePath(restoreTo)
-
-            confirm_dlg = ConfirmRestoreDialog(
-                parent=self,
-                paths=paths,
-                to_path=restoreTo,
-                backup_on_restore=self.config.backupOnRestore(),
-                backup_suffix=self.snapshots.backupSuffix()
-            )
-
-            if not confirm_dlg.answer():
-                return
-
-            opt = confirm_dlg.get_values_as_dict()
-
-            if opt['delete'] \
-               and not self.confirmDelete(
-                   warnRoot='/' in paths, restoreTo=restoreTo):
-                return
-
-        rd = RestoreDialog(self, self.sid, paths, restoreTo, **opt)
-        rd.exec()
+        self._restore_to(paths)
 
     def restoreParent(self):
         if self.sid.isRoot:
@@ -1528,34 +1543,7 @@ class MainWindow(QMainWindow):
         if self.sid.isRoot:
             return
 
-        with self.suspend_mouse_button_navigation():
-            restoreTo = qttools.getExistingDirectory(self, _('Restore to …'))
-
-            if not restoreTo:
-                return
-
-            restoreTo = self.config.preparePath(restoreTo)
-
-            confirm_dlg = ConfirmRestoreDialog(
-                parent=self,
-                paths=(self.path,),
-                to_path=restoreTo,
-                backup_on_restore=self.config.backupOnRestore(),
-                backup_suffix=self.snapshots.backupSuffix()
-            )
-
-            if not confirm_dlg.answer():
-                return
-
-            opt = confirm_dlg.get_values_as_dict()
-
-            if opt['delete'] \
-               and not self.confirmDelete(
-                   warnRoot=self.path == '/', restoreTo=restoreTo):
-                return
-
-        rd = RestoreDialog(self, self.sid, self.path, restoreTo, **opt)
-        rd.exec()
+        self._restore_to([self.path])
 
     def btnSnapshotsClicked(self):
         path, _idx = self.fileSelected(fullPath = True)
