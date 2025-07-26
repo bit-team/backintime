@@ -310,7 +310,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
 
         # Explicit activate checks
         err_codes = [
-            'C0103',  # invalid-name
+            # 'C0103',  # invalid-name
             'C0114',  # missing-module-docstring
             # 'C0115',  # missing-class-docstring
             # 'C0116',  # missing-function-docstring

@@ -43,6 +43,7 @@ import encfsmsgbox
 from inhibitsuspend import InhibitSuspend
 from exceptions import MountException
 from statedata import StateData
+from filedialog import FileDialog
 from PyQt6.QtGui import (QAction,
                          QActionGroup,
                          QDesktopServices,

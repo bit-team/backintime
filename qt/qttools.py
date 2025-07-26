@@ -23,7 +23,6 @@ import re
 import json
 import textwrap
 import subprocess
-from pathlib import Path
 from typing import Union, Iterable, Callable
 from contextlib import contextmanager
 from tempfile import NamedTemporaryFile
@@ -50,7 +49,6 @@ import logger  # noqa: E402
 import bitbase  # noqa: E402
 import version  # noqa: E402
 import messagebox
-from filedialog import FileDialog
 
 
 # |--------------------------------|
@@ -269,7 +267,6 @@ class MouseButtonEventFilter(QObject):
 
         super().__init__()
 
-    # pylint: disabble-next=invalid-name
     def eventFilter(self, receiver: QObject, event: QEvent):
         """Catch global input events."""
 
@@ -361,37 +358,6 @@ def open_user_manual() -> None:
     opened.
     """
     open_url(user_manual_uri())
-
-
-def getOpenFileNames(parent, title):
-    """
-    Workaround to give control about hidden files
-    """
-    dlg = FileDialog(parent,
-                     title=title,
-                     show_hidden=True,
-                     allow_multiselection=True,
-                     dirs_only=False)
-    result = dlg.result()
-
-    if result:
-        return [str(r) for r in result]
-    return [str(), ]
-
-
-def getOpenFileName(parent, title, start_dir = None):
-    """Workaround to give control about hidden files"""
-    dlg = FileDialog(parent,
-                     title=title,
-                     show_hidden=True,
-                     allow_multiselection=False,
-                     dirs_only=False,
-                     start_dir=start_dir)
-    result = dlg.result()
-
-    if result:
-        return str(result)
-    return str()
 
 
 def _show_qt_debug_info(qapp):

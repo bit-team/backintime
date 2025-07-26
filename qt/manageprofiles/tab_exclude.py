@@ -274,7 +274,14 @@ class ExcludeTab(QWidget):
         self.add_exclude(pattern)
 
     def btn_exclude_file_clicked(self):
-        for path in qttools.getOpenFileNames(self, _('Exclude files')):
+        dlg = FileDialog(
+            parent=self,
+            title=_('Exclude files'),
+            show_hidden=True,
+            allow_multiselection=True,
+            dirs_only=False)
+
+        for path in dlg.result():
             self.add_exclude(path)
 
     def btn_exclude_folder_clicked(self):

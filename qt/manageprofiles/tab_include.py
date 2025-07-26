@@ -22,7 +22,6 @@ from PyQt6.QtWidgets import (QWidget,
                              QPushButton,
                              QHeaderView,
                              QAbstractItemView)
-import qttools
 from qttools import custom_sort_order
 from filedialog import FileDialog
 
@@ -145,9 +144,17 @@ class IncludeTab(QWidget):
 
     def btn_include_file_clicked(self):
         """Handle file-adding button click."""
-        for path in qttools.getOpenFileNames(self, _('Include files')):
+        dlg = FileDialog(
+            parent=self,
+            title=_('Include files'),
+            show_hidden=True,
+            allow_multiselection=True,
+            dirs_only=False)
+
+        for path in dlg.result():
             if not path:
                 continue
+
             if os.path.islink(path) and not (
                 self._parent_dialog.cbCopyUnsafeLinks.isChecked() or
                 self._parent_dialog.cbCopyLinks.isChecked()
