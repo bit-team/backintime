@@ -909,6 +909,7 @@ class MainWindow(QMainWindow):
         else:
             state_data.mainwindow_coords = (self.x(), self.y())
             state_data.mainwindow_dims = (self.width(), self.height())
+
         state_data.mainwindow_main_splitter_widths = self.mainSplitter.sizes()
         state_data.mainwindow_second_splitter_widths \
             = self.secondSplitter.sizes()
@@ -967,7 +968,12 @@ class MainWindow(QMainWindow):
         profile_id = self.config.currentProfile()
         state_data = StateData()
         profile_state = state_data.profile(profile_id)
-        self.places.set_sorting(profile_state.places_sorting)
+        try:
+            sorting = profile_state.places_sorting
+        except KeyError:
+            pass
+        else:
+            self.places.set_sorting(sorting)
 
         # EncFS deprecation warning (see #1734)
         current_mode = self.config.snapshotsMode(profile_id)
@@ -993,14 +999,19 @@ class MainWindow(QMainWindow):
         state_data = StateData()
 
         if profile_id != old_profile_id:
-            old_profile_state = state_data.profile[old_profile_id]
+            old_profile_state = state_data.profile(old_profile_id)
             old_profile_state.places_sorting = self.places.get_sorting()
 
             self.remount(profile_id, old_profile_id)
             self.config.setCurrentProfile(profile_id)
 
-            profile_state = state_data.profile[profile_id]
-            self.places.set_sorting(profile_state.places_sorting)
+            profile_state = state_data.profile(profile_id)
+            try:
+                sorting = profile_state.places_sorting
+            except KeyError:
+                pass
+            else:
+                self.places.set_sorting(sorting)
 
             self.config.setProfileStrValue(
                 'qt.last_path', self.path, old_profile_id)
@@ -1454,10 +1465,9 @@ class MainWindow(QMainWindow):
         rd.exec()
 
     def restoreThisTo(self):
-        if self.sid.isRoot:
-            return
+        """Restore current in GUI selected backup to ..."""
 
-        paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
+        paths = [f for f, idx in self.multiFileSelected(fullPath=True)]
 
         with self.suspend_mouse_button_navigation():
             restoreTo = qttools.getExistingDirectory(self, _('Restore to …'))
@@ -1514,6 +1524,7 @@ class MainWindow(QMainWindow):
         rd.exec()
 
     def restoreParentTo(self):
+        """Restore parent folder (of current selcted) to ..."""
         if self.sid.isRoot:
             return
 
