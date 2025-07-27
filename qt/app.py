@@ -1448,7 +1448,7 @@ class MainWindow(QMainWindow):
             if not path_restore_to:
                 return
 
-            path_restore_to = self.config.preparePath(path_restore_to)
+            path_restore_to = str(path_restore_to)
 
             confirm_dlg = ConfirmRestoreDialog(
                 parent=self,
