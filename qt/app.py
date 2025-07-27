@@ -1461,7 +1461,6 @@ class MainWindow(QMainWindow):
             if not confirm_dlg.answer():
                 return
 
-            print(confirm_dlg.__dict__)
             opt = confirm_dlg.get_values_as_dict()
 
             if opt['delete'] \
