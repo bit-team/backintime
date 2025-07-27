@@ -159,7 +159,7 @@ class IncludeTab(QWidget):
             if not path:
                 continue
 
-            if path.is_symmlink() and not (
+            if path.is_symlink() and not (
                 self._parent_dialog.cbCopyUnsafeLinks.isChecked() or
                 self._parent_dialog.cbCopyLinks.isChecked()
             ):

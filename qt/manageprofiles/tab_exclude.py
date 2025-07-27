@@ -282,7 +282,7 @@ class ExcludeTab(QWidget):
             dirs_only=False)
 
         for path in dlg.result():
-            self.add_exclude(path)
+            self.add_exclude(str(path))
 
     def btn_exclude_folder_clicked(self):
         # pylint: disable=duplicate-code
