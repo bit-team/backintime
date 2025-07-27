@@ -12,17 +12,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-07-01 16:44+0200\n"
-"PO-Revision-Date: 2024-10-02 06:42+0000\n"
-"Last-Translator: reneald <reneald@users.noreply.translate.codeberg.org>\n"
+"PO-Revision-Date: 2025-07-07 13:47+0000\n"
+"Last-Translator: rsschaap <rsschaap@noreply.codeberg.org>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/backintime/common/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7.2\n"
+"X-Generator: Weblate 5.12.2\n"
 
 #: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:92
@@ -1761,7 +1761,7 @@ msgstr "Voorvoegsel aan SSH-commando's toevoegen"
 
 #: qt/manageprofiles/tab_expert_options.py:334
 msgid "Check if remote host is online"
-msgstr "Controleren of de externe host online is"
+msgstr "Controleer of de externe host online is"
 
 #: qt/manageprofiles/tab_expert_options.py:337
 msgid ""
@@ -1773,7 +1773,7 @@ msgstr ""
 
 #: qt/manageprofiles/tab_expert_options.py:341
 msgid "Check if remote host supports all necessary commands."
-msgstr "Controleren of de externe host alle benodigde commando's ondersteunt."
+msgstr "Controleer of de externe host alle benodigde commando's ondersteunt."
 
 #: qt/manageprofiles/tab_expert_options.py:344
 msgid ""
@@ -1813,9 +1813,8 @@ msgid "Path:"
 msgstr "Pad:"
 
 #: qt/manageprofiles/tab_general.py:139
-#, fuzzy
 msgid "Key file:"
-msgstr "Nieuw profiel"
+msgstr "Sleutel bestand"
 
 #: qt/manageprofiles/tab_general.py:173 qt/manageprofiles/tab_general.py:181
 #: qt/manageprofiles/tab_general.py:186
@@ -1856,7 +1855,7 @@ msgstr "De authenticiteit van host {host} kan niet worden vastgesteld."
 #: qt/manageprofiles/tab_general.py:508
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
-msgstr "{keytype} sleutelvingerafdruk is:"
+msgstr "{keytype} vingerafdruk van de sleutel is:"
 
 #: qt/manageprofiles/tab_general.py:516
 #, fuzzy
@@ -1866,9 +1865,8 @@ msgstr ""
 "'known_hosts'?"
 
 #: qt/manageprofiles/tab_general.py:600
-#, fuzzy
 msgid "Really change the backup directory?"
-msgstr "Een nieuwe versleutelde map aanmaken?"
+msgstr "Weet u zeker dat u de back-up directory wilt wijzigen?"
 
 #: qt/manageprofiles/tab_general.py:632
 #, python-brace-format
@@ -1876,17 +1874,20 @@ msgid ""
 "The selected file {path} appears to be a public SSH key. Please select a "
 "private file (without a \".pub\" extension)."
 msgstr ""
+"Het geselecteerde bestand {path} lijkt op een publieke SSH sleutel. "
+"Selecteer een privé sleutel bestand (zonder .pub extentie)."
 
 #: qt/manageprofiles/tab_general.py:635
-#, fuzzy
 msgid "Not a private key"
-msgstr "SSH private sleutel"
+msgstr "Geen SSH privé sleutel"
 
 #: qt/manageprofiles/tab_general.py:647
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
+"Het bestand {path} bestaat al. Kan geen nieuwe SSH sleutel aanmaken met die "
+"naam."
 
 #: qt/manageprofiles/tab_general.py:658
 #, python-brace-format
@@ -1894,32 +1895,28 @@ msgid "Failed to create new SSH key in {path}."
 msgstr "Aanmaken nieuwe SSH-sleutel in {path} mislukt."
 
 #: qt/manageprofiles/tab_include.py:48
-#, fuzzy
 msgid "Include files and directories"
-msgstr "Bestanden en mappen opnemen"
+msgstr "Bestanden en mappen invoegen"
 
 #: qt/manageprofiles/tab_include.py:147
-#, fuzzy
 msgid "Include files"
-msgstr "Bestand opnemen"
+msgstr "Bestanden invoegen"
 
 #: qt/manageprofiles/tab_include.py:163
-#, fuzzy
 msgid "Include directories"
-msgstr "Map opnemen"
+msgstr "Mappen invoegen"
 
 #: qt/manageprofiles/tab_options.py:37
 msgid "Enable notifications"
 msgstr "Meldingen activeren"
 
 #: qt/manageprofiles/tab_options.py:41
-#, fuzzy
 msgid "Disable backups when on battery"
-msgstr "Momentopnames uitschakelen bij batterijgebruik"
+msgstr "Momentopnames uitschakelen tijdens batterijgebruik"
 
 #: qt/manageprofiles/tab_options.py:47
 msgid "Power status not available from system"
-msgstr "Voedingsstatus niet beschikbaar via systeem"
+msgstr "Voedingsstatus niet beschikbaar in systeeminformatie"
 
 #: qt/manageprofiles/tab_options.py:49
 #, fuzzy
@@ -1958,13 +1955,15 @@ msgstr "Een nieuwe momentopname maken, of er nu wijzigingen waren of niet."
 
 #: qt/manageprofiles/tab_options.py:92
 msgid "Warn if the free disk space falls below"
-msgstr ""
+msgstr "Waarschuw wanneer vrij beschikbare schijfruimte minder is dan"
 
 #: qt/manageprofiles/tab_options.py:98
 msgid ""
 "Shows a warning when free space on the backup destination disk is less than "
 "the specified value."
 msgstr ""
+"Toont een waarschuwing als de vrije ruimte op de back-up schijf minder is "
+"dan de opgegeven waarde."
 
 #: qt/manageprofiles/tab_options.py:100
 msgid ""
@@ -1972,10 +1971,13 @@ msgid ""
 "based on available free space, this value cannot be lower than the value set"
 " in the policy."
 msgstr ""
+"Als het bewaar en verwijder beleid is ingeschakeld en oude back-ups worden "
+"verwijderd op basis van vrij beschikbare ruimte, kan deze waarde niet lager "
+"zijn dan de waarde ingesteld in het beleid."
 
 #: qt/manageprofiles/tab_options.py:118
 msgid "Log Level:"
-msgstr "Logboekniveau:"
+msgstr "Niveau van logging:"
 
 #: qt/manageprofiles/tab_options.py:178
 msgid "None"
@@ -1987,27 +1989,30 @@ msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual} for details and examples."
 msgstr ""
+"De volgende regels worden verwerkt van de eerste tot de laatste. Regels die "
+"later komen overrulen de eerdere regels. Zie de {manual} voor details en "
+"voorbeelden"
 
 #: qt/manageprofiles/tab_remove_retention.py:202
 msgid "user manual"
-msgstr ""
+msgstr "user manual"
 
 #: qt/manageprofiles/tab_remove_retention.py:215
 msgid "Open user manual in browser."
-msgstr ""
+msgstr "Open user manual in browser."
 
 #: qt/manageprofiles/tab_remove_retention.py:229
-#, fuzzy
 msgid "Keep the most recent backup."
-msgstr "Genoemde momentopnames niet verwijderen."
+msgstr "De meest recente back-up behouden."
 
 #: qt/manageprofiles/tab_remove_retention.py:233
 msgid "The last or freshest backup is kept under all circumstances."
 msgstr ""
+"De laatste of nieuwste back-up blijft bewaard onder alle omstandigheden."
 
 #: qt/manageprofiles/tab_remove_retention.py:235
 msgid "That behavior cannot be changed."
-msgstr ""
+msgstr "Dit gedrag kan niet worden gewijzigd."
 
 #: qt/manageprofiles/tab_remove_retention.py:247
 #, fuzzy
@@ -2019,31 +2024,33 @@ msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
+"Back-up die een naam gebben gekregen als aanvulling op de tijdstempel, "
+"blijven onder alle omstandigheden behouden en zullen niet worden verwijderd."
 
 #: qt/manageprofiles/tab_remove_retention.py:265
 msgid "Year(s)"
 msgstr "Jaar"
 
 #: qt/manageprofiles/tab_remove_retention.py:270
-#, fuzzy
 msgid "Remove backups older than"
-msgstr "Momentopname verwijderen"
+msgstr "Verwijder back-ups ouder dan"
 
 #: qt/manageprofiles/tab_remove_retention.py:276
 msgid "Full days. Current day is ignored."
-msgstr ""
+msgstr "Volledige dagen, vandaag niet meegerekend."
 
 #: qt/manageprofiles/tab_remove_retention.py:278
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
+"Kalender weken met maandag als eerste dag. Huidige week niet meegerekend."
 
 #: qt/manageprofiles/tab_remove_retention.py:281
 msgid "12 months periods. Current month is ignored."
-msgstr ""
+msgstr "12 maandsperiode, huidige maand niet meegerekend."
 
 #: qt/manageprofiles/tab_remove_retention.py:296
 msgid "Retention policy"
-msgstr ""
+msgstr "Bewaar beleid"
 
 #: qt/manageprofiles/tab_remove_retention.py:301
 msgid "Run in background on remote host."
@@ -2055,14 +2062,17 @@ msgid ""
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
 "and available on the remote machine."
 msgstr ""
+"De slimme verwijder procedure wordt op de externe host uitgevoerd, niet "
+"lokaal. De commando's \"bash\", \"screen\" en \"flock\" moeten op de externe"
+" host geïnstalleerd en beschikbaar zijn."
 
 #: qt/manageprofiles/tab_remove_retention.py:308
 msgid "If selected, Back In Time will first test the remote machine."
-msgstr ""
+msgstr "Indien geselecteerd, zal \"Back in Time\" eerst de externe host testen."
 
 #: qt/manageprofiles/tab_remove_retention.py:312
 msgid "The days are counted starting from today."
-msgstr ""
+msgstr "Het aantal dagen wordt geteld vanaf vandaag."
 
 #: qt/manageprofiles/tab_remove_retention.py:313
 #, fuzzy

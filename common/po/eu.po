@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-07-01 16:44+0200\n"
-"PO-Revision-Date: 2025-06-14 14:59+0000\n"
+"PO-Revision-Date: 2025-07-27 08:46+0000\n"
 "Last-Translator: alexgabi <alexgabi@noreply.codeberg.org>\n"
 "Language-Team: Basque <https://translate.codeberg.org/projects/backintime/common/eu/>\n"
 "Language: eu\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.11.4\n"
+"X-Generator: Weblate 5.12.2\n"
 
 #: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:92
@@ -105,12 +105,17 @@ msgid ""
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
 " space falls below\" ({val_two})."
 msgstr ""
+"\"Kendu babeskopiarik zaharrena, leku librea hau baino txikiagoa bada\" "
+"({val_one}) balioak \"Abisatu diskoko leku librea behera badoa\" ({val_two})"
+" atalasea baino txikiagoa edo berdina izan behar du."
 
 #: common/config.py:385
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr ""
+"Mesedez, doitu ezarpenak babeskopia ezabatzeko muga abisu-muga baino "
+"handiagoa izan ez dadin."
 
 #: common/config.py:1515
 #, python-brace-format
@@ -237,6 +242,8 @@ msgid ""
 "The following entries from the include list have no corresponding file or "
 "directory in the backup source:"
 msgstr ""
+"Zerrendako sarrera hauek ez dute dagokien fitxategi edo direktoriorik "
+"babeskopiaren iturburuan:"
 
 #: common/snapshots.py:811
 msgid "Deferring backup while on battery"
@@ -594,7 +601,7 @@ msgstr ""
 
 #: qt/app.py:371
 msgid "Then press OK."
-msgstr ""
+msgstr "Ondoren, sakatu Ados."
 
 #: qt/app.py:481
 msgid "Create a backup"
@@ -654,7 +661,7 @@ msgstr "Ikusi babeskopiaren erregistroa"
 
 #: qt/app.py:522
 msgid "View log of the latest backup."
-msgstr ""
+msgstr "Ikusi azken babeskopiaren erregistroa."
 
 #: qt/app.py:524
 msgid "Manage profiles…"
@@ -890,6 +897,8 @@ msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr ""
+"Helmugan libre dagoen {free}-ko lekua soilik, konfiguratutako {threshold}-ko"
+" atalasearen azpitik dagoena."
 
 #: qt/app.py:1391
 #, fuzzy
@@ -1084,7 +1093,7 @@ msgstr ""
 #: qt/editusercallback.py:43
 #, python-brace-format
 msgid "User-callback: \"{filename}\""
-msgstr ""
+msgstr "Erabiltzaile-deia itzultzea: \"{filename}\""
 
 #: qt/editusercallback.py:105
 #, python-brace-format
@@ -1092,6 +1101,8 @@ msgid ""
 "The user-callback script must include a shebang on the first line (e.g. "
 "{example})."
 msgstr ""
+"Erabiltzailearen deia itzultzeko script-ak shebang bat (#!) izan behar du "
+"lehen lerroan (adib. {example})."
 
 #: qt/encfsmsgbox.py:42 qt/encfsmsgbox.py:68
 #: qt/manageprofiles/tab_general.py:561
@@ -1454,7 +1465,7 @@ msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:63
 msgid "<Select another file…>"
-msgstr ""
+msgstr "<Hautatu beste fitxategia...>"
 
 #: qt/manageprofiles/sshkeyselector.py:64
 #, fuzzy
@@ -1465,7 +1476,7 @@ msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:70
 msgid "<Generate new key-pair…>"
-msgstr ""
+msgstr "<Sortu gako-pare berria...>"
 
 #: qt/manageprofiles/sshkeyselector.py:71
 #, fuzzy
@@ -1492,6 +1503,8 @@ msgid ""
 "Leaves the key file unselected. SSH connections will rely on the system’s "
 "existing client configuration (e.g., ~/.ssh/config)."
 msgstr ""
+"Gako-fitxategia hautatu gabe uzten du. SSH konexioak sisteman lehendik "
+"dagoen bezeroaren konfigurazioan oinarrituko dira (adibidez, ~/.ssh/config)."
 
 #: qt/manageprofiles/sshproxywidget.py:47
 msgid "SSH Proxy"
@@ -1841,6 +1854,8 @@ msgid ""
 "The selected file {path} appears to be a public SSH key. Please select a "
 "private file (without a \".pub\" extension)."
 msgstr ""
+"Hautatutako fitxategia {path} ematen du SSH gako publiko bat dela. Mesedez "
+"hautatu fitxategi pribatu bat (.pub luzapenik gabe)."
 
 #: qt/manageprofiles/tab_general.py:635
 #, fuzzy
@@ -1852,6 +1867,8 @@ msgstr "SSH giltz pribatu"
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
+"{path} fitxategia lehendik badago. Ezin da sortu SSL gako berri bat izen "
+"horrekin."
 
 #: qt/manageprofiles/tab_general.py:658
 #, python-brace-format
@@ -1916,13 +1933,15 @@ msgstr "Egin babeskopia berria aldaketarik izan ote den kontuan izan gabe."
 
 #: qt/manageprofiles/tab_options.py:92
 msgid "Warn if the free disk space falls below"
-msgstr ""
+msgstr "Abisatu diskoaren toki librea honen azpitik jaisten bada"
 
 #: qt/manageprofiles/tab_options.py:98
 msgid ""
 "Shows a warning when free space on the backup destination disk is less than "
 "the specified value."
 msgstr ""
+"Erakusten du abisu bat babeskopiaren helmuga diskoaren toki librea "
+"zehaztutako balioa baino txikiagoa bada."
 
 #: qt/manageprofiles/tab_options.py:100
 msgid ""
@@ -1930,6 +1949,9 @@ msgid ""
 "based on available free space, this value cannot be lower than the value set"
 " in the policy."
 msgstr ""
+"Baldin eta Kentzeko eta Mantentzeko politika gaitua badago eta babeskopia "
+"zaharrak dagoen toki librearen arabera kentzen badira, balio hori ezin da "
+"izan politikan ezarritako balioa baino baxuagoa."
 
 #: qt/manageprofiles/tab_options.py:118
 msgid "Log Level:"

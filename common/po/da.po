@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-07-01 16:44+0200\n"
-"PO-Revision-Date: 2025-06-16 10:37+0000\n"
+"PO-Revision-Date: 2025-07-04 08:26+0000\n"
 "Last-Translator: asjo <asjo@noreply.codeberg.org>\n"
 "Language-Team: Danish <https://translate.codeberg.org/projects/backintime/common/da/>\n"
 "Language: da\n"
@@ -105,17 +105,22 @@ msgid ""
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
 " space falls below\" ({val_two})."
 msgstr ""
+"Værdien for \"Slet ældste tilstandsbillede hvis ledig plads er mindre end\" "
+"({val_one}) skal være mindre end eller lig med grænsen for \"Advar hvis "
+"ledig plads falder under\" ({val_two})."
 
 #: common/config.py:385
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr ""
+"Juster venligst indstillingen så tilstandsbilledesletningsgrænsen ikke er "
+"højere end advarselsgrænsen."
 
 #: common/config.py:1515
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
-msgstr "Metoden udev virker ikke med indstilling {mode}"
+msgstr "Udev-planlægning virker ikke med indstilling {mode}"
 
 #: common/config.py:1569
 msgid "Failed to write new crontab."
@@ -131,8 +136,8 @@ msgid ""
 msgstr ""
 "Cron kører ikke, selvom crontab-kommandoen er tilgængelig. Planlagte backup-"
 "job vil ikke blive kørt. Cron kan være installeret, men ikke aktiveret. Prøv"
-" kommandoen “systemctl enable cron” og \"systemctl start cron\" eller "
-"kontakt supportkanalerne for din GNU/Linux-distribution for hjælp."
+" kommandoerne “systemctl enable cron” og \"systemctl start cron\" eller "
+"kontakt hjælpekanalerne for din GNU/Linux-distribution for hjælp."
 
 #: common/configfile.py:101
 msgid "Failed to save config"
@@ -169,14 +174,12 @@ msgid "Cancel"
 msgstr "Annullér"
 
 #: common/encfstools.py:149
-#, fuzzy
 msgid "Please re-enter the EncFS password to confirm."
-msgstr "Indtast venligst et kodeord for \"{user}\"."
+msgstr "Genindtast venligst EncFS-kodeordet for at bekræfte."
 
 #: common/encfstools.py:155
-#, fuzzy
 msgid "The EncFS passwords do not match."
-msgstr "Kodeord passer ikke."
+msgstr "EncFS-kodeordet passer ikke."
 
 #: common/encfstools.py:515 common/snapshots.py:1123
 msgid "Take snapshot"
@@ -1064,7 +1067,7 @@ msgstr "Sprogopsætningen ændres først efter genstart af Back In Time."
 #: qt/editusercallback.py:43
 #, python-brace-format
 msgid "User-callback: \"{filename}\""
-msgstr ""
+msgstr "Bruger-kode: \"{filename}\""
 
 #: qt/editusercallback.py:105
 #, python-brace-format
@@ -1072,6 +1075,8 @@ msgid ""
 "The user-callback script must include a shebang on the first line (e.g. "
 "{example})."
 msgstr ""
+"Bruger-kode scriptet skal have en shebang på den første linje (for eksempel "
+"{example})."
 
 #: qt/encfsmsgbox.py:42 qt/encfsmsgbox.py:68
 #: qt/manageprofiles/tab_general.py:561
@@ -1140,9 +1145,8 @@ msgid "Your Back In Time Team"
 msgstr "Dit Back In Time Hold"
 
 #: qt/filedialog.py:87
-#, fuzzy
 msgid "Show/hide hidden files and directories (Ctrl+H)"
-msgstr "Inkludér filer og mapper"
+msgstr "Vis/skjul skjulte filer og mapper (Ctrl+H)"
 
 #: qt/languagedialog.py:35
 msgid "Setup language"
@@ -1433,44 +1437,40 @@ msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:63
 msgid "<Select another file…>"
-msgstr ""
+msgstr "<Vælg en anden fil...>"
 
 #: qt/manageprofiles/sshkeyselector.py:64
-#, fuzzy
 msgid "Choose an existing private key file from somewhere else."
-msgstr ""
-"Vælg en eksisterende privat nøgle-fil (normalt navngivet \"id_ed25519\" og i"
-" ældre opsætninger \"id_rsa\")."
+msgstr "Vælg en eksisterende privat nøgle-fil andetsteds fra."
 
 #: qt/manageprofiles/sshkeyselector.py:70
 msgid "<Generate new key-pair…>"
-msgstr ""
+msgstr "<Generér nyt nøgle-par...>"
 
 #: qt/manageprofiles/sshkeyselector.py:71
-#, fuzzy
 msgid "Create a new SSH key without passphrase."
-msgstr "Oprettelsen af ny SSH nøgle i {path} mislykkedes."
+msgstr "Opret en ny SSH-nøgle uden kodeord."
 
 #: qt/manageprofiles/sshkeyselector.py:91
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Full path: {path}"
-msgstr "Fuld sti til tilstandsbilleder:"
+msgstr "Fuld sti: {path}"
 
 #: qt/manageprofiles/sshkeyselector.py:185
-#, fuzzy
 msgid "Private key:"
-msgstr "Privat SSH nøgle:"
+msgstr "Privat nøgle:"
 
 #: qt/manageprofiles/sshkeyselector.py:190
-#, fuzzy
 msgid "Use system SSH configuration"
-msgstr "Importeer konfiguration"
+msgstr "Brug systemets SSH-opsætning"
 
 #: qt/manageprofiles/sshkeyselector.py:192
 msgid ""
 "Leaves the key file unselected. SSH connections will rely on the system’s "
 "existing client configuration (e.g., ~/.ssh/config)."
 msgstr ""
+"Efterlader nøglefilens værdi tom. SSH-forbindelser vil benytte systemets "
+"eksisterende klient-opsætning (det vil sige ~/.ssh/config)."
 
 #: qt/manageprofiles/sshproxywidget.py:47
 msgid "SSH Proxy"
@@ -1518,14 +1518,12 @@ msgid "Exclude patterns, files or directories"
 msgstr "Ekskludéringmønstre, filer eller mapper"
 
 #: qt/manageprofiles/tab_exclude.py:101 qt/manageprofiles/tab_include.py:67
-#, fuzzy
 msgid "Add files"
-msgstr "Tilføj fil"
+msgstr "Tilføj filer"
 
 #: qt/manageprofiles/tab_exclude.py:106 qt/manageprofiles/tab_include.py:72
-#, fuzzy
 msgid "Add directories"
-msgstr "Tilføj mappe"
+msgstr "Tilføj mapper"
 
 #: qt/manageprofiles/tab_exclude.py:111
 msgid "Add default"
@@ -1570,14 +1568,12 @@ msgid "Exclude pattern"
 msgstr "Ekskludér mønster"
 
 #: qt/manageprofiles/tab_exclude.py:276
-#, fuzzy
 msgid "Exclude files"
-msgstr "Ekskludér fil"
+msgstr "Ekskludér filer"
 
 #: qt/manageprofiles/tab_exclude.py:282
-#, fuzzy
 msgid "Exclude directories"
-msgstr "Ekskludér mappe"
+msgstr "Ekskludér mapper"
 
 #: qt/manageprofiles/tab_exclude.py:313
 msgid ""
@@ -1759,9 +1755,8 @@ msgid "Path:"
 msgstr "Sti:"
 
 #: qt/manageprofiles/tab_general.py:139
-#, fuzzy
 msgid "Key file:"
-msgstr "Ny profil"
+msgstr "Nøglefil:"
 
 #: qt/manageprofiles/tab_general.py:173 qt/manageprofiles/tab_general.py:181
 #: qt/manageprofiles/tab_general.py:186
@@ -1816,17 +1811,19 @@ msgid ""
 "The selected file {path} appears to be a public SSH key. Please select a "
 "private file (without a \".pub\" extension)."
 msgstr ""
+"Det valgte fil {path} ser ud til at være en offentlig SSH-nøgle. Vælg "
+"venligst i stedet en private nøglefil (uden \".pub\" til sidst)."
 
 #: qt/manageprofiles/tab_general.py:635
-#, fuzzy
 msgid "Not a private key"
-msgstr "SSH privat nøgle"
+msgstr "Ikke en privat nøgle"
 
 #: qt/manageprofiles/tab_general.py:647
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
+"Filen {path} findes i forvejen. Kan ikke lave en ny SSH-nøgle med det navn."
 
 #: qt/manageprofiles/tab_general.py:658
 #, python-brace-format
@@ -1838,14 +1835,12 @@ msgid "Include files and directories"
 msgstr "Inkludér filer og mapper"
 
 #: qt/manageprofiles/tab_include.py:147
-#, fuzzy
 msgid "Include files"
-msgstr "Inkludér fil"
+msgstr "Inkludér filer"
 
 #: qt/manageprofiles/tab_include.py:163
-#, fuzzy
 msgid "Include directories"
-msgstr "Inkludér mappe"
+msgstr "Inkludér mapper"
 
 #: qt/manageprofiles/tab_options.py:37
 msgid "Enable notifications"

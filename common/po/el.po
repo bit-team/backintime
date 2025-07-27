@@ -15,17 +15,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-07-01 16:44+0200\n"
-"PO-Revision-Date: 2025-05-08 07:24+0000\n"
-"Last-Translator: GiannosOB <giannosob@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-07-02 07:49+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Greek <https://translate.codeberg.org/projects/backintime/common/el/>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.2\n"
+"X-Generator: Weblate 5.11.4\n"
 
 #: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:92
@@ -107,12 +107,18 @@ msgid ""
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
 " space falls below\" ({val_two})."
 msgstr ""
+"Η τιμή για την επιλογή \"Κατάργηση του παλαιότερου αντιγράφου ασφαλείας εάν "
+"ο ελεύθερος χώρος είναι μικρότερος από\" ({val_one}) πρέπει να είναι "
+"μικρότερη ή ίση με το όριο για την επιλογή \"Προειδοποίηση εάν ο ελεύθερος "
+"χώρος στο δίσκο πέσει κάτω από\" ({val_two})."
 
 #: common/config.py:385
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr ""
+"Παρακαλώ προσαρμόστε τις ρυθμίσεις έτσι ώστε το όριο κατάργησης αντιγράφων "
+"ασφαλείας να μην είναι υψηλότερο από το όριο προειδοποίησης."
 
 #: common/config.py:1515
 #, python-brace-format
@@ -121,7 +127,7 @@ msgstr "Ο χρονοπρογραμματισμός με Udev δεν δουλε�
 
 #: common/config.py:1569
 msgid "Failed to write new crontab."
-msgstr "Αποτυχία εγγραφής καινούργιου crontab."
+msgstr "Αποτυχία εγγραφής νέου crontab."
 
 #: common/config.py:1577
 msgid ""
@@ -173,14 +179,12 @@ msgid "Cancel"
 msgstr "Ακύρωση"
 
 #: common/encfstools.py:149
-#, fuzzy
 msgid "Please re-enter the EncFS password to confirm."
-msgstr "Παρακαλώ επιβεβαιώστε τον κωδικό του \"{user}\"."
+msgstr "Παρακαλώ εισάγετε ξανά τον κωδικό πρόσβασης EncFS για επιβεβαίωση."
 
 #: common/encfstools.py:155
-#, fuzzy
 msgid "The EncFS passwords do not match."
-msgstr "Ο κωδικός δεν ταιριάζει."
+msgstr "Οι κωδικοί πρόσβασης του EncFS δεν ταιριάζουν."
 
 #: common/encfstools.py:515 common/snapshots.py:1123
 msgid "Take snapshot"
@@ -240,6 +244,8 @@ msgid ""
 "The following entries from the include list have no corresponding file or "
 "directory in the backup source:"
 msgstr ""
+"Οι ακόλουθες καταχωρήσεις από τη λίστα συμπερίληψης δεν έχουν αντίστοιχο "
+"αρχείο ή κατάλογο στην πηγή αντιγράφων ασφαλείας:"
 
 #: common/snapshots.py:811
 msgid "Deferring backup while on battery"
@@ -612,7 +618,7 @@ msgstr ""
 
 #: qt/app.py:371
 msgid "Then press OK."
-msgstr ""
+msgstr "Στη συνέχεια, πατήστε OK."
 
 #: qt/app.py:481
 msgid "Create a backup"
@@ -655,23 +661,20 @@ msgid "Remove backup"
 msgstr "Κατάργηση αντιγράφου ασφαλείας"
 
 #: qt/app.py:516
-#, fuzzy
 msgid "Open backup log"
-msgstr "Εμφάνιση αρχείου καταγραφής αντιγράφων ασφαλείας"
+msgstr "Άνοιγμα αρχείου καταγραφής αντιγράφων ασφαλείας"
 
 #: qt/app.py:518
-#, fuzzy
 msgid "View log of the selected backup."
-msgstr "Πρέπει να επιλεχτεί τουλάχιστον ένας φάκελος για αντίγραφα ασφαλείας."
+msgstr "Προβολή αρχείου καταγραφής του επιλεγμένου αντιγράφου ασφαλείας."
 
 #: qt/app.py:520
-#, fuzzy
 msgid "Open last backup log"
-msgstr "Εμφάνιση αρχείου καταγραφής αντιγράφων ασφαλείας"
+msgstr "Άνοιγμα αρχείου καταγραφής τελευταίου αντιγράφου ασφαλείας"
 
 #: qt/app.py:522
 msgid "View log of the latest backup."
-msgstr ""
+msgstr "Δείτε το αρχείο καταγραφής του τελευταίου αντιγράφου ασφαλείας."
 
 #: qt/app.py:524
 msgid "Manage profiles…"
@@ -909,11 +912,12 @@ msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr ""
+"Μόνο {free} ελεύθερος χώρος διαθέσιμος στον προορισμό, ο οποίος είναι κάτω "
+"από το διαμορφωμένο όριο {threshold}."
 
 #: qt/app.py:1391
-#, fuzzy
 msgid "Proceed with the backup?"
-msgstr "Κατάργηση αυτού του αντιγράφου ασφαλείας;"
+msgstr "Συνέχεια με τη δημιουργία αντιγράφων ασφαλείας;"
 
 #: qt/app.py:1424
 msgid "Backup name"
@@ -1107,7 +1111,7 @@ msgstr ""
 #: qt/editusercallback.py:43
 #, python-brace-format
 msgid "User-callback: \"{filename}\""
-msgstr ""
+msgstr "User-callback: \"{filename}\""
 
 #: qt/editusercallback.py:105
 #, python-brace-format
@@ -1115,6 +1119,8 @@ msgid ""
 "The user-callback script must include a shebang on the first line (e.g. "
 "{example})."
 msgstr ""
+"Το σενάριο επανάκλησης χρήστη πρέπει να περιλαμβάνει ένα shebang στην πρώτη "
+"γραμμή (π.χ. {example})."
 
 #: qt/encfsmsgbox.py:42 qt/encfsmsgbox.py:68
 #: qt/manageprofiles/tab_general.py:561
@@ -1183,9 +1189,8 @@ msgid "Your Back In Time Team"
 msgstr "Η δική σου ομάδα του Your Back In Time"
 
 #: qt/filedialog.py:87
-#, fuzzy
 msgid "Show/hide hidden files and directories (Ctrl+H)"
-msgstr "Συμπεριλαμβάνει αρχεία και καταλόγους"
+msgstr "Εμφάνιση/απόκρυψη κρυφών αρχείων και καταλόγων (Ctrl+H)"
 
 #: qt/languagedialog.py:35
 msgid "Setup language"
@@ -1479,44 +1484,41 @@ msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:63
 msgid "<Select another file…>"
-msgstr ""
+msgstr "<Επιλέξτε άλλο αρχείο…>"
 
 #: qt/manageprofiles/sshkeyselector.py:64
-#, fuzzy
 msgid "Choose an existing private key file from somewhere else."
-msgstr ""
-"Διάλεξε ένα υπάρχων αρχείο ιδιωτικού κλειδιού (συνήθως ονομάζεται "
-"\"id_ed25519 και σε παλαιότερες εγκαταστάσεις \"id_rsa\")."
+msgstr "Επιλέξτε ένα υπάρχον αρχείο ιδιωτικού κλειδιού από κάπου αλλού."
 
 #: qt/manageprofiles/sshkeyselector.py:70
 msgid "<Generate new key-pair…>"
-msgstr ""
+msgstr "<Δημιουργία νέου ζεύγους κλειδιών…>"
 
 #: qt/manageprofiles/sshkeyselector.py:71
-#, fuzzy
 msgid "Create a new SSH key without passphrase."
-msgstr "Αποτυχία δημιουργίας νέου κλειδιού SSH στο {path}."
+msgstr "Δημιουργήστε ένα νέο κλειδί SSH χωρίς φράση πρόσβασης."
 
 #: qt/manageprofiles/sshkeyselector.py:91
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Full path: {path}"
-msgstr "Πλήρης διαδρομή δημιουργίας αντιγράφων ασφαλείας:"
+msgstr "Πλήρης διαδρομή: {path}"
 
 #: qt/manageprofiles/sshkeyselector.py:185
-#, fuzzy
 msgid "Private key:"
 msgstr "Ιδιωτικό κλειδί:"
 
 #: qt/manageprofiles/sshkeyselector.py:190
-#, fuzzy
 msgid "Use system SSH configuration"
-msgstr "Εισαγωγή διαμόρφωσης"
+msgstr "Χρήση διαμόρφωσης SSH συστήματος"
 
 #: qt/manageprofiles/sshkeyselector.py:192
 msgid ""
 "Leaves the key file unselected. SSH connections will rely on the system’s "
 "existing client configuration (e.g., ~/.ssh/config)."
 msgstr ""
+"Αφήνει το αρχείο κλειδιού μη επιλεγμένο. Οι συνδέσεις SSH θα βασίζονται στην"
+" υπάρχουσα διαμόρφωση προγράμματος-πελάτη του συστήματος (π.χ., "
+"~/.ssh/config)."
 
 #: qt/manageprofiles/sshproxywidget.py:47
 msgid "SSH Proxy"
@@ -1566,14 +1568,12 @@ msgid "Exclude patterns, files or directories"
 msgstr "Εξαιρέστε μοτίβα, αρχεία ή καταλόγους"
 
 #: qt/manageprofiles/tab_exclude.py:101 qt/manageprofiles/tab_include.py:67
-#, fuzzy
 msgid "Add files"
-msgstr "Πρόσθεσε αρχείο"
+msgstr "Προσθήκη αρχείων"
 
 #: qt/manageprofiles/tab_exclude.py:106 qt/manageprofiles/tab_include.py:72
-#, fuzzy
 msgid "Add directories"
-msgstr "Προσθήκη καταλόγου"
+msgstr "Προσθήκη καταλόγων"
 
 #: qt/manageprofiles/tab_exclude.py:111
 msgid "Add default"
@@ -1619,14 +1619,12 @@ msgid "Exclude pattern"
 msgstr "Εξαίρεσε μοτίβο"
 
 #: qt/manageprofiles/tab_exclude.py:276
-#, fuzzy
 msgid "Exclude files"
-msgstr "Εξαίρεση αρχείου"
+msgstr "Εξαίρεση αρχείων"
 
 #: qt/manageprofiles/tab_exclude.py:282
-#, fuzzy
 msgid "Exclude directories"
-msgstr "Εξαίρεση καταλόγου"
+msgstr "Εξαίρεση καταλόγων"
 
 #: qt/manageprofiles/tab_exclude.py:313
 msgid ""
@@ -1816,9 +1814,8 @@ msgid "Path:"
 msgstr "Διαδρομή:"
 
 #: qt/manageprofiles/tab_general.py:139
-#, fuzzy
 msgid "Key file:"
-msgstr "Νέο προφίλ"
+msgstr "Αρχείο κλειδιού:"
 
 #: qt/manageprofiles/tab_general.py:173 qt/manageprofiles/tab_general.py:181
 #: qt/manageprofiles/tab_general.py:186
@@ -1877,17 +1874,20 @@ msgid ""
 "The selected file {path} appears to be a public SSH key. Please select a "
 "private file (without a \".pub\" extension)."
 msgstr ""
+"Το επιλεγμένο αρχείο {path} φαίνεται να είναι ένα δημόσιο κλειδί SSH. "
+"Επιλέξτε ένα ιδιωτικό αρχείο (χωρίς επέκταση \".pub\")."
 
 #: qt/manageprofiles/tab_general.py:635
-#, fuzzy
 msgid "Not a private key"
-msgstr "SSH ιδιωτικό κλειδί"
+msgstr "Δεν είναι ιδιωτικό κλειδί"
 
 #: qt/manageprofiles/tab_general.py:647
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
+"Το αρχείο {path} υπάρχει ήδη. Δεν είναι δυνατή η δημιουργία νέου κλειδιού "
+"SSH με αυτό το όνομα."
 
 #: qt/manageprofiles/tab_general.py:658
 #, python-brace-format
@@ -1899,14 +1899,12 @@ msgid "Include files and directories"
 msgstr "Συμπεριλαμβάνει αρχεία και καταλόγους"
 
 #: qt/manageprofiles/tab_include.py:147
-#, fuzzy
 msgid "Include files"
-msgstr "Συμπερίληψη αρχείου"
+msgstr "Συμπερίληψη αρχείων"
 
 #: qt/manageprofiles/tab_include.py:163
-#, fuzzy
 msgid "Include directories"
-msgstr "Συμπερίληψη καταλόγου"
+msgstr "Συμπερίληψη καταλόγων"
 
 #: qt/manageprofiles/tab_options.py:37
 msgid "Enable notifications"
@@ -1956,13 +1954,15 @@ msgstr ""
 
 #: qt/manageprofiles/tab_options.py:92
 msgid "Warn if the free disk space falls below"
-msgstr ""
+msgstr "Προειδοποίηση εάν ο ελεύθερος χώρος στο δίσκο πέσει κάτω από"
 
 #: qt/manageprofiles/tab_options.py:98
 msgid ""
 "Shows a warning when free space on the backup destination disk is less than "
 "the specified value."
 msgstr ""
+"Εμφανίζει μια προειδοποίηση όταν ο ελεύθερος χώρος στον δίσκο προορισμού "
+"αντιγράφων ασφαλείας είναι μικρότερος από την καθορισμένη τιμή."
 
 #: qt/manageprofiles/tab_options.py:100
 msgid ""
@@ -1970,6 +1970,10 @@ msgid ""
 "based on available free space, this value cannot be lower than the value set"
 " in the policy."
 msgstr ""
+"Εάν η πολιτική Κατάργηση & Διατήρηση είναι ενεργοποιημένη και τα παλιά "
+"αντίγραφα ασφαλείας καταργούνται με βάση τον διαθέσιμο ελεύθερο χώρο, αυτή η"
+" τιμή δεν μπορεί να είναι χαμηλότερη από την τιμή που έχει οριστεί στην "
+"πολιτική."
 
 #: qt/manageprofiles/tab_options.py:118
 msgid "Log Level:"

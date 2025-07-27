@@ -15,17 +15,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-07-01 16:44+0200\n"
-"PO-Revision-Date: 2025-07-01 05:58+0000\n"
-"Last-Translator: lann <lann@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-07-08 10:23+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: French <https://translate.codeberg.org/projects/backintime/common/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.11.4\n"
+"X-Generator: Weblate 5.12.2\n"
 
 #: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:92
@@ -109,15 +109,15 @@ msgid ""
 msgstr ""
 "La valeur pour \"Supprimer l'ancienne sauvegarde si l'espace libre est "
 "inférieur à\" ({val_one}) doit être inférieure ou égale au seuil de "
-"\"Attention si l'espace libre du disque est inférieur à\" ({val_two})."
+"\"Avertir si l'espace libre du disque est inférieur à\" ({val_two})."
 
 #: common/config.py:385
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr ""
-"S'il vous plaît, ajuster les paramètres pour que la limite de suppression de"
-" la sauvegarde ne soit pas supérieure à limite d'alerte."
+"Merci d'ajuster les paramètres pour que la limite de suppression de la "
+"sauvegarde ne soit pas supérieure à limite d'alerte."
 
 #: common/config.py:1515
 #, python-brace-format
@@ -138,8 +138,9 @@ msgid ""
 msgstr ""
 "Cron n'est pas lancé, alors que la commande crontab est pourtant disponible."
 " Les sauvegardes planifiées ne seront pas exécutées. Il se pourrait que Cron"
-" soit installé mais pas activé. Essayez la commande \"systemctl enable "
-"cron\" ou consultez les canaux de support de votre distribution GNU Linux."
+" soit installé mais pas activé. Essayez les commandes \"systemctl enable "
+"cron\" et \"systemctl start cron\", ou contactez le support de votre "
+"distribution GNU/Linux pour obtenir de l'aide."
 
 #: common/configfile.py:101
 msgid "Failed to save config"
@@ -176,14 +177,12 @@ msgid "Cancel"
 msgstr "Annuler"
 
 #: common/encfstools.py:149
-#, fuzzy
 msgid "Please re-enter the EncFS password to confirm."
-msgstr "Veuillez entrer un mot de passe pour \"{user}\"."
+msgstr "Merci d'entrer à nouveau le mot de passe EncFS pour confirmation."
 
 #: common/encfstools.py:155
-#, fuzzy
 msgid "The EncFS passwords do not match."
-msgstr "Le mot de passe ne correspond pas."
+msgstr "Les mots de passe EncFS ne correspondent pas."
 
 #: common/encfstools.py:515 common/snapshots.py:1123
 msgid "Take snapshot"
@@ -675,7 +674,7 @@ msgstr "Gérer les profils…"
 
 #: qt/app.py:528
 msgid "Edit user-callback"
-msgstr "Éditer le script de rappel (callback)"
+msgstr "Éditer le script de rappel utilisateur (user-callback)"
 
 #: qt/app.py:532
 msgid "Shutdown"
@@ -1114,6 +1113,8 @@ msgid ""
 "The user-callback script must include a shebang on the first line (e.g. "
 "{example})."
 msgstr ""
+"Le script de rappel utilisateur (user-callback) doit contenir un shebang sur"
+" la première ligne (e.g. {example})."
 
 #: qt/encfsmsgbox.py:42 qt/encfsmsgbox.py:68
 #: qt/manageprofiles/tab_general.py:561
@@ -1185,9 +1186,8 @@ msgid "Your Back In Time Team"
 msgstr "Votre équipe Back In Time"
 
 #: qt/filedialog.py:87
-#, fuzzy
 msgid "Show/hide hidden files and directories (Ctrl+H)"
-msgstr "Inclure les fichiers et répertoires"
+msgstr "Afficher/masquer les fichiers et répertoires cachés (Ctrl+H)"
 
 #: qt/languagedialog.py:35
 msgid "Setup language"
@@ -1484,41 +1484,38 @@ msgid "<Select another file…>"
 msgstr "<Sélectionner un autre fichier …>"
 
 #: qt/manageprofiles/sshkeyselector.py:64
-#, fuzzy
 msgid "Choose an existing private key file from somewhere else."
 msgstr ""
-"Choisissez un fichier de clé privée (normalement nommé \"id_ed25519\", ou "
-"\"id_rsa\" pour de vieilles configurations)."
+"Choisissez un fichier de clé privée existant depuis un autre emplacement."
 
 #: qt/manageprofiles/sshkeyselector.py:70
 msgid "<Generate new key-pair…>"
 msgstr "<Générer une nouvelle paire de clés...>"
 
 #: qt/manageprofiles/sshkeyselector.py:71
-#, fuzzy
 msgid "Create a new SSH key without passphrase."
-msgstr "Échec de la création de la nouvelle clé SSH dans {path}."
+msgstr "Crée une nouvelle clé SSH sans phrase secrète (passphrase)."
 
 #: qt/manageprofiles/sshkeyselector.py:91
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Full path: {path}"
-msgstr "Chemin d'accès complet de la sauvegarde :"
+msgstr "Chemin d'accès complet  : {path}"
 
 #: qt/manageprofiles/sshkeyselector.py:185
-#, fuzzy
 msgid "Private key:"
 msgstr "Clé privée :"
 
 #: qt/manageprofiles/sshkeyselector.py:190
-#, fuzzy
 msgid "Use system SSH configuration"
-msgstr "Importer la configuration"
+msgstr "Utiliser la configuration SSH du système"
 
 #: qt/manageprofiles/sshkeyselector.py:192
 msgid ""
 "Leaves the key file unselected. SSH connections will rely on the system’s "
 "existing client configuration (e.g., ~/.ssh/config)."
 msgstr ""
+"Ne sélectionne pas de fichier clé. Les connexions SSH reposeront sur la "
+"configuration client existante du système (e.g., ~/.ssh/config)."
 
 #: qt/manageprofiles/sshproxywidget.py:47
 msgid "SSH Proxy"
@@ -1566,14 +1563,12 @@ msgid "Exclude patterns, files or directories"
 msgstr "Exclure les motifs, fichiers ou répertoires"
 
 #: qt/manageprofiles/tab_exclude.py:101 qt/manageprofiles/tab_include.py:67
-#, fuzzy
 msgid "Add files"
-msgstr "Ajouter un fichier"
+msgstr "Ajouter des fichiers"
 
 #: qt/manageprofiles/tab_exclude.py:106 qt/manageprofiles/tab_include.py:72
-#, fuzzy
 msgid "Add directories"
-msgstr "Ajouter un répertoire"
+msgstr "Ajouter des répertoires"
 
 #: qt/manageprofiles/tab_exclude.py:111
 msgid "Add default"
@@ -1618,14 +1613,12 @@ msgid "Exclude pattern"
 msgstr "Exclure selon un modèle"
 
 #: qt/manageprofiles/tab_exclude.py:276
-#, fuzzy
 msgid "Exclude files"
-msgstr "Exclure un fichier"
+msgstr "Exclure des fichiers"
 
 #: qt/manageprofiles/tab_exclude.py:282
-#, fuzzy
 msgid "Exclude directories"
-msgstr "Exclure un répertoire"
+msgstr "Exclure des répertoires"
 
 #: qt/manageprofiles/tab_exclude.py:313
 msgid ""
@@ -1809,9 +1802,8 @@ msgid "Path:"
 msgstr "Chemin :"
 
 #: qt/manageprofiles/tab_general.py:139
-#, fuzzy
 msgid "Key file:"
-msgstr "Nouveau profil"
+msgstr "Fichier de clé :"
 
 #: qt/manageprofiles/tab_general.py:173 qt/manageprofiles/tab_general.py:181
 #: qt/manageprofiles/tab_general.py:186
@@ -1868,17 +1860,20 @@ msgid ""
 "The selected file {path} appears to be a public SSH key. Please select a "
 "private file (without a \".pub\" extension)."
 msgstr ""
+"Le fichier sélectionné {path} semble être une clé SSH publique. Merci de "
+"sélectionner un fichier privé (sans l'extension \".pub\")."
 
 #: qt/manageprofiles/tab_general.py:635
-#, fuzzy
 msgid "Not a private key"
-msgstr "Clé privée SSH"
+msgstr "Clé publique détectée"
 
 #: qt/manageprofiles/tab_general.py:647
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
+"Le fichier {path} existe déjà. Impossible de créer une nouvelle clé SSH avec"
+" ce nom."
 
 #: qt/manageprofiles/tab_general.py:658
 #, python-brace-format
@@ -1890,14 +1885,12 @@ msgid "Include files and directories"
 msgstr "Inclure les fichiers et répertoires"
 
 #: qt/manageprofiles/tab_include.py:147
-#, fuzzy
 msgid "Include files"
-msgstr "Inclure le fichier"
+msgstr "Inclure les fichiers"
 
 #: qt/manageprofiles/tab_include.py:163
-#, fuzzy
 msgid "Include directories"
-msgstr "Inclure un répertoire"
+msgstr "Inclure les répertoires"
 
 #: qt/manageprofiles/tab_options.py:37
 msgid "Enable notifications"
@@ -1944,9 +1937,8 @@ msgstr ""
 "Créer une nouvelle sauvegarde qu'il y ait eu des modifications ou non."
 
 #: qt/manageprofiles/tab_options.py:92
-#, fuzzy
 msgid "Warn if the free disk space falls below"
-msgstr "Avertir si l'espace disque libre est inférieur à"
+msgstr "Avertir si l'espace libre du disque est inférieur à"
 
 #: qt/manageprofiles/tab_options.py:98
 msgid ""
@@ -2037,7 +2029,7 @@ msgstr ""
 
 #: qt/manageprofiles/tab_remove_retention.py:281
 msgid "12 months periods. Current month is ignored."
-msgstr "Période de 12 mois, en ignorant le mois actuel ."
+msgstr "Période de 12 mois, en ignorant le mois actuel."
 
 #: qt/manageprofiles/tab_remove_retention.py:296
 msgid "Retention policy"

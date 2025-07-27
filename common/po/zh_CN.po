@@ -13,10 +13,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-07-01 16:44+0200\n"
-"PO-Revision-Date: 2025-07-01 14:43+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-07-02 07:49+0000\n"
+"Last-Translator: ktzhao <ktzhao@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -102,14 +102,13 @@ msgid ""
 "The value for \"Remove oldest backup if free space is less than\" "
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
 " space falls below\" ({val_two})."
-msgstr ""
-"“如果可用空间小于则删除最旧的备份”（{val_one}）的值必须小于或等于“如果可用磁盘空间低于则发出警告”（{val_two}）的阈值。"
+msgstr "“如果可用空间小于则移除最旧备份”的值（{val_one}）必须小于或等于“如果可用磁盘空间小于则发出警告”的阈值（{val_two}）。"
 
 #: common/config.py:385
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
-msgstr "请调整设置，使备份删除限制不高于警告限制。"
+msgstr "请调整设置，使备份移除限制不高于警告限制。"
 
 #: common/config.py:1515
 #, python-brace-format
@@ -1086,7 +1085,7 @@ msgstr "Back In Time团队"
 
 #: qt/filedialog.py:87
 msgid "Show/hide hidden files and directories (Ctrl+H)"
-msgstr "显示/隐藏文件和目录（Ctrl+H）"
+msgstr "显示/隐藏隐藏文件和目录（Ctrl+H）"
 
 #: qt/languagedialog.py:35
 msgid "Setup language"
@@ -1368,7 +1367,7 @@ msgstr "<选择另一个文件...>"
 
 #: qt/manageprofiles/sshkeyselector.py:64
 msgid "Choose an existing private key file from somewhere else."
-msgstr "从其他地方选择一个现有的私钥文件。"
+msgstr "从其他位置选择现有的私钥文件。"
 
 #: qt/manageprofiles/sshkeyselector.py:70
 msgid "<Generate new key-pair…>"
@@ -1711,12 +1710,11 @@ msgstr "是否确定要更改备份目录？"
 msgid ""
 "The selected file {path} appears to be a public SSH key. Please select a "
 "private file (without a \".pub\" extension)."
-msgstr "所选文件 {path} 似乎是 SSH 公共密钥。请选择一个私有文件（不带“.pub”扩展名）。"
+msgstr "所选文件 {path} 似乎是 SSH 公钥文件。请选择私钥文件（不带“.pub”扩展名）。"
 
 #: qt/manageprofiles/tab_general.py:635
-#, fuzzy
 msgid "Not a private key"
-msgstr "SSH 私钥"
+msgstr "非私钥"
 
 #: qt/manageprofiles/tab_general.py:647
 #, python-brace-format
