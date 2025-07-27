@@ -169,25 +169,26 @@ class ConfirmRestoreDialog(QDialog):
     @property
     def create_backup_copies(self) -> bool:
         """Create backup copies before overwriting/removing."""
-        return self._checkbox_backup.isChecked()
+        return self._checkbox_backup.checked
 
     @property
     def only_newer_or_not_existing(self) -> bool:
         """Restore only newer or not existing elements."""
-        return self._checkbox_only_new.isChecked()
+        return self._checkbox_only_new.checked
 
     @property
     def delete_newer(self) -> bool:
         """Remove newer elements in original folder."""
-        return self._checkbox_delete.isChecked()
+        return self._checkbox_delete.checked
 
     def get_values_as_dict(self) -> dict:
         """This is a workaround until more refactoring is done.
 
         This dict is handed to RestoreDialog to RestoreThread (see kwargs).
         """
+
         return {
             'backup': self.create_backup_copies,
             'only_new': self.only_newer_or_not_existing,
-            'delete': self.delete_newer
+            'delete': self.delete_newer,
         }

@@ -1434,7 +1434,7 @@ class MainWindow(QMainWindow):
 
         return messagebox.question(text=msg, widget_to_center_on=self)
 
-    def _restore_to_(self, paths: list[str]):
+    def _restore_to(self, paths: list[str]):
         with self.suspend_mouse_button_navigation():
             dir_dialog = FileDialog(
                 parent=self,
@@ -1461,6 +1461,7 @@ class MainWindow(QMainWindow):
             if not confirm_dlg.answer():
                 return
 
+            print(confirm_dlg.__dict__)
             opt = confirm_dlg.get_values_as_dict()
 
             if opt['delete'] \
