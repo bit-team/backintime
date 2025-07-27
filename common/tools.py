@@ -1142,21 +1142,6 @@ def is_Qt_working(systray_required=False):
         raise
 
 
-def preparePath(path):
-    """
-    Removes trailing slash '/' from ``path``.
-
-    Args:
-        path (str): absolute path
-
-    Returns:
-        str:        path ``path`` without trailing but with leading slash
-    """
-    path = path.strip("/")
-    path = os.sep + path
-    return path
-
-
 def powerStatusAvailable():
     """
     Check if org.freedesktop.UPower is available so that
