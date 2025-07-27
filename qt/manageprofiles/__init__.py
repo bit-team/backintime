@@ -366,7 +366,7 @@ class SettingsDialog(QDialog):
         self._restore_dims_and_coords(move=False)
 
     def restoreConfig(self, *_args):
-        RestoreConfigDialog(self).exec()
+        RestoreConfigDialog(self.config).exec()
         self.updateProfiles()
 
     def accept(self):

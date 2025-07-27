@@ -308,7 +308,7 @@ class MainWindow(QMainWindow):
             answer = messagebox.question(text=message)
 
             if answer:
-                RestoreConfigDialog(self.config, self.snapshots).exec()
+                RestoreConfigDialog(self.config).exec()
 
             SettingsDialog(self).exec()
 

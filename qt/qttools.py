@@ -176,6 +176,7 @@ def update_combo_profiles(config, combo_profiles, current_profile_id):
 def create_icon_label(
         icon_type: QStyle.StandardPixmap,
         icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
+        icon_scale_factor: float | int = None,
         fixed_size_widget: bool = False) -> QLabel:
     """Return a ``QLabel`` instance containing an icon.
 
@@ -191,6 +192,9 @@ def create_icon_label(
     ico = style.standardIcon(icon_type)
     sz = style.pixelMetric(icon_size)
 
+    if icon_scale_factor:
+        sz = int(sz * icon_scale_factor)
+
     pixmap = ico.pixmap(sz)
 
     label = QLabel()
@@ -204,6 +208,7 @@ def create_icon_label(
 
 def create_icon_label_info(
         icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
+        icon_scale_factor: float | int = None,
         fixed_size_widget: bool = False) -> QLabel:
     """Return a QLabel with an info icon.
 
@@ -212,11 +217,13 @@ def create_icon_label_info(
     return create_icon_label(
         icon_type=QStyle.StandardPixmap.SP_MessageBoxInformation,
         icon_size=icon_size,
+        icon_scale_factor=icon_scale_factor,
         fixed_size_widget=fixed_size_widget)
 
 
 def create_icon_label_warning(
         icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
+        icon_scale_factor: float | int = None,
         fixed_size_widget: bool = False) -> QLabel:
     """Return a QLabel with a warning icon.
 
@@ -225,6 +232,7 @@ def create_icon_label_warning(
     return create_icon_label(
         icon_type=QStyle.StandardPixmap.SP_MessageBoxWarning,
         icon_size=icon_size,
+        icon_scale_factor=icon_scale_factor,
         fixed_size_widget=fixed_size_widget)
 
 
