@@ -24,13 +24,13 @@ def restore(cfg, snapshot_id=None, what=None, where=None, **kwargs):
     if what is None:
         what = input('File to restore: ')
 
-    what = tools.preparePath(os.path.abspath(os.path.expanduser(what)))
+    what = os.path.abspath(os.path.expanduser(what))
 
     if where is None:
         where = input('Restore to (empty for original path): ')
 
     if where:
-        where = tools.preparePath(os.path.abspath(os.path.expanduser(where)))
+        where = os.path.abspath(os.path.expanduser(where))
 
     snapshotsList = snapshots.listSnapshots(cfg)
 

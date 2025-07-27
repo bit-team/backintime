@@ -27,7 +27,7 @@ themes_to_try = (
     'yaru',
     'oxygen'
 )
-icon_name_to_check = 'document-save'
+ICON_NAME_TO_CHECK = 'document-save'
 
 for theme in themes_to_try:
     # Check if the current theme does provide the BiT "logo" icon
@@ -36,8 +36,8 @@ for theme in themes_to_try:
     # Note: "hicolor" does currently (2022) use different icon names
     # (not fully compliant to the freedesktop.org spec)
     # and is not recommended as main theme (it is meant as fallback only).
-    if not QIcon.fromTheme(icon_name_to_check).isNull():
-        logger.debug(f'Icon "{icon_name_to_check}" found in '
+    if not QIcon.fromTheme(ICON_NAME_TO_CHECK).isNull():
+        logger.debug(f'Icon "{ICON_NAME_TO_CHECK}" found in '
                      'installed theme: {QIcon.themeName()}')
         break
 
@@ -46,7 +46,7 @@ for theme in themes_to_try:
     logger.debug(f'Probing theme: "{theme}" '
                  f'(activated as "{QIcon.themeName()}")')
 
-if QIcon.fromTheme(icon_name_to_check).isNull():
+if QIcon.fromTheme(ICON_NAME_TO_CHECK).isNull():
     logger.error('No supported theme installed (missing icons). '
                  'Please consult the project web site for instructions '
                  'how to fix this.')

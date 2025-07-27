@@ -49,7 +49,6 @@ import logger  # noqa: E402
 import bitbase  # noqa: E402
 import version  # noqa: E402
 import messagebox
-from filedialog import FileDialog
 
 
 # |--------------------------------|
@@ -268,7 +267,7 @@ class MouseButtonEventFilter(QObject):
 
         super().__init__()
 
-    def eventFilter(self, receiver, event):
+    def eventFilter(self, receiver: QObject, event: QEvent):
         """Catch global input events."""
 
         # not a mouse press event
@@ -359,71 +358,6 @@ def open_user_manual() -> None:
     opened.
     """
     open_url(user_manual_uri())
-
-
-def getExistingDirectories(parent, title):
-    """Workaround for selecting multiple directories adopted from
-    http://www.qtcentre.org/threads/34226-QFileDialog-select-multiple-directories?p=158482#post158482
-    This also give control about hidden folders
-    """
-
-    dlg = FileDialog(parent,
-                     title=title,
-                     show_hidden=True,
-                     allow_multiselection=True,
-                     dirs_only=True)
-    result = dlg.result()
-
-    if result:
-        return result
-    return [str(), ]
-
-
-def getExistingDirectory(parent, title, start_dir=None):
-    """Workaround to give control about hidden folders"""
-    dlg = FileDialog(parent,
-                     title=title,
-                     show_hidden=True,
-                     allow_multiselection=False,
-                     dirs_only=True,
-                     start_dir=start_dir)
-    result = dlg.result()
-
-    if result:
-        return str(result)
-
-    return str()
-
-
-def getOpenFileNames(parent, title):
-    """
-    Workaround to give control about hidden files
-    """
-    dlg = FileDialog(parent,
-                     title=title,
-                     show_hidden=True,
-                     allow_multiselection=True,
-                     dirs_only=False)
-    result = dlg.result()
-
-    if result:
-        return [str(r) for r in result]
-    return [str(), ]
-
-
-def getOpenFileName(parent, title, start_dir = None):
-    """Workaround to give control about hidden files"""
-    dlg = FileDialog(parent,
-                     title=title,
-                     show_hidden=True,
-                     allow_multiselection=False,
-                     dirs_only=False,
-                     start_dir=start_dir)
-    result = dlg.result()
-
-    if result:
-        return str(result)
-    return str()
 
 
 def _show_qt_debug_info(qapp):

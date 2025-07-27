@@ -43,6 +43,7 @@ import encfsmsgbox
 from inhibitsuspend import InhibitSuspend
 from exceptions import MountException
 from statedata import StateData
+from filedialog import FileDialog
 from PyQt6.QtGui import (QAction,
                          QActionGroup,
                          QDesktopServices,
@@ -909,6 +910,7 @@ class MainWindow(QMainWindow):
         else:
             state_data.mainwindow_coords = (self.x(), self.y())
             state_data.mainwindow_dims = (self.width(), self.height())
+
         state_data.mainwindow_main_splitter_widths = self.mainSplitter.sizes()
         state_data.mainwindow_second_splitter_widths \
             = self.secondSplitter.sizes()
@@ -967,7 +969,12 @@ class MainWindow(QMainWindow):
         profile_id = self.config.currentProfile()
         state_data = StateData()
         profile_state = state_data.profile(profile_id)
-        self.places.set_sorting(profile_state.places_sorting)
+        try:
+            sorting = profile_state.places_sorting
+        except KeyError:
+            pass
+        else:
+            self.places.set_sorting(sorting)
 
         # EncFS deprecation warning (see #1734)
         current_mode = self.config.snapshotsMode(profile_id)
@@ -993,14 +1000,19 @@ class MainWindow(QMainWindow):
         state_data = StateData()
 
         if profile_id != old_profile_id:
-            old_profile_state = state_data.profile[old_profile_id]
+            old_profile_state = state_data.profile(old_profile_id)
             old_profile_state.places_sorting = self.places.get_sorting()
 
             self.remount(profile_id, old_profile_id)
             self.config.setCurrentProfile(profile_id)
 
-            profile_state = state_data.profile[profile_id]
-            self.places.set_sorting(profile_state.places_sorting)
+            profile_state = state_data.profile(profile_id)
+            try:
+                sorting = profile_state.places_sorting
+            except KeyError:
+                pass
+            else:
+                self.places.set_sorting(sorting)
 
             self.config.setProfileStrValue(
                 'qt.last_path', self.path, old_profile_id)
@@ -1422,6 +1434,48 @@ class MainWindow(QMainWindow):
 
         return messagebox.question(text=msg, widget_to_center_on=self)
 
+    def _restore_to_(self, paths: list[str]):
+        with self.suspend_mouse_button_navigation():
+            dir_dialog = FileDialog(
+                parent=self,
+                title=_('Restore to …'),
+                show_hidden=True,
+                allow_multiselection=False,
+                dirs_only=True)
+
+            path_restore_to = dir_dialog.result()
+
+            if not path_restore_to:
+                return
+
+            path_restore_to = str(path_restore_to)
+
+            confirm_dlg = ConfirmRestoreDialog(
+                parent=self,
+                paths=paths,
+                to_path=path_restore_to,
+                backup_on_restore=self.config.backupOnRestore(),
+                backup_suffix=self.snapshots.backupSuffix()
+            )
+
+            if not confirm_dlg.answer():
+                return
+
+            opt = confirm_dlg.get_values_as_dict()
+
+            if opt['delete'] \
+               and not self.confirmDelete(
+                   warnRoot='/' in paths, restoreTo=path_restore_to):
+                return
+
+        rd = RestoreDialog(self,
+                           self.sid,
+                           paths if len(paths) > 1 else paths[0],
+                           path_restore_to,
+                           **opt)
+
+        rd.exec()
+
     def restoreThis(self):
         if self.sid.isRoot:
             return
@@ -1454,39 +1508,11 @@ class MainWindow(QMainWindow):
         rd.exec()
 
     def restoreThisTo(self):
-        if self.sid.isRoot:
-            return
+        """Restore current in GUI selected backup to ..."""
 
-        paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
+        paths = [f for f, _idx in self.multiFileSelected(fullPath=True)]
 
-        with self.suspend_mouse_button_navigation():
-            restoreTo = qttools.getExistingDirectory(self, _('Restore to …'))
-
-            if not restoreTo:
-                return
-
-            restoreTo = self.config.preparePath(restoreTo)
-
-            confirm_dlg = ConfirmRestoreDialog(
-                parent=self,
-                paths=paths,
-                to_path=restoreTo,
-                backup_on_restore=self.config.backupOnRestore(),
-                backup_suffix=self.snapshots.backupSuffix()
-            )
-
-            if not confirm_dlg.answer():
-                return
-
-            opt = confirm_dlg.get_values_as_dict()
-
-            if opt['delete'] \
-               and not self.confirmDelete(
-                   warnRoot='/' in paths, restoreTo=restoreTo):
-                return
-
-        rd = RestoreDialog(self, self.sid, paths, restoreTo, **opt)
-        rd.exec()
+        self._restore_to(paths)
 
     def restoreParent(self):
         if self.sid.isRoot:
@@ -1514,37 +1540,11 @@ class MainWindow(QMainWindow):
         rd.exec()
 
     def restoreParentTo(self):
+        """Restore parent folder (of current selcted) to ..."""
         if self.sid.isRoot:
             return
 
-        with self.suspend_mouse_button_navigation():
-            restoreTo = qttools.getExistingDirectory(self, _('Restore to …'))
-
-            if not restoreTo:
-                return
-
-            restoreTo = self.config.preparePath(restoreTo)
-
-            confirm_dlg = ConfirmRestoreDialog(
-                parent=self,
-                paths=(self.path,),
-                to_path=restoreTo,
-                backup_on_restore=self.config.backupOnRestore(),
-                backup_suffix=self.snapshots.backupSuffix()
-            )
-
-            if not confirm_dlg.answer():
-                return
-
-            opt = confirm_dlg.get_values_as_dict()
-
-            if opt['delete'] \
-               and not self.confirmDelete(
-                   warnRoot=self.path == '/', restoreTo=restoreTo):
-                return
-
-        rd = RestoreDialog(self, self.sid, self.path, restoreTo, **opt)
-        rd.exec()
+        self._restore_to([self.path])
 
     def btnSnapshotsClicked(self):
         path, _idx = self.fileSelected(fullPath = True)
