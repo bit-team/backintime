@@ -203,24 +203,6 @@ class General(generic.TestCase):
             self.fail(
                 'tools.ckeck_x_server() raised exception {}'.format(str(e)))
 
-    def test_preparePath(self):
-        path_with_slash_at_begin = "/test/path"
-        path_without_slash_at_begin = "test/path"
-        path_with_slash_at_end = "/test/path/"
-        path_without_slash_at_end = "/test/path"
-        self.assertEqual(
-            tools.preparePath(path_with_slash_at_begin),
-            path_with_slash_at_begin)
-        self.assertEqual(
-            tools.preparePath(path_without_slash_at_begin),
-            path_with_slash_at_begin)
-        self.assertEqual(
-            tools.preparePath(path_without_slash_at_end),
-            path_without_slash_at_end)
-        self.assertEqual(
-            tools.preparePath(path_with_slash_at_end),
-            path_without_slash_at_end)
-
     def test_powerStatusAvailable(self):
         if tools.processExists('upowerd') and not generic.ON_TRAVIS:
             self.assertTrue(tools.powerStatusAvailable())

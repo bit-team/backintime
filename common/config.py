@@ -1407,12 +1407,6 @@ class Config(configfile.ConfigFileWithProfiles):
     def encfsconfigBackupFolder(self, profile_id = None):
         return os.path.join(self._LOCAL_DATA_FOLDER, 'encfsconfig_backup_%s' % self.fileId(profile_id))
 
-    def preparePath(self, path):
-        if len(path) > 1:
-            if path[-1] == os.sep:
-                path = path[: -1]
-        return path
-
     def isConfigured(self, profile_id=None) -> bool:
         """Checks if the program is configured.
 
@@ -1426,8 +1420,9 @@ class Config(configfile.ConfigFileWithProfiles):
             return True
 
         logger.debug(f'Profile ({profile_id=}) is not configured because '
-                        f'snapshot path is "{bool(path)}" and/or includes '
-                        f'are "{bool(includes)}".', self)
+                     f'backup path is "{bool(path)}" and/or includes '
+                     f'are "{bool(includes)}".', self)
+
         return False
 
     def canBackup(self, profile_id=None):

@@ -608,26 +608,30 @@ class GeneralTab(QDialog):
         return wdg
 
     def _slot_snapshots_path_clicked(self):
-        old_path = self.editSnapshotsPath.text()
+        old_path = Path(self.editSnapshotsPath.text())
 
-        path = str(qttools.getExistingDirectory(
-            self,
-            _('Where to save backups'),
-            self.editSnapshotsPath.text()
-        ))
+        dlg = FileDialog(
+            parent=self,
+            title=_('Where to save backups'),
+            show_hidden=True,
+            allow_multiselection=False,
+            dirs_only=True,
+            start_dir=old_path)
+        path = dlg.result()
 
-        if path:
+        if not path:
+            return
 
-            if old_path and old_path != path:
+        if old_path and old_path != path:
 
-                answer = messagebox.question(
-                    text=_('Really change the backup directory?'),
-                    widget_to_center_on=self)
+            answer = messagebox.question(
+                text=_('Really change the backup directory?'),
+                widget_to_center_on=self)
 
-                if not answer:
-                    return
+            if not answer:
+                return
 
-            self.editSnapshotsPath.setText(self.config.preparePath(path))
+        self.editSnapshotsPath.setText(str(path))
 
     def _slot_ssh_private_key_file_clicked(self):
         key_file = self.key_selector.get_key()

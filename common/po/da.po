@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This file is part of the program "Back In time" which is released under GNU
+# This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-07-01 16:44+0200\n"
-"PO-Revision-Date: 2025-06-16 10:37+0000\n"
+"POT-Creation-Date: 2025-07-27 11:10+0200\n"
+"PO-Revision-Date: 2025-07-04 08:26+0000\n"
 "Last-Translator: asjo <asjo@noreply.codeberg.org>\n"
 "Language-Team: Danish <https://translate.codeberg.org/projects/backintime/common/da/>\n"
 "Language: da\n"
@@ -25,72 +25,83 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.11.4\n"
 
-#: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
-#: qt/messagebox.py:92
+#: common/bitlicense.py:43
+#, python-brace-format
+msgid ""
+"All licenses used in this project are located in the {dir_link} directory. "
+"To extract per-file license and copyright information using SPDX metadata, "
+"refer to {readme_link}."
+msgstr ""
+"Alle licenser relevante for dette projekt findes i {dir_link}-mappen. For at"
+" udtrække licens- og ophavsretsinformation i SPDX metadata format per fil, "
+"se {readme_link}."
+
+#: common/config.py:37 common/tools.py:86 qt/encfsmsgbox.py:24
+#: qt/messagebox.py:98
 msgid "Warning"
 msgstr "Advarsel"
 
-#: common/config.py:138 common/config.py:246
+#: common/config.py:137 common/config.py:245
 msgid "Main profile"
 msgstr "Hovedprofil"
 
-#: common/config.py:252
+#: common/config.py:251
 msgid "Local (EncFS encrypted)"
 msgstr "Lokal (EncFS krypteret)"
 
-#: common/config.py:253
+#: common/config.py:252
 msgid "SSH (EncFS encrypted)"
 msgstr "SSH (EncFS krypteret)"
 
-#: common/config.py:264
+#: common/config.py:263
 msgid "Local"
 msgstr "Lokal"
 
-#: common/config.py:266
+#: common/config.py:265
 msgid "SSH"
 msgstr "SSH"
 
-#: common/config.py:266 common/config.py:276
-#: qt/manageprofiles/tab_general.py:620
+#: common/config.py:265 common/config.py:275
+#: qt/manageprofiles/tab_general.py:646
 msgid "SSH private key"
 msgstr "SSH privat nøgle"
 
-#: common/config.py:269
+#: common/config.py:268
 msgid "Local encrypted"
 msgstr "Lokalt krypteret"
 
-#: common/config.py:270 common/config.py:277
+#: common/config.py:269 common/config.py:276
 msgid "Encryption"
 msgstr "Kryptering"
 
-#: common/config.py:275
+#: common/config.py:274
 msgid "SSH encrypted"
 msgstr "SSH krypteret"
 
-#: common/config.py:283
+#: common/config.py:282
 msgid "Default"
 msgstr "Standard"
 
-#: common/config.py:314 common/config.py:326 common/config.py:344
-#: common/config.py:358 common/config.py:379
+#: common/config.py:313 common/config.py:325 common/config.py:343
+#: common/config.py:357 common/config.py:378
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
 
-#: common/config.py:315
+#: common/config.py:314
 msgid "Backup directory is not valid."
 msgstr "Tilstandsbillede-mappe er ugyldig."
 
-#: common/config.py:327
+#: common/config.py:326
 msgid "At least one directory must be selected for backup."
 msgstr "Mindst en mappe skal vælges til backup."
 
-#: common/config.py:345 common/config.py:360
+#: common/config.py:344 common/config.py:359
 #, python-brace-format
 msgid "Directory: {path}"
 msgstr "Mappe: {path}"
 
-#: common/config.py:346 common/config.py:361
+#: common/config.py:345 common/config.py:360
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
@@ -98,30 +109,35 @@ msgstr ""
 "Denne mappe kan ikke inkluderes i sikkerhedskopien, da den er del af "
 "sikkerhedskopiens destination."
 
-#: common/config.py:380
+#: common/config.py:379
 #, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if free space is less than\" "
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
 " space falls below\" ({val_two})."
 msgstr ""
+"Værdien for \"Slet ældste tilstandsbillede hvis ledig plads er mindre end\" "
+"({val_one}) skal være mindre end eller lig med grænsen for \"Advar hvis "
+"ledig plads falder under\" ({val_two})."
 
-#: common/config.py:385
+#: common/config.py:384
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr ""
+"Juster venligst indstillingen så tilstandsbilledesletningsgrænsen ikke er "
+"højere end advarselsgrænsen."
 
-#: common/config.py:1515
+#: common/config.py:1509
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
-msgstr "Metoden udev virker ikke med indstilling {mode}"
+msgstr "Udev-planlægning virker ikke med indstilling {mode}"
 
-#: common/config.py:1569
+#: common/config.py:1563
 msgid "Failed to write new crontab."
 msgstr "Kunne ikke skrive ny crontab."
 
-#: common/config.py:1577
+#: common/config.py:1571
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -131,8 +147,8 @@ msgid ""
 msgstr ""
 "Cron kører ikke, selvom crontab-kommandoen er tilgængelig. Planlagte backup-"
 "job vil ikke blive kørt. Cron kan være installeret, men ikke aktiveret. Prøv"
-" kommandoen “systemctl enable cron” og \"systemctl start cron\" eller "
-"kontakt supportkanalerne for din GNU/Linux-distribution for hjælp."
+" kommandoerne “systemctl enable cron” og \"systemctl start cron\" eller "
+"kontakt hjælpekanalerne for din GNU/Linux-distribution for hjælp."
 
 #: common/configfile.py:101
 msgid "Failed to save config"
@@ -169,16 +185,14 @@ msgid "Cancel"
 msgstr "Annullér"
 
 #: common/encfstools.py:149
-#, fuzzy
 msgid "Please re-enter the EncFS password to confirm."
-msgstr "Indtast venligst et kodeord for \"{user}\"."
+msgstr "Genindtast venligst EncFS-kodeordet for at bekræfte."
 
 #: common/encfstools.py:155
-#, fuzzy
 msgid "The EncFS passwords do not match."
-msgstr "Kodeord passer ikke."
+msgstr "EncFS-kodeordet passer ikke."
 
-#: common/encfstools.py:515 common/snapshots.py:1123
+#: common/encfstools.py:515 common/snapshots.py:1126
 msgid "Take snapshot"
 msgstr "Tag et tilstands-billede"
 
@@ -217,20 +231,20 @@ msgstr ""
 msgid "Couldn't find UUID for {path}"
 msgstr "Fandt ikke UUID for {path}"
 
-#: common/snapshots.py:377 common/snapshots.py:655
+#: common/snapshots.py:378 common/snapshots.py:656
 msgid "FAILED"
 msgstr "MISLYKKEDES"
 
-#: common/snapshots.py:578 common/snapshots.py:651
+#: common/snapshots.py:579 common/snapshots.py:652
 msgid "Restore permissions"
 msgstr "Gendan tilladelser"
 
-#: common/snapshots.py:655 qt/app.py:295 qt/app.py:1112 qt/app.py:1147
-#: qt/qtsystrayicon.py:73
+#: common/snapshots.py:656 qt/app.py:259 qt/app.py:1084 qt/app.py:1119
+#: qt/qtsystrayicon.py:70
 msgid "Done"
 msgstr "Færdig"
 
-#: common/snapshots.py:748
+#: common/snapshots.py:749
 msgid ""
 "The following entries from the include list have no corresponding file or "
 "directory in the backup source:"
@@ -238,136 +252,136 @@ msgstr ""
 "De følgende indgang i inkluderingslisten har ikke nogen tilsvarende fil "
 "eller mappe i tilstandsbillede-kilden:"
 
-#: common/snapshots.py:811
+#: common/snapshots.py:812
 msgid "Deferring backup while on battery"
 msgstr "Venter med backup under batteridrift"
 
-#: common/snapshots.py:927 qt/app.py:369
+#: common/snapshots.py:928 qt/app.py:335
 msgid "Can't find backup directory."
 msgstr "Kan ikke finde tilstandsbillede-mappen."
 
-#: common/snapshots.py:931 qt/app.py:370
+#: common/snapshots.py:932 qt/app.py:336
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Hvis den er på et flytbar drev, tilslut venligst drevet."
 
-#: common/snapshots.py:934
+#: common/snapshots.py:935
 #, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
 msgstr[0] "Venter {n} sekund."
 msgstr[1] "Venter {n} sekunder."
 
-#: common/snapshots.py:1000
+#: common/snapshots.py:1003
 #, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Kunne ikke tage tilstandsbillede {snapshot_id}."
 
-#: common/snapshots.py:1032
+#: common/snapshots.py:1035
 msgid "Please be patient. Finalizing…"
 msgstr "Hav venligst tålmodighed. Færdigører…"
 
-#: common/snapshots.py:1158
+#: common/snapshots.py:1161
 msgid "Can't create directory."
 msgstr "Kan ikke oprette mappe."
 
-#: common/snapshots.py:1175
+#: common/snapshots.py:1178
 msgid "Saving config file…"
 msgstr "Gemmer konfigurationsfil…"
 
-#: common/snapshots.py:1256
+#: common/snapshots.py:1259
 msgid "Saving permissions…"
 msgstr "Gemmer tilladelser…"
 
-#: common/snapshots.py:1371
+#: common/snapshots.py:1374
 #, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr ""
 "Fandt efterladt tilstandsbillede {snapshot_id} som kan fortsættes med."
 
-#: common/snapshots.py:1395
+#: common/snapshots.py:1398
 #, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr "Sletter efterladt {snapshot_id}-mappe fra seneste kørsel"
 
-#: common/snapshots.py:1406
+#: common/snapshots.py:1409
 msgid "Can't remove directory"
 msgstr "Kan ikke fjerne mappe"
 
-#: common/snapshots.py:1460
+#: common/snapshots.py:1463
 msgid "Creating backup"
 msgstr "Opretter tilstandsbillede"
 
-#: common/snapshots.py:1511
+#: common/snapshots.py:1514
 msgid "Success"
 msgstr "Succes"
 
-#: common/snapshots.py:1514
+#: common/snapshots.py:1517
 msgid "Partial transfer due to error"
 msgstr "Delvist overført på grund af fejl"
 
-#: common/snapshots.py:1515
+#: common/snapshots.py:1518
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Delvis overførsel da nogle filer fra kilden er forduftet (se 'man rsync')"
 
-#: common/snapshots.py:1519
+#: common/snapshots.py:1522
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' afsluttede med slutværdien {exit_code}"
 
-#: common/snapshots.py:1532
+#: common/snapshots.py:1535
 msgid "See 'man rsync' for more details"
 msgstr "Kig i 'man rsync' for flere detaljer"
 
-#: common/snapshots.py:1539
+#: common/snapshots.py:1542
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr "Negative rsync slutværdier er signalnumre, se 'kill -l' og 'man kill'"
 
-#: common/snapshots.py:1560
+#: common/snapshots.py:1563
 msgid "Nothing changed, no new backup necessary"
 msgstr "Ingen ændringer, så et nyt tilstandsbillede er ikke nødvendigt"
 
-#: common/snapshots.py:1604
+#: common/snapshots.py:1608
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "Kan ikke omdøbe {new_path} til {path}."
 
-#: common/snapshots.py:1939
+#: common/snapshots.py:1943
 msgid "Smart removal"
 msgstr "Smart sletning"
 
-#: common/snapshots.py:1991
+#: common/snapshots.py:1995
 msgid "Apply rules to remove old backups"
 msgstr "Brug regler til at fjerne gamle tilstandsbilleder"
 
-#: common/snapshots.py:2024
+#: common/snapshots.py:2028
 msgid "Apply retention policy"
 msgstr "Brug bevaringspolitik"
 
-#: common/snapshots.py:2034
+#: common/snapshots.py:2038
 msgid "Trying to keep min free space"
 msgstr "Prøv at holde minimum fri plads"
 
-#: common/snapshots.py:2072
+#: common/snapshots.py:2076
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Prøver at holde mindst {perc} inoder fri"
 
-#: common/snapshots.py:3158 qt/app.py:1924
+#: common/snapshots.py:3162 qt/app.py:1715
 msgid "Now"
 msgstr "Nu"
 
-#: common/sshtools.py:232
+#: common/sshtools.py:233
 #, python-brace-format
 msgid "Unable to mount {sshfs}"
 msgstr "Kan ikke tilslutte {sshfs}"
 
-#: common/sshtools.py:300
+#: common/sshtools.py:301
 msgid "ssh-agent not found. Please ensure it is installed."
 msgstr "Kan ikke finde ssh-agent. Sørg venligst for at den er installeret."
 
-#: common/sshtools.py:483
+#: common/sshtools.py:484
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
@@ -375,52 +389,48 @@ msgstr ""
 "Kunne ikke fjerne låsen på ssh privat nøgle. Forkert kodeord elle kodeordet "
 "er ikke tilgængelig for cron."
 
-#: common/sshtools.py:719
+#: common/sshtools.py:716
 msgid "Remote path exists but is not a directory."
 msgstr "Stien findes i den anden ende, men er ikke en mappe."
 
-#: common/sshtools.py:724
+#: common/sshtools.py:721
 msgid "Remote path is not writable."
 msgstr "Stien i den anden ende er ikke skrivbar."
 
-#: common/sshtools.py:729
+#: common/sshtools.py:726
 msgid "Remote path is not executable."
 msgstr "Stien i den anden ende er ikke eksekverbar."
 
-#: common/sshtools.py:734
+#: common/sshtools.py:731
 msgid "Couldn't create remote path."
 msgstr "Kan ikke oprette fjernmappe."
 
-#: common/sshtools.py:1021
+#: common/sshtools.py:1017
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
 msgstr "Den anden maskine {host} understøtter ikke {command}"
 
-#: common/sshtools.py:1025 common/sshtools.py:1034
-msgid "Look at 'man backintime' for further instructions"
-msgstr "Se 'man backintime' for yderligere instruktioner"
-
-#: common/sshtools.py:1029
+#: common/sshtools.py:1021
 #, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
 msgstr "Check-kommandoerne på vært {host} gav en ukendt fejl"
 
-#: common/sshtools.py:1050
+#: common/sshtools.py:1039
 #, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
 msgstr "Den anden maskine {host} understøtter ikke hardlinks"
 
-#: common/sshtools.py:1211
+#: common/sshtools.py:1201
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
 msgstr "Kopiér offentlig ssh-nøgle \"{pubkey}\" til vært \"{host}\"."
 
-#: common/sshtools.py:1213
+#: common/sshtools.py:1203
 #, python-brace-format
 msgid "Please enter a password for \"{user}\"."
 msgstr "Indtast venligst et kodeord for \"{user}\"."
 
-#: common/tools.py:404
+#: common/tools.py:381
 #, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
@@ -429,20 +439,20 @@ msgstr ""
 "Destinationsfilsystem for {path} er formatteret med NTFS, som ikke er fuldt "
 "kompatibelt med UNIX-lignede filsystemer."
 
-#: common/tools.py:436
+#: common/tools.py:413
 #, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "{path} er ikke en gyldig mappe."
 
-#: common/tools.py:450
+#: common/tools.py:427
 msgid "Creation of following directory failed:"
 msgstr "Oprettelse af følgende mappe fejlede:"
 
-#: common/tools.py:452 common/tools.py:548
+#: common/tools.py:429 common/tools.py:525
 msgid "Write access may be restricted."
 msgstr "Skriveadgang kan være begrænset."
 
-#: common/tools.py:492
+#: common/tools.py:469
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -451,7 +461,7 @@ msgstr ""
 "Destinationsfilsystem for {path} er formatteret med FAT, som ikke kan "
 "håndtere hard-links. Brug venligst et understøttet GNU/Linux-filsystem."
 
-#: common/tools.py:503
+#: common/tools.py:480
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -461,15 +471,15 @@ msgstr ""
 "Destinationsfilsystem for {path} er delt via SMB. Undersøg venligst om SMB "
 "serveren understøtter symlinks eller aktiver {copyLinks} i {expertOptions}."
 
-#: common/tools.py:507 qt/manageprofiles/tab_expert_options.py:253
+#: common/tools.py:484 qt/manageprofiles/tab_expert_options.py:254
 msgid "Copy links (dereference symbolic links)"
 msgstr "Kopier links (følg symbolske links)"
 
-#: common/tools.py:508
+#: common/tools.py:485
 msgid "Expert Options"
 msgstr "Avancerede indstillinger"
 
-#: common/tools.py:512
+#: common/tools.py:489
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
@@ -478,81 +488,66 @@ msgstr ""
 "Destinationsfilsystemet for {path} er delt via ssfhs. Sshfs understøtter "
 "ikke hardlinks. Benyt venligst 'SSH' mode i stedet."
 
-#: common/tools.py:546
+#: common/tools.py:523
 msgid "File creation failed in this directory:"
 msgstr "Filoprettelse fejlede i mappe:"
 
-#: qt/aboutdlg.py:49
+#: qt/aboutdlg.py:50
 msgid "About Back In Time"
 msgstr "Om Back In &Time"
 
-#: qt/aboutdlg.py:87
+#: qt/aboutdlg.py:88
 msgid "Copyright:"
 msgstr "Ophavsret:"
 
-#: qt/aboutdlg.py:91
+#: qt/aboutdlg.py:92
 msgid "Authors:"
 msgstr "Forfattere:"
 
-#: qt/aboutdlg.py:95
+#: qt/aboutdlg.py:96
 msgid "Translators:"
 msgstr "Oversættere:"
 
-#: qt/aboutdlg.py:98
+#: qt/aboutdlg.py:99
 msgid "translator-credits-placeholder"
 msgstr "Adam Sjøgren <asjo@koldfront.dk>"
 
-#: qt/aboutdlg.py:105
+#: qt/aboutdlg.py:106
 msgid "Translator credits not available for current language."
 msgstr "Oversætterinformation er ikke tilgængelig for det nuværende sprog."
 
-#: qt/aboutdlg.py:114
+#: qt/aboutdlg.py:115
 msgid "this link"
 msgstr "dette link"
 
-#: qt/aboutdlg.py:116
+#: qt/aboutdlg.py:117
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr "Følg {thislink} for at se oversætterinformation for alle sprog."
 
-#: qt/aboutdlg.py:153
-#, python-brace-format
-msgid ""
-"All licenses used in this project are located in the {dir_link} directory. "
-"To extract per-file license and copyright information using SPDX metadata, "
-"refer to {readme_link}."
-msgstr ""
-"Alle licenser relevante for dette projekt findes i {dir_link}-mappen. For at"
-" udtrække licens- og ophavsretsinformation i SPDX metadata format per fil, "
-"se {readme_link}."
-
-#: qt/aboutdlg.py:223 qt/app.py:562
+#: qt/aboutdlg.py:219 qt/app.py:529
 msgid "Project website"
 msgstr "Projektets hjemmeside"
 
-#: qt/aboutdlg.py:228 qt/app.py:544
+#: qt/aboutdlg.py:224 qt/app.py:511
 msgid "User manual"
 msgstr "Brugervejledning"
 
-#: qt/aboutdlg.py:229 qt/app.py:546
+#: qt/aboutdlg.py:225
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
 "Åbn brugervejledning i browser (lokal hvis tilgængelig, ellers på nettet)"
 
-#: qt/aboutdlg.py:260
+#: qt/aboutdlg.py:256
 msgid "Back In Time"
 msgstr "Back In Time"
 
-#: qt/aboutdlg.py:281
+#: qt/aboutdlg.py:277
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}Version{BOLDEND}: {version}"
 
-#: qt/app.py:175
-msgid "Shortcuts"
-msgstr "Genveje"
-
-#: qt/app.py:195
+#: qt/app.py:180
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected backup."
@@ -560,15 +555,15 @@ msgstr ""
 "Denne mappe findes ikke\n"
 "i det valgte tilstandsbillede."
 
-#: qt/app.py:260
+#: qt/app.py:248
 msgid "Add to Include"
 msgstr "Tilføj til Inkludér"
 
-#: qt/app.py:262
+#: qt/app.py:250
 msgid "Add to Exclude"
 msgstr "Tilføj til Spring over"
 
-#: qt/app.py:337
+#: qt/app.py:301
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -577,7 +572,7 @@ msgstr ""
 "{app_name} synes at køre for den første gang, da ingen konfiguration blev "
 "fundet."
 
-#: qt/app.py:342
+#: qt/app.py:306
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
@@ -585,232 +580,244 @@ msgstr ""
 "Importer en eksisterende konfiguration (fra en backup destinationsmappe "
 "eller anden computer)?"
 
-#: qt/app.py:371
+#: qt/app.py:337
 msgid "Then press OK."
 msgstr "Tryk derefter OK."
 
-#: qt/app.py:481
+#: qt/app.py:448
 msgid "Create a backup"
 msgstr "Opret et tilstandsbillede"
 
-#: qt/app.py:483
+#: qt/app.py:450
 msgid "Use modification time & size for file change detection."
 msgstr "Brug ændringstid og størrelse til at opdage filændringer."
 
-#: qt/app.py:486
+#: qt/app.py:453
 msgid "Create a backup (checksum mode)"
 msgstr "Opret et tilstandsbillede (checksum modus)"
 
-#: qt/app.py:488
+#: qt/app.py:455
 msgid "Use checksums for file change detection."
 msgstr "Brug checksummer til at opdage filændringer."
 
-#: qt/app.py:491 qt/qtsystrayicon.py:79
+#: qt/app.py:458 qt/qtsystrayicon.py:76
 msgid "Pause backup process"
 msgstr "Sæt tilstandsafbildning på pause"
 
-#: qt/app.py:496 qt/qtsystrayicon.py:84
+#: qt/app.py:463 qt/qtsystrayicon.py:81
 msgid "Resume backup process"
 msgstr "Genoptag tilstandsafbildning"
 
-#: qt/app.py:500 qt/qtsystrayicon.py:90
+#: qt/app.py:467 qt/qtsystrayicon.py:87
 msgid "Stop backup process"
 msgstr "Stop tilstandsafbildning"
 
-#: qt/app.py:504
+#: qt/app.py:471
 msgid "Refresh backup list"
 msgstr "Opdatér tilstandsbillede-liste"
 
-#: qt/app.py:508
+#: qt/app.py:475
 msgid "Name backup"
 msgstr "Navngiv tilstandsbillede"
 
-#: qt/app.py:512
+#: qt/app.py:479
 msgid "Remove backup"
 msgstr "Fjern tilstandsbillede"
 
-#: qt/app.py:516
+#: qt/app.py:483
 msgid "Open backup log"
 msgstr "Åben tilstandsbillede-log"
 
-#: qt/app.py:518
+#: qt/app.py:485
 msgid "View log of the selected backup."
 msgstr "Se log for det valgte tilstandsbillede."
 
-#: qt/app.py:520
+#: qt/app.py:487
 msgid "Open last backup log"
 msgstr "Åben seneste tilstandsbillede-log"
 
-#: qt/app.py:522
+#: qt/app.py:489
 msgid "View log of the latest backup."
 msgstr "Se log fra det seneste tilstandsbillede."
 
-#: qt/app.py:524
+#: qt/app.py:491
 msgid "Manage profiles…"
 msgstr "hovedprofil…"
 
-#: qt/app.py:528
+#: qt/app.py:495
 msgid "Edit user-callback"
 msgstr "Redigér bruger-callback"
 
-#: qt/app.py:532
+#: qt/app.py:499
 msgid "Shutdown"
 msgstr "Luk ned"
 
-#: qt/app.py:534
+#: qt/app.py:501
 msgid "Shut down system after backup has finished."
 msgstr "Luk ned når tilstandsbilledet er færdiggjort."
 
-#: qt/app.py:536
+#: qt/app.py:503
 msgid "Setup language…"
 msgstr "Sæt sprog op…"
 
-#: qt/app.py:540
+#: qt/app.py:507
 msgid "Exit"
 msgstr "Afslut"
 
-#: qt/app.py:550
+#: qt/app.py:513
+#, fuzzy
+msgid "Open user manual in browser (locally if available, otherwise online)"
+msgstr ""
+"Åbn brugervejledning i browser (lokal hvis tilgængelig, ellers på nettet)"
+
+#: qt/app.py:517
 msgid "man page: Back In Time"
 msgstr "man-side: Back In Time"
 
-#: qt/app.py:552
+#: qt/app.py:519
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "Viser man-side om Back In Time (backintime)"
 
-#: qt/app.py:555
+#: qt/app.py:522
 msgid "man page: Profiles config file"
 msgstr "man-side: Profilkonfigurationsfil"
 
-#: qt/app.py:558
+#: qt/app.py:525
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr "Viser man-side om profilkonfigurationsfil (backintime-config)"
 
-#: qt/app.py:565
+#: qt/app.py:532
 msgid "Open Back In Time website in browser"
 msgstr "Åbn Back In Time hjemmeside i browser"
 
-#: qt/app.py:567 qt/app.py:1543
+#: qt/app.py:534
 msgid "Changelog"
 msgstr "Ændringslog"
 
-#: qt/app.py:570
+#: qt/app.py:537
+#, fuzzy
+msgid "Open changelog (locally if available, otherwise from the web)"
+msgstr ""
+"Åbn brugervejledning i browser (lokal hvis tilgængelig, ellers på nettet)"
+
+#: qt/app.py:540
 msgid "FAQ"
 msgstr "OSS"
 
-#: qt/app.py:572
+#: qt/app.py:542
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "Åbn Ofte Stillede Spørgsmål (OSS) i browser"
 
-#: qt/app.py:574
+#: qt/app.py:544
 msgid "Ask a question"
 msgstr "Stil et spørgsmål"
 
-#: qt/app.py:578
+#: qt/app.py:548
 msgid "Report a bug"
 msgstr "Rapporter en fejl"
 
-#: qt/app.py:581
+#: qt/app.py:551
 msgid "Translation"
 msgstr "Oversættelse"
 
-#: qt/app.py:583
+#: qt/app.py:553
 msgid "Shows the message about participation in translation again."
 msgstr "Vis beskeden om deltagelse i oversættelse igen."
 
-#: qt/app.py:587
+#: qt/app.py:557
 msgid "Encryption Transition (EncFS)"
 msgstr "Krypteringsovergang (EncFS)"
 
-#: qt/app.py:589
+#: qt/app.py:559
 msgid "Shows the message about EncFS removal again."
 msgstr "Vis besked fjernelse af EncFS igen."
 
-#: qt/app.py:596
+#: qt/app.py:566
 msgid "About"
 msgstr "Om"
 
-#: qt/app.py:599 qt/restoredialog.py:40 qt/snapshotsdialog.py:173
-#: qt/snapshotsdialog.py:178
+#: qt/app.py:569 qt/restoredialog.py:43 qt/snapshotsdialog.py:176
+#: qt/snapshotsdialog.py:181
 msgid "Restore"
 msgstr "Gendan"
 
-#: qt/app.py:601
+#: qt/app.py:571
 msgid "Restore the selected files or directories to the original destination."
 msgstr "Gendan de valgte filer eller mapper på det oprindelige sted."
 
-#: qt/app.py:604 qt/app.py:1715 qt/app.py:1747 qt/snapshotsdialog.py:175
+#: qt/app.py:574 qt/app.py:1441 qt/snapshotsdialog.py:178
 msgid "Restore to …"
 msgstr "Gendan …"
 
-#: qt/app.py:606
+#: qt/app.py:576
 msgid "Restore the selected files or directories to a new destination."
 msgstr "Gendan de valgte filer eller mapper på et nyt sted."
 
-#: qt/app.py:612
+#: qt/app.py:582
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "destination."
 msgstr "Gendan den viste mappe og al dens indhold på det oprindelige sted."
 
-#: qt/app.py:618
+#: qt/app.py:588
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "destination."
 msgstr "Gendan den viste mappe og al dens indhold på et nyt sted."
 
-#: qt/app.py:621
+#: qt/app.py:591
 msgid "Up"
 msgstr "Op"
 
-#: qt/app.py:624 qt/restoreconfigdialog.py:103
+#: qt/app.py:594
 msgid "Show hidden files"
 msgstr "Vis skjulte filer"
 
-#: qt/app.py:627
+#: qt/app.py:597
 msgid "Compare backups…"
 msgstr "Sammenlign tilstandsbilleder…"
 
-#: qt/app.py:657 qt/app.py:2231
+#: qt/app.py:627 qt/app.py:2023
 msgid "Release Candidate"
 msgstr "kandidat til udgivelse"
 
-#: qt/app.py:660
+#: qt/app.py:630
 msgid "Shows the message about this Release Candidate again."
 msgstr "Vis beskeden om denne udgivelseskandidat igen."
 
-#: qt/app.py:696
+#: qt/app.py:666
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:701
+#: qt/app.py:671
 msgid "&Backup"
 msgstr "&Sikkerhedskopiér"
 
-#: qt/app.py:713
+#: qt/app.py:683
 msgid "&Restore"
 msgstr "&Gendan"
 
-#: qt/app.py:719
+#: qt/app.py:689
 msgid "&Help"
 msgstr "&Hjælp"
 
-#: qt/app.py:766
+#: qt/app.py:736
 msgid "Icons only"
 msgstr "Alene ikoner"
 
-#: qt/app.py:769
+#: qt/app.py:739
 msgid "Text only"
 msgstr "Alene tekst"
 
-#: qt/app.py:772
+#: qt/app.py:742
 msgid "Text below icons"
 msgstr "Tekst under ikoner"
 
-#: qt/app.py:775
+#: qt/app.py:745
 msgid "Text beside icon"
 msgstr "Tekst ved siden af ikon"
 
-#: qt/app.py:924
+#: qt/app.py:894
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
@@ -818,55 +825,39 @@ msgstr ""
 "Hvis du lukker dette vindue så kan Back In Time ikke lukke din maskine ned "
 "når tilstandsbilledet er færdigt."
 
-#: qt/app.py:927
+#: qt/app.py:897
 msgid "Close the window anyway?"
 msgstr "Luk vinduet alligevel?"
 
-#: qt/app.py:1102
+#: qt/app.py:1074
 msgid "Working:"
 msgstr "Arbejder:"
 
-#: qt/app.py:1150
+#: qt/app.py:1122
 msgid "Done, no backup needed"
 msgstr "Færdig, ingen sikkerhedskopiering nødvendig"
 
-#: qt/app.py:1162
+#: qt/app.py:1134
 msgid "Working"
 msgstr "Arbejder"
 
-#: qt/app.py:1171 qt/messagebox.py:125
+#: qt/app.py:1143 qt/messagebox.py:135
 msgid "Error"
 msgstr "Fejl"
 
-#: qt/app.py:1212 qt/qtsystrayicon.py:206
+#: qt/app.py:1180 qt/qtsystrayicon.py:204
 msgid "Sent:"
 msgstr "Sendt:"
 
-#: qt/app.py:1213 qt/qtsystrayicon.py:207
+#: qt/app.py:1181 qt/qtsystrayicon.py:205
 msgid "Speed:"
 msgstr "Hastighed:"
 
-#: qt/app.py:1214 qt/qtsystrayicon.py:208
+#: qt/app.py:1182 qt/qtsystrayicon.py:206
 msgid "ETA:"
 msgstr "ETA:"
 
-#: qt/app.py:1277
-msgid "Global"
-msgstr "Globalt"
-
-#: qt/app.py:1278
-msgid "Root"
-msgstr "Root"
-
-#: qt/app.py:1279
-msgid "Home"
-msgstr "Hjemmemappe"
-
-#: qt/app.py:1307
-msgid "Backup directories"
-msgstr "Sikkerhedskopi-mapper"
-
-#: qt/app.py:1386
+#: qt/app.py:1256
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
@@ -875,88 +866,30 @@ msgstr ""
 "Kun {free} plads fri på målet, hvilket er under den opsatte grænse på "
 "{threshold}."
 
-#: qt/app.py:1391
+#: qt/app.py:1261
 msgid "Proceed with the backup?"
 msgstr "Forsæt med at danne tilstandsbillede?"
 
-#: qt/app.py:1424
+#: qt/app.py:1294
 msgid "Backup name"
 msgstr "Tilstandsbillede-navn"
 
-#: qt/app.py:1475
+#: qt/app.py:1345
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "Slet dette tilstandsbillede?"
 msgstr[1] "Slet disse tilstandsbilleder?"
 
-#: qt/app.py:1573
-#, python-brace-format
-msgid ""
-"Create backup copies with trailing {suffix}\n"
-"before overwriting or removing local elements."
-msgstr ""
-"Opret sikkerhedskopier med {suffix} tilføjet\n"
-"før lokale elementer overskrives."
-
-#: qt/app.py:1581 qt/manageprofiles/tab_options.py:65
-#, python-brace-format
-msgid ""
-"Before restoring, newer versions of files will be renamed with the appended "
-"{suffix}. These files can be removed with the following command:"
-msgstr ""
-"Nyere version af filer vil blive omdøbt med {suffix} tilføjet før "
-"genddannelse. Hvis du ikke har brug for dem længere, kan de fjernes med "
-"denne kommando:"
-
-#: qt/app.py:1597
-msgid ""
-"Only restore elements which do not exist or\n"
-"are newer than those in destination.\n"
-"Using \"rsync --update\" option."
-msgstr ""
-"Gendan alene elementer som ikke findes eller\n"
-"som er nyere end dem der findes.\n"
-"Bruger \"rsync --update\" parameteren."
-
-#: qt/app.py:1632
-msgid "Remove newer elements in original directory."
-msgstr "Fjern nyere elementer i oprindelsesmappen."
-
-#: qt/app.py:1635
-msgid ""
-"Restore selected files or directories to the original destination and delete"
-" files or directories which are not in the backup. Be extremely careful "
-"because this will delete files and directories which were excluded during "
-"the creation of the backup."
-msgstr ""
-"Gendan valgte filer eller mapper på den oprindelige plads og slet filer "
-"eller mapper som ikke er i tilstandsbilledet. Vær ekstremt forsigtig for "
-"dette vil slette filer og mapper som blev sprunget over da tilstandsbilledet"
-" blev dannet."
-
-#: qt/app.py:1647
-msgid "Really restore this element into the new directory?"
-msgid_plural "Really restore these elements into the new directory?"
-msgstr[0] "Er du sikker på at du vil gendanne dette element i den nye mappe?"
-msgstr[1] ""
-"Er du sikker på at du vil gendanne disse elementer i den nye mappe?"
-
-#: qt/app.py:1655
-msgid "Really restore this element?"
-msgid_plural "Really restore these elements?"
-msgstr[0] "Er du sikker på at du vil gendanne dette element?"
-msgstr[1] "Er du sikker på at du vil gendanne disse elementer?"
-
-#: qt/app.py:1674
+#: qt/app.py:1421
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr "Alle nyere filer i {path} vil blive slettet. Fortsæt?"
 
-#: qt/app.py:1677
+#: qt/app.py:1424
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr "Alle nyere filer i den oprindelige mappe vil blive slettet. Fortsæt?"
 
-#: qt/app.py:1683
+#: qt/app.py:1430
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -965,21 +898,22 @@ msgstr ""
 "{BOLD}Advarsel{BOLDEND}: Hvis du sletter filer i filsystemets rod risikerer "
 "du at ødelægge hele dit system."
 
-#: qt/app.py:1932
-msgid "Backup"
-msgstr "&Sikkerhedskopiéring"
+#: qt/app.py:1723
+#, fuzzy
+msgid "Backup:"
+msgstr "&Sikkerhedskopiér:"
 
-#: qt/app.py:1971
+#: qt/app.py:1763
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Gendan {path}"
 
-#: qt/app.py:1973
+#: qt/app.py:1765
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Gendan {path} …"
 
-#: qt/app.py:2121
+#: qt/app.py:1913
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -996,47 +930,47 @@ msgstr ""
 "Vi undskylder forstyrrelsen, denne besked vil ikke blive vist igen. Denne dialog box er tilgængelig til enhver tid i 'hjælp' menuen.\n"
 "Dit Back In Time Team"
 
-#: qt/app.py:2150
+#: qt/app.py:1942
 msgid "translation platform"
 msgstr "oversættelses platform"
 
-#: qt/app.py:2155
+#: qt/app.py:1947
 msgid "Website"
 msgstr "Websted"
 
-#: qt/app.py:2169
+#: qt/app.py:1961
 msgid "Your translation"
 msgstr "Din oversættelse"
 
-#: qt/app.py:2182
+#: qt/app.py:1974
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "I fødiverset på Mastodon: {link_and_label}."
 
-#: qt/app.py:2187
+#: qt/app.py:1979
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "Email til {link_and_label}."
 
-#: qt/app.py:2190
+#: qt/app.py:1982
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "Emailliste {link_and_label}."
 
-#: qt/app.py:2194
+#: qt/app.py:1986
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} på projektets hjemmeside."
 
-#: qt/app.py:2197
+#: qt/app.py:1989
 msgid "Open an issue"
 msgstr "Opret en fejlrapport"
 
-#: qt/app.py:2198
+#: qt/app.py:1990
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Eller du kan benytte en anden mulighed du foretrækker."
 
-#: qt/app.py:2203
+#: qt/app.py:1995
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -1057,14 +991,76 @@ msgstr ""
 "Tak for din støtte og for at hjælpe os med at gøre Back In Time bedre!\n"
 "Dit Back In Time-hold"
 
-#: qt/app.py:2303
+#: qt/app.py:2095
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "Sprogopsætningen ændres først efter genstart af Back In Time."
+
+#: qt/confirmrestoredialog.py:35 qt/messagebox.py:122
+msgid "Question"
+msgstr "Spørgsmål"
+
+#: qt/confirmrestoredialog.py:76
+#, fuzzy, python-brace-format
+msgid ""
+"Create backup copies with trailing {suffix} before overwriting or removing "
+"local elements."
+msgstr ""
+"Opret sikkerhedskopier med {suffix} tilføjet\n"
+"før lokale elementer overskrives."
+
+#: qt/confirmrestoredialog.py:81 qt/manageprofiles/tab_options.py:66
+#, python-brace-format
+msgid ""
+"Before restoring, newer versions of files will be renamed with the appended "
+"{suffix}. These files can be removed with the following command:"
+msgstr ""
+"Nyere version af filer vil blive omdøbt med {suffix} tilføjet før "
+"genddannelse. Hvis du ikke har brug for dem længere, kan de fjernes med "
+"denne kommando:"
+
+#: qt/confirmrestoredialog.py:94
+#, fuzzy, python-brace-format
+msgid ""
+"Only restore elements which do not exist or are newer than those in "
+"destination. Using \"{rsync_example}\" option."
+msgstr ""
+"Gendan alene elementer som ikke findes eller\n"
+"som er nyere end dem der findes.\n"
+"Bruger \"rsync --update\" parameteren."
+
+#: qt/confirmrestoredialog.py:133
+msgid "Remove newer elements in original directory."
+msgstr "Fjern nyere elementer i oprindelsesmappen."
+
+#: qt/confirmrestoredialog.py:135
+msgid ""
+"Restore selected files or directories to the original destination and delete"
+" files or directories which are not in the backup. Be extremely careful "
+"because this will delete files and directories which were excluded during "
+"the creation of the backup."
+msgstr ""
+"Gendan valgte filer eller mapper på den oprindelige plads og slet filer "
+"eller mapper som ikke er i tilstandsbilledet. Vær ekstremt forsigtig for "
+"dette vil slette filer og mapper som blev sprunget over da tilstandsbilledet"
+" blev dannet."
+
+#: qt/confirmrestoredialog.py:147
+msgid "Really restore this element into the new directory?"
+msgid_plural "Really restore these elements into the new directory?"
+msgstr[0] "Er du sikker på at du vil gendanne dette element i den nye mappe?"
+msgstr[1] ""
+"Er du sikker på at du vil gendanne disse elementer i den nye mappe?"
+
+#: qt/confirmrestoredialog.py:157
+msgid "Really restore this element?"
+msgid_plural "Really restore these elements?"
+msgstr[0] "Er du sikker på at du vil gendanne dette element?"
+msgstr[1] "Er du sikker på at du vil gendanne disse elementer?"
 
 #: qt/editusercallback.py:43
 #, python-brace-format
 msgid "User-callback: \"{filename}\""
-msgstr ""
+msgstr "Bruger-kode: \"{filename}\""
 
 #: qt/editusercallback.py:105
 #, python-brace-format
@@ -1072,9 +1068,11 @@ msgid ""
 "The user-callback script must include a shebang on the first line (e.g. "
 "{example})."
 msgstr ""
+"Bruger-kode scriptet skal have en shebang på den første linje (for eksempel "
+"{example})."
 
 #: qt/encfsmsgbox.py:42 qt/encfsmsgbox.py:68
-#: qt/manageprofiles/tab_general.py:561
+#: qt/manageprofiles/tab_general.py:583
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1087,18 +1085,18 @@ msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr "Det er ikke længere anbefalet at bruge den tilstand i en profil."
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
-#: qt/manageprofiles/tab_general.py:570
+#: qt/manageprofiles/tab_general.py:592
 msgid "whitepaper"
 msgstr "hvidbog"
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:85
-#: qt/manageprofiles/tab_general.py:563
+#: qt/manageprofiles/tab_general.py:585
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr ""
 "Understøttelse af EncFS bliver fjernet på grund at sikkerhedsproblemer."
 
-#: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:565
+#: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:587
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1140,79 +1138,78 @@ msgid "Your Back In Time Team"
 msgstr "Dit Back In Time Hold"
 
 #: qt/filedialog.py:87
-#, fuzzy
 msgid "Show/hide hidden files and directories (Ctrl+H)"
-msgstr "Inkludér filer og mapper"
+msgstr "Vis/skjul skjulte filer og mapper (Ctrl+H)"
 
 #: qt/languagedialog.py:35
 msgid "Setup language"
 msgstr "Sæt sprog op"
 
-#: qt/languagedialog.py:97
-msgid "System default"
-msgstr "Systemstandard"
-
-#: qt/languagedialog.py:107
-msgid "Use operating system's language."
-msgstr "Brug styresystemets sprog."
-
-#: qt/languagedialog.py:161
+#: qt/languagedialog.py:119
 #, python-brace-format
 msgid "Translated: {percent}"
 msgstr "Oversat: {percent}"
 
-#: qt/logviewdialog.py:59
-msgid "Last Log View"
-msgstr "Se Sidste Log"
+#: qt/languagedialog.py:131
+msgid "System default"
+msgstr "Systemstandard"
+
+#: qt/languagedialog.py:141
+msgid "Use operating system's language."
+msgstr "Brug styresystemets sprog."
 
 #: qt/logviewdialog.py:61
 msgid "Backup Log View"
 msgstr "Tilstandsbillede-logvisning"
 
+#: qt/logviewdialog.py:61
+msgid "Last Log View"
+msgstr "Se Sidste Log"
+
 #: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:67
-#: qt/manageprofiles/tab_general.py:247 qt/restoreconfigdialog.py:282
+#: qt/manageprofiles/tab_general.py:247 qt/restoreconfigdialog.py:356
 msgid "Profile:"
 msgstr "Profil:"
 
-#: qt/logviewdialog.py:77
+#: qt/logviewdialog.py:84
 msgid "Backups:"
 msgstr "&Sikkerhedskopiér:"
 
-#: qt/logviewdialog.py:93
+#: qt/logviewdialog.py:91
 msgid "Filter:"
 msgstr "Filter:"
 
-#: qt/logviewdialog.py:99 qt/manageprofiles/tab_options.py:181
+#: qt/logviewdialog.py:98
+msgid "[E] Error, [I] Information, [C] Change"
+msgstr "[E] Fejl, [I] Information, [C] Ændre"
+
+#: qt/logviewdialog.py:101 qt/qtsystrayicon.py:92
+msgid "decode paths"
+msgstr "afkod paths"
+
+#: qt/logviewdialog.py:119 qt/manageprofiles/tab_options.py:182
 msgid "All"
 msgstr "Alles"
 
-#: qt/logviewdialog.py:106 qt/logviewdialog.py:110
-#: qt/manageprofiles/tab_options.py:180
+#: qt/logviewdialog.py:125 qt/logviewdialog.py:129
+#: qt/manageprofiles/tab_options.py:181
 msgid "Changes"
 msgstr "Ændringer"
 
-#: qt/logviewdialog.py:106 qt/logviewdialog.py:109
-#: qt/manageprofiles/tab_options.py:179 qt/manageprofiles/tab_options.py:180
+#: qt/logviewdialog.py:125 qt/logviewdialog.py:128
+#: qt/manageprofiles/tab_options.py:180 qt/manageprofiles/tab_options.py:181
 msgid "Errors"
 msgstr "Fejl"
 
-#: qt/logviewdialog.py:111 qt/messagebox.py:68
+#: qt/logviewdialog.py:130 qt/messagebox.py:74
 msgid "Information"
 msgid_plural "Information"
 msgstr[0] "Information"
 msgstr[1] "Informationer"
 
-#: qt/logviewdialog.py:114
+#: qt/logviewdialog.py:132
 msgid "rsync transfer failures (experimental)"
 msgstr "rsync overførelsesfejl (eksperimentalt)"
-
-#: qt/logviewdialog.py:126
-msgid "[E] Error, [I] Information, [C] Change"
-msgstr "[E] Fejl, [I] Information, [C] Ændre"
-
-#: qt/logviewdialog.py:129 qt/qtsystrayicon.py:95
-msgid "decode paths"
-msgstr "afkod paths"
 
 #: qt/manageprofiles/__init__.py:59
 msgid "Manage profiles"
@@ -1226,8 +1223,8 @@ msgstr "Redigér"
 msgid "Add"
 msgstr "Tilføj"
 
-#: qt/manageprofiles/__init__.py:84 qt/manageprofiles/tab_exclude.py:117
-#: qt/manageprofiles/tab_include.py:78
+#: qt/manageprofiles/__init__.py:84 qt/manageprofiles/tab_exclude.py:118
+#: qt/manageprofiles/tab_include.py:77
 msgid "Remove"
 msgstr "Fjern"
 
@@ -1255,24 +1252,24 @@ msgstr "I&ndstillinger"
 msgid "E&xpert Options"
 msgstr "A&vancerede indstillinger"
 
-#: qt/manageprofiles/__init__.py:143
+#: qt/manageprofiles/__init__.py:144
 msgid "Restore Config"
 msgstr "Gendan opsætning"
 
-#: qt/manageprofiles/__init__.py:174
+#: qt/manageprofiles/__init__.py:175
 msgid "New profile"
 msgstr "Ny profil"
 
-#: qt/manageprofiles/__init__.py:191
+#: qt/manageprofiles/__init__.py:192
 msgid "Rename profile"
 msgstr "Omdøb profil"
 
-#: qt/manageprofiles/__init__.py:207
+#: qt/manageprofiles/__init__.py:208
 #, python-brace-format
 msgid "Delete the profile \"{name}\"?"
 msgstr "Er du sikker på at du vil slette profilen \"{name}\"?"
 
-#: qt/manageprofiles/__init__.py:339
+#: qt/manageprofiles/__init__.py:338
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until it is"
@@ -1281,7 +1278,7 @@ msgstr ""
 "\"{path}\" er et symbolsk link. Det linket peger på vil ikke blive "
 "sikkerhedskopieret med mindre du også inkluderer den sti."
 
-#: qt/manageprofiles/__init__.py:343
+#: qt/manageprofiles/__init__.py:342
 msgid "Include the symlink's target instead?"
 msgstr "Inkludér det som det symbolske link peger på i stedet?"
 
@@ -1410,12 +1407,12 @@ msgid "Hour(s)"
 msgstr "Time(r)"
 
 #: qt/manageprofiles/schedulewidget.py:229
-#: qt/manageprofiles/tab_remove_retention.py:263
+#: qt/manageprofiles/tab_remove_retention.py:264
 msgid "Day(s)"
 msgstr "Dag(e)"
 
 #: qt/manageprofiles/schedulewidget.py:230
-#: qt/manageprofiles/tab_remove_retention.py:264
+#: qt/manageprofiles/tab_remove_retention.py:265
 msgid "Week(s)"
 msgstr "Uge(r)"
 
@@ -1433,44 +1430,40 @@ msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:63
 msgid "<Select another file…>"
-msgstr ""
+msgstr "<Vælg en anden fil...>"
 
 #: qt/manageprofiles/sshkeyselector.py:64
-#, fuzzy
 msgid "Choose an existing private key file from somewhere else."
-msgstr ""
-"Vælg en eksisterende privat nøgle-fil (normalt navngivet \"id_ed25519\" og i"
-" ældre opsætninger \"id_rsa\")."
+msgstr "Vælg en eksisterende privat nøgle-fil andetsteds fra."
 
 #: qt/manageprofiles/sshkeyselector.py:70
 msgid "<Generate new key-pair…>"
-msgstr ""
+msgstr "<Generér nyt nøgle-par...>"
 
 #: qt/manageprofiles/sshkeyselector.py:71
-#, fuzzy
 msgid "Create a new SSH key without passphrase."
-msgstr "Oprettelsen af ny SSH nøgle i {path} mislykkedes."
+msgstr "Opret en ny SSH-nøgle uden kodeord."
 
 #: qt/manageprofiles/sshkeyselector.py:91
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Full path: {path}"
-msgstr "Fuld sti til tilstandsbilleder:"
+msgstr "Fuld sti: {path}"
 
 #: qt/manageprofiles/sshkeyselector.py:185
-#, fuzzy
 msgid "Private key:"
-msgstr "Privat SSH nøgle:"
+msgstr "Privat nøgle:"
 
 #: qt/manageprofiles/sshkeyselector.py:190
-#, fuzzy
 msgid "Use system SSH configuration"
-msgstr "Importeer konfiguration"
+msgstr "Brug systemets SSH-opsætning"
 
 #: qt/manageprofiles/sshkeyselector.py:192
 msgid ""
 "Leaves the key file unselected. SSH connections will rely on the system’s "
 "existing client configuration (e.g., ~/.ssh/config)."
 msgstr ""
+"Efterlader nøglefilens værdi tom. SSH-forbindelser vil benytte systemets "
+"eksisterende klient-opsætning (det vil sige ~/.ssh/config)."
 
 #: qt/manageprofiles/sshproxywidget.py:47
 msgid "SSH Proxy"
@@ -1517,30 +1510,28 @@ msgstr ""
 msgid "Exclude patterns, files or directories"
 msgstr "Ekskludéringmønstre, filer eller mapper"
 
-#: qt/manageprofiles/tab_exclude.py:101 qt/manageprofiles/tab_include.py:67
-#, fuzzy
+#: qt/manageprofiles/tab_exclude.py:101 qt/manageprofiles/tab_include.py:66
 msgid "Add files"
-msgstr "Tilføj fil"
+msgstr "Tilføj filer"
 
-#: qt/manageprofiles/tab_exclude.py:106 qt/manageprofiles/tab_include.py:72
-#, fuzzy
+#: qt/manageprofiles/tab_exclude.py:106 qt/manageprofiles/tab_include.py:71
 msgid "Add directories"
-msgstr "Tilføj mappe"
+msgstr "Tilføj mapper"
 
-#: qt/manageprofiles/tab_exclude.py:111
+#: qt/manageprofiles/tab_exclude.py:112
 msgid "Add default"
 msgstr "Tilføj standard"
 
-#: qt/manageprofiles/tab_exclude.py:126
+#: qt/manageprofiles/tab_exclude.py:127
 msgid "Exclude files bigger than:"
 msgstr "Ekskludér filer større end:"
 
-#: qt/manageprofiles/tab_exclude.py:130
+#: qt/manageprofiles/tab_exclude.py:131
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Ekskludér filer større end værdi i {size_unit}."
 
-#: qt/manageprofiles/tab_exclude.py:132
+#: qt/manageprofiles/tab_exclude.py:133
 msgid ""
 "With 'Full rsync mode' disabled, this setting affects only newly created "
 "files, as rsync treats it as transfer option rather than an exclusion rule. "
@@ -1552,7 +1543,7 @@ msgstr ""
 "filer der tidligere er overført forbliver i tilstandsbillederne selv hvis de"
 " er ændret."
 
-#: qt/manageprofiles/tab_exclude.py:200
+#: qt/manageprofiles/tab_exclude.py:201
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
@@ -1560,36 +1551,34 @@ msgstr ""
 "{BOLD}Kraftigt anbefalet{ENDBOLD}: (Alle anbefalinger er allerede "
 "inkluderet.)"
 
-#: qt/manageprofiles/tab_exclude.py:205
+#: qt/manageprofiles/tab_exclude.py:206
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "{BOLD}Kraftigt anbefalet{ENDBOLD}: {files}"
 
-#: qt/manageprofiles/tab_exclude.py:263
+#: qt/manageprofiles/tab_exclude.py:264
 msgid "Exclude pattern"
 msgstr "Ekskludér mønster"
 
-#: qt/manageprofiles/tab_exclude.py:276
-#, fuzzy
+#: qt/manageprofiles/tab_exclude.py:279
 msgid "Exclude files"
-msgstr "Ekskludér fil"
+msgstr "Ekskludér filer"
 
-#: qt/manageprofiles/tab_exclude.py:282
-#, fuzzy
+#: qt/manageprofiles/tab_exclude.py:290
 msgid "Exclude directories"
-msgstr "Ekskludér mappe"
+msgstr "Ekskludér mapper"
 
-#: qt/manageprofiles/tab_exclude.py:313
+#: qt/manageprofiles/tab_exclude.py:321
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
 "Deaktiver fordi dette mønster ikke fungerer i tilstand 'SSH krypteret'."
 
-#: qt/manageprofiles/tab_expert_options.py:39
+#: qt/manageprofiles/tab_expert_options.py:40
 msgid "Caution:"
 msgstr "Advarsel:"
 
-#: qt/manageprofiles/tab_expert_options.py:40
+#: qt/manageprofiles/tab_expert_options.py:41
 msgid ""
 "These options are for advanced configurations. Modify only if fully aware of"
 " their implications."
@@ -1597,41 +1586,41 @@ msgstr ""
 "Disse valgmuligheder er til avanceret opsætning. Lad dem være hvis du ikke "
 "er fuldstændig klar over hvad konsekvenserne er."
 
-#: qt/manageprofiles/tab_expert_options.py:47
-#: qt/manageprofiles/tab_expert_options.py:67
-#: qt/manageprofiles/tab_expert_options.py:92
+#: qt/manageprofiles/tab_expert_options.py:48
+#: qt/manageprofiles/tab_expert_options.py:68
+#: qt/manageprofiles/tab_expert_options.py:93
 #, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
 msgstr "Kør 'rsync' med '{cmd}':"
 
-#: qt/manageprofiles/tab_expert_options.py:54
-#: qt/manageprofiles/tab_expert_options.py:73
+#: qt/manageprofiles/tab_expert_options.py:55
+#: qt/manageprofiles/tab_expert_options.py:74
 msgid "as cron job"
 msgstr "som et cronjob"
 
-#: qt/manageprofiles/tab_expert_options.py:60
-#: qt/manageprofiles/tab_expert_options.py:85
-#: qt/manageprofiles/tab_expert_options.py:116
+#: qt/manageprofiles/tab_expert_options.py:61
+#: qt/manageprofiles/tab_expert_options.py:86
+#: qt/manageprofiles/tab_expert_options.py:117
 msgid "on remote host"
 msgstr "på en fjernvært"
 
-#: qt/manageprofiles/tab_expert_options.py:79
+#: qt/manageprofiles/tab_expert_options.py:80
 msgid "when taking a manual backup"
 msgstr "når et manuelt tilstandsbillede dannes"
 
-#: qt/manageprofiles/tab_expert_options.py:103
+#: qt/manageprofiles/tab_expert_options.py:104
 msgid "Please install 'nocache' to enable this option."
 msgstr "Installér venlist 'nocache' for at kunne vælge denne mulighed."
 
-#: qt/manageprofiles/tab_expert_options.py:109
+#: qt/manageprofiles/tab_expert_options.py:110
 msgid "on local machine"
 msgstr "på lokal maskine"
 
-#: qt/manageprofiles/tab_expert_options.py:123
+#: qt/manageprofiles/tab_expert_options.py:124
 msgid "Redirect stdout to /dev/null in cronjobs."
 msgstr "Send stdout til /dev/null i cronjobs."
 
-#: qt/manageprofiles/tab_expert_options.py:129
+#: qt/manageprofiles/tab_expert_options.py:130
 msgid ""
 "Cron will automatically send an email with attached output of cronjobs if an"
 " MTA is installed."
@@ -1639,11 +1628,11 @@ msgstr ""
 "Cron vil automatisk sende en email med vedhæftet output fra cronjobs this "
 "der er en MTA installeret."
 
-#: qt/manageprofiles/tab_expert_options.py:135
+#: qt/manageprofiles/tab_expert_options.py:136
 msgid "Redirect stderr to /dev/null in cronjobs."
 msgstr "Send stderr til /dev/null i cronjobs."
 
-#: qt/manageprofiles/tab_expert_options.py:141
+#: qt/manageprofiles/tab_expert_options.py:142
 msgid ""
 "Cron will automatically send an email with attached errors of cronjobs if an"
 " MTA is installed."
@@ -1651,44 +1640,44 @@ msgstr ""
 "Cron vil automatisk sende en email med vedhæftet fejl af cronjobs hvis en "
 "MTA er installeret."
 
-#: qt/manageprofiles/tab_expert_options.py:151
+#: qt/manageprofiles/tab_expert_options.py:152
 msgid "KB/sec"
 msgstr "KB/s"
 
-#: qt/manageprofiles/tab_expert_options.py:156
+#: qt/manageprofiles/tab_expert_options.py:157
 msgid "Limit rsync bandwidth usage:"
 msgstr "Begræns rsync's båndbreddeforbrug:"
 
-#: qt/manageprofiles/tab_expert_options.py:197
+#: qt/manageprofiles/tab_expert_options.py:198
 msgid "Preserve ACL"
 msgstr "Behold ACL"
 
-#: qt/manageprofiles/tab_expert_options.py:215
+#: qt/manageprofiles/tab_expert_options.py:216
 msgid "Preserve extended attributes (xattr)"
 msgstr "Behold udvidede attributter (xattr)"
 
-#: qt/manageprofiles/tab_expert_options.py:238
+#: qt/manageprofiles/tab_expert_options.py:239
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr "Kopier usikre links (virker kun med absolutte links)"
 
-#: qt/manageprofiles/tab_expert_options.py:274
+#: qt/manageprofiles/tab_expert_options.py:275
 msgid "Restrict to one file system"
 msgstr "Begræns til ét filsystem"
 
-#: qt/manageprofiles/tab_expert_options.py:292
+#: qt/manageprofiles/tab_expert_options.py:293
 #, python-brace-format
 msgid "Options must be quoted e.g. {example}."
 msgstr "Værdier skal i citationstegn, for eksempel {example}."
 
-#: qt/manageprofiles/tab_expert_options.py:301
+#: qt/manageprofiles/tab_expert_options.py:302
 msgid "Paste additional options to rsync"
 msgstr "Indsæt yderligere parametre til rsync"
 
-#: qt/manageprofiles/tab_expert_options.py:309
+#: qt/manageprofiles/tab_expert_options.py:310
 msgid "Prefix to run before every command on remote host."
 msgstr "Præfiks til at køre før hver kommando på fjernvært."
 
-#: qt/manageprofiles/tab_expert_options.py:310
+#: qt/manageprofiles/tab_expert_options.py:311
 #, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
@@ -1698,19 +1687,19 @@ msgstr ""
 "tilføje præfiks til rsync, brug \"{example_value}\" med "
 "{rsync_options_value}."
 
-#: qt/manageprofiles/tab_expert_options.py:318
+#: qt/manageprofiles/tab_expert_options.py:319
 msgid "default"
 msgstr "standard"
 
-#: qt/manageprofiles/tab_expert_options.py:324
+#: qt/manageprofiles/tab_expert_options.py:325
 msgid "Add prefix to SSH commands"
 msgstr "Foranstil alle SSH kommandoer"
 
-#: qt/manageprofiles/tab_expert_options.py:334
+#: qt/manageprofiles/tab_expert_options.py:335
 msgid "Check if remote host is online"
 msgstr "Undersøg om fjernvært er på nettet"
 
-#: qt/manageprofiles/tab_expert_options.py:337
+#: qt/manageprofiles/tab_expert_options.py:338
 msgid ""
 "Warning: If disabled and the remote host is not available, this could lead "
 "to some weird errors."
@@ -1718,11 +1707,11 @@ msgstr ""
 "Advarsel: hvis dette er slået fra og fjernværten ikke er tilgængelig, "
 "risikerer du at få nogle besynderlige fejl."
 
-#: qt/manageprofiles/tab_expert_options.py:341
+#: qt/manageprofiles/tab_expert_options.py:342
 msgid "Check if remote host supports all necessary commands."
 msgstr "Undersøg om fjernværten understøtter alle nødvendige kommandoer."
 
-#: qt/manageprofiles/tab_expert_options.py:344
+#: qt/manageprofiles/tab_expert_options.py:345
 msgid ""
 "Warning: If disabled and the remote host does not support all necessary "
 "commands, this could lead to some weird errors."
@@ -1730,23 +1719,23 @@ msgstr ""
 "Advarsel: hvis dette er slået fra og fjernværten ikke understøtter alle "
 "nødvendige kommandoer risikerer du at få nogle besynderlige fejl."
 
-#: qt/manageprofiles/tab_expert_options.py:359
+#: qt/manageprofiles/tab_expert_options.py:360
 msgid "(default: {})"
 msgstr "(standard: {})"
 
-#: qt/manageprofiles/tab_expert_options.py:360
+#: qt/manageprofiles/tab_expert_options.py:361
 msgid "disabled"
 msgstr "slået fra"
 
-#: qt/manageprofiles/tab_expert_options.py:360
+#: qt/manageprofiles/tab_expert_options.py:361
 msgid "enabled"
 msgstr "slået til"
 
-#: qt/manageprofiles/tab_general.py:67 qt/restoreconfigdialog.py:284
+#: qt/manageprofiles/tab_general.py:67 qt/restoreconfigdialog.py:358
 msgid "Mode:"
 msgstr "Tilstand:"
 
-#: qt/manageprofiles/tab_general.py:79 qt/manageprofiles/tab_general.py:593
+#: qt/manageprofiles/tab_general.py:79 qt/manageprofiles/tab_general.py:615
 msgid "Where to save backups"
 msgstr "Hvor skal tilstandsbilleder gemmes"
 
@@ -1759,9 +1748,8 @@ msgid "Path:"
 msgstr "Sti:"
 
 #: qt/manageprofiles/tab_general.py:139
-#, fuzzy
 msgid "Key file:"
-msgstr "Ny profil"
+msgstr "Nøglefil:"
 
 #: qt/manageprofiles/tab_general.py:173 qt/manageprofiles/tab_general.py:181
 #: qt/manageprofiles/tab_general.py:186
@@ -1780,90 +1768,111 @@ msgstr "Husk kodeord for cron (sikkerhedsproblem: root kan læse kodeordet)"
 msgid "Advanced"
 msgstr "Avanceret"
 
-#: qt/manageprofiles/tab_general.py:253 qt/manageprofiles/tab_general.py:670
+#: qt/manageprofiles/tab_general.py:253 qt/manageprofiles/tab_general.py:705
 msgid "Full backup path:"
 msgstr "Fuld sti til tilstandsbilleder:"
 
-#: qt/manageprofiles/tab_general.py:471
-msgid "Copy public SSH key to the remote host to enable password-less login?"
+#: qt/manageprofiles/tab_general.py:473
+msgid ""
+"An error occurred while attempting to log in to the remote host. The "
+"following error message was returned:"
+msgstr ""
+
+#: qt/manageprofiles/tab_general.py:477
+#, fuzzy
+msgid ""
+"Copying the public SSH key to the remote host can help enable password-less "
+"login."
 msgstr ""
 "Vil du kopiere din offentlige SSH-nøgle til fjernværten for at gøre login "
 "uden kodeord mulig?"
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:479
+msgid "Proceed?"
+msgstr ""
+
+#: qt/manageprofiles/tab_general.py:502
+msgid ""
+"The public SSH key could not be copied. This may be due to a connection or "
+"permission issue."
+msgstr ""
+
+#: qt/manageprofiles/tab_general.py:532
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "Autenticiteten af værten {host} kan ikke etableres."
 
-#: qt/manageprofiles/tab_general.py:508
+#: qt/manageprofiles/tab_general.py:534
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} nøgle fingeraftryk er:"
 
-#: qt/manageprofiles/tab_general.py:516
-msgid "Please verify this fingerprint. Add it to the 'known_hosts' file?"
+#: qt/manageprofiles/tab_general.py:537
+#, fuzzy
+msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
 "Verificér venligst dette fingeraftryk. Vil du tilføje det til din "
 "'known_hosts' fil?"
 
-#: qt/manageprofiles/tab_general.py:600
+#: qt/manageprofiles/tab_general.py:628
 msgid "Really change the backup directory?"
 msgstr "Er du sikker på at du vil ændre tilstandsbillede-mappen?"
 
-#: qt/manageprofiles/tab_general.py:632
-#, python-brace-format
-msgid ""
-"The selected file {path} appears to be a public SSH key. Please select a "
-"private file (without a \".pub\" extension)."
-msgstr ""
-
-#: qt/manageprofiles/tab_general.py:635
+#: qt/manageprofiles/tab_general.py:658
 #, fuzzy
-msgid "Not a private key"
-msgstr "SSH privat nøgle"
+msgid "Invalid file: Not a private SSH key"
+msgstr "Ikke en privat nøgle"
 
-#: qt/manageprofiles/tab_general.py:647
+#: qt/manageprofiles/tab_general.py:659
+#, fuzzy, python-brace-format
+msgid ""
+"The selected file ({path}) is a public SSH key. Please choose the "
+"corresponding private key file instead (without \".pub\")."
+msgstr ""
+"Det valgte fil {path} ser ud til at være en offentlig SSH-nøgle. Vælg "
+"venligst i stedet en private nøglefil (uden \".pub\" til sidst)."
+
+#: qt/manageprofiles/tab_general.py:683
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
+"Filen {path} findes i forvejen. Kan ikke lave en ny SSH-nøgle med det navn."
 
-#: qt/manageprofiles/tab_general.py:658
+#: qt/manageprofiles/tab_general.py:693
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Oprettelsen af ny SSH nøgle i {path} mislykkedes."
 
-#: qt/manageprofiles/tab_include.py:48
+#: qt/manageprofiles/tab_include.py:46
 msgid "Include files and directories"
 msgstr "Inkludér filer og mapper"
 
-#: qt/manageprofiles/tab_include.py:147
-#, fuzzy
+#: qt/manageprofiles/tab_include.py:152
 msgid "Include files"
-msgstr "Inkludér fil"
+msgstr "Inkludér filer"
 
-#: qt/manageprofiles/tab_include.py:163
-#, fuzzy
+#: qt/manageprofiles/tab_include.py:174
 msgid "Include directories"
-msgstr "Inkludér mappe"
+msgstr "Inkludér mapper"
 
-#: qt/manageprofiles/tab_options.py:37
+#: qt/manageprofiles/tab_options.py:38
 msgid "Enable notifications"
 msgstr "Aktivér bekendtgørelser"
 
-#: qt/manageprofiles/tab_options.py:41
+#: qt/manageprofiles/tab_options.py:42
 msgid "Disable backups when on battery"
 msgstr "De-aktivér tilstandsbilleder ved batteri-drift"
 
-#: qt/manageprofiles/tab_options.py:47
+#: qt/manageprofiles/tab_options.py:48
 msgid "Power status not available from system"
 msgstr "Strømstatus ikke tilgængelig fra system"
 
-#: qt/manageprofiles/tab_options.py:49
+#: qt/manageprofiles/tab_options.py:50
 msgid "Run only one backup at a time"
 msgstr "Dan kun et tilstandsbillede af gangen"
 
-#: qt/manageprofiles/tab_options.py:53
+#: qt/manageprofiles/tab_options.py:54
 msgid ""
 "Other backups will be blocked until the current backup is completed. This is"
 " a global setting, meaning it will affect all profiles for this user. "
@@ -1874,27 +1883,27 @@ msgstr ""
 "for denne bruger. Men du bliver nød til at aktivere det for alle andre "
 "brugere også."
 
-#: qt/manageprofiles/tab_options.py:60
+#: qt/manageprofiles/tab_options.py:61
 msgid "Backup replaced files on restore"
 msgstr "Sikkerhedskopiering erstattede filer ved genddannelse"
 
-#: qt/manageprofiles/tab_options.py:75
+#: qt/manageprofiles/tab_options.py:76
 msgid "Continue on errors (keep incomplete backups)"
 msgstr "Fortsæt ved fejl (behold ufuldstændige tilstandsbilleder)"
 
-#: qt/manageprofiles/tab_options.py:79
+#: qt/manageprofiles/tab_options.py:80
 msgid "Use checksum to detect changes"
 msgstr "Brug checksummer til at finde ændringer"
 
-#: qt/manageprofiles/tab_options.py:83
+#: qt/manageprofiles/tab_options.py:84
 msgid "Create a new backup whether there were changes or not."
 msgstr "Dan et nyt tilstandsbillede uanset om der var ændringer eller ej."
 
-#: qt/manageprofiles/tab_options.py:92
+#: qt/manageprofiles/tab_options.py:93
 msgid "Warn if the free disk space falls below"
 msgstr "Advar hvis den frie disk plads er under"
 
-#: qt/manageprofiles/tab_options.py:98
+#: qt/manageprofiles/tab_options.py:99
 msgid ""
 "Shows a warning when free space on the backup destination disk is less than "
 "the specified value."
@@ -1902,7 +1911,7 @@ msgstr ""
 "Vis en advarsel når den frie plads på tilstandsbillede-måldisken er mindre "
 "end den angivne værdi."
 
-#: qt/manageprofiles/tab_options.py:100
+#: qt/manageprofiles/tab_options.py:101
 msgid ""
 "If the Remove & Retention policy is enabled and old backups are removed "
 "based on available free space, this value cannot be lower than the value set"
@@ -1912,15 +1921,15 @@ msgstr ""
 "bliver fjernet baseret på tilgængelig fri plads, så kan denne værdi ikke "
 "være mindre end værdien sat i strategien."
 
-#: qt/manageprofiles/tab_options.py:118
+#: qt/manageprofiles/tab_options.py:119
 msgid "Log Level:"
 msgstr "Logniveau:"
 
-#: qt/manageprofiles/tab_options.py:178
+#: qt/manageprofiles/tab_options.py:179
 msgid "None"
 msgstr "Ingen"
 
-#: qt/manageprofiles/tab_remove_retention.py:197
+#: qt/manageprofiles/tab_remove_retention.py:198
 #, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
@@ -1929,33 +1938,33 @@ msgstr ""
 "De følgende regler håndteres fra top til bund. Senere regler tager præcedens"
 " over tidligere. Detaljer og eksempler findes i {manual}."
 
-#: qt/manageprofiles/tab_remove_retention.py:202
+#: qt/manageprofiles/tab_remove_retention.py:203
 msgid "user manual"
 msgstr "brugervejledning"
 
-#: qt/manageprofiles/tab_remove_retention.py:215
+#: qt/manageprofiles/tab_remove_retention.py:216
 msgid "Open user manual in browser."
 msgstr "Åbn brugervejledning i browser."
 
-#: qt/manageprofiles/tab_remove_retention.py:229
+#: qt/manageprofiles/tab_remove_retention.py:230
 msgid "Keep the most recent backup."
 msgstr "Behold det nyeste tilstandsbillede."
 
-#: qt/manageprofiles/tab_remove_retention.py:233
+#: qt/manageprofiles/tab_remove_retention.py:234
 msgid "The last or freshest backup is kept under all circumstances."
 msgstr ""
 "Det sidste eller friskeste tilstandsbillede beholdes under alle "
 "omstændigheder."
 
-#: qt/manageprofiles/tab_remove_retention.py:235
+#: qt/manageprofiles/tab_remove_retention.py:236
 msgid "That behavior cannot be changed."
 msgstr "Denne opførsel kan ikke ændres."
 
-#: qt/manageprofiles/tab_remove_retention.py:247
+#: qt/manageprofiles/tab_remove_retention.py:248
 msgid "Keep named backups."
 msgstr "Behold navngivne tilstandsbilleder."
 
-#: qt/manageprofiles/tab_remove_retention.py:250
+#: qt/manageprofiles/tab_remove_retention.py:251
 msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
@@ -1963,35 +1972,35 @@ msgstr ""
 "Tilstandsbilleder som, udover det sædvanlige tidsstempel, har fået tilddelt "
 "et navn slettes under ingen omstændigher og vil ikke blive fjernet."
 
-#: qt/manageprofiles/tab_remove_retention.py:265
+#: qt/manageprofiles/tab_remove_retention.py:266
 msgid "Year(s)"
 msgstr "År"
 
-#: qt/manageprofiles/tab_remove_retention.py:270
+#: qt/manageprofiles/tab_remove_retention.py:271
 msgid "Remove backups older than"
 msgstr "Fjern tilstandsbilleder ældre end"
 
-#: qt/manageprofiles/tab_remove_retention.py:276
+#: qt/manageprofiles/tab_remove_retention.py:277
 msgid "Full days. Current day is ignored."
 msgstr "Hele dage. Dags dato ignoreres."
 
-#: qt/manageprofiles/tab_remove_retention.py:278
+#: qt/manageprofiles/tab_remove_retention.py:279
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr "Kalenderuger med mandag som første dag. Nuværende uge ignoreres."
 
-#: qt/manageprofiles/tab_remove_retention.py:281
+#: qt/manageprofiles/tab_remove_retention.py:282
 msgid "12 months periods. Current month is ignored."
 msgstr "12 måneders perioder. Nuværende måned ignoreres."
 
-#: qt/manageprofiles/tab_remove_retention.py:296
+#: qt/manageprofiles/tab_remove_retention.py:297
 msgid "Retention policy"
 msgstr "Opbevaringspolitik"
 
-#: qt/manageprofiles/tab_remove_retention.py:301
+#: qt/manageprofiles/tab_remove_retention.py:302
 msgid "Run in background on remote host."
 msgstr "Kør i bagrunden på fjernværten."
 
-#: qt/manageprofiles/tab_remove_retention.py:304
+#: qt/manageprofiles/tab_remove_retention.py:305
 msgid ""
 "The smart remove procedure will run directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
@@ -2001,115 +2010,132 @@ msgstr ""
 "Kommandoerne \"bash\", \"screen\" and \"flock\" er påkrævet på "
 "fjernmaskinen."
 
-#: qt/manageprofiles/tab_remove_retention.py:308
+#: qt/manageprofiles/tab_remove_retention.py:309
 msgid "If selected, Back In Time will first test the remote machine."
 msgstr "Hvis dette er valgt begynder Back In Time med at teste fjernmaskinen."
 
-#: qt/manageprofiles/tab_remove_retention.py:312
+#: qt/manageprofiles/tab_remove_retention.py:313
 msgid "The days are counted starting from today."
 msgstr "Dagene tælles fra i dag."
 
-#: qt/manageprofiles/tab_remove_retention.py:313
+#: qt/manageprofiles/tab_remove_retention.py:314
 msgid "Keep all backups for the last"
 msgstr "Behold alle tilstandsbilleder for de seneste"
 
-#: qt/manageprofiles/tab_remove_retention.py:318
-#: qt/manageprofiles/tab_remove_retention.py:330
+#: qt/manageprofiles/tab_remove_retention.py:319
+#: qt/manageprofiles/tab_remove_retention.py:331
 msgid "day(s)."
 msgstr "Dag(e)."
 
-#: qt/manageprofiles/tab_remove_retention.py:325
+#: qt/manageprofiles/tab_remove_retention.py:326
 msgid "Keep the last backup for each day for the last"
 msgstr "Behold det sidste tilstandsbillede for hver dag for de sidste"
 
-#: qt/manageprofiles/tab_remove_retention.py:335
+#: qt/manageprofiles/tab_remove_retention.py:336
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
 msgstr ""
 "Ugernes tælles startende fra den nuværende uge. Uger starter på mandage."
 
-#: qt/manageprofiles/tab_remove_retention.py:338
+#: qt/manageprofiles/tab_remove_retention.py:339
 msgid "Keep the last backup for each week for the last"
 msgstr "Behold det seneste tilstandsbillede for hver uge for de seneste"
 
-#: qt/manageprofiles/tab_remove_retention.py:343
+#: qt/manageprofiles/tab_remove_retention.py:344
 msgid "week(s)."
 msgstr "Uge(r)."
 
-#: qt/manageprofiles/tab_remove_retention.py:348
+#: qt/manageprofiles/tab_remove_retention.py:349
 msgid ""
 "The months are counted as calendar months starting with the current month."
 msgstr "Månederne tælles som kalendermåneder fra nuværende måned."
 
-#: qt/manageprofiles/tab_remove_retention.py:351
+#: qt/manageprofiles/tab_remove_retention.py:352
 msgid "Keep the last backup for each month for the last"
 msgstr "Behold det seneste tilstandsbillede for hver måned for de seneste"
 
-#: qt/manageprofiles/tab_remove_retention.py:356
+#: qt/manageprofiles/tab_remove_retention.py:357
 msgid "month(s)."
 msgstr "måned(er)."
 
-#: qt/manageprofiles/tab_remove_retention.py:361
+#: qt/manageprofiles/tab_remove_retention.py:362
 msgid ""
 "The years are counted as calendar years starting with the current year."
 msgstr "Årene tælles som kalenderår fra i år."
 
-#: qt/manageprofiles/tab_remove_retention.py:363
+#: qt/manageprofiles/tab_remove_retention.py:364
 msgid "Keep the last backup for each year for"
 msgstr "Behold det seneste tilstandsbillede for hvert år de seneste"
 
-#: qt/manageprofiles/tab_remove_retention.py:365
+#: qt/manageprofiles/tab_remove_retention.py:366
 msgid "all years."
 msgstr "alle år."
 
-#: qt/manageprofiles/tab_remove_retention.py:380
+#: qt/manageprofiles/tab_remove_retention.py:381
 msgid "… the free space is less than"
 msgstr "... fri plads er mindre end"
 
-#: qt/manageprofiles/tab_remove_retention.py:385
+#: qt/manageprofiles/tab_remove_retention.py:386
 msgid "… the free inodes are less than"
 msgstr "... frie inodes er mindre end"
 
-#: qt/manageprofiles/tab_remove_retention.py:394
+#: qt/manageprofiles/tab_remove_retention.py:395
 msgid "Remove oldest backup if …"
 msgstr "Fjern ældste tilstandsbillede hvis …"
 
-#: qt/messagebox.py:116 qt/messagebox.py:134 qt/messagebox.py:144
-msgid "Question"
-msgstr "Spørgsmål"
+#: qt/placeswidget.py:49
+msgid "Shortcuts"
+msgstr "Genveje"
 
-#: qt/qtsystrayicon.py:69
+#: qt/placeswidget.py:63
+msgid "Places"
+msgstr ""
+
+#: qt/placeswidget.py:64
+msgid "File System"
+msgstr ""
+
+#: qt/placeswidget.py:106
+msgid "Backup directories"
+msgstr "Sikkerhedskopi-mapper"
+
+#: qt/qtsystrayicon.py:65
 #, python-brace-format
 msgid "Profile: {profile_name}"
 msgstr "Profil: \"{profile_name}\""
 
-#: qt/qtsystrayicon.py:101
+#: qt/qtsystrayicon.py:98
 msgid "View Last Log"
 msgstr "Se Sidste Log"
 
-#: qt/qtsystrayicon.py:105
+#: qt/qtsystrayicon.py:102
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "Kør {appname}"
 
-#: qt/qtsystrayicon.py:171
+#: qt/qtsystrayicon.py:162
 msgid "Working…"
 msgstr "Arbejder…"
 
-#: qt/restoreconfigdialog.py:68
+#: qt/restoreconfigdialog.py:72
 msgid "Import configuration"
 msgstr "Importeer konfiguration"
 
-#: qt/restoreconfigdialog.py:124 qt/restoreconfigdialog.py:220
+#: qt/restoreconfigdialog.py:92 qt/restoreconfigdialog.py:318
 msgid "No config found"
 msgstr "Ingen opsætning fundet"
 
-#: qt/restoreconfigdialog.py:149
+#: qt/restoreconfigdialog.py:121
 msgid "Import"
 msgstr "Import"
 
-#: qt/restoreconfigdialog.py:177
+#: qt/restoreconfigdialog.py:143 qt/restoreconfigdialog.py:247
+#, fuzzy
+msgid "Searching…"
+msgstr "Arbejder…"
+
+#: qt/restoreconfigdialog.py:224
 #, python-brace-format
 msgid ""
 "Select the backup directory from which the configuration file should be "
@@ -2118,7 +2144,7 @@ msgstr ""
 "Vælg tilstandsbillede-mappen hvorfra konfigurationsfilen skal importeres. "
 "Stien kan se sådan ud: {samplePath}"
 
-#: qt/restoreconfigdialog.py:182
+#: qt/restoreconfigdialog.py:229
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
@@ -2126,7 +2152,25 @@ msgstr ""
 "Hvis mappen er placeret på en eksternt eller flytbart drev, skal det først "
 "tilsluttes manuelt."
 
-#: qt/restoredialog.py:52
+#: qt/restoreconfigdialog.py:250
+msgid "Scan again"
+msgstr ""
+
+#: qt/restoreconfigdialog.py:269
+#, fuzzy
+msgid "Show hidden directories"
+msgstr "Vis skjulte filer"
+
+#: qt/restoreconfigdialog.py:271
+#, fuzzy
+msgid "Show/hide hidden directories (Ctrl+H)"
+msgstr "Vis/skjul skjulte filer og mapper (Ctrl+H)"
+
+#: qt/restoreconfigdialog.py:379
+msgid "Search complete."
+msgstr ""
+
+#: qt/restoredialog.py:55
 msgid "Show full Log"
 msgstr "Vis Fulde Log"
 
@@ -2153,27 +2197,27 @@ msgid_plural "The system will shut down in {n} seconds."
 msgstr[0] "Systemet lukker ned om {n} sekund."
 msgstr[1] "Systemet lukker ned om {n} sekunder."
 
-#: qt/snapshotsdialog.py:58
+#: qt/snapshotsdialog.py:61
 msgid "Options about comparing backups"
 msgstr "Valgmuligheder om sammenligning af tilstandsbilleder"
 
-#: qt/snapshotsdialog.py:65
+#: qt/snapshotsdialog.py:68
 msgid "Command:"
 msgstr "Kommando:"
 
-#: qt/snapshotsdialog.py:69
+#: qt/snapshotsdialog.py:72
 msgid "Parameters:"
 msgstr "Parametre:"
 
-#: qt/snapshotsdialog.py:74
+#: qt/snapshotsdialog.py:77
 msgid "Use %1 and %2 for path parameters"
 msgstr "Brug %1 og %2 som sti-parametre"
 
-#: qt/snapshotsdialog.py:91
+#: qt/snapshotsdialog.py:94
 msgid "Please set a diff command or press Cancel."
 msgstr "Venligst sæt en diff-kommando eller tryk Annuller."
 
-#: qt/snapshotsdialog.py:97
+#: qt/snapshotsdialog.py:100
 #, python-brace-format
 msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
@@ -2182,49 +2226,49 @@ msgstr ""
 "Kommandoen \"{cmd}\" blev ikke fundet på dette system. Venligst prøv noget "
 "andet eller tryk Annuller."
 
-#: qt/snapshotsdialog.py:105
+#: qt/snapshotsdialog.py:108
 #, python-brace-format
 msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr ""
 "Ingen parametre sat for diff-kommandoen. Bruger standardværdi \"{params}\"."
 
-#: qt/snapshotsdialog.py:130 qt/timeline.py:45
+#: qt/snapshotsdialog.py:133 qt/timeline.py:44
 msgid "Backups"
 msgstr "Tilstandsbilleder"
 
-#: qt/snapshotsdialog.py:141
+#: qt/snapshotsdialog.py:144
 msgid "Differing backups only"
 msgstr "Kun tilstandsbilleder der er forskellige"
 
-#: qt/snapshotsdialog.py:150
+#: qt/snapshotsdialog.py:153
 msgid "List only backups that are equal to:"
 msgstr "Vis kun tilstandsbilleder der er ens med:"
 
-#: qt/snapshotsdialog.py:162
+#: qt/snapshotsdialog.py:165
 msgid "Deep check (more accurate, but slow)"
 msgstr "Grundig sammenligning (mere præcis, men langsom)"
 
-#: qt/snapshotsdialog.py:183
+#: qt/snapshotsdialog.py:186
 msgid "Delete"
 msgstr "Slet"
 
-#: qt/snapshotsdialog.py:188
+#: qt/snapshotsdialog.py:191
 msgid "Select All"
 msgstr "Vælg alle"
 
-#: qt/snapshotsdialog.py:201
+#: qt/snapshotsdialog.py:204
 msgid "Compare"
 msgstr "Sammenlign"
 
-#: qt/snapshotsdialog.py:216
+#: qt/snapshotsdialog.py:219
 msgid "Go To"
 msgstr "Gå til"
 
-#: qt/snapshotsdialog.py:218
+#: qt/snapshotsdialog.py:221
 msgid "Options"
 msgstr "Indstillinger"
 
-#: qt/snapshotsdialog.py:381
+#: qt/snapshotsdialog.py:384
 msgid ""
 "It is not possible to compare a backup to itself, as the comparison would be"
 " redundant."
@@ -2232,50 +2276,60 @@ msgstr ""
 "Det er ikke muligt at sammenligne et tilstandsbillede med sig selv, da der "
 "per definition ingen forskel er."
 
-#: qt/snapshotsdialog.py:427
+#: qt/snapshotsdialog.py:430
 #, python-brace-format
 msgid "Really delete {file_or_dir} in backup {backup_id}?"
 msgstr ""
 "Er du sikker på at du vil slette {file_or_dir} i tilstandsbilledet "
 "{backup_id}?"
 
-#: qt/snapshotsdialog.py:432
+#: qt/snapshotsdialog.py:435
 #, python-brace-format
 msgid "Really delete {file_or_dir} in {count} backups?"
 msgstr "Vil du virkelig slette {file_or_dir} i {count} tilstandsbilleder?"
 
-#: qt/snapshotsdialog.py:435
+#: qt/snapshotsdialog.py:438
 msgid "WARNING: This cannot be revoked."
 msgstr "ADVARSEL: Dette kan ikke tilbagekaldes."
 
-#: qt/snapshotsdialog.py:453
+#: qt/snapshotsdialog.py:455
 #, python-brace-format
 msgid "Exclude {path} from future backups?"
 msgstr "Ekskludér {path} fra tilstandsbilleder fremover?"
 
-#: qt/timeline.py:70
+#: qt/statusbar.py:85
+#, fuzzy
+msgid "Root mode"
+msgstr "Root"
+
+#: qt/statusbar.py:87
+msgid ""
+"Back In Time is currently running with root privileges (full system access)"
+msgstr ""
+
+#: qt/timeline.py:69
 msgid "Today"
 msgstr "I dag"
 
-#: qt/timeline.py:78
+#: qt/timeline.py:77
 msgid "Yesterday"
 msgstr "I går"
 
-#: qt/timeline.py:88
+#: qt/timeline.py:87
 msgid "This week"
 msgstr "Denne uge"
 
-#: qt/timeline.py:96
+#: qt/timeline.py:95
 msgid "Last week"
 msgstr "Sidste uge"
 
-#: qt/timeline.py:270
+#: qt/timeline.py:268
 msgid "This is NOT a backup but a live view of the local files."
 msgstr ""
 "Dette er IKKE et tilstandsbillede men et opdateret blik på dine lokale "
 "filer."
 
-#: qt/timeline.py:275
+#: qt/timeline.py:273
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Sidste check {time}"
@@ -2299,6 +2353,9 @@ msgstr "Sidste check {time}"
 #~ msgid_plural "Are you sure you want to remove these snapshots?"
 #~ msgstr[0] "Er du sikker på du ønsker at fjerne tilstands-billedet?"
 #~ msgstr[1] "Er du sikker på du ønsker at fjerne tilstands-billederne?"
+
+#~ msgid "Backup"
+#~ msgstr "&Sikkerhedskopiéring"
 
 #, python-brace-format
 #~ msgid "Cipher {cipher} failed for {host}."
@@ -2326,12 +2383,21 @@ msgstr "Sidste check {time}"
 #~ msgstr[0] "Hver {n} time"
 #~ msgstr[1] "Hver {n} timer"
 
+#~ msgid "Global"
+#~ msgstr "Globalt"
+
+#~ msgid "Home"
+#~ msgstr "Hjemmemappe"
+
 #~ msgid "If it is on a removable drive, please plug it in. Then press OK."
 #~ msgstr ""
 #~ "Hvis den er på et flytbar drev, indsæt venligst drevet og tryk derefter OK."
 
 #~ msgid "License"
 #~ msgstr "Licens"
+
+#~ msgid "Look at 'man backintime' for further instructions"
+#~ msgstr "Se 'man backintime' for yderligere instruktioner"
 
 #~ msgid "Name snapshot"
 #~ msgstr "Navngiv tilstands-billede"

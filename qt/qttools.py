@@ -49,7 +49,6 @@ import logger  # noqa: E402
 import bitbase  # noqa: E402
 import version  # noqa: E402
 import messagebox
-from filedialog import FileDialog
 
 
 # |--------------------------------|
@@ -176,6 +175,7 @@ def update_combo_profiles(config, combo_profiles, current_profile_id):
 def create_icon_label(
         icon_type: QStyle.StandardPixmap,
         icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
+        icon_scale_factor: float | int = None,
         fixed_size_widget: bool = False) -> QLabel:
     """Return a ``QLabel`` instance containing an icon.
 
@@ -191,6 +191,9 @@ def create_icon_label(
     ico = style.standardIcon(icon_type)
     sz = style.pixelMetric(icon_size)
 
+    if icon_scale_factor:
+        sz = int(sz * icon_scale_factor)
+
     pixmap = ico.pixmap(sz)
 
     label = QLabel()
@@ -204,6 +207,7 @@ def create_icon_label(
 
 def create_icon_label_info(
         icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
+        icon_scale_factor: float | int = None,
         fixed_size_widget: bool = False) -> QLabel:
     """Return a QLabel with an info icon.
 
@@ -212,11 +216,13 @@ def create_icon_label_info(
     return create_icon_label(
         icon_type=QStyle.StandardPixmap.SP_MessageBoxInformation,
         icon_size=icon_size,
+        icon_scale_factor=icon_scale_factor,
         fixed_size_widget=fixed_size_widget)
 
 
 def create_icon_label_warning(
         icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
+        icon_scale_factor: float | int = None,
         fixed_size_widget: bool = False) -> QLabel:
     """Return a QLabel with a warning icon.
 
@@ -225,6 +231,7 @@ def create_icon_label_warning(
     return create_icon_label(
         icon_type=QStyle.StandardPixmap.SP_MessageBoxWarning,
         icon_size=icon_size,
+        icon_scale_factor=icon_scale_factor,
         fixed_size_widget=fixed_size_widget)
 
 
@@ -260,7 +267,7 @@ class MouseButtonEventFilter(QObject):
 
         super().__init__()
 
-    def eventFilter(self, receiver, event):
+    def eventFilter(self, receiver: QObject, event: QEvent):
         """Catch global input events."""
 
         # not a mouse press event
@@ -351,71 +358,6 @@ def open_user_manual() -> None:
     opened.
     """
     open_url(user_manual_uri())
-
-
-def getExistingDirectories(parent, title):
-    """Workaround for selecting multiple directories adopted from
-    http://www.qtcentre.org/threads/34226-QFileDialog-select-multiple-directories?p=158482#post158482
-    This also give control about hidden folders
-    """
-
-    dlg = FileDialog(parent,
-                     title=title,
-                     show_hidden=True,
-                     allow_multiselection=True,
-                     dirs_only=True)
-    result = dlg.result()
-
-    if result:
-        return result
-    return [str(), ]
-
-
-def getExistingDirectory(parent, title, start_dir=None):
-    """Workaround to give control about hidden folders"""
-    dlg = FileDialog(parent,
-                     title=title,
-                     show_hidden=True,
-                     allow_multiselection=False,
-                     dirs_only=True,
-                     start_dir=start_dir)
-    result = dlg.result()
-
-    if result:
-        return str(result)
-
-    return str()
-
-
-def getOpenFileNames(parent, title):
-    """
-    Workaround to give control about hidden files
-    """
-    dlg = FileDialog(parent,
-                     title=title,
-                     show_hidden=True,
-                     allow_multiselection=True,
-                     dirs_only=False)
-    result = dlg.result()
-
-    if result:
-        return [str(r) for r in result]
-    return [str(), ]
-
-
-def getOpenFileName(parent, title, start_dir = None):
-    """Workaround to give control about hidden files"""
-    dlg = FileDialog(parent,
-                     title=title,
-                     show_hidden=True,
-                     allow_multiselection=False,
-                     dirs_only=False,
-                     start_dir=start_dir)
-    result = dlg.result()
-
-    if result:
-        return str(result)
-    return str()
 
 
 def _show_qt_debug_info(qapp):

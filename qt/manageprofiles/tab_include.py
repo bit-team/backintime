@@ -12,7 +12,6 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """The IncludeTab class for managing include paths"""
-import os
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QWidget,
                              QVBoxLayout,
@@ -22,7 +21,6 @@ from PyQt6.QtWidgets import (QWidget,
                              QPushButton,
                              QHeaderView,
                              QAbstractItemView)
-import qttools
 from qttools import custom_sort_order
 from filedialog import FileDialog
 
@@ -119,15 +117,19 @@ class IncludeTab(QWidget):
         item = QTreeWidgetItem()
         icon = self.icon.FOLDER if data[1] == 0 else self.icon.FILE
         item.setIcon(0, icon)
+
         duplicates = self.list_include.findItems(
             data[0],
             Qt.MatchFlag.MatchFixedString | Qt.MatchFlag.MatchCaseSensitive
         )
+
         if duplicates:
             self.list_include.setCurrentItem(duplicates[0])
             return
+
         item.setText(0, data[0])
         item.setData(0, Qt.ItemDataRole.UserRole, data[1])
+
         self.list_include_count += 1
         item.setText(1, str(self.list_include_count).zfill(6))
         item.setData(1, Qt.ItemDataRole.UserRole, self.list_include_count)
@@ -145,17 +147,25 @@ class IncludeTab(QWidget):
 
     def btn_include_file_clicked(self):
         """Handle file-adding button click."""
-        for path in qttools.getOpenFileNames(self, _('Include files')):
+        dlg = FileDialog(
+            parent=self,
+            title=_('Include files'),
+            show_hidden=True,
+            allow_multiselection=True,
+            dirs_only=False)
+
+        for path in dlg.result():
             if not path:
                 continue
-            if os.path.islink(path) and not (
+
+            if path.is_symlink() and not (
                 self._parent_dialog.cbCopyUnsafeLinks.isChecked() or
                 self._parent_dialog.cbCopyLinks.isChecked()
             ):
                 if self._parent_dialog._ask_include_symlinks_target(path):
-                    path = os.path.realpath(path)
-            path = self.config.preparePath(path)
-            self.add_include((path, 1))
+                    path = path.resolve()
+
+            self.add_include((str(path), 1))
 
     def btn_include_add_clicked(self):
         """Handle directory-adding button click."""

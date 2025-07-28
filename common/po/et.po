@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This file is part of the program "Back In time" which is released under GNU
+# This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-07-01 16:44+0200\n"
-"PO-Revision-Date: 2025-06-30 05:35+0000\n"
+"POT-Creation-Date: 2025-07-27 11:10+0200\n"
+"PO-Revision-Date: 2025-07-19 00:57+0000\n"
 "Last-Translator: Priit Jõerüüt <jrtcdbrg@noreply.codeberg.org>\n"
 "Language-Team: Estonian <https://translate.codeberg.org/projects/backintime/common/et/>\n"
 "Language: et\n"
@@ -23,74 +23,85 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.11.4\n"
+"X-Generator: Weblate 5.12.2\n"
 
-#: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
-#: qt/messagebox.py:92
+#: common/bitlicense.py:43
+#, python-brace-format
+msgid ""
+"All licenses used in this project are located in the {dir_link} directory. "
+"To extract per-file license and copyright information using SPDX metadata, "
+"refer to {readme_link}."
+msgstr ""
+"Kõik selles projektis kasutatud tarkvara litsentsid asuvad kaustas "
+"„{dir_link}“. Kui soovid SPDX-metainfo alusel väljastada failikohase "
+"litsentsi- ja autoriõiguste teabe, siis palun vaata siia: {readme_link}."
+
+#: common/config.py:37 common/tools.py:86 qt/encfsmsgbox.py:24
+#: qt/messagebox.py:98
 msgid "Warning"
 msgstr "Hoiatus"
 
-#: common/config.py:138 common/config.py:246
+#: common/config.py:137 common/config.py:245
 msgid "Main profile"
 msgstr "Peamine profiil"
 
-#: common/config.py:252
+#: common/config.py:251
 msgid "Local (EncFS encrypted)"
 msgstr "Kohalik (krüptitud EncFS abil)"
 
-#: common/config.py:253
+#: common/config.py:252
 msgid "SSH (EncFS encrypted)"
 msgstr "SSH (krüptitud EncFS abil)"
 
-#: common/config.py:264
+#: common/config.py:263
 msgid "Local"
 msgstr "Kohalik"
 
-#: common/config.py:266
+#: common/config.py:265
 msgid "SSH"
 msgstr "SSH"
 
-#: common/config.py:266 common/config.py:276
-#: qt/manageprofiles/tab_general.py:620
+#: common/config.py:265 common/config.py:275
+#: qt/manageprofiles/tab_general.py:646
 msgid "SSH private key"
 msgstr "SSH privaatvõti"
 
-#: common/config.py:269
+#: common/config.py:268
 msgid "Local encrypted"
 msgstr "Kohalik krüptituna"
 
-#: common/config.py:270 common/config.py:277
+#: common/config.py:269 common/config.py:276
 msgid "Encryption"
 msgstr "Krüptimine"
 
-#: common/config.py:275
+#: common/config.py:274
 msgid "SSH encrypted"
 msgstr "SSH krüptituna"
 
-#: common/config.py:283
+#: common/config.py:282
 msgid "Default"
 msgstr "Vaikimisi"
 
-#: common/config.py:314 common/config.py:326 common/config.py:344
-#: common/config.py:358 common/config.py:379
+#: common/config.py:313 common/config.py:325 common/config.py:343
+#: common/config.py:357 common/config.py:378
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profiil: \"{name}\""
 
-#: common/config.py:315
+#: common/config.py:314
 msgid "Backup directory is not valid."
 msgstr "Varukoopiate kaust ei ole korrektne."
 
-#: common/config.py:327
+#: common/config.py:326
 msgid "At least one directory must be selected for backup."
 msgstr "Varukoopia tegemiseks pead valima vähemalt ühe kausta."
 
-#: common/config.py:345 common/config.py:360
+#: common/config.py:344 common/config.py:359
 #, python-brace-format
 msgid "Directory: {path}"
 msgstr "Kaust: {path}"
 
-#: common/config.py:346 common/config.py:361
+#: common/config.py:345 common/config.py:360
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
@@ -98,7 +109,7 @@ msgstr ""
 "Seda kausta ei saa kaasata varukoopiasse, kuna ta on osa varunduse "
 "sihtkaustast endast."
 
-#: common/config.py:380
+#: common/config.py:379
 #, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if free space is less than\" "
@@ -109,7 +120,7 @@ msgstr ""
 "({val_one}) peab olema väiksem või võrdne „Hoiata, kui vaba andmeruumi on "
 "vähem, kui“ ({val_two}) lävendiga."
 
-#: common/config.py:385
+#: common/config.py:384
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
@@ -117,16 +128,16 @@ msgstr ""
 "Palun muuda seadistusi parasjagu nii, et varukoopiate eemaldamise piir pole "
 "hoiatamise piirist kõrgem."
 
-#: common/config.py:1515
+#: common/config.py:1509
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "{mode}-režiimis udev'i kasutamine ajastamiseks ei toimi"
 
-#: common/config.py:1569
+#: common/config.py:1563
 msgid "Failed to write new crontab."
 msgstr "Uue crontabi loomine ei õnnestunud."
 
-#: common/config.py:1577
+#: common/config.py:1571
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -182,7 +193,7 @@ msgstr "Kinnitamiseks palun sisesta uuesti EncFS-i salasõna."
 msgid "The EncFS passwords do not match."
 msgstr "EncFS-i salasõnad ei klapi omavahel."
 
-#: common/encfstools.py:515 common/snapshots.py:1123
+#: common/encfstools.py:515 common/snapshots.py:1126
 msgid "Take snapshot"
 msgstr "Tee hetktõmmis"
 
@@ -222,20 +233,20 @@ msgstr ""
 msgid "Couldn't find UUID for {path}"
 msgstr "„{path}“ asukoha jaoks ei suuda tuvastada UUID-d"
 
-#: common/snapshots.py:377 common/snapshots.py:655
+#: common/snapshots.py:378 common/snapshots.py:656
 msgid "FAILED"
 msgstr "EBAÕNNESTUS"
 
-#: common/snapshots.py:578 common/snapshots.py:651
+#: common/snapshots.py:579 common/snapshots.py:652
 msgid "Restore permissions"
 msgstr "Taasta õigused"
 
-#: common/snapshots.py:655 qt/app.py:295 qt/app.py:1112 qt/app.py:1147
-#: qt/qtsystrayicon.py:73
+#: common/snapshots.py:656 qt/app.py:259 qt/app.py:1084 qt/app.py:1119
+#: qt/qtsystrayicon.py:70
 msgid "Done"
 msgstr "Valmis"
 
-#: common/snapshots.py:748
+#: common/snapshots.py:749
 msgid ""
 "The following entries from the include list have no corresponding file or "
 "directory in the backup source:"
@@ -243,140 +254,140 @@ msgstr ""
 "Kaasatavate objektide loendi nendel kirjetel pole varukoopias vastavaid "
 "faili või kausta väärtusi:"
 
-#: common/snapshots.py:811
+#: common/snapshots.py:812
 msgid "Deferring backup while on battery"
 msgstr "Viivitame varukoopia tegemist seni, kuni arvuti on akutoitel"
 
-#: common/snapshots.py:927 qt/app.py:369
+#: common/snapshots.py:928 qt/app.py:335
 msgid "Can't find backup directory."
 msgstr "Ei õnnestu leida varukoopiate kausta."
 
-#: common/snapshots.py:931 qt/app.py:370
+#: common/snapshots.py:932 qt/app.py:336
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Kui ta asub eemaldataval andmekandjal, siis palun ühenda see."
 
-#: common/snapshots.py:934
+#: common/snapshots.py:935
 #, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
 msgstr[0] "Ootan {n} sekundi."
 msgstr[1] "Ootan {n} sekundit."
 
-#: common/snapshots.py:1000
+#: common/snapshots.py:1003
 #, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Varukoopia nr {snapshot_id} tegemine ei õnnestunud."
 
-#: common/snapshots.py:1032
+#: common/snapshots.py:1035
 msgid "Please be patient. Finalizing…"
 msgstr "Palun oota rahulikult. Lõpetame toimingut…"
 
-#: common/snapshots.py:1158
+#: common/snapshots.py:1161
 msgid "Can't create directory."
 msgstr "Ei saa luua kausta."
 
-#: common/snapshots.py:1175
+#: common/snapshots.py:1178
 msgid "Saving config file…"
 msgstr "Salvestame seadistuste faili…"
 
-#: common/snapshots.py:1256
+#: common/snapshots.py:1259
 msgid "Saving permissions…"
 msgstr "Salvestame õigusi…"
 
-#: common/snapshots.py:1371
+#: common/snapshots.py:1374
 #, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr ""
 "Leidsime varasema pooliku varukoopia nr {snapshot_id}, mida saad täiendada."
 
-#: common/snapshots.py:1395
+#: common/snapshots.py:1398
 #, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr "Eemaldan varasemast ülejäänud varukoopia nr {snapshot_id} kausta"
 
-#: common/snapshots.py:1406
+#: common/snapshots.py:1409
 msgid "Can't remove directory"
 msgstr "Ei saa eemaldada kausta"
 
-#: common/snapshots.py:1460
+#: common/snapshots.py:1463
 msgid "Creating backup"
 msgstr "Loon varukoopiat"
 
-#: common/snapshots.py:1511
+#: common/snapshots.py:1514
 msgid "Success"
 msgstr "Õnnestus"
 
-#: common/snapshots.py:1514
+#: common/snapshots.py:1517
 msgid "Partial transfer due to error"
 msgstr "Vea tõttu on andmed vaid osaliselt kopeeritud"
 
-#: common/snapshots.py:1515
+#: common/snapshots.py:1518
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Algsete failide kadumise tõttu on andmed vaid osaliselt kopeeritud "
 "(abiteabeks vaata „man rsync“)"
 
-#: common/snapshots.py:1519
+#: common/snapshots.py:1522
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "„rsync“ lõpetas töö veateatega {exit_code}"
 
-#: common/snapshots.py:1532
+#: common/snapshots.py:1535
 msgid "See 'man rsync' for more details"
 msgstr "Lisateavet leiad „man rsync“ käsuga"
 
-#: common/snapshots.py:1539
+#: common/snapshots.py:1542
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Miinusmärgiga rsynci veateated on süsteemisignaalide numbrid, lisateavet "
 "leiad „kill -l“ ja „man kill“ käskudest"
 
-#: common/snapshots.py:1560
+#: common/snapshots.py:1563
 msgid "Nothing changed, no new backup necessary"
 msgstr "Mitte midagi pole muutunud, uue varukoopia tegemine pole vajalik"
 
-#: common/snapshots.py:1604
+#: common/snapshots.py:1608
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "Asukoha „{path}“ uueks nimeks ei saa määrata „{new_path}“."
 
-#: common/snapshots.py:1939
+#: common/snapshots.py:1943
 msgid "Smart removal"
 msgstr "Nutikas eemaldamine"
 
-#: common/snapshots.py:1991
+#: common/snapshots.py:1995
 msgid "Apply rules to remove old backups"
 msgstr "Kehtesta vanade varukoopiate eemaldamise reeglid"
 
-#: common/snapshots.py:2024
+#: common/snapshots.py:2028
 msgid "Apply retention policy"
 msgstr "Kehtesta säilitamise reeglid"
 
-#: common/snapshots.py:2034
+#: common/snapshots.py:2038
 msgid "Trying to keep min free space"
 msgstr "Üritame jätta vabaks minimaalselt nõutava andmeruumi mahu"
 
-#: common/snapshots.py:2072
+#: common/snapshots.py:2076
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Proovime jätta {perc} indekssõlmedest vabaks"
 
-#: common/snapshots.py:3158 qt/app.py:1924
+#: common/snapshots.py:3162 qt/app.py:1715
 msgid "Now"
 msgstr "Nüüd"
 
-#: common/sshtools.py:232
+#: common/sshtools.py:233
 #, python-brace-format
 msgid "Unable to mount {sshfs}"
 msgstr "{sshfs} haakimine ei õnnestu"
 
-#: common/sshtools.py:300
+#: common/sshtools.py:301
 msgid "ssh-agent not found. Please ensure it is installed."
 msgstr ""
 "Programmi ssh-agent ei leidu. Palun kontrolli, et ta oleks paigaldatud."
 
-#: common/sshtools.py:483
+#: common/sshtools.py:484
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
@@ -384,52 +395,48 @@ msgstr ""
 "Ssh privaatvõtme lukust lahtivõtmine ei õnnestunud. Salasõna oli kas vale "
 "või polnud croni jaoks leitav."
 
-#: common/sshtools.py:719
+#: common/sshtools.py:716
 msgid "Remote path exists but is not a directory."
 msgstr "Välisseadmes on asukoht olemas, kuid tegemist pole kaustaga."
 
-#: common/sshtools.py:724
+#: common/sshtools.py:721
 msgid "Remote path is not writable."
 msgstr "Välisseadmes leiduv asukoht pole kirjutatav."
 
-#: common/sshtools.py:729
+#: common/sshtools.py:726
 msgid "Remote path is not executable."
 msgstr "Välisseadmes leiduv asukoht pole käivitatav."
 
-#: common/sshtools.py:734
+#: common/sshtools.py:731
 msgid "Couldn't create remote path."
 msgstr "Ei saa luua välisseadmes asuvat kausta."
 
-#: common/sshtools.py:1021
+#: common/sshtools.py:1017
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
 msgstr "Väline seade „{host}“ ei toeta käsku „{command}“"
 
-#: common/sshtools.py:1025 common/sshtools.py:1034
-msgid "Look at 'man backintime' for further instructions"
-msgstr "Lisateavet leiad käsuga „man backintime“"
-
-#: common/sshtools.py:1029
+#: common/sshtools.py:1021
 #, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
 msgstr "Kontrollkäsud hostis {host} andsid tulemuseks tundmatu vea"
 
-#: common/sshtools.py:1050
+#: common/sshtools.py:1039
 #, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
 msgstr "Väline seade „{host}“ ei toeta püsilinke"
 
-#: common/sshtools.py:1211
+#: common/sshtools.py:1201
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
 msgstr "Kopeeri avalik ssh võti „{pubkey}“ välisesse seadmesse „{host}“."
 
-#: common/sshtools.py:1213
+#: common/sshtools.py:1203
 #, python-brace-format
 msgid "Please enter a password for \"{user}\"."
 msgstr "Palun sisesta kasutaja „{user}“ salasõna."
 
-#: common/tools.py:404
+#: common/tools.py:381
 #, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
@@ -438,20 +445,20 @@ msgstr ""
 "Failisüsteem, mille asukohta „{path}“ tahad luua varukoopiat, on NTFS-"
 "vormingus ning teadaolevalt ei ühildu ta Unixi-stiilis failisüsteemidega."
 
-#: common/tools.py:436
+#: common/tools.py:413
 #, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "{path} pole korrektne kausta."
 
-#: common/tools.py:450
+#: common/tools.py:427
 msgid "Creation of following directory failed:"
 msgstr "Järgneva kausta loomine ei õnnestunud:"
 
-#: common/tools.py:452 common/tools.py:548
+#: common/tools.py:429 common/tools.py:525
 msgid "Write access may be restricted."
 msgstr "Kirjutusõigused võivad olla piiratud."
 
-#: common/tools.py:492
+#: common/tools.py:469
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -461,7 +468,7 @@ msgstr ""
 "vormingus ega toeta püsilinke. Palun kasuta mõnda Linuxile mõeldud "
 "failisüsteemi."
 
-#: common/tools.py:503
+#: common/tools.py:480
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -473,15 +480,15 @@ msgstr ""
 "kasutamist või seadistuste alajoatusest „{expertOptions}“ lülita sisse "
 "„{copyLinks}“."
 
-#: common/tools.py:507 qt/manageprofiles/tab_expert_options.py:253
+#: common/tools.py:484 qt/manageprofiles/tab_expert_options.py:254
 msgid "Copy links (dereference symbolic links)"
 msgstr "Kopeeri lingid (eemalda sümbollinkide seosed)"
 
-#: common/tools.py:508
+#: common/tools.py:485
 msgid "Expert Options"
 msgstr "Lisaseadistused asjatundjatele"
 
-#: common/tools.py:512
+#: common/tools.py:489
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
@@ -491,82 +498,67 @@ msgstr ""
 "sshfs abil. Kahjuks sshfs ei toeta püsilinke. Palun kasuta selle asemel SSH "
 "töörežiimi."
 
-#: common/tools.py:546
+#: common/tools.py:523
 msgid "File creation failed in this directory:"
 msgstr "Faili loomine siia kausta ei õnnestunud:"
 
-#: qt/aboutdlg.py:49
+#: qt/aboutdlg.py:50
 msgid "About Back In Time"
 msgstr "Rakenduse teave: Back In Time"
 
-#: qt/aboutdlg.py:87
+#: qt/aboutdlg.py:88
 msgid "Copyright:"
 msgstr "Autoriõigused:"
 
-#: qt/aboutdlg.py:91
+#: qt/aboutdlg.py:92
 msgid "Authors:"
 msgstr "Autorid:"
 
-#: qt/aboutdlg.py:95
+#: qt/aboutdlg.py:96
 msgid "Translators:"
 msgstr "Tõlkijad:"
 
-#: qt/aboutdlg.py:98
+#: qt/aboutdlg.py:99
 msgid "translator-credits-placeholder"
 msgstr "Priit Jõerüüt 2024-2025 ja mitu tõlkijat enne seda"
 
-#: qt/aboutdlg.py:105
+#: qt/aboutdlg.py:106
 msgid "Translator credits not available for current language."
 msgstr "Tõlkija teave pole selle keele kohta saadaval."
 
-#: qt/aboutdlg.py:114
+#: qt/aboutdlg.py:115
 msgid "this link"
 msgstr "see link"
 
-#: qt/aboutdlg.py:116
+#: qt/aboutdlg.py:117
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr "Siit {thislink} leiad teavet kõikide keelte tõlkijate kohta."
 
-#: qt/aboutdlg.py:153
-#, python-brace-format
-msgid ""
-"All licenses used in this project are located in the {dir_link} directory. "
-"To extract per-file license and copyright information using SPDX metadata, "
-"refer to {readme_link}."
-msgstr ""
-"Kõik selles projektis kasutatud tarkvara litsentsid asuvad kaustas "
-"„{dir_link}“. Kui soovid SPDX-metainfo alusel väljastada failikohase "
-"litsentsi- ja autoriõiguste teabe, siis palun vaata siia: {readme_link}."
-
-#: qt/aboutdlg.py:223 qt/app.py:562
+#: qt/aboutdlg.py:219 qt/app.py:529
 msgid "Project website"
 msgstr "Projekti veebisait"
 
-#: qt/aboutdlg.py:228 qt/app.py:544
+#: qt/aboutdlg.py:224 qt/app.py:511
 msgid "User manual"
 msgstr "Kasutusjuhend"
 
-#: qt/aboutdlg.py:229 qt/app.py:546
+#: qt/aboutdlg.py:225
 msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
 "Ava kasutusjuhend veebibrauseris (kui olemas, siis kohalikust arvutist, "
 "vastasel juhul võrgust)"
 
-#: qt/aboutdlg.py:260
+#: qt/aboutdlg.py:256
 msgid "Back In Time"
 msgstr "Back In Time"
 
-#: qt/aboutdlg.py:281
+#: qt/aboutdlg.py:277
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}Versioon{BOLDEND}: {version}"
 
-#: qt/app.py:175
-msgid "Shortcuts"
-msgstr "Otseteed"
-
-#: qt/app.py:195
+#: qt/app.py:180
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected backup."
@@ -574,15 +566,15 @@ msgstr ""
 "Seda kausta pole praegu\n"
 "valitud varukoopias olemas."
 
-#: qt/app.py:260
+#: qt/app.py:248
 msgid "Add to Include"
 msgstr "Lisa kaasatavaks"
 
-#: qt/app.py:262
+#: qt/app.py:250
 msgid "Add to Exclude"
 msgstr "Lisa välistatavaks"
 
-#: qt/app.py:337
+#: qt/app.py:301
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -591,7 +583,7 @@ msgstr ""
 "Kuna varasemat seadistust ei leidu, siis tundub, et {app_name} on kasutusel "
 "esimest korda."
 
-#: qt/app.py:342
+#: qt/app.py:306
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
@@ -599,235 +591,249 @@ msgstr ""
 "Kas impordime olemasolevad seadistused (kas varukoopia sihtkaustast või "
 "muust arvutist)?"
 
-#: qt/app.py:371
+#: qt/app.py:337
 msgid "Then press OK."
 msgstr "Ja siis klõpsi „Sobib“."
 
-#: qt/app.py:481
+#: qt/app.py:448
 msgid "Create a backup"
 msgstr "Tee varukoopia"
 
-#: qt/app.py:483
+#: qt/app.py:450
 msgid "Use modification time & size for file change detection."
 msgstr "Muutuste tuvastamiseks kasuta muutmise aega ja faili suurust."
 
-#: qt/app.py:486
+#: qt/app.py:453
 msgid "Create a backup (checksum mode)"
 msgstr "Tee varukoopia (kontrollsummadega)"
 
-#: qt/app.py:488
+#: qt/app.py:455
 msgid "Use checksums for file change detection."
 msgstr "Muutuste tuvastamiseks kasuta kontrollsummasid."
 
-#: qt/app.py:491 qt/qtsystrayicon.py:79
+#: qt/app.py:458 qt/qtsystrayicon.py:76
 msgid "Pause backup process"
 msgstr "Peata varukoopia tegemine"
 
-#: qt/app.py:496 qt/qtsystrayicon.py:84
+#: qt/app.py:463 qt/qtsystrayicon.py:81
 msgid "Resume backup process"
 msgstr "Jätka varukoopia tegemist"
 
-#: qt/app.py:500 qt/qtsystrayicon.py:90
+#: qt/app.py:467 qt/qtsystrayicon.py:87
 msgid "Stop backup process"
 msgstr "Lõpeta varukoopia tegemine"
 
-#: qt/app.py:504
+#: qt/app.py:471
 msgid "Refresh backup list"
 msgstr "Uuenda varukoopiate loendit"
 
-#: qt/app.py:508
+#: qt/app.py:475
 msgid "Name backup"
 msgstr "Varukoopia nimi"
 
-#: qt/app.py:512
+#: qt/app.py:479
 msgid "Remove backup"
 msgstr "Eemalda varukoopia"
 
-#: qt/app.py:516
+#: qt/app.py:483
 msgid "Open backup log"
 msgstr "Ava varukoopiate logi"
 
-#: qt/app.py:518
+#: qt/app.py:485
 msgid "View log of the selected backup."
 msgstr "Vaata valitud varukoopia logi."
 
-#: qt/app.py:520
+#: qt/app.py:487
 msgid "Open last backup log"
 msgstr "Vaata viimast varukoopiate logi"
 
-#: qt/app.py:522
+#: qt/app.py:489
 msgid "View log of the latest backup."
 msgstr "Vaata viimase varunduse logi."
 
-#: qt/app.py:524
+#: qt/app.py:491
 msgid "Manage profiles…"
 msgstr "Halda profiile…"
 
-#: qt/app.py:528
+#: qt/app.py:495
 msgid "Edit user-callback"
 msgstr "Muuda kasutajapoolset tagasikutset"
 
-#: qt/app.py:532
+#: qt/app.py:499
 msgid "Shutdown"
 msgstr "Lülita välja"
 
-#: qt/app.py:534
+#: qt/app.py:501
 msgid "Shut down system after backup has finished."
 msgstr "Kui varukoopia tegemine on lõppenud, siis pane arvuti kinni."
 
-#: qt/app.py:536
+#: qt/app.py:503
 msgid "Setup language…"
 msgstr "Seadista rakenduse keelt…"
 
-#: qt/app.py:540
+#: qt/app.py:507
 msgid "Exit"
 msgstr "Välju"
 
-#: qt/app.py:550
+#: qt/app.py:513
+#, fuzzy
+msgid "Open user manual in browser (locally if available, otherwise online)"
+msgstr ""
+"Ava kasutusjuhend veebibrauseris (kui olemas, siis kohalikust arvutist, "
+"vastasel juhul võrgust)"
+
+#: qt/app.py:517
 msgid "man page: Back In Time"
 msgstr "juhend käsureal: Back In Time"
 
-#: qt/app.py:552
+#: qt/app.py:519
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "Kuvab Back In Time'i juhendi käsureal (backintime)"
 
-#: qt/app.py:555
+#: qt/app.py:522
 msgid "man page: Profiles config file"
 msgstr "juhend käsureal: Profiilide seadistuste fail"
 
-#: qt/app.py:558
+#: qt/app.py:525
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 "Kuvab Back In Time'i profiilide seadistuste faili juhendi käsureal "
 "(backintime-config)"
 
-#: qt/app.py:565
+#: qt/app.py:532
 msgid "Open Back In Time website in browser"
 msgstr "Ava Back In Time'i veebisait brauseriga"
 
-#: qt/app.py:567 qt/app.py:1543
+#: qt/app.py:534
 msgid "Changelog"
 msgstr "Muudatuste logi"
 
-#: qt/app.py:570
+#: qt/app.py:537
+#, fuzzy
+msgid "Open changelog (locally if available, otherwise from the web)"
+msgstr ""
+"Ava kasutusjuhend veebibrauseris (kui olemas, siis kohalikust arvutist, "
+"vastasel juhul võrgust)"
+
+#: qt/app.py:540
 msgid "FAQ"
 msgstr "KKK"
 
-#: qt/app.py:572
+#: qt/app.py:542
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "Ava korduma kippuvad küsimused (KKK) brauseriga"
 
-#: qt/app.py:574
+#: qt/app.py:544
 msgid "Ask a question"
 msgstr "Esita küsimus"
 
-#: qt/app.py:578
+#: qt/app.py:548
 msgid "Report a bug"
 msgstr "Teata veast"
 
-#: qt/app.py:581
+#: qt/app.py:551
 msgid "Translation"
 msgstr "Tõlge"
 
-#: qt/app.py:583
+#: qt/app.py:553
 msgid "Shows the message about participation in translation again."
 msgstr "Kuvab uuesti teate tõlkimises osalemise kohta."
 
-#: qt/app.py:587
+#: qt/app.py:557
 msgid "Encryption Transition (EncFS)"
 msgstr "Muudatused krüptimise kasutamisel (EncFS)"
 
-#: qt/app.py:589
+#: qt/app.py:559
 msgid "Shows the message about EncFS removal again."
 msgstr "Näitab uuesti teate EncFSi kasutusel eemaldamise kohta."
 
-#: qt/app.py:596
+#: qt/app.py:566
 msgid "About"
 msgstr "Rakenduse teave"
 
-#: qt/app.py:599 qt/restoredialog.py:40 qt/snapshotsdialog.py:173
-#: qt/snapshotsdialog.py:178
+#: qt/app.py:569 qt/restoredialog.py:43 qt/snapshotsdialog.py:176
+#: qt/snapshotsdialog.py:181
 msgid "Restore"
 msgstr "Taasta"
 
-#: qt/app.py:601
+#: qt/app.py:571
 msgid "Restore the selected files or directories to the original destination."
 msgstr "Taasta valitud failid või kaustad algupärasesse asukohta."
 
-#: qt/app.py:604 qt/app.py:1715 qt/app.py:1747 qt/snapshotsdialog.py:175
+#: qt/app.py:574 qt/app.py:1441 qt/snapshotsdialog.py:178
 msgid "Restore to …"
 msgstr "Taasta asukohta …"
 
-#: qt/app.py:606
+#: qt/app.py:576
 msgid "Restore the selected files or directories to a new destination."
 msgstr "Taasta valitud failid või kaustad uude asukohta."
 
-#: qt/app.py:612
+#: qt/app.py:582
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "destination."
 msgstr ""
 "Taasta hetkel näidatud kaust koos kogu oma sisuga algupärasesse asukohta."
 
-#: qt/app.py:618
+#: qt/app.py:588
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "destination."
 msgstr "Taasta hetkel näidatud kaust koos kogu oma sisuga uude asukohta."
 
-#: qt/app.py:621
+#: qt/app.py:591
 msgid "Up"
 msgstr "Üles"
 
-#: qt/app.py:624 qt/restoreconfigdialog.py:103
+#: qt/app.py:594
 msgid "Show hidden files"
 msgstr "Näita peidetud faile"
 
-#: qt/app.py:627
+#: qt/app.py:597
 msgid "Compare backups…"
 msgstr "Võrdle varukoopiaid…"
 
-#: qt/app.py:657 qt/app.py:2231
+#: qt/app.py:627 qt/app.py:2023
 msgid "Release Candidate"
 msgstr "Kandidaatversioon"
 
-#: qt/app.py:660
+#: qt/app.py:630
 msgid "Shows the message about this Release Candidate again."
 msgstr "Näitab uuesti teadet kandidaatversiooni kohta."
 
-#: qt/app.py:696
+#: qt/app.py:666
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:701
+#: qt/app.py:671
 msgid "&Backup"
 msgstr "&Varukoopia"
 
-#: qt/app.py:713
+#: qt/app.py:683
 msgid "&Restore"
 msgstr "Taa&sta"
 
-#: qt/app.py:719
+#: qt/app.py:689
 msgid "&Help"
-msgstr "&Abi"
+msgstr "&Abiteave"
 
-#: qt/app.py:766
+#: qt/app.py:736
 msgid "Icons only"
 msgstr "Ainult ikoonid"
 
-#: qt/app.py:769
+#: qt/app.py:739
 msgid "Text only"
 msgstr "Ainult tekst"
 
-#: qt/app.py:772
+#: qt/app.py:742
 msgid "Text below icons"
 msgstr "Tekst ikoonide all"
 
-#: qt/app.py:775
+#: qt/app.py:745
 msgid "Text beside icon"
 msgstr "Tekst ikoonide kõrval"
 
-#: qt/app.py:924
+#: qt/app.py:894
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
@@ -835,55 +841,39 @@ msgstr ""
 "Kui sa sulged selle akna, siis Back In Time ei suuda peale varukoopia "
 "tegemist sinu arvuti tööd lõpetada."
 
-#: qt/app.py:927
+#: qt/app.py:897
 msgid "Close the window anyway?"
 msgstr "Kas kõigele vaatamata sulgeme akna?"
 
-#: qt/app.py:1102
+#: qt/app.py:1074
 msgid "Working:"
 msgstr "Töötan:"
 
-#: qt/app.py:1150
+#: qt/app.py:1122
 msgid "Done, no backup needed"
 msgstr "Valmis, varukoopiat pole vaja teha"
 
-#: qt/app.py:1162
+#: qt/app.py:1134
 msgid "Working"
 msgstr "Töötan"
 
-#: qt/app.py:1171 qt/messagebox.py:125
+#: qt/app.py:1143 qt/messagebox.py:135
 msgid "Error"
 msgstr "Viga"
 
-#: qt/app.py:1212 qt/qtsystrayicon.py:206
+#: qt/app.py:1180 qt/qtsystrayicon.py:204
 msgid "Sent:"
 msgstr "Saadetud:"
 
-#: qt/app.py:1213 qt/qtsystrayicon.py:207
+#: qt/app.py:1181 qt/qtsystrayicon.py:205
 msgid "Speed:"
 msgstr "Kiirus:"
 
-#: qt/app.py:1214 qt/qtsystrayicon.py:208
+#: qt/app.py:1182 qt/qtsystrayicon.py:206
 msgid "ETA:"
 msgstr "Jäänud:"
 
-#: qt/app.py:1277
-msgid "Global"
-msgstr "Üleüldine"
-
-#: qt/app.py:1278
-msgid "Root"
-msgstr "Juurkaust"
-
-#: qt/app.py:1279
-msgid "Home"
-msgstr "Kodukaust"
-
-#: qt/app.py:1307
-msgid "Backup directories"
-msgstr "Tagavarakoopia kaustad"
-
-#: qt/app.py:1386
+#: qt/app.py:1256
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
@@ -892,92 +882,32 @@ msgstr ""
 "Sihtandmeruumis on vaba ruumi vaid {free} ning see on väiksem kui "
 "seadistatud lävend ({threshold})."
 
-#: qt/app.py:1391
+#: qt/app.py:1261
 msgid "Proceed with the backup?"
 msgstr "Kas jätkame varundamisega?"
 
-#: qt/app.py:1424
+#: qt/app.py:1294
 msgid "Backup name"
 msgstr "Varukoopia nimi"
 
-#: qt/app.py:1475
+#: qt/app.py:1345
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "Kas eemaldame selle varukoopia?"
 msgstr[1] "Kas eemaldame need varukoopiad?"
 
-#: qt/app.py:1573
-#, python-brace-format
-msgid ""
-"Create backup copies with trailing {suffix}\n"
-"before overwriting or removing local elements."
-msgstr ""
-"Enne kui kirjutad üle või kustutad kohalikud failid, kaustad ja muud objektid,\n"
-"tee koopiad, mille lõpus on „{suffix}“."
-
-#: qt/app.py:1581 qt/manageprofiles/tab_options.py:65
-#, python-brace-format
-msgid ""
-"Before restoring, newer versions of files will be renamed with the appended "
-"{suffix}. These files can be removed with the following command:"
-msgstr ""
-"Enne taastamist teeme uuematest failidest koopia, mille lõpus on „{suffix}“."
-" Need failid saad kõik korraga kustutada sellise käsuga:"
-
-#: qt/app.py:1597
-msgid ""
-"Only restore elements which do not exist or\n"
-"are newer than those in destination.\n"
-"Using \"rsync --update\" option."
-msgstr ""
-"Taasta ainult failid, kaustad ja muud objektid,\n"
-"mida pole olemas või on uuemad, kuid need, mis leiduvad siktkohas.\n"
-"Selleks kasutame „rsync --update“ võtit."
-
-#: qt/app.py:1632
-msgid "Remove newer elements in original directory."
-msgstr "Eemalda algsest kaustast uuemad failid, kaustad ja muud objektid."
-
-#: qt/app.py:1635
-msgid ""
-"Restore selected files or directories to the original destination and delete"
-" files or directories which are not in the backup. Be extremely careful "
-"because this will delete files and directories which were excluded during "
-"the creation of the backup."
-msgstr ""
-"Taasta valitud failid ja kaustad algsesse asukohta ning kustuta failid ja "
-"kaustad, mis ei leidunud selles varukoopias. Kuna varukoopiate tegemisel "
-"välistatud failid ja kaustad kuuluvad seetõttu kustutamisele, siis palun ole"
-" eriti ettevaatlik."
-
-#: qt/app.py:1647
-msgid "Really restore this element into the new directory?"
-msgid_plural "Really restore these elements into the new directory?"
-msgstr[0] ""
-"Kas sa oled kindel et soovid selle faili, kausta ja muu objekti taastada "
-"uude kausta?"
-msgstr[1] ""
-"Kas sa oled kindel et soovid need failid, kaustad ja muud objektid taastada "
-"uude kausta?"
-
-#: qt/app.py:1655
-msgid "Really restore this element?"
-msgid_plural "Really restore these elements?"
-msgstr[0] "Kas sa oled kindel, et soovid taastada selle faili või kausta?"
-msgstr[1] "Kas sa oled kindel, et soovid taastada need failid või kaustad?"
-
-#: qt/app.py:1674
+#: qt/app.py:1421
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr ""
 "Kõik uuemad failid asukohas „{path}“kuuluvad nüüd eemaldamisele. Kas "
 "jätkame?"
 
-#: qt/app.py:1677
+#: qt/app.py:1424
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr "Kõik uuemad failid algsest kaustast saavad eemaldatud. Kas jätkame?"
 
-#: qt/app.py:1683
+#: qt/app.py:1430
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -986,21 +916,22 @@ msgstr ""
 "{BOLD}Hoiatus{BOLDEND}: failide kustutamine juurkaustast võib rikkuda kogu "
 "sinu arvuti failisüsteemi."
 
-#: qt/app.py:1932
-msgid "Backup"
-msgstr "Varukoopia"
+#: qt/app.py:1723
+#, fuzzy
+msgid "Backup:"
+msgstr "Varukoopiad:"
 
-#: qt/app.py:1971
+#: qt/app.py:1763
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Taasta {path}"
 
-#: qt/app.py:1973
+#: qt/app.py:1765
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Taasta {path} asukohta …"
 
-#: qt/app.py:2121
+#: qt/app.py:1913
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -1017,47 +948,47 @@ msgstr ""
 "Vabanda katkestuse pärast, ja seda sõnumit me ei näita enam uuesti. See dialoog on kättesaadav igal ajal läbi abimenüü.\n"
 "Sinu Back In Time meeskond"
 
-#: qt/app.py:2150
+#: qt/app.py:1942
 msgid "translation platform"
 msgstr "meie tõlkelahenduse"
 
-#: qt/app.py:2155
+#: qt/app.py:1947
 msgid "Website"
 msgstr "Veebisait"
 
-#: qt/app.py:2169
+#: qt/app.py:1961
 msgid "Your translation"
 msgstr "Sinu tõlge"
 
-#: qt/app.py:2182
+#: qt/app.py:1974
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Födiversumis Mastodonis: {link_and_label}."
 
-#: qt/app.py:2187
+#: qt/app.py:1979
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "Saadad e-kirja {link_and_label} aadressile."
 
-#: qt/app.py:2190
+#: qt/app.py:1982
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "Postiloend {link_and_label}."
 
-#: qt/app.py:2194
+#: qt/app.py:1986
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} projekti veebisaidis."
 
-#: qt/app.py:2197
+#: qt/app.py:1989
 msgid "Open an issue"
 msgstr "Ava veateade"
 
-#: qt/app.py:2198
+#: qt/app.py:1990
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Lisaks võid vaida ka mõne muu sinu eelistatud suhtluskanali."
 
-#: qt/app.py:2203
+#: qt/app.py:1995
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -1078,9 +1009,73 @@ msgstr ""
 "Täname sind osalemise eest ning abi eest Back In Time'i parandamisel!\n"
 "Sinu Back In Time'i tiim"
 
-#: qt/app.py:2303
+#: qt/app.py:2095
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "Keelevalikud jõustuvad vaid Back In Time'i uuesti käivitamisel."
+
+#: qt/confirmrestoredialog.py:35 qt/messagebox.py:122
+msgid "Question"
+msgstr "Palun vasta küsimusele"
+
+#: qt/confirmrestoredialog.py:76
+#, fuzzy, python-brace-format
+msgid ""
+"Create backup copies with trailing {suffix} before overwriting or removing "
+"local elements."
+msgstr ""
+"Enne kui kirjutad üle või kustutad kohalikud failid, kaustad ja muud objektid,\n"
+"tee koopiad, mille lõpus on „{suffix}“."
+
+#: qt/confirmrestoredialog.py:81 qt/manageprofiles/tab_options.py:66
+#, python-brace-format
+msgid ""
+"Before restoring, newer versions of files will be renamed with the appended "
+"{suffix}. These files can be removed with the following command:"
+msgstr ""
+"Enne taastamist teeme uuematest failidest koopia, mille lõpus on „{suffix}“."
+" Need failid saad kõik korraga kustutada sellise käsuga:"
+
+#: qt/confirmrestoredialog.py:94
+#, fuzzy, python-brace-format
+msgid ""
+"Only restore elements which do not exist or are newer than those in "
+"destination. Using \"{rsync_example}\" option."
+msgstr ""
+"Taasta ainult failid, kaustad ja muud objektid,\n"
+"mida pole olemas või on uuemad, kuid need, mis leiduvad siktkohas.\n"
+"Selleks kasutame „rsync --update“ võtit."
+
+#: qt/confirmrestoredialog.py:133
+msgid "Remove newer elements in original directory."
+msgstr "Eemalda algsest kaustast uuemad failid, kaustad ja muud objektid."
+
+#: qt/confirmrestoredialog.py:135
+msgid ""
+"Restore selected files or directories to the original destination and delete"
+" files or directories which are not in the backup. Be extremely careful "
+"because this will delete files and directories which were excluded during "
+"the creation of the backup."
+msgstr ""
+"Taasta valitud failid ja kaustad algsesse asukohta ning kustuta failid ja "
+"kaustad, mis ei leidunud selles varukoopias. Kuna varukoopiate tegemisel "
+"välistatud failid ja kaustad kuuluvad seetõttu kustutamisele, siis palun ole"
+" eriti ettevaatlik."
+
+#: qt/confirmrestoredialog.py:147
+msgid "Really restore this element into the new directory?"
+msgid_plural "Really restore these elements into the new directory?"
+msgstr[0] ""
+"Kas sa oled kindel et soovid selle faili, kausta ja muu objekti taastada "
+"uude kausta?"
+msgstr[1] ""
+"Kas sa oled kindel et soovid need failid, kaustad ja muud objektid taastada "
+"uude kausta?"
+
+#: qt/confirmrestoredialog.py:157
+msgid "Really restore this element?"
+msgid_plural "Really restore these elements?"
+msgstr[0] "Kas sa oled kindel, et soovid taastada selle faili või kausta?"
+msgstr[1] "Kas sa oled kindel, et soovid taastada need failid või kaustad?"
 
 #: qt/editusercallback.py:43
 #, python-brace-format
@@ -1097,7 +1092,7 @@ msgstr ""
 " kus esimese rea alguses on trellid ja hüüumärk (nt. {example})."
 
 #: qt/encfsmsgbox.py:42 qt/encfsmsgbox.py:68
-#: qt/manageprofiles/tab_general.py:561
+#: qt/manageprofiles/tab_general.py:583
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1111,17 +1106,17 @@ msgstr ""
 "Pealegi me ei soovita selle režiimi kasutamist mitte üheski profiilis."
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
-#: qt/manageprofiles/tab_general.py:570
+#: qt/manageprofiles/tab_general.py:592
 msgid "whitepaper"
 msgstr "dokumendist"
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:85
-#: qt/manageprofiles/tab_general.py:563
+#: qt/manageprofiles/tab_general.py:585
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr "EncFS tugi lõppeb temaga seotud turvavigade tõttu."
 
-#: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:565
+#: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:587
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1170,71 +1165,71 @@ msgstr "Näita/peida peidetud failid ja kaustad (Ctrl+H)"
 msgid "Setup language"
 msgstr "Seadista rakenduse keelt"
 
-#: qt/languagedialog.py:97
-msgid "System default"
-msgstr "Süsteemi määratud keel"
-
-#: qt/languagedialog.py:107
-msgid "Use operating system's language."
-msgstr "Kasuta operatsioonisüsteemi keelevalikut."
-
-#: qt/languagedialog.py:161
+#: qt/languagedialog.py:119
 #, python-brace-format
 msgid "Translated: {percent}"
 msgstr "Tõlkimise osakaal: {percent}"
 
-#: qt/logviewdialog.py:59
-msgid "Last Log View"
-msgstr "Viimane logivaade"
+#: qt/languagedialog.py:131
+msgid "System default"
+msgstr "Süsteemi määratud keel"
+
+#: qt/languagedialog.py:141
+msgid "Use operating system's language."
+msgstr "Kasuta operatsioonisüsteemi keelevalikut."
 
 #: qt/logviewdialog.py:61
 msgid "Backup Log View"
 msgstr "Varukoopiate logivaade"
 
+#: qt/logviewdialog.py:61
+msgid "Last Log View"
+msgstr "Viimane logivaade"
+
 #: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:67
-#: qt/manageprofiles/tab_general.py:247 qt/restoreconfigdialog.py:282
+#: qt/manageprofiles/tab_general.py:247 qt/restoreconfigdialog.py:356
 msgid "Profile:"
 msgstr "Profiil:"
 
-#: qt/logviewdialog.py:77
+#: qt/logviewdialog.py:84
 msgid "Backups:"
 msgstr "Varukoopiad:"
 
-#: qt/logviewdialog.py:93
+#: qt/logviewdialog.py:91
 msgid "Filter:"
 msgstr "Filter:"
 
-#: qt/logviewdialog.py:99 qt/manageprofiles/tab_options.py:181
+#: qt/logviewdialog.py:98
+msgid "[E] Error, [I] Information, [C] Change"
+msgstr "[E] viga, [I] teave, [C] muudatus"
+
+#: qt/logviewdialog.py:101 qt/qtsystrayicon.py:92
+msgid "decode paths"
+msgstr "dekodeeri asukohad"
+
+#: qt/logviewdialog.py:119 qt/manageprofiles/tab_options.py:182
 msgid "All"
 msgstr "Kõik"
 
-#: qt/logviewdialog.py:106 qt/logviewdialog.py:110
-#: qt/manageprofiles/tab_options.py:180
+#: qt/logviewdialog.py:125 qt/logviewdialog.py:129
+#: qt/manageprofiles/tab_options.py:181
 msgid "Changes"
 msgstr "Muutused"
 
-#: qt/logviewdialog.py:106 qt/logviewdialog.py:109
-#: qt/manageprofiles/tab_options.py:179 qt/manageprofiles/tab_options.py:180
+#: qt/logviewdialog.py:125 qt/logviewdialog.py:128
+#: qt/manageprofiles/tab_options.py:180 qt/manageprofiles/tab_options.py:181
 msgid "Errors"
 msgstr "Veateated"
 
-#: qt/logviewdialog.py:111 qt/messagebox.py:68
+#: qt/logviewdialog.py:130 qt/messagebox.py:74
 msgid "Information"
 msgid_plural "Information"
 msgstr[0] "Teave"
 msgstr[1] "Teave"
 
-#: qt/logviewdialog.py:114
+#: qt/logviewdialog.py:132
 msgid "rsync transfer failures (experimental)"
 msgstr "rsync-käsu kopeerimiste vead (katseline)"
-
-#: qt/logviewdialog.py:126
-msgid "[E] Error, [I] Information, [C] Change"
-msgstr "[E] viga, [I] teave, [C] muudatus"
-
-#: qt/logviewdialog.py:129 qt/qtsystrayicon.py:95
-msgid "decode paths"
-msgstr "dekodeeri asukohad"
 
 #: qt/manageprofiles/__init__.py:59
 msgid "Manage profiles"
@@ -1248,8 +1243,8 @@ msgstr "Muuda"
 msgid "Add"
 msgstr "Lisa"
 
-#: qt/manageprofiles/__init__.py:84 qt/manageprofiles/tab_exclude.py:117
-#: qt/manageprofiles/tab_include.py:78
+#: qt/manageprofiles/__init__.py:84 qt/manageprofiles/tab_exclude.py:118
+#: qt/manageprofiles/tab_include.py:77
 msgid "Remove"
 msgstr "Eemalda"
 
@@ -1277,24 +1272,24 @@ msgstr "&Valikud"
 msgid "E&xpert Options"
 msgstr "Ek&sperdi valikud"
 
-#: qt/manageprofiles/__init__.py:143
+#: qt/manageprofiles/__init__.py:144
 msgid "Restore Config"
 msgstr "Taasta seadistused"
 
-#: qt/manageprofiles/__init__.py:174
+#: qt/manageprofiles/__init__.py:175
 msgid "New profile"
 msgstr "Uus profiil"
 
-#: qt/manageprofiles/__init__.py:191
+#: qt/manageprofiles/__init__.py:192
 msgid "Rename profile"
 msgstr "Muuda profiili nime"
 
-#: qt/manageprofiles/__init__.py:207
+#: qt/manageprofiles/__init__.py:208
 #, python-brace-format
 msgid "Delete the profile \"{name}\"?"
 msgstr "Oled kindel, et tahad kustuda profiili „{name}“?"
 
-#: qt/manageprofiles/__init__.py:339
+#: qt/manageprofiles/__init__.py:338
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until it is"
@@ -1303,7 +1298,7 @@ msgstr ""
 "„{path}“ on sümbollink. Lingi sihtkausta või -faili ei varundata seni, kuni "
 "sa pole teda kaasanud."
 
-#: qt/manageprofiles/__init__.py:343
+#: qt/manageprofiles/__init__.py:342
 msgid "Include the symlink's target instead?"
 msgstr "Kas kaasad selle asemel sümbollingi kausta?"
 
@@ -1434,12 +1429,12 @@ msgid "Hour(s)"
 msgstr "Tund/tunnid"
 
 #: qt/manageprofiles/schedulewidget.py:229
-#: qt/manageprofiles/tab_remove_retention.py:263
+#: qt/manageprofiles/tab_remove_retention.py:264
 msgid "Day(s)"
 msgstr "Päev(a)"
 
 #: qt/manageprofiles/schedulewidget.py:230
-#: qt/manageprofiles/tab_remove_retention.py:264
+#: qt/manageprofiles/tab_remove_retention.py:265
 msgid "Week(s)"
 msgstr "Nädal(at)"
 
@@ -1539,28 +1534,28 @@ msgstr ""
 msgid "Exclude patterns, files or directories"
 msgstr "Jäta välja mustrid, failid või kaustad"
 
-#: qt/manageprofiles/tab_exclude.py:101 qt/manageprofiles/tab_include.py:67
+#: qt/manageprofiles/tab_exclude.py:101 qt/manageprofiles/tab_include.py:66
 msgid "Add files"
 msgstr "Lisa faile"
 
-#: qt/manageprofiles/tab_exclude.py:106 qt/manageprofiles/tab_include.py:72
+#: qt/manageprofiles/tab_exclude.py:106 qt/manageprofiles/tab_include.py:71
 msgid "Add directories"
 msgstr "Lisa kaustu"
 
-#: qt/manageprofiles/tab_exclude.py:111
+#: qt/manageprofiles/tab_exclude.py:112
 msgid "Add default"
 msgstr "Lisa vaikimisi valikud"
 
-#: qt/manageprofiles/tab_exclude.py:126
+#: qt/manageprofiles/tab_exclude.py:127
 msgid "Exclude files bigger than:"
 msgstr "Jäta välja failid, mis on suuremad, kui:"
 
-#: qt/manageprofiles/tab_exclude.py:130
+#: qt/manageprofiles/tab_exclude.py:131
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Jäta välja failid, mis on suuremad, kui {size_unit}."
 
-#: qt/manageprofiles/tab_exclude.py:132
+#: qt/manageprofiles/tab_exclude.py:133
 msgid ""
 "With 'Full rsync mode' disabled, this setting affects only newly created "
 "files, as rsync treats it as transfer option rather than an exclusion rule. "
@@ -1572,42 +1567,42 @@ msgstr ""
 "eelistusega, mitte välistamise eelistusega). Seetõttu varem varundatud "
 "suured failid jäävad varukoopiatesse ka siis, kui neid on hiljem muudetud."
 
-#: qt/manageprofiles/tab_exclude.py:200
+#: qt/manageprofiles/tab_exclude.py:201
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
 msgstr ""
 "{BOLD}Tungivalt soovitatav{ENDBOLD}: (Kõik soovitused on juba kaasatud.)"
 
-#: qt/manageprofiles/tab_exclude.py:205
+#: qt/manageprofiles/tab_exclude.py:206
 #, python-brace-format
 msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
 msgstr "{BOLD}Soovitame tungivalt{ENDBOLD}: {files}"
 
-#: qt/manageprofiles/tab_exclude.py:263
+#: qt/manageprofiles/tab_exclude.py:264
 msgid "Exclude pattern"
 msgstr "Jäta välja mustri alusel"
 
-#: qt/manageprofiles/tab_exclude.py:276
+#: qt/manageprofiles/tab_exclude.py:279
 msgid "Exclude files"
 msgstr "Välista failid"
 
-#: qt/manageprofiles/tab_exclude.py:282
+#: qt/manageprofiles/tab_exclude.py:290
 msgid "Exclude directories"
 msgstr "Välista kaustad"
 
-#: qt/manageprofiles/tab_exclude.py:313
+#: qt/manageprofiles/tab_exclude.py:321
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
 "Kuna selline muster pole režiimis „SSH krüptituna“ funktsionaalne, siis "
 "eelistus on välja lülitatud."
 
-#: qt/manageprofiles/tab_expert_options.py:39
+#: qt/manageprofiles/tab_expert_options.py:40
 msgid "Caution:"
 msgstr "Hoiatus:"
 
-#: qt/manageprofiles/tab_expert_options.py:40
+#: qt/manageprofiles/tab_expert_options.py:41
 msgid ""
 "These options are for advanced configurations. Modify only if fully aware of"
 " their implications."
@@ -1615,43 +1610,43 @@ msgstr ""
 "Need eelistused on mõeldud asjatundjatele ja keerukamate kasutusjuhtumite "
 "jaoks. Muuda neid ainult siis, kui täpselt tead, mida teed."
 
-#: qt/manageprofiles/tab_expert_options.py:47
-#: qt/manageprofiles/tab_expert_options.py:67
-#: qt/manageprofiles/tab_expert_options.py:92
+#: qt/manageprofiles/tab_expert_options.py:48
+#: qt/manageprofiles/tab_expert_options.py:68
+#: qt/manageprofiles/tab_expert_options.py:93
 #, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
 msgstr "Käivita „rsync“ käsuga „{cmd}“:"
 
-#: qt/manageprofiles/tab_expert_options.py:54
-#: qt/manageprofiles/tab_expert_options.py:73
+#: qt/manageprofiles/tab_expert_options.py:55
+#: qt/manageprofiles/tab_expert_options.py:74
 msgid "as cron job"
 msgstr "kasutades ajastamist croniga"
 
-#: qt/manageprofiles/tab_expert_options.py:60
-#: qt/manageprofiles/tab_expert_options.py:85
-#: qt/manageprofiles/tab_expert_options.py:116
+#: qt/manageprofiles/tab_expert_options.py:61
+#: qt/manageprofiles/tab_expert_options.py:86
+#: qt/manageprofiles/tab_expert_options.py:117
 msgid "on remote host"
 msgstr "välises seadmes"
 
-#: qt/manageprofiles/tab_expert_options.py:79
+#: qt/manageprofiles/tab_expert_options.py:80
 msgid "when taking a manual backup"
 msgstr "kui teed varukoopiat käsitsi"
 
-#: qt/manageprofiles/tab_expert_options.py:103
+#: qt/manageprofiles/tab_expert_options.py:104
 msgid "Please install 'nocache' to enable this option."
 msgstr "Selle eelistuse kasutamiseks palun paigalda „nocache“."
 
-#: qt/manageprofiles/tab_expert_options.py:109
+#: qt/manageprofiles/tab_expert_options.py:110
 msgid "on local machine"
 msgstr "kohalikus arvutis"
 
-#: qt/manageprofiles/tab_expert_options.py:123
+#: qt/manageprofiles/tab_expert_options.py:124
 msgid "Redirect stdout to /dev/null in cronjobs."
 msgstr ""
 "Croniga ajastatud tööde puhul suuna standardväljund nulli (stdout > "
 "/dev/null)."
 
-#: qt/manageprofiles/tab_expert_options.py:129
+#: qt/manageprofiles/tab_expert_options.py:130
 msgid ""
 "Cron will automatically send an email with attached output of cronjobs if an"
 " MTA is installed."
@@ -1659,12 +1654,12 @@ msgstr ""
 "Kui e-kirjade edastamine on seadistatud, siis cron saadab automaatselt "
 "kirja, mille manuseks on croni tehtud töö väljund."
 
-#: qt/manageprofiles/tab_expert_options.py:135
+#: qt/manageprofiles/tab_expert_options.py:136
 msgid "Redirect stderr to /dev/null in cronjobs."
 msgstr ""
 "Croniga ajastatud tööde puhul suuna standardviga nulli (stderr > /dev/null)."
 
-#: qt/manageprofiles/tab_expert_options.py:141
+#: qt/manageprofiles/tab_expert_options.py:142
 msgid ""
 "Cron will automatically send an email with attached errors of cronjobs if an"
 " MTA is installed."
@@ -1672,44 +1667,44 @@ msgstr ""
 "Kui e-kirjade edastamine on seadistatud, siis cron saadab automaatselt "
 "kirja, mille manuseks on croni tehtud töös tekkinud vead."
 
-#: qt/manageprofiles/tab_expert_options.py:151
+#: qt/manageprofiles/tab_expert_options.py:152
 msgid "KB/sec"
 msgstr "KB/sek"
 
-#: qt/manageprofiles/tab_expert_options.py:156
+#: qt/manageprofiles/tab_expert_options.py:157
 msgid "Limit rsync bandwidth usage:"
 msgstr "Piira rsync'i ribalaiust:"
 
-#: qt/manageprofiles/tab_expert_options.py:197
+#: qt/manageprofiles/tab_expert_options.py:198
 msgid "Preserve ACL"
 msgstr "Säilita pääsuloend (ACL)"
 
-#: qt/manageprofiles/tab_expert_options.py:215
+#: qt/manageprofiles/tab_expert_options.py:216
 msgid "Preserve extended attributes (xattr)"
 msgstr "Säilita failide laiendatud metainfo (xattr)"
 
-#: qt/manageprofiles/tab_expert_options.py:238
+#: qt/manageprofiles/tab_expert_options.py:239
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr "Kopeeri ebaturvalised lingid (toimib vaid absoluutsete linkide puhul)"
 
-#: qt/manageprofiles/tab_expert_options.py:274
+#: qt/manageprofiles/tab_expert_options.py:275
 msgid "Restrict to one file system"
 msgstr "Piirdu ühe failisüsteemiga"
 
-#: qt/manageprofiles/tab_expert_options.py:292
+#: qt/manageprofiles/tab_expert_options.py:293
 #, python-brace-format
 msgid "Options must be quoted e.g. {example}."
 msgstr "Lisatingimused peavad olema jutumärkide vahel, näiteks {example}."
 
-#: qt/manageprofiles/tab_expert_options.py:301
+#: qt/manageprofiles/tab_expert_options.py:302
 msgid "Paste additional options to rsync"
 msgstr "Lisa rsync-ile täiendavad suvandeid"
 
-#: qt/manageprofiles/tab_expert_options.py:309
+#: qt/manageprofiles/tab_expert_options.py:310
 msgid "Prefix to run before every command on remote host."
 msgstr "Välises seadmes käivita iga käsu ees see prefiks."
 
-#: qt/manageprofiles/tab_expert_options.py:310
+#: qt/manageprofiles/tab_expert_options.py:311
 #, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
@@ -1719,19 +1714,19 @@ msgstr ""
 " Seega, lisamaks rsyncile prefikseid kasuta „{example_value}“ koos "
 "„{rsync_options_value}“."
 
-#: qt/manageprofiles/tab_expert_options.py:318
+#: qt/manageprofiles/tab_expert_options.py:319
 msgid "default"
 msgstr "vaikimisi"
 
-#: qt/manageprofiles/tab_expert_options.py:324
+#: qt/manageprofiles/tab_expert_options.py:325
 msgid "Add prefix to SSH commands"
 msgstr "Lisa SSH käsule eesliiteid"
 
-#: qt/manageprofiles/tab_expert_options.py:334
+#: qt/manageprofiles/tab_expert_options.py:335
 msgid "Check if remote host is online"
 msgstr "Kontrolli, kas väline seade on võrgus"
 
-#: qt/manageprofiles/tab_expert_options.py:337
+#: qt/manageprofiles/tab_expert_options.py:338
 msgid ""
 "Warning: If disabled and the remote host is not available, this could lead "
 "to some weird errors."
@@ -1739,12 +1734,12 @@ msgstr ""
 "Hoiatus: kui see eelistus on välja lülitatud ja väline seade pole võrgus, "
 "siis võib tekkida imelikke vigu."
 
-#: qt/manageprofiles/tab_expert_options.py:341
+#: qt/manageprofiles/tab_expert_options.py:342
 msgid "Check if remote host supports all necessary commands."
 msgstr ""
 "Kontrolli, kas väline seade võimaldab kõikide vajalike käskude kasutamist."
 
-#: qt/manageprofiles/tab_expert_options.py:344
+#: qt/manageprofiles/tab_expert_options.py:345
 msgid ""
 "Warning: If disabled and the remote host does not support all necessary "
 "commands, this could lead to some weird errors."
@@ -1752,23 +1747,23 @@ msgstr ""
 "Hoiatus: kui see eelistus on välja lülitatud ja väline ei toeta kõiki "
 "vajalikke käske, siis võib tekkida imelikke vigu."
 
-#: qt/manageprofiles/tab_expert_options.py:359
+#: qt/manageprofiles/tab_expert_options.py:360
 msgid "(default: {})"
 msgstr "(vaikimisi: {})"
 
-#: qt/manageprofiles/tab_expert_options.py:360
+#: qt/manageprofiles/tab_expert_options.py:361
 msgid "disabled"
 msgstr "pole kasutusel"
 
-#: qt/manageprofiles/tab_expert_options.py:360
+#: qt/manageprofiles/tab_expert_options.py:361
 msgid "enabled"
 msgstr "kasutusel"
 
-#: qt/manageprofiles/tab_general.py:67 qt/restoreconfigdialog.py:284
+#: qt/manageprofiles/tab_general.py:67 qt/restoreconfigdialog.py:358
 msgid "Mode:"
 msgstr "Töörežiim:"
 
-#: qt/manageprofiles/tab_general.py:79 qt/manageprofiles/tab_general.py:593
+#: qt/manageprofiles/tab_general.py:79 qt/manageprofiles/tab_general.py:615
 msgid "Where to save backups"
 msgstr "Kuhu salvestame varukoopiad"
 
@@ -1803,90 +1798,110 @@ msgstr ""
 msgid "Advanced"
 msgstr "Täiendavad seadistused"
 
-#: qt/manageprofiles/tab_general.py:253 qt/manageprofiles/tab_general.py:670
+#: qt/manageprofiles/tab_general.py:253 qt/manageprofiles/tab_general.py:705
 msgid "Full backup path:"
 msgstr "Varukoopiate täpne asukoht:"
 
-#: qt/manageprofiles/tab_general.py:471
-msgid "Copy public SSH key to the remote host to enable password-less login?"
+#: qt/manageprofiles/tab_general.py:473
+msgid ""
+"An error occurred while attempting to log in to the remote host. The "
+"following error message was returned:"
+msgstr ""
+
+#: qt/manageprofiles/tab_general.py:477
+#, fuzzy
+msgid ""
+"Copying the public SSH key to the remote host can help enable password-less "
+"login."
 msgstr ""
 "Kas sa soovid kopeerida oma avaliku ssh võtme välisesse seadmesse ja sellega"
 " võtta kasutusele salasõnata sisselogimise?"
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:479
+msgid "Proceed?"
+msgstr ""
+
+#: qt/manageprofiles/tab_general.py:502
+msgid ""
+"The public SSH key could not be copied. This may be due to a connection or "
+"permission issue."
+msgstr ""
+
+#: qt/manageprofiles/tab_general.py:532
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "Hosti „{host}“ autentsust pole võimalik tuvastada."
 
-#: qt/manageprofiles/tab_general.py:508
+#: qt/manageprofiles/tab_general.py:534
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} võtme sõrmejälg on:"
 
-#: qt/manageprofiles/tab_general.py:516
-msgid "Please verify this fingerprint. Add it to the 'known_hosts' file?"
+#: qt/manageprofiles/tab_general.py:537
+#, fuzzy
+msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
 "Palun kontrolli, et tegemist on õige sõrmejäljega. Kas sa sooviksid teda "
 "lisada ka „known_hosts“ faili?"
 
-#: qt/manageprofiles/tab_general.py:600
+#: qt/manageprofiles/tab_general.py:628
 msgid "Really change the backup directory?"
 msgstr "Kas tõesti muudame varukoopiate kausta?"
 
-#: qt/manageprofiles/tab_general.py:632
-#, python-brace-format
+#: qt/manageprofiles/tab_general.py:658
+#, fuzzy
+msgid "Invalid file: Not a private SSH key"
+msgstr "See pole SSH privaatvõti"
+
+#: qt/manageprofiles/tab_general.py:659
+#, fuzzy, python-brace-format
 msgid ""
-"The selected file {path} appears to be a public SSH key. Please select a "
-"private file (without a \".pub\" extension)."
+"The selected file ({path}) is a public SSH key. Please choose the "
+"corresponding private key file instead (without \".pub\")."
 msgstr ""
 "Valitud fail ({path}) tundub olemas avalik SSH võti. Palun vali privaatvõtme"
 " fail (selline, kus pole .pub laiendit)."
 
-#: qt/manageprofiles/tab_general.py:635
-#, fuzzy
-msgid "Not a private key"
-msgstr "SSH privaatvõti"
-
-#: qt/manageprofiles/tab_general.py:647
+#: qt/manageprofiles/tab_general.py:683
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr "{path} fail on juba olemas. Sellise nimega SSH-võtit ei saa luua."
 
-#: qt/manageprofiles/tab_general.py:658
+#: qt/manageprofiles/tab_general.py:693
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Uue SSH võtme loomine asukohta „{path}“ ei õnnestunud."
 
-#: qt/manageprofiles/tab_include.py:48
+#: qt/manageprofiles/tab_include.py:46
 msgid "Include files and directories"
 msgstr "Kaasa failid ja kaustad"
 
-#: qt/manageprofiles/tab_include.py:147
+#: qt/manageprofiles/tab_include.py:152
 msgid "Include files"
 msgstr "Kaasa failid"
 
-#: qt/manageprofiles/tab_include.py:163
+#: qt/manageprofiles/tab_include.py:174
 msgid "Include directories"
 msgstr "Kaasa kaustad"
 
-#: qt/manageprofiles/tab_options.py:37
+#: qt/manageprofiles/tab_options.py:38
 msgid "Enable notifications"
 msgstr "Luba teavitused"
 
-#: qt/manageprofiles/tab_options.py:41
+#: qt/manageprofiles/tab_options.py:42
 msgid "Disable backups when on battery"
 msgstr "Kui arvuti on akutoitel, siis ära tee varukoopiaid"
 
-#: qt/manageprofiles/tab_options.py:47
+#: qt/manageprofiles/tab_options.py:48
 msgid "Power status not available from system"
 msgstr "Toitesüsteemi oleks pole siin arvutis tuvastatav"
 
-#: qt/manageprofiles/tab_options.py:49
+#: qt/manageprofiles/tab_options.py:50
 msgid "Run only one backup at a time"
 msgstr "Tee korraga vaid üks varukoopia"
 
-#: qt/manageprofiles/tab_options.py:53
+#: qt/manageprofiles/tab_options.py:54
 msgid ""
 "Other backups will be blocked until the current backup is completed. This is"
 " a global setting, meaning it will affect all profiles for this user. "
@@ -1897,28 +1912,28 @@ msgstr ""
 "selle kasutaja kõiki profiile. Aga sa pead ta aktiveerima kõikide teiste "
 "kasutajate jaoks."
 
-#: qt/manageprofiles/tab_options.py:60
+#: qt/manageprofiles/tab_options.py:61
 msgid "Backup replaced files on restore"
 msgstr "Taastamisel tee asendatud failidest varukoopia"
 
-#: qt/manageprofiles/tab_options.py:75
+#: qt/manageprofiles/tab_options.py:76
 msgid "Continue on errors (keep incomplete backups)"
 msgstr "Vigade puhul jätka tööd (säilita poolikud varukoopiad)"
 
-#: qt/manageprofiles/tab_options.py:79
+#: qt/manageprofiles/tab_options.py:80
 msgid "Use checksum to detect changes"
 msgstr "Muutuste tuvastamiseks kasuta kontrollsummat"
 
-#: qt/manageprofiles/tab_options.py:83
+#: qt/manageprofiles/tab_options.py:84
 msgid "Create a new backup whether there were changes or not."
 msgstr ""
 "Tee uus varukoopia hoolimata sellest, kas arvutis tekkis muutusi või mitte."
 
-#: qt/manageprofiles/tab_options.py:92
+#: qt/manageprofiles/tab_options.py:93
 msgid "Warn if the free disk space falls below"
 msgstr "Hoiata, kui vaba andmeruumi on vähem, kui"
 
-#: qt/manageprofiles/tab_options.py:98
+#: qt/manageprofiles/tab_options.py:99
 msgid ""
 "Shows a warning when free space on the backup destination disk is less than "
 "the specified value."
@@ -1926,7 +1941,7 @@ msgstr ""
 "Rakendus kuvab hoiatuse, kui varunduse sihtkaustas on määratud mahust vähem "
 "vaba ruumi."
 
-#: qt/manageprofiles/tab_options.py:100
+#: qt/manageprofiles/tab_options.py:101
 msgid ""
 "If the Remove & Retention policy is enabled and old backups are removed "
 "based on available free space, this value cannot be lower than the value set"
@@ -1936,15 +1951,15 @@ msgstr ""
 "eemaldatakse vaba andmeruumi alusel, siis see väärtus ei saa olla väiksem, "
 "kui reeglites on määratud."
 
-#: qt/manageprofiles/tab_options.py:118
+#: qt/manageprofiles/tab_options.py:119
 msgid "Log Level:"
 msgstr "Logitase:"
 
-#: qt/manageprofiles/tab_options.py:178
+#: qt/manageprofiles/tab_options.py:179
 msgid "None"
 msgstr "Määramata"
 
-#: qt/manageprofiles/tab_remove_retention.py:197
+#: qt/manageprofiles/tab_remove_retention.py:198
 #, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
@@ -1954,31 +1969,31 @@ msgstr ""
 "alati asendavad varasemaid ega ole varasemaist kuidagi mõjutatud. "
 "Üksikasjade ja näidete teave leidub siin: {manual}."
 
-#: qt/manageprofiles/tab_remove_retention.py:202
+#: qt/manageprofiles/tab_remove_retention.py:203
 msgid "user manual"
 msgstr "kasutusjuhendis"
 
-#: qt/manageprofiles/tab_remove_retention.py:215
+#: qt/manageprofiles/tab_remove_retention.py:216
 msgid "Open user manual in browser."
 msgstr "Ava kasutusjuhend veebibrauseris."
 
-#: qt/manageprofiles/tab_remove_retention.py:229
+#: qt/manageprofiles/tab_remove_retention.py:230
 msgid "Keep the most recent backup."
 msgstr "Säilita viimane varukoopia."
 
-#: qt/manageprofiles/tab_remove_retention.py:233
+#: qt/manageprofiles/tab_remove_retention.py:234
 msgid "The last or freshest backup is kept under all circumstances."
 msgstr "Viimane ja kõige värskem varukoopia säilib igal juhul."
 
-#: qt/manageprofiles/tab_remove_retention.py:235
+#: qt/manageprofiles/tab_remove_retention.py:236
 msgid "That behavior cannot be changed."
 msgstr "Seda reeglit pole mitte kuidagi võimalik muuta."
 
-#: qt/manageprofiles/tab_remove_retention.py:247
+#: qt/manageprofiles/tab_remove_retention.py:248
 msgid "Keep named backups."
 msgstr "Ära kustuta nimedega varukoopiaid."
 
-#: qt/manageprofiles/tab_remove_retention.py:250
+#: qt/manageprofiles/tab_remove_retention.py:251
 msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
@@ -1986,36 +2001,36 @@ msgstr ""
 "Varukoopiad, millel lisaks tavapärasele ajatemplile on eraldi nimi, jäävad "
 "kõikides olukordades alles ega kuulu kustutamisele."
 
-#: qt/manageprofiles/tab_remove_retention.py:265
+#: qt/manageprofiles/tab_remove_retention.py:266
 msgid "Year(s)"
 msgstr "Aasta(t)"
 
-#: qt/manageprofiles/tab_remove_retention.py:270
+#: qt/manageprofiles/tab_remove_retention.py:271
 msgid "Remove backups older than"
 msgstr "Eemalda varukoopiad, mis on vanemad kui"
 
-#: qt/manageprofiles/tab_remove_retention.py:276
+#: qt/manageprofiles/tab_remove_retention.py:277
 msgid "Full days. Current day is ignored."
 msgstr "Täispäevades ja tänane päev ei lähe arvesse."
 
-#: qt/manageprofiles/tab_remove_retention.py:278
+#: qt/manageprofiles/tab_remove_retention.py:279
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
 "Esmaspäevaga algavates kalendrinädalates ja see nädal ei lähe arvesse."
 
-#: qt/manageprofiles/tab_remove_retention.py:281
+#: qt/manageprofiles/tab_remove_retention.py:282
 msgid "12 months periods. Current month is ignored."
 msgstr "12-kuulistes ajavahemikes ja praegune kuu ei lähe arvesse."
 
-#: qt/manageprofiles/tab_remove_retention.py:296
+#: qt/manageprofiles/tab_remove_retention.py:297
 msgid "Retention policy"
 msgstr "Säilitamise reeglid"
 
-#: qt/manageprofiles/tab_remove_retention.py:301
+#: qt/manageprofiles/tab_remove_retention.py:302
 msgid "Run in background on remote host."
 msgstr "Käivita välises seadmes taustal."
 
-#: qt/manageprofiles/tab_remove_retention.py:304
+#: qt/manageprofiles/tab_remove_retention.py:305
 msgid ""
 "The smart remove procedure will run directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
@@ -2024,114 +2039,131 @@ msgstr ""
 "Nutikas kustutamine töötab otseselt välisseadmes, mitte kohaliku seadmes. "
 "Selleks peavad välisseadmes olema paigaldatud „bash“, „screen“ ja „flock“."
 
-#: qt/manageprofiles/tab_remove_retention.py:308
+#: qt/manageprofiles/tab_remove_retention.py:309
 msgid "If selected, Back In Time will first test the remote machine."
 msgstr "Kui valitud, siis Back In Time esmalt testib välisseadet."
 
-#: qt/manageprofiles/tab_remove_retention.py:312
+#: qt/manageprofiles/tab_remove_retention.py:313
 msgid "The days are counted starting from today."
 msgstr "Päevi loendame alates tänasest."
 
-#: qt/manageprofiles/tab_remove_retention.py:313
+#: qt/manageprofiles/tab_remove_retention.py:314
 msgid "Keep all backups for the last"
 msgstr "Säilita kõik varukoopiad viimase"
 
-#: qt/manageprofiles/tab_remove_retention.py:318
-#: qt/manageprofiles/tab_remove_retention.py:330
+#: qt/manageprofiles/tab_remove_retention.py:319
+#: qt/manageprofiles/tab_remove_retention.py:331
 msgid "day(s)."
 msgstr "päeva kestel."
 
-#: qt/manageprofiles/tab_remove_retention.py:325
+#: qt/manageprofiles/tab_remove_retention.py:326
 msgid "Keep the last backup for each day for the last"
 msgstr "Säilita viimane varukoopia iga päeva kohta viimase"
 
-#: qt/manageprofiles/tab_remove_retention.py:335
+#: qt/manageprofiles/tab_remove_retention.py:336
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
 msgstr "Nädalaid loendame alates sellest nädalast. Nädal algab esmaspäevaga."
 
-#: qt/manageprofiles/tab_remove_retention.py:338
+#: qt/manageprofiles/tab_remove_retention.py:339
 msgid "Keep the last backup for each week for the last"
 msgstr "Säilita viimane varukoopia iga nädala kohta viimase"
 
-#: qt/manageprofiles/tab_remove_retention.py:343
+#: qt/manageprofiles/tab_remove_retention.py:344
 msgid "week(s)."
 msgstr "nädala jooksul."
 
-#: qt/manageprofiles/tab_remove_retention.py:348
+#: qt/manageprofiles/tab_remove_retention.py:349
 msgid ""
 "The months are counted as calendar months starting with the current month."
 msgstr "Kuid loendame kalendrikuudena alates sellest kuust."
 
-#: qt/manageprofiles/tab_remove_retention.py:351
+#: qt/manageprofiles/tab_remove_retention.py:352
 msgid "Keep the last backup for each month for the last"
 msgstr "Säilita viimane varukoopia iga kuu kohta viimase"
 
-#: qt/manageprofiles/tab_remove_retention.py:356
+#: qt/manageprofiles/tab_remove_retention.py:357
 msgid "month(s)."
 msgstr "kuu kestel."
 
-#: qt/manageprofiles/tab_remove_retention.py:361
+#: qt/manageprofiles/tab_remove_retention.py:362
 msgid ""
 "The years are counted as calendar years starting with the current year."
 msgstr "Aastaid loendame kalendriaastatena alates sellest aastast."
 
-#: qt/manageprofiles/tab_remove_retention.py:363
+#: qt/manageprofiles/tab_remove_retention.py:364
 msgid "Keep the last backup for each year for"
 msgstr "Säilita viimane varukoopia iga aasta kohta"
 
-#: qt/manageprofiles/tab_remove_retention.py:365
+#: qt/manageprofiles/tab_remove_retention.py:366
 msgid "all years."
 msgstr "läbi aastate."
 
-#: qt/manageprofiles/tab_remove_retention.py:380
+#: qt/manageprofiles/tab_remove_retention.py:381
 msgid "… the free space is less than"
 msgstr "… kui vaba ruumi on vähem kui"
 
-#: qt/manageprofiles/tab_remove_retention.py:385
+#: qt/manageprofiles/tab_remove_retention.py:386
 msgid "… the free inodes are less than"
 msgstr "… kui vabu indekssõlmesid on vähem kui"
 
-#: qt/manageprofiles/tab_remove_retention.py:394
+#: qt/manageprofiles/tab_remove_retention.py:395
 msgid "Remove oldest backup if …"
 msgstr "Eemalda vanimad varukoopiad, kui…"
 
-#: qt/messagebox.py:116 qt/messagebox.py:134 qt/messagebox.py:144
-msgid "Question"
-msgstr "Palun vasta küsimusele"
+#: qt/placeswidget.py:49
+msgid "Shortcuts"
+msgstr "Otseteed"
 
-#: qt/qtsystrayicon.py:69
+#: qt/placeswidget.py:63
+msgid "Places"
+msgstr ""
+
+#: qt/placeswidget.py:64
+msgid "File System"
+msgstr ""
+
+#: qt/placeswidget.py:106
+msgid "Backup directories"
+msgstr "Tagavarakoopia kaustad"
+
+#: qt/qtsystrayicon.py:65
 #, python-brace-format
 msgid "Profile: {profile_name}"
 msgstr "Profiil: „{profile_name}“"
 
-#: qt/qtsystrayicon.py:101
+#: qt/qtsystrayicon.py:98
 msgid "View Last Log"
 msgstr "Vaata viimast logi"
 
-#: qt/qtsystrayicon.py:105
+#: qt/qtsystrayicon.py:102
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "Käivita {appname}"
 
-#: qt/qtsystrayicon.py:171
+#: qt/qtsystrayicon.py:162
 msgid "Working…"
 msgstr "Töötan…"
 
-#: qt/restoreconfigdialog.py:68
+#: qt/restoreconfigdialog.py:72
 msgid "Import configuration"
 msgstr "Impordi seadistused"
 
-#: qt/restoreconfigdialog.py:124 qt/restoreconfigdialog.py:220
+#: qt/restoreconfigdialog.py:92 qt/restoreconfigdialog.py:318
 msgid "No config found"
 msgstr "Seadistusi ei leidu"
 
-#: qt/restoreconfigdialog.py:149
+#: qt/restoreconfigdialog.py:121
 msgid "Import"
 msgstr "Impordi"
 
-#: qt/restoreconfigdialog.py:177
+#: qt/restoreconfigdialog.py:143 qt/restoreconfigdialog.py:247
+#, fuzzy
+msgid "Searching…"
+msgstr "Töötan…"
+
+#: qt/restoreconfigdialog.py:224
 #, python-brace-format
 msgid ""
 "Select the backup directory from which the configuration file should be "
@@ -2140,7 +2172,7 @@ msgstr ""
 "Vali varukoopiate kaust, kust soovid seadistuste faili importida. Asukoht "
 "võiks olla midagi sellist: {samplePath}"
 
-#: qt/restoreconfigdialog.py:182
+#: qt/restoreconfigdialog.py:229
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
@@ -2148,7 +2180,25 @@ msgstr ""
 "Kui vastav kaust asub välisel andmekandjal või kaugseadmes, siis esmalt "
 "palun haagi ta käsitsi."
 
-#: qt/restoredialog.py:52
+#: qt/restoreconfigdialog.py:250
+msgid "Scan again"
+msgstr ""
+
+#: qt/restoreconfigdialog.py:269
+#, fuzzy
+msgid "Show hidden directories"
+msgstr "Näita peidetud faile"
+
+#: qt/restoreconfigdialog.py:271
+#, fuzzy
+msgid "Show/hide hidden directories (Ctrl+H)"
+msgstr "Näita/peida peidetud failid ja kaustad (Ctrl+H)"
+
+#: qt/restoreconfigdialog.py:379
+msgid "Search complete."
+msgstr ""
+
+#: qt/restoredialog.py:55
 msgid "Show full Log"
 msgstr "Näita tervet logi"
 
@@ -2175,27 +2225,27 @@ msgid_plural "The system will shut down in {n} seconds."
 msgstr[0] "Arvuti lülitub välja {n} sekundi pärast."
 msgstr[1] "Arvuti lülitub välja {n} sekundi pärast."
 
-#: qt/snapshotsdialog.py:58
+#: qt/snapshotsdialog.py:61
 msgid "Options about comparing backups"
 msgstr "Varukoopiate võrdlemise valikud"
 
-#: qt/snapshotsdialog.py:65
+#: qt/snapshotsdialog.py:68
 msgid "Command:"
 msgstr "Käsk:"
 
-#: qt/snapshotsdialog.py:69
+#: qt/snapshotsdialog.py:72
 msgid "Parameters:"
 msgstr "Parameetrid:"
 
-#: qt/snapshotsdialog.py:74
+#: qt/snapshotsdialog.py:77
 msgid "Use %1 and %2 for path parameters"
 msgstr "Asukoha parameetritena kasuta „%1“ ja „%2“"
 
-#: qt/snapshotsdialog.py:91
+#: qt/snapshotsdialog.py:94
 msgid "Please set a diff command or press Cancel."
 msgstr "Palun seadista „diff“ käsk või vajuta „Katkesta“."
 
-#: qt/snapshotsdialog.py:97
+#: qt/snapshotsdialog.py:100
 #, python-brace-format
 msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
@@ -2204,101 +2254,111 @@ msgstr ""
 "Käsku „{cmd}“ ei leidu selles seadmes. Palun proovi midagi muud või vajuta "
 "„Katkesta“."
 
-#: qt/snapshotsdialog.py:105
+#: qt/snapshotsdialog.py:108
 #, python-brace-format
 msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr ""
 "Diff käsu parameetrid puuduvad. Kasutan vaikimisi väärtust „{params}“."
 
-#: qt/snapshotsdialog.py:130 qt/timeline.py:45
+#: qt/snapshotsdialog.py:133 qt/timeline.py:44
 msgid "Backups"
 msgstr "Varukoopiad"
 
-#: qt/snapshotsdialog.py:141
+#: qt/snapshotsdialog.py:144
 msgid "Differing backups only"
 msgstr "Vaid siis, kui varukoopiad erinevad"
 
-#: qt/snapshotsdialog.py:150
+#: qt/snapshotsdialog.py:153
 msgid "List only backups that are equal to:"
 msgstr "Näita vaid varukoopiaid, mis võrduvad järgnevaga:"
 
-#: qt/snapshotsdialog.py:162
+#: qt/snapshotsdialog.py:165
 msgid "Deep check (more accurate, but slow)"
 msgstr "Põhjalik kontroll (palju täpsem, aga ka aeglasem)"
 
-#: qt/snapshotsdialog.py:183
+#: qt/snapshotsdialog.py:186
 msgid "Delete"
 msgstr "Kustuta"
 
-#: qt/snapshotsdialog.py:188
+#: qt/snapshotsdialog.py:191
 msgid "Select All"
 msgstr "Vali kõik"
 
-#: qt/snapshotsdialog.py:201
+#: qt/snapshotsdialog.py:204
 msgid "Compare"
 msgstr "Võrdle"
 
-#: qt/snapshotsdialog.py:216
+#: qt/snapshotsdialog.py:219
 msgid "Go To"
 msgstr "Mine"
 
-#: qt/snapshotsdialog.py:218
+#: qt/snapshotsdialog.py:221
 msgid "Options"
 msgstr "Valikud"
 
-#: qt/snapshotsdialog.py:381
+#: qt/snapshotsdialog.py:384
 msgid ""
 "It is not possible to compare a backup to itself, as the comparison would be"
 " redundant."
 msgstr ""
 "Kuna võrdlus oleks siis liigne, pole võimalik teha varukoopiat iseendasse."
 
-#: qt/snapshotsdialog.py:427
+#: qt/snapshotsdialog.py:430
 #, python-brace-format
 msgid "Really delete {file_or_dir} in backup {backup_id}?"
 msgstr ""
 "Kas sa kindlasti soovid kustutada „{file_or_dir}“ hetktõmmises nr "
 "{backup_id}?"
 
-#: qt/snapshotsdialog.py:432
+#: qt/snapshotsdialog.py:435
 #, python-brace-format
 msgid "Really delete {file_or_dir} in {count} backups?"
 msgstr ""
 "Kas sa kindlasti soovid kustutada „{file_or_dir}“ kokku {count}-s "
 "varukoopias?"
 
-#: qt/snapshotsdialog.py:435
+#: qt/snapshotsdialog.py:438
 msgid "WARNING: This cannot be revoked."
 msgstr "HOIUATUS: seda tegevust ei saa tagasi pöörata."
 
-#: qt/snapshotsdialog.py:453
+#: qt/snapshotsdialog.py:455
 #, python-brace-format
 msgid "Exclude {path} from future backups?"
 msgstr "Kas soovid välistada tulevastest varukoopiatest asukoha „{path}“?"
 
-#: qt/timeline.py:70
+#: qt/statusbar.py:85
+#, fuzzy
+msgid "Root mode"
+msgstr "Juurkaust"
+
+#: qt/statusbar.py:87
+msgid ""
+"Back In Time is currently running with root privileges (full system access)"
+msgstr ""
+
+#: qt/timeline.py:69
 msgid "Today"
 msgstr "Täna"
 
-#: qt/timeline.py:78
+#: qt/timeline.py:77
 msgid "Yesterday"
 msgstr "Eile"
 
-#: qt/timeline.py:88
+#: qt/timeline.py:87
 msgid "This week"
 msgstr "Sel nädalal"
 
-#: qt/timeline.py:96
+#: qt/timeline.py:95
 msgid "Last week"
 msgstr "Eelmisel nädalal"
 
-#: qt/timeline.py:270
+#: qt/timeline.py:268
 msgid "This is NOT a backup but a live view of the local files."
 msgstr ""
 "See EI OLE varukoopia, vaid sinu kohaliku failisüsteemi failide tegelik "
 "vaade."
 
-#: qt/timeline.py:275
+#: qt/timeline.py:273
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Viimati kontrollitud {time}"
@@ -2326,6 +2386,9 @@ msgstr "Viimati kontrollitud {time}"
 #~ msgstr[0] "Kas oled kindel, et soovid kustutada selle hetktõmmise?"
 #~ msgstr[1] "Kas oled kindel, et soovid kustutada need hetktõmmised?"
 
+#~ msgid "Backup"
+#~ msgstr "Varukoopia"
+
 #, python-brace-format
 #~ msgid "Cipher {cipher} failed for {host}."
 #~ msgstr "{cipher} šifti kasutamine hostis {host} ei õnnestunud."
@@ -2352,6 +2415,12 @@ msgstr "Viimati kontrollitud {time}"
 #~ msgstr[0] "Iga {n} tunni järel"
 #~ msgstr[1] "Iga {n} tunni järel"
 
+#~ msgid "Global"
+#~ msgstr "Üleüldine"
+
+#~ msgid "Home"
+#~ msgstr "Kodukaust"
+
 #~ msgid "If it is on a removable drive, please plug it in. Then press OK."
 #~ msgstr ""
 #~ "Kui ta asub eemaldataval andmekandjal, siis palun ühenda see ja vajuta "
@@ -2359,6 +2428,9 @@ msgstr "Viimati kontrollitud {time}"
 
 #~ msgid "License"
 #~ msgstr "Litsents"
+
+#~ msgid "Look at 'man backintime' for further instructions"
+#~ msgstr "Lisateavet leiad käsuga „man backintime“"
 
 #~ msgid "Name snapshot"
 #~ msgstr "Anna hetktõmmisele nimi"

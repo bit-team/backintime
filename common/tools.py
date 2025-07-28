@@ -592,7 +592,15 @@ def _free_space_local(path: pathlib.Path) -> int:
     Returns:
         Free space in Byte.
     """
-    return shutil.disk_usage(path).free
+    try:
+        usage = shutil.disk_usage(path)
+
+    except FileNotFoundError:
+        logger.error('Unable to get free space (local) because the path '
+                     f'{path} was not found.')
+        return None
+
+    return usage.free
 
 
 def _free_space_ssh(path: pathlib.Path, ssh_command: list[str]) -> int | None:
@@ -1132,21 +1140,6 @@ def is_Qt_working(systray_required=False):
     except Exception as exc:
         logger.critical(f'Unknown Error: {exc}')
         raise
-
-
-def preparePath(path):
-    """
-    Removes trailing slash '/' from ``path``.
-
-    Args:
-        path (str): absolute path
-
-    Returns:
-        str:        path ``path`` without trailing but with leading slash
-    """
-    path = path.strip("/")
-    path = os.sep + path
-    return path
 
 
 def powerStatusAvailable():
