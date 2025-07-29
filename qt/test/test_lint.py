@@ -342,7 +342,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # 'R0902',  # too-many-instance-attributes
             # 'R0904',  # too-many-public-methods
             'R0912',  # too-many-branches
-            # 'R0913',  # too-many-arguments
+            'R0913',  # too-many-arguments
             # 'R0915',  # too-many-statements
             'W0107',  # unnecessary-pass
             'W0123',  # eval-used
