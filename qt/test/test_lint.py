@@ -312,7 +312,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         err_codes = [
             # 'C0103',  # invalid-name
             'C0114',  # missing-module-docstring
-            # 'C0115',  # missing-class-docstring
+            'C0115',  # missing-class-docstring
             # 'C0116',  # missing-function-docstring
             'C0200',  # consider-using-enumerate
             'C0201',  # consider-iterating-dictionary
@@ -341,7 +341,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'R0801',  # duplicate-code
             # 'R0902',  # too-many-instance-attributes
             # 'R0904',  # too-many-public-methods
-            # 'R0912',  # too-many-branches
+            'R0912',  # too-many-branches
             # 'R0913',  # too-many-arguments
             # 'R0915',  # too-many-statements
             'W0107',  # unnecessary-pass

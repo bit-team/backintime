@@ -38,6 +38,8 @@ from PyQt6.QtGui import QRegion
 
 
 class QtSysTrayIcon:
+    """Application instance for the Back In Time systray icon"""
+
     def __init__(self):
 
         self.snapshots = snapshots.Snapshots()

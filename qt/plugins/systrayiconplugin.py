@@ -36,6 +36,8 @@ if not os.getenv('DISPLAY', ''):
 
 
 class SysTrayIconPlugin(pluginmanager.Plugin):
+    """A Back In Time plugin responsible to start the systray icon instance"""
+
     def __init__(self):
         self.process = None
         self.snapshots = None

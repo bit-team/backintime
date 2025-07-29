@@ -22,6 +22,7 @@ import threading
 import shutil
 import textwrap
 import signal
+from collections.abc import Generator
 from contextlib import contextmanager
 from tempfile import TemporaryDirectory
 # We need to import common/tools.py
@@ -97,6 +98,8 @@ from placeswidget import PlacesWidget
 
 
 class MainWindow(QMainWindow):
+    """The main window of Back In Time"""
+
     def __init__(self, config, appInstance, qapp):
         QMainWindow.__init__(self)
 
@@ -1055,23 +1058,8 @@ class MainWindow(QMainWindow):
         `self.timerUpdateTakeSnapshot`. Also see
         `Snapshots.takeSnapshotMessage()` for further details.
         """
-        if force_wait_lock:
-            self.forceWaitLockCounter = 10
+        paused, fake_busy = self._handle_wait_locker(force_wait_lock)
 
-        busy = self.snapshots.busy()
-
-        if busy:
-            self.forceWaitLockCounter = 0
-            paused = tools.processPaused(self.snapshots.pid())
-        else:
-            paused = False
-
-        if self.forceWaitLockCounter > 0:
-            self.forceWaitLockCounter = self.forceWaitLockCounter - 1
-
-        fake_busy = busy or self.forceWaitLockCounter > 0
-
-        message = _('Working:')
         takeSnapshotMessage = self.snapshots.takeSnapshotMessage()
 
         if fake_busy:
@@ -1083,32 +1071,13 @@ class MainWindow(QMainWindow):
             if takeSnapshotMessage is None:
                 takeSnapshotMessage = (0, _('Done'))
 
-        force_update = False
+        force_update = (
+            fake_busy == False
+            and self.act_take_snapshot.isEnabled() == False)
 
-        if fake_busy:  # What is this?
-            if self.act_take_snapshot.isEnabled():
-                self.act_take_snapshot.setEnabled(False)
+        self._handle_fake_busy(fake_busy, paused)
 
-            if not self.act_stop_take_snapshot.isVisible():
-                for action in (self.act_pause_take_snapshot,
-                            self.act_resume_take_snapshot,
-                            self.act_stop_take_snapshot):
-                    action.setEnabled(True)
-            self.act_take_snapshot.setVisible(False)
-            self.act_pause_take_snapshot.setVisible(not paused)
-            self.act_resume_take_snapshot.setVisible(paused)
-            self.act_stop_take_snapshot.setVisible(True)
-
-        elif not self.act_take_snapshot.isEnabled():
-            force_update = True
-
-            self.act_take_snapshot.setEnabled(True)
-            self.act_take_snapshot.setVisible(True)
-            for action in (self.act_pause_take_snapshot,
-                           self.act_resume_take_snapshot,
-                           self.act_stop_take_snapshot):
-                action.setVisible(False)
-
+        if not self.act_take_snapshot.isEnabled():
             # TODO: check if there is a more elegant way than always get a
             # new snapshot list which is very expensive (time)
             snapshotsList = snapshots.listSnapshots(self.config)
@@ -1126,38 +1095,110 @@ class MainWindow(QMainWindow):
             if self.shutdown.activate_shutdown and get_shutdown_confirmation():
                 self.shutdown.shutdown()
 
-        if takeSnapshotMessage != self.lastTakeSnapshotMessage or force_update:
-            self.lastTakeSnapshotMessage = takeSnapshotMessage
+        message = self._set_take_snapshot_message(
+            message=takeSnapshotMessage,
+            force_update=force_update,
+            fake_busy=fake_busy)
 
-            if fake_busy:
-                message = '{}: {}'.format(
-                    _('Working'),
-                    self.lastTakeSnapshotMessage[1].replace('\n', ' ')
-                )
+        self._update_progress_bar(message)
 
-            elif takeSnapshotMessage[0] == 0:
-                message = self.lastTakeSnapshotMessage[1].replace('\n', ' ')
 
-            else:
-                message = '{}: {}'.format(
-                    _('Error'),
-                    self.lastTakeSnapshotMessage[1].replace('\n', ' ')
-                )
+    def _handle_wait_locker(self, force_wait_lock):
+        if force_wait_lock:
+            self.forceWaitLockCounter = 10
 
-            self.status_bar.set_status_message(message)
+        busy = self.snapshots.busy()
 
-        pg = progress.ProgressFile(self.config)
-        if pg.fileReadable():
-            self.status_bar.progress_show()
-            pg.load()
-            self.status_bar.set_progress_value(pg.intValue('percent'))
-            message = ' | '.join(self.getProgressBarFormat(pg, message))
-            self.status_bar.set_status_message(message)
+        if busy:
+            self.forceWaitLockCounter = 0
+            paused = tools.processPaused(self.snapshots.pid())
 
         else:
-            self.status_bar.progress_hide()
+            paused = False
 
-    def getProgressBarFormat(self, pg, message):
+        if self.forceWaitLockCounter > 0:
+            self.forceWaitLockCounter = self.forceWaitLockCounter - 1
+
+        fake_busy = busy or self.forceWaitLockCounter > 0
+
+        return paused, fake_busy
+
+    def _handle_fake_busy(self, fake: bool, paused: bool):
+        """What is this???"""
+
+        print(f'_handle_fake_busy() :: {fake=}')  # DEBUG
+
+        if fake:  # ???
+            if self.act_take_snapshot.isEnabled():
+                self.act_take_snapshot.setEnabled(False)
+                self.act_take_snapshot_checksum.setEnabled(False)
+
+            if not self.act_take_snapshot.isVisible():
+                for action in (self.act_pause_take_snapshot,
+                               self.act_resume_take_snapshot,
+                               self.act_stop_take_snapshot):
+                    action.setEnabled(True)
+
+            self.act_take_snapshot.setVisible(False)
+            self.act_take_snapshot_checksum.setVisible(False)
+            self.act_pause_take_snapshot.setVisible(not paused)
+            self.act_resume_take_snapshot.setVisible(paused)
+            self.act_stop_take_snapshot.setVisible(True)
+
+        elif not self.act_take_snapshot.isEnabled():
+            self.act_take_snapshot.setVisible(True)
+            self.act_take_snapshot.setEnabled(True)
+            self.act_take_snapshot_checksum.setVisible(True)
+            self.act_take_snapshot_checksum.setEnabled(True)
+
+            for action in (self.act_pause_take_snapshot,
+                           self.act_resume_take_snapshot,
+                           self.act_stop_take_snapshot):
+                action.setVisible(False)
+
+    def _set_take_snapshot_message(self,
+                                   message: tuple[int, str],
+                                   force_update: bool,
+                                   fake_busy: bool) -> str:
+
+        if message == self.lastTakeSnapshotMessage and not force_update:
+            return _('Working:')
+
+        self.lastTakeSnapshotMessage = message
+
+        last = self.lastTakeSnapshotMessage[1].replace('\n', ' ')
+
+        if fake_busy:
+            message = '{}: {}'.format(_('Working'), last)
+
+        elif message[0] == 0:
+            message = last
+
+        else:
+            message = '{}: {}'.format(_('Error'), last)
+
+        self.status_bar.set_status_message(message)
+
+        return message
+
+    def _update_progress_bar(self, message: str):
+        pg = progress.ProgressFile(self.config)
+
+        if not pg.fileReadable():
+            self.status_bar.progress_hide()
+            return
+
+        print(f'_update_progress_bar() :: {message=}')  # DEBUG
+
+        self.status_bar.progress_show()
+        pg.load()
+        self.status_bar.set_progress_value(pg.intValue('percent'))
+        message = ' | '.join(self.getProgressBarFormat(pg, message))
+        self.status_bar.set_status_message(message)
+
+    def getProgressBarFormat(self,
+                             pg: progress.ProgressFile,
+                             message: str) -> Generator[str, None, None]:
         """Generates formatted components of a progress bar display.
 
         This generator yields individual parts of a progress message, including
