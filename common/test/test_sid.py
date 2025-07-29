@@ -547,7 +547,7 @@ class IterBackups(generic.SnapshotsTestCase):
                                 '20151219-010324-123'])
             self.assertIsInstance(sid, snapshots.SID)
 
-        self.assertEqual(count, 3)
+        self.assertEqual(count, 4)
 
     def test_last(self):
         self.assertEqual(snapshots.lastSnapshot(self.cfg),
