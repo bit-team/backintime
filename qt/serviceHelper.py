@@ -11,7 +11,7 @@
 #
 # This file is released under several licenses mentioned above. The file is
 # part of the program "Back In Time". The program as a whole is released under
-# GNU General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# GNU General Public License v2 (GPLv2). See LICENSES directory or go to
 # - <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 # - <https://spdx.org/licenses/MIT.html>
 # - <https://spdx.org/licenses/CC0-1.0.html>

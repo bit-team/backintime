@@ -107,7 +107,7 @@ class CrontabDebug(pyfakefs_ut.TestCase):
         return config_fp
 
     @mock.patch('tools.which', return_value='backintime')
-    def test_crontab_contains_debug(self, mock_which):
+    def test_crontab_contains_debug(self, _mock_which):
         """
         About mock_which: A workaround because the function gives
         false-negative when using a fake filesystem.
@@ -122,7 +122,7 @@ class CrontabDebug(pyfakefs_ut.TestCase):
         self.assertIn('--debug', sut)
 
     @mock.patch('tools.which', return_value='backintime')
-    def test_crontab_without_debug(self, mock_which):
+    def test_crontab_without_debug(self, _mock_which):
         """No debug output in crontab line.
 
         About mock_which: See test_crontab_with_debug().

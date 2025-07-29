@@ -2205,7 +2205,9 @@ class Snapshots:
 
         # check for duplicates
         uniqueness = UniquenessSet(
-            flag_deep_check, follow_symlink=False, list_equal_to=list_equal_to)
+            deep_check=flag_deep_check,
+            follow_symlink=False,
+            equal_to=list_equal_to)
 
         for sid in allSnapshotsList:
             path = sid.pathBackup(base_path)

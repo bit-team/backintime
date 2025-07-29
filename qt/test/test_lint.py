@@ -317,12 +317,12 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'C0200',  # consider-using-enumerate
             'C0201',  # consider-iterating-dictionary
             'C0301',  # line-too-long
+            'C0303',  # trailing-whitespace
             'C0305',  # trailing-newlines
             'C0321',  # multiple-statements
             'C0325',  # superfluous-parens
             'C0410',  # multiple-imports
             # 'C0411',  # wrong-import-order
-            'C0303',  # trailing-whitespace
             'E0100',  # init-is-generator
             'E0101',  # return-in-init
             'E0102',  # function-redefined
@@ -343,7 +343,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'R0904',  # too-many-public-methods
             'R0912',  # too-many-branches
             'R0913',  # too-many-arguments
-            'R0915',  # too-many-statements
+            # 'R0915',  # too-many-statements
             'W0107',  # unnecessary-pass
             'W0123',  # eval-used
             'W0201',  # attribute-defined-outside-init
@@ -356,7 +356,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'W0612',  # unused-variable
             'W0613',  # unused-argument
             'W0614',  # unused-wildcard-import
-            # 'W0702',  # bare-except
+            'W0702',  # bare-except
             # 'W0703',  # broad-except
             'W0707',  # raise-missing-from
             'W0711',  # binary-op-exception

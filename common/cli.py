@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of the program "Back In Time" which is released under GNU
-# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import sys
@@ -275,13 +275,16 @@ class RestoreDialog:
         self.kwargs = kwargs
 
         self.logFile = self.config.restoreLogFile()
+
         if os.path.exists(self.logFile):
             os.remove(self.logFile)
 
-    def callback(self, line, *params):
+    def callback(self, line, *_args):
         if not line:
             return
+
         print(line)
+
         with open(self.logFile, 'a') as log:
             log.write(line + '\n')
 
