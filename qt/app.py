@@ -152,7 +152,7 @@ class MainWindow(QMainWindow):
         self.mainSplitter.addWidget(self.filesWidget)
 
         # FilesView toolbar
-        self.toolbar_filesview = self._create_and_get_filesview_toolbar()
+        self.toolbar_filesview = self._files_view_toolbar()
         filesLayout.addWidget(self.toolbar_filesview)
 
         # Catch mouse button's 4 (back) and 5 (forward)
@@ -178,16 +178,8 @@ class MainWindow(QMainWindow):
         self.secondSplitter.addWidget(widget)
 
         # folder don't exist label
-        self.lblFolderDontExists = QLabel(
-            '<strong>{}</strong>'.format(
-                _("This directory doesn't exist\n"
-                  "in the current selected backup.")),
-            self)
-        self.lblFolderDontExists.setFrameShadow(QFrame.Shadow.Sunken)
-        self.lblFolderDontExists.setFrameShape(QFrame.Shape.Panel)
-        self.lblFolderDontExists.setAlignment(
-            Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
-        self.stackFilesView.addWidget(self.lblFolderDontExists)
+        self._label_not_a_dir = self._label_dir_dont_exist()
+        self.stackFilesView.addWidget(self._label_not_a_dir)
 
         # list files view
         self.filesView = QTreeView(self)
@@ -238,23 +230,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.mainSplitter)
 
         # context menu for Files View
-        self.filesView.setContextMenuPolicy(
-            Qt.ContextMenuPolicy.CustomContextMenu)
-        self.filesView.customContextMenuRequested \
-                      .connect(self._slot_files_view_context_menu)
-        self.contextMenu = QMenu(self)
-        self.contextMenu.addAction(self.act_restore)
-        self.contextMenu.addAction(self.act_restore_to)
-        self.contextMenu.addAction(self.act_snapshots_dialog)
-        self.contextMenu.addSeparator()
-        self.btnAddInclude = self.contextMenu.addAction(
-            icon.ADD, _('Add to Include'))
-        self.btnAddExclude = self.contextMenu.addAction(
-            icon.ADD, _('Add to Exclude'))
-        self.btnAddInclude.triggered.connect(self._slot_add_to_include)
-        self.btnAddExclude.triggered.connect(self._slot_add_to_exclude)
-        self.contextMenu.addSeparator()
-        self.contextMenu.addAction(self.act_show_hidden)
+        self._context_menu = self._files_view_context_menu()
 
         # self.statusBar().addWidget(layoutWidget, 100)
         self.status_bar = StatusBar(self)
@@ -291,27 +267,29 @@ class MainWindow(QMainWindow):
 
         # signals
         self.timeLine.itemSelectionChanged.connect(self.timeLineChanged)
-        # self.places.currentItemChanged.connect(self.placesChanged)
         self.filesView.activated.connect(self._slot_files_view_item_activated)
 
         self.forceWaitLockCounter = 0
 
-        self.timerRaiseApplication = QTimer(self)
-        self.timerRaiseApplication.setInterval(1000)
-        self.timerRaiseApplication.setSingleShot(False)
-        self.timerRaiseApplication.timeout.connect(self.raiseApplication)
-        self.timerRaiseApplication.start()
-
-        self.timerUpdateTakeSnapshot = QTimer(self)
-        self.timerUpdateTakeSnapshot.setInterval(1000)
-        self.timerUpdateTakeSnapshot.setSingleShot(False)
-        self.timerUpdateTakeSnapshot.timeout.connect(self.updateTakeSnapshot)
-        self.timerUpdateTakeSnapshot.start()
+        self._setup_timers()
 
         threading.Thread(
             target=self.config.setup_automation, daemon=True).start()
 
         self._handle_user_messages()
+
+    def _setup_timers(self):
+        raise_application = QTimer(self)
+        raise_application.setInterval(1000)
+        raise_application.setSingleShot(False)
+        raise_application.timeout.connect(self.raiseApplication)
+        raise_application.start()
+
+        update_backup_messages = QTimer(self)
+        update_backup_messages.setInterval(1000)
+        update_backup_messages.setSingleShot(False)
+        update_backup_messages.timeout.connect(self._update_backup_status)
+        update_backup_messages.start()
 
     def _restore_visual_state(self):
         state_data = StateData()
@@ -872,7 +850,20 @@ class MainWindow(QMainWindow):
         toolbar.insertSeparator(self.act_settings)
         toolbar.insertSeparator(self.act_shutdown)
 
-    def _create_and_get_filesview_toolbar(self):
+    def _label_dir_dont_exist(self) -> QLabel:
+        label = QLabel('<strong>{}</strong>'.format(
+            _("This directory doesn't exist\n"
+              "in the current selected backup.")),
+            self)
+
+        label.setFrameShadow(QFrame.Shadow.Sunken)
+        label.setFrameShape(QFrame.Shape.Panel)
+        label.setAlignment(
+            Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+
+        return label
+
+    def _files_view_toolbar(self):
         """Create the filesview toolbar object, connect it to actions and
         return it for later use.
 
@@ -909,6 +900,27 @@ class MainWindow(QMainWindow):
         toolbar.insertSeparator(self.act_restore)
 
         return toolbar
+
+    def _files_view_context_menu(self):
+        self.filesView.setContextMenuPolicy(
+            Qt.ContextMenuPolicy.CustomContextMenu)
+        self.filesView.customContextMenuRequested \
+                      .connect(self._slot_files_view_context_menu)
+
+        menu  = QMenu(self)
+        menu.addAction(self.act_restore)
+        menu.addAction(self.act_restore_to)
+        menu.addAction(self.act_snapshots_dialog)
+        menu.addSeparator()
+        import icon
+        self.btnAddInclude = menu.addAction(icon.ADD, _('Add to Include'))
+        self.btnAddExclude = menu.addAction(icon.ADD, _('Add to Exclude'))
+        self.btnAddInclude.triggered.connect(self._slot_add_to_include)
+        self.btnAddExclude.triggered.connect(self._slot_add_to_exclude)
+        menu.addSeparator()
+        menu.addAction(self.act_show_hidden)
+
+        return menu
 
     def closeEvent(self, event):
         state_data = StateData()
@@ -1072,7 +1084,7 @@ class MainWindow(QMainWindow):
         logger.debug("Raise cmd: %s" % raiseCmd, self)
         self.qapp.alert(self)
 
-    def updateTakeSnapshot(self, force_wait_lock=False):
+    def _update_backup_status(self, force_wait_lock=False):
         """Update the statusbar and progress indicator with latest message
         from the snapshot message file.
 
@@ -1421,7 +1433,7 @@ class MainWindow(QMainWindow):
         else:
             self._enable_restore_ui_elements(False)
             self.act_snapshots_dialog.setEnabled(False)
-            self.stackFilesView.setCurrentWidget(self.lblFolderDontExists)
+            self.stackFilesView.setCurrentWidget(self._label_not_a_dir)
 
         # show current path
         self.widget_current_path.setText(self.path)
@@ -1769,7 +1781,7 @@ class MainWindow(QMainWindow):
                     return
 
         backintime.takeSnapshotAsync(self.config, checksum=checksum)
-        self.updateTakeSnapshot(True)
+        self._update_backup_status(True)
 
     def _slot_backup_stop(self):
         os.kill(self.snapshots.pid(), signal.SIGKILL)
@@ -1953,7 +1965,7 @@ class MainWindow(QMainWindow):
         self._open_path(path)
 
     def _slot_files_view_context_menu(self, point):
-        self.contextMenu.exec(self.filesView.mapToGlobal(point))
+        self._context_menu.exec(self.filesView.mapToGlobal(point))
 
     def _slot_files_view_hidden_files_toggled(self, checked: bool):
         self.showHiddenFiles = checked
