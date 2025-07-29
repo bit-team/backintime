@@ -1448,10 +1448,7 @@ def checkCronPattern(s):
 
     try:
         if s.startswith('*/'):
-            if s[2:].isdigit() and int(s[2:]) <= 24:
-                return True
-            else:
-                return False
+            return s[2:].isdigit() and int(s[2:]) <= 24
 
         for i in s.split(','):
             if i.isdigit() and int(i) <= 24:

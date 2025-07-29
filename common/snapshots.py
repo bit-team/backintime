@@ -2281,12 +2281,15 @@ class Snapshots:
         dirname = os.path.dirname(full_path)
         dir_st = os.stat(dirname)
         os.chmod(dirname, dir_st.st_mode | stat.S_IWUSR)
+
         if os.path.isdir(full_path) and not os.path.islink(full_path):
             shutil.rmtree(full_path, onerror = errorHandler)
+
         else:
             st = os.stat(full_path)
             os.chmod(full_path, st.st_mode | stat.S_IWUSR)
             os.remove(full_path)
+
         os.chmod(dirname, dir_st.st_mode)
 
     def createLastSnapshotSymlink(self, sid: SID) -> bool:
