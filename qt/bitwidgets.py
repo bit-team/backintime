@@ -200,7 +200,7 @@ class Spinner(QLabel):
         # self.spinner_sequence = ['🕐', '🕑', '🕒', '🕓', '🕔', '🕕', '🕖',
         #                          '🕗', '🕘', '🕙', '🕚', '🕛']
 
-        # Unicode symboles used alternately
+        # Unicode symbols used alternately
         self._sequence = itertools.cycle(['⠋', '⠙', '⠸', '⠴', '⠦', '⠇'])
 
         self.setAlignment(Qt.AlignmentFlag.AlignCenter)

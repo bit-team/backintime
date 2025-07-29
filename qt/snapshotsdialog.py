@@ -52,6 +52,8 @@ else:
 
 
 class DiffOptionsDialog(QDialog):
+    """Dialog to setup diff options"""
+
     def __init__(self, parent):
         super(DiffOptionsDialog, self).__init__(parent)
         self.config = parent.config
@@ -117,6 +119,12 @@ class DiffOptionsDialog(QDialog):
 
 
 class SnapshotsDialog(QDialog):
+    """The main snapshots dialog
+
+    Dev note (buhtz, 2025-07-29): Scheduled to removed and replaced be features
+    in the main window.
+    """
+
     def __init__(self, parent, sid, path):
         super(SnapshotsDialog, self).__init__(parent)
         self.parent = parent

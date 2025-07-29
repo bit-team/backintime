@@ -460,7 +460,8 @@ def is_filesystem_valid(full_path, msg_path, mode, copy_links):
             msg string.
 
     """
-    fs = filesystem(full_path if isinstance(full_path, str) else str(full_path))
+    fs = filesystem(
+        full_path if isinstance(full_path, str) else str(full_path))
 
     msg = None
 
@@ -565,7 +566,8 @@ def nested_dict_update(org: dict, update: dict) -> dict:
 
 def free_space(path: pathlib.Path, ssh_command: list[str] = None
                ) -> StorageSize | None:
-    """Get free space as StorageSize on (remote) filesystem containing ``path``.
+    """Get free space as StorageSize on (remote) filesystem containing
+    ``path``.
 
     Args:
         path: File or directory.
@@ -573,6 +575,7 @@ def free_space(path: pathlib.Path, ssh_command: list[str] = None
 
     Returns:
         Free space in StorageSize or ``None`` in case of errors.
+
     """
 
     if ssh_command:
@@ -1187,7 +1190,6 @@ def onBattery():
     except dbus.exceptions.DBusException as exc:
         logger.debug('DBus exception while determining if running on '
                      f'battery. {exc}')
-        pass
 
     return False
 
@@ -1238,27 +1240,26 @@ def rsyncCaps() -> list[str]:
 
 
 def rsyncPrefix(config,
-                no_perms=True,
-                use_mode=['ssh', 'ssh_encfs'],
-                progress=True):
+                no_perms: bool = True,
+                use_mode: list[str] = ['ssh', 'ssh_encfs'],
+                progress: bool = True) -> list[str]:
     """
     Get rsync command and all args for creating a new snapshot. Args are
     based on current profile in ``config``.
 
     Args:
-        config (config.Config): current config
-        no_perms (bool):        don't sync permissions (--no-p --no-g --no-o)
-                                if ``True``.
-                                :py:func:`config.Config.preserveAcl` == ``True`` or
-                                :py:func:`config.Config.preserveXattr` == ``True``
-                                will overwrite this to ``False``
-        use_mode (list):        if current mode is in this list add additional
-                                args for that mode
-        progress (bool):        add '--info=progress2' to show progress
+        config: current config
+        no_perms: Don't sync permissions (--no-p --no-g --no-o). If ``True``.
+            :py:func:`config.Config.preserveAcl` == ``True`` or
+            :py:func:`config.Config.preserveXattr` == ``True``
+            will overwrite this to ``False``
+        use_mode: If current mode is in this list add additional args
+            for that mode.
+        progress: Add '--info=progress2' to show progress.
 
     Returns:
-        list:                   rsync command with all args but without
-                                --include, --exclude, source and destination
+        Rsync command with all args but without --include, --exclude,
+        source and destination.
     """
     caps = rsyncCaps()
     cmd = []
@@ -1447,10 +1448,7 @@ def checkCronPattern(s):
 
     try:
         if s.startswith('*/'):
-            if s[2:].isdigit() and int(s[2:]) <= 24:
-                return True
-            else:
-                return False
+            return s[2:].isdigit() and int(s[2:]) <= 24
 
         for i in s.split(','):
             if i.isdigit() and int(i) <= 24:
@@ -1566,7 +1564,9 @@ def keyringSupported():
         # details to understand the unwanted side-effects the chainer could
         # bring with it.
         # See also:
-        # https://github.com/jaraco/keyring/blob/977ed03677bb0602b91f005461ef3dddf01a49f6/keyring/backends/chainer.py#L11  # noqa
+        # https://github.com/jaraco/keyring/blob/
+        # 977ed03677bb0602b91f005461ef3dddf01a49f6/keyring/backends/
+        # chainer.py#L11  # noqa
         (keyring.backends, ('chainer', 'ChainerBackend')),
     ]
 
@@ -1599,7 +1599,8 @@ def keyringSupported():
     logger.debug(f'Not found Metaclasses: {not_found_metaclasses}')
     logger.debug("Available supported backends: " + repr(available_backends))
 
-    if available_backends and isinstance(keyring.get_keyring(), tuple(available_backends)):
+    if (available_backends
+            and isinstance(keyring.get_keyring(), tuple(available_backends))):
         logger.debug("Found appropriate keyring '{}'".format(displayName))
         return True
 
@@ -1879,7 +1880,8 @@ def uuidFromPath(path):
 
 re_wildcard = re.compile(r'(?:\[|\]|\?)')
 re_asterisk = re.compile(r'\*')
-re_separate_asterisk = re.compile(r'(?:^\*+[^/\*]|[^/\*]\*+[^/\*]|[^/\*]\*+|\*+[^/\*]|[^/\*]\*+$)')
+re_separate_asterisk = re.compile(
+    r'(?:^\*+[^/\*]|[^/\*]\*+[^/\*]|[^/\*]\*+|\*+[^/\*]|[^/\*]\*+$)')
 
 
 def patternHasNotEncryptableWildcard(pattern):
@@ -1898,8 +1900,10 @@ def patternHasNotEncryptableWildcard(pattern):
     if not re_wildcard.search(pattern) is None:
         return True
 
-    if not re_asterisk is None and not re_separate_asterisk.search(pattern) is None:
+    if (not re_asterisk is None
+            and not re_separate_asterisk.search(pattern) is None):
         return True
+
     return False
 
 
@@ -1980,7 +1984,8 @@ def splitCommands(cmds, head='', tail='', maxLength=0):
     while cmds:
         s = head
 
-        while cmds and ((len(s + cmds[0] + tail) <= maxLength) or maxLength <= 0):
+        while (cmds and (
+                (len(s + cmds[0] + tail) <= maxLength) or maxLength <= 0)):
             s += cmds.pop(0)
 
         s += tail
@@ -2073,7 +2078,7 @@ class Alarm:
         except:
             pass
 
-    def handler(self, signum, frame):
+    def handler(self, _signum, _frame):
         """This method is called after the timer ran down to zero
         and calls the callback function of the alarm instance.
 
@@ -2117,9 +2122,10 @@ class SetupUdev:
             # by working without a serviceHelper D-Bus connection...
             # All other exceptions are still raised causing BiT
             # to stop during startup.
-            # if e._dbus_error_name in ('org.freedesktop.DBus.Error.NameHasNoOwner',
-            #                           'org.freedesktop.DBus.Error.ServiceUnknown',
-            #                           'org.freedesktop.DBus.Error.FileNotFound'):
+            # if e._dbus_error_name in (
+            #    'org.freedesktop.DBus.Error.NameHasNoOwner',
+            #    'org.freedesktop.DBus.Error.ServiceUnknown',
+            #    'org.freedesktop.DBus.Error.FileNotFound'):
             logger.warning('Failed to connect to Udev serviceHelper daemon '
                            'via D-Bus: ' + e.get_dbus_name())
             logger.warning('D-Bus message: ' + e.get_dbus_message())
@@ -2142,14 +2148,15 @@ class SetupUdev:
             return self.iface.addRule(cmd, uuid)
 
         except dbus.exceptions.DBusException as exc:
-            if exc._dbus_error_name == 'net.launchpad.backintime.InvalidChar':
+            err_prefix = 'net.launchpad.backintime.'
+            if exc._dbus_error_name == f'{err_prefix}InvalidChar':
                 raise InvalidChar(str(exc)) from exc
 
-            elif exc._dbus_error_name == 'net.launchpad.backintime.InvalidCmd':
+            elif exc._dbus_error_name == f'{err_prefix}InvalidCmd':
                 raise InvalidCmd(str(exc)) from exc
 
-            elif exc._dbus_error_name == 'net.launchpad.backintime.LimitExceeded':
-                raise LimitExceeded(str(exc))  from exc
+            elif exc._dbus_error_name == f'{err_prefix}LimitExceeded':
+                raise LimitExceeded(str(exc)) from exc
 
             else:
                 raise
@@ -2167,11 +2174,11 @@ class SetupUdev:
 
         except dbus.exceptions.DBusException as err:
 
-            if err._dbus_error_name == 'com.ubuntu.DeviceDriver.PermissionDeniedByPolicy':
+            if (err._dbus_error_name
+                    == 'com.ubuntu.DeviceDriver.PermissionDeniedByPolicy'):
                 raise PermissionDeniedByPolicy(str(err)) from err
 
-            else:
-                raise err
+            raise err
 
     def clean(self):
         """Clean up remote cache.
@@ -2312,10 +2319,12 @@ class Execute:
 
         # # TEST code for developers to simulate a killed rsync process
         # if self.printable_cmd.startswith("rsync --recursive"):
-        #     self.currentProc.terminate()  # signal 15 (SIGTERM) like "killall" and "kill" do by default
+        #     # signal 15 (SIGTERM) like "killall" and "kill" do by default
+        #     self.currentProc.terminate()
         #     # self.currentProc.send_signal(signal.SIGHUP)  # signal 1
         #     # self.currentProc.kill()  # signal 9
-        #     logger.error("rsync killed for testing purposes during development")
+        #     logger.error("rsync killed for testing purposes during "
+        #                  "development")
 
         if self.callback:
 
@@ -2338,7 +2347,8 @@ class Execute:
         # when stdout=PIPE and/or stderr=PIPE and the child process
         # generates enough output to pipe that it blocks waiting for
         # free buffer. See also:
-        # https://docs.python.org/3.10/library/subprocess.html#subprocess.Popen.wait
+        # https://docs.python.org/3.10/library/
+        # subprocess.html#subprocess.Popen.wait
         out = self.currentProc.communicate()[0]
 
         # TODO Why is "out" empty instead of containing all stdout?
@@ -2374,7 +2384,7 @@ class Execute:
 
         return ret_val
 
-    def pause(self, signum, frame):
+    def pause(self, _signum, _frame):
         """Slot which will send ``SIGSTOP`` to the command. Is connected to
         signal ``SIGTSTP``.
         """
@@ -2383,7 +2393,7 @@ class Execute:
                 f'Pause process "{self.printable_cmd}"', self.parent, 2)
             return self.currentProc.send_signal(signal.SIGSTOP)
 
-    def resume(self, signum, frame):
+    def resume(self, _signum, _frame):
         """Slot which will send ``SIGCONT`` to the command. Is connected to
         signal ``SIGCONT``.
         """
@@ -2392,7 +2402,7 @@ class Execute:
                 f'Resume process "{self.printable_cmd}"', self.parent, 2)
             return self.currentProc.send_signal(signal.SIGCONT)
 
-    def kill(self, signum, frame):
+    def kill(self, _signum, _frame):
         """Slot which will kill the command. Is connected to signal ``SIGHUP``.
         """
         if self.pausable and self.currentProc:

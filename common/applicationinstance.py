@@ -117,9 +117,11 @@ class ApplicationInstance:
                 'Failed to write PID file %s: [%s] %s'
                 % (e.filename, e.errno, e.strerror))
 
-        # The flock is removed here because it shall only ensure serialized access to the "pidFile" (lock file):
-        # Without setting flock in __init__ another process could also check for the existences of the "pidFile"
-        # in parallel and also create a new one (overwriting the one created here).
+        # The flock is removed here because it shall only ensure serialized
+        # access to the "pidFile" (lock file): Without setting flock in
+        # __init__ another process could also check for the existences of the
+        # "pidFile" in parallel and also create a new one (overwriting the one
+        # created here).
         self.flockUnlock()
 
     def exitApplication(self):
@@ -153,9 +155,9 @@ class ApplicationInstance:
         IMHO not enough.
 
         aryoda (2023-12):
-        It seems the purpose of this additional lock file using an exclusive lock
-        is to block the other process to continue until this exclusive lock
-        is released (= serialize execution).
+        It seems the purpose of this additional lock file using an exclusive
+        lock is to block the other process to continue until this exclusiv
+        lock is released (= serialize execution).
         Therefore advisory locks are used via fcntl.flock (see: man 2 fcntl)
 
         buhtz (2024-05):
@@ -164,7 +166,8 @@ class ApplicationInstance:
         """
 
         flock_file_URI = self.pidFile + '.flock'
-        logger.debug(f"Trying to put an advisory lock on the flock file {flock_file_URI}")
+        logger.debug('Trying to put an advisory lock on the flock '
+                     f'file {flock_file_URI}')
 
         try:
             self.flock = open(flock_file_URI, 'w')
@@ -196,7 +199,8 @@ class ApplicationInstance:
         but should find it self to be obsolete.
         """
         if self.flock:
-            logger.debug(f"Trying to remove the advisory lock from the flock file {self.flock.name}")
+            logger.debug('Trying to remove the advisory lock from the '
+                         f'flock file {self.flock.name}')
             fcntl.fcntl(self.flock, fcntl.LOCK_UN)
             self.flock.close()
 
