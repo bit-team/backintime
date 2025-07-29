@@ -326,7 +326,9 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'C0321',  # multiple-statements
             'C0325',  # superfluous-parens
             'C0410',  # multiple-imports
-            'C0303',  # trailing-whitespace
+            # 'C0411',  # wrong-import-order
+            # 'C0412',  # ungouped-imports
+            # 'C0413',  # wrong-import-position
             'E0100',  # init-is-generator
             'E0101',  # return-in-init
             'E0102',  # function-redefined
@@ -339,6 +341,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'E1120',  # no-value-for-parameter
             # 'E1121',  # too-many-function-args
             'E1123',  # unexpected-keyword-arg
+            'E1129',  # not-context-manager
             'I0021',  # useless-suppression
             # 'R0202',  # no-classmethod-decorator
             # 'R0203',  # no-staticmethod-decorator
@@ -348,7 +351,9 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # 'R0912',  # too-many-branches
             # 'R0913',  # too-many-arguments
             # 'R0915',  # too-many-statements
+            # 'W0102',  # dangerous-default-value
             # 'W0107',  # unnecessary-pass
+            # 'W0120',  # useless-else-on-loop
             'W0123',  # eval-used
             # 'W0201',  # attribute-defined-outside-init
             # 'W0221',  # arguments-differ
@@ -360,6 +365,9 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'W0612',  # unused-variable
             # 'W0613',  # unused-argument
             'W0614',  # unused-wildcard-import
+            # 'W0621',  # redefined-outer-name
+            # 'W0622',  # redefined-builtin
+            # 'W0640',  # cell-var-from-loop
             # 'W0702',  # bare-except
             # 'W0703',  # broad-except
             'W0707',  # raise-missing-from
@@ -371,6 +379,8 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'W4904',  # deprecated-class
             'R0202',  # no-classmethod-decorator
             'R0203',  # no-staticmethod-decorator
+            # 'R0911',  # too-many-return-statements
+            # 'R0914',  # too-many-locals
             # See PyLint bugs:
             # https://github.com/pylint-dev/pylint/issues/214
             # https://github.com/pylint-dev/pylint/issues/7920
