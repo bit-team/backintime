@@ -2205,7 +2205,9 @@ class Snapshots:
 
         # check for duplicates
         uniqueness = UniquenessSet(
-            flag_deep_check, follow_symlink=False, list_equal_to=list_equal_to)
+            deep_check=flag_deep_check,
+            follow_symlink=False,
+            equal_to=list_equal_to)
 
         for sid in allSnapshotsList:
             path = sid.pathBackup(base_path)
@@ -2279,12 +2281,15 @@ class Snapshots:
         dirname = os.path.dirname(full_path)
         dir_st = os.stat(dirname)
         os.chmod(dirname, dir_st.st_mode | stat.S_IWUSR)
+
         if os.path.isdir(full_path) and not os.path.islink(full_path):
             shutil.rmtree(full_path, onerror = errorHandler)
+
         else:
             st = os.stat(full_path)
             os.chmod(full_path, st.st_mode | stat.S_IWUSR)
             os.remove(full_path)
+
         os.chmod(dirname, dir_st.st_mode)
 
     def createLastSnapshotSymlink(self, sid: SID) -> bool:

@@ -6,7 +6,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of the program "Back In Time" which is released under GNU
-# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import sys
@@ -129,7 +129,6 @@ class Plugin:
             timeout: Requested timeout in seconds to process the message.
                 Not used at the moment. (default -1 means "no timeout")
         """
-        pass
 
     def appStart(self):
         """ Called when the GUI of Back In Time was started.
@@ -223,44 +222,61 @@ class PluginManager:
         self.plugins = []
         self.hasGuiPlugins = False
 
-        loadedPlugins = []
+        self.loadedPlugins = []
 
         # TODO 09/28/2022: Move hard coded plugin folders to configuration
         for path in ('plugins', 'common/plugins', 'qt/plugins'):
             fullPath = tools.as_backintime_path(path)
 
-            if os.path.isdir(fullPath):
-                logger.debug(f'Register plugin path {fullPath}', self)
-                tools.register_backintime_path(path)
+            if not os.path.isdir(fullPath):
+                continue
 
-                for f in os.listdir(fullPath):
+            logger.debug(f'Register plugin path {fullPath}', self)
+            tools.register_backintime_path(path)
 
-                    if f not in loadedPlugins and f.endswith('.py') and not f.startswith('__'):
-                        # logger.debug('Probing plugin %s' % f, self)
+            for f in os.listdir(fullPath):
 
-                        try:
-                            module = __import__(f[: -3])
-                            module_dict = module.__dict__
+                if f.startswith('__') or not f.lower().endswith('.py'):
+                    logger.debug(f'Not a plugin file: {f}', self)
+                    continue
 
-                            for key, value in list(module_dict.items()):
-                                if key.startswith('__'):
-                                    continue
+                self._load_plugin_from_file(f, snapshots)
 
-                                if type(value) is type:
-                                    # A plugin must implement this class via inheritance
-                                    if issubclass(value, Plugin):
-                                        plugin = value()
-                                        if plugin.init(snapshots):
-                                            logger.debug('Add plugin %s' %f, self)
-                                            if plugin.isGui():
-                                                self.hasGuiPlugins = True
-                                                self.plugins.insert(0, plugin)
-                                            else:
-                                                self.plugins.append(plugin)
-                            loadedPlugins.append(f)
 
-                        except BaseException as e:
-                            logger.error('Failed to load plugin %s: %s' %(f, str(e)), self)
+    def _load_plugin_from_file(self, file_name: str, snapshots: list):
+        if file_name in self.loadedPlugins:
+            logger.debug(f'Plugin file still loaded: {file_name}', self)
+            return
+
+        try:
+            module = __import__(file_name[: -3])
+            module_dict = module.__dict__
+
+            for key, value in list(module_dict.items()):
+                if key.startswith('__'):
+                    continue
+
+                if type(value) is type:
+                    # A plugin must implement this class via inheritance
+                    if issubclass(value, Plugin):
+                        plugin = value()
+
+                        if plugin.init(snapshots):
+                            logger.debug(f'Add plugin {file_name}', self)
+
+                            if plugin.isGui():
+                                self.hasGuiPlugins = True
+                                self.plugins.insert(0, plugin)
+
+                            else:
+                                self.plugins.append(plugin)
+
+            self.loadedPlugins.append(file_name)
+
+        except BaseException as exc:
+            logger.error(f'Failed to load plugin {file_name}: {exc=}', self)
+            raise
+
 
     def processBegin(self):
         ret_val = True
@@ -297,7 +313,8 @@ class PluginManager:
     def message(self, profile_id, profile_name, level, message, timeout = -1):
         for plugin in self.plugins:
             try:
-                plugin.message(profile_id, profile_name, level, message, timeout)
+                plugin.message(
+                    profile_id, profile_name, level, message, timeout)
             except BaseException as e:
                 self.logError(plugin, e)
 

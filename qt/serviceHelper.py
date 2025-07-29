@@ -11,7 +11,7 @@
 #
 # This file is released under several licenses mentioned above. The file is
 # part of the program "Back In Time". The program as a whole is released under
-# GNU General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# GNU General Public License v2 (GPLv2). See LICENSES directory or go to
 # - <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 # - <https://spdx.org/licenses/MIT.html>
 # - <https://spdx.org/licenses/CC0-1.0.html>
@@ -78,22 +78,28 @@ UDEV_RULES_PATH = '/etc/udev/rules.d/99-backintime-%s.rules'
 
 
 class InvalidChar(dbus.DBusException):
+    """Exception about invalid characters"""
     _dbus_error_name = 'net.launchpad.backintime.InvalidChar'
 
 
 class InvalidCmd(dbus.DBusException):
+    """EXception about an invalid command"""
     _dbus_error_name = 'net.launchpad.backintime.InvalidCmd'
 
 
 class LimitExceeded(dbus.DBusException):
+    """Exception about a reached limit in several contexts"""
     _dbus_error_name = 'net.launchpad.backintime.LimitExceeded'
 
 
 class PermissionDeniedByPolicy(dbus.DBusException):
+    """Exception about denied permissions"""
     _dbus_error_name = 'com.ubuntu.DeviceDriver.PermissionDeniedByPolicy'
 
 
 class UdevRules(dbus.service.Object):
+    """DBus object to manage Udev rules"""
+
     def __init__(self, conn=None, object_path=None, bus_name=None):
         super(UdevRules, self).__init__(conn, object_path, bus_name)
 
@@ -381,17 +387,25 @@ class UdevRules(dbus.service.Object):
 
 
 class SenderInfo:
+    """Data structure containing info about a sender using DBus"""
+
     def __init__(self, sender, conn):
         self.sender = sender
-        self.dbus_info = dbus.Interface(conn.get_object('org.freedesktop.DBus',
-                '/org/freedesktop/DBus/Bus', False), 'org.freedesktop.DBus')
+        self.dbus_info = dbus.Interface(
+            conn.get_object(
+                'org.freedesktop.DBus',
+                '/org/freedesktop/DBus/Bus',
+                False),
+            'org.freedesktop.DBus'
+        )
 
     def connectionUnixUser(self):
         uid = self.dbus_info.GetConnectionUnixUser(self.sender)
+
         if pwd:
             return pwd.getpwuid(uid).pw_name
-        else:
-            return uid
+
+        return uid
 
     def nameOwner(self):
         return self.dbus_info.GetNameOwner(self.sender)

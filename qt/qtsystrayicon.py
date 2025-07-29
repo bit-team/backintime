@@ -38,6 +38,8 @@ from PyQt6.QtGui import QRegion
 
 
 class QtSysTrayIcon:
+    """Application instance for the Back In Time systray icon"""
+
     def __init__(self):
 
         self.snapshots = snapshots.Snapshots()
@@ -55,7 +57,6 @@ class QtSysTrayIcon:
         self.qapp.setQuitOnLastWindowClosed(False)
 
         import icon
-        self.icon = icon  # What does this code do? Make the import accessible?
         self.qapp.setWindowIcon(icon.BIT_LOGO)
 
         self.status_icon = QSystemTrayIcon(icon.BIT_LOGO)
@@ -104,18 +105,7 @@ class QtSysTrayIcon:
         self.startBIT.triggered.connect(self.onStartBIT)
         self.status_icon.setContextMenu(self.contextMenu)
 
-        self.pixmap = icon.BIT_LOGO.pixmap(24)
-        self.progressBar = QProgressBar()
-        self.progressBar.setMinimum(0)
-        self.progressBar.setMaximum(100)
-        self.progressBar.setValue(0)
-        self.progressBar.setTextVisible(False)
-        self.progressBar.resize(24, 6)
-        self.progressBar.render(
-            self.pixmap,
-            sourceRegion=QRegion(0, -14, 24, 6),
-            flags=QWidget.RenderFlag.DrawChildren
-        )
+        self.progressBar = self._create_progress_bar()
 
         self.first_error = self.config.notify()
         self.popup = None
@@ -123,6 +113,26 @@ class QtSysTrayIcon:
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.updateInfo)
+
+    def _create_progress_bar(self) -> QProgressBar:
+        bar = QProgressBar()
+
+        bar.setMinimum(0)
+        bar.setMaximum(100)
+        bar.setValue(0)
+
+        bar.setTextVisible(False)
+
+        bar.resize(24, 6)
+
+        import icon
+        bar.render(
+            icon.BIT_LOGO.pixmap(24),
+            sourceRegion=QRegion(0, -14, 24, 6),
+            flags=QWidget.RenderFlag.DrawChildren
+        )
+
+        return bar
 
     def prepareExit(self):
         self.timer.stop()

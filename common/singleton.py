@@ -6,7 +6,8 @@
 # This file is released under Creative Commons Zero 1.0 (CC0-1.0) and part of
 # the program "Back In Time". The program as a whole is released under GNU
 # General Public License v2 or any later version (GPL-2.0-or-later).
-# See LICENSES directory or go to <https://spdx.org/licenses/CC0-1.0.html>
+# See LICENSES directory or
+# go to <https://spdx.org/licenses/CC0-1.0.html>
 # and <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
 # Credits to Mr. Mars Landis describing that solution and comparing it to

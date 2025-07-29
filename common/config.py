@@ -1034,7 +1034,8 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setMinFreeSpace(
             enabled=enabled,
             value=value.value(),
-            unit=value.unit.value
+            unit=value.unit.value,
+            profile_id=profile_id
         )
 
     def minFreeInodes(self, profile_id = None):

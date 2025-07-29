@@ -40,6 +40,8 @@ from bitwidgets import ProfileCombo
 
 
 class SettingsDialog(QDialog):
+    """The Manage profiles dialog (aka Settings dialog)"""
+
     def __init__(self, parent):
         super(SettingsDialog, self).__init__(parent)
 

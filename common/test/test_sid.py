@@ -538,13 +538,16 @@ class IterBackups(generic.SnapshotsTestCase):
         self.assertIsInstance(l7[-1], snapshots.NewSnapshot)
 
     def test_iter(self):
-        for i, sid in enumerate(snapshots.iterSnapshots(self.cfg)):
+        count = 0
+        for sid in snapshots.iterSnapshots(self.cfg):
+            count += 1
             self.assertIn(sid, ['20151219-040324-123',
                                 '20151219-030324-123',
                                 '20151219-020324-123',
                                 '20151219-010324-123'])
             self.assertIsInstance(sid, snapshots.SID)
-        self.assertEqual(i, 3)
+
+        self.assertEqual(count, 4)
 
     def test_last(self):
         self.assertEqual(snapshots.lastSnapshot(self.cfg),

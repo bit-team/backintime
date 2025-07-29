@@ -36,6 +36,8 @@ if not os.getenv('DISPLAY', ''):
 
 
 class SysTrayIconPlugin(pluginmanager.Plugin):
+    """A Back In Time plugin responsible to start the systray icon instance"""
+
     def __init__(self):
         self.process = None
         self.snapshots = None
@@ -99,18 +101,18 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
         except Exception as exc:
             logger.critical(f'Undefined situation: {exc}', self)
 
-    def processEnd(self):
-        """Dev note(2025-07, buhtz): Method makes no sense to me anymore.
-        Remove it soon.
-        """
-        if self.process is not None:
-            try:
-                # The "qtsystrayicon.py" app does terminate itself
-                # once the snapshot has been taken so there is no need
-                # to do anything here to stop it or clean-up anything.
-                # self.process.terminate()
-                return
+    # def processEnd(self):
+    #     """Dev note(2025-07, buhtz): Method makes no sense to me anymore.
+    #     Remove it soon.
+    #     """
+    #     if self.process is not None:
+    #         try:
+    #             # The "qtsystrayicon.py" app does terminate itself
+    #             # once the snapshot has been taken so there is no need
+    #             # to do anything here to stop it or clean-up anything.
+    #             # self.process.terminate()
+    #             return
 
-            # ???
-            except:
-                pass
+    #         # ???
+    #         except:
+    #             pass
