@@ -267,78 +267,16 @@ class MainWindow(QMainWindow):
         self.widget_current_path.setText(self.path)
         self.path_history = tools.PathHistory(self.path)
 
-        # restore position and size
-        try:
-            if state_data.mainwindow_maximized:
-                self.showMaximized()
-            else:
-                self.move(*state_data.mainwindow_coords)
-                self.resize(*state_data.mainwindow_dims)
-        except KeyError:
-            pass
+        self._restore_visual_state()
 
-        self.mainSplitter.setSizes(
-            state_data.mainwindow_main_splitter_widths)
-        self.secondSplitter.setSizes(
-            state_data.mainwindow_second_splitter_widths)
+        self._handle_release_candidate()
 
-        # FilesView: Column width
-        try:
-            files_view_col_widths = state_data.files_view_col_widths
-        except KeyError:
-            pass
-        else:
-            for idx, width in enumerate(files_view_col_widths):
-                self.filesView.header().resizeSection(idx, width)
+        self._import_config_from_backup()
 
-        # Release Candidate
-        if version.IS_RELEASE_CANDIDATE:
-            last_vers = state_data.msg_release_candidate
-            if last_vers != version.__version__:
-                state_data.msg_release_candidate = version.__version__
-                self._open_release_candidate_dialog()
-
-        # Force dialog to import old configuration
-        if not config.isConfigured():
-            message = _(
-                '{app_name} appears to be running for the first time as no '
-                'configuration is found.'
-            ).format(app_name=self.config.APP_NAME)
-            message = f'{message}\n\n'
-            message = message + _(
-                'Import an existing configuration (from a backup target '
-                'directory or another computer)?')
-
-            answer = messagebox.question(text=message)
-
-            if answer:
-                RestoreConfigDialog(self.config).exec()
-
-            SettingsDialog(self).exec()
-
-        if not config.isConfigured():
+        if not self.config.isConfigured():
             return
 
-        profile_id = config.currentProfile()
-
-        # mount
-        try:
-            mnt = mount.Mount(cfg=self.config,
-                              profile_id=profile_id,
-                              parent=self)
-            hash_id = mnt.mount()
-
-        except MountException as ex:
-            messagebox.critical(self, str(ex))
-
-        else:
-            self.config.setCurrentHashId(hash_id)
-
-        if not config.canBackup(profile_id):
-            msg = _("Can't find backup directory.") + '\n' \
-                + _('If it is on a removable drive, please plug it in.') \
-                + ' ' + _('Then press OK.')
-            messagebox.critical(self, msg)
+        self._try_to_mount()
 
         self.filesViewProxyModel.layoutChanged.connect(self.dirListerCompleted)
 
@@ -373,6 +311,90 @@ class MainWindow(QMainWindow):
         threading.Thread(
             target=self.config.setup_automation, daemon=True).start()
 
+        self._handle_user_messages()
+
+    def _restore_visual_state(self):
+        state_data = StateData()
+
+        try:
+            if state_data.mainwindow_maximized:
+                self.showMaximized()
+            else:
+                self.move(*state_data.mainwindow_coords)
+                self.resize(*state_data.mainwindow_dims)
+
+        except KeyError:
+            pass
+
+        self.mainSplitter.setSizes(
+            state_data.mainwindow_main_splitter_widths)
+        self.secondSplitter.setSizes(
+            state_data.mainwindow_second_splitter_widths)
+
+        # FilesView: Column width
+        try:
+            files_view_col_widths = state_data.files_view_col_widths
+
+        except KeyError:
+            pass
+
+        else:
+            for idx, width in enumerate(files_view_col_widths):
+                self.filesView.header().resizeSection(idx, width)
+
+    def _handle_release_candidate(self):
+        if not version.IS_RELEASE_CANDIDATE:
+            return
+
+        state_data = StateData()
+        last_vers = state_data.msg_release_candidate
+
+        if last_vers != version.__version__:
+            state_data.msg_release_candidate = version.__version__
+            self._open_release_candidate_dialog()
+
+    def _import_config_from_backup(self):
+        if self.config.isConfigured():
+            return
+
+        message = _(
+            '{app_name} appears to be running for the first time as no '
+            'configuration is found.'
+        ).format(app_name=self.config.APP_NAME)
+        message = f'{message}\n\n'
+        message = message + _(
+            'Import an existing configuration (from a backup target '
+            'directory or another computer)?')
+
+        answer = messagebox.question(text=message)
+
+        if answer:
+            RestoreConfigDialog(self.config).exec()
+
+        SettingsDialog(self).exec()
+
+    def _try_to_mount(self):
+        try:
+            mnt = mount.Mount(cfg=self.config,
+                              profile_id=self.config.currentProfile(),
+                              parent=self)
+            hash_id = mnt.mount()
+
+        except MountException as exc:
+            messagebox.critical(self, str(exc))
+
+        else:
+            self.config.setCurrentHashId(hash_id)
+
+        if not self.config.canBackup(self.config.currentProfile()):
+            msg = _("Can't find backup directory.") + '\n' \
+                + _('If it is on a removable drive, please plug it in.') \
+                + ' ' + _('Then press OK.')
+            messagebox.critical(self, msg)
+
+    def _handle_user_messages(self):
+        state_data = StateData()
+
         # SSH Cipher deprecation
         if state_data.msg_cipher_deprecation is False:
             self._open_ssh_cipher_deprecation_dialog()
@@ -398,6 +420,7 @@ class MainWindow(QMainWindow):
         if state_data.msg_encfs_global < bitbase.ENCFS_MSG_STAGE:
             # Are there profiles using EncFS?
             encfs_profiles = []
+
             for pid in self.config.profiles():
                 if 'encfs' in self.config.snapshotsMode(pid):
                     encfs_profiles.append(
@@ -1126,8 +1149,6 @@ class MainWindow(QMainWindow):
     def _handle_fake_busy(self, fake: bool, paused: bool):
         """What is this???"""
 
-        print(f'_handle_fake_busy() :: {fake=}')  # DEBUG
-
         if fake:  # ???
             if self.act_take_snapshot.isEnabled():
                 self.act_take_snapshot.setEnabled(False)
@@ -1187,8 +1208,6 @@ class MainWindow(QMainWindow):
         if not pg.fileReadable():
             self.status_bar.progress_hide()
             return
-
-        print(f'_update_progress_bar() :: {message=}')  # DEBUG
 
         self.status_bar.progress_show()
         pg.load()
