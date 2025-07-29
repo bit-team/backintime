@@ -413,7 +413,7 @@ class RestoreConfigDialog(QDialog):
 
 
 class _CfgFileSystemModel(QFileSystemModel):
-    """A sub-classed file-system model to visualy highlight some of its
+    """A sub-classed file-system model to visually highlight some of its
     entries."""
 
     def __init__(self, parent: QWidget):
