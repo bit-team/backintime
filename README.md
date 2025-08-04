@@ -165,4 +165,4 @@ Please read [`LICENSES.md`](LICENSES.md).
 
 ---
 
-<sub>July 2025</sub>
+<sub>August 2025</sub>
