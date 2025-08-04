@@ -1486,6 +1486,16 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 
 # Project & Contributing & more
 
+## Alternative installation options
+Besides the repositories of the official GNU/Linux distributions, there are
+other alternative installation options provided and maintained by third
+parties. Use them at your own risk and please contact that third party
+maintainers if you encounter problems. **Again**: We strongly recommend not to
+use 3rd party repositories because of possible security issues.
+
+- [@jean-christophe-manciot](https://github.com/jean-christophe-manciot)'s PPA distributing [_Back In Time_ for the latest stable Ubuntu release](https://git.sdxlive.com/PPA/about). See [PPA requirements](https://git.sdxlive.com/PPA/about/#requirements) and [install instructions](https://git.sdxlive.com/PPA/about/#installing-the-ppa).
+- The Arch User Repository ([AUR](https://aur.archlinux.org/)) does offer [some packages](https://aur.archlinux.org/packages?K=backintime).
+
 ## Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? Are there additional benefits?
 
 Actually it's the other way around ;) *Back In Time* stores the user and group name
