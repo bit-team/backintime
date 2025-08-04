@@ -22,7 +22,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [How to move backups to a new hard-drive?](#how-to-move-backups-to-a-new-hard-drive)
    * [How to move a large directory in the backup source without duplicating the files in the backup?](#how-to-move-a-large-directory-in-the-backup-source-without-duplicating-the-files-in-the-backup)
    * [How does _Back In Time_ compare with _Timeshift_?](#how-does-back-in-time-compare-with-timeshift)
-   * [Additional features beside the GUI and benefits of using BIT](#additional-features-beside-the-gui-and-benefits-of-using-bit]
+   * [Additional features beside the GUI and benefits of using BIT](#additional-features-beside-the-gui-and-benefits-of-using-bit)
 - [Backups (snapshots)](#backups-snapshots)
    * [Backup or Snapshot?](#backup-or-snapshot)
    * [Does _Back In Time_ create incremental or full backups?](#does-back-in-time-create-incremental-or-full-backups)
