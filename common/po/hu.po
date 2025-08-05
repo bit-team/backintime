@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-08-05 08:58+0200\n"
+"POT-Creation-Date: 2025-08-05 09:06+0200\n"
 "PO-Revision-Date: 2025-06-16 10:37+0000\n"
 "Last-Translator: hunluki <hunluki@noreply.codeberg.org>\n"
 "Language-Team: Hungarian <https://translate.codeberg.org/projects/backintime/common/hu/>\n"
@@ -545,7 +545,7 @@ msgstr "Projekt webhelye"
 msgid "User manual"
 msgstr "Felhasználói kézikönyv"
 
-#: qt/aboutdlg.py:226
+#: qt/aboutdlg.py:226 qt/app.py:515
 #, fuzzy
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
@@ -673,13 +673,6 @@ msgstr "Nyelv beállítása…"
 #: qt/app.py:509
 msgid "Exit"
 msgstr "Kilépés"
-
-#: qt/app.py:515
-#, fuzzy
-msgid "Open user manual in browser (locally if available, otherwise online)"
-msgstr ""
-"Felhasználói kézikönyv megnyitása a böngészőben (helyileg, ha elérhető, "
-"egyébként az internetről)"
 
 #: qt/app.py:519
 msgid "man page: Back In Time"
@@ -2509,6 +2502,12 @@ msgstr "Utolsó ellenőrzés {time}"
 #~ "A fájlok újabb verziói átnevezésre kerülnek {suffix} végződéssel a "
 #~ "helyreállítás előtt. Ha már nincs rájuk többé szüksége, akkor a(z) {cmd} "
 #~ "paranccsal eltávolíthatja azokat"
+
+#, fuzzy
+#~ msgid "Open user manual in browser (locally if available, otherwise online)"
+#~ msgstr ""
+#~ "Felhasználói kézikönyv megnyitása a böngészőben (helyileg, ha elérhető, "
+#~ "egyébként az internetről)"
 
 #~ msgid "Please confirm the password."
 #~ msgstr "Erősítse meg a jelszót."

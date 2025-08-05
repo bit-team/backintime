@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-08-05 08:58+0200\n"
+"POT-Creation-Date: 2025-08-05 09:06+0200\n"
 "PO-Revision-Date: 2025-05-09 04:41+0000\n"
 "Last-Translator: psw1747 <psw1747@noreply.codeberg.org>\n"
 "Language-Team: Japanese <https://translate.codeberg.org/projects/backintime/common/ja/>\n"
@@ -525,7 +525,7 @@ msgstr "開発元サイト"
 msgid "User manual"
 msgstr "ユーザーマニュアル"
 
-#: qt/aboutdlg.py:226
+#: qt/aboutdlg.py:226 qt/app.py:515
 #, fuzzy
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr "ブラウザでユーザーマニュアルを開く (ローカルになければオンラインで)"
@@ -638,11 +638,6 @@ msgstr "言語設定…"
 #: qt/app.py:509
 msgid "Exit"
 msgstr "終了"
-
-#: qt/app.py:515
-#, fuzzy
-msgid "Open user manual in browser (locally if available, otherwise online)"
-msgstr "ブラウザでユーザーマニュアルを開く (ローカルになければオンラインで)"
 
 #: qt/app.py:519
 msgid "man page: Back In Time"
@@ -2310,6 +2305,10 @@ msgstr "最終チェック {time}"
 #~ msgstr ""
 #~ "復元時により新しいファイルがある場合は拡張子{suffix} 付きでファイル名変更されます。もし不要の場合は以下のコマンドで削除してください : "
 #~ "{cmd}"
+
+#, fuzzy
+#~ msgid "Open user manual in browser (locally if available, otherwise online)"
+#~ msgstr "ブラウザでユーザーマニュアルを開く (ローカルになければオンラインで)"
 
 #~ msgid "Please confirm the password."
 #~ msgstr "パスワードを確認してください。"

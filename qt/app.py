@@ -512,7 +512,7 @@ class MainWindow(QMainWindow):
             'act_help_user_manual': (
                 icon.HELP, _('User manual'),
                 self._slot_help_user_manual, ['F1'],
-                _('Open user manual in browser (locally if '
+                _('Open user manual in browser (local if '
                   'available, otherwise online)'),
             ),
             'act_help_man_backintime': (
