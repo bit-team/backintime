@@ -12,9 +12,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-07-27 11:10+0200\n"
-"PO-Revision-Date: 2025-04-12 09:18+0000\n"
+"PO-Revision-Date: 2025-07-29 07:57+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@noreply.codeberg.org>\n"
 "Language-Team: Esperanto <https://translate.codeberg.org/projects/backintime/common/eo/>\n"
 "Language: eo\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.2\n"
+"X-Generator: Weblate 5.12.2\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -85,9 +85,8 @@ msgid "Profile: \"{name}\""
 msgstr "Profilo: \"{name}\""
 
 #: common/config.py:314
-#, fuzzy
 msgid "Backup directory is not valid."
-msgstr "Dosiero por ekrankopio ne estas valida!"
+msgstr "Dosiero por savkopio ne estas valida."
 
 #: common/config.py:326
 msgid "At least one directory must be selected for backup."
@@ -170,9 +169,8 @@ msgid "Configuration for the encrypted directory not found."
 msgstr "Agordo por ĉifritaj dosierujoj ne trovis."
 
 #: common/encfstools.py:137
-#, fuzzy
 msgid "Create a new encrypted directory?"
-msgstr "Krei novan kriptan dosieron?"
+msgstr "Krei novan kriptan dosierujon?"
 
 #: common/encfstools.py:144
 msgid "Cancel"
@@ -505,14 +503,12 @@ msgid "Copyright:"
 msgstr ""
 
 #: qt/aboutdlg.py:92
-#, fuzzy
 msgid "Authors:"
-msgstr "Aŭtoroj"
+msgstr "Aŭtoroj:"
 
 #: qt/aboutdlg.py:96
-#, fuzzy
 msgid "Translators:"
-msgstr "Tradukoj"
+msgstr "Tradukistoj:"
 
 #: qt/aboutdlg.py:99
 msgid "translator-credits-placeholder"
@@ -544,9 +540,8 @@ msgid "Open user manual in browser (local if available otherwise online)"
 msgstr ""
 
 #: qt/aboutdlg.py:256
-#, fuzzy
 msgid "Back In Time"
-msgstr "Back In &Time"
+msgstr "Back In Time"
 
 #: qt/aboutdlg.py:277
 #, python-brace-format
@@ -667,9 +662,8 @@ msgid "Shutdown"
 msgstr "Sistemfermo"
 
 #: qt/app.py:501
-#, fuzzy
 msgid "Shut down system after backup has finished."
-msgstr "Malŝati sistemon post fini momentaĵkreon."
+msgstr "Malŝati sistemon post fini savkopikreon."
 
 #: qt/app.py:503
 msgid "Setup language…"
@@ -795,9 +789,8 @@ msgid "Show hidden files"
 msgstr "Montri kaŝitajn dosierojn"
 
 #: qt/app.py:597
-#, fuzzy
 msgid "Compare backups…"
-msgstr "Kompari momentaĵojn…"
+msgstr "Kompari savkopiojn…"
 
 #: qt/app.py:627 qt/app.py:2023
 msgid "Release Candidate"
@@ -1880,14 +1873,12 @@ msgid "Include files and directories"
 msgstr "Inkluzivi dosierojn kaj dosierujojn"
 
 #: qt/manageprofiles/tab_include.py:152
-#, fuzzy
 msgid "Include files"
-msgstr "Inkludi dosieron"
+msgstr "Inkludi dosierojn"
 
 #: qt/manageprofiles/tab_include.py:174
-#, fuzzy
 msgid "Include directories"
-msgstr "Inkludi dosierujon"
+msgstr "Inkludi dosierujojn"
 
 #: qt/manageprofiles/tab_options.py:38
 msgid "Enable notifications"
@@ -1955,7 +1946,7 @@ msgstr ""
 
 #: qt/manageprofiles/tab_options.py:119
 msgid "Log Level:"
-msgstr "Nivelo de protokoli:"
+msgstr "Nivelo de protokolado:"
 
 #: qt/manageprofiles/tab_options.py:179
 msgid "None"
@@ -2127,7 +2118,7 @@ msgstr ""
 
 #: qt/placeswidget.py:64
 msgid "File System"
-msgstr ""
+msgstr "Dosiersistemo"
 
 #: qt/placeswidget.py:106
 #, fuzzy
@@ -2363,9 +2354,8 @@ msgid "Last week"
 msgstr "Lasta semajno"
 
 #: qt/timeline.py:268
-#, fuzzy
 msgid "This is NOT a backup but a live view of the local files."
-msgstr "Tio Ne estas momentaĵo, sed liva vivo de viaj lokaj dosieroj"
+msgstr "Tio NE estas savkopion, sed viva vido de viaj lokaj dosieroj."
 
 #: qt/timeline.py:273
 #, python-brace-format

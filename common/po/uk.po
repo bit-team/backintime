@@ -12,9 +12,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-07-27 11:10+0200\n"
-"PO-Revision-Date: 2025-07-01 19:12+0000\n"
+"PO-Revision-Date: 2025-07-28 05:00+0000\n"
 "Last-Translator: SomeTr <sometr@noreply.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.11.4\n"
+"X-Generator: Weblate 5.12.2\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -669,7 +669,6 @@ msgid "Exit"
 msgstr "Вийти"
 
 #: qt/app.py:513
-#, fuzzy
 msgid "Open user manual in browser (locally if available, otherwise online)"
 msgstr "Відкриває посібник у браузері (локальний, якщо є, або ж онлайн)"
 
@@ -698,9 +697,8 @@ msgid "Changelog"
 msgstr "Історія змін"
 
 #: qt/app.py:537
-#, fuzzy
 msgid "Open changelog (locally if available, otherwise from the web)"
-msgstr "Відкриває посібник у браузері (локальний, якщо є, або ж онлайн)"
+msgstr "Відкриває історію змін (локальну, якщо є, або з мережі)"
 
 #: qt/app.py:540
 msgid "FAQ"
@@ -905,9 +903,8 @@ msgstr ""
 "зламати всю систему."
 
 #: qt/app.py:1723
-#, fuzzy
 msgid "Backup:"
-msgstr "Резервні копії:"
+msgstr "Резервна копія:"
 
 #: qt/app.py:1763
 #, python-brace-format
@@ -1008,13 +1005,13 @@ msgid "Question"
 msgstr "Питання"
 
 #: qt/confirmrestoredialog.py:76
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix} before overwriting or removing "
 "local elements."
 msgstr ""
-"Робити копію елементів перед їх перезаписом\n"
-"або видаленням, додаючи до назви {suffix}."
+"Робити копію елементів перед їх перезаписом або видаленням, додаючи до назви"
+" {suffix}."
 
 #: qt/confirmrestoredialog.py:81 qt/manageprofiles/tab_options.py:66
 #, python-brace-format
@@ -1026,14 +1023,13 @@ msgstr ""
 "{suffix}. Ці файли можна видалити за допомогою команди:"
 
 #: qt/confirmrestoredialog.py:94
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Only restore elements which do not exist or are newer than those in "
 "destination. Using \"{rsync_example}\" option."
 msgstr ""
-"Відновити лише елементи, які відсутні або\n"
-"новіші, ніж ті, що у вказаному розташуванні.\n"
-"Використовується «rsync --update»."
+"Відновити лише елементи, які відсутні або новіші, ніж ті, що у вказаному "
+"розташуванні. Використовується «{rsync_example}»."
 
 #: qt/confirmrestoredialog.py:133
 msgid "Remove newer elements in original directory."
@@ -1785,24 +1781,27 @@ msgid ""
 "An error occurred while attempting to log in to the remote host. The "
 "following error message was returned:"
 msgstr ""
+"Помилка під час спроби входу на віддалений сервер. Повідомлення про помилку:"
 
 #: qt/manageprofiles/tab_general.py:477
-#, fuzzy
 msgid ""
 "Copying the public SSH key to the remote host can help enable password-less "
 "login."
 msgstr ""
-"Скопіювати публічний ключ SSH на сервер, щоб увімкнути безпарольний доступ?"
+"Копіювання публічного ключа SSH на сервер може допомогти ввімкнути "
+"безпарольний доступ."
 
 #: qt/manageprofiles/tab_general.py:479
 msgid "Proceed?"
-msgstr ""
+msgstr "Продовжити?"
 
 #: qt/manageprofiles/tab_general.py:502
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
+"Не вдалося скопіювати публічний ключ SSH. Причиною може бути проблема з "
+"підключенням або правами доступу."
 
 #: qt/manageprofiles/tab_general.py:532
 #, python-brace-format
@@ -1815,7 +1814,6 @@ msgid "{keytype} key fingerprint is:"
 msgstr "Відбиток ключа {keytype}:"
 
 #: qt/manageprofiles/tab_general.py:537
-#, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr "Перевірте цей відбиток. Додати його до файлу «known_hosts»?"
 
@@ -1824,18 +1822,17 @@ msgid "Really change the backup directory?"
 msgstr "Справді змінити каталог для резервних копій?"
 
 #: qt/manageprofiles/tab_general.py:658
-#, fuzzy
 msgid "Invalid file: Not a private SSH key"
-msgstr "Не приватний ключ"
+msgstr "Недійсний файл: не приватний ключ SSH"
 
 #: qt/manageprofiles/tab_general.py:659
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
-"Вибраний файл {path} є публічним ключем SSH. Будь ласка, виберіть приватний "
-"файл (без розширення «.pub»)."
+"Вибраний файл ({path}) є публічним ключем SSH. Будь ласка, виберіть "
+"відповідний файл приватного ключа (без «.pub»)."
 
 #: qt/manageprofiles/tab_general.py:683
 #, python-brace-format
@@ -2095,11 +2092,11 @@ msgstr "Скорочення"
 
 #: qt/placeswidget.py:63
 msgid "Places"
-msgstr ""
+msgstr "Місця"
 
 #: qt/placeswidget.py:64
 msgid "File System"
-msgstr ""
+msgstr "Файлова система"
 
 #: qt/placeswidget.py:106
 msgid "Backup directories"
@@ -2136,9 +2133,8 @@ msgid "Import"
 msgstr "Імпорт"
 
 #: qt/restoreconfigdialog.py:143 qt/restoreconfigdialog.py:247
-#, fuzzy
 msgid "Searching…"
-msgstr "Виконання…"
+msgstr "Пошук…"
 
 #: qt/restoreconfigdialog.py:224
 #, python-brace-format
@@ -2159,21 +2155,19 @@ msgstr ""
 
 #: qt/restoreconfigdialog.py:250
 msgid "Scan again"
-msgstr ""
+msgstr "Сканувати ще раз"
 
 #: qt/restoreconfigdialog.py:269
-#, fuzzy
 msgid "Show hidden directories"
-msgstr "Показати приховані файли"
+msgstr "Показати приховані каталоги"
 
 #: qt/restoreconfigdialog.py:271
-#, fuzzy
 msgid "Show/hide hidden directories (Ctrl+H)"
-msgstr "Показати/сховати приховані файли і каталоги (Ctrl+H)"
+msgstr "Показати/сховати приховані каталоги (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:379
 msgid "Search complete."
-msgstr ""
+msgstr "Пошук завершено."
 
 #: qt/restoredialog.py:55
 msgid "Show full Log"
@@ -2303,14 +2297,13 @@ msgid "Exclude {path} from future backups?"
 msgstr "Виключити {path} з майбутніх резервних копій?"
 
 #: qt/statusbar.py:85
-#, fuzzy
 msgid "Root mode"
-msgstr "Root"
+msgstr "Режим root"
 
 #: qt/statusbar.py:87
 msgid ""
 "Back In Time is currently running with root privileges (full system access)"
-msgstr ""
+msgstr "Back In Time наразі працює з правами root (повний доступ до системи)"
 
 #: qt/timeline.py:69
 msgid "Today"

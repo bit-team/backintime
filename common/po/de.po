@@ -14,9 +14,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-07-27 11:10+0200\n"
-"PO-Revision-Date: 2025-07-01 19:12+0000\n"
+"PO-Revision-Date: 2025-07-27 11:52+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
 "Language: de\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.11.4\n"
+"X-Generator: Weblate 5.12.2\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -682,7 +682,6 @@ msgid "Exit"
 msgstr "Beenden"
 
 #: qt/app.py:513
-#, fuzzy
 msgid "Open user manual in browser (locally if available, otherwise online)"
 msgstr ""
 "Öffnet Benutzerhandbuch im Browser (wenn verfügbar lokal, anderseits online)"
@@ -712,10 +711,8 @@ msgid "Changelog"
 msgstr "Änderungsprotokoll"
 
 #: qt/app.py:537
-#, fuzzy
 msgid "Open changelog (locally if available, otherwise from the web)"
-msgstr ""
-"Öffnet Benutzerhandbuch im Browser (wenn verfügbar lokal, anderseits online)"
+msgstr "Öffnet Changelog im Browser (wenn verfügbar lokal, anderseits online)"
 
 #: qt/app.py:540
 msgid "FAQ"
@@ -923,9 +920,8 @@ msgstr ""
 "das komplette System zerstören."
 
 #: qt/app.py:1723
-#, fuzzy
 msgid "Backup:"
-msgstr "Sicherungen:"
+msgstr "Sicherung:"
 
 #: qt/app.py:1763
 #, python-brace-format
@@ -1026,13 +1022,13 @@ msgid "Question"
 msgstr "Frage"
 
 #: qt/confirmrestoredialog.py:76
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix} before overwriting or removing "
 "local elements."
 msgstr ""
-"Lokale Elemente vor dem Überschreiben oder\n"
-"Entfernen zur Sicherung mit angehängten {suffix} speichern."
+"Erstelle Sicherungen mit angehängten {suffix}, bevor lokale Elemente "
+"überschrieben oder entfernt werden."
 
 #: qt/confirmrestoredialog.py:81 qt/manageprofiles/tab_options.py:66
 #, python-brace-format
@@ -1045,14 +1041,13 @@ msgstr ""
 "folgenden Befehl entfernt werden:"
 
 #: qt/confirmrestoredialog.py:94
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Only restore elements which do not exist or are newer than those in "
 "destination. Using \"{rsync_example}\" option."
 msgstr ""
-"Nur Elemente wiederherstellen, die im Zielordner nicht existieren\n"
-"oder in der Sicherung neuer sind als im Zielordner.\n"
-"Das nutzt die Option »rsync --update«."
+"Nur Elemente wiederherstellen, die im Zielordner nicht existieren oder in "
+"der Sicherung neuer sind als im Zielordner. Genutzt wird »{rsync_example}«."
 
 #: qt/confirmrestoredialog.py:133
 msgid "Remove newer elements in original directory."
@@ -1821,26 +1816,27 @@ msgstr "Vollständiger Sicherungspfad:"
 msgid ""
 "An error occurred while attempting to log in to the remote host. The "
 "following error message was returned:"
-msgstr ""
+msgstr "Fehler beim Anmeldeversuch am Zielrechner. Fehlermeldung:"
 
 #: qt/manageprofiles/tab_general.py:477
-#, fuzzy
 msgid ""
 "Copying the public SSH key to the remote host can help enable password-less "
 "login."
 msgstr ""
-"Öffentlichen SSH-Schlüssel auf den entfernten Rechner kopieren, um das "
-"passwortlose Anmelden zu aktivieren?"
+"Das Kopieren des öffentlichen SSH-Schlüssels auf den Zielrechner könnte die "
+"passwortlose Anmeldung aktivieren."
 
 #: qt/manageprofiles/tab_general.py:479
 msgid "Proceed?"
-msgstr ""
+msgstr "Fortfahren?"
 
 #: qt/manageprofiles/tab_general.py:502
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
+"Der öffentliche SSH-Schlüssel konnte nicht kopiert werden. Das Problem "
+"könnten die Verbindung oder Zugriffsberechtigungen sein."
 
 #: qt/manageprofiles/tab_general.py:532
 #, python-brace-format
@@ -1853,10 +1849,9 @@ msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} Fingerabdruck des Schlüssels ist:"
 
 #: qt/manageprofiles/tab_general.py:537
-#, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
-"Bitte diesen Fingerabdruck überprüfen. Soll er zur Datei 'known_hosts' "
+"Bitte diesen Fingerabdruck überprüfen. Soll er zur Datei »known_hosts« "
 "hinzufügt werden?"
 
 #: qt/manageprofiles/tab_general.py:628
@@ -1864,18 +1859,17 @@ msgid "Really change the backup directory?"
 msgstr "Wirklich das Sicherungsverzeichnis ändern?"
 
 #: qt/manageprofiles/tab_general.py:658
-#, fuzzy
 msgid "Invalid file: Not a private SSH key"
-msgstr "Kein privater Schlüssel"
+msgstr "Ungültige Datei: Der SSH Schlüssel ist nicht privat"
 
 #: qt/manageprofiles/tab_general.py:659
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
-"Die ausgewählte Datei {path} scheint ein öffentliche SSH Schüssel zu sein. "
-"Bitte einen privaten Schlüssel wählen (d.h. ohne \".pub\" Endung)."
+"Die ausgewählte Datei {path} ist ein öffentlicher SSH Schüssel. Bitte die "
+"entsprechende private Schlüsseldatei auswählen (ohne ».pub« Endung)."
 
 #: qt/manageprofiles/tab_general.py:683
 #, python-brace-format
@@ -2137,11 +2131,11 @@ msgstr "Verknüpfungen"
 
 #: qt/placeswidget.py:63
 msgid "Places"
-msgstr ""
+msgstr "Orte"
 
 #: qt/placeswidget.py:64
 msgid "File System"
-msgstr ""
+msgstr "Dateisystem"
 
 #: qt/placeswidget.py:106
 msgid "Backup directories"
@@ -2178,9 +2172,8 @@ msgid "Import"
 msgstr "Importieren"
 
 #: qt/restoreconfigdialog.py:143 qt/restoreconfigdialog.py:247
-#, fuzzy
 msgid "Searching…"
-msgstr "In Bearbeitung…"
+msgstr "Suche…"
 
 #: qt/restoreconfigdialog.py:224
 #, python-brace-format
@@ -2201,21 +2194,19 @@ msgstr ""
 
 #: qt/restoreconfigdialog.py:250
 msgid "Scan again"
-msgstr ""
+msgstr "Scan wiederholen"
 
 #: qt/restoreconfigdialog.py:269
-#, fuzzy
 msgid "Show hidden directories"
-msgstr "Versteckte Dateien anzeigen"
+msgstr "Zeige versteckte Verzeichnisse"
 
 #: qt/restoreconfigdialog.py:271
-#, fuzzy
 msgid "Show/hide hidden directories (Ctrl+H)"
-msgstr "Zeige/verberge versteckte Dateien und Verzeichnisse (Strg+H)"
+msgstr "Zeige/verberge versteckte Verzeichnisse (Strg+H)"
 
 #: qt/restoreconfigdialog.py:379
 msgid "Search complete."
-msgstr ""
+msgstr "Suche abgeschlossen."
 
 #: qt/restoredialog.py:55
 msgid "Show full Log"
@@ -2346,14 +2337,15 @@ msgid "Exclude {path} from future backups?"
 msgstr "»{path}« von zukünftigen Sicherungen ausschließen?"
 
 #: qt/statusbar.py:85
-#, fuzzy
 msgid "Root mode"
-msgstr "Wurzelverzeichnis"
+msgstr "Root Modus"
 
 #: qt/statusbar.py:87
 msgid ""
 "Back In Time is currently running with root privileges (full system access)"
 msgstr ""
+"Back In Time wird derzeit mit Root-Rechten (vollständiger Systemzugriff) "
+"ausgeführt"
 
 #: qt/timeline.py:69
 msgid "Today"

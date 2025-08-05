@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-07-27 11:10+0200\n"
-"PO-Revision-Date: 2025-07-07 13:47+0000\n"
+"PO-Revision-Date: 2025-07-28 05:00+0000\n"
 "Last-Translator: smart2128 <smart2128@noreply.codeberg.org>\n"
 "Language-Team: Italian <https://translate.codeberg.org/projects/backintime/common/it/>\n"
 "Language: it\n"
@@ -32,7 +32,7 @@ msgid ""
 "To extract per-file license and copyright information using SPDX metadata, "
 "refer to {readme_link}."
 msgstr ""
-"Tutte le licenze utilizzate in questo progetto si trovano nella directory "
+"Tutte le licenze utilizzate in questo progetto si trovano nella cartella "
 "{dir_link}. Per estrarre le informazioni su licenza e copyright per ogni "
 "file utilizzando i metadati SPDX, fai riferimento a {readme_link}."
 
@@ -148,7 +148,7 @@ msgid ""
 msgstr ""
 "Cron non è in esecuzione nonostante il comando crontab sia disponibile. I "
 "backup pianificati non saranno eseguiti. Cron potrebbe essere installato, ma"
-" non abilitato. Prova ad eseguire i due comandi \"systemctl enable cron\" e "
+" non abilitato. Prova a eseguire i due comandi \"systemctl enable cron\" e "
 "\"systemctl start cron\" o richiedi assistenza tramite i canali di supporto "
 "della tua distribuzione GNU/Linux."
 
@@ -281,7 +281,7 @@ msgstr "Creazione del backup {snapshot_id} non riuscita."
 
 #: common/snapshots.py:1035
 msgid "Please be patient. Finalizing…"
-msgstr "Un po' di pazienza. Si sta terminando…"
+msgstr "Un po' di pazienza. Finalizzazione in corso…"
 
 #: common/snapshots.py:1161
 msgid "Can't create directory."
@@ -681,11 +681,10 @@ msgid "Exit"
 msgstr "Esci"
 
 #: qt/app.py:513
-#, fuzzy
 msgid "Open user manual in browser (locally if available, otherwise online)"
 msgstr ""
-"Apri il manuale utente nel browser (locale se disponibile, altrimenti in "
-"linea)"
+"Apri il manuale utente nel browser (localmente se disponibile, altrimenti in"
+" linea)"
 
 #: qt/app.py:517
 msgid "man page: Back In Time"
@@ -714,11 +713,9 @@ msgid "Changelog"
 msgstr "Registro dei cambiamenti"
 
 #: qt/app.py:537
-#, fuzzy
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr ""
-"Apri il manuale utente nel browser (locale se disponibile, altrimenti in "
-"linea)"
+"Apri l'elenco delle novità (localmente se disponibile, altrimenti in linea)"
 
 #: qt/app.py:540
 msgid "FAQ"
@@ -805,7 +802,7 @@ msgstr "Confronta i backup…"
 
 #: qt/app.py:627 qt/app.py:2023
 msgid "Release Candidate"
-msgstr "Release Candidate"
+msgstr "Release candidate"
 
 #: qt/app.py:630
 msgid "Shows the message about this Release Candidate again."
@@ -928,7 +925,6 @@ msgstr ""
 "filesystem potrebbe danneggiare l'intero sistema."
 
 #: qt/app.py:1723
-#, fuzzy
 msgid "Backup:"
 msgstr "Backup:"
 
@@ -1031,13 +1027,13 @@ msgid "Question"
 msgstr "Domanda"
 
 #: qt/confirmrestoredialog.py:76
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix} before overwriting or removing "
 "local elements."
 msgstr ""
-"Crea copie di backup aggiungendo {suffix}\n"
-"prima di sovrascrivere o rimuovere elementi locali."
+"Crea copie di backup con suffisso {suffix} prima di sovrascrivere o "
+"rimuovere elementi locali."
 
 #: qt/confirmrestoredialog.py:81 qt/manageprofiles/tab_options.py:66
 #, python-brace-format
@@ -1050,14 +1046,13 @@ msgstr ""
 "seguente:"
 
 #: qt/confirmrestoredialog.py:94
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Only restore elements which do not exist or are newer than those in "
 "destination. Using \"{rsync_example}\" option."
 msgstr ""
-"Ripristina solo gli elementi che non esistono o\n"
-"sono più recenti di quelli di destinazione.\n"
-"Utilizza l'opzione \"rsync --update\"."
+"Ripristina solo gli elementi che non esistono o sono più recenti di quelli "
+"di destinazione. Utilizza l'opzione \"{rsync_example}\"."
 
 #: qt/confirmrestoredialog.py:133
 msgid "Remove newer elements in original directory."
@@ -1813,25 +1808,28 @@ msgid ""
 "An error occurred while attempting to log in to the remote host. The "
 "following error message was returned:"
 msgstr ""
+"Si è verificato un errore durante il tentativo di accesso all'host remoto. È"
+" stato restituito il seguente messaggio di errore:"
 
 #: qt/manageprofiles/tab_general.py:477
-#, fuzzy
 msgid ""
 "Copying the public SSH key to the remote host can help enable password-less "
 "login."
 msgstr ""
-"Vuoi copiare la tua chiave pubblica SSH sull'host remoto per abilitare "
-"l'accesso senza password?"
+"La copia della chiave SSH pubblica sull'host remoto può aiutare ad abilitare"
+" l'accesso senza password."
 
 #: qt/manageprofiles/tab_general.py:479
 msgid "Proceed?"
-msgstr ""
+msgstr "Vuoi continuare?"
 
 #: qt/manageprofiles/tab_general.py:502
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
+"Impossibile copiare la chiave SSH pubblica. Potrebbe essere dovuto a un "
+"problema di connessione o di permessi."
 
 #: qt/manageprofiles/tab_general.py:532
 #, python-brace-format
@@ -1844,29 +1842,26 @@ msgid "{keytype} key fingerprint is:"
 msgstr "L'impronta digitale della chiave {keytype} è:"
 
 #: qt/manageprofiles/tab_general.py:537
-#, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
-"Verifica questa impronta digitale. Vuoi aggiungerla al tuo file "
-"'known_hosts'?"
+"Verifica questa impronta digitale. Vuoi aggiungerla al file 'known_hosts'?"
 
 #: qt/manageprofiles/tab_general.py:628
 msgid "Really change the backup directory?"
 msgstr "Vuoi cambiare la cartella del backup?"
 
 #: qt/manageprofiles/tab_general.py:658
-#, fuzzy
 msgid "Invalid file: Not a private SSH key"
-msgstr "Non una chiave privata"
+msgstr "File non valido: non è una chiave privata SSH"
 
 #: qt/manageprofiles/tab_general.py:659
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
-"Il file selezionato {path} sembra essere una chiave SSH pubblica.Seleziona "
-"un file di chiave privata (senza estensione \".pub\")."
+"Il file selezionato ({path}) sembra essere una chiave SSH pubblica. Scegli "
+"il file della chiave privata corrispondente (senza estensione \".pub\")."
 
 #: qt/manageprofiles/tab_general.py:683
 #, python-brace-format
@@ -2132,11 +2127,11 @@ msgstr "Collegamenti"
 
 #: qt/placeswidget.py:63
 msgid "Places"
-msgstr ""
+msgstr "Risorse"
 
 #: qt/placeswidget.py:64
 msgid "File System"
-msgstr ""
+msgstr "File System"
 
 #: qt/placeswidget.py:106
 msgid "Backup directories"
@@ -2173,9 +2168,8 @@ msgid "Import"
 msgstr "Importa"
 
 #: qt/restoreconfigdialog.py:143 qt/restoreconfigdialog.py:247
-#, fuzzy
 msgid "Searching…"
-msgstr "Lavoro in corso…"
+msgstr "Ricerca…"
 
 #: qt/restoreconfigdialog.py:224
 #, python-brace-format
@@ -2196,21 +2190,19 @@ msgstr ""
 
 #: qt/restoreconfigdialog.py:250
 msgid "Scan again"
-msgstr ""
+msgstr "Analizza nuovamente"
 
 #: qt/restoreconfigdialog.py:269
-#, fuzzy
 msgid "Show hidden directories"
-msgstr "Mostra i file nascosti"
+msgstr "Mostra le cartelle nascoste"
 
 #: qt/restoreconfigdialog.py:271
-#, fuzzy
 msgid "Show/hide hidden directories (Ctrl+H)"
-msgstr "Mostra/nascondi file e cartelle nascosti (Ctrl+H)"
+msgstr "Mostra/nascondi le cartelle nascoste (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:379
 msgid "Search complete."
-msgstr ""
+msgstr "Ricerca completata."
 
 #: qt/restoredialog.py:55
 msgid "Show full Log"
@@ -2339,14 +2331,15 @@ msgid "Exclude {path} from future backups?"
 msgstr "Vuoi escludere {path} dai backup futuri?"
 
 #: qt/statusbar.py:85
-#, fuzzy
 msgid "Root mode"
-msgstr "Root"
+msgstr "Modalità Root"
 
 #: qt/statusbar.py:87
 msgid ""
 "Back In Time is currently running with root privileges (full system access)"
 msgstr ""
+"Back In Time è attualmente in esecuzione con i privilegi di root (accesso "
+"completo al sistema)"
 
 #: qt/timeline.py:69
 msgid "Today"

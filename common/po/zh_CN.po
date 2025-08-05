@@ -13,17 +13,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-07-27 11:10+0200\n"
-"PO-Revision-Date: 2025-07-02 07:49+0000\n"
-"Last-Translator: ktzhao <ktzhao@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-07-29 07:57+0000\n"
+"Last-Translator: Outbreak2096 <outbreak2096@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.11.4\n"
+"X-Generator: Weblate 5.12.2\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -633,7 +633,6 @@ msgid "Exit"
 msgstr "退出"
 
 #: qt/app.py:513
-#, fuzzy
 msgid "Open user manual in browser (locally if available, otherwise online)"
 msgstr "在浏览器中打开用户手册（如果可用，本地打开，否则在线打开）"
 
@@ -662,9 +661,8 @@ msgid "Changelog"
 msgstr "更新日志"
 
 #: qt/app.py:537
-#, fuzzy
 msgid "Open changelog (locally if available, otherwise from the web)"
-msgstr "在浏览器中打开用户手册（如果可用，本地打开，否则在线打开）"
+msgstr "打开更新日志（如果可用，本地打开，否则从网络打开）"
 
 #: qt/app.py:540
 msgid "FAQ"
@@ -858,7 +856,6 @@ msgid ""
 msgstr "{BOLD}警告{BOLDEND}：删除文件系统根目录中的文件可能会破坏整个系统。"
 
 #: qt/app.py:1723
-#, fuzzy
 msgid "Backup:"
 msgstr "备份："
 
@@ -959,13 +956,11 @@ msgid "Question"
 msgstr "问题"
 
 #: qt/confirmrestoredialog.py:76
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix} before overwriting or removing "
 "local elements."
-msgstr ""
-"在覆盖或移除本地文件前创建带有后缀 {suffix}\n"
-"的备份副本。"
+msgstr "在覆盖或移除本地元素前创建带有尾缀 {suffix} 的备份副本。"
 
 #: qt/confirmrestoredialog.py:81 qt/manageprofiles/tab_options.py:66
 #, python-brace-format
@@ -975,14 +970,11 @@ msgid ""
 msgstr "在恢复之前，将使用附加的后缀 {suffix} 重命名较新版本的文件。可以使用以下命令移除这些文件："
 
 #: qt/confirmrestoredialog.py:94
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Only restore elements which do not exist or are newer than those in "
 "destination. Using \"{rsync_example}\" option."
-msgstr ""
-"只恢复不存在或\n"
-"比目标更新的元素。\n"
-"使用“rsync --update”选项。"
+msgstr "仅恢复不存在或比目标中更新的元素。使用“{rsync_example}”选项。"
 
 #: qt/confirmrestoredialog.py:133
 msgid "Remove newer elements in original directory."
@@ -1678,24 +1670,23 @@ msgstr "完整备份路径："
 msgid ""
 "An error occurred while attempting to log in to the remote host. The "
 "following error message was returned:"
-msgstr ""
+msgstr "尝试登录到远程主机时出错。返回以下错误消息："
 
 #: qt/manageprofiles/tab_general.py:477
-#, fuzzy
 msgid ""
 "Copying the public SSH key to the remote host can help enable password-less "
 "login."
-msgstr "是否将 SSH 公钥复制到远程主机以启用免密登录？"
+msgstr "将 SSH 公钥复制到远程主机以启用免密登录。"
 
 #: qt/manageprofiles/tab_general.py:479
 msgid "Proceed?"
-msgstr ""
+msgstr "继续？"
 
 #: qt/manageprofiles/tab_general.py:502
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
-msgstr ""
+msgstr "无法复制 SSH 公钥。这可能是由于连接或权限问题。"
 
 #: qt/manageprofiles/tab_general.py:532
 #, python-brace-format
@@ -1708,7 +1699,6 @@ msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} 密钥指纹为："
 
 #: qt/manageprofiles/tab_general.py:537
-#, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr "请验证此指纹。是否将其添加到“known_hosts”文件中？"
 
@@ -1717,16 +1707,15 @@ msgid "Really change the backup directory?"
 msgstr "是否确定要更改备份目录？"
 
 #: qt/manageprofiles/tab_general.py:658
-#, fuzzy
 msgid "Invalid file: Not a private SSH key"
-msgstr "非私钥"
+msgstr "文件无效：不是 SSH 私钥"
 
 #: qt/manageprofiles/tab_general.py:659
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
-msgstr "所选文件 {path} 似乎是 SSH 公钥文件。请选择私钥文件（不带“.pub”扩展名）。"
+msgstr "所选文件（{path}）是 SSH 公钥。请选择相应的私钥文件（不含“.pub”扩展名）。"
 
 #: qt/manageprofiles/tab_general.py:683
 #, python-brace-format
@@ -1966,11 +1955,11 @@ msgstr "快捷方式"
 
 #: qt/placeswidget.py:63
 msgid "Places"
-msgstr ""
+msgstr "位置"
 
 #: qt/placeswidget.py:64
 msgid "File System"
-msgstr ""
+msgstr "文件系统"
 
 #: qt/placeswidget.py:106
 msgid "Backup directories"
@@ -2007,9 +1996,8 @@ msgid "Import"
 msgstr "导入"
 
 #: qt/restoreconfigdialog.py:143 qt/restoreconfigdialog.py:247
-#, fuzzy
 msgid "Searching…"
-msgstr "运行中…"
+msgstr "正在搜索…"
 
 #: qt/restoreconfigdialog.py:224
 #, python-brace-format
@@ -2026,21 +2014,19 @@ msgstr "如果该目录位于外部或远程驱动器上，则必须事先手动
 
 #: qt/restoreconfigdialog.py:250
 msgid "Scan again"
-msgstr ""
+msgstr "再次扫描"
 
 #: qt/restoreconfigdialog.py:269
-#, fuzzy
 msgid "Show hidden directories"
-msgstr "显示隐藏文件"
+msgstr "显示隐藏目录"
 
 #: qt/restoreconfigdialog.py:271
-#, fuzzy
 msgid "Show/hide hidden directories (Ctrl+H)"
-msgstr "显示/隐藏隐藏文件和目录（Ctrl+H）"
+msgstr "显示/隐藏隐藏目录（Ctrl+H）"
 
 #: qt/restoreconfigdialog.py:379
 msgid "Search complete."
-msgstr ""
+msgstr "搜索完成。"
 
 #: qt/restoredialog.py:55
 msgid "Show full Log"
@@ -2162,14 +2148,13 @@ msgid "Exclude {path} from future backups?"
 msgstr "是否从未来的备份中排除 {path}？"
 
 #: qt/statusbar.py:85
-#, fuzzy
 msgid "Root mode"
-msgstr "根目录"
+msgstr "Root 模式"
 
 #: qt/statusbar.py:87
 msgid ""
 "Back In Time is currently running with root privileges (full system access)"
-msgstr ""
+msgstr "Back In Time 当前正在以 Root 权限（完整系统访问权限）运行"
 
 #: qt/timeline.py:69
 msgid "Today"

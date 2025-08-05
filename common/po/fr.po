@@ -15,9 +15,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-07-27 11:10+0200\n"
-"PO-Revision-Date: 2025-07-08 10:23+0000\n"
+"PO-Revision-Date: 2025-08-05 06:55+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: French <https://translate.codeberg.org/projects/backintime/common/fr/>\n"
 "Language: fr\n"
@@ -718,11 +718,9 @@ msgid "Changelog"
 msgstr "Notes de version"
 
 #: qt/app.py:537
-#, fuzzy
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr ""
-"Ouvrir le manuel d'utilisation dans le navigateur (en local si disponible, "
-"sinon en ligne)"
+"Ouvrir le journal des modifications (en local si disponible, sinon en ligne)"
 
 #: qt/app.py:540
 msgid "FAQ"
@@ -803,6 +801,7 @@ msgid "Up"
 msgstr "Dossier parent"
 
 #: qt/app.py:594
+#, fuzzy
 msgid "Show hidden files"
 msgstr "Afficher les fichiers cachés"
 
@@ -1181,6 +1180,7 @@ msgid "Your Back In Time Team"
 msgstr "Votre équipe Back In Time"
 
 #: qt/filedialog.py:87
+#, fuzzy
 msgid "Show/hide hidden files and directories (Ctrl+H)"
 msgstr "Afficher/masquer les fichiers et répertoires cachés (Ctrl+H)"
 
@@ -1828,6 +1828,8 @@ msgid ""
 "An error occurred while attempting to log in to the remote host. The "
 "following error message was returned:"
 msgstr ""
+"Une erreur est survenue lors de la tentative de connection à l'hôte distant."
+" Le message d'erreur suivant a été retourné :"
 
 #: qt/manageprofiles/tab_general.py:477
 #, fuzzy
@@ -1840,13 +1842,15 @@ msgstr ""
 
 #: qt/manageprofiles/tab_general.py:479
 msgid "Proceed?"
-msgstr ""
+msgstr "Continuer ?"
 
 #: qt/manageprofiles/tab_general.py:502
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
+"La clé publique n'a pas pu être copiée. Cela est vraisemblablement du à un "
+"problème de connection ou de permission."
 
 #: qt/manageprofiles/tab_general.py:532
 #, python-brace-format
@@ -2149,11 +2153,11 @@ msgstr "Raccourcis"
 
 #: qt/placeswidget.py:63
 msgid "Places"
-msgstr ""
+msgstr "Emplacements"
 
 #: qt/placeswidget.py:64
 msgid "File System"
-msgstr ""
+msgstr "Fichiers Système"
 
 #: qt/placeswidget.py:106
 msgid "Backup directories"
@@ -2175,7 +2179,7 @@ msgstr "Démarrer {appname}"
 
 #: qt/qtsystrayicon.py:162
 msgid "Working…"
-msgstr "En cours…"
+msgstr "Travail en cours…"
 
 #: qt/restoreconfigdialog.py:72
 msgid "Import configuration"
@@ -2190,9 +2194,8 @@ msgid "Import"
 msgstr "Importer"
 
 #: qt/restoreconfigdialog.py:143 qt/restoreconfigdialog.py:247
-#, fuzzy
 msgid "Searching…"
-msgstr "En cours…"
+msgstr "Recherche en cours…"
 
 #: qt/restoreconfigdialog.py:224
 #, python-brace-format
@@ -2213,7 +2216,7 @@ msgstr ""
 
 #: qt/restoreconfigdialog.py:250
 msgid "Scan again"
-msgstr ""
+msgstr "Analyser encore"
 
 #: qt/restoreconfigdialog.py:269
 #, fuzzy
@@ -2357,14 +2360,15 @@ msgid "Exclude {path} from future backups?"
 msgstr "Exclure {path} des futures sauvegardes ?"
 
 #: qt/statusbar.py:85
-#, fuzzy
 msgid "Root mode"
-msgstr "Répertoire racine"
+msgstr "mode root"
 
 #: qt/statusbar.py:87
 msgid ""
 "Back In Time is currently running with root privileges (full system access)"
 msgstr ""
+"Back in Time est actuellement lancé avec des privilèges root (accès total au"
+" système)"
 
 #: qt/timeline.py:69
 msgid "Today"
