@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-07-27 11:10+0200\n"
+"POT-Creation-Date: 2025-08-05 08:58+0200\n"
 "PO-Revision-Date: 2025-04-10 10:35+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Arabic <https://translate.codeberg.org/projects/backintime/common/ar/>\n"
@@ -60,7 +60,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:645
 msgid "SSH private key"
 msgstr "مفتاح SSH خاص"
 
@@ -121,16 +121,16 @@ msgid ""
 "than the warning limit."
 msgstr ""
 
-#: common/config.py:1509
+#: common/config.py:1510
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "جدول udev لا يعمل مع طريقة {mode}"
 
-#: common/config.py:1563
+#: common/config.py:1564
 msgid "Failed to write new crontab."
 msgstr "فشل كتابة crontab جديد."
 
-#: common/config.py:1571
+#: common/config.py:1572
 #, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
@@ -208,7 +208,7 @@ msgstr ""
 msgid "Mountpoint {mntpoint} not empty."
 msgstr "نقطة التوصيل {mntpoint} ليست فارغة."
 
-#: common/password.py:296
+#: common/password.py:306
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "ادخل كلمة المرور لملف التعريف لوضع {mode} يسمى \"{profile}\":"
@@ -235,8 +235,8 @@ msgstr "فشل"
 msgid "Restore permissions"
 msgstr "إستعادة الأذونات"
 
-#: common/snapshots.py:656 qt/app.py:259 qt/app.py:1084 qt/app.py:1119
-#: qt/qtsystrayicon.py:70
+#: common/snapshots.py:656 qt/app.py:238 qt/app.py:1106 qt/app.py:1122
+#: qt/qtsystrayicon.py:71
 msgid "Done"
 msgstr "تم"
 
@@ -250,12 +250,12 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "تأجيل النسخ الاحتياطي أثناء وجوده على البطارية"
 
-#: common/snapshots.py:928 qt/app.py:335
+#: common/snapshots.py:928 qt/app.py:368
 #, fuzzy
 msgid "Can't find backup directory."
 msgstr "لم نتمكن من العثور على مجلد اللقطات."
 
-#: common/snapshots.py:932 qt/app.py:336
+#: common/snapshots.py:932 qt/app.py:369
 #, fuzzy
 msgid "If it is on a removable drive, please plug it in."
 msgstr "إن كان على وحدة تخزين خارجية، يرجى توصيلها."
@@ -370,7 +370,7 @@ msgstr "حاول إبقاء حد أدنى من المساحة فارغة"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "محاولة للحفاظ على الحد الأدنى من {perc} ضمن مساحة الـ inode حرة"
 
-#: common/snapshots.py:3162 qt/app.py:1715
+#: common/snapshots.py:3167 qt/app.py:1393
 msgid "Now"
 msgstr "الآن"
 
@@ -450,11 +450,11 @@ msgstr "المسار البعيد موجود لكن ليس مجلدا."
 msgid "Creation of following directory failed:"
 msgstr ""
 
-#: common/tools.py:429 common/tools.py:525
+#: common/tools.py:429 common/tools.py:526
 msgid "Write access may be restricted."
 msgstr ""
 
-#: common/tools.py:469
+#: common/tools.py:470
 #, fuzzy, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -463,7 +463,7 @@ msgstr ""
 "نظام الملفات الوجهة لـ {path} مُنسق باستخدام FAT، والذي لا يدعم الروابط "
 "الصعبة. يُرجى استخدام نظام ملفات لينكس أصلي."
 
-#: common/tools.py:480
+#: common/tools.py:481
 #, fuzzy, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -474,15 +474,15 @@ msgstr ""
 "خادم SMB البعيد يدعم الروابط الرمزية أو تفعيل {copyLinks} في "
 "{expertOptions}."
 
-#: common/tools.py:484 qt/manageprofiles/tab_expert_options.py:254
+#: common/tools.py:485 qt/manageprofiles/tab_expert_options.py:254
 msgid "Copy links (dereference symbolic links)"
 msgstr "نسخ الروابط (فك الارتباط بالروابط الرمزية)"
 
-#: common/tools.py:485
+#: common/tools.py:486
 msgid "Expert Options"
 msgstr "خيارات الخبراء"
 
-#: common/tools.py:489
+#: common/tools.py:490
 #, fuzzy, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
@@ -491,7 +491,7 @@ msgstr ""
 "نظام الملفات الوجهة لـ {path} هو مشاركة مُركبة عبر sshfs. لا يدعم sshfs "
 "الروابط الصلبة. يُرجى استخدام وضع \"SSH\" بدلاً من ذلك."
 
-#: common/tools.py:523
+#: common/tools.py:524
 msgid "File creation failed in this directory:"
 msgstr ""
 
@@ -533,29 +533,295 @@ msgstr ""
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
 
-#: qt/aboutdlg.py:219 qt/app.py:529
+#: qt/aboutdlg.py:219 qt/app.py:531
 msgid "Project website"
 msgstr ""
 
-#: qt/aboutdlg.py:224 qt/app.py:511
+#: qt/aboutdlg.py:224 qt/app.py:513
 msgid "User manual"
 msgstr ""
 
-#: qt/aboutdlg.py:225
-msgid "Open user manual in browser (local if available otherwise online)"
+#: qt/aboutdlg.py:226
+msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
 
-#: qt/aboutdlg.py:256
+#: qt/aboutdlg.py:257
 #, fuzzy
 msgid "Back In Time"
 msgstr "العودة بالزمن"
 
-#: qt/aboutdlg.py:277
+#: qt/aboutdlg.py:278
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr ""
 
-#: qt/app.py:180
+#: qt/app.py:339
+#, python-brace-format
+msgid ""
+"{app_name} appears to be running for the first time as no configuration is "
+"found."
+msgstr ""
+"يبدو أن تطبيق {app_name} يعمل لأول مرة حيث لم يتم العثور على أي إعدادات."
+
+#: qt/app.py:344
+#, fuzzy
+msgid ""
+"Import an existing configuration (from a backup target directory or another "
+"computer)?"
+msgstr "هل ترغب باستيراد إعدادات موجودة (من مجلد احتياطي أو من حاسوب آخر)؟"
+
+#: qt/app.py:370
+msgid "Then press OK."
+msgstr ""
+
+#: qt/app.py:452
+msgid "Create a backup"
+msgstr ""
+
+#: qt/app.py:454
+msgid "Use modification time & size for file change detection."
+msgstr "استخدم وقت التعديل والحجم لاكتشاف تغييرات الملفات."
+
+#: qt/app.py:457
+#, fuzzy
+msgid "Create a backup (checksum mode)"
+msgstr "خذ لقطة (طريقة المجموعة الاختبارية)"
+
+#: qt/app.py:459
+msgid "Use checksums for file change detection."
+msgstr "أستخدم المجامع الاختبارية لكشف التغيُّرات في الملفات."
+
+#: qt/app.py:461 qt/qtsystrayicon.py:77
+#, fuzzy
+msgid "Pause backup process"
+msgstr "أوقف عملية التقاط اللقطة"
+
+#: qt/app.py:465 qt/qtsystrayicon.py:82
+#, fuzzy
+msgid "Resume backup process"
+msgstr "استئناف عملية أخذ اللقطة"
+
+#: qt/app.py:469 qt/qtsystrayicon.py:88
+#, fuzzy
+msgid "Stop backup process"
+msgstr "أوقف عملية أخذ اللقطة"
+
+#: qt/app.py:473
+#, fuzzy
+msgid "Refresh backup list"
+msgstr "حدث قائمة اللقطات"
+
+#: qt/app.py:477
+msgid "Name backup"
+msgstr ""
+
+#: qt/app.py:481
+#, fuzzy
+msgid "Remove backup"
+msgstr "أزل اللقطة"
+
+#: qt/app.py:485
+#, fuzzy
+msgid "Open backup log"
+msgstr "عرض اخر سجل"
+
+#: qt/app.py:487
+#, fuzzy
+msgid "View log of the selected backup."
+msgstr "يجب إختيار مجلد واحد على الأقل للنسخ الاحتياطي."
+
+#: qt/app.py:489
+#, fuzzy
+msgid "Open last backup log"
+msgstr "عرض اخر سجل"
+
+#: qt/app.py:491
+msgid "View log of the latest backup."
+msgstr ""
+
+#: qt/app.py:493
+msgid "Manage profiles…"
+msgstr "إدارة الملفات الشخصية…"
+
+#: qt/app.py:497
+msgid "Edit user-callback"
+msgstr "تحرير استدعاء المستخدم"
+
+#: qt/app.py:501
+msgid "Shutdown"
+msgstr "أطفئ النظام"
+
+#: qt/app.py:503
+#, fuzzy
+msgid "Shut down system after backup has finished."
+msgstr "أطفئ النظام بعد اكتمال أخذ اللقطة."
+
+#: qt/app.py:505
+msgid "Setup language…"
+msgstr "إعداد اللغة…"
+
+#: qt/app.py:509
+msgid "Exit"
+msgstr "خروج"
+
+#: qt/app.py:515
+msgid "Open user manual in browser (locally if available, otherwise online)"
+msgstr ""
+
+#: qt/app.py:519
+#, fuzzy
+msgid "man page: Back In Time"
+msgstr "العودة بالزمن"
+
+#: qt/app.py:521
+msgid "Displays man page about Back In Time (backintime)"
+msgstr ""
+
+#: qt/app.py:524
+#, fuzzy
+msgid "man page: Profiles config file"
+msgstr "ملف إعدادات الملفات الشخصية"
+
+#: qt/app.py:527
+msgid "Displays man page about profiles config file (backintime-config)"
+msgstr ""
+
+#: qt/app.py:534
+msgid "Open Back In Time website in browser"
+msgstr ""
+
+#: qt/app.py:536
+msgid "Changelog"
+msgstr "سجل التغييرات"
+
+#: qt/app.py:539
+msgid "Open changelog (locally if available, otherwise from the web)"
+msgstr ""
+
+#: qt/app.py:542
+msgid "FAQ"
+msgstr "الأسئلة الأكثر شيوعاً"
+
+#: qt/app.py:544
+msgid "Open Frequently Asked Questions (FAQ) in browser"
+msgstr ""
+
+#: qt/app.py:546
+msgid "Ask a question"
+msgstr "إسأل سُؤالاً"
+
+#: qt/app.py:550
+msgid "Report a bug"
+msgstr "بلّغ عن عِلة"
+
+#: qt/app.py:553
+msgid "Translation"
+msgstr "الترجمة"
+
+#: qt/app.py:555
+msgid "Shows the message about participation in translation again."
+msgstr "عرض رسالة المشاركة في الترجمة."
+
+#: qt/app.py:559
+msgid "Encryption Transition (EncFS)"
+msgstr "الإنتقال الى تشفير EncFS"
+
+#: qt/app.py:561
+msgid "Shows the message about EncFS removal again."
+msgstr "عرض الرسالة حول إزالة ميزة التشفير EncFS."
+
+#: qt/app.py:568
+msgid "About"
+msgstr "عنْ"
+
+#: qt/app.py:571 qt/restoredialog.py:43 qt/snapshotsdialog.py:184
+#: qt/snapshotsdialog.py:189
+msgid "Restore"
+msgstr "إسترجع"
+
+#: qt/app.py:573
+#, fuzzy
+msgid "Restore the selected files or directories to the original destination."
+msgstr "إسترجع الملفات والمجلدات المختارة الى اماكنهم الاصلية."
+
+#: qt/app.py:576 qt/app.py:1821 qt/snapshotsdialog.py:186
+msgid "Restore to …"
+msgstr "إسترجع إلى …"
+
+#: qt/app.py:578
+#, fuzzy
+msgid "Restore the selected files or directories to a new destination."
+msgstr "إسترجع الملفات والمجلدات المختارة إلى موقع جديد."
+
+#: qt/app.py:584
+#, fuzzy
+msgid ""
+"Restore the currently shown directory and all its contents to the original "
+"destination."
+msgstr "إسترجع الملفات والمجلدات الظاهرة وكل محتوياتها الى اماكنهم الاصلية."
+
+#: qt/app.py:590
+#, fuzzy
+msgid ""
+"Restore the currently shown directory and all its contents to a new "
+"destination."
+msgstr "إسترجع الملفات والمجلدات الظاهرة وكل محتوياتها إلى موقع جديد."
+
+#: qt/app.py:593
+msgid "Up"
+msgstr "أعلى"
+
+#: qt/app.py:596
+msgid "Show hidden files"
+msgstr "أظهر الملفات المخفيّة"
+
+#: qt/app.py:599
+#, fuzzy
+msgid "Compare backups…"
+msgstr "قارن اللقطات…"
+
+#: qt/app.py:629 qt/app.py:1701
+msgid "Release Candidate"
+msgstr ""
+
+#: qt/app.py:632
+#, fuzzy
+msgid "Shows the message about this Release Candidate again."
+msgstr "عرض الرسالة حول إزالة ميزة التشفير EncFS."
+
+#: qt/app.py:669
+msgid "Back In &Time"
+msgstr "العودة بالزمن"
+
+#: qt/app.py:674
+msgid "&Backup"
+msgstr "النسخ الاحتياطي"
+
+#: qt/app.py:686
+msgid "&Restore"
+msgstr "&استرجع"
+
+#: qt/app.py:692
+msgid "&Help"
+msgstr "مُساعدة"
+
+#: qt/app.py:739
+msgid "Icons only"
+msgstr ""
+
+#: qt/app.py:742
+msgid "Text only"
+msgstr ""
+
+#: qt/app.py:745
+msgid "Text below icons"
+msgstr ""
+
+#: qt/app.py:748
+msgid "Text beside icon"
+msgstr ""
+
+#: qt/app.py:855
 #, fuzzy
 msgid ""
 "This directory doesn't exist\n"
@@ -564,281 +830,15 @@ msgstr ""
 "هذه المجلد غير موجود\n"
 "في اللقطة المختارة حاليا."
 
-#: qt/app.py:248
+#: qt/app.py:916
 msgid "Add to Include"
 msgstr "اضف للتضمين"
 
-#: qt/app.py:250
+#: qt/app.py:917
 msgid "Add to Exclude"
 msgstr "اضف للاستبعاد"
 
-#: qt/app.py:301
-#, python-brace-format
-msgid ""
-"{app_name} appears to be running for the first time as no configuration is "
-"found."
-msgstr ""
-"يبدو أن تطبيق {app_name} يعمل لأول مرة حيث لم يتم العثور على أي إعدادات."
-
-#: qt/app.py:306
-#, fuzzy
-msgid ""
-"Import an existing configuration (from a backup target directory or another "
-"computer)?"
-msgstr "هل ترغب باستيراد إعدادات موجودة (من مجلد احتياطي أو من حاسوب آخر)؟"
-
-#: qt/app.py:337
-msgid "Then press OK."
-msgstr ""
-
-#: qt/app.py:448
-msgid "Create a backup"
-msgstr ""
-
-#: qt/app.py:450
-msgid "Use modification time & size for file change detection."
-msgstr "استخدم وقت التعديل والحجم لاكتشاف تغييرات الملفات."
-
-#: qt/app.py:453
-#, fuzzy
-msgid "Create a backup (checksum mode)"
-msgstr "خذ لقطة (طريقة المجموعة الاختبارية)"
-
-#: qt/app.py:455
-msgid "Use checksums for file change detection."
-msgstr "أستخدم المجامع الاختبارية لكشف التغيُّرات في الملفات."
-
-#: qt/app.py:458 qt/qtsystrayicon.py:76
-#, fuzzy
-msgid "Pause backup process"
-msgstr "أوقف عملية التقاط اللقطة"
-
-#: qt/app.py:463 qt/qtsystrayicon.py:81
-#, fuzzy
-msgid "Resume backup process"
-msgstr "استئناف عملية أخذ اللقطة"
-
-#: qt/app.py:467 qt/qtsystrayicon.py:87
-#, fuzzy
-msgid "Stop backup process"
-msgstr "أوقف عملية أخذ اللقطة"
-
-#: qt/app.py:471
-#, fuzzy
-msgid "Refresh backup list"
-msgstr "حدث قائمة اللقطات"
-
-#: qt/app.py:475
-msgid "Name backup"
-msgstr ""
-
-#: qt/app.py:479
-#, fuzzy
-msgid "Remove backup"
-msgstr "أزل اللقطة"
-
-#: qt/app.py:483
-#, fuzzy
-msgid "Open backup log"
-msgstr "عرض اخر سجل"
-
-#: qt/app.py:485
-#, fuzzy
-msgid "View log of the selected backup."
-msgstr "يجب إختيار مجلد واحد على الأقل للنسخ الاحتياطي."
-
-#: qt/app.py:487
-#, fuzzy
-msgid "Open last backup log"
-msgstr "عرض اخر سجل"
-
-#: qt/app.py:489
-msgid "View log of the latest backup."
-msgstr ""
-
-#: qt/app.py:491
-msgid "Manage profiles…"
-msgstr "إدارة الملفات الشخصية…"
-
-#: qt/app.py:495
-msgid "Edit user-callback"
-msgstr "تحرير استدعاء المستخدم"
-
-#: qt/app.py:499
-msgid "Shutdown"
-msgstr "أطفئ النظام"
-
-#: qt/app.py:501
-#, fuzzy
-msgid "Shut down system after backup has finished."
-msgstr "أطفئ النظام بعد اكتمال أخذ اللقطة."
-
-#: qt/app.py:503
-msgid "Setup language…"
-msgstr "إعداد اللغة…"
-
-#: qt/app.py:507
-msgid "Exit"
-msgstr "خروج"
-
-#: qt/app.py:513
-msgid "Open user manual in browser (locally if available, otherwise online)"
-msgstr ""
-
-#: qt/app.py:517
-#, fuzzy
-msgid "man page: Back In Time"
-msgstr "العودة بالزمن"
-
-#: qt/app.py:519
-msgid "Displays man page about Back In Time (backintime)"
-msgstr ""
-
-#: qt/app.py:522
-#, fuzzy
-msgid "man page: Profiles config file"
-msgstr "ملف إعدادات الملفات الشخصية"
-
-#: qt/app.py:525
-msgid "Displays man page about profiles config file (backintime-config)"
-msgstr ""
-
-#: qt/app.py:532
-msgid "Open Back In Time website in browser"
-msgstr ""
-
-#: qt/app.py:534
-msgid "Changelog"
-msgstr "سجل التغييرات"
-
-#: qt/app.py:537
-msgid "Open changelog (locally if available, otherwise from the web)"
-msgstr ""
-
-#: qt/app.py:540
-msgid "FAQ"
-msgstr "الأسئلة الأكثر شيوعاً"
-
-#: qt/app.py:542
-msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr ""
-
-#: qt/app.py:544
-msgid "Ask a question"
-msgstr "إسأل سُؤالاً"
-
-#: qt/app.py:548
-msgid "Report a bug"
-msgstr "بلّغ عن عِلة"
-
-#: qt/app.py:551
-msgid "Translation"
-msgstr "الترجمة"
-
-#: qt/app.py:553
-msgid "Shows the message about participation in translation again."
-msgstr "عرض رسالة المشاركة في الترجمة."
-
-#: qt/app.py:557
-msgid "Encryption Transition (EncFS)"
-msgstr "الإنتقال الى تشفير EncFS"
-
-#: qt/app.py:559
-msgid "Shows the message about EncFS removal again."
-msgstr "عرض الرسالة حول إزالة ميزة التشفير EncFS."
-
-#: qt/app.py:566
-msgid "About"
-msgstr "عنْ"
-
-#: qt/app.py:569 qt/restoredialog.py:43 qt/snapshotsdialog.py:176
-#: qt/snapshotsdialog.py:181
-msgid "Restore"
-msgstr "إسترجع"
-
-#: qt/app.py:571
-#, fuzzy
-msgid "Restore the selected files or directories to the original destination."
-msgstr "إسترجع الملفات والمجلدات المختارة الى اماكنهم الاصلية."
-
-#: qt/app.py:574 qt/app.py:1441 qt/snapshotsdialog.py:178
-msgid "Restore to …"
-msgstr "إسترجع إلى …"
-
-#: qt/app.py:576
-#, fuzzy
-msgid "Restore the selected files or directories to a new destination."
-msgstr "إسترجع الملفات والمجلدات المختارة إلى موقع جديد."
-
-#: qt/app.py:582
-#, fuzzy
-msgid ""
-"Restore the currently shown directory and all its contents to the original "
-"destination."
-msgstr "إسترجع الملفات والمجلدات الظاهرة وكل محتوياتها الى اماكنهم الاصلية."
-
-#: qt/app.py:588
-#, fuzzy
-msgid ""
-"Restore the currently shown directory and all its contents to a new "
-"destination."
-msgstr "إسترجع الملفات والمجلدات الظاهرة وكل محتوياتها إلى موقع جديد."
-
-#: qt/app.py:591
-msgid "Up"
-msgstr "أعلى"
-
-#: qt/app.py:594
-msgid "Show hidden files"
-msgstr "أظهر الملفات المخفيّة"
-
-#: qt/app.py:597
-#, fuzzy
-msgid "Compare backups…"
-msgstr "قارن اللقطات…"
-
-#: qt/app.py:627 qt/app.py:2023
-msgid "Release Candidate"
-msgstr ""
-
-#: qt/app.py:630
-#, fuzzy
-msgid "Shows the message about this Release Candidate again."
-msgstr "عرض الرسالة حول إزالة ميزة التشفير EncFS."
-
-#: qt/app.py:666
-msgid "Back In &Time"
-msgstr "العودة بالزمن"
-
-#: qt/app.py:671
-msgid "&Backup"
-msgstr "النسخ الاحتياطي"
-
-#: qt/app.py:683
-msgid "&Restore"
-msgstr "&استرجع"
-
-#: qt/app.py:689
-msgid "&Help"
-msgstr "مُساعدة"
-
-#: qt/app.py:736
-msgid "Icons only"
-msgstr ""
-
-#: qt/app.py:739
-msgid "Text only"
-msgstr ""
-
-#: qt/app.py:742
-msgid "Text below icons"
-msgstr ""
-
-#: qt/app.py:745
-msgid "Text beside icon"
-msgstr ""
-
-#: qt/app.py:894
+#: qt/app.py:931
 #, fuzzy
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
@@ -847,99 +847,55 @@ msgstr ""
 "إذا تم إغلاق هذه النافذة، فإن برنامج الاستعادة سيتوقف عن تشغيل النظام عند "
 "انتهاء اللقطة."
 
-#: qt/app.py:897
+#: qt/app.py:934
 msgid "Close the window anyway?"
 msgstr ""
 
-#: qt/app.py:1074
-msgid "Working:"
-msgstr "يعمل:"
-
-#: qt/app.py:1122
+#: qt/app.py:1125
 msgid "Done, no backup needed"
 msgstr "تم، لا حاجة إلى النسخ الاحتياطي"
 
-#: qt/app.py:1134
+#: qt/app.py:1196
+msgid "Working:"
+msgstr "يعمل:"
+
+#: qt/app.py:1203
 msgid "Working"
 msgstr "يعمل"
 
-#: qt/app.py:1143 qt/messagebox.py:135
+#: qt/app.py:1209 qt/messagebox.py:135
 msgid "Error"
 msgstr "خطأ"
 
-#: qt/app.py:1180 qt/qtsystrayicon.py:204
+#: qt/app.py:1250 qt/qtsystrayicon.py:214
 msgid "Sent:"
 msgstr "أُرسل:"
 
-#: qt/app.py:1181 qt/qtsystrayicon.py:205
+#: qt/app.py:1251 qt/qtsystrayicon.py:215
 msgid "Speed:"
 msgstr "السرعة:"
 
-#: qt/app.py:1182 qt/qtsystrayicon.py:206
+#: qt/app.py:1252 qt/qtsystrayicon.py:216
 msgid "ETA:"
 msgstr "الوقت المتبقي:"
 
-#: qt/app.py:1256
-#, python-brace-format
-msgid ""
-"Only {free} free space available on the destination, which is below the "
-"configured threshold of {threshold}."
-msgstr ""
-
-#: qt/app.py:1261
-msgid "Proceed with the backup?"
-msgstr ""
-
-#: qt/app.py:1294
-#, fuzzy
-msgid "Backup name"
-msgstr "النسخ الاحتياطي"
-
-#: qt/app.py:1345
-msgid "Remove this backup?"
-msgid_plural "Remove these backups?"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
-
-#: qt/app.py:1421
-#, python-brace-format
-msgid "All newer files in {path} will be removed. Proceed?"
-msgstr ""
-
-#: qt/app.py:1424
-msgid "All newer files in the original directory will be removed. Proceed?"
-msgstr ""
-
-#: qt/app.py:1430
-#, fuzzy, python-brace-format
-msgid ""
-"{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
-"the entire system."
-msgstr ""
-"{BOLD} تحذير{BOLDEND}: حذف الملفات في جذر نظام الملفات قد يؤدي إلى تعطل "
-"نظامك بالكامل."
-
-#: qt/app.py:1723
+#: qt/app.py:1401
 #, fuzzy
 msgid "Backup:"
 msgstr "النسخ الاحتياطي"
 
-#: qt/app.py:1763
+#: qt/app.py:1441
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "استعادة {path}"
 
-#: qt/app.py:1765
+#: qt/app.py:1443
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "استرجع {path} إلى …"
 
 # ignore-placeholder-compare
-#: qt/app.py:1913
+#: qt/app.py:1591
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -956,47 +912,47 @@ msgstr ""
 "نعتذر للمقاطعة, هذه الرسالة لن تعرض مرة أخرى. بإمكانك الإطلاع على هذه الرسالة في أي وقت عبر قائمة المساعدة.\n"
 "فريق العودة في الزمن"
 
-#: qt/app.py:1942
+#: qt/app.py:1620
 msgid "translation platform"
 msgstr "منصة الترجمة"
 
-#: qt/app.py:1947
+#: qt/app.py:1625
 msgid "Website"
 msgstr "الموقع الإلكتروني"
 
-#: qt/app.py:1961
+#: qt/app.py:1639
 msgid "Your translation"
 msgstr "ترجمتك"
 
-#: qt/app.py:1974
+#: qt/app.py:1652
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr ""
 
-#: qt/app.py:1979
+#: qt/app.py:1657
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr ""
 
-#: qt/app.py:1982
+#: qt/app.py:1660
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr ""
 
-#: qt/app.py:1986
+#: qt/app.py:1664
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr ""
 
-#: qt/app.py:1989
+#: qt/app.py:1667
 msgid "Open an issue"
 msgstr ""
 
-#: qt/app.py:1990
+#: qt/app.py:1668
 msgid "Alternatively, you can use another channel of your choice."
 msgstr ""
 
-#: qt/app.py:1995
+#: qt/app.py:1673
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -1009,7 +965,51 @@ msgid ""
 "Your Back In Time Team"
 msgstr ""
 
-#: qt/app.py:2095
+#: qt/app.py:1771
+#, python-brace-format
+msgid ""
+"Only {free} free space available on the destination, which is below the "
+"configured threshold of {threshold}."
+msgstr ""
+
+#: qt/app.py:1776
+msgid "Proceed with the backup?"
+msgstr ""
+
+#: qt/app.py:1801
+#, python-brace-format
+msgid "All newer files in {path} will be removed. Proceed?"
+msgstr ""
+
+#: qt/app.py:1804
+msgid "All newer files in the original directory will be removed. Proceed?"
+msgstr ""
+
+#: qt/app.py:1810
+#, fuzzy, python-brace-format
+msgid ""
+"{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
+"the entire system."
+msgstr ""
+"{BOLD} تحذير{BOLDEND}: حذف الملفات في جذر نظام الملفات قد يؤدي إلى تعطل "
+"نظامك بالكامل."
+
+#: qt/app.py:2045
+#, fuzzy
+msgid "Backup name"
+msgstr "النسخ الاحتياطي"
+
+#: qt/app.py:2076
+msgid "Remove this backup?"
+msgid_plural "Remove these backups?"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
+
+#: qt/app.py:2139
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "إعدادات اللغة ستُفعّل فقط بعد إعادة تشغيل برنامج العودة بالزمن."
 
@@ -1109,7 +1109,7 @@ msgid ""
 msgstr ""
 
 #: qt/encfsmsgbox.py:42 qt/encfsmsgbox.py:68
-#: qt/manageprofiles/tab_general.py:583
+#: qt/manageprofiles/tab_general.py:582
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1123,17 +1123,17 @@ msgstr ""
 "للملف الشخصي بعد الآن."
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
-#: qt/manageprofiles/tab_general.py:592
+#: qt/manageprofiles/tab_general.py:591
 msgid "whitepaper"
 msgstr "ورقة بيضاء"
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:85
-#: qt/manageprofiles/tab_general.py:585
+#: qt/manageprofiles/tab_general.py:584
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr ""
 
-#: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:587
+#: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:586
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1201,7 +1201,7 @@ msgstr "عرض السجل الأخير"
 msgid "Last Log View"
 msgstr "عرض السجل الأخير"
 
-#: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:67
+#: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:69
 #: qt/manageprofiles/tab_general.py:247 qt/restoreconfigdialog.py:356
 msgid "Profile:"
 msgstr "الملف الشخصي:"
@@ -1219,7 +1219,7 @@ msgstr "مُرَشِح:"
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] خطأ، [I] معلومات، [C] تغيير"
 
-#: qt/logviewdialog.py:101 qt/qtsystrayicon.py:92
+#: qt/logviewdialog.py:101 qt/qtsystrayicon.py:93
 msgid "decode paths"
 msgstr "فك تشفير المسارات"
 
@@ -1251,65 +1251,65 @@ msgstr[5] "معلومات"
 msgid "rsync transfer failures (experimental)"
 msgstr "فشل نقل rsync (تجريبي)"
 
-#: qt/manageprofiles/__init__.py:59
+#: qt/manageprofiles/__init__.py:61
 msgid "Manage profiles"
 msgstr "إدارة الملفات الشخصية"
 
-#: qt/manageprofiles/__init__.py:76
+#: qt/manageprofiles/__init__.py:78
 msgid "Edit"
 msgstr "تعديل"
 
-#: qt/manageprofiles/__init__.py:80 qt/manageprofiles/tab_exclude.py:96
+#: qt/manageprofiles/__init__.py:82 qt/manageprofiles/tab_exclude.py:96
 msgid "Add"
 msgstr "أضف"
 
-#: qt/manageprofiles/__init__.py:84 qt/manageprofiles/tab_exclude.py:118
+#: qt/manageprofiles/__init__.py:86 qt/manageprofiles/tab_exclude.py:118
 #: qt/manageprofiles/tab_include.py:77
 msgid "Remove"
 msgstr "أزل"
 
-#: qt/manageprofiles/__init__.py:105
+#: qt/manageprofiles/__init__.py:107
 msgid "&General"
 msgstr "&عام"
 
-#: qt/manageprofiles/__init__.py:109
+#: qt/manageprofiles/__init__.py:111
 msgid "&Include"
 msgstr "&ضمْن"
 
-#: qt/manageprofiles/__init__.py:113
+#: qt/manageprofiles/__init__.py:115
 msgid "&Exclude"
 msgstr "&استثني"
 
-#: qt/manageprofiles/__init__.py:128
+#: qt/manageprofiles/__init__.py:130
 msgid "&Remove & Retention"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:132
+#: qt/manageprofiles/__init__.py:134
 msgid "&Options"
 msgstr "&خيارات"
 
-#: qt/manageprofiles/__init__.py:136
+#: qt/manageprofiles/__init__.py:138
 msgid "E&xpert Options"
 msgstr "خيارات الخبير"
 
-#: qt/manageprofiles/__init__.py:144
+#: qt/manageprofiles/__init__.py:146
 msgid "Restore Config"
 msgstr "استعادة الإعدادات"
 
-#: qt/manageprofiles/__init__.py:175
+#: qt/manageprofiles/__init__.py:177
 msgid "New profile"
 msgstr "ملف شخصي جديد"
 
-#: qt/manageprofiles/__init__.py:192
+#: qt/manageprofiles/__init__.py:194
 msgid "Rename profile"
 msgstr "أعِد تسمية الملف الشخصي"
 
-#: qt/manageprofiles/__init__.py:208
+#: qt/manageprofiles/__init__.py:210
 #, fuzzy, python-brace-format
 msgid "Delete the profile \"{name}\"?"
 msgstr "هل أنت متأكد أنك تريد حذف الملف الشخصي \"{name}\"؟"
 
-#: qt/manageprofiles/__init__.py:338
+#: qt/manageprofiles/__init__.py:340
 #, fuzzy, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until it is"
@@ -1318,7 +1318,7 @@ msgstr ""
 "\"{path}\" هو رابط رمزي. لن يتم نسخ الهدف المرتبط حتى تقوم بتضمينه أيضًا.\n"
 "هل ترغب في تضمين الهدف المرتبط بدلاً من ذلك؟"
 
-#: qt/manageprofiles/__init__.py:342
+#: qt/manageprofiles/__init__.py:344
 msgid "Include the symlink's target instead?"
 msgstr ""
 
@@ -1788,7 +1788,7 @@ msgstr "مفعَّل"
 msgid "Mode:"
 msgstr "الوضع:"
 
-#: qt/manageprofiles/tab_general.py:79 qt/manageprofiles/tab_general.py:615
+#: qt/manageprofiles/tab_general.py:79 qt/manageprofiles/tab_general.py:614
 #, fuzzy
 msgid "Where to save backups"
 msgstr "أين ستُحْفَظ اللقطات"
@@ -1825,18 +1825,18 @@ msgstr ""
 msgid "Advanced"
 msgstr "مُتقدم"
 
-#: qt/manageprofiles/tab_general.py:253 qt/manageprofiles/tab_general.py:705
+#: qt/manageprofiles/tab_general.py:253 qt/manageprofiles/tab_general.py:704
 #, fuzzy
 msgid "Full backup path:"
 msgstr "مسار اللقطة الكاملة:"
 
-#: qt/manageprofiles/tab_general.py:473
+#: qt/manageprofiles/tab_general.py:477
 msgid ""
 "An error occurred while attempting to log in to the remote host. The "
 "following error message was returned:"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:477
+#: qt/manageprofiles/tab_general.py:481
 #, fuzzy
 msgid ""
 "Copying the public SSH key to the remote host can help enable password-less "
@@ -1845,57 +1845,57 @@ msgstr ""
 "هل ترغب في نسخ مفتاح SSH العام الخاص بك إلى المضيف البعيد لتمكين تسجيل "
 "الدخول بدون كلمة مرور؟"
 
-#: qt/manageprofiles/tab_general.py:479
+#: qt/manageprofiles/tab_general.py:483
 msgid "Proceed?"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:502
+#: qt/manageprofiles/tab_general.py:506
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:532
+#: qt/manageprofiles/tab_general.py:531
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "لا يمكن تأكيد مصداقية المضيف {host}."
 
-#: qt/manageprofiles/tab_general.py:534
+#: qt/manageprofiles/tab_general.py:533
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "بصمة مفتاح {keytype} هي:"
 
-#: qt/manageprofiles/tab_general.py:537
+#: qt/manageprofiles/tab_general.py:536
 #, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
 "يرجى التحقق من هذه البصمة. هل ترغب في إضافتها إلى ملف 'known_hosts' الخاص "
 "بك؟"
 
-#: qt/manageprofiles/tab_general.py:628
+#: qt/manageprofiles/tab_general.py:627
 #, fuzzy
 msgid "Really change the backup directory?"
 msgstr "هل تريد انشاء مجلد مشفر جديد؟"
 
-#: qt/manageprofiles/tab_general.py:658
+#: qt/manageprofiles/tab_general.py:657
 #, fuzzy
 msgid "Invalid file: Not a private SSH key"
 msgstr "مفتاح SSH خاص"
 
-#: qt/manageprofiles/tab_general.py:659
+#: qt/manageprofiles/tab_general.py:658
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:683
+#: qt/manageprofiles/tab_general.py:682
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:693
+#: qt/manageprofiles/tab_general.py:692
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "فشل في إنشاء مفتاح SSH جديد في {path}."
@@ -2160,21 +2160,21 @@ msgstr ""
 msgid "Backup directories"
 msgstr "مجلدات النسخ الاحتياطي"
 
-#: qt/qtsystrayicon.py:65
+#: qt/qtsystrayicon.py:66
 #, python-brace-format
 msgid "Profile: {profile_name}"
 msgstr "الملف الشخصي: {profile_name}"
 
-#: qt/qtsystrayicon.py:98
+#: qt/qtsystrayicon.py:99
 msgid "View Last Log"
 msgstr "عرض أخر سجل"
 
-#: qt/qtsystrayicon.py:102
+#: qt/qtsystrayicon.py:103
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "تشغيل {appname}"
 
-#: qt/qtsystrayicon.py:162
+#: qt/qtsystrayicon.py:172
 msgid "Working…"
 msgstr "جارٍ العمل…"
 
@@ -2264,28 +2264,28 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: qt/snapshotsdialog.py:61
+#: qt/snapshotsdialog.py:63
 #, fuzzy
 msgid "Options about comparing backups"
 msgstr "خيارات حول مقارنة اللقطات"
 
-#: qt/snapshotsdialog.py:68
+#: qt/snapshotsdialog.py:70
 msgid "Command:"
 msgstr "الأمر:"
 
-#: qt/snapshotsdialog.py:72
+#: qt/snapshotsdialog.py:74
 msgid "Parameters:"
 msgstr "المعلمات:"
 
-#: qt/snapshotsdialog.py:77
+#: qt/snapshotsdialog.py:79
 msgid "Use %1 and %2 for path parameters"
 msgstr "استخدم %1 و %2 لوسائط المسار"
 
-#: qt/snapshotsdialog.py:94
+#: qt/snapshotsdialog.py:96
 msgid "Please set a diff command or press Cancel."
 msgstr "يرجى تعيين أمر diff أو الضغط على إلغاء."
 
-#: qt/snapshotsdialog.py:100
+#: qt/snapshotsdialog.py:102
 #, python-brace-format
 msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
@@ -2294,73 +2294,73 @@ msgstr ""
 "لا يمكن العثور على الأمر \"{cmd}\" في هذا النظام. يرجى تجربة شيء آخر أو "
 "الضغط على إلغاء."
 
-#: qt/snapshotsdialog.py:108
+#: qt/snapshotsdialog.py:110
 #, python-brace-format
 msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr ""
 "لم يتم تعيين أي معلمات لأمر الفرق. سيتم استخدام القيمة الافتراضية "
 "\"{params}\"."
 
-#: qt/snapshotsdialog.py:133 qt/timeline.py:44
+#: qt/snapshotsdialog.py:141 qt/timeline.py:44
 #, fuzzy
 msgid "Backups"
 msgstr "النسخ الاحتياطي"
 
-#: qt/snapshotsdialog.py:144
+#: qt/snapshotsdialog.py:152
 #, fuzzy
 msgid "Differing backups only"
 msgstr "اللقطات المختلفة فقط"
 
-#: qt/snapshotsdialog.py:153
+#: qt/snapshotsdialog.py:161
 #, fuzzy
 msgid "List only backups that are equal to:"
 msgstr "قم بإدراج اللقطات التي تساوي فقط:"
 
-#: qt/snapshotsdialog.py:165
+#: qt/snapshotsdialog.py:173
 msgid "Deep check (more accurate, but slow)"
 msgstr "فحص بعمق (أكثر دقة, ولكن بطيء)"
 
-#: qt/snapshotsdialog.py:186
+#: qt/snapshotsdialog.py:194
 msgid "Delete"
 msgstr "احذف"
 
-#: qt/snapshotsdialog.py:191
+#: qt/snapshotsdialog.py:199
 msgid "Select All"
 msgstr "تحديد الكل"
 
-#: qt/snapshotsdialog.py:204
+#: qt/snapshotsdialog.py:212
 msgid "Compare"
 msgstr "مقارنة"
 
-#: qt/snapshotsdialog.py:219
+#: qt/snapshotsdialog.py:227
 msgid "Go To"
 msgstr "أذهب إلى"
 
-#: qt/snapshotsdialog.py:221
+#: qt/snapshotsdialog.py:229
 msgid "Options"
 msgstr "خيارات"
 
-#: qt/snapshotsdialog.py:384
+#: qt/snapshotsdialog.py:392
 msgid ""
 "It is not possible to compare a backup to itself, as the comparison would be"
 " redundant."
 msgstr ""
 
-#: qt/snapshotsdialog.py:430
+#: qt/snapshotsdialog.py:438
 #, fuzzy, python-brace-format
 msgid "Really delete {file_or_dir} in backup {backup_id}?"
 msgstr "هل ترغب حقًا في حذف {file} من اللقطة {snapshot_id}؟"
 
-#: qt/snapshotsdialog.py:435
+#: qt/snapshotsdialog.py:443
 #, fuzzy, python-brace-format
 msgid "Really delete {file_or_dir} in {count} backups?"
 msgstr "هل ترغب حقًا في حذف {file} في {count} لقطات؟"
 
-#: qt/snapshotsdialog.py:438
+#: qt/snapshotsdialog.py:446
 msgid "WARNING: This cannot be revoked."
 msgstr "تحذير: لا يمكن التراجع عن ذلك."
 
-#: qt/snapshotsdialog.py:455
+#: qt/snapshotsdialog.py:463
 #, fuzzy, python-brace-format
 msgid "Exclude {path} from future backups?"
 msgstr "استبعاد {path} من اللقطات المستقبلية؟"
