@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-08-05 08:58+0200\n"
+"POT-Creation-Date: 2025-08-05 09:06+0200\n"
 "PO-Revision-Date: 2025-04-10 10:35+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Finnish <https://translate.codeberg.org/projects/backintime/common/fi/>\n"
@@ -540,7 +540,7 @@ msgstr "Projektin verkkosivusto"
 msgid "User manual"
 msgstr "Käyttöopas"
 
-#: qt/aboutdlg.py:226
+#: qt/aboutdlg.py:226 qt/app.py:515
 #, fuzzy
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
@@ -667,12 +667,6 @@ msgstr "Asennuskieli…"
 #: qt/app.py:509
 msgid "Exit"
 msgstr "Lopeta"
-
-#: qt/app.py:515
-#, fuzzy
-msgid "Open user manual in browser (locally if available, otherwise online)"
-msgstr ""
-"Avaa käyttöopas selaimessa (paikallinen jos saatavilla muuten verkossa)"
 
 #: qt/app.py:519
 msgid "man page: Back In Time"
@@ -2469,6 +2463,11 @@ msgstr "Viimeksi tarkistettu {time}"
 #~ "Tiedostojen uudemmat versiot nimetään uudelleen ja niiden lopussa on "
 #~ "{suffix} ennen palauttamista. Jos et tarvitse niitä enää, voit poistaa ne "
 #~ "komennolla '{cmd}'"
+
+#, fuzzy
+#~ msgid "Open user manual in browser (locally if available, otherwise online)"
+#~ msgstr ""
+#~ "Avaa käyttöopas selaimessa (paikallinen jos saatavilla muuten verkossa)"
 
 #~ msgid "Please confirm the password."
 #~ msgstr "Ole hyvä ja vahvista salasana."
