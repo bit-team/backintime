@@ -77,7 +77,7 @@ logger.openlog()
 # >     When nonzero, larger dumps are truncated to this size.
 # > ...
 # > The soft limit is the value that the kernel enforces for the corresponding
-# > ressource. The hard limit acts  as  a  ceiling  for  the  soft limit:
+# > resource. The hard limit acts  as  a  ceiling  for  the  soft limit:
 # > an  unprivileged process may set only its soft limit to a value
 # > in the range from 0 up to the hard limit, and (irreversibly) lower  its
 # > hard   limit.    A  privileged  process  (under GNU/Linux:  one  with  the

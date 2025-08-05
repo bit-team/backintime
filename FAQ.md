@@ -8,7 +8,7 @@ This file is part of the program "Back In Time" which is released under GNU
 General Public License v2 (GPLv2). See LICENSES directory or go to
 <https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
-<sub>January 2025</sub>
+<sub>August 2025</sub>
 
 # FAQ - Frequently Asked Questions
 
@@ -22,6 +22,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [How to move backups to a new hard-drive?](#how-to-move-backups-to-a-new-hard-drive)
    * [How to move a large directory in the backup source without duplicating the files in the backup?](#how-to-move-a-large-directory-in-the-backup-source-without-duplicating-the-files-in-the-backup)
    * [How does _Back In Time_ compare with _Timeshift_?](#how-does-back-in-time-compare-with-timeshift)
+   * [Additional features beside the GUI and benefits of using BIT](#additional-features-beside-the-gui-and-benefits-of-using-bit)
 - [Backups (snapshots)](#backups-snapshots)
    * [Backup or Snapshot?](#backup-or-snapshot)
    * [Does _Back In Time_ create incremental or full backups?](#does-back-in-time-create-incremental-or-full-backups)
@@ -70,7 +71,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [Synology: use different volume for backup](#synology-use-different-volume-for-backup)
    * [How to use Western Digital MyBook World Edition with BIT over ssh?](#how-to-use-western-digital-mybook-world-edition-with-bit-over-ssh)
 - [Project & Contributing & more](#project--Contributing--more)
-   * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-are-there-additional-benefits)
+   * [Alternative installation options](#alternative-installation-options)
    * [Support for specific package formats (deb, rpm, Flatpack, AppImage, Snaps, PPA, …)](#support-for-specific-package-formats-deb-rpm-flatpack-appimage-snaps-ppa-)
    + [Is BIT really not supported by Canonical Ubuntu?](#is-bit-really-not-supported-by-canonical-ubuntu)
    * [Move project to alternative code hoster (e.g. Codeberg, GitLab, …)](#move-project-to-alternative-code-hoster-eg-codeberg-gitlab-)
@@ -231,6 +232,18 @@ Back In Time and Timeshift are both Linux application that provides back up func
    to a previous state without affecting any user data.
    - It backs up system files, not including any personal data unless user explicitly configured.
    - It's good for restoring your system after an update failure or configuration change.
+
+## Additional features beside the GUI and benefits of using BIT
+
+*Back In Time* stores the user and group name which will make it possible to
+restore permissions even if UID/GID changed. Additionally current user is
+stored. So if the User/Group doesn't exist on the system during restore it will
+restore to the old UID/GID.
+
+- Inhibit suspend/hibernate during backup creation
+- Shutdown system after finish
+- Remove & Retention policies to keep/remove old backups on reasonable rules
+- Support for Plugins and user defined callback scripts
 
 # Backups (snapshots)
 
@@ -1486,21 +1499,15 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 
 # Project & Contributing & more
 
-## Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? Are there additional benefits?
+## Alternative installation options
+Besides the repositories of the official GNU/Linux distributions, there are
+other alternative installation options provided and maintained by third
+parties. Use them at your own risk and please contact that third party
+maintainers if you encounter problems. **Again**: We strongly recommend not to
+use 3rd party repositories because of possible security issues.
 
-Actually it's the other way around ;) *Back In Time* stores the user and group name
-which will make it possible to restore permissions correctly even if UID/GID
-changed. Additionally it will store the current User -> UID and Group -> GID map
-so if the User/Group doesn't exist on the system during restore it will restore
-to the old UID/GID.
-
-Hard to say which additional features *Back In Time* provides. You can script all of
-them in your own rsync script, too. But to name some features:
-
-- Inhibit suspend/hibernate during creating of a backup
-- Shutdown system after finish
-- Auto- and Smart-Removal
-- Plugin- and user-callback support
+- [@jean-christophe-manciot](https://github.com/jean-christophe-manciot)'s PPA distributing [_Back In Time_ for the latest stable Ubuntu release](https://git.sdxlive.com/PPA/about). See [PPA requirements](https://git.sdxlive.com/PPA/about/#requirements) and [install instructions](https://git.sdxlive.com/PPA/about/#installing-the-ppa).
+- The Arch User Repository ([AUR](https://aur.archlinux.org/)) does offer [some packages](https://aur.archlinux.org/packages?K=backintime).
 
 
 ## Support for specific package formats (deb, rpm, Flatpack, AppImage, Snaps, PPA, …)

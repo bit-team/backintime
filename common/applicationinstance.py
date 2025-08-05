@@ -156,7 +156,7 @@ class ApplicationInstance:
 
         aryoda (2023-12):
         It seems the purpose of this additional lock file using an exclusive
-        lock is to block the other process to continue until this exclusiv
+        lock is to block the other process to continue until this exclusive
         lock is released (= serialize execution).
         Therefore advisory locks are used via fcntl.flock (see: man 2 fcntl)
 
