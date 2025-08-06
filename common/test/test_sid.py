@@ -284,6 +284,32 @@ class TestSID(generic.SnapshotsTestCase):
         i2 = sid2.info
         self.assertEqual(i2.strValue('foo', 'default'), 'bar')
 
+    def test_makeWritable(self):
+        sid = snapshots.SID('20151219-010324-123', self.cfg)
+        sidPath = os.path.join(self.snapshotPath,   '20151219-010324-123')
+        os.makedirs(sidPath)
+        testFile = os.path.join(sidPath, 'test')
+
+        #make only read and explorable
+        os.chmod(sidPath, stat.S_IRUSR | stat.S_IXUSR)
+        with self.assertRaises(PermissionError):
+            with open(testFile, 'wt') as f:
+                f.write('foo')
+
+        sid.makeWritable()
+
+        self.assertEqual(os.stat(sidPath).st_mode & stat.S_IWUSR, stat.S_IWUSR)
+        try:
+            with open(testFile, 'wt') as f:
+                f.write('foo')
+        except PermissionError:
+            msg = 'writing to {} raised PermissionError unexpectedly!'
+            self.fail(msg.format(testFile))
+
+
+class TakeSnapshotLog(generic.SnapshotsTestCase):
+    """Tests regarding takesnapshot.log file"""
+
     def test_log(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
         os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
@@ -325,27 +351,7 @@ class TestSID(generic.SnapshotsTestCase):
 
         self.assertEqual('\n'.join(sid.log()), 'foo bar\nbaz')
 
-    def test_makeWritable(self):
-        sid = snapshots.SID('20151219-010324-123', self.cfg)
-        sidPath = os.path.join(self.snapshotPath,   '20151219-010324-123')
-        os.makedirs(sidPath)
-        testFile = os.path.join(sidPath, 'test')
 
-        #make only read and explorable
-        os.chmod(sidPath, stat.S_IRUSR | stat.S_IXUSR)
-        with self.assertRaises(PermissionError):
-            with open(testFile, 'wt') as f:
-                f.write('foo')
-
-        sid.makeWritable()
-
-        self.assertEqual(os.stat(sidPath).st_mode & stat.S_IWUSR, stat.S_IWUSR)
-        try:
-            with open(testFile, 'wt') as f:
-                f.write('foo')
-        except PermissionError:
-            msg = 'writing to {} raised PermissionError unexpectedly!'
-            self.fail(msg.format(testFile))
 
 
 class NewBackup(generic.SnapshotsTestCase):

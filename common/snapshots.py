@@ -2987,7 +2987,8 @@ class SID:
     # TODO use @property decorator? IMHO not because it is not
     # a "getter" but processes data
     # TODO Should have an action name like "loadLogFile"
-    def log(self, mode = None, decode = None):
+    def log(self, mode: int = None, decode: encfstools.Decode = None
+            ) -> Generator[str, None, None]:
         """
         Load log from "takesnapshot.log.bz2"
 
@@ -3001,37 +3002,50 @@ class SID:
         """
         logFile = self.path(self.LOG)
         logFilter = snapshotlog.LogFilter(mode, decode)
+
         try:
             with bz2.BZ2File(logFile, 'rb') as f:
+
                 if logFilter.header:
                     yield logFilter.header
+
                 for line in f.readlines():
                     line = logFilter.filter(line.decode('utf-8').rstrip('\n'))
+
                     if not line is None:
+
                         yield line
+
         except Exception as e:
             msg = ('Failed to get snapshot log from {}:'.format(logFile), str(e))
             logger.debug(' '.join(msg), self)
+
             for line in msg:
                 yield line
 
-    def setLog(self, log):
-        """
-        Write log to "takesnapshot.log.bz2"
+    def setLog(self, log: str | bytes) -> None:
+        """Write log to "takesnapshot.log.bz2"
 
         Args:
             log: full snapshot log
         """
         if isinstance(log, str):
             log = log.encode('utf-8', 'replace')
+
         logFile = self.path(self.LOG)
+
         try:
             with bz2.BZ2File(logFile, 'wb') as f:
                 f.write(log)
-        except Exception as e:
-            logger.error('Failed to write log into compressed file {}: {}'.format(
-                         logFile, str(e)),
-                         self)
+
+            # # Owner only permissions
+            # fp.chmod(0o600)  # -rw-------
+
+
+        except Exception as exc:
+            logger.error(
+                f'Failed to write log into compressed file {logFile}: {exc}',
+                self)
 
     def makeWritable(self):
         """
