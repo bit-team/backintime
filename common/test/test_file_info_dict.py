@@ -13,17 +13,12 @@
 # Split from test_sid.py
 import os
 import sys
-import unittest
 import stat
 from pathlib import Path
-from datetime import date, datetime
 from test import generic
 from unittest.mock import patch
-
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-import configfile
 import snapshots
-from snapshotlog import LogFilter, SnapshotLog
 
 
 class FileInfoTests(generic.SnapshotsTestCase):
