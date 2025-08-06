@@ -197,7 +197,7 @@ INFO: Unlock''', re.MULTILINE))
         subprocess.check_output(["./backintime",
                                  "--config",
                                  "test/config",
-                                 "snapshots-list"])
+                                 "show"])
 
         # execute restore and verify output
         proc = subprocess.Popen(["./backintime",

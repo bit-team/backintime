@@ -8,8 +8,6 @@
 # pylint: disable=missing-function-docstring, wrong-import-position
 """Tests about argument parsings."""
 import unittest
-import os
-import sys
 import itertools
 import bitbase  # noqa: E402, RUF100
 import cliarguments  # noqa: E402, RUF100
