@@ -11,13 +11,12 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
 # Split from test_sid.py
-import os
-import sys
+"""Test about FileInfoDict class and files"""
 import stat
 from pathlib import Path
 from test import generic
 from unittest.mock import patch
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+# sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import snapshots
 
 
@@ -34,7 +33,7 @@ class FileInfoTests(generic.SnapshotsTestCase):
         info_file_fp = sid_path / snapshots.SID.FILEINFO
 
         fi_dict = snapshots.FileInfoDict()
-        fi_dict[b'/tmp']     = (123, b'foo', b'bar')
+        fi_dict[b'/tmp'] = (123, b'foo', b'bar')
         fi_dict[b'/tmp/foo'] = (456, b'asdf', b'qwer')
         sid1.fileInfo = fi_dict
 
