@@ -9,18 +9,16 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
-import sys
 import unittest
 import stat
 from datetime import date, datetime
 from test import generic
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import configfile
 import snapshots
 from snapshotlog import SnapshotLog
 
 
-class TestSID(generic.SnapshotsTestCase):
+class General(generic.SnapshotsTestCase):
     def test_new_object_with_valid_date(self):
         sid1 = snapshots.SID('20151219-010324-123', self.cfg)
         sid2 = snapshots.SID('20151219-010324', self.cfg)
