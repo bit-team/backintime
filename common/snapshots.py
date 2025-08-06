@@ -2702,7 +2702,7 @@ class SID:
         """
         return self.sid[0:15]
 
-    def path(self, *path, use_mode = []):
+    def path(self, *path, use_mode = []) -> str:
         """
         Current path of this snapshot automatically altered for
         remote/encrypted version of this path
@@ -2914,7 +2914,7 @@ class SID:
         i.save(self.path(self.INFO))
 
     @property
-    def fileInfo(self):
+    def fileInfo(self) -> FileInfoDict:
         """
         Load/save "fileinfo.bz2"
 
@@ -2926,45 +2926,61 @@ class SID:
         """
         d = FileInfoDict()
         infoFile = self.path(self.FILEINFO)
+
         if not os.path.isfile(infoFile):
             return d
 
         try:
             with bz2.BZ2File(infoFile, 'rb') as fileinfo:
+
                 for line in fileinfo:
                     line = line.strip(b'\n')
+
                     if not line:
                         continue
+
                     index = line.find(b'/')
+
                     if index < 0:
                         continue
+
                     f = line[index:]
+
                     if not f:
                         continue
+
                     info = line[:index].strip().split(b' ')
+
                     if len(info) == 3:
-                        d[f] = (int(info[0]), info[1], info[2]) #perms, user, group
-        except (FileNotFoundError, PermissionError) as e:
-            logger.error('Failed to load {} from snapshot {}: {}'.format(
-                         self.FILEINFO, self.sid, str(e)),
+                        d[f] = (
+                            int(info[0]),  # perms
+                            info[1],  # user
+                            info[2]  # group
+                        )
+
+        except (FileNotFoundError, PermissionError) as exc:
+            logger.error(f'Failed to load {self.FILEINFO} from snapshot '
+                         f'{self.sid}: {exc}',
                          self)
         return d
 
     @fileInfo.setter
-    def fileInfo(self, d):
-        assert isinstance(d, FileInfoDict), 'd is not FileInfoDict type: {}'.format(d)
+    def fileInfo(self, d: FileInfoDict):
         try:
             with bz2.BZ2File(self.path(self.FILEINFO), 'wb') as f:
-                for path, info in d.items():
-                    f.write(b' '.join((str(info[0]).encode('utf-8', 'replace'),
-                                       info[1],
-                                       info[2],
-                                       path))
-                                       + b'\n')
-        except PermissionError as e:
-            logger.error('Failed to write {}: {}'.format(self.FILEINFO, str(e)))
 
-    # TODO use @property decorator? IMHO not because it is not a "getter" but processes data
+                for path, info in d.items():
+                    f.write(b' '.join((
+                        str(info[0]).encode('utf-8', 'replace'),
+                        info[1],
+                        info[2],
+                        path)) + b'\n')
+
+        except PermissionError as exc:
+            logger.error(f'Failed to write {self.FILEINFO}: {exc}')
+
+    # TODO use @property decorator? IMHO not because it is not
+    # a "getter" but processes data
     # TODO Should have an action name like "loadLogFile"
     def log(self, mode = None, decode = None):
         """
