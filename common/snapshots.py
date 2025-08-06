@@ -2965,19 +2965,24 @@ class SID:
         return d
 
     @fileInfo.setter
-    def fileInfo(self, d: FileInfoDict):
-        try:
-            with bz2.BZ2File(self.path(self.FILEINFO), 'wb') as f:
+    def fileInfo(self, fi_dict: FileInfoDict):
+        fp = Path(self.path(self.FILEINFO))
 
-                for path, info in d.items():
-                    f.write(b' '.join((
+        try:
+            with bz2.BZ2File(str(fp), 'wb') as handle:
+
+                for path, info in fi_dict.items():
+                    handle.write(b' '.join((
                         str(info[0]).encode('utf-8', 'replace'),
                         info[1],
                         info[2],
                         path)) + b'\n')
 
+            # Owner only permissions
+            fp.chmod(0o600)  # -rw-------
+
         except PermissionError as exc:
-            logger.error(f'Failed to write {self.FILEINFO}: {exc}')
+            logger.error(f'Failed to write "{fp}": {exc}')
 
     # TODO use @property decorator? IMHO not because it is not
     # a "getter" but processes data

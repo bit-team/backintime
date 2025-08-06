@@ -421,6 +421,7 @@ class FileInfoTests(generic.SnapshotsTestCase):
         sid_path.mkdir(parents=True)
 
         info_file_fp = sid_path / snapshots.SID.FILEINFO
+        info_file_fp.touch()
 
         fi_dict = snapshots.FileInfoDict()
         sid1.fileInfo = fi_dict
@@ -428,7 +429,7 @@ class FileInfoTests(generic.SnapshotsTestCase):
         # Owner only permissions
         self.assertEqual(
             stat.filemode(info_file_fp.stat().st_mode),
-            '-rw------'
+            '-rw-------'
         )
 
 
