@@ -362,7 +362,6 @@ class FileInfoTests(generic.SnapshotsTestCase):
         sid_path.mkdir(parents=True)
 
         info_file_fp = sid_path / snapshots.SID.FILEINFO
-        #infoFile = os.path.join(
 
         fi_dict = snapshots.FileInfoDict()
         fi_dict[b'/tmp']     = (123, b'foo', b'bar')
@@ -376,33 +375,57 @@ class FileInfoTests(generic.SnapshotsTestCase):
         self.assertDictEqual(sid2.fileInfo, fi_dict)
 
     @patch('logger.error')
-    def test_fileInfoErrorRead(self, mock_logger):
-        sid = snapshots.SID('20151219-010324-123', self.cfg)
-        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
-        infoFile = sid.path(sid.FILEINFO)
-        # remove all permissions from file
-        with open(infoFile, 'wt'):
-            pass
+    def test_read_error(self, mock_logger):
+        """Error if info file is empty"""
+        sid_name = '20151219-010324-123'
+        sid = snapshots.SID(sid_name, self.cfg)
+        sid_path = Path(self.snapshotPath) / sid_name
+        sid_path.mkdir(parents=True)
 
-        with generic.mockPermissions(infoFile):
+        info_file_fp = Path(sid.path(snapshots.SID.FILEINFO))
+        info_file_fp.touch()
+
+        with generic.mockPermissions(info_file_fp):
+            # file info is empty
             self.assertEqual(sid.fileInfo, snapshots.FileInfoDict())
+            # error because it was empty
             self.assertTrue(mock_logger.called)
 
     @patch('logger.error')
-    def test_fileInfoErrorWrite(self, mock_logger):
-        sid = snapshots.SID('20151219-010324-123', self.cfg)
-        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
-        infoFile = sid.path(sid.FILEINFO)
-        # remove all permissions from file
-        with open(infoFile, 'wt'):
-            pass
+    def test_write_error(self, mock_logger):
+        """Error while writing info file"""
+        sid_name = '20151219-010324-123'
+        sid = snapshots.SID(sid_name, self.cfg)
 
-        with generic.mockPermissions(infoFile):
-            d = snapshots.FileInfoDict()
-            d[b'/tmp']     = (123, b'foo', b'bar')
-            d[b'/tmp/foo'] = (456, b'asdf', b'qwer')
-            sid.fileInfo = d
+        sid_path = Path(self.snapshotPath) / sid_name
+        sid_path.mkdir(parents=True)
+
+        info_file_fp = Path(sid.path(snapshots.SID.FILEINFO))
+        info_file_fp.touch()
+
+        with generic.mockPermissions(info_file_fp):
+            fi_dict = snapshots.FileInfoDict()
+            fi_dict[b'/tmp'] = (123, b'foo', b'bar')
+            fi_dict[b'/tmp/foo'] = (456, b'asdf', b'qwer')
+
+            sid.fileInfo = fi_dict
+
             self.assertTrue(mock_logger.called)
+
+    def test_permissions(self):
+        """Owner only permissions"""
+        # Create SID (backup/snapshot) and its directory
+        sid_name = '20151219-010324-123'
+        sid1 = snapshots.SID(sid_name, self.cfg)
+        sid_path = Path(self.snapshotPath) / sid_name
+        sid_path.mkdir(parents=True)
+
+        info_file_fp = sid_path / snapshots.SID.FILEINFO
+
+        fi_dict = snapshots.FileInfoDict()
+        sid1.fileInfo = fi_dict
+
+        self.assertTrue(info_file_fp.is_file())
 
 
 
