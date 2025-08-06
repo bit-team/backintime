@@ -3016,7 +3016,7 @@ class SID:
 
                         yield line
 
-        except Exception as e:
+        except FileNotFoundError as e:
             msg = ('Failed to get snapshot log from {}:'.format(logFile), str(e))
             logger.debug(' '.join(msg), self)
 

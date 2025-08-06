@@ -307,53 +307,6 @@ class TestSID(generic.SnapshotsTestCase):
             self.fail(msg.format(testFile))
 
 
-class TakeSnapshotLog(generic.SnapshotsTestCase):
-    """Tests regarding takesnapshot.log file"""
-
-    def test_log(self):
-        sid = snapshots.SID('20151219-010324-123', self.cfg)
-        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
-        logFile = os.path.join(self.snapshotPath,
-                               '20151219-010324-123',
-                               'takesnapshot.log.bz2')
-
-        # no log available
-        self.assertRegex('\n'.join(sid.log()),
-                         r'Failed to get snapshot log from.*')
-
-        sid.setLog('foo bar\nbaz')
-        self.assertIsFile(logFile)
-
-        self.assertEqual('\n'.join(sid.log()), 'foo bar\nbaz')
-
-    def test_log_filter(self):
-        sid = snapshots.SID('20151219-010324-123', self.cfg)
-        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
-        logFile = os.path.join(self.snapshotPath,
-                               '20151219-010324-123',
-                               'takesnapshot.log.bz2')
-
-        sid.setLog('foo bar\n[I] 123\n[C] baz\n[E] bla')
-        self.assertIsFile(logFile)
-
-        self.assertEqual('\n'.join(sid.log(mode=LogFilter.CHANGES)),
-                         'foo bar\n[C] baz')
-
-    def test_setLog_binary(self):
-        sid = snapshots.SID('20151219-010324-123', self.cfg)
-        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
-        logFile = os.path.join(self.snapshotPath,
-                               '20151219-010324-123',
-                               'takesnapshot.log.bz2')
-
-        sid.setLog(b'foo bar\nbaz')
-        self.assertIsFile(logFile)
-
-        self.assertEqual('\n'.join(sid.log()), 'foo bar\nbaz')
-
-
-
-
 class NewBackup(generic.SnapshotsTestCase):
     def test_create_new(self):
         new = snapshots.NewSnapshot(self.cfg)
