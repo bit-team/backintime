@@ -16,7 +16,6 @@ import stat
 from pathlib import Path
 from test import generic
 from unittest.mock import patch
-# sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import snapshots
 
 

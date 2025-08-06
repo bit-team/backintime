@@ -3023,29 +3023,27 @@ class SID:
             for line in msg:
                 yield line
 
-    def setLog(self, log: str | bytes) -> None:
+    def setLog(self, content: str | bytes) -> None:
         """Write log to "takesnapshot.log.bz2"
 
         Args:
-            log: full snapshot log
+            content: full snapshot log
         """
-        if isinstance(log, str):
-            log = log.encode('utf-8', 'replace')
+        if isinstance(content, str):
+            content = content.encode('utf-8', 'replace')
 
-        logFile = self.path(self.LOG)
+        log_fp = Path(self.path(self.LOG))
 
         try:
-            with bz2.BZ2File(logFile, 'wb') as f:
-                f.write(log)
+            with bz2.BZ2File(str(log_fp), 'wb') as handle:
+                handle.write(content)
 
-            # # Owner only permissions
-            # fp.chmod(0o600)  # -rw-------
+            # Owner only permissions
+            log_fp.chmod(0o600)  # -rw-------
 
 
-        except Exception as exc:
-            logger.error(
-                f'Failed to write log into compressed file {logFile}: {exc}',
-                self)
+        except PermissionError as exc:
+            logger.error(f'Failed to write log into "{log_fp}": {exc}')
 
     def makeWritable(self):
         """
