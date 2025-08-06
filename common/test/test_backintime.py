@@ -75,8 +75,8 @@ class BackInTime(generic.TestCase):
         proc = subprocess.Popen(["./backintime",
                                  "--config",
                                  "test/config",
-                                 "--share-path",
-                                 self.sharePath,
+                                 # "--share-path",
+                                 # self.sharePath,
                                  "check-config",
                                  # do not overwrite users crontab
                                  "--no-crontab"],
@@ -114,7 +114,7 @@ Config .*test/config profile 'Main profile' is fine.''', re.MULTILINE))
         # execute backup and verify output
         proc = subprocess.Popen(["./backintime",
                                  "--config", "test/config",
-                                 "--share-path", self.sharePath,
+                                 # "--share-path", self.sharePath,
                                  "backup"],
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE)
@@ -203,8 +203,8 @@ INFO: Unlock''', re.MULTILINE))
         proc = subprocess.Popen(["./backintime",
                                  "--config",
                                  "test/config",
-                                 "--share-path",
-                                 self.sharePath,
+                                 # "--share-path",
+                                 # self.sharePath,
                                  "restore",
                                  "/tmp/test/testfile",
                                  "/tmp/restored",

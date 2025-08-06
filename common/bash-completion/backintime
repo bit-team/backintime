@@ -90,7 +90,7 @@ _backintime()
     esac
 
     case "${prev}" in
-        --config|decode|restore|--share-path)
+        --config|decode|restore)
             if [[ ${cur} != -* ]]; then
                 _filedir
                 return 0
