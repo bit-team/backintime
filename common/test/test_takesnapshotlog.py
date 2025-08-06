@@ -11,15 +11,12 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
 # Split from test_sid.py
-import os
-import sys
+"""Tests about takesnapshot.log.bz2 file related to snapshots.SID class"""
 import stat
 from pathlib import Path
-from datetime import date, datetime
 from test import generic
-import configfile
 import snapshots
-from snapshotlog import LogFilter, SnapshotLog
+import snapshotlog
 
 
 class TakeSnapshotLog(generic.SnapshotsTestCase):
@@ -33,12 +30,9 @@ class TakeSnapshotLog(generic.SnapshotsTestCase):
         sid_path = Path(self.snapshotPath) / sid_name
         sid_path.mkdir(parents=True)
 
-        log_path = sid_path / snapshots.SID.LOG
-
         result = '\n'.join(sid.log())
 
         self.assertTrue(result.startswith('Failed to get snapshot log from'))
-
 
     def test_content(self):
         """Write and read content"""
@@ -70,13 +64,11 @@ class TakeSnapshotLog(generic.SnapshotsTestCase):
         sid_path = Path(self.snapshotPath) / sid_name
         sid_path.mkdir(parents=True)
 
-        log_path = sid_path / snapshots.SID.LOG
-
         # Content witn info, changes and errors
         sid.setLog('foo bar\n[I] 123\n[C] baz\n[E] bla')
 
         # content filtered only for changes
-        result = '\n'.join(sid.log(mode=LogFilter.CHANGES))
+        result = '\n'.join(sid.log(mode=snapshotlog.LogFilter.CHANGES))
 
         self.assertEqual(result, 'foo bar\n[C] baz')
 
@@ -88,15 +80,12 @@ class TakeSnapshotLog(generic.SnapshotsTestCase):
         sid_path = Path(self.snapshotPath) / sid_name
         sid_path.mkdir(parents=True)
 
-        log_path = sid_path / snapshots.SID.LOG
-
         content = b'foo bar\nbaz'
 
         sid.setLog(content)
 
         result = '\n'.join(sid.log())
         self.assertEqual(result, content.decode('utf-8'))
-
 
     def test_owner_only_permission(self):
         """Create log file with permissions only for the owner"""

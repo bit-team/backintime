@@ -17,7 +17,7 @@ from test import generic
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import configfile
 import snapshots
-from snapshotlog import LogFilter, SnapshotLog
+from snapshotlog import SnapshotLog
 
 
 class TestSID(generic.SnapshotsTestCase):
