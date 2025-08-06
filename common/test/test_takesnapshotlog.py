@@ -64,7 +64,7 @@ class TakeSnapshotLog(generic.SnapshotsTestCase):
         sid_path = Path(self.snapshotPath) / sid_name
         sid_path.mkdir(parents=True)
 
-        # Content witn info, changes and errors
+        # Content with info, changes and errors
         sid.setLog('foo bar\n[I] 123\n[C] baz\n[E] bla')
 
         # content filtered only for changes
