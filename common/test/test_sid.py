@@ -412,8 +412,8 @@ class FileInfoTests(generic.SnapshotsTestCase):
 
             self.assertTrue(mock_logger.called)
 
-    def test_permissions(self):
-        """Owner only permissions"""
+    def test_owner_only_permissions(self):
+        """File permissions only to the owner"""
         # Create SID (backup/snapshot) and its directory
         sid_name = '20151219-010324-123'
         sid1 = snapshots.SID(sid_name, self.cfg)
@@ -425,8 +425,11 @@ class FileInfoTests(generic.SnapshotsTestCase):
         fi_dict = snapshots.FileInfoDict()
         sid1.fileInfo = fi_dict
 
-        self.assertTrue(info_file_fp.is_file())
-
+        # Owner only permissions
+        self.assertEqual(
+            stat.filemode(info_file_fp.stat().st_mode),
+            '-rw------'
+        )
 
 
 class NewBackup(generic.SnapshotsTestCase):
