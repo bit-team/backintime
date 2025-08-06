@@ -12,6 +12,7 @@ import os
 import sys
 import unittest
 import stat
+from pathlib import Path
 from datetime import date, datetime
 from test import generic
 from unittest.mock import patch
@@ -286,53 +287,6 @@ class TestSID(generic.SnapshotsTestCase):
         i2 = sid2.info
         self.assertEqual(i2.strValue('foo', 'default'), 'bar')
 
-    def test_fileInfo(self):
-        sid1 = snapshots.SID('20151219-010324-123', self.cfg)
-        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
-        infoFile = os.path.join(self.snapshotPath,
-                                '20151219-010324-123',
-                                'fileinfo.bz2')
-
-        d = snapshots.FileInfoDict()
-        d[b'/tmp']     = (123, b'foo', b'bar')
-        d[b'/tmp/foo'] = (456, b'asdf', b'qwer')
-        sid1.fileInfo = d
-
-        self.assertIsFile(infoFile)
-
-        #load fileInfo in a new snapshot
-        sid2 = snapshots.SID('20151219-010324-123', self.cfg)
-        self.assertDictEqual(sid2.fileInfo, d)
-
-    @patch('logger.error')
-    def test_fileInfoErrorRead(self, mock_logger):
-        sid = snapshots.SID('20151219-010324-123', self.cfg)
-        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
-        infoFile = sid.path(sid.FILEINFO)
-        # remove all permissions from file
-        with open(infoFile, 'wt'):
-            pass
-
-        with generic.mockPermissions(infoFile):
-            self.assertEqual(sid.fileInfo, snapshots.FileInfoDict())
-            self.assertTrue(mock_logger.called)
-
-    @patch('logger.error')
-    def test_fileInfoErrorWrite(self, mock_logger):
-        sid = snapshots.SID('20151219-010324-123', self.cfg)
-        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
-        infoFile = sid.path(sid.FILEINFO)
-        # remove all permissions from file
-        with open(infoFile, 'wt'):
-            pass
-
-        with generic.mockPermissions(infoFile):
-            d = snapshots.FileInfoDict()
-            d[b'/tmp']     = (123, b'foo', b'bar')
-            d[b'/tmp/foo'] = (456, b'asdf', b'qwer')
-            sid.fileInfo = d
-            self.assertTrue(mock_logger.called)
-
     def test_log(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
         os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
@@ -395,6 +349,61 @@ class TestSID(generic.SnapshotsTestCase):
         except PermissionError:
             msg = 'writing to {} raised PermissionError unexpectedly!'
             self.fail(msg.format(testFile))
+
+
+class FileInfoTests(generic.SnapshotsTestCase):
+    """Testinthe fileinfo.bz2 file"""
+    def test_created_and_reloaded(self):
+        """Create info file and reload it in a new SID instance"""
+        # Create SID (backup/snapshot) and its directory
+        sid_name = '20151219-010324-123'
+        sid1 = snapshots.SID(sid_name, self.cfg)
+        sid_path = Path(self.snapshotPath) / sid_name
+        sid_path.mkdir(parents=True)
+
+        info_file_fp = sid_path / snapshots.SID.FILEINFO
+        #infoFile = os.path.join(
+
+        fi_dict = snapshots.FileInfoDict()
+        fi_dict[b'/tmp']     = (123, b'foo', b'bar')
+        fi_dict[b'/tmp/foo'] = (456, b'asdf', b'qwer')
+        sid1.fileInfo = fi_dict
+
+        self.assertTrue(info_file_fp.is_file())
+
+        # load fileInfo in a new snapshot
+        sid2 = snapshots.SID(sid_name, self.cfg)
+        self.assertDictEqual(sid2.fileInfo, fi_dict)
+
+    @patch('logger.error')
+    def test_fileInfoErrorRead(self, mock_logger):
+        sid = snapshots.SID('20151219-010324-123', self.cfg)
+        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
+        infoFile = sid.path(sid.FILEINFO)
+        # remove all permissions from file
+        with open(infoFile, 'wt'):
+            pass
+
+        with generic.mockPermissions(infoFile):
+            self.assertEqual(sid.fileInfo, snapshots.FileInfoDict())
+            self.assertTrue(mock_logger.called)
+
+    @patch('logger.error')
+    def test_fileInfoErrorWrite(self, mock_logger):
+        sid = snapshots.SID('20151219-010324-123', self.cfg)
+        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
+        infoFile = sid.path(sid.FILEINFO)
+        # remove all permissions from file
+        with open(infoFile, 'wt'):
+            pass
+
+        with generic.mockPermissions(infoFile):
+            d = snapshots.FileInfoDict()
+            d[b'/tmp']     = (123, b'foo', b'bar')
+            d[b'/tmp/foo'] = (456, b'asdf', b'qwer')
+            sid.fileInfo = d
+            self.assertTrue(mock_logger.called)
+
 
 
 class NewBackup(generic.SnapshotsTestCase):
