@@ -426,10 +426,18 @@ def create_test_files(path):
 
 
 @contextmanager
-def mockPermissions(path, mode=0o000):
-    st = os.stat(path)
-    os.chmod(path, mode)
-    yield
+def mockPermissions(path: pathlib.Path | str, mode: int = 0o000) -> None:
+    # Workaround
+    if isinstance(path, str):
+        path = pathlib.Path(path)
 
-    # fix permissions so it can be removed
-    os.chmod(path, st.st_mode)
+    # extract permission bits only (mask out file type)
+    org_perms = path.stat().st_mode & 0o777
+
+    path.chmod(mode)
+
+    try:
+        yield
+
+    finally:
+        path.chmod(org_perms)

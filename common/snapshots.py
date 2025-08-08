@@ -2702,7 +2702,7 @@ class SID:
         """
         return self.sid[0:15]
 
-    def path(self, *path, use_mode = []):
+    def path(self, *path, use_mode = []) -> str:
         """
         Current path of this snapshot automatically altered for
         remote/encrypted version of this path
@@ -2914,7 +2914,7 @@ class SID:
         i.save(self.path(self.INFO))
 
     @property
-    def fileInfo(self):
+    def fileInfo(self) -> FileInfoDict:
         """
         Load/save "fileinfo.bz2"
 
@@ -2926,47 +2926,69 @@ class SID:
         """
         d = FileInfoDict()
         infoFile = self.path(self.FILEINFO)
+
         if not os.path.isfile(infoFile):
             return d
 
         try:
             with bz2.BZ2File(infoFile, 'rb') as fileinfo:
+
                 for line in fileinfo:
                     line = line.strip(b'\n')
+
                     if not line:
                         continue
+
                     index = line.find(b'/')
+
                     if index < 0:
                         continue
+
                     f = line[index:]
+
                     if not f:
                         continue
+
                     info = line[:index].strip().split(b' ')
+
                     if len(info) == 3:
-                        d[f] = (int(info[0]), info[1], info[2]) #perms, user, group
-        except (FileNotFoundError, PermissionError) as e:
-            logger.error('Failed to load {} from snapshot {}: {}'.format(
-                         self.FILEINFO, self.sid, str(e)),
+                        d[f] = (
+                            int(info[0]),  # perms
+                            info[1],  # user
+                            info[2]  # group
+                        )
+
+        except (FileNotFoundError, PermissionError) as exc:
+            logger.error(f'Failed to load {self.FILEINFO} from snapshot '
+                         f'{self.sid}: {exc}',
                          self)
         return d
 
     @fileInfo.setter
-    def fileInfo(self, d):
-        assert isinstance(d, FileInfoDict), 'd is not FileInfoDict type: {}'.format(d)
-        try:
-            with bz2.BZ2File(self.path(self.FILEINFO), 'wb') as f:
-                for path, info in d.items():
-                    f.write(b' '.join((str(info[0]).encode('utf-8', 'replace'),
-                                       info[1],
-                                       info[2],
-                                       path))
-                                       + b'\n')
-        except PermissionError as e:
-            logger.error('Failed to write {}: {}'.format(self.FILEINFO, str(e)))
+    def fileInfo(self, fi_dict: FileInfoDict):
+        fp = Path(self.path(self.FILEINFO))
 
-    # TODO use @property decorator? IMHO not because it is not a "getter" but processes data
+        try:
+            with bz2.BZ2File(str(fp), 'wb') as handle:
+
+                for path, info in fi_dict.items():
+                    handle.write(b' '.join((
+                        str(info[0]).encode('utf-8', 'replace'),
+                        info[1],
+                        info[2],
+                        path)) + b'\n')
+
+            # Owner only permissions
+            fp.chmod(0o600)  # -rw-------
+
+        except PermissionError as exc:
+            logger.error(f'Failed to write "{fp}": {exc}')
+
+    # TODO use @property decorator? IMHO not because it is not
+    # a "getter" but processes data
     # TODO Should have an action name like "loadLogFile"
-    def log(self, mode = None, decode = None):
+    def log(self, mode: int = None, decode: encfstools.Decode = None
+            ) -> Generator[str, None, None]:
         """
         Load log from "takesnapshot.log.bz2"
 
@@ -2980,37 +3002,48 @@ class SID:
         """
         logFile = self.path(self.LOG)
         logFilter = snapshotlog.LogFilter(mode, decode)
+
         try:
             with bz2.BZ2File(logFile, 'rb') as f:
+
                 if logFilter.header:
                     yield logFilter.header
+
                 for line in f.readlines():
                     line = logFilter.filter(line.decode('utf-8').rstrip('\n'))
+
                     if not line is None:
+
                         yield line
-        except Exception as e:
+
+        except FileNotFoundError as e:
             msg = ('Failed to get snapshot log from {}:'.format(logFile), str(e))
             logger.debug(' '.join(msg), self)
+
             for line in msg:
                 yield line
 
-    def setLog(self, log):
-        """
-        Write log to "takesnapshot.log.bz2"
+    def setLog(self, content: str | bytes) -> None:
+        """Write log to "takesnapshot.log.bz2"
 
         Args:
-            log: full snapshot log
+            content: full snapshot log
         """
-        if isinstance(log, str):
-            log = log.encode('utf-8', 'replace')
-        logFile = self.path(self.LOG)
+        if isinstance(content, str):
+            content = content.encode('utf-8', 'replace')
+
+        log_fp = Path(self.path(self.LOG))
+
         try:
-            with bz2.BZ2File(logFile, 'wb') as f:
-                f.write(log)
-        except Exception as e:
-            logger.error('Failed to write log into compressed file {}: {}'.format(
-                         logFile, str(e)),
-                         self)
+            with bz2.BZ2File(str(log_fp), 'wb') as handle:
+                handle.write(content)
+
+            # Owner only permissions
+            log_fp.chmod(0o600)  # -rw-------
+
+
+        except PermissionError as exc:
+            logger.error(f'Failed to write log into "{log_fp}": {exc}')
 
     def makeWritable(self):
         """
