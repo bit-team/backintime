@@ -26,7 +26,7 @@ _bit_extr_opts()
 # return a list of all snapshots
 _bit_snapshots_list()
 {
-    backintime$(_bit_extr_opts) --quiet snapshots-list | awk '{print $2}'
+    backintime$(_bit_extr_opts) --quiet show | awk '{print $2}'
 }
 
 _backintime()
@@ -90,7 +90,7 @@ _backintime()
     esac
 
     case "${prev}" in
-        --config|decode|restore|--share-path)
+        --config|decode|restore)
             if [[ ${cur} != -* ]]; then
                 _filedir
                 return 0

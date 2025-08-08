@@ -45,8 +45,8 @@ def takeSnapshotAsync(cfg, checksum=False):
     if cfg._LOCAL_CONFIG_PATH is not cfg._DEFAULT_CONFIG_PATH:
         cmd.extend(('--config', cfg._LOCAL_CONFIG_PATH))
 
-    if cfg._LOCAL_DATA_FOLDER is not cfg._DEFAULT_LOCAL_DATA_FOLDER:
-        cmd.extend(('--share-path', cfg.DATA_FOLDER_ROOT))
+    # if cfg._LOCAL_DATA_FOLDER is not cfg._DEFAULT_LOCAL_DATA_FOLDER:
+    #     cmd.extend(('--share-path', cfg.DATA_FOLDER_ROOT))
 
     if logger.DEBUG:
         cmd.append('--debug')
