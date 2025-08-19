@@ -104,15 +104,6 @@ latest development version of _Back In Time_ please see section
 [Build & Install](CONTRIBUTING.md#build--install) in
 [`CONTRIBUTING.md`](CONTRIBUTING.md). Also the dependencies are described there.
 
-## Alternative installation options
-Besides the repositories of the official GNU/Linux distributions, there are
-other alternative installation options provided and maintained by third
-parties. Use them at your own risk and please contact that third party
-maintainers if you encounter problems.
-
-- [@jean-christophe-manciot](https://github.com/jean-christophe-manciot)'s PPA distributing [_Back In Time_ for the latest stable Ubuntu release](https://git.sdxlive.com/PPA/about). See [PPA requirements](https://git.sdxlive.com/PPA/about/#requirements) and [install instructions](https://git.sdxlive.com/PPA/about/#installing-the-ppa).
-- The Arch User Repository ([AUR](https://aur.archlinux.org/)) does offer [some packages](https://aur.archlinux.org/packages?K=backintime).
-
 # Known Problems and Workarounds
 
 In the latest stable release:
@@ -174,4 +165,4 @@ Please read [`LICENSES.md`](LICENSES.md).
 
 ---
 
-<sub>July 2025</sub>
+<sub>August 2025</sub>

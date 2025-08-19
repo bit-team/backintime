@@ -113,40 +113,6 @@ class SshCommand(generic.SSHTestCase):
             ]
         )
 
-    def test_cipher_aes256_cbc(self):
-        self.cfg.setSshCipher('aes256-cbc')
-        cmd = self.cfg.sshCommand(cmd=['echo', 'foo'])
-
-        self.assertListEqual(
-            cmd,
-            [
-                'ssh',
-                '-o', 'ServerAliveInterval=240',
-                '-o', 'LogLevel=Error',
-                '-o', f'IdentityFile={generic.PRIV_KEY_FILE}',
-                '-p', '22',
-                '-o', 'Ciphers=aes256-cbc',
-                f'{self._user}@localhost',
-                'echo', 'foo'
-            ]
-        )
-
-    def test_cipher_disabled(self):
-        cmd = self.cfg.sshCommand(cmd=['echo', 'foo'], cipher=False)
-
-        self.assertListEqual(
-            cmd,
-            [
-                'ssh',
-                '-o', 'ServerAliveInterval=240',
-                '-o', 'LogLevel=Error',
-                '-o', f'IdentityFile={generic.PRIV_KEY_FILE}',
-                '-p', '22',
-                f'{self._user}@localhost',
-                'echo', 'foo'
-            ]
-        )
-
     def test_without_command(self):
         cmd = self.cfg.sshCommand()
         self.assertListEqual(

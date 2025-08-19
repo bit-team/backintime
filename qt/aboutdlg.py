@@ -222,8 +222,9 @@ class AboutDlg(QDialog):
             lambda: qttools.open_url(bitbase.URL_WEBSITE))
 
         manual = QPushButton(_('User manual'))
-        manual.setToolTip(_('Open user manual in browser (local if available '
-                            'otherwise online)'))
+        manual.setToolTip(
+            _('Open user manual in browser (local if available, '
+              'otherwise online)'))
         manual.clicked.connect(qttools.open_user_manual)
 
         layout.addWidget(website)

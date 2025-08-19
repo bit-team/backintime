@@ -9,20 +9,16 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
-import sys
 import unittest
 import stat
 from datetime import date, datetime
 from test import generic
-from unittest.mock import patch
-
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import configfile
 import snapshots
-from snapshotlog import LogFilter, SnapshotLog
+from snapshotlog import SnapshotLog
 
 
-class TestSID(generic.SnapshotsTestCase):
+class General(generic.SnapshotsTestCase):
     def test_new_object_with_valid_date(self):
         sid1 = snapshots.SID('20151219-010324-123', self.cfg)
         sid2 = snapshots.SID('20151219-010324', self.cfg)
@@ -285,94 +281,6 @@ class TestSID(generic.SnapshotsTestCase):
         sid2 = snapshots.SID('20151219-010324-123', self.cfg)
         i2 = sid2.info
         self.assertEqual(i2.strValue('foo', 'default'), 'bar')
-
-    def test_fileInfo(self):
-        sid1 = snapshots.SID('20151219-010324-123', self.cfg)
-        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
-        infoFile = os.path.join(self.snapshotPath,
-                                '20151219-010324-123',
-                                'fileinfo.bz2')
-
-        d = snapshots.FileInfoDict()
-        d[b'/tmp']     = (123, b'foo', b'bar')
-        d[b'/tmp/foo'] = (456, b'asdf', b'qwer')
-        sid1.fileInfo = d
-
-        self.assertIsFile(infoFile)
-
-        #load fileInfo in a new snapshot
-        sid2 = snapshots.SID('20151219-010324-123', self.cfg)
-        self.assertDictEqual(sid2.fileInfo, d)
-
-    @patch('logger.error')
-    def test_fileInfoErrorRead(self, mock_logger):
-        sid = snapshots.SID('20151219-010324-123', self.cfg)
-        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
-        infoFile = sid.path(sid.FILEINFO)
-        # remove all permissions from file
-        with open(infoFile, 'wt'):
-            pass
-
-        with generic.mockPermissions(infoFile):
-            self.assertEqual(sid.fileInfo, snapshots.FileInfoDict())
-            self.assertTrue(mock_logger.called)
-
-    @patch('logger.error')
-    def test_fileInfoErrorWrite(self, mock_logger):
-        sid = snapshots.SID('20151219-010324-123', self.cfg)
-        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
-        infoFile = sid.path(sid.FILEINFO)
-        # remove all permissions from file
-        with open(infoFile, 'wt'):
-            pass
-
-        with generic.mockPermissions(infoFile):
-            d = snapshots.FileInfoDict()
-            d[b'/tmp']     = (123, b'foo', b'bar')
-            d[b'/tmp/foo'] = (456, b'asdf', b'qwer')
-            sid.fileInfo = d
-            self.assertTrue(mock_logger.called)
-
-    def test_log(self):
-        sid = snapshots.SID('20151219-010324-123', self.cfg)
-        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
-        logFile = os.path.join(self.snapshotPath,
-                               '20151219-010324-123',
-                               'takesnapshot.log.bz2')
-
-        # no log available
-        self.assertRegex('\n'.join(sid.log()),
-                         r'Failed to get snapshot log from.*')
-
-        sid.setLog('foo bar\nbaz')
-        self.assertIsFile(logFile)
-
-        self.assertEqual('\n'.join(sid.log()), 'foo bar\nbaz')
-
-    def test_log_filter(self):
-        sid = snapshots.SID('20151219-010324-123', self.cfg)
-        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
-        logFile = os.path.join(self.snapshotPath,
-                               '20151219-010324-123',
-                               'takesnapshot.log.bz2')
-
-        sid.setLog('foo bar\n[I] 123\n[C] baz\n[E] bla')
-        self.assertIsFile(logFile)
-
-        self.assertEqual('\n'.join(sid.log(mode=LogFilter.CHANGES)),
-                         'foo bar\n[C] baz')
-
-    def test_setLog_binary(self):
-        sid = snapshots.SID('20151219-010324-123', self.cfg)
-        os.makedirs(os.path.join(self.snapshotPath, '20151219-010324-123'))
-        logFile = os.path.join(self.snapshotPath,
-                               '20151219-010324-123',
-                               'takesnapshot.log.bz2')
-
-        sid.setLog(b'foo bar\nbaz')
-        self.assertIsFile(logFile)
-
-        self.assertEqual('\n'.join(sid.log()), 'foo bar\nbaz')
 
     def test_makeWritable(self):
         sid = snapshots.SID('20151219-010324-123', self.cfg)
