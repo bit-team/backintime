@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-08-05 09:06+0200\n"
-"PO-Revision-Date: 2025-07-27 08:46+0000\n"
+"POT-Creation-Date: 2025-08-21 11:32+0200\n"
+"PO-Revision-Date: 2025-08-19 10:24+0000\n"
 "Last-Translator: alexgabi <alexgabi@noreply.codeberg.org>\n"
 "Language-Team: Basque <https://translate.codeberg.org/projects/backintime/common/eu/>\n"
 "Language: eu\n"
@@ -186,14 +186,12 @@ msgid "Cancel"
 msgstr "Utzi"
 
 #: common/encfstools.py:149
-#, fuzzy
 msgid "Please re-enter the EncFS password to confirm."
-msgstr "Sartu \"{user}\"-entzako pasahitza bat."
+msgstr "Sartu berriro EncFS pasahitza berresteko."
 
 #: common/encfstools.py:155
-#, fuzzy
 msgid "The EncFS passwords do not match."
-msgstr "Pasahitzak ez datoz bat."
+msgstr "EncFS pasahitzak ez datoz bat."
 
 #: common/encfstools.py:515 common/snapshots.py:1126
 msgid "Take snapshot"
@@ -375,7 +373,7 @@ msgstr "Saiatu espazio minimoa mantentzen"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Saiatu gutxienez {perc} nodo libre mantentzen"
 
-#: common/snapshots.py:3167 qt/app.py:1393
+#: common/snapshots.py:3200 qt/app.py:1393
 msgid "Now"
 msgstr "Orain"
 
@@ -544,11 +542,10 @@ msgid "User manual"
 msgstr "Erabiltzailearen eskuliburua"
 
 #: qt/aboutdlg.py:226 qt/app.py:515
-#, fuzzy
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
 "Ireki erabiltzailearen eskuliburua nabigatzailean (tokikoa eskuragarri "
-"badago bestela lineakoa)"
+"badago, bestela lineakoa)"
 
 #: qt/aboutdlg.py:257
 msgid "Back In Time"
@@ -622,19 +619,16 @@ msgid "Remove backup"
 msgstr "Kendu babeskopia"
 
 #: qt/app.py:485
-#, fuzzy
 msgid "Open backup log"
 msgstr "Ikusi babeskopiaren erregistroa"
 
 #: qt/app.py:487
-#, fuzzy
 msgid "View log of the selected backup."
-msgstr "Gutxienez direktorio bat hautatu behar da babeskopia egiteko."
+msgstr "Ikusi hautatutako babeskopiaren erregistroa."
 
 #: qt/app.py:489
-#, fuzzy
 msgid "Open last backup log"
-msgstr "Ikusi babeskopiaren erregistroa"
+msgstr "Ireki azken babeskopiaren erregistroa"
 
 #: qt/app.py:491
 msgid "View log of the latest backup."
@@ -690,11 +684,9 @@ msgid "Changelog"
 msgstr "Aldaketen egunkaria"
 
 #: qt/app.py:539
-#, fuzzy
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr ""
-"Ireki erabiltzailearen eskuliburua nabigatzailean (tokikoa eskuragarri "
-"badago bestela lineakoa)"
+"Ireki aldaketen erregistroa (tokikoa eskuragarri badago, bestela webekoa)"
 
 #: qt/app.py:542
 msgid "FAQ"
@@ -876,9 +868,8 @@ msgid "ETA:"
 msgstr "ETA:"
 
 #: qt/app.py:1401
-#, fuzzy
 msgid "Backup:"
-msgstr "Babeskopiak:"
+msgstr "Babeskopia:"
 
 #: qt/app.py:1441
 #, python-brace-format
@@ -978,9 +969,8 @@ msgstr ""
 " atalasearen azpitik dagoena."
 
 #: qt/app.py:1776
-#, fuzzy
 msgid "Proceed with the backup?"
-msgstr "Ezabatu babeskopia hau?"
+msgstr "Ekin babeskopia egiteari?"
 
 #: qt/app.py:1801
 #, python-brace-format
@@ -1021,13 +1011,13 @@ msgid "Question"
 msgstr "Galdera"
 
 #: qt/confirmrestoredialog.py:76
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix} before overwriting or removing "
 "local elements."
 msgstr ""
-"Egin babeskopia bukaerako '{suffix}'\n"
-"fitxategi lokalak gainidatzi edo ezabatu aurretik."
+"Egin babeskopia '{suffix}' atzizkiarekin elementu lokalak gainidatzi edo "
+"ezabatu aurretik."
 
 #: qt/confirmrestoredialog.py:81 qt/manageprofiles/tab_options.py:66
 #, python-brace-format
@@ -1040,14 +1030,13 @@ msgstr ""
 "aginduarekin:"
 
 #: qt/confirmrestoredialog.py:94
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Only restore elements which do not exist or are newer than those in "
 "destination. Using \"{rsync_example}\" option."
 msgstr ""
-"Leheneratu soilik falta diren fitxategiak edo\n"
-"helburuko tokikoak baino berriagoak direnak.\n"
-"\"rsync --update\" aukera erabiliz."
+"Leheneratu soilik falta diren fitxategiak edo helburuko tokikoak baino "
+"berriagoak direnak, \"{rsync_example}\" aukera erabiliz."
 
 #: qt/confirmrestoredialog.py:133
 msgid "Remove newer elements in original directory."
@@ -1159,9 +1148,8 @@ msgid "Your Back In Time Team"
 msgstr "Zure Back In &Time taldea"
 
 #: qt/filedialog.py:87
-#, fuzzy
 msgid "Show/hide hidden files and directories (Ctrl+H)"
-msgstr "Fitxategiak eta karpetak barne"
+msgstr "Erakutsi/ezkutatu ezkutuko fitxategiak eta direktorioak (Ctrl+H)"
 
 #: qt/languagedialog.py:35
 msgid "Setup language"
@@ -1457,35 +1445,30 @@ msgid "<Select another file…>"
 msgstr "<Hautatu beste fitxategia...>"
 
 #: qt/manageprofiles/sshkeyselector.py:64
-#, fuzzy
 msgid "Choose an existing private key file from somewhere else."
 msgstr ""
-"Aukeratu lehendik dagoen gako pribatuaren fitxategi bat (normalean "
-"\"id_ed25519\" izena du eta konfigurazio zaharretan \"id_rsa\" )."
+"Aukeratu lehendik dagoen gako pribatuko fitxategi bat beste nonbaitetik."
 
 #: qt/manageprofiles/sshkeyselector.py:70
 msgid "<Generate new key-pair…>"
 msgstr "<Sortu gako-pare berria...>"
 
 #: qt/manageprofiles/sshkeyselector.py:71
-#, fuzzy
 msgid "Create a new SSH key without passphrase."
-msgstr "Huts egin du {path} kokalekuan SSH gako berria sortzen."
+msgstr "Sortu pasaesaldirik gabeko SSH gako berria."
 
 #: qt/manageprofiles/sshkeyselector.py:91
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Full path: {path}"
-msgstr "Babeskopien bide osoa:"
+msgstr "Bide osoa: {path}"
 
 #: qt/manageprofiles/sshkeyselector.py:185
-#, fuzzy
 msgid "Private key:"
 msgstr "Gako pribatua:"
 
 #: qt/manageprofiles/sshkeyselector.py:190
-#, fuzzy
 msgid "Use system SSH configuration"
-msgstr "Inportatu konfigurazioa"
+msgstr "Erabili sistemaren SSH ezarpenak"
 
 #: qt/manageprofiles/sshkeyselector.py:192
 msgid ""
@@ -1541,14 +1524,12 @@ msgid "Exclude patterns, files or directories"
 msgstr "Baztertu txantiloi, fitxategi edo direktorio hauek"
 
 #: qt/manageprofiles/tab_exclude.py:101 qt/manageprofiles/tab_include.py:66
-#, fuzzy
 msgid "Add files"
-msgstr "Gehitu fitxategia"
+msgstr "Gehitu fitxategiak"
 
 #: qt/manageprofiles/tab_exclude.py:106 qt/manageprofiles/tab_include.py:71
-#, fuzzy
 msgid "Add directories"
-msgstr "Gehitu direktorioa"
+msgstr "Gehitu direktorioak"
 
 #: qt/manageprofiles/tab_exclude.py:112
 msgid "Add default"
@@ -1592,14 +1573,12 @@ msgid "Exclude pattern"
 msgstr "Baztertu txantiloia"
 
 #: qt/manageprofiles/tab_exclude.py:279
-#, fuzzy
 msgid "Exclude files"
-msgstr "Baztertu fitxategia"
+msgstr "Baztertu fitxategiak"
 
 #: qt/manageprofiles/tab_exclude.py:290
-#, fuzzy
 msgid "Exclude directories"
-msgstr "Baztertu direktorioa"
+msgstr "Baztertu direktorioak"
 
 #: qt/manageprofiles/tab_exclude.py:321
 msgid ""
@@ -1784,9 +1763,8 @@ msgid "Path:"
 msgstr "Bide-izena:"
 
 #: qt/manageprofiles/tab_general.py:139
-#, fuzzy
 msgid "Key file:"
-msgstr "Profil berria"
+msgstr "Gako fitxategia:"
 
 #: qt/manageprofiles/tab_general.py:173 qt/manageprofiles/tab_general.py:181
 #: qt/manageprofiles/tab_general.py:186
@@ -1816,25 +1794,28 @@ msgid ""
 "An error occurred while attempting to log in to the remote host. The "
 "following error message was returned:"
 msgstr ""
+"Errore bat gertatu da urruneko ostalarian saioa hastean. Errore-mezu hau "
+"itzuli da:"
 
 #: qt/manageprofiles/tab_general.py:481
-#, fuzzy
 msgid ""
 "Copying the public SSH key to the remote host can help enable password-less "
 "login."
 msgstr ""
-"Nahi al duzu kopiatzea zure SSH gako publikoa urrutiko ostalarira pasahitzik"
-" gabe sartu ahal izateko?"
+"Urruneko ostalarian SSH gako publikoa kopiatzeak pasahitzik gabeko saio-"
+"hasiera gaitzen lagun dezake."
 
 #: qt/manageprofiles/tab_general.py:483
 msgid "Proceed?"
-msgstr ""
+msgstr "Ekin?"
 
 #: qt/manageprofiles/tab_general.py:506
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
+"Ezin izan da SSH gako publikoa kopiatu. Konexio edo baimen arazo batengatik "
+"izan daiteke."
 
 #: qt/manageprofiles/tab_general.py:531
 #, python-brace-format
@@ -1847,10 +1828,9 @@ msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} gakoaren hatz-marka hau da:"
 
 #: qt/manageprofiles/tab_general.py:536
-#, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
-"Egiaztatu hatz-marka. Nahi al duzu bera gehitzea zure 'known_hosts' "
+"Egiaztatu hatz-marka hau. Nahi al duzu gehitzea zure 'known_hosts' "
 "fitxategira?"
 
 #: qt/manageprofiles/tab_general.py:627
@@ -1858,18 +1838,17 @@ msgid "Really change the backup directory?"
 msgstr "Benetan nahi duzu babeskopien direktorioa aldatu?"
 
 #: qt/manageprofiles/tab_general.py:657
-#, fuzzy
 msgid "Invalid file: Not a private SSH key"
-msgstr "SSH giltz pribatu"
+msgstr "Baliogabeko fitxategia: Ez da SSH gako pribatua"
 
 #: qt/manageprofiles/tab_general.py:658
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
-"Hautatutako fitxategia {path} ematen du SSH gako publiko bat dela. Mesedez "
-"hautatu fitxategi pribatu bat (.pub luzapenik gabe)."
+"Hautatutako fitxategia {path} SSH gako publiko bat da. Mesedez aukeratu gako"
+" pribatuaren fitxategia (.pub luzapenik gabe)."
 
 #: qt/manageprofiles/tab_general.py:682
 #, python-brace-format
@@ -1889,14 +1868,12 @@ msgid "Include files and directories"
 msgstr "Fitxategiak eta karpetak barne"
 
 #: qt/manageprofiles/tab_include.py:152
-#, fuzzy
 msgid "Include files"
-msgstr "Sartu fitxategia"
+msgstr "Sartu fitxategiak"
 
 #: qt/manageprofiles/tab_include.py:174
-#, fuzzy
 msgid "Include directories"
-msgstr "Sartu direktorioa"
+msgstr "Sartu direktorioak"
 
 #: qt/manageprofiles/tab_options.py:38
 msgid "Enable notifications"
@@ -2133,11 +2110,11 @@ msgstr "Lasterbideak"
 
 #: qt/placeswidget.py:63
 msgid "Places"
-msgstr ""
+msgstr "Tokiak"
 
 #: qt/placeswidget.py:64
 msgid "File System"
-msgstr ""
+msgstr "Fitxategi-sistema"
 
 #: qt/placeswidget.py:106
 msgid "Backup directories"
@@ -2174,9 +2151,8 @@ msgid "Import"
 msgstr "Inportatu"
 
 #: qt/restoreconfigdialog.py:143 qt/restoreconfigdialog.py:247
-#, fuzzy
 msgid "Searching…"
-msgstr "Lanean…"
+msgstr "Bilatzen…"
 
 #: qt/restoreconfigdialog.py:224
 #, python-brace-format
@@ -2197,21 +2173,19 @@ msgstr ""
 
 #: qt/restoreconfigdialog.py:250
 msgid "Scan again"
-msgstr ""
+msgstr "Eskaneatu berriro"
 
 #: qt/restoreconfigdialog.py:269
-#, fuzzy
 msgid "Show hidden directories"
-msgstr "Erakutsi ezkututko fitxategiak"
+msgstr "Erakutsi ezkutuko direktorioak"
 
 #: qt/restoreconfigdialog.py:271
-#, fuzzy
 msgid "Show/hide hidden directories (Ctrl+H)"
-msgstr "Fitxategiak eta karpetak barne"
+msgstr "Erakutsi/ezkutatu ezkutuko direktorioak (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:379
 msgid "Search complete."
-msgstr ""
+msgstr "Bilaketa osoa."
 
 #: qt/restoredialog.py:55
 msgid "Show full Log"
@@ -2341,14 +2315,15 @@ msgid "Exclude {path} from future backups?"
 msgstr "Baztertu {path} hurrengo babeskopietan?"
 
 #: qt/statusbar.py:85
-#, fuzzy
 msgid "Root mode"
-msgstr "Root"
+msgstr "Root modua"
 
 #: qt/statusbar.py:87
 msgid ""
 "Back In Time is currently running with root privileges (full system access)"
 msgstr ""
+"Back In Time root pribilegioekin exekutatzen ari da (sistemaren sarbide "
+"osoarekin)"
 
 #: qt/timeline.py:69
 msgid "Today"

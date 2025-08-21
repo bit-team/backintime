@@ -15,16 +15,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-08-05 09:06+0200\n"
-"PO-Revision-Date: 2025-05-27 07:59+0000\n"
-"Last-Translator: bittin <bittin@noreply.codeberg.org>\n"
+"POT-Creation-Date: 2025-08-21 11:32+0200\n"
+"PO-Revision-Date: 2025-08-18 06:08+0000\n"
+"Last-Translator: Umeaman <umeaman@noreply.codeberg.org>\n"
 "Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/common/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.11.4\n"
+"X-Generator: Weblate 5.12.2\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -65,7 +65,7 @@ msgstr "SSH"
 #: common/config.py:265 common/config.py:275
 #: qt/manageprofiles/tab_general.py:645
 msgid "SSH private key"
-msgstr "SSH privat nyckel"
+msgstr "Privat SSH nyckel"
 
 #: common/config.py:268
 msgid "Local encrypted"
@@ -117,12 +117,17 @@ msgid ""
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
 " space falls below\" ({val_two})."
 msgstr ""
+"Värdet för \"Ta bort den äldsta säkerhetskopian om ledigt utrymme är mindre "
+"än\" ({val_one}) måste vara mindre eller lika med gränsvärdet för \"Varna om"
+" ledigt lagringsutrymme blir mindre än\" ({val_two})."
 
 #: common/config.py:384
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr ""
+"Vänligen justera inställningarna så att gränsen för borttagning av "
+"säkerhetskopior inte är högre än varningsgränsen."
 
 #: common/config.py:1510
 #, python-brace-format
@@ -187,9 +192,8 @@ msgid "Please re-enter the EncFS password to confirm."
 msgstr "Ange lösenord för \"{user}\"."
 
 #: common/encfstools.py:155
-#, fuzzy
 msgid "The EncFS passwords do not match."
-msgstr "Lösenord matchar inte."
+msgstr "EncFS-lösenorden matchar inte."
 
 #: common/encfstools.py:515 common/snapshots.py:1126
 msgid "Take snapshot"
@@ -248,6 +252,8 @@ msgid ""
 "The following entries from the include list have no corresponding file or "
 "directory in the backup source:"
 msgstr ""
+"Följande poster från inkluderingslistan har ingen motsvarnde fil eller "
+"katalog i källan för säkerhetskopiering:"
 
 #: common/snapshots.py:812
 msgid "Deferring backup while on battery"
@@ -365,7 +371,7 @@ msgstr "Försöker att behålla minimum ledigt utrymme"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Försöker behålla minst {perc} fria inoder"
 
-#: common/snapshots.py:3167 qt/app.py:1393
+#: common/snapshots.py:3200 qt/app.py:1393
 msgid "Now"
 msgstr "Nu"
 
@@ -569,7 +575,7 @@ msgstr ""
 
 #: qt/app.py:370
 msgid "Then press OK."
-msgstr ""
+msgstr "Klicka sedan OK."
 
 #: qt/app.py:452
 msgid "Create a backup"
@@ -613,23 +619,20 @@ msgid "Remove backup"
 msgstr "Ta bort säkerhetskopian"
 
 #: qt/app.py:485
-#, fuzzy
 msgid "Open backup log"
-msgstr "Visa säkerhetskopieringsloggen"
+msgstr "Öppna säkerhetskopieringsloggen"
 
 #: qt/app.py:487
-#, fuzzy
 msgid "View log of the selected backup."
-msgstr "Minst en katalog måste väljas för säkerhetskopiering."
+msgstr "Visa loggen för den utvalda säkerhetskopieringen."
 
 #: qt/app.py:489
-#, fuzzy
 msgid "Open last backup log"
-msgstr "Visa säkerhetskopieringsloggen"
+msgstr "Öppna senaste säkerhetskopieringsloggen"
 
 #: qt/app.py:491
 msgid "View log of the latest backup."
-msgstr ""
+msgstr "Visa logg av den senaste säkerhetskopian."
 
 #: qt/app.py:493
 msgid "Manage profiles…"
@@ -862,9 +865,8 @@ msgid "ETA:"
 msgstr "Tid kvar:"
 
 #: qt/app.py:1401
-#, fuzzy
 msgid "Backup:"
-msgstr "Säkerhetskopior:"
+msgstr "Säkerhetskopia:"
 
 #: qt/app.py:1441
 #, python-brace-format
@@ -960,11 +962,12 @@ msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr ""
+"Bara {free} ledigt utrymme är tillgängligt på destinationen, vilket är under"
+" den inställda gränsen på {threshold}."
 
 #: qt/app.py:1776
-#, fuzzy
 msgid "Proceed with the backup?"
-msgstr "Ta bort den här säkerhetskopian?"
+msgstr "Fortsätt med säkerhetskopieringen?"
 
 #: qt/app.py:1801
 #, python-brace-format
@@ -1003,13 +1006,13 @@ msgid "Question"
 msgstr "Fråga"
 
 #: qt/confirmrestoredialog.py:76
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix} before overwriting or removing "
 "local elements."
 msgstr ""
-"Skapa säkerhetskopior med efterföljande \"{suffix}\"\n"
-"innan lokala filer skrivs över eller tas bort ."
+"Skapa säkerhetskopior med efterföljande {suffix} innan lokala filer skrivs "
+"över eller tas bort."
 
 #: qt/confirmrestoredialog.py:81 qt/manageprofiles/tab_options.py:66
 #, python-brace-format
@@ -1021,14 +1024,13 @@ msgstr ""
 "efterföljande {suffix}. De här filerna kan tas bort med följande kommando:"
 
 #: qt/confirmrestoredialog.py:94
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Only restore elements which do not exist or are newer than those in "
 "destination. Using \"{rsync_example}\" option."
 msgstr ""
-"Återställ endast filer som inte existerar eller\n"
-"är nyare än de i destinationen.\n"
-"Använder alternativet \"rsync --update\"."
+"Återställ endast filer som inte existerar eller är nyare än de i "
+"destinationen. Använder alternativet \"{rsync_example}\"."
 
 #: qt/confirmrestoredialog.py:133
 msgid "Remove newer elements in original directory."
@@ -1071,6 +1073,8 @@ msgid ""
 "The user-callback script must include a shebang on the first line (e.g. "
 "{example})."
 msgstr ""
+"User-callback skriptet måste inkludera ett shebang på den första raden "
+"(t.ex. {example})."
 
 #: qt/encfsmsgbox.py:42 qt/encfsmsgbox.py:68
 #: qt/manageprofiles/tab_general.py:582
@@ -1140,9 +1144,8 @@ msgid "Your Back In Time Team"
 msgstr "Ditt team för Back In Time"
 
 #: qt/filedialog.py:87
-#, fuzzy
 msgid "Show/hide hidden files and directories (Ctrl+H)"
-msgstr "Inkludera filer och mappar"
+msgstr "Visa/göm dolda filer och mappar (Ctrl+H)"
 
 #: qt/languagedialog.py:35
 msgid "Setup language"
@@ -1433,7 +1436,7 @@ msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:63
 msgid "<Select another file…>"
-msgstr ""
+msgstr "<Välj en annan fil...>"
 
 #: qt/manageprofiles/sshkeyselector.py:64
 #, fuzzy
@@ -1444,7 +1447,7 @@ msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:70
 msgid "<Generate new key-pair…>"
-msgstr ""
+msgstr "<Generera nytt nyckel-par...>"
 
 #: qt/manageprofiles/sshkeyselector.py:71
 #, fuzzy
@@ -1452,25 +1455,25 @@ msgid "Create a new SSH key without passphrase."
 msgstr "Misslyckades med att skapa ny SSH-nyckel i {path}."
 
 #: qt/manageprofiles/sshkeyselector.py:91
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Full path: {path}"
-msgstr "Fullständig genväg för säkerhetskopian:"
+msgstr "Fullständig genväg för säkerhetskopian: {path}"
 
 #: qt/manageprofiles/sshkeyselector.py:185
-#, fuzzy
 msgid "Private key:"
 msgstr "Privat nyckel:"
 
 #: qt/manageprofiles/sshkeyselector.py:190
-#, fuzzy
 msgid "Use system SSH configuration"
-msgstr "Importera konfiguration"
+msgstr "Använd systemets SSH-konfiguration"
 
 #: qt/manageprofiles/sshkeyselector.py:192
 msgid ""
 "Leaves the key file unselected. SSH connections will rely on the system’s "
 "existing client configuration (e.g., ~/.ssh/config)."
 msgstr ""
+"Lämnar nyckel filen som ej vald. SSH anslutningarna kommer förlita sig på "
+"systemets befintliga klientkonfiguration (t.ex., ~/.ssh/config)."
 
 #: qt/manageprofiles/sshproxywidget.py:47
 msgid "SSH Proxy"
@@ -1518,14 +1521,12 @@ msgid "Exclude patterns, files or directories"
 msgstr "Exkludera mönster, filer eller kataloger"
 
 #: qt/manageprofiles/tab_exclude.py:101 qt/manageprofiles/tab_include.py:66
-#, fuzzy
 msgid "Add files"
-msgstr "Lägg till fil"
+msgstr "Lägg till filer"
 
 #: qt/manageprofiles/tab_exclude.py:106 qt/manageprofiles/tab_include.py:71
-#, fuzzy
 msgid "Add directories"
-msgstr "Lägg till mapp"
+msgstr "Lägg till mappar"
 
 #: qt/manageprofiles/tab_exclude.py:112
 msgid "Add default"
@@ -1571,14 +1572,12 @@ msgid "Exclude pattern"
 msgstr "Exkludera mönster"
 
 #: qt/manageprofiles/tab_exclude.py:279
-#, fuzzy
 msgid "Exclude files"
-msgstr "Exkludera fil"
+msgstr "Exkludera filer"
 
 #: qt/manageprofiles/tab_exclude.py:290
-#, fuzzy
 msgid "Exclude directories"
-msgstr "Exkludera mapp"
+msgstr "Exkludera mappar"
 
 #: qt/manageprofiles/tab_exclude.py:321
 msgid ""
@@ -1761,9 +1760,8 @@ msgid "Path:"
 msgstr "Sökväg:"
 
 #: qt/manageprofiles/tab_general.py:139
-#, fuzzy
 msgid "Key file:"
-msgstr "Ny profil"
+msgstr "Ny profil:"
 
 #: qt/manageprofiles/tab_general.py:173 qt/manageprofiles/tab_general.py:181
 #: qt/manageprofiles/tab_general.py:186
@@ -1793,25 +1791,28 @@ msgid ""
 "An error occurred while attempting to log in to the remote host. The "
 "following error message was returned:"
 msgstr ""
+"Ett fel inträffade vid försök att logga in till fjärrenheten. Följande "
+"felmeddelande returnerades:"
 
 #: qt/manageprofiles/tab_general.py:481
-#, fuzzy
 msgid ""
 "Copying the public SSH key to the remote host can help enable password-less "
 "login."
 msgstr ""
 "Kopiera den offentliga SSH-nyckeln till fjärrvärden för att aktivera "
-"inloggning utan lösenord?"
+"inloggning utan lösenord."
 
 #: qt/manageprofiles/tab_general.py:483
 msgid "Proceed?"
-msgstr ""
+msgstr "Gå vidare?"
 
 #: qt/manageprofiles/tab_general.py:506
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
+"Den publika SSH nyckeln kunde inte kopieras. Detta kan bero på ett "
+"anslutnings eller behörighetsfel."
 
 #: qt/manageprofiles/tab_general.py:531
 #, python-brace-format
@@ -1845,12 +1846,15 @@ msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
+"Den valda filen ({path}) är en publik SSH nyckel. Vänligen välj den "
+"motsvarande privata nyckeln istället (utan \".pub\")."
 
 #: qt/manageprofiles/tab_general.py:682
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
+"Filen {path} finns redan. Kan inte skapa en ny SSH nyckel med det namnet."
 
 #: qt/manageprofiles/tab_general.py:692
 #, python-brace-format
@@ -1862,14 +1866,12 @@ msgid "Include files and directories"
 msgstr "Inkludera filer och mappar"
 
 #: qt/manageprofiles/tab_include.py:152
-#, fuzzy
 msgid "Include files"
-msgstr "Inkludera fil"
+msgstr "Inkludera filer"
 
 #: qt/manageprofiles/tab_include.py:174
-#, fuzzy
 msgid "Include directories"
-msgstr "Inkludera mapp"
+msgstr "Inkludera mappar"
 
 #: qt/manageprofiles/tab_options.py:38
 msgid "Enable notifications"
@@ -1916,13 +1918,15 @@ msgstr "Skapa en ny säkerhetskopia oavsett om det fanns ändringar eller inte."
 
 #: qt/manageprofiles/tab_options.py:93
 msgid "Warn if the free disk space falls below"
-msgstr ""
+msgstr "Varna om det lediga lagringsutrymmet underskrider"
 
 #: qt/manageprofiles/tab_options.py:99
 msgid ""
 "Shows a warning when free space on the backup destination disk is less than "
 "the specified value."
 msgstr ""
+"Visa en varning när ledigt utrymme på lagringsenheten för säkerhetskopians "
+"destination är mindre än det specificerade värdet."
 
 #: qt/manageprofiles/tab_options.py:101
 msgid ""
@@ -2100,11 +2104,11 @@ msgstr "Genvägar"
 
 #: qt/placeswidget.py:63
 msgid "Places"
-msgstr ""
+msgstr "Platser"
 
 #: qt/placeswidget.py:64
 msgid "File System"
-msgstr ""
+msgstr "Filsystem"
 
 #: qt/placeswidget.py:106
 msgid "Backup directories"
@@ -2141,9 +2145,8 @@ msgid "Import"
 msgstr "Importera"
 
 #: qt/restoreconfigdialog.py:143 qt/restoreconfigdialog.py:247
-#, fuzzy
 msgid "Searching…"
-msgstr "Arbetar…"
+msgstr "Söker…"
 
 #: qt/restoreconfigdialog.py:224
 #, python-brace-format
@@ -2164,21 +2167,19 @@ msgstr ""
 
 #: qt/restoreconfigdialog.py:250
 msgid "Scan again"
-msgstr ""
+msgstr "Skanna igen"
 
 #: qt/restoreconfigdialog.py:269
-#, fuzzy
 msgid "Show hidden directories"
-msgstr "Visa dolda filer"
+msgstr "Visa dolda mappar"
 
 #: qt/restoreconfigdialog.py:271
-#, fuzzy
 msgid "Show/hide hidden directories (Ctrl+H)"
-msgstr "Inkludera filer och mappar"
+msgstr "Visa/göm dolda mappar (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:379
 msgid "Search complete."
-msgstr ""
+msgstr "Sökning slutförd."
 
 #: qt/restoredialog.py:55
 msgid "Show full Log"
@@ -2307,14 +2308,15 @@ msgid "Exclude {path} from future backups?"
 msgstr "Exkludera {path} från framtida säkerhetskopior?"
 
 #: qt/statusbar.py:85
-#, fuzzy
 msgid "Root mode"
-msgstr "Root"
+msgstr "Root-läge"
 
 #: qt/statusbar.py:87
 msgid ""
 "Back In Time is currently running with root privileges (full system access)"
 msgstr ""
+"Back In Time körs nuvarande med root behörigheter (full åtkomst till "
+"systemet)"
 
 #: qt/timeline.py:69
 msgid "Today"

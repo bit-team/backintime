@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-08-05 09:06+0200\n"
-"PO-Revision-Date: 2025-08-05 06:55+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
+"POT-Creation-Date: 2025-08-21 11:32+0200\n"
+"PO-Revision-Date: 2025-08-06 07:20+0000\n"
+"Last-Translator: Loufute <loufute@noreply.codeberg.org>\n"
 "Language-Team: French <https://translate.codeberg.org/projects/backintime/common/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgid ""
 "To extract per-file license and copyright information using SPDX metadata, "
 "refer to {readme_link}."
 msgstr ""
-"Les licences utilisées dans ce projet sont stockées dans le dossier "
+"Les licences utilisées dans ce projet sont stockées dans le répertoire "
 "{dir_link}. Pour extraire chaque fichier de licence et les informations de "
 "copyright en utilisant les métadonnées SPDX, consulter le {readme_link}."
 
@@ -92,7 +92,7 @@ msgstr "Profil : \"{name}\""
 
 #: common/config.py:314
 msgid "Backup directory is not valid."
-msgstr "Le dossier des sauvegardes n'est pas valide."
+msgstr "Le répertoire des sauvegardes n'est pas valide."
 
 #: common/config.py:326
 msgid "At least one directory must be selected for backup."
@@ -127,7 +127,7 @@ msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr ""
-"Merci d'ajuster les paramètres pour que la limite de suppression de la "
+"Veuillez ajuster les paramètres pour que la limite de suppression de la "
 "sauvegarde ne soit pas supérieure à limite d'alerte."
 
 #: common/config.py:1510
@@ -177,7 +177,7 @@ msgstr "Échec de montage de '{command}'"
 
 #: common/encfstools.py:130
 msgid "Configuration for the encrypted directory not found."
-msgstr "La configuration du dossier chiffré est introuvable."
+msgstr "La configuration du répertoire chiffré est introuvable."
 
 #: common/encfstools.py:137
 msgid "Create a new encrypted directory?"
@@ -189,7 +189,7 @@ msgstr "Annuler"
 
 #: common/encfstools.py:149
 msgid "Please re-enter the EncFS password to confirm."
-msgstr "Merci d'entrer à nouveau le mot de passe EncFS pour confirmation."
+msgstr "Veuillez entrer à nouveau le mot de passe EncFS pour confirmation."
 
 #: common/encfstools.py:155
 msgid "The EncFS passwords do not match."
@@ -374,7 +374,7 @@ msgstr "Tentative de garder un minimum d'espace libre"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Tentative de garder un minimum de {perc} d'inodes libres"
 
-#: common/snapshots.py:3167 qt/app.py:1393
+#: common/snapshots.py:3200 qt/app.py:1393
 msgid "Now"
 msgstr "Maintenant"
 
@@ -550,7 +550,6 @@ msgid "User manual"
 msgstr "Manuel d'utilisation"
 
 #: qt/aboutdlg.py:226 qt/app.py:515
-#, fuzzy
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
 "Ouvrir le manuel d'utilisation dans le navigateur (en local si disponible, "
@@ -579,8 +578,8 @@ msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
 msgstr ""
-"Importer une configuration existante (à partir d'un dossier de sauvegarde ou"
-" d'un autre ordinateur) ?"
+"Importer une configuration existante (à partir d'un répertoire de sauvegarde"
+" ou d'un autre ordinateur) ?"
 
 #: qt/app.py:370
 msgid "Then press OK."
@@ -698,7 +697,8 @@ msgstr "Notes de version"
 #: qt/app.py:539
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr ""
-"Ouvrir le journal des modifications (en local si disponible, sinon en ligne)"
+"Ouvrir le journal des modifications (localement si disponible, sinon en "
+"ligne)"
 
 #: qt/app.py:542
 msgid "FAQ"
@@ -779,7 +779,6 @@ msgid "Up"
 msgstr "Dossier parent"
 
 #: qt/app.py:596
-#, fuzzy
 msgid "Show hidden files"
 msgstr "Afficher les fichiers cachés"
 
@@ -884,9 +883,8 @@ msgid "ETA:"
 msgstr "ETA :"
 
 #: qt/app.py:1401
-#, fuzzy
 msgid "Backup:"
-msgstr "Sauvegardes :"
+msgstr "Sauvegarde :"
 
 #: qt/app.py:1441
 #, python-brace-format
@@ -911,7 +909,7 @@ msgstr ""
 "Bonjour\n"
 "Vous avez utilisé Back In Time en {language} un certain nombre de fois.\n"
 "La traduction en {language} de la version de Back In Time que vous avez installée est désormais {perc} terminée. Quel que soit votre niveau de connaissances techniques, vous pouvez contribuer à la traduction et donc à Back In Time même.\n"
-"Veuillez visiter {translation_platform_url} si vous souhaitez y participer. Pour de plus amples informations et pour toute question, merci de visiter {back_in_time_project_website}.\n"
+"Veuillez visiter {translation_platform_url} si vous souhaitez y participer. Pour de plus amples informations et pour toute question, veuillez visiter {back_in_time_project_website}.\n"
 "Nous nous excusons pour l'interruption, ce message n'apparaîtra plus. Ce dialogue est accessible à tout moment via le menu Aide.\n"
 "L'équipe Back In Time"
 
@@ -999,7 +997,7 @@ msgstr ""
 #: qt/app.py:1804
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
-"Tous les fichiers plus récents situés dans le dossier d'origine seront "
+"Tous les fichiers plus récents situés dans le répertoire d'origine seront "
 "supprimés. Continuer ?"
 
 #: qt/app.py:1810
@@ -1032,13 +1030,13 @@ msgid "Question"
 msgstr "Question"
 
 #: qt/confirmrestoredialog.py:76
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix} before overwriting or removing "
 "local elements."
 msgstr ""
-"Créer des copies de sauvegarde avec le suffixe '{suffix}' \n"
-"avant d'écraser ou de supprimer les fichiers locaux."
+"Créer des copies de sauvegarde avec le suffixe '{suffix}' avant d'écraser ou"
+" de supprimer les fichiers locaux."
 
 #: qt/confirmrestoredialog.py:81 qt/manageprofiles/tab_options.py:66
 #, python-brace-format
@@ -1051,14 +1049,13 @@ msgstr ""
 "pouvez les supprimer avec la commande suivante :"
 
 #: qt/confirmrestoredialog.py:94
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Only restore elements which do not exist or are newer than those in "
 "destination. Using \"{rsync_example}\" option."
 msgstr ""
-"Restaurer seulement les fichiers qui n'existent pas\n"
-" ou qui sont plus récents que ceux de la destination.\n"
-"Utilise l'option \"rsync --update\"."
+"Restaurer seulement les fichiers qui n'existent pas ou qui sont plus récents"
+" que ceux de la destination. Utilise l'option \"{rsync_example}\"."
 
 #: qt/confirmrestoredialog.py:133
 msgid "Remove newer elements in original directory."
@@ -1136,8 +1133,8 @@ msgid ""
 "For more details, including potential alternatives, please refer to this "
 "{whitepaper}."
 msgstr ""
-"Pour plus de détails, y compris de potentielles alternatives, référez-vous, "
-"s'il vous plaît, à ce {whitepaper}."
+"Pour plus de détails, y compris de potentielles alternatives, veuillez vous "
+"référer à ce {whitepaper}."
 
 #: qt/encfsmsgbox.py:82
 msgid "The following profile(s) use encryption with EncFS:"
@@ -1174,7 +1171,6 @@ msgid "Your Back In Time Team"
 msgstr "Votre équipe Back In Time"
 
 #: qt/filedialog.py:87
-#, fuzzy
 msgid "Show/hide hidden files and directories (Ctrl+H)"
 msgstr "Afficher/masquer les fichiers et répertoires cachés (Ctrl+H)"
 
@@ -1822,17 +1818,16 @@ msgid ""
 "An error occurred while attempting to log in to the remote host. The "
 "following error message was returned:"
 msgstr ""
-"Une erreur est survenue lors de la tentative de connection à l'hôte distant."
-" Le message d'erreur suivant a été retourné :"
+"Une erreur est survenue lors de la tentative de connexion à l'hôte distant. "
+"Le message d'erreur suivant a été renvoyé :"
 
 #: qt/manageprofiles/tab_general.py:481
-#, fuzzy
 msgid ""
 "Copying the public SSH key to the remote host can help enable password-less "
 "login."
 msgstr ""
-"Voulez-vous copier votre clé publique SSH sur l'hôte distant pour activer "
-"l'identification sans mot de passe ?"
+"Copier la clé SSH publique sur l'hôte distant permet d'activer "
+"l'identification sans mot de passe."
 
 #: qt/manageprofiles/tab_general.py:483
 msgid "Proceed?"
@@ -1843,8 +1838,8 @@ msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
-"La clé publique n'a pas pu être copiée. Cela est vraisemblablement du à un "
-"problème de connection ou de permission."
+"La clé SSH publique n'a pas pu être copiée. Cela peut être dû à un problème "
+"de connexion ou d'autorisation."
 
 #: qt/manageprofiles/tab_general.py:531
 #, python-brace-format
@@ -1857,7 +1852,6 @@ msgid "{keytype} key fingerprint is:"
 msgstr "L'empreinte de la clé {keytype} est :"
 
 #: qt/manageprofiles/tab_general.py:536
-#, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
 "Veuillez vérifier cette empreinte. Souhaitez-vous l'ajouter à votre fichier "
@@ -1868,18 +1862,18 @@ msgid "Really change the backup directory?"
 msgstr "Vraiment changer le répertoire de sauvegarde ?"
 
 #: qt/manageprofiles/tab_general.py:657
-#, fuzzy
 msgid "Invalid file: Not a private SSH key"
-msgstr "Clé publique détectée"
+msgstr "Ficher invalide : Ce n'est pas une clé privée SSH"
 
 #: qt/manageprofiles/tab_general.py:658
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
-"Le fichier sélectionné {path} semble être une clé SSH publique. Merci de "
-"sélectionner un fichier privé (sans l'extension \".pub\")."
+"Le fichier {path} sélectionné semble être une clé SSH publique. Veuillez "
+"plutôt sélectionner le fichier de clé privée correspondant (sans l'extension"
+" \".pub\")."
 
 #: qt/manageprofiles/tab_general.py:682
 #, python-brace-format
@@ -2151,7 +2145,7 @@ msgstr "Emplacements"
 
 #: qt/placeswidget.py:64
 msgid "File System"
-msgstr "Fichiers Système"
+msgstr "Système de fichiers"
 
 #: qt/placeswidget.py:106
 msgid "Backup directories"
@@ -2205,26 +2199,24 @@ msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
 msgstr ""
-"Si le dossier est situé sur un disque externe ou distant, il doit d'abord "
-"être monté."
+"Si le répertoire est situé sur un disque externe ou distant, il doit d'abord"
+" être monté."
 
 #: qt/restoreconfigdialog.py:250
 msgid "Scan again"
 msgstr "Analyser encore"
 
 #: qt/restoreconfigdialog.py:269
-#, fuzzy
 msgid "Show hidden directories"
-msgstr "Afficher les fichiers cachés"
+msgstr "Afficher les répertoires cachés"
 
 #: qt/restoreconfigdialog.py:271
-#, fuzzy
 msgid "Show/hide hidden directories (Ctrl+H)"
-msgstr "Afficher/masquer les fichiers et répertoires cachés (Ctrl+H)"
+msgstr "Afficher/masquer les répertoires cachés (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:379
 msgid "Search complete."
-msgstr ""
+msgstr "Recherche terminée."
 
 #: qt/restoredialog.py:55
 msgid "Show full Log"
@@ -2355,7 +2347,7 @@ msgstr "Exclure {path} des futures sauvegardes ?"
 
 #: qt/statusbar.py:85
 msgid "Root mode"
-msgstr "mode root"
+msgstr "Mode root"
 
 #: qt/statusbar.py:87
 msgid ""

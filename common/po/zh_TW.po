@@ -14,16 +14,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-08-05 09:06+0200\n"
-"PO-Revision-Date: 2025-07-02 07:49+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
+"POT-Creation-Date: 2025-08-21 11:32+0200\n"
+"PO-Revision-Date: 2025-08-19 08:03+0000\n"
+"Last-Translator: hsiangjenli <hsiangjenli@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hant/>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.11.4\n"
+"X-Generator: Weblate 5.12.2\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -351,7 +351,7 @@ msgstr "嘗試保留最小剩餘空間"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "嘗試保留最小 {perc} 可用 inode"
 
-#: common/snapshots.py:3167 qt/app.py:1393
+#: common/snapshots.py:3200 qt/app.py:1393
 msgid "Now"
 msgstr "現在"
 
@@ -1676,24 +1676,23 @@ msgstr "完整快照路徑："
 msgid ""
 "An error occurred while attempting to log in to the remote host. The "
 "following error message was returned:"
-msgstr ""
+msgstr "嘗試登入遠端主機時發生錯誤。傳回以下錯誤訊息："
 
 #: qt/manageprofiles/tab_general.py:481
-#, fuzzy
 msgid ""
 "Copying the public SSH key to the remote host can help enable password-less "
 "login."
-msgstr "是否將 SSH 公鑰複製到遠端主機以啟用免密登入？"
+msgstr "將公用 SSH 金鑰複製到遠端主機可以幫助啟用免密碼登入。"
 
 #: qt/manageprofiles/tab_general.py:483
 msgid "Proceed?"
-msgstr ""
+msgstr "繼續？"
 
 #: qt/manageprofiles/tab_general.py:506
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
-msgstr ""
+msgstr "無法複製 SSH 公鑰。這可能是由於連線或權限問題造成的。"
 
 #: qt/manageprofiles/tab_general.py:531
 #, python-brace-format
@@ -1964,11 +1963,11 @@ msgstr "快速鍵"
 
 #: qt/placeswidget.py:63
 msgid "Places"
-msgstr ""
+msgstr "位置"
 
 #: qt/placeswidget.py:64
 msgid "File System"
-msgstr ""
+msgstr "檔案系統"
 
 #: qt/placeswidget.py:106
 msgid "Backup directories"
@@ -2024,7 +2023,7 @@ msgstr "如果該資料夾位於外部或遠端磁碟機上，則必須事先手
 
 #: qt/restoreconfigdialog.py:250
 msgid "Scan again"
-msgstr ""
+msgstr "再次掃描"
 
 #: qt/restoreconfigdialog.py:269
 #, fuzzy
@@ -2038,7 +2037,7 @@ msgstr "顯示/隱藏檔案和目錄（Ctrl+H）"
 
 #: qt/restoreconfigdialog.py:379
 msgid "Search complete."
-msgstr ""
+msgstr "搜尋完成。"
 
 #: qt/restoredialog.py:55
 msgid "Show full Log"
@@ -2167,7 +2166,7 @@ msgstr "根目錄"
 #: qt/statusbar.py:87
 msgid ""
 "Back In Time is currently running with root privileges (full system access)"
-msgstr ""
+msgstr "Back In Time 目前正在以 root 權限（完全系統存取權限）執行"
 
 #: qt/timeline.py:69
 msgid "Today"

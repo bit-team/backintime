@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-08-05 09:06+0200\n"
-"PO-Revision-Date: 2025-08-05 06:57+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
+"POT-Creation-Date: 2025-08-21 11:32+0200\n"
+"PO-Revision-Date: 2025-08-11 07:22+0000\n"
+"Last-Translator: Priit Jõerüüt <jrtcdbrg@noreply.codeberg.org>\n"
 "Language-Team: Estonian <https://translate.codeberg.org/projects/backintime/common/et/>\n"
 "Language: et\n"
 "MIME-Version: 1.0\n"
@@ -373,7 +373,7 @@ msgstr "Üritame jätta vabaks minimaalselt nõutava andmeruumi mahu"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Proovime jätta {perc} indekssõlmedest vabaks"
 
-#: common/snapshots.py:3167 qt/app.py:1393
+#: common/snapshots.py:3200 qt/app.py:1393
 msgid "Now"
 msgstr "Nüüd"
 
@@ -544,7 +544,6 @@ msgid "User manual"
 msgstr "Kasutusjuhend"
 
 #: qt/aboutdlg.py:226 qt/app.py:515
-#, fuzzy
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
 "Ava kasutusjuhend veebibrauseris (kui olemas, siis kohalikust arvutist, "
@@ -1028,14 +1027,14 @@ msgstr ""
 " Need failid saad kõik korraga kustutada sellise käsuga:"
 
 #: qt/confirmrestoredialog.py:94
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Only restore elements which do not exist or are newer than those in "
 "destination. Using \"{rsync_example}\" option."
 msgstr ""
 "Taasta ainult failid, kaustad ja muud objektid, mida pole olemas või on "
-"uuemad, kuid need, mis leiduvad sihtkohas. Selleks on kasutusel „rsync "
-"--update“ võti."
+"uuemad, kuid need, mis leiduvad sihtkohas. Selleks on kasutusel "
+"„{rsync_example}“ võti."
 
 #: qt/confirmrestoredialog.py:133
 msgid "Remove newer elements in original directory."
