@@ -817,8 +817,10 @@ class Snapshots:
             return ret_error
 
         if not force and not self.config.backupScheduled():
-            logger.info(f'Profile "{self.config.profileName()}" is not '
-                        'scheduled to run now.', self)
+            logger.debug(f'Profile "{self.config.profileName()}" is not scheduled to run now. '
+                'This profile uses the "Repeatedly (anacron)" schedule, so it will be checked again later.'
+                )
+
             ret_error = False
             return ret_error
 
