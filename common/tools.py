@@ -1075,8 +1075,8 @@ def checkXServer():
                                 stderr=subprocess.DEVNULL)
         proc.communicate()
         return proc.returncode == 0
-    else:
-        return False
+
+    return False
 
 
 def is_Qt_working(systray_required=False):
@@ -1120,8 +1120,9 @@ def is_Qt_working(systray_required=False):
 
             # if some Qt parts are missing: Show details
             if proc.returncode != 2 or logger.DEBUG:
-                logger.debug(f'Qt probing stdout: "{std_output}"')
-                logger.debug(f'Qt probing errout: "{error_output}"')
+                logger.debug('Qt probing '
+                             f'STDOUT: "{std_output}" '
+                             f'STDERR: "{error_output}"')
 
             rc = proc.returncode
 
@@ -1135,10 +1136,13 @@ def is_Qt_working(systray_required=False):
     except subprocess.TimeoutExpired:
         proc.kill()
         outs, errs = proc.communicate()
+        # ??? Is this worth an INFO ?
         logger.info('Qt probing sub process killed after timeout '
                     'without response')
-        logger.debug(f'Qt probing stdout: "{outs}"')
-        logger.debug(f'Qt probing errout: "{errs}"')
+
+        logger.debug('Qt probing '
+                     f'STDOUT: "{outs}" '
+                     f'STDERR: "{errs}"')
 
     except Exception as exc:
         logger.critical(f'Unknown Error: {exc}')
