@@ -10,13 +10,16 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import syslog
 import os
+import pwd
 import sys
 import atexit
 import bcolors
 
+
 DEBUG = False  # Set to "True" when passing "--debug" as cmd arg
 SYSLOG_IDENTIFIER = 'backintime'
 SYSLOG_MESSAGE_PREFIX = ''
+USER = pwd.getpwuid(os.getuid()).pw_name
 
 # Labels for the syslog levels
 _level_names = {
@@ -49,8 +52,12 @@ def closelog():
 
 
 def _do_syslog(message: str, level: int) -> str:
-    syslog.syslog(level, '{}{}: {}'.format(
-        SYSLOG_MESSAGE_PREFIX, _level_names[level], message))
+    syslog.syslog(level, '{}{}{}: {}'.format(
+        f'{USER} ' if DEBUG else '',
+        SYSLOG_MESSAGE_PREFIX,
+        _level_names[level],
+        message
+    ))
 
 
 def critical(msg, parent=None, traceDepth=0):

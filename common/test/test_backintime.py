@@ -186,12 +186,10 @@ under certain conditions; type `backintime --license' for details.
 
         filtered_log_output = '\n'.join(filtered_log_output)
 
-        self.assertRegex(filtered_log_output, re.compile(r'''INFO: Lock
-INFO: Create a new backup. Profile: 1 Main profile
-INFO: Call rsync to create a backup
-INFO: Save config file
-INFO: Save permissions
-INFO: Unlock''', re.MULTILINE))
+        self.assertRegex(filtered_log_output, re.compile(
+r'''INFO: Creating backup\. Profile: Main profile\(1\) User: \w+
+INFO: Saving config file
+INFO: Saving permissions''', re.MULTILINE))
 
         # get snapshot id
         subprocess.check_output(["./backintime",
