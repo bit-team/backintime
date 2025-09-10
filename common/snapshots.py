@@ -915,9 +915,12 @@ class Snapshots:
 
                     profile_id = self.config.currentProfile()
                     profile_name = self.config.profileName()
+                    user_name = logger.USER
 
-                    logger.info(f"Create a new backup. Profile: {profile_id} "
-                                f"{profile_name}", self)
+                    logger.info(f'Create backup. Profile: '
+                                f'{profile_name}({profile_id})'
+                                f' User: {user_name}',
+                                self)
 
                     if not self.config.canBackup(profile_id):
 
