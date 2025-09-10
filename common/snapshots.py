@@ -865,7 +865,7 @@ class Snapshots:
         # workaround (#1751) that should be removed/refactored after
         # this method ("backup()") is refactored.
         with flock.GlobalFlock(disable=not self.config.globalFlock()):
-            logger.info('Lock', self)
+            # logger.info('Lock', self)
             now = datetime.datetime.today()
 
             with InhibitSuspend():  # inhibit suspend mode while backup
@@ -876,7 +876,7 @@ class Snapshots:
                 except MountException as ex:
                     logger.error(str(ex), self)
                     instance.exitApplication()
-                    logger.info('Unlock', self)
+                    # logger.info('Unlock', self)
                     time.sleep(2)
 
                     return True
@@ -1065,7 +1065,7 @@ class Snapshots:
 
                         instance.exitApplication()
 
-                        logger.info('Unlock', self)
+                        # logger.info('Unlock', self)
                         # --- END GlobalFlock context ---
 
             if sleep:
@@ -1177,7 +1177,7 @@ class Snapshots:
         Args:
             sid (SID):  snapshot in which the config should be stored
         """
-        logger.info('Save config file', self)
+        logger.info('Saving config file', self)
         self.setTakeSnapshotMessage(0, _('Saving config file…'))
 
         with open(self.config._LOCAL_CONFIG_PATH, 'rb') as src:
@@ -1258,7 +1258,7 @@ class Snapshots:
         Returns:
             int: Return code of rsync.
         """
-        logger.info('Save permissions', self)
+        logger.info('Saving permissions', self)
         self.setTakeSnapshotMessage(0, _('Saving permissions…'))
 
         fileInfoDict = FileInfoDict()
@@ -1454,7 +1454,7 @@ class Snapshots:
             rsync_prefix.append('--link-dest=%s' % link_dest)
 
         # sync changed folders
-        logger.info("Call rsync to create a backup", self)
+        # logger.info("Call rsync to create a backup", self)
         new_snapshot.saveToContinue = True
         cmd = rsync_prefix + rsync_suffix
 
