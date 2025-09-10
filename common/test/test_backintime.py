@@ -187,7 +187,7 @@ under certain conditions; type `backintime --license' for details.
         filtered_log_output = '\n'.join(filtered_log_output)
 
         self.assertRegex(filtered_log_output, re.compile(
-r'''INFO: Creating backup\. Profile: Main profile\(1\) User: user
+r'''INFO: Creating backup\. Profile: Main profile\(1\) User: \w+
 INFO: Saving config file
 INFO: Saving permissions''', re.MULTILINE))
 
