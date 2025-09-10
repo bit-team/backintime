@@ -917,7 +917,7 @@ class Snapshots:
                     profile_name = self.config.profileName()
                     user_name = logger.USER
 
-                    logger.info(f'Create backup. Profile: '
+                    logger.info(f'Creating backup. Profile: '
                                 f'{profile_name}({profile_id})'
                                 f' User: {user_name}',
                                 self)
@@ -1012,8 +1012,8 @@ class Snapshots:
 
                                 time.sleep(2)
 
-                            else:
-                                logger.warning("No new backup", self)
+                            # else:
+                            #     logger.warning("No new backup", self)
 
                         else:  # new snapshot taken...
 
@@ -1366,8 +1366,9 @@ class Snapshots:
         # instead, e.g. a DataClass
 
         if new_snapshot.exists() and new_snapshot.saveToContinue:
-            logger.info(f"Found incomplete backup '{new_snapshot.displayID}' "
-                        "that can be continued.", self)
+            logger.warning(
+                f'Found incomplete backup "{new_snapshot.displayID}" '
+                'that can be continued.', self)
 
             # TODO
             # Not sure but {snapshot_id} is always "new_snapshot", isn't it?
