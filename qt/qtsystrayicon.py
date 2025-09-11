@@ -261,7 +261,8 @@ if __name__ == '__main__':
     if '--debug' in sys.argv:
         logger.DEBUG = True
 
-    logger.debug('Sub process tries to show systray icon, '
-                 f'called with args {str(sys.argv)}')
+    logger.debug(
+        f'Systray icon process (PID: {os.getpid()} User: {logger.USER}) '
+        f'called with {sys.argv}')
 
     QtSysTrayIcon().run()
