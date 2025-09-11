@@ -261,8 +261,55 @@ if __name__ == '__main__':
     if '--debug' in sys.argv:
         logger.DEBUG = True
 
+    logger.debug('X'*250)
     logger.debug(
         f'Systray icon process (PID: {os.getpid()} User: {logger.USER}) '
         f'called with {sys.argv}')
+
+    logger.debug('TRY Variante: systemd loginctl')
+    import json
+    import subprocess
+    output = subprocess.check_output(
+        ['loginctl', 'list-sessions', '--no-legend', '--json=short'],
+        text=True)
+
+    for session in json.loads(output):
+        if session.get('class') != 'user':
+            continue
+
+        info = subprocess.check_output(
+            ['loginctl', 'show-session', str(session['session']),
+             '--property=Active', '--property=Name', '--property=Seat'],
+            text=True
+        ).strip()
+        props = dict(line.split('=') for line in info.splitlines())
+        # logger.debug(f'not checked! VARIANT - systemd loginctl: {info=} {props=}')
+
+        if props.get('Active', '').lower() == 'yes':
+            # if props['Seat'] == 'seat0':
+            logger.debug(f'VARIANT - systemd loginctl: {props=}')
+            break
+
+    logger.debug('TRY Variante - X11 DISPLAY')
+    display = os.environ.get('DISPLAY', ':0')
+    output = subprocess.check_output(['who'], text=True).strip()
+    for line in output.splitlines():
+        parts = line.split()
+        if len(parts) >= 2 and parts[1] == display:
+            logger.debug(f'VARIANT - X11 who DISPLAY: {parts[0]=}')
+
+    logger.debug('TRY Variante - Wayland XDG_SESSION_TYPE')
+    if os.environ.get('XDG_SESSION_TYPE') == 'wayland':
+        session_id = os.environ.get('XDG_SESSION_ID', '')
+        if session_id:
+            info = subprocess.check_output(
+                ['loginctl', 'show-session', session_id, '--property=Name'],
+                text=True
+            ).strip()
+            name = info.split('=')[1]
+            if name:
+                logger.debug(f'VARIANT - Wayland XDG_SESSION_TYPE: {name=}')
+
+    logger.debug(f'{os.getlogin()=}')
 
     QtSysTrayIcon().run()
