@@ -616,32 +616,39 @@ class ValidateSnapshotsPath(generic.TestCaseCfg):
 class OlderThan(unittest.TestCase):
 
     def test_hours_not_older(self, mock_dt):
-        """Exact two hours
-
-        Keep in mind: 20:23:00 is NOT two hours older than 18:23:00. But
-        20:23:01 IS OLDER than two hours.
-        """
-        # year, month, day, hour=0, minute=0, second=0, microsecond=0
+        # 6th August, 18:23
         birth = datetime(1982, 8, 6, 18, 23, 0, 0)
 
-        # exact two hours
-        mock_dt.now.return_value = datetime(1982, 8, 6, 20, 23, 0, 0)
+        # 6th August, 19:23
+        mock_dt.now.return_value = datetime(1982, 8, 6, 19, 23, 0, 0)
 
         self.assertFalse(tools.older_than(birth, 2, TimeUnit.HOUR))
 
     def test_hours_older(self, mock_dt):
-        """Two hours plus one ms"""
+        # 6th August, 18:23
         birth = datetime(1982, 8, 6, 18, 23, 0, 0)
 
-        # two hours + 1 ms
-        mock_dt.now.return_value = datetime(1982, 8, 6, 20, 23, 0, 1)
+        # 6h August, 20:04 (not 2x 60 minutes but the 3rd hour)
+        mock_dt.now.return_value = datetime(1982, 8, 6, 20, 4, 0, 0)
 
         self.assertTrue(tools.older_than(birth, 2, TimeUnit.HOUR))
 
+    def test_hours_boundary(self, mock_dt):
+        # 18:23
+        last_job_run = datetime(1982, 8, 6, 18, 23, 0, 0)
+
+        # 19:01 (only 36 minutes later, but the next hour)
+        mock_dt.now.return_value = datetime(1982, 8, 6, 19, 1, 0, 0)
+
+        self.assertTrue(tools.older_than(last_job_run, 1, TimeUnit.HOUR))
+
     def test_days_not_older(self, mock_dt):
         """Two days"""
+        # 6th August, 18:23
         birth = datetime(1982, 8, 6, 18, 23, 0, 0)
-        mock_dt.now.return_value = datetime(1982, 8, 8, 18, 23, 0, 0)
+
+        # 7th August, 18:23
+        mock_dt.now.return_value = datetime(1982, 8, 7, 18, 23, 0, 0)
 
         self.assertFalse(tools.older_than(birth, 2, TimeUnit.DAY))
 
@@ -679,17 +686,24 @@ class OlderThan(unittest.TestCase):
         mock_dt.now.return_value = datetime(1982, 8, 10, 2, 23, 0, 0)
         self.assertTrue(tools.older_than(last_job_run, 4, TimeUnit.DAY))
 
-    def test_week_not_older(self, mock_dt):
-        """Two weeks"""
+    def test_week_boundary(self, mock_dt):
+        # 6th August (Friday)
         birth = datetime(1982, 8, 6, 18, 23, 0, 0)
-        mock_dt.now.return_value = datetime(1982, 8, 20, 18, 23, 0, 0)
 
+        # 13th August (Friday next week)
+        mock_dt.now.return_value = datetime(1982, 8, 13, 18, 23, 0, 0)
         self.assertFalse(tools.older_than(birth, 2, TimeUnit.WEEK))
 
+        # 14th August (Saturday next week)
+        mock_dt.now.return_value = datetime(1982, 8, 14, 18, 23, 0, 0)
+        self.assertTrue(tools.older_than(birth, 2, TimeUnit.WEEK))
+
     def test_week_older(self, mock_dt):
-        """Two weeks plus one ms"""
+        # 6th August (Friday)
         birth = datetime(1982, 8, 6, 18, 23, 0, 0)
-        mock_dt.now.return_value = datetime(1982, 8, 20, 18, 23, 0, 1)
+
+        # 17th August (Tuesday)
+        mock_dt.now.return_value = datetime(1982, 8, 17, 18, 23, 0, 1)
 
         self.assertTrue(tools.older_than(birth, 2, TimeUnit.WEEK))
 

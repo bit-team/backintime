@@ -19,6 +19,7 @@ import subprocess
 import shlex
 import signal
 import re
+import math
 import errno
 import locale
 import gettext
@@ -765,13 +766,17 @@ def older_than(dt: datetime, value: int, unit: TimeUnit) -> bool:
     now = datetime.now()
 
     if unit is TimeUnit.HOUR:
-        return dt < now - timedelta(hours=value)
+        # Calculate difference in hours, counting partial hours
+        delta_hours = math.ceil((now - dt).total_seconds() / 3600)
+        return delta_hours >= value
 
     if unit is TimeUnit.DAY:
         return dt.date() <= (now.date() - timedelta(days=value))
 
     if unit is TimeUnit.WEEK:
-        return dt < now - timedelta(weeks=value)
+        # Difference in weeks, counting partial weeks
+        delta_days = (now.date() - dt.date()).days
+        return math.ceil(delta_days / 7) >= value
 
     if unit is TimeUnit.MONTH:
         # Calculate months based on calendar because timedelta do not support
