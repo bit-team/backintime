@@ -652,6 +652,18 @@ class OlderThan(unittest.TestCase):
 
         self.assertTrue(tools.older_than(birth, 2, TimeUnit.DAY))
 
+    def test_days_boundary(self, mock_dt):
+        """The boundary of days not their duration."""
+
+        # 18:23 compared to ...
+        last_job_run = datetime(1982, 8, 6, 18, 23, 0, 0)
+
+        # 2:13 the next day (only 8 hours later)
+        mock_dt.now.return_value = datetime(1982, 8, 7, 2, 23, 0, 0)
+
+        # compare by one day
+        self.assertTrue(tools.older_than(last_job_run, 1, TimeUnit.DAY))
+
     def test_week_not_older(self, mock_dt):
         """Two weeks"""
         birth = datetime(1982, 8, 6, 18, 23, 0, 0)
