@@ -786,22 +786,7 @@ def older_than(dt: datetime, value: int, unit: TimeUnit) -> bool:
         year_diff = now.year - dt.year
         month_diff = now.month - dt.month
         delta_months = year_diff * 12 + month_diff
-        # count partial month
-        # delta_months += 1
         return delta_months >= value
-
-        # compare_month = (dt.month + value - 1) % 12 + 1
-        # compare_year = dt.year + (dt.month + value - 1) // 12
-        # # make sure that day exist in the month
-        # last_day_dt \
-        #     = datetime(compare_year, compare_month + 1, 1) - timedelta(days=1)
-        # compare_day = min(dt.day, last_day_dt.day)
-
-        # compare_dt = datetime(
-        #     compare_year, compare_month, compare_day,
-        #     now.hour, now.minute, now.microsecond)
-
-        # return now < compare_dt
 
     # Dev note (buhtz, 2024-09): This code branch already existed in the
     # original code (but silent, without throwing an exception). Even if it may
