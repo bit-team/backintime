@@ -774,25 +774,34 @@ def older_than(dt: datetime, value: int, unit: TimeUnit) -> bool:
         return dt.date() <= (now.date() - timedelta(days=value))
 
     if unit is TimeUnit.WEEK:
-        # Difference in weeks, counting partial weeks
-        delta_days = (now.date() - dt.date()).days
+        # Difference in calendar weeks (starting monday), counting partial
+        # weeks
+        dt_week = dt.date() - timedelta(days=dt.weekday())
+        now_week = now.date() - timedelta(days=now.weekday())
+        delta_days = (now_week - dt_week).days
         return math.ceil(delta_days / 7) >= value
 
     if unit is TimeUnit.MONTH:
-        # Calculate months based on calendar because timedelta do not support
-        # months.
-        compare_month = (dt.month + value - 1) % 12 + 1
-        compare_year = dt.year + (dt.month + value - 1) // 12
-        # make sure that day exist in the month
-        last_day_dt \
-            = datetime(compare_year, compare_month + 1, 1) - timedelta(days=1)
-        compare_day = min(dt.day, last_day_dt.day)
+        # Difference in calendar month, counting partial months
+        year_diff = now.year - dt.year
+        month_diff = now.month - dt.month
+        delta_months = year_diff * 12 + month_diff
+        # count partial month
+        # delta_months += 1
+        return delta_months >= value
 
-        compare_dt = datetime(
-            compare_year, compare_month, compare_day,
-            now.hour, now.minute, now.microsecond)
+        # compare_month = (dt.month + value - 1) % 12 + 1
+        # compare_year = dt.year + (dt.month + value - 1) // 12
+        # # make sure that day exist in the month
+        # last_day_dt \
+        #     = datetime(compare_year, compare_month + 1, 1) - timedelta(days=1)
+        # compare_day = min(dt.day, last_day_dt.day)
 
-        return now < compare_dt
+        # compare_dt = datetime(
+        #     compare_year, compare_month, compare_day,
+        #     now.hour, now.minute, now.microsecond)
+
+        # return now < compare_dt
 
     # Dev note (buhtz, 2024-09): This code branch already existed in the
     # original code (but silent, without throwing an exception). Even if it may
