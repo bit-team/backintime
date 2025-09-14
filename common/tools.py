@@ -748,8 +748,7 @@ def older_than(dt: datetime, value: int, unit: TimeUnit) -> bool:
     """Return ``True`` if ``dt`` is older than ``value`` months, weeks, days or
     hours compared to the current time (`datetime.now()`).
 
-    The resolution used depends on `unit`. Months are calculated based on
-    calendar.
+    The resolution used depends on `unit`. Partial units also counted.
 
     Args:
         dt: Timestamp to be compared with.
