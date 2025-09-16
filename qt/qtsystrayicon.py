@@ -267,7 +267,7 @@ class QtSysTrayIcon:
                 ['loginctl', 'list-sessions', '--no-legend', '--json=short'],
                 text=True)
         except FileNotFoundError:
-            logging.warning('Can not determin user name of current desktop '
+            logging.warning('Can not determine user name of current desktop '
                             'session because "loginctl" is not available.')
             return None
         except Exception as exc:
@@ -334,7 +334,7 @@ class QtSysTrayIcon:
         return None
 
     def _determine_desktop_session_user(self):
-        """Return name of usser logged in to the current desktop session.
+        """Return name of user logged in to the current desktop session.
         """
         user = self._get_desktop_user_via_loginctl()
 
@@ -346,10 +346,10 @@ class QtSysTrayIcon:
 
         return user
 
-        # logger.debug('TRY Variante: systemd loginctl')
+        # logger.debug('TRY Variant: systemd loginctl')
 
-        # That vairant should be covered by the previous/first loginctl variant
-        # logger.debug('TRY Variante - Wayland XDG_SESSION_TYPE')
+        # That variant should be covered by the previous/first loginctl variant
+        # logger.debug('TRY Variant - Wayland XDG_SESSION_TYPE')
         # if os.environ.get('XDG_SESSION_TYPE') == 'wayland':
         #     session_id = os.environ.get('XDG_SESSION_ID', '')
         #     if session_id:
