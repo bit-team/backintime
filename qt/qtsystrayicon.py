@@ -11,6 +11,8 @@
 """Separate application managing the systray icon"""
 import sys
 import os
+import re
+import json
 import subprocess
 import signal
 import textwrap
@@ -62,9 +64,11 @@ class QtSysTrayIcon:
         self.status_icon = QSystemTrayIcon(icon.BIT_LOGO)
         self.contextMenu = QMenu()
 
+        desktop_user = self._determine_desktop_session_user()
+
         self.menuProfileName = self.contextMenu.addAction(
-            _('Profile: {profile_name}').format(
-                profile_name=self.config.profileName())
+            _('Profile: {profile_name} USER: {desktop_user}').format(
+                profile_name=self.config.profileName(), desktop_user=desktop_user)
         )
         self.contextMenu.addSeparator()
 
@@ -252,6 +256,113 @@ class QtSysTrayIcon:
         self.btnResume.setEnabled(False)
         self.snapshots.setTakeSnapshotMessage(0, 'Backup terminated')
 
+    def _get_desktop_user_via_loginctl(self) -> str | None:
+        """Get name of user logged in to the current desktop session using
+        loginctl.
+        """
+
+        try:
+            # get list of sessions
+            output = subprocess.check_output(
+                ['loginctl', 'list-sessions', '--no-legend', '--json=short'],
+                text=True)
+        except FileNotFoundError:
+            logging.warning('Can not determin user name of current desktop '
+                            'session because "loginctl" is not available.')
+            return None
+        except Exception as exc:
+            logging.error('Unexpected error while determining user name of '
+                          f'current desktop session: {exc}')
+            return None
+
+        # Check each session
+        for session in json.loads(output):
+            # Ignore none-user sessions
+            if session.get('class') != 'user':
+                continue
+
+            # properties of the session
+            info = subprocess.check_output(
+                ['loginctl', 'show-session', str(session['session']),
+                '--property=Active', '--property=Name', '--property=Seat'],
+                text=True
+            ).strip()
+
+            props = dict(line.split('=') for line in info.splitlines())
+
+            # Active session?
+            if props.get('Active', '').lower() == 'yes':
+                # if props['Seat'] == 'seat0':
+                logger.info(f'VARIANT - systemd loginctl: {props=}', self)
+                return props['Name']
+
+        return None
+
+    def _get_desktop_user_via_x11_who(self) -> str | None:
+        """Using 'who' to determine the current DISPLAY's user.
+
+        The output of 'who' can look like this:
+
+        user     sshd pts/0   2025-09-16 08:30 (fe80::d65:ea81:c46f:7f0d%eth0)
+        lightdm  seat0        2025-09-15 16:07 (:0)
+        """
+
+        try:
+            # list of users logged in
+            output = subprocess.check_output(['who'], text=True).strip()
+        except Exception as exc:
+            logging.error('Unexpected error while determining user name of '
+                          f'current desktop session: {exc}')
+            return None
+
+        display = os.environ.get('DISPLAY', ':0').split('.')[0]
+
+        # each user
+        for line in output:
+            found = re.match(r'^(\S+).*\((.*)\)$', line)
+
+            if not found:
+                continue
+
+            user, userdisplay = found.groups()
+            userdisplay = userdisplay.split('.')[0]
+
+            if userdisplay == display:
+                logger.info(f'VARIANT - X11 who DISPLAY: {user=}', self)
+                return user
+
+        return None
+
+    def _determine_desktop_session_user(self):
+        """Return name of usser logged in to the current desktop session.
+        """
+        user = self._get_desktop_user_via_loginctl()
+
+        if not user:
+            user = self._get_desktop_user_via_x11_who()
+
+        logger.info(f'Systray Icon determined user "{user}" as owner of current '
+                     'desktop session.')
+
+        return user
+
+        # logger.debug('TRY Variante: systemd loginctl')
+
+        # That vairant should be covered by the previous/first loginctl variant
+        # logger.debug('TRY Variante - Wayland XDG_SESSION_TYPE')
+        # if os.environ.get('XDG_SESSION_TYPE') == 'wayland':
+        #     session_id = os.environ.get('XDG_SESSION_ID', '')
+        #     if session_id:
+        #         info = subprocess.check_output(
+        #             ['loginctl', 'show-session', session_id,
+        #              '--property=Name'],
+        #             text=True
+        #         ).strip()
+        #         name = info.split('=')[1]
+        #         if name:
+        #             logger.debug(
+        #                 f'VARIANT - Wayland XDG_SESSION_TYPE: {name=}')
+
 
 if __name__ == '__main__':
 
@@ -261,55 +372,8 @@ if __name__ == '__main__':
     if '--debug' in sys.argv:
         logger.DEBUG = True
 
-    logger.debug('X'*250)
     logger.debug(
         f'Systray icon process (PID: {os.getpid()} User: {logger.USER}) '
         f'called with {sys.argv}')
-
-    logger.debug('TRY Variante: systemd loginctl')
-    import json
-    import subprocess
-    output = subprocess.check_output(
-        ['loginctl', 'list-sessions', '--no-legend', '--json=short'],
-        text=True)
-
-    for session in json.loads(output):
-        if session.get('class') != 'user':
-            continue
-
-        info = subprocess.check_output(
-            ['loginctl', 'show-session', str(session['session']),
-             '--property=Active', '--property=Name', '--property=Seat'],
-            text=True
-        ).strip()
-        props = dict(line.split('=') for line in info.splitlines())
-        # logger.debug(f'not checked! VARIANT - systemd loginctl: {info=} {props=}')
-
-        if props.get('Active', '').lower() == 'yes':
-            # if props['Seat'] == 'seat0':
-            logger.debug(f'VARIANT - systemd loginctl: {props=}')
-            break
-
-    logger.debug('TRY Variante - X11 DISPLAY')
-    display = os.environ.get('DISPLAY', ':0')
-    output = subprocess.check_output(['who'], text=True).strip()
-    for line in output.splitlines():
-        parts = line.split()
-        if len(parts) >= 2 and parts[1] == display:
-            logger.debug(f'VARIANT - X11 who DISPLAY: {parts[0]=}')
-
-    logger.debug('TRY Variante - Wayland XDG_SESSION_TYPE')
-    if os.environ.get('XDG_SESSION_TYPE') == 'wayland':
-        session_id = os.environ.get('XDG_SESSION_ID', '')
-        if session_id:
-            info = subprocess.check_output(
-                ['loginctl', 'show-session', session_id, '--property=Name'],
-                text=True
-            ).strip()
-            name = info.split('=')[1]
-            if name:
-                logger.debug(f'VARIANT - Wayland XDG_SESSION_TYPE: {name=}')
-
-    logger.debug(f'{os.getlogin()=}')
 
     QtSysTrayIcon().run()
