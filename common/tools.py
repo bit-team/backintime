@@ -19,6 +19,7 @@ import subprocess
 import shlex
 import signal
 import re
+import math
 import errno
 import locale
 import gettext
@@ -747,16 +748,16 @@ def older_than(dt: datetime, value: int, unit: TimeUnit) -> bool:
     """Return ``True`` if ``dt`` is older than ``value`` months, weeks, days or
     hours compared to the current time (`datetime.now()`).
 
-    The resolution used is on microseconds level. Months are calculated based
-    on calendar.
+    The resolution used depends on `unit`. Partial units also counted.
 
     Args:
-        dt: Timestamp to be compared with on microsecond level.
+        dt: Timestamp to be compared with.
         value: Number of units.
         unit: Specify to treat ``value`` as hours, days, weeks or months.
 
     Return:
         ``True`` if older, otherwise ``False``.
+
     """
     if not isinstance(unit, TimeUnit):
         unit = TimeUnit(unit)
@@ -764,29 +765,27 @@ def older_than(dt: datetime, value: int, unit: TimeUnit) -> bool:
     now = datetime.now()
 
     if unit is TimeUnit.HOUR:
-        return dt < now - timedelta(hours=value)
+        # Calculate difference in hours, counting partial hours
+        delta_hours = math.ceil((now - dt).total_seconds() / 3600)
+        return delta_hours >= value
 
     if unit is TimeUnit.DAY:
-        return dt < now - timedelta(days=value)
+        return dt.date() <= (now.date() - timedelta(days=value))
 
     if unit is TimeUnit.WEEK:
-        return dt < now - timedelta(weeks=value)
+        # Difference in calendar weeks (starting monday), counting partial
+        # weeks
+        dt_week = dt.date() - timedelta(days=dt.weekday())
+        now_week = now.date() - timedelta(days=now.weekday())
+        delta_days = (now_week - dt_week).days
+        return math.ceil(delta_days / 7) >= value
 
     if unit is TimeUnit.MONTH:
-        # Calculate months based on calendar because timedelta do not support
-        # months.
-        compare_month = (dt.month + value - 1) % 12 + 1
-        compare_year = dt.year + (dt.month + value - 1) // 12
-        # make sure that day exist in the month
-        last_day_dt \
-            = datetime(compare_year, compare_month + 1, 1) - timedelta(days=1)
-        compare_day = min(dt.day, last_day_dt.day)
-
-        compare_dt = datetime(
-            compare_year, compare_month, compare_day,
-            now.hour, now.minute, now.microsecond)
-
-        return now < compare_dt
+        # Difference in calendar month, counting partial months
+        year_diff = now.year - dt.year
+        month_diff = now.month - dt.month
+        delta_months = year_diff * 12 + month_diff
+        return delta_months >= value
 
     # Dev note (buhtz, 2024-09): This code branch already existed in the
     # original code (but silent, without throwing an exception). Even if it may
