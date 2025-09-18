@@ -808,58 +808,6 @@ def elapsed_at_least(start: datetime,
                        f'{unit=}. Please report it via a bug ticket.')
 
 
-
-def older_than(dt: datetime, value: int, unit: TimeUnit) -> bool:
-    """Return ``True`` if ``dt`` is older than ``value`` months, weeks, days or
-    hours compared to the current time (`datetime.now()`).
-
-    The resolution used depends on `unit`. Partial units also counted.
-
-    Args:
-        dt: Timestamp to be compared with.
-        value: Number of units.
-        unit: Specify to treat ``value`` as hours, days, weeks or months.
-
-    Return:
-        ``True`` if older, otherwise ``False``.
-
-    """
-    if not isinstance(unit, TimeUnit):
-        unit = TimeUnit(unit)
-
-    now = datetime.now()
-
-    if unit is TimeUnit.HOUR:
-        # Calculate difference in hours, counting partial hours
-        delta_hours = math.ceil((now - dt).total_seconds() / 3600)
-        return delta_hours >= value
-
-    if unit is TimeUnit.DAY:
-        return dt.date() <= (now.date() - timedelta(days=value))
-
-    if unit is TimeUnit.WEEK:
-        # Difference in calendar weeks (starting monday), counting partial
-        # weeks
-        dt_week = dt.date() - timedelta(days=dt.weekday())
-        now_week = now.date() - timedelta(days=now.weekday())
-        delta_days = (now_week - dt_week).days
-        return math.ceil(delta_days / 7) >= value
-
-    if unit is TimeUnit.MONTH:
-        # Difference in calendar month, counting partial months
-        year_diff = now.year - dt.year
-        month_diff = now.month - dt.month
-        delta_months = year_diff * 12 + month_diff
-        return delta_months >= value
-
-    # Dev note (buhtz, 2024-09): This code branch already existed in the
-    # original code (but silent, without throwing an exception). Even if it may
-    # seem (nearly) pointless, it will be kept for now to ensure that it is
-    # never executed.
-    raise RuntimeError(f'Unexpected situation. {dt=} {value=} {unit=} '
-                       'Please report it via a bug ticket.')
-
-
 def checkCommand(cmd: str) -> bool:
     """Check if command ``cmd`` is a file in 'PATH' environment.
 
