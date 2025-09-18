@@ -811,6 +811,205 @@ class OlderThan(unittest.TestCase):
         self.assertFalse(tools.older_than(birth, 8, TimeUnit.MONTH))
 
 
+class ElapsedAtLeast(unittest.TestCase):
+    def test_hours_boundary(self):
+        # 18:23
+        last_job_run = datetime(1982, 8, 6, 18, 23, 0, 0)
+
+        # 19:01 (only 36 minutes later, but the next hour)
+        end = datetime(1982, 8, 6, 19, 1, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 1, TimeUnit.HOUR))
+        self.assertFalse(tools.elapsed_at_least(last_job_run, end, 2, TimeUnit.HOUR))
+
+        # 20:01 (only 36 minutes later, but the next hour)
+        end = datetime(1982, 8, 6, 20, 1, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 2, TimeUnit.HOUR))
+
+    def test_days_not_older(self):
+        """Two days"""
+        # 6th August, 18:23
+        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
+
+        # 7th August, 18:23
+        end = datetime(1982, 8, 7, 18, 23, 0, 0)
+
+        self.assertFalse(tools.elapsed_at_least(birth, end, 2, TimeUnit.DAY))
+
+    def test_days_older(self):
+        """Two days plus one ms"""
+        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
+        end = datetime(1982, 8, 8, 18, 23, 0, 1)
+
+        self.assertTrue(tools.elapsed_at_least(birth, end, 2, TimeUnit.DAY))
+
+    def test_days_boundary_one_day(self):
+        """The boundary of days not their duration."""
+
+        # 18:23 compared to ...
+        last_job_run = datetime(1982, 8, 6, 18, 23, 0, 0)
+
+        # next day 2:13 (only 8 hours later)
+        end = datetime(1982, 8, 7, 2, 23, 0, 0)
+
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 1, TimeUnit.DAY))
+        self.assertFalse(tools.elapsed_at_least(last_job_run, end, 2, TimeUnit.DAY))
+
+    def test_days_boundary_four_days(self):
+        """The boundary of days not their duration."""
+
+        # 6th August, 18:23
+        last_job_run = datetime(1982, 8, 6, 18, 23, 0, 0)
+
+        # 9th August (the 4th day), at 2:13
+        end = datetime(1982, 8, 9, 2, 23, 0, 0)
+        # ...four days not finished yet
+        self.assertFalse(tools.elapsed_at_least(last_job_run, end, 4, TimeUnit.DAY))
+
+        # 10th August (the 5th day), at 2:13
+        end = datetime(1982, 8, 10, 2, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 4, TimeUnit.DAY))
+
+    def test_weeks_boundary(self):
+        """
+            August 1982
+        Mo Tu We Th Fr Sa Su
+                           1
+         2  3  4  5  6  7  8
+         9 10 11 12 13 14 15
+        16 17 18 19 20 21 22
+        23 24 25 26 27 28 29
+        30 31
+        """
+        # 6th August (Friday)
+        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
+
+        # 9th August (Monday next week)
+        end = datetime(1982, 8, 9, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 1, TimeUnit.WEEK))
+
+        # 15th August (Saturday next week)
+        end = datetime(1982, 8, 15, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 1, TimeUnit.WEEK))
+        self.assertFalse(tools.elapsed_at_least(birth, end, 2, TimeUnit.WEEK))
+
+        # 16th August
+        end = datetime(1982, 8, 16, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 2, TimeUnit.WEEK))
+
+    def test_months_boundary(self):
+        # 6th August
+        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
+
+        # 1st Sept
+        end = datetime(1982, 9, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 1, TimeUnit.MONTH))
+
+        # 30 Sept
+        end = datetime(1982, 9, 30, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 1, TimeUnit.MONTH))
+        self.assertFalse(tools.elapsed_at_least(birth, end, 2, TimeUnit.MONTH))
+
+        # 1st Oct
+        end = datetime(1982, 10, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 2, TimeUnit.MONTH))
+
+        # 31 October
+        end = datetime(1982, 10, 31, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 2, TimeUnit.MONTH))
+        self.assertFalse(tools.elapsed_at_least(birth, end, 3, TimeUnit.MONTH))
+
+        # 1st November
+        end = datetime(1982, 11, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 3, TimeUnit.MONTH))
+
+    def test_months_steps(self):
+        # 14th January
+        last_job_run = datetime(1982, 1, 14, 18, 23, 0, 0)
+
+        # 31th January
+        end = datetime(1982, 1, 31, 18, 23, 0, 0)
+        self.assertFalse(tools.elapsed_at_least(last_job_run, end, 1, TimeUnit.MONTH))
+        # 1st Feb
+        end = datetime(1982, 2, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 1, TimeUnit.MONTH))
+
+        # 28th Feb
+        end = datetime(1982, 2, 28, 18, 23, 0, 0)
+        self.assertFalse(tools.elapsed_at_least(last_job_run, end, 2, TimeUnit.MONTH))
+        # 1st March
+        end = datetime(1982, 3, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 2, TimeUnit.MONTH))
+
+        # 31th March
+        end = datetime(1982, 3, 31, 18, 23, 0, 0)
+        self.assertFalse(tools.elapsed_at_least(last_job_run, end, 3, TimeUnit.MONTH))
+        # 1st April
+        end = datetime(1982, 4, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 3, TimeUnit.MONTH))
+
+        # 1st May
+        end = datetime(1982, 5, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 4, TimeUnit.MONTH))
+
+        # 1st June
+        end = datetime(1982, 6, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 5, TimeUnit.MONTH))
+
+        # 1st July
+        end = datetime(1982, 7, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 6, TimeUnit.MONTH))
+
+        # 1st Aug
+        end = datetime(1982, 8, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 7, TimeUnit.MONTH))
+
+        # 1st Sept
+        end = datetime(1982, 9, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 8, TimeUnit.MONTH))
+
+        # 1st Oct
+        end = datetime(1982, 10, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 9, TimeUnit.MONTH))
+
+        # 1st Nov
+        end = datetime(1982, 11, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 10, TimeUnit.MONTH))
+
+        # 1st Dec
+        end = datetime(1982, 12, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 11, TimeUnit.MONTH))
+
+        # 1st Jan (next year)
+        end = datetime(1983, 1, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 12, TimeUnit.MONTH))
+
+    def test_months_31th(self):
+        # 31th May
+        birth = datetime(1982, 5, 31, 18, 23, 0, 0)
+
+        # 1st June
+        end = datetime(1982, 6, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 1, TimeUnit.MONTH))
+
+        # 30th September
+        end = datetime(1982, 9, 30, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 4, TimeUnit.MONTH))
+        self.assertFalse(tools.elapsed_at_least(birth, end, 5, TimeUnit.MONTH))
+
+    def test_months_next_year(self):
+        # 6th August, 1982
+        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
+
+        # 1st March, 1983
+        end = datetime(1983, 3, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 7, TimeUnit.MONTH))
+
+        # 6th March, 1983
+        end = datetime(1983, 3, 6, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 7, TimeUnit.MONTH))
+        self.assertFalse(tools.elapsed_at_least(birth, end, 8, TimeUnit.MONTH))
+
+
 class NestedDictUpdate(unittest.TestCase):
     """About nested_dict_update()"""
 
