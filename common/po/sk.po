@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-08-21 11:32+0200\n"
+"POT-Creation-Date: 2025-09-25 09:29+0200\n"
 "PO-Revision-Date: 2025-04-10 10:35+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Slovak <https://translate.codeberg.org/projects/backintime/common/sk/>\n"
@@ -35,7 +35,7 @@ msgid ""
 "refer to {readme_link}."
 msgstr ""
 
-#: common/config.py:37 common/tools.py:86 qt/encfsmsgbox.py:24
+#: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:98
 msgid "Warning"
 msgstr "Varovanie"
@@ -123,16 +123,16 @@ msgid ""
 "than the warning limit."
 msgstr ""
 
-#: common/config.py:1510
+#: common/config.py:1511
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Udev plánovanie nefunguje s režimom {mode}"
 
-#: common/config.py:1564
+#: common/config.py:1565
 msgid "Failed to write new crontab."
 msgstr "Nepodarilo sa zapísať nový crontab."
 
-#: common/config.py:1572
+#: common/config.py:1573
 #, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
@@ -190,7 +190,7 @@ msgstr "Prosím, zadajte heslo pre \"{user}\"."
 msgid "The EncFS passwords do not match."
 msgstr "Heslo sa nezhoduje."
 
-#: common/encfstools.py:515 common/snapshots.py:1126
+#: common/encfstools.py:515 common/snapshots.py:1129
 msgid "Take snapshot"
 msgstr "Urobiť snímku"
 
@@ -253,17 +253,17 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "Zálohovanie odložené pri behu na batériu"
 
-#: common/snapshots.py:928 qt/app.py:368
+#: common/snapshots.py:931 qt/app.py:368
 #, fuzzy
 msgid "Can't find backup directory."
 msgstr "Nie je možné vytvoriť priečinok snímok."
 
-#: common/snapshots.py:932 qt/app.py:369
+#: common/snapshots.py:935 qt/app.py:369
 #, fuzzy
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Ak je na vymeniteľnom disku, pripojte ho, prosím."
 
-#: common/snapshots.py:935
+#: common/snapshots.py:938
 #, fuzzy, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
@@ -271,109 +271,109 @@ msgstr[0] "Čakám %s sekúnd."
 msgstr[1] "Čakám %s sekundu."
 msgstr[2] "Čakám %s sekundy."
 
-#: common/snapshots.py:1003
+#: common/snapshots.py:1006
 #, fuzzy, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Zlyhalo vytváranie snímky {snapshot_id}."
 
-#: common/snapshots.py:1035
+#: common/snapshots.py:1038
 msgid "Please be patient. Finalizing…"
 msgstr "Prosím, buďte trpezliví. Dokončuje sa…"
 
-#: common/snapshots.py:1161
+#: common/snapshots.py:1164
 msgid "Can't create directory."
 msgstr "Nie je možné vytvoriť priečinok."
 
-#: common/snapshots.py:1178
+#: common/snapshots.py:1181
 msgid "Saving config file…"
 msgstr "Uložiť konfiguračný súbor…"
 
-#: common/snapshots.py:1259
+#: common/snapshots.py:1262
 msgid "Saving permissions…"
 msgstr "Ukladám práva…"
 
-#: common/snapshots.py:1374
+#: common/snapshots.py:1378
 #, fuzzy, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr ""
 "Bola nájdená zvyšková snímka {snapshot_id}, v ktorej je možné pokračovať."
 
-#: common/snapshots.py:1398
+#: common/snapshots.py:1402
 #, fuzzy, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr ""
 "Odstraňujem zvyškový priečinok {snapshot_id} z predchádzajúceho spustenia"
 
-#: common/snapshots.py:1409
+#: common/snapshots.py:1413
 msgid "Can't remove directory"
 msgstr "Priečinok nie je možné odstrániť"
 
-#: common/snapshots.py:1463
+#: common/snapshots.py:1467
 msgid "Creating backup"
 msgstr ""
 
-#: common/snapshots.py:1514
+#: common/snapshots.py:1518
 msgid "Success"
 msgstr "Hotovo"
 
-#: common/snapshots.py:1517
+#: common/snapshots.py:1521
 msgid "Partial transfer due to error"
 msgstr "Prenos bol čiastočný kvôli chybe"
 
-#: common/snapshots.py:1518
+#: common/snapshots.py:1522
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Čiastočny prenos kvôli zmiznutému zdrojovému súboru (pozri 'man rsync')"
 
-#: common/snapshots.py:1522
+#: common/snapshots.py:1526
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' ukončený s kódom {exit_code}"
 
-#: common/snapshots.py:1535
+#: common/snapshots.py:1539
 msgid "See 'man rsync' for more details"
 msgstr "Pozri 'man rsync' pre viac detailov"
 
-#: common/snapshots.py:1542
+#: common/snapshots.py:1546
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Negatívne ukončovacie kódy rsync sú čísla signálov, pozrite si 'kill -l' a "
 "'man kill'"
 
-#: common/snapshots.py:1563
+#: common/snapshots.py:1567
 #, fuzzy
 msgid "Nothing changed, no new backup necessary"
 msgstr "Nič sa nezmenilo, nová snímka nie je potrebná"
 
-#: common/snapshots.py:1608
+#: common/snapshots.py:1612
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "Nie je možné premenovať {new_path} na {path}."
 
-#: common/snapshots.py:1943
+#: common/snapshots.py:1947
 msgid "Smart removal"
 msgstr "Inteligentné odstránenie"
 
-#: common/snapshots.py:1995
+#: common/snapshots.py:1999
 #, fuzzy
 msgid "Apply rules to remove old backups"
 msgstr "Použiť pravidlá na odstránenie starých snímok"
 
-#: common/snapshots.py:2028
+#: common/snapshots.py:2032
 msgid "Apply retention policy"
 msgstr "Použiť politiku uchovávania"
 
-#: common/snapshots.py:2038
+#: common/snapshots.py:2042
 msgid "Trying to keep min free space"
 msgstr "Pracujem na minimálnom voľnom mieste"
 
-#: common/snapshots.py:2076
+#: common/snapshots.py:2080
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Pokúšam sa udržať minimálne {perc} voľných i-uzlov"
 
-#: common/snapshots.py:3200 qt/app.py:1393
+#: common/snapshots.py:3204 qt/app.py:1393
 msgid "Now"
 msgstr "Teraz"
 
@@ -435,7 +435,7 @@ msgstr "Skopírovať verejný SSH kľúč \"{pubkey}\" na vzdialeného hostiteľ
 msgid "Please enter a password for \"{user}\"."
 msgstr "Prosím, zadajte heslo pre \"{user}\"."
 
-#: common/tools.py:381
+#: common/tools.py:382
 #, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
@@ -444,20 +444,20 @@ msgstr ""
 "Cieľový súborový systém pre {path} je formátovaný pomocou NTFS, ktorý má "
 "známe nekompatibility so súborovými systémami typu Unix."
 
-#: common/tools.py:413
+#: common/tools.py:414
 #, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "{path} nie je platný adresár."
 
-#: common/tools.py:427
+#: common/tools.py:428
 msgid "Creation of following directory failed:"
 msgstr "Vytvorenie nasledujúceho adresára zlyhalo:"
 
-#: common/tools.py:429 common/tools.py:526
+#: common/tools.py:430 common/tools.py:527
 msgid "Write access may be restricted."
 msgstr "Prístup pre zápis môže byť obmedzený."
 
-#: common/tools.py:470
+#: common/tools.py:471
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -466,7 +466,7 @@ msgstr ""
 "Cieľový súborový systém pre {path} je formátovaný pomocou FAT, ktorý "
 "nepodporuje pevné odkazy. Použite natívny súborový systém GNU/Linux."
 
-#: common/tools.py:481
+#: common/tools.py:482
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -477,15 +477,15 @@ msgstr ""
 "Uistite sa, že vzdialený server SMB podporuje symbolické odkazy alebo "
 "aktivujte \"{copyLinks}\" v \"{expertOptions}\"."
 
-#: common/tools.py:485 qt/manageprofiles/tab_expert_options.py:254
+#: common/tools.py:486 qt/manageprofiles/tab_expert_options.py:254
 msgid "Copy links (dereference symbolic links)"
 msgstr "Kopírovať odkazy (znefunkční symbolické odkazy)"
 
-#: common/tools.py:486
+#: common/tools.py:487
 msgid "Expert Options"
 msgstr "Pokročilé nastavenia"
 
-#: common/tools.py:490
+#: common/tools.py:491
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
@@ -494,7 +494,7 @@ msgstr ""
 "Cieľový súborový systém pre {path} je zdieľane pripojený cez sshfs. Sshfs "
 "nepodporuje pevné odkazy. Použite režim \"SSH\" namiesto toho."
 
-#: common/tools.py:524
+#: common/tools.py:525
 msgid "File creation failed in this directory:"
 msgstr "Vytvorenie súboru v tomto adresári zlyhalo:"
 
