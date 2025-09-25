@@ -612,65 +612,65 @@ class ValidateSnapshotsPath(generic.TestCaseCfg):
             self.assertTrue(ret)
 
 
-@patch(f'{tools.__name__}.datetime', wraps=datetime)
-class OlderThan(unittest.TestCase):
-    def test_hours_boundary(self, mock_dt):
+class ElapsedAtLeast(unittest.TestCase):
+    def test_hours_boundary(self):
         # 18:23
         last_job_run = datetime(1982, 8, 6, 18, 23, 0, 0)
 
         # 19:01 (only 36 minutes later, but the next hour)
-        mock_dt.now.return_value = datetime(1982, 8, 6, 19, 1, 0, 0)
-        self.assertTrue(tools.older_than(last_job_run, 1, TimeUnit.HOUR))
-        self.assertFalse(tools.older_than(last_job_run, 2, TimeUnit.HOUR))
+        end = datetime(1982, 8, 6, 19, 1, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 1, TimeUnit.HOUR))
+        self.assertFalse(tools.elapsed_at_least(last_job_run, end, 2, TimeUnit.HOUR))
 
         # 20:01 (only 36 minutes later, but the next hour)
-        mock_dt.now.return_value = datetime(1982, 8, 6, 20, 1, 0, 0)
-        self.assertTrue(tools.older_than(last_job_run, 2, TimeUnit.HOUR))
+        end = datetime(1982, 8, 6, 20, 1, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 2, TimeUnit.HOUR))
 
-    def test_days_not_older(self, mock_dt):
+    def test_days_not_older(self):
         """Two days"""
         # 6th August, 18:23
         birth = datetime(1982, 8, 6, 18, 23, 0, 0)
 
         # 7th August, 18:23
-        mock_dt.now.return_value = datetime(1982, 8, 7, 18, 23, 0, 0)
+        end = datetime(1982, 8, 7, 18, 23, 0, 0)
 
-        self.assertFalse(tools.older_than(birth, 2, TimeUnit.DAY))
+        self.assertFalse(tools.elapsed_at_least(birth, end, 2, TimeUnit.DAY))
 
-    def test_days_older(self, mock_dt):
+    def test_days_older(self):
         """Two days plus one ms"""
         birth = datetime(1982, 8, 6, 18, 23, 0, 0)
-        mock_dt.now.return_value = datetime(1982, 8, 8, 18, 23, 0, 1)
+        end = datetime(1982, 8, 8, 18, 23, 0, 1)
 
-        self.assertTrue(tools.older_than(birth, 2, TimeUnit.DAY))
+        self.assertTrue(tools.elapsed_at_least(birth, end, 2, TimeUnit.DAY))
 
-    def test_days_boundary_one_day(self, mock_dt):
+    def test_days_boundary_one_day(self):
         """The boundary of days not their duration."""
 
         # 18:23 compared to ...
         last_job_run = datetime(1982, 8, 6, 18, 23, 0, 0)
 
         # next day 2:13 (only 8 hours later)
-        mock_dt.now.return_value = datetime(1982, 8, 7, 2, 23, 0, 0)
-        self.assertTrue(tools.older_than(last_job_run, 1, TimeUnit.DAY))
-        self.assertFalse(tools.older_than(last_job_run, 2, TimeUnit.DAY))
+        end = datetime(1982, 8, 7, 2, 23, 0, 0)
 
-    def test_days_boundary_four_days(self, mock_dt):
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 1, TimeUnit.DAY))
+        self.assertFalse(tools.elapsed_at_least(last_job_run, end, 2, TimeUnit.DAY))
+
+    def test_days_boundary_four_days(self):
         """The boundary of days not their duration."""
 
         # 6th August, 18:23
         last_job_run = datetime(1982, 8, 6, 18, 23, 0, 0)
 
         # 9th August (the 4th day), at 2:13
-        mock_dt.now.return_value = datetime(1982, 8, 9, 2, 23, 0, 0)
+        end = datetime(1982, 8, 9, 2, 23, 0, 0)
         # ...four days not finished yet
-        self.assertFalse(tools.older_than(last_job_run, 4, TimeUnit.DAY))
+        self.assertFalse(tools.elapsed_at_least(last_job_run, end, 4, TimeUnit.DAY))
 
         # 10th August (the 5th day), at 2:13
-        mock_dt.now.return_value = datetime(1982, 8, 10, 2, 23, 0, 0)
-        self.assertTrue(tools.older_than(last_job_run, 4, TimeUnit.DAY))
+        end = datetime(1982, 8, 10, 2, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 4, TimeUnit.DAY))
 
-    def test_weeks_boundary(self, mock_dt):
+    def test_weeks_boundary(self):
         """
             August 1982
         Mo Tu We Th Fr Sa Su
@@ -685,130 +685,130 @@ class OlderThan(unittest.TestCase):
         birth = datetime(1982, 8, 6, 18, 23, 0, 0)
 
         # 9th August (Monday next week)
-        mock_dt.now.return_value = datetime(1982, 8, 9, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(birth, 1, TimeUnit.WEEK))
+        end = datetime(1982, 8, 9, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 1, TimeUnit.WEEK))
 
         # 15th August (Saturday next week)
-        mock_dt.now.return_value = datetime(1982, 8, 15, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(birth, 1, TimeUnit.WEEK))
-        self.assertFalse(tools.older_than(birth, 2, TimeUnit.WEEK))
+        end = datetime(1982, 8, 15, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 1, TimeUnit.WEEK))
+        self.assertFalse(tools.elapsed_at_least(birth, end, 2, TimeUnit.WEEK))
 
         # 16th August
-        mock_dt.now.return_value = datetime(1982, 8, 16, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(birth, 2, TimeUnit.WEEK))
+        end = datetime(1982, 8, 16, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 2, TimeUnit.WEEK))
 
-    def test_months_boundary(self, mock_dt):
+    def test_months_boundary(self):
         # 6th August
         birth = datetime(1982, 8, 6, 18, 23, 0, 0)
 
         # 1st Sept
-        mock_dt.now.return_value = datetime(1982, 9, 1, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(birth, 1, TimeUnit.MONTH))
+        end = datetime(1982, 9, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 1, TimeUnit.MONTH))
 
         # 30 Sept
-        mock_dt.now.return_value = datetime(1982, 9, 30, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(birth, 1, TimeUnit.MONTH))
-        self.assertFalse(tools.older_than(birth, 2, TimeUnit.MONTH))
+        end = datetime(1982, 9, 30, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 1, TimeUnit.MONTH))
+        self.assertFalse(tools.elapsed_at_least(birth, end, 2, TimeUnit.MONTH))
 
         # 1st Oct
-        mock_dt.now.return_value = datetime(1982, 10, 1, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(birth, 2, TimeUnit.MONTH))
+        end = datetime(1982, 10, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 2, TimeUnit.MONTH))
 
         # 31 October
-        mock_dt.now.return_value = datetime(1982, 10, 31, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(birth, 2, TimeUnit.MONTH))
-        self.assertFalse(tools.older_than(birth, 3, TimeUnit.MONTH))
+        end = datetime(1982, 10, 31, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 2, TimeUnit.MONTH))
+        self.assertFalse(tools.elapsed_at_least(birth, end, 3, TimeUnit.MONTH))
 
         # 1st November
-        mock_dt.now.return_value = datetime(1982, 11, 1, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(birth, 3, TimeUnit.MONTH))
+        end = datetime(1982, 11, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 3, TimeUnit.MONTH))
 
-    def test_months_steps(self, mock_dt):
+    def test_months_steps(self):
         # 14th January
         last_job_run = datetime(1982, 1, 14, 18, 23, 0, 0)
 
         # 31th January
-        mock_dt.now.return_value = datetime(1982, 1, 31, 18, 23, 0, 0)
-        self.assertFalse(tools.older_than(last_job_run, 1, TimeUnit.MONTH))
+        end = datetime(1982, 1, 31, 18, 23, 0, 0)
+        self.assertFalse(tools.elapsed_at_least(last_job_run, end, 1, TimeUnit.MONTH))
         # 1st Feb
-        mock_dt.now.return_value = datetime(1982, 2, 1, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(last_job_run, 1, TimeUnit.MONTH))
+        end = datetime(1982, 2, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 1, TimeUnit.MONTH))
 
         # 28th Feb
-        mock_dt.now.return_value = datetime(1982, 2, 28, 18, 23, 0, 0)
-        self.assertFalse(tools.older_than(last_job_run, 2, TimeUnit.MONTH))
+        end = datetime(1982, 2, 28, 18, 23, 0, 0)
+        self.assertFalse(tools.elapsed_at_least(last_job_run, end, 2, TimeUnit.MONTH))
         # 1st March
-        mock_dt.now.return_value = datetime(1982, 3, 1, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(last_job_run, 2, TimeUnit.MONTH))
+        end = datetime(1982, 3, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 2, TimeUnit.MONTH))
 
         # 31th March
-        mock_dt.now.return_value = datetime(1982, 3, 31, 18, 23, 0, 0)
-        self.assertFalse(tools.older_than(last_job_run, 3, TimeUnit.MONTH))
+        end = datetime(1982, 3, 31, 18, 23, 0, 0)
+        self.assertFalse(tools.elapsed_at_least(last_job_run, end, 3, TimeUnit.MONTH))
         # 1st April
-        mock_dt.now.return_value = datetime(1982, 4, 1, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(last_job_run, 3, TimeUnit.MONTH))
+        end = datetime(1982, 4, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 3, TimeUnit.MONTH))
 
         # 1st May
-        mock_dt.now.return_value = datetime(1982, 5, 1, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(last_job_run, 4, TimeUnit.MONTH))
+        end = datetime(1982, 5, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 4, TimeUnit.MONTH))
 
         # 1st June
-        mock_dt.now.return_value = datetime(1982, 6, 1, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(last_job_run, 5, TimeUnit.MONTH))
+        end = datetime(1982, 6, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 5, TimeUnit.MONTH))
 
         # 1st July
-        mock_dt.now.return_value = datetime(1982, 7, 1, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(last_job_run, 6, TimeUnit.MONTH))
+        end = datetime(1982, 7, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 6, TimeUnit.MONTH))
 
         # 1st Aug
-        mock_dt.now.return_value = datetime(1982, 8, 1, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(last_job_run, 7, TimeUnit.MONTH))
+        end = datetime(1982, 8, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 7, TimeUnit.MONTH))
 
         # 1st Sept
-        mock_dt.now.return_value = datetime(1982, 9, 1, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(last_job_run, 8, TimeUnit.MONTH))
+        end = datetime(1982, 9, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 8, TimeUnit.MONTH))
 
         # 1st Oct
-        mock_dt.now.return_value = datetime(1982, 10, 1, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(last_job_run, 9, TimeUnit.MONTH))
+        end = datetime(1982, 10, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 9, TimeUnit.MONTH))
 
         # 1st Nov
-        mock_dt.now.return_value = datetime(1982, 11, 1, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(last_job_run, 10, TimeUnit.MONTH))
+        end = datetime(1982, 11, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 10, TimeUnit.MONTH))
 
         # 1st Dec
-        mock_dt.now.return_value = datetime(1982, 12, 1, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(last_job_run, 11, TimeUnit.MONTH))
+        end = datetime(1982, 12, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 11, TimeUnit.MONTH))
 
         # 1st Jan (next year)
-        mock_dt.now.return_value = datetime(1983, 1, 1, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(last_job_run, 12, TimeUnit.MONTH))
+        end = datetime(1983, 1, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 12, TimeUnit.MONTH))
 
-    def test_months_31th(self, mock_dt):
+    def test_months_31th(self):
         # 31th May
         birth = datetime(1982, 5, 31, 18, 23, 0, 0)
 
         # 1st June
-        mock_dt.now.return_value = datetime(1982, 6, 1, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(birth, 1, TimeUnit.MONTH))
+        end = datetime(1982, 6, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 1, TimeUnit.MONTH))
 
         # 30th September
-        mock_dt.now.return_value = datetime(1982, 9, 30, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(birth, 4, TimeUnit.MONTH))
-        self.assertFalse(tools.older_than(birth, 5, TimeUnit.MONTH))
+        end = datetime(1982, 9, 30, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 4, TimeUnit.MONTH))
+        self.assertFalse(tools.elapsed_at_least(birth, end, 5, TimeUnit.MONTH))
 
-    def test_months_next_year(self, mock_dt):
+    def test_months_next_year(self):
         # 6th August, 1982
         birth = datetime(1982, 8, 6, 18, 23, 0, 0)
 
         # 1st March, 1983
-        mock_dt.now.return_value = datetime(1983, 3, 1, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(birth, 7, TimeUnit.MONTH))
+        end = datetime(1983, 3, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 7, TimeUnit.MONTH))
 
         # 6th March, 1983
-        mock_dt.now.return_value = datetime(1983, 3, 6, 18, 23, 0, 0)
-        self.assertTrue(tools.older_than(birth, 7, TimeUnit.MONTH))
-        self.assertFalse(tools.older_than(birth, 8, TimeUnit.MONTH))
+        end = datetime(1983, 3, 6, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 7, TimeUnit.MONTH))
+        self.assertFalse(tools.elapsed_at_least(birth, end, 8, TimeUnit.MONTH))
 
 
 class NestedDictUpdate(unittest.TestCase):
