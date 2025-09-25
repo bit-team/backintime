@@ -744,46 +744,59 @@ def get_git_repository_info(path=None, hash_length=None):
     return result
 
 
-def older_than(dt: datetime, value: int, unit: TimeUnit) -> bool:
-    """Return ``True`` if ``dt`` is older than ``value`` months, weeks, days or
-    hours compared to the current time (`datetime.now()`).
+def elapsed_at_least(start: datetime,
+                     end: datetime,
+                     value: int,
+                     unit: TimeUnit) -> bool:
+    """
+    Check if a time span meets at least a number of time units, counting
+    partial units as full.
 
-    The resolution used depends on `unit`. Partial units also counted.
+
+    Return ``True`` if the time span between ``start`` and ``end`` is at least
+    ``value`` units (``units``). The unit can be hours, days, weeks, or months
+    (see `TimeUnit` for details). Partial units are counted.
+
+    The difference is measured as follows:
+    * hours: full or partial hours
+    * days: calendar days (date only)
+    * weeks: full or partial calendar weeks (starting Monday)
+    * months: full or partial calendar months
 
     Args:
-        dt: Timestamp to be compared with.
-        value: Number of units.
-        unit: Specify to treat ``value`` as hours, days, weeks or months.
+        start: Beginning timestamp.
+        end: Ending timestamp.
+        value: Minimum number of units required.
+        unit: TimeUnit specifying hours, days, weeks, or months.
 
-    Return:
-        ``True`` if older, otherwise ``False``.
-
+    Returns:
+        ``True`` if the elapsed time is greater than or equal to ``value``
+        units, otherwise ``False``.
     """
+    # Workaround
     if not isinstance(unit, TimeUnit):
         unit = TimeUnit(unit)
 
-    now = datetime.now()
-
     if unit is TimeUnit.HOUR:
         # Calculate difference in hours, counting partial hours
-        delta_hours = math.ceil((now - dt).total_seconds() / 3600)
+        delta_hours = math.ceil((end - start).total_seconds() / 3600)
         return delta_hours >= value
 
     if unit is TimeUnit.DAY:
-        return dt.date() <= (now.date() - timedelta(days=value))
+        return start.date() <= (end.date() - timedelta(days=value))
 
     if unit is TimeUnit.WEEK:
         # Difference in calendar weeks (starting monday), counting partial
         # weeks
-        dt_week = dt.date() - timedelta(days=dt.weekday())
-        now_week = now.date() - timedelta(days=now.weekday())
-        delta_days = (now_week - dt_week).days
+        start_week = start.date() - timedelta(days=start.weekday())
+        end_week = end.date() - timedelta(days=end.weekday())
+        delta_days = (end_week - start_week).days
         return math.ceil(delta_days / 7) >= value
 
     if unit is TimeUnit.MONTH:
         # Difference in calendar month, counting partial months
-        year_diff = now.year - dt.year
-        month_diff = now.month - dt.month
+        year_diff = end.year - start.year
+        month_diff = end.month - start.month
         delta_months = year_diff * 12 + month_diff
         return delta_months >= value
 
@@ -791,8 +804,8 @@ def older_than(dt: datetime, value: int, unit: TimeUnit) -> bool:
     # original code (but silent, without throwing an exception). Even if it may
     # seem (nearly) pointless, it will be kept for now to ensure that it is
     # never executed.
-    raise RuntimeError(f'Unexpected situation. {dt=} {value=} {unit=} '
-                       'Please report it via a bug ticket.')
+    raise RuntimeError(f'Unexpected situation. {start=} {end=} {value=} '
+                       f'{unit=}. Please report it via a bug ticket.')
 
 
 def checkCommand(cmd: str) -> bool:
