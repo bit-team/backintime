@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-08-05 09:06+0200\n"
+"POT-Creation-Date: 2025-09-25 09:29+0200\n"
 "PO-Revision-Date: 2025-08-05 07:04+0000\n"
 "Last-Translator: Outbreak2096 <outbreak2096@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
@@ -34,7 +34,7 @@ msgid ""
 msgstr ""
 "本项目使用的所有许可证均位于 {dir_link} 目录中。如需使用 SPDX 元数据提取各文件的许可及版权信息，请参阅 {readme_link}。"
 
-#: common/config.py:37 common/tools.py:86 qt/encfsmsgbox.py:24
+#: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:98
 msgid "Warning"
 msgstr "警告"
@@ -119,16 +119,16 @@ msgid ""
 "than the warning limit."
 msgstr "请调整设置，使备份移除限制不高于警告限制。"
 
-#: common/config.py:1510
+#: common/config.py:1511
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "计划的 Udev 不适用于 {mode} 模式"
 
-#: common/config.py:1564
+#: common/config.py:1565
 msgid "Failed to write new crontab."
 msgstr "无法写入新 crontab。"
 
-#: common/config.py:1572
+#: common/config.py:1573
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -181,7 +181,7 @@ msgstr "请重新输入 EncFS 密码进行确认。"
 msgid "The EncFS passwords do not match."
 msgstr "EncFS 密码不匹配。"
 
-#: common/encfstools.py:515 common/snapshots.py:1126
+#: common/encfstools.py:515 common/snapshots.py:1129
 msgid "Take snapshot"
 msgstr "创建快照"
 
@@ -240,116 +240,116 @@ msgstr "包含列表中的以下条目在备份源中没有对应的文件或目
 msgid "Deferring backup while on battery"
 msgstr "在电池供电时推迟备份"
 
-#: common/snapshots.py:928 qt/app.py:368
+#: common/snapshots.py:931 qt/app.py:368
 msgid "Can't find backup directory."
 msgstr "找不到备份目录。"
 
-#: common/snapshots.py:932 qt/app.py:369
+#: common/snapshots.py:935 qt/app.py:369
 msgid "If it is on a removable drive, please plug it in."
 msgstr "如果它位于可移动驱动器上，请将其插入。"
 
-#: common/snapshots.py:935
+#: common/snapshots.py:938
 #, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
 msgstr[0] "等待 {n} 秒。"
 
-#: common/snapshots.py:1003
+#: common/snapshots.py:1006
 #, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "无法创建备份 {snapshot_id}。"
 
-#: common/snapshots.py:1035
+#: common/snapshots.py:1038
 msgid "Please be patient. Finalizing…"
 msgstr "请耐心等待。正在最后确定…"
 
-#: common/snapshots.py:1161
+#: common/snapshots.py:1164
 msgid "Can't create directory."
 msgstr "无法创建目录。"
 
-#: common/snapshots.py:1178
+#: common/snapshots.py:1181
 msgid "Saving config file…"
 msgstr "保存配置文件…"
 
-#: common/snapshots.py:1259
+#: common/snapshots.py:1262
 msgid "Saving permissions…"
 msgstr "保存权限…"
 
-#: common/snapshots.py:1374
+#: common/snapshots.py:1378
 #, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr "找到可以继续的不完整备份 {snapshot_id}。"
 
-#: common/snapshots.py:1398
+#: common/snapshots.py:1402
 #, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr "正在从上次运行中移除不完整的 {snapshot_id} 目录"
 
-#: common/snapshots.py:1409
+#: common/snapshots.py:1413
 msgid "Can't remove directory"
 msgstr "无法移除目录"
 
-#: common/snapshots.py:1463
+#: common/snapshots.py:1467
 msgid "Creating backup"
 msgstr "正在创建备份"
 
-#: common/snapshots.py:1514
+#: common/snapshots.py:1518
 msgid "Success"
 msgstr "成功"
 
-#: common/snapshots.py:1517
+#: common/snapshots.py:1521
 msgid "Partial transfer due to error"
 msgstr "由于错误仅部分转移"
 
-#: common/snapshots.py:1518
+#: common/snapshots.py:1522
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "由于源文件消失导致仅部分传输（请参阅“man rsync”）"
 
-#: common/snapshots.py:1522
+#: common/snapshots.py:1526
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "“rsync”以退出代码 {exit_code} 结束"
 
-#: common/snapshots.py:1535
+#: common/snapshots.py:1539
 msgid "See 'man rsync' for more details"
 msgstr "要了解详情，请查看“man rsync”"
 
-#: common/snapshots.py:1542
+#: common/snapshots.py:1546
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr "负的 rsync 退出代码是信号编号，请参阅“kill -l”和“man Kill”"
 
-#: common/snapshots.py:1563
+#: common/snapshots.py:1567
 msgid "Nothing changed, no new backup necessary"
 msgstr "没有任何更改，无需新备份"
 
-#: common/snapshots.py:1608
+#: common/snapshots.py:1612
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "无法将 {new_path} 重命名为 {path}。"
 
-#: common/snapshots.py:1943
+#: common/snapshots.py:1947
 msgid "Smart removal"
 msgstr "智能移除"
 
-#: common/snapshots.py:1995
+#: common/snapshots.py:1999
 msgid "Apply rules to remove old backups"
 msgstr "应用规则以移除旧备份"
 
-#: common/snapshots.py:2028
+#: common/snapshots.py:2032
 msgid "Apply retention policy"
 msgstr "应用保留策略"
 
-#: common/snapshots.py:2038
+#: common/snapshots.py:2042
 msgid "Trying to keep min free space"
 msgstr "尝试保留最小可用空间"
 
-#: common/snapshots.py:2076
+#: common/snapshots.py:2080
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "尝试保留至少 {perc} 个可用的 inodes"
 
-#: common/snapshots.py:3167 qt/app.py:1393
+#: common/snapshots.py:3204 qt/app.py:1393
 msgid "Now"
 msgstr "现在"
 
@@ -409,34 +409,34 @@ msgstr "将 SSH 公钥“{pubkey}”复制到远程主机“{host}”。"
 msgid "Please enter a password for \"{user}\"."
 msgstr "请输入“{user}”的密码。"
 
-#: common/tools.py:381
+#: common/tools.py:382
 #, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr "{path} 的目标文件系统采用 NTFS 格式，已知 NTFS 与 Unix 风格的文件系统不兼容。"
 
-#: common/tools.py:413
+#: common/tools.py:414
 #, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "{path} 不是有效目录。"
 
-#: common/tools.py:427
+#: common/tools.py:428
 msgid "Creation of following directory failed:"
 msgstr "创建以下目录失败："
 
-#: common/tools.py:429 common/tools.py:526
+#: common/tools.py:430 common/tools.py:527
 msgid "Write access may be restricted."
 msgstr "写入权限可能受到限制。"
 
-#: common/tools.py:470
+#: common/tools.py:471
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native GNU/Linux filesystem."
 msgstr "{path} 的目标文件系统格式为 FAT，不支持硬连接。请使用原生 GNU/Linux 文件系统。"
 
-#: common/tools.py:481
+#: common/tools.py:482
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -446,22 +446,22 @@ msgstr ""
 "{path} 的目标文件系统是通过 SMB 挂载的共享文件系统。请确保远程 SMB "
 "服务器支持符号链接，或在“{expertOptions}”中激活“{copyLinks}”。"
 
-#: common/tools.py:485 qt/manageprofiles/tab_expert_options.py:254
+#: common/tools.py:486 qt/manageprofiles/tab_expert_options.py:254
 msgid "Copy links (dereference symbolic links)"
 msgstr "复制链接（取消引用符号链接）"
 
-#: common/tools.py:486
+#: common/tools.py:487
 msgid "Expert Options"
 msgstr "专家选项"
 
-#: common/tools.py:490
+#: common/tools.py:491
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
 "doesn't support hard-links. Please use mode \"SSH\" instead."
 msgstr "{path} 的目标文件系统是通过 sshfs 挂载的共享文件系统。Sshfs 不支持硬链接。请改用“SSH”模式。"
 
-#: common/tools.py:524
+#: common/tools.py:525
 msgid "File creation failed in this directory:"
 msgstr "在此目录中创建文件失败："
 

@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-08-05 09:06+0200\n"
+"POT-Creation-Date: 2025-09-25 09:29+0200\n"
 "PO-Revision-Date: 2025-04-11 12:32+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Norwegian Nynorsk <https://translate.codeberg.org/projects/backintime/common/nn/>\n"
@@ -34,7 +34,7 @@ msgid ""
 "refer to {readme_link}."
 msgstr ""
 
-#: common/config.py:37 common/tools.py:86 qt/encfsmsgbox.py:24
+#: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:98
 msgid "Warning"
 msgstr "Åtvaring"
@@ -120,16 +120,16 @@ msgid ""
 "than the warning limit."
 msgstr ""
 
-#: common/config.py:1510
+#: common/config.py:1511
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Timeplan udev verker ikkje med modusen {mode}"
 
-#: common/config.py:1564
+#: common/config.py:1565
 msgid "Failed to write new crontab."
 msgstr "Klara ikkje å skriva ny crontab."
 
-#: common/config.py:1572
+#: common/config.py:1573
 #, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
@@ -187,7 +187,7 @@ msgstr "Oppgi passord for \"{user}\"."
 msgid "The EncFS passwords do not match."
 msgstr "Passordene stemmer ikkje overeins."
 
-#: common/encfstools.py:515 common/snapshots.py:1126
+#: common/encfstools.py:515 common/snapshots.py:1129
 msgid "Take snapshot"
 msgstr "Ta augneblinksbilete"
 
@@ -250,123 +250,123 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "Ventar med sikkerhetskopi medan på batteri"
 
-#: common/snapshots.py:928 qt/app.py:368
+#: common/snapshots.py:931 qt/app.py:368
 #, fuzzy
 msgid "Can't find backup directory."
 msgstr "Fann ikkje mappe for augeblinksbilete."
 
-#: common/snapshots.py:932 qt/app.py:369
+#: common/snapshots.py:935 qt/app.py:369
 #, fuzzy
 msgid "If it is on a removable drive, please plug it in."
 msgstr ""
 "Dersom ho er på ei ekstern lagringseining, plugg eininga i og trykk OK."
 
-#: common/snapshots.py:935
+#: common/snapshots.py:938
 #, fuzzy, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
 msgstr[0] "Ventar %s sekund."
 msgstr[1] "Ventar %s sekund."
 
-#: common/snapshots.py:1003
+#: common/snapshots.py:1006
 #, fuzzy, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Klarte ikkje å ta augneblinksbilete {snapshot_id}."
 
-#: common/snapshots.py:1035
+#: common/snapshots.py:1038
 msgid "Please be patient. Finalizing…"
 msgstr "Ver venleg vent. Ferdigstiller…"
 
-#: common/snapshots.py:1161
+#: common/snapshots.py:1164
 msgid "Can't create directory."
 msgstr "Klarer ikkje å laga mappa."
 
-#: common/snapshots.py:1178
+#: common/snapshots.py:1181
 msgid "Saving config file…"
 msgstr "Lagre oppsettsfila…"
 
-#: common/snapshots.py:1259
+#: common/snapshots.py:1262
 msgid "Saving permissions…"
 msgstr "Lagre løyve …"
 
-#: common/snapshots.py:1374
+#: common/snapshots.py:1378
 #, fuzzy, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr "Fann påbegynt {snapshot_id} som kan fortsettjast på."
 
-#: common/snapshots.py:1398
+#: common/snapshots.py:1402
 #, fuzzy, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr "Fjernar reste-mappa {snapshot_id} frå førre køyring"
 
-#: common/snapshots.py:1409
+#: common/snapshots.py:1413
 msgid "Can't remove directory"
 msgstr "Kan ikkje fjerna mappa"
 
-#: common/snapshots.py:1463
+#: common/snapshots.py:1467
 msgid "Creating backup"
 msgstr ""
 
-#: common/snapshots.py:1514
+#: common/snapshots.py:1518
 msgid "Success"
 msgstr "Suksess"
 
-#: common/snapshots.py:1517
+#: common/snapshots.py:1521
 msgid "Partial transfer due to error"
 msgstr "Delvis overføring grunna feil"
 
-#: common/snapshots.py:1518
+#: common/snapshots.py:1522
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "Ufullstendig overføring grunna tap av kjeldefiler (sjå 'man rsync')"
 
-#: common/snapshots.py:1522
+#: common/snapshots.py:1526
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' avslutta med kode {exit_code}"
 
-#: common/snapshots.py:1535
+#: common/snapshots.py:1539
 msgid "See 'man rsync' for more details"
 msgstr "Sjå 'man rsync' for fleire detaljar"
 
-#: common/snapshots.py:1542
+#: common/snapshots.py:1546
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Negative rsync-sluttkodar er signalnummer. Sjå 'kill -l' og 'man kill'"
 
-#: common/snapshots.py:1563
+#: common/snapshots.py:1567
 #, fuzzy
 msgid "Nothing changed, no new backup necessary"
 msgstr "Ingenting endra, nytt augeblinksbilete ikkje påkrevd"
 
-#: common/snapshots.py:1608
+#: common/snapshots.py:1612
 #, fuzzy, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "Kan ikkje omdøype {new_path} til {path}"
 
-#: common/snapshots.py:1943
+#: common/snapshots.py:1947
 msgid "Smart removal"
 msgstr "Smart-sletting"
 
-#: common/snapshots.py:1995
+#: common/snapshots.py:1999
 #, fuzzy
 msgid "Apply rules to remove old backups"
 msgstr "Bruk regel for å fjerne gamle augneblinksbilete"
 
-#: common/snapshots.py:2028
+#: common/snapshots.py:2032
 msgid "Apply retention policy"
 msgstr "Bruk bevaringsrutine"
 
-#: common/snapshots.py:2038
+#: common/snapshots.py:2042
 msgid "Trying to keep min free space"
 msgstr "Prøver å oppretthalde minimum ledig plass"
 
-#: common/snapshots.py:2076
+#: common/snapshots.py:2080
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Prøver å halde minimum {perc} ledige inodar"
 
-#: common/snapshots.py:3167 qt/app.py:1393
+#: common/snapshots.py:3204 qt/app.py:1393
 msgid "Now"
 msgstr "No"
 
@@ -428,7 +428,7 @@ msgstr "Kopier offentleg ssh-nøkkel \"{pubkey}\" til maskina \"{host}\""
 msgid "Please enter a password for \"{user}\"."
 msgstr "Oppgi passord for \"{user}\"."
 
-#: common/tools.py:381
+#: common/tools.py:382
 #, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
@@ -437,20 +437,20 @@ msgstr ""
 "Målfilsystem for {path} er formatert med NTFS, som ikkje er kompatibelt med "
 "Unix-filsystem."
 
-#: common/tools.py:413
+#: common/tools.py:414
 #, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "{path} er ikkje ei gyldig mappe."
 
-#: common/tools.py:427
+#: common/tools.py:428
 msgid "Creation of following directory failed:"
 msgstr "Kunne ikkje lage følgjande mappe:"
 
-#: common/tools.py:429 common/tools.py:526
+#: common/tools.py:430 common/tools.py:527
 msgid "Write access may be restricted."
 msgstr "Skrivetilgang kan vere avgrensa."
 
-#: common/tools.py:470
+#: common/tools.py:471
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -459,7 +459,7 @@ msgstr ""
 "Målfilsystem for {path} er formatert med FAT som ikkje støttar harde "
 "lenkjer. Bruk heller eit filsystem tilpassa GNU/Linux."
 
-#: common/tools.py:481
+#: common/tools.py:482
 #, fuzzy, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -470,15 +470,15 @@ msgstr ""
 "at målfilsystemet støttar symbolske lenkjer (symlinks), eller aktiver "
 "{copyLinks} i {expertOptions}."
 
-#: common/tools.py:485 qt/manageprofiles/tab_expert_options.py:254
+#: common/tools.py:486 qt/manageprofiles/tab_expert_options.py:254
 msgid "Copy links (dereference symbolic links)"
 msgstr "Kopier symbolske lenkjer som filer (og fjern lenkjereferansen)"
 
-#: common/tools.py:486
+#: common/tools.py:487
 msgid "Expert Options"
 msgstr "Avanserte innstillingar"
 
-#: common/tools.py:490
+#: common/tools.py:491
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
@@ -488,7 +488,7 @@ msgstr ""
 " sshfs støttar ikkje harde lenkjer. Ver venleg og bruka modus 'SSH' i staden"
 " for."
 
-#: common/tools.py:524
+#: common/tools.py:525
 msgid "File creation failed in this directory:"
 msgstr "Oppretting av filer i denne katalogen feila:"
 

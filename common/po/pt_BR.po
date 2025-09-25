@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-08-05 09:06+0200\n"
+"POT-Creation-Date: 2025-09-25 09:29+0200\n"
 "PO-Revision-Date: 2025-06-09 11:28+0000\n"
 "Last-Translator: pablolucas890 <pablolucas890@noreply.codeberg.org>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.codeberg.org/projects/backintime/common/pt_BR/>\n"
@@ -38,7 +38,7 @@ msgstr ""
 "{dir_link}. Para extrair informações de licença e direitos autorais por "
 "arquivo usando metadados SPDX, consulte {readme_link}."
 
-#: common/config.py:37 common/tools.py:86 qt/encfsmsgbox.py:24
+#: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:98
 msgid "Warning"
 msgstr "Aviso"
@@ -125,16 +125,16 @@ msgid ""
 "than the warning limit."
 msgstr ""
 
-#: common/config.py:1510
+#: common/config.py:1511
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Agendamento udev não funciona com o modo {mode}"
 
-#: common/config.py:1564
+#: common/config.py:1565
 msgid "Failed to write new crontab."
 msgstr "Falha ao escrever um novo crontab."
 
-#: common/config.py:1572
+#: common/config.py:1573
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -192,7 +192,7 @@ msgstr "Por favor, digite a senha para \"{user}\"."
 msgid "The EncFS passwords do not match."
 msgstr "A senha não corresponde."
 
-#: common/encfstools.py:515 common/snapshots.py:1126
+#: common/encfstools.py:515 common/snapshots.py:1129
 msgid "Take snapshot"
 msgstr "Criar snapshot"
 
@@ -254,123 +254,123 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "Backup adiado devido ao uso de bateria"
 
-#: common/snapshots.py:928 qt/app.py:368
+#: common/snapshots.py:931 qt/app.py:368
 msgid "Can't find backup directory."
 msgstr "Não foi possível encontrar o diretório de backups."
 
-#: common/snapshots.py:932 qt/app.py:369
+#: common/snapshots.py:935 qt/app.py:369
 #, fuzzy
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Se estiver em uma unidade removível, por favor, insira-o."
 
-#: common/snapshots.py:935
+#: common/snapshots.py:938
 #, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
 msgstr[0] "Aguardando {n} segundo."
 msgstr[1] "Aguardando {n} segundos."
 
-#: common/snapshots.py:1003
+#: common/snapshots.py:1006
 #, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Falha ao criar o backup {snapshot_id}."
 
-#: common/snapshots.py:1035
+#: common/snapshots.py:1038
 msgid "Please be patient. Finalizing…"
 msgstr "Por favor, aguarde. Finalizando…"
 
-#: common/snapshots.py:1161
+#: common/snapshots.py:1164
 msgid "Can't create directory."
 msgstr "Não é possível criar a pasta."
 
-#: common/snapshots.py:1178
+#: common/snapshots.py:1181
 msgid "Saving config file…"
 msgstr "Salvando o arquivo de configuração…"
 
-#: common/snapshots.py:1259
+#: common/snapshots.py:1262
 msgid "Saving permissions…"
 msgstr "Salvando as permissões…"
 
-#: common/snapshots.py:1374
+#: common/snapshots.py:1378
 #, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr ""
 "Foi encontrado o backup incompleto {snapshot_id} que pode ser continuado."
 
-#: common/snapshots.py:1398
+#: common/snapshots.py:1402
 #, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr "Removendo o diretório {snapshot_id} incompleto da última execução"
 
-#: common/snapshots.py:1409
+#: common/snapshots.py:1413
 msgid "Can't remove directory"
 msgstr "Não é possível remover o diretório"
 
-#: common/snapshots.py:1463
+#: common/snapshots.py:1467
 msgid "Creating backup"
 msgstr "Criando backup"
 
-#: common/snapshots.py:1514
+#: common/snapshots.py:1518
 msgid "Success"
 msgstr "Sucesso"
 
-#: common/snapshots.py:1517
+#: common/snapshots.py:1521
 msgid "Partial transfer due to error"
 msgstr "Transferência parcial devido a um erro"
 
-#: common/snapshots.py:1518
+#: common/snapshots.py:1522
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Transferência parcial devido a arquivos de origem ausentes (consulte 'man "
 "rsync')"
 
-#: common/snapshots.py:1522
+#: common/snapshots.py:1526
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "O 'rsync' terminou com o código de saída {exit_code}"
 
-#: common/snapshots.py:1535
+#: common/snapshots.py:1539
 msgid "See 'man rsync' for more details"
 msgstr "Veja 'man rsync' para mais detalhes"
 
-#: common/snapshots.py:1542
+#: common/snapshots.py:1546
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Códigos de saída negativos do rsync são números de sinal, veja 'kill -l' e "
 "'man kill'"
 
-#: common/snapshots.py:1563
+#: common/snapshots.py:1567
 msgid "Nothing changed, no new backup necessary"
 msgstr "Nada mudou, nenhum novo backup é necessário"
 
-#: common/snapshots.py:1608
+#: common/snapshots.py:1612
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "Não foi possível renomear {new_path} para {path}."
 
-#: common/snapshots.py:1943
+#: common/snapshots.py:1947
 msgid "Smart removal"
 msgstr "Remoção Inteligente"
 
-#: common/snapshots.py:1995
+#: common/snapshots.py:1999
 msgid "Apply rules to remove old backups"
 msgstr "Aplicar regras para remover os backups antigos"
 
-#: common/snapshots.py:2028
+#: common/snapshots.py:2032
 msgid "Apply retention policy"
 msgstr "Aplicar política de retenção"
 
-#: common/snapshots.py:2038
+#: common/snapshots.py:2042
 msgid "Trying to keep min free space"
 msgstr "Tentando manter o mínimo de espaço livre"
 
-#: common/snapshots.py:2076
+#: common/snapshots.py:2080
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Tentando manter no mínimo {perc} de inodes livres"
 
-#: common/snapshots.py:3167 qt/app.py:1393
+#: common/snapshots.py:3204 qt/app.py:1393
 msgid "Now"
 msgstr "Agora"
 
@@ -433,7 +433,7 @@ msgstr "Copiar chave ssh pública \"{pubkey}\" para o host remoto \"{host}\"."
 msgid "Please enter a password for \"{user}\"."
 msgstr "Por favor, digite a senha para \"{user}\"."
 
-#: common/tools.py:381
+#: common/tools.py:382
 #, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
@@ -442,20 +442,20 @@ msgstr ""
 "O sistema de arquivos de destino para '{path}' está formatado com NTFS, que "
 "possui incompatibilidades conhecidas com sistemas de arquivos estilo Unix."
 
-#: common/tools.py:413
+#: common/tools.py:414
 #, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "{path} não é um diretório válido."
 
-#: common/tools.py:427
+#: common/tools.py:428
 msgid "Creation of following directory failed:"
 msgstr "A criação do seguinte diretório falhou:"
 
-#: common/tools.py:429 common/tools.py:526
+#: common/tools.py:430 common/tools.py:527
 msgid "Write access may be restricted."
 msgstr "O acesso de escrita pode estar restrito."
 
-#: common/tools.py:470
+#: common/tools.py:471
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -465,7 +465,7 @@ msgstr ""
 "não suporta hard-links. Por favor, utilize um sistema de arquivos nativo do "
 "GNU/Linux."
 
-#: common/tools.py:481
+#: common/tools.py:482
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -476,15 +476,15 @@ msgstr ""
 " via SMB. Por favor, tenha certeza que o servidor SMB remoto suporta links "
 "simbólicos ou ative a opção '{copyLinks}' em '{expertOptions}'."
 
-#: common/tools.py:485 qt/manageprofiles/tab_expert_options.py:254
+#: common/tools.py:486 qt/manageprofiles/tab_expert_options.py:254
 msgid "Copy links (dereference symbolic links)"
 msgstr "Copiar links (desreferenciar links simbólicos)"
 
-#: common/tools.py:486
+#: common/tools.py:487
 msgid "Expert Options"
 msgstr "Opções avançadas"
 
-#: common/tools.py:490
+#: common/tools.py:491
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
@@ -494,7 +494,7 @@ msgstr ""
 "sshfs. O sshfs não suporta hard-links. Por favor, utilize o modo \"SSH\" em "
 "vez disso."
 
-#: common/tools.py:524
+#: common/tools.py:525
 msgid "File creation failed in this directory:"
 msgstr "A criação de arquivo falhou neste diretório:"
 

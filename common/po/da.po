@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-08-05 09:06+0200\n"
-"PO-Revision-Date: 2025-07-31 06:51+0000\n"
+"POT-Creation-Date: 2025-09-25 09:29+0200\n"
+"PO-Revision-Date: 2025-08-12 11:50+0000\n"
 "Last-Translator: asjo <asjo@noreply.codeberg.org>\n"
 "Language-Team: Danish <https://translate.codeberg.org/projects/backintime/common/da/>\n"
 "Language: da\n"
@@ -36,7 +36,7 @@ msgstr ""
 " udtrække licens- og ophavsretsinformation i SPDX metadata format per fil, "
 "se {readme_link}."
 
-#: common/config.py:37 common/tools.py:86 qt/encfsmsgbox.py:24
+#: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:98
 msgid "Warning"
 msgstr "Advarsel"
@@ -128,16 +128,16 @@ msgstr ""
 "Juster venligst indstillingen så tilstandsbilledesletningsgrænsen ikke er "
 "højere end advarselsgrænsen."
 
-#: common/config.py:1510
+#: common/config.py:1511
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Udev-planlægning virker ikke med indstilling {mode}"
 
-#: common/config.py:1564
+#: common/config.py:1565
 msgid "Failed to write new crontab."
 msgstr "Kunne ikke skrive ny crontab."
 
-#: common/config.py:1572
+#: common/config.py:1573
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -192,7 +192,7 @@ msgstr "Genindtast venligst EncFS-kodeordet for at bekræfte."
 msgid "The EncFS passwords do not match."
 msgstr "EncFS-kodeordet passer ikke."
 
-#: common/encfstools.py:515 common/snapshots.py:1126
+#: common/encfstools.py:515 common/snapshots.py:1129
 msgid "Take snapshot"
 msgstr "Tag et tilstands-billede"
 
@@ -256,119 +256,119 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "Venter med backup under batteridrift"
 
-#: common/snapshots.py:928 qt/app.py:368
+#: common/snapshots.py:931 qt/app.py:368
 msgid "Can't find backup directory."
 msgstr "Kan ikke finde tilstandsbillede-mappen."
 
-#: common/snapshots.py:932 qt/app.py:369
+#: common/snapshots.py:935 qt/app.py:369
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Hvis den er på et flytbar drev, tilslut venligst drevet."
 
-#: common/snapshots.py:935
+#: common/snapshots.py:938
 #, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
 msgstr[0] "Venter {n} sekund."
 msgstr[1] "Venter {n} sekunder."
 
-#: common/snapshots.py:1003
+#: common/snapshots.py:1006
 #, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Kunne ikke tage tilstandsbillede {snapshot_id}."
 
-#: common/snapshots.py:1035
+#: common/snapshots.py:1038
 msgid "Please be patient. Finalizing…"
 msgstr "Hav venligst tålmodighed. Færdigører…"
 
-#: common/snapshots.py:1161
+#: common/snapshots.py:1164
 msgid "Can't create directory."
 msgstr "Kan ikke oprette mappe."
 
-#: common/snapshots.py:1178
+#: common/snapshots.py:1181
 msgid "Saving config file…"
 msgstr "Gemmer konfigurationsfil…"
 
-#: common/snapshots.py:1259
+#: common/snapshots.py:1262
 msgid "Saving permissions…"
 msgstr "Gemmer tilladelser…"
 
-#: common/snapshots.py:1374
+#: common/snapshots.py:1378
 #, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr ""
 "Fandt efterladt tilstandsbillede {snapshot_id} som kan fortsættes med."
 
-#: common/snapshots.py:1398
+#: common/snapshots.py:1402
 #, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr "Sletter efterladt {snapshot_id}-mappe fra seneste kørsel"
 
-#: common/snapshots.py:1409
+#: common/snapshots.py:1413
 msgid "Can't remove directory"
 msgstr "Kan ikke fjerne mappe"
 
-#: common/snapshots.py:1463
+#: common/snapshots.py:1467
 msgid "Creating backup"
 msgstr "Opretter tilstandsbillede"
 
-#: common/snapshots.py:1514
+#: common/snapshots.py:1518
 msgid "Success"
 msgstr "Succes"
 
-#: common/snapshots.py:1517
+#: common/snapshots.py:1521
 msgid "Partial transfer due to error"
 msgstr "Delvist overført på grund af fejl"
 
-#: common/snapshots.py:1518
+#: common/snapshots.py:1522
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Delvis overførsel da nogle filer fra kilden er forduftet (se 'man rsync')"
 
-#: common/snapshots.py:1522
+#: common/snapshots.py:1526
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' afsluttede med slutværdien {exit_code}"
 
-#: common/snapshots.py:1535
+#: common/snapshots.py:1539
 msgid "See 'man rsync' for more details"
 msgstr "Kig i 'man rsync' for flere detaljer"
 
-#: common/snapshots.py:1542
+#: common/snapshots.py:1546
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr "Negative rsync slutværdier er signalnumre, se 'kill -l' og 'man kill'"
 
-#: common/snapshots.py:1563
+#: common/snapshots.py:1567
 msgid "Nothing changed, no new backup necessary"
 msgstr "Ingen ændringer, så et nyt tilstandsbillede er ikke nødvendigt"
 
-#: common/snapshots.py:1608
+#: common/snapshots.py:1612
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "Kan ikke omdøbe {new_path} til {path}."
 
-#: common/snapshots.py:1943
+#: common/snapshots.py:1947
 msgid "Smart removal"
 msgstr "Smart sletning"
 
-#: common/snapshots.py:1995
+#: common/snapshots.py:1999
 msgid "Apply rules to remove old backups"
 msgstr "Brug regler til at fjerne gamle tilstandsbilleder"
 
-#: common/snapshots.py:2028
+#: common/snapshots.py:2032
 msgid "Apply retention policy"
 msgstr "Brug bevaringspolitik"
 
-#: common/snapshots.py:2038
+#: common/snapshots.py:2042
 msgid "Trying to keep min free space"
 msgstr "Prøv at holde minimum fri plads"
 
-#: common/snapshots.py:2076
+#: common/snapshots.py:2080
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Prøver at holde mindst {perc} inoder fri"
 
-#: common/snapshots.py:3167 qt/app.py:1393
+#: common/snapshots.py:3204 qt/app.py:1393
 msgid "Now"
 msgstr "Nu"
 
@@ -430,7 +430,7 @@ msgstr "Kopiér offentlig ssh-nøgle \"{pubkey}\" til vært \"{host}\"."
 msgid "Please enter a password for \"{user}\"."
 msgstr "Indtast venligst et kodeord for \"{user}\"."
 
-#: common/tools.py:381
+#: common/tools.py:382
 #, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
@@ -439,20 +439,20 @@ msgstr ""
 "Destinationsfilsystem for {path} er formatteret med NTFS, som ikke er fuldt "
 "kompatibelt med UNIX-lignede filsystemer."
 
-#: common/tools.py:413
+#: common/tools.py:414
 #, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "{path} er ikke en gyldig mappe."
 
-#: common/tools.py:427
+#: common/tools.py:428
 msgid "Creation of following directory failed:"
 msgstr "Oprettelse af følgende mappe fejlede:"
 
-#: common/tools.py:429 common/tools.py:526
+#: common/tools.py:430 common/tools.py:527
 msgid "Write access may be restricted."
 msgstr "Skriveadgang kan være begrænset."
 
-#: common/tools.py:470
+#: common/tools.py:471
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -461,7 +461,7 @@ msgstr ""
 "Destinationsfilsystem for {path} er formatteret med FAT, som ikke kan "
 "håndtere hard-links. Brug venligst et understøttet GNU/Linux-filsystem."
 
-#: common/tools.py:481
+#: common/tools.py:482
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -471,15 +471,15 @@ msgstr ""
 "Destinationsfilsystem for {path} er delt via SMB. Undersøg venligst om SMB "
 "serveren understøtter symlinks eller aktiver {copyLinks} i {expertOptions}."
 
-#: common/tools.py:485 qt/manageprofiles/tab_expert_options.py:254
+#: common/tools.py:486 qt/manageprofiles/tab_expert_options.py:254
 msgid "Copy links (dereference symbolic links)"
 msgstr "Kopier links (følg symbolske links)"
 
-#: common/tools.py:486
+#: common/tools.py:487
 msgid "Expert Options"
 msgstr "Avancerede indstillinger"
 
-#: common/tools.py:490
+#: common/tools.py:491
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
@@ -488,7 +488,7 @@ msgstr ""
 "Destinationsfilsystemet for {path} er delt via ssfhs. Sshfs understøtter "
 "ikke hardlinks. Benyt venligst 'SSH' mode i stedet."
 
-#: common/tools.py:524
+#: common/tools.py:525
 msgid "File creation failed in this directory:"
 msgstr "Filoprettelse fejlede i mappe:"
 
@@ -534,7 +534,6 @@ msgid "User manual"
 msgstr "Brugervejledning"
 
 #: qt/aboutdlg.py:226 qt/app.py:515
-#, fuzzy
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
 "Åbn brugervejledning i browser (lokal hvis tilgængelig, ellers på nettet)"

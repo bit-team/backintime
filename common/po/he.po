@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-08-05 09:06+0200\n"
+"POT-Creation-Date: 2025-09-25 09:29+0200\n"
 "PO-Revision-Date: 2025-08-04 20:46+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://translate.codeberg.org/projects/backintime/common/he/>\n"
@@ -36,7 +36,7 @@ msgstr ""
 "ופרטי זכויות יוצרים לפי קובץ באמצעות נתוני על מסוג SPDX, יש לפנות אל "
 "{readme_link}."
 
-#: common/config.py:37 common/tools.py:86 qt/encfsmsgbox.py:24
+#: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:98
 msgid "Warning"
 msgstr "אזהרה"
@@ -123,16 +123,16 @@ msgid ""
 "than the warning limit."
 msgstr "נא לכוון את ההגדרות כדי שהסרת הגיבויים לא עולה על מגבלת האזהרה."
 
-#: common/config.py:1510
+#: common/config.py:1511
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "תזמון udev לא עובד עם המצב {mode}"
 
-#: common/config.py:1564
+#: common/config.py:1565
 msgid "Failed to write new crontab."
 msgstr "כתיבת crontab חדש נכשלה."
 
-#: common/config.py:1572
+#: common/config.py:1573
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -187,7 +187,7 @@ msgstr "נא למלא את סיסמת ה־EncFS מחדש כדי לאשר."
 msgid "The EncFS passwords do not match."
 msgstr "סיסמאות ה־EncFS לא תואמות."
 
-#: common/encfstools.py:515 common/snapshots.py:1126
+#: common/encfstools.py:515 common/snapshots.py:1129
 msgid "Take snapshot"
 msgstr "שמירת תמונת מצב"
 
@@ -249,118 +249,118 @@ msgstr "לרשומות הבאות מרשימת ההכללה אין קובץ או
 msgid "Deferring backup while on battery"
 msgstr "הגיבוי מושהה בעת שימוש בסוללה"
 
-#: common/snapshots.py:928 qt/app.py:368
+#: common/snapshots.py:931 qt/app.py:368
 msgid "Can't find backup directory."
 msgstr "לא ניתן למצוא את תיקיית הגיבויים."
 
-#: common/snapshots.py:932 qt/app.py:369
+#: common/snapshots.py:935 qt/app.py:369
 msgid "If it is on a removable drive, please plug it in."
 msgstr "אם היא נמצאת על כונן נשלף, יש לחבר אותו."
 
-#: common/snapshots.py:935
+#: common/snapshots.py:938
 #, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
 msgstr[0] "בהמתנה של שנייה אחת."
 msgstr[1] "בהמתנה של {n} שניות."
 
-#: common/snapshots.py:1003
+#: common/snapshots.py:1006
 #, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "יצירת הגיבוי {snapshot_id} נכשלה."
 
-#: common/snapshots.py:1035
+#: common/snapshots.py:1038
 msgid "Please be patient. Finalizing…"
 msgstr "נא להתאזר בסבלנות. התהליך מסתיים…"
 
-#: common/snapshots.py:1161
+#: common/snapshots.py:1164
 msgid "Can't create directory."
 msgstr "לא ניתן ליצור את התיקייה."
 
-#: common/snapshots.py:1178
+#: common/snapshots.py:1181
 msgid "Saving config file…"
 msgstr "קובץ ההגדרות נשמר…"
 
-#: common/snapshots.py:1259
+#: common/snapshots.py:1262
 msgid "Saving permissions…"
 msgstr "הרשאות נשמרות…"
 
-#: common/snapshots.py:1374
+#: common/snapshots.py:1378
 #, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr "נמצאו שאריות של הגיבוי {snapshot_id} שאפשר להמשיך."
 
-#: common/snapshots.py:1398
+#: common/snapshots.py:1402
 #, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr "התיקייה {snapshot_id} החלקית שנשארה מהריצה האחרונה נמחקת"
 
-#: common/snapshots.py:1409
+#: common/snapshots.py:1413
 msgid "Can't remove directory"
 msgstr "לא ניתן להסיר תיקייה"
 
-#: common/snapshots.py:1463
+#: common/snapshots.py:1467
 msgid "Creating backup"
 msgstr "נוצר גיבוי"
 
-#: common/snapshots.py:1514
+#: common/snapshots.py:1518
 msgid "Success"
 msgstr "הצלחה"
 
-#: common/snapshots.py:1517
+#: common/snapshots.py:1521
 msgid "Partial transfer due to error"
 msgstr "שגיאה: בוצעה העברה חלקית בלבד"
 
-#: common/snapshots.py:1518
+#: common/snapshots.py:1522
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "העברה חלקית עקב קובצי מקור שנעלמו (ר׳ ‚man rsync’)"
 
-#: common/snapshots.py:1522
+#: common/snapshots.py:1526
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "‚rsync’ הסתיים עם קוד היציאה {exit_code}"
 
-#: common/snapshots.py:1535
+#: common/snapshots.py:1539
 msgid "See 'man rsync' for more details"
 msgstr "קרא את 'man rsync' לפרטים נוספים"
 
-#: common/snapshots.py:1542
+#: common/snapshots.py:1546
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "קודים שליליים ביציאה של rsync הם מספרי אותות, ר׳ ‚kill -l’ ו־‚man kill’"
 
-#: common/snapshots.py:1563
+#: common/snapshots.py:1567
 msgid "Nothing changed, no new backup necessary"
 msgstr "דבר לא השתנה, לא צריך גיבוש חדש"
 
-#: common/snapshots.py:1608
+#: common/snapshots.py:1612
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "לא ניתן לשנות את השם {new_path} ל־{path}."
 
-#: common/snapshots.py:1943
+#: common/snapshots.py:1947
 msgid "Smart removal"
 msgstr "הסרה חכמה"
 
-#: common/snapshots.py:1995
+#: common/snapshots.py:1999
 msgid "Apply rules to remove old backups"
 msgstr "החלת כללים להסרת גיבויים ישנים"
 
-#: common/snapshots.py:2028
+#: common/snapshots.py:2032
 msgid "Apply retention policy"
 msgstr "החלת מדיניות שימור"
 
-#: common/snapshots.py:2038
+#: common/snapshots.py:2042
 msgid "Trying to keep min free space"
 msgstr "מתבצע ניסיון לשמור על מקום פנוי מזערי"
 
-#: common/snapshots.py:2076
+#: common/snapshots.py:2080
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "מתבצע ניסיון לשמור לפחות {perc} מה־inodes פנויים"
 
-#: common/snapshots.py:3167 qt/app.py:1393
+#: common/snapshots.py:3204 qt/app.py:1393
 msgid "Now"
 msgstr "עכשיו"
 
@@ -422,7 +422,7 @@ msgstr "העתקת מפתח ה־SSH הציבורי „{pubkey}” למארח ה�
 msgid "Please enter a password for \"{user}\"."
 msgstr "נא למלא סיסמה למשתמש „{user}”."
 
-#: common/tools.py:381
+#: common/tools.py:382
 #, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
@@ -431,20 +431,20 @@ msgstr ""
 "מערכת הקבצים המיועדת ל־{path} מפורמטת ל־NTFS, שידועה בחוסר התאימות שלה "
 "למערכות קבצים תואמות יוניקס."
 
-#: common/tools.py:413
+#: common/tools.py:414
 #, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "{path} אינה תיקייה תקפה."
 
-#: common/tools.py:427
+#: common/tools.py:428
 msgid "Creation of following directory failed:"
 msgstr "יצירת התיקייה הבאה נכשלה:"
 
-#: common/tools.py:429 common/tools.py:526
+#: common/tools.py:430 common/tools.py:527
 msgid "Write access may be restricted."
 msgstr "גישת הכתיבה כנראה מוגבלת."
 
-#: common/tools.py:470
+#: common/tools.py:471
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -453,7 +453,7 @@ msgstr ""
 "מערכת הקבצים המיועדת ל־{path} מפורמטת ל־FAT שבה אין תמיכה בקישורים קשיחים. "
 "נא להשתמש במערכת קבצים טבעית של גנו/לינוקס."
 
-#: common/tools.py:481
+#: common/tools.py:482
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -463,15 +463,15 @@ msgstr ""
 "מערכת היעד עבור {path} היא שיתוף SMB מעוגן. נא לוודא ששרת ה־SMB המרוחק תומך "
 "בקישורים סמליים או להפעיל את„ {copyLinks}” תחת „{expertOptions}”."
 
-#: common/tools.py:485 qt/manageprofiles/tab_expert_options.py:254
+#: common/tools.py:486 qt/manageprofiles/tab_expert_options.py:254
 msgid "Copy links (dereference symbolic links)"
 msgstr "העתקת קישורים (ביטול הפניה של קישורים סמליים)"
 
-#: common/tools.py:486
+#: common/tools.py:487
 msgid "Expert Options"
 msgstr "אפשרויות מתקדמות"
 
-#: common/tools.py:490
+#: common/tools.py:491
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
@@ -480,7 +480,7 @@ msgstr ""
 "מערכת הקבצים המיועדת עבור {path} היא שיתוף בעיגון sshfs. ב־sshfs אין תמיכה "
 "בקישורים קשיחים. נא להשתמש במצב „SSH” במקום."
 
-#: common/tools.py:524
+#: common/tools.py:525
 msgid "File creation failed in this directory:"
 msgstr "יצירת קבצים בתיקייה הזאת נכשלה:"
 

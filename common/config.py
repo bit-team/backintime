@@ -1459,8 +1459,9 @@ class Config(configfile.ConfigFileWithProfiles):
         if not last_time:
             return True
 
-        return tools.older_than(
-            dt=last_time,
+        return tools.elapsed_at_least(
+            start=last_time,
+            end=datetime.datetime.now(),
             value=self.scheduleRepeatedPeriod(profile_id),
             unit=self.scheduleRepeatedUnit(profile_id)
         )

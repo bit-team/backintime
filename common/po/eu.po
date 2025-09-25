@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-08-05 09:06+0200\n"
-"PO-Revision-Date: 2025-07-27 08:46+0000\n"
+"POT-Creation-Date: 2025-09-25 09:29+0200\n"
+"PO-Revision-Date: 2025-08-19 10:24+0000\n"
 "Last-Translator: alexgabi <alexgabi@noreply.codeberg.org>\n"
 "Language-Team: Basque <https://translate.codeberg.org/projects/backintime/common/eu/>\n"
 "Language: eu\n"
@@ -36,7 +36,7 @@ msgstr ""
 "daude. Fitxategiaren lizentzia eta copyrightari buruzko informazioa SPDX "
 "metadatuak erabiliz ateratzeko, ikusi {readme_link}."
 
-#: common/config.py:37 common/tools.py:86 qt/encfsmsgbox.py:24
+#: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:98
 msgid "Warning"
 msgstr "Abisua"
@@ -128,16 +128,16 @@ msgstr ""
 "Mesedez, doitu ezarpenak babeskopia ezabatzeko muga abisu-muga baino "
 "handiagoa izan ez dadin."
 
-#: common/config.py:1510
+#: common/config.py:1511
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Programatutako Udev-a ez dabil {mode} moduarekin"
 
-#: common/config.py:1564
+#: common/config.py:1565
 msgid "Failed to write new crontab."
 msgstr "Huts egin du crontab berria idazten."
 
-#: common/config.py:1572
+#: common/config.py:1573
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -186,16 +186,14 @@ msgid "Cancel"
 msgstr "Utzi"
 
 #: common/encfstools.py:149
-#, fuzzy
 msgid "Please re-enter the EncFS password to confirm."
-msgstr "Sartu \"{user}\"-entzako pasahitza bat."
+msgstr "Sartu berriro EncFS pasahitza berresteko."
 
 #: common/encfstools.py:155
-#, fuzzy
 msgid "The EncFS passwords do not match."
-msgstr "Pasahitzak ez datoz bat."
+msgstr "EncFS pasahitzak ez datoz bat."
 
-#: common/encfstools.py:515 common/snapshots.py:1126
+#: common/encfstools.py:515 common/snapshots.py:1129
 msgid "Take snapshot"
 msgstr "Egin babeskopia"
 
@@ -260,122 +258,122 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "Atzeratu babeskopia bateriaz dabilen bitartean"
 
-#: common/snapshots.py:928 qt/app.py:368
+#: common/snapshots.py:931 qt/app.py:368
 msgid "Can't find backup directory."
 msgstr "Ezin da aurkitu babeskopien direktorioa."
 
-#: common/snapshots.py:932 qt/app.py:369
+#: common/snapshots.py:935 qt/app.py:369
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Unitate eramangarri batean badago konekta ezazu."
 
-#: common/snapshots.py:935
+#: common/snapshots.py:938
 #, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
 msgstr[0] "Segundo {n} itxaroten."
 msgstr[1] "{n} segundo itxaroten ."
 
-#: common/snapshots.py:1003
+#: common/snapshots.py:1006
 #, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Huts egin du {snapshot_id} babeskopia egiten."
 
-#: common/snapshots.py:1035
+#: common/snapshots.py:1038
 msgid "Please be patient. Finalizing…"
 msgstr "Mesedez, izan pazientzia. Amaitzen…"
 
-#: common/snapshots.py:1161
+#: common/snapshots.py:1164
 msgid "Can't create directory."
 msgstr "Ezin da karpeta sortu."
 
-#: common/snapshots.py:1178
+#: common/snapshots.py:1181
 msgid "Saving config file…"
 msgstr "Gorde ezarpenen fitxategia…"
 
-#: common/snapshots.py:1259
+#: common/snapshots.py:1262
 msgid "Saving permissions…"
 msgstr "Baimenak gordetzen…"
 
-#: common/snapshots.py:1374
+#: common/snapshots.py:1378
 #, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr ""
 "'{snapshot_id}' jarraitu daitekeen osatu gabeko babeskopia aurkitu da."
 
-#: common/snapshots.py:1398
+#: common/snapshots.py:1402
 #, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr "Azken exekuziotik '{snapshot_id}' karpeta osatu gabea kentzen"
 
-#: common/snapshots.py:1409
+#: common/snapshots.py:1413
 msgid "Can't remove directory"
 msgstr "Ezin da karpeta ezabatu"
 
-#: common/snapshots.py:1463
+#: common/snapshots.py:1467
 msgid "Creating backup"
 msgstr "Babeskopia sortzen"
 
-#: common/snapshots.py:1514
+#: common/snapshots.py:1518
 msgid "Success"
 msgstr "Ongi"
 
-#: common/snapshots.py:1517
+#: common/snapshots.py:1521
 msgid "Partial transfer due to error"
 msgstr "Transferentzia partziala errorea dela eta"
 
-#: common/snapshots.py:1518
+#: common/snapshots.py:1522
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Transferentzia partziala desagertutako iturburu-fitxategiengatik (ikus 'man "
 "rsync')"
 
-#: common/snapshots.py:1522
+#: common/snapshots.py:1526
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "\"rsync\" amaitu da irteera-kode honekin {exit_code}"
 
-#: common/snapshots.py:1535
+#: common/snapshots.py:1539
 msgid "See 'man rsync' for more details"
 msgstr "Ikus 'man rsync' xehetasun gehiagorako"
 
-#: common/snapshots.py:1542
+#: common/snapshots.py:1546
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Rsync irteera kode negatiboak seinale zenbakiak dira, ikusi 'kill -l' eta "
 "'man kill'"
 
-#: common/snapshots.py:1563
+#: common/snapshots.py:1567
 msgid "Nothing changed, no new backup necessary"
 msgstr "Ez dago aldaketarik. Ez da babeskopia berririk egin behar"
 
-#: common/snapshots.py:1608
+#: common/snapshots.py:1612
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "Ezin zaio {new_path}-(r)i {path} izena jarri."
 
-#: common/snapshots.py:1943
+#: common/snapshots.py:1947
 msgid "Smart removal"
 msgstr "Ezabatze adimenduna"
 
-#: common/snapshots.py:1995
+#: common/snapshots.py:1999
 msgid "Apply rules to remove old backups"
 msgstr "Aplikatu babeskopia zaharrak ezabatzeko arauak"
 
-#: common/snapshots.py:2028
+#: common/snapshots.py:2032
 msgid "Apply retention policy"
 msgstr "Aplikatu atxikipen politika"
 
-#: common/snapshots.py:2038
+#: common/snapshots.py:2042
 msgid "Trying to keep min free space"
 msgstr "Saiatu espazio minimoa mantentzen"
 
-#: common/snapshots.py:2076
+#: common/snapshots.py:2080
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Saiatu gutxienez {perc} nodo libre mantentzen"
 
-#: common/snapshots.py:3167 qt/app.py:1393
+#: common/snapshots.py:3204 qt/app.py:1393
 msgid "Now"
 msgstr "Orain"
 
@@ -438,7 +436,7 @@ msgstr "Kopiatu \"{pubkey}\" ssh-gako publikoa \"{host}\" urrutiko ostalarira."
 msgid "Please enter a password for \"{user}\"."
 msgstr "Sartu \"{user}\"-entzako pasahitza bat."
 
-#: common/tools.py:381
+#: common/tools.py:382
 #, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
@@ -447,20 +445,20 @@ msgstr ""
 "'{path}'-(r)en helburuko fitxategi-sistemaren formatua NTFS da. NTFS ezaguna"
 " da Unix estikoko fitxategi-sistemekin konpatibilitate arazoak izatearren."
 
-#: common/tools.py:413
+#: common/tools.py:414
 #, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "{path} ez da direktorio balido bat."
 
-#: common/tools.py:427
+#: common/tools.py:428
 msgid "Creation of following directory failed:"
 msgstr "Ezin izan da hurrengo direktorioa sortu:"
 
-#: common/tools.py:429 common/tools.py:526
+#: common/tools.py:430 common/tools.py:527
 msgid "Write access may be restricted."
 msgstr "Baliteke idazteko sarbidea mugatuta egotea."
 
-#: common/tools.py:470
+#: common/tools.py:471
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -469,7 +467,7 @@ msgstr ""
 "'{path}'-(r)en helburuko fitxategi-sistemaren formatua FAT da eta ez du "
 "esteka gogorrik onartzen. Erabili Linux jatorriko fitxategi-sistema bat."
 
-#: common/tools.py:481
+#: common/tools.py:482
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -480,15 +478,15 @@ msgstr ""
 "karpeta da. Egiaztatu urruneko SMB zerbitzariak esteka sinbolikoak onartzen "
 "dituela edo gaitu '{copyLinks}' '{expertOptions}'-en."
 
-#: common/tools.py:485 qt/manageprofiles/tab_expert_options.py:254
+#: common/tools.py:486 qt/manageprofiles/tab_expert_options.py:254
 msgid "Copy links (dereference symbolic links)"
 msgstr "Kopiatu estekak (erreferentzia kendu esteka sinbolikoei)"
 
-#: common/tools.py:486
+#: common/tools.py:487
 msgid "Expert Options"
 msgstr "Aukera aurreratuak"
 
-#: common/tools.py:490
+#: common/tools.py:491
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
@@ -498,7 +496,7 @@ msgstr ""
 "partekatutako karpeta da. sshfs-ek ez du esteka gogorrik onartzen. Erabili "
 "'SSH' haren ordez."
 
-#: common/tools.py:524
+#: common/tools.py:525
 msgid "File creation failed in this directory:"
 msgstr "Ezin izan da fitxategia sortu direktorio honetan:"
 
@@ -544,11 +542,10 @@ msgid "User manual"
 msgstr "Erabiltzailearen eskuliburua"
 
 #: qt/aboutdlg.py:226 qt/app.py:515
-#, fuzzy
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
 "Ireki erabiltzailearen eskuliburua nabigatzailean (tokikoa eskuragarri "
-"badago bestela lineakoa)"
+"badago, bestela lineakoa)"
 
 #: qt/aboutdlg.py:257
 msgid "Back In Time"
@@ -622,19 +619,16 @@ msgid "Remove backup"
 msgstr "Kendu babeskopia"
 
 #: qt/app.py:485
-#, fuzzy
 msgid "Open backup log"
 msgstr "Ikusi babeskopiaren erregistroa"
 
 #: qt/app.py:487
-#, fuzzy
 msgid "View log of the selected backup."
-msgstr "Gutxienez direktorio bat hautatu behar da babeskopia egiteko."
+msgstr "Ikusi hautatutako babeskopiaren erregistroa."
 
 #: qt/app.py:489
-#, fuzzy
 msgid "Open last backup log"
-msgstr "Ikusi babeskopiaren erregistroa"
+msgstr "Ireki azken babeskopiaren erregistroa"
 
 #: qt/app.py:491
 msgid "View log of the latest backup."
@@ -690,11 +684,9 @@ msgid "Changelog"
 msgstr "Aldaketen egunkaria"
 
 #: qt/app.py:539
-#, fuzzy
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr ""
-"Ireki erabiltzailearen eskuliburua nabigatzailean (tokikoa eskuragarri "
-"badago bestela lineakoa)"
+"Ireki aldaketen erregistroa (tokikoa eskuragarri badago, bestela webekoa)"
 
 #: qt/app.py:542
 msgid "FAQ"
@@ -876,9 +868,8 @@ msgid "ETA:"
 msgstr "ETA:"
 
 #: qt/app.py:1401
-#, fuzzy
 msgid "Backup:"
-msgstr "Babeskopiak:"
+msgstr "Babeskopia:"
 
 #: qt/app.py:1441
 #, python-brace-format
@@ -978,9 +969,8 @@ msgstr ""
 " atalasearen azpitik dagoena."
 
 #: qt/app.py:1776
-#, fuzzy
 msgid "Proceed with the backup?"
-msgstr "Ezabatu babeskopia hau?"
+msgstr "Ekin babeskopia egiteari?"
 
 #: qt/app.py:1801
 #, python-brace-format
@@ -1021,13 +1011,13 @@ msgid "Question"
 msgstr "Galdera"
 
 #: qt/confirmrestoredialog.py:76
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix} before overwriting or removing "
 "local elements."
 msgstr ""
-"Egin babeskopia bukaerako '{suffix}'\n"
-"fitxategi lokalak gainidatzi edo ezabatu aurretik."
+"Egin babeskopia '{suffix}' atzizkiarekin elementu lokalak gainidatzi edo "
+"ezabatu aurretik."
 
 #: qt/confirmrestoredialog.py:81 qt/manageprofiles/tab_options.py:66
 #, python-brace-format
@@ -1040,14 +1030,13 @@ msgstr ""
 "aginduarekin:"
 
 #: qt/confirmrestoredialog.py:94
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Only restore elements which do not exist or are newer than those in "
 "destination. Using \"{rsync_example}\" option."
 msgstr ""
-"Leheneratu soilik falta diren fitxategiak edo\n"
-"helburuko tokikoak baino berriagoak direnak.\n"
-"\"rsync --update\" aukera erabiliz."
+"Leheneratu soilik falta diren fitxategiak edo helburuko tokikoak baino "
+"berriagoak direnak, \"{rsync_example}\" aukera erabiliz."
 
 #: qt/confirmrestoredialog.py:133
 msgid "Remove newer elements in original directory."
@@ -1159,9 +1148,8 @@ msgid "Your Back In Time Team"
 msgstr "Zure Back In &Time taldea"
 
 #: qt/filedialog.py:87
-#, fuzzy
 msgid "Show/hide hidden files and directories (Ctrl+H)"
-msgstr "Fitxategiak eta karpetak barne"
+msgstr "Erakutsi/ezkutatu ezkutuko fitxategiak eta direktorioak (Ctrl+H)"
 
 #: qt/languagedialog.py:35
 msgid "Setup language"
@@ -1457,35 +1445,30 @@ msgid "<Select another file…>"
 msgstr "<Hautatu beste fitxategia...>"
 
 #: qt/manageprofiles/sshkeyselector.py:64
-#, fuzzy
 msgid "Choose an existing private key file from somewhere else."
 msgstr ""
-"Aukeratu lehendik dagoen gako pribatuaren fitxategi bat (normalean "
-"\"id_ed25519\" izena du eta konfigurazio zaharretan \"id_rsa\" )."
+"Aukeratu lehendik dagoen gako pribatuko fitxategi bat beste nonbaitetik."
 
 #: qt/manageprofiles/sshkeyselector.py:70
 msgid "<Generate new key-pair…>"
 msgstr "<Sortu gako-pare berria...>"
 
 #: qt/manageprofiles/sshkeyselector.py:71
-#, fuzzy
 msgid "Create a new SSH key without passphrase."
-msgstr "Huts egin du {path} kokalekuan SSH gako berria sortzen."
+msgstr "Sortu pasaesaldirik gabeko SSH gako berria."
 
 #: qt/manageprofiles/sshkeyselector.py:91
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Full path: {path}"
-msgstr "Babeskopien bide osoa:"
+msgstr "Bide osoa: {path}"
 
 #: qt/manageprofiles/sshkeyselector.py:185
-#, fuzzy
 msgid "Private key:"
 msgstr "Gako pribatua:"
 
 #: qt/manageprofiles/sshkeyselector.py:190
-#, fuzzy
 msgid "Use system SSH configuration"
-msgstr "Inportatu konfigurazioa"
+msgstr "Erabili sistemaren SSH ezarpenak"
 
 #: qt/manageprofiles/sshkeyselector.py:192
 msgid ""
@@ -1541,14 +1524,12 @@ msgid "Exclude patterns, files or directories"
 msgstr "Baztertu txantiloi, fitxategi edo direktorio hauek"
 
 #: qt/manageprofiles/tab_exclude.py:101 qt/manageprofiles/tab_include.py:66
-#, fuzzy
 msgid "Add files"
-msgstr "Gehitu fitxategia"
+msgstr "Gehitu fitxategiak"
 
 #: qt/manageprofiles/tab_exclude.py:106 qt/manageprofiles/tab_include.py:71
-#, fuzzy
 msgid "Add directories"
-msgstr "Gehitu direktorioa"
+msgstr "Gehitu direktorioak"
 
 #: qt/manageprofiles/tab_exclude.py:112
 msgid "Add default"
@@ -1592,14 +1573,12 @@ msgid "Exclude pattern"
 msgstr "Baztertu txantiloia"
 
 #: qt/manageprofiles/tab_exclude.py:279
-#, fuzzy
 msgid "Exclude files"
-msgstr "Baztertu fitxategia"
+msgstr "Baztertu fitxategiak"
 
 #: qt/manageprofiles/tab_exclude.py:290
-#, fuzzy
 msgid "Exclude directories"
-msgstr "Baztertu direktorioa"
+msgstr "Baztertu direktorioak"
 
 #: qt/manageprofiles/tab_exclude.py:321
 msgid ""
@@ -1784,9 +1763,8 @@ msgid "Path:"
 msgstr "Bide-izena:"
 
 #: qt/manageprofiles/tab_general.py:139
-#, fuzzy
 msgid "Key file:"
-msgstr "Profil berria"
+msgstr "Gako fitxategia:"
 
 #: qt/manageprofiles/tab_general.py:173 qt/manageprofiles/tab_general.py:181
 #: qt/manageprofiles/tab_general.py:186
@@ -1816,25 +1794,28 @@ msgid ""
 "An error occurred while attempting to log in to the remote host. The "
 "following error message was returned:"
 msgstr ""
+"Errore bat gertatu da urruneko ostalarian saioa hastean. Errore-mezu hau "
+"itzuli da:"
 
 #: qt/manageprofiles/tab_general.py:481
-#, fuzzy
 msgid ""
 "Copying the public SSH key to the remote host can help enable password-less "
 "login."
 msgstr ""
-"Nahi al duzu kopiatzea zure SSH gako publikoa urrutiko ostalarira pasahitzik"
-" gabe sartu ahal izateko?"
+"Urruneko ostalarian SSH gako publikoa kopiatzeak pasahitzik gabeko saio-"
+"hasiera gaitzen lagun dezake."
 
 #: qt/manageprofiles/tab_general.py:483
 msgid "Proceed?"
-msgstr ""
+msgstr "Ekin?"
 
 #: qt/manageprofiles/tab_general.py:506
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
+"Ezin izan da SSH gako publikoa kopiatu. Konexio edo baimen arazo batengatik "
+"izan daiteke."
 
 #: qt/manageprofiles/tab_general.py:531
 #, python-brace-format
@@ -1847,10 +1828,9 @@ msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} gakoaren hatz-marka hau da:"
 
 #: qt/manageprofiles/tab_general.py:536
-#, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
-"Egiaztatu hatz-marka. Nahi al duzu bera gehitzea zure 'known_hosts' "
+"Egiaztatu hatz-marka hau. Nahi al duzu gehitzea zure 'known_hosts' "
 "fitxategira?"
 
 #: qt/manageprofiles/tab_general.py:627
@@ -1858,18 +1838,17 @@ msgid "Really change the backup directory?"
 msgstr "Benetan nahi duzu babeskopien direktorioa aldatu?"
 
 #: qt/manageprofiles/tab_general.py:657
-#, fuzzy
 msgid "Invalid file: Not a private SSH key"
-msgstr "SSH giltz pribatu"
+msgstr "Baliogabeko fitxategia: Ez da SSH gako pribatua"
 
 #: qt/manageprofiles/tab_general.py:658
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
-"Hautatutako fitxategia {path} ematen du SSH gako publiko bat dela. Mesedez "
-"hautatu fitxategi pribatu bat (.pub luzapenik gabe)."
+"Hautatutako fitxategia {path} SSH gako publiko bat da. Mesedez aukeratu gako"
+" pribatuaren fitxategia (.pub luzapenik gabe)."
 
 #: qt/manageprofiles/tab_general.py:682
 #, python-brace-format
@@ -1889,14 +1868,12 @@ msgid "Include files and directories"
 msgstr "Fitxategiak eta karpetak barne"
 
 #: qt/manageprofiles/tab_include.py:152
-#, fuzzy
 msgid "Include files"
-msgstr "Sartu fitxategia"
+msgstr "Sartu fitxategiak"
 
 #: qt/manageprofiles/tab_include.py:174
-#, fuzzy
 msgid "Include directories"
-msgstr "Sartu direktorioa"
+msgstr "Sartu direktorioak"
 
 #: qt/manageprofiles/tab_options.py:38
 msgid "Enable notifications"
@@ -2133,11 +2110,11 @@ msgstr "Lasterbideak"
 
 #: qt/placeswidget.py:63
 msgid "Places"
-msgstr ""
+msgstr "Tokiak"
 
 #: qt/placeswidget.py:64
 msgid "File System"
-msgstr ""
+msgstr "Fitxategi-sistema"
 
 #: qt/placeswidget.py:106
 msgid "Backup directories"
@@ -2174,9 +2151,8 @@ msgid "Import"
 msgstr "Inportatu"
 
 #: qt/restoreconfigdialog.py:143 qt/restoreconfigdialog.py:247
-#, fuzzy
 msgid "Searching…"
-msgstr "Lanean…"
+msgstr "Bilatzen…"
 
 #: qt/restoreconfigdialog.py:224
 #, python-brace-format
@@ -2197,21 +2173,19 @@ msgstr ""
 
 #: qt/restoreconfigdialog.py:250
 msgid "Scan again"
-msgstr ""
+msgstr "Eskaneatu berriro"
 
 #: qt/restoreconfigdialog.py:269
-#, fuzzy
 msgid "Show hidden directories"
-msgstr "Erakutsi ezkututko fitxategiak"
+msgstr "Erakutsi ezkutuko direktorioak"
 
 #: qt/restoreconfigdialog.py:271
-#, fuzzy
 msgid "Show/hide hidden directories (Ctrl+H)"
-msgstr "Fitxategiak eta karpetak barne"
+msgstr "Erakutsi/ezkutatu ezkutuko direktorioak (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:379
 msgid "Search complete."
-msgstr ""
+msgstr "Bilaketa osoa."
 
 #: qt/restoredialog.py:55
 msgid "Show full Log"
@@ -2341,14 +2315,15 @@ msgid "Exclude {path} from future backups?"
 msgstr "Baztertu {path} hurrengo babeskopietan?"
 
 #: qt/statusbar.py:85
-#, fuzzy
 msgid "Root mode"
-msgstr "Root"
+msgstr "Root modua"
 
 #: qt/statusbar.py:87
 msgid ""
 "Back In Time is currently running with root privileges (full system access)"
 msgstr ""
+"Back In Time root pribilegioekin exekutatzen ari da (sistemaren sarbide "
+"osoarekin)"
 
 #: qt/timeline.py:69
 msgid "Today"

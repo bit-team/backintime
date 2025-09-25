@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-08-05 09:06+0200\n"
+"POT-Creation-Date: 2025-09-25 09:29+0200\n"
 "PO-Revision-Date: 2025-03-12 10:20+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Bulgarian <https://translate.codeberg.org/projects/backintime/common/bg/>\n"
@@ -32,7 +32,7 @@ msgid ""
 "refer to {readme_link}."
 msgstr ""
 
-#: common/config.py:37 common/tools.py:86 qt/encfsmsgbox.py:24
+#: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:98
 msgid "Warning"
 msgstr "Внимание"
@@ -119,18 +119,18 @@ msgid ""
 "than the warning limit."
 msgstr ""
 
-#: common/config.py:1510
+#: common/config.py:1511
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr ""
 "Планираните при монтиране на диск архиви чрез програмта Udev не работят в "
 "режим {mode}"
 
-#: common/config.py:1564
+#: common/config.py:1565
 msgid "Failed to write new crontab."
 msgstr "Неуспех при създаването на нова периодична задача - crontab."
 
-#: common/config.py:1572
+#: common/config.py:1573
 #, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
@@ -190,7 +190,7 @@ msgstr "Моля въведете паролата за \"{user}\"."
 msgid "The EncFS passwords do not match."
 msgstr "Паролата не съвпада."
 
-#: common/encfstools.py:515 common/snapshots.py:1126
+#: common/encfstools.py:515 common/snapshots.py:1129
 msgid "Take snapshot"
 msgstr "Снимка на екрана"
 
@@ -251,126 +251,126 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "Отлагане на архивирането, докато устройството работи на батерия"
 
-#: common/snapshots.py:928 qt/app.py:368
+#: common/snapshots.py:931 qt/app.py:368
 #, fuzzy
 msgid "Can't find backup directory."
 msgstr "Директорията за моментни архиви не може да бъде намерена."
 
-#: common/snapshots.py:932 qt/app.py:369
+#: common/snapshots.py:935 qt/app.py:369
 #, fuzzy
 msgid "If it is on a removable drive, please plug it in."
 msgstr ""
 "Директорията за моментни архиви не може да бъде открита. Ако е на преносимо "
 "устройство, моля включете го и натиснете ОК."
 
-#: common/snapshots.py:935
+#: common/snapshots.py:938
 #, fuzzy, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
 msgstr[0] "Изчакване %s секунда."
 msgstr[1] "Изчакване %s секунди."
 
-#: common/snapshots.py:1003
+#: common/snapshots.py:1006
 #, fuzzy, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Неуспех при създаването на моментен архив {snapshot_id}."
 
-#: common/snapshots.py:1035
+#: common/snapshots.py:1038
 msgid "Please be patient. Finalizing…"
 msgstr "Моля изчакайте. Финализиране…"
 
-#: common/snapshots.py:1161
+#: common/snapshots.py:1164
 msgid "Can't create directory."
 msgstr "Директорията не може да бъде създадена."
 
-#: common/snapshots.py:1178
+#: common/snapshots.py:1181
 msgid "Saving config file…"
 msgstr "Запазване на конфигурационен файл…"
 
-#: common/snapshots.py:1259
+#: common/snapshots.py:1262
 msgid "Saving permissions…"
 msgstr "Запазване на правата…"
 
-#: common/snapshots.py:1374
+#: common/snapshots.py:1378
 #, fuzzy, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr "Намерен е моментен архив {snapshot_id}, който може да бъде продължен."
 
-#: common/snapshots.py:1398
+#: common/snapshots.py:1402
 #, fuzzy, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr "Премахване на остатъчна {snapshot_id} директория от последния опит"
 
-#: common/snapshots.py:1409
+#: common/snapshots.py:1413
 msgid "Can't remove directory"
 msgstr "Директорията не може да бъде премахната"
 
-#: common/snapshots.py:1463
+#: common/snapshots.py:1467
 msgid "Creating backup"
 msgstr ""
 
-#: common/snapshots.py:1514
+#: common/snapshots.py:1518
 msgid "Success"
 msgstr "Успешно"
 
-#: common/snapshots.py:1517
+#: common/snapshots.py:1521
 msgid "Partial transfer due to error"
 msgstr "Частично прехвърляне поради грешка"
 
-#: common/snapshots.py:1518
+#: common/snapshots.py:1522
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Частично прехвърляне поради изчезнали изходни файлове (вж. 'man rsync')"
 
-#: common/snapshots.py:1522
+#: common/snapshots.py:1526
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' завърши с код за изход {exit_code}"
 
-#: common/snapshots.py:1535
+#: common/snapshots.py:1539
 msgid "See 'man rsync' for more details"
 msgstr "За повече информация вижте 'man rsync'"
 
-#: common/snapshots.py:1542
+#: common/snapshots.py:1546
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Отрицателните изходни кодове на rsync са номера на сигнали, вижте 'kill -l' "
 "и 'man kill'"
 
-#: common/snapshots.py:1563
+#: common/snapshots.py:1567
 #, fuzzy
 msgid "Nothing changed, no new backup necessary"
 msgstr "Няма открити промени, не е нужен нов моментен архив"
 
-#: common/snapshots.py:1608
+#: common/snapshots.py:1612
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "{new_path} не може да бъде преименуван на {path}."
 
-#: common/snapshots.py:1943
+#: common/snapshots.py:1947
 msgid "Smart removal"
 msgstr "Умно премахване"
 
-#: common/snapshots.py:1995
+#: common/snapshots.py:1999
 #, fuzzy
 msgid "Apply rules to remove old backups"
 msgstr "Приложи правилата за премахване на старите моментни архиви"
 
-#: common/snapshots.py:2028
+#: common/snapshots.py:2032
 msgid "Apply retention policy"
 msgstr "Приложи правилата за запаметяване"
 
-#: common/snapshots.py:2038
+#: common/snapshots.py:2042
 msgid "Trying to keep min free space"
 msgstr "Опит за запазване на минимално свободно пространство"
 
-#: common/snapshots.py:2076
+#: common/snapshots.py:2080
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Опит за запазване на минимум {perc} свободни inode"
 
-#: common/snapshots.py:3167 qt/app.py:1393
+#: common/snapshots.py:3204 qt/app.py:1393
 msgid "Now"
 msgstr "Сега"
 
@@ -432,7 +432,7 @@ msgstr "Копирай публичния ssh ключ \"{pubkey}\" на отд�
 msgid "Please enter a password for \"{user}\"."
 msgstr "Моля въведете паролата за \"{user}\"."
 
-#: common/tools.py:381
+#: common/tools.py:382
 #, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
@@ -441,20 +441,20 @@ msgstr ""
 "Файловата система в {path} е от тип NTFS и не е съвместима с файлови системи"
 " от тип Unix . Моля, използвайте Linux файлова система."
 
-#: common/tools.py:413
+#: common/tools.py:414
 #, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "Отдалеченият път {path} съществува, но не е директория."
 
-#: common/tools.py:427
+#: common/tools.py:428
 msgid "Creation of following directory failed:"
 msgstr "Създаването на следната директория завърши неуспешно:"
 
-#: common/tools.py:429 common/tools.py:526
+#: common/tools.py:430 common/tools.py:527
 msgid "Write access may be restricted."
 msgstr "Възможно е правата за запис да са забранени."
 
-#: common/tools.py:470
+#: common/tools.py:471
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -463,7 +463,7 @@ msgstr ""
 "Файлова система за {path} е от тип FAT и не поддържа преки пътища. Моля, "
 "използвайте GNU/Linux файлова система."
 
-#: common/tools.py:481
+#: common/tools.py:482
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -474,15 +474,15 @@ msgstr ""
 "отдалеченият SMB сървър поддържа преки пътища или активирайте "
 "\"{copyLinks}\" в \"{expertOptions}\"."
 
-#: common/tools.py:485 qt/manageprofiles/tab_expert_options.py:254
+#: common/tools.py:486 qt/manageprofiles/tab_expert_options.py:254
 msgid "Copy links (dereference symbolic links)"
 msgstr "Копирай връзките към файлове (следвай символичните връзки)"
 
-#: common/tools.py:486
+#: common/tools.py:487
 msgid "Expert Options"
 msgstr "Експертни настройки"
 
-#: common/tools.py:490
+#: common/tools.py:491
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
@@ -491,7 +491,7 @@ msgstr ""
 "Файлова система за {path} е от споделен тип - sshfs. Sshfs не поддържа преки"
 " пътища. Моля, използвайте режим 'SSH'."
 
-#: common/tools.py:524
+#: common/tools.py:525
 msgid "File creation failed in this directory:"
 msgstr "Неуспех при създаването на файл в следната директория:"
 

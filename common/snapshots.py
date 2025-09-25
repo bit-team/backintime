@@ -817,8 +817,8 @@ class Snapshots:
             return ret_error
 
         if not force and not self.config.backupScheduled():
-            logger.info(f'Profile "{self.config.profileName()}" is not '
-                        'scheduled to run now.', self)
+            logger.debug(f'Profile "{self.config.profileName()}" is not '
+                         'scheduled to run now.', self)
             ret_error = False
             return ret_error
 
@@ -865,7 +865,7 @@ class Snapshots:
         # workaround (#1751) that should be removed/refactored after
         # this method ("backup()") is refactored.
         with flock.GlobalFlock(disable=not self.config.globalFlock()):
-            logger.info('Lock', self)
+            # logger.info('Lock', self)
             now = datetime.datetime.today()
 
             with InhibitSuspend():  # inhibit suspend mode while backup
@@ -876,7 +876,7 @@ class Snapshots:
                 except MountException as ex:
                     logger.error(str(ex), self)
                     instance.exitApplication()
-                    logger.info('Unlock', self)
+                    # logger.info('Unlock', self)
                     time.sleep(2)
 
                     return True
@@ -915,9 +915,12 @@ class Snapshots:
 
                     profile_id = self.config.currentProfile()
                     profile_name = self.config.profileName()
+                    user_name = logger.USER
 
-                    logger.info(f"Create a new backup. Profile: {profile_id} "
-                                f"{profile_name}", self)
+                    logger.info(f'Creating backup. Profile: '
+                                f'{profile_name}({profile_id})'
+                                f' User: {user_name}',
+                                self)
 
                     if not self.config.canBackup(profile_id):
 
@@ -1009,8 +1012,8 @@ class Snapshots:
 
                                 time.sleep(2)
 
-                            else:
-                                logger.warning("No new backup", self)
+                            # else:
+                            #     logger.warning("No new backup", self)
 
                         else:  # new snapshot taken...
 
@@ -1062,7 +1065,7 @@ class Snapshots:
 
                         instance.exitApplication()
 
-                        logger.info('Unlock', self)
+                        # logger.info('Unlock', self)
                         # --- END GlobalFlock context ---
 
             if sleep:
@@ -1174,7 +1177,7 @@ class Snapshots:
         Args:
             sid (SID):  snapshot in which the config should be stored
         """
-        logger.info('Save config file', self)
+        logger.info('Saving config file', self)
         self.setTakeSnapshotMessage(0, _('Saving config file…'))
 
         with open(self.config._LOCAL_CONFIG_PATH, 'rb') as src:
@@ -1255,7 +1258,7 @@ class Snapshots:
         Returns:
             int: Return code of rsync.
         """
-        logger.info('Save permissions', self)
+        logger.info('Saving permissions', self)
         self.setTakeSnapshotMessage(0, _('Saving permissions…'))
 
         fileInfoDict = FileInfoDict()
@@ -1363,8 +1366,9 @@ class Snapshots:
         # instead, e.g. a DataClass
 
         if new_snapshot.exists() and new_snapshot.saveToContinue:
-            logger.info(f"Found incomplete backup '{new_snapshot.displayID}' "
-                        "that can be continued.", self)
+            logger.warning(
+                f'Found incomplete backup "{new_snapshot.displayID}" '
+                'that can be continued.', self)
 
             # TODO
             # Not sure but {snapshot_id} is always "new_snapshot", isn't it?
@@ -1451,7 +1455,7 @@ class Snapshots:
             rsync_prefix.append('--link-dest=%s' % link_dest)
 
         # sync changed folders
-        logger.info("Call rsync to create a backup", self)
+        # logger.info("Call rsync to create a backup", self)
         new_snapshot.saveToContinue = True
         cmd = rsync_prefix + rsync_suffix
 
