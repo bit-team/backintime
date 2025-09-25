@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-08-21 11:32+0200\n"
-"PO-Revision-Date: 2025-05-29 14:06+0000\n"
+"PO-Revision-Date: 2025-09-06 10:31+0000\n"
 "Last-Translator: Mooo <mooo@noreply.codeberg.org>\n"
 "Language-Team: Lithuanian <https://translate.codeberg.org/projects/backintime/common/lt/>\n"
 "Language: lt\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.11.4\n"
+"X-Generator: Weblate 5.12.2\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -32,6 +32,9 @@ msgid ""
 "To extract per-file license and copyright information using SPDX metadata, "
 "refer to {readme_link}."
 msgstr ""
+"Visos šiame projekte naudojamos licencijos yra saugomos {dir_link} kataloge."
+" Norėdami išpakuoti kiekvieno atskiro failo licenciją ir autorių teisių "
+"informaciją naudojant SPDX metaduomenis, kreipkitės į {readme_link}."
 
 #: common/config.py:37 common/tools.py:86 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:98
@@ -122,9 +125,9 @@ msgid ""
 msgstr ""
 
 #: common/config.py:1510
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
-msgstr "Suplanuoti udev neveikia naudojant režimą {mode}"
+msgstr "Udev tvarkaraštis neveikia su {mode} veiksena"
 
 #: common/config.py:1564
 #, fuzzy
@@ -139,6 +142,11 @@ msgid ""
 "cron\", or consult the support channels of the currently used GNU/Linux "
 "distribution for assistance."
 msgstr ""
+"Cron neveikia nepaisant to, kad crontab komanda yra prieinama. Suplanuotos "
+"atsarginės kopijos užduotys nebus vykdomos. Gali būti, kad cron yra įdiegta,"
+" bet neįjungta. Pabandykite paleisti dvi komandas „systemctl enable cron“ ir"
+" „systemctl start cron“, arba prašykite pagalbos ar patarimų šiuo metu "
+"naudojamo GNU/Linux platinamojo paketo pagalbos kanaluose."
 
 #: common/configfile.py:101
 msgid "Failed to save config"
@@ -175,14 +183,12 @@ msgid "Cancel"
 msgstr "Atsisakyti"
 
 #: common/encfstools.py:149
-#, fuzzy
 msgid "Please re-enter the EncFS password to confirm."
-msgstr "Įveskite naudotojo „{user}“ slaptažodį."
+msgstr "Norėdami patvirtinti iš naujo įveskite EncFS slaptažodį."
 
 #: common/encfstools.py:155
-#, fuzzy
 msgid "The EncFS passwords do not match."
-msgstr "Slaptažodžiai nesutampa."
+msgstr "EncFS slaptažodžiai nesutampa."
 
 #: common/encfstools.py:515 common/snapshots.py:1126
 msgid "Take snapshot"
@@ -191,7 +197,7 @@ msgstr "Daryti momentinę kopiją"
 #: common/mount.py:622
 #, python-brace-format
 msgid "Unable to unmount {mountprocess} from {mountpoint}."
-msgstr ""
+msgstr "Nepavyko atjungti {mountprocess} nuo {mountpoint}."
 
 #: common/mount.py:709
 #, python-brace-format
@@ -343,9 +349,8 @@ msgid "Smart removal"
 msgstr "Išmanus šalinimas"
 
 #: common/snapshots.py:1995
-#, fuzzy
 msgid "Apply rules to remove old backups"
-msgstr "Senų momentinių kopijų pašalinimas"
+msgstr "Taikyti taisykles, kad būtų pašalintos senos atsarginės kopijos"
 
 #: common/snapshots.py:2028
 msgid "Apply retention policy"
@@ -607,24 +612,20 @@ msgid "Remove backup"
 msgstr "Šalinti atsarginę kopiją"
 
 #: qt/app.py:485
-#, fuzzy
 msgid "Open backup log"
-msgstr "Rodyti atsarginės kopijos žurnalą"
+msgstr "Atverti atsarginės kopijos žurnalą"
 
 #: qt/app.py:487
-#, fuzzy
 msgid "View log of the selected backup."
-msgstr ""
-"Privalo būti pasirinktas bent vienas atsarginei kopijai skirtas katalogas."
+msgstr "Rodyti pasirinktos atsarginės kopijos žurnalą."
 
 #: qt/app.py:489
-#, fuzzy
 msgid "Open last backup log"
-msgstr "Rodyti atsarginės kopijos žurnalą"
+msgstr "Atverti paskiausią atsarginės kopijos žurnalą"
 
 #: qt/app.py:491
 msgid "View log of the latest backup."
-msgstr ""
+msgstr "Rodyti paskiausios atsarginės kopijos žurnalą."
 
 #: qt/app.py:493
 msgid "Manage profiles…"
@@ -677,11 +678,10 @@ msgid "Changelog"
 msgstr "Keitinių žurnalas"
 
 #: qt/app.py:539
-#, fuzzy
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr ""
-"Atverti naudotojo vadovą naršyklėje (jei prieinama vietinį, o priešingu "
-"atveju internete)"
+"Atverti keitinių žurnalą (jei prieinama vietinį, o priešingu atveju "
+"internete)"
 
 #: qt/app.py:542
 msgid "FAQ"
@@ -865,9 +865,8 @@ msgid "ETA:"
 msgstr ""
 
 #: qt/app.py:1401
-#, fuzzy
 msgid "Backup:"
-msgstr "Atsarginės kopijos:"
+msgstr "Atsarginė kopija:"
 
 #: qt/app.py:1441
 #, python-brace-format
@@ -963,6 +962,8 @@ msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr ""
+"Paskirties vietoje yra tik {free} laisvos vietos, kas savo ruožtu yra žemiau"
+" sukonfigūruoto {threshold} slenksčio."
 
 #: qt/app.py:1776
 #, fuzzy
@@ -1142,12 +1143,11 @@ msgstr ""
 
 #: qt/encfsmsgbox.py:94
 msgid "Your Back In Time Team"
-msgstr ""
+msgstr "Jūsų, Back In Time komanda"
 
 #: qt/filedialog.py:87
-#, fuzzy
 msgid "Show/hide hidden files and directories (Ctrl+H)"
-msgstr "Įtraukti failus bei katalogus"
+msgstr "Rodyti/slėpti paslėptus failus ir katalogus (Ctrl+H)"
 
 #: qt/languagedialog.py:35
 msgid "Setup language"
@@ -1368,29 +1368,28 @@ msgstr "Kiekvieno operacinės sistemos paleidimo ar paleidimo iš naujo metu"
 #: qt/manageprofiles/schedulewidget.py:148
 #: qt/manageprofiles/schedulewidget.py:150
 #: qt/manageprofiles/schedulewidget.py:152
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every minute"
 msgid_plural "Every {n} minutes"
-msgstr[0] "Kas {n} minutes"
+msgstr[0] "Kas {n} minutę"
 msgstr[1] "Kas {n} minutes"
-msgstr[2] "Kas {n} minutes"
+msgstr[2] "Kas {n} minučių"
 
 #: qt/manageprofiles/schedulewidget.py:154
 #: qt/manageprofiles/schedulewidget.py:156
 #: qt/manageprofiles/schedulewidget.py:158
 #: qt/manageprofiles/schedulewidget.py:160
 #: qt/manageprofiles/schedulewidget.py:162
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Every hour"
 msgid_plural "Every {n} hours"
-msgstr[0] "Kas valandą"
-msgstr[1] "Kas valandą"
-msgstr[2] "Kas valandą"
+msgstr[0] "Kas {n} valandą"
+msgstr[1] "Kas {n} valandas"
+msgstr[2] "Kas {n} valandų"
 
 #: qt/manageprofiles/schedulewidget.py:163
-#, fuzzy
 msgid "Custom hours"
-msgstr "Pasirinktinos valandos"
+msgstr "Tinkintos valandos"
 
 #: qt/manageprofiles/schedulewidget.py:164
 #, fuzzy
@@ -1453,7 +1452,7 @@ msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:63
 msgid "<Select another file…>"
-msgstr ""
+msgstr "<Pasirinkti kitą failą…>"
 
 #: qt/manageprofiles/sshkeyselector.py:64
 #, fuzzy
@@ -1464,17 +1463,16 @@ msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:70
 msgid "<Generate new key-pair…>"
-msgstr ""
+msgstr "<Generuoti naują raktų porą…>"
 
 #: qt/manageprofiles/sshkeyselector.py:71
-#, fuzzy
 msgid "Create a new SSH key without passphrase."
-msgstr "Nepavyko sukurti naujo SSH rakto ties {path}."
+msgstr "Sukurti naują SSH raktą be slaptafrazės."
 
 #: qt/manageprofiles/sshkeyselector.py:91
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Full path: {path}"
-msgstr "Visas atsarginės kopijos kelias:"
+msgstr "Visas kelias: {path}"
 
 #: qt/manageprofiles/sshkeyselector.py:185
 #, fuzzy
@@ -1482,9 +1480,8 @@ msgid "Private key:"
 msgstr "Privatus raktas:"
 
 #: qt/manageprofiles/sshkeyselector.py:190
-#, fuzzy
 msgid "Use system SSH configuration"
-msgstr "Importuoti konfigūraciją"
+msgstr "Naudoti sistemos SSH konfigūraciją"
 
 #: qt/manageprofiles/sshkeyselector.py:192
 msgid ""
