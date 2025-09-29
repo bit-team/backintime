@@ -2028,7 +2028,12 @@ def inhibitSuspend(app_id = sys.argv[0],
     try:
         if not toplevel_xid:
             toplevel_xid = 0
-    except IndexError:
+        # Ensure toplevel_xid fits in UInt32 range (0 to 4294967295)
+        # If it's too large, use 0 as fallback since window ID is not critical for inhibit
+        elif toplevel_xid > 0xFFFFFFFF:  # 4294967295
+            logger.debug(f'Window ID {toplevel_xid} exceeds UInt32 range, using 0 as fallback')
+            toplevel_xid = 0
+    except (IndexError, TypeError, ValueError):
         toplevel_xid = 0
 
     for dbus_props in INHIBIT_DBUS:
@@ -2042,7 +2047,14 @@ def inhibitSuspend(app_id = sys.argv[0],
                 bus = dbus.SessionBus()  # This code may hang forever (if BiT is run as root via cron job and no user is logged in). See #1592
             interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
             proxy = interface.get_dbus_method(dbus_props['methodSet'], dbus_props['interface'])
-            cookie = proxy(*[(app_id, dbus.UInt32(toplevel_xid), reason, dbus.UInt32(flags))[i] for i in dbus_props['arguments']])
+            # Handle potential UInt32 overflow by wrapping the conversion in try-catch
+            try:
+                args_tuple = (app_id, dbus.UInt32(toplevel_xid), reason, dbus.UInt32(flags))
+                cookie = proxy(*[args_tuple[i] for i in dbus_props['arguments']])
+            except OverflowError as e:
+                logger.debug(f'UInt32 overflow with toplevel_xid={toplevel_xid}, using 0 as fallback: {e}')
+                args_tuple = (app_id, dbus.UInt32(0), reason, dbus.UInt32(flags))
+                cookie = proxy(*[args_tuple[i] for i in dbus_props['arguments']])
             logger.debug('Inhibit Suspend started. Reason: {}'.format(reason))
             return (cookie, bus, dbus_props)
         except dbus.exceptions.DBusException:
