@@ -32,7 +32,8 @@ class AboutDlg(QDialog):
         self.parent = parent
         self.config = parent.config
 
-        import icon  # pylint: disable=import-outside-toplevel
+        # pylint: disable-next=import-outside-toplevel
+        import icon  # noqa
 
         self.setWindowTitle(_('About') + ' ' + self.config.APP_NAME)
         logo = QLabel('Icon')
