@@ -1489,10 +1489,16 @@ class Config(configfile.ConfigFileWithProfiles):
         profile_ids = self.profiles()
 
         # For each profile: cronline and the command (backintime)
-        cron_lines = [
-            self._cron_line(pid).replace('{cmd}', self._cron_cmd(pid))
-            for pid in profile_ids
-        ]
+        cron_lines = []
+        for pid in profile_ids:
+            result = self._cron_line(pid)
+
+            try:
+                cron_lines.append(
+                    result.replace('{cmd}', self._cron_cmd(pid))
+                )
+            except AttributeError:
+                pass
 
         # Remove empty lines (profiles not scheduled)
         cron_lines = list(filter(None, cron_lines))
