@@ -17,7 +17,6 @@ from PyQt6.QtWidgets import (QCheckBox,
                              QHBoxLayout,
                              QLabel,
                              QSpinBox,
-                             QStyle,
                              QToolTip,
                              QWidget)
 from PyQt6.QtCore import Qt
