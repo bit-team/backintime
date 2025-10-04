@@ -49,8 +49,9 @@ using a "feature" branch and sending a pull request asking for a review.
 
 ## TLDR ;-)
 
-- Make sure we have sufficient _Credits_ to run _TravisCI_. Otherwise contact
-  their support and kindly ask for new OSS credits.
+- Make sure we have
+  [sufficient _Credits_ to run _TravisCI_](https://app.travis-ci.com/organizations/bit-team/plan).
+  Otherwise contact their support and kindly ask for new OSS credits.
 - Create a new branch (e.g. `rc/v1.5.4`) in your clone for the new release
   (candidate).
 - Update `VERSION` file.
