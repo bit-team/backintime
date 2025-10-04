@@ -2042,7 +2042,7 @@ def inhibitSuspend(app_id = sys.argv[0],
                 bus = dbus.SessionBus()  # This code may hang forever (if BiT is run as root via cron job and no user is logged in). See #1592
             interface = bus.get_object(dbus_props['service'], dbus_props['objectPath'])
             proxy = interface.get_dbus_method(dbus_props['methodSet'], dbus_props['interface'])
-            cookie = proxy(*[(app_id, dbus.UInt32(toplevel_xid), reason, dbus.UInt32(flags))[i] for i in dbus_props['arguments']])
+            cookie = proxy(*[(app_id, 0, reason, dbus.UInt32(flags))[i] for i in dbus_props['arguments']])
             logger.debug('Inhibit Suspend started. Reason: {}'.format(reason))
             return (cookie, bus, dbus_props)
         except dbus.exceptions.DBusException:

@@ -1456,6 +1456,12 @@ class MainWindow(QMainWindow):
             return '<a href="https://bugs.launchpad.net/backintime/+bug/%(id)s">%(txt)s</a>' % {'txt': m.group(0), 'id': m.group(1)}
 
         changelog_path = pathlib.Path(tools.docPath()) / 'CHANGES'
+
+        if not changelog_path.exists():
+            url = 'https://github.com/bit-team/backintime/blob/dev/CHANGES'
+            QDesktopServices.openUrl(QUrl(url))
+            return
+
         msg = changelog_path.read_text('utf-8')
         msg = re.sub(r'https?://[^) \n]*', aHref, msg)
         msg = re.sub(r'(?:LP:|bug) ?#?(\d+)', aHref_lp, msg)

@@ -1,5 +1,10 @@
 Back In Time
 
+Version 1.5.6 (2025-10-??)
+* Fixed: Always use 0 as window ID value when inhibiting suspend via D-Bus power manager (#2084, #2268, #2192)
+* Fixed: Crash in "Manage profiles" dialog when using "qt6ct" (#2128)
+* Fixed: Open online changelog if local CHANGES file is missing (#2266)
+
 Version 1.5.5 (2025-06-05)
 * Fixed: Unlocking SSH keys with passphrases on new created profiles (#2164) (@davidfjoh)
 
@@ -9,7 +14,7 @@ Version 1.5.4 (2025-03-24)
 * Changed: More clear and intense warning about EncFS deprecation and removal (#1904)
 * Changed: Updated desktop entry files
 * Changed: Move several values from config file into new introduce state file ($XDG_STATE_HOME/backintime.json)
-* Fix!: Smart-remove rule "Keep one snapshots per week or the last week" use calendar weeks
+* Changed: Smart-remove rule "Keep one snapshots per week or the last week" use calendar weeks
 * Fix: Exclude patterns are now case-sensitive when added (#2040)
 * Fix: The width of the fourth column in files view is now saved
 * Fix: Snapshot compare copy symlink as symlink (#1902) (Peter Sevens @sevens)
