@@ -2153,10 +2153,12 @@ class MainWindow(QMainWindow):
         qttools.open_user_manual()
 
     def _slot_help_man_backintime(self):
-        qttools.open_man_page('backintime')
+        qttools.open_man_page(
+            'backintime', self.act_help_man_backintime.icon())
 
     def _slot_help_man_config(self):
-        qttools.open_man_page('backintime-config')
+        qttools.open_man_page(
+            'backintime-config', self.act_help_man_config.icon())
 
     def _slot_help_website(self):
         qttools.open_url(bitbase.URL_WEBSITE)
@@ -2173,8 +2175,11 @@ class MainWindow(QMainWindow):
 
         if content:
             td = TextDialog(
-                content, markdown=False,
-                title=_('Changelog'), icon=icon.CHANGELOG)
+                content,
+                markdown=False,
+                title=_('Changelog'),
+                icon=self.act_help_changelog.icon()
+            )
             td.exec()
             return
 

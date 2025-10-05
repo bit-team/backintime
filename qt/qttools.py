@@ -25,7 +25,7 @@ import textwrap
 import subprocess
 from typing import Union, Iterable, Callable
 from contextlib import contextmanager
-from tempfile import NamedTemporaryFile
+from textdlg import TextDialog
 from PyQt6.QtGui import QDesktopServices, QIcon
 from PyQt6.QtCore import (QEvent,
                           QLibraryInfo,
@@ -48,7 +48,7 @@ import tools  # noqa: E402
 import logger  # noqa: E402
 import bitbase  # noqa: E402
 import version  # noqa: E402
-import messagebox
+import messagebox  # noqa: E402
 
 
 # |--------------------------------|
@@ -296,9 +296,9 @@ def open_url(url: str) -> None:
     QDesktopServices.openUrl(QUrl(url))
 
 
-def open_man_page(manpage: str) -> None:
+def open_man_page(manpage: str, icon: QIcon) -> None:
     """Open the manpage in a terminal window."""
-    env=os.environ.copy()
+    env = os.environ.copy()
     env['MANWIDTH'] = '80'
 
     content = ''
@@ -327,16 +327,24 @@ def open_man_page(manpage: str) -> None:
         if sys.version_info >= (3, 12):
             extra_args['delete_on_close'] = False
 
-        # Write content to temp text file
-        with NamedTemporaryFile(mode='w',
-                                encoding='utf-8',
-                                suffix='.txt',
-                                delete=False,
-                                **extra_args) as temp_file:
-            temp_file.write(content)
+        td = TextDialog(
+            content,
+            markdown=False,
+            title=_('man page: {man_page_name}').format(
+                man_page_name=manpage),
+            icon=icon)
+        td.exec()
 
-        # open text file with associated default application
-        subprocess.run(['xdg-open', temp_file.name], check=True)
+        # # Write content to temp text file
+        # with NamedTemporaryFile(mode='w',
+        #                         encoding='utf-8',
+        #                         suffix='.txt',
+        #                         delete=False,
+        #                         **extra_args) as temp_file:
+        #     temp_file.write(content)
+
+        # # open text file with associated default application
+        # subprocess.run(['xdg-open', temp_file.name], check=True)
 
 
 def user_manual_uri() -> str:
