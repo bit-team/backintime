@@ -22,6 +22,7 @@
 
 """
 import os
+import subprocess
 import sys
 import re
 import textwrap
@@ -278,7 +279,38 @@ def open_user_manual() -> None:
     If available the local manual is used otherwise the online version is
     opened.
     """
-    QDesktopServices.openUrl(QUrl(user_manual_uri()))
+    open_url(user_manual_uri())
+
+
+def open_url(self, url):
+    sudo_user = os.getenv('SUDO_USER', None)
+
+    if not sudo_user:  # regular user mode
+        return QDesktopServices.openUrl(QUrl(url))
+
+    # BIT in root mode
+    try:
+        subprocess.run(
+            [
+                'runuser',
+                '-u',
+                sudo_user,
+                '--',
+                'xdg-open',
+                url
+            ],
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+    except (subprocess.CalledProcessError, FileNotFoundError) as exc:
+        logger.error(f'Problem while opening "{url}" in as user '
+                     f'"{sudo_user}" while in root-mode. '
+                     f'Error was: {exc}')
+    except Exception as exc:
+        logger.critical(f'Unknown problem while opening "{url}" in as user '
+                        f'"{sudo_user}" while in root-mode. '
+                        f'Error was: {exc}')
 
 
 class FileDialogShowHidden(QFileDialog):
