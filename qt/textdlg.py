@@ -13,6 +13,9 @@ from PyQt6.QtCore import QTimer
 
 class TextDialog(QDialog):
     """A dialog containing a QTextBrowser capable of markdown and plain text
+
+    Dev note: Consider joining the center-resize-feature with
+    RestoreConfigDialog.
     """
 
     def __init__(self,

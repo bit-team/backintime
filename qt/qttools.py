@@ -335,17 +335,6 @@ def open_man_page(manpage: str, icon: QIcon) -> None:
             icon=icon)
         td.exec()
 
-        # # Write content to temp text file
-        # with NamedTemporaryFile(mode='w',
-        #                         encoding='utf-8',
-        #                         suffix='.txt',
-        #                         delete=False,
-        #                         **extra_args) as temp_file:
-        #     temp_file.write(content)
-
-        # # open text file with associated default application
-        # subprocess.run(['xdg-open', temp_file.name], check=True)
-
 
 def user_manual_uri() -> str:
     """Return the URI to the user manual.
