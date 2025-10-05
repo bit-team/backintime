@@ -658,7 +658,7 @@ class MainWindow(QMainWindow):
         if pwd.getpwuid(os.getuid()).pw_name == 'root':  # BIT root-mode
             tooltip = 'Not available in root mode.'
             act_key = 'act_help_user_manual'
-            act = self.getattr(act_key)
+            act = getattr(self, act_key)
             act.setEnabled(False)
             act.setToolTip(tooltip)
 
