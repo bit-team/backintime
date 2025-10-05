@@ -45,6 +45,7 @@ from inhibitsuspend import InhibitSuspend
 from exceptions import MountException
 from statedata import StateData
 from filedialog import FileDialog
+from textdlg import TextDialog
 from PyQt6.QtGui import (QAction,
                          QActionGroup,
                          QDesktopServices,
@@ -2161,6 +2162,18 @@ class MainWindow(QMainWindow):
         qttools.open_url(bitbase.URL_WEBSITE)
 
     def _slot_help_changelog(self):
+        import gzip
+
+        fp = pathlib.Path('/usr') / 'share' / 'doc' / 'backintime-common' / 'changelog.gz'
+        with gzip.open(fp, 'rt') as handle:
+            content = handle.read()
+
+        td = TextDialog(
+            content, markdown=False,
+            title=_('Changelog'), icon=icon.CHANGELOG)
+        td.exec()
+
+        return
         if bitbase.CHANGELOG_LOCAL_AVAILABLE:
             subprocess.run(['xdg-open', str(bitbase.CHANGELOG_LOCAL_PATH)])
             return
