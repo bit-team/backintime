@@ -657,10 +657,20 @@ class MainWindow(QMainWindow):
         # Will be improved in versions ater that.
         if pwd.getpwuid(os.getuid()).pw_name == 'root':  # BIT root-mode
             tooltip = 'Not available in root mode.'
-            act_key = 'act_help_user_manual'
-            act = getattr(self, act_key)
-            act.setEnabled(False)
-            act.setToolTip(tooltip)
+            the_keys = [
+                'act_help_user_manual',
+                'act_help_website',
+                'act_help_changelog',
+                'act_help_faq',
+                'act_help_question',
+                'act_help_bugreport',
+            ]
+
+            for act_key in the_keys:
+                act = getattr(self, act_key)
+                act.setEnabled(False)
+                act.setToolTip(tooltip)
+
 
     def _create_shortcuts_without_actions(self):
         """Create shortcuts that are not related to a visual element in the
