@@ -17,7 +17,6 @@ if not os.getenv('DISPLAY', ''):
     os.putenv('DISPLAY', ':0.0')
 import pathlib
 import json
-import subprocess
 import threading
 import shutil
 import textwrap
