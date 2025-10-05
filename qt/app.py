@@ -2162,22 +2162,23 @@ class MainWindow(QMainWindow):
         qttools.open_url(bitbase.URL_WEBSITE)
 
     def _slot_help_changelog(self):
-        import gzip
+        if bitbase.CHANGELOG_LOCAL_PATH.exists():
+            content = bitbase.CHANGELOG_LOCAL_PATH.read_text('utf-8')
+        elif bitbase.CHANGELOG_DEBIAN_GZ.exists():
+            import gzip
+            with gzip.open(bitbase.CHANGELOG_DEBIAN_GZ, 'rt') as handle:
+                content = handle.read()
+        else:
+            content = None
 
-        fp = pathlib.Path('/usr') / 'share' / 'doc' / 'backintime-common' / 'changelog.gz'
-        with gzip.open(fp, 'rt') as handle:
-            content = handle.read()
-
-        td = TextDialog(
-            content, markdown=False,
-            title=_('Changelog'), icon=icon.CHANGELOG)
-        td.exec()
-
-        return
-        if bitbase.CHANGELOG_LOCAL_AVAILABLE:
-            subprocess.run(['xdg-open', str(bitbase.CHANGELOG_LOCAL_PATH)])
+        if content:
+            td = TextDialog(
+                content, markdown=False,
+                title=_('Changelog'), icon=icon.CHANGELOG)
+            td.exec()
             return
 
+        # Fallback: Use upstream website changelog
         qttools.open_url(bitbase.URL_CHANGELOG)
 
     def _slot_help_faq(self):
