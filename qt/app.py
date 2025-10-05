@@ -1478,7 +1478,7 @@ class MainWindow(QMainWindow):
         self.openUrl('https://github.com/bit-team/backintime/issues/new')
 
     def openUrl(self, url):
-        qttools.open_url(url)
+        return QDesktopServices.openUrl(QUrl(url))
 
     def openManPage(self, man_page):
         if not tools.checkCommand('man'):
