@@ -49,15 +49,16 @@ using a "feature" branch and sending a pull request asking for a review.
 
 ## TLDR ;-)
 
-- Make sure we have sufficient _Credits_ to run _TravisCI_. Otherwise contact
-  their support and kindly ask for new OSS credits.
+- Make sure we have
+  [sufficient _Credits_ to run _TravisCI_](https://app.travis-ci.com/organizations/bit-team/plan).
+  Otherwise contact their support and kindly ask for new OSS credits.
 - Create a new branch (e.g. `rc/v1.5.4`) in your clone for the new release
   (candidate).
 - Update `VERSION` file.
 - Update `CHANGES` file.
 - Execute the script `./updateversion.sh` to update the version numbers (based on `VERSION` file) in several files.
 - Update the "as at" date in the man page files `backintime.1` and `backintime-askpass.1`.
-- Autogenerate and update the man page file `backintime-config.1` by executing the script `common/create-manapge-backintime-config.py`.
+- (deprecated) Autogenerate and update the man page file `backintime-config.1` by executing the script `common/create-manapge-backintime-config.py`.
   - Validate the content of the created man page. For example compared it to a
     previous version of the man page.
   - Create a plain text file from the man pages: `man <man-file> | col -b >
