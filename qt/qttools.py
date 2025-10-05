@@ -279,7 +279,7 @@ def open_user_manual() -> None:
     If available the local manual is used otherwise the online version is
     opened.
     """
-    open_url(user_manual_uri())
+    QDesktopServices.openUrl(QUrl(user_manual_uri()))
 
 
 class FileDialogShowHidden(QFileDialog):
