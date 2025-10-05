@@ -300,7 +300,7 @@ def _determine_root_mode_user() -> str:
     # Try pkexec
     uid = os.getenv('PKEXEC_UID', None)
     if uid:
-        return pwd.getpwuid(uid).pw_name
+        return pwd.getpwuid(int(uid)).pw_name
 
     # Try sudo
     sudo_user = os.getenv('SUDO_USER', None)
