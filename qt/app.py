@@ -16,6 +16,7 @@ import sys
 if not os.getenv('DISPLAY', ''):
     os.putenv('DISPLAY', ':0.0')
 
+import pwd
 import pathlib
 import re
 import json
@@ -650,6 +651,15 @@ class MainWindow(QMainWindow):
         self.act_show_hidden.setCheckable(True)
         self.act_show_hidden.setChecked(self.showHiddenFiles)
         self.act_show_hidden.toggled.connect(self.btnShowHiddenFilesToggled)
+
+        # Workaround: Not easy to open URLs in webbrowser with BIT in root
+        # mode. For v1.5.6. we just disable that and give a hint via tooltip.
+        # Will be improved in versions ater that.
+        if pwd.getpwuid(os.getuid()).pw_name == 'root':  # BIT root-mode
+            tooltip = 'Not available in root mode.'
+            act_key = 'act_help_user_manual'
+            self[act_key].setEnabled(False)
+            self[act_key].setToolTip(tooltip)
 
     def _create_shortcuts_without_actions(self):
         """Create shortcuts that are not related to a visual element in the
