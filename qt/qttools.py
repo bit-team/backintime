@@ -310,7 +310,7 @@ def _determine_root_mode_user() -> str:
     return None
 
 
-def open_url(self, url):
+def open_url(url):
     # regular user mode
     if not bitbase.IS_IN_ROOT_MODE:  
         return QDesktopServices.openUrl(QUrl(url))
