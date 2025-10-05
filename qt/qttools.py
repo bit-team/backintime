@@ -19,6 +19,7 @@
 """
 import os
 import sys
+import pwd
 import re
 import json
 import textwrap
@@ -291,14 +292,59 @@ class MouseButtonEventFilter(QObject):
         return super().eventFilter(receiver, event)
 
 
-def open_url(url: str) -> None:
-    """Open an URL or URI"""
-    QDesktopServices.openUrl(QUrl(url))
+def _determine_root_mode_user() -> str:
+    """Determine the users name who started BIT in root mode
+
+    Usually pkexec is used but some users do use sudo themself.
+    """
+    # Try pkexec
+    uid = os.getenv('PKEXEC_UID', None)
+    if uid:
+        return pwd.getpwuid(uid).pw_name
+
+    # Try sudo
+    sudo_user = os.getenv('SUDO_USER', None)
+    if sudo_user:
+        return sudo_user
+
+    return None
+
+
+def open_url(self, url):
+    # regular user mode
+    if not bitbase.IS_IN_ROOT_MODE:  
+        return QDesktopServices.openUrl(QUrl(url))
+
+    # root mode
+    user_name = _determine_root_mode_user()
+
+    try:
+        subprocess.run(
+            [
+                'runuser',
+                '-u',
+                user_name,
+                '--',
+                'xdg-open',
+                url
+            ],
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+    except (subprocess.CalledProcessError, FileNotFoundError) as exc:
+        logger.error(f'Problem while opening "{url}" in as user '
+                     f'"{user_name}" while in root-mode. '
+                     f'Error was: {exc}')
+    except Exception as exc:
+        logger.critical(f'Unknown problem while opening "{url}" in as user '
+                        f'"{user_name}" while in root-mode. '
+                        f'Error was: {exc}')
 
 
 def open_man_page(manpage: str) -> None:
     """Open the manpage in a terminal window."""
-    env=os.environ.copy()
+    env = os.environ.copy()
     env['MANWIDTH'] = '80'
 
     content = ''
