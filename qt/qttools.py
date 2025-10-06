@@ -368,11 +368,6 @@ def open_man_page(manpage: str, icon: QIcon) -> None:
         logger.error(str(exc))
 
     else:
-        # Workaround until min Python version is 3.12
-        extra_args = {}
-        if sys.version_info >= (3, 12):
-            extra_args['delete_on_close'] = False
-
         td = TextDialog(
             content,
             markdown=False,
