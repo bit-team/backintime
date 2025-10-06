@@ -19,13 +19,14 @@
 """
 import os
 import sys
+import pwd
 import re
 import json
 import textwrap
 import subprocess
 from typing import Union, Iterable, Callable
 from contextlib import contextmanager
-from tempfile import NamedTemporaryFile
+from textdlg import TextDialog
 from PyQt6.QtGui import QDesktopServices, QIcon
 from PyQt6.QtCore import (QEvent,
                           QLibraryInfo,
@@ -48,7 +49,7 @@ import tools  # noqa: E402
 import logger  # noqa: E402
 import bitbase  # noqa: E402
 import version  # noqa: E402
-import messagebox
+import messagebox  # noqa: E402
 
 
 # |--------------------------------|
@@ -291,14 +292,59 @@ class MouseButtonEventFilter(QObject):
         return super().eventFilter(receiver, event)
 
 
-def open_url(url: str) -> None:
-    """Open an URL or URI"""
-    QDesktopServices.openUrl(QUrl(url))
+def _determine_root_mode_user() -> str:
+    """Determine the users name who started BIT in root mode
+
+    Usually pkexec is used but some users do use sudo themself.
+    """
+    # Try pkexec
+    uid = os.getenv('PKEXEC_UID', None)
+    if uid:
+        return pwd.getpwuid(int(uid)).pw_name
+
+    # Try sudo
+    sudo_user = os.getenv('SUDO_USER', None)
+    if sudo_user:
+        return sudo_user
+
+    return None
 
 
-def open_man_page(manpage: str) -> None:
+def open_url(url):
+    # regular user mode
+    if not bitbase.IS_IN_ROOT_MODE:  
+        return QDesktopServices.openUrl(QUrl(url))
+
+    # root mode
+    user_name = _determine_root_mode_user()
+
+    try:
+        subprocess.run(
+            [
+                'runuser',
+                '-u',
+                user_name,
+                '--',
+                'xdg-open',
+                url
+            ],
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+    except (subprocess.CalledProcessError, FileNotFoundError) as exc:
+        logger.error(f'Problem while opening "{url}" in as user '
+                     f'"{user_name}" while in root-mode. '
+                     f'Error was: {exc}')
+    except Exception as exc:
+        logger.critical(f'Unknown problem while opening "{url}" in as user '
+                        f'"{user_name}" while in root-mode. '
+                        f'Error was: {exc}')
+
+
+def open_man_page(manpage: str, icon: QIcon) -> None:
     """Open the manpage in a terminal window."""
-    env=os.environ.copy()
+    env = os.environ.copy()
     env['MANWIDTH'] = '80'
 
     content = ''
@@ -322,21 +368,13 @@ def open_man_page(manpage: str) -> None:
         logger.error(str(exc))
 
     else:
-        # Workaround until min Python version is 3.12
-        extra_args = {}
-        if sys.version_info >= (3, 12):
-            extra_args['delete_on_close'] = False
-
-        # Write content to temp text file
-        with NamedTemporaryFile(mode='w',
-                                encoding='utf-8',
-                                suffix='.txt',
-                                delete=False,
-                                **extra_args) as temp_file:
-            temp_file.write(content)
-
-        # open text file with associated default application
-        subprocess.run(['xdg-open', temp_file.name], check=True)
+        td = TextDialog(
+            content,
+            markdown=False,
+            title=_('man page: {man_page_name}').format(
+                man_page_name=manpage),
+            icon=icon)
+        td.exec()
 
 
 def user_manual_uri() -> str:
