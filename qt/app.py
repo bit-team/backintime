@@ -17,7 +17,6 @@ if not os.getenv('DISPLAY', ''):
     os.putenv('DISPLAY', ':0.0')
 import pathlib
 import json
-import subprocess
 import threading
 import shutil
 import textwrap
@@ -45,6 +44,7 @@ from inhibitsuspend import InhibitSuspend
 from exceptions import MountException
 from statedata import StateData
 from filedialog import FileDialog
+from textdlg import TextDialog
 from PyQt6.QtGui import (QAction,
                          QActionGroup,
                          QDesktopServices,
@@ -2152,19 +2152,37 @@ class MainWindow(QMainWindow):
         qttools.open_user_manual()
 
     def _slot_help_man_backintime(self):
-        qttools.open_man_page('backintime')
+        qttools.open_man_page(
+            'backintime', self.act_help_man_backintime.icon())
 
     def _slot_help_man_config(self):
-        qttools.open_man_page('backintime-config')
+        qttools.open_man_page(
+            'backintime-config', self.act_help_man_config.icon())
 
     def _slot_help_website(self):
         qttools.open_url(bitbase.URL_WEBSITE)
 
     def _slot_help_changelog(self):
-        if bitbase.CHANGELOG_LOCAL_AVAILABLE:
-            subprocess.run(['xdg-open', str(bitbase.CHANGELOG_LOCAL_PATH)])
+        if bitbase.CHANGELOG_LOCAL_PATH.exists():
+            content = bitbase.CHANGELOG_LOCAL_PATH.read_text('utf-8')
+        elif bitbase.CHANGELOG_DEBIAN_GZ.exists():
+            import gzip
+            with gzip.open(bitbase.CHANGELOG_DEBIAN_GZ, 'rt') as handle:
+                content = handle.read()
+        else:
+            content = None
+
+        if content:
+            td = TextDialog(
+                content,
+                markdown=False,
+                title=_('Changelog'),
+                icon=self.act_help_changelog.icon()
+            )
+            td.exec()
             return
 
+        # Fallback: Use upstream website changelog
         qttools.open_url(bitbase.URL_CHANGELOG)
 
     def _slot_help_faq(self):
