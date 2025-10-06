@@ -1,4 +1,4 @@
-<!-- 
+<!--
 SPDX-FileCopyrightText: © 2022 Back In Time Team
 SPDX-FileCopyrightText: © 2024 Paul Worrall (@Silver-Saucepan)
 
@@ -8,7 +8,7 @@ This file is part of the program "Back In Time" which is released under GNU
 General Public License v2 (GPLv2). See LICENSES directory or go to
 <https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
-<sub>January 2025</sub>
+<sub>August 2025</sub>
 
 # FAQ - Frequently Asked Questions
 
@@ -19,31 +19,34 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [Does _Back in Time_ support backups on cloud storage like OneDrive or Google Drive?](#does-back-in-time-support-backups-on-cloud-storage-like-onedrive-or-google-drive)
    * [Where is the log file?](#where-is-the-log-file)
    * [How to read log entries?](#how-to-read-log-entries)
-   * [How to move snapshots to a new hard-drive?](#how-to-move-snapshots-to-a-new-hard-drive)
+   * [How to move backups to a new hard-drive?](#how-to-move-backups-to-a-new-hard-drive)
    * [How to move a large directory in the backup source without duplicating the files in the backup?](#how-to-move-a-large-directory-in-the-backup-source-without-duplicating-the-files-in-the-backup)
    * [How does _Back In Time_ compare with _Timeshift_?](#how-does-back-in-time-compare-with-timeshift)
+   * [Additional features beside the GUI and benefits of using BIT](#additional-features-beside-the-gui-and-benefits-of-using-bit)
 - [Backups (snapshots)](#backups-snapshots)
+   * [Backup or Snapshot?](#backup-or-snapshot)
    * [Does _Back In Time_ create incremental or full backups?](#does-back-in-time-create-incremental-or-full-backups)
-   * [How do snapshots with hard-links work?](#how-do-snapshots-with-hard-links-work)
-   * [How can I check if my snapshots are using hard-links?](#how-can-i-check-if-my-snapshots-are-using-hard-links)
+   * [How do backups with hard-links work?](#how-do-backups-with-hard-links-work)
+   * [How can I check if my backups are using hard-links?](#how-can-i-check-if-my-backups-are-using-hard-links)
    * [How to use checksum to find corrupt files periodically?](#how-to-use-checksum-to-find-corrupt-files-periodically)
-   * [What is the meaning of the leading 11 characters (e.g. "cf...p.....") in my snapshot logs?](#what-is-the-meaning-of-the-leading-11-characters-eg-cfp-in-my-snapshot-logs)
-   * [Snapshot "WITH ERRORS": [E] 'rsync' ended with exit code 23: See 'man rsync' for more details](#snapshot-with-errors-e-rsync-ended-with-exit-code-23-see-man-rsync-for-more-details)
-   * [What happens when I remove a snapshot?](#what-happens-when-i-remove-a-snapshot)
+   * [What is the meaning of the leading 11 characters (e.g. "cf...p.....") in my backup logs?](#what-is-the-meaning-of-the-leading-11-characters-eg-cfp-in-my-backup-logs)
+   * [Backup "WITH ERRORS": [E] 'rsync' ended with exit code 23: See 'man rsync' for more details](#backup-with-errors-e-rsync-ended-with-exit-code-23-see-man-rsync-for-more-details)
+   * [What happens when I remove a backup?](#what-happens-when-i-remove-a-backup)
    * [How can I exclude cache folders to improve backup speed and reduce storage?](#how-can-i-exclude-cache-folders-to-improve-backup-speed-and-reduce-storage)
    * [How to use extended filesystem attributes (xattr) to exclude files/directories?](#how-to-use-extended-filesystem-attributes-xattr-to-exclude-filesdirectories)
+   * [How does Back In Time handle open or changed files during backup?](#how-does-back-in-time-handle-open-or-changed-files-during-backup)
 - [Restore](#restore)
    * [After Restore I have duplicates with extension ".backup.20131121"](#after-restore-i-have-duplicates-with-extension-backup20131121)
-   * [Back In Time doesn't find my old Snapshots on my new Computer](#back-in-time-doesnt-find-my-old-snapshots-on-my-new-computer)
+   * [Back In Time doesn't find my old backups on my new Computer](#back-in-time-doesnt-find-my-old-backups-on-my-new-computer)
 - [Schedule](#schedule)
    * [How does the 'Repeatedly (anacron)' schedule work?](#how-does-the-repeatedly-anacron-schedule-work)
-   * [Will a scheduled snapshot run as soon as the computer is back on?](#will-a-scheduled-snapshot-run-as-soon-as-the-computer-is-back-on)
+   * [Will a scheduled backup run as soon as the computer is back on?](#will-a-scheduled-backup-run-as-soon-as-the-computer-is-back-on)
    * [If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?](#if-i-edit-my-crontab-and-add-additional-entries-will-that-be-a-problem-for-bit-as-long-as-i-dont-touch-its-entries-what-does-it-look-for-in-the-crontab-to-find-its-own-entries)
    * [Can I use a systemd timer instead of cron?](#can-i-use-a-systemd-timer-instead-of-cron)
 - [Problems, Errors & Solutions](#problems-errors--solutions)
    * [WARNING: A backup is already running](#warning-a-backup-is-already-running)
    * [_Back in Time_ does not start and shows: The application is already running! (pid: 1234567)](#back-in-time-does-not-start-and-shows-the-application-is-already-running-pid-1234567)
-   * [Switching to dark or light mode in the desktop environment is ignored by BIT](#switching-to-dark-or-light-mode-in-the-desktop-environment-is-ignored-by-bit) 
+   * [Switching to dark or light mode in the desktop environment is ignored by BIT](#switching-to-dark-or-light-mode-in-the-desktop-environment-is-ignored-by-bit)
    * [Segmentation fault on Exit](#segmentation-fault-on-exit)
    * [Version >= 1.2.0 works very slow / Unchanged files are backed up](#version--120-works-very-slow--unchanged-files-are-backed-up)
    * [What happens if I hibernate the computer while a backup is running?](#what-happens-if-i-hibernate-the-computer-while-a-backup-is-running)
@@ -61,11 +64,14 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [How to use QNAP QTS NAS with BIT over SSH](#how-to-use-qnap-qts-nas-with-bit-over-ssh)
    * [How to use Synology DSM 5 with BIT over SSH](#how-to-use-synology-dsm-5-with-bit-over-ssh)
    * [How to use Synology DSM 6 with BIT over SSH](#how-to-use-synology-dsm-6-with-bit-over-ssh)
+      * [Using a non-standard port](#using-a-non-standard-port)
    * [How to use Synology DSM 7 with BIT over SSH](#how-to-use-synology-dsm-7-with-bit-over-ssh)
-   * [Synology: "sshfs: No such file or directory" using BIT but manually ssh with rsync works](#synology-sshfs-no-such-file-or-directory-using-bit-but-manually-ssh-with-rsync-works)
+     * [Using a non-standard SSH port with a Synology NAS](#using-a-non-standard-ssh-port-with-a-synology-nas)
+     * ["sshfs: No such file or directory" using BIT, but manually ssh with rsync works](#sshfs-no-such-file-or-directory-using-bit-but-manually-ssh-with-rsync-works)
+   * [Synology: use different volume for backup](#synology-use-different-volume-for-backup)
    * [How to use Western Digital MyBook World Edition with BIT over ssh?](#how-to-use-western-digital-mybook-world-edition-with-bit-over-ssh)
 - [Project & Contributing & more](#project--Contributing--more)
-   * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-are-there-additional-benefits)
+   * [Alternative installation options](#alternative-installation-options)
    * [Support for specific package formats (deb, rpm, Flatpack, AppImage, Snaps, PPA, …)](#support-for-specific-package-formats-deb-rpm-flatpack-appimage-snaps-ppa-)
    + [Is BIT really not supported by Canonical Ubuntu?](#is-bit-really-not-supported-by-canonical-ubuntu)
    * [Move project to alternative code hoster (e.g. Codeberg, GitLab, …)](#move-project-to-alternative-code-hoster-eg-codeberg-gitlab-)
@@ -117,8 +123,8 @@ For a discussion about this topic see [Backup on OneDrive or Google Drive](https
 
 There are three distinct logs generated:
 
-1. The _snapshot log_ contains messages specific to a particular snapshot at a
-   given time. It is stored within each snapshot and can be accessed through
+1. The _backup log_ contains messages specific to a particular backup at a
+   given time. It is stored within each backup and can be accessed through
    the GUI.
 
 2. The _restore log_ contains messages specific to a particular restore
@@ -132,7 +138,7 @@ There are three distinct logs generated:
 
 ## How to read log entries?
 
-Both the _snapshot_ and _restore_ log files are plain text files and can be read
+Both the _backup_ and _restore_ log files are plain text files and can be read
 accordingly. Refer to [Where is the log file?](#where-is-the-log-file).
 The _application_ log is generated via [syslog](https://en.wikipedia.org/wiki/Syslog)
 using the identifier `backintime`. Depending on the version of _Back In time_ and the
@@ -150,7 +156,7 @@ GNU/Linux distribution used, there are three ways to get the log entries.
 
     `sudo grep backintime /var/log/syslog`
 
-## How to move snapshots to a new hard-drive?
+## How to move backups to a new hard-drive?
 
 There are three different solutions:
 
@@ -178,7 +184,9 @@ There are three different solutions:
    cd /SOURCE; tar cf - * | tar -C /DESTINATION/ -xf -
    ```
 
-Make sure that your `/DESTINATION` contains a folder named `backintime`, which contains all the snapshots. BiT expects this folder, and needs it to import existing snapshots.
+Make sure that your `/DESTINATION` contains a folder named `backintime`, which
+contains all the backups. BiT expects this folder, and needs it to import
+existing backups.
 
 ## How to move a large directory in the backup source without duplicating the files in the backup?
 
@@ -187,56 +195,75 @@ it will treat this like a new file/folder and
 create a new backup file for it (not hard-linked to the old one). With large
 directories this can fill up your backup drive quite fast.
 
-You can avoid this by moving the file/folder in the last snapshot too:
+You can avoid this by moving the file/directory in the last backup too:
 
-1. Create a new snapshot
+1. Create a new backup
 
-2. Move the original folder
+2. Move the original directory
 
-3. Manually move the same folder inside BiTs last snapshot in the same way you did with the original folder
+3. Manually move the same folder inside BiTs last backup in the same way you did with the original folder
 
-4. Create a new snapshot
+4. Create a new backup
 
-5. Remove the next to last snapshot (the one where you moved the folder manually)
-   to avoid problems with permissions when you try to restore from that snapshot
+5. Remove the next to last backup (the one where you moved the directory
+   manually) to avoid problems with permissions when you try to restore from
+   that backup
 
 ## How does _Back In Time_ compare with _Timeshift_?
 
 Back In Time and Timeshift are both Linux application that provides back up functionality.
 
-1. Similarity 
-   - Both programs are backup tools for Linux and they create snapshots at a specific time.
-   - For both programs, snapshots are taken using rsync and hard-links, while
-   Common files are shared between snapshots which saves disk space.
+1. Similarity
+   - Both programs are backup tools for Linux and they create backups at a specific time.
+   - For both programs, backups are taken using rsync and hard-links, while
+   Common files are shared between backups which saves disk space.
    - Both programs support GUI and CLI
-   - Both programs allow you to schedule regular snapshots. You can also disable scheduled snapshots 
-   completely and create snapshots manually when required
+   - Both programs allow you to schedule regular backups. You can also disable
+   scheduled backups completely and create backups manually when required
 
 2. Back In Time
    - It is designed to protect user data including any folders or files.
-   - It backs up certain folders and files that you want to protect. Modified files are transferred, 
+   - It backs up certain folders and files that you want to protect. Modified files are transferred,
    while unchanged files are linked to the new folder. You can restore certain files and folders.
    - It's great for protecting your personal data
 
 3. TimeShift
-   - It is designed for system snapshots which allows restoring whole Linux system 
+   - It is designed for system backups which allows restoring whole Linux system
    to a previous state without affecting any user data.
    - It backs up system files, not including any personal data unless user explicitly configured.
    - It's good for restoring your system after an update failure or configuration change.
 
+## Additional features beside the GUI and benefits of using BIT
+
+*Back In Time* stores the user and group name which will make it possible to
+restore permissions even if UID/GID changed. Additionally current user is
+stored. So if the User/Group doesn't exist on the system during restore it will
+restore to the old UID/GID.
+
+- Inhibit suspend/hibernate during backup creation
+- Shutdown system after finish
+- Remove & Retention policies to keep/remove old backups on reasonable rules
+- Support for Plugins and user defined callback scripts
+
 # Backups (snapshots)
+
+## Backup or Snapshot?
+Until _Back In Time_ version 1.6.0 the term _snapshot_ was used, instead of
+_backup_. Beginning with version 1.6.0 that term was rephrased into
+_backup_. The reason was to not giving the impression that _Back In Time_ does
+create images of storage volumes.
 
 ## Does _Back In Time_ create incremental or full backups?
 
 Back In Time does use `rsync` and its `--hard-links` feature.
-Because of that each snapshot is technically a full backup (contains each file)
+Because of that each backup is technically a full backup (contains each file)
 but copies only the really changed files (to save disk space) and "reuses" unchanged
 files by setting a so-called "hard-link".
 
 In technical terms it is not an
 [incremental backups](https://en.wikipedia.org/wiki/Incremental_backup).
 
-## How do snapshots with hard-links work?
+## How do backups with hard-links work?
 
 From the answer on Launchpad to the question
 [_Does auto remove smart mode merge incremental backups?_](https://answers.launchpad.net/backintime/+question/123486)
@@ -259,7 +286,7 @@ time you save a new file.
 First time you create a new backup with BIT all files will have an inode
 counter = 1.
 
-#### snapshot0
+#### backup0
 | path   |   inode |   counter |
 |:-------|--------:|----------:|
 | fileA  |       1 |         1 |
@@ -270,7 +297,7 @@ Let's say you now change ``fileB``, delete ``fileC`` and have a new ``fileD``.
 BIT first makes hardlinks of all files. ``rsync`` than delete all hardlinks of
 files that has changed and copy the new files.
 
-#### snapshot0
+#### backup0
 | path   |   inode |   counter |
 |:-------|--------:|----------:|
 | fileA  |       1 |         2 |
@@ -278,30 +305,30 @@ files that has changed and copy the new files.
 | fileC  |       3 |         1 |
 
 
-#### snapshot1
+#### backup1
 | path   |   inode |   counter |
 |:-------|--------:|----------:|
 | fileA  |       1 |         2 |
 | fileB  |       4 |         1 |
 | fileD  |       5 |         1 |
 
-Now change ``fileB`` again and make a new snapshot
+Now change ``fileB`` again and make a new backup
 
-#### snapshot0
+#### backup0
 | path   |   inode |   counter |
 |:-------|--------:|----------:|
 | fileA  |       1 |         3 |
 | fileB  |       2 |         1 |
 | fileC  |       3 |         1 |
 
-#### snapshot1
+#### backup1
 | path   |   inode |   counter |
 |:-------|--------:|----------:|
 | fileA  |       1 |         3 |
 | fileB  |       4 |         1 |
 | fileC  |       5 |         2 |
 
-#### snapshot2
+#### backup2
 | path   |   inode |   counter |
 |:-------|--------:|----------:|
 | fileA  |       1 |         3 |
@@ -309,25 +336,25 @@ Now change ``fileB`` again and make a new snapshot
 | fileD  |       5 |         2 |
 
 
-Finally smart-remove is going to remove **snapshot0**. All that is done by
+Finally smart-remove is going to remove **backup0**. All that is done by
 smart-remove is to ``rm -rf`` (force delete everything) the whole directory
-of **snapshot0**.
+of **backup0**.
 
-#### snapshot0 (no longer exist)
+#### backup0 (no longer exist)
 | path   |   inode |   counter |
 |:-------|--------:|----------:|
 | (empty)  |       1 |         2 |
 | (empty)  |       2 |         0 |
 | (empty)  |       3 |         0 |
 
-#### snapshot1
+#### backup1
 | path   |   inode |   counter |
 |:-------|--------:|----------:|
 | fileA  |       1 |         2 |
 | fileB  |       4 |         1 |
 | fileD  |       5 |         2 |
 
-#### snapshot2
+#### backup2
 | path   |   inode |   counter |
 |:-------|--------:|----------:|
 | fileA  |       1 |         2 |
@@ -342,23 +369,22 @@ I hope this will shed a light on the "magic" behind BIT. If it's even more
 confusing don't hesitate to ask ;)
 
 
-## How can I check if my snapshots are using hard-links?
+## How can I check if my backups are using hard-links?
 
 Please compare the inodes of a file that definitely didn't change between two
-snapshots. For this open two Terminals and ``cd`` into both snapshot folder.
+backups. For this open two terminals and ``cd`` into both backups directory.
 ``ls -lai`` will print a list where the first column is the inode which should
-be equal for the same file in both snapshots if the file didn't change and the
-snapshots are incremental.
-The third column is a counter (if the file is no directory) on how many
-hard-links exist for this inode. It should be >1. So if you took e.g. 3
-snapshots it should be 3.
+be equal for the same file in both backups if the file didn't change and the
+backups are incremental. The third column is a counter (if the file is no
+directory) on how many hard-links exist for this inode. It should be >1. So if
+you took e.g. 3 backups it should be 3.
 
-Don't be confused on the size of each snapshot. If you right click on
-preferences for a snapshot in a file manager and look for its size, it will
-look like they are all full snapshots (not incremental). But that's not
+Don't be confused on the size of each backup. If you right click on
+preferences for a backup in a file manager and look for its size, it will
+look like they are all full backups (not incremental). But that's not
 (necessary) the case.
 
-To get the correct size of each snapshot with respect on the hard-links you
+To get the correct size of each backups with respect on the hard-links you
 can run:
 
 ```bash
@@ -377,7 +403,7 @@ du -chld0 /media/<USER>/backintime/<HOST>/<USER>/1/*
 
 Starting with BIT Version 1.0.28 there is a new command line option
 ``--checksum`` which will do the same as *Use checksum to detect changes* in
-Options. It will calculate checksums for both the source and the last snapshots
+Options. It will calculate checksums for both the source and the last backups
 files and will only use this checksum to decide whether a file has changed or
 not. The normal mode (without checksums) is to compare modification times and sizes
 of the files which is much faster to detect changed files.
@@ -386,7 +412,7 @@ Because this takes ages, you may want to use this only on Sundays or only the
 first Sunday per month. Please deactivate the schedule for your profile in
 that case. Then run ``crontab -e``
 
-For daily snapshots on 2AM and ``--checksum`` every Sunday add:
+For daily backups on 2AM and ``--checksum`` every Sunday add:
 
 
 ```
@@ -407,49 +433,50 @@ For ``--checksum`` only at first Sunday per month add:
 Press <kbd>CTRL</kbd> + <kbd>O</kbd> to save and <kbd>CTRL</kbd> + <kbd>X</kbd> to exit
 (if you editor is `nano`. Maybe different depending on your default text editor).
 
-## What is the meaning of the leading 11 characters (e.g. "cf...p.....") in my snapshot logs?
+## What is the meaning of the leading 11 characters (e.g. "cf...p.....") in my backup logs?
 
-This are from `rsync` and indicating what changed and why.
-Please see the section `--itemize-changes` in the
+This are from `rsync` and indicating what changed and why.  Please see the
+section `--itemize-changes` in the
 [manpage](https://download.samba.org/pub/rsync/rsync.1#opt--itemize-changes)
 of `rsync`. See also some
 [rephrased explanations on Stack Overflow](https://stackoverflow.com/a/36851784/4865723).
 
-## Snapshot "WITH ERRORS": [E] 'rsync' ended with exit code 23: See 'man rsync' for more details
+## Backup "WITH ERRORS": [E] 'rsync' ended with exit code 23: See 'man rsync' for more details
 
 [BiT Version 1.4.0 (2023-09-14)](https://github.com/bit-team/backintime/releases/tag/v1.4.0)
 introduced the **evaluation of `rsync` exit codes for better error recognition**:
 
-Before this release `rsync` exit codes were ignored and only the snapshot
+Before this release `rsync` exit codes were ignored and only the backup
 files parsed for errors (which does not find each error, eg. dead symbolic links
 logged as `symlink has no referent`).
 
-This "exit code 23" message may occur at the end of snapshot logs and BiT logs when
-`rsync` was not able to transfer some (or even all) files
-See [this comment in issue 1587](https://github.com/bit-team/backintime/issues/1587#issuecomment-1856490208)
+This "exit code 23" message may occur at the end of backup logs and BiT logs
+when `rsync` was not able to transfer some (or even all) files. See
+[this comment in issue 1587](https://github.com/bit-team/backintime/issues/1587#issuecomment-1856490208)
 for a list all known reasons for `rsync`'s exit code 23.
 
-Currently you can ignore this error after checking the full snapshot log
-which error is hidden behind "exit code 23" (and possibly fix it - eg. delete or update dead symbolic links).
+Currently you can ignore this error after checking the full backup log which
+error is hidden behind "exit code 23" (and possibly fix it - eg. delete or
+update dead symbolic links).
 
 We plan to implement an improved handling of exit code 23 in the future
-(presumably by introducing warnings into the snapshot log).
+(presumably by introducing warnings into the backup log).
 
-## What happens when I remove a snapshot?
+## What happens when I remove a backup?
 
-Each snapshot is stored in a dated subdirectory of the "full snapshot path"
+Each backup is stored in a dated subdirectory of the "full backup path"
 shown in Settings.  It contains a ``backup`` directory of all the files as well
-as a log of the snapshot's creation and some other details.  Removing the
-snapshot removes this whole directory.  Each snapshot is independent of the
-others, so other snapshots are not affected. However, the data of identical files is
-not stored redundantly by multiple snapshots, so removing a snapshot will only
-recover the space used by files that are unique to that snapshot.
+as a log of the backup's creation and some other details.  Removing the
+backup removes this whole directory. Each backup is independent of the
+others, so other backups are not affected. However, the data of identical files is
+not stored redundantly by multiple backups, so removing a backup will only
+recover the space used by files that are unique to that backup.
 
 ## How can I exclude cache folders to improve backup speed and reduce storage?
 
 **Why exclude cache folders?**
 
-Cache folders typically contain temporary files that are not necessary for backups. 
+Cache folders typically contain temporary files that are not necessary for backups.
 Excluding them can significantly improve backup speed and reduce storage usage.
 
 **How to exclude cache folders:**
@@ -484,23 +511,78 @@ Excluding them can significantly improve backup speed and reduce storage usage.
 
 **Tips for better results:**
 
-- **Check Backup Logs**:  
-  After running a backup, review the logs to identify additional folders that may 
-  slow down the process. Example log entries for cache files:
+- **Check Backup Logs**:
+  After running a backup, review the logs to identify additional folders that
+  may slow down the process. Example log entries for cache files:
   ```plaintext
   [E] Skipping file /path/to/cache/file: Too many small files.
   ```
 
-- **Customize Patterns**:  
-  Adjust the patterns to suit your specific applications. For example, modify paths 
-  for browsers or other software you use.
+- **Customize Patterns**:
+  Adjust the patterns to suit your specific applications. For example, modify
+  paths for browsers or other software you use.
 
-- **Test Exclude Patterns**:  
+- **Test Exclude Patterns**:
   Test your backup after adding patterns to ensure they work as intended.
 
 ## How to use extended filesystem attributes (xattr) to exclude files/directories?
 Please see [Issue #817](https://github.com/bit-team/backintime/issues/817) for
 details.
+
+## Are Samba shares supported? / Does Samba support hard links?
+There is no short answer to that. It depends on the configuration of the Samba
+server and the filesystem of the volume/harddisk it is using.
+
+Generally it is not recommended to use Samba shares as backup destination. Use
+an SSH profile instead.
+
+Further reading:
+- https://superuser.com/q/855946/486099
+- https://github.com/bit-team/backintime/issues/1883
+
+If you encounter clear rules about configuring Samba that it works with
+_Back In Time_ in a reliable way, please let us know the details. We will than
+integrate it into the documentation.
+
+## How does _Back in Time_ handle open or changed files during backup?
+
+**Explanation**
+
+Back In Time uses rsync to copy the files and directories specified to be
+backed up in the configuration. Rsync does not lock any files that are open
+or being modified and therefore the backup can be copied in an inconsistent
+state. Rsync only reads a file on time when it goes through it and as a result
+of this only some changes are captured by rsync. This can affect files such as
+logs, browser caches, databases or virtual machine images where inconsistencies
+can even lead to data corruption.
+
+**To reduce this risk, the following approaches can be considered:**
+
+- **Filesystem snapshots**
+   If using a filesystem like btrfs and ZFS that has a snapshot function this
+   can be used together with Back in Time. Filesystem snapshots provide a
+   read-only copy of a filesystem frozen at a specific point in time, which
+   ensures data integrity even for open/changing files. Configure Back In Time
+   to backup from this filesystem's read-only snapshot.
+
+- **Use exclusions**
+   If the filesystem does not have filesystem snapshots available, one
+   solution could be to exclude files that are frequently open or actively
+   changing. The command `lsof` in GNU/Linux presents open files and the
+   processes that opened them as a list. Use this list as base for
+   configuring BIT exclusion list.
+
+- **Application specific handling**
+   For applications that opens and modifies files frequently like databases
+   or virtual machines, specific solutions may be needed. Use the databases
+   own backup function to create a consistent copy and include that in the
+   BIT backup. Virtual machines products typically have ability to create
+   snapshots of their state, that can be included in BIT.
+
+- **Choose when to perform backup**
+   Perform backup at times where less files are open, for example at night.
+
+
 
 # Restore
 
@@ -522,14 +604,14 @@ Check if this correctly listed all those files you want to delete and than run:
 find /path/to/files -regextype posix-basic -regex ".*\.backup\.[[:digit:]]\{8\}" -delete
 ```
 
-## Back In Time doesn't find my old Snapshots on my new Computer
+## Back In Time doesn't find my old backups on my new Computer
 
 Back In Time prior to version 1.1.0 had an option called
 *Auto Host/User/Profile ID* (hidden under *General* > *Advanced*) which will
-always use the current host- and username for the full snapshot path.
+always use the current host- and username for the full backup path.
 When (re-)installing your computer you probably chose a different host name or
 username than on your old machine. With *Auto Host/User/Profile ID* activated
-Back In Time now try to find your Snapshots under the new host- and username
+Back In Time now try to find your backups under the new host- and username
 underneath the ``/path/to/backintime/`` path.
 
 The *Auto Host/User/Profile ID* option is gone in version 1.1.0 and above.
@@ -540,13 +622,13 @@ You have three options to fix this:
 - Disable *Auto Host/User/Profile ID* and change *Host* and *User* to match
   your old machine.
 
-- Rename the Snapshot path
+- Rename the backups path
   ``/path/to/backintime/OLDHOSTNAME/OLDUSERNAME/profile_id`` to match your new
   host- and username.
 
 - Upgrade to a more recent version of Back In Time (1.1.0 or above).
   The *Auto Host/User/Profile ID* option is gone and it also comes with
-  an assistant to restore the config from an old Snapshot on first start.
+  an assistant to restore the config from an old backup on first start.
 
 
 
@@ -562,29 +644,29 @@ every 15min (or once an hour if the schedule is set to *weeks*). With the
 ``--backup-job`` command, BIT will check if the profile is supposed to be run
 this time or exit immediately. For this it will read the time of the last
 successful run from ``~/.local/share/backintime/anacron/ID_PROFILENAME``.
-If this is older than the configured time, it will continue creating a snapshot.
+If this is older than the configured time, it will continue creating a backup.
 
-If the snapshot was successful without errors, BIT will write the current time
+If the backup was successful without errors, BIT will write the current time
 into ``~/.local/share/backintime/anacron/ID_PROFILENAME`` (even if *Repeatedly
 (anacron)* isn't chosen). So, if there was an error, BIT will try again at
 the next quarter hour.
 
-``backintime --backup`` will always create a new snapshot. No matter how many
-time elapsed since last successful snapshot.
+``backintime --backup`` will always create a new backup. No matter how many
+time elapsed since last successful backup.
 
-## Will a scheduled snapshot run as soon as the computer is back on?
+## Will a scheduled backup run as soon as the computer is back on?
 
 Depends on which schedule you choose:
 
 - the schedule ``Repeatedly (anacron)`` will use an anacron-like code. So if
   your computer is back on it will start the job if the given time is gone till
-  last snapshot.
+  last backup.
 
-- with ``When drive get connected (udev)`` *Back In Time* will start a snapshot as
-  soon as you connect your drive ;-)
+- with ``When drive get connected (udev)`` *Back In Time* will start a backup
+  as soon as you connect your drive ;-)
 
 - old fashion schedules like ``Every Day`` will use cron. This will only start a
-  new snapshot at the given time. If your computer is off, no snapshot will be
+  new backup at the given time. If your computer is off, no backup will be
   created.
 
 ## If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?
@@ -610,7 +692,7 @@ for more.
 ```ini
 # ~/.config/systemd/user/backintime-backup-job.timer
 [Unit]
-Description=Start a backintime snapshot once daily
+Description=Start a backintime backup once daily
 
 [Timer]
 OnCalendar=daily
@@ -625,7 +707,7 @@ WantedBy=timers.target
 ```ini
 # ~/.config/systemd/user/backintime-backup-job.service
 [Unit]
-Description=Run backintime snapshot generation
+Description=Run backintime backup generation
 
 [Service]
 Type=oneshot
@@ -641,7 +723,7 @@ this signal file.
 
 Since _Back In Time_ does only start a new backup job (for the same profile) if the signal
 file does not exist, such a file need to be deleted first. But before this is done manually,
-it must be ensured that _Back In Time_ really is not running anymore. It can be ensured via 
+it must be ensured that _Back In Time_ really is not running anymore. It can be ensured via
 
 ```bash
 ps aux | grep -i backintime
@@ -684,39 +766,40 @@ See also:
 
 ## Version >= 1.2.0 works very slow / Unchanged files are backed up
 
-After updating to >= 1.2.0, BiT does a (nearly) full backup because file 
-permissions are handled differently. Before 1.2.0 all destination file 
-permissions were set to `-rw-r--r--`. In 1.2.0 rsync is executed with `--perms` 
-option which tells rsync to preserve the source file permission. 
+After updating to >= 1.2.0, BiT does a (nearly) full backup because file
+permissions are handled differently. Before 1.2.0 all destination file
+permissions were set to `-rw-r--r--`. In 1.2.0 rsync is executed with `--perms`
+option which tells rsync to preserve the source file permission.
 That's why so many files seem to be changed.
 
-If you don't like the new behavior, you can use "Expert Options" 
+If you don't like the new behavior, you can use "Expert Options"
 -> "Paste additional options to rsync" to add the value
 `--no-perms --no-group --no-owner` in that field.
 
 ## What happens if I hibernate the computer while a backup is running?
 
-*Back In Time* will inhibit automatic suspend/hibernate while a snapshot/restore is
-running. If you manually force hibernate this will freeze the current process.
-It will continue as soon as you wake up the system again.
+*Back In Time* will inhibit automatic suspend/hibernate while a backup/restore
+is running. If you manually force hibernate this will freeze the current
+process.  It will continue as soon as you wake up the system again.
 
 ## What happens if I power down the computer while a backup is running, or if a power outage happens?
 
-This will kill the current process. The new snapshot will stay in ``new_snapshot``
-folder. Depending on which state the process was while killing the next
-scheduled snapshot can continue the leftover ``new_snapshot`` or it will remove
-it first and start a new one.
+This will kill the current process. The new backup will stay in
+``new_snapshot`` folder. Depending on which state the process was while killing
+the next scheduled backup can continue the leftover ``new_snapshot`` or it will
+remove it first and start a new one.
 
 ## What happens if there is not enough disk space for the current backup?
 
-*Back In Time* will try to create a new snapshot but rsync will fail when there is
-not enough space. Depending on ``Continue on errors`` setting the failed
-snapshot will be kept and marked ``With Errors`` or it will be removed.
-By default, *Back In Time* will finally remove the oldest snapshots until there is
+*Back In Time* will try to create a new backup but rsync will fail when there
+is not enough space. Depending on ``Continue on errors`` setting the failed
+backup will be kept and marked ``With Errors`` or it will be removed.  By
+default, *Back In Time* will finally remove the oldest backups until there is
 more than 1 GiB free space again.
 
 ## NTFS Compatibility
-Although devices formatted with the NTFS file system can generally be used with *Back In Time*, there are some limitations to be aware of.
+Although devices formatted with the NTFS file system can generally be used with
+*Back In Time*, there are some limitations to be aware of.
 
 NTFS File systems do not support the following characters in filenames or directories:
 
@@ -732,9 +815,11 @@ NTFS File systems do not support the following characters in filenames or direct
 * (asterisk)
 ```
 
-If *Back In Time* tries to copy files where the filename contains those character, an "Invalid argument (22)" error message will be displayed.
+If *Back In Time* tries to copy files where the filename contains those
+character, an "Invalid argument (22)" error message will be displayed.
 
-It is recommended that only devices formatted with Unix style file systems (such as ext4) be used.
+It is recommended that only devices formatted with Unix style file systems
+(such as ext4) be used.
 
 For more information, refer to [this Microsoft page](https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#naming-conventions).
 
@@ -790,7 +875,7 @@ To diagnose and solve this follow these steps in a terminal:
 python3 -c "import keyring.util.platform_; print(keyring.get_keyring().__module__)"
 
 # List available backends:
-keyring --list-backends 
+keyring --list-backends
 
 # Find out the config file folder:
 python3 -c "import keyring.util.platform_; print(keyring.util.platform_.config_root())"
@@ -830,12 +915,12 @@ manually or automatically because of dependencies.
 Download the script, copy it to ``~/.config/backintime/user-callback`` and make
 it executable with ``chmod 755 ~/.config/backintime/user-callback``
 
-It will run every time a new snapshot is taken. Make sure to include
+It will run every time a new backup is taken. Make sure to include
 ``~/.apt-backup``.
 
 ## How to restore Debian/Ubuntu Package selection?
 
-If you made snapshots including apt-get package selection as described in the
+If you made backups including apt-get package selection as described in the
 FAQ "`How to backup Debian/Ubuntu Package selection?`_" you can easily restore
 your system after a disaster/on a new machine.
 
@@ -849,10 +934,10 @@ your system after a disaster/on a new machine.
     sudo apt-get install backintime-qt4
    ```
 
-1. connect your external drive with the snapshots
+1. connect your external drive with the backups
 
 1. Start *Back In Time*. It will ask you if you want to restore your
-   config. Sure you want! *Back In Time* should find your snapshots
+   config. Sure you want! *Back In Time* should find your backups
    automatically. Just select the one from which you want to
    restore the config and click Ok.
 
@@ -967,7 +1052,7 @@ Finally install the current packages of ``bash``, ``coreutils`` and ``rsync``
    ```
 
 Now the error message should be gone and you should be able to take a first
-snapshot with *BackInTime*.
+backup with *BackInTime*.
 
 *BackInTime* changes permissions on the backup path. The owner of the
 backup has read permission, other users have no access.
@@ -978,9 +1063,9 @@ This way can change with newer versions of *BackInTime* or QNAPs QTS!
 
 **Issue**
 
-*BackInTime* cannot use Synology DSM 5 directly because the SSH connection to the NAS
-refers to a different root file system than SFTP does. With SSH you access the
-real root, with SFTP you access a fake root (`/volume1`)
+*BackInTime* cannot use Synology DSM 5 directly because the SSH connection to the
+NAS refers to a different root file system than SFTP does. With SSH you access
+the real root, with SFTP you access a fake root (`/volume1`)
 
 **Solution**
 
@@ -988,7 +1073,8 @@ Mount `/volume1/backups` to `/volume1/volume1/backups`
 
 **Suggestion**
 
-DSM 5 isn't really up to date any more and might be a security risk. It is strongly advised to upgrade to DSM 6! Also the setup with DSM 6 is much easier!
+DSM 5 isn't really up to date any more and might be a security risk. It is
+strongly advised to upgrade to DSM 6! Also the setup with DSM 6 is much easier!
 
 1. Make a new volume named ``volume1`` (should already exist, else create it)
 
@@ -1014,12 +1100,13 @@ DSM 5 isn't really up to date any more and might be a security risk. It is stron
 
 1. Log on as root by SSH
 
-1. Modify the shell of user ``backup``. Set it to ``/bin/sh`` (``vi /etc/passwd``
-   then navigate to the line that begins with ``backup``, press :kbd:`I` to enter
-   ``Insert Mode``, replace ``/sbin/nologin`` with ``/bin/sh``, then finally save
-   and exit by pressing :kbd:`ESC` and type ``:wq`` followed by :kbd:`Enter`)
-   This step might have to be repeated after a major update of the Synology DSM!
-   Note: This is quite a dirty hack! It is suggested to upgrade to DSM 6 which doesn't need this any more!
+1. Modify the shell of user ``backup``. Set it to ``/bin/sh`` (``vi /etc/passwd`` then
+   navigate to the line that begins with ``backup``, press :kbd:`I` to enter ``Insert
+   Mode``, replace ``/sbin/nologin`` with ``/bin/sh``, then finally save and exit by
+   pressing :kbd:`ESC` and type ``:wq`` followed by :kbd:`Enter`) This step might have
+   to be repeated after a major update of the Synology DSM!  Note: This is
+   quite a dirty hack! It is suggested to upgrade to DSM 6 which doesn't need
+   this any more!
 
 1. Make a new directory ``/volume1/volume1/backups``
 
@@ -1105,12 +1192,12 @@ DSM 5 isn't really up to date any more and might be a security risk. It is stron
 
 ## How to use Synology DSM 6 with BIT over SSH
 
-**HowTo**
+1. Enable User Home Service (Control Panel / User / Advanced). There is no need
+   to create a volume since everything is stored in the home directory.
 
-1. Enable User Home Service (Control Panel / User / Advanced). There is no need to create a volume since everything is stored in the home directory.
-
-1. Make a new user named ``backup`` (or use your existing account). Add this user to the user group
-   ``Administrators``. Without this, you will not be able to log in! 
+1. Make a new user named ``backup`` (or use your existing account). Add this user
+   to the user group ``Administrators``. Without this, you will not be able to log
+   in!
 
 1. Enable SSH (Control Panel / Terminal & SNMP / Terminal)
 
@@ -1119,9 +1206,10 @@ DSM 5 isn't really up to date any more and might be a security risk. It is stron
 1. Since DSM 5.1: Enable Backup Service (Backup & Replication / Backup Service)
    (This seems not to be available/required anymore with DSM 6!) (Tests needed!)
 
-1. On DSM 6 you can edit the user-root-dir for sFTP:
-   Control Panel -> File Services -> FTP -> General -> Advanced Settings -> Security Settings -> Change user root directories -> Select User
-   Now select the user ``backup`` and Change root directory to ``User home``
+1. On DSM 6 you can edit the user-root-dir for sFTP: Control Panel -> File
+   Services -> FTP -> General -> Advanced Settings -> Security Settings ->
+   Change user root directories -> Select User. Now select the user ``backup`` and
+   Change root directory to ``User home``
 
 1. On the workstation on which you try to use BIT make SSH keys for user
    ``backup``, send the public key to the NAS
@@ -1139,7 +1227,7 @@ DSM 5 isn't really up to date any more and might be a security risk. It is stron
 	/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
 	/usr/bin/ssh-copy-id: WARNING: All keys were skipped because they already exist on the remote system.
    ```
-	
+
 1. If so, copy the public key manually to the NAS as root with
 
    ```bash
@@ -1165,7 +1253,7 @@ DSM 5 isn't really up to date any more and might be a security risk. It is stron
 1. Now you can use *BackInTime* to perform your backup to your NAS with the user
    ``backup``.
 
-**Using a non-standard port with a Synology NAS**
+### Using a non-standard port
 
 If you want to use the Synology NAS with non-standard SSH/SFTP port
 (standard is 22), you have to change the Port on total 3 places:
@@ -1188,18 +1276,16 @@ in a terminal (on the client PC).
 
 ## How to use Synology DSM 7 with BIT over SSH
 
-**HowTo**
-
-1. Enable User Home Service (Control Panel > User & Group > Advanced).
+1. Enable *User Home Service* (Control Panel > User & Group > Advanced).
 
 1. Make a new user named ``backup`` (or use your existing account) and add this
 user to the user group ``Administrators``.
 
-1. Enable SSH (Control Panel > Terminal & SNMP > Terminal)
+1. Enable *SSH* (Control Panel > Terminal & SNMP > Terminal)
 
-1. Enable SFTP (Control Panel > File Services > FTP > SFTP)
+1. Enable *SFTP* (Control Panel > File Services > FTP > SFTP)
 
-1. Enable rsync (Control Panel > File Services > rsync)
+1. Enable *rsync* (Control Panel > File Services > rsync)
 
 1. Edit the user-root-directory for SFTP: Control Panel > File Services > FTP >
 General > Advanced Settings > Security Settings > Change user root directories >
@@ -1207,20 +1293,21 @@ Select User > select the user ``backup`` > Edit and Change root directory to ``U
 home``
 
 1. Make sure the 'homes' shared folder has the default permissions and that
-non-admin users and groups are not assigned Read or Write permissions on the
-'homes' folder. The default permissions are described in [this
-guide](https://kb.synology.com/DSM/tutorial/default_permissions_of_homes)
+   non-admin users and groups are not assigned Read or Write permissions on the
+   'homes' folder. The default permissions are described in [this guide](https://kb.synology.com/DSM/tutorial/default_permissions_of_homes)
 
-1. On the workstation on which you need to use BIT, make an SSH key pair for user
-``backup``, and send the public key to the NAS:
+1. On the workstation on which you need to use BIT, make an SSH key pair for
+   user ``backup``, and send the public key to the NAS:
 
    ```bash
 	ssh-keygen -t rsa -f ~/.ssh/backup_id_rsa
 	ssh-copy-id -i ~/.ssh/backup_id_rsa.pub backup@<synology-ip>
 	ssh backup@<synology-ip>
    ```
-1. Although not strictly necessary, Synology recommend setting the permissions for
-the .ssh directory and the authorized_keys file to 700, and 600 respectively:
+
+1. Although not strictly necessary, Synology recommend setting the permissions
+   for the `.ssh` directory and the `authorized_keys` file to `700`, and `600`
+   respectively:
 
     ```bash
     backup@NAS:~$ chmod 700 .ssh
@@ -1231,7 +1318,7 @@ the .ssh directory and the authorized_keys file to 700, and 600 respectively:
 1. Now you can use *BackInTime* to perform your backup to your NAS with the user
 ``backup``.
 
-**Using a non-standard SSH port with a Synology NAS**
+### Using a non-standard SSH port with a Synology NAS
 
 If you want to use the Synology NAS with a non-standard SSH/SFTP port as advised
 by the Security Advisor package, you have to change the Port in 3 places (the
@@ -1265,7 +1352,7 @@ and then use just:
   ssh backup@<synology-ip>
   ```
 
-## Synology: "sshfs: No such file or directory" using BIT but manually ssh with rsync works
+### "sshfs: No such file or directory" using BIT, but manually ssh with rsync works
 The reason (known for DSM version 7) is that the setup of ssh and sftp is
 customized by Synology.
 
@@ -1278,7 +1365,37 @@ See also
 - [Issue #1674](https://github.com/bit-team/backintime/issues/1674)
 - ["Change the default folder in a Synology NAS" - StackOverflow](https://stackoverflow.com/a/77454561/4865723)
 
+## Synology: use different volume for backup
+
+This was tested and related to Synology DSM version 7, but might work with
+other versions, too. Feel free to report back.
+
+If you want to use a different volume as the destination for the backup use
+these additional steps:
+
+1. Follow all steps under **Howto (like create additional user in the example
+   name of the user 'backup')
+2. Create in the Synology DSM GUI in Control panel a new shared folder name it
+   "backup" for example
+
+   ![Synology DSM7 Basic Setup](doc/images.misc/faq_synology7_separate_dest_volume01.png)
+
+3. Optional in step-2 Enable shared folder encryption (Depending on your needs,
+   don't loose your encryption key) Advantage: backup folder (volume) is
+   encrypted, even in case of theft of your Synology NAs Disadvantage: On each
+   Reboot you need to mount the folder manually
+
+   ![Synology DSM7 Additional Security Measure](doc/images.misc/faq_synology7_separate_dest_volume02.png)
+
+4. As user root or with sudo edit the file: `/etc/passwd` (Be careful, if you
+   break it, you could break your NAS)
+   - `vi /etc/passwd`
+   - Edit the line for your user backup, so the home dir is on the newly
+     created folder: `backup:x:1038:100:Back in Time User:/volume1/backup:/bin/sh`
+5. Continue with your normal setup of BIT
+
 ## How to use Western Digital MyBook World Edition with BIT over ssh?
+
 Device: *WesternDigital MyBook World Edition (white light) version 01.02.14 (WD MBWE)*
 
 The BusyBox that is used by WD in MBWE for serving basic commands like ``cp``
@@ -1308,7 +1425,7 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 	/opt/bin/ipkg install bash coreutils rsync nano
 	exit
    ```
-	
+
 1. Back in MBWE's web admin go to *Users* and add a new user (``<REMOTE_USER>``
    in this How-to) with *Create User Private Share* set to *Yes*.
 
@@ -1326,7 +1443,7 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 	#save and exit by press CTRL+O and CTRL+X
 	exit
    ```
-	
+
 1. Next create the ssh-key for your local user.
    In the terminal
 
@@ -1347,7 +1464,7 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 	ssh <REMOTE_USER>@<MBWE> #this time you shouldn't been asked for password anymore
 	exit
    ```
-	
+
 1. You can test if everything is done by enter this
 
    ```bash
@@ -1361,7 +1478,7 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 	or: cp [OPTION]... SOURCE... DIRECTORY
 	or: cp [OPTION]... -t DIRECTORY SOURCE...
 	Copy SOURCE to DEST, or multiple SOURCE(s) to DIRECTORY.
-	
+
 	Mandatory arguments to long options are mandatory for short options too.
 	-a, --archive same as -dR --preserve=all
 	    --backup[=CONTROL] make a backup of each existing destination file
@@ -1375,28 +1492,22 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 
    ```bash
 	BusyBox v1.1.1 (2009.12.24-08:39+0000) multi-call binary
-	
+
 	Usage: cp [OPTION]... SOURCE DEST
    ```
 
 
 # Project & Contributing & more
 
-## Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? Are there additional benefits?
+## Alternative installation options
+Besides the repositories of the official GNU/Linux distributions, there are
+other alternative installation options provided and maintained by third
+parties. Use them at your own risk and please contact that third party
+maintainers if you encounter problems. **Again**: We strongly recommend not to
+use 3rd party repositories because of possible security issues.
 
-Actually it's the other way around ;) *Back In Time* stores the user and group name
-which will make it possible to restore permissions correctly even if UID/GID
-changed. Additionally it will store the current User -> UID and Group -> GID map
-so if the User/Group doesn't exist on the system during restore it will restore
-to the old UID/GID.
-
-Hard to say which additional features *Back In Time* provides. You can script all of
-them in your own rsync script, too. But to name some features:
-
-- Inhibit suspend/hibernate during take snapshot
-- Shutdown system after finish
-- Auto- and Smart-Removal
-- Plugin- and user-callback support
+- [@jean-christophe-manciot](https://github.com/jean-christophe-manciot)'s PPA distributing [_Back In Time_ for the latest stable Ubuntu release](https://git.sdxlive.com/PPA/about). See [PPA requirements](https://git.sdxlive.com/PPA/about/#requirements) and [install instructions](https://git.sdxlive.com/PPA/about/#installing-the-ppa).
+- The Arch User Repository ([AUR](https://aur.archlinux.org/)) does offer [some packages](https://aur.archlinux.org/packages?K=backintime).
 
 
 ## Support for specific package formats (deb, rpm, Flatpack, AppImage, Snaps, PPA, …)
@@ -1467,13 +1578,13 @@ assigned to PR can also help gauge their priority and urgency.
 - When giving feedback, consider the contributor’s level of experience and
   skills. Keep it polite and constructive—every beginner could be a future
   maintainer.
-      
+
 To **test functionality**,
 [check out the PR code locally](https://docs.github.com//pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/checking-out-pull-requests-locally)
 on a virtual machine or your local machine. Running _Back In Time_ in a test
 environment provides insights, that can be shared as findings, observations,
 or suggestions for improvement.
-      
+
 About **code review**:
 - Code should follow
   [project standards](CONTRIBUTING.md#best-practice-and-recommendations)

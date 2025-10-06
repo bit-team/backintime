@@ -10,6 +10,7 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""Module about the Remove & Retention policy tab"""
 from PyQt6.QtWidgets import (QCheckBox,
                              QDialog,
                              QGridLayout,
@@ -17,22 +18,22 @@ from PyQt6.QtWidgets import (QCheckBox,
                              QHBoxLayout,
                              QLabel,
                              QSpinBox,
-                             QStyle,
                              QToolTip,
                              QWidget)
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QCursor
 import config
 import qttools
+from event import Event
 from manageprofiles.statebindcheckbox import StateBindCheckBox
 from manageprofiles.spinboxunit import SpinBoxWithUnit
+from manageprofiles.storagesizewidget import StorageSizeWidget
 from bitwidgets import HLineWidget
+from bitbase import TimeUnit
 
 
 class RemoveRetentionTab(QDialog):
     """The 'Remove & Retention' tab in the Manage Profiles dialog."""
-
-    _STRETCH_FX = (1, )
 
     def __init__(self, parent):
         super().__init__(parent=parent)
@@ -48,7 +49,7 @@ class RemoveRetentionTab(QDialog):
         self._label_keep_most_recent()
 
         # Keep named backups
-        self.cbDontRemoveNamedSnapshots = self._checkbox_keep_named()
+        self._cb_keep_named = self._checkbox_keep_named()
 
         # ---
         self._tab_layout.addWidget(
@@ -85,25 +86,32 @@ class RemoveRetentionTab(QDialog):
         self._tab_layout.addWidget(self._spinunit_remove_older, row, 2)
 
         # Retention policy
-        self.cbSmartRemove, \
-            self.cbSmartRemoveRunRemoteInBackground, \
-            self.spbKeepAll, \
-            self.spbKeepOnePerDay, \
-            self.spbKeepOnePerWeek, \
-            self.spbKeepOnePerMonth \
+        self._cb_retention_policy, \
+            self._cb_run_remote_in_background, \
+            self._spb_keep_all, \
+            self._spb_keep_one_per_day, \
+            self._spb_keep_one_per_week, \
+            self._spb_keep_one_per_month \
             = self._groupbox_retention_policy()
 
-        # return spin_unit_space, spin_inodes
         self._checkbox_space, \
             self._spin_unit_space, \
             self._checkbox_inodes, \
             self._spin_inodes \
             = self._remove_free_space_inodes()
 
+        # Layout
         self._tab_layout.setColumnStretch(0, 2)
         self._tab_layout.setColumnStretch(1, 1)
         self._tab_layout.setColumnStretch(2, 0)
         self._tab_layout.setRowStretch(self._tab_layout.rowCount(), 1)
+
+        # Event: Notify observers if "warn free space" value has changed
+        self.event_remove_free_space_value_changed = Event()
+        self._spin_unit_space.event_value_changed.register(
+            lambda value:
+            self.event_remove_free_space_value_changed.notify(value)
+        )
 
     @property
     def config(self) -> config.Config:
@@ -111,7 +119,7 @@ class RemoveRetentionTab(QDialog):
 
     def load_values(self):
         # don't remove named snapshots
-        self.cbDontRemoveNamedSnapshots.setChecked(
+        self._cb_keep_named.setChecked(
             self.config.dontRemoveNamedSnapshots())
 
         # remove old snapshots
@@ -123,19 +131,18 @@ class RemoveRetentionTab(QDialog):
         # smart remove
         smart_remove, keep_all, keep_one_per_day, keep_one_per_week, \
             keep_one_per_month = self.config.smartRemove()
-        self.cbSmartRemove.setChecked(smart_remove)
-        self.spbKeepAll.setValue(keep_all)
-        self.spbKeepOnePerDay.setValue(keep_one_per_day)
-        self.spbKeepOnePerWeek.setValue(keep_one_per_week)
-        self.spbKeepOnePerMonth.setValue(keep_one_per_month)
-        self.cbSmartRemoveRunRemoteInBackground.setChecked(
+        self._cb_retention_policy.setChecked(smart_remove)
+        self._spb_keep_all.setValue(keep_all)
+        self._spb_keep_one_per_day.setValue(keep_one_per_day)
+        self._spb_keep_one_per_week.setValue(keep_one_per_week)
+        self._spb_keep_one_per_month.setValue(keep_one_per_month)
+        self._cb_run_remote_in_background.setChecked(
             self.config.smartRemoveRunRemoteInBackground())
 
         # min free space
-        enabled, value, unit = self.config.minFreeSpace()
+        enabled, value = self.config.minFreeSpaceAsStorageSize()
         self._checkbox_space.setChecked(enabled)
-        self._spin_unit_space.set_value(value)
-        self._spin_unit_space.select_unit(unit)
+        self._spin_unit_space.set_storagesize(value)
 
         # min free inodes
         self._checkbox_inodes.setChecked(self.config.minFreeInodesEnabled())
@@ -149,42 +156,42 @@ class RemoveRetentionTab(QDialog):
         )
 
         self.config.setDontRemoveNamedSnapshots(
-            self.cbDontRemoveNamedSnapshots.isChecked())
+            self._cb_keep_named.isChecked())
 
         self.config.setSmartRemove(
-            self.cbSmartRemove.isChecked(),
-            self.spbKeepAll.value(),
-            self.spbKeepOnePerDay.value(),
-            self.spbKeepOnePerWeek.value(),
-            self.spbKeepOnePerMonth.value())
+            self._cb_retention_policy.isChecked(),
+            self._spb_keep_all.value(),
+            self._spb_keep_one_per_day.value(),
+            self._spb_keep_one_per_week.value(),
+            self._spb_keep_one_per_month.value())
 
         self.config.setSmartRemoveRunRemoteInBackground(
-            self.cbSmartRemoveRunRemoteInBackground.isChecked())
+            self._cb_run_remote_in_background.isChecked())
 
-        self.config.setMinFreeSpace(
+        self.config.setMinFreeSpaceWithStorageSize(
             self._spin_unit_space.isEnabled(),
-            self._spin_unit_space.value(),
-            self._spin_unit_space.unit())
+            self._spin_unit_space.get_storagesize())
 
         self.config.setMinFreeInodes(
             self._spin_inodes.isEnabled(),
             self._spin_inodes.value())
 
+    def warn_free_space_value_changed(self, value):
+        """See tab_options.py::OptionsTab.remove_free_space_value_changed().
+
+        The remove value need to be lower than the warn value.
+
+        """
+        remove_value = self._spin_unit_space.get_storagesize()
+
+        if remove_value >= value:
+            self._spin_unit_space.set_storagesize(value, dont_touch_unit=True)
+
     def update_items_state(self, enabled):
-        self.cbSmartRemoveRunRemoteInBackground.setVisible(enabled)
+        self._cb_run_remote_in_background.setVisible(enabled)
 
     def _label_rule_execute_order(self) -> QWidget:
-        # Icon
-        icon = self.style().standardPixmap(
-            QStyle.StandardPixmap.SP_MessageBoxInformation)
-        icon = icon.scaled(
-            icon.width()*2,
-            icon.height()*2,
-            Qt.AspectRatioMode.KeepAspectRatio)
-
-        icon_label = QLabel(self)
-        icon_label.setPixmap(icon)
-        icon_label.setFixedSize(icon.size())
+        icon_label = qttools.create_icon_label_info(fixed_size_widget=True)
 
         # Info text
         txt = _(
@@ -216,7 +223,7 @@ class RemoveRetentionTab(QDialog):
 
         self._tab_layout.addWidget(wdg, self._tab_layout.rowCount(), 0, 1, 3)
 
-    def handle_link_activated(self, link):
+    def handle_link_activated(self, _link):
         qttools.open_user_manual()
 
     def _label_keep_most_recent(self) -> None:
@@ -254,9 +261,9 @@ class RemoveRetentionTab(QDialog):
     def _remove_older_than(self) -> QWidget:
         # units
         units = {
-            config.Config.DAY: _('Day(s)'),
-            config.Config.WEEK: _('Week(s)'),
-            config.Config.YEAR: _('Year(s)')
+            TimeUnit.DAY: _('Day(s)'),
+            TimeUnit.WEEK: _('Week(s)'),
+            TimeUnit.YEAR: _('Year(s)')
         }
         spin_unit = SpinBoxWithUnit(self, (1, 999), units)
 
@@ -266,12 +273,12 @@ class RemoveRetentionTab(QDialog):
 
         # tooltip
         tip = (
-            f'<strong>{units[config.Config.DAY]}</strong>: '
+            f'<strong>{units[TimeUnit.DAY]}</strong>: '
             + _('Full days. Current day is ignored.'),
-            f'<strong>{units[config.Config.WEEK]}</strong>: '
+            f'<strong>{units[TimeUnit.WEEK]}</strong>: '
             + _('Calendar weeks with Monday as first day. '
                 'Current week is ignored.'),
-            f'<strong>{units[config.Config.YEAR]}</strong>: '
+            f'<strong>{units[TimeUnit.YEAR]}</strong>: '
             + _('12 months periods. Current month is ignored.')
         )
 
@@ -367,15 +374,8 @@ class RemoveRetentionTab(QDialog):
                 one_per_week, one_per_month)
 
     def _remove_free_space_inodes(self) -> tuple:
-        # enabled, value, unit = self.config.minFreeSpace()
-
         # free space less than
-        MIN_FREE_SPACE_UNITS = {
-            config.Config.DISK_UNIT_MB: 'MiB',
-            config.Config.DISK_UNIT_GB: 'GiB'
-        }
-        spin_unit_space = SpinBoxWithUnit(
-            self, (1, 99999), MIN_FREE_SPACE_UNITS)
+        spin_unit_space = StorageSizeWidget(self, (1, 99999))
 
         checkbox_space = StateBindCheckBox(
             _('… the free space is less than'), self)

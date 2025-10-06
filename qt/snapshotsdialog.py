@@ -8,6 +8,10 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""Stuff around the snapshots dialog.
+
+That dialog will be removed and its functionality integrated into the main
+window and its timeline widget."""
 import os
 import subprocess
 import shlex
@@ -21,7 +25,6 @@ from PyQt6.QtWidgets import (QCheckBox,
                              QLabel,
                              QLineEdit,
                              QMenu,
-                             QMessageBox,
                              QPushButton,
                              QToolBar,
                              QVBoxLayout)
@@ -49,6 +52,8 @@ else:
 
 
 class DiffOptionsDialog(QDialog):
+    """Dialog to setup diff options"""
+
     def __init__(self, parent):
         super(DiffOptionsDialog, self).__init__(parent)
         self.config = parent.config
@@ -114,6 +119,12 @@ class DiffOptionsDialog(QDialog):
 
 
 class SnapshotsDialog(QDialog):
+    """The main snapshots dialog
+
+    Dev note (buhtz, 2025-07-29): Scheduled to removed and replaced be features
+    in the main window.
+    """
+
     def __init__(self, parent, sid, path):
         super(SnapshotsDialog, self).__init__(parent)
         self.parent = parent
@@ -364,7 +375,7 @@ class SnapshotsDialog(QDialog):
         if not isinstance(self.sid, snapshots.RootSnapshot):
             full_path = self.parent.tmpCopy(full_path, sid)
 
-        self.run = QDesktopServices.openUrl(QUrl(full_path))
+        QDesktopServices.openUrl(QUrl(full_path))
 
     def btnDiffClicked(self):
         sid1 = self.timeLine.current_snapshot_id()
@@ -434,8 +445,7 @@ class SnapshotsDialog(QDialog):
 
         msg = msg + '\n' + _('WARNING: This cannot be revoked.')
 
-        answer = messagebox.warningYesNo(self, msg)
-        if answer == QMessageBox.StandardButton.Yes:
+        if messagebox.question(msg):
 
             for item in items:
                 item.setFlags(Qt.ItemFlag.NoItemFlags)
@@ -454,9 +464,8 @@ class SnapshotsDialog(QDialog):
                 path=f'"{self.path}"')
 
             if self.path not in exclude:
-                answer = messagebox.warningYesNo(self, msg)
 
-                if answer == QMessageBox.StandardButton.Yes:
+                if messagebox.question(msg):
                     exclude.append(self.path)
                     self.config.setExclude(exclude)
 

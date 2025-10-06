@@ -1,13 +1,19 @@
-# Croatian translation for backintime
-# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
-# This file is distributed under the same license as the backintime package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# SPDX-FileCopyrightText: © 2008 Back In Time Team <bit-dev@python.org>
 #
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+#
+# Strict and accurate recording of translators' names began around 2022. As
+# the project started in 2008, some earlier translators' names may not have
+# been documented and could be lost.
 msgid ""
 msgstr ""
-"Project-Id-Version: backintime\n"
+"Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-04-30 10:02+0200\n"
+"POT-Creation-Date: 2025-09-25 09:29+0200\n"
 "PO-Revision-Date: 2025-03-14 00:32+0000\n"
 "Last-Translator: MarvinDarwin <marvindarwin@noreply.codeberg.org>\n"
 "Language-Team: Croatian <https://translate.codeberg.org/projects/backintime/common/hr/>\n"
@@ -17,86 +23,112 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.10.2\n"
-"X-Launchpad-Export-Date: 2022-11-06 19:32+0000\n"
 
-#: common/config.py:37 common/tools.py:81 qt/encfsmsgbox.py:24
-#: qt/messagebox.py:77
+#: common/bitlicense.py:43
+#, python-brace-format
+msgid ""
+"All licenses used in this project are located in the {dir_link} directory. "
+"To extract per-file license and copyright information using SPDX metadata, "
+"refer to {readme_link}."
+msgstr ""
+
+#: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
+#: qt/messagebox.py:98
 msgid "Warning"
 msgstr "Upozorenje"
 
-#: common/config.py:148 common/config.py:256
+#: common/config.py:137 common/config.py:245
 msgid "Main profile"
 msgstr "Glavni profil"
 
-#: common/config.py:262
+#: common/config.py:251
 msgid "Local (EncFS encrypted)"
 msgstr "Lokalno (EncFS šifriranje)"
 
-#: common/config.py:263
+#: common/config.py:252
 msgid "SSH (EncFS encrypted)"
 msgstr "SSH (EncFS šifriranje)"
 
-#: common/config.py:274
+#: common/config.py:263
 msgid "Local"
 msgstr "Lokalno"
 
-#: common/config.py:276
+#: common/config.py:265
 msgid "SSH"
 msgstr "SSH"
 
-#: common/config.py:276 common/config.py:286
-#: qt/manageprofiles/tab_general.py:648
+#: common/config.py:265 common/config.py:275
+#: qt/manageprofiles/tab_general.py:645
 msgid "SSH private key"
 msgstr "Privatni ključ za SSH"
 
-#: common/config.py:279
+#: common/config.py:268
 msgid "Local encrypted"
 msgstr "Lokalno šifrirano"
 
-#: common/config.py:280 common/config.py:287
+#: common/config.py:269 common/config.py:276
 msgid "Encryption"
 msgstr "Šifriranje"
 
-#: common/config.py:285
+#: common/config.py:274
 msgid "SSH encrypted"
 msgstr "SSH šifrirano"
 
-#: common/config.py:292
+#: common/config.py:282
 msgid "Default"
 msgstr "Zadano"
 
-#: common/config.py:323 common/config.py:335 common/config.py:353
-#: common/config.py:367
+#: common/config.py:313 common/config.py:325 common/config.py:343
+#: common/config.py:357 common/config.py:378
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
 
-#: common/config.py:324
+#: common/config.py:314
 #, fuzzy
 msgid "Backup directory is not valid."
 msgstr "Mapa snimki nije valjana !"
 
-#: common/config.py:336
+#: common/config.py:326
 msgid "At least one directory must be selected for backup."
 msgstr "Za sigurnosnu kopiju treba se odabrati barem jedna mapa."
 
-#: common/config.py:354 common/config.py:369
+#: common/config.py:344 common/config.py:359
 #, fuzzy, python-brace-format
 msgid "Directory: {path}"
 msgstr "Povrati {path}"
 
-#: common/config.py:355 common/config.py:370
+#: common/config.py:345 common/config.py:360
 #, fuzzy
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
 msgstr "Mapa se ne može sigurnosno kopirati."
 
-#: common/config.py:1466
+#: common/config.py:379
+#, python-brace-format
+msgid ""
+"The value for \"Remove oldest backup if free space is less than\" "
+"({val_one}) must be less than or equal the threshold for \"Warn if free disk"
+" space falls below\" ({val_two})."
+msgstr ""
+
+#: common/config.py:384
+msgid ""
+"Please adjust the settings so that the backup removal limit is not higher "
+"than the warning limit."
+msgstr ""
+
+#: common/config.py:1511
+#, python-brace-format
+msgid "Udev schedule doesn't work with mode {mode}"
+msgstr ""
+
+#: common/config.py:1565
 msgid "Failed to write new crontab."
 msgstr "Nije moguće stvoriti novi crontab."
 
-#: common/config.py:1474
+#: common/config.py:1573
 #, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
@@ -109,25 +141,6 @@ msgstr ""
 "kopiranje neće se pokrenuti. Moguće je da je Cron instaliran, ali nije "
 "omogućen. Pokušajte unijeti naredbu \"systemctl enable cron\" ili se "
 "obratite kanalima podrške GNU/Linux distribucije koju upotrebljavate."
-
-#: common/config.py:1556
-#, fuzzy, python-brace-format
-msgid ""
-"Could not install Udev rule for profile {profile_id}. DBus Service "
-"'{dbus_interface}' wasn't available."
-msgstr ""
-"Instalacija Udev pravila za profil {profile_id} nije uspjela. DBus usluga "
-"'{dbus_interface}' nije dostupna"
-
-#: common/config.py:1571
-#, python-brace-format
-msgid "Udev schedule doesn't work with mode {mode}"
-msgstr ""
-
-#: common/config.py:1582
-#, python-brace-format
-msgid "Couldn't find UUID for {path}"
-msgstr "Nije moguće pronaći UUID za {path}"
 
 #: common/configfile.py:101
 msgid "Failed to save config"
@@ -151,27 +164,29 @@ msgstr "Posljednji profil ne može se ukloniti."
 msgid "Unable to mount '{command}'"
 msgstr "Nemoguće postaviti naredbu '{command}'"
 
-#: common/encfstools.py:131
+#: common/encfstools.py:130
 msgid "Configuration for the encrypted directory not found."
 msgstr "Konfiguracija za šifriranu mapu nije pronađena."
 
-#: common/encfstools.py:139
+#: common/encfstools.py:137
 msgid "Create a new encrypted directory?"
 msgstr "Stvori novu šifriranu mapu?"
 
-#: common/encfstools.py:146
+#: common/encfstools.py:144
 msgid "Cancel"
 msgstr "Otkaži"
 
-#: common/encfstools.py:152
-msgid "Please confirm the password."
-msgstr "Molim Vas da potvrdite lozinku."
+#: common/encfstools.py:149
+#, fuzzy
+msgid "Please re-enter the EncFS password to confirm."
+msgstr "Molim Vas unesite lozinku za korisnika \"{user}\""
 
-#: common/encfstools.py:158
-msgid "Password doesn't match."
+#: common/encfstools.py:155
+#, fuzzy
+msgid "The EncFS passwords do not match."
 msgstr "Lozinka se ne podudara."
 
-#: common/encfstools.py:516 common/snapshots.py:1055
+#: common/encfstools.py:515 common/snapshots.py:1129
 msgid "Take snapshot"
 msgstr "Uzmi snimku"
 
@@ -192,41 +207,61 @@ msgstr ""
 msgid "Mountpoint {mntpoint} not empty."
 msgstr ""
 
-#: common/password.py:279
+#: common/password.py:306
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "Unesite lozinku za {mode} profile \"{profile}\":"
 
-#: common/snapshots.py:372 common/snapshots.py:626
+#: common/schedule.py:232
+#, fuzzy, python-brace-format
+msgid ""
+"Could not install Udev rule for profile {profile_id}. DBus Service "
+"'{dbus_interface}' wasn't available."
+msgstr ""
+"Instalacija Udev pravila za profil {profile_id} nije uspjela. DBus usluga "
+"'{dbus_interface}' nije dostupna"
+
+#: common/schedule.py:245
+#, python-brace-format
+msgid "Couldn't find UUID for {path}"
+msgstr "Nije moguće pronaći UUID za {path}"
+
+#: common/snapshots.py:378 common/snapshots.py:656
 msgid "FAILED"
 msgstr "NEUSPJEŠNO"
 
-#: common/snapshots.py:569 common/snapshots.py:637
+#: common/snapshots.py:579 common/snapshots.py:652
 msgid "Restore permissions"
 msgstr "Spremi dopuštenje"
 
-#: common/snapshots.py:632 qt/app.py:295 qt/app.py:1089 qt/app.py:1124
-#: qt/qtsystrayicon.py:73
+#: common/snapshots.py:656 qt/app.py:238 qt/app.py:1106 qt/app.py:1122
+#: qt/qtsystrayicon.py:71
 msgid "Done"
 msgstr "Završeno"
 
-#: common/snapshots.py:752
+#: common/snapshots.py:749
+msgid ""
+"The following entries from the include list have no corresponding file or "
+"directory in the backup source:"
+msgstr ""
+
+#: common/snapshots.py:812
 msgid "Deferring backup while on battery"
 msgstr "Odgoda sigurnosnog kopiranja za vrijeme punjenja"
 
-#: common/snapshots.py:856 qt/app.py:366
+#: common/snapshots.py:931 qt/app.py:368
 #, fuzzy
 msgid "Can't find backup directory."
 msgstr "Nije moguće napraviti mapu"
 
-#: common/snapshots.py:860
+#: common/snapshots.py:935 qt/app.py:369
 #, fuzzy
 msgid "If it is on a removable drive, please plug it in."
 msgstr ""
 "Nije moguće pronaći mapu snimki.\n"
 "Ako je na izmjenjivom disku, molimo, spojite ga i pritisnite OK."
 
-#: common/snapshots.py:863
+#: common/snapshots.py:938
 #, fuzzy, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
@@ -234,123 +269,123 @@ msgstr[0] "Čekanje %s sekunda."
 msgstr[1] "Čekanje %s sekundi."
 msgstr[2] "Čekanje %s sekundi."
 
-#: common/snapshots.py:928
+#: common/snapshots.py:1006
 #, fuzzy, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Neuspjelo uzimanje snimke {snapshot_id}."
 
-#: common/snapshots.py:960
+#: common/snapshots.py:1038
 msgid "Please be patient. Finalizing…"
 msgstr "Molimo vas za strpljenje. Završavamo…"
 
-#: common/snapshots.py:1090
+#: common/snapshots.py:1164
 #, fuzzy
 msgid "Can't create directory."
 msgstr "Nije moguće napraviti mapu"
 
-#: common/snapshots.py:1107
+#: common/snapshots.py:1181
 msgid "Saving config file…"
 msgstr "Spremi datoteku postavki …"
 
-#: common/snapshots.py:1188
+#: common/snapshots.py:1262
 msgid "Saving permissions…"
 msgstr "Spremi dopuštenje …"
 
-#: common/snapshots.py:1303
+#: common/snapshots.py:1378
 #, fuzzy, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr "Neuspjelo uzimanje snimke {snapshot_id}."
 
-#: common/snapshots.py:1327
+#: common/snapshots.py:1402
 #, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr ""
 
-#: common/snapshots.py:1338
+#: common/snapshots.py:1413
 #, fuzzy
 msgid "Can't remove directory"
 msgstr "Nije moguće ukloniti mapu"
 
-#: common/snapshots.py:1392
+#: common/snapshots.py:1467
 msgid "Creating backup"
 msgstr ""
 
-#: common/snapshots.py:1443
+#: common/snapshots.py:1518
 msgid "Success"
 msgstr "Uspjeh"
 
-#: common/snapshots.py:1446
+#: common/snapshots.py:1521
 msgid "Partial transfer due to error"
 msgstr "Prijenos djelomičan jer je došlo do pogreške"
 
-#: common/snapshots.py:1447
+#: common/snapshots.py:1522
 #, fuzzy
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Prijenos djelomičan jer su izvorne datoteke nestale (vidi 'man rsync')"
 
-#: common/snapshots.py:1451
+#: common/snapshots.py:1526
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' završen uz izlazni kod {exit_code}"
 
-#: common/snapshots.py:1464
+#: common/snapshots.py:1539
 #, fuzzy
 msgid "See 'man rsync' for more details"
 msgstr "Vidi 'man rsync' za više detalja"
 
-#: common/snapshots.py:1471
+#: common/snapshots.py:1546
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 
-#: common/snapshots.py:1492
+#: common/snapshots.py:1567
 #, fuzzy
 msgid "Nothing changed, no new backup necessary"
 msgstr "Ništa se nije promijenilo, nema potrebe za novim snimaka"
 
-#: common/snapshots.py:1536
+#: common/snapshots.py:1612
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "Nemoguće preimenovati {new_path} u {path}."
 
-#: common/snapshots.py:1868
+#: common/snapshots.py:1947
 #, fuzzy
 msgid "Smart removal"
 msgstr "Smart uklanjanje"
 
-#: common/snapshots.py:1901
+#: common/snapshots.py:1999
 #, fuzzy
 msgid "Apply rules to remove old backups"
 msgstr "Ukloni stare snimke"
 
-#: common/snapshots.py:1934
+#: common/snapshots.py:2032
 msgid "Apply retention policy"
 msgstr ""
 
-#: common/snapshots.py:1944
+#: common/snapshots.py:2042
 msgid "Trying to keep min free space"
 msgstr "Pokušaj sačuvati min slobodno mjesta"
 
-#: common/snapshots.py:1983
+#: common/snapshots.py:2080
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Pokušaj sačuvati min {perc} slobodno mjesta"
 
-#: common/snapshots.py:3119 qt/app.py:1878
+#: common/snapshots.py:3204 qt/app.py:1393
 msgid "Now"
 msgstr "Sada"
 
-#: common/sshtools.py:232
+#: common/sshtools.py:233
 #, fuzzy, python-brace-format
 msgid "Unable to mount {sshfs}"
 msgstr "Nije moguće postaviti {sshfs}"
 
-#: common/sshtools.py:300
+#: common/sshtools.py:301
 msgid "ssh-agent not found. Please ensure it is installed."
 msgstr "ssh-agent nije pronađen. Molimo provjerite je li instaliran."
 
-#: common/sshtools.py:470
+#: common/sshtools.py:484
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
@@ -358,85 +393,76 @@ msgstr ""
 "Nije moguće otključati ssh privatni ključ. Lozinka je pogrešna ili nije "
 "dostupna za cron."
 
-#: common/sshtools.py:559
-#, python-brace-format
-msgid "Cipher {cipher} failed for {host}."
-msgstr ""
-
-#: common/sshtools.py:706
+#: common/sshtools.py:716
 #, fuzzy
 msgid "Remote path exists but is not a directory."
 msgstr "Udaljeni put postoji, ali nije mapa."
 
-#: common/sshtools.py:711
+#: common/sshtools.py:721
 msgid "Remote path is not writable."
 msgstr ""
 
-#: common/sshtools.py:716
+#: common/sshtools.py:726
 msgid "Remote path is not executable."
 msgstr ""
 
-#: common/sshtools.py:721
+#: common/sshtools.py:731
 msgid "Couldn't create remote path."
 msgstr "Nije moguće napraviti mapu."
 
-#: common/sshtools.py:1008
+#: common/sshtools.py:1017
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
 msgstr ""
 
-#: common/sshtools.py:1012 common/sshtools.py:1021
-msgid "Look at 'man backintime' for further instructions"
-msgstr "Vidi 'man backintime' za daljnje upute"
-
-#: common/sshtools.py:1016
+#: common/sshtools.py:1021
 #, python-brace-format
 msgid "Check commands on host {host} returned unknown error"
 msgstr ""
 
-#: common/sshtools.py:1037
+#: common/sshtools.py:1039
 #, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
 msgstr ""
 
-#: common/sshtools.py:1191
+#: common/sshtools.py:1201
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
 msgstr ""
 
-#: common/sshtools.py:1193
+#: common/sshtools.py:1203
 #, fuzzy, python-brace-format
 msgid "Please enter a password for \"{user}\"."
 msgstr "Molim Vas unesite lozinku za korisnika \"{user}\""
 
-#: common/tools.py:401
+#: common/tools.py:382
 #, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
 
-#: common/tools.py:433
+#: common/tools.py:414
 #, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "{path} nije valjana mapa."
 
-#: common/tools.py:447
+#: common/tools.py:428
 msgid "Creation of following directory failed:"
 msgstr "Neuspješno stvaranje sljedeće mape:"
 
-#: common/tools.py:449 common/tools.py:545
+#: common/tools.py:430 common/tools.py:527
 msgid "Write access may be restricted."
 msgstr "Pristup za pisanje možda je ograničen."
 
-#: common/tools.py:489
+#: common/tools.py:471
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native GNU/Linux filesystem."
 msgstr ""
 
-#: common/tools.py:500
+#: common/tools.py:482
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -444,115 +470,87 @@ msgid ""
 "\"{expertOptions}\"."
 msgstr ""
 
-#: common/tools.py:504 qt/manageprofiles/tab_expert_options.py:253
+#: common/tools.py:486 qt/manageprofiles/tab_expert_options.py:254
 msgid "Copy links (dereference symbolic links)"
 msgstr ""
 
-#: common/tools.py:505
+#: common/tools.py:487
 msgid "Expert Options"
 msgstr "Stručne opcije"
 
-#: common/tools.py:509
+#: common/tools.py:491
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
 "doesn't support hard-links. Please use mode \"SSH\" instead."
 msgstr ""
 
-#: common/tools.py:543
+#: common/tools.py:525
 msgid "File creation failed in this directory:"
 msgstr "Neuspješno stvaranje datoteke u sljedećoj mapi:"
 
-#: qt/aboutdlg.py:49
+#: qt/aboutdlg.py:50
 #, fuzzy
 msgid "About Back In Time"
 msgstr "Back In &Time"
 
-#: qt/aboutdlg.py:87
+#: qt/aboutdlg.py:88
 msgid "Copyright:"
 msgstr ""
 
-#: qt/aboutdlg.py:91
+#: qt/aboutdlg.py:92
 #, fuzzy
 msgid "Authors:"
 msgstr "Autori"
 
-#: qt/aboutdlg.py:95
+#: qt/aboutdlg.py:96
 #, fuzzy
 msgid "Translators:"
 msgstr "Prijevodi"
 
-#: qt/aboutdlg.py:98
+#: qt/aboutdlg.py:99
 msgid "translator-credits-placeholder"
 msgstr ""
 
-#: qt/aboutdlg.py:105
+#: qt/aboutdlg.py:106
 msgid "Translator credits not available for current language."
 msgstr ""
 
-#: qt/aboutdlg.py:114
+#: qt/aboutdlg.py:115
 msgid "this link"
 msgstr ""
 
-#: qt/aboutdlg.py:116
+#: qt/aboutdlg.py:117
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
 
-#: qt/aboutdlg.py:153
-#, python-brace-format
-msgid ""
-"All licenses used in this project are located in the {dir_link} directory. "
-"To extract per-file license and copyright information using SPDX metadata, "
-"refer to {readme_link}."
-msgstr ""
-
-#: qt/aboutdlg.py:236 qt/app.py:550
+#: qt/aboutdlg.py:219 qt/app.py:531
 msgid "Project website"
 msgstr "Web-mjesto projekta"
 
-#: qt/aboutdlg.py:241 qt/app.py:532
+#: qt/aboutdlg.py:224 qt/app.py:513
 msgid "User manual"
 msgstr "Korisnički priručnik"
 
-#: qt/aboutdlg.py:242 qt/app.py:534
-msgid "Open user manual in browser (local if available otherwise online)"
+#: qt/aboutdlg.py:226 qt/app.py:515
+#, fuzzy
+msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
 "Otvori korisnički priručnik u pregledniku (po mogućnosti lokalno, u "
 "suprotnom na internetu)"
 
-#: qt/aboutdlg.py:272
+#: qt/aboutdlg.py:257
 #, fuzzy
 msgid "Back In Time"
 msgstr "Back In &Time"
 
-#: qt/aboutdlg.py:293
+#: qt/aboutdlg.py:278
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr ""
 
-#: qt/app.py:175
-msgid "Shortcuts"
-msgstr "Prečaci"
-
-#: qt/app.py:195
-#, fuzzy
-msgid ""
-"This directory doesn't exist\n"
-"in the current selected backup."
-msgstr ""
-"Ova mapa ne postoji\n"
-"u odabranoj snimci."
-
-#: qt/app.py:260
-msgid "Add to Include"
-msgstr "Dodaj u uključeno"
-
-#: qt/app.py:262
-msgid "Add to Exclude"
-msgstr "Dodaj u isključeno"
-
-#: qt/app.py:334
+#: qt/app.py:339
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -561,388 +559,329 @@ msgstr ""
 "Nije pronađena nikakva konfiguracija, čini se da je {app_name} pokrenut prvi"
 " put."
 
-#: qt/app.py:339
+#: qt/app.py:344
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
 msgstr ""
 
-#: qt/app.py:367
-#, fuzzy
-msgid "If it is on a removable drive, please plug it in. Then press OK."
+#: qt/app.py:370
+msgid "Then press OK."
 msgstr ""
-"Nije moguće pronaći mapu snimki.\n"
-"Ako je na izmjenjivom disku, molimo, spojite ga i pritisnite OK."
 
-#: qt/app.py:473
+#: qt/app.py:452
 msgid "Create a backup"
 msgstr ""
 
-#: qt/app.py:475
+#: qt/app.py:454
 msgid "Use modification time & size for file change detection."
 msgstr ""
 
-#: qt/app.py:478
+#: qt/app.py:457
 msgid "Create a backup (checksum mode)"
 msgstr ""
 
-#: qt/app.py:480
+#: qt/app.py:459
 msgid "Use checksums for file change detection."
 msgstr ""
 
-#: qt/app.py:483 qt/qtsystrayicon.py:79
+#: qt/app.py:461 qt/qtsystrayicon.py:77
 #, fuzzy
 msgid "Pause backup process"
 msgstr "Pauziraj snimanje"
 
-#: qt/app.py:488 qt/qtsystrayicon.py:84
+#: qt/app.py:465 qt/qtsystrayicon.py:82
 #, fuzzy
 msgid "Resume backup process"
 msgstr "Nastavi snimanje"
 
-#: qt/app.py:492 qt/qtsystrayicon.py:90
+#: qt/app.py:469 qt/qtsystrayicon.py:88
 #, fuzzy
 msgid "Stop backup process"
 msgstr "Prekini snimanje"
 
-#: qt/app.py:496
+#: qt/app.py:473
 #, fuzzy
 msgid "Refresh backup list"
 msgstr "Osvježi popis snimki"
 
-#: qt/app.py:500
+#: qt/app.py:477
 msgid "Name backup"
 msgstr ""
 
-#: qt/app.py:504
+#: qt/app.py:481
 #, fuzzy
 msgid "Remove backup"
 msgstr "Ukloni Snimku"
 
-#: qt/app.py:508
+#: qt/app.py:485
 #, fuzzy
-msgid "View backup log"
+msgid "Open backup log"
 msgstr "Prikaži Zadnji Zapis"
 
-#: qt/app.py:512
-msgid "View last log"
+#: qt/app.py:487
+#, fuzzy
+msgid "View log of the selected backup."
+msgstr "Za sigurnosnu kopiju treba se odabrati barem jedna mapa."
+
+#: qt/app.py:489
+#, fuzzy
+msgid "Open last backup log"
 msgstr "Prikaži Zadnji Zapis"
 
-#: qt/app.py:516
+#: qt/app.py:491
+msgid "View log of the latest backup."
+msgstr ""
+
+#: qt/app.py:493
 msgid "Manage profiles…"
 msgstr "Glavni profil…"
 
-#: qt/app.py:520
+#: qt/app.py:497
+msgid "Edit user-callback"
+msgstr ""
+
+#: qt/app.py:501
 msgid "Shutdown"
 msgstr "Isključi računalo"
 
-#: qt/app.py:522
+#: qt/app.py:503
 #, fuzzy
 msgid "Shut down system after backup has finished."
 msgstr "Isključi sustav kad snimanje završi."
 
-#: qt/app.py:524
+#: qt/app.py:505
 msgid "Setup language…"
 msgstr "Jezik…"
 
-#: qt/app.py:528
+#: qt/app.py:509
 msgid "Exit"
 msgstr "Izlaz"
 
-#: qt/app.py:538
+#: qt/app.py:519
 msgid "man page: Back In Time"
 msgstr ""
 
-#: qt/app.py:540
+#: qt/app.py:521
 msgid "Displays man page about Back In Time (backintime)"
 msgstr ""
 
-#: qt/app.py:543
+#: qt/app.py:524
 #, fuzzy
 msgid "man page: Profiles config file"
 msgstr "Spremi datoteku postavki"
 
-#: qt/app.py:546
+#: qt/app.py:527
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 
-#: qt/app.py:553
+#: qt/app.py:534
 msgid "Open Back In Time website in browser"
 msgstr "Otvori web-stranicu projekta Back In Time u pregledniku"
 
-#: qt/app.py:555 qt/app.py:1497
+#: qt/app.py:536
 msgid "Changelog"
 msgstr "Zapisnik promjena"
 
-#: qt/app.py:558
+#: qt/app.py:539
+#, fuzzy
+msgid "Open changelog (locally if available, otherwise from the web)"
+msgstr ""
+"Otvori korisnički priručnik u pregledniku (po mogućnosti lokalno, u "
+"suprotnom na internetu)"
+
+#: qt/app.py:542
 msgid "FAQ"
 msgstr "Česta pitanja"
 
-#: qt/app.py:560
+#: qt/app.py:544
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "Otvori česta pitanja u pregledniku"
 
-#: qt/app.py:562
+#: qt/app.py:546
 msgid "Ask a question"
 msgstr "Postavi pitanje"
 
-#: qt/app.py:566
+#: qt/app.py:550
 msgid "Report a bug"
 msgstr "Prijavi pogrešku"
 
-#: qt/app.py:569
+#: qt/app.py:553
 msgid "Translation"
 msgstr "Prevođenje"
 
-#: qt/app.py:571
+#: qt/app.py:555
 msgid "Shows the message about participation in translation again."
 msgstr "Ponovno prikazuje poruku o sudjelovanju u procesu prevođenja."
 
-#: qt/app.py:575
+#: qt/app.py:559
 msgid "Encryption Transition (EncFS)"
 msgstr ""
 
-#: qt/app.py:577
+#: qt/app.py:561
 msgid "Shows the message about EncFS removal again."
 msgstr ""
 
-#: qt/app.py:579
+#: qt/app.py:568
 msgid "About"
 msgstr "O programu"
 
-#: qt/app.py:582 qt/restoredialog.py:36 qt/snapshotsdialog.py:173
-#: qt/snapshotsdialog.py:178
+#: qt/app.py:571 qt/restoredialog.py:43 qt/snapshotsdialog.py:184
+#: qt/snapshotsdialog.py:189
 msgid "Restore"
 msgstr "Povrati"
 
-#: qt/app.py:584
+#: qt/app.py:573
 msgid "Restore the selected files or directories to the original destination."
 msgstr "Vrati odabrane datoteke ili mape na izvorno odredište."
 
-#: qt/app.py:587 qt/app.py:1669 qt/app.py:1701 qt/snapshotsdialog.py:175
+#: qt/app.py:576 qt/app.py:1821 qt/snapshotsdialog.py:186
 msgid "Restore to …"
 msgstr "Povrati…"
 
-#: qt/app.py:589
+#: qt/app.py:578
 msgid "Restore the selected files or directories to a new destination."
 msgstr "Vrati odabrane datoteke ili mape na novo odredište."
 
-#: qt/app.py:595
+#: qt/app.py:584
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "destination."
 msgstr ""
 "Vrati trenutno prikazanu mapu i sav njezin sadržaj na izvorno odredište."
 
-#: qt/app.py:601
+#: qt/app.py:590
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "destination."
 msgstr "Vrati trenutno prikazanu mapu i sav njezin sadržaj na novo odredište."
 
-#: qt/app.py:604
+#: qt/app.py:593
 msgid "Up"
 msgstr "Gore"
 
-#: qt/app.py:607 qt/restoreconfigdialog.py:103
+#: qt/app.py:596
 msgid "Show hidden files"
 msgstr "Prikaži skrivene datoteke"
 
-#: qt/app.py:610
+#: qt/app.py:599
 #, fuzzy
 msgid "Compare backups…"
 msgstr "Uzmi snimku…"
 
-#: qt/app.py:640 qt/app.py:2181
+#: qt/app.py:629 qt/app.py:1701
 msgid "Release Candidate"
 msgstr ""
 
-#: qt/app.py:643
+#: qt/app.py:632
 msgid "Shows the message about this Release Candidate again."
 msgstr ""
 
-#: qt/app.py:679
+#: qt/app.py:669
 #, fuzzy
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:684
+#: qt/app.py:674
 #, fuzzy
 msgid "&Backup"
 msgstr "&Backup"
 
-#: qt/app.py:695
+#: qt/app.py:686
 msgid "&Restore"
 msgstr "&Povrati"
 
-#: qt/app.py:701
+#: qt/app.py:692
 msgid "&Help"
 msgstr "Po&moć"
 
-#: qt/app.py:746
+#: qt/app.py:739
 msgid "Icons only"
 msgstr "Samo ikone"
 
-#: qt/app.py:749
+#: qt/app.py:742
 msgid "Text only"
 msgstr ""
 
-#: qt/app.py:752
+#: qt/app.py:745
 msgid "Text below icons"
 msgstr ""
 
-#: qt/app.py:755
+#: qt/app.py:748
 msgid "Text beside icon"
 msgstr ""
 
-#: qt/app.py:904
+#: qt/app.py:855
+#, fuzzy
+msgid ""
+"This directory doesn't exist\n"
+"in the current selected backup."
+msgstr ""
+"Ova mapa ne postoji\n"
+"u odabranoj snimci."
+
+#: qt/app.py:916
+msgid "Add to Include"
+msgstr "Dodaj u uključeno"
+
+#: qt/app.py:917
+msgid "Add to Exclude"
+msgstr "Dodaj u isključeno"
+
+#: qt/app.py:931
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
 msgstr ""
 
-#: qt/app.py:907
+#: qt/app.py:934
 msgid "Close the window anyway?"
 msgstr ""
 
-#: qt/app.py:1079
-msgid "Working:"
-msgstr "Radim:"
-
-#: qt/app.py:1127
+#: qt/app.py:1125
 msgid "Done, no backup needed"
 msgstr "Završeno, nije potrebna rezerva"
 
-#: qt/app.py:1139
+#: qt/app.py:1196
+msgid "Working:"
+msgstr "Radim:"
+
+#: qt/app.py:1203
 msgid "Working"
 msgstr "Radim"
 
-#: qt/app.py:1148 qt/messagebox.py:84
+#: qt/app.py:1209 qt/messagebox.py:135
 msgid "Error"
 msgstr ""
 
-#: qt/app.py:1189 qt/qtsystrayicon.py:206
+#: qt/app.py:1250 qt/qtsystrayicon.py:214
 msgid "Sent:"
 msgstr ""
 
-#: qt/app.py:1190 qt/qtsystrayicon.py:207
+#: qt/app.py:1251 qt/qtsystrayicon.py:215
 msgid "Speed:"
 msgstr ""
 
-#: qt/app.py:1191 qt/qtsystrayicon.py:208
+#: qt/app.py:1252 qt/qtsystrayicon.py:216
 msgid "ETA:"
 msgstr ""
 
-#: qt/app.py:1254
-msgid "Global"
-msgstr "Globalno"
-
-#: qt/app.py:1255
-msgid "Root"
-msgstr "Korijen"
-
-#: qt/app.py:1256
-msgid "Home"
-msgstr "Početak"
-
-#: qt/app.py:1284
+#: qt/app.py:1401
 #, fuzzy
-msgid "Backup directories"
-msgstr "Mape rezerve"
-
-#: qt/app.py:1381
-#, fuzzy
-msgid "Backup name"
+msgid "Backup:"
 msgstr "&Backup"
 
-#: qt/app.py:1429
-msgid "Remove this backup?"
-msgid_plural "Remove these backups?"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-
-#: qt/app.py:1527
-#, python-brace-format
-msgid ""
-"Create backup copies with trailing {suffix}\n"
-"before overwriting or removing local elements."
-msgstr ""
-
-#: qt/app.py:1535 qt/manageprofiles/tab_options.py:65
-#, python-brace-format
-msgid ""
-"Before restoring, newer versions of files will be renamed with the appended "
-"{suffix}. These files can be removed with the following command:"
-msgstr ""
-
-#: qt/app.py:1551
-msgid ""
-"Only restore elements which do not exist or\n"
-"are newer than those in destination.\n"
-"Using \"rsync --update\" option."
-msgstr ""
-
-#: qt/app.py:1586
-msgid "Remove newer elements in original directory."
-msgstr ""
-
-#: qt/app.py:1589
-msgid ""
-"Restore selected files or directories to the original destination and delete"
-" files or directories which are not in the backup. Be extremely careful "
-"because this will delete files and directories which were excluded during "
-"the creation of the backup."
-msgstr ""
-
-#: qt/app.py:1601
-#, fuzzy
-msgid "Really restore this element into the new directory?"
-msgid_plural "Really restore these elements into the new directory?"
-msgstr[0] "Neuspjelo uzimanje snimke {snapshot_id} !!!"
-msgstr[1] "Neuspjelo uzimanje snimke {snapshot_id} !!!"
-msgstr[2] "Neuspjelo uzimanje snimke {snapshot_id} !!!"
-
-#: qt/app.py:1609
-#, fuzzy
-msgid "Really restore this element?"
-msgid_plural "Really restore these elements?"
-msgstr[0] "Jeste li sigurni da želite ukloniti snimku"
-msgstr[1] "Jeste li sigurni da želite ukloniti snimku"
-msgstr[2] "Jeste li sigurni da želite ukloniti snimku"
-
-#: qt/app.py:1628
-#, python-brace-format
-msgid "All newer files in {path} will be removed. Proceed?"
-msgstr ""
-
-#: qt/app.py:1631
-msgid "All newer files in the original directory will be removed. Proceed?"
-msgstr ""
-
-#: qt/app.py:1637
-#, python-brace-format
-msgid ""
-"{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
-"the entire system."
-msgstr ""
-
-#: qt/app.py:1886
-#, fuzzy
-msgid "Backup"
-msgstr "&Backup"
-
-#: qt/app.py:1925
+#: qt/app.py:1441
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Povrati {path}"
 
-#: qt/app.py:1927
+#: qt/app.py:1443
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Povrati {path}…"
 
-#: qt/app.py:2071
+#: qt/app.py:1591
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -959,47 +898,47 @@ msgstr ""
 "Ispričavamo se što smo Vas prekinuli, ova se poruka više neće prikazivati. Ubuduće je možete pronaći na izborniku za pomoć.\n"
 "Tim programa Back In Time"
 
-#: qt/app.py:2100
+#: qt/app.py:1620
 msgid "translation platform"
 msgstr ""
 
-#: qt/app.py:2105
+#: qt/app.py:1625
 msgid "Website"
 msgstr "Web stranica"
 
-#: qt/app.py:2119
+#: qt/app.py:1639
 msgid "Your translation"
 msgstr ""
 
-#: qt/app.py:2132
+#: qt/app.py:1652
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr ""
 
-#: qt/app.py:2137
+#: qt/app.py:1657
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr ""
 
-#: qt/app.py:2140
+#: qt/app.py:1660
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr ""
 
-#: qt/app.py:2144
+#: qt/app.py:1664
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr ""
 
-#: qt/app.py:2147
+#: qt/app.py:1667
 msgid "Open an issue"
 msgstr ""
 
-#: qt/app.py:2148
+#: qt/app.py:1668
 msgid "Alternatively, you can use another channel of your choice."
 msgstr ""
 
-#: qt/app.py:2153
+#: qt/app.py:1673
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -1012,12 +951,116 @@ msgid ""
 "Your Back In Time Team"
 msgstr ""
 
-#: qt/app.py:2204
+#: qt/app.py:1771
+#, python-brace-format
+msgid ""
+"Only {free} free space available on the destination, which is below the "
+"configured threshold of {threshold}."
+msgstr ""
+
+#: qt/app.py:1776
+msgid "Proceed with the backup?"
+msgstr ""
+
+#: qt/app.py:1801
+#, python-brace-format
+msgid "All newer files in {path} will be removed. Proceed?"
+msgstr ""
+
+#: qt/app.py:1804
+msgid "All newer files in the original directory will be removed. Proceed?"
+msgstr ""
+
+#: qt/app.py:1810
+#, python-brace-format
+msgid ""
+"{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
+"the entire system."
+msgstr ""
+
+#: qt/app.py:2045
+#, fuzzy
+msgid "Backup name"
+msgstr "&Backup"
+
+#: qt/app.py:2076
+msgid "Remove this backup?"
+msgid_plural "Remove these backups?"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: qt/app.py:2139
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 
+#: qt/confirmrestoredialog.py:35 qt/messagebox.py:122
+msgid "Question"
+msgstr ""
+
+#: qt/confirmrestoredialog.py:76
+#, python-brace-format
+msgid ""
+"Create backup copies with trailing {suffix} before overwriting or removing "
+"local elements."
+msgstr ""
+
+#: qt/confirmrestoredialog.py:81 qt/manageprofiles/tab_options.py:66
+#, python-brace-format
+msgid ""
+"Before restoring, newer versions of files will be renamed with the appended "
+"{suffix}. These files can be removed with the following command:"
+msgstr ""
+
+#: qt/confirmrestoredialog.py:94
+#, python-brace-format
+msgid ""
+"Only restore elements which do not exist or are newer than those in "
+"destination. Using \"{rsync_example}\" option."
+msgstr ""
+
+#: qt/confirmrestoredialog.py:133
+msgid "Remove newer elements in original directory."
+msgstr ""
+
+#: qt/confirmrestoredialog.py:135
+msgid ""
+"Restore selected files or directories to the original destination and delete"
+" files or directories which are not in the backup. Be extremely careful "
+"because this will delete files and directories which were excluded during "
+"the creation of the backup."
+msgstr ""
+
+#: qt/confirmrestoredialog.py:147
+#, fuzzy
+msgid "Really restore this element into the new directory?"
+msgid_plural "Really restore these elements into the new directory?"
+msgstr[0] "Neuspjelo uzimanje snimke {snapshot_id} !!!"
+msgstr[1] "Neuspjelo uzimanje snimke {snapshot_id} !!!"
+msgstr[2] "Neuspjelo uzimanje snimke {snapshot_id} !!!"
+
+#: qt/confirmrestoredialog.py:157
+#, fuzzy
+msgid "Really restore this element?"
+msgid_plural "Really restore these elements?"
+msgstr[0] "Jeste li sigurni da želite ukloniti snimku"
+msgstr[1] "Jeste li sigurni da želite ukloniti snimku"
+msgstr[2] "Jeste li sigurni da želite ukloniti snimku"
+
+#: qt/editusercallback.py:43
+#, python-brace-format
+msgid "User-callback: \"{filename}\""
+msgstr ""
+
+#: qt/editusercallback.py:105
+#, python-brace-format
+msgid ""
+"The user-callback script must include a shebang on the first line (e.g. "
+"{example})."
+msgstr ""
+
 #: qt/encfsmsgbox.py:42 qt/encfsmsgbox.py:68
-#: qt/manageprofiles/tab_general.py:589
+#: qt/manageprofiles/tab_general.py:582
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1028,17 +1071,17 @@ msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr ""
 
 #: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
-#: qt/manageprofiles/tab_general.py:598
+#: qt/manageprofiles/tab_general.py:591
 msgid "whitepaper"
 msgstr ""
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:85
-#: qt/manageprofiles/tab_general.py:591
+#: qt/manageprofiles/tab_general.py:584
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr ""
 
-#: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:593
+#: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:586
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1072,25 +1115,26 @@ msgstr ""
 msgid "Your Back In Time Team"
 msgstr ""
 
+#: qt/filedialog.py:87
+#, fuzzy
+msgid "Show/hide hidden files and directories (Ctrl+H)"
+msgstr "Ukljući mape i datoteke"
+
 #: qt/languagedialog.py:35
 msgid "Setup language"
 msgstr ""
 
-#: qt/languagedialog.py:97
-msgid "System default"
-msgstr ""
-
-#: qt/languagedialog.py:107
-msgid "Use operating system's language."
-msgstr ""
-
-#: qt/languagedialog.py:161
+#: qt/languagedialog.py:119
 #, python-brace-format
 msgid "Translated: {percent}"
 msgstr ""
 
-#: qt/logviewdialog.py:59
-msgid "Last Log View"
+#: qt/languagedialog.py:131
+msgid "System default"
+msgstr ""
+
+#: qt/languagedialog.py:141
+msgid "Use operating system's language."
 msgstr ""
 
 #: qt/logviewdialog.py:61
@@ -1098,35 +1142,47 @@ msgstr ""
 msgid "Backup Log View"
 msgstr "Mape rezerve"
 
-#: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:76
-#: qt/manageprofiles/tab_general.py:266 qt/restoreconfigdialog.py:282
+#: qt/logviewdialog.py:61
+msgid "Last Log View"
+msgstr ""
+
+#: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:69
+#: qt/manageprofiles/tab_general.py:247 qt/restoreconfigdialog.py:356
 msgid "Profile:"
 msgstr "Profil:"
 
-#: qt/logviewdialog.py:77
+#: qt/logviewdialog.py:84
 #, fuzzy
 msgid "Backups:"
 msgstr "&Backup"
 
-#: qt/logviewdialog.py:93
+#: qt/logviewdialog.py:91
 msgid "Filter:"
 msgstr "Filter:"
 
-#: qt/logviewdialog.py:99 qt/manageprofiles/tab_options.py:133
+#: qt/logviewdialog.py:98
+msgid "[E] Error, [I] Information, [C] Change"
+msgstr "[E] Grješka, [I] Informacije, [C] Promjeni"
+
+#: qt/logviewdialog.py:101 qt/qtsystrayicon.py:93
+msgid "decode paths"
+msgstr ""
+
+#: qt/logviewdialog.py:119 qt/manageprofiles/tab_options.py:182
 msgid "All"
 msgstr "Sve"
 
-#: qt/logviewdialog.py:106 qt/logviewdialog.py:110
-#: qt/manageprofiles/tab_options.py:132
+#: qt/logviewdialog.py:125 qt/logviewdialog.py:129
+#: qt/manageprofiles/tab_options.py:181
 msgid "Changes"
 msgstr "Promjene"
 
-#: qt/logviewdialog.py:106 qt/logviewdialog.py:109
-#: qt/manageprofiles/tab_options.py:131 qt/manageprofiles/tab_options.py:132
+#: qt/logviewdialog.py:125 qt/logviewdialog.py:128
+#: qt/manageprofiles/tab_options.py:180 qt/manageprofiles/tab_options.py:181
 msgid "Errors"
 msgstr "Grješke"
 
-#: qt/logviewdialog.py:111 qt/messagebox.py:60
+#: qt/logviewdialog.py:130 qt/messagebox.py:74
 #, fuzzy
 msgid "Information"
 msgid_plural "Information"
@@ -1134,247 +1190,148 @@ msgstr[0] "Informacije"
 msgstr[1] "Informacije"
 msgstr[2] "Informacije"
 
-#: qt/logviewdialog.py:114
+#: qt/logviewdialog.py:132
 msgid "rsync transfer failures (experimental)"
 msgstr ""
 
-#: qt/logviewdialog.py:126
-msgid "[E] Error, [I] Information, [C] Change"
-msgstr "[E] Grješka, [I] Informacije, [C] Promjeni"
-
-#: qt/logviewdialog.py:129 qt/qtsystrayicon.py:95
-msgid "decode paths"
-msgstr ""
-
-#: qt/manageprofiles/__init__.py:68
+#: qt/manageprofiles/__init__.py:61
 msgid "Manage profiles"
 msgstr "Glavni profil"
 
-#: qt/manageprofiles/__init__.py:85
+#: qt/manageprofiles/__init__.py:78
 msgid "Edit"
 msgstr "Uredi"
 
-#: qt/manageprofiles/__init__.py:89 qt/manageprofiles/__init__.py:204
+#: qt/manageprofiles/__init__.py:82 qt/manageprofiles/tab_exclude.py:96
 msgid "Add"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:93 qt/manageprofiles/__init__.py:151
-#: qt/manageprofiles/__init__.py:222
+#: qt/manageprofiles/__init__.py:86 qt/manageprofiles/tab_exclude.py:118
+#: qt/manageprofiles/tab_include.py:77
 msgid "Remove"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:114
+#: qt/manageprofiles/__init__.py:107
 msgid "&General"
 msgstr "&Općenito"
 
-#: qt/manageprofiles/__init__.py:118
+#: qt/manageprofiles/__init__.py:111
 msgid "&Include"
 msgstr "&Uključi"
 
-#: qt/manageprofiles/__init__.py:126
-#, fuzzy
-msgid "Include files and directories"
-msgstr "Ukljući mape i datoteke"
-
-#: qt/manageprofiles/__init__.py:143 qt/manageprofiles/__init__.py:208
-msgid "Add file"
-msgstr "Dodaj datoteku"
-
-#: qt/manageprofiles/__init__.py:147 qt/manageprofiles/__init__.py:212
-#, fuzzy
-msgid "Add directory"
-msgstr "Dodaj mapu"
-
-#: qt/manageprofiles/__init__.py:157
+#: qt/manageprofiles/__init__.py:115
 msgid "&Exclude"
 msgstr "&Isključi"
 
-#: qt/manageprofiles/__init__.py:161
-#, python-brace-format
-msgid ""
-"{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
-"asterisks are functional (e.g. {example2}). Other types of wildcards and "
-"patterns will be ignored (e.g. {example1}). Filenames are unpredictable in "
-"this mode due to encryption by EncFS."
-msgstr ""
-
-#: qt/manageprofiles/__init__.py:184
-#, fuzzy
-msgid "Exclude patterns, files or directories"
-msgstr "Iskljući sljedove, datoteke ili mape"
-
-#: qt/manageprofiles/__init__.py:217
-msgid "Add default"
-msgstr ""
-
-#: qt/manageprofiles/__init__.py:230
-msgid "Exclude files bigger than:"
-msgstr "Isključi datoteku:"
-
-#: qt/manageprofiles/__init__.py:234
-#, python-brace-format
-msgid "Exclude files bigger than value in {size_unit}."
-msgstr ""
-
-#: qt/manageprofiles/__init__.py:236
-msgid ""
-"With 'Full rsync mode' disabled, this setting affects only newly created "
-"files, as rsync treats it as transfer option rather than an exclusion rule. "
-"Consequently, large files that have already been backed up will remain in "
-"backups even if they are modified."
-msgstr ""
-
-#: qt/manageprofiles/__init__.py:266
+#: qt/manageprofiles/__init__.py:130
 msgid "&Remove & Retention"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:270
+#: qt/manageprofiles/__init__.py:134
 msgid "&Options"
 msgstr "Op&cije"
 
-#: qt/manageprofiles/__init__.py:274
+#: qt/manageprofiles/__init__.py:138
 msgid "E&xpert Options"
 msgstr "&Stručne opcije"
 
-#: qt/manageprofiles/__init__.py:281
+#: qt/manageprofiles/__init__.py:146
 msgid "Restore Config"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:283
-msgid "Edit user-callback"
-msgstr ""
-
-#: qt/manageprofiles/__init__.py:301
+#: qt/manageprofiles/__init__.py:177
 msgid "New profile"
 msgstr "Novi profil"
 
-#: qt/manageprofiles/__init__.py:318
+#: qt/manageprofiles/__init__.py:194
 msgid "Rename profile"
 msgstr "Preimenuj profil"
 
-#: qt/manageprofiles/__init__.py:334
+#: qt/manageprofiles/__init__.py:210
 #, fuzzy, python-brace-format
 msgid "Delete the profile \"{name}\"?"
 msgstr "Jeste li sigurni da želite obrisati profil \"{name}\" ?"
 
-#: qt/manageprofiles/__init__.py:379
-#, python-brace-format
-msgid ""
-"{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
-msgstr ""
-
-#: qt/manageprofiles/__init__.py:384
-#, fuzzy, python-brace-format
-msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
-msgstr "Visoko preporučeno"
-
-#: qt/manageprofiles/__init__.py:608
-msgid "Exclude pattern"
-msgstr "Isključi slijed"
-
-#: qt/manageprofiles/__init__.py:621
-msgid "Exclude file"
-msgstr "Isključi datoteku"
-
-#: qt/manageprofiles/__init__.py:625
-#, fuzzy
-msgid "Exclude directory"
-msgstr "Isključi mapu"
-
-#: qt/manageprofiles/__init__.py:649
-msgid "Include file"
-msgstr "Uključi datoteku"
-
-#: qt/manageprofiles/__init__.py:670
+#: qt/manageprofiles/__init__.py:340
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until it is"
 " included, too."
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:674
+#: qt/manageprofiles/__init__.py:344
 msgid "Include the symlink's target instead?"
 msgstr ""
 
-#: qt/manageprofiles/__init__.py:683
-#, fuzzy
-msgid "Include directory"
-msgstr "Uključi mapu"
-
-#: qt/manageprofiles/__init__.py:737
-msgid ""
-"Disabled because this pattern is not functional in mode 'SSH encrypted'."
-msgstr ""
-
-#: qt/manageprofiles/schedulewidget.py:37
+#: qt/manageprofiles/schedulewidget.py:38
 msgid "Schedule"
 msgstr "Raspored"
 
-#: qt/manageprofiles/schedulewidget.py:63
+#: qt/manageprofiles/schedulewidget.py:64
 msgid "Day:"
 msgstr ""
 
-#: qt/manageprofiles/schedulewidget.py:68
+#: qt/manageprofiles/schedulewidget.py:69
 msgid "Weekday:"
 msgstr ""
 
-#: qt/manageprofiles/schedulewidget.py:73
+#: qt/manageprofiles/schedulewidget.py:74
 msgid "Time:"
 msgstr ""
 
-#: qt/manageprofiles/schedulewidget.py:78
+#: qt/manageprofiles/schedulewidget.py:79
 msgid "Hours:"
 msgstr "Sat:"
 
-#: qt/manageprofiles/schedulewidget.py:86
+#: qt/manageprofiles/schedulewidget.py:87
 msgid "after the hour"
 msgstr ""
 
-#: qt/manageprofiles/schedulewidget.py:88
+#: qt/manageprofiles/schedulewidget.py:89
 msgid "Minutes:"
 msgstr ""
 
-#: qt/manageprofiles/schedulewidget.py:92
+#: qt/manageprofiles/schedulewidget.py:93
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " A sudo password prompt will appear."
 msgstr ""
 
-#: qt/manageprofiles/schedulewidget.py:97
+#: qt/manageprofiles/schedulewidget.py:98
 msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regularly."
 msgstr ""
 
-#: qt/manageprofiles/schedulewidget.py:109
+#: qt/manageprofiles/schedulewidget.py:110
 msgid "Every:"
 msgstr "Svakih:"
 
-#: qt/manageprofiles/schedulewidget.py:113
+#: qt/manageprofiles/schedulewidget.py:114
 msgid "Enable logging of debug messages"
 msgstr ""
 
-#: qt/manageprofiles/schedulewidget.py:117
+#: qt/manageprofiles/schedulewidget.py:118
 msgid "Writes debug-level messages into the system log via \"--debug\"."
 msgstr ""
 
-#: qt/manageprofiles/schedulewidget.py:119
+#: qt/manageprofiles/schedulewidget.py:120
 msgid ""
 "Caution: Only use this temporarily for diagnostics, as it generates a large "
 "amount of output."
 msgstr ""
 
-#: qt/manageprofiles/schedulewidget.py:141
+#: qt/manageprofiles/schedulewidget.py:145
 msgid "Disabled"
 msgstr "Onemogućeno"
 
-#: qt/manageprofiles/schedulewidget.py:142
+#: qt/manageprofiles/schedulewidget.py:146
 msgid "At every boot/reboot"
 msgstr "Pri svakom paljenju/podizanju"
 
-#: qt/manageprofiles/schedulewidget.py:144
-#: qt/manageprofiles/schedulewidget.py:146
 #: qt/manageprofiles/schedulewidget.py:148
+#: qt/manageprofiles/schedulewidget.py:150
+#: qt/manageprofiles/schedulewidget.py:152
 #, fuzzy, python-brace-format
 msgid "Every minute"
 msgid_plural "Every {n} minutes"
@@ -1382,11 +1339,11 @@ msgstr[0] "Svakih {n} minuta"
 msgstr[1] "Svakih {n} minuta"
 msgstr[2] "Svakih {n} minuta"
 
-#: qt/manageprofiles/schedulewidget.py:150
-#: qt/manageprofiles/schedulewidget.py:152
 #: qt/manageprofiles/schedulewidget.py:154
 #: qt/manageprofiles/schedulewidget.py:156
 #: qt/manageprofiles/schedulewidget.py:158
+#: qt/manageprofiles/schedulewidget.py:160
+#: qt/manageprofiles/schedulewidget.py:162
 #, python-brace-format
 msgid "Every hour"
 msgid_plural "Every {n} hours"
@@ -1394,73 +1351,109 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: qt/manageprofiles/schedulewidget.py:159
+#: qt/manageprofiles/schedulewidget.py:163
 msgid "Custom hours"
 msgstr ""
 
-#: qt/manageprofiles/schedulewidget.py:160
+#: qt/manageprofiles/schedulewidget.py:164
 msgid "Every day"
 msgstr "Svaki dan"
 
-#: qt/manageprofiles/schedulewidget.py:161
+#: qt/manageprofiles/schedulewidget.py:165
 msgid "Repeatedly (anacron)"
 msgstr ""
 
-#: qt/manageprofiles/schedulewidget.py:162
+#: qt/manageprofiles/schedulewidget.py:166
 msgid "When drive gets connected (udev)"
 msgstr ""
 
-#: qt/manageprofiles/schedulewidget.py:163
+#: qt/manageprofiles/schedulewidget.py:167
 msgid "Every week"
 msgstr "Svaki tjedan"
 
-#: qt/manageprofiles/schedulewidget.py:164
+#: qt/manageprofiles/schedulewidget.py:168
 msgid "Every month"
 msgstr "Svaki mjesec"
 
-#: qt/manageprofiles/schedulewidget.py:165
+#: qt/manageprofiles/schedulewidget.py:169
 msgid "Every year"
 msgstr "Svake godine"
 
-#: qt/manageprofiles/schedulewidget.py:214
+#: qt/manageprofiles/schedulewidget.py:228
 msgid "Hour(s)"
 msgstr ""
 
-#: qt/manageprofiles/schedulewidget.py:215
-#: qt/manageprofiles/tab_remove_retention.py:257
+#: qt/manageprofiles/schedulewidget.py:229
+#: qt/manageprofiles/tab_remove_retention.py:264
 msgid "Day(s)"
 msgstr "Dan(a)"
 
-#: qt/manageprofiles/schedulewidget.py:216
-#: qt/manageprofiles/tab_remove_retention.py:258
+#: qt/manageprofiles/schedulewidget.py:230
+#: qt/manageprofiles/tab_remove_retention.py:265
 msgid "Week(s)"
 msgstr "Tjedan(a)"
 
-#: qt/manageprofiles/schedulewidget.py:217
+#: qt/manageprofiles/schedulewidget.py:231
 msgid "Month(s)"
 msgstr ""
 
-#: qt/manageprofiles/schedulewidget.py:311
+#: qt/manageprofiles/schedulewidget.py:326
 msgid ""
 "Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours."
+msgstr ""
+
+#: qt/manageprofiles/sshkeyselector.py:63
+msgid "<Select another file…>"
+msgstr ""
+
+#: qt/manageprofiles/sshkeyselector.py:64
+msgid "Choose an existing private key file from somewhere else."
+msgstr ""
+
+#: qt/manageprofiles/sshkeyselector.py:70
+msgid "<Generate new key-pair…>"
+msgstr ""
+
+#: qt/manageprofiles/sshkeyselector.py:71
+msgid "Create a new SSH key without passphrase."
+msgstr ""
+
+#: qt/manageprofiles/sshkeyselector.py:91
+#, python-brace-format
+msgid "Full path: {path}"
+msgstr ""
+
+#: qt/manageprofiles/sshkeyselector.py:185
+#, fuzzy
+msgid "Private key:"
+msgstr "Privatni ključ za SSH"
+
+#: qt/manageprofiles/sshkeyselector.py:190
+msgid "Use system SSH configuration"
+msgstr ""
+
+#: qt/manageprofiles/sshkeyselector.py:192
+msgid ""
+"Leaves the key file unselected. SSH connections will rely on the system’s "
+"existing client configuration (e.g., ~/.ssh/config)."
 msgstr ""
 
 #: qt/manageprofiles/sshproxywidget.py:47
 msgid "SSH Proxy"
 msgstr ""
 
-#: qt/manageprofiles/sshproxywidget.py:54 qt/manageprofiles/tab_general.py:116
-#: qt/manageprofiles/tab_general.py:254
+#: qt/manageprofiles/sshproxywidget.py:54 qt/manageprofiles/tab_general.py:117
+#: qt/manageprofiles/tab_general.py:235
 msgid "Host:"
 msgstr "Domaćin:"
 
-#: qt/manageprofiles/sshproxywidget.py:58 qt/manageprofiles/tab_general.py:121
+#: qt/manageprofiles/sshproxywidget.py:58 qt/manageprofiles/tab_general.py:122
 msgid "Port:"
 msgstr ""
 
-#: qt/manageprofiles/sshproxywidget.py:62 qt/manageprofiles/tab_general.py:126
-#: qt/manageprofiles/tab_general.py:260
+#: qt/manageprofiles/sshproxywidget.py:62 qt/manageprofiles/tab_general.py:127
+#: qt/manageprofiles/tab_general.py:241
 msgid "User:"
 msgstr "Korisnik:"
 
@@ -1471,431 +1464,546 @@ msgid ""
 "\"ssh_config\" man page for details."
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:39
-msgid "Caution:"
+#: qt/manageprofiles/tab_exclude.py:53
+#, python-brace-format
+msgid ""
+"{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
+"asterisks are functional (e.g. {example2}). Other types of wildcards and "
+"patterns will be ignored (e.g. {example1}). Filenames are unpredictable in "
+"this mode due to encryption by EncFS."
+msgstr ""
+
+#: qt/manageprofiles/tab_exclude.py:76
+#, fuzzy
+msgid "Exclude patterns, files or directories"
+msgstr "Iskljući sljedove, datoteke ili mape"
+
+#: qt/manageprofiles/tab_exclude.py:101 qt/manageprofiles/tab_include.py:66
+#, fuzzy
+msgid "Add files"
+msgstr "Dodaj datoteku"
+
+#: qt/manageprofiles/tab_exclude.py:106 qt/manageprofiles/tab_include.py:71
+#, fuzzy
+msgid "Add directories"
+msgstr "Dodaj mapu"
+
+#: qt/manageprofiles/tab_exclude.py:112
+msgid "Add default"
+msgstr ""
+
+#: qt/manageprofiles/tab_exclude.py:127
+msgid "Exclude files bigger than:"
+msgstr "Isključi datoteku:"
+
+#: qt/manageprofiles/tab_exclude.py:131
+#, python-brace-format
+msgid "Exclude files bigger than value in {size_unit}."
+msgstr ""
+
+#: qt/manageprofiles/tab_exclude.py:133
+msgid ""
+"With 'Full rsync mode' disabled, this setting affects only newly created "
+"files, as rsync treats it as transfer option rather than an exclusion rule. "
+"Consequently, large files that have already been backed up will remain in "
+"backups even if they are modified."
+msgstr ""
+
+#: qt/manageprofiles/tab_exclude.py:201
+#, python-brace-format
+msgid ""
+"{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
+msgstr ""
+
+#: qt/manageprofiles/tab_exclude.py:206
+#, fuzzy, python-brace-format
+msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
+msgstr "Visoko preporučeno"
+
+#: qt/manageprofiles/tab_exclude.py:264
+msgid "Exclude pattern"
+msgstr "Isključi slijed"
+
+#: qt/manageprofiles/tab_exclude.py:279
+#, fuzzy
+msgid "Exclude files"
+msgstr "Isključi datoteku"
+
+#: qt/manageprofiles/tab_exclude.py:290
+#, fuzzy
+msgid "Exclude directories"
+msgstr "Isključi mapu"
+
+#: qt/manageprofiles/tab_exclude.py:321
+msgid ""
+"Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
 
 #: qt/manageprofiles/tab_expert_options.py:40
+msgid "Caution:"
+msgstr ""
+
+#: qt/manageprofiles/tab_expert_options.py:41
 msgid ""
 "These options are for advanced configurations. Modify only if fully aware of"
 " their implications."
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:47
-#: qt/manageprofiles/tab_expert_options.py:67
-#: qt/manageprofiles/tab_expert_options.py:92
+#: qt/manageprofiles/tab_expert_options.py:48
+#: qt/manageprofiles/tab_expert_options.py:68
+#: qt/manageprofiles/tab_expert_options.py:93
 #, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:54
-#: qt/manageprofiles/tab_expert_options.py:73
+#: qt/manageprofiles/tab_expert_options.py:55
+#: qt/manageprofiles/tab_expert_options.py:74
 msgid "as cron job"
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:60
-#: qt/manageprofiles/tab_expert_options.py:85
-#: qt/manageprofiles/tab_expert_options.py:116
+#: qt/manageprofiles/tab_expert_options.py:61
+#: qt/manageprofiles/tab_expert_options.py:86
+#: qt/manageprofiles/tab_expert_options.py:117
 msgid "on remote host"
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:79
+#: qt/manageprofiles/tab_expert_options.py:80
 msgid "when taking a manual backup"
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:103
+#: qt/manageprofiles/tab_expert_options.py:104
 msgid "Please install 'nocache' to enable this option."
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:109
+#: qt/manageprofiles/tab_expert_options.py:110
 msgid "on local machine"
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:123
+#: qt/manageprofiles/tab_expert_options.py:124
 msgid "Redirect stdout to /dev/null in cronjobs."
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:129
+#: qt/manageprofiles/tab_expert_options.py:130
 msgid ""
 "Cron will automatically send an email with attached output of cronjobs if an"
 " MTA is installed."
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:135
+#: qt/manageprofiles/tab_expert_options.py:136
 msgid "Redirect stderr to /dev/null in cronjobs."
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:141
+#: qt/manageprofiles/tab_expert_options.py:142
 msgid ""
 "Cron will automatically send an email with attached errors of cronjobs if an"
 " MTA is installed."
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:151
+#: qt/manageprofiles/tab_expert_options.py:152
 msgid "KB/sec"
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:156
+#: qt/manageprofiles/tab_expert_options.py:157
 msgid "Limit rsync bandwidth usage:"
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:197
+#: qt/manageprofiles/tab_expert_options.py:198
 msgid "Preserve ACL"
 msgstr "Sačuvaj ACL"
 
-#: qt/manageprofiles/tab_expert_options.py:215
+#: qt/manageprofiles/tab_expert_options.py:216
 msgid "Preserve extended attributes (xattr)"
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:238
+#: qt/manageprofiles/tab_expert_options.py:239
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:274
+#: qt/manageprofiles/tab_expert_options.py:275
 msgid "Restrict to one file system"
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:292
+#: qt/manageprofiles/tab_expert_options.py:293
 #, python-brace-format
 msgid "Options must be quoted e.g. {example}."
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:301
+#: qt/manageprofiles/tab_expert_options.py:302
 msgid "Paste additional options to rsync"
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:309
+#: qt/manageprofiles/tab_expert_options.py:310
 msgid "Prefix to run before every command on remote host."
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:310
+#: qt/manageprofiles/tab_expert_options.py:311
 #, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
 "add a prefix for rsync use \"{example_value}\" with {rsync_options_value}."
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:318
+#: qt/manageprofiles/tab_expert_options.py:319
 msgid "default"
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:324
+#: qt/manageprofiles/tab_expert_options.py:325
 msgid "Add prefix to SSH commands"
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:334
+#: qt/manageprofiles/tab_expert_options.py:335
 msgid "Check if remote host is online"
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:337
+#: qt/manageprofiles/tab_expert_options.py:338
 msgid ""
 "Warning: If disabled and the remote host is not available, this could lead "
 "to some weird errors."
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:341
+#: qt/manageprofiles/tab_expert_options.py:342
 msgid "Check if remote host supports all necessary commands."
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:344
+#: qt/manageprofiles/tab_expert_options.py:345
 msgid ""
 "Warning: If disabled and the remote host does not support all necessary "
 "commands, this could lead to some weird errors."
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:359
+#: qt/manageprofiles/tab_expert_options.py:360
 msgid "(default: {})"
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:360
+#: qt/manageprofiles/tab_expert_options.py:361
 msgid "disabled"
 msgstr ""
 
-#: qt/manageprofiles/tab_expert_options.py:360
+#: qt/manageprofiles/tab_expert_options.py:361
 msgid "enabled"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:66 qt/restoreconfigdialog.py:284
+#: qt/manageprofiles/tab_general.py:67 qt/restoreconfigdialog.py:358
 msgid "Mode:"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:78 qt/manageprofiles/tab_general.py:621
+#: qt/manageprofiles/tab_general.py:79 qt/manageprofiles/tab_general.py:614
 #, fuzzy
 msgid "Where to save backups"
 msgstr "Gdje sačuvati snimke"
 
-#: qt/manageprofiles/tab_general.py:104
+#: qt/manageprofiles/tab_general.py:105
 msgid "SSH Settings"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:131
+#: qt/manageprofiles/tab_general.py:132
 msgid "Path:"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:137
-msgid "Cipher:"
-msgstr ""
+#: qt/manageprofiles/tab_general.py:139
+#, fuzzy
+msgid "Key file:"
+msgstr "Novi profil"
 
-#: qt/manageprofiles/tab_general.py:142
-msgid "Private Key:"
-msgstr ""
-
-#: qt/manageprofiles/tab_general.py:153
-msgid ""
-"Choose an existing private key file (normally named \"id_ed25519\" and in "
-"older setups \"id_rsa\")."
-msgstr ""
-
-#: qt/manageprofiles/tab_general.py:165
-msgid ""
-"Create a new SSH key without password (not allowed if a private key file is "
-"already selected)."
-msgstr ""
-
-#: qt/manageprofiles/tab_general.py:201 qt/manageprofiles/tab_general.py:208
-#: qt/manageprofiles/tab_general.py:212
+#: qt/manageprofiles/tab_general.py:173 qt/manageprofiles/tab_general.py:181
+#: qt/manageprofiles/tab_general.py:186
 msgid "Password"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:222
+#: qt/manageprofiles/tab_general.py:203
 msgid "Save Password to Keyring"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:226
+#: qt/manageprofiles/tab_general.py:207
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:242
+#: qt/manageprofiles/tab_general.py:223
 msgid "Advanced"
 msgstr "Napredno"
 
-#: qt/manageprofiles/tab_general.py:272 qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:253 qt/manageprofiles/tab_general.py:704
 msgid "Full backup path:"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:395
-msgid "A private key file for SSH was not chosen."
+#: qt/manageprofiles/tab_general.py:477
+msgid ""
+"An error occurred while attempting to log in to the remote host. The "
+"following error message was returned:"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:396
-msgid "Should a new password-less public/private key pair be generated?"
+#: qt/manageprofiles/tab_general.py:481
+msgid ""
+"Copying the public SSH key to the remote host can help enable password-less "
+"login."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:407
-#, python-brace-format
-msgid "Private key file \"{file}\" does not exist."
+#: qt/manageprofiles/tab_general.py:483
+msgid "Proceed?"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:492
-msgid "Copy public SSH key to the remote host to enable password-less login?"
+#: qt/manageprofiles/tab_general.py:506
+msgid ""
+"The public SSH key could not be copied. This may be due to a connection or "
+"permission issue."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:526
+#: qt/manageprofiles/tab_general.py:531
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:529
+#: qt/manageprofiles/tab_general.py:533
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:537
-msgid "Please verify this fingerprint. Add it to the 'known_hosts' file?"
+#: qt/manageprofiles/tab_general.py:536
+msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:628
+#: qt/manageprofiles/tab_general.py:627
 #, fuzzy
 msgid "Really change the backup directory?"
 msgstr "Stvori novu šifriranu mapu?"
 
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:657
+#, fuzzy
+msgid "Invalid file: Not a private SSH key"
+msgstr "Privatni ključ za SSH"
+
+#: qt/manageprofiles/tab_general.py:658
+#, python-brace-format
+msgid ""
+"The selected file ({path}) is a public SSH key. Please choose the "
+"corresponding private key file instead (without \".pub\")."
+msgstr ""
+
+#: qt/manageprofiles/tab_general.py:682
+#, python-brace-format
+msgid ""
+"The file {path} already exists. Cannot create a new SSH key with that name."
+msgstr ""
+
+#: qt/manageprofiles/tab_general.py:692
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr ""
 
-#: qt/manageprofiles/tab_options.py:37
+#: qt/manageprofiles/tab_include.py:46
+#, fuzzy
+msgid "Include files and directories"
+msgstr "Ukljući mape i datoteke"
+
+#: qt/manageprofiles/tab_include.py:152
+#, fuzzy
+msgid "Include files"
+msgstr "Uključi datoteku"
+
+#: qt/manageprofiles/tab_include.py:174
+#, fuzzy
+msgid "Include directories"
+msgstr "Uključi mapu"
+
+#: qt/manageprofiles/tab_options.py:38
 msgid "Enable notifications"
 msgstr "Omogući obavijesti"
 
-#: qt/manageprofiles/tab_options.py:41
+#: qt/manageprofiles/tab_options.py:42
 #, fuzzy
 msgid "Disable backups when on battery"
 msgstr "Onesposobi snimke tijekom rada na bateriji"
 
-#: qt/manageprofiles/tab_options.py:47
+#: qt/manageprofiles/tab_options.py:48
 msgid "Power status not available from system"
 msgstr "Stanje energije nije dostupno od sustava"
 
-#: qt/manageprofiles/tab_options.py:49
+#: qt/manageprofiles/tab_options.py:50
 msgid "Run only one backup at a time"
 msgstr ""
 
-#: qt/manageprofiles/tab_options.py:53
+#: qt/manageprofiles/tab_options.py:54
 msgid ""
 "Other backups will be blocked until the current backup is completed. This is"
 " a global setting, meaning it will affect all profiles for this user. "
 "However, it must also be activated for all other users."
 msgstr ""
 
-#: qt/manageprofiles/tab_options.py:60
+#: qt/manageprofiles/tab_options.py:61
 msgid "Backup replaced files on restore"
 msgstr ""
 
-#: qt/manageprofiles/tab_options.py:75
+#: qt/manageprofiles/tab_options.py:76
 #, fuzzy
 msgid "Continue on errors (keep incomplete backups)"
 msgstr "Nastavi ne grješkama (zadrži nepotpune snimke)"
 
-#: qt/manageprofiles/tab_options.py:79
+#: qt/manageprofiles/tab_options.py:80
 msgid "Use checksum to detect changes"
 msgstr ""
 
-#: qt/manageprofiles/tab_options.py:83
+#: qt/manageprofiles/tab_options.py:84
 msgid "Create a new backup whether there were changes or not."
 msgstr ""
 
-#: qt/manageprofiles/tab_options.py:90
+#: qt/manageprofiles/tab_options.py:93
+msgid "Warn if the free disk space falls below"
+msgstr ""
+
+#: qt/manageprofiles/tab_options.py:99
+msgid ""
+"Shows a warning when free space on the backup destination disk is less than "
+"the specified value."
+msgstr ""
+
+#: qt/manageprofiles/tab_options.py:101
+msgid ""
+"If the Remove & Retention policy is enabled and old backups are removed "
+"based on available free space, this value cannot be lower than the value set"
+" in the policy."
+msgstr ""
+
+#: qt/manageprofiles/tab_options.py:119
 msgid "Log Level:"
 msgstr "Razina Zapisa:"
 
-#: qt/manageprofiles/tab_options.py:130
+#: qt/manageprofiles/tab_options.py:179
 msgid "None"
 msgstr "Nijedno"
 
-#: qt/manageprofiles/tab_remove_retention.py:191
+#: qt/manageprofiles/tab_remove_retention.py:198
 #, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual} for details and examples."
 msgstr ""
 
-#: qt/manageprofiles/tab_remove_retention.py:196
+#: qt/manageprofiles/tab_remove_retention.py:203
 msgid "user manual"
 msgstr ""
 
-#: qt/manageprofiles/tab_remove_retention.py:209
+#: qt/manageprofiles/tab_remove_retention.py:216
 msgid "Open user manual in browser."
 msgstr ""
 
-#: qt/manageprofiles/tab_remove_retention.py:223
+#: qt/manageprofiles/tab_remove_retention.py:230
 #, fuzzy
 msgid "Keep the most recent backup."
 msgstr "Nemoj uklanjati imenovane snimke."
 
-#: qt/manageprofiles/tab_remove_retention.py:227
+#: qt/manageprofiles/tab_remove_retention.py:234
 msgid "The last or freshest backup is kept under all circumstances."
 msgstr ""
 
-#: qt/manageprofiles/tab_remove_retention.py:229
+#: qt/manageprofiles/tab_remove_retention.py:236
 msgid "That behavior cannot be changed."
 msgstr ""
 
-#: qt/manageprofiles/tab_remove_retention.py:241
+#: qt/manageprofiles/tab_remove_retention.py:248
 #, fuzzy
 msgid "Keep named backups."
 msgstr "Nemoj uklanjati imenovane snimke."
 
-#: qt/manageprofiles/tab_remove_retention.py:244
+#: qt/manageprofiles/tab_remove_retention.py:251
 msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
 
-#: qt/manageprofiles/tab_remove_retention.py:259
+#: qt/manageprofiles/tab_remove_retention.py:266
 msgid "Year(s)"
 msgstr "Godina"
 
-#: qt/manageprofiles/tab_remove_retention.py:264
+#: qt/manageprofiles/tab_remove_retention.py:271
 #, fuzzy
 msgid "Remove backups older than"
 msgstr "Ukloni Snimku"
 
-#: qt/manageprofiles/tab_remove_retention.py:270
+#: qt/manageprofiles/tab_remove_retention.py:277
 msgid "Full days. Current day is ignored."
 msgstr ""
 
-#: qt/manageprofiles/tab_remove_retention.py:272
+#: qt/manageprofiles/tab_remove_retention.py:279
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
 
-#: qt/manageprofiles/tab_remove_retention.py:275
+#: qt/manageprofiles/tab_remove_retention.py:282
 msgid "12 months periods. Current month is ignored."
 msgstr ""
 
-#: qt/manageprofiles/tab_remove_retention.py:290
+#: qt/manageprofiles/tab_remove_retention.py:297
 msgid "Retention policy"
 msgstr ""
 
-#: qt/manageprofiles/tab_remove_retention.py:295
+#: qt/manageprofiles/tab_remove_retention.py:302
 msgid "Run in background on remote host."
 msgstr ""
 
-#: qt/manageprofiles/tab_remove_retention.py:298
+#: qt/manageprofiles/tab_remove_retention.py:305
 msgid ""
 "The smart remove procedure will run directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
 "and available on the remote machine."
 msgstr ""
 
-#: qt/manageprofiles/tab_remove_retention.py:302
+#: qt/manageprofiles/tab_remove_retention.py:309
 msgid "If selected, Back In Time will first test the remote machine."
 msgstr ""
 
-#: qt/manageprofiles/tab_remove_retention.py:306
+#: qt/manageprofiles/tab_remove_retention.py:313
 msgid "The days are counted starting from today."
 msgstr ""
 
-#: qt/manageprofiles/tab_remove_retention.py:307
+#: qt/manageprofiles/tab_remove_retention.py:314
 msgid "Keep all backups for the last"
 msgstr ""
 
-#: qt/manageprofiles/tab_remove_retention.py:312
-#: qt/manageprofiles/tab_remove_retention.py:324
+#: qt/manageprofiles/tab_remove_retention.py:319
+#: qt/manageprofiles/tab_remove_retention.py:331
 msgid "day(s)."
 msgstr "Dan(a)."
 
-#: qt/manageprofiles/tab_remove_retention.py:319
+#: qt/manageprofiles/tab_remove_retention.py:326
 msgid "Keep the last backup for each day for the last"
 msgstr ""
 
-#: qt/manageprofiles/tab_remove_retention.py:329
+#: qt/manageprofiles/tab_remove_retention.py:336
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
 msgstr ""
 
-#: qt/manageprofiles/tab_remove_retention.py:332
+#: qt/manageprofiles/tab_remove_retention.py:339
 msgid "Keep the last backup for each week for the last"
 msgstr ""
 
-#: qt/manageprofiles/tab_remove_retention.py:337
+#: qt/manageprofiles/tab_remove_retention.py:344
 msgid "week(s)."
 msgstr "Tjedan(a)."
 
-#: qt/manageprofiles/tab_remove_retention.py:342
+#: qt/manageprofiles/tab_remove_retention.py:349
 msgid ""
 "The months are counted as calendar months starting with the current month."
 msgstr ""
 
-#: qt/manageprofiles/tab_remove_retention.py:345
+#: qt/manageprofiles/tab_remove_retention.py:352
 msgid "Keep the last backup for each month for the last"
 msgstr ""
 
-#: qt/manageprofiles/tab_remove_retention.py:350
+#: qt/manageprofiles/tab_remove_retention.py:357
 msgid "month(s)."
 msgstr ""
 
-#: qt/manageprofiles/tab_remove_retention.py:355
+#: qt/manageprofiles/tab_remove_retention.py:362
 msgid ""
 "The years are counted as calendar years starting with the current year."
 msgstr ""
 
-#: qt/manageprofiles/tab_remove_retention.py:357
+#: qt/manageprofiles/tab_remove_retention.py:364
 msgid "Keep the last backup for each year for"
 msgstr ""
 
-#: qt/manageprofiles/tab_remove_retention.py:359
+#: qt/manageprofiles/tab_remove_retention.py:366
 msgid "all years."
 msgstr ""
 
@@ -1914,54 +2022,90 @@ msgstr "Ako je slobodan prostor manji od:"
 msgid "Remove oldest backup if …"
 msgstr "Ukloni stare snimke"
 
-#: qt/messagebox.py:93 qt/messagebox.py:103
-msgid "Question"
+#: qt/placeswidget.py:49
+msgid "Shortcuts"
+msgstr "Prečaci"
+
+#: qt/placeswidget.py:63
+msgid "Places"
 msgstr ""
 
-#: qt/qtsystrayicon.py:69
+#: qt/placeswidget.py:64
+msgid "File System"
+msgstr ""
+
+#: qt/placeswidget.py:106
+#, fuzzy
+msgid "Backup directories"
+msgstr "Mape rezerve"
+
+#: qt/qtsystrayicon.py:66
 #, python-brace-format
 msgid "Profile: {profile_name}"
 msgstr "Profil: \"{profile_name}\""
 
-#: qt/qtsystrayicon.py:101
+#: qt/qtsystrayicon.py:99
 msgid "View Last Log"
 msgstr "Prikaži Zadnji Zapis"
 
-#: qt/qtsystrayicon.py:105
+#: qt/qtsystrayicon.py:103
 #, python-brace-format
 msgid "Start {appname}"
 msgstr ""
 
-#: qt/qtsystrayicon.py:171
+#: qt/qtsystrayicon.py:172
 msgid "Working…"
 msgstr "Radim…"
 
-#: qt/restoreconfigdialog.py:68
+#: qt/restoreconfigdialog.py:72
 msgid "Import configuration"
 msgstr ""
 
-#: qt/restoreconfigdialog.py:124 qt/restoreconfigdialog.py:220
+#: qt/restoreconfigdialog.py:92 qt/restoreconfigdialog.py:318
 msgid "No config found"
 msgstr ""
 
-#: qt/restoreconfigdialog.py:149
+#: qt/restoreconfigdialog.py:121
 msgid "Import"
 msgstr ""
 
-#: qt/restoreconfigdialog.py:177
+#: qt/restoreconfigdialog.py:143 qt/restoreconfigdialog.py:247
+#, fuzzy
+msgid "Searching…"
+msgstr "Radim…"
+
+#: qt/restoreconfigdialog.py:224
 #, python-brace-format
 msgid ""
 "Select the backup directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
 
-#: qt/restoreconfigdialog.py:182
+#: qt/restoreconfigdialog.py:229
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
 msgstr ""
 
-#: qt/restoredialog.py:49
+#: qt/restoreconfigdialog.py:250
+msgid "Scan again"
+msgstr ""
+
+#: qt/restoreconfigdialog.py:269
+#, fuzzy
+msgid "Show hidden directories"
+msgstr "Prikaži skrivene datoteke"
+
+#: qt/restoreconfigdialog.py:271
+#, fuzzy
+msgid "Show/hide hidden directories (Ctrl+H)"
+msgstr "Ukljući mape i datoteke"
+
+#: qt/restoreconfigdialog.py:379
+msgid "Search complete."
+msgstr ""
+
+#: qt/restoredialog.py:55
 msgid "Show full Log"
 msgstr ""
 
@@ -1992,123 +2136,133 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: qt/snapshotsdialog.py:58
+#: qt/snapshotsdialog.py:63
 msgid "Options about comparing backups"
 msgstr ""
 
-#: qt/snapshotsdialog.py:65
+#: qt/snapshotsdialog.py:70
 #, fuzzy
 msgid "Command:"
 msgstr "Naredba"
 
-#: qt/snapshotsdialog.py:69
+#: qt/snapshotsdialog.py:74
 msgid "Parameters:"
 msgstr "Parametri:"
 
-#: qt/snapshotsdialog.py:74
+#: qt/snapshotsdialog.py:79
 msgid "Use %1 and %2 for path parameters"
 msgstr ""
 
-#: qt/snapshotsdialog.py:91
+#: qt/snapshotsdialog.py:96
 msgid "Please set a diff command or press Cancel."
 msgstr ""
 
-#: qt/snapshotsdialog.py:97
+#: qt/snapshotsdialog.py:102
 #, python-brace-format
 msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
 "else or press Cancel."
 msgstr ""
 
-#: qt/snapshotsdialog.py:105
+#: qt/snapshotsdialog.py:110
 #, python-brace-format
 msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr ""
 
-#: qt/snapshotsdialog.py:130 qt/timeline.py:45
+#: qt/snapshotsdialog.py:141 qt/timeline.py:44
 #, fuzzy
 msgid "Backups"
 msgstr "&Backup"
 
-#: qt/snapshotsdialog.py:141
+#: qt/snapshotsdialog.py:152
 #, fuzzy
 msgid "Differing backups only"
 msgstr "Odgoda sigurnosnog kopiranja za vrijeme punjenja"
 
-#: qt/snapshotsdialog.py:150
+#: qt/snapshotsdialog.py:161
 msgid "List only backups that are equal to:"
 msgstr ""
 
-#: qt/snapshotsdialog.py:162
+#: qt/snapshotsdialog.py:173
 msgid "Deep check (more accurate, but slow)"
 msgstr "Dubinska provjera (preciznije, ali sporije)"
 
-#: qt/snapshotsdialog.py:183
+#: qt/snapshotsdialog.py:194
 msgid "Delete"
 msgstr ""
 
-#: qt/snapshotsdialog.py:188
+#: qt/snapshotsdialog.py:199
 msgid "Select All"
 msgstr ""
 
-#: qt/snapshotsdialog.py:201
+#: qt/snapshotsdialog.py:212
 msgid "Compare"
 msgstr ""
 
-#: qt/snapshotsdialog.py:216
+#: qt/snapshotsdialog.py:227
 msgid "Go To"
 msgstr "Idi Na"
 
-#: qt/snapshotsdialog.py:218
+#: qt/snapshotsdialog.py:229
 msgid "Options"
 msgstr "Opcije"
 
-#: qt/snapshotsdialog.py:381
+#: qt/snapshotsdialog.py:392
 msgid ""
 "It is not possible to compare a backup to itself, as the comparison would be"
 " redundant."
 msgstr ""
 
-#: qt/snapshotsdialog.py:427
+#: qt/snapshotsdialog.py:438
 #, fuzzy, python-brace-format
 msgid "Really delete {file_or_dir} in backup {backup_id}?"
 msgstr "Neuspjelo uzimanje snimke {snapshot_id} !!!"
 
-#: qt/snapshotsdialog.py:432
+#: qt/snapshotsdialog.py:443
 #, python-brace-format
 msgid "Really delete {file_or_dir} in {count} backups?"
 msgstr ""
 
-#: qt/snapshotsdialog.py:435
+#: qt/snapshotsdialog.py:446
 msgid "WARNING: This cannot be revoked."
 msgstr ""
 
-#: qt/snapshotsdialog.py:453
+#: qt/snapshotsdialog.py:463
 #, python-brace-format
 msgid "Exclude {path} from future backups?"
 msgstr ""
 
-#: qt/timeline.py:70
+#: qt/statusbar.py:85
+#, fuzzy
+msgid "Root mode"
+msgstr "Korijen"
+
+#: qt/statusbar.py:87
+msgid ""
+"Back In Time is currently running with root privileges (full system access)"
+msgstr ""
+
+#: qt/timeline.py:69
 msgid "Today"
 msgstr "Danas"
 
-#: qt/timeline.py:78
+#: qt/timeline.py:77
 msgid "Yesterday"
 msgstr "Jučer"
 
-#: qt/timeline.py:88
+#: qt/timeline.py:87
 msgid "This week"
 msgstr "Ovaj tjedan"
 
-#: qt/timeline.py:96
+#: qt/timeline.py:95
 msgid "Last week"
 msgstr "Prošli tjedan"
 
-#: qt/timeline.py:270
+#: qt/timeline.py:268
 msgid "This is NOT a backup but a live view of the local files."
 msgstr ""
 
-#: qt/timeline.py:275
+#: qt/timeline.py:273
 #, python-brace-format
 msgid "Last check {time}"
 msgstr ""
@@ -2130,6 +2284,10 @@ msgstr ""
 #~ msgstr[2] "Jeste li sigurni da želite ukloniti snimku"
 
 #, fuzzy
+#~ msgid "Backup"
+#~ msgstr "&Backup"
+
+#, fuzzy
 #~ msgid "Do you really want to close it?"
 #~ msgstr "Jeste li sigurni da želite ukloniti snimku"
 
@@ -2140,11 +2298,39 @@ msgstr ""
 #~ msgstr[1] "Svakih {n} sati"
 #~ msgstr[2] "Svakih {n} sati"
 
+#~ msgid "Global"
+#~ msgstr "Globalno"
+
+#~ msgid "Home"
+#~ msgstr "Početak"
+
+#, fuzzy
+#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
+#~ msgstr ""
+#~ "Nije moguće pronaći mapu snimki.\n"
+#~ "Ako je na izmjenjivom disku, molimo, spojite ga i pritisnite OK."
+
 #~ msgid "License"
 #~ msgstr "Licenca"
 
+#~ msgid "Look at 'man backintime' for further instructions"
+#~ msgstr "Vidi 'man backintime' za daljnje upute"
+
 #~ msgid "Name snapshot"
 #~ msgstr "Uzmi snimku"
+
+#, fuzzy
+#~ msgid "Open user manual in browser (locally if available, otherwise online)"
+#~ msgstr ""
+#~ "Otvori korisnički priručnik u pregledniku (po mogućnosti lokalno, u "
+#~ "suprotnom na internetu)"
+
+#~ msgid "Please confirm the password."
+#~ msgstr "Molim Vas da potvrdite lozinku."
+
+#, fuzzy
+#~ msgid "Shows the message about deprecation of SSH cipher again."
+#~ msgstr "Ponovno prikazuje poruku o sudjelovanju u procesu prevođenja."
 
 #~ msgid "Snapshot"
 #~ msgstr "Snimke"
@@ -2166,6 +2352,9 @@ msgstr ""
 
 #~ msgid "The sub-directories cannot be included in the backup."
 #~ msgstr "Podmape se ne mogu sigurnosno kopirati."
+
+#~ msgid "View last log"
+#~ msgstr "Prikaži Zadnji Zapis"
 
 #~ msgid "View snapshot log"
 #~ msgstr "Prikaži Zapis Snimke"

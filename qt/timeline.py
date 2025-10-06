@@ -15,7 +15,7 @@
 """
 from datetime import (datetime, date, timedelta)
 from calendar import monthrange
-from PyQt6.QtGui import QPalette
+from PyQt6.QtGui import QFont, QPalette
 from PyQt6.QtCore import (Qt,
                           pyqtSlot,
                           pyqtSignal)
@@ -24,9 +24,8 @@ from PyQt6.QtWidgets import (QAbstractItemView,
                              QTreeWidget,
                              QTreeWidgetItem)
 import snapshots
-import qttools
-from qttools_path import registerBackintimePath
-registerBackintimePath('common')
+from qttools_path import register_backintime_path
+register_backintime_path('common')
 
 
 class TimeLine(QTreeWidget):
@@ -260,7 +259,6 @@ class SnapshotItem(TimeLineItem):
     def __init__(self, sid):
         super().__init__()
         self.setText(0, sid.displayName)
-        self.setFont(0, qttools.fontNormal(self.font(0)))
 
         self.setData(0, Qt.ItemDataRole.UserRole, sid)
 
@@ -290,7 +288,9 @@ class HeaderItem(TimeLineItem):  # pylint: disable=too-few-public-methods
         """
         super().__init__()
         self.setText(0, name)
-        self.setFont(0, qttools.fontBold(self.font(0)))
+        font = self.font(0)
+        font.setWeight(QFont.Weight.Bold)
+        self.setFont(0, font)
 
         palette = QApplication.instance().palette()
         self.setForeground(

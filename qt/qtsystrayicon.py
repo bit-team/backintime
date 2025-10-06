@@ -8,6 +8,7 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""Separate application managing the systray icon"""
 import sys
 import os
 import subprocess
@@ -22,25 +23,23 @@ if not os.getenv('DISPLAY', ''):
     os.putenv('DISPLAY', ':0.0')
 
 import qttools
-qttools.registerBackintimePath('common')
-
+qttools.register_backintime_path('common')
 import logger
-
 # Workaround until the codebase allows a single place to init all translations
 import tools
 tools.initiate_translation(None)
-
 import snapshots
 import progress
 import logviewdialog
 import encfstools
-
 from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QProgressBar, QWidget
 from PyQt6.QtGui import QRegion
 
 
 class QtSysTrayIcon:
+    """Application instance for the Back In Time systray icon"""
+
     def __init__(self):
 
         self.snapshots = snapshots.Snapshots()
@@ -49,8 +48,8 @@ class QtSysTrayIcon:
 
         if len(sys.argv) > 1:
             if not self.config.setCurrentProfile(sys.argv[1]):
-                logger.warning("Failed to change Profile_ID %s"
-                               %sys.argv[1], self)
+                logger.warning(
+                    f'Failed to change Profile_ID {sys.argv[1]}', self)
 
         self.qapp = qttools.createQApplication(self.config.APP_NAME)
         translator = qttools.initiate_translator(self.config.language())
@@ -58,16 +57,15 @@ class QtSysTrayIcon:
         self.qapp.setQuitOnLastWindowClosed(False)
 
         import icon
-        self.icon = icon  # What does this code do? Make the import accessible?
         self.qapp.setWindowIcon(icon.BIT_LOGO)
 
         self.status_icon = QSystemTrayIcon(icon.BIT_LOGO)
-        #self.status_icon.actionCollection().clear()
         self.contextMenu = QMenu()
 
         self.menuProfileName = self.contextMenu.addAction(
-            _('Profile: {profile_name}').format(profile_name=self.config.profileName()))
-        qttools.setFontBold(self.menuProfileName)
+            _('Profile: {profile_name}').format(
+                profile_name=self.config.profileName())
+        )
         self.contextMenu.addSeparator()
 
         self.menuStatusMessage = self.contextMenu.addAction(_('Done'))
@@ -107,18 +105,7 @@ class QtSysTrayIcon:
         self.startBIT.triggered.connect(self.onStartBIT)
         self.status_icon.setContextMenu(self.contextMenu)
 
-        self.pixmap = icon.BIT_LOGO.pixmap(24)
-        self.progressBar = QProgressBar()
-        self.progressBar.setMinimum(0)
-        self.progressBar.setMaximum(100)
-        self.progressBar.setValue(0)
-        self.progressBar.setTextVisible(False)
-        self.progressBar.resize(24, 6)
-        self.progressBar.render(
-            self.pixmap,
-            sourceRegion=QRegion(0, -14, 24, 6),
-            flags=QWidget.RenderFlag.DrawChildren
-        )
+        self.progressBar = self._create_progress_bar()
 
         self.first_error = self.config.notify()
         self.popup = None
@@ -126,6 +113,26 @@ class QtSysTrayIcon:
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.updateInfo)
+
+    def _create_progress_bar(self) -> QProgressBar:
+        bar = QProgressBar()
+
+        bar.setMinimum(0)
+        bar.setMaximum(100)
+        bar.setValue(0)
+
+        bar.setTextVisible(False)
+
+        bar.resize(24, 6)
+
+        import icon
+        bar.render(
+            icon.BIT_LOGO.pixmap(24),
+            sourceRegion=QRegion(0, -14, 24, 6),
+            flags=QWidget.RenderFlag.DrawChildren
+        )
+
+        return bar
 
     def prepareExit(self):
         self.timer.stop()
@@ -145,13 +152,7 @@ class QtSysTrayIcon:
             sys.exit()
         self.status_icon.show()
         self.timer.start(500)
-
-        # logger.debug("begin loop", self)
-
         self.qapp.exec()
-
-        # logger.debug("end loop", self)
-
         self.prepareExit()
 
     def updateInfo(self):
@@ -173,26 +174,33 @@ class QtSysTrayIcon:
         if not message is None:
             if message != self.last_message:
                 self.last_message = message
+
                 if self.decode:
                     message = (message[0], self.decode.log(message[1]))
-                self.menuStatusMessage.setText('\n'.join(textwrap.wrap(message[1], \
-                                                                                width = 80) \
-                                                         ))
+
+                self.menuStatusMessage.setText(
+                    '\n'.join(textwrap.wrap(message[1], width=80)))
+
                 self.status_icon.setToolTip(message[1])
 
         pg = progress.ProgressFile(self.config)
+
         if pg.fileReadable():
             pg.load()
-            percent = pg.intValue('percent')
+            # percent = pg.intValue('percent')
             ## disable progressbar in icon until BiT has it's own icon
             ## fixes bug #902
             # if percent != self.progressBar.value():
             #     self.progressBar.setValue(percent)
-            #     self.progressBar.render(self.pixmap, sourceRegion = QRegion(0, -14, 24, 6), flags = QWidget.RenderFlags(QWidget.DrawChildren))
+            #     self.progressBar.render(
+            #         self.pixmap,
+            #         sourceRegion=QRegion(0, -14, 24, 6),
+            #         flags=QWidget.RenderFlags(QWidget.DrawChildren))
             #     self.status_icon.setIcon(QIcon(self.pixmap))
 
             self.menuProgress.setText(' | '.join(self.getMenuProgress(pg)))
             self.menuProgress.setVisible(True)
+
         else:
             # self.status_icon.setIcon(self.icon.BIT_LOGO)
             self.menuProgress.setVisible(False)
@@ -221,7 +229,7 @@ class QtSysTrayIcon:
         cmd = ['backintime-qt',]
         if not profileID == '1':
             cmd += ['--profile-id', profileID]
-        proc = subprocess.Popen(cmd)
+        _proc = subprocess.Popen(cmd)
 
     def onOpenLog(self):
         dlg = logviewdialog.LogViewDialog(self, systray = True)
@@ -249,10 +257,11 @@ if __name__ == '__main__':
 
     logger.openlog()
 
-    if "--debug" in sys.argv:  # HACK: Minimal arg parsing to enable debug-level logging
+    # HACK: Minimal arg parsing to enable debug-level logging
+    if '--debug' in sys.argv:
         logger.DEBUG = True
 
-    logger.debug("Sub process tries to show systray icon...")
-    logger.debug(f"qtsystrayicon.py call args: {str(sys.argv)}")
+    logger.debug('Sub process tries to show systray icon, '
+                 f'called with args {str(sys.argv)}')
 
     QtSysTrayIcon().run()

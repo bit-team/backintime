@@ -10,12 +10,15 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 
 # TODO Known open issues:
-# - this script should get started and consider some cmd line arguments from BiT
-#   (parsed via backintime.createParsers()) so that the same paths are used,
-#   mainly "share-path" and "config" (path to the config file).
-#   Otherwise e.g. unit tests or special user path settings may lead to
-#   wrong status info in the systray icon!
+# this script should get started and consider some cmd line arguments from BiT
+# (parsed via backintime.createParsers()) so that the same paths are used,
+# mainly "share-path" and "config" (path to the config file).
+# Otherwise e.g. unit tests or special user path settings may lead to
+# wrong status info in the systray icon!
+"""Plugin starting the systray icon process
 
+Dev note (buhtz, 2025-07): Not sure why this is needed.
+"""
 import sys
 import os
 import pluginmanager
@@ -33,6 +36,8 @@ if not os.getenv('DISPLAY', ''):
 
 
 class SysTrayIconPlugin(pluginmanager.Plugin):
+    """A Back In Time plugin responsible to start the systray icon instance"""
+
     def __init__(self):
         self.process = None
         self.snapshots = None
@@ -51,21 +56,26 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
         # > To check whether a system tray is present on the user's desktop,
         # > call the QSystemTrayIcon::isSystemTrayAvailable() static function.
         #
-        # This requires a QApplication instance (otherwise Qt causes a segfault)
-        # which we don't have here so we create it to check if a window manager
-        # ("GUI") is active at all (e.g. in headless installations it isn't).
-        # See: https://forum.qt.io/topic/3852/issystemtrayavailable-always-crashes-segfault-on-ubuntu-10-10-desktop/6
+        # This requires a QApplication instance (otherwise Qt causes a
+        # segfault) which we don't have here so we create it to check if a
+        # window manager ("GUI") is active at all (e.g. in headless
+        # installations it isn't).
+        # See: https://forum.qt.io/topic/3852/issystemtrayavailable-
+        # always-crashes-segfault-on-ubuntu-10-10-desktop/6
 
         try:
 
             if tools.is_Qt_working(systray_required=True):
-                logger.debug("System tray is available to show the BiT system tray icon")
+                logger.debug('System tray is available to show the '
+                             'BIT system tray icon')
                 return True
 
-        except Exception as e:
-            logger.debug(f"Could not ask Qt if system tray is available: {repr(e)}")
+        except Exception as exc:
+            logger.debug(
+                f'Could not ask Qt if system tray is available: {repr(exc)}')
 
-        logger.debug("No system tray available to show the BiT system tray icon")
+        logger.debug(
+            'No system tray available to show the BIT system tray icon')
         return False
 
     def isGui(self):
@@ -73,23 +83,36 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
 
     def processBegin(self):
         try:
-            logger.debug("Trying to start systray icon sub process...")
-            path = os.path.join(tools.backintimePath('qt'), 'qtsystrayicon.py')
-            cmd = [sys.executable, path, self.snapshots.config.currentProfile()]
-            if logger.DEBUG:
-                cmd.append("--debug")  # HACK to propagate DEBUG logging level to sub process
-            self.process = subprocess.Popen(cmd)
-            # self.process = subprocess.Popen([sys.executable, path, self.snapshots.config.currentProfile()])
-        except:
-            pass
+            logger.debug('Trying to start systray icon sub process...')
+            path = os.path.join(
+                tools.as_backintime_path('qt'), 'qtsystrayicon.py')
+            cmd = [
+                sys.executable,
+                path,
+                self.snapshots.config.currentProfile()
+            ]
 
-    def processEnd(self):
-        if not self.process is None:
-            try:
-                # The "qtsystrayicon.py" app does terminate itself
-                # once the snapshot has been taken so there is no need
-                # to do anything here to stop it or clean-up anything.
-                # self.process.terminate()
-                return
-            except:
-                pass
+            if logger.DEBUG:
+                # HACK to propagate DEBUG logging level to sub process
+                cmd.append('--debug')
+
+            self.process = subprocess.Popen(cmd)
+
+        except Exception as exc:
+            logger.critical(f'Undefined situation: {exc}', self)
+
+    # def processEnd(self):
+    #     """Dev note(2025-07, buhtz): Method makes no sense to me anymore.
+    #     Remove it soon.
+    #     """
+    #     if self.process is not None:
+    #         try:
+    #             # The "qtsystrayicon.py" app does terminate itself
+    #             # once the snapshot has been taken so there is no need
+    #             # to do anything here to stop it or clean-up anything.
+    #             # self.process.terminate()
+    #             return
+
+    #         # ???
+    #         except:
+    #             pass

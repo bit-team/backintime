@@ -10,154 +10,201 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""A dialog to identify and import old Back In Time configs.
+"""
 import os
 import datetime
 import getpass
-from PyQt6.QtGui import QPalette, QColor, QFileSystemModel
+import threading
+import subprocess
+from typing import Any, Generator
+from pathlib import Path
+from queue import Queue
+import logger
+import bitbase
+from config import Config
+from snapshots import SID
+from PyQt6.QtGui import (QBrush,
+                         QColor,
+                         QFont,
+                         QGuiApplication,
+                         QFileSystemModel,
+                         QPalette,
+                         QShortcut)
 from PyQt6.QtWidgets import (QDialog,
-                             QVBoxLayout,
-                             QGridLayout,
                              QDialogButtonBox,
-                             QWidget,
+                             QGridLayout,
+                             QHBoxLayout,
                              QLabel,
-                             QMenu,
-                             QProgressBar,
-                             QTreeView)
+                             QLayout,
+                             QPushButton,
+                             QToolButton,
+                             QTreeView,
+                             QVBoxLayout,
+                             QWidget)
 from PyQt6.QtCore import (Qt,
                           QDir,
-                          QSortFilterProxyModel,
-                          QThread,
                           QModelIndex,
-                          pyqtSignal)
-
-import config
-import snapshots
-import logger
+                          QTimer)
+import qttools
+from bitwidgets import Spinner
 
 
-class MyTreeView(QTreeView):
-    """
-    subclass QTreeView to emit a SIGNAL myCurrentIndexChanged
-    if the SLOT currentChanged is called
-
-    Used by restoreconfigdialog.py
-    """
-    myCurrentIndexChanged = pyqtSignal(QModelIndex, QModelIndex)
-
-    def currentChanged(self, current, previous):
-        self.myCurrentIndexChanged.emit(current, previous)
-        super(MyTreeView, self).currentChanged(current, previous)
-
-
+# pylint: disable-next=too-many-instance-attributes
 class RestoreConfigDialog(QDialog):
     """
     Show a dialog that will help to restore BITs configuration.
     User can select a config from previous snapshots.
+
+    Dev note (2025-07, buhtz): Experiencing the dialog as slow or temporary
+    freezing is usual, because the QFileSystemModel is resource consuming and
+    blocking the rest of the event loop. Unfold directories in the tree and the
+    directories parents is very time consuming because QFileSystemModel access
+    the file system each time.
     """
 
-    def __init__(self, parent):
-        super(RestoreConfigDialog, self).__init__(parent)
+    def __init__(self, config: Config):
+        super().__init__()
 
-        self.parent = parent
-        self.config = parent.config
-        self.snapshots = parent.snapshots
-
-        import icon
-        self.icon = icon
+        # pylint: disable-next=import-outside-toplevel
+        import icon  # noqa: PLC0415
         self.setWindowIcon(icon.SETTINGS_DIALOG)
         self.setWindowTitle(_('Import configuration'))
 
         layout = QVBoxLayout(self)
-        layout.addWidget(self._create_hint_label())
 
-        # treeView
-        self.treeView = MyTreeView(self)
-        self.treeViewModel = QFileSystemModel(self)
-        self.treeViewModel.setRootPath(QDir().rootPath())
-        self.treeViewModel.setReadOnly(True)
-        self.treeViewModel.setFilter(QDir.Filter.AllDirs |
-                                     QDir.Filter.NoDotAndDotDot |
-                                     QDir.Filter.Hidden)
+        self._create_hint(layout, config)
+        self._lbl_spinner, self._spinner, self._btn_scan \
+            = self._create_scan_controls(layout)
 
-        self.treeViewFilterProxy = QSortFilterProxyModel(self)
-        self.treeViewFilterProxy.setDynamicSortFilter(True)
-        self.treeViewFilterProxy.setSourceModel(self.treeViewModel)
+        self._btn_scan.clicked.connect(self.start_scanning)
 
-        self.treeViewFilterProxy.setFilterRegularExpression(r'^[^\.]')
-
-        self.treeView.setModel(self.treeViewFilterProxy)
-        for col in range(self.treeView.header().count()):
-            self.treeView.setColumnHidden(col, col != 0)
-        self.treeView.header().hide()
+        self._tree_view, self._tree_model = self._create_tree()
+        layout.addWidget(self._tree_view)
 
         # expand users home
-        self.expandAll(os.path.expanduser('~'))
-        layout.addWidget(self.treeView)
-
-        # context menu
-        self.treeView.setContextMenuPolicy(
-            Qt.ContextMenuPolicy.CustomContextMenu)
-        self.treeView.customContextMenuRequested.connect(self.onContextMenu)
-        self.contextMenu = QMenu(self)
-        self.btnShowHidden = self.contextMenu.addAction(
-            icon.SHOW_HIDDEN, _('Show hidden files'))
-        self.btnShowHidden.setCheckable(True)
-        self.btnShowHidden.toggled.connect(self.onBtnShowHidden)
+        self._expand_with_parents(self._index_from_path(Path.home()))
 
         # colors
-        self.colorRed = QPalette()
-        self.colorRed.setColor(
-            QPalette.ColorRole.WindowText, QColor(205, 0, 0))
-        self.colorGreen = QPalette()
-        self.colorGreen.setColor(
-            QPalette.ColorRole.WindowText, QColor(0, 160, 0))
-
-        # wait indicator which will show that the scan for
-        # snapshots is still running
-        self.wait = QProgressBar(self)
-        self.wait.setMinimum(0)
-        self.wait.setMaximum(0)
-        self.wait.setMaximumHeight(7)
-        layout.addWidget(self.wait)
+        self._color_red, self._color_green = __class__._red_and_green()
 
         # show where a snapshot with config was found
-        self.lblFound = QLabel(_('No config found'), self)
-        self.lblFound.setWordWrap(True)
-        self.lblFound.setPalette(self.colorRed)
-        layout.addWidget(self.lblFound)
+        self._lbl_found = QLabel(_('No config found'), self)
+        self._lbl_found.setWordWrap(True)
+        self._lbl_found.setPalette(self._color_red)
+        layout.addWidget(self._lbl_found)
 
         # show profiles inside the config
-        self.widgetProfiles = QWidget(self)
-        self.widgetProfiles.setContentsMargins(0, 0, 0, 0)
-        self.widgetProfiles.hide()
-        self.gridProfiles = QGridLayout()
-        self.gridProfiles.setContentsMargins(0, 0, 0, 0)
-        self.gridProfiles.setHorizontalSpacing(20)
-        self.widgetProfiles.setLayout(self.gridProfiles)
-        layout.addWidget(self.widgetProfiles)
+        self._wdg_profiles = QWidget(self)
+        self._wdg_profiles.setContentsMargins(0, 0, 0, 0)
+        self._wdg_profiles.hide()
+        self._grid_layout = QGridLayout()
+        self._grid_layout.setContentsMargins(0, 0, 0, 0)
+        self._grid_layout.setHorizontalSpacing(20)
+        self._wdg_profiles.setLayout(self._grid_layout)
+        layout.addWidget(self._wdg_profiles)
 
-        self.restoreConfig = None
+        self._config_to_restore = None
 
-        self.scan = ScanFileSystem(self)
+        self._tree_view.selectionModel().currentChanged.connect(
+            self._slot_index_changed)
 
-        self.treeView.myCurrentIndexChanged.connect(self.indexChanged)
-        self.scan.foundConfig.connect(self.scanFound)
-        self.scan.finished.connect(self.scanFinished)
+        btn_box = QDialogButtonBox(
+            QDialogButtonBox.StandardButton.Ok
+            | QDialogButtonBox.StandardButton.Cancel,
+            self
+        )
+        btn_box.accepted.connect(self.accept)
+        btn_box.rejected.connect(self.reject)
 
-        buttonBox = QDialogButtonBox(self)
-        self.restoreButton = buttonBox.addButton(
-            _('Import'), QDialogButtonBox.ButtonRole.AcceptRole)
-        self.restoreButton.setEnabled(False)
-        buttonBox.addButton(QDialogButtonBox.StandardButton.Cancel)
-        buttonBox.accepted.connect(self.accept)
-        buttonBox.rejected.connect(self.reject)
-        layout.addWidget(buttonBox)
+        self._btn_restore = btn_box.button(QDialogButtonBox.StandardButton.Ok)
+        self._btn_restore.setText(_('Import'))
+        self._btn_restore.setEnabled(False)
 
-        self.scan.start()
+        layout.addWidget(btn_box)
 
-        self.resize(600, 700)
+        self._queue = Queue()
 
-    def _create_hint_label(self):
+        self._pool_timer = QTimer(self)
+        self._pool_timer.timeout.connect(self._process_found_queue)
+
+        self._scan_fs_thread = None
+
+        self.start_scanning()
+
+        # See _resize_to_full_height() for details.
+        self._resize_tries = 10
+        QTimer.singleShot(1, self._resize_to_full_hight)
+
+    def start_scanning(self):
+        """Start the file system scanning thread and prepare the GUI"""
+        self._btn_scan.setVisible(False)
+        self._pool_timer.start(1500)  # milliseconds
+        self._lbl_spinner.setText(_('Searching…'))
+        self._spinner.start(interval_ms=200)
+        self._scan_fs_thread = _ScanFileSystem(queue=self._queue)
+        self._scan_fs_thread.start()
+
+    def _resize_to_full_hight(self):
+        """Resize dialog to full height and center it horizontal.
+        """
+        screen = QGuiApplication.screenAt(self.pos())
+        geom = screen.availableGeometry()
+
+        # Determine the height of the dialog's title bar and border. This
+        # value is unknown or incorrect until the dialg is fully drawn.
+        # That is the reason why we use this workaround.
+        deco_height = self.frameGeometry().height() - self.geometry().height()
+        if deco_height == 0 and self._resize_tries > 0:
+            self._resize_tries -= 1
+            QTimer.singleShot(1, self._resize_to_full_hight)
+            return
+
+        new_width = geom.width() // 3
+
+        self.move(
+            # center horizontal
+            geom.center().x() - (new_width // 2),
+            # vertical to top
+            geom.y()
+        )
+        self.resize(
+            # the desired width
+            new_width,
+            # full height (incl. window decoration) on available screen
+            geom.height() - deco_height)
+
+    def _create_tree(self) -> tuple[QTreeView, QFileSystemModel]:
+        model = _CfgFileSystemModel(self)
+        model.setRootPath(QDir().rootPath())
+        model.setReadOnly(True)
+        model.setFilter(QDir.Filter.AllDirs | QDir.Filter.NoDotAndDotDot)
+
+        view = QTreeView(self)
+        view.setModel(model)
+        view.setAnimated(False)
+
+        # Hide all columns (size, typ, mod date) except the first (name)
+        for col in range(1, view.header().count()+1):
+            view.setColumnHidden(col, True)
+
+        view.header().hide()
+
+        return view, model
+
+    @staticmethod
+    def _red_and_green() -> tuple[QColor, QColor]:
+        red = QPalette()
+        red.setColor(QPalette.ColorRole.WindowText, QColor(205, 0, 0))
+
+        green = QPalette()
+        green.setColor(QPalette.ColorRole.WindowText, QColor(0, 160, 0))
+
+        return red, green
+
+    def _create_hint(self,
+                     parent_layout: QLayout,
+                     config: Config) -> None:
         """Create the label to explain how and where to find existing config
         file.
 
@@ -165,18 +212,18 @@ class RestoreConfigDialog(QDialog):
             (QLabel): The label
         """
 
-        samplePath = os.path.join(
+        sample_path = os.path.join(
             'backintime',
-            self.config.host(),
+            config.host(),
             getpass.getuser(), '1',
-            snapshots.SID(datetime.datetime.now(), self.config).sid
+            SID(datetime.datetime.now(), config).sid
         )
-        samplePath = f'</ br><code>{samplePath}</code>'
+        sample_path = f'</ br><code>{sample_path}</code>'
 
         text_a = _(
             'Select the backup directory from which the configuration '
             'file should be imported. The path may look like: {samplePath}'
-        ).format(samplePath=samplePath)
+        ).format(samplePath=sample_path)
 
         text_b = _(
             'If the directory is located on an external or remote drive, '
@@ -186,206 +233,310 @@ class RestoreConfigDialog(QDialog):
         label = QLabel(f'<p>{text_a}</p><p>{text_b}</p>', self)
         label.setWordWrap(True)
 
-        return label
+        layout = QHBoxLayout()
+        layout.addWidget(qttools.create_icon_label_info(icon_scale_factor=2))
+        layout.addWidget(label, stretch=1)
 
-    def pathFromIndex(self, index):
+        parent_layout.addLayout(layout)
+
+    def _create_scan_controls(self, parent_layout: QLayout
+                              ) -> tuple[QLabel, Spinner, QPushButton]:
+        # pylint: disable-next=import-outside-toplevel
+        import icon  # noqa: PLC0415
+
+        lbl_spinner = QLabel(_('Searching…'), self)
+        spinner = Spinner(self, font_scale=2)
+
+        btn_scan = QPushButton(_('Scan again'), self)
+        btn_scan.setIcon(icon.REFRESH)
+
+        hbox = QHBoxLayout()
+        hbox.addWidget(lbl_spinner)
+        hbox.addWidget(spinner)
+        hbox.addWidget(btn_scan)
+        hbox.addStretch()
+        hbox.addWidget(self._create_button_show_hidden())
+
+        parent_layout.addLayout(hbox)
+
+        return lbl_spinner, spinner, btn_scan
+
+    def _create_button_show_hidden(self) -> QToolButton:
+        # pylint: disable-next=import-outside-toplevel
+        import icon  # noqa: PLC0415
+
+        btn = QToolButton(self)
+        btn.setText(_('Show hidden directories'))
+        btn.setIcon(icon.SHOW_HIDDEN)
+        btn.setToolTip(_('Show/hide hidden directories (Ctrl+H)'))
+        btn.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
+        btn.setCheckable(True)
+
+        shortcut = QShortcut('Ctrl+H', self)
+        shortcut.activated.connect(btn.toggle)
+
+        btn.setChecked(False)
+        btn.toggled.connect(self._slot_show_hidden)
+
+        return btn
+
+    def _path_from_index(self, index: QModelIndex) -> Path:
         """
         return a path string for a given treeView index
         """
-        sourceIndex = self.treeViewFilterProxy.mapToSource(index)
-        return str(self.treeViewModel.filePath(sourceIndex))
+        return Path(self._tree_model.filePath(index))
 
-    def indexFromPath(self, path):
+    def _index_from_path(self, path: str | Path) -> QModelIndex:
         """
         return the index for path which can be used in treeView
         """
-        indexSource = self.treeViewModel.index(path)
-        return self.treeViewFilterProxy.mapFromSource(indexSource)
 
-    def indexChanged(self, current, previous):
-        """
-        called every time a new item is chosen in treeView.
+        idx = self._tree_model.index(
+            str(path) if isinstance(path, Path) else path)
+
+        return idx
+
+    def _slot_index_changed(self, current, _previous):
+        """Called every time a new item is chosen in treeView.
+
         If there was a config found inside the selected folder, show
         available information about the config.
         """
-        cfg = self.searchConfig(self.pathFromIndex(current))
+        # pylint: disable=protected-access
+        fp = self._path_from_index(current)
+        cfg = _get_valid_config(fp / bitbase.FILENAME_CONFIG)
+
         if cfg:
-            self.expandAll(
-                os.path.dirname(os.path.dirname(cfg._LOCAL_CONFIG_PATH)))
-            self.lblFound.setText(cfg._LOCAL_CONFIG_PATH)
-            self.lblFound.setPalette(self.colorGreen)
-            self.showProfile(cfg)
-            self.restoreConfig = cfg
+            self._expand_with_parents(current)
+
+            self._lbl_found.setText(str(fp))
+            self._lbl_found.setPalette(self._color_green)
+            self._show_profile(cfg)
+            self._config_to_restore = cfg
+
         else:
-            self.lblFound.setText(_('No config found'))
-            self.lblFound.setPalette(self.colorRed)
-            self.widgetProfiles.hide()
-            self.restoreConfig = None
-        self.restoreButton.setEnabled(bool(cfg))
+            self._lbl_found.setText(_('No config found'))
+            self._lbl_found.setPalette(self._color_red)
+            self._wdg_profiles.hide()
+            self._config_to_restore = None
 
-    def searchConfig(self, path):
-        """
-        try to find config in couple possible subfolders
-        """
-        snapshotPath = os.path.join(
-            'backintime', self.config.host(), getpass.getuser())
+        self._btn_restore.setEnabled(bool(cfg))
 
-        tryPaths = ['', '..', 'last_snapshot']
-        tryPaths.extend([
-            os.path.join(snapshotPath, str(i), 'last_snapshot')
-            for i in range(10)])
+    def _expand_with_parents(self, index: QModelIndex):
+        stack = []
 
-        for p in tryPaths:
-            cfgPath = os.path.join(path, p, 'config')
+        # Remember index's of the entry and all its parents
+        current = index
+        while current.isValid():
+            stack.insert(0, current)
+            current = current.parent()
 
-            if os.path.exists(cfgPath):
+        def expand_next():
+            try:
+                self._tree_view.expand(stack.pop(0))
+                # Sligthely reduce slowdown/freeze because of resource
+                # hungry QFileSystemModel
+                QTimer.singleShot(50, expand_next)
 
-                try:
-                    cfg = config.Config(cfgPath)
+            except IndexError:
+                pass
 
-                    if cfg.isConfigured():
-                        return cfg
+        expand_next()
 
-                except Exception as exc:
-                    logger.error(
-                        f'Unhandled branch in code! See in {__file__} '
-                        f'SettingsDialog.searchConfig()\n{exc}')
-                    pass
-
-        return
-
-    def expandAll(self, path):
-        """
-        expand all folders from filesystem root to given path
-        """
-        paths = [path, ]
-        while len(path) > 1:
-            path = os.path.dirname(path)
-            paths.append(path)
-        paths.append('/')
-        paths.reverse()
-        [self.treeView.expand(self.indexFromPath(p)) for p in paths]
-
-    def showProfile(self, cfg):
-        """
-        show information about the profiles inside cfg
-        """
-        child = self.gridProfiles.takeAt(0)
+    def _show_profile(self, cfg):
+        child = self._grid_layout.takeAt(0)
 
         while child:
             child.widget().deleteLater()
-            child = self.gridProfiles.takeAt(0)
+            child = self._grid_layout.takeAt(0)
 
-        for row, profileId in enumerate(cfg.profiles()):
+        for row, pid in enumerate(cfg.profiles()):
 
             for col, txt in enumerate((
-                    _('Profile:') + str(profileId),
-                    cfg.profileName(profileId),
+                    _('Profile:') + str(pid),
+                    cfg.profileName(pid),
                     _('Mode:') + cfg.SNAPSHOT_MODES[
-                        cfg.snapshotsMode(profileId)][1]
+                        cfg.snapshotsMode(pid)][1]
                     )):
-                self.gridProfiles.addWidget(QLabel(txt, self), row, col)
+                self._grid_layout.addWidget(QLabel(txt, self), row, col)
 
-        self.gridProfiles.setColumnStretch(col, 1)
-        self.widgetProfiles.show()
+        self._grid_layout.setColumnStretch(col, 1)
+        self._wdg_profiles.show()
 
-    def scanFound(self, path):
-        """
-        scan hit a config. Expand the snapshot folder.
-        """
-        self.expandAll(os.path.dirname(path))
+    def _process_found_queue(self) -> None:
+        self._tree_view.setUpdatesEnabled(False)
 
-    def scanFinished(self):
-        """
-        scan is done. Delete the wait indicator
-        """
-        self.wait.deleteLater()
+        while not self._queue.empty():
+            path = self._queue.get()
+            self._tree_model.highlight_this(Path(path))
+            self._expand_with_parents(self._index_from_path(path))
 
-    def onContextMenu(self, point):
-        self.contextMenu.exec(self.treeView.mapToGlobal(point))
+        self._tree_view.setUpdatesEnabled(True)
 
-    def onBtnShowHidden(self, checked):
+        # stop spinner and queue pooling if thread is empty
+        if not self._scan_fs_thread.is_alive():
+            self._spinner.stop()
+            self._lbl_spinner.setText(_('Search complete.'))
+            self._pool_timer.stop()
+            self._btn_scan.setVisible(True)
+
+    def _slot_show_hidden(self, checked):
         if checked:
-            self.treeViewFilterProxy.setFilterRegularExpression(r'')
+            flags = QDir.Filter.AllDirs \
+                | QDir.Filter.NoDotAndDotDot \
+                | QDir.Filter.Hidden
+
         else:
-            self.treeViewFilterProxy.setFilterRegularExpression(r'^[^\.]')
+            flags = QDir.Filter.AllDirs \
+                | QDir.Filter.NoDotAndDotDot \
+
+        self._tree_model.setFilter(flags)
 
     def accept(self):
         """
         handle over the dict from the selected config. The dict contains
         all settings from the config.
         """
-        if self.restoreConfig:
-            self.config.dict = self.restoreConfig.dict
-        super(RestoreConfigDialog, self).accept()
+        if self._config_to_restore:
+            self.config.dict = self._config_to_restore.dict
+
+        super().accept()
 
     def exec(self):
         """
         stop the scan thread if it is still running after dialog was closed.
         """
-        ret = super(RestoreConfigDialog, self).exec()
-        self.scan.stop()
+        ret = super().exec()
+        self._scan_fs_thread.stop()
+
         return ret
 
 
-class ScanFileSystem(QThread):
-    CONFIG = 'config'
-    BACKUP = 'backup'
-    BACKINTIME = 'backintime'
+class _CfgFileSystemModel(QFileSystemModel):
+    """A sub-classed file-system model to visually highlight some of its
+    entries."""
 
-    foundConfig = pyqtSignal(str)
+    def __init__(self, parent: QWidget):
+        super().__init__(parent)
+        self._paths = []
 
-    def __init__(self, parent):
-        super(ScanFileSystem, self).__init__(parent)
-        self.stopper = False
+        font = QFont()
+        font.setBold(True)
 
-    def stop(self):
+        # See data() for details
+        self._role_result = {
+            Qt.ItemDataRole.ForegroundRole: QBrush(
+                parent.palette().color(QPalette.ColorRole.Highlight)),
+            Qt.ItemDataRole.FontRole: font
+        }
+
+    def highlight_this(self, path: Path) -> None:
+        """Remember the path to draw with different font"""
+        self._paths.append(path)
+
+        # notify (redraw) the view
+        self.layoutChanged.emit()
+
+    def data(self, index: QModelIndex, role: Qt.ItemDataRole) -> Any:
+        """Draw an entry with bold font and highlted font color if in
+        `self._paths`.
         """
-        prepare stop and wait for finish.
-        """
-        self.stopper = True
-        return self.wait()
+        if role in self._role_result:
+            file_path = Path(self.filePath(index))
+
+            # Return font or brush
+            if file_path in self._paths:
+                return self._role_result[role]
+
+        return super().data(index, role)
+
+
+class _ScanFileSystem(threading.Thread):
+    """A thread scanning the file system for config files related to BIT."""
+    # foundConfig = pyqtSignal(str)
+
+    def __init__(self, queue: Queue, stop_event=None):
+        super().__init__()
+
+        self._queue = queue
+        self._stop_event = stop_event or threading.Event()
 
     def run(self):
-        """
-        search in order of hopefully fastest way to find the snapshots.
-        1. /home/USER 2. /media 3. /mnt and at last filesystem root.
-        Already searched paths will be excluded.
-        """
-        searchOrder = [os.path.expanduser('~'), '/media', '/mnt', '/']
-        for scan in searchOrder:
-            exclude = searchOrder[:]
-            exclude.remove(scan)
-            for path in self.scanPath(scan, exclude):
-                self.foundConfig.emit(path)
+        """Run several searches for config files"""
+        search_paths = [
+            str(Path.home()),
+            '/media',
+            '/mnt',
+            '/',  # keep root at the end!
+        ]
 
-    def scanPath(self, path, excludes=()):
-        """
-        walk through all folders and try to find 'config' file.
-        If found make sure it is nested in backintime/FOO/BAR/1/2345/config and
-        return its path.
-        Exclude all paths from excludes and also
-        all backintime/FOO/BAR/1/2345/backup
-        """
-        for root, dirs, files in os.walk(path, topdown=True):
+        for path_to_scan in search_paths:
+            # Exclude the other dirs if searching in root
+            if path_to_scan == search_paths[-1]:
+                excludes = search_paths[:-1][:]
+            else:
+                excludes = []
 
-            if self.stopper:
-                return
+            for found in self._scan(path_to_scan, excludes):
+                if self._stop_event.is_set():
+                    return
 
-            for exclude in excludes:
-                exDir, exBase = os.path.split(exclude)
+                # print(f'queue.put({found=}')
+                self._queue.put(found)
 
-                if root == exDir:
+    def _scan(self, search_path: Path, excludes: list[str]
+              ) -> Generator[Path, None, None]:
+        """Use `find` on shell to search for `config` files."""
 
-                    if exBase in dirs:
-                        del dirs[dirs.index(exBase)]
+        logger.debug(f'Scanning in {search_path} for config files', self)
+        cmd = ['find', str(search_path)]
 
-            if self.CONFIG in files:
-                rootdirs = root.split(os.sep)
+        # exclude directories: defaults + extras
+        for exclude in ['/proc', '/var', '/sys', '/tmp', '/run'] + excludes:
+            cmd = cmd + ['(', '-path', exclude, '-prune', ')', '-o']
 
-                if len(rootdirs) > 4 and rootdirs[-5].startswith(self.BACKINTIME):
+        cmd = cmd + [
+            '(',
+            '-type',
+            'f',
+            '-name',
+            bitbase.FILENAME_CONFIG,
+            '-print',
+            ')'
+        ]
 
-                    if self.BACKUP in dirs:
-                        del dirs[dirs.index(self.BACKUP)]
+        with subprocess.Popen(cmd,
+                              stdout=subprocess.PIPE,
+                              stderr=subprocess.DEVNULL,
+                              text=True) as proc:
 
-                    yield root
+            for line in proc.stdout:
+
+                if self._stop_event.is_set():
+                    return
+
+                path = Path(line.strip())
+
+                if _get_valid_config(path):
+                    yield path.parent
+
+    def stop(self):
+        """Prepare stop and wait for finish."""
+        self._stop_event.set()
+        self.join()
+
+
+def _get_valid_config(path: Path) -> Config | None:
+    try:
+        cfg = Config(str(path))
+        if cfg.isConfigured():
+            return cfg
+
+    except (FileNotFoundError, UnicodeDecodeError):
+        pass
+
+    # pylint: disable-next=broad-exception-caught
+    except Exception as exc:
+        logger.critical(f'Unhandled branch in code!\n{exc}\n{__file__}')
+
+    return None

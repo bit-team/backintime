@@ -15,64 +15,46 @@
     - Helpers about path manipulation.
     - FiledialogShowHidden
     - Menu (tooltips in menus)
+    - etc
 """
 import os
 import sys
+import pwd
 import re
+import json
 import textwrap
-from typing import Union, Iterable
-from PyQt6.QtGui import (QAction,
-                         QDesktopServices,
-                         QFont,
-                         QIcon)
-from PyQt6.QtCore import (QDir,
-                          Qt,
-                          QTranslator,
-                          QLocale,
+import subprocess
+from typing import Union, Iterable, Callable
+from contextlib import contextmanager
+from textdlg import TextDialog
+from PyQt6.QtGui import QDesktopServices, QIcon
+from PyQt6.QtCore import (QEvent,
                           QLibraryInfo,
+                          QLocale,
+                          Qt,
+                          QObject,
                           QT_VERSION_STR,
+                          QTranslator,
                           QUrl)
-from PyQt6.QtWidgets import (QWidget,
-                             QFileDialog,
-                             QAbstractItemView,
-                             QListView,
-                             QTreeView,
-                             QDialog,
-                             QApplication,
+from PyQt6.QtWidgets import (QApplication,
+                             QLabel,
+                             QStyle,
                              QStyleFactory,
-                             QSystemTrayIcon)
-
+                             QSystemTrayIcon,
+                             QWidget)
 from packaging.version import Version
-
-from qttools_path import registerBackintimePath
-registerBackintimePath('common')
+from qttools_path import register_backintime_path
+register_backintime_path('common')
 import tools  # noqa: E402
 import logger  # noqa: E402
 import bitbase  # noqa: E402
 import version  # noqa: E402
-
-# |---------------|
-# | Font handling |
-# |---------------|
+import messagebox  # noqa: E402
 
 
-def fontBold(font):
-    font.setWeight(QFont.Weight.Bold)
-    return font
-
-
-def setFontBold(widget):
-    widget.setFont(fontBold(widget.font()))
-
-
-def fontNormal(font):
-    font.setWeight(QFont.Weight.Normal)
-    return font
-
-
-def setFontNormal(widget):
-    widget.setFont(fontNormal(widget.font()))
-
+# |--------------------------------|
+# | Widget modification & creation |
+# |--------------------------------|
 
 def can_render(string, widget):
     """Check if the string can be rendered by the font used by the widget.
@@ -94,10 +76,6 @@ def can_render(string, widget):
 
     return True
 
-
-# |--------------------------------|
-# | Widget modification & creation |
-# |--------------------------------|
 
 _REX_RICHTEXT = re.compile(
     # begin of line
@@ -158,7 +136,9 @@ def set_wrapped_tooltip(widget: Union[QWidget, Iterable[QWidget]],
         tooltip = (tooltip, )
 
     # Richtext or plain text
-    newline = {True: '<br>', False: '\n'}[might_be_richtext(tooltip[0])]
+    is_richtext =  might_be_richtext(tooltip[0])
+
+    newline = {True: '<br>', False: '\n'}[is_richtext]
 
     result = []
     # Wrap each paragraph in itself
@@ -168,7 +148,14 @@ def set_wrapped_tooltip(widget: Union[QWidget, Iterable[QWidget]],
         ))
 
     # glue all together
-    widget.setToolTip(newline.join(result))
+    result = newline.join(result)
+
+    # Qt handles the string as richttext (interpreting html tags) only,
+    # if it begins with a tag.
+    if is_richtext and result[0] != '<':
+        result = f'<html>{result}</html>'
+
+    widget.setToolTip(result)
 
 
 def update_combo_profiles(config, combo_profiles, current_profile_id):
@@ -185,14 +172,209 @@ def update_combo_profiles(config, combo_profiles, current_profile_id):
         if profile_id == current_profile_id:
             combo_profiles.set_current_profile_id(profile_id)
 
+
+def create_icon_label(
+        icon_type: QStyle.StandardPixmap,
+        icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
+        icon_scale_factor: float | int = None,
+        fixed_size_widget: bool = False) -> QLabel:
+    """Return a ``QLabel`` instance containing an icon.
+
+    Args:
+        icon_type: The icon, eg. info or warning.
+        icon_size: Size reference.
+        fixed_size_widget: Fix label size to its icon (default: False)
+
+    Returns:
+        The QLabel
+    """
+    style = QApplication.style()
+    ico = style.standardIcon(icon_type)
+    sz = style.pixelMetric(icon_size)
+
+    if icon_scale_factor:
+        sz = int(sz * icon_scale_factor)
+
+    pixmap = ico.pixmap(sz)
+
+    label = QLabel()
+    label.setPixmap(pixmap)
+
+    if fixed_size_widget:
+        label.setFixedSize(pixmap.size())
+
+    return label
+
+
+def create_icon_label_info(
+        icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
+        icon_scale_factor: float | int = None,
+        fixed_size_widget: bool = False) -> QLabel:
+    """Return a QLabel with an info icon.
+
+    See `create_icon_label` for details.
+    """
+    return create_icon_label(
+        icon_type=QStyle.StandardPixmap.SP_MessageBoxInformation,
+        icon_size=icon_size,
+        icon_scale_factor=icon_scale_factor,
+        fixed_size_widget=fixed_size_widget)
+
+
+def create_icon_label_warning(
+        icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
+        icon_scale_factor: float | int = None,
+        fixed_size_widget: bool = False) -> QLabel:
+    """Return a QLabel with a warning icon.
+
+    See `create_icon_label` for details.
+    """
+    return create_icon_label(
+        icon_type=QStyle.StandardPixmap.SP_MessageBoxWarning,
+        icon_size=icon_size,
+        icon_scale_factor=icon_scale_factor,
+        fixed_size_widget=fixed_size_widget)
+
+
+def custom_sort_order(header, loop, new_column, new_order):
+    """Provides a toggled sort order across two columns for QTreeWidget."""
+    if new_column == 0 and new_order == Qt.SortOrder.AscendingOrder:
+        if loop:
+            new_column, new_order = 1, Qt.SortOrder.AscendingOrder
+            header.setSortIndicator(new_column, new_order)
+            loop = False
+        else:
+            loop = True
+    header.model().sort(new_column, new_order)
+    return loop
+
 # |---------------------|
 # | Misc / Uncatgorized |
 # |---------------------|
 
 
-def open_url(url: str) -> None:
-    """Open an URL or URI"""
-    QDesktopServices.openUrl(QUrl(url))
+class MouseButtonEventFilter(QObject):
+    """Catch mouse buttons 4 and 5 (mostly used as back and forward)
+    and assign it to browse in file history.
+    """
+
+    def __init__(self,
+                 back_handler: Callable,
+                 forward_handler: Callable):
+        # mouse button 4
+        self._handle_back = back_handler
+        # mouse button 5
+        self._handle_forward = forward_handler
+
+        super().__init__()
+
+    def eventFilter(self, receiver: QObject, event: QEvent):
+        """Catch global input events."""
+
+        # not a mouse press event
+        if event.type() != QEvent.Type.MouseButtonPress:
+            return super().eventFilter(receiver, event)
+
+        try:
+            # button 4 or 5 ?
+            handler = {
+                Qt.MouseButton.BackButton: self._handle_back,
+                Qt.MouseButton.ForwardButton: self._handle_forward
+            }[event.button()]
+
+        except KeyError:
+            pass
+
+        else:  # no exception
+            handler()
+            return True
+
+        return super().eventFilter(receiver, event)
+
+
+def _determine_root_mode_user() -> str:
+    """Determine the users name who started BIT in root mode
+
+    Usually pkexec is used but some users do use sudo themself.
+    """
+    # Try pkexec
+    uid = os.getenv('PKEXEC_UID', None)
+    if uid:
+        return pwd.getpwuid(int(uid)).pw_name
+
+    # Try sudo
+    sudo_user = os.getenv('SUDO_USER', None)
+    if sudo_user:
+        return sudo_user
+
+    return None
+
+
+def open_url(url):
+    # regular user mode
+    if not bitbase.IS_IN_ROOT_MODE:  
+        return QDesktopServices.openUrl(QUrl(url))
+
+    # root mode
+    user_name = _determine_root_mode_user()
+
+    try:
+        subprocess.run(
+            [
+                'runuser',
+                '-u',
+                user_name,
+                '--',
+                'xdg-open',
+                url
+            ],
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+    except (subprocess.CalledProcessError, FileNotFoundError) as exc:
+        logger.error(f'Problem while opening "{url}" in as user '
+                     f'"{user_name}" while in root-mode. '
+                     f'Error was: {exc}')
+    except Exception as exc:
+        logger.critical(f'Unknown problem while opening "{url}" in as user '
+                        f'"{user_name}" while in root-mode. '
+                        f'Error was: {exc}')
+
+
+def open_man_page(manpage: str, icon: QIcon) -> None:
+    """Open the manpage in a terminal window."""
+    env = os.environ.copy()
+    env['MANWIDTH'] = '80'
+
+    content = ''
+
+    try:
+        proc = subprocess.run(
+            ['man', manpage],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            env=env
+        )
+        content = proc.stdout
+
+        if not content:
+            raise FileNotFoundError(
+                f'No content for man page "{manpage}". {proc.stderr=}')
+
+    except FileNotFoundError as exc:
+        messagebox.critical(None, str(exc))
+        logger.error(str(exc))
+
+    else:
+        td = TextDialog(
+            content,
+            markdown=False,
+            title=_('man page: {man_page_name}').format(
+                man_page_name=manpage),
+            icon=icon)
+        td.exec()
 
 
 def user_manual_uri() -> str:
@@ -202,7 +384,7 @@ def user_manual_uri() -> str:
     """
     uri = bitbase.USER_MANUAL_LOCAL_PATH.as_uri() \
         if bitbase.USER_MANUAL_LOCAL_AVAILABLE \
-        else bitbase.USER_MANUAL_ONLINE_URL
+        else bitbase.URL_USER_MANUAL
 
     return uri
 
@@ -216,108 +398,43 @@ def open_user_manual() -> None:
     open_url(user_manual_uri())
 
 
-class FileDialogShowHidden(QFileDialog):
-    """File dialog able to display hidden files."""
-
-    def __init__(self, parent, *args, **kwargs):
-        super(FileDialogShowHidden, self).__init__(parent, *args, **kwargs)
-
-        self.setOption(QFileDialog.Option.DontUseNativeDialog, True)
-        self.setOption(QFileDialog.Option.HideNameFilterDetails, True)
-
-        showHiddenAction = QAction(self)
-        showHiddenAction.setShortcut('Ctrl+H')
-        showHiddenAction.triggered.connect(self.toggleShowHidden)
-        self.addAction(showHiddenAction)
-
-        self.showHidden(hiddenFiles(parent))
-
-    def showHidden(self, enable):
-
-        if enable:
-            self.setFilter(self.filter() | QDir.Filter.Hidden)
-        elif self.filter() & QDir.Filter.Hidden:
-            self.setFilter(self.filter() ^ QDir.Filter.Hidden)
-
-    def toggleShowHidden(self):
-        self.showHidden(not QDir.Filter(self.filter() & QDir.Filter.Hidden))
-
-
-def getExistingDirectories(parent, *args, **kwargs):
-    """Workaround for selecting multiple directories adopted from
-    http://www.qtcentre.org/threads/34226-QFileDialog-select-multiple-directories?p=158482#post158482
-    This also give control about hidden folders
-    """
-
-    dlg = FileDialogShowHidden(parent, *args, **kwargs)
-
-    dlg.setFileMode(dlg.FileMode.Directory)
-    dlg.setOption(dlg.Option.ShowDirsOnly, True)
-
-    mode = QAbstractItemView.SelectionMode.ExtendedSelection
-    dlg.findChildren(QListView)[0].setSelectionMode(mode)
-    dlg.findChildren(QTreeView)[0].setSelectionMode(mode)
-
-    if dlg.exec() == QDialog.DialogCode.Accepted:
-        return dlg.selectedFiles()
-
-    return [str(), ]
-
-
-def getExistingDirectory(parent, *args, **kwargs):
-    """Workaround to give control about hidden folders"""
-
-    dlg = FileDialogShowHidden(parent, *args, **kwargs)
-
-    dlg.setFileMode(dlg.FileMode.Directory)
-    dlg.setOption(dlg.Option.ShowDirsOnly, True)
-
-    if dlg.exec() == QDialog.DialogCode.Accepted:
-        return dlg.selectedFiles()[0]
-
-    return str()
-
-
-def getOpenFileNames(parent, *args, **kwargs):
-    """
-    Workaround to give control about hidden files
-    """
-    dlg = FileDialogShowHidden(parent, *args, **kwargs)
-    dlg.setFileMode(dlg.FileMode.ExistingFiles)
-
-    if dlg.exec() == QDialog.DialogCode.Accepted:
-        return dlg.selectedFiles()
-    return [str(), ]
-
-
-def getOpenFileName(parent, *args, **kwargs):
-    """Workaround to give control about hidden files"""
-
-    dlg = FileDialogShowHidden(parent, *args, **kwargs)
-    dlg.setFileMode(dlg.FileMode.ExistingFile)
-
-    if dlg.exec() == QDialog.DialogCode.Accepted:
-        return dlg.selectedFiles()[0]
-
-    return str()
-
-
-def hiddenFiles(parent):
+def _show_qt_debug_info(qapp):
+    if not logger.DEBUG:
+        return
 
     try:
-        return parent.parent.showHiddenFiles
-    except Exception:
-        pass
+        info = {
+            # The platform name indicates eg. wayland vs. X11, see also:
+            # https://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
+            # For more details see our X11/Wayland/Qt documentation in the
+            # directory doc/maintain
+            'QT QPA platform plugin': qapp.platformName(),
+            'QT_QPA_PLATFORMTHEME': 
+                os.environ.get('QT_QPA_PLATFORMTHEME', '<not set>'),
+                # styles and themes determine the look & feel of the GUI
+            'QT_STYLE_OVERRIDE':
+                os.environ.get('QT_STYLE_OVERRIDE', '<not set>'),
+            'QT active style': qapp.style().objectName(),
+            'QT fallback style': QIcon.fallbackThemeName(),
+            'QT supported styles': QStyleFactory.keys(),
+            'themeSearchPaths': QIcon.themeSearchPaths(),
+            'fallbackSearchPaths': QIcon.fallbackSearchPaths(),
+            # The Back In Time system tray icon can only be shown if the
+            # desktop environment supports this
+            'Is SystemTray available':
+                QSystemTrayIcon.isSystemTrayAvailable(),
+        }
 
-    try:
-        return parent.showHiddenFiles
-    except Exception:
-        pass
+        # msg = '\n' + json.dumps(info, indent=4)
+        msg = json.dumps(info)
 
-    return False
+    except Exception as exc:
+        msg = f'Error reading QT QPA platform plugin or style: {exc}'
+
+    logger.debug(msg)
 
 
-def createQApplication(app_name='Back In Time'):
+def createQApplication(app_name=bitbase.APP_NAME):
 
     global qapp
 
@@ -333,63 +450,34 @@ def createQApplication(app_name='Back In Time'):
 
     qapp = QApplication(sys.argv)
 
-    qt_platform_name = ""
-
-    try:
-        # The platform name indicates eg. wayland vs. X11, see also:
-        # https://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
-        # For more details see our X11/Wayland/Qt documentation in the
-        # directory doc/maintain
-        qt_platform_name = qapp.platformName()
-        logger.debug(f"QT QPA platform plugin: {qt_platform_name}")
-        logger.debug(
-            "QT_QPA_PLATFORMTHEME="
-            f"{os.environ.get('QT_QPA_PLATFORMTHEME') or '<not set>'}")
-
-        # styles and themes determine the look & feel of the GUI
-        logger.debug(
-            "QT_STYLE_OVERRIDE="
-            f"{os.environ.get('QT_STYLE_OVERRIDE') or '<not set>'}")
-        logger.debug(f"QT active style: {qapp.style().objectName()}")
-        logger.debug(f"QT fallback style: {QIcon.fallbackThemeName()}")
-        logger.debug(f"QT supported styles: {QStyleFactory.keys()}")
-        logger.debug(f"themeSearchPaths: {str(QIcon.themeSearchPaths())}")
-        logger.debug(
-            f"fallbackSearchPaths: {str(QIcon.fallbackSearchPaths())}")
-
-        # The Back In Time system tray icon can only be shown if the desktop
-        # environment supports this
-        logger.debug("Is SystemTray available: "
-                     f"{str(QSystemTrayIcon.isSystemTrayAvailable())}")
-
-    except Exception as e:
-        logger.debug(
-            f"Error reading QT QPA platform plugin or style: {repr(e)}")
+    _show_qt_debug_info(qapp)
 
     # Release Candidate indicator
-    if version.is_release_candidate():
+    if version.IS_RELEASE_CANDIDATE:
         app_name = f'{app_name} -- RELEASE CANDIDATE -- ' \
                    f'({version.__version__})'
 
+    elif version.IS_UNSTABLE_DEV_VERSION:
+        app_name = f'{app_name} -- UNSTABLE DEVELOPMENT ' \
+                   f'VERSION -- ({version.__version__})'
+
+    # This will influence the main window title
     qapp.setApplicationName(app_name)
 
     try:
 
-        if tools.isRoot():
+        if bitbase.IS_IN_ROOT_MODE:
             qapp.setApplicationName(app_name + " (root)")
-            logger.debug("Trying to set App ID for root user")
             qapp.setDesktopFileName("backintime-qt-root")
 
         else:
-            logger.debug("Trying to set App ID for non-privileged user")
             qapp.setDesktopFileName("backintime-qt")
 
-    except Exception as e:
-        logger.warning(
-            "Could not set App ID (required for Wayland App icon and more)")
-        logger.warning("Reason: " + repr(e))
+    except Exception as exc:
+        logger.warning('Could not set App ID (required for Wayland App icon '
+                       f'and more). Reason: {exc}')
 
-    if (os.geteuid() == 0
+    if (bitbase.IS_IN_ROOT_MODE
             and qapp.style().objectName().lower() == 'windows'
             and 'GTK+' in QStyleFactory.keys()):
 
@@ -400,7 +488,7 @@ def createQApplication(app_name='Back In Time'):
     if logger.DEBUG:
         qapp.setApplicationName(
             f'{qapp.applicationName()} '
-            f'[QT QPA platform: "{qt_platform_name}"]')
+            f'[QT QPA platform: "{qapp.platformName()}"]')
 
     return qapp
 
@@ -436,13 +524,16 @@ def initiate_translator(language_code: str) -> QTranslator:
             'fall back to the source language (English). This does not '
             'affect the translation of Back In Time-specific GUI elements.')
 
-    tools.set_lc_time_by_language_code(language_code)
+    tools.set_locale_by_language_code(language_code)
 
     return translator
 
 
-def indexFirstColumn(idx):
-    if idx.column() > 0:
-        idx = idx.sibling(idx.row(), 0)
+@contextmanager
+def block_signals(widget: QWidget) -> None:
+    """Context manager to temporary block Qt signals"""
+    widget.blockSignals(True)
 
-    return idx
+    yield
+
+    widget.blockSignals(False)

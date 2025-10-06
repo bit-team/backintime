@@ -10,6 +10,7 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""Module about the Options tab"""
 from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
                              QHBoxLayout,
@@ -18,7 +19,10 @@ from PyQt6.QtWidgets import (QDialog,
 import config
 import tools
 import qttools
+from event import Event
 from manageprofiles import combobox
+from manageprofiles.statebindcheckbox import StateBindCheckBox
+from manageprofiles.storagesizewidget import StorageSizeWidget
 
 
 class OptionsTab(QDialog):
@@ -30,9 +34,6 @@ class OptionsTab(QDialog):
         self._parent_dialog = parent
 
         tab_layout = QVBoxLayout(self)
-
-        # layoutWidget = QWidget(self)
-        # layout = QVBoxLayout(layoutWidget)
 
         self.cbNotify = QCheckBox(_('Enable notifications'), self)
         tab_layout.addWidget(self.cbNotify)
@@ -83,6 +84,34 @@ class OptionsTab(QDialog):
             _('Create a new backup whether there were changes or not.'))
         tab_layout.addWidget(self.cbTakeSnapshotRegardlessOfChanges)
 
+        # warn free space
+        hlayout = QHBoxLayout()
+        tab_layout.addLayout(hlayout)
+
+        self.suWarnFreeSpace = StorageSizeWidget(self, (1, 9999999))
+        self.cbWarnFreeSpace = StateBindCheckBox(
+            _('Warn if the free disk space falls below'), self)
+        self.cbWarnFreeSpace.bind(self.suWarnFreeSpace)
+        hlayout.addWidget(self.cbWarnFreeSpace)
+        hlayout.addWidget(self.suWarnFreeSpace)
+
+        tooltip = [
+            _('Shows a warning when free space on the backup destination disk '
+              'is less than the specified value.'),
+            _('If the Remove & Retention policy is enabled and old backups '
+              'are removed based on available free space, this value cannot '
+              'be lower than the value set in the policy.')
+        ]
+        qttools.set_wrapped_tooltip(self.suWarnFreeSpace, tooltip)
+        qttools.set_wrapped_tooltip(self.cbWarnFreeSpace, tooltip)
+
+        # Event: Notify observers if "remove less free space" value has changed
+        self.event_warn_free_space_value_changed = Event()
+        self.suWarnFreeSpace.event_value_changed.register(
+            lambda value:
+            self.event_warn_free_space_value_changed.notify(value)
+        )
+
         # log level
         hlayout = QHBoxLayout()
         tab_layout.addLayout(hlayout)
@@ -110,6 +139,9 @@ class OptionsTab(QDialog):
         self.cbUseChecksum.setChecked(self.config.useChecksum())
         self.cbTakeSnapshotRegardlessOfChanges.setChecked(
             self.config.takeSnapshotRegardlessOfChanges())
+        value = self.config.warnFreeSpace()
+        self.cbWarnFreeSpace.setChecked(self.config.warnFreeSpaceEnabled())
+        self.suWarnFreeSpace.set_storagesize(value)
         self.comboLogLevel.select_by_data(self.config.logLevel())
 
     def store_values(self):
@@ -122,8 +154,25 @@ class OptionsTab(QDialog):
         self.config.setUseChecksum(self.cbUseChecksum.isChecked())
         self.config.setTakeSnapshotRegardlessOfChanges(
             self.cbTakeSnapshotRegardlessOfChanges.isChecked())
+        if self.suWarnFreeSpace.isEnabled():
+            self.config.setWarnFreeSpace(
+                self.suWarnFreeSpace.get_storagesize())
+        else:
+            self.config.setWarnFreeSpaceDisabled()
+
         self.config.setLogLevel(
             self.comboLogLevel.itemData(self.comboLogLevel.currentIndex()))
+
+    def remove_free_space_value_changed(self, value):
+        """Event handler in case the value of 'Remove if less than X free
+        space' in 'Remove & Retention' tab was modified.
+
+        That value can not be lower than 'Warn on free space' value.
+        """
+        warn_val = self.suWarnFreeSpace.get_storagesize()
+
+        if warn_val < value:
+            self.suWarnFreeSpace.set_storagesize(value, dont_touch_unit=True)
 
     def _combo_log_level(self):
         fill = {

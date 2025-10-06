@@ -16,10 +16,17 @@
 Dev note (buhtz, 2025-03: Have look at "qt/manageprofiles/combobox.py" and
 consolidate if possible.
 """
-from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QFrame, QComboBox
-# from qttools_path import registerBackintimePath
-# registerBackintimePath('common')
+import itertools
+from PyQt6.QtCore import Qt, QTimer
+from PyQt6.QtGui import QMouseEvent
+from PyQt6.QtWidgets import (QCheckBox,
+                             QComboBox,
+                             QFrame,
+                             QHBoxLayout,
+                             QLabel,
+                             QSizePolicy,
+                             QWidget)
+import qttools
 
 
 class SortedComboBox(QComboBox):
@@ -131,3 +138,90 @@ class HLineWidget(QFrame):
         super().__init__()
         self.setFrameShape(QFrame.Shape.HLine)
         self.setFrameShadow(QFrame.Shadow.Sunken)
+
+
+class WrappedCheckBox(QWidget):
+    """A checkbox with word wrap capabilities.
+
+    QCheckBox itself is not able to wrap text in its label, without hacks."""
+    def __init__(self,
+                 label: str,
+                 tooltip: str = None,
+                 parent: QWidget = None):
+        super().__init__(parent)
+
+        self.checkbox = QCheckBox()
+        self.label = QLabel(label)
+
+        layout = QHBoxLayout()
+        self.setLayout(layout)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.checkbox, stretch=0)
+        layout.addWidget(self.label, stretch=1)
+
+        self.label.setWordWrap(True)
+        self.label.setSizePolicy(
+            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+
+        self.label.mouseReleaseEvent = self._slot_label_clicked
+
+        if tooltip:
+            qttools.set_wrapped_tooltip([self.checkbox, self.label], tooltip)
+
+        # # DEBUG
+        # self.setStyleSheet("background: lightblue; border: 1px solid red;")
+        # self.label.setStyleSheet("background: yellow;")
+
+    def _slot_label_clicked(self, event: QMouseEvent):
+        if event.button() == Qt.MouseButton.LeftButton:
+            self.checkbox.toggle()
+
+    @property
+    def checked(self) -> bool:
+        """Checked state of the check box"""
+        return self.checkbox.isChecked()
+
+    @checked.setter
+    def checked(self, check: bool) -> None:
+        self.checkbox.setChecked(check)
+
+
+class Spinner(QLabel):
+    """An activity indicator widget using unicode characters"""
+    # STOP = '⠿'
+    STOP = ' '
+
+    def __init__(self,
+                 parent: QWidget = None,
+                 font_scale: float = None):
+        super().__init__(parent)
+
+        # self.spinner_sequence = ['◐', '◓', '◑', '◒']
+        # self.spinner_sequence = ['🕐', '🕑', '🕒', '🕓', '🕔', '🕕', '🕖',
+        #                          '🕗', '🕘', '🕙', '🕚', '🕛']
+
+        # Unicode symbols used alternately
+        self._sequence = itertools.cycle(['⠋', '⠙', '⠸', '⠴', '⠦', '⠇'])
+
+        self.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.setText(Spinner.STOP)
+
+        # font size
+        if font_scale:
+            font = self.font()
+            font.setPointSize(int(font.pointSize() * font_scale))
+            self.setFont(font)
+
+        # cycle timer
+        self._timer = QTimer(self)
+        self._timer.timeout.connect(
+            lambda: self.setText(next(self._sequence)))
+
+    def start(self, interval_ms: int = 150) -> None:
+        """Start the spinner"""
+        self._timer.start(interval_ms)
+
+    def stop(self) -> None:
+        """Stop the spinner using `self.STOP` as label."""
+        self._timer.stop()
+        self.setText(Spinner.STOP)

@@ -2,8 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This file is part of the program "Back In time" which is released under GNU
-# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Provides the ability to collect diagnostic information on Back In Time.
 
@@ -74,7 +74,7 @@ def collect_diagnostics():
     })
 
     # Git repo
-    bit_root_path = Path(tools.backintimePath(""))
+    bit_root_path = Path(tools.as_backintime_path(""))
     git_info = tools.get_git_repository_info(bit_root_path)
 
     if git_info:
@@ -318,7 +318,7 @@ def _get_rsync_info():
         )
 
     elif isinstance(info, dict):
-        # Rsync (>= 3.2.7)provided its information in JSON format.
+        # Rsync (>= 3.2.7) provide its information in JSON format.
         # Remove some irrelevant information.
         for key in ['program', 'copyright', 'url', 'license', 'caveat']:
             try:

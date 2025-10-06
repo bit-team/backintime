@@ -30,15 +30,23 @@ class Password_Cache(daemon.Daemon):
 
     def __init__(self, cfg = None, *args, **kwargs):
         self.config = cfg
+
         if self.config is None:
             self.config = config.Config()
+
         cachePath = self.config.passwordCacheFolder()
+
         if not tools.mkdir(cachePath, 0o700):
             msg = 'Failed to create secure Password_Cache folder'
             logger.error(msg, self)
+
             raise PermissionError(msg)
+
         pid = self.config.passwordCachePid()
-        super(Password_Cache, self).__init__(pid, umask = 0o077, *args, **kwargs)
+
+        super(Password_Cache, self).__init__(
+            pid, umask = 0o077, *args, **kwargs)
+
         self.dbKeyring = {}
         self.dbUsr = {}
         self.fifo = password_ipc.FIFO(self.config.passwordCacheFifo())
@@ -62,6 +70,7 @@ class Password_Cache(daemon.Daemon):
         if not self.collectPasswords():
             logger.debug('Nothing to cache. Quit.', self)
             sys.exit(0)
+
         self.fifo.create()
         atexit.register(self.fifo.delfifo)
         signal.signal(signal.SIGHUP, self.reloadHandler)
@@ -76,10 +85,12 @@ class Password_Cache(daemon.Daemon):
                 if task == 'get_pw':
                     key = value
 
-                    if key in list(self.dbKeyring.keys()):
+                    if key in self.dbKeyring:
                         answer = 'pw:' + self.dbKeyring[key]
-                    elif key in list(self.dbUsr.keys()):
+
+                    elif key in self.dbUsr:
                         answer = 'pw:' + self.dbUsr[key]
+
                     else:
                         answer = 'none:'
 
@@ -89,8 +100,8 @@ class Password_Cache(daemon.Daemon):
                     key, value = value.split(':', 1)
                     self.dbUsr[key] = value
 
-            except IOError as e:
-                logger.error('Error in writing answer to FIFO: %s' % str(e), self)
+            except IOError as exc:
+                logger.error(f'Error in writing answer to FIFO: {exc}', self)
 
             except KeyboardInterrupt:
                 logger.debug('Quit.', self)
@@ -104,15 +115,19 @@ class Password_Cache(daemon.Daemon):
             except Exception as e:
                 logger.error('ERROR: %s' % str(e), self)
 
-    def reloadHandler(self, signum, frame):
+    def reloadHandler(self, _signum, _frame):
         """
         reload passwords during runtime.
         """
         time.sleep(2)
         cfgPath = self.config._LOCAL_CONFIG_PATH
+
         del self.config
+
         self.config = config.Config(cfgPath)
+
         del self.dbKeyring
+
         self.dbKeyring = {}
         self.collectPasswords()
 
@@ -122,32 +137,44 @@ class Password_Cache(daemon.Daemon):
         """
         run_daemon = False
         profiles = self.config.profiles()
+
         for profile_id in profiles:
             mode = self.config.snapshotsMode(profile_id)
+
             for pw_id in (1, 2):
+
                 if self.config.modeNeedPassword(mode, pw_id):
+
                     if self.config.passwordUseCache(profile_id):
                         run_daemon = True
-                        if self.config.passwordSave(profile_id) and self.keyringSupported:
-                            service_name = self.config.keyringServiceName(profile_id, mode, pw_id)
-                            user_name = self.config.keyringUserName(profile_id)
 
+                        if (self.config.passwordSave(profile_id)
+                                and self.keyringSupported):
+                            service_name = self.config.keyringServiceName(
+                                profile_id, mode, pw_id)
+                            user_name = self.config.keyringUserName(profile_id)
                             password = tools.password(service_name, user_name)
+
                             if password is None:
                                 continue
-                            self.dbKeyring['%s/%s' %(service_name, user_name)] = password
+
+                            self.dbKeyring[f'{service_name}/{user_name}'] \
+                                = password
+
         return run_daemon
 
     def checkVersion(self):
         info = configfile.ConfigFile()
         info.load(self.config.passwordCacheInfo())
+
         if info.intValue('version') < self.PW_CACHE_VERSION:
             return False
+
         return True
 
-    def cleanupHandler(self, signum, frame):
+    def cleanup_handler(self, signum, frame):
         self.fifo.delfifo()
-        super(Password_Cache, self).cleanupHandler(signum, frame)
+        super(Password_Cache, self).cleanup_handler(signum, frame)
 
 
 class Password:
@@ -242,16 +269,16 @@ class Password:
         """
         get password from Password_Cache
         """
-        if self.cache.status():
-            self.cache.checkVersion()
-            self.fifo.write('get_pw:%s/%s' %(service_name, user_name), timeout = 5)
-            answer = self.fifo.read(timeout = 5)
-            mode, pw = answer.split(':', 1)
-            if mode == 'none':
-                return None
-            return pw
-        else:
+        if not self.cache.status():
             return None
+
+        self.cache.checkVersion()
+        self.fifo.write(f'get_pw:{service_name}/{user_name}', timeout=5)
+        answer = self.fifo.read(timeout = 5)
+        mode, pw = answer.split(':', 1)
+
+        return None if mode == 'none' else pw
+
 
     def passwordFromUser(self,
                          parent,
@@ -281,7 +308,7 @@ class Password:
                     profile=self.config.profileName(profile_id),
                     mode=self.config.SNAPSHOT_MODES[mode][pw_id+1])
 
-        tools.registerBackintimePath('qt')
+        tools.register_backintime_path('qt')
 
         x_server = tools.checkXServer()
         import_successful = False
@@ -310,7 +337,7 @@ class Password:
             return password
 
         # Use QDialog as graphical prompt
-        password = messagebox.askPasswordDialog(
+        password = messagebox.ask_password_dialog(
             parent=parent,
             title=self.config.APP_NAME,
             prompt=prompt,
@@ -331,7 +358,8 @@ class Password:
         store password to keyring and Password_Cache
         """
         if self.config.modeNeedPassword(mode, pw_id):
-            service_name = self.config.keyringServiceName(profile_id, mode, pw_id)
+            service_name = self.config.keyringServiceName(
+                profile_id, mode, pw_id)
             user_name = self.config.keyringUserName(profile_id)
 
             if self.config.passwordSave(profile_id):
@@ -348,4 +376,5 @@ class Password:
     def setPasswordCache(self, service_name, user_name, password):
         if self.cache.status():
             self.cache.checkVersion()
-            self.fifo.write('set_pw:%s/%s:%s' %(service_name, user_name, password), timeout = 5)
+            self.fifo.write(
+                f'set_pw:{service_name}/{user_name}:{password}', timeout=5)

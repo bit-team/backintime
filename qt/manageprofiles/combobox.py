@@ -7,6 +7,7 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Module with an improved combo box widget."""
 from typing import Any
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QComboBox, QWidget
 
 
@@ -43,19 +44,57 @@ class BitComboBox(QComboBox):
         self._content_dict = content_dict
 
         for data, entry in self._content_dict.items():
-            self.addItem(entry, userData=data)
+
+            label = entry
+            tip = None
+            ico = None
+
+            if isinstance(label, (list, tuple)):
+                tip = label[1]
+                try:
+                    ico = label[2]
+                except IndexError:
+                    pass
+                label = label[0]
+
+            if ico:
+                self.addItem(ico, label, userData=data)
+            else:
+                self.addItem(label, userData=data)
+
+            if tip is not None:
+                self.setItemData(
+                    self.count()-1, tip, Qt.ItemDataRole.ToolTipRole)
 
     @property
     def current_data(self) -> Any:
         """Data linked to the current selected entry."""
         return self.itemData(self.currentIndex())
 
-    def select_by_data(self, data: Any):
-        """Select an entry in the combo box by its underlying data."""
+    def _idx_by_data(self, data: Any) -> int:
         for idx in range(self.count()):
             if self.itemData(idx) == data:
-                self.setCurrentIndex(idx)
-                return
+                return idx
 
-        raise ValueError('Unable to select combo box entry because data not '
+        raise ValueError('Unable to find combo box entry because data not '
                          f'found in it. Data is: {data} (type: {type(data)})')
+
+    def enable_by_data(self, data: Any, enable: bool = True):
+        """Enable or disable an entry based on its underlying data."""
+        idx = self._idx_by_data(data)
+        self.model().item(idx).setEnabled(enable)
+
+    def select_by_data(self, data: Any):
+        """Select an entry in the combo box by its underlying data.
+
+        Raise: ???
+        """
+        self.setCurrentIndex(self._idx_by_data(data))
+
+    def has_data(self, data: Any) -> bool:
+        """Check if an entry with that data exists."""
+        for idx in range(self.count()):
+            if self.itemData(idx) == data:
+                return True
+
+        return False

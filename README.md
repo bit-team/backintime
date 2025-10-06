@@ -7,12 +7,16 @@ This file is part of the program "Back In Time" which is released under GNU
 General Public License v2 (GPLv2). See LICENSES directory or go to
 <https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
-[![Build Status](https://app.travis-ci.com/bit-team/backintime.svg)](https://app.travis-ci.com/bit-team/backintime)
-[![Source code documentation Status](https://readthedocs.org/projects/backintime-dev/badge/?version=latest)](https://backintime-dev.readthedocs.io)
-[![User manual Status](https://readthedocs.org/projects/backintime/badge/?version=latest)](https://backintime.readthedocs.io)
-[![Translation status](https://translate.codeberg.org/widget/backintime/common/svg-badge.svg)](https://translate.codeberg.org/engage/backintime)
 [![Mailing list bit-dev@python.org](doc/maintain/_images/badge_bit-dev.svg)](https://mail.python.org/mailman3/lists/bit-dev.python.org/)
 [![Mastodon @backintime@fosstodon.org](doc/maintain/_images/badge_mastodon.svg)](https://fosstodon.org/@backintime)
+
+[![Build Status](https://app.travis-ci.com/bit-team/backintime.svg)](https://app.travis-ci.com/bit-team/backintime)
+<!--
+[![Source code documentation Status](https://readthedocs.org/projects/backintime-dev/badge/?version=latest)](https://backintime-dev.readthedocs.io)
+-->
+[![User manual Status](https://readthedocs.org/projects/backintime/badge/?version=latest)](https://backintime.readthedocs.io)
+[![Translation status](https://translate.codeberg.org/widget/backintime/common/svg-badge.svg)](https://translate.codeberg.org/engage/backintime)
+[![REUSE status](https://api.reuse.software/badge/github.com/bit-team/backintime)](https://api.reuse.software/info/github.com/bit-team/backintime)
 
 # Back In Time
 <sub>Copyright © 2008-2024 Oprea Dan, Bart de Koning, Richard Bailey,
@@ -80,6 +84,7 @@ features. This work is carried out voluntarily during their limited spare time.
  * [FAQ - Frequently Asked Questions](FAQ.md)
  * [End user documentation](https://backintime.readthedocs.org/) (not totally up-to-date)
  * [Source code documentation for developers](https://backintime-dev.readthedocs.org)
+   (**Disabled** and not up-2-tdate. Please open an issue if you need to use it.)
 
 # Contact & Social
 
@@ -99,38 +104,45 @@ latest development version of _Back In Time_ please see section
 [Build & Install](CONTRIBUTING.md#build--install) in
 [`CONTRIBUTING.md`](CONTRIBUTING.md). Also the dependencies are described there.
 
-## Alternative installation options
-Besides the repositories of the official GNU/Linux distributions, there are
-other alternative installation options provided and maintained by third
-parties. Use them at your own risk and please contact that third party
-maintainers if you encounter problems.
-
-- [@Germar](https://github.com/germar)'s Personal Package Archive ([PPA](https://launchpad.net/ubuntu/+ppas)) offering [`ppa:bit-team/stable`](https://launchpad.net/~bit-team/+archive/ubuntu/stable) as stable and [`ppa:bit-team/testing`](https://launchpad.net/~bit-team/+archive/ubuntu/testing) as testing PPA.
-- [@jean-christophe-manciot](https://github.com/jean-christophe-manciot)'s PPA distributing [_Back In Time_ for the latest stable Ubuntu release](https://git.sdxlive.com/PPA/about). See [PPA requirements](https://git.sdxlive.com/PPA/about/#requirements) and [install instructions](https://git.sdxlive.com/PPA/about/#installing-the-ppa).
-- The Arch User Repository ([AUR](https://aur.archlinux.org/)) does offer [some packages](https://aur.archlinux.org/packages?K=backintime).
-
 # Known Problems and Workarounds
 
 In the latest stable release:
+- [OverflowError: Value 1702441408 out of range for UInt32](#overflowerror-value-1702441408-out-of-range-for-uint32)
 - [File permissions handling and therefore possible non-differential backups](#file-permissions-handling-and-therefore-possible-non-differential-backups)
 - [`qt_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`](#qt_probingpy-may-hang-with-high-cpu-usage-when-running-bit-as-root-via-cron)
 
 More problems described in
 [this FAQ section](FAQ.md#problems-errors--solutions).
 
+## OverflowError: Value 1702441408 out of range for UInt32
+The _Back In Time_ GUI crashes and this exception appears in its terminal
+output. Known to happen on restoring (#2084) and removing (#2192) of backups.
+Assuming it might happen also on creating backups.
+
+The current hypothesis the problem was introduced or happens more often since
+the migration from PyQt version 5 to version 6 (BIT version 1.5.0).
+
+A fix (PR #2099) will be released with
+[upcoming 1.6.0](https://github.com/bit-team/backintime/milestone/34).
+Don't use the latest development version and risk your data! Until the fix is
+released, there is a tiny workaround described in that
+[issue comment](https://github.com/bit-team/backintime/issues/2084#issuecomment-2787602155).
+
 ## File permissions handling and therefore possible non-differential backups
 
-In version 1.2.0, the handling of file permissions changed.
-In versions <= 1.1.24 (until 2017) all file permissions were set to `-rw-r--r--` in the backup target.
-In versions >= 1.2.0 (since 2019) `rsync` is executed with `--perms` option which tells `rsync` to
-preserve the source file permission.
+- In version 1.2.0, the handling of file permissions changed.
+- In versions <= 1.1.24 (until 2017) all file permissions were set to
+  `-rw-r--r--` in the backup target.
+- In versions >= 1.2.0 (since 2019) `rsync` is executed with `--perms` option
+  which tells `rsync` to preserve the source file permission.
 
-Therefore backups can be larger and slower, especially the first backup after upgrading to a version >= 1.2.0.
+Therefore backups can be larger and slower, especially the first backup after
+upgrading to a version >= 1.2.0.
 
-If you don't like the new behavior, you can use _Expert Options_ -> _Paste additional options to rsync_
-to add `--no-perms --no-group --no-owner` to it.
-Note that the exact file permissions can still be found in `fileinfo.bz2` and are also considered when restoring
-files.
+If you don't like the new behavior, you can use _Expert Options_ ->
+_Paste additional options to rsync_ to add `--no-perms --no-group --no-owner`
+to it. Note that the exact file permissions can still be found in
+`fileinfo.bz2` and are also considered when restoring files.
 
 ## `qt_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`
 
@@ -153,4 +165,4 @@ Please read [`LICENSES.md`](LICENSES.md).
 
 ---
 
-<sub>April 2025</sub>
+<sub>August 2025</sub>

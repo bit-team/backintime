@@ -19,17 +19,19 @@ import subprocess
 import shlex
 import signal
 import re
+import math
 import errno
-import gzip
 import locale
 import gettext
 import hashlib
 import ipaddress
+import shutil
 from datetime import datetime, timedelta
 from collections.abc import MutableMapping
 from packaging.version import Version
 from typing import Union
-from bitbase import TimeUnit
+from bitbase import TimeUnit, BINARY_NAME_BASE
+from storagesize import StorageSize, SizeUnit
 import logger
 
 
@@ -71,7 +73,11 @@ except ImportError:
 
 import configfile
 import bcolors
-from exceptions import Timeout, InvalidChar, InvalidCmd, LimitExceeded, PermissionDeniedByPolicy
+from exceptions import (Timeout,
+                        InvalidChar,
+                        InvalidCmd,
+                        LimitExceeded,
+                        PermissionDeniedByPolicy)
 import languages
 
 # Workaround:
@@ -114,9 +120,8 @@ def sharePath():
     return '/usr/share'
 
 
-def backintimePath(*path):
-    """
-    Get path inside ``backintime`` install folder.
+def as_backintime_path(*path: str) -> str:
+    """Get path inside ``backintime`` install folder.
 
     Args:
         *path (str): Paths that should be joined to ``backintime``.
@@ -125,37 +130,16 @@ def backintimePath(*path):
         str: Child path of ``backintime`` child path e.g.
             ``/usr/share/backintime/common``or ``/usr/share/backintime/qt``.
     """
-    return os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, *path))
+    result = pathlib.Path(__file__).parent.parent / pathlib.Path(*path)
+    result = result.resolve()
 
-
-def docPath():
-    """Not sure what this path is about.
-    """
-    path = pathlib.Path(sharePath()) / 'doc' / 'backintime-common'
-
-    # Dev note (buhtz, aryoda, 2024-02):
-    # This piece of code originally resisted in Config.__init__() and was
-    # introduced by Dan in 2008. The reason for the existence of this "if"
-    # is unclear.
-
-    # Makefile (in common) does only install into share/doc/backintime-common
-    # but never into the the backintime "binary" path so I guess the if is
-    # a) either a distro-specific exception for a distro package that
-    # (manually?) installs the LICENSE into another path
-    # b) or a left-over from old code where the LICENSE was installed
-    # differently...
-
-    license_file = pathlib.Path(backintimePath()) / 'LICENSE'
-    if license_file.exists():
-        path = backintimePath()
-
-    return str(path)
+    return str(result)
 
 
 # |---------------------------------------------------|
 # | Internationalization (i18n) & localization (L10n) |
 # |---------------------------------------------------|
-_GETTEXT_DOMAIN = 'backintime'
+_GETTEXT_DOMAIN = BINARY_NAME_BASE
 _GETTEXT_LOCALE_DIR = pathlib.Path(sharePath()) / 'locale'
 
 
@@ -238,29 +222,28 @@ def initiate_translation(language_code):
     used_code = _determine_current_used_language_code(
         translation, language_code)
 
-    set_lc_time_by_language_code(used_code)
+    set_locale_by_language_code(used_code)
 
     logger.debug(f'Language code used: "{used_code}"')
 
     return used_code
 
 
-def set_lc_time_by_language_code(language_code: str):
-    """Set ``LC_TIME`` based on a specific language code.
+def set_locale_by_language_code(language_code: str):
+    """Set ``LC_ALL`` based on a specific language code.
 
     Args:
         language_code(str): A language code consisting of two letters.
 
-    The reason is to display correctly translated weekday and months
-    names. Python's :mod:`datetime` module, as well
-    ``PyQt6.QtCore.QDate``, use :mod:`locale` to determine the
-    correct translation. The module :mod:`gettext` and
-    ``PyQt6.QtCore.QTranslator`` is not involved so their setup does
-    not take effect.
+    The reason is to display correctly translated weekday and months names.
+    Python's :mod:`datetime` module, as well ``PyQt6.QtCore.QDate``,
+    use :mod:`locale` to determine the correct translation. The
+    module :mod:`gettext` and ``PyQt6.QtCore.QTranslator`` is not involved
+    so their setup does not take effect.
 
-    Be aware that a language code (e.g. ``de``) is not the same as a locale code
-    (e.g. ``de_DE.UTF-8``). This function attempts to determine the latter based
-    on the language code. A warning is logged if it is not possible.
+    Be aware that a language code (e.g. ``de``) is not the same as a locale
+    code (e.g. ``de_DE.UTF-8``). This function attempts to determine the latter
+    based on the language code. A warning is logged if it is not possible.
     """
 
     # Determine the normalized locale code (e.g. "de_DE.UTF-8") by
@@ -276,9 +259,7 @@ def set_lc_time_by_language_code(language_code: str):
         code = code + '.' + locale.getpreferredencoding()
 
     try:
-        # logger.debug(f'Try to set locale.LC_TIME to "{code}" based on '
-        #              f'language code "{language_code}".')
-        locale.setlocale(locale.LC_TIME, code)
+        locale.setlocale(locale.LC_ALL, code)
 
     except locale.Error:
         logger.debug(
@@ -480,7 +461,8 @@ def is_filesystem_valid(full_path, msg_path, mode, copy_links):
             msg string.
 
     """
-    fs = filesystem(full_path if isinstance(full_path, str) else str(full_path))
+    fs = filesystem(
+        full_path if isinstance(full_path, str) else str(full_path))
 
     msg = None
 
@@ -578,11 +560,92 @@ def nested_dict_update(org: dict, update: dict) -> dict:
 
     return org
 
+# |-------------------|
+# | File system stuff |
+# |-------------------|
+
+
+def free_space(path: pathlib.Path, ssh_command: list[str] = None
+               ) -> StorageSize | None:
+    """Get free space as StorageSize on (remote) filesystem containing
+    ``path``.
+
+    Args:
+        path: File or directory.
+        ssh_command: See `_free_space_ssh()` for details.
+
+    Returns:
+        Free space in StorageSize or ``None`` in case of errors.
+
+    """
+
+    if ssh_command:
+        value = _free_space_ssh(path, ssh_command)
+    else:
+        value = _free_space_local(path)
+
+    return StorageSize(value, SizeUnit.B) if value else value
+
+
+def _free_space_local(path: pathlib.Path) -> int:
+    """Get free space in Byte on filesystem containing ``path``.
+
+    Args:
+        path: File or directory.
+
+    Returns:
+        Free space in Byte.
+    """
+    try:
+        usage = shutil.disk_usage(path)
+
+    except FileNotFoundError:
+        logger.error('Unable to get free space (local) because the path '
+                     f'{path} was not found.')
+        return None
+
+    return usage.free
+
+
+def _free_space_ssh(path: pathlib.Path, ssh_command: list[str]) -> int | None:
+    """Get free space in Byte on remote filesystem.
+
+    Use Config.sshCommand() to construct ``ssh_command`` regarding the backup
+    profile of interest. This is a workaround and will be refactored one day.
+
+    Args:
+        path: File or directory on remote system.
+        ssh_command: SSH command used as prefix to the ``stat`` command.
+
+    Returns:
+        Free space in Byte or ``None`` in case of errors.
+    """
+    try:
+        result = subprocess.check_output(
+            ssh_command + [
+                'stat',
+                '--file-system',
+                # %a: Free blocks available for the user.
+                # %S: Blocksize
+                '--format=%a,%S',
+                str(path) if path else './'
+            ],
+            text=True
+        )
+    except subprocess.CalledProcessError as exc:
+        logger.error(f'Unable to get free space via SSH. {exc}')
+        return None
+
+    available, blocksize = [int(val) for val in result.strip().split(',')]
+
+    return available * blocksize
 
 # |------------------------------------|
 # | Miscellaneous, not categorized yet |
 # |------------------------------------|
-def registerBackintimePath(*path):
+
+
+def register_backintime_path(*path: str):
     """
     Add BackInTime path ``path`` to :py:data:`sys.path` so subsequent imports
     can discover them.
@@ -594,7 +657,7 @@ def registerBackintimePath(*path):
         Duplicate in :py:func:`qt/qttools.py` because modules in qt folder
         would need this to actually import :py:mod:`tools`.
     """
-    path = backintimePath(*path)
+    path = as_backintime_path(*path)
 
     if path not in sys.path:
         sys.path.insert(0, path)
@@ -611,14 +674,14 @@ def runningFromSource():
     Returns:
         bool: ``True`` if BackInTime is running from source.
     """
-    return os.path.isfile(backintimePath('common', 'backintime'))
+    return os.path.isfile(as_backintime_path('common', 'backintime'))
 
 
 def addSourceToPathEnviron():
     """
     Add 'backintime/common' path to 'PATH' environ variable.
     """
-    source = backintimePath('common')
+    source = as_backintime_path('common')
     path = os.getenv('PATH')
     if path and source not in path.split(':'):
         os.environ['PATH'] = '%s:%s' % (source, path)
@@ -681,122 +744,71 @@ def get_git_repository_info(path=None, hash_length=None):
     return result
 
 
-def readFile(path, default=None):
+def elapsed_at_least(start: datetime,
+                     end: datetime,
+                     value: int,
+                     unit: TimeUnit) -> bool:
     """
-    Read the file in ``path`` or its '.gz' compressed variant and return its
-    content or ``default`` if ``path`` does not exist.
+    Check if a time span meets at least a number of time units, counting
+    partial units as full.
+
+
+    Return ``True`` if the time span between ``start`` and ``end`` is at least
+    ``value`` units (``units``). The unit can be hours, days, weeks, or months
+    (see `TimeUnit` for details). Partial units are counted.
+
+    The difference is measured as follows:
+    * hours: full or partial hours
+    * days: calendar days (date only)
+    * weeks: full or partial calendar weeks (starting Monday)
+    * months: full or partial calendar months
 
     Args:
-        path (str):             full path to file that should be read.
-                                '.gz' will be added automatically if the file
-                                is compressed
-        default (str):          default if ``path`` does not exist
+        start: Beginning timestamp.
+        end: Ending timestamp.
+        value: Minimum number of units required.
+        unit: TimeUnit specifying hours, days, weeks, or months.
 
     Returns:
-        str:                    content of file in ``path``
+        ``True`` if the elapsed time is greater than or equal to ``value``
+        units, otherwise ``False``.
     """
-    ret_val = default
-
-    try:
-        if os.path.exists(path):
-
-            with open(path) as f:
-                ret_val = f.read()
-
-        elif os.path.exists(path + '.gz'):
-
-            with gzip.open(path + '.gz', 'rt') as f:
-                ret_val = f.read()
-
-    except:
-        pass
-
-    return ret_val
-
-
-def readFileLines(path, default=None):
-    """
-    Read the file in ``path`` or its '.gz' compressed variant and return its
-    content as a list of lines or ``default`` if ``path`` does not exist.
-
-    Args:
-        path (str):             full path to file that should be read.
-                                '.gz' will be added automatically if the file
-                                is compressed
-        default (list):         default if ``path`` does not exist
-
-    Returns:
-        list:                   content of file in ``path`` split by lines.
-    """
-    ret_val = default
-
-    try:
-        if os.path.exists(path):
-            with open(path) as f:
-                ret_val = [x.rstrip('\n') for x in f.readlines()]
-        elif os.path.exists(path + '.gz'):
-            with gzip.open(path + '.gz', 'rt') as f:
-                ret_val = [x.rstrip('\n') for x in f.readlines()]
-    except:
-        pass
-
-    return ret_val
-
-
-def older_than(dt: datetime, value: int, unit: TimeUnit) -> bool:
-    """Return ``True`` if ``dt`` is older than ``value`` months, weeks, days or
-    hours compared to the current time (`datetime.now()`).
-
-    The resolution used is on microseconds level. Months are calculated based
-    on calendar.
-
-    Args:
-        dt: Timestamp to be compared with on microsecond level.
-        value: Number of units.
-        unit: Specify to treat ``value`` as hours, days, weeks or months.
-
-    Return:
-        ``True`` if older, otherwise ``False``.
-    """
+    # Workaround
     if not isinstance(unit, TimeUnit):
         unit = TimeUnit(unit)
 
-    now = datetime.now()
-
     if unit is TimeUnit.HOUR:
-        return dt < now - timedelta(hours=value)
+        # Calculate difference in hours, counting partial hours
+        delta_hours = math.ceil((end - start).total_seconds() / 3600)
+        return delta_hours >= value
 
     if unit is TimeUnit.DAY:
-        return dt < now - timedelta(days=value)
+        return start.date() <= (end.date() - timedelta(days=value))
 
     if unit is TimeUnit.WEEK:
-        return dt < now - timedelta(weeks=value)
+        # Difference in calendar weeks (starting monday), counting partial
+        # weeks
+        start_week = start.date() - timedelta(days=start.weekday())
+        end_week = end.date() - timedelta(days=end.weekday())
+        delta_days = (end_week - start_week).days
+        return math.ceil(delta_days / 7) >= value
 
     if unit is TimeUnit.MONTH:
-        # Calculate months based on calendar because timedelta do not support
-        # months.
-        compare_month = (dt.month + value - 1) % 12 + 1
-        compare_year = dt.year + (dt.month + value - 1) // 12
-        # make sure that day exist in the month
-        last_day_dt \
-            = datetime(compare_year, compare_month + 1, 1) - timedelta(days=1)
-        compare_day = min(dt.day, last_day_dt.day)
-
-        compare_dt = datetime(
-            compare_year, compare_month, compare_day,
-            now.hour, now.minute, now.microsecond)
-
-        return now < compare_dt
+        # Difference in calendar month, counting partial months
+        year_diff = end.year - start.year
+        month_diff = end.month - start.month
+        delta_months = year_diff * 12 + month_diff
+        return delta_months >= value
 
     # Dev note (buhtz, 2024-09): This code branch already existed in the
     # original code (but silent, without throwing an exception). Even if it may
     # seem (nearly) pointless, it will be kept for now to ensure that it is
     # never executed.
-    raise RuntimeError(f'Unexpected situation. {dt=} {value=} {unit=} '
-                       'Please report it via a bug ticket.')
+    raise RuntimeError(f'Unexpected situation. {start=} {end=} {value=} '
+                       f'{unit=}. Please report it via a bug ticket.')
 
 
-def checkCommand(cmd):
+def checkCommand(cmd: str) -> bool:
     """Check if command ``cmd`` is a file in 'PATH' environment.
 
     Args:
@@ -834,7 +846,7 @@ def which(cmd):
     """
     pathenv = os.getenv('PATH', '')
     path = pathenv.split(':')
-    common = backintimePath('common')
+    common = as_backintime_path('common')
 
     if runningFromSource() and common not in path:
         path.insert(0, common)
@@ -843,6 +855,7 @@ def which(cmd):
         fullpath = os.path.join(directory, cmd)
 
         if os.path.isfile(fullpath) and os.access(fullpath, os.X_OK):
+            fullpath = str(pathlib.Path(fullpath).resolve())
             return fullpath
 
     return None
@@ -906,16 +919,6 @@ def mkdir(path, mode=0o755, enforce_permissions=True):
             os.chmod(path, mode)
 
     return os.path.isdir(path)
-
-
-def pids():
-    """
-    List all PIDs currently running on the system.
-
-    Returns:
-        list:   PIDs as int
-    """
-    return [int(x) for x in os.listdir('/proc') if x.isdigit()]
 
 
 def processStat(pid):
@@ -1000,8 +1003,16 @@ def pidsWithName(name):
     Returns:
         list:       PIDs as int
     """
+    all_pids = [
+        int(fp.name)
+        for fp in pathlib.Path('/proc').iterdir()
+        if fp.name.isdigit()
+    ]
+
     # /proc/###/stat stores just the first 16 chars of the process name
-    return [x for x in pids() if processName(x) == name[:15]]
+    name_to_look_for = name[:15]
+
+    return [pid for pid in all_pids if processName(pid) == name_to_look_for]
 
 
 def processExists(name):
@@ -1076,8 +1087,8 @@ def checkXServer():
                                 stderr=subprocess.DEVNULL)
         proc.communicate()
         return proc.returncode == 0
-    else:
-        return False
+
+    return False
 
 
 def is_Qt_working(systray_required=False):
@@ -1102,12 +1113,12 @@ def is_Qt_working(systray_required=False):
     # Spawns a new process since it may crash with a SIGABRT and we
     # don't want to crash BiT if this happens...
 
-    try:
-        path = os.path.join(backintimePath("common"), "qt_probing.py")
-        cmd = [sys.executable, path]
-        if logger.DEBUG:
-            cmd.append('--debug')
+    path = os.path.join(as_backintime_path("common"), "qt_probing.py")
+    cmd = [sys.executable, path]
+    if logger.DEBUG:
+        cmd.append('--debug')
 
+    try:
         with subprocess.Popen(cmd,
                               stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE,
@@ -1121,42 +1132,33 @@ def is_Qt_working(systray_required=False):
 
             # if some Qt parts are missing: Show details
             if proc.returncode != 2 or logger.DEBUG:
-                logger.debug(f"Qt probing stdout:\n{std_output}")
-                logger.debug(f"Qt probing errout:\n{error_output}")
+                logger.debug('Qt probing '
+                             f'STDOUT: "{std_output}" '
+                             f'STDERR: "{error_output}"')
 
-            return proc.returncode == 2 or (proc.returncode == 1 and systray_required is False)
+            rc = proc.returncode
+
+            return rc == 2 or (rc == 1 and systray_required is False)
 
     except FileNotFoundError:
-        logger.error(f"Qt probing script not found: {cmd[0]}")
+        logger.error(f'Qt probing script not found: {cmd[0]}')
         raise
 
     # Fix for #1592 (qt_probing.py may hang as root): Kill after timeout
     except subprocess.TimeoutExpired:
         proc.kill()
         outs, errs = proc.communicate()
-        logger.info("Qt probing sub process killed after timeout "
-                    "without response")
-        logger.debug(f"Qt probing stdout:\n{outs}")
-        logger.debug(f"Qt probing errout:\n{errs}")
+        # ??? Is this worth an INFO ?
+        logger.info('Qt probing sub process killed after timeout '
+                    'without response')
 
-    except Exception as e:
-        logger.error(f"Error: {repr(e)}")
+        logger.debug('Qt probing '
+                     f'STDOUT: "{outs}" '
+                     f'STDERR: "{errs}"')
+
+    except Exception as exc:
+        logger.critical(f'Unknown Error: {exc}')
         raise
-
-
-def preparePath(path):
-    """
-    Removes trailing slash '/' from ``path``.
-
-    Args:
-        path (str): absolute path
-
-    Returns:
-        str:        path ``path`` without trailing but with leading slash
-    """
-    path = path.strip("/")
-    path = os.sep + path
-    return path
 
 
 def powerStatusAvailable():
@@ -1204,34 +1206,38 @@ def onBattery():
     except dbus.exceptions.DBusException as exc:
         logger.debug('DBus exception while determining if running on '
                      f'battery. {exc}')
-        pass
 
     return False
 
 
-def rsyncCaps(data=None):
+def rsyncCaps() -> list[str]:
     """
     Get capabilities of the installed rsync binary. This can be different from
     version to version and also on build arguments used when building rsync.
 
-    Args:
-        data (str): 'rsync --version' output. This is just for unittests.
+    Dev note (buhtz, 2025-07): BIT uses --xattrs and --acls only. Both are
+    introduced with rsync 3.0.0 in year 2008. Might be worth to keep this
+    check.
 
     Returns:
-        list:       List of str with rsyncs capabilities
+        List of str with rsyncs capabilities.
     """
-    if not data:
-        proc = subprocess.Popen(['rsync', '--version'],
-                                stdout=subprocess.PIPE,
-                                universal_newlines=True)
-        data = proc.communicate()[0]
+    proc = subprocess.Popen(['rsync', '--version'],
+                            stdout=subprocess.PIPE,
+                            universal_newlines=True)
+    data = proc.communicate()[0]
+
     caps = []
 
     # rsync >= 3.1 does provide --info=progress2
-    matchers = [r'rsync\s*version\s*(\d\.\d)', r'rsync\s*version\s*v(\d\.\d.\d)']
+    matchers = (
+        r'rsync\s*version\s*(\d\.\d)',
+        r'rsync\s*version\s*v(\d\.\d.\d)'
+    )
 
     for matcher in matchers:
         m = re.match(matcher, data)
+
         if m and Version(m.group(1)) >= Version('3.1'):
             caps.append('progress2')
             break
@@ -1245,31 +1251,31 @@ def rsyncCaps(data=None):
     for line in m.group(1).split('\n'):
         caps.extend(
             [i.strip(' \n') for i in line.split(',') if i.strip(' \n')])
+
     return caps
 
 
 def rsyncPrefix(config,
-                no_perms=True,
-                use_mode=['ssh', 'ssh_encfs'],
-                progress=True):
+                no_perms: bool = True,
+                use_mode: list[str] = ['ssh', 'ssh_encfs'],
+                progress: bool = True) -> list[str]:
     """
     Get rsync command and all args for creating a new snapshot. Args are
     based on current profile in ``config``.
 
     Args:
-        config (config.Config): current config
-        no_perms (bool):        don't sync permissions (--no-p --no-g --no-o)
-                                if ``True``.
-                                :py:func:`config.Config.preserveAcl` == ``True`` or
-                                :py:func:`config.Config.preserveXattr` == ``True``
-                                will overwrite this to ``False``
-        use_mode (list):        if current mode is in this list add additional
-                                args for that mode
-        progress (bool):        add '--info=progress2' to show progress
+        config: current config
+        no_perms: Don't sync permissions (--no-p --no-g --no-o). If ``True``.
+            :py:func:`config.Config.preserveAcl` == ``True`` or
+            :py:func:`config.Config.preserveXattr` == ``True``
+            will overwrite this to ``False``
+        use_mode: If current mode is in this list add additional args
+            for that mode.
+        progress: Add '--info=progress2' to show progress.
 
     Returns:
-        list:                   rsync command with all args but without
-                                --include, --exclude, source and destination
+        Rsync command with all args but without --include, --exclude,
+        source and destination.
     """
     caps = rsyncCaps()
     cmd = []
@@ -1320,6 +1326,7 @@ def rsyncPrefix(config,
 
     if no_perms:
         cmd.extend(('--no-perms', '--no-group', '--no-owner'))
+
     else:
         cmd.extend(('--perms',          # preserve permissions
                     '--executability',  # preserve executability
@@ -1454,18 +1461,19 @@ def checkCronPattern(s):
     """
     if s.find(' ') >= 0:
         return False
+
     try:
         if s.startswith('*/'):
-            if s[2:].isdigit() and int(s[2:]) <= 24:
-                return True
-            else:
-                return False
+            return s[2:].isdigit() and int(s[2:]) <= 24
+
         for i in s.split(','):
             if i.isdigit() and int(i) <= 24:
                 continue
             else:
                 return False
+
         return True
+
     except ValueError:
         return False
 
@@ -1572,7 +1580,9 @@ def keyringSupported():
         # details to understand the unwanted side-effects the chainer could
         # bring with it.
         # See also:
-        # https://github.com/jaraco/keyring/blob/977ed03677bb0602b91f005461ef3dddf01a49f6/keyring/backends/chainer.py#L11  # noqa
+        # https://github.com/jaraco/keyring/blob/
+        # 977ed03677bb0602b91f005461ef3dddf01a49f6/keyring/backends/
+        # chainer.py#L11  # noqa
         (keyring.backends, ('chainer', 'ChainerBackend')),
     ]
 
@@ -1605,7 +1615,8 @@ def keyringSupported():
     logger.debug(f'Not found Metaclasses: {not_found_metaclasses}')
     logger.debug("Available supported backends: " + repr(available_backends))
 
-    if available_backends and isinstance(keyring.get_keyring(), tuple(available_backends)):
+    if (available_backends
+            and isinstance(keyring.get_keyring(), tuple(available_backends))):
         logger.debug("Found appropriate keyring '{}'".format(displayName))
         return True
 
@@ -1669,7 +1680,7 @@ def decodeOctalEscape(s):
     return re.sub(r'\\(\d{3})', repl, s)
 
 
-def mountArgs(path):
+def mountArgs(path: str) -> list | None:
     """
     Get all /etc/mtab args for the filesystem of ``path`` as a list.
     Example::
@@ -1682,7 +1693,7 @@ def mountArgs(path):
         path (str): full path
 
     Returns:
-        list:       mount args
+        The mount args.
     """
     mp = mountpoint(path)
 
@@ -1768,6 +1779,7 @@ def _uuidFromDev_via_filesystem(dev):
 
     # Nothing found
     return None
+
 
 def _uuidFromDev_via_blkid_command(dev):
     """Get the UUID for the block device ``dev`` via the extern command
@@ -1882,32 +1894,10 @@ def uuidFromPath(path):
     return uuidFromDev(device(path))
 
 
-def isRoot():
-    """
-    Check if we are root.
-
-    Returns:
-        bool:   ``True`` if we are root
-    """
-
-    # The EUID (Effective UID) may be different from the UID (user ID)
-    # in case of SetUID or using "sudo" (where EUID is "root" and UID
-    # is the original user who executed "sudo").
-    return os.geteuid() == 0
-
-
-def usingSudo():
-    """
-    Check if 'sudo' was used to start this process.
-
-    Returns:
-        bool:   ``True`` if the process was started with sudo
-    """
-    return isRoot() and os.getenv('HOME', '/root') != '/root'
-
 re_wildcard = re.compile(r'(?:\[|\]|\?)')
 re_asterisk = re.compile(r'\*')
-re_separate_asterisk = re.compile(r'(?:^\*+[^/\*]|[^/\*]\*+[^/\*]|[^/\*]\*+|\*+[^/\*]|[^/\*]\*+$)')
+re_separate_asterisk = re.compile(
+    r'(?:^\*+[^/\*]|[^/\*]\*+[^/\*]|[^/\*]\*+|\*+[^/\*]|[^/\*]\*+$)')
 
 
 def patternHasNotEncryptableWildcard(pattern):
@@ -1926,8 +1916,10 @@ def patternHasNotEncryptableWildcard(pattern):
     if not re_wildcard.search(pattern) is None:
         return True
 
-    if not re_asterisk is None and not re_separate_asterisk.search(pattern) is None:
+    if (not re_asterisk is None
+            and not re_separate_asterisk.search(pattern) is None):
         return True
+
     return False
 
 
@@ -2007,9 +1999,13 @@ def splitCommands(cmds, head='', tail='', maxLength=0):
     """
     while cmds:
         s = head
-        while cmds and ((len(s + cmds[0] + tail) <= maxLength) or maxLength <= 0):
+
+        while (cmds and (
+                (len(s + cmds[0] + tail) <= maxLength) or maxLength <= 0)):
             s += cmds.pop(0)
+
         s += tail
+
         yield s
 
 
@@ -2034,19 +2030,6 @@ def escapeIPv6Address(address):
         return f'[{address}]'
 
     return address
-
-
-def camelCase(s):
-    """
-    Remove underlines and make every first char uppercase.
-
-    Args:
-        s (str):    string separated by underlines (foo_bar)
-
-    Returns:
-        str:        string without underlines but uppercase chars (FooBar)
-    """
-    return ''.join([x.capitalize() for x in s.split('_')])
 
 
 class Alarm:
@@ -2111,7 +2094,7 @@ class Alarm:
         except:
             pass
 
-    def handler(self, signum, frame):
+    def handler(self, _signum, _frame):
         """This method is called after the timer ran down to zero
         and calls the callback function of the alarm instance.
 
@@ -2126,6 +2109,7 @@ class Alarm:
 
         else:
             self.callback()
+
 
 class SetupUdev:
     """
@@ -2154,9 +2138,10 @@ class SetupUdev:
             # by working without a serviceHelper D-Bus connection...
             # All other exceptions are still raised causing BiT
             # to stop during startup.
-            # if e._dbus_error_name in ('org.freedesktop.DBus.Error.NameHasNoOwner',
-            #                           'org.freedesktop.DBus.Error.ServiceUnknown',
-            #                           'org.freedesktop.DBus.Error.FileNotFound'):
+            # if e._dbus_error_name in (
+            #    'org.freedesktop.DBus.Error.NameHasNoOwner',
+            #    'org.freedesktop.DBus.Error.ServiceUnknown',
+            #    'org.freedesktop.DBus.Error.FileNotFound'):
             logger.warning('Failed to connect to Udev serviceHelper daemon '
                            'via D-Bus: ' + e.get_dbus_name())
             logger.warning('D-Bus message: ' + e.get_dbus_message())
@@ -2179,14 +2164,15 @@ class SetupUdev:
             return self.iface.addRule(cmd, uuid)
 
         except dbus.exceptions.DBusException as exc:
-            if exc._dbus_error_name == 'net.launchpad.backintime.InvalidChar':
+            err_prefix = 'net.launchpad.backintime.'
+            if exc._dbus_error_name == f'{err_prefix}InvalidChar':
                 raise InvalidChar(str(exc)) from exc
 
-            elif exc._dbus_error_name == 'net.launchpad.backintime.InvalidCmd':
+            elif exc._dbus_error_name == f'{err_prefix}InvalidCmd':
                 raise InvalidCmd(str(exc)) from exc
 
-            elif exc._dbus_error_name == 'net.launchpad.backintime.LimitExceeded':
-                raise LimitExceeded(str(exc))  from exc
+            elif exc._dbus_error_name == f'{err_prefix}LimitExceeded':
+                raise LimitExceeded(str(exc)) from exc
 
             else:
                 raise
@@ -2204,11 +2190,11 @@ class SetupUdev:
 
         except dbus.exceptions.DBusException as err:
 
-            if err._dbus_error_name == 'com.ubuntu.DeviceDriver.PermissionDeniedByPolicy':
+            if (err._dbus_error_name
+                    == 'com.ubuntu.DeviceDriver.PermissionDeniedByPolicy'):
                 raise PermissionDeniedByPolicy(str(err)) from err
 
-            else:
-                raise err
+            raise err
 
     def clean(self):
         """Clean up remote cache.
@@ -2349,10 +2335,12 @@ class Execute:
 
         # # TEST code for developers to simulate a killed rsync process
         # if self.printable_cmd.startswith("rsync --recursive"):
-        #     self.currentProc.terminate()  # signal 15 (SIGTERM) like "killall" and "kill" do by default
+        #     # signal 15 (SIGTERM) like "killall" and "kill" do by default
+        #     self.currentProc.terminate()
         #     # self.currentProc.send_signal(signal.SIGHUP)  # signal 1
         #     # self.currentProc.kill()  # signal 9
-        #     logger.error("rsync killed for testing purposes during development")
+        #     logger.error("rsync killed for testing purposes during "
+        #                  "development")
 
         if self.callback:
 
@@ -2375,7 +2363,8 @@ class Execute:
         # when stdout=PIPE and/or stderr=PIPE and the child process
         # generates enough output to pipe that it blocks waiting for
         # free buffer. See also:
-        # https://docs.python.org/3.10/library/subprocess.html#subprocess.Popen.wait
+        # https://docs.python.org/3.10/library/
+        # subprocess.html#subprocess.Popen.wait
         out = self.currentProc.communicate()[0]
 
         # TODO Why is "out" empty instead of containing all stdout?
@@ -2411,7 +2400,7 @@ class Execute:
 
         return ret_val
 
-    def pause(self, signum, frame):
+    def pause(self, _signum, _frame):
         """Slot which will send ``SIGSTOP`` to the command. Is connected to
         signal ``SIGTSTP``.
         """
@@ -2420,7 +2409,7 @@ class Execute:
                 f'Pause process "{self.printable_cmd}"', self.parent, 2)
             return self.currentProc.send_signal(signal.SIGSTOP)
 
-    def resume(self, signum, frame):
+    def resume(self, _signum, _frame):
         """Slot which will send ``SIGCONT`` to the command. Is connected to
         signal ``SIGCONT``.
         """
@@ -2429,7 +2418,7 @@ class Execute:
                 f'Resume process "{self.printable_cmd}"', self.parent, 2)
             return self.currentProc.send_signal(signal.SIGCONT)
 
-    def kill(self, signum, frame):
+    def kill(self, _signum, _frame):
         """Slot which will kill the command. Is connected to signal ``SIGHUP``.
         """
         if self.pausable and self.currentProc:

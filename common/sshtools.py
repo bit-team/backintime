@@ -23,6 +23,7 @@ import password
 import password_ipc
 from mount import MountControl
 from exceptions import MountException, NoPubKeyLogin, KnownHost
+import bitbase
 import bcolors
 import version
 
@@ -90,7 +91,7 @@ class SSH(MountControl):
     def __init__(self, *args, **kwargs):
 
         # init MountControl
-        super(SSH, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         # Workaround for linters
         self.user = None
@@ -156,21 +157,21 @@ class SSH(MountControl):
         self.symlink_subfolder = None
         self.log_command = '%s: %s' % (self.mode, self.user_host_path)
 
-        self.private_key_fingerprint = sshKeyFingerprint(self.private_key_file)
+        if self.private_key_file is not False:
+            self.private_key_fingerprint = sshKeyFingerprint(self.private_key_file)
 
-        if not self.private_key_fingerprint:
+            if not self.private_key_fingerprint:
 
-            logger.warning('Couldn\'t get fingerprint for private '
-                           'key %(path)s. '
-                           'Most likely because the public key %(path)s.pub '
-                           'wasn\'t found. Using fallback to private keys '
-                           'path instead. But this can make troubles with '
-                           'passphrase-less keys.'
-                           % {'path': self.private_key_file},
-                           self)
-            self.private_key_fingerprint = self.private_key_file
+                logger.warning("Couldn't get fingerprint for private key "
+                               f'{self.private_key_file}. Most likely because'
+                               f' the public key {self.private_key_file.pub} '
+                               "wasn't found. Using fallback to private keys "
+                               'path instead. But this can make troubles with '
+                               'passphrase-less keys.',
+                               self)
+                self.private_key_fingerprint = self.private_key_file
 
-        self.unlockSshAgent()
+            self.unlockSshAgent()
 
     def _mount(self):
         """
@@ -342,11 +343,16 @@ class SSH(MountControl):
         Raises:
             exceptions.MountException: If unlock failed.
         """
+        if self.private_key_file == False:
+            logger.info('Profile is configured to not using key file.')
+            return
 
         self.startSshAgent()
 
         env = os.environ.copy()
         env['SSH_ASKPASS'] = 'backintime-askpass'
+        # Ensure ssh uses backintime-askpass
+        env['SSH_ASKPASS_REQUIRE'] = 'force'
         env['ASKPASS_PROFILE_ID'] = self.profile_id
         env['ASKPASS_MODE'] = self.mode
 
@@ -415,15 +421,16 @@ class SSH(MountControl):
                 # ssh-add below. See Issue #1852.
 
                 # Validate cached SSH key password:
+                logger.debug('Check if password is valid for private key')
                 proc = subprocess.run(
                         ['ssh-keygen', '-y', '-f', self.private_key_file],
                         capture_output=True,
-                        # Ensure ssh-keygen uses backintime-askpass
-                        env=env | {'SSH_ASKPASS_REQUIRE': 'prefer'}
+                        env=env,
                 )
 
                 # if backintime-askpass supplied an invalid cached password
                 if proc.returncode > 0:
+                    logger.debug('Cached SSH password invalid')
                     pw = password.Password()
 
                     # pw_id = 1 corresponds to the SSH password
@@ -436,6 +443,13 @@ class SSH(MountControl):
                         pw_id=1,
                         refresh=True,
                     )
+
+                if self.password:
+                    thread.stop()
+                    logger.debug('Provide password through temp FIFO', self)
+                    thread = password_ipc.TempPasswordThread(self.password)
+                    env['ASKPASS_TEMP'] = thread.temp_file
+                    thread.start()
 
                 proc = subprocess.Popen(['ssh-add', self.private_key_file],
                                         stdin=subprocess.PIPE,
@@ -505,16 +519,12 @@ class SSH(MountControl):
                                 stderr=subprocess.PIPE,
                                 universal_newlines=True)
 
-        err = proc.communicate()[1]
+        err = proc.communicate()[1].strip('\n')
 
         if proc.returncode:
             raise NoPubKeyLogin(
-                'Password-less authentication for %(user)s@%(host)s '
-                'failed. Look at \'man backintime\' for further '
-                'instructions.' % {
-                    'user': self.user,
-                    'host': self.host}
-                + '\n\n' + err)
+                f'Password-less authentication for {self.user}@{self.host} '
+                f'failed: "{err}"')
 
     def checkCipher(self):
         """Try to login to remote host with the chosen cipher. This should make
@@ -556,7 +566,7 @@ class SSH(MountControl):
                     'Ciper %s is not supported' %
                     self.config.SSH_CIPHERS[self.cipher], self)
 
-                msg = _('Cipher {cipher} failed for {host}.').format(
+                msg = 'Cipher {cipher} failed for {host}.'.format(
                     cipher=self.config.SSH_CIPHERS[self.cipher],
                     host=self.host)
 
@@ -869,8 +879,7 @@ class SSH(MountControl):
 
                     raise MountException(
                         "Remote host {host} doesn't support '{command}:\n"
-                        "{err}\n"
-                        "Look at 'man backintime' for further instructions."
+                        "{err}"
                         .format(
                             host=self.host,
                             command=cmd,
@@ -1007,18 +1016,11 @@ class SSH(MountControl):
                     command = f"'{output_split[-1]}':\n{err}"
                     msg = _("Remote host {host} doesn't support {command}") \
                         .format(host=self.host, command=command)
-                    raise MountException('{}\n{}'.format(
-                        msg,
-                        _("Look at 'man backintime' for further instructions")
-                        )
-                    )
+                    raise MountException(msg)
 
             msg = _('Check commands on host {host} returned unknown error') \
                 .format(host=self.host)
-            raise MountException('{}:\n{}n{}'.format(
-                msg,
-                err,
-                _("Look at 'man backintime' for further instructions")))
+            raise MountException(f'{msg}: "{err}"')
 
         inodes = []
 
@@ -1052,41 +1054,49 @@ class SSH(MountControl):
         return ''.join(random.choice(chars) for x in range(size))
 
 
-def sshKeyGen(keyfile):
-    """
-    Generate a new ssh-key pair (private and public key) in ``keyfile`` and
-    ``keyfile``.pub
+def sshKeyGen(keyfile: str) -> bool:
+    """Generate a new pair of SSH keys (private & public) without passphrase.
 
     Args:
-        keyfile (str):  path for private key file
+        keyfile: Path for private key file and public (``.pub`` prefix added)
 
     Returns:
-        bool:           True if successful; False if ``keyfile`` already exist
-                        or if there was an error
+        ``True`` if successful; ``False`` if ``keyfile`` already exist or
+        if there was an error.
     """
 
     if os.path.exists(keyfile):
-        logger.warning(
-            'SSH keyfile "{}" already exist. Skip creating a new one'
-            .format(keyfile))
+        logger.warning(f'SSH keyfile "{keyfile}" already exist. '
+                       'Skip creating a new one.')
 
         return False
 
-    cmd = ['ssh-keygen', '-t', 'rsa', '-N', '', '-f', keyfile]
+    cmd = [
+        'ssh-keygen',
+        # key type (#2194)
+        '-t', 'rsa',
+        # No passphrase
+        '-N', '',
+        # Base filename
+        '-f', keyfile
+    ]
 
     proc = subprocess.Popen(cmd,
                             stdout=subprocess.DEVNULL,
                             stderr=subprocess.PIPE,
                             universal_newlines=True)
 
-    err = proc.communicate()[1]
+    com = proc.communicate()
+    rc = proc.returncode
 
-    if proc.returncode:
-        logger.error('Failed to create a new ssh-key: {}'.format(err))
+    if rc:
+        err = com[1]
+        logger.error(f'Failed to create a new SSH key: {err}')
+
     else:
-        logger.info('Successfully created new ssh-key "{}"'.format(keyfile))
+        logger.info(f'New SSH key created: {keyfile}')
 
-    return not proc.returncode
+    return not rc
 
 
 def sshCopyIdCommand(
@@ -1224,8 +1234,8 @@ def sshKeyFingerprint(path):
         str:        hex fingerprint from key
     """
 
-    if not os.path.exists(path):
-        return
+    if path is None or os.path.exists(path) is False:
+        return None
 
     cmd = ['ssh-keygen', '-l', '-f', path]
 
@@ -1258,7 +1268,8 @@ def sshHostKey(host, port='22'):
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.DEVNULL)
 
-        hostKey = proc.communicate()[0].strip()
+        result = proc.communicate()
+        hostKey = result[0].strip()
 
         if hostKey:
             break
@@ -1291,6 +1302,35 @@ def sshHostKey(host, port='22'):
     return (None, None, None)
 
 
+def determine_default_ssh_key_filename() -> str | None:
+    """Return the default filename for new generated SSH keys used by
+    ssh-keygen.
+
+    Return:
+        The filename as string or `None` in case of errors.
+    """
+    proc = subprocess.run(
+        ['ssh-keygen', '-N', '""'],
+        stdin=subprocess.DEVNULL,
+        stderr=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        text=True)
+
+    # Extract the default key file name from that question prompt:
+    # "Generating public/private rsa key pair.\nEnter file in which
+    # to save the key (/home/user/.ssh/id_rsa): "
+    pattern = r'.+\(' + re.escape(str(bitbase.DIR_SSH_KEYS)) + r'\/(.+)\):.*'
+
+    result = re.search(pattern, proc.stdout)
+    if result:
+        return result.group(1)
+
+    logger.debug('Error determining the default SSH key file name.'
+                 f'{proc=} match {result=}')
+
+    return None
+
+
 def writeKnownHostsFile(key):
     """
     Write host key ``key`` into `~/.ssh/known_hosts`.
@@ -1309,3 +1349,43 @@ def writeKnownHostsFile(key):
     with open(knownHostFile, 'at') as f:
         logger.info('Write host key to {}'.format(knownHostFile))
         f.write(key + '\n')
+
+
+def get_private_ssh_key_files() -> list[Path]:
+    """Return a list of existing private key files."""
+
+    # folder containing the key files
+    ssh_path = Path.home() / '.ssh'
+
+    try:
+        # exclude by filename
+        potential_key_files = filter(
+            # irrelevant files
+            lambda fp: fp.name not in (
+                'known_hosts',
+                'authorized_keys',
+                'config',
+                'backup'
+            )
+            # no public keys
+            and fp.suffix  != '.pub',
+            ssh_path.iterdir()
+        )
+    except FileNotFoundError:
+        potential_key_files = []
+
+    result = []
+
+    # e.g. "-----BEGIN OPENSSH PRIVATE KEY-----"
+    rex = re.compile(r'^-+BEGIN\s\S+\sPRIVATE KEY-+$')
+
+    # check content
+    for fp in potential_key_files:
+        with fp.open('r', encoding='utf-8') as handle:
+            if rex.match(handle.readline().strip()):
+                result.append(fp)
+
+    # prioritize 'ed25519' keys and move them to the beginning of the list
+    result = sorted(result, key=lambda e: 0 if 'ed25519' in e.name else 1)
+
+    return result

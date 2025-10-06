@@ -31,7 +31,7 @@ import config
 import snapshots
 
 # mock notifyplugin to suppress notifications
-tools.registerBackintimePath('qt', 'plugins')
+tools.register_backintime_path('qt', 'plugins')
 
 TMP_FLOCK = NamedTemporaryFile(prefix='backintime', suffix='.flock')
 SSH_PATH = pathlib.Path.home() / '.ssh'
@@ -112,6 +112,7 @@ LOCAL_SSH = True if ON_TRAVIS else all([
 PRIV_KEY_FILE = str(PRIV_KEY_FILE)
 PUBLIC_KEY_FILE = str(PUBLIC_KEY_FILE)
 AUTHORIZED_KEYS_FILE = str(AUTHORIZED_KEYS_FILE)
+
 
 class TestCase(unittest.TestCase):
     """Base class for Back In Time unit- and integration testing.
@@ -326,7 +327,8 @@ class SSHTestCase(TestCaseCfg):
         self.cfg.setSshPrivateKeyFile(PRIV_KEY_FILE)
 
         # use a TemporaryDirectory for remote snapshot path
-        # self.tmpDir = TemporaryDirectory(prefix='bit_test_', suffix=' with blank')
+        # self.tmpDir = TemporaryDirectory(
+        #     prefix='bit_test_', suffix=' with blank')
         self.tmpDir = TemporaryDirectory()
         self.remotePath = os.path.join(self.tmpDir.name, 'foo')
         self.remoteFullPath = os.path.join(
@@ -424,13 +426,18 @@ def create_test_files(path):
 
 
 @contextmanager
-def mockPermissions(path, mode=0o000):
-    """
-    """
+def mockPermissions(path: pathlib.Path | str, mode: int = 0o000) -> None:
+    # Workaround
+    if isinstance(path, str):
+        path = pathlib.Path(path)
 
-    st = os.stat(path)
-    os.chmod(path, mode)
-    yield
+    # extract permission bits only (mask out file type)
+    org_perms = path.stat().st_mode & 0o777
 
-    # fix permissions so it can be removed
-    os.chmod(path, st.st_mode)
+    path.chmod(mode)
+
+    try:
+        yield
+
+    finally:
+        path.chmod(org_perms)

@@ -25,8 +25,9 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPalette
 import logger
 import bitbase
+import bitlicense
 import tools
-import backintime
+import version
 import messagebox
 import qttools
 
@@ -85,7 +86,7 @@ class AboutDlg(QDialog):
             label.setLineWidth(1)
 
         label_copyright = QLabel('<strong>' + _('Copyright:') + '</strong>')
-        copyr = QLabel(bitbase.COPYRIGHT)
+        copyr = QLabel(bitlicense.COPYRIGHT)
         _set_label_props(copyr)
 
         label_authors = QLabel('<strong>' + _('Authors:') + '</strong>')
@@ -146,13 +147,8 @@ class AboutDlg(QDialog):
         # Dev note (buhtz, 2025-03): That string is untranslated on purpose.
         # It is legally relevant, and no one should be given the opportunity
         # to change the string—whether intentionally or accidentally.
-        text_gpl = (
-            f'The application is released under <a href="{_HREF_SPDX_GPL}">'
-            'GNU General Public License v2.0 or later (GPL-2.0-or-later)</a>.')
-        text_licenses = _(
-            'All licenses used in this project are located in the {dir_link} '
-            'directory. To extract per-file license and copyright information '
-            'using SPDX metadata, refer to {readme_link}.').format(
+        text_gpl = bitlicense.get_gpl_short_text(href=_HREF_SPDX_GPL)
+        text_licenses = bitlicense.TXT_LICENSES.format(
                 dir_link=f'<a href="{_HREF_LICENSES_DIR}">LICENSES</a>',
                 readme_link=f'<a href="{_HREF_LICENSES_MD}">LICENSES.md</a>')
 
@@ -169,7 +165,7 @@ class AboutDlg(QDialog):
 
     def _slot_license_link_acivated(self, link):
         if link in (_HREF_LICENSES_DIR, _HREF_LICENSES_MD):
-            fp = self._license_directory()
+            fp = bitlicense.DIR_LICENSES
 
             if link == _HREF_LICENSES_MD:
                 fp = fp.parent / 'LICENSES.md'
@@ -189,7 +185,7 @@ class AboutDlg(QDialog):
             return
 
         if link == _HREF_SPDX_GPL:
-            qttools.open_url(bitbase.URL_GPL_TWO)
+            qttools.open_url(bitlicense.URL_GPL_TWO)
             return
 
         logger.critical(f'Unknown link "{link}". Please open a bug report.')
@@ -211,21 +207,6 @@ class AboutDlg(QDialog):
 
         return '(Can not find AUTHORS information file.)'
 
-    def _license_directory(self):
-        """Determine the license folder."""
-        for pkg in (bitbase.PACKAGE_NAME_GUI,
-                    bitbase.PACKAGE_NAME_CLI,
-                    bitbase.BINARY_NAME_GUI,
-                    bitbase.BINARY_NAME_CLI,
-                    bitbase.BINARY_NAME_BASE):
-            for path in (Path('/usr/share/doc'), Path('/usr/share/licenses')):
-
-                fp = path / pkg / 'LICENSES'
-                if fp.is_dir():
-                    return fp
-
-        return None
-
     def _project_buttons(self):
         wdg = QWidget(self)
         hbox = QHBoxLayout()
@@ -241,8 +222,9 @@ class AboutDlg(QDialog):
             lambda: qttools.open_url(bitbase.URL_WEBSITE))
 
         manual = QPushButton(_('User manual'))
-        manual.setToolTip(_('Open user manual in browser (local if available '
-                            'otherwise online)'))
+        manual.setToolTip(
+            _('Open user manual in browser (local if available, '
+              'otherwise online)'))
         manual.clicked.connect(qttools.open_user_manual)
 
         layout.addWidget(website)
@@ -252,7 +234,8 @@ class AboutDlg(QDialog):
         return wdg
 
     def _create_logo_widget(self):
-        import icon  # pylint: disable=import-outside-toplevel
+        # pylint: disable-next=import-outside-toplevel
+        import icon  # noqa: PLC0415
 
         size = self.style().pixelMetric(
             QStyle.PixelMetric.PM_LargeIconSize)
@@ -295,7 +278,7 @@ class AboutDlg(QDialog):
             _('{BOLD}Version{BOLDEND}: {version}').format(
                 BOLD='<strong>',
                 BOLDEND='</strong>',
-                version=backintime.__version__)
+                version=version.__version__)
         )
 
     def _create_git_label(self):
