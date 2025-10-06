@@ -1702,7 +1702,7 @@ class MainWindow(QMainWindow):
             full_label=rc_message)
         dlg.exec()
 
-    def _open_ssh_cipher_deprecation_dialog(self):
+    def _open_ssh_cipher_deprecation_dialog(self, always_show: bool = False):
         """SSH cipher deprecation warning (#2143, #2176)"""
 
         # SSH profiles using cipher other than default
@@ -1713,7 +1713,7 @@ class MainWindow(QMainWindow):
                     ssh_cipher_profiles.append(
                         f'{self.config.profileName(pid)} ({pid})')
 
-        if not ssh_cipher_profiles:
+        if always_show is False and not ssh_cipher_profiles:
             return
 
         def _complete_text(profiles: list[str]) -> str:
@@ -2201,7 +2201,7 @@ class MainWindow(QMainWindow):
         self._open_release_candidate_dialog()
 
     def _slot_help_cipher_deprecation(self):
-        self._open_ssh_cipher_deprecation_dialog()
+        self._open_ssh_cipher_deprecation_dialog(always_show=True)
 
     def _slot_help_encryption(self):
         dlg = encfsmsgbox.EncfsExistsWarning(self, ['(not determined)'])
