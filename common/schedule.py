@@ -50,9 +50,9 @@ def _determine_crontab_command() -> str:
     # syslog is not yet initialized
     logger.openlog()
     msg = 'Command ' + ' and '.join(to_check_commands) + ' not found.'
-    logger.critical(msg)
+    logger.warning(msg)
 
-    raise RuntimeError(msg)
+    return None
 
 
 CRONTAB_COMMAND = _determine_crontab_command()
@@ -66,6 +66,10 @@ def read_crontab():
     Returns:
         list: Crontab lines.
     """
+    if CRONTAB_COMMAND is None:
+        logger.warning('Cannot read crontab: no crontab command available.')
+        return []
+
     proc = subprocess.run(
         [CRONTAB_COMMAND, '-l'],
         check=False,
@@ -113,6 +117,10 @@ def write_crontab(lines):
         bool: ``True`` if successful otherwise ``False``.
 
     """
+    if CRONTAB_COMMAND is None:
+        logger.warning('Cannot write crontab: no crontab command available.')
+        return False
+
     content = '\n'.join(lines)
 
     # Crontab needs to end with a newline

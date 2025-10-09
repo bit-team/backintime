@@ -124,6 +124,30 @@ class ScheduleWidget(QGroupBox):
         self._rowidx_debug = main_layout.rowCount()
         main_layout.addRow(self._check_debug)
 
+        # Check for crontab command
+        try:
+            from common.schedule import CRONTAB_COMMAND
+        except ImportError:
+            CRONTAB_COMMAND = None
+
+        if CRONTAB_COMMAND is None:
+            # Disable all scheduling controls
+            for widget in [
+                self._combo_schedule_mode, self._combo_day, self._combo_weekday,
+                self._combo_time, self._edit_cronpattern, self._spin_offset,
+                self._spin_period, self._combo_repeated_unit, self._check_debug
+            ]:
+                widget.setEnabled(False)
+
+            # Show warning label
+            warning_lbl = QLabel(
+                _('Scheduling is disabled because no cron installation was '
+                  'found. Please install cron to enable scheduled backups.'),
+                self)
+            warning_lbl.setWordWrap(True)
+            warning_lbl.setStyleSheet('color: orange; font-weight: bold;')
+            main_layout.insertRow(0, warning_lbl)
+
         if not allow_udev:
             self.allow_udev(False)
 
