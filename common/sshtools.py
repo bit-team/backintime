@@ -1378,9 +1378,15 @@ def get_private_ssh_key_files() -> list[Path]:
 
     # check content
     for fp in potential_key_files:
-        with fp.open('r', encoding='utf-8') as handle:
-            if rex.match(handle.readline().strip()):
-                result.append(fp)
+        if not fp.is_file():
+            continue
+        try:
+            with fp.open('r', encoding='utf-8') as handle:
+                if rex.match(handle.readline().strip()):
+                    result.append(fp)
+        except OSError:
+            # ignore files that cannot be opened (e.g. sockets)
+            continue
 
     # prioritize 'ed25519' keys and move them to the beginning of the list
     result = sorted(result, key=lambda e: 0 if 'ed25519' in e.name else 1)
