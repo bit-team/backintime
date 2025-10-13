@@ -164,7 +164,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         """
 
         if PYLINT_AVAILABLE:
-            version_target = version.parse('3.3.0')
+            version_target = version.parse('4.0.0')
 
             proc = subprocess.run(
                 ['pylint', '--version'],
