@@ -17,7 +17,6 @@ if not os.getenv('DISPLAY', ''):
     os.putenv('DISPLAY', ':0.0')
 import pathlib
 import json
-import subprocess
 import threading
 import shutil
 import textwrap
@@ -45,6 +44,7 @@ from inhibitsuspend import InhibitSuspend
 from exceptions import MountException
 from statedata import StateData
 from filedialog import FileDialog
+from textdlg import TextDialog
 from PyQt6.QtGui import (QAction,
                          QActionGroup,
                          QDesktopServices,
@@ -1702,7 +1702,7 @@ class MainWindow(QMainWindow):
             full_label=rc_message)
         dlg.exec()
 
-    def _open_ssh_cipher_deprecation_dialog(self):
+    def _open_ssh_cipher_deprecation_dialog(self, always_show: bool = False):
         """SSH cipher deprecation warning (#2143, #2176)"""
 
         # SSH profiles using cipher other than default
@@ -1713,7 +1713,7 @@ class MainWindow(QMainWindow):
                     ssh_cipher_profiles.append(
                         f'{self.config.profileName(pid)} ({pid})')
 
-        if not ssh_cipher_profiles:
+        if always_show is False and not ssh_cipher_profiles:
             return
 
         def _complete_text(profiles: list[str]) -> str:
@@ -2152,19 +2152,37 @@ class MainWindow(QMainWindow):
         qttools.open_user_manual()
 
     def _slot_help_man_backintime(self):
-        qttools.open_man_page('backintime')
+        qttools.open_man_page(
+            'backintime', self.act_help_man_backintime.icon())
 
     def _slot_help_man_config(self):
-        qttools.open_man_page('backintime-config')
+        qttools.open_man_page(
+            'backintime-config', self.act_help_man_config.icon())
 
     def _slot_help_website(self):
         qttools.open_url(bitbase.URL_WEBSITE)
 
     def _slot_help_changelog(self):
-        if bitbase.CHANGELOG_LOCAL_AVAILABLE:
-            subprocess.run(['xdg-open', str(bitbase.CHANGELOG_LOCAL_PATH)])
+        if bitbase.CHANGELOG_LOCAL_PATH.exists():
+            content = bitbase.CHANGELOG_LOCAL_PATH.read_text('utf-8')
+        elif bitbase.CHANGELOG_DEBIAN_GZ.exists():
+            import gzip
+            with gzip.open(bitbase.CHANGELOG_DEBIAN_GZ, 'rt') as handle:
+                content = handle.read()
+        else:
+            content = None
+
+        if content:
+            td = TextDialog(
+                content,
+                markdown=False,
+                title=_('Changelog'),
+                icon=self.act_help_changelog.icon()
+            )
+            td.exec()
             return
 
+        # Fallback: Use upstream website changelog
         qttools.open_url(bitbase.URL_CHANGELOG)
 
     def _slot_help_faq(self):
@@ -2183,7 +2201,7 @@ class MainWindow(QMainWindow):
         self._open_release_candidate_dialog()
 
     def _slot_help_cipher_deprecation(self):
-        self._open_ssh_cipher_deprecation_dialog()
+        self._open_ssh_cipher_deprecation_dialog(always_show=True)
 
     def _slot_help_encryption(self):
         dlg = encfsmsgbox.EncfsExistsWarning(self, ['(not determined)'])

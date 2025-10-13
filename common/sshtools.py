@@ -1357,19 +1357,22 @@ def get_private_ssh_key_files() -> list[Path]:
     # folder containing the key files
     ssh_path = Path.home() / '.ssh'
 
-    # exclude by filename
-    potential_key_files = filter(
-        # irrelevant files
-        lambda fp: fp.name not in (
-            'known_hosts',
-            'authorized_keys',
-            'config',
-            'backup'
+    try:
+        # exclude by filename
+        potential_key_files = filter(
+            # irrelevant files
+            lambda fp: fp.name not in (
+                'known_hosts',
+                'authorized_keys',
+                'config',
+                'backup'
+            )
+            # no public keys
+            and fp.suffix  != '.pub',
+            ssh_path.iterdir()
         )
-        # no public keys
-        and fp.suffix  != '.pub',
-        ssh_path.iterdir()
-    )
+    except FileNotFoundError:
+        potential_key_files = []
 
     result = []
 

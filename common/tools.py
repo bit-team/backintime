@@ -19,6 +19,7 @@ import subprocess
 import shlex
 import signal
 import re
+import math
 import errno
 import locale
 import gettext
@@ -743,57 +744,68 @@ def get_git_repository_info(path=None, hash_length=None):
     return result
 
 
-def older_than(dt: datetime, value: int, unit: TimeUnit) -> bool:
-    """Return ``True`` if ``dt`` is older than ``value`` months, weeks, days or
-    hours compared to the current time (`datetime.now()`).
+def elapsed_at_least(start: datetime,
+                     end: datetime,
+                     value: int,
+                     unit: TimeUnit) -> bool:
+    """
+    Check if a time span meets at least a number of time units, counting
+    partial units as full.
 
-    The resolution used is on microseconds level. Months are calculated based
-    on calendar.
+
+    Return ``True`` if the time span between ``start`` and ``end`` is at least
+    ``value`` units (``units``). The unit can be hours, days, weeks, or months
+    (see `TimeUnit` for details). Partial units are counted.
+
+    The difference is measured as follows:
+    * hours: full or partial hours
+    * days: calendar days (date only)
+    * weeks: full or partial calendar weeks (starting Monday)
+    * months: full or partial calendar months
 
     Args:
-        dt: Timestamp to be compared with on microsecond level.
-        value: Number of units.
-        unit: Specify to treat ``value`` as hours, days, weeks or months.
+        start: Beginning timestamp.
+        end: Ending timestamp.
+        value: Minimum number of units required.
+        unit: TimeUnit specifying hours, days, weeks, or months.
 
-    Return:
-        ``True`` if older, otherwise ``False``.
+    Returns:
+        ``True`` if the elapsed time is greater than or equal to ``value``
+        units, otherwise ``False``.
     """
+    # Workaround
     if not isinstance(unit, TimeUnit):
         unit = TimeUnit(unit)
 
-    now = datetime.now()
-
     if unit is TimeUnit.HOUR:
-        return dt < now - timedelta(hours=value)
+        # Calculate difference in hours, counting partial hours
+        delta_hours = math.ceil((end - start).total_seconds() / 3600)
+        return delta_hours >= value
 
     if unit is TimeUnit.DAY:
-        return dt < now - timedelta(days=value)
+        return start.date() <= (end.date() - timedelta(days=value))
 
     if unit is TimeUnit.WEEK:
-        return dt < now - timedelta(weeks=value)
+        # Difference in calendar weeks (starting monday), counting partial
+        # weeks
+        start_week = start.date() - timedelta(days=start.weekday())
+        end_week = end.date() - timedelta(days=end.weekday())
+        delta_days = (end_week - start_week).days
+        return math.ceil(delta_days / 7) >= value
 
     if unit is TimeUnit.MONTH:
-        # Calculate months based on calendar because timedelta do not support
-        # months.
-        compare_month = (dt.month + value - 1) % 12 + 1
-        compare_year = dt.year + (dt.month + value - 1) // 12
-        # make sure that day exist in the month
-        last_day_dt \
-            = datetime(compare_year, compare_month + 1, 1) - timedelta(days=1)
-        compare_day = min(dt.day, last_day_dt.day)
-
-        compare_dt = datetime(
-            compare_year, compare_month, compare_day,
-            now.hour, now.minute, now.microsecond)
-
-        return now < compare_dt
+        # Difference in calendar month, counting partial months
+        year_diff = end.year - start.year
+        month_diff = end.month - start.month
+        delta_months = year_diff * 12 + month_diff
+        return delta_months >= value
 
     # Dev note (buhtz, 2024-09): This code branch already existed in the
     # original code (but silent, without throwing an exception). Even if it may
     # seem (nearly) pointless, it will be kept for now to ensure that it is
     # never executed.
-    raise RuntimeError(f'Unexpected situation. {dt=} {value=} {unit=} '
-                       'Please report it via a bug ticket.')
+    raise RuntimeError(f'Unexpected situation. {start=} {end=} {value=} '
+                       f'{unit=}. Please report it via a bug ticket.')
 
 
 def checkCommand(cmd: str) -> bool:
@@ -1075,8 +1087,8 @@ def checkXServer():
                                 stderr=subprocess.DEVNULL)
         proc.communicate()
         return proc.returncode == 0
-    else:
-        return False
+
+    return False
 
 
 def is_Qt_working(systray_required=False):
@@ -1120,8 +1132,9 @@ def is_Qt_working(systray_required=False):
 
             # if some Qt parts are missing: Show details
             if proc.returncode != 2 or logger.DEBUG:
-                logger.debug(f'Qt probing stdout: "{std_output}"')
-                logger.debug(f'Qt probing errout: "{error_output}"')
+                logger.debug('Qt probing '
+                             f'STDOUT: "{std_output}" '
+                             f'STDERR: "{error_output}"')
 
             rc = proc.returncode
 
@@ -1135,10 +1148,13 @@ def is_Qt_working(systray_required=False):
     except subprocess.TimeoutExpired:
         proc.kill()
         outs, errs = proc.communicate()
+        # ??? Is this worth an INFO ?
         logger.info('Qt probing sub process killed after timeout '
                     'without response')
-        logger.debug(f'Qt probing stdout: "{outs}"')
-        logger.debug(f'Qt probing errout: "{errs}"')
+
+        logger.debug('Qt probing '
+                     f'STDOUT: "{outs}" '
+                     f'STDERR: "{errs}"')
 
     except Exception as exc:
         logger.critical(f'Unknown Error: {exc}')
