@@ -38,6 +38,7 @@ _HREF_SPDX_GPL = 'spdx-gplv2'
 
 class AboutDlg(QDialog):
     """The about dialog accessible from the Help menu in the main window."""
+    # pylint: disable=too-few-public-methods
 
     def __init__(self, using_translation: bool, parent: QWidget = None):
         """Initialize and layout.

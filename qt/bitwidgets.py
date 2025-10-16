@@ -133,6 +133,7 @@ class HLineWidget(QFrame):
     It really is the case that even in the year 2025 with Qt6 there is no
     dedicated widget class to draw a horizontal line.
     """
+    # pylint: disable=too-few-public-methods
 
     def __init__(self):
         super().__init__()
