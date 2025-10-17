@@ -67,8 +67,10 @@ if QIcon.fromTheme(ICON_NAME_TO_CHECK).isNull():
 #      does not provide the icon.
 #      => wait for icon.py refactoring than improve this:
 #      qapp.style().standardIcon(QStyle.SP_DialogSaveButton)
-BIT_LOGO            = QIcon.fromTheme('document-save')
-BIT_LOGO_INFO       = QIcon.fromTheme('document-save-as')
+# BIT_LOGO            = QIcon.fromTheme('document-save')
+BIT_LOGO            = QIcon.fromTheme('backintime')
+BIT_LOGO_SYMBOLIC   = QIcon.fromTheme('backintime-symbolic')
+# BIT_LOGO_INFO       = QIcon.fromTheme('document-save-as')
 
 # Main toolbar
 TAKE_SNAPSHOT       = BIT_LOGO

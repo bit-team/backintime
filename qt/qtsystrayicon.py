@@ -57,9 +57,9 @@ class QtSysTrayIcon:
         self.qapp.setQuitOnLastWindowClosed(False)
 
         import icon
-        self.qapp.setWindowIcon(icon.BIT_LOGO)
+        self.qapp.setWindowIcon(icon.BIT_LOGO_SYMBOLIC)
 
-        self.status_icon = QSystemTrayIcon(icon.BIT_LOGO)
+        self.status_icon = QSystemTrayIcon(icon.BIT_LOGO_SYMBOLIC)
         self.contextMenu = QMenu()
 
         self.menuProfileName = self.contextMenu.addAction(
