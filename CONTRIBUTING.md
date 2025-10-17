@@ -178,7 +178,7 @@ distribution.
   - `python3-pyfakefs` (>= 5.7)
   - `asciidoctor`
   - Optional but recommended:
-    - `pylint` (>= 3.3.0)
+    - `pylint` (>= 4.0.0)
     - `flake8`
     - `ruff` (>= 0.12.0)
     - `codespell`

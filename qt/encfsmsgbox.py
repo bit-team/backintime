@@ -17,6 +17,7 @@ from bitbase import URL_ENCRYPT_TRANSITION
 class _EncfsWarningBase(QMessageBox):
     """Base clase for Warning boxes in context of EncFS decprecation.
     """
+    # pylint: disable=too-few-public-methods
 
     def __init__(self, parent, text, informative_text):
         super().__init__(parent)
@@ -37,6 +38,7 @@ class EncfsCreateWarning(_EncfsWarningBase):
     """Warning box when using EncFS encrypting while creating a new profile
     or modify an existing one.
     """
+    # pylint: disable=too-few-public-methods
 
     def __init__(self, parent):
         text = _('EncFS profile creation will be removed in the next minor '
@@ -59,6 +61,7 @@ class EncfsCreateWarning(_EncfsWarningBase):
 class EncfsExistsWarning(_EncfsWarningBase):
     """Warning box when encrypted profiles exists.
     """
+    # pylint: disable=too-few-public-methods
 
     def __init__(self, parent, profiles):
         # DevNote: Code looks ugly because we need to take the needs of
