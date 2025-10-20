@@ -178,6 +178,7 @@ distribution.
   - `gettext`
   - `python3-pyfakefs` (>= 5.7)
   - `asciidoctor`
+  - `librsvg2-bin` (contains `rsvg-convert`) convert SVG icons into PNG
   - Optional but recommended:
     - `pylint` (>= 4.0.0)
     - `flake8`
