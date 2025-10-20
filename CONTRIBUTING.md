@@ -155,6 +155,7 @@ distribution.
   - `x11-utils`
   - `python3-pyqt6` (not from _PyPi_ via `pip`)
   - `python3-dbus.mainloop.pyqt6` (not available from _PyPi_ via `pip`)
+  - `python3-pyqt6.qtsvg`
   - `pkexec`
   - `polkitd`
   - `qttranslations6-l10n`
