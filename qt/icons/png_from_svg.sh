@@ -1,17 +1,47 @@
 #!/bin/sh
+# SPDX-FileCopyrightText: © 2025 Christian Buhtz <c.buhtz@posteo.jp>
+#
+# SPDX-License-Identifier: CC0-1.0
+#
+# This file is released under Creative Commons Zero 1.0 (CC0-1.0) and part of
+# the program "Back In Time". The program as a whole is released under GNU
+# General Public License v2 or any later version (GPL-2.0-or-later).
+# See LICENSES directory or go to <https://spdx.org/licenses/CC0-1.0.html>
+# and <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+#
+# File-size optimized PNG files for nearly all icon resolutions created from
+# SVG files. Reason: Not all desktop environemnts are able to handle SVG files.
 
-if ! command -v rsvg-convert >/dev/null 2>&1; then
-    echo "Error: rsvg-convert is not available. Do 'apt install librsvg2-bin'." >&2
-    exit 1
-fi
+error_when_unavailable() {
+    cmd="$1"  # command to check
+    pkg="${2:-$1}"  # package to install if command not available
 
+    if ! command -v "$cmd" >/dev/null 2>&1; then
+        echo "ERROR: '$cmd' is not available. Try install with: 'apt install $pkg'" >&2
+        exit 1
+    fi
+}
+
+error_when_unavailable rsvg-convert librsvg2-bin
+error_when_unavailable optipng
+
+# Each resolution
 for s in 16 22 24 48 64 128 256 512; do
 
+    folder=./${s}x${s}/apps
+    png=${folder}/backintime.png
+
     # Create dir if not available
-    mkdir -p ./${s}x${s}/apps
+    mkdir --parents $folder
+
+    # Remove outdated PNG
+    rm --force $png
 
     # Convert SVG to PNG
-    rsvg-convert -w $s -h $s scalable/apps/backintime.svg \
-    -o ./${s}x${s}/apps/backintime.png
+    rsvg-convert --width $s --height $s scalable/apps/backintime.svg --output $png
+
+    # Optimize PNG file size (without losing quality)
+    optipng -o7 $png
+
 done
 
