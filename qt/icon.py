@@ -69,11 +69,12 @@ if QIcon.fromTheme(ICON_NAME_TO_CHECK).isNull():
 #      qapp.style().standardIcon(QStyle.SP_DialogSaveButton)
 # BIT_LOGO            = QIcon.fromTheme('document-save')
 BIT_LOGO            = QIcon.fromTheme('backintime')
-BIT_LOGO_SYMBOLIC   = QIcon.fromTheme('backintime-symbolic')
-# BIT_LOGO_INFO       = QIcon.fromTheme('document-save-as')
+
+# Loading depends on dark/light mode and is managed by systrayicon.py itself.
+BIT_LOGO_SYMBOLIC_NAME = 'backintime-symbolic'
 
 # Main toolbar
-TAKE_SNAPSHOT       = BIT_LOGO
+TAKE_SNAPSHOT       = QIcon.fromTheme('document-save-as')
 PAUSE               = QIcon.fromTheme('media-playback-pause')
 RESUME              = QIcon.fromTheme('media-playback-start')
 STOP                = QIcon.fromTheme('media-playback-stop')
@@ -121,7 +122,7 @@ SNAPSHOTS           = QIcon.fromTheme('file-manager',
                       QIcon.fromTheme('view-list-details',
                       QIcon.fromTheme('system-file-manager')))
 
-#Snapshot dialog
+# Snapshot dialog
 DIFF_OPTIONS        = SETTINGS
 DELETE_FILE         = REMOVE_SNAPSHOT
 SELECT_ALL          = QIcon.fromTheme('edit-select-all')

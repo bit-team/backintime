@@ -23,8 +23,8 @@ from PyQt6.QtWidgets import (QFrame,
 from PyQt6.QtCore import QEvent
 from PyQt6.QtGui import QPalette, QColor
 import bitbase
+import qttools
 
-_DARK_MODE_THRESHOLD = 128
 _PROGRESS_BAR_WIDTH_FX = 10
 
 
@@ -92,11 +92,7 @@ class StatusBar(QStatusBar):
         font.setBold(True)
         root.setFont(font)
 
-        palette = root.palette()
-        is_dark_mode = palette.color(
-            QPalette.ColorRole.Window).value() < _DARK_MODE_THRESHOLD
-
-        if is_dark_mode:
+        if qttools.in_dark_mode(root):
             # dark red & white
             bg_color = '#aa0000'
             text_color = '#ffffff'
