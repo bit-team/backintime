@@ -73,7 +73,7 @@ BIT_LOGO = QIcon.fromTheme('backintime')
 BIT_LOGO_SYMBOLIC_NAME = 'backintime-symbolic'
 
 # Main toolbar
-TAKE_SNAPSHOT       = QIcon.fromTheme('document-save-as')
+TAKE_SNAPSHOT       = QIcon.fromTheme('document-save')
 PAUSE               = QIcon.fromTheme('media-playback-pause')
 RESUME              = QIcon.fromTheme('media-playback-start')
 STOP                = QIcon.fromTheme('media-playback-stop')
