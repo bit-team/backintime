@@ -252,6 +252,11 @@ done
 addInstallDir "/share/icons/hicolor/scalable/apps"
 addInstallFile "icons/scalable/apps/backintime.svg" "/share/icons/hicolor/scalable/apps"
 addInstallFile "icons/scalable/apps/backintime-symbolic.svg" "/share/icons/hicolor/scalable/apps"
+# rasterized versions of the logo
+for s in 16 22 24 48 64 128 256 512; do
+    addInstallDir "/share/icons/hicolor/${s}x${s}/apps"
+    addInstallFile  "icons/${s}x${s}/apps/backintime.png" "/share/icons/hicolor/${s}x${s}/apps"
+done
 
 # Dev note (buhtz, 2025-10-20): IMHO meaningless
 addUninstallDir "/share/icons/hicolor/scalable/apps"
