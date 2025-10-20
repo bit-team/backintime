@@ -80,9 +80,9 @@ def can_render(string, widget):
     return True
 
 
-def in_dark_mode(widget: QWidget) -> bool:
+def in_dark_mode(widget_or_application: QWidget | QApplication) -> bool:
     """Determine if the desktop/theme is in dark mode."""
-    palette = widget.palette()
+    palette = widget_or_application.palette()
 
     window_color = palette.color(QPalette.ColorRole.Window)
 

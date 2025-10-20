@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
 # SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
 # SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2025 Christian Buhtz <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -32,9 +33,9 @@ import snapshots
 import progress
 import logviewdialog
 import encfstools
-from PyQt6.QtCore import QTimer
+from PyQt6.QtCore import Qt, QSize, QTimer
 from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QProgressBar, QWidget
-from PyQt6.QtGui import QRegion
+from PyQt6.QtGui import QColor, QIcon, QRegion, QPixmap, QPainter
 
 
 class QtSysTrayIcon:
@@ -57,9 +58,9 @@ class QtSysTrayIcon:
         self.qapp.setQuitOnLastWindowClosed(False)
 
         import icon
-        self.qapp.setWindowIcon(icon.BIT_LOGO_SYMBOLIC)
+        self.qapp.setWindowIcon(icon.BIT_LOGO)
 
-        self.status_icon = QSystemTrayIcon(icon.BIT_LOGO_SYMBOLIC)
+        self.status_icon = self._create_status_icon()
         self.contextMenu = QMenu()
 
         self.menuProfileName = self.contextMenu.addAction(
@@ -113,6 +114,38 @@ class QtSysTrayIcon:
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.updateInfo)
+
+    def _recolor_pixmap(self, pixmap: QPixmap, color: QColor) -> QPixmap:
+        result = QPixmap(pixmap.size())
+        result.fill(Qt.GlobalColor.transparent)
+
+        painter = QPainter(result)
+        painter.setCompositionMode(
+            QPainter.CompositionMode.CompositionMode_Source)
+        painter.drawPixmap(0, 0, pixmap)
+        painter.setCompositionMode(
+            QPainter.CompositionMode.CompositionMode_SourceIn)
+        painter.fillRect(result.rect(), color)
+        painter.end()
+
+        return result
+
+    def _create_status_icon(self) -> QSystemTrayIcon:
+        import icon
+        symbolic_logo = QIcon.fromTheme(icon.BIT_LOGO_SYMBOLIC_NAME)
+
+        # Logo color depending on dark/light mode
+        dark_mode = qttools.in_dark_mode(self.qapp)
+        color = QColor('white' if dark_mode else 'black')
+
+        # Determine systray icon size depending on current graphic environment
+        style = self.qapp.style()
+        tray_icon_size = style.pixelMetric(style.PixelMetric.PM_SmallIconSize)
+
+        pixmap = symbolic_logo.pixmap(QSize(tray_icon_size, tray_icon_size))
+        pixmap = self._recolor_pixmap(pixmap, color)
+
+        return QSystemTrayIcon(QIcon(pixmap))
 
     def _create_progress_bar(self) -> QProgressBar:
         bar = QProgressBar()
