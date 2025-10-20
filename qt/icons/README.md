@@ -20,4 +20,4 @@ other related icons.
   in the GUI.
 
 For license and copyright information on that files see its plain text headers
-containing SPDX meta data. See also the [LICENSE.md](../../../LICENSE.md) file.
+containing SPDX meta data. See also the [LICENSES.md](../../LICENSES.md) file.
