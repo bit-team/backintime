@@ -101,6 +101,7 @@ class StatusBar(QStatusBar):
             bg_color = '#ffdddd'
             text_color = '#aa0000'
 
+        palette = root.palette()
         palette.setColor(QPalette.ColorRole.Window, QColor(bg_color))
         palette.setColor(QPalette.ColorRole.WindowText, QColor(text_color))
 
