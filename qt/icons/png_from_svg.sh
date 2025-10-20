@@ -48,7 +48,7 @@ svg_to_png() {
 }
 
 # Each resolution
-for s in 16 22 24 48 64 128 256 512 1024; do
+for s in 16 22 24 48 64 128 256 512; do
     printf "Resolution ${s}x${s}...\n"
 
     svg_to_png backintime apps $s
