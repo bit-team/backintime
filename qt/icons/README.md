@@ -18,6 +18,8 @@ other related icons.
   used in systray.
 - `scalable/actions/show-idden.svg` - Icon used for _Show hidden fils_ button
   in the GUI.
+* `png_from_svg.sh` - A helper script converting the SVG files into PNG in all
+  resolutions from 16x16 up to 1024x1024.
 
 For license and copyright information on that files see its plain text headers
 containing SPDX meta data. See also the [LICENSES.md](../../LICENSES.md) file.

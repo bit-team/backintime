@@ -25,12 +25,13 @@ error_when_unavailable() {
 error_when_unavailable rsvg-convert librsvg2-bin
 error_when_unavailable optipng
 
-# Each resolution
-for s in 16 22 24 48 64 128 256 512; do
+svg_to_png() {
+    s=$3
+    src=scalable/${2}/${1}.svg
+    folder=./${s}x${s}/${2}
+    png=${folder}/${1}.png
 
-    folder=./${s}x${s}/apps
-    png=${folder}/backintime.png
-
+    printf "  $src to $png..."
     # Create dir if not available
     mkdir --parents $folder
 
@@ -38,10 +39,21 @@ for s in 16 22 24 48 64 128 256 512; do
     rm --force $png
 
     # Convert SVG to PNG
-    rsvg-convert --width $s --height $s scalable/apps/backintime.svg --output $png
+    rsvg-convert --width $s --height $s $src --output $png
 
     # Optimize PNG file size (without losing quality)
-    optipng -o7 $png
+    optipng -o7 $png >/dev/null 2>&1
+
+    printf "FIN\n"
+}
+
+# Each resolution
+for s in 16 22 24 48 64 128 256 512 1024; do
+    printf "Resolution ${s}x${s}...\n"
+
+    svg_to_png backintime apps $s
+    svg_to_png backintime-symbolic apps $s
+    svg_to_png show-hidden actions $s
 
 done
 
