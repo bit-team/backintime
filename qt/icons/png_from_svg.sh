@@ -10,7 +10,7 @@
 # and <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
 # File-size optimized PNG files for nearly all icon resolutions created from
-# SVG files. Reason: Not all desktop environemnts are able to handle SVG files.
+# SVG files. Reason: Not all desktop environments are able to handle SVG files.
 
 error_when_unavailable() {
     cmd="$1"  # command to check

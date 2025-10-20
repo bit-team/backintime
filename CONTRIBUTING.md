@@ -179,6 +179,7 @@ distribution.
   - `python3-pyfakefs` (>= 5.7)
   - `asciidoctor`
   - `librsvg2-bin` (contains `rsvg-convert`) convert SVG icons into PNG
+  * `optipng` (loseless file-size optimization for PNG files)
   - Optional but recommended:
     - `pylint` (>= 4.0.0)
     - `flake8`
