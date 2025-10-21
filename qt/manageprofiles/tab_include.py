@@ -100,6 +100,7 @@ class IncludeTab(QWidget):
 
     def store_values(self, profile_state):
         """Store values from GUI into the config"""
+
         profile_state.include_sorting = (
             self.list_include.header().sortIndicatorSection(),
             self.list_include.header().sortIndicatorOrder().value
