@@ -152,11 +152,11 @@ class IncludeTab(QWidget):
         Dev note (buhtz, 2025-10): The values from config are used. Keep in
         mind that these do not have to reflect the check boxes in the Expert
         Options TAB. Modifications in those checkboxes are not stored to config
-        immediately but only after clicking OK to the Manage Profiles dialog.
+        immediatel but only after clicking OK to the Manage Profiles dialog.
         This behavior of the dialog need to be changed.
 
         """
-        return self.config.copyUnsaveLinks() or self.config.copyLinks()
+        return self.config.copyUnsafeLinks() or self.config.copyLinks()
 
     def btn_include_file_clicked(self):
         """Handle file-adding button click."""
@@ -171,7 +171,7 @@ class IncludeTab(QWidget):
             if not path:
                 continue
 
-            if path.is_symlink() and not self._copy_links_org_unsafe_links():
+            if path.is_symlink() and not self._copy_links_or_unsafe_links():
                 if self._parent_dialog._ask_include_symlinks_target(path):
                     path = path.resolve()
 
@@ -191,7 +191,7 @@ class IncludeTab(QWidget):
             if not path:
                 continue
 
-            if path.is_symlink() and not self._copy_links_org_unsafe_links():
+            if path.is_symlink() and not self._copy_links_or_unsafe_links():
                 if self._parent_dialog._ask_include_symlinks_target(path):
                     path = path.resolve()
 
