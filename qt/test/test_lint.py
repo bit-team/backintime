@@ -37,14 +37,19 @@ ANY_LINTER_AVAILABLE = any((
 # "qt" directory
 _base_dir = pathlib.Path(__file__).resolve().parent.parent
 
+"""
+
+"""
 # Files in this lists will get the full battery of linters and rule sets.
 full_test_files = [_base_dir / fp for fp in (
     'aboutdlg.py',
+    # 'app.py',
     'bitwidgets.py',
     'confirmrestoredialog.py',
     'editusercallback.py',
     'encfsmsgbox.py',
     'filedialog.py',
+    # 'icon.py',
     'languagedialog.py',
     'logviewdialog.py',
     # 'manageprofiles/__init__.py',
@@ -64,13 +69,21 @@ full_test_files = [_base_dir / fp for fp in (
     'messagebox.py',
     'placeswidget.py',
     'plugins/notifyplugin.py',
+    # 'plugins/systrayiconplugin.py',
+    # 'qtsystrayicon.py',
+    # 'qttools.py',
     'qttools_path.py',
     'restoreconfigdialog.py',
+    # 'restoredialog.py',
+    # 'serviceHelper.py',
     'shutdowndlg.py',
+    # 'snapshotsdialog.py',
     'statedata.py',
     'statusbar.py',
+    # 'test/__init__.py',
     'test/test_lint.py',
     'test/test_statedata.py',
+    # textdlg.py',
     'timeline.py',
     'usermessagedialog.py',
 )]
