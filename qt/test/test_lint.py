@@ -56,7 +56,7 @@ full_test_files = [_base_dir / fp for fp in (
     'manageprofiles/storagesizewidget.py',
     'manageprofiles/sshproxywidget.py',
     'manageprofiles/tab_exclude.py',
-    # 'manageprofiles/tab_expert_options.py',
+    'manageprofiles/tab_expert_options.py',
     # 'manageprofiles/tab_general.py',
     'manageprofiles/tab_include.py',
     'manageprofiles/tab_options.py',
