@@ -169,8 +169,10 @@ Traceback (most recent call last):
 AttributeError: 'SettingsDialog' object has no attribute 'cbCopyUnsafeLinks'
 ```
 
-Introduced in version `1.5.3`. Fixed in `1.6.0`.  See issue
+Introduced in version `1.5.3`. Fixed in (upcoming) `1.6.0`.  See issue
 [#2279](https://github.com/bit-team/backintime/issues/2279).
+
+Workaround: Don't use a symlink but the linked target.
 
 # Contributing and other ways to support the project
 See [CONTRIBUTING](CONTRIBUTING.md) file for an overview about the projects
