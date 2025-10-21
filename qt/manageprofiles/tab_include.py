@@ -187,7 +187,7 @@ class IncludeTab(QWidget):
                 continue
 
             if path.is_symlink() and not self._copy_links_or_unsafe_links():
-                if self._parent_dialog._ask_include_symlinks_target(path):
+                if self._ask_include_symlinks_target(path):
                     path = path.resolve()
 
             self.add_include((str(path), 1))
@@ -207,7 +207,7 @@ class IncludeTab(QWidget):
                 continue
 
             if path.is_symlink() and not self._copy_links_or_unsafe_links():
-                if self._parent_dialog._ask_include_symlinks_target(path):
+                if self._ask_include_symlinks_target(path):
                     path = path.resolve()
 
             self.add_include((str(path), 0))
