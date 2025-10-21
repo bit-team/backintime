@@ -36,8 +36,10 @@ MATCH_FLAGS = Qt.MatchFlag.MatchFixedString | Qt.MatchFlag.MatchCaseSensitive
 
 class ExcludeTab(QWidget):
     """Create the 'Exclude' tab."""
+    # pylint: disable=too-many-instance-attributes
 
-    def __init__(self, parent):
+    def __init__(self, parent):  # noqa: PLR0915
+        # pylint: disable=too-many-statements
         super().__init__(parent=parent)
 
         self._parent_dialog = parent
@@ -82,7 +84,7 @@ class ExcludeTab(QWidget):
         self.list_exclude.header().setSectionHidden(1, True)
         self.list_exclude_sort_loop = False
         self.list_exclude.header().sortIndicatorChanged \
-            .connect(self.exclude_custom_sort_order)
+            .connect(self._exclude_custom_sort_order)
 
         layout.addWidget(self.list_exclude)
 
@@ -143,11 +145,15 @@ class ExcludeTab(QWidget):
         self.spb_exclude_by_size.setRange(0, 100000000)
         hlayout.addWidget(self.spb_exclude_by_size)
         hlayout.addStretch()
-        enabled = lambda state: self.spb_exclude_by_size.setEnabled(state)
+        # pylint: disable-next=unnecessary-lambda-assignment,unnecessary-lambda
+        enabled = lambda state: \
+            self.spb_exclude_by_size.setEnabled(state)  # noqa
         enabled(False)
         self.cb_exclude_by_size.stateChanged.connect(enabled)
 
     def load_values(self, profile_state):
+        """Load config values into the GUI"""
+
         self.list_exclude.clear()
 
         for exclude in self.config.exclude():
@@ -165,6 +171,8 @@ class ExcludeTab(QWidget):
             pass
 
     def store_values(self, profile_state):
+        """Store values from GUI into the config"""
+
         # exclude patterns
         profile_state.exclude_sorting = (
             self.list_exclude.header().sortIndicatorSection(),
@@ -222,6 +230,8 @@ class ExcludeTab(QWidget):
         return item
 
     def btn_exclude_remove_clicked(self):
+        """Handle button click"""
+
         for item in self.list_exclude.selectedItems():
             index = self.list_exclude.indexOfTopLevelItem(item)
             if index < 0:
@@ -246,7 +256,6 @@ class ExcludeTab(QWidget):
         duplicates = self.list_exclude.findItems(pattern, MATCH_FLAGS)
 
         if duplicates:
-            # TODO notify user about duplicates
             self.list_exclude.setCurrentItem(duplicates[0])
             return
 
@@ -259,6 +268,8 @@ class ExcludeTab(QWidget):
         self._update_exclude_recommend_label()
 
     def btn_exclude_add_clicked(self):
+        """Handle button click"""
+
         dlg = QInputDialog(self)
         dlg.setInputMode(QInputDialog.InputMode.TextInput)
         dlg.setWindowTitle(_('Exclude pattern'))
@@ -274,6 +285,8 @@ class ExcludeTab(QWidget):
         self.add_exclude(pattern)
 
     def btn_exclude_file_clicked(self):
+        """Handle button click"""
+
         dlg = FileDialog(
             parent=self,
             title=_('Exclude files'),
@@ -285,6 +298,8 @@ class ExcludeTab(QWidget):
             self.add_exclude(str(path))
 
     def btn_exclude_folder_clicked(self):
+        """Handle button click"""
+
         # pylint: disable=duplicate-code
         dlg = FileDialog(parent=self,
                          title=_('Exclude directories'),
@@ -297,10 +312,12 @@ class ExcludeTab(QWidget):
             self.add_exclude(str(path))
 
     def btn_exclude_default_clicked(self):
+        """Handle button click"""
         for path in self.config.DEFAULT_EXCLUDE:
             self.add_exclude(path)
 
     def update_exclude_items(self):
+        """Used by parent dialog when profile mode was changed."""
         for index in range(self.list_exclude.topLevelItemCount()):
             item = self.list_exclude.topLevelItem(index)
             self._format_exclude_item(item)
@@ -352,6 +369,6 @@ class ExcludeTab(QWidget):
                 # Icon: user defined
                 item.setIcon(0, self.icon.EXCLUDE)
 
-    def exclude_custom_sort_order(self, *args):
+    def _exclude_custom_sort_order(self, *args):
         self.list_exclude_sort_loop = custom_sort_order(
             self.list_exclude.header(), self.list_exclude_sort_loop, *args)
