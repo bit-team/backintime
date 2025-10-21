@@ -49,7 +49,7 @@ svg_to_png() {
 
 # Each resolution
 # Additional resolutions beside Free Desktop Specs: 72, 96, 192
-for s in 16 22 24 48 64 72 96 128 192 256 512; do
+for s in 16 22 24 48 64 128 256 512; do
     printf "Resolution ${s}x${s}...\n"
 
     svg_to_png backintime apps $s
