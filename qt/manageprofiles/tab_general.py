@@ -121,10 +121,10 @@ class GeneralTab(QDialog):
         self._txt_ssh_host = QLineEdit(self)
         hlayout1.addWidget(self._txt_ssh_host)
 
-        self.lblSshPort = QLabel(_('Port:'), self)
-        hlayout1.addWidget(self.lblSshPort)
-        self.txtSshPort = QLineEdit(self)
-        hlayout1.addWidget(self.txtSshPort)
+        self._lbl_ssh_port = QLabel(_('Port:'), self)
+        hlayout1.addWidget(self._lbl_ssh_port)
+        self._txt_ssh_port = QLineEdit(self)
+        hlayout1.addWidget(self._txt_ssh_port)
 
         self.lblSshUser = QLabel(_('User:'), self)
         hlayout1.addWidget(self.lblSshUser)
@@ -316,7 +316,7 @@ class GeneralTab(QDialog):
 
         # SSH
         self._txt_ssh_host.setText(self.config.sshHost())
-        self.txtSshPort.setText(str(self.config.sshPort()))
+        self._txt_ssh_port.setText(str(self.config.sshPort()))
         self.txtSshUser.setText(self.config.sshUser())
         self.txtSshPath.setText(self.config.sshSnapshotsPath())
 
@@ -382,7 +382,7 @@ class GeneralTab(QDialog):
 
         # SSH
         self.config.setSshHost(self._txt_ssh_host.text())
-        self.config.setSshPort(self.txtSshPort.text())
+        self.config.setSshPort(self._txt_ssh_port.text())
         self.config.setSshUser(self.txtSshUser.text())
         sshproxy_vals = self._wdg_ssh_proxy.values()
         self.config.setSshProxyHost(sshproxy_vals['host'])
@@ -751,8 +751,10 @@ class GeneralTab(QDialog):
 
             self.mode = active_mode
 
-            self._group_mode_local.setVisible(active_mode in ('local', 'local_encfs'))
-            self._group_mode_ssh.setVisible(active_mode in ('ssh', 'ssh_encfs'))
+            self._group_mode_local.setVisible(
+                active_mode in ('local', 'local_encfs'))
+            self._group_mode_ssh.setVisible(
+                active_mode in ('ssh', 'ssh_encfs'))
             # self._group_mode_local_encfs = self._group_mode_local
             # self._group_mode_sshEncfs = self._group_mode_ssh
 
