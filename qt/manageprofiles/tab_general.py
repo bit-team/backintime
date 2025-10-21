@@ -77,7 +77,7 @@ class GeneralTab(QDialog):
 
         # Where to save snapshots
         groupBox = QGroupBox(self)
-        self.modeLocal = groupBox
+        self._group_mode_local = groupBox
         groupBox.setTitle(_('Where to save backups'))
         tab_layout.addWidget(groupBox)
 
@@ -86,24 +86,24 @@ class GeneralTab(QDialog):
         hlayout = QHBoxLayout()
         vlayout.addLayout(hlayout)
 
-        self.editSnapshotsPath = QLineEdit(self)
-        self.editSnapshotsPath.setReadOnly(True)
-        self.editSnapshotsPath.textChanged.connect(
+        self._edit_backup_path = QLineEdit(self)
+        self._edit_backup_path.setReadOnly(True)
+        self._edit_backup_path.textChanged.connect(
             self._slot_full_path_changed)
-        hlayout.addWidget(self.editSnapshotsPath)
+        hlayout.addWidget(self._edit_backup_path)
 
-        self.btnSnapshotsPath = QToolButton(self)
-        self.btnSnapshotsPath.setToolButtonStyle(
+        self._btn_backup_path = QToolButton(self)
+        self._btn_backup_path.setToolButtonStyle(
             Qt.ToolButtonStyle.ToolButtonIconOnly)
-        self.btnSnapshotsPath.setIcon(self.icon.FOLDER)
-        self.btnSnapshotsPath.setMinimumSize(32, 28)
-        hlayout.addWidget(self.btnSnapshotsPath)
-        self.btnSnapshotsPath.clicked.connect(
+        self._btn_backup_path.setIcon(self.icon.FOLDER)
+        self._btn_backup_path.setMinimumSize(32, 28)
+        hlayout.addWidget(self._btn_backup_path)
+        self._btn_backup_path.clicked.connect(
             self._slot_snapshots_path_clicked)
 
         # --- SSH ---
         groupBox = QGroupBox(self)
-        self.modeSsh = groupBox
+        self._group_mode_ssh = groupBox
         groupBox.setTitle(_('SSH Settings'))
         tab_layout.addWidget(groupBox)
 
@@ -116,10 +116,10 @@ class GeneralTab(QDialog):
         # hlayout3 = QHBoxLayout()
         # vlayout.addLayout(hlayout3)
 
-        self.lblSshHost = QLabel(_('Host:'), self)
-        hlayout1.addWidget(self.lblSshHost)
-        self.txtSshHost = QLineEdit(self)
-        hlayout1.addWidget(self.txtSshHost)
+        self._lbl_ssh_host = QLabel(_('Host:'), self)
+        hlayout1.addWidget(self._lbl_ssh_host)
+        self._txt_ssh_host = QLineEdit(self)
+        hlayout1.addWidget(self._txt_ssh_host)
 
         self.lblSshPort = QLabel(_('Port:'), self)
         hlayout1.addWidget(self.lblSshPort)
@@ -151,23 +151,23 @@ class GeneralTab(QDialog):
 
         # Align the width of that three labels
         width = max(
-            self.lblSshHost.sizeHint().width(),
+            self._lbl_ssh_host.sizeHint().width(),
             self.lblSshPath.sizeHint().width()
         )
-        self.lblSshHost.setMinimumWidth(width)
+        self._lbl_ssh_host.setMinimumWidth(width)
         self.lblSshPath.setMinimumWidth(width)
 
-        self.wdgSshProxy = SshProxyWidget(
+        self._wdg_ssh_proxy = SshProxyWidget(
             self,
             self.config.sshProxyHost(),
             self.config.sshProxyPort(),
             self.config.sshProxyUser()
         )
-        vlayout.addWidget(self.wdgSshProxy)
+        vlayout.addWidget(self._wdg_ssh_proxy)
 
         # encfs
-        self.modeLocalEncfs = self.modeLocal
-        self.modeSshEncfs = self.modeSsh
+        self._group_mode_local_encfs = self._group_mode_local
+        self._group_mode_sshEncfs = self._group_mode_ssh
 
         # password
         groupBox = QGroupBox(self)
@@ -311,11 +311,11 @@ class GeneralTab(QDialog):
         self._combo_modes.select_by_data(self.config.snapshotsMode())
 
         # local
-        self.editSnapshotsPath.setText(
+        self._edit_backup_path.setText(
             self.config.snapshotsPath(mode='local'))
 
         # SSH
-        self.txtSshHost.setText(self.config.sshHost())
+        self._txt_ssh_host.setText(self.config.sshHost())
         self.txtSshPort.setText(str(self.config.sshPort()))
         self.txtSshUser.setText(self.config.sshUser())
         self.txtSshPath.setText(self.config.sshSnapshotsPath())
@@ -339,7 +339,7 @@ class GeneralTab(QDialog):
 
         # local_encfs
         if self.mode == 'local_encfs':
-            self.editSnapshotsPath.setText(self.config.localEncfsPath())
+            self._edit_backup_path.setText(self.config.localEncfsPath())
 
         self._load_passwords()
 
@@ -381,10 +381,10 @@ class GeneralTab(QDialog):
         )
 
         # SSH
-        self.config.setSshHost(self.txtSshHost.text())
+        self.config.setSshHost(self._txt_ssh_host.text())
         self.config.setSshPort(self.txtSshPort.text())
         self.config.setSshUser(self.txtSshUser.text())
-        sshproxy_vals = self.wdgSshProxy.values()
+        sshproxy_vals = self._wdg_ssh_proxy.values()
         self.config.setSshProxyHost(sshproxy_vals['host'])
         self.config.setSshProxyPort(sshproxy_vals['port'])
         self.config.setSshProxyUser(sshproxy_vals['user'])
@@ -396,7 +396,7 @@ class GeneralTab(QDialog):
             self.config.setSshPrivateKeyFile(str(key_file) if key_file else '')
 
         # save local_encfs
-        self.config.setLocalEncfsPath(self.editSnapshotsPath.text())
+        self.config.setLocalEncfsPath(self._edit_backup_path.text())
 
         # schedule
         success = self._wdg_schedule.store_values(self.config)
@@ -421,7 +421,7 @@ class GeneralTab(QDialog):
 
         # snaphots_path
         if mode == 'local':
-            self.config.set_snapshots_path(self.editSnapshotsPath.text())
+            self.config.set_snapshots_path(self._edit_backup_path.text())
 
         snapshots_mountpoint = self.config.get_snapshots_mountpoint(
             tmp_mount=True)
@@ -612,7 +612,7 @@ class GeneralTab(QDialog):
         return wdg
 
     def _slot_snapshots_path_clicked(self):
-        old_path = Path(self.editSnapshotsPath.text())
+        old_path = Path(self._edit_backup_path.text())
 
         dlg = FileDialog(
             parent=self,
@@ -635,7 +635,7 @@ class GeneralTab(QDialog):
             if not answer:
                 return
 
-        self.editSnapshotsPath.setText(str(path))
+        self._edit_backup_path.setText(str(path))
 
     def _slot_ssh_private_key_file_clicked(self):
         key_file = self.key_selector.get_key()
@@ -703,7 +703,7 @@ class GeneralTab(QDialog):
             path = self.txtSshPath.text()
 
         else:
-            path = self.editSnapshotsPath.text()
+            path = self._edit_backup_path.text()
 
         self.lblFullPath.setText(
             _('Full backup path:') + ' ' +
@@ -732,8 +732,8 @@ class GeneralTab(QDialog):
         profile_state = state_data.profile(self.config.currentProfile())
 
         # hide/show group boxes related to current mode
-        # note: self.modeLocalEncfs = self.modeLocal
-        # note: self.modeSshEncfs = self.modeSsh
+        # note: self._group_mode_local_encfs = self._group_mode_local
+        # note: self._group_mode_sshEncfs = self._group_mode_ssh
         if active_mode != self.mode:
             # # DevNote (buhtz): Widgets of the GUI related to the four
             # # snapshot modes are acccesed via "getattr(self, ...)".
@@ -751,10 +751,10 @@ class GeneralTab(QDialog):
 
             self.mode = active_mode
 
-            self.modeLocal.setVisible(active_mode in ('local', 'local_encfs'))
-            self.modeSsh.setVisible(active_mode in ('ssh', 'ssh_encfs'))
-            # self.modeLocalEncfs = self.modeLocal
-            # self.modeSshEncfs = self.modeSsh
+            self._group_mode_local.setVisible(active_mode in ('local', 'local_encfs'))
+            self._group_mode_ssh.setVisible(active_mode in ('ssh', 'ssh_encfs'))
+            # self._group_mode_local_encfs = self._group_mode_local
+            # self._group_mode_sshEncfs = self._group_mode_ssh
 
             self._wdg_schedule.allow_udev(
                 active_mode in ('local', 'local_encfs'))
