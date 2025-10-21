@@ -40,18 +40,20 @@ from bitwidgets import ProfileCombo
 
 class SettingsDialog(QDialog):
     """The Manage profiles dialog (aka Settings dialog)"""
+    # pylint: disable=too-many-instance-attributes
 
     def __init__(self, parent):  # noqa: PLR0915
         # pylint: disable=too-many-statements
-        super(SettingsDialog, self).__init__(parent)
+        super().__init__(parent)
 
         self.state_data = StateData()
         self.parent = parent
         self.config = parent.config
         self.snapshots = parent.snapshots
-        self.configDictCopy = copy.copy(self.config.dict)
-        self.originalCurrentProfile = self.config.currentProfile()
+        self.config_dict_copy = copy.copy(self.config.dict)
+        self.original_current_profile = self.config.currentProfile()
 
+        # pylint: disable-next=import-outside-toplevel
         import icon  # noqa: PLC0415
         self.icon = icon
 
@@ -61,47 +63,49 @@ class SettingsDialog(QDialog):
         self.setWindowIcon(icon.SETTINGS_DIALOG)
         self.setWindowTitle(_('Manage profiles'))
 
-        self.mainLayout = QVBoxLayout(self)
+        self._main_layout = QVBoxLayout(self)
 
         # profiles
         layout = QHBoxLayout()
-        self.mainLayout.addLayout(layout)
+        self._main_layout.addLayout(layout)
 
         layout.addWidget(QLabel(_('Profile:'), self))
 
-        self.firstUpdateAll = True
-        self.disableProfileChanged = True
-        self.comboProfiles = ProfileCombo(self)
-        layout.addWidget(self.comboProfiles, 1)
-        self.comboProfiles.currentIndexChanged.connect(self.profileChanged)
-        self.disableProfileChanged = False
+        self.first_update_all = True
+        self.disable_profile_changed = True
+        self._combo_profiles = ProfileCombo(self)
+        layout.addWidget(self._combo_profiles, 1)
+        self._combo_profiles.currentIndexChanged.connect(
+            self._slot_profile_changed)
+        self.disable_profile_changed = False
 
-        self.btnEditProfile = QPushButton(icon.PROFILE_EDIT, _('Edit'), self)
-        self.btnEditProfile.clicked.connect(self.editProfile)
-        layout.addWidget(self.btnEditProfile)
+        self._btn_edit_profile = QPushButton(
+            icon.PROFILE_EDIT, _('Edit'), self)
+        self._btn_edit_profile.clicked.connect(self._slot_edit_profile)
+        layout.addWidget(self._btn_edit_profile)
 
-        self.btnAddProfile = QPushButton(icon.ADD, _('Add'), self)
-        self.btnAddProfile.clicked.connect(self.addProfile)
-        layout.addWidget(self.btnAddProfile)
+        self._btn_add_profile = QPushButton(icon.ADD, _('Add'), self)
+        self._btn_add_profile.clicked.connect(self._slot_add_profile)
+        layout.addWidget(self._btn_add_profile)
 
-        self.btnRemoveProfile = QPushButton(icon.REMOVE, _('Remove'), self)
-        self.btnRemoveProfile.clicked.connect(self.removeProfile)
-        layout.addWidget(self.btnRemoveProfile)
+        self._btn_remove_profile = QPushButton(icon.REMOVE, _('Remove'), self)
+        self._btn_remove_profile.clicked.connect(self._slot_remove_profile)
+        layout.addWidget(self._btn_remove_profile)
 
         # TABs
         self.tabs = QTabWidget(self)
-        self.mainLayout.addWidget(self.tabs)
+        self._main_layout.addWidget(self.tabs)
 
         # occupy whole space for tabs
         # scrollButtonDefault = self.tabs.usesScrollButtons()
         self.tabs.setUsesScrollButtons(False)
 
         def _add_tab(wdg: QWidget, label: str):
-            scrollArea = QScrollArea(self)
-            scrollArea.setFrameStyle(QFrame.Shape.NoFrame)
-            self.tabs.addTab(scrollArea, label)
-            scrollArea.setWidget(wdg)
-            scrollArea.setWidgetResizable(True)
+            scroll_area = QScrollArea(self)
+            scroll_area.setFrameStyle(QFrame.Shape.NoFrame)
+            self.tabs.addTab(scroll_area, label)
+            scroll_area.setWidget(wdg)
+            scroll_area.setWidgetResizable(True)
 
         # TAB: General
         self._tab_general = GeneralTab(self)
@@ -139,21 +143,21 @@ class SettingsDialog(QDialog):
         _add_tab(self._tab_expert_options, _('E&xpert Options'))
 
         # buttons
-        buttonBox = QDialogButtonBox(
+        button_box = QDialogButtonBox(
             QDialogButtonBox.StandardButton.Ok
             | QDialogButtonBox.StandardButton.Cancel,
             parent=self)
-        btnRestore = buttonBox.addButton(
+        btn_restore = button_box.addButton(
             _('Restore Config'), QDialogButtonBox.ButtonRole.ResetRole)
         # btnUserCallback = buttonBox.addButton(
         #     _('Edit user-callback'), QDialogButtonBox.ButtonRole.ResetRole)
-        buttonBox.accepted.connect(self.accept)
-        buttonBox.rejected.connect(self.reject)
-        btnRestore.clicked.connect(self._slot_restore_config)
+        button_box.accepted.connect(self.accept)
+        button_box.rejected.connect(self.reject)
+        btn_restore.clicked.connect(self._slot_restore_config)
         # btnUserCallback.clicked.connect(self.editUserCallback)
-        self.mainLayout.addWidget(buttonBox)
+        self._main_layout.addWidget(button_box)
 
-        self.updateProfiles()
+        self._update_profiles_combo()
         self.slot_combo_modes_changed()
 
         self._restore_dims_and_coords()
@@ -174,7 +178,7 @@ class SettingsDialog(QDialog):
         self._tab_options.event_warn_free_space_value_changed.register(
             self._tab_retention.warn_free_space_value_changed)
 
-    def addProfile(self):
+    def _slot_add_profile(self):
         ret_val = QInputDialog.getText(self, _('New profile'), str())
         if not ret_val[1]:
             return
@@ -188,9 +192,9 @@ class SettingsDialog(QDialog):
             return
 
         self.config.setCurrentProfile(profile_id)
-        self.updateProfiles()
+        self._update_profiles_combo()
 
-    def editProfile(self):
+    def _slot_edit_profile(self):
         ret_val = QInputDialog.getText(
             self, _('Rename profile'), str(),
             text=self.config.profileName())
@@ -205,28 +209,28 @@ class SettingsDialog(QDialog):
         if not self.config.setProfileName(name):
             return
 
-        self.updateProfiles(reloadSettings=False)
+        self._update_profiles_combo(reload_settings=False)
 
-    def removeProfile(self):
+    def _slot_remove_profile(self):
         question = _('Delete the profile "{name}"?').format(
             name=self.config.profileName())
 
         if self.questionHandler(question):
             self.config.removeProfile()
-            self.updateProfiles()
+            self._update_profiles_combo()
 
-    def profileChanged(self, _index):
-        if self.disableProfileChanged:
+    def _slot_profile_changed(self, _index):
+        if self.disable_profile_changed:
             return
 
-        current_profile_id = self.comboProfiles.current_profile_id()
+        current_profile_id = self._combo_profiles.current_profile_id()
         if not current_profile_id:
             return
 
         if current_profile_id != self.config.currentProfile():
-            self.saveProfile()
+            self.save_profile()
             self.config.setCurrentProfile(current_profile_id)
-            self.updateProfile()
+            self._update_profile()
 
     def _restore_dims_and_coords(self, move=True):
         active_mode = self._tab_general.get_active_snapshots_mode()
@@ -243,29 +247,29 @@ class SettingsDialog(QDialog):
                 self.move(*coords)
             self.resize(*dims)
 
-    def updateProfiles(self, reloadSettings=True):
-        if reloadSettings:
-            self.updateProfile()
+    def _update_profiles_combo(self, reload_settings=True):
+        if reload_settings:
+            self._update_profile()
 
         current_profile_id = self.config.currentProfile()
 
-        self.disableProfileChanged = True
+        self.disable_profile_changed = True
 
-        self.comboProfiles.clear()
+        self._combo_profiles.clear()
 
         qttools.update_combo_profiles(
-            self.config, self.comboProfiles, current_profile_id)
+            self.config, self._combo_profiles, current_profile_id)
 
-        self.disableProfileChanged = False
+        self.disable_profile_changed = False
 
-    def updateProfile(self):
+    def _update_profile(self):
         if self.config.currentProfile() == '1':
-            self.btnEditProfile.setEnabled(False)
-            self.btnRemoveProfile.setEnabled(False)
+            self._btn_edit_profile.setEnabled(False)
+            self._btn_remove_profile.setEnabled(False)
         else:
-            self.btnEditProfile.setEnabled(True)
-            self.btnRemoveProfile.setEnabled(True)
-        self.btnAddProfile.setEnabled(self.config.isConfigured('1'))
+            self._btn_edit_profile.setEnabled(True)
+            self._btn_remove_profile.setEnabled(True)
+        self._btn_add_profile.setEnabled(self.config.isConfigured('1'))
 
         profile_state = StateData().profile(self.config.currentProfile())
 
@@ -282,7 +286,9 @@ class SettingsDialog(QDialog):
         self._tab_options.load_values()
         self._tab_expert_options.load_values()
 
-    def saveProfile(self):
+    def save_profile(self):
+        """Save the current profile and its settings"""
+
         # These tabs need to be stored before the Generals tab, because the
         # latter is doing some premount checking and need to know this settings
         # first.
@@ -307,10 +313,14 @@ class SettingsDialog(QDialog):
 
         return True
 
-    def errorHandler(self, message):
+    # pylint: disable-next=invalid-name
+    def errorHandler(self, message):  # noqa: N802
+        """Show error in messagebox"""
         messagebox.critical(self, message)
 
-    def questionHandler(self, message: str) -> bool:
+    # pylint: disable-next=invalid-name
+    def questionHandler(self, message: str) -> bool:  # noqa: N802
+        """Ask question in a question dialog"""
         return messagebox.question(text=message, widget_to_center_on=self)
 
     # def setComboValue(self, combo, value, t='int'):
@@ -326,7 +336,7 @@ class SettingsDialog(QDialog):
 
     def validate(self):
         """Save to config and validate"""
-        if not self.saveProfile():
+        if not self.save_profile():
             return False
 
         if not self.config.checkConfig():
@@ -362,7 +372,7 @@ class SettingsDialog(QDialog):
     def _slot_restore_config(self, *_args):
         """Handle click on 'Restore config'"""
         RestoreConfigDialog(self.config).exec()
-        self.updateProfiles()
+        self._update_profiles_combo()
 
     def accept(self):
         """OK clicked"""
@@ -374,13 +384,13 @@ class SettingsDialog(QDialog):
         self.config.clearHandlers()
 
         if not result:
-            self.config.dict = self.configDictCopy
+            self.config.dict = self.config_dict_copy
 
-        self.config.setCurrentProfile(self.originalCurrentProfile)
+        self.config.setCurrentProfile(self.original_current_profile)
 
         if result:
-            self.parent.remount(self.originalCurrentProfile,
-                                self.originalCurrentProfile)
+            self.parent.remount(self.original_current_profile,
+                                self.original_current_profile)
             self.parent.updateProfiles()
 
         # store windows position and size

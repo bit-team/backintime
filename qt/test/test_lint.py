@@ -227,8 +227,10 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # - PyCodestyle (E, W)
             # - flake8-gettext (INT)
             # - useless noqua (RUF100)
-            # Consider UP, ANN (upgrade and annotation)
-            '--extend-select=PL,E,W,INT,RUF100',
+            # - pep8-naming (N)
+            # Consider UP, ANN, D, DOC (upgrade, annotation, pydocstyle,
+            # pydoclint)
+            '--extend-select=PL,E,W,INT,RUF100,N',
             # Ignore: redefined-loop-name
             '--ignore=PLW2901',
             '--line-length', str(PEP8_MAX_LINE_LENGTH),

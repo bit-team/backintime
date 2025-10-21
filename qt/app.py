@@ -138,7 +138,7 @@ class MainWindow(QMainWindow):
 
         # timeline (left widget)
         self.timeLine = TimeLine(self)
-        self.timeLine.updateFilesView.connect(self.updateFilesView)
+        self.timeLine.update_files_view.connect(self.updateFilesView)
 
         # right widget
         self.filesWidget = QGroupBox(self)
