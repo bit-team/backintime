@@ -12,6 +12,7 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """The IncludeTab class for managing include paths"""
+from pathlib import Path
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QWidget,
                              QVBoxLayout,
@@ -27,6 +28,7 @@ from filedialog import FileDialog
 
 class IncludeTab(QWidget):
     """Tab for managing include files and directories."""
+    # pylint: disable=too-many-instance-attributes
 
     def __init__(self, parent):
         super().__init__(parent=parent)
@@ -81,7 +83,8 @@ class IncludeTab(QWidget):
             self.btn_include_remove_clicked
         )
 
-    def load_values(self,profile_state):
+    def load_values(self, profile_state):
+        """Load config values into the GUI"""
 
         self.list_include.clear()
         for include in self.config.include():
@@ -96,6 +99,7 @@ class IncludeTab(QWidget):
             pass
 
     def store_values(self, profile_state):
+        """Store values from GUI into the config"""
         profile_state.include_sorting = (
             self.list_include.header().sortIndicatorSection(),
             self.list_include.header().sortIndicatorOrder().value
@@ -158,6 +162,16 @@ class IncludeTab(QWidget):
         """
         return self.config.copyUnsafeLinks() or self.config.copyLinks()
 
+    def _ask_include_symlinks_target(self, path: Path):
+        question_msg = _(
+            '"{path}" is a symlink. The linked target will not be backed up '
+            'until it is included, too.').format(path=path)
+
+        question_msg = question_msg + '\n' + _(
+            "Include the symlink's target instead?")
+
+        return self._parent_dialog.questionHandler(question_msg)
+
     def btn_include_file_clicked(self):
         """Handle file-adding button click."""
         dlg = FileDialog(
@@ -172,7 +186,7 @@ class IncludeTab(QWidget):
                 continue
 
             if path.is_symlink() and not self._copy_links_or_unsafe_links():
-                if self._parent_dialog._ask_include_symlinks_target(path):
+                if self._ask_include_symlinks_target(path):
                     path = path.resolve()
 
             self.add_include((str(path), 1))
@@ -192,7 +206,7 @@ class IncludeTab(QWidget):
                 continue
 
             if path.is_symlink() and not self._copy_links_or_unsafe_links():
-                if self._parent_dialog._ask_include_symlinks_target(path):
+                if self._ask_include_symlinks_target(path):
                     path = path.resolve()
 
             self.add_include((str(path), 0))

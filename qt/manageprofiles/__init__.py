@@ -335,16 +335,6 @@ class SettingsDialog(QDialog):
 
         return self.config.save()
 
-    def _ask_include_symlinks_target(self, path: Path):
-        question_msg = _(
-            '"{path}" is a symlink. The linked target will not be backed up '
-            'until it is included, too.').format(path=path)
-
-        question_msg = question_msg + '\n' + _(
-            "Include the symlink's target instead?")
-
-        return self.questionHandler(question_msg)
-
     def slot_combo_modes_changed(self, *_params):
         """Hide/show widget elements related to one of
         the four snapshot modes.
