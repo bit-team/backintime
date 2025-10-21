@@ -60,7 +60,7 @@ full_test_files = [_base_dir / fp for fp in (
     # 'manageprofiles/tab_general.py',
     'manageprofiles/tab_include.py',
     'manageprofiles/tab_options.py',
-    # 'manageprofiles/tab_remove_retention.py',
+    'manageprofiles/tab_remove_retention.py',
     'messagebox.py',
     'placeswidget.py',
     'plugins/notifyplugin.py',
