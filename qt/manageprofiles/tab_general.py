@@ -29,27 +29,29 @@ from PyQt6.QtWidgets import (QCheckBox,
                              QWidget)
 import config
 import tools
+import logger
+import sshtools
+from exceptions import MountException, NoPubKeyLogin, KnownHost
+import mount
+from bitbase import URL_ENCRYPT_TRANSITION, ENCFS_MSG_STAGE, DIR_SSH_KEYS
 import qttools
 import messagebox
-import sshtools
-import logger
 import encfsmsgbox
-import mount
 from statedata import StateData
-from exceptions import MountException, NoPubKeyLogin, KnownHost
 from manageprofiles import combobox
 from manageprofiles import schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
 from manageprofiles.sshkeyselector import SshKeySelector
 from bitwidgets import HLineWidget
 from filedialog import FileDialog
-from bitbase import URL_ENCRYPT_TRANSITION, ENCFS_MSG_STAGE, DIR_SSH_KEYS
 
 
 class GeneralTab(QDialog):
     """Create the 'Generals' tab."""
+    # pylint: disable=too-many-instance-attributes
 
-    def __init__(self, parent):
+    def __init__(self, parent):  # noqa: PLR0915
+        # pylint: disable=too-many-statements
         super().__init__(parent=parent)
 
         self._parent_dialog = parent
@@ -257,11 +259,11 @@ class GeneralTab(QDialog):
         self._wdg_schedule = schedulewidget.ScheduleWidget(self)
         tab_layout.addWidget(self._wdg_schedule)
 
-        #
         tab_layout.addStretch()
 
     @property
     def mode(self) -> str:
+        """The backup mode"""
         return self._parent_dialog.mode
 
     @mode.setter
@@ -270,6 +272,7 @@ class GeneralTab(QDialog):
 
     @property
     def config(self) -> config.Config:
+        """The config instance"""
         return self._parent_dialog.config
 
     @property
@@ -444,16 +447,17 @@ class GeneralTab(QDialog):
 
         return True
 
-    def _do_alot_pre_mount_checking(self, mnt, mount_kwargs):
+    def _do_alot_pre_mount_checking(self, mnt, mount_kwargs):  # noqa: PLR0911
         """Initiate several checks related to mounting and similar tasks.
 
-        Depending on the snapshots mode used different checks are initiated.
+        Depending on the backup mode used different checks are initiated.
 
         Dev note (buhtz, 2024-09): The code is parked and ready to refactoring.
 
         Returns:
             bool: ``True`` if successful otherwise ``False``.
         """
+        # pylint: disable=too-many-return-statements
         # preMountCheck
 
         try:
@@ -473,17 +477,20 @@ class GeneralTab(QDialog):
                 messagebox.critical(self, str(ex))
                 return False
 
-            question = '<p>{}</p><p>{}</p><p>{}</p><p>{}</p>'.format(
-                _('An error occurred while attempting to log in to the '
-                    'remote host. The following error message was '
-                    'returned:'),
-                str(ex),
-                _('Copying the public SSH key to the remote host can '
-                    'help enable password-less login.'),
-                _('Proceed?')
+            question = (
+                '<p>' + _('An error occurred while attempting to log in to '
+                          'the remote host. The following error message was '
+                          'returned:')
+                + '</p><p>' + str(ex) + '</p><p>'
+                + _('Copying the public SSH key to the remote host can help '
+                    'enable password-less login.')
+                + '</p><p>'
+                + _('Proceed?')
+                + '</p>'
             )
 
             answer = messagebox.warning(text=question, as_question=True)
+
             if not answer:
                 return False
 
@@ -523,18 +530,17 @@ class GeneralTab(QDialog):
                 return False
 
             msg = (
-                '<p>{}</p>'
-                '<p>{}</p>'
-                '<p><code>{}</code></p>'
-                '<p>{}</p>'
-            ).format(
-                _("The authenticity of host {host} can't be established.")
-                .format(host=self.config.sshHost()),
-                _('{keytype} key fingerprint is:')
-                .format(keytype=keyType),
-                fingerprint,
-                _('Please verify this fingerprint. Add it to the '
-                  '"known_hosts" file?')
+                '<p>'
+                + _("The authenticity of host {host} can't be "
+                    "established.").format(host=self.config.sshHost())
+                + '</p><p>'
+                + _('{keytype} key fingerprint is:').format(keytype=keyType)
+                + '</p><p><code>'
+                + fingerprint
+                + '</code></p><p>'
+                + _('Please verify this fingerprint. Add it to the '
+                    '"known_hosts" file?')
+                + '</p>'
             )
 
             if messagebox.question(msg):
@@ -544,8 +550,7 @@ class GeneralTab(QDialog):
                 # AGAIN: Why this recursive call?
                 return self.saveProfile()
 
-            else:
-                return False
+            return False
 
         except MountException as ex:
             messagebox.critical(self, str(ex))
@@ -583,12 +588,12 @@ class GeneralTab(QDialog):
                 'release (1.7), scheduled for 2026.')
         txt = txt + ' ' + _('Support for EncFS is being discontinued due '
                             'to security vulnerabilities.')
-        txt = txt + ' ' + _('For more details, including potential '
-                            'alternatives, please refer to this '
-                            '{whitepaper}.') \
-                            .format(whitepaper='<a href="{}">{}</a>'.format(
-                                URL_ENCRYPT_TRANSITION,
-                                _('whitepaper')))
+        whitepaper = f'<a href="{URL_ENCRYPT_TRANSITION}">'
+        whitepaper = whitepaper + _('whitepaper') + '</a>'
+        txt = txt + ' ' + _(
+            'For more details, including potential alternatives, please '
+            'refer to this {whitepaper}.'
+        ).format(whitepaper=whitepaper)
         txt_label = QLabel(txt)
         txt_label.setWordWrap(True)
         txt_label.setOpenExternalLinks(True)
@@ -654,7 +659,7 @@ class GeneralTab(QDialog):
 
         # No public key
         if key_file.suffix.lower() == '.pub':
-            title = _('Invalid file: Not a private SSH key'),
+            title = _('Invalid file: Not a private SSH key')
             msg = _('The selected file ({path}) is a public SSH key. '
                     'Please choose the corresponding private key file instead '
                     '(without ".pub").').format(path=key_file)
@@ -666,7 +671,7 @@ class GeneralTab(QDialog):
         self.key_selector.add_and_select_key(key_file)
 
     def _slot_ssh_key_gen_clicked(self):
-        # TODO: make it configurable (#2194)
+
         default_keyfile_name = sshtools.determine_default_ssh_key_filename()
 
         if not default_keyfile_name:
@@ -711,6 +716,7 @@ class GeneralTab(QDialog):
             ))
 
     def get_active_snapshots_mode(self) -> str:
+        """Current profile mode"""
         return self._combo_modes.current_data
 
     def handle_combo_modes_changed(self):
