@@ -59,10 +59,13 @@ def _license_info() -> tuple[str, str]:
     """
     # Extract the SPDX license info from current file.
     # interpreted as primary/project license
+
+    # REUSE-IgnoreStart
     prim = re.search(
         r'SPDX-License-Identifier:\s(:?.*)',
         Path(__file__).read_text(encoding='utf-8')
     )
+    # REUSE-IgnoreEnd
 
     try:
         result = prim.groups()[0]
