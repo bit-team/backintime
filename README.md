@@ -110,6 +110,7 @@ In the latest stable release:
 - [OverflowError: Value 1702441408 out of range for UInt32](#overflowerror-value-1702441408-out-of-range-for-uint32)
 - [File permissions handling and therefore possible non-differential backups](#file-permissions-handling-and-therefore-possible-non-differential-backups)
 - [`qt_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`](#qt_probingpy-may-hang-with-high-cpu-usage-when-running-bit-as-root-via-cron)
+- [`SettingsDialog` object has no attribute `cbCopyUnsafeLinks`](#settingsDialog-object-has-no-attribute-cbcopyunsafelinks)
 
 More problems described in
 [this FAQ section](FAQ.md#problems-errors--solutions).
@@ -155,6 +156,23 @@ the file `/usr/share/backintime/common/qt_probing.py`:
 
 Renaming does *not* work!
 
+## `SettingsDialog` object has no attribute `cbCopyUnsafeLinks`
+Wenn adding a file or directory, that is in fact a symlink, to the _Include_
+Tab in the _Manage profiles_ dialog, the BIT GUI crash and give the following
+error in the terminal.
+
+```pytb
+Traceback (most recent call last):
+  File "/usr/share/backintime/qt/manageprofiles/tab_include.py", line 185, in btn_include_add_clicked
+    self._parent_dialog.cbCopyUnsafeLinks.isChecked() or
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SettingsDialog' object has no attribute 'cbCopyUnsafeLinks'
+```
+
+Introduced in version `1.5.3`. Fixed in (upcoming) `1.6.0`.  See issue
+[#2279](https://github.com/bit-team/backintime/issues/2279).
+
+Workaround: Don't use a symlink but the linked target.
 
 # Contributing and other ways to support the project
 See [CONTRIBUTING](CONTRIBUTING.md) file for an overview about the projects
@@ -165,4 +183,4 @@ Please read [`LICENSES.md`](LICENSES.md).
 
 ---
 
-<sub>August 2025</sub>
+<sub>October 2025</sub>
