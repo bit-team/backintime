@@ -49,7 +49,7 @@ full_test_files = [_base_dir / fp for fp in (
     'editusercallback.py',
     'encfsmsgbox.py',
     'filedialog.py',
-    # 'icon.py',
+    'icon.py',
     'languagedialog.py',
     'logviewdialog.py',
     'manageprofiles/__init__.py',
