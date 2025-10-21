@@ -27,7 +27,6 @@ from PyQt6.QtWidgets import (QDialog,
                              QPushButton)
 import qttools
 import messagebox
-from pathlib import Path
 from statedata import StateData
 from manageprofiles.tab_general import GeneralTab
 from manageprofiles.tab_remove_retention import RemoveRetentionTab
@@ -42,7 +41,8 @@ from bitwidgets import ProfileCombo
 class SettingsDialog(QDialog):
     """The Manage profiles dialog (aka Settings dialog)"""
 
-    def __init__(self, parent):
+    def __init__(self, parent):  # noqa: PLR0915
+        # pylint: disable=too-many-statements
         super(SettingsDialog, self).__init__(parent)
 
         self.state_data = StateData()
@@ -51,7 +51,8 @@ class SettingsDialog(QDialog):
         self.snapshots = parent.snapshots
         self.configDictCopy = copy.copy(self.config.dict)
         self.originalCurrentProfile = self.config.currentProfile()
-        import icon
+
+        import icon  # noqa: PLC0415
         self.icon = icon
 
         self.config.setQuestionHandler(self.questionHandler)
@@ -148,7 +149,7 @@ class SettingsDialog(QDialog):
         #     _('Edit user-callback'), QDialogButtonBox.ButtonRole.ResetRole)
         buttonBox.accepted.connect(self.accept)
         buttonBox.rejected.connect(self.reject)
-        btnRestore.clicked.connect(self.restoreConfig)
+        btnRestore.clicked.connect(self._slot_restore_config)
         # btnUserCallback.clicked.connect(self.editUserCallback)
         self.mainLayout.addWidget(buttonBox)
 
@@ -312,25 +313,26 @@ class SettingsDialog(QDialog):
     def questionHandler(self, message: str) -> bool:
         return messagebox.question(text=message, widget_to_center_on=self)
 
-    def setComboValue(self, combo, value, t='int'):
-        for i in range(combo.count()):
+    # def setComboValue(self, combo, value, t='int'):
+    #     for i in range(combo.count()):
 
-            if t == 'int' and value == combo.itemData(i):
-                combo.setCurrentIndex(i)
-                break
+    #         if t == 'int' and value == combo.itemData(i):
+    #             combo.setCurrentIndex(i)
+    #             break
 
-            if t == 'str' and value == combo.itemData(i):
-                combo.setCurrentIndex(i)
-                break
+    #         if t == 'str' and value == combo.itemData(i):
+    #             combo.setCurrentIndex(i)
+    #             break
 
     def validate(self):
+        """Save to config and validate"""
         if not self.saveProfile():
             return False
 
         if not self.config.checkConfig():
             return False
 
-        # This should raise exceptions in case of errors
+        # This will raise exceptions in case of errors
         self.config.setup_automation()
 
         return self.config.save()
@@ -357,13 +359,15 @@ class SettingsDialog(QDialog):
         # Resize (but don't move) dialog based on backup mode
         self._restore_dims_and_coords(move=False)
 
-    def restoreConfig(self, *_args):
+    def _slot_restore_config(self, *_args):
+        """Handle click on 'Restore config'"""
         RestoreConfigDialog(self.config).exec()
         self.updateProfiles()
 
     def accept(self):
+        """OK clicked"""
         if self.validate():
-            super(SettingsDialog, self).accept()
+            super().accept()
 
     def _slot_finished(self, result):
         """Handle dialogs finished signal."""
