@@ -42,13 +42,14 @@ svg_to_png() {
     rsvg-convert --width $s --height $s $src --output $png
 
     # Optimize PNG file size (without losing quality)
-    optipng -o7 $png >/dev/null 2>&1
+    # optipng -o7 $png >/dev/null 2>&1
 
     printf "FIN\n"
 }
 
 # Each resolution
-for s in 16 22 24 48 64 128 256 512; do
+# Additional resolutions beside Free Desktop Specs: 72, 96, 192
+for s in 16 22 24 48 64 72 96 128 192 256 512; do
     printf "Resolution ${s}x${s}...\n"
 
     svg_to_png backintime apps $s
