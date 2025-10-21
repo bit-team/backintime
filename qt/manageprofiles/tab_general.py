@@ -76,12 +76,12 @@ class GeneralTab(QDialog):
         tab_layout.addWidget(HLineWidget())
 
         # Where to save snapshots
-        groupBox = QGroupBox(self)
-        self._group_mode_local = groupBox
-        groupBox.setTitle(_('Where to save backups'))
-        tab_layout.addWidget(groupBox)
+        group_box = QGroupBox(self)
+        self._group_mode_local = group_box
+        group_box.setTitle(_('Where to save backups'))
+        tab_layout.addWidget(group_box)
 
-        vlayout = QVBoxLayout(groupBox)
+        vlayout = QVBoxLayout(group_box)
 
         hlayout = QHBoxLayout()
         vlayout.addLayout(hlayout)
@@ -102,12 +102,12 @@ class GeneralTab(QDialog):
             self._slot_snapshots_path_clicked)
 
         # --- SSH ---
-        groupBox = QGroupBox(self)
-        self._group_mode_ssh = groupBox
-        groupBox.setTitle(_('SSH Settings'))
-        tab_layout.addWidget(groupBox)
+        group_box = QGroupBox(self)
+        self._group_mode_ssh = group_box
+        group_box.setTitle(_('SSH Settings'))
+        tab_layout.addWidget(group_box)
 
-        vlayout = QVBoxLayout(groupBox)
+        vlayout = QVBoxLayout(group_box)
 
         hlayout1 = QHBoxLayout()
         vlayout.addLayout(hlayout1)
@@ -126,16 +126,16 @@ class GeneralTab(QDialog):
         self._txt_ssh_port = QLineEdit(self)
         hlayout1.addWidget(self._txt_ssh_port)
 
-        self.lblSshUser = QLabel(_('User:'), self)
-        hlayout1.addWidget(self.lblSshUser)
-        self.txtSshUser = QLineEdit(self)
-        hlayout1.addWidget(self.txtSshUser)
+        self._lbl_ssh_user = QLabel(_('User:'), self)
+        hlayout1.addWidget(self._lbl_ssh_user)
+        self._txt_ssh_user = QLineEdit(self)
+        hlayout1.addWidget(self._txt_ssh_user)
 
-        self.lblSshPath = QLabel(_('Path:'), self)
-        hlayout2.addWidget(self.lblSshPath)
-        self.txtSshPath = QLineEdit(self)
-        self.txtSshPath.textChanged.connect(self._slot_full_path_changed)
-        hlayout2.addWidget(self.txtSshPath)
+        self._lbl_ssh_path = QLabel(_('Path:'), self)
+        hlayout2.addWidget(self._lbl_ssh_path)
+        self._txt_ssh_path = QLineEdit(self)
+        self._txt_ssh_path.textChanged.connect(self._slot_full_path_changed)
+        hlayout2.addWidget(self._txt_ssh_path)
 
         group_box = QGroupBox(self)
         group_box.setTitle(_('Key file:'))
@@ -152,10 +152,10 @@ class GeneralTab(QDialog):
         # Align the width of that three labels
         width = max(
             self._lbl_ssh_host.sizeHint().width(),
-            self.lblSshPath.sizeHint().width()
+            self._lbl_ssh_path.sizeHint().width()
         )
         self._lbl_ssh_host.setMinimumWidth(width)
-        self.lblSshPath.setMinimumWidth(width)
+        self._lbl_ssh_path.setMinimumWidth(width)
 
         self._wdg_ssh_proxy = SshProxyWidget(
             self,
@@ -167,27 +167,27 @@ class GeneralTab(QDialog):
 
         # encfs
         self._group_mode_local_encfs = self._group_mode_local
-        self._group_mode_sshEncfs = self._group_mode_ssh
+        self._group_mode_ssh_encfs = self._group_mode_ssh
 
         # password
-        groupBox = QGroupBox(self)
-        self.groupPassword1 = groupBox
-        groupBox.setTitle(_('Password'))
-        tab_layout.addWidget(groupBox)
+        group_box = QGroupBox(self)
+        self._group_password1 = group_box
+        group_box.setTitle(_('Password'))
+        tab_layout.addWidget(group_box)
 
-        vlayout = QVBoxLayout(groupBox)
+        vlayout = QVBoxLayout(group_box)
 
         grid = QGridLayout()
 
         # Used for SSH passphrase & Encfs password
-        self.lblPassword1 = QLabel(_('Password'), self)
-        self.txtPassword1 = QLineEdit(self)
-        self.txtPassword1.setEchoMode(QLineEdit.EchoMode.Password)
+        self._lbl_password1 = QLabel(_('Password'), self)
+        self._txt_password1 = QLineEdit(self)
+        self._txt_password1.setEchoMode(QLineEdit.EchoMode.Password)
 
         # Used for Encfs password in "ssh encrypted" mode *rofl*
-        self.lblPassword2 = QLabel(_('Password'), self)
-        self.txtPassword2 = QLineEdit(self)
-        self.txtPassword2.setEchoMode(QLineEdit.EchoMode.Password)
+        self._lbl_password2 = QLabel(_('Password'), self)
+        self._txt_password2 = QLineEdit(self)
+        self._txt_password2.setEchoMode(QLineEdit.EchoMode.Password)
 
         # # DEBUG
         # if logger.DEBUG:
@@ -196,36 +196,36 @@ class GeneralTab(QDialog):
         #     self.lblPassword2.setToolTip('password 2')
         #     self.txtPassword2.setToolTip('password 2')
 
-        grid.addWidget(self.lblPassword1, 0, 0)
-        grid.addWidget(self.txtPassword1, 0, 1)
-        grid.addWidget(self.lblPassword2, 1, 0)
-        grid.addWidget(self.txtPassword2, 1, 1)
+        grid.addWidget(self._lbl_password1, 0, 0)
+        grid.addWidget(self._txt_password1, 0, 1)
+        grid.addWidget(self._lbl_password2, 1, 0)
+        grid.addWidget(self._txt_password2, 1, 1)
         vlayout.addLayout(grid)
 
-        self.cbPasswordSave = QCheckBox(_('Save Password to Keyring'), self)
-        vlayout.addWidget(self.cbPasswordSave)
+        self._cb_password_save = QCheckBox(_('Save Password to Keyring'), self)
+        vlayout.addWidget(self._cb_password_save)
 
-        self.cbPasswordUseCache = QCheckBox(
+        self._cb_password_use_cache = QCheckBox(
             _('Cache Password for Cron (Security '
               'issue: root can read password)'),
             self
         )
-        vlayout.addWidget(self.cbPasswordUseCache)
+        vlayout.addWidget(self._cb_password_use_cache)
 
-        self.keyringSupported = tools.keyringSupported()
-        self.cbPasswordSave.setEnabled(self.keyringSupported)
+        self._keyring_supported = tools.keyringSupported()
+        self._cb_password_save.setEnabled(self._keyring_supported)
 
         # mode change
         self._combo_modes.currentIndexChanged.connect(
             self._parent_dialog.slot_combo_modes_changed)
 
         # host, user, profile id
-        groupBox = QGroupBox(self)
-        self.frameAdvanced = groupBox
-        groupBox.setTitle(_('Advanced'))
-        tab_layout.addWidget(groupBox)
+        group_box = QGroupBox(self)
+        self._frame_advanced = group_box
+        group_box.setTitle(_('Advanced'))
+        tab_layout.addWidget(group_box)
 
-        hlayout = QHBoxLayout(groupBox)
+        hlayout = QHBoxLayout(group_box)
         hlayout.addSpacing(12)
 
         vlayout2 = QVBoxLayout()
@@ -234,27 +234,27 @@ class GeneralTab(QDialog):
         hlayout2 = QHBoxLayout()
         vlayout2.addLayout(hlayout2)
 
-        self.lblHost = QLabel(_('Host:'), self)
-        hlayout2.addWidget(self.lblHost)
-        self.txtHost = QLineEdit(self)
-        self.txtHost.textChanged.connect(self._slot_full_path_changed)
-        hlayout2.addWidget(self.txtHost)
+        self._lbl_host = QLabel(_('Host:'), self)
+        hlayout2.addWidget(self._lbl_host)
+        self._txt_host = QLineEdit(self)
+        self._txt_host.textChanged.connect(self._slot_full_path_changed)
+        hlayout2.addWidget(self._txt_host)
 
-        self.lblUser = QLabel(_('User:'), self)
-        hlayout2.addWidget(self.lblUser)
-        self.txtUser = QLineEdit(self)
-        self.txtUser.textChanged.connect(self._slot_full_path_changed)
-        hlayout2.addWidget(self.txtUser)
+        self._lbl_user = QLabel(_('User:'), self)
+        hlayout2.addWidget(self._lbl_user)
+        self._txt_user = QLineEdit(self)
+        self._txt_user.textChanged.connect(self._slot_full_path_changed)
+        hlayout2.addWidget(self._txt_user)
 
-        self.lblProfile = QLabel(_('Profile:'), self)
-        hlayout2.addWidget(self.lblProfile)
+        self._lbl_profile = QLabel(_('Profile:'), self)
+        hlayout2.addWidget(self._lbl_profile)
         self.txt_profile = QLineEdit(self)
         self.txt_profile.textChanged.connect(self._slot_full_path_changed)
         hlayout2.addWidget(self.txt_profile)
 
-        self.lblFullPath = QLabel(_('Full backup path:'), self)
-        self.lblFullPath.setWordWrap(True)
-        vlayout2.addWidget(self.lblFullPath)
+        self._lbl_full_path = QLabel(_('Full backup path:'), self)
+        self._lbl_full_path.setWordWrap(True)
+        vlayout2.addWidget(self._lbl_full_path)
 
         self._wdg_schedule = schedulewidget.ScheduleWidget(self)
         tab_layout.addWidget(self._wdg_schedule)
@@ -296,13 +296,15 @@ class GeneralTab(QDialog):
         if password_2 is None:
             password_2 = ''
 
-        self.txtPassword1.setText(password_1)
-        self.txtPassword2.setText(password_2)
+        self._txt_password1.setText(password_1)
+        self._txt_password2.setText(password_2)
 
-        self.cbPasswordSave.setChecked(
-            self.keyringSupported and self.config.passwordSave(mode=self.mode))
+        self._cb_password_save.setChecked(
+            self._keyring_supported
+            and self.config.passwordSave(mode=self.mode)
+        )
 
-        self.cbPasswordUseCache.setChecked(
+        self._cb_password_use_cache.setChecked(
             self.config.passwordUseCache(mode=self.mode))
 
     def load_values(self) -> Any:
@@ -317,8 +319,8 @@ class GeneralTab(QDialog):
         # SSH
         self._txt_ssh_host.setText(self.config.sshHost())
         self._txt_ssh_port.setText(str(self.config.sshPort()))
-        self.txtSshUser.setText(self.config.sshUser())
-        self.txtSshPath.setText(self.config.sshSnapshotsPath())
+        self._txt_ssh_user.setText(self.config.sshUser())
+        self._txt_ssh_path.setText(self.config.sshSnapshotsPath())
 
         # SSH: Priate key file
         val = self.config.sshPrivateKeyFile()
@@ -344,8 +346,8 @@ class GeneralTab(QDialog):
         self._load_passwords()
 
         host, user, profile = self.config.hostUserProfile()
-        self.txtHost.setText(host)
-        self.txtUser.setText(user)
+        self._txt_host.setText(host)
+        self._txt_user.setText(user)
         self.txt_profile.setText(profile)
 
         # Schedule
@@ -363,8 +365,8 @@ class GeneralTab(QDialog):
         mount_kwargs = {}
 
         # password
-        password_1 = self.txtPassword1.text()
-        password_2 = self.txtPassword2.text()
+        password_1 = self._txt_password1.text()
+        password_2 = self._txt_password2.text()
 
         if mode in ('ssh', 'local_encfs'):
             mount_kwargs = {'password': password_1}
@@ -375,20 +377,20 @@ class GeneralTab(QDialog):
 
         # snapshots path
         self.config.setHostUserProfile(
-            self.txtHost.text(),
-            self.txtUser.text(),
+            self._txt_host.text(),
+            self._txt_user.text(),
             self.txt_profile.text()
         )
 
         # SSH
         self.config.setSshHost(self._txt_ssh_host.text())
         self.config.setSshPort(self._txt_ssh_port.text())
-        self.config.setSshUser(self.txtSshUser.text())
+        self.config.setSshUser(self._txt_ssh_user.text())
         sshproxy_vals = self._wdg_ssh_proxy.values()
         self.config.setSshProxyHost(sshproxy_vals['host'])
         self.config.setSshProxyPort(sshproxy_vals['port'])
         self.config.setSshProxyUser(sshproxy_vals['user'])
-        self.config.setSshSnapshotsPath(self.txtSshPath.text())
+        self.config.setSshSnapshotsPath(self._txt_ssh_path.text())
 
         # SSH key file
         if mode in ('ssh', 'ssh_encfs'):
@@ -412,10 +414,11 @@ class GeneralTab(QDialog):
                 return False
 
         # save password
-        self.config.setPasswordSave(self.cbPasswordSave.isChecked(),
+        self.config.setPasswordSave(self._cb_password_save.isChecked(),
                                     mode=mode)
-        self.config.setPasswordUseCache(self.cbPasswordUseCache.isChecked(),
-                                        mode=mode)
+        self.config.setPasswordUseCache(
+            self._cb_password_use_cache.isChecked(),
+            mode=mode)
         self.config.setPassword(password_1, mode=mode)
         self.config.setPassword(password_2, mode=mode, pw_id=2)
 
@@ -521,7 +524,7 @@ class GeneralTab(QDialog):
 
         except KnownHost as ex:
             logger.error(str(ex), self)
-            fingerprint, hashedKey, keyType = sshtools.sshHostKey(
+            fingerprint, hashed_key, key_type = sshtools.sshHostKey(
                 host=self.config.sshHost(),
                 port=str(self.config.sshPort()))
 
@@ -534,7 +537,7 @@ class GeneralTab(QDialog):
                 + _("The authenticity of host {host} can't be "
                     "established.").format(host=self.config.sshHost())
                 + '</p><p>'
-                + _('{keytype} key fingerprint is:').format(keytype=keyType)
+                + _('{keytype} key fingerprint is:').format(keytype=key_type)
                 + '</p><p><code>'
                 + fingerprint
                 + '</code></p><p>'
@@ -544,7 +547,7 @@ class GeneralTab(QDialog):
             )
 
             if messagebox.question(msg):
-                sshtools.writeKnownHostsFile(hashedKey)
+                sshtools.writeKnownHostsFile(hashed_key)
 
                 # --- DEV NOTE TODO ---
                 # AGAIN: Why this recursive call?
@@ -700,18 +703,18 @@ class GeneralTab(QDialog):
 
     def _slot_full_path_changed(self, _text: Any):
         if self.mode in ('ssh', 'ssh_encfs'):
-            path = self.txtSshPath.text()
+            path = self._txt_ssh_path.text()
 
         else:
             path = self._edit_backup_path.text()
 
-        self.lblFullPath.setText(
+        self._lbl_full_path.setText(
             _('Full backup path:') + ' ' +
             os.path.join(
                 path,
                 'backintime',
-                self.txtHost.text(),
-                self.txtUser.text(),
+                self._txt_host.text(),
+                self._txt_user.text(),
                 self.txt_profile.text()
             ))
 
@@ -763,24 +766,24 @@ class GeneralTab(QDialog):
 
         if self.config.modeNeedPassword(active_mode):
 
-            self.lblPassword1.setText(
+            self._lbl_password1.setText(
                 self.config.SNAPSHOT_MODES[active_mode][2] + ':')
 
-            self.groupPassword1.show()
+            self._group_password1.show()
 
             if self.config.modeNeedPassword(active_mode, 2):
-                self.lblPassword2.setText(
+                self._lbl_password2.setText(
                     self.config.SNAPSHOT_MODES[active_mode][3] + ':')
-                self.lblPassword2.show()
-                self.txtPassword2.show()
+                self._lbl_password2.show()
+                self._txt_password2.show()
 
             else:
-                self.lblPassword2.hide()
-                self.txtPassword2.hide()
+                self._lbl_password2.hide()
+                self._txt_password2.hide()
 
             self._load_passwords()
         else:
-            self.groupPassword1.hide()
+            self._group_password1.hide()
 
         # EncFS deprecation warnings (see #1734)
         if active_mode in ('local_encfs', 'ssh_encfs'):
