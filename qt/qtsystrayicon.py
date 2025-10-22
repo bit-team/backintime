@@ -51,7 +51,7 @@ class QtSysTrayIcon:
                 logger.warning(
                     f'Failed to change Profile_ID {sys.argv[1]}', self)
 
-        self.qapp = qttools.createQApplication(self.config.APP_NAME)
+        self.qapp = qttools.create_qapplication(self.config.APP_NAME)
         translator = qttools.initiate_translator(self.config.language())
         self.qapp.installTranslator(translator)
         self.qapp.setQuitOnLastWindowClosed(False)

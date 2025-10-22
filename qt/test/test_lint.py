@@ -71,7 +71,7 @@ full_test_files = [_base_dir / fp for fp in (
     'plugins/notifyplugin.py',
     # 'plugins/systrayiconplugin.py',
     # 'qtsystrayicon.py',
-    # 'qttools.py',
+    'qttools.py',
     'qttools_path.py',
     'restoreconfigdialog.py',
     'restoredialog.py',
