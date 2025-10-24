@@ -270,6 +270,27 @@ class ExcludeTab(QWidget):
     def btn_exclude_add_clicked(self):
         """Handle button click"""
 
+        """
+        ```python
+        from PyQt6.QtGui import QTextDocument, QTextCursor, QRegularExpression
+
+        pattern = QRegularExpression(r"(?m)^\s*FILTER RULES\s*$")
+        cursor = text_browser.document().find(pattern, QTextCursor())
+        if not cursor.isNull():
+            text_browser.setTextCursor(cursor)
+            text_browser.ensureCursorVisible()
+        ```
+
+        - `(?m)` aktiviert **multiline mode**, damit `^` und `$` Zeilenanfang/-ende meinen.
+        - `^\s*FILTER RULES\s*$` matched nur, wenn die ganze Zeile aus `FILTER RULES` besteht (ggf. mit Leerzeichen davor/danach).
+        - Damit werden Vorkommen wie FILTER RULES section ausgeschlossen.
+
+        Dev note (buhtz, 2025-10): Feature idea for later versions. Use rsync
+        --dry-run with --debug=FILTER to see include/exclude decissions. Show
+        them life as preview in the pattern input dialog, for a specific file.
+        Extend this feature to show all include and exclude matches (#734).
+        """
+
         dlg = QInputDialog(self)
         dlg.setInputMode(QInputDialog.InputMode.TextInput)
         dlg.setWindowTitle(_('Exclude pattern'))
