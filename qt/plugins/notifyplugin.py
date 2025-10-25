@@ -23,7 +23,7 @@ class NotifyPlugin(pluginmanager.Plugin):
     details.
     """
 
-    def isGui(self):
+    def isGui(self):  # noqa: N802
         return True
 
     # pylint: disable-next=too-many-arguments,too-many-positional-arguments

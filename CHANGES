@@ -1,6 +1,9 @@
 Back In Time
 
 Version 1.6.0-dev (development of upcoming release)
+* Changed: New dependency (runtime GUI) to "python3-pyqt6.qtsvg" for loading SVG icons (#1961)
+* Changed: New dependency (build) "librsvg2-bin" containing "rsvg-convert"
+* Changed: New dependency (build) "optipng"
 * Changed: "Repeatedly (anacron)" scheduling behave consistent. Reversed minor bug introduced with 060324e (#1791) in 1.5.3 (#2250)
 * Changed: Stricter permissions (600) for fileinfo.bz2 and takesnapshot.log.bz2 (#2235)
 * Changed: **Breaking** A "snapshot" now is a "backup" (#1929)
@@ -23,10 +26,12 @@ Version 1.6.0-dev (development of upcoming release)
 * Changed: Prefer ed25519 SSH keys (if present) for new created profiles (#2094)
 * Changed: Generating new SSH key will use default key type provided by ssh-keygen (#2194)
 * Changed: Open man page and changelog in a text dialog
+* Changed: Minimum PyLint version increased to 4.0.0
+* Added: Application logo (#1961, Gregory Deseck @gregorydk)
 * Added: CLI command "status" summarize last run and backup status (#1018, Samuel Moore @s4moore)
 * Added: Root mode indicator in status bar (#1964)
 * Added: Option to not using an explicit SSH key file. In consequence this supports extern key agents and SSH clients own configuration (#1146)
-* Added: SSH-Key selector widget in Manage profiles dialog (#1146, #2094, #2095)
+* Added: SSH-Key selector widget in Manage profiles dialog (#1146, #2094, #2095, #2275 @m4rcu5 Marcus van Dam)
 * Added: "ETA" value in status bar (#2101)
 * Added: Shutdown confirmation dialog (#2102) (Huaide Jiang @LatiosInAltoMare)
 * Added: Check and warn if include list entries do not exists in backup source (#1586) (@rafaelhdr)
@@ -45,6 +50,7 @@ Version 1.6.0-dev (development of upcoming release)
 * Removed: UI translation in Bosnian, Thai, and Occidental/Interlingue (#1914)
 * Removed: LICENSE file in favor of LICENSES directory and LICENSES.md file
 * Removed: SSH Cipher configuration in Manage profiles dialog (#2143)
+* Fixed: Attribute error about missing 'cbCopyUnsafeLinks' (#2279)
 * Fixed: Use LC_ALL instead of LC_TIME to set the locale
 * Fixed: Optimize subparsers and usage output (#2132)
 * Fixed: Re-design about dialog (#1936)

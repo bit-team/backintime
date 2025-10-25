@@ -23,17 +23,18 @@ from PyQt6.QtWidgets import (QCheckBox,
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QCursor
 import config
-import qttools
+from bitbase import TimeUnit
 from event import Event
+import qttools
 from manageprofiles.statebindcheckbox import StateBindCheckBox
 from manageprofiles.spinboxunit import SpinBoxWithUnit
 from manageprofiles.storagesizewidget import StorageSizeWidget
 from bitwidgets import HLineWidget
-from bitbase import TimeUnit
 
 
 class RemoveRetentionTab(QDialog):
     """The 'Remove & Retention' tab in the Manage Profiles dialog."""
+    # pylint: disable=too-many-instance-attributes
 
     def __init__(self, parent):
         super().__init__(parent=parent)
@@ -109,15 +110,18 @@ class RemoveRetentionTab(QDialog):
         # Event: Notify observers if "warn free space" value has changed
         self.event_remove_free_space_value_changed = Event()
         self._spin_unit_space.event_value_changed.register(
-            lambda value:
+            lambda value:  # pylint: disable=unnecessary-lambda
             self.event_remove_free_space_value_changed.notify(value)
         )
 
     @property
     def config(self) -> config.Config:
+        """The config instance"""
         return self._parent_dialog.config
 
     def load_values(self):
+        """Load config values into the GUI"""
+
         # don't remove named snapshots
         self._cb_keep_named.setChecked(
             self.config.dontRemoveNamedSnapshots())
@@ -149,6 +153,8 @@ class RemoveRetentionTab(QDialog):
         self._spin_inodes.setValue(self.config.minFreeInodes())
 
     def store_values(self):
+        """Store values from GUI into the config"""
+
         self.config.setRemoveOldSnapshots(
             self._checkbox_remove_older.isChecked(),
             self._spinunit_remove_older.value(),
@@ -188,23 +194,22 @@ class RemoveRetentionTab(QDialog):
             self._spin_unit_space.set_storagesize(value, dont_touch_unit=True)
 
     def update_items_state(self, enabled):
+        """Update items regarding profile modes changes."""
         self._cb_run_remote_in_background.setVisible(enabled)
 
     def _label_rule_execute_order(self) -> QWidget:
         icon_label = qttools.create_icon_label_info(fixed_size_widget=True)
 
         # Info text
+        manual_link = '<a href="event:manual">' + _('user manual') + '</a>'
         txt = _(
             'The following rules are processed from top to bottom. Later '
-            'rules override earlier ones. See the '
-            '{manual} for details and examples.'
-        ).format(
-            manual='<a href="event:manual">{}</a>'.format(
-                _('user manual')))
+            'rules override earlier ones. See the {manual_link} for details '
+            'and examples.').format(manual_link=manual_link)
         txt_label = QLabel(txt)
         txt_label.setWordWrap(True)
 
-        txt_label.linkActivated.connect(self.handle_link_activated)
+        txt_label.linkActivated.connect(self._handle_link_activated)
 
         txt_label.setTextInteractionFlags(
             Qt.TextInteractionFlag.TextBrowserInteraction)
@@ -223,7 +228,7 @@ class RemoveRetentionTab(QDialog):
 
         self._tab_layout.addWidget(wdg, self._tab_layout.rowCount(), 0, 1, 3)
 
-    def handle_link_activated(self, _link):
+    def _handle_link_activated(self, _link):
         qttools.open_user_manual()
 
     def _label_keep_most_recent(self) -> None:
@@ -287,7 +292,8 @@ class RemoveRetentionTab(QDialog):
 
         return checkbox, spin_unit
 
-    def _groupbox_retention_policy(self) -> tuple:
+    def _groupbox_retention_policy(self) -> tuple:  # noqa: PLR0915
+        # pylint: disable=too-many-statements
         layout = QGridLayout()
         # col, fx
         layout.setColumnStretch(0, 1)
