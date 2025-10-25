@@ -520,7 +520,7 @@ class GeneralTab(QDialog):
 
             # --- DEV NOTE TODO ---
             # Why this recursive call?
-            return self._parent_dialog.saveProfile()
+            return self._parent_dialog.save_profile()
 
         except KnownHost as ex:
             logger.error(str(ex), self)
