@@ -28,7 +28,7 @@ import subprocess
 from typing import Union, Iterable, Callable
 from contextlib import contextmanager
 from textdlg import TextDialog
-from PyQt6.QtGui import QDesktopServices, QIcon
+from PyQt6.QtGui import QDesktopServices, QIcon, QPalette
 from PyQt6.QtCore import (QEvent,
                           QLibraryInfo,
                           QLocale,
@@ -53,9 +53,12 @@ import version  # noqa: E402
 import messagebox  # noqa: E402
 
 
+_DARK_MODE_THRESHOLD = 128
+
 # |--------------------------------|
 # | Widget modification & creation |
 # |--------------------------------|
+
 
 def can_render(string, widget):
     """Check if the string can be rendered by the font used by the widget.
@@ -76,6 +79,15 @@ def can_render(string, widget):
             return False
 
     return True
+
+
+def in_dark_mode(widget_or_application: QWidget | QApplication) -> bool:
+    """Determine if the desktop/theme is in dark mode."""
+    palette = widget_or_application.palette()
+
+    window_color = palette.color(QPalette.ColorRole.Window)
+
+    return window_color.value() < _DARK_MODE_THRESHOLD
 
 
 _REX_RICHTEXT = re.compile(
