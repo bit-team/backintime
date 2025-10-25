@@ -138,7 +138,7 @@ class MainWindow(QMainWindow):
 
         # timeline (left widget)
         self.timeLine = TimeLine(self)
-        self.timeLine.updateFilesView.connect(self.updateFilesView)
+        self.timeLine.update_files_view.connect(self.updateFilesView)
 
         # right widget
         self.filesWidget = QGroupBox(self)
@@ -2446,7 +2446,7 @@ if __name__ == '__main__':
     cfg.PLUGIN_MANAGER.appStart()
 
     logger.openlog()
-    qapp = qttools.createQApplication(bitbase.APP_NAME)
+    qapp = qttools.create_qapplication(bitbase.APP_NAME)
     translator = qttools.initiate_translator(cfg.language())
     qapp.installTranslator(translator)
 

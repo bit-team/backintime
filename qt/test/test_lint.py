@@ -52,7 +52,7 @@ full_test_files = [_base_dir / fp for fp in (
     # 'icon.py',
     'languagedialog.py',
     'logviewdialog.py',
-    # 'manageprofiles/__init__.py',
+    'manageprofiles/__init__.py',
     'manageprofiles/combobox.py',
     'manageprofiles/schedulewidget.py',
     'manageprofiles/sshkeyselector.py',
@@ -69,21 +69,21 @@ full_test_files = [_base_dir / fp for fp in (
     'messagebox.py',
     'placeswidget.py',
     'plugins/notifyplugin.py',
-    # 'plugins/systrayiconplugin.py',
+    'plugins/systrayiconplugin.py',
     # 'qtsystrayicon.py',
-    # 'qttools.py',
+    'qttools.py',
     'qttools_path.py',
     'restoreconfigdialog.py',
-    # 'restoredialog.py',
+    'restoredialog.py',
     # 'serviceHelper.py',
     'shutdowndlg.py',
     # 'snapshotsdialog.py',
     'statedata.py',
     'statusbar.py',
-    # 'test/__init__.py',
+    'test/__init__.py',
     'test/test_lint.py',
     'test/test_statedata.py',
-    # textdlg.py',
+    'textdlg.py',
     'timeline.py',
     'usermessagedialog.py',
 )]
@@ -227,8 +227,10 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # - PyCodestyle (E, W)
             # - flake8-gettext (INT)
             # - useless noqua (RUF100)
-            # Consider UP, ANN (upgrade and annotation)
-            '--extend-select=PL,E,W,INT,RUF100',
+            # - pep8-naming (N)
+            # Consider UP, ANN, D, DOC (upgrade, annotation, pydocstyle,
+            # pydoclint)
+            '--extend-select=PL,E,W,INT,RUF100,N',
             # Ignore: redefined-loop-name
             '--ignore=PLW2901',
             '--line-length', str(PEP8_MAX_LINE_LENGTH),
