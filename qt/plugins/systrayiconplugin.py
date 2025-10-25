@@ -9,7 +9,7 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 
-# TODO Known open issues:
+# Known open issues:
 # this script should get started and consider some cmd line arguments from BiT
 # (parsed via backintime.createParsers()) so that the same paths are used,
 # mainly "share-path" and "config" (path to the config file).
@@ -17,15 +17,15 @@
 # wrong status info in the systray icon!
 """Plugin starting the systray icon process
 
-Dev note (buhtz, 2025-07): Not sure why this is needed.
+Dev note (buhtz, 2025-07): Not sure why this need to be a plugin.
 """
 import sys
 import os
+import gettext
+import subprocess
 import pluginmanager
 import tools
 import logger
-import gettext
-import subprocess
 
 
 _ = gettext.gettext
@@ -70,18 +70,22 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
                              'BIT system tray icon')
                 return True
 
+        # pylint: disable-next=broad-exception-caught
         except Exception as exc:
             logger.debug(
                 f'Could not ask Qt if system tray is available: {repr(exc)}')
 
         logger.debug(
             'No system tray available to show the BIT system tray icon')
+
         return False
 
-    def isGui(self):
+    def isGui(self):  # noqa: N802
+        """True"""
         return True
 
-    def processBegin(self):
+    def processBegin(self):  # noqa: N802
+        """Start the process."""
         try:
             logger.debug('Trying to start systray icon sub process...')
             path = os.path.join(
@@ -96,8 +100,10 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
                 # HACK to propagate DEBUG logging level to sub process
                 cmd.append('--debug')
 
+            # pylint: disable-next=consider-using-with
             self.process = subprocess.Popen(cmd)
 
+        # pylint: disable-next=broad-exception-caught
         except Exception as exc:
             logger.critical(f'Undefined situation: {exc}', self)
 

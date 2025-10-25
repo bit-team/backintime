@@ -33,6 +33,7 @@ from bitwidgets import SnapshotCombo, ProfileCombo
 
 class LogViewDialog(QDialog):  # pylint: disable=too-many-instance-attributes
     """A log file viewer dialog"""
+
     def __init__(self,
                  parent: QWidget,
                  sid: snapshots.SID = None):
@@ -278,7 +279,7 @@ class LogViewDialog(QDialog):  # pylint: disable=too-many-instance-attributes
         self._txt_log_view.setPlainText(
             '\n'.join(self.sid.log(mode, decode=self._decoder)))
 
-    def closeEvent(self, event):
+    def closeEvent(self, event):  # noqa: N802
         """Handle dialog closed event"""
         state_data = StateData()
         state_data.logview_dims = (self.width(), self.height())

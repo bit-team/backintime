@@ -33,7 +33,7 @@ class TimeLine(QTreeWidget):
 
     The widget is placed on the right side of the main window.
     """
-    updateFilesView = pyqtSignal(int)
+    update_files_view = pyqtSignal(int)
 
     def __init__(self, parent):
         super().__init__(parent)
@@ -132,7 +132,8 @@ class TimeLine(QTreeWidget):
         return self._root_item
 
     @pyqtSlot(snapshots.SID)
-    def addSnapshot(self, sid):  # pylint: disable=invalid-name
+    # pylint: disable-next=invalid-name
+    def addSnapshot(self, sid):  # noqa: N802
         """Slot to handle selection of snapshots."""
         item = SnapshotItem(sid)
 
@@ -183,7 +184,8 @@ class TimeLine(QTreeWidget):
         return True
 
     @pyqtSlot()
-    def checkSelection(self):  # pylint: disable=invalid-name
+    # pylint: disable-next=invalid-name
+    def checkSelection(self):  # noqa: N802
         """Slot handling selection events."""
         if self.currentItem() is None:
             self.select_root_item()
@@ -194,7 +196,7 @@ class TimeLine(QTreeWidget):
 
         if not self.parent.sid.isRoot:
             self.parent.sid = self._root_item.snapshot_id
-            self.updateFilesView.emit(2)
+            self.update_files_view.emit(2)
 
     def selected_snapshot_ids(self):
         """Snapshot IDs of all selected entries."""
@@ -219,7 +221,7 @@ class TimeLine(QTreeWidget):
 
         if self.parent.sid != item.snapshot_id:
             self.parent.sid = item.snapshot_id
-            self.updateFilesView.emit(2)
+            self.update_files_view.emit(2)
 
     def _iter_items(self):
         for index in range(self.topLevelItemCount()):
