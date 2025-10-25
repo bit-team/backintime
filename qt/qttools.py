@@ -17,6 +17,7 @@
     - Menu (tooltips in menus)
     - etc
 """
+# pylint: disable=wrong-import-position,wrong-import-order
 import os
 import sys
 import pwd
@@ -27,7 +28,7 @@ import subprocess
 from typing import Union, Iterable, Callable
 from contextlib import contextmanager
 from textdlg import TextDialog
-from PyQt6.QtGui import QDesktopServices, QIcon
+from PyQt6.QtGui import QDesktopServices, QIcon, QPalette
 from PyQt6.QtCore import (QEvent,
                           QLibraryInfo,
                           QLocale,
@@ -52,9 +53,12 @@ import version  # noqa: E402
 import messagebox  # noqa: E402
 
 
+_DARK_MODE_THRESHOLD = 128
+
 # |--------------------------------|
 # | Widget modification & creation |
 # |--------------------------------|
+
 
 def can_render(string, widget):
     """Check if the string can be rendered by the font used by the widget.
@@ -75,6 +79,15 @@ def can_render(string, widget):
             return False
 
     return True
+
+
+def in_dark_mode(widget_or_application: QWidget | QApplication) -> bool:
+    """Determine if the desktop/theme is in dark mode."""
+    palette = widget_or_application.palette()
+
+    window_color = palette.color(QPalette.ColorRole.Window)
+
+    return window_color.value() < _DARK_MODE_THRESHOLD
 
 
 _REX_RICHTEXT = re.compile(
@@ -136,7 +149,7 @@ def set_wrapped_tooltip(widget: Union[QWidget, Iterable[QWidget]],
         tooltip = (tooltip, )
 
     # Richtext or plain text
-    is_richtext =  might_be_richtext(tooltip[0])
+    is_richtext = might_be_richtext(tooltip[0])
 
     newline = {True: '<br>', False: '\n'}[is_richtext]
 
@@ -268,7 +281,8 @@ class MouseButtonEventFilter(QObject):
 
         super().__init__()
 
-    def eventFilter(self, receiver: QObject, event: QEvent):
+    # pylint: disable-next=invalid-name
+    def eventFilter(self, receiver: QObject, event: QEvent):  # noqa: N802
         """Catch global input events."""
 
         # not a mouse press event
@@ -310,10 +324,12 @@ def _determine_root_mode_user() -> str:
     return None
 
 
-def open_url(url):
+def open_url(url: str) -> None:
+    """Open a URL with the systems default browser using xdg-open."""
     # regular user mode
-    if not bitbase.IS_IN_ROOT_MODE:  
-        return QDesktopServices.openUrl(QUrl(url))
+    if not bitbase.IS_IN_ROOT_MODE:
+        QDesktopServices.openUrl(QUrl(url))
+        return
 
     # root mode
     user_name = _determine_root_mode_user()
@@ -332,11 +348,13 @@ def open_url(url):
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL
         )
+
     except (subprocess.CalledProcessError, FileNotFoundError) as exc:
         logger.error(f'Problem while opening "{url}" in as user '
                      f'"{user_name}" while in root-mode. '
                      f'Error was: {exc}')
-    except Exception as exc:
+
+    except Exception as exc:  # pylint: disable=broad-exception-caught
         logger.critical(f'Unknown problem while opening "{url}" in as user '
                         f'"{user_name}" while in root-mode. '
                         f'Error was: {exc}')
@@ -355,7 +373,8 @@ def open_man_page(manpage: str, icon: QIcon) -> None:
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
-            env=env
+            env=env,
+            check=True
         )
         content = proc.stdout
 
@@ -398,7 +417,7 @@ def open_user_manual() -> None:
     open_url(user_manual_uri())
 
 
-def _show_qt_debug_info(qapp):
+def _show_qt_debug_info(the_qapp: QApplication):
     if not logger.DEBUG:
         return
 
@@ -408,13 +427,13 @@ def _show_qt_debug_info(qapp):
             # https://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
             # For more details see our X11/Wayland/Qt documentation in the
             # directory doc/maintain
-            'QT QPA platform plugin': qapp.platformName(),
-            'QT_QPA_PLATFORMTHEME': 
+            'QT QPA platform plugin': the_qapp.platformName(),
+            'QT_QPA_PLATFORMTHEME':
                 os.environ.get('QT_QPA_PLATFORMTHEME', '<not set>'),
                 # styles and themes determine the look & feel of the GUI
             'QT_STYLE_OVERRIDE':
                 os.environ.get('QT_STYLE_OVERRIDE', '<not set>'),
-            'QT active style': qapp.style().objectName(),
+            'QT active style': the_qapp.style().objectName(),
             'QT fallback style': QIcon.fallbackThemeName(),
             'QT supported styles': QStyleFactory.keys(),
             'themeSearchPaths': QIcon.themeSearchPaths(),
@@ -428,17 +447,24 @@ def _show_qt_debug_info(qapp):
         # msg = '\n' + json.dumps(info, indent=4)
         msg = json.dumps(info)
 
-    except Exception as exc:
+    except Exception as exc:  # pylint: disable=broad-exception-caught
         msg = f'Error reading QT QPA platform plugin or style: {exc}'
 
     logger.debug(msg)
 
 
-def createQApplication(app_name=bitbase.APP_NAME):
+def create_qapplication(app_name=bitbase.APP_NAME) -> QApplication:
+    """Create a QAppliction instance or return the existing one.
 
-    global qapp
+    Dev note (buhtz, 2025-10): Refactoring is needed. e.g. A QApplication
+    derived class (BITApplication) to handle the singleton.
+    """
+
+    # pylint: disable-next=global-variable-undefined
+    global qapp  # noqa: PLW0603
 
     try:
+        # pylint: disable-next=used-before-assignment
         return qapp  # "singleton pattern": Reuse already instantiated qapp
     except NameError:
         pass
@@ -473,7 +499,7 @@ def createQApplication(app_name=bitbase.APP_NAME):
         else:
             qapp.setDesktopFileName("backintime-qt")
 
-    except Exception as exc:
+    except Exception as exc:  # pylint: disable=broad-exception-caught
         logger.warning('Could not set App ID (required for Wayland App icon '
                        f'and more). Reason: {exc}')
 

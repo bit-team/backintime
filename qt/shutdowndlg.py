@@ -18,6 +18,7 @@ from PyQt6.QtCore import QTimer, Qt
 class ConfirmShutdownDlg(QDialog):
     """A dialog ask for confirmation to shutdown the system and assuming
     confirmation after finish a countdown."""
+    # pylint: disable=too-few-public-methods
 
     def __init__(self, countdown: int):
         super().__init__()

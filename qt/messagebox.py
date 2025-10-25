@@ -13,7 +13,7 @@ from PyQt6.QtWidgets import (QApplication,
                              QLineEdit,
                              QMessageBox,
                              QWidget)
-import qttools
+import qttools  # pylint: disable=cyclic-import
 
 
 def ask_password_dialog(parent, title, prompt, language_code, timeout):
@@ -24,8 +24,9 @@ def ask_password_dialog(parent, title, prompt, language_code, timeout):
     yad --entry --title="foo" --text="text" --hide-text
     kdialog --password "enter password"
     """
+
     if parent is None:
-        app = qttools.createQApplication()
+        app = qttools.create_qapplication()
         translator = qttools.initiate_translator(language_code)
         app.installTranslator(translator)
 

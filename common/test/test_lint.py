@@ -165,7 +165,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         """
 
         if PYLINT_AVAILABLE:
-            version_target = version.parse('3.3.0')
+            version_target = version.parse('4.0.0')
 
             proc = subprocess.run(
                 ['pylint', '--version'],
@@ -211,7 +211,8 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # - PyCodestyle (E, W)
             # - flake8-gettext (INT)
             # - useless noqua (RUF100)
-            '--extend-select=PL,E,W,INT,RUF100',
+            # - pep8-naming (N)
+            '--extend-select=PL,E,W,INT,RUF100,N',
             # Ignore: redefined-loop-name
             '--ignore=PLW2901',
             '--line-length', str(PEP8_MAX_LINE_LENGTH),

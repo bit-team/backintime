@@ -17,6 +17,7 @@ class TextDialog(QDialog):
     Dev note: Consider joining the center-resize-feature with
     RestoreConfigDialog.
     """
+    # pylint: disable=too-few-public-methods
 
     def __init__(self,
                  content: str,
@@ -54,6 +55,7 @@ class TextDialog(QDialog):
             width_fraction: Fraction of screen width (0.0 to 1.0)
             height_fraction: Fraction of screen height (0.0 to 1.0)
         """
+        # pylint: disable=duplicate-code
         screen = QGuiApplication.screenAt(self.pos())
         geom = screen.availableGeometry()
 
