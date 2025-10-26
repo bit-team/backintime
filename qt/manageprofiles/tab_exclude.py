@@ -19,6 +19,7 @@ from PyQt6.QtWidgets import (QWidget,
                              QTreeWidgetItem,
                              QPushButton,
                              QHBoxLayout,
+                             QLayout,
                              QCheckBox,
                              QSpinBox,
                              QInputDialog,
@@ -292,10 +293,39 @@ class ExcludeTab(QWidget):
         """
 
         dlg = QInputDialog(self)
+
         dlg.setInputMode(QInputDialog.InputMode.TextInput)
         dlg.setWindowTitle(_('Exclude pattern'))
-        dlg.setLabelText('')
         dlg.resize(400, 0)
+
+        # # Alle Kindobjekte (rekursiv)
+        # from PyQt6.QtCore import QObject
+        # for child in dlg.findChildren(QObject):
+        #     print(child.metaObject().className(), child.objectName())
+
+        dlg.setLabelText(
+            '<p>Enter an exclude pattern:</p>'
+            '<p>For help, see the rsync man page section '
+            'PATTERN MATCHING RULES.</p>')
+
+        label = QLabel('Foo')
+        if label:
+            label.setOpenExternalLinks(False)
+            label.setTextInteractionFlags(
+                Qt.TextInteractionFlag.TextBrowserInteraction)
+
+        # find main windget and its layout
+        central_widget = None
+        for child in dlg.findChildren(QLayout):
+            if child.layout() is not None:
+                central_widget = child
+                layout = central_widget.layout()
+                layout.addWidget(label)
+                print('BREAK')
+                break
+            else:
+                print(f'{child=}')
+
         if not dlg.exec():
             return
         pattern = dlg.textValue().strip()
