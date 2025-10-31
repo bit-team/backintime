@@ -12,25 +12,29 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Module about the Exclude tab"""
-from PyQt6.QtWidgets import (QWidget,
-                             QVBoxLayout,
+from PyQt6.QtWidgets import (QAbstractItemView,
+                             QCheckBox,
+                             QDialog,
+                             QDialogButtonBox,
+                             QHBoxLayout,
+                             QHeaderView,
+                             QInputDialog,
+                             QLayout,
                              QLabel,
+                             QLineEdit,
+                             QPushButton,
+                             QSpinBox,
                              QTreeWidget,
                              QTreeWidgetItem,
-                             QPushButton,
-                             QHBoxLayout,
-                             QLayout,
-                             QCheckBox,
-                             QSpinBox,
-                             QInputDialog,
-                             QHeaderView,
-                             QAbstractItemView)
+                             QVBoxLayout,
+                             QWidget)
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPalette, QBrush
 import tools
 import qttools
 from qttools import custom_sort_order
 from filedialog import FileDialog
+from bitwidgets import HypertextLabel
 
 MATCH_FLAGS = Qt.MatchFlag.MatchFixedString | Qt.MatchFlag.MatchCaseSensitive
 
@@ -292,48 +296,39 @@ class ExcludeTab(QWidget):
         Extend this feature to show all include and exclude matches (#734).
         """
 
-        dlg = QInputDialog(self)
-
-        dlg.setInputMode(QInputDialog.InputMode.TextInput)
+        dlg = QDialog(self)
         dlg.setWindowTitle(_('Exclude pattern'))
-        dlg.resize(400, 0)
-
-        # # Alle Kindobjekte (rekursiv)
-        # from PyQt6.QtCore import QObject
-        # for child in dlg.findChildren(QObject):
-        #     print(child.metaObject().className(), child.objectName())
-
-        dlg.setLabelText(
-            '<p>Enter an exclude pattern:</p>'
-            '<p>For help, see the rsync man page section '
-            'PATTERN MATCHING RULES.</p>')
-
-        label = QLabel('Foo')
-        if label:
-            label.setOpenExternalLinks(False)
-            label.setTextInteractionFlags(
-                Qt.TextInteractionFlag.TextBrowserInteraction)
-
-        # find main windget and its layout
-        central_widget = None
-        for child in dlg.findChildren(QLayout):
-            if child.layout() is not None:
-                central_widget = child
-                layout = central_widget.layout()
-                layout.addWidget(label)
-                print('BREAK')
-                break
-            else:
-                print(f'{child=}')
+        layout = QVBoxLayout(dlg)
+        layout.addWidget(QLabel(_('Enter an exclude pattern:')))
+        line_edit = QLineEdit()
+        layout.addWidget(line_edit)
+        label_help = HypertextLabel(
+            label=_(
+                'For help, see the rsync man page section {link}.'
+            ).format(link='<a href="rsync">PATTERN MATCHING RULES</a>'),
+            link_slot=self._slot_rsync_pattern_match_link
+        )
+        layout.addWidget(label_help)
+        buttons = QDialogButtonBox(
+            QDialogButtonBox.StandardButton.Ok
+            | QDialogButtonBox.StandardButton.Cancel)
+        buttons.accepted.connect(dlg.accept)
+        buttons.rejected.connect(dlg.reject)
+        layout.addWidget(buttons)
 
         if not dlg.exec():
             return
-        pattern = dlg.textValue().strip()
+
+        pattern = line_edit.text().strip()
 
         if not pattern:
             return
 
         self.add_exclude(pattern)
+
+    def _slot_rsync_pattern_match_link(self, url: str):
+        print('X'*100)
+        print(f'{url=}')
 
     def btn_exclude_file_clicked(self):
         """Handle button click"""
