@@ -234,12 +234,16 @@ class HypertextLabel(QLabel):
     """A label containing hyper links.
     """
 
+    # pylint: disable-next=too-many-arguments,too-many-positional-arguments
     def __init__(self,
                  label: str,
                  word_wrap: bool = False,
-                 link_slot: Callable[str] = None,
+                 link_slot: Callable[[str], None] = None,
+                 link_tooltip: str = None,
                  parent: QWidget = None):
         super().__init__(parent)
+
+        self._link_tooltip = link_tooltip
 
         self.setText(label)
         self.setWordWrap(word_wrap)
@@ -255,4 +259,10 @@ class HypertextLabel(QLabel):
 
     def slot_link_hovered(self, url: str):
         """Show URL in tooltip without anoing http-protocol prefixf."""
-        QToolTip.showText(QCursor.pos(), url.replace('https://', ''))
+
+        if self._link_tooltip:
+            txt = self._link_tooltip
+        else:
+            txt = url.replace('https://', '')
+
+        QToolTip.showText(QCursor.pos(), txt)

@@ -18,8 +18,6 @@ from PyQt6.QtWidgets import (QAbstractItemView,
                              QDialogButtonBox,
                              QHBoxLayout,
                              QHeaderView,
-                             QInputDialog,
-                             QLayout,
                              QLabel,
                              QLineEdit,
                              QPushButton,
@@ -273,22 +271,7 @@ class ExcludeTab(QWidget):
         self._update_exclude_recommend_label()
 
     def btn_exclude_add_clicked(self):
-        """Handle button click"""
-
-        """
-        ```python
-        from PyQt6.QtGui import QTextDocument, QTextCursor, QRegularExpression
-
-        pattern = QRegularExpression(r"(?m)^\s*FILTER RULES\s*$")
-        cursor = text_browser.document().find(pattern, QTextCursor())
-        if not cursor.isNull():
-            text_browser.setTextCursor(cursor)
-            text_browser.ensureCursorVisible()
-        ```
-
-        - `(?m)` aktiviert **multiline mode**, damit `^` und `$` Zeilenanfang/-ende meinen.
-        - `^\s*FILTER RULES\s*$` matched nur, wenn die ganze Zeile aus `FILTER RULES` besteht (ggf. mit Leerzeichen davor/danach).
-        - Damit werden Vorkommen wie FILTER RULES section ausgeschlossen.
+        """Handle button click
 
         Dev note (buhtz, 2025-10): Feature idea for later versions. Use rsync
         --dry-run with --debug=FILTER to see include/exclude decissions. Show
@@ -306,7 +289,8 @@ class ExcludeTab(QWidget):
             label=_(
                 'For help, see the rsync man page section {link}.'
             ).format(link='<a href="rsync">PATTERN MATCHING RULES</a>'),
-            link_slot=self._slot_rsync_pattern_match_link
+            link_slot=self._slot_rsync_pattern_match_link,
+            link_tooltip=_('Open rsync man page')
         )
         layout.addWidget(label_help)
         buttons = QDialogButtonBox(
@@ -326,9 +310,8 @@ class ExcludeTab(QWidget):
 
         self.add_exclude(pattern)
 
-    def _slot_rsync_pattern_match_link(self, url: str):
-        print('X'*100)
-        print(f'{url=}')
+    def _slot_rsync_pattern_match_link(self):
+        qttools.open_man_page('rsync', section='PATTERN MATCHING RULES')
 
     def btn_exclude_file_clicked(self):
         """Handle button click"""

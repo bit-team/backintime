@@ -360,8 +360,16 @@ def open_url(url: str) -> None:
                         f'Error was: {exc}')
 
 
-def open_man_page(manpage: str, icon: QIcon) -> None:
-    """Open the manpage in a terminal window."""
+def open_man_page(manpage: str,
+                  icon: QIcon = None,
+                  section: str = None) -> None:
+    """Open the manpage in a text browser window.
+
+    Args:
+        manpage: Name of the manpage.
+        icon: Icon to use for the window.
+        setion: Section of the man page to scroll to.
+    """
     env = os.environ.copy()
     env['MANWIDTH'] = '80'
 
@@ -385,15 +393,22 @@ def open_man_page(manpage: str, icon: QIcon) -> None:
     except FileNotFoundError as exc:
         messagebox.critical(None, str(exc))
         logger.error(str(exc))
+        return
 
+    if section:
+        pattern = r'(?m)^\s*' + section + r'\s*$'
     else:
-        td = TextDialog(
-            content,
-            markdown=False,
-            title=_('man page: {man_page_name}').format(
-                man_page_name=manpage),
-            icon=icon)
-        td.exec()
+        pattern = None
+
+    td = TextDialog(
+        content,
+        markdown=False,
+        scroll_to=pattern,
+        title=_('man page: {man_page_name}').format(
+            man_page_name=manpage),
+        icon=icon)
+
+    td.exec()
 
 
 def user_manual_uri() -> str:
