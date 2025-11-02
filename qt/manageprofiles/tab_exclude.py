@@ -98,7 +98,8 @@ class ExcludeTab(QWidget):
         buttons_layout = QHBoxLayout()
         layout.addLayout(buttons_layout)
 
-        self.btn_exclude_add = QPushButton(self.icon.ADD, _('Add'), self)
+        self.btn_exclude_add = QPushButton(
+            self.icon.ADD, _('Add pattern'), self)
         buttons_layout.addWidget(self.btn_exclude_add)
         self.btn_exclude_add.clicked.connect(self.btn_exclude_add_clicked)
 
@@ -274,7 +275,7 @@ class ExcludeTab(QWidget):
         """Handle button click
 
         Dev note (buhtz, 2025-10): Feature idea for later versions. Use rsync
-        --dry-run with --debug=FILTER to see include/exclude decissions. Show
+        --dry-run with --debug=FILTER to see include/exclude decisions. Show
         them life as preview in the pattern input dialog, for a specific file.
         Extend this feature to show all include and exclude matches (#734).
         """

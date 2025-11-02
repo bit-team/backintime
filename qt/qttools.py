@@ -368,7 +368,7 @@ def open_man_page(manpage: str,
     Args:
         manpage: Name of the manpage.
         icon: Icon to use for the window.
-        setion: Section of the man page to scroll to.
+        section: Section of the man page to scroll to.
     """
     env = os.environ.copy()
     env['MANWIDTH'] = '80'
@@ -396,6 +396,8 @@ def open_man_page(manpage: str,
         return
 
     if section:
+        # Search for one line containing only the section heading but
+        # allow blanks before and behind it.
         pattern = r'(?m)^\s*' + section + r'\s*$'
     else:
         pattern = None

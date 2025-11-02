@@ -232,6 +232,9 @@ class Spinner(QLabel):
 
 class HypertextLabel(QLabel):
     """A label containing hyper links.
+
+    In adtion to QLabel the link has a tooltip derived from its URL or a
+    customized string.
     """
 
     # pylint: disable-next=too-many-arguments,too-many-positional-arguments
