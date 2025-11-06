@@ -71,7 +71,8 @@ class UserMessageDialog(QDialog):
         if self.height() < best.height():
             self.resize(best)
 
-    def resizeEvent(self, event):  # pylint: disable=invalid-name
+    # pylint: disable-next=invalid-name
+    def resizeEvent(self, event):  # noqa: N802
         """See `_fixSize()`  for details."""
         super().resizeEvent(event)
 

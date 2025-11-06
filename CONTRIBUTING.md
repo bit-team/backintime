@@ -155,6 +155,7 @@ distribution.
   - `x11-utils`
   - `python3-pyqt6` (not from _PyPi_ via `pip`)
   - `python3-dbus.mainloop.pyqt6` (not available from _PyPi_ via `pip`)
+  - `python3-pyqt6.qtsvg`
   - `pkexec`
   - `polkitd`
   - `qttranslations6-l10n`
@@ -177,8 +178,10 @@ distribution.
   - `gettext`
   - `python3-pyfakefs` (>= 5.7)
   - `asciidoctor`
+  - `librsvg2-bin` (contains `rsvg-convert`) convert SVG icons into PNG
+  * `optipng` (loseless file-size optimization for PNG files)
   - Optional but recommended:
-    - `pylint` (>= 3.3.0)
+    - `pylint` (>= 4.0.0)
     - `flake8`
     - `ruff` (>= 0.12.0)
     - `codespell`

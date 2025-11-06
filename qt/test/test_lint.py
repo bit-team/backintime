@@ -37,16 +37,22 @@ ANY_LINTER_AVAILABLE = any((
 # "qt" directory
 _base_dir = pathlib.Path(__file__).resolve().parent.parent
 
+"""
+
+"""
 # Files in this lists will get the full battery of linters and rule sets.
 full_test_files = [_base_dir / fp for fp in (
     'aboutdlg.py',
+    # 'app.py',
     'bitwidgets.py',
     'confirmrestoredialog.py',
     'editusercallback.py',
     'encfsmsgbox.py',
     'filedialog.py',
+    # 'icon.py',
     'languagedialog.py',
     'logviewdialog.py',
+    'manageprofiles/__init__.py',
     'manageprofiles/combobox.py',
     'manageprofiles/schedulewidget.py',
     'manageprofiles/sshkeyselector.py',
@@ -54,16 +60,30 @@ full_test_files = [_base_dir / fp for fp in (
     'manageprofiles/statebindcheckbox.py',
     'manageprofiles/storagesizewidget.py',
     'manageprofiles/sshproxywidget.py',
+    'manageprofiles/tab_exclude.py',
+    'manageprofiles/tab_expert_options.py',
+    'manageprofiles/tab_general.py',
+    'manageprofiles/tab_include.py',
+    'manageprofiles/tab_options.py',
+    'manageprofiles/tab_remove_retention.py',
     'messagebox.py',
     'placeswidget.py',
     'plugins/notifyplugin.py',
+    'plugins/systrayiconplugin.py',
+    # 'qtsystrayicon.py',
+    'qttools.py',
     'qttools_path.py',
     'restoreconfigdialog.py',
+    'restoredialog.py',
+    # 'serviceHelper.py',
     'shutdowndlg.py',
+    # 'snapshotsdialog.py',
     'statedata.py',
     'statusbar.py',
+    'test/__init__.py',
     'test/test_lint.py',
     'test/test_statedata.py',
+    'textdlg.py',
     'timeline.py',
     'usermessagedialog.py',
 )]
@@ -207,8 +227,10 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # - PyCodestyle (E, W)
             # - flake8-gettext (INT)
             # - useless noqua (RUF100)
-            # Consider UP, ANN (upgrade and annotation)
-            '--extend-select=PL,E,W,INT,RUF100',
+            # - pep8-naming (N)
+            # Consider UP, ANN, D, DOC (upgrade, annotation, pydocstyle,
+            # pydoclint)
+            '--extend-select=PL,E,W,INT,RUF100,N',
             # Ignore: redefined-loop-name
             '--ignore=PLW2901',
             '--line-length', str(PEP8_MAX_LINE_LENGTH),
