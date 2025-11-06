@@ -28,14 +28,12 @@ as match target while parsing the crontab file. See
 """
 
 
-def _determine_crontab_command() -> str:
+def _determine_crontab_command() -> str | None:
     """Return the name of one of the supported crontab commands if available.
 
     Returns:
-        (str): The command name. Usually "crontab" or "fcrontab".
-
-    Raises:
-        RuntimeError: If none of the supported commands available.
+        The command name or `None` of nothing was found. Usually "crontab"
+        or "fcrontab".
     """
     to_check_commands = ['crontab', 'fcrontab']
     for cmd in to_check_commands:
