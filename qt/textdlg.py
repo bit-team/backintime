@@ -28,7 +28,9 @@ class TextDialog(QDialog):
                  markdown: bool = True,
                  scroll_to: str = None,
                  title: str = '',
-                 icon: QIcon = None):
+                 icon: QIcon = None,
+                 width_fraction: float = 0.5,
+                 height_fraction: float = 0.75):
         super().__init__()
         self.setWindowTitle(title)
 
@@ -51,7 +53,10 @@ class TextDialog(QDialog):
 
         # See _resize_to_full_height() for details.
         self._resize_tries = 10
-        QTimer.singleShot(1, lambda: self._center_and_resize(0.5, 0.75))
+        QTimer.singleShot(
+            1,
+            lambda: self._center_and_resize(width_fraction, height_fraction)
+        )
 
     def _center_and_resize(self,
                            width_fraction: float,
