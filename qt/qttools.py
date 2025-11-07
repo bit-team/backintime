@@ -38,6 +38,7 @@ from PyQt6.QtCore import (QEvent,
                           QTranslator,
                           QUrl)
 from PyQt6.QtWidgets import (QApplication,
+                             QHBoxLayout,
                              QLabel,
                              QStyle,
                              QStyleFactory,
@@ -247,6 +248,30 @@ def create_icon_label_warning(
         icon_size=icon_size,
         icon_scale_factor=icon_scale_factor,
         fixed_size_widget=fixed_size_widget)
+
+
+def create_info_label(
+        text: str,
+        icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
+        icon_scale_factor: float | int = None,
+        fixed_size_widget: bool = True) -> QLabel:
+    """Return a widget with an warning icon and text.
+
+    See `create_icon_label` for details.
+    """
+    ico = create_icon_label_info(
+        icon_size, icon_scale_factor, fixed_size_widget)
+    txt = QLabel(text)
+    txt.setWordWrap(True)
+
+    layout = QHBoxLayout()
+    layout.addWidget(ico)
+    layout.addWidget(txt)
+
+    label = QWidget()
+    label.setLayout(layout)
+
+    return label
 
 
 def custom_sort_order(header, loop, new_column, new_order):

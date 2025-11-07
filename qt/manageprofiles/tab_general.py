@@ -34,6 +34,7 @@ import sshtools
 from exceptions import MountException, NoPubKeyLogin, KnownHost
 import mount
 from bitbase import URL_ENCRYPT_TRANSITION, ENCFS_MSG_STAGE, DIR_SSH_KEYS
+import schedule
 import qttools
 import messagebox
 import encfsmsgbox
@@ -257,6 +258,17 @@ class GeneralTab(QDialog):
         vlayout2.addWidget(self._lbl_full_path)
 
         self._wdg_schedule = schedulewidget.ScheduleWidget(self)
+
+        if schedule.CRONTAB_COMMAND is None:
+            lbl_warning = qttools.create_info_label(
+                text=_('Scheduling is disabled because no cron installation '
+                       'was found. Please install cron to enable scheduled '
+                       'backups.')
+            )
+            tab_layout.addWidget(lbl_warning)
+
+            self._wdg_schedule.setHidden(True)
+
         tab_layout.addWidget(self._wdg_schedule)
 
         tab_layout.addStretch()

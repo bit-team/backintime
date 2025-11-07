@@ -4,6 +4,7 @@ Version 1.6.0-dev (development of upcoming release)
 * Changed: New dependency (runtime GUI) to "python3-pyqt6.qtsvg" for loading SVG icons (#1961)
 * Changed: New dependency (build) "librsvg2-bin" containing "rsvg-convert"
 * Changed: New dependency (build) "optipng"
+* Changed: Disable scheduling widget in GUI if cron/crontab is missing (#2245, @m4rcu5 Marcus von Dam)
 * Changed: "Repeatedly (anacron)" scheduling behave consistent. Reversed minor bug introduced with 060324e (#1791) in 1.5.3 (#2250)
 * Changed: Stricter permissions (600) for fileinfo.bz2 and takesnapshot.log.bz2 (#2235)
 * Changed: **Breaking** A "snapshot" now is a "backup" (#1929)
