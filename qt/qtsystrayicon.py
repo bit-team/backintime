@@ -134,6 +134,8 @@ class QtSysTrayIcon:
         import icon
         symbolic_logo = QIcon.fromTheme(icon.BIT_LOGO_SYMBOLIC_NAME)
 
+        return QSystemTrayIcon(symbolic_logo)
+
         # Logo color depending on dark/light mode
         dark_mode = qttools.in_dark_mode(self.qapp)
         color = QColor('white' if dark_mode else 'black')
