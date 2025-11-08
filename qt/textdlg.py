@@ -21,18 +21,31 @@ class TextDialog(QDialog):
     RestoreConfigDialog.
     """
     # pylint: disable=too-few-public-methods
+    DEFAULT_WIDTH_FRACTION = 0.5
+    DEFAULT_HEIGHT_FRACTION = 0.75
 
     # pylint: disable-next=too-many-arguments,too-many-positional-arguments
-    def __init__(self,
+    def __init__(self,  # noqa: PLR0913
                  content: str,
                  markdown: bool = True,
                  scroll_to: str = None,
                  title: str = '',
-                 icon: QIcon = None):
+                 icon: QIcon = None,
+                 width_fraction: float = DEFAULT_WIDTH_FRACTION,
+                 height_fraction: float = DEFAULT_HEIGHT_FRACTION):
+        """
+        Args:
+            width_fraction: Fraction of screen width (0.0 to 1.0)
+            height_fraction: Fraction of screen height (0.0 to 1.0)
+        """
         super().__init__()
         self.setWindowTitle(title)
 
         self._scroll_to_pattern = scroll_to
+        self._markdown = markdown
+        self._resize_tries = -1
+        self._height_fraction = height_fraction
+        self._width_fraction = width_fraction
 
         if icon:
             self.setWindowIcon(icon)
@@ -44,27 +57,34 @@ class TextDialog(QDialog):
         layout = QVBoxLayout(self)
         layout.addWidget(self._browser)
 
-        if markdown:
+        self.set_content(content)
+
+    @property
+    def width_fraction(self) -> float:
+        """Fraction of screen width"""
+        return self._width_fraction
+
+    @property
+    def browser_widget(self) -> QTextBrowser:
+        """The primary widget"""
+        return self._browser
+
+    def set_content(self, content: str):
+        """Set content to the primary widget.
+        """
+        if self._markdown:
             self._browser.setMarkdown(content)
         else:
             self._browser.setPlainText(content)
 
         # See _resize_to_full_height() for details.
         self._resize_tries = 10
-        QTimer.singleShot(1, lambda: self._center_and_resize(0.5, 0.75))
+        QTimer.singleShot(1, self._center_and_resize)
 
-    def _center_and_resize(self,
-                           width_fraction: float,
-                           height_fraction: float) -> None:
+    def _center_and_resize(self) -> None:
         """Center the dialog and resize it to fractions of the screen size.
-
-        Args:
-            width_fraction: Fraction of screen width (0.0 to 1.0)
-            height_fraction: Fraction of screen height (0.0 to 1.0)
         """
         # pylint: disable=duplicate-code
-        screen = QGuiApplication.screenAt(self.pos())
-        geom = screen.availableGeometry()
 
         # Determine the height of the dialog's title bar and border. This
         # value is unknown or incorrect until the dialg is fully drawn.
@@ -72,15 +92,14 @@ class TextDialog(QDialog):
         deco_height = self.frameGeometry().height() - self.geometry().height()
         if deco_height == 0 and self._resize_tries > 0:
             self._resize_tries -= 1
-            QTimer.singleShot(
-                1,
-                lambda: self._center_and_resize(
-                    width_fraction, height_fraction)
-            )
+            QTimer.singleShot(1, self._center_and_resize)
             return
 
-        new_width = int(geom.width() * width_fraction)
-        new_height = int((geom.height() - deco_height) * height_fraction)
+        screen = QGuiApplication.screenAt(self.pos())
+        geom = screen.availableGeometry()
+
+        new_width = int(geom.width() * self._width_fraction)
+        new_height = int((geom.height() - deco_height) * self._height_fraction)
 
         self.move(
             # center horizontal

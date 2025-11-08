@@ -28,7 +28,11 @@ import subprocess
 from typing import Union, Iterable, Callable
 from contextlib import contextmanager
 from textdlg import TextDialog
-from PyQt6.QtGui import QDesktopServices, QIcon, QPalette
+from PyQt6.QtGui import (QDesktopServices,
+                         QGuiApplication,
+                         QFontMetricsF,
+                         QIcon,
+                         QPalette)
 from PyQt6.QtCore import (QEvent,
                           QLibraryInfo,
                           QLocale,
@@ -385,21 +389,67 @@ def open_url(url: str) -> None:
                         f'Error was: {exc}')
 
 
+def screen_width_in_chars(widget: QWidget, reference_char: str = 'M') -> int:
+    """Width of the screen in number of characters ('em').
+
+    The calculation is based on the width of one character, determined via
+    font metrics regarding the given widget.
+    """
+    # Calculate width in pixel for one 'em' (letter 'M')
+    metrics = QFontMetricsF(widget.font())
+    char_px = metrics.horizontalAdvance(reference_char)
+
+    # Screen width
+    screen = QGuiApplication.screenAt(widget.pos())
+    geom = screen.availableGeometry()
+
+    # Screen width in 'em' (number of characters)
+    return int(geom.width() / char_px)
+
+
 def open_man_page(manpage: str,
                   icon: QIcon = None,
                   section: str = None) -> None:
     """Open the manpage in a text browser window.
+
+    The position and geometry of the dialog depends on fractions of the screen.
+    The the man page content's linebreaks in the dialog are adjusted to the
+    width of the dialog.
 
     Args:
         manpage: Name of the manpage.
         icon: Icon to use for the window.
         section: Section of the man page to scroll to.
     """
-    env = os.environ.copy()
-    env['MANWIDTH'] = '80'
 
     content = ''
 
+    if section:
+        # Search for one line containing only the section heading but
+        # allow blanks before and behind it.
+        pattern = r'(?m)^\s*' + section + r'\s*$'
+    else:
+        pattern = None
+
+    # The dialog
+    td = TextDialog(
+        content,
+        markdown=False,
+        scroll_to=pattern,
+        title=_('man page: {man_page_name}').format(
+            man_page_name=manpage),
+        icon=icon
+    )
+
+    # Determine man page width in characters...
+    chars = screen_width_in_chars(td.browser_widget)
+    # ...using text dialogs screen fraction and a 5% security buffer
+    chars = int(chars * td.width_fraction * 0.95)
+
+    env = os.environ.copy()
+    env['MANWIDTH'] = f'{chars}'
+
+    # Get content from man page
     try:
         proc = subprocess.run(
             ['man', manpage],
@@ -420,21 +470,8 @@ def open_man_page(manpage: str,
         logger.error(str(exc))
         return
 
-    if section:
-        # Search for one line containing only the section heading but
-        # allow blanks before and behind it.
-        pattern = r'(?m)^\s*' + section + r'\s*$'
-    else:
-        pattern = None
-
-    td = TextDialog(
-        content,
-        markdown=False,
-        scroll_to=pattern,
-        title=_('man page: {man_page_name}').format(
-            man_page_name=manpage),
-        icon=icon)
-
+    # Show dialog with content
+    td.set_content(content)
     td.exec()
 
 
