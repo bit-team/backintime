@@ -1944,7 +1944,7 @@ class Snapshots:
                         % del_snapshots, self)
 
             for i, sid in enumerate(del_snapshots, 1):
-                log(_('Smart removal') + ' %s/%s' %(i, len(del_snapshots)))
+                log('Smart removal' + ' %s/%s' %(i, len(del_snapshots)))
                 self.remove(sid)
 
     def get_free_space_at_destination(self) -> StorageSize | None:
