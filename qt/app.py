@@ -571,24 +571,24 @@ class MainWindow(QMainWindow):
                 icon.RESTORE, _('Restore'),
                 self._slot_restore_this, None,
                 _('Restore the selected files or directories to the '
-                  'original destination.')),
+                  'original location.')),
             'act_restore_to': (
                 icon.RESTORE_TO, _('Restore to …'),
                 self._slot_restore_this_to, None,
                 _('Restore the selected files or directories to a '
-                  'new destination.')),
+                  'new location.')),
             'act_restore_parent': (
                 icon.RESTORE,
                 None,  # text label is set elsewhere
                 self._slot_restore_parent, None,
                 _('Restore the currently shown directory and all its contents '
-                  'to the original destination.')),
+                  'to the original location.')),
             'act_restore_parent_to': (
                 icon.RESTORE_TO,
                 None,  # text label is set elsewhere
                 self._slot_restore_parent_to, None,
                 _('Restore the currently shown directory and all its contents '
-                  'to a new destination.')),
+                  'to a new location.')),
             'act_folder_up': (
                 icon.UP, _('Up'),
                 self._slot_files_view_dir_up, ['Alt+Up', 'Backspace'], None),

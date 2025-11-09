@@ -236,7 +236,7 @@ class RemoveRetentionTab(QDialog):
         qttools.set_wrapped_tooltip(
             cb,
             (
-                _('The last or freshest backup is kept under '
+                _('The most up-to-date backup is kept under '
                   'all circumstances.'),
                 _('That behavior cannot be changed.')
             )

@@ -498,9 +498,11 @@ class GeneralTab(QDialog):
                           'returned:')
                 + '</p><p>' + str(ex) + '</p><p>'
                 + _('Copying the public SSH key to the remote host can help '
-                    'enable password-less login.')
+                    'enable password-less login.'
+                    'To enable password-less login, the program can copy the '
+                    'public SSH key to the remote host.')
                 + '</p><p>'
-                + _('Proceed?')
+                + _('Proceed with copying the SSH key?')
                 + '</p>'
             )
 
