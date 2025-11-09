@@ -13,17 +13,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-09-25 09:29+0200\n"
-"PO-Revision-Date: 2025-04-10 10:35+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-10-24 22:09+0000\n"
+"Last-Translator: andika <andika@noreply.codeberg.org>\n"
 "Language-Team: Indonesian <https://translate.codeberg.org/projects/backintime/common/id/>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.10.2\n"
+"X-Generator: Weblate 5.13.3\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -32,6 +32,9 @@ msgid ""
 "To extract per-file license and copyright information using SPDX metadata, "
 "refer to {readme_link}."
 msgstr ""
+"Semua lisensi yang dipakai dalam proyek ini terletak di direktori "
+"{dir_link}. Untuk mengekstrak lisensi per berkas dan informasi hak cipta "
+"memakai metadata SPDX, lihat {readme_link}."
 
 #: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:98
@@ -86,9 +89,8 @@ msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
 
 #: common/config.py:314
-#, fuzzy
 msgid "Backup directory is not valid."
-msgstr "Direktori snapshot tidak valid."
+msgstr "Direktori cadangan tidak valid."
 
 #: common/config.py:326
 msgid "At least one directory must be selected for backup."
@@ -131,7 +133,6 @@ msgid "Failed to write new crontab."
 msgstr "Gagal menulis crontab baru."
 
 #: common/config.py:1573
-#, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -140,9 +141,10 @@ msgid ""
 "distribution for assistance."
 msgstr ""
 "Cron tidak berjalan meskipun perintah crontab tersedia. Pekerjaan cadangan "
-"terjadwal tidak akan dijalankan. Cron mungkin sudah terpasang tetapi belum "
-"diaktifkan. Cobalah perintah systemctl enable cron atau konsultasikan dengan"
-" saluran dukungan distribusi GNU/Linux Anda."
+"terjadwal tidak akan dijalankan. Cron mungkin sudah terpasang tetapi tidak "
+"diaktifkan. Cobalah perintah \"systemctl enable cron\" dan \"systemctl start"
+" cron\", atau konsultasikan dengan kanal dukungan dari distribusi GNU/Linux "
+"yang sedang dipakai untuk bantuan."
 
 #: common/configfile.py:101
 msgid "Failed to save config"
@@ -179,14 +181,12 @@ msgid "Cancel"
 msgstr "Batal"
 
 #: common/encfstools.py:149
-#, fuzzy
 msgid "Please re-enter the EncFS password to confirm."
-msgstr "Mohon masukkan kata sandi untuk \"{user}\"."
+msgstr "Silakan masukkan lagi kata sandi EncFS untuk mengonfirmasi."
 
 #: common/encfstools.py:155
-#, fuzzy
 msgid "The EncFS passwords do not match."
-msgstr "Kata sandi tidak cocok."
+msgstr "Kata sandi EncFS tidak cocok."
 
 #: common/encfstools.py:515 common/snapshots.py:1129
 msgid "Take snapshot"
@@ -215,13 +215,13 @@ msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "Masukkan kata sandi untuk profil {mode} \"{profile}\":"
 
 #: common/schedule.py:232
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available."
 msgstr ""
 "Tidak bisa memasang aturan Udev untuk profil {profile_id}. Layanan DBus "
-"'{dbus_interface}' tidak tersedia"
+"'{dbus_interface}' tidak tersedia."
 
 #: common/schedule.py:245
 #, python-brace-format
@@ -246,31 +246,31 @@ msgid ""
 "The following entries from the include list have no corresponding file or "
 "directory in the backup source:"
 msgstr ""
+"Entri berikut dari daftar sertaan tidak punya berkas atau direktori terkait "
+"dalam sumber cadangan:"
 
 #: common/snapshots.py:812
 msgid "Deferring backup while on battery"
 msgstr "Tunda pencadangan saat memakai baterai"
 
 #: common/snapshots.py:931 qt/app.py:368
-#, fuzzy
 msgid "Can't find backup directory."
-msgstr "Tak bisa temukan direktori snapshot."
+msgstr "Tak bisa temukan direktori cadangan."
 
 #: common/snapshots.py:935 qt/app.py:369
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in."
-msgstr "Jika itu ada pada drive lepas pasang harap tancapkan."
+msgstr "Jika itu ada pada drive lepas pasang, harap tancapkan."
 
 #: common/snapshots.py:938
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
-msgstr[0] "Menunggu %s detik."
+msgstr[0] "Menunggu {n} detik."
 
 #: common/snapshots.py:1006
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
-msgstr "Gagal mengambil snapshot {snapshot_id}."
+msgstr "Gagal membuat cadangan {snapshot_id}."
 
 #: common/snapshots.py:1038
 msgid "Please be patient. Finalizing…"
@@ -289,14 +289,15 @@ msgid "Saving permissions…"
 msgstr "Menyimpan izin…"
 
 #: common/snapshots.py:1378
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
-msgstr "Ditemukan sisa snapshot {snapshot_id} yang dapat dilanjutkan."
+msgstr "Ditemukan cadangan tak lengkap {snapshot_id} yang dapat dilanjutkan."
 
 #: common/snapshots.py:1402
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
-msgstr "Menghapus sisa direktori {snapshot_id} dari proses sebelumnya"
+msgstr ""
+"Menghapus direktori {snapshot_id} yang tidak lengkap dari eksekusi terakhir"
 
 #: common/snapshots.py:1413
 msgid "Can't remove directory"
@@ -304,7 +305,7 @@ msgstr "Tak bisa membuang direktori"
 
 #: common/snapshots.py:1467
 msgid "Creating backup"
-msgstr ""
+msgstr "Membuat cadangan"
 
 #: common/snapshots.py:1518
 msgid "Success"
@@ -336,9 +337,8 @@ msgstr ""
 "kill'"
 
 #: common/snapshots.py:1567
-#, fuzzy
 msgid "Nothing changed, no new backup necessary"
-msgstr "Tidak ada yang berubah, tidak perlu membuat snapshot baru"
+msgstr "Tidak ada yang berubah, tidak perlu cadangan baru"
 
 #: common/snapshots.py:1612
 #, python-brace-format
@@ -350,9 +350,8 @@ msgid "Smart removal"
 msgstr "Penghapusan cerdas"
 
 #: common/snapshots.py:1999
-#, fuzzy
 msgid "Apply rules to remove old backups"
-msgstr "Terapkan aturan untuk membuang snapshot lama"
+msgstr "Terapkan aturan untuk membuang cadangan lama"
 
 #: common/snapshots.py:2032
 msgid "Apply retention policy"
@@ -596,52 +595,44 @@ msgid "Use checksums for file change detection."
 msgstr "Gunakan checksum untuk deteksi perubahan berkas."
 
 #: qt/app.py:461 qt/qtsystrayicon.py:77
-#, fuzzy
 msgid "Pause backup process"
-msgstr "Istirahatkan proses snapshot"
+msgstr "Istirahatkan proses pencadangan"
 
 #: qt/app.py:465 qt/qtsystrayicon.py:82
-#, fuzzy
 msgid "Resume backup process"
-msgstr "Lanjutkan proses snapshot"
+msgstr "Lanjutkan proses pencadangan"
 
 #: qt/app.py:469 qt/qtsystrayicon.py:88
-#, fuzzy
 msgid "Stop backup process"
-msgstr "Hentikan proses snapshot"
+msgstr "Hentikan proses pencadangan"
 
 #: qt/app.py:473
-#, fuzzy
 msgid "Refresh backup list"
-msgstr "Segarkan daftar snapshot"
+msgstr "Segarkan daftar cadangan"
 
 #: qt/app.py:477
 msgid "Name backup"
-msgstr ""
+msgstr "Namai cadangan"
 
 #: qt/app.py:481
-#, fuzzy
 msgid "Remove backup"
-msgstr "Buang snapshot"
+msgstr "Buang cadangan"
 
 #: qt/app.py:485
-#, fuzzy
 msgid "Open backup log"
-msgstr "Lihat catatan log terakhir"
+msgstr "Buka catatan log pencadangan"
 
 #: qt/app.py:487
-#, fuzzy
 msgid "View log of the selected backup."
-msgstr "Setidaknya satu direktori harus dipilih untuk cadangan."
+msgstr "Lihat catatan log dari cadangan yang dipilih."
 
 #: qt/app.py:489
-#, fuzzy
 msgid "Open last backup log"
-msgstr "Lihat catatan log terakhir"
+msgstr "Buka catatan log pencadangan terakhir"
 
 #: qt/app.py:491
 msgid "View log of the latest backup."
-msgstr ""
+msgstr "Lihat catatan log dari cadangan terakhir."
 
 #: qt/app.py:493
 msgid "Manage profiles…"
@@ -656,9 +647,8 @@ msgid "Shutdown"
 msgstr "Matikan"
 
 #: qt/app.py:503
-#, fuzzy
 msgid "Shut down system after backup has finished."
-msgstr "Matikan sistem setelah snapshot selesai."
+msgstr "Matikan sistem setelah pencadangan selesai."
 
 #: qt/app.py:505
 msgid "Setup language…"

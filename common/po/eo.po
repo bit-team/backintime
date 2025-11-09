@@ -12,17 +12,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-09-25 09:29+0200\n"
-"PO-Revision-Date: 2025-07-29 07:57+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos <fito@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-10-26 11:51+0000\n"
+"Last-Translator: zvavybir <zvavybir@noreply.codeberg.org>\n"
 "Language-Team: Esperanto <https://translate.codeberg.org/projects/backintime/common/eo/>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.13.3\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -31,6 +31,9 @@ msgid ""
 "To extract per-file license and copyright information using SPDX metadata, "
 "refer to {readme_link}."
 msgstr ""
+"Ĉioj permisiloj uzita je tio ĉi projekto estas en la dosierujo {dir_link}. "
+"Por eltiri la po-dosieraj permisiloj kaj kopirajt-informaĵo uzita SPDX "
+"metadatumoj, vidu {readme_link}."
 
 #: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:98
@@ -90,7 +93,7 @@ msgstr "Dosiero por savkopio ne estas valida."
 
 #: common/config.py:326
 msgid "At least one directory must be selected for backup."
-msgstr ""
+msgstr "Almenaŭ unu dosierujo devas esti elektita for savkopii."
 
 #: common/config.py:344 common/config.py:359
 #, fuzzy, python-brace-format
@@ -213,13 +216,13 @@ msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "Entajpi pasvorton por {mode} profilo \"{profile}\":"
 
 #: common/schedule.py:232
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available."
 msgstr ""
 "Ne povis instali udev-regulo por profilo {profile_id}. DBus-servo "
-"{dbus_interface} ne estis havebla"
+"{dbus_interface} ne estis havebla."
 
 #: common/schedule.py:245
 #, python-brace-format
@@ -261,11 +264,11 @@ msgstr ""
 "Se ĝi estas je demetebla disko, bonvolu konekti ĝin kaj post tio premi OK."
 
 #: common/snapshots.py:938
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
-msgstr[0] "Atendi %s sekundon."
-msgstr[1] "Atendi %s sekundojn."
+msgstr[0] "Atendi {n} sekundon."
+msgstr[1] "Atendi {n} sekundojn."
 
 #: common/snapshots.py:1006
 #, fuzzy, python-brace-format
@@ -277,9 +280,8 @@ msgid "Please be patient. Finalizing…"
 msgstr ""
 
 #: common/snapshots.py:1164
-#, fuzzy
 msgid "Can't create directory."
-msgstr "Ne povas krei dosieron"
+msgstr "Ne povas krei dosieron."
 
 #: common/snapshots.py:1181
 msgid "Saving config file…"
@@ -342,9 +344,9 @@ msgid "Nothing changed, no new backup necessary"
 msgstr "Nenio estas ŝanĝita, nova momentaĵo ne estas necesa"
 
 #: common/snapshots.py:1612
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
-msgstr "Ne povas renomi {new_path} al {path}"
+msgstr "Ne povas renomi {new_path} al {path}."
 
 #: common/snapshots.py:1947
 msgid "Smart removal"
@@ -441,9 +443,9 @@ msgstr ""
 " ligilojn. Bonvolu uzi indiĝenan Linuksan dosiersistemo."
 
 #: common/tools.py:414
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{path} is not a valid directory."
-msgstr "Fora vojo ekzistas, sed ne estas dosierujo."
+msgstr "{path} ne estas valida dosierujo."
 
 #: common/tools.py:428
 msgid "Creation of following directory failed:"
@@ -870,9 +872,8 @@ msgid "ETA:"
 msgstr "Restanta:"
 
 #: qt/app.py:1401
-#, fuzzy
 msgid "Backup:"
-msgstr "&Savkopio"
+msgstr "Savkopio:"
 
 #: qt/app.py:1441
 #, python-brace-format
@@ -1003,13 +1004,13 @@ msgid "Question"
 msgstr "Demando"
 
 #: qt/confirmrestoredialog.py:76
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix} before overwriting or removing "
 "local elements."
 msgstr ""
-"Krei kopioj de savkopioj kun vosta {suffix}\n"
-"antaŭ anstataŭigi aŭ forigi lokajn elementojn."
+"Krei kopioj de savkopioj kun vosta {suffix} antaŭ anstataŭigi aŭ forigi "
+"lokajn elementojn."
 
 #: qt/confirmrestoredialog.py:81 qt/manageprofiles/tab_options.py:66
 #, fuzzy, python-brace-format
@@ -1022,14 +1023,13 @@ msgstr ""
 "komando:"
 
 #: qt/confirmrestoredialog.py:94
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Only restore elements which do not exist or are newer than those in "
 "destination. Using \"{rsync_example}\" option."
 msgstr ""
-"Sole restaŭri elementojn, kiuj ne ekzistas aŭ\n"
-"estas pli novaj ol tiuj, kiuj estas je la celon.\n"
-"Tio uzas la \"rsync --update\" opcion."
+"Sole restaŭri elementojn, kiuj ne ekzistas aŭ estas pli novaj ol tiuj, kiuj "
+"estas je la celon. Tio uzas la \"{rsync_example}\" opcion."
 
 #: qt/confirmrestoredialog.py:133
 #, fuzzy
@@ -1050,15 +1050,12 @@ msgstr ""
 "momentaĵo estis kreita."
 
 #: qt/confirmrestoredialog.py:147
-#, fuzzy
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
 msgstr[0] ""
-"Ĉu vi vere volas restaŭri ĉi tiun dosier(uj)on al la nova dosierujo\n"
-"{path}?"
+"Ĉu vi vere volas restaŭri ĉi tiun dosier(uj)on al la nova dosierujo?"
 msgstr[1] ""
-"Ĉu vi vere volas restaŭri ĉi tiujn dosier(uj)ojn al la nova dosierujo\n"
-"{path}?"
+"Ĉu vi vere volas restaŭri ĉi tiujn dosier(uj)ojn al la nova dosierujo?"
 
 #: qt/confirmrestoredialog.py:157
 #, fuzzy
@@ -1177,9 +1174,8 @@ msgid "Profile:"
 msgstr "Profilo:"
 
 #: qt/logviewdialog.py:84
-#, fuzzy
 msgid "Backups:"
-msgstr "&Savkopio"
+msgstr "Savkopioj:"
 
 #: qt/logviewdialog.py:91
 msgid "Filter:"
@@ -1276,13 +1272,13 @@ msgid "Delete the profile \"{name}\"?"
 msgstr "Ĉu vi certas ke vi volas forigi la profilon \"{name}\"?"
 
 #: qt/manageprofiles/__init__.py:340
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until it is"
 " included, too."
 msgstr ""
-"\"{path}\" estas simbola ligilo. La ligita celo ne estos savkopiata ĝis vi inkludi ĝin ankaŭ.\n"
-"Ĉu vi volas inkludi la simbole ligitan celon anstataŭ?"
+"\"{path}\" estas simbola ligilo. La ligita celo ne estos savkopiata ĝis vi "
+"inkludi ĝin ankaŭ."
 
 #: qt/manageprofiles/__init__.py:344
 msgid "Include the symlink's target instead?"
@@ -1317,13 +1313,12 @@ msgid "Minutes:"
 msgstr ""
 
 #: qt/manageprofiles/schedulewidget.py:93
-#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " A sudo password prompt will appear."
 msgstr ""
-"Ruli Back In Time tuj kiam la disko estas konektita (sole unu fojon en X tagoj).\n"
-"Vi estos demandata je via sudo-pasvorton."
+"Ruli Back In Time tuj kiam la disko estas konektita (sole unu fojon en X "
+"tagoj). Vi estos demandata je via sudo-pasvorton."
 
 #: qt/manageprofiles/schedulewidget.py:98
 msgid ""
@@ -1440,10 +1435,8 @@ msgid "<Select another file…>"
 msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:64
-#, fuzzy
 msgid "Choose an existing private key file from somewhere else."
-msgstr ""
-"Elekti ekzistantan dosieron je privata ŝlosilo (normale nomita \"id_rsa\")"
+msgstr "Elekti ekzistantan dosieron je privata ŝlosilo de ie alia."
 
 #: qt/manageprofiles/sshkeyselector.py:70
 msgid "<Generate new key-pair…>"
@@ -1455,9 +1448,9 @@ msgid "Create a new SSH key without passphrase."
 msgstr "Malsukcesi krei novan SSH-ŝlosilon en {path}."
 
 #: qt/manageprofiles/sshkeyselector.py:91
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Full path: {path}"
-msgstr "Plena momentaĵvojo:"
+msgstr "Plena momentaĵvojo: {path}"
 
 #: qt/manageprofiles/sshkeyselector.py:185
 #, fuzzy
@@ -1591,9 +1584,8 @@ msgid ""
 msgstr "Malŝaltita, ĉar tio ŝablono ne funkcias je 'kriptita SSH' reĝimo."
 
 #: qt/manageprofiles/tab_expert_options.py:40
-#, fuzzy
 msgid "Caution:"
-msgstr "Demando"
+msgstr "Averto:"
 
 #: qt/manageprofiles/tab_expert_options.py:41
 msgid ""
@@ -1625,9 +1617,8 @@ msgid "when taking a manual backup"
 msgstr "kiam fari manan momentaĵon"
 
 #: qt/manageprofiles/tab_expert_options.py:104
-#, fuzzy
 msgid "Please install 'nocache' to enable this option."
-msgstr "(Bonvolu instali 'nocache' por ŝalti tion opcion)"
+msgstr "Bonvolu instali 'nocache' por ŝalti tion opcion."
 
 #: qt/manageprofiles/tab_expert_options.py:110
 msgid "on local machine"

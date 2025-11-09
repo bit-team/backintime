@@ -13,10 +13,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-09-25 09:29+0200\n"
-"PO-Revision-Date: 2025-09-24 16:09+0000\n"
-"Last-Translator: artnay <artnay@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-09-30 12:17+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Finnish <https://translate.codeberg.org/projects/backintime/common/fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
@@ -32,6 +32,9 @@ msgid ""
 "To extract per-file license and copyright information using SPDX metadata, "
 "refer to {readme_link}."
 msgstr ""
+"Kaikki tässä projektissa käytetyt lisenssit sijaitsevat hakemistossa "
+"{dir_link}. Katso {readme_link} tiedostokohtaisten lisenssi- ja "
+"tekijänoikeustietojen purkamiseksi SPDX-metatietoja käyttämällä."
 
 #: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
 #: qt/messagebox.py:98
@@ -113,12 +116,17 @@ msgid ""
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
 " space falls below\" ({val_two})."
 msgstr ""
+"Arvon \"Poista vanhin varmuuskopio, jos vapaata tilaa on vähemmän kuin\" "
+"({val_one}) on oltava pienempi tai yhtä suuri kuin kynnysarvo \"Varoita, jos"
+" vapaata levytilaa on vähemmän kuin\" ({val_two}):lle."
 
 #: common/config.py:384
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr ""
+"Säädä asetuksia niin, että varmuuskopioiden poistoraja ei ole korkeampi kuin"
+" varoitusraja."
 
 #: common/config.py:1511
 #, python-brace-format
@@ -130,7 +138,6 @@ msgid "Failed to write new crontab."
 msgstr "Uuden crontabin kirjoittaminen epäonnistui."
 
 #: common/config.py:1573
-#, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -138,10 +145,11 @@ msgid ""
 "cron\", or consult the support channels of the currently used GNU/Linux "
 "distribution for assistance."
 msgstr ""
-"Cron ei ole käynnissä, vaikka komento 'crontab' on käytettävissä. "
-"Ajoitettuja varmuuskopiointitöitä ei suoriteta. Cron saattaa olla "
-"asennettuna, mutta ei käytössä. Kokeile komentoa 'systemctl enable cron' tai"
-" ota yhteyttä GNU/Linux-jakelun tukikanaviin."
+"Cron ei ole käynnissä, vaikka crontab-komento on käytettävissä. Ajoitetut "
+"varmuuskopiointityöt eivät käynnisty. Cron saattaa olla asennettuna, mutta "
+"ei ole käytössä. Kokeile suorittaa kaksi komentoa \"systemctl enable cron\" "
+"ja \"systemctl start cron\" tai ota yhteyttä käytössä olevan GNU/Linux-"
+"jakelun tukikanaviin saadaksesi apua."
 
 #: common/configfile.py:101
 msgid "Failed to save config"
@@ -178,9 +186,8 @@ msgid "Cancel"
 msgstr "Peru"
 
 #: common/encfstools.py:149
-#, fuzzy
 msgid "Please re-enter the EncFS password to confirm."
-msgstr "Ole hyvä ja syötä käyttäjän \"{user}\" salasana."
+msgstr "Vahvista syöttämällä EncFS-salasana uudelleen."
 
 #: common/encfstools.py:155
 msgid "The EncFS passwords do not match."
@@ -244,6 +251,8 @@ msgid ""
 "The following entries from the include list have no corresponding file or "
 "directory in the backup source:"
 msgstr ""
+"Seuraavilla sisällytysluettelon merkinnöillä ei ole vastaavaa tiedostoa tai "
+"hakemistoa varmuuskopiointilähteessä:"
 
 #: common/snapshots.py:812
 msgid "Deferring backup while on battery"
@@ -254,9 +263,8 @@ msgid "Can't find backup directory."
 msgstr "Varmuuskopioiden hakemistoa ei löydy."
 
 #: common/snapshots.py:935 qt/app.py:369
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in."
-msgstr "Jos se on irrotettavassa asemassa, liitä se."
+msgstr "Jos se on irrotettavalla asemalla, kytke se."
 
 #: common/snapshots.py:938
 #, python-brace-format
@@ -287,16 +295,16 @@ msgid "Saving permissions…"
 msgstr "Tallennetaan käyttöoikeuksia…"
 
 #: common/snapshots.py:1378
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr ""
-"Löytyi jäljelle jäänyt tilannevedos {snapshot_id}, jota voidaan jatkaa."
+"Löytyi epätäydellinen varmuuskopio {snapshot_id}, jota voidaan jatkaa."
 
 #: common/snapshots.py:1402
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr ""
-"Poistetaan jäljelle jäänyt {snapshot_id}-hakemisto viimeisestä suorituksesta"
+"Poistetaan epätäydellinen {snapshot_id}-hakemisto viime suorituskerrasta"
 
 #: common/snapshots.py:1413
 msgid "Can't remove directory"
@@ -694,6 +702,7 @@ msgid "Report a bug"
 msgstr "Ilmoita ohjelmavirheestä"
 
 #: qt/app.py:553
+#, fuzzy
 msgid "Translation"
 msgstr "Käännökset"
 
@@ -884,6 +893,7 @@ msgstr ""
 "Sinun Back In Time Team"
 
 #: qt/app.py:1620
+#, fuzzy
 msgid "translation platform"
 msgstr "Käännökset"
 
@@ -892,6 +902,7 @@ msgid "Website"
 msgstr "Sivusto"
 
 #: qt/app.py:1639
+#, fuzzy
 msgid "Your translation"
 msgstr "Käännökset"
 
@@ -950,6 +961,8 @@ msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr ""
+"Kohteessa on käytettävissä vain {free} vapaata tilaa, joka on alle "
+"määritetyn kynnysarvon {threshold}."
 
 #: qt/app.py:1776
 msgid "Proceed with the backup?"
@@ -994,68 +1007,65 @@ msgid "Question"
 msgstr "Kysymys"
 
 #: qt/confirmrestoredialog.py:76
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix} before overwriting or removing "
 "local elements."
 msgstr ""
-"Varmuuskopioi paikalliset tiedostot ennen korvaamista\n"
-"tai poistamista ”{suffix}”-päätteelle."
+"Luo varmuuskopiot, joiden lopussa on {suffix} ennen paikallisten elementtien"
+" korvaamista tai poistamista."
 
 #: qt/confirmrestoredialog.py:81 qt/manageprofiles/tab_options.py:66
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Before restoring, newer versions of files will be renamed with the appended "
 "{suffix}. These files can be removed with the following command:"
 msgstr ""
-"Tiedostojen uudempien versioiden nimiin lisätään ”{suffix}” ennen "
-"palauttamista. Ellei niitä enää tarvita, ne voi poistaa tällä komennolla:"
+"Ennen palauttamista tiedostojen uudemmat versiot nimetään uudelleen ja "
+"niihin lisätään {suffix}. Nämä tiedostot voidaan poistaa seuraavalla "
+"komennolla:"
 
 #: qt/confirmrestoredialog.py:94
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Only restore elements which do not exist or are newer than those in "
 "destination. Using \"{rsync_example}\" option."
 msgstr ""
-"Palauta vain tiedostot, jotka puuttuvat tai\n"
-"ovat uudempia kuin kohteessa.\n"
-"Käytetään ”rsync --update” -asetusta."
+"Palauta vain elementtejä, joita ei ole olemassa tai jotka ovat uudempia kuin"
+" kohteessa olevat. Käytetään vaihtoehtoa \"{rsync_example}\"."
 
 #: qt/confirmrestoredialog.py:133
 msgid "Remove newer elements in original directory."
 msgstr "Poista uudemmat elementit alkuperäisestä hakemistosta."
 
 #: qt/confirmrestoredialog.py:135
-#, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
 " files or directories which are not in the backup. Be extremely careful "
 "because this will delete files and directories which were excluded during "
 "the creation of the backup."
 msgstr ""
-"Palauta valitut tiedostot tai hakemistot alkuperäiseen kohteeseen ja poista "
-"tiedostot tai hakemistot, jotka eivät ole tilannekuvassa. Ole varovainen, "
-"koska tämä poistaa tiedostot ja hakemistot, jotka jätettiin pois "
-"tilannekuvan ottamisen aikana."
+"Palauta valitut tiedostot tai hakemistot alkuperäiseen sijaintiinsa ja "
+"poista tiedostot tai hakemistot, joita ei ole varmuuskopiossa. Ole erittäin "
+"varovainen, koska tämä poistaa tiedostot ja hakemistot, jotka poistettiin "
+"varmuuskopion luomisen aikana."
 
 #: qt/confirmrestoredialog.py:147
-#, fuzzy
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
 msgstr[0] "Haluatko todella palauttaa tämän elementin uuteen hakemistoon?"
 msgstr[1] "Haluatko todella palauttaa nämä elementit uuteen hakemistoon?"
 
 #: qt/confirmrestoredialog.py:157
-#, fuzzy
 msgid "Really restore this element?"
 msgid_plural "Really restore these elements?"
-msgstr[0] "Haluatko varmasti palauttaa tämän tiedoston?"
-msgstr[1] "Haluatko varmasti palauttaa nämä tiedostot?"
+msgstr[0] "Haluatko varmasti palauttaa tämän elementin?"
+msgstr[1] "Haluatko varmasti palauttaa nämä elementit?"
 
 #: qt/editusercallback.py:43
 #, python-brace-format
 msgid "User-callback: \"{filename}\""
-msgstr ""
+msgstr "Käyttäjän takaisinkutsu: \"{filename}\""
 
 #: qt/editusercallback.py:105
 #, python-brace-format
@@ -1063,6 +1073,8 @@ msgid ""
 "The user-callback script must include a shebang on the first line (e.g. "
 "{example})."
 msgstr ""
+"user-callback-skriptin ensimmäisellä rivillä on oltava shebang (esim. "
+"{example})."
 
 #: qt/encfsmsgbox.py:42 qt/encfsmsgbox.py:68
 #: qt/manageprofiles/tab_general.py:582
@@ -1150,9 +1162,8 @@ msgid "Use operating system's language."
 msgstr "Käytä käyttöjärjestelmän kieltä."
 
 #: qt/logviewdialog.py:61
-#, fuzzy
 msgid "Backup Log View"
-msgstr "Viimeisin lokinäkymä"
+msgstr "Varmuuskopiolokin näkymä"
 
 #: qt/logviewdialog.py:61
 msgid "Last Log View"
@@ -1262,17 +1273,17 @@ msgid "Delete the profile \"{name}\"?"
 msgstr "Haluatko poistaa profiilin \"{name}\"?"
 
 #: qt/manageprofiles/__init__.py:340
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until it is"
 " included, too."
 msgstr ""
-"”{path}” on symlinkki. Linkin kohdetta ei varmuuskopioida, ellei sitä oteta erikseen mukaan.\n"
-"Haluatko ottaa mukaan symlinkkien kohteet?"
+"\"{path}\" on symbolinen linkki. Linkitettyä kohdetta ei varmuuskopioida "
+"ennen kuin se on myös lisätty."
 
 #: qt/manageprofiles/__init__.py:344
 msgid "Include the symlink's target instead?"
-msgstr ""
+msgstr "Sisällytetäänkö sen sijaan symlinkin kohde?"
 
 #: qt/manageprofiles/schedulewidget.py:38
 msgid "Schedule"
@@ -1303,13 +1314,12 @@ msgid "Minutes:"
 msgstr "Minuutit:"
 
 #: qt/manageprofiles/schedulewidget.py:93
-#, fuzzy
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " A sudo password prompt will appear."
 msgstr ""
-"Suorita Back In Time heti, kun asema on kytketty (vain kerran X päivässä). "
-"Sinulta kysytään \"sudo\"-salasanaa."
+"Suorita Back in time heti, kun asema on kytketty (vain kerran X päivässä). "
+"sudo-salasanan kehote tulee näkyviin."
 
 #: qt/manageprofiles/schedulewidget.py:98
 msgid ""
@@ -1527,17 +1537,16 @@ msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Jätä pois tätä suuremmat tiedostot: {size_unit}."
 
 #: qt/manageprofiles/tab_exclude.py:133
-#, fuzzy
 msgid ""
 "With 'Full rsync mode' disabled, this setting affects only newly created "
 "files, as rsync treats it as transfer option rather than an exclusion rule. "
 "Consequently, large files that have already been backed up will remain in "
 "backups even if they are modified."
 msgstr ""
-"Kun \"Täysi rsync -tila\" on poistettu käytöstä, tämä vaikuttaa vain uusiin "
-"tiedostoihin, koska rsyncissä tämä on siirtovaihtoehto, ei "
-"poissulkemisvaihtoehto. Siksi suuret tiedostot, jotka on varmuuskopioitu "
-"aiemmin, säilyvät tilannevedoksissa, vaikka niitä olisi muokattu."
+"Kun 'Full rsync mode' on poistettu käytöstä, tämä asetus vaikuttaa vain "
+"äskettäin luotuihin tiedostoihin, koska rsync käsittelee sitä "
+"siirtovaihtoehtona eikä poissulkemissääntönä. Näin ollen jo varmuuskopioidut"
+" suuret tiedostot säilyvät varmuuskopioissa, vaikka niitä muokattaisiin."
 
 #: qt/manageprofiles/tab_exclude.py:201
 #, python-brace-format
@@ -1599,9 +1608,8 @@ msgid "on remote host"
 msgstr "etäkoneilla"
 
 #: qt/manageprofiles/tab_expert_options.py:80
-#, fuzzy
 msgid "when taking a manual backup"
-msgstr "käyttäjän tehdessä itse otoksia"
+msgstr "kun otat manuaalisen varmuuskopion"
 
 #: qt/manageprofiles/tab_expert_options.py:104
 msgid "Please install 'nocache' to enable this option."
@@ -1774,15 +1782,16 @@ msgid ""
 "An error occurred while attempting to log in to the remote host. The "
 "following error message was returned:"
 msgstr ""
+"Etäisäntään sisäänkirjautumisessa tapahtui virhe. Seuraava virheilmoitus "
+"palautettiin:"
 
 #: qt/manageprofiles/tab_general.py:481
-#, fuzzy
 msgid ""
 "Copying the public SSH key to the remote host can help enable password-less "
 "login."
 msgstr ""
-"Haluatko kopioida julkisen SSH-avaimesi etäisäntään salasanattoman "
-"sisäänkirjautumisen mahdollistamiseksi?"
+"Julkisen SSH-avaimen kopioiminen etäisäntään voi auttaa mahdollistamaan "
+"salasanattoman sisäänkirjautumisen."
 
 #: qt/manageprofiles/tab_general.py:483
 msgid "Proceed?"
@@ -1870,24 +1879,22 @@ msgid "Run only one backup at a time"
 msgstr "Tee vain yksi varmuuskopio kerrallaan"
 
 #: qt/manageprofiles/tab_options.py:54
-#, fuzzy
 msgid ""
 "Other backups will be blocked until the current backup is completed. This is"
 " a global setting, meaning it will affect all profiles for this user. "
 "However, it must also be activated for all other users."
 msgstr ""
-"Muut otokset estetään, kunnes nykyinen on valmis. Tämä on yleisasetus, joten"
-" se vaikuttaa käyttäjän kaikkiin profiileihin. Muille käyttäjille asetus "
-"täytyy kuitenkin ottaa käyttön erikseen."
+"Muut varmuuskopiot estetään, kunnes nykyinen varmuuskopiointi on valmis. "
+"Tämä on yleinen asetus, eli se vaikuttaa kaikkiin tämän käyttäjän "
+"profiileihin. Se on kuitenkin aktivoitava myös kaikille muille käyttäjille."
 
 #: qt/manageprofiles/tab_options.py:61
 msgid "Backup replaced files on restore"
 msgstr "Varmuuskopioi palautettaessa korvatut tiedostot"
 
 #: qt/manageprofiles/tab_options.py:76
-#, fuzzy
 msgid "Continue on errors (keep incomplete backups)"
-msgstr "Jatka virheistä huolimatta (säilytä keskeneräiset otokset)"
+msgstr "Jatka virheiden sattuessa (säilytä keskeneräiset varmuuskopiot)"
 
 #: qt/manageprofiles/tab_options.py:80
 msgid "Use checksum to detect changes"
@@ -1906,6 +1913,8 @@ msgid ""
 "Shows a warning when free space on the backup destination disk is less than "
 "the specified value."
 msgstr ""
+"Näyttää varoituksen, kun varmuuskopiointikohdelevyn vapaata tilaa on "
+"vähemmän kuin määritetty arvo."
 
 #: qt/manageprofiles/tab_options.py:101
 msgid ""
@@ -1913,6 +1922,9 @@ msgid ""
 "based on available free space, this value cannot be lower than the value set"
 " in the policy."
 msgstr ""
+"Jos Poista ja säilytä -käytäntö on otettu käyttöön ja vanhat varmuuskopiot "
+"poistetaan käytettävissä olevan vapaan tilan perusteella, tämä arvo ei voi "
+"olla pienempi kuin käytännössä asetettu arvo."
 
 #: qt/manageprofiles/tab_options.py:119
 msgid "Log Level:"
@@ -1923,14 +1935,13 @@ msgid "None"
 msgstr "Ei mitään"
 
 #: qt/manageprofiles/tab_remove_retention.py:198
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual} for details and examples."
 msgstr ""
-"Seuraavat säännöt käsitellään ylhäältä alas. Myöhemmät säännöt ohittavat "
-"aikaisemmat eivätkä ne rajoita niitä. Katso lisätietoja ja esimerkkejä "
-"oppaasta {manual}."
+"Seuraavat säännöt käsitellään ylhäältä alas. Myöhemmät säännöt korvaavat "
+"aiemmat. Katso lisätietoja ja esimerkkejä {manual}:sta."
 
 #: qt/manageprofiles/tab_remove_retention.py:203
 msgid "user manual"
@@ -1945,9 +1956,8 @@ msgid "Keep the most recent backup."
 msgstr "Säilytä uusin varmuuskopio."
 
 #: qt/manageprofiles/tab_remove_retention.py:234
-#, fuzzy
 msgid "The last or freshest backup is kept under all circumstances."
-msgstr "Viimeinen tai tuorein tilannevedos säilytetään kaikissa olosuhteissa."
+msgstr "Viimeisin tai tuorein varmuuskopio säilytetään kaikissa olosuhteissa."
 
 #: qt/manageprofiles/tab_remove_retention.py:236
 msgid "That behavior cannot be changed."
@@ -1958,13 +1968,12 @@ msgid "Keep named backups."
 msgstr "Säilytä nimetyt varmuuskopiot."
 
 #: qt/manageprofiles/tab_remove_retention.py:251
-#, fuzzy
 msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
-"Tilannevedokset, joille on annettu nimi, tavallisen aikaleiman lisäksi, "
-"säilytetään kaikissa olosuhteissa, eikä niitä poisteta."
+"Varmuuskopiot, joille on annettu nimi tavallisen aikaleiman lisäksi, "
+"säilytetään kaikissa olosuhteissa eikä niitä poisteta."
 
 #: qt/manageprofiles/tab_remove_retention.py:266
 msgid "Year(s)"
@@ -2024,9 +2033,8 @@ msgid "day(s)."
 msgstr "viime päivältä (/päiviltä)."
 
 #: qt/manageprofiles/tab_remove_retention.py:326
-#, fuzzy
 msgid "Keep the last backup for each day for the last"
-msgstr "Säilytä kunkin päivän viimeinen tilannevedos viimeisenä"
+msgstr "Säilytä kunkin päivän viimeisin varmuuskopio viimeisten"
 
 #: qt/manageprofiles/tab_remove_retention.py:336
 msgid ""
@@ -2036,9 +2044,8 @@ msgstr ""
 "Viikot lasketaan kuluvasta juoksuviikosta alkaen. Viikko alkaa maanantaina."
 
 #: qt/manageprofiles/tab_remove_retention.py:339
-#, fuzzy
 msgid "Keep the last backup for each week for the last"
-msgstr "Säilytä kunkin viikon viimeinen tilannevedos viimeisenä"
+msgstr "Säilytä kunkin viikon viimeisin varmuuskopio viimeisten"
 
 #: qt/manageprofiles/tab_remove_retention.py:344
 msgid "week(s)."
@@ -2051,9 +2058,8 @@ msgstr ""
 "Kuukaudet lasketaan kalenterikuukausiksi kuluvista kuukausista alkaen."
 
 #: qt/manageprofiles/tab_remove_retention.py:352
-#, fuzzy
 msgid "Keep the last backup for each month for the last"
-msgstr "Säilytä kunkin kuukauden viimeinen tilannevedos viimeisenä"
+msgstr "Säilytä kunkin kuukauden viimeisin varmuuskopio viimeisten"
 
 #: qt/manageprofiles/tab_remove_retention.py:357
 msgid "month(s)."
@@ -2065,9 +2071,8 @@ msgid ""
 msgstr "Vuodet lasketaan kalenterivuosiksi kuluvasta vuodesta alkaen."
 
 #: qt/manageprofiles/tab_remove_retention.py:364
-#, fuzzy
 msgid "Keep the last backup for each year for"
-msgstr "Säilytä viimeinen tilannevedos jokaisesta vuodesta"
+msgstr "Säilytä kunkin vuoden viimeisin varmuuskopio"
 
 #: qt/manageprofiles/tab_remove_retention.py:366
 msgid "all years."
@@ -2136,13 +2141,13 @@ msgid "Searching…"
 msgstr "Etsitään…"
 
 #: qt/restoreconfigdialog.py:224
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Select the backup directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
-"Valitse tilannevedoshakemisto, josta kokoonpanotiedosto tuodaan. Polku voi "
-"näyttää tältä: {samplePath}"
+"Valitse varmuuskopiohakemisto, josta määritystiedosto tulee tuoda. Polku voi"
+" näyttää tältä: {samplePath}"
 
 #: qt/restoreconfigdialog.py:229
 msgid ""
@@ -2154,7 +2159,7 @@ msgstr ""
 
 #: qt/restoreconfigdialog.py:250
 msgid "Scan again"
-msgstr ""
+msgstr "Skannaa uudelleen"
 
 #: qt/restoreconfigdialog.py:269
 msgid "Show hidden directories"
@@ -2196,9 +2201,8 @@ msgstr[0] "Järjestelmä sammuu {n} sekunnin kuluttua."
 msgstr[1] "Järjestelmä sammuu {n} sekunnin kuluttua."
 
 #: qt/snapshotsdialog.py:63
-#, fuzzy
 msgid "Options about comparing backups"
-msgstr "Tilannevedosten vertailemisen kattavat vaihtoehdot"
+msgstr "Varmuuskopioiden vertailemisen kattavat vaihtoehdot"
 
 #: qt/snapshotsdialog.py:70
 msgid "Command:"
@@ -2237,14 +2241,12 @@ msgid "Backups"
 msgstr "Varmuuskopiot"
 
 #: qt/snapshotsdialog.py:152
-#, fuzzy
 msgid "Differing backups only"
-msgstr "Suorita eroanalyysi vain tilannevedoksista"
+msgstr "Suorita eroanalyysi vain varmuuskopioista"
 
 #: qt/snapshotsdialog.py:161
-#, fuzzy
 msgid "List only backups that are equal to:"
-msgstr "Luettele vain otokset, jotka ovat samoja kuin:"
+msgstr "Listaa vain varmuuskopiot, jotka ovat yhtä suuria kuin:"
 
 #: qt/snapshotsdialog.py:173
 msgid "Deep check (more accurate, but slow)"
@@ -2275,6 +2277,8 @@ msgid ""
 "It is not possible to compare a backup to itself, as the comparison would be"
 " redundant."
 msgstr ""
+"Varmuuskopiota ei voi verrata itseensä, koska vertailu olisi silloin "
+"redundanttista."
 
 #: qt/snapshotsdialog.py:438
 #, python-brace-format

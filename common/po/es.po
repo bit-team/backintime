@@ -15,17 +15,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-09-25 09:29+0200\n"
-"PO-Revision-Date: 2025-07-29 07:57+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos <fito@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-11-08 23:09+0000\n"
+"Last-Translator: alecsargent <alecsargent@noreply.codeberg.org>\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/backintime/common/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -991,6 +991,8 @@ msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr ""
+"Solo {free} de almacenamiento libre en el destino, lo cual es menor al "
+"límite configurado de {threshold}."
 
 #: qt/app.py:1776
 #, fuzzy
@@ -1100,7 +1102,7 @@ msgstr[1] "¿Realmente quiere restaurar estos elementos?"
 #: qt/editusercallback.py:43
 #, python-brace-format
 msgid "User-callback: \"{filename}\""
-msgstr ""
+msgstr "Retrollamada-usuario: \"{filename}\""
 
 #: qt/editusercallback.py:105
 #, python-brace-format
@@ -1485,7 +1487,7 @@ msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:70
 msgid "<Generate new key-pair…>"
-msgstr ""
+msgstr "<Generar nuevo par de llaves...>"
 
 #: qt/manageprofiles/sshkeyselector.py:71
 #, fuzzy
@@ -1508,10 +1510,13 @@ msgid "Use system SSH configuration"
 msgstr "Importar configuración"
 
 #: qt/manageprofiles/sshkeyselector.py:192
+#, fuzzy
 msgid ""
 "Leaves the key file unselected. SSH connections will rely on the system’s "
 "existing client configuration (e.g., ~/.ssh/config)."
 msgstr ""
+"Deja el archivo de llaves sin seleccionar. Conexiones SSH  dependerán de la "
+"configuración existente del cliente del sistema (e.g., ~/.ssh/config)."
 
 #: qt/manageprofiles/sshproxywidget.py:47
 msgid "SSH Proxy"
@@ -1835,6 +1840,8 @@ msgid ""
 "An error occurred while attempting to log in to the remote host. The "
 "following error message was returned:"
 msgstr ""
+"Ocurrió un error al ingresar al anfitrión remoto. Se ha retornado el "
+"siguiente mensaje de error:"
 
 #: qt/manageprofiles/tab_general.py:481
 #, fuzzy
