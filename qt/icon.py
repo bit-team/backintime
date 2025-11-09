@@ -29,27 +29,31 @@ themes_to_try = (
 )
 ICON_NAME_TO_CHECK = 'document-save'
 
-for theme in themes_to_try:
-    # Check if the current theme does provide the BiT "logo" icon
-    # (otherwise the theme is not fully/correctly installed)
-    # and use this theme then for all icons
-    # Note: "hicolor" does currently (2022) use different icon names
-    # (not fully compliant to the freedesktop.org spec)
-    # and is not recommended as main theme (it is meant as fallback only).
-    if not QIcon.fromTheme(ICON_NAME_TO_CHECK).isNull():
-        logger.debug(f'Icon "{ICON_NAME_TO_CHECK}" found in '
-                     'installed theme: {QIcon.themeName()}')
-        break
-
-    # try next theme (activate it)...
-    QIcon.setThemeName(theme)
-    logger.debug(f'Probing theme: "{theme}" '
-                 f'(activated as "{QIcon.themeName()}")')
-
-if QIcon.fromTheme(ICON_NAME_TO_CHECK).isNull():
-    logger.error('No supported theme installed (missing icons). '
-                 'Please consult the project web site for instructions '
-                 'how to fix this.')
+# First check if the current theme already has the required icon
+if not QIcon.fromTheme(ICON_NAME_TO_CHECK).isNull():
+    logger.debug(f'Icon "{ICON_NAME_TO_CHECK}" found in '
+                 f'current theme: {QIcon.themeName()}')
+else:
+    # If current theme doesn't have the icon, try alternative themes
+    theme_found = False
+    for theme in themes_to_try:
+        # Try setting the theme
+        QIcon.setThemeName(theme)
+        logger.debug(f'Probing theme: "{theme}" '
+                     f'(activated as "{QIcon.themeName()}")')
+        
+        # Check if this theme has the required icon
+        if not QIcon.fromTheme(ICON_NAME_TO_CHECK).isNull():
+            logger.debug(f'Icon "{ICON_NAME_TO_CHECK}" found in '
+                         f'installed theme: {QIcon.themeName()}')
+            theme_found = True
+            break
+    
+    if not theme_found:
+        # If we've tried all themes and none have the icon, log error
+        logger.error('No supported theme installed (missing icons). '
+                     'Please consult the project web site for instructions '
+                     'how to fix this.')
 
 # Dev note: Please prefer choosing icons from the freedesktop.org spec
 #           to improve the chance that the icon is available and
