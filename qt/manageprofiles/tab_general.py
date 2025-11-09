@@ -592,9 +592,6 @@ class GeneralTab(QDialog):
 
         return combobox.BitComboBox(self, snapshot_modes)
 
-    # def _cipher_combobox(self) -> combobox.BitComboBox:
-    #     return combobox.BitComboBox(self, self.config.SSH_CIPHERS)
-
     def _create_label_encfs_deprecation(self):
         icon_label = qttools.create_icon_label_warning()
 
