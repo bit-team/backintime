@@ -497,8 +497,8 @@ class GeneralTab(QDialog):
                           'the remote host. The following error message was '
                           'returned:')
                 + '</p><p>' + str(ex) + '</p><p>'
-                + _('To enable password-less login, the program can copy the '
-                    'public SSH key to the remote host.')
+                + _('To enable password-less login, public SSH key can be '
+                    'copied to the remote host.')
                 + '</p><p>'
                 + _('Proceed with copying the SSH key?')
                 + '</p>'
