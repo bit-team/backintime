@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-11-10 11:11+0100\n"
+"POT-Creation-Date: 2025-11-10 15:02+0100\n"
 "PO-Revision-Date: 2025-05-09 04:41+0000\n"
 "Last-Translator: psw1747 <psw1747@noreply.codeberg.org>\n"
 "Language-Team: Japanese <https://translate.codeberg.org/projects/backintime/common/ja/>\n"
@@ -63,7 +63,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "SSH 秘密鍵"
 
@@ -882,11 +882,6 @@ msgstr "翻訳へのご協力のお願い"
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Mastodon にある Fediverse で: {link_and_label}。"
 
-#: qt/app.py:1657
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr "Email はこちら: {link_and_label}。"
-
 #: qt/app.py:1660
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
@@ -1035,7 +1030,7 @@ msgid ""
 msgstr ""
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
-#: qt/manageprofiles/tab_general.py:601
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1046,17 +1041,17 @@ msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr "そのモードのプロファイルを使用することは、なおさら推奨されなくなりました。"
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
-#: qt/manageprofiles/tab_general.py:606
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr "ホワイトペーパー"
 
 #: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
-#: qt/manageprofiles/tab_general.py:603
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr "EncFS のサポートはセキュリティの脆弱性により廃止されました。"
 
-#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:608
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1672,7 +1667,7 @@ msgstr "有効"
 msgid "Mode:"
 msgstr "モード:"
 
-#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:633
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 msgid "Where to save backups"
 msgstr "バックアップの保存場所"
 
@@ -1706,7 +1701,7 @@ msgstr "パスワードを cron に渡す (セキュリティ上の問題: 管�
 msgid "Advanced"
 msgstr "上級設定"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:723
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 msgid "Full backup path:"
 msgstr "バックアップのフルパス："
 
@@ -1723,62 +1718,60 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:500
-#, fuzzy
 msgid ""
-"Copying the public SSH key to the remote host can help enable password-less "
-"login.To enable password-less login, the program can copy the public SSH key"
-" to the remote host."
-msgstr "公開 SSH 鍵をリモートホストにコピーして、パスワード不要のログインを可能にしますか？"
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
+msgstr ""
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:503
 #, fuzzy
 msgid "Proceed with copying the SSH key?"
 msgstr "このバックアップを削除しますか？"
 
-#: qt/manageprofiles/tab_general.py:530
+#: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:551
+#: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "ホスト {host} の信頼性を確立できません。"
 
-#: qt/manageprofiles/tab_general.py:554
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} 鍵のフィンガープリントは:"
 
-#: qt/manageprofiles/tab_general.py:558
+#: qt/manageprofiles/tab_general.py:556
 #, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr "フィンガープリントを確認してください。’known_hosts’ ファイルに追加しますか？"
 
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:644
 msgid "Really change the backup directory?"
 msgstr "バックアップのディレクトリを変更しますか？"
 
-#: qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:674
 #, fuzzy
 msgid "Invalid file: Not a private SSH key"
 msgstr "SSH 秘密鍵"
 
-#: qt/manageprofiles/tab_general.py:677
+#: qt/manageprofiles/tab_general.py:675
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:711
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "{path} において新しい SSH鍵の作成に失敗しました。"
@@ -2263,142 +2256,3 @@ msgstr "バックアップではなく、ローカルファイルのライブビ
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "最終チェック {time}"
-
-#~ msgid "A private key file for SSH was not chosen."
-#~ msgstr "SSH秘密鍵ファイルが選択されていません。"
-
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "本当にスナップショットのフォルダを変更してもよろしいですか？"
-
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr "元のディレクトリの『より新しいファイル』を削除してもよろしいですか?"
-
-#, python-brace-format
-#~ msgid "Are you sure you want to remove all newer files in {path}?"
-#~ msgstr "{path} にあるより新しいファイルを削除してもよろしいですか？"
-
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "スナップショットを削除してもよろしいですか？"
-
-#~ msgid "Back In Time"
-#~ msgstr "Back In Time"
-
-#~ msgid "Backup"
-#~ msgstr "バックアップ"
-
-#, python-brace-format
-#~ msgid "Cipher {cipher} failed for {host}."
-#~ msgstr "暗号アルゴリズム {cipher} は {host} で失敗しました。"
-
-#~ msgid "Cipher:"
-#~ msgstr "暗号化方法:"
-
-#~ msgid ""
-#~ "Create a new SSH key without password (not allowed if a private key file is "
-#~ "already selected)."
-#~ msgstr "新しい SSH鍵をパスワードなしで作成する (すでに秘密鍵を選択済みの場合は実行できません)。"
-
-#~ msgid "Default"
-#~ msgstr "標準設定"
-
-#~ msgid "Do you really want to close it?"
-#~ msgstr "本当に閉じますか？"
-
-#~ msgid "ETA"
-#~ msgstr "予定完了時間"
-
-#, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "{n} 時間毎"
-
-#~ msgid "Global"
-#~ msgstr "全体"
-
-#~ msgid "Home"
-#~ msgstr "ホーム"
-
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr "もしファイルがリムーバブルドライブ上にあるのなら、接続してください。そしてOKを押してください。"
-
-#~ msgid "License"
-#~ msgstr "ライセンス"
-
-#~ msgid "Look at 'man backintime' for further instructions"
-#~ msgstr "詳しくは 'man backintime' を参照してください"
-
-#~ msgid "Name snapshot"
-#~ msgstr "スナップショットに名前をつける"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Newer versions of files will be renamed with trailing {suffix} before "
-#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
-#~ msgstr ""
-#~ "復元時により新しいファイルがある場合は拡張子{suffix} 付きでファイル名変更されます。もし不要の場合は以下のコマンドで削除してください : "
-#~ "{cmd}"
-
-#, fuzzy
-#~ msgid "Open user manual in browser (locally if available, otherwise online)"
-#~ msgstr "ブラウザでユーザーマニュアルを開く (ローカルになければオンラインで)"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "パスワードを確認してください。"
-
-#, python-brace-format
-#~ msgid "Private key file \"{file}\" does not exist."
-#~ msgstr "秘密鍵ファイル 「{file}」 は存在しません。"
-
-#~ msgid "Sent"
-#~ msgstr "送信済"
-
-#~ msgid "Should a new password-less public/private key pair be generated?"
-#~ msgstr "新しいパスワードなしの公開鍵/秘密鍵ペアを生成しますか？"
-
-#, fuzzy
-#~ msgid "Shows the message about deprecation of SSH cipher again."
-#~ msgstr "翻訳への参加に関するメッセージを再度表示。"
-
-#~ msgid "Smart removal"
-#~ msgstr "おまかせ削除"
-
-#~ msgid "Snapshot"
-#~ msgstr "スナップショット"
-
-#~ msgid "Snapshot Log View"
-#~ msgstr "スナップショットログを表示"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "スナップショット名"
-
-#~ msgid "Snapshots"
-#~ msgstr "スナップショット"
-
-#~ msgid "Snapshots:"
-#~ msgstr "スナップショット:"
-
-#~ msgid "Speed"
-#~ msgstr "速度"
-
-#~ msgid "Take a snapshot"
-#~ msgstr "スナップショットの取得"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "スナップショットの取得"
-
-#~ msgid "The sub-directories cannot be included in the backup."
-#~ msgstr "バックアップ先をバックアップ元のサブフォルダにすることはできません。"
-
-#~ msgid "View last log"
-#~ msgstr "最近のログを表示"
-
-#~ msgid "View snapshot log"
-#~ msgstr "スナップショットログの表示"
-
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "同一スナップショットは比較できません。"
-
-#~ msgid "You did not choose a private key file for SSH."
-#~ msgstr "SSH 用の秘密鍵ファイルを選択していません。"

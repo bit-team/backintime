@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-11-10 11:11+0100\n"
+"POT-Creation-Date: 2025-11-10 15:02+0100\n"
 "PO-Revision-Date: 2025-09-02 11:09+0000\n"
 "Last-Translator: SomeTr <sometr@noreply.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
@@ -62,7 +62,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "Приватний ключ SSH"
 
@@ -900,11 +900,6 @@ msgstr "Ваш переклад"
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "На Mastodon {link_and_label} у Федісвіті."
 
-#: qt/app.py:1657
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr "Email {link_and_label}."
-
 #: qt/app.py:1660
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
@@ -1067,7 +1062,7 @@ msgstr ""
 "{example})."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
-#: qt/manageprofiles/tab_general.py:601
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1080,17 +1075,17 @@ msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr "Не рекомендується надалі використовувати цей режим для профілю."
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
-#: qt/manageprofiles/tab_general.py:606
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr "документі"
 
 #: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
-#: qt/manageprofiles/tab_general.py:603
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr "Підтримка EncFS припиняється через уразливості в системі безпеки."
 
-#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:608
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1736,7 +1731,7 @@ msgstr "увімкнено"
 msgid "Mode:"
 msgstr "Режим:"
 
-#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:633
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 msgid "Where to save backups"
 msgstr "Де зберігати резервні копії"
 
@@ -1769,7 +1764,7 @@ msgstr "Кешувати пароль для Cron (Увага: root може ч�
 msgid "Advanced"
 msgstr "Додатково"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:723
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 msgid "Full backup path:"
 msgstr "Повний шлях до копії:"
 
@@ -1787,21 +1782,17 @@ msgstr ""
 "Помилка під час спроби входу на віддалений сервер. Повідомлення про помилку:"
 
 #: qt/manageprofiles/tab_general.py:500
-#, fuzzy
 msgid ""
-"Copying the public SSH key to the remote host can help enable password-less "
-"login.To enable password-less login, the program can copy the public SSH key"
-" to the remote host."
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
 msgstr ""
-"Копіювання публічного ключа SSH на сервер може допомогти ввімкнути "
-"безпарольний доступ."
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:503
 #, fuzzy
 msgid "Proceed with copying the SSH key?"
 msgstr "Продовжити резервне копіювання?"
 
-#: qt/manageprofiles/tab_general.py:530
+#: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
@@ -1809,29 +1800,29 @@ msgstr ""
 "Не вдалося скопіювати публічний ключ SSH. Причиною може бути проблема з "
 "підключенням або правами доступу."
 
-#: qt/manageprofiles/tab_general.py:551
+#: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "Автентичність сервера {host} не вдалося встановити."
 
-#: qt/manageprofiles/tab_general.py:554
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "Відбиток ключа {keytype}:"
 
-#: qt/manageprofiles/tab_general.py:558
+#: qt/manageprofiles/tab_general.py:556
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr "Перевірте цей відбиток. Додати його до файлу «known_hosts»?"
 
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:644
 msgid "Really change the backup directory?"
 msgstr "Справді змінити каталог для резервних копій?"
 
-#: qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:674
 msgid "Invalid file: Not a private SSH key"
 msgstr "Недійсний файл: не приватний ключ SSH"
 
-#: qt/manageprofiles/tab_general.py:677
+#: qt/manageprofiles/tab_general.py:675
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
@@ -1840,14 +1831,14 @@ msgstr ""
 "Вибраний файл ({path}) є публічним ключем SSH. Будь ласка, виберіть "
 "відповідний файл приватного ключа (без «.pub»)."
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
 "Файл {path} вже існує. Неможливо створити новий ключ SSH з такою назвою."
 
-#: qt/manageprofiles/tab_general.py:711
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Не вдалося створити новий ключ SSH у {path}."
@@ -2355,162 +2346,3 @@ msgstr "Це НЕ резервна копія, а Ваші файли на ко�
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Остання перевірка {time}"
-
-#~ msgid "A private key file for SSH was not chosen."
-#~ msgstr "Файл приватного ключа для SSH не було вибрано."
-
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "Ви впевнені, що хочете змінити каталог для резервних копій?"
-
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr "Бажаєте видалити всі новіші файли в початковому розташуванні?"
-
-#, python-brace-format
-#~ msgid "Are you sure you want to remove all newer files in {path}?"
-#~ msgstr "Бажаєте видалити всі новіші файли в {path}?"
-
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "Бажаєте видалити цю резервну копію?"
-#~ msgstr[1] "Бажаєте видалити ці резервні копії?"
-#~ msgstr[2] "Бажаєте видалити ці резервні копії?"
-
-#~ msgid "Back In Time"
-#~ msgstr "Back In Time"
-
-#~ msgid "Backup"
-#~ msgstr "Резервна копія"
-
-#, python-brace-format
-#~ msgid "Cipher {cipher} failed for {host}."
-#~ msgstr "Помилка шифру {cipher} для сервера {host}."
-
-#~ msgid "Cipher:"
-#~ msgstr "Шифр:"
-
-#~ msgid ""
-#~ "Create a new SSH key without password (not allowed if a private key file is "
-#~ "already selected)."
-#~ msgstr ""
-#~ "Створити новий ключ SSH без пароля (Недоступно, якщо файл приватного ключа "
-#~ "вже вибрано)."
-
-#~ msgid "Default"
-#~ msgstr "За замовчуванням"
-
-#~ msgid "Do you really want to close it?"
-#~ msgstr "Справді закрити?"
-
-#~ msgid "ETA"
-#~ msgstr "Залишилося"
-
-#, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "Кожну {n} годину"
-#~ msgstr[1] "Кожні {n} години"
-#~ msgstr[2] "Кожні {n} годин"
-
-#~ msgid "Global"
-#~ msgstr "Загальні"
-
-#~ msgid "Home"
-#~ msgstr "Home"
-
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr ""
-#~ "Якщо він знаходиться на знімному диску, підключіть його. Потім натисніть OK."
-
-#~ msgid "License"
-#~ msgstr "Ліцензія"
-
-#~ msgid "Look at 'man backintime' for further instructions"
-#~ msgstr "Дивіться «man backintime» для подальших інструкцій"
-
-#~ msgid "Name snapshot"
-#~ msgstr "Назвати копію"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Newer versions of files will be renamed with trailing {suffix} before "
-#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
-#~ msgstr ""
-#~ "Перед відновленням новіші версії файлів буде перейменовано з додаванням "
-#~ "{suffix}. Якщо вони Вам не потрібні, можна видалити їх, використавши {cmd}"
-
-#, fuzzy
-#~ msgid "No public SSH keys"
-#~ msgstr "Немає публічних ключів SSH"
-
-#~ msgid "Open user manual in browser (locally if available, otherwise online)"
-#~ msgstr "Відкриває посібник у браузері (локальний, якщо є, або ж онлайн)"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "Підтвердіть пароль."
-
-#, python-brace-format
-#~ msgid "Private key file \"{file}\" does not exist."
-#~ msgstr "Приватний ключ «{file}» не існує."
-
-#~ msgid "Proceed?"
-#~ msgstr "Продовжити?"
-
-#~ msgid "Sent"
-#~ msgstr "Надіслано"
-
-#~ msgid "Should a new password-less public/private key pair be generated?"
-#~ msgstr "Згенерувати нову пару публічний/приватний ключ без пароля?"
-
-#, fuzzy
-#~ msgid "Shows the message about deprecation of SSH cipher again."
-#~ msgstr "Показує повідомлення про участь у перекладі."
-
-#~ msgid "Smart removal"
-#~ msgstr "Розумне видалення"
-
-#~ msgid "Snapshot"
-#~ msgstr "Копія"
-
-#~ msgid "Snapshot Log View"
-#~ msgstr "Журнал копій"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "Назва копії"
-
-#~ msgid "Snapshots"
-#~ msgstr "Резервні копії"
-
-#~ msgid "Snapshots:"
-#~ msgstr "Резервні копії:"
-
-#~ msgid "Speed"
-#~ msgstr "Швидкість"
-
-#~ msgid "Take a snapshot"
-#~ msgstr "Зробити копію"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "Створення резервної копії"
-
-#~ msgid "The sub-directories cannot be included in the backup."
-#~ msgstr "Підкаталоги не можна включити в резервну копію."
-
-#~ msgid ""
-#~ "The warning threshold for free space must be greater than or equal to the "
-#~ "removing threshold by free space."
-#~ msgstr ""
-#~ "Поріг попередження щодо вільного місця повинен бути більшим або дорівнювати "
-#~ "порогу видалення за вільним місцем."
-
-#~ msgid "View last log"
-#~ msgstr "Переглянути останній журнал"
-
-#~ msgid "View snapshot log"
-#~ msgstr "Переглянути журнал копій"
-
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "Не можна порівнювати резервну копію саму з собою."
-
-#~ msgid "You did not choose a private key file for SSH."
-#~ msgstr "Ви не вибрали файл приватного ключа для SSH."
