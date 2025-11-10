@@ -13,17 +13,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-11-10 11:11+0100\n"
-"PO-Revision-Date: 2025-08-18 13:05+0000\n"
-"Last-Translator: jaclas <jaclas@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-11-10 13:54+0000\n"
+"Last-Translator: Merik <merik@noreply.codeberg.org>\n"
 "Language-Team: Polish <https://translate.codeberg.org/projects/backintime/common/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -108,7 +108,7 @@ msgstr ""
 "częścią miejsca docelowego kopii zapasowej."
 
 #: common/config.py:379
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
@@ -354,14 +354,12 @@ msgid "Unable to rename {new_path} to {path}."
 msgstr "Nie można zmienić nazwy z {new_path} na {path}."
 
 #: common/snapshots.py:1999
-#, fuzzy
 msgid "Applying rules to remove old backups"
-msgstr "Zastosuj reguły, aby usunąć stare kopie zapasowe"
+msgstr "Stosowanie reguł usuwania starych kopii zapasowych"
 
 #: common/snapshots.py:2032
-#, fuzzy
 msgid "Applying retention policy"
-msgstr "Zastosuj zasady przechowywania"
+msgstr "Stosowanie zasad przechowywania"
 
 #: common/snapshots.py:2042
 msgid "Trying to keep min free space"
@@ -416,9 +414,9 @@ msgid "Remote host {host} doesn't support {command}"
 msgstr "Zdalny host {host} nie obsługuje {command}"
 
 #: common/sshtools.py:1021
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Checking commands on host {host} returned unknown error"
-msgstr "Polecenia sprawdzania na hoście {host} zwróciły nieznany błąd"
+msgstr "Sprawdzanie poleceń na hoście {host} zwróciło nieznany błąd"
 
 #: common/sshtools.py:1039
 #, python-brace-format
@@ -726,37 +724,32 @@ msgid "Restore"
 msgstr "Przywróć"
 
 #: qt/app.py:573
-#, fuzzy
 msgid "Restore the selected files or directories to the original location."
-msgstr ""
-"Przywróć wybrane pliki lub katalogi do pierwotnego miejsca docelowego."
+msgstr "Przywróć wybrane pliki lub katalogi do pierwotnej lokalizacji."
 
 #: qt/app.py:576 qt/app.py:1821 qt/snapshotsdialog.py:186
 msgid "Restore to …"
 msgstr "Przywróć do…"
 
 #: qt/app.py:578
-#, fuzzy
 msgid "Restore the selected files or directories to a new location."
-msgstr "Przywróć wybrane pliki lub katalogi do nowego miejsca docelowego."
+msgstr "Przywróć wybrane pliki lub katalogi do nowej lokalizacji."
 
 #: qt/app.py:584
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
 msgstr ""
-"Przywróć aktualnie wyświetlany katalog i całą jego zawartość do pierwotnego "
-"miejsca docelowego."
+"Przywróć aktualnie wyświetlany katalog i całą jego zawartość do pierwotnej "
+"lokalizacji."
 
 #: qt/app.py:590
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
 msgstr ""
-"Przywróć aktualnie wyświetlany katalog i całą jego zawartość do nowego "
-"miejsca docelowego."
+"Przywróć aktualnie wyświetlany katalog i całą jego zawartość do nowej "
+"lokalizacji."
 
 #: qt/app.py:593
 msgid "Up"
@@ -1518,9 +1511,8 @@ msgid "Exclude patterns, files or directories"
 msgstr "Wyklucz wzorce, pliki lub katalogi"
 
 #: qt/manageprofiles/tab_exclude.py:102
-#, fuzzy
 msgid "Add pattern"
-msgstr "Wzór wykluczenia"
+msgstr "Dodaj wzór"
 
 #: qt/manageprofiles/tab_exclude.py:107 qt/manageprofiles/tab_include.py:68
 msgid "Add files"
@@ -1574,18 +1566,17 @@ msgid "Exclude pattern"
 msgstr "Wzór wykluczenia"
 
 #: qt/manageprofiles/tab_exclude.py:286
-#, fuzzy
 msgid "Enter an exclude pattern:"
-msgstr "Wzór wykluczenia"
+msgstr "Wprowadź wzór wykluczenia:"
 
 #: qt/manageprofiles/tab_exclude.py:291
 #, python-brace-format
 msgid "For help, see the rsync man page section {link}."
-msgstr ""
+msgstr "Aby uzyskać pomoc, zapoznaj się z sekcją {link} podręcznika rsync."
 
 #: qt/manageprofiles/tab_exclude.py:294
 msgid "Open rsync man page"
-msgstr ""
+msgstr "Otwórz stronę podręcznika rsync"
 
 #: qt/manageprofiles/tab_exclude.py:322
 msgid "Exclude files"
@@ -1807,6 +1798,8 @@ msgid ""
 "Scheduling is disabled because no cron installation was found. Please "
 "install cron to enable scheduled backups."
 msgstr ""
+"Harmonogram jest wyłączony, ponieważ nie znaleziono instalacji programu "
+"cron. Zainstaluj program cron, aby włączyć zaplanowane kopie zapasowe."
 
 #: qt/manageprofiles/tab_general.py:496
 msgid ""
@@ -1817,19 +1810,18 @@ msgstr ""
 "następujący komunikat o błędzie:"
 
 #: qt/manageprofiles/tab_general.py:500
-#, fuzzy
 msgid ""
 "Copying the public SSH key to the remote host can help enable password-less "
 "login.To enable password-less login, the program can copy the public SSH key"
 " to the remote host."
 msgstr ""
-"Skopiowanie publicznego klucza SSH na zdalny host może umożliwić logowanie "
-"bez użycia hasła."
+"Skopiowanie klucza publicznego SSH na zdalny host może pomóc włączyć "
+"logowanie bez hasła. Aby włączyć logowanie bez hasła, program może skopiować"
+" klucz publiczny SSH na zdalny host."
 
 #: qt/manageprofiles/tab_general.py:505
-#, fuzzy
 msgid "Proceed with copying the SSH key?"
-msgstr "Kontynuować tworzenie kopii zapasowej?"
+msgstr "Kontynuować kopiowanie klucza SSH?"
 
 #: qt/manageprofiles/tab_general.py:530
 msgid ""
@@ -1988,14 +1980,13 @@ msgid "user manual"
 msgstr "instrukcja obsługi"
 
 #: qt/manageprofiles/tab_remove_retention.py:206
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual_link} for details and examples."
 msgstr ""
-"Następujące reguły są przetwarzane od góry do dołu. Późniejsze reguły "
-"zastępują wcześniejsze. Zobacz {manual}, aby uzyskać szczegółowe infromacje "
-"i przykłady."
+"Poniższe reguły są przetwarzane od góry do dołu. Późniejsze reguły zastępują"
+" wcześniejsze. Szczegóły i przykłady znajdziesz w {manual_link}."
 
 #: qt/manageprofiles/tab_remove_retention.py:221
 msgid "Open user manual in browser."
@@ -2006,10 +1997,9 @@ msgid "Keep the most recent backup."
 msgstr "Zachowaj najnowszą kopię zapasową."
 
 #: qt/manageprofiles/tab_remove_retention.py:239
-#, fuzzy
 msgid "The most up-to-date backup is kept under all circumstances."
 msgstr ""
-"W każdych okolicznościach przechowywana jest ostatnia i najświeższa kopia "
+"W każdych okolicznościach przechowywana jest najbardziej aktualna kopia "
 "zapasowa."
 
 #: qt/manageprofiles/tab_remove_retention.py:241
@@ -2059,15 +2049,14 @@ msgid "Run in background on remote host."
 msgstr "Uruchom w tle na zdalnym hoście."
 
 #: qt/manageprofiles/tab_remove_retention.py:311
-#, fuzzy
 msgid ""
 "The retention policy will be executed directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
 "and available on that remote machine."
 msgstr ""
-"Procedura inteligentnego usuwania zostanie uruchomiona bezpośrednio na "
-"komputerze zdalnym, a nie lokalnie. Polecenia „bash”, „screen” i „flock” "
-"muszą być zainstalowane i dostępne na maszynie zdalnej."
+"Zasady przechowywania będą wykonywane bezpośrednio na maszynie zdalnej, a "
+"nie lokalnie. Polecenia „bash”, „screen” i „flock” muszą być zainstalowane i"
+" dostępne na maszynie zdalnej."
 
 #: qt/manageprofiles/tab_remove_retention.py:315
 msgid "If selected, Back In Time will first test the remote machine."
@@ -2185,7 +2174,7 @@ msgstr "Działanie…"
 #: qt/qttools.py:439
 #, python-brace-format
 msgid "man page: {man_page_name}"
-msgstr ""
+msgstr "Strona podręcznika: {man_page_name}"
 
 #: qt/restoreconfigdialog.py:72
 msgid "Import configuration"
