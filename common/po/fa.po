@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-11-10 11:11+0100\n"
+"POT-Creation-Date: 2025-11-10 15:02+0100\n"
 "PO-Revision-Date: 2025-07-20 13:43+0000\n"
 "Last-Translator: thepotato <thepotato@noreply.codeberg.org>\n"
 "Language-Team: Persian <https://translate.codeberg.org/projects/backintime/common/fa/>\n"
@@ -63,7 +63,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "کلید خصوصی SSH"
 
@@ -909,11 +909,6 @@ msgstr "ترجمه شما"
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "داخل فداییورس در ماستودون: {link_and_label}."
 
-#: qt/app.py:1657
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr "ایمیل به {link_and_label}."
-
 #: qt/app.py:1660
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
@@ -1073,7 +1068,7 @@ msgid ""
 msgstr ""
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
-#: qt/manageprofiles/tab_general.py:601
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1086,17 +1081,17 @@ msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr "استفاده از این حالت برای یک نمایه دیگر توصیه نمی‌شود."
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
-#: qt/manageprofiles/tab_general.py:606
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr "اوراق سفید"
 
 #: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
-#: qt/manageprofiles/tab_general.py:603
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr "پشتیبانی از EncFS به دلیل آسیب‌پذیری‌های امنیتی متوقف می‌شود."
 
-#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:608
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1752,7 +1747,7 @@ msgstr "فعال"
 msgid "Mode:"
 msgstr "حالت:"
 
-#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:633
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 msgid "Where to save backups"
 msgstr "پیشتیبان‌ها کجا ذخیره شوند"
 
@@ -1786,7 +1781,7 @@ msgstr "رمز عبور کش برای کرون (مشکل امنیتی: ریشه 
 msgid "Advanced"
 msgstr "پیشرفته"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:723
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 msgid "Full backup path:"
 msgstr "مسیر کامل پشتیبان:"
 
@@ -1803,65 +1798,61 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:500
-#, fuzzy
 msgid ""
-"Copying the public SSH key to the remote host can help enable password-less "
-"login.To enable password-less login, the program can copy the public SSH key"
-" to the remote host."
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
 msgstr ""
-"آیا مایلید کلید عمومی SSH خود را به میزبان راه دور کپی کنید تا ورود بدون "
-"استفاده از رمز عبور فعال شود؟"
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:503
 #, fuzzy
 msgid "Proceed with copying the SSH key?"
 msgstr "با پشتیبان گیری ادامه می دهید؟"
 
-#: qt/manageprofiles/tab_general.py:530
+#: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:551
+#: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "اصالت میزبان {host} قابل تأیید نیست."
 
-#: qt/manageprofiles/tab_general.py:554
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "اثر انگشت کلید {keytype} عبارت است از:"
 
-#: qt/manageprofiles/tab_general.py:558
+#: qt/manageprofiles/tab_general.py:556
 #, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
 "لطفا این اثر انگشت را تأیید کنید. آیا به پرونده 'known_hosts' اضافه شود؟"
 
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:644
 msgid "Really change the backup directory?"
 msgstr "آیا واقعا میخواهید پوشه پشتیبان‌گیری را تغییر دهید؟"
 
-#: qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:674
 #, fuzzy
 msgid "Invalid file: Not a private SSH key"
 msgstr "کلید خصوصی SSH"
 
-#: qt/manageprofiles/tab_general.py:677
+#: qt/manageprofiles/tab_general.py:675
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:711
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "ایجاد کلید SSHجدید در {path} ناموفق بود."
@@ -2368,155 +2359,3 @@ msgstr "این یک پشتیبان نیست بلکه نمای زنده از پر
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "آخرین بررسی {time}"
-
-#~ msgid "A private key file for SSH was not chosen."
-#~ msgstr "پرونده کلید خصوصی برای SSH انتخاب نشده است."
-
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "آیا مطمئنید که می خواهید پوشه برگرفت‌ها را تغییر دهید؟"
-
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr ""
-#~ "آیا مطمئن هستید که میخواهید تمامی پرونده‌های جدیدتر را در پوشه اصلی خود حذف "
-#~ "کنید؟"
-
-#, python-brace-format
-#~ msgid "Are you sure you want to remove all newer files in {path}?"
-#~ msgstr ""
-#~ "آیا شما مطمئنید که میخواهید تمامی فایل های جدیدتر را در {path} حذف کنید؟"
-
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "آیا از پاک کرد این اسنپ‌شات مطمئنید؟"
-#~ msgstr[1] "آیا از پاک کردن این اسنپ‌شات‌ها مطمئنید؟"
-
-#~ msgid "Back In Time"
-#~ msgstr "Back In Time"
-
-#~ msgid "Backup"
-#~ msgstr "پشتیبان‌گیری"
-
-#, python-brace-format
-#~ msgid "Cipher {cipher} failed for {host}."
-#~ msgstr "متن رمز {cipher} برای {host} شکست خورد."
-
-#~ msgid "Cipher:"
-#~ msgstr "متن رمز:"
-
-#~ msgid ""
-#~ "Create a new SSH key without password (not allowed if a private key file is "
-#~ "already selected)."
-#~ msgstr ""
-#~ "یک کلید SSH جدید بدون رمز عبور بساز (اگر یک فایل کلید خصوصی درحال حاضر "
-#~ "انتخاب شده باشد مجاز نیست)."
-
-#~ msgid "Default"
-#~ msgstr "پیشفرض"
-
-#~ msgid "Do you really want to close it?"
-#~ msgstr "آیا از بستن این مورد مطمئنید؟"
-
-#~ msgid "ETA"
-#~ msgstr "ETA"
-
-#, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "هر {n} ساعت یکبار"
-#~ msgstr[1] "هر {n} ساعت"
-
-#~ msgid "Global"
-#~ msgstr "جهانی"
-
-#~ msgid "Home"
-#~ msgstr "خانه"
-
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr ""
-#~ "اگر روی یک درایو قابل‌حمل قرار دارد، لطفا آن را وصل کنید. سپس دکمه تأیید را "
-#~ "فشار دهید."
-
-#~ msgid "License"
-#~ msgstr "پروانه"
-
-#~ msgid "Look at 'man backintime' for further instructions"
-#~ msgstr "برای دستورالعمل های بیشتر به \"man backintime\" مراجعه کنید"
-
-#~ msgid "Name snapshot"
-#~ msgstr "نام‌بردن اسنپ‌شات"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Newer versions of files will be renamed with trailing {suffix} before "
-#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
-#~ msgstr ""
-#~ "نسخه‌های جدیدتر پرونده‌ها پیش از بازیابی، با پسوند {suffix} تغییر نام خواهند"
-#~ " یافت. اگر دیگر به آن‌ها نیازی ندارید، می‌توانید با استفاده از این دستور آن "
-#~ "را حذف کنید.{cmd}"
-
-#, fuzzy
-#~ msgid "Open user manual in browser (locally if available, otherwise online)"
-#~ msgstr ""
-#~ "باز کردن راهنمای کاربر در مرورگر ( اگر موجود باشد محلی در غیر این صورت "
-#~ "آنلاین)"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "لطفاً رمز عبور را تایید کنید."
-
-#, python-brace-format
-#~ msgid "Private key file \"{file}\" does not exist."
-#~ msgstr "فایل کلید خصوصی \"{file}\" وجود ندارد."
-
-#~ msgid "Sent"
-#~ msgstr "فرستاده‌شده"
-
-#~ msgid "Should a new password-less public/private key pair be generated?"
-#~ msgstr "آیا مایلید یک جفت کلید عمومی/خصوصی بدون رمز جدید تولید کنید؟"
-
-#, fuzzy
-#~ msgid "Shows the message about deprecation of SSH cipher again."
-#~ msgstr "دوباره پیام درمورد مشارکت در ترجمه را نشان می‌دهد."
-
-#~ msgid "Smart removal"
-#~ msgstr "حذف هوشمند"
-
-#~ msgid "Snapshot"
-#~ msgstr "اسنپ‌شات"
-
-#~ msgid "Snapshot Log View"
-#~ msgstr "نمای لاگ اسنپ‌شات"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "نام اسنپ‌شات"
-
-#~ msgid "Snapshots"
-#~ msgstr "اسنپ‌شات‌ها"
-
-#~ msgid "Snapshots:"
-#~ msgstr "برگرفته‌ها:"
-
-#~ msgid "Speed"
-#~ msgstr "سرعت"
-
-#~ msgid "Take a snapshot"
-#~ msgstr "گرفتن اسنپ‌شات"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "در حال گرفتن اسنپ‌شات"
-
-#, fuzzy
-#~ msgid "The sub-directories cannot be included in the backup."
-#~ msgstr "زیر پوشه پشتیبان را نمی‌توان اضافه کرد."
-
-#~ msgid "View last log"
-#~ msgstr "مشاهده آخرین لاگ"
-
-#~ msgid "View snapshot log"
-#~ msgstr "مشاهده لاگ اسنپ‌شات"
-
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "شما نمی‌توانید یک اسنپ‌شات را با خودش مقایسه کنید."
-
-#~ msgid "You did not choose a private key file for SSH."
-#~ msgstr "شما هیچ فایل کلید خصوصی برای SSH انتخاب نکردید."

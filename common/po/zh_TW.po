@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-11-10 11:11+0100\n"
+"POT-Creation-Date: 2025-11-10 15:02+0100\n"
 "PO-Revision-Date: 2025-08-19 08:03+0000\n"
 "Last-Translator: hsiangjenli <hsiangjenli@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hant/>\n"
@@ -61,7 +61,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "SSH 私鑰"
 
@@ -862,11 +862,6 @@ msgstr "您的翻譯"
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "在聯邦宇宙 Mastodon：{link_and_label}"
 
-#: qt/app.py:1657
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr "發送電子郵件至{link_and_label}。"
-
 #: qt/app.py:1660
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
@@ -1011,7 +1006,7 @@ msgid ""
 msgstr "使用者回呼腳本必須在第一行包含一個 shebang（例如 {example}）。"
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
-#: qt/manageprofiles/tab_general.py:601
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1022,17 +1017,17 @@ msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr "不建議將該模式用於設定檔。"
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
-#: qt/manageprofiles/tab_general.py:606
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr "白皮書"
 
 #: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
-#: qt/manageprofiles/tab_general.py:603
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr "由於安全漏洞，對 EncFS 的支援即將停止。"
 
-#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:608
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1637,7 +1632,7 @@ msgstr "已啟用"
 msgid "Mode:"
 msgstr "模式:"
 
-#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:633
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 msgid "Where to save backups"
 msgstr "快照存放位置"
 
@@ -1670,7 +1665,7 @@ msgstr "Cron 的快取密碼（安全性問題：root 可以讀取密碼"
 msgid "Advanced"
 msgstr "進階"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:723
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 msgid "Full backup path:"
 msgstr "完整快照路徑："
 
@@ -1687,62 +1682,60 @@ msgid ""
 msgstr "嘗試登入遠端主機時發生錯誤。傳回以下錯誤訊息："
 
 #: qt/manageprofiles/tab_general.py:500
-#, fuzzy
 msgid ""
-"Copying the public SSH key to the remote host can help enable password-less "
-"login.To enable password-less login, the program can copy the public SSH key"
-" to the remote host."
-msgstr "將公用 SSH 金鑰複製到遠端主機可以幫助啟用免密碼登入。"
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
+msgstr ""
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:503
 #, fuzzy
 msgid "Proceed with copying the SSH key?"
 msgstr "是否繼續備份？"
 
-#: qt/manageprofiles/tab_general.py:530
+#: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr "無法複製 SSH 公鑰。這可能是由於連線或權限問題造成的。"
 
-#: qt/manageprofiles/tab_general.py:551
+#: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "無法確定主機 {host} 的真實性。"
 
-#: qt/manageprofiles/tab_general.py:554
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} 指紋是："
 
-#: qt/manageprofiles/tab_general.py:558
+#: qt/manageprofiles/tab_general.py:556
 #, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr "請驗證此指紋。將其新增至“known_hosts”檔案嗎？"
 
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:644
 msgid "Really change the backup directory?"
 msgstr "真的要更改備份目錄嗎？"
 
-#: qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:674
 #, fuzzy
 msgid "Invalid file: Not a private SSH key"
 msgstr "SSH 私鑰"
 
-#: qt/manageprofiles/tab_general.py:677
+#: qt/manageprofiles/tab_general.py:675
 #, fuzzy, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr "所選檔案 {path} 似乎是 SSH 公用金鑰。請選擇一個私有檔案（不含“.pub”副檔名）。"
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr "文件 {path} 已存在。無法使用該名稱建立新的 SSH 金鑰。"
 
-#: qt/manageprofiles/tab_general.py:711
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "無法在 {path} 中建立新的 SSH 金鑰。"
@@ -2221,148 +2214,3 @@ msgstr "這不是快照，而是本地文件的即時視圖"
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "最後一次檢查{time}"
-
-#, fuzzy
-#~ msgid "A private key file for SSH was not chosen."
-#~ msgstr "私鑰檔案“{file}”不存在。"
-
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "確認修改快照目錄？"
-
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr "您確實要刪除原始目錄中所有較新的檔案嗎？"
-
-#, python-brace-format
-#~ msgid "Are you sure you want to remove all newer files in {path}?"
-#~ msgstr "您確定要刪除 {path} 中的所有較新檔案嗎？"
-
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "確認要刪除快照?"
-
-#~ msgid "Back In Time"
-#~ msgstr "Back In Time"
-
-#~ msgid "Backup"
-#~ msgstr "備份"
-
-#, python-brace-format
-#~ msgid "Cipher {cipher} failed for {host}."
-#~ msgstr "{host} 的密碼 {cipher} 失敗。"
-
-#~ msgid "Cipher:"
-#~ msgstr "密碼:"
-
-#~ msgid ""
-#~ "Create a new SSH key without password (not allowed if a private key file is "
-#~ "already selected)."
-#~ msgstr "建立一個新的無密碼 SSH 金鑰（如果已選擇私鑰檔案則不允許）。"
-
-#~ msgid "Default"
-#~ msgstr "預設"
-
-#~ msgid "Do you really want to close it?"
-#~ msgstr "您確定要關閉嗎？"
-
-#~ msgid "ETA"
-#~ msgstr "預計完成時間"
-
-#, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "每{n}月"
-
-#~ msgid "Global"
-#~ msgstr "全域設定"
-
-#~ msgid "Home"
-#~ msgstr "家目錄"
-
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr "如果它在可移動磁碟中，請插入可移動磁碟並按下確定。"
-
-#~ msgid "License"
-#~ msgstr "授權條款"
-
-#~ msgid "Look at 'man backintime' for further instructions"
-#~ msgstr "請參閱“man backintime”以獲取更多說明"
-
-#~ msgid "Name snapshot"
-#~ msgstr "快照名稱"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Newer versions of files will be renamed with trailing {suffix} before "
-#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
-#~ msgstr "在復原之前，較新版本的檔案將使用 {suffix} 進行重新命名。如果您不再需要它們，可以使用 {cmd} 刪除它們"
-
-#~ msgid "No public SSH keys"
-#~ msgstr "沒有公共 SSH 金鑰"
-
-#, fuzzy
-#~ msgid "Open user manual in browser (locally if available, otherwise online)"
-#~ msgstr "在瀏覽器中開啟使用手冊（如果可用則在本地，否則在線）"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "請確認密碼。"
-
-#, python-brace-format
-#~ msgid "Private key file \"{file}\" does not exist."
-#~ msgstr "私鑰檔案“{file}”不存在。"
-
-#~ msgid "Proceed?"
-#~ msgstr "繼續？"
-
-#~ msgid "Sent"
-#~ msgstr "傳送"
-
-#, fuzzy
-#~ msgid "Should a new password-less public/private key pair be generated?"
-#~ msgstr "您沒有為 SSH 選擇私鑰檔案。您想產生一個新的無密碼公鑰/私鑰對嗎？"
-
-#, fuzzy
-#~ msgid "Shows the message about deprecation of SSH cipher again."
-#~ msgstr "再次顯示參與翻譯的訊息。"
-
-#~ msgid "Smart removal"
-#~ msgstr "智慧移除"
-
-#~ msgid "Snapshot"
-#~ msgstr "快照"
-
-#~ msgid "Snapshot Log View"
-#~ msgstr "快照日誌視圖"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "快照名稱"
-
-#~ msgid "Snapshots"
-#~ msgstr "快照"
-
-#~ msgid "Snapshots:"
-#~ msgstr "快照:"
-
-#~ msgid "Speed"
-#~ msgstr "速度"
-
-#~ msgid "Take a snapshot"
-#~ msgstr "建立快照"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "正在建立快照"
-
-#~ msgid "The sub-directories cannot be included in the backup."
-#~ msgstr "此子資料夾不能被包含備份資料夾中。"
-
-#~ msgid "View last log"
-#~ msgstr "查看最後的記錄"
-
-#~ msgid "View snapshot log"
-#~ msgstr "檢視快照記錄"
-
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "無法進行快照自我比對."
-
-#~ msgid "You did not choose a private key file for SSH."
-#~ msgstr "您沒有為 SSH 選擇私鑰檔案。"

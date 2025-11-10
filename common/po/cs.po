@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-11-10 11:11+0100\n"
+"POT-Creation-Date: 2025-11-10 15:02+0100\n"
 "PO-Revision-Date: 2025-10-15 11:55+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Czech <https://translate.codeberg.org/projects/backintime/common/cs/>\n"
@@ -63,7 +63,7 @@ msgid "SSH"
 msgstr "Přes SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "SSH soukromý klíč"
 
@@ -910,11 +910,6 @@ msgstr "Pomozte s překladem do svého jazyka"
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Ve Fediverse na Mastodon: {link_and_label}."
 
-#: qt/app.py:1657
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr "E-mail na {link_and_label}."
-
 #: qt/app.py:1660
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
@@ -1076,7 +1071,7 @@ msgstr ""
 "(např. {example})."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
-#: qt/manageprofiles/tab_general.py:601
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1089,17 +1084,17 @@ msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr "Není doporučeno nadále tento režim v profilech používat."
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
-#: qt/manageprofiles/tab_general.py:606
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr "zpráva"
 
 #: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
-#: qt/manageprofiles/tab_general.py:603
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr "Podpora pro EncFS je ukončována kvůli zranitelnostem zabezpečení."
 
-#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:608
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1754,7 +1749,7 @@ msgstr "zapnuto"
 msgid "Mode:"
 msgstr "Režim:"
 
-#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:633
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 msgid "Where to save backups"
 msgstr "Kam ukládat zálohy"
 
@@ -1789,7 +1784,7 @@ msgstr ""
 msgid "Advanced"
 msgstr "Pokročilé"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:723
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 msgid "Full backup path:"
 msgstr "Úplný popis umístění zálohy:"
 
@@ -1808,21 +1803,17 @@ msgstr ""
 "následující chybová zpráva:"
 
 #: qt/manageprofiles/tab_general.py:500
-#, fuzzy
 msgid ""
-"Copying the public SSH key to the remote host can help enable password-less "
-"login.To enable password-less login, the program can copy the public SSH key"
-" to the remote host."
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
 msgstr ""
-"Zkopírování veřejného SSH klíče na vzdálený stroj může pomoci umožnit "
-"přihlašování bez hesla."
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:503
 #, fuzzy
 msgid "Proceed with copying the SSH key?"
 msgstr "Pokračovat v záloze?"
 
-#: qt/manageprofiles/tab_general.py:530
+#: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
@@ -1830,29 +1821,29 @@ msgstr ""
 "Veřejný SSH klíč nebylo možné zkopírovat. To může být kvůli problému s "
 "připojením nebo oprávněním."
 
-#: qt/manageprofiles/tab_general.py:551
+#: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "Nepodvrženost stroje „{host}“ se nepodařilo ověřit."
 
-#: qt/manageprofiles/tab_general.py:554
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "Otisk {keytype} klíče je:"
 
-#: qt/manageprofiles/tab_general.py:558
+#: qt/manageprofiles/tab_general.py:556
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr "Zkontrolujte tento otisk! Přidat ho do souboru „known_hosts“?"
 
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:644
 msgid "Really change the backup directory?"
 msgstr "Opravdu změnit složku se zálohou?"
 
-#: qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:674
 msgid "Invalid file: Not a private SSH key"
 msgstr "Neplatný soubor: Není soukromým SSH klíčem"
 
-#: qt/manageprofiles/tab_general.py:677
+#: qt/manageprofiles/tab_general.py:675
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
@@ -1861,7 +1852,7 @@ msgstr ""
 "Vybraný soubor ({path}) je veřejný SSH klíč. Vyberte namísto něho "
 "odpovídající soukromý klíč (bez přípony „.pub“)."
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
@@ -1869,7 +1860,7 @@ msgstr ""
 "Soubor {path} už existuje. Nebylo možné vytvořit nový SSH klíč s takovým "
 "názvem."
 
-#: qt/manageprofiles/tab_general.py:711
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "V umístění {path} se nepodařilo vytvořit nový SSH klíč."
@@ -2384,159 +2375,3 @@ msgstr ""
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Minulá kontrola {time}"
-
-#, fuzzy
-#~ msgid "A private key file for SSH was not chosen."
-#~ msgstr "Soubor „{file}“ se soukromou částí klíče neexistuje."
-
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "Opravdu změnit složku se zachycenými stavy?"
-
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr "Opravdu chcete z původní složky odebrat veškeré novější soubory?"
-
-#, python-brace-format
-#~ msgid "Are you sure you want to remove all newer files in {path}?"
-#~ msgstr "Opravdu chcete veškeré novější soubory v „{path}“ odebrat?"
-
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "Opravdu chcete tento zachycený stav odstranit?"
-#~ msgstr[1] "Opravdu chcete tyto zachycené stavy odstranit?"
-#~ msgstr[2] "Opravdu chcete tyto zachycené stavy odstranit?"
-
-#~ msgid "Back In Time"
-#~ msgstr "Back In Time"
-
-#, fuzzy
-#~ msgid "Backup"
-#~ msgstr "&Záloha"
-
-#, python-brace-format
-#~ msgid "Cipher {cipher} failed for {host}."
-#~ msgstr "Použití šifry {cipher} se na stroji {host} nezdařilo."
-
-#~ msgid "Cipher:"
-#~ msgstr "Šifra:"
-
-#~ msgid ""
-#~ "Create a new SSH key without password (not allowed if a private key file is "
-#~ "already selected)."
-#~ msgstr ""
-#~ "Vytvořit nový SSH klíč bez hesla (není možné pokud je už vybrán soubor se "
-#~ "soukromým klíčem)."
-
-#~ msgid "Default"
-#~ msgstr "Výchozí"
-
-#~ msgid "Do you really want to close it?"
-#~ msgstr "Opravdu chcete okno zavřít?"
-
-#~ msgid "ETA"
-#~ msgstr "Odhad. zbývající čas"
-
-#, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "Každou {n} hodinu"
-#~ msgstr[1] "Každé {n} hodiny"
-#~ msgstr[2] "Každých {n} hodin"
-
-#~ msgid "Global"
-#~ msgstr "Globální"
-
-#~ msgid "Home"
-#~ msgstr "Domovská složka"
-
-#, fuzzy
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr "Pokud se nachází na vyjímatelném médiu, připojte ho a klikněte na OK."
-
-#~ msgid "License"
-#~ msgstr "Licence"
-
-#~ msgid "Look at 'man backintime' for further instructions"
-#~ msgstr "Další pokyny naleznete v manuálové stránce aplikace (man backintime)"
-
-#~ msgid "Name snapshot"
-#~ msgstr "Nazvat zachycený stav"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Newer versions of files will be renamed with trailing {suffix} before "
-#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
-#~ msgstr ""
-#~ "Novější verze souborů budou před zahájením obnovy přejmenovány přidáním "
-#~ "předpony {suffix}. Až je už nebudete potřebovat, můžete je odstranit pomocí "
-#~ "příkazu {cmd}"
-
-#, fuzzy
-#~ msgid "Open user manual in browser (locally if available, otherwise online)"
-#~ msgstr ""
-#~ "Otevřít uživatelskou příručku v prohlížeči (lokálně, pokud je k dispozici - "
-#~ "jinak z Internetu)"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "Potvrďte zadání hesla."
-
-#, python-brace-format
-#~ msgid "Private key file \"{file}\" does not exist."
-#~ msgstr "Soubor „{file}“ se soukromou částí klíče neexistuje."
-
-#~ msgid "Proceed?"
-#~ msgstr "Pokračovat?"
-
-#~ msgid "Sent"
-#~ msgstr "Odesláno"
-
-#, fuzzy
-#~ msgid "Should a new password-less public/private key pair be generated?"
-#~ msgstr ""
-#~ "Přejete si vytvořit novou dvojici veřejného/soukromého klíče (bez hesla?"
-
-#, fuzzy
-#~ msgid "Shows the message about deprecation of SSH cipher again."
-#~ msgstr "Znovu zobrazí pozvání k účastni na překládání."
-
-#~ msgid "Smart removal"
-#~ msgstr "Postupné odstraňování"
-
-#~ msgid "Snapshot"
-#~ msgstr "Zachycený stav"
-
-#~ msgid "Snapshot Log View"
-#~ msgstr "Zobrazení událostí při pořizování zachyceného stavu"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "Název pro zachycený stav"
-
-#~ msgid "Snapshots"
-#~ msgstr "Zachycené stavy"
-
-#~ msgid "Snapshots:"
-#~ msgstr "Zachycené stavy:"
-
-#~ msgid "Speed"
-#~ msgstr "Rychlost"
-
-#~ msgid "Take a snapshot"
-#~ msgstr "Pořídit zachycený stav"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "Pořizování zachyceného stavu"
-
-#~ msgid "The sub-directories cannot be included in the backup."
-#~ msgstr "Podsložky nemohou být součástí toho, co se zálohuje."
-
-#~ msgid "View last log"
-#~ msgstr "Zobrazit záznam nedávných událostí"
-
-#~ msgid "View snapshot log"
-#~ msgstr "Zobrazit záznam událostí při pořizování zachyceného stavu"
-
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "Porovnávat zachycený stav s ním samotným nedává smysl."
-
-#~ msgid "You did not choose a private key file for SSH."
-#~ msgstr "Nezvolili jste soukromý klíč pro SSH."

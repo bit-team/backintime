@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-11-10 11:11+0100\n"
+"POT-Creation-Date: 2025-11-10 15:02+0100\n"
 "PO-Revision-Date: 2025-04-10 10:35+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Romanian <https://translate.codeberg.org/projects/backintime/common/ro/>\n"
@@ -59,7 +59,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "Cheie privată SSH"
 
@@ -924,11 +924,6 @@ msgstr "Traducerea ta"
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr ""
 
-#: qt/app.py:1657
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr ""
-
 #: qt/app.py:1660
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
@@ -1092,7 +1087,7 @@ msgid ""
 msgstr ""
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
-#: qt/manageprofiles/tab_general.py:601
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1106,17 +1101,17 @@ msgstr ""
 "recomandat să utilizați acel mod pentru un profil de acum încolo."
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
-#: qt/manageprofiles/tab_general.py:606
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr "raport"
 
 #: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
-#: qt/manageprofiles/tab_general.py:603
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr ""
 
-#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:608
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1774,7 +1769,7 @@ msgstr "activat"
 msgid "Mode:"
 msgstr "Mod:"
 
-#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:633
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 #, fuzzy
 msgid "Where to save backups"
 msgstr "Unde să se salveze instantaneele"
@@ -1811,7 +1806,7 @@ msgstr ""
 msgid "Advanced"
 msgstr "Avansat"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:723
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 #, fuzzy
 msgid "Full backup path:"
 msgstr "Cale completă instantaneu:"
@@ -1829,65 +1824,61 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:500
-#, fuzzy
 msgid ""
-"Copying the public SSH key to the remote host can help enable password-less "
-"login.To enable password-less login, the program can copy the public SSH key"
-" to the remote host."
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
 msgstr ""
-"Doriți să copiați cheia publică SSH la gazda de la distanță pentru a activa "
-"autentificarea fără parolă?"
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:503
 msgid "Proceed with copying the SSH key?"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:530
+#: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:551
+#: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "Autenticitatea gazdei {host} nu poate fi stabilită."
 
-#: qt/manageprofiles/tab_general.py:554
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "Amprenta cheii {keytype} este:"
 
-#: qt/manageprofiles/tab_general.py:558
+#: qt/manageprofiles/tab_general.py:556
 #, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
 "Verificați această amprentă. Doriți să o adăugați la fișierul „known_hosts”?"
 
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:644
 #, fuzzy
 msgid "Really change the backup directory?"
 msgstr "Creați un nou dosar criptat?"
 
-#: qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:674
 #, fuzzy
 msgid "Invalid file: Not a private SSH key"
 msgstr "Cheie privată SSH"
 
-#: qt/manageprofiles/tab_general.py:677
+#: qt/manageprofiles/tab_general.py:675
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:711
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Nu s-a putut crea o cheie SSH nouă în {path}."
@@ -2410,155 +2401,3 @@ msgstr ""
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Ultima verificare la {time}"
-
-#, fuzzy
-#~ msgid "A private key file for SSH was not chosen."
-#~ msgstr "Fișierul cheie privată „{file}” nu există."
-
-#, fuzzy
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "Sigur doriți să modificați dosarul de instantanee?"
-
-#, fuzzy
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr ""
-#~ "Sigur doriți să eliminați toate fișierele mai noi din dosarul original?"
-
-#, python-brace-format
-#~ msgid "Are you sure you want to remove all newer files in {path}?"
-#~ msgstr "Sigur doriți să eliminați toate fisierele mai noi din {path}?"
-
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "Sigur doriți să eliminați acest instantaneu?"
-#~ msgstr[1] "Sigur doriți să eliminați aceste instantanee?"
-#~ msgstr[2] "Sigur doriți să eliminați aceste instantanee?"
-
-#, fuzzy
-#~ msgid "Back In Time"
-#~ msgstr "Back In &Time"
-
-#, fuzzy
-#~ msgid "Backup"
-#~ msgstr "&Copie de rezervă"
-
-#, python-brace-format
-#~ msgid "Cipher {cipher} failed for {host}."
-#~ msgstr "Cifrul {cipher} a eșuat pentru {host}."
-
-#~ msgid "Cipher:"
-#~ msgstr "Cifru:"
-
-#~ msgid ""
-#~ "Create a new SSH key without password (not allowed if a private key file is "
-#~ "already selected)."
-#~ msgstr ""
-#~ "Creează o nouă cheie SSH fără parolă (nu este permis dacă un fișier cheie "
-#~ "privată este deja selectat)."
-
-#~ msgid "Default"
-#~ msgstr "Implicit"
-
-#~ msgid "Do you really want to close it?"
-#~ msgstr "Sigur doriți să o închideți?"
-
-#~ msgid "ETA"
-#~ msgstr "Timp rămas"
-
-#, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "La fiecare {n} oră"
-#~ msgstr[1] "La fiecare {n} ore"
-#~ msgstr[2] "La fiecare {n} de ore"
-
-#~ msgid "Global"
-#~ msgstr "Global"
-
-#~ msgid "Home"
-#~ msgstr "Home"
-
-#, fuzzy
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr "Dacă se află pe o unitate detașabilă, conectați-o și apoi apăsați OK."
-
-#~ msgid "License"
-#~ msgstr "Licență"
-
-#~ msgid "Look at 'man backintime' for further instructions"
-#~ msgstr "Consultați „man backintime” pentru instrucțiuni suplimentare"
-
-#~ msgid "Name snapshot"
-#~ msgstr "Denumește instantaneul"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Newer versions of files will be renamed with trailing {suffix} before "
-#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
-#~ msgstr ""
-#~ "Noile versiuni ale fișierelor vor fi redenumite cu sufixul {suffix} înainte "
-#~ "de restaurare. Dacă nu mai aveți nevoie de ele, puteți să le eliminați cu "
-#~ "{cmd}"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "Confirmați parola."
-
-#, python-brace-format
-#~ msgid "Private key file \"{file}\" does not exist."
-#~ msgstr "Fișierul cheie privată „{file}” nu există."
-
-#~ msgid "Sent"
-#~ msgstr "Trimis"
-
-#, fuzzy
-#~ msgid "Should a new password-less public/private key pair be generated?"
-#~ msgstr ""
-#~ "Doriți să generați o nouă pereche de chei publice/private fără parolă?"
-
-#, fuzzy
-#~ msgid "Shows the message about deprecation of SSH cipher again."
-#~ msgstr "Afișează din nou mesajul despre participarea la traducere."
-
-#~ msgid "Smart removal"
-#~ msgstr "Înlăturare inteligentă"
-
-#~ msgid "Snapshot"
-#~ msgstr "Instantaneu"
-
-#~ msgid "Snapshot Log View"
-#~ msgstr "Vizualizare jurnal de instantaneu"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "Nume instantaneu"
-
-#~ msgid "Snapshots"
-#~ msgstr "Instantanee"
-
-#~ msgid "Snapshots:"
-#~ msgstr "Instantanee:"
-
-#~ msgid "Speed"
-#~ msgstr "Viteză"
-
-#~ msgid "Take a snapshot"
-#~ msgstr "Ia un instantaneu"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "Se ia instantaneul"
-
-#, fuzzy
-#~ msgid "The sub-directories cannot be included in the backup."
-#~ msgstr "Sub-dosarul copiei de rezervă nu poate fi inclus."
-
-#~ msgid "View last log"
-#~ msgstr "Vizualizează ultima înregistrare în jurnal"
-
-#~ msgid "View snapshot log"
-#~ msgstr "Vizualizează jurnalul instantaneului"
-
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "Nu puteți compara un instantaneu cu el însuși."
-
-#~ msgid "You did not choose a private key file for SSH."
-#~ msgstr "Nu ați ales un fișier cheie privată pentru SSH."

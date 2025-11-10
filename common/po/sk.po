@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-11-10 11:11+0100\n"
+"POT-Creation-Date: 2025-11-10 15:02+0100\n"
 "PO-Revision-Date: 2025-04-10 10:35+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Slovak <https://translate.codeberg.org/projects/backintime/common/sk/>\n"
@@ -61,7 +61,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "SSH privátny kľúč"
 
@@ -920,11 +920,6 @@ msgstr "Váš preklad"
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Na Fediverse na Mastodone: {link_and_label}"
 
-#: qt/app.py:1657
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr "E-mail na {link_and_label}."
-
 #: qt/app.py:1660
 #, fuzzy, python-brace-format
 msgid "Mailing list {link_and_label}."
@@ -1087,7 +1082,7 @@ msgid ""
 msgstr ""
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
-#: qt/manageprofiles/tab_general.py:601
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1100,17 +1095,17 @@ msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr "Používanie tohto režimu pre profil sa už neodporúča."
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
-#: qt/manageprofiles/tab_general.py:606
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr "odbornej štúdii"
 
 #: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
-#: qt/manageprofiles/tab_general.py:603
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr "Podpora pre EncFS sa ukončuje z dôvodu bezpečnostných zraniteľností."
 
-#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:608
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1772,7 +1767,7 @@ msgstr "povolené"
 msgid "Mode:"
 msgstr "Režim:"
 
-#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:633
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 #, fuzzy
 msgid "Where to save backups"
 msgstr "Kam sa uložia snímky"
@@ -1809,7 +1804,7 @@ msgstr ""
 msgid "Advanced"
 msgstr "Pokročilé"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:723
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 #, fuzzy
 msgid "Full backup path:"
 msgstr "Úplná cesta k snímke:"
@@ -1827,66 +1822,62 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:500
-#, fuzzy
 msgid ""
-"Copying the public SSH key to the remote host can help enable password-less "
-"login.To enable password-less login, the program can copy the public SSH key"
-" to the remote host."
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
 msgstr ""
-"Chcete skopírovať svoj verejný SSH kľúč na vzdialeného hostiteľa, aby ste "
-"povolili bezheslové prihlásenie?"
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:503
 msgid "Proceed with copying the SSH key?"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:530
+#: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:551
+#: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "Autenticita hostiteľa {host} nemôže byť overená."
 
-#: qt/manageprofiles/tab_general.py:554
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "Odtlačok {keytype} kľúča je:"
 
-#: qt/manageprofiles/tab_general.py:558
+#: qt/manageprofiles/tab_general.py:556
 #, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
 "Prosím, overte tento odtlačok. Chcete ho pridať do vášho súboru "
 "'known_hosts'?"
 
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:644
 #, fuzzy
 msgid "Really change the backup directory?"
 msgstr "Vytvoriť nový šifrovaný priečinok?"
 
-#: qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:674
 #, fuzzy
 msgid "Invalid file: Not a private SSH key"
 msgstr "SSH privátny kľúč"
 
-#: qt/manageprofiles/tab_general.py:677
+#: qt/manageprofiles/tab_general.py:675
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:711
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Nepodarilo sa vytvoriť nový SSH kľúč v {path}."
@@ -2417,156 +2408,3 @@ msgstr "Toto NIE JE snímka, ale živý náhľad vašich lokálnych súborov"
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Posledná kontrola {time}"
-
-#, fuzzy
-#~ msgid "A private key file for SSH was not chosen."
-#~ msgstr "Súbor privátneho kľúča \"{file}\" neexistuje."
-
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "Naozaj chcete zmeniť adresár snímok?"
-
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr "Naozaj chcete odstrániť všetky novšie súbory v pôvodnom adresári?"
-
-#, python-brace-format
-#~ msgid "Are you sure you want to remove all newer files in {path}?"
-#~ msgstr "Naozaj chcete odstrániť všetky novšie súbory v {path}?"
-
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "Ste si istí, že chcete odstrániť snímky?"
-#~ msgstr[1] "Ste si istí, že chcete odstrániť snímku?"
-#~ msgstr[2] "Ste si istí, že chcete odstrániť snímky?"
-
-#, fuzzy
-#~ msgid "Back In Time"
-#~ msgstr "Back In &Time"
-
-#, fuzzy
-#~ msgid "Backup"
-#~ msgstr "&Záloha"
-
-#, python-brace-format
-#~ msgid "Cipher {cipher} failed for {host}."
-#~ msgstr "Šifra {cipher} zlyhala pre {host}."
-
-#~ msgid "Cipher:"
-#~ msgstr "Šifra:"
-
-#~ msgid ""
-#~ "Create a new SSH key without password (not allowed if a private key file is "
-#~ "already selected)."
-#~ msgstr ""
-#~ "Vytvoriť nový SSH kľúč bez hesla (nie je povolené, ak už je vybratý súbor "
-#~ "privátneho kľúča)."
-
-#~ msgid "Default"
-#~ msgstr "Predvolené"
-
-#~ msgid "Do you really want to close it?"
-#~ msgstr "Naozaj to chcete zavrieť?"
-
-#~ msgid "ETA"
-#~ msgstr "ETA"
-
-#, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "Každých {n} hodín"
-#~ msgstr[1] "Každú {n} hodinu"
-#~ msgstr[2] "Každé {n} hodiny"
-
-#~ msgid "Global"
-#~ msgstr "Globálne"
-
-#~ msgid "Home"
-#~ msgstr "Domovský priečinok"
-
-#, fuzzy
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr "Ak je na vymeniteľnom disku, pripojte ho a potom stlačte OK."
-
-#~ msgid "License"
-#~ msgstr "Licencia"
-
-#~ msgid "Look at 'man backintime' for further instructions"
-#~ msgstr "Pozrite si 'man backintime' pre ďalšie inštrukcie"
-
-#~ msgid "Name snapshot"
-#~ msgstr "Urobiť snímku"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Newer versions of files will be renamed with trailing {suffix} before "
-#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
-#~ msgstr ""
-#~ "Novšie verzie súborov budú pred obnovením premenované s koncovkou {suffix}. "
-#~ "Ak ich už nepotrebujete, môžete ich odstrániť pomocou {cmd}"
-
-#, fuzzy
-#~ msgid "Open user manual in browser (locally if available, otherwise online)"
-#~ msgstr ""
-#~ "Otvoriť používateľskú príručku v prehliadači (lokálne, ak je k dispozícii, "
-#~ "inak online)"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "Prosím, potvrďte heslo."
-
-#, python-brace-format
-#~ msgid "Private key file \"{file}\" does not exist."
-#~ msgstr "Súbor privátneho kľúča \"{file}\" neexistuje."
-
-#~ msgid "Sent"
-#~ msgstr "Odoslané"
-
-#, fuzzy
-#~ msgid "Should a new password-less public/private key pair be generated?"
-#~ msgstr "Chcete vygenerovať nový bezheslový pár verejný/privátny kľúč?"
-
-#, fuzzy
-#~ msgid "Shows the message about deprecation of SSH cipher again."
-#~ msgstr "Znova zobraziť správu o účasti na preklade."
-
-#~ msgid "Smart removal"
-#~ msgstr "Inteligentné odstránenie"
-
-#~ msgid "Snapshot"
-#~ msgstr "Snímka"
-
-#~ msgid "Snapshot Log View"
-#~ msgstr "Záznam z denníka snímky"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "Názov snímky"
-
-#~ msgid "Snapshots"
-#~ msgstr "Snímky"
-
-#~ msgid "Snapshots:"
-#~ msgstr "Snímky:"
-
-#~ msgid "Speed"
-#~ msgstr "Rýchlosť"
-
-#~ msgid "Take a snapshot"
-#~ msgstr "Urobiť snímku"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "Robím snímok"
-
-#, fuzzy
-#~ msgid "The sub-directories cannot be included in the backup."
-#~ msgstr "Pod-priečinok Zálohy nemože byť zahrnutý."
-
-#~ msgid "View last log"
-#~ msgstr "Zobraziť posledný log"
-
-#~ msgid "View snapshot log"
-#~ msgstr "Zobraziť záznam snímok"
-
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "Nemôžete porovnávať snímku s ňou samou."
-
-#~ msgid "You did not choose a private key file for SSH."
-#~ msgstr "Nevybrali ste súbor privátneho kľúča pre SSH."

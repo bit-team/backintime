@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-11-10 11:11+0100\n"
+"POT-Creation-Date: 2025-11-10 15:02+0100\n"
 "PO-Revision-Date: 2025-10-26 11:51+0000\n"
 "Last-Translator: zvavybir <zvavybir@noreply.codeberg.org>\n"
 "Language-Team: Esperanto <https://translate.codeberg.org/projects/backintime/common/eo/>\n"
@@ -61,7 +61,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "privata ŝlosilo de ssh"
 
@@ -907,11 +907,6 @@ msgstr "Via traduko"
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr ""
 
-#: qt/app.py:1657
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr ""
-
 #: qt/app.py:1660
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
@@ -1065,7 +1060,7 @@ msgid ""
 msgstr ""
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
-#: qt/manageprofiles/tab_general.py:601
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1079,17 +1074,17 @@ msgstr ""
 "reĝimo por profilo plue."
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
-#: qt/manageprofiles/tab_general.py:606
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr "dokumento"
 
 #: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
-#: qt/manageprofiles/tab_general.py:603
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr ""
 
-#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:608
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1736,7 +1731,7 @@ msgstr "ŝaltita"
 msgid "Mode:"
 msgstr "Maniero:"
 
-#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:633
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 #, fuzzy
 msgid "Where to save backups"
 msgstr "Kien savi la momentaĵojn"
@@ -1773,7 +1768,7 @@ msgstr ""
 msgid "Advanced"
 msgstr "Progresinta"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:723
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 #, fuzzy
 msgid "Full backup path:"
 msgstr "Plena momentaĵvojo:"
@@ -1791,66 +1786,62 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:500
-#, fuzzy
 msgid ""
-"Copying the public SSH key to the remote host can help enable password-less "
-"login.To enable password-less login, the program can copy the public SSH key"
-" to the remote host."
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
 msgstr ""
-"Ĉu vi volas kopii vian publikan SSH-ŝlosilon al la fora gastiganto por "
-"ebligi ensaluton sen pasvorto?"
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:503
 msgid "Proceed with copying the SSH key?"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:530
+#: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:551
+#: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "La aŭtenteco de la gastiganto {host} ne estis konstatebla."
 
-#: qt/manageprofiles/tab_general.py:554
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} ŝlosilfingropremo estas:"
 
-#: qt/manageprofiles/tab_general.py:558
+#: qt/manageprofiles/tab_general.py:556
 #, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
 "Bonvolu konfirmi tion fingropremon! Ĉu vi volas aldoni ĝin al via "
 "'known_hosts' dosiero?"
 
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:644
 #, fuzzy
 msgid "Really change the backup directory?"
 msgstr "Krei novan kriptan dosieron?"
 
-#: qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:674
 #, fuzzy
 msgid "Invalid file: Not a private SSH key"
 msgstr "privata ŝlosilo de ssh"
 
-#: qt/manageprofiles/tab_general.py:677
+#: qt/manageprofiles/tab_general.py:675
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:711
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Malsukcesi krei novan SSH-ŝlosilon en {path}."
@@ -2367,153 +2358,3 @@ msgstr "Tio NE estas savkopion, sed viva vido de viaj lokaj dosieroj."
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Lasta kontrolo {time}"
-
-#, fuzzy
-#~ msgid "A private key file for SSH was not chosen."
-#~ msgstr "Private ŝlosila dosiero {file} ne ekzistas."
-
-#, fuzzy
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "Ĉu vi certas ke vi volas ŝanĝi la momentaĵdosierujon?"
-
-#, fuzzy
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr ""
-#~ "Ĉu vi estas certa, ke vi volas forigi ĉiujn pli novajn dosierojn en la "
-#~ "originala dosierujo?"
-
-#, python-brace-format
-#~ msgid "Are you sure you want to remove all newer files in {path}?"
-#~ msgstr "Ĉu vi certas ke vi volas forigi ĉiujn pli novajn dosierojn en {path}?"
-
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "Ĉu vi certas ke vi volas forigi tion momentaĵon?"
-#~ msgstr[1] "Ĉu vi certas ke vi volas forigi tiojn momentaĵojn?"
-
-#~ msgid "Back In Time"
-#~ msgstr "Back In Time"
-
-#, fuzzy
-#~ msgid "Backup"
-#~ msgstr "&Savkopio"
-
-#, python-brace-format
-#~ msgid "Cipher {cipher} failed for {host}."
-#~ msgstr "Ĉifro {cipher} malsukcesas por {host}."
-
-#~ msgid "Cipher:"
-#~ msgstr "Ĉifro:"
-
-#~ msgid ""
-#~ "Create a new SSH key without password (not allowed if a private key file is "
-#~ "already selected)."
-#~ msgstr ""
-#~ "Krei novan SSH-ŝlosilon sen pasvorto (ne permesita se privata ŝlosilo estas "
-#~ "jam elektita)."
-
-#~ msgid "Default"
-#~ msgstr "defaŭlto"
-
-#~ msgid "Do you really want to close it?"
-#~ msgstr "Ĉu vi vere volas fermi ĝin?"
-
-#~ msgid "ETA"
-#~ msgstr "Restanta"
-
-#, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "Ĉiu horoj"
-#~ msgstr[1] "Ĉiu {n} horojn"
-
-#~ msgid "Global"
-#~ msgstr "Tutmonda"
-
-#~ msgid "Home"
-#~ msgstr "Hejmo"
-
-#, fuzzy
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr ""
-#~ "Se ĝi estas je demetebla disko, bonvolu konekti ĝin kaj post tio premi OK."
-
-#~ msgid "License"
-#~ msgstr "Permesilo"
-
-#~ msgid "Look at 'man backintime' for further instructions"
-#~ msgstr "Vidu al 'man backintime' por pli multe da instrukcioj"
-
-#~ msgid "Name snapshot"
-#~ msgstr "Nomi momentaĵon"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Newer versions of files will be renamed with trailing {suffix} before "
-#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
-#~ msgstr ""
-#~ "Pli novaj versioj de dosieroj estos renomata je vosta {suffix} antaŭ "
-#~ "restaŭri. Se vi ne plu bezonas ilin, vi povas forigi ilin je {cmd}"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "Bonvolu konfirmi pasvorton."
-
-#, python-brace-format
-#~ msgid "Private key file \"{file}\" does not exist."
-#~ msgstr "Private ŝlosila dosiero {file} ne ekzistas."
-
-#~ msgid "Sent"
-#~ msgstr "Sendita"
-
-#, fuzzy
-#~ msgid "Should a new password-less public/private key pair be generated?"
-#~ msgstr ""
-#~ "Ĉu vi volas generi novan paron de publika/privatan ŝlosilojn sen pasvorto?"
-
-#, fuzzy
-#~ msgid "Shows the message about deprecation of SSH cipher again."
-#~ msgstr "Vidigas la mesaĝon pri partopreni je la tradukoj ree."
-
-#~ msgid "Smart removal"
-#~ msgstr "Inteligenta forigo"
-
-#~ msgid "Snapshot"
-#~ msgstr "Momentaĵo"
-
-#~ msgid "Snapshot Log View"
-#~ msgstr "Vidaĵo je momentaĵoj"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "Nomo de momentaĵo"
-
-#~ msgid "Snapshots"
-#~ msgstr "Momentaĵoj"
-
-#~ msgid "Snapshots:"
-#~ msgstr "Momentaĵoj:"
-
-#~ msgid "Speed"
-#~ msgstr "Rapideco"
-
-#~ msgid "Take a snapshot"
-#~ msgstr "Fari momentaĵon"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "Faras ekrankopion"
-
-#, fuzzy
-#~ msgid "The sub-directories cannot be included in the backup."
-#~ msgstr "Savkopi-subdosierujon ne eblis inkluzivi."
-
-#~ msgid "View last log"
-#~ msgstr "Vidi lastan protokolon"
-
-#~ msgid "View snapshot log"
-#~ msgstr "Vidi momentaĵprotokolon"
-
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "Vi ne povas kompari momentaĵon je ĝin mem."
-
-#~ msgid "You did not choose a private key file for SSH."
-#~ msgstr "Vi ne elektis privata-ŝlosil-dosieron por SSH."

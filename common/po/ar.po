@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-11-10 11:11+0100\n"
+"POT-Creation-Date: 2025-11-10 15:02+0100\n"
 "PO-Revision-Date: 2025-10-29 20:07+0000\n"
 "Last-Translator: BishoyEhab <bishoyehab@noreply.codeberg.org>\n"
 "Language-Team: Arabic <https://translate.codeberg.org/projects/backintime/common/ar/>\n"
@@ -63,7 +63,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "مفتاح SSH الخاص"
 
@@ -919,11 +919,6 @@ msgstr "ترجمتك"
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr ""
 
-#: qt/app.py:1657
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr ""
-
 #: qt/app.py:1660
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
@@ -1099,7 +1094,7 @@ msgid ""
 msgstr ""
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
-#: qt/manageprofiles/tab_general.py:601
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1113,17 +1108,17 @@ msgstr ""
 "للملف الشخصي بعد الآن."
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
-#: qt/manageprofiles/tab_general.py:606
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr "ورقة بيضاء"
 
 #: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
-#: qt/manageprofiles/tab_general.py:603
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr ""
 
-#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:608
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1784,7 +1779,7 @@ msgstr "مفعَّل"
 msgid "Mode:"
 msgstr "الوضع:"
 
-#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:633
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 #, fuzzy
 msgid "Where to save backups"
 msgstr "أين ستُحْفَظ اللقطات"
@@ -1821,7 +1816,7 @@ msgstr ""
 msgid "Advanced"
 msgstr "مُتقدم"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:723
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 #, fuzzy
 msgid "Full backup path:"
 msgstr "مسار اللقطة الكاملة:"
@@ -1839,66 +1834,62 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:500
-#, fuzzy
 msgid ""
-"Copying the public SSH key to the remote host can help enable password-less "
-"login.To enable password-less login, the program can copy the public SSH key"
-" to the remote host."
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
 msgstr ""
-"هل ترغب في نسخ مفتاح SSH العام الخاص بك إلى المضيف البعيد لتمكين تسجيل "
-"الدخول بدون كلمة مرور؟"
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:503
 msgid "Proceed with copying the SSH key?"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:530
+#: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:551
+#: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "لا يمكن تأكيد مصداقية المضيف {host}."
 
-#: qt/manageprofiles/tab_general.py:554
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "بصمة مفتاح {keytype} هي:"
 
-#: qt/manageprofiles/tab_general.py:558
+#: qt/manageprofiles/tab_general.py:556
 #, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
 "يرجى التحقق من هذه البصمة. هل ترغب في إضافتها إلى ملف 'known_hosts' الخاص "
 "بك؟"
 
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:644
 #, fuzzy
 msgid "Really change the backup directory?"
 msgstr "هل تريد انشاء مجلد مشفر جديد؟"
 
-#: qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:674
 #, fuzzy
 msgid "Invalid file: Not a private SSH key"
 msgstr "مفتاح SSH خاص"
 
-#: qt/manageprofiles/tab_general.py:677
+#: qt/manageprofiles/tab_general.py:675
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:711
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "فشل في إنشاء مفتاح SSH جديد في {path}."
@@ -2421,157 +2412,3 @@ msgstr "هذه ليست لقطة ولكن عرض حي لملفاتك المحل�
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "آخر فحص {time}"
-
-#, fuzzy
-#~ msgid "A private key file for SSH was not chosen."
-#~ msgstr "ملف المفتاح الخاص \"{file}\" غير موجود."
-
-#, fuzzy
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "هل أنت متأكد أنك تريد تغيير مجلد اللقطات؟"
-
-#, fuzzy
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr "هل أنت متأكد من حذف جميع الملفات الأحدث في المجلد الأصلي؟"
-
-#, python-brace-format
-#~ msgid "Are you sure you want to remove all newer files in {path}?"
-#~ msgstr "هل أنت متأكد من حذف جميع الملفات الأحدث في {path}؟"
-
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "هل أنت متأكد أنك تريد إزالة هذه اللقطة؟"
-#~ msgstr[1] "هل أنت متأكد أنك تريد إزالة هذه اللقطة؟"
-#~ msgstr[2] "هل أنت مُتأكد أنك تود إزالة اللقطتان؟"
-#~ msgstr[3] "هل أنت متأكد أنك تريد إزالة هذه اللقطات؟"
-#~ msgstr[4] "هل أنت متأكد أنك تريد إزالة هذه اللقطات؟"
-#~ msgstr[5] "هل أنت متأكد أنك تريد إزالة هذه اللقطات؟"
-
-#, fuzzy
-#~ msgid "Back In Time"
-#~ msgstr "العودة بالزمن"
-
-#, fuzzy
-#~ msgid "Backup"
-#~ msgstr "النسخ الاحتياطي"
-
-#, python-brace-format
-#~ msgid "Cipher {cipher} failed for {host}."
-#~ msgstr "فشل تشفير {cipher} لـ {host}."
-
-#~ msgid "Cipher:"
-#~ msgstr "تشفير:"
-
-#~ msgid ""
-#~ "Create a new SSH key without password (not allowed if a private key file is "
-#~ "already selected)."
-#~ msgstr ""
-#~ "إنشاء مفتاح SSH جديد بدون كلمة مرور (غير مسموح إذا تم اختيار ملف مفتاح خاص "
-#~ "بالفعل)."
-
-#~ msgid "Default"
-#~ msgstr "افتراضي"
-
-#~ msgid "Do you really want to close it?"
-#~ msgstr "هل أنت متأكد من رغبتك في إغلاق النافذة؟"
-
-#~ msgid "ETA"
-#~ msgstr "الوقت المتبقي"
-
-#, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "كل{n} ساعة"
-#~ msgstr[1] "كل {n} ساعة"
-#~ msgstr[2] "كل {n} ساعتين"
-#~ msgstr[3] "كل {n} ساعات"
-#~ msgstr[4] "كل {n} ساعة"
-#~ msgstr[5] "كل {n} ساعة"
-
-#~ msgid "Global"
-#~ msgstr "عام"
-
-#~ msgid "Home"
-#~ msgstr "الرئيسية"
-
-#, fuzzy
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr "إن كان على وحدة تخزين خارجية، يرجى توصيلها ثم اضغط موافق."
-
-#~ msgid "License"
-#~ msgstr "الرخصة"
-
-#~ msgid "Look at 'man backintime' for further instructions"
-#~ msgstr "انظر إلى 'man backintime' للحصول على مزيد من التعليمات"
-
-#~ msgid "Name snapshot"
-#~ msgstr "سمي اللقطة"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Newer versions of files will be renamed with trailing {suffix} before "
-#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
-#~ msgstr ""
-#~ "ستُعَاد تسمية الإصدارات الأحدث من الملفات مع إضافة {suffix} قبل الاستعادة. "
-#~ "إذا لم تكن بحاجة إليها بعد الآن، يمكنك إزالتها باستخدام {cmd}"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "يرجى تأكيد كلمة السر."
-
-#, python-brace-format
-#~ msgid "Private key file \"{file}\" does not exist."
-#~ msgstr "ملف المفتاح الخاص \"{file}\" غير موجود."
-
-#~ msgid "Sent"
-#~ msgstr "أرسل"
-
-#, fuzzy
-#~ msgid "Should a new password-less public/private key pair be generated?"
-#~ msgstr "هل ترغب في إنشاء زوج مفاتيح عام/خاص جديد بدون كلمة مرور؟"
-
-#, fuzzy
-#~ msgid "Shows the message about deprecation of SSH cipher again."
-#~ msgstr "عرض رسالة المشاركة في الترجمة."
-
-#~ msgid "Smart removal"
-#~ msgstr "إزالة ذكية"
-
-#~ msgid "Snapshot"
-#~ msgstr "لقطة"
-
-#~ msgid "Snapshot Log View"
-#~ msgstr "عرض سجل اللقطات"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "اسم اللقطة"
-
-#~ msgid "Snapshots"
-#~ msgstr "لقطات"
-
-#~ msgid "Snapshots:"
-#~ msgstr "لقطات:"
-
-#~ msgid "Speed"
-#~ msgstr "السرعة"
-
-#~ msgid "Take a snapshot"
-#~ msgstr "خذ لقطة"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "يتم اخذ لقطة"
-
-#~ msgid "The sub-directories cannot be included in the backup."
-#~ msgstr "لا يمكن تضمين المجلد الفرعي للنسخ الاحتياطي."
-
-#~ msgid "View last log"
-#~ msgstr "عرض اخر سجل"
-
-#~ msgid "View snapshot log"
-#~ msgstr "عرض سجل اللقطات"
-
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "لا تستطيع مُقارنة اللقطة بنفسها."
-
-#~ msgid "You did not choose a private key file for SSH."
-#~ msgstr "لم تقم باختيار ملف مفتاح خاص لـ SSH."
