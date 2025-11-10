@@ -17,14 +17,16 @@ Dev note (buhtz, 2025-03: Have look at "qt/manageprofiles/combobox.py" and
 consolidate if possible.
 """
 import itertools
+from typing import Callable
 from PyQt6.QtCore import Qt, QTimer
-from PyQt6.QtGui import QMouseEvent
+from PyQt6.QtGui import QCursor, QMouseEvent
 from PyQt6.QtWidgets import (QCheckBox,
                              QComboBox,
                              QFrame,
                              QHBoxLayout,
                              QLabel,
                              QSizePolicy,
+                             QToolTip,
                              QWidget)
 import qttools
 
@@ -226,3 +228,44 @@ class Spinner(QLabel):
         """Stop the spinner using `self.STOP` as label."""
         self._timer.stop()
         self.setText(Spinner.STOP)
+
+
+class HypertextLabel(QLabel):
+    """A label containing hyper links.
+
+    In adtion to QLabel the link has a tooltip derived from its URL or a
+    customized string.
+    """
+
+    # pylint: disable-next=too-many-arguments,too-many-positional-arguments
+    def __init__(self,
+                 label: str,
+                 word_wrap: bool = False,
+                 link_slot: Callable[[str], None] = None,
+                 link_tooltip: str = None,
+                 parent: QWidget = None):
+        super().__init__(parent)
+
+        self._link_tooltip = link_tooltip
+
+        self.setText(label)
+        self.setWordWrap(word_wrap)
+
+        if link_slot:
+            self.setOpenExternalLinks(False)
+            self.linkActivated.connect(link_slot)
+
+        self.linkHovered.connect(self.slot_link_hovered)
+
+        # gpl.setTextInteractionFlags(
+        #     Qt.TextInteractionFlag.TextBrowserInteraction)
+
+    def slot_link_hovered(self, url: str):
+        """Show URL in tooltip without anoing http-protocol prefixf."""
+
+        if self._link_tooltip:
+            txt = self._link_tooltip
+        else:
+            txt = url.replace('https://', '')
+
+        QToolTip.showText(QCursor.pos(), txt)

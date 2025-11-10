@@ -1944,7 +1944,7 @@ class Snapshots:
                         % del_snapshots, self)
 
             for i, sid in enumerate(del_snapshots, 1):
-                log(_('Smart removal') + ' %s/%s' %(i, len(del_snapshots)))
+                log('Smart removal' + ' %s/%s' %(i, len(del_snapshots)))
                 self.remove(sid)
 
     def get_free_space_at_destination(self) -> StorageSize | None:
@@ -1996,13 +1996,13 @@ class Snapshots:
         # Remove snapshots older than N years/weeks/days
         if self.config.removeOldSnapshotsEnabled():
             self.setTakeSnapshotMessage(
-                0, _('Apply rules to remove old backups'))
+                0, _('Applying rules to remove old backups'))
 
             # The oldest backup to keep. Others older than this are removed.
             oldSID = SID(self.config.removeOldSnapshotsDate(), self.config)
             oldBackupId = oldSID.withoutTag
 
-            logger.debug(f'Remove backups older than: {oldBackupId}', self)
+            logger.debug(f'Removing backups older than: {oldBackupId}', self)
 
             while True:
                 # Keep min one backup
@@ -2018,7 +2018,7 @@ class Snapshots:
                         del snapshots[0]
                         continue
 
-                msg = 'Remove backup {} because it is older than {}'
+                msg = 'Removing backup {} because it is older than {}'
                 logger.debug(msg.format(
                     snapshots[0].withoutTag, oldBackupId), self)
 
@@ -2029,7 +2029,7 @@ class Snapshots:
         enabled, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month = self.config.smartRemove()
 
         if enabled:
-            self.setTakeSnapshotMessage(0, _('Apply retention policy'))
+            self.setTakeSnapshotMessage(0, _('Applying retention policy'))
             del_snapshots = self.smartRemoveList(now,
                                                  keep_all,
                                                  keep_one_per_day,
