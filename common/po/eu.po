@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-11-10 11:11+0100\n"
+"POT-Creation-Date: 2025-11-10 15:02+0100\n"
 "PO-Revision-Date: 2025-08-19 10:24+0000\n"
 "Last-Translator: alexgabi <alexgabi@noreply.codeberg.org>\n"
 "Language-Team: Basque <https://translate.codeberg.org/projects/backintime/common/eu/>\n"
@@ -62,7 +62,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "SSH giltz pribatu"
 
@@ -909,11 +909,6 @@ msgstr "Zure Itzulpena"
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Fedibertsoko Mastodonen: {link_and_label}."
 
-#: qt/app.py:1657
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr "Mezu elektronikoa {link_and_label} helbidera."
-
 #: qt/app.py:1660
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
@@ -1077,7 +1072,7 @@ msgstr ""
 "lehen lerroan (adib. {example})."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
-#: qt/manageprofiles/tab_general.py:601
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1090,17 +1085,17 @@ msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr "Ez da gomendagarria modu hori erabiltzea profil baterako."
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
-#: qt/manageprofiles/tab_general.py:606
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr "orri zuria"
 
 #: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
-#: qt/manageprofiles/tab_general.py:603
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr "Encfs-en laguntza eten egin da segurtasun ahuleziak direla medio."
 
-#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:608
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1750,7 +1745,7 @@ msgstr "gaituta"
 msgid "Mode:"
 msgstr "Modua:"
 
-#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:633
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 msgid "Where to save backups"
 msgstr "Non gorde babeskopiak"
 
@@ -1785,7 +1780,7 @@ msgstr ""
 msgid "Advanced"
 msgstr "Aurreratua"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:723
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 msgid "Full backup path:"
 msgstr "Babeskopien bide osoa:"
 
@@ -1804,21 +1799,17 @@ msgstr ""
 "itzuli da:"
 
 #: qt/manageprofiles/tab_general.py:500
-#, fuzzy
 msgid ""
-"Copying the public SSH key to the remote host can help enable password-less "
-"login.To enable password-less login, the program can copy the public SSH key"
-" to the remote host."
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
 msgstr ""
-"Urruneko ostalarian SSH gako publikoa kopiatzeak pasahitzik gabeko saio-"
-"hasiera gaitzen lagun dezake."
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:503
 #, fuzzy
 msgid "Proceed with copying the SSH key?"
 msgstr "Ekin babeskopia egiteari?"
 
-#: qt/manageprofiles/tab_general.py:530
+#: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
@@ -1826,31 +1817,31 @@ msgstr ""
 "Ezin izan da SSH gako publikoa kopiatu. Konexio edo baimen arazo batengatik "
 "izan daiteke."
 
-#: qt/manageprofiles/tab_general.py:551
+#: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "Ezin da egiaztatu \"{host}\" ostalariaren benetakotasuna."
 
-#: qt/manageprofiles/tab_general.py:554
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} gakoaren hatz-marka hau da:"
 
-#: qt/manageprofiles/tab_general.py:558
+#: qt/manageprofiles/tab_general.py:556
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
 "Egiaztatu hatz-marka hau. Nahi al duzu gehitzea zure 'known_hosts' "
 "fitxategira?"
 
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:644
 msgid "Really change the backup directory?"
 msgstr "Benetan nahi duzu babeskopien direktorioa aldatu?"
 
-#: qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:674
 msgid "Invalid file: Not a private SSH key"
 msgstr "Baliogabeko fitxategia: Ez da SSH gako pribatua"
 
-#: qt/manageprofiles/tab_general.py:677
+#: qt/manageprofiles/tab_general.py:675
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
@@ -1859,7 +1850,7 @@ msgstr ""
 "Hautatutako fitxategia {path} SSH gako publiko bat da. Mesedez aukeratu gako"
 " pribatuaren fitxategia (.pub luzapenik gabe)."
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
@@ -1867,7 +1858,7 @@ msgstr ""
 "{path} fitxategia lehendik badago. Ezin da sortu SSL gako berri bat izen "
 "horrekin."
 
-#: qt/manageprofiles/tab_general.py:711
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Huts egin du {path} kokalekuan SSH gako berria sortzen."
@@ -2378,154 +2369,3 @@ msgstr "Hau EZ da babeskopia bat zure fitxategi lokalen ikuspegia baizik."
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Azken kontrola {time}"
-
-#~ msgid "A private key file for SSH was not chosen."
-#~ msgstr "SSHrako gako fitxategi pribaturik ez da aukeratu."
-
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "Ziur zaude aldatu nahi duzula babeskopien direktorioa?"
-
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr ""
-#~ "Seguru zaude jatorrizko karpetatik berriagoak diren fitxategi guztiak "
-#~ "ezabatu nahi dituzula?"
-
-#, python-brace-format
-#~ msgid "Are you sure you want to remove all newer files in {path}?"
-#~ msgstr "Ziur {path}-ko fitxategi berri guztiak kendu nahi dituzula?"
-
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "Seguru zaude babeskopia ezabatu nahi duzula?"
-#~ msgstr[1] "Seguru zaude babeskopiak ezabatu nahi dituzula?"
-
-#~ msgid "Back In Time"
-#~ msgstr "Back In Time"
-
-#~ msgid "Backup"
-#~ msgstr "Babeskopia"
-
-#, python-brace-format
-#~ msgid "Cipher {cipher} failed for {host}."
-#~ msgstr "{cipher} zifraketak huts egin du {host}rentzat."
-
-#~ msgid "Cipher:"
-#~ msgstr "Zifratu:"
-
-#~ msgid ""
-#~ "Create a new SSH key without password (not allowed if a private key file is "
-#~ "already selected)."
-#~ msgstr ""
-#~ "Sortu SSH gako berri bat pasahitzik gabe (ez da onartzen gako pribatuaren "
-#~ "fitxategi bat dagoeneko hautatuta badago)."
-
-#~ msgid "Default"
-#~ msgstr "Lehenetsia"
-
-#~ msgid "Do you really want to close it?"
-#~ msgstr "Ziur zaude itxi nahi duzula?"
-
-#~ msgid "ETA"
-#~ msgstr "ETA"
-
-#, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "{n} orduero"
-#~ msgstr[1] "{n} orduero"
-
-#~ msgid "Global"
-#~ msgstr "Orokorra"
-
-#~ msgid "Home"
-#~ msgstr "Hasiera"
-
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr "Unitate eramangarri batean badago, konekta ezazu eta sakatu Ados."
-
-#~ msgid "License"
-#~ msgstr "Lizentzia"
-
-#~ msgid "Look at 'man backintime' for further instructions"
-#~ msgstr "Begiratu 'man backintime' azalpenak ikusteko"
-
-#~ msgid "Name snapshot"
-#~ msgstr "Izendatu babeskopia"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Newer versions of files will be renamed with trailing {suffix} before "
-#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
-#~ msgstr ""
-#~ "Berriagoak diren fitxategiak berrizendatuko dira '{suffix}' kokapenarekin "
-#~ "leheneratu baino lehen. Ez badituzu gehiago behar ezabatu ditzakezu "
-#~ "'{cmd}'-rekin"
-
-#, fuzzy
-#~ msgid "Open user manual in browser (locally if available, otherwise online)"
-#~ msgstr ""
-#~ "Ireki erabiltzailearen eskuliburua nabigatzailean (tokikoa eskuragarri "
-#~ "badago bestela lineakoa)"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "Egiaztatu pasahitza mesedez."
-
-#, python-brace-format
-#~ msgid "Private key file \"{file}\" does not exist."
-#~ msgstr "\"{file}\" gako pribatuko fitxategirik ez dago."
-
-#~ msgid "Proceed?"
-#~ msgstr "Ekin?"
-
-#~ msgid "Sent"
-#~ msgstr "Bidalita"
-
-#~ msgid "Should a new password-less public/private key pair be generated?"
-#~ msgstr "Nahi al duzu pasahitzik gabeko gako publiko/pribatu parea sortzea?"
-
-#, fuzzy
-#~ msgid "Shows the message about deprecation of SSH cipher again."
-#~ msgstr "Itzulpenean parte hartzeari buruzko mezua erakusten du berriro."
-
-#~ msgid "Smart removal"
-#~ msgstr "Ezabatze adimenduna"
-
-#~ msgid "Snapshot"
-#~ msgstr "Babeskopia"
-
-#~ msgid "Snapshot Log View"
-#~ msgstr "Babeskopiaren erregistro ikuspegia"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "Babeskopiaren izena"
-
-#~ msgid "Snapshots"
-#~ msgstr "Babeskopiak"
-
-#~ msgid "Snapshots:"
-#~ msgstr "Babeskopiak:"
-
-#~ msgid "Speed"
-#~ msgstr "Abiadura"
-
-#~ msgid "Take a snapshot"
-#~ msgstr "Egin babeskopia"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "Babeskopia egiten"
-
-#~ msgid "The sub-directories cannot be included in the backup."
-#~ msgstr "Azpikarpetak ezin dira babes kopian sartu."
-
-#~ msgid "View last log"
-#~ msgstr "Ikusi azken erregistroa"
-
-#~ msgid "View snapshot log"
-#~ msgstr "Ikusi babeskopiaren erregistroa"
-
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "Ezin duzu alderatu babeskopia bat bere buruarekin."
-
-#~ msgid "You did not choose a private key file for SSH."
-#~ msgstr "Ez duzu gako pribatuko fitxategirik aukeratu SSHrako."

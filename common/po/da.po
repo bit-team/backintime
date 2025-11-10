@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-11-10 11:11+0100\n"
+"POT-Creation-Date: 2025-11-10 15:02+0100\n"
 "PO-Revision-Date: 2025-08-12 11:50+0000\n"
 "Last-Translator: asjo <asjo@noreply.codeberg.org>\n"
 "Language-Team: Danish <https://translate.codeberg.org/projects/backintime/common/da/>\n"
@@ -62,7 +62,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "SSH privat nøgle"
 
@@ -893,11 +893,6 @@ msgstr "Din oversættelse"
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "I fødiverset på Mastodon: {link_and_label}."
 
-#: qt/app.py:1657
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr "Email til {link_and_label}."
-
 #: qt/app.py:1660
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
@@ -1058,7 +1053,7 @@ msgstr ""
 "{example})."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
-#: qt/manageprofiles/tab_general.py:601
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1071,18 +1066,18 @@ msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr "Det er ikke længere anbefalet at bruge den tilstand i en profil."
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
-#: qt/manageprofiles/tab_general.py:606
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr "hvidbog"
 
 #: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
-#: qt/manageprofiles/tab_general.py:603
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr ""
 "Understøttelse af EncFS bliver fjernet på grund at sikkerhedsproblemer."
 
-#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:608
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1727,7 +1722,7 @@ msgstr "slået til"
 msgid "Mode:"
 msgstr "Tilstand:"
 
-#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:633
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 msgid "Where to save backups"
 msgstr "Hvor skal tilstandsbilleder gemmes"
 
@@ -1760,7 +1755,7 @@ msgstr "Husk kodeord for cron (sikkerhedsproblem: root kan læse kodeordet)"
 msgid "Advanced"
 msgstr "Avanceret"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:723
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 msgid "Full backup path:"
 msgstr "Fuld sti til tilstandsbilleder:"
 
@@ -1779,21 +1774,17 @@ msgstr ""
 "fejlmeddelelse blev givet:"
 
 #: qt/manageprofiles/tab_general.py:500
-#, fuzzy
 msgid ""
-"Copying the public SSH key to the remote host can help enable password-less "
-"login.To enable password-less login, the program can copy the public SSH key"
-" to the remote host."
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
 msgstr ""
-"Hvis du kopierer din offentlige SSH-nøgle til fjernværten er det muligt at "
-"logge ind uden kodeord."
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:503
 #, fuzzy
 msgid "Proceed with copying the SSH key?"
 msgstr "Forsæt med at danne tilstandsbillede?"
 
-#: qt/manageprofiles/tab_general.py:530
+#: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
@@ -1801,31 +1792,31 @@ msgstr ""
 "Den offentlige SSH-nøgle kunneikke kopieres. Dette kan skyldes problem med "
 "forbindelse eller rettigheder."
 
-#: qt/manageprofiles/tab_general.py:551
+#: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "Autenticiteten af værten {host} kan ikke etableres."
 
-#: qt/manageprofiles/tab_general.py:554
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} nøgle fingeraftryk er:"
 
-#: qt/manageprofiles/tab_general.py:558
+#: qt/manageprofiles/tab_general.py:556
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
 "Verificér venligst dette fingeraftryk. Vil du tilføje det til din "
 "\"known_hosts\" fil?"
 
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:644
 msgid "Really change the backup directory?"
 msgstr "Er du sikker på at du vil ændre tilstandsbillede-mappen?"
 
-#: qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:674
 msgid "Invalid file: Not a private SSH key"
 msgstr "Ugyldig fil: Ikke en privat SSH-nøgle"
 
-#: qt/manageprofiles/tab_general.py:677
+#: qt/manageprofiles/tab_general.py:675
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
@@ -1834,14 +1825,14 @@ msgstr ""
 "Det valgte fil ({path}) er en offentlig SSH-nøgle. Vælg venligst den "
 "tilsvarende private nøglefil i stedet (uden \".pub\" til sidst)."
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
 "Filen {path} findes i forvejen. Kan ikke lave en ny SSH-nøgle med det navn."
 
-#: qt/manageprofiles/tab_general.py:711
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Oprettelsen af ny SSH nøgle i {path} mislykkedes."
@@ -2352,159 +2343,3 @@ msgstr ""
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Sidste check {time}"
-
-#~ msgid "A private key file for SSH was not chosen."
-#~ msgstr "En privat nøglefil til SSH er ikke valgt."
-
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "Er du sikker på du ønsker at skifte tilstands-billede-mappe ?"
-
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr ""
-#~ "Er du sikker på du vil slette alle nyere filer i din oprindelige mappe?"
-
-#, python-brace-format
-#~ msgid "Are you sure you want to remove all newer files in {path}?"
-#~ msgstr "Er du sikker på du vil slette alle nyere filer i {path}?"
-
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "Er du sikker på du ønsker at fjerne tilstands-billedet?"
-#~ msgstr[1] "Er du sikker på du ønsker at fjerne tilstands-billederne?"
-
-#~ msgid "Back In Time"
-#~ msgstr "Back In Time"
-
-#~ msgid "Backup"
-#~ msgstr "&Sikkerhedskopiéring"
-
-#, python-brace-format
-#~ msgid "Cipher {cipher} failed for {host}."
-#~ msgstr "Chiffer {cipher} fungerede ikke for {host}."
-
-#~ msgid "Cipher:"
-#~ msgstr "Kryptering:"
-
-#~ msgid ""
-#~ "Create a new SSH key without password (not allowed if a private key file is "
-#~ "already selected)."
-#~ msgstr ""
-#~ "Opret en ny SSH-nøgle uden kodeord (ikke tilladt hvis en privat nøgle-fil "
-#~ "allerede er valgt)."
-
-#~ msgid "Default"
-#~ msgstr "Standard"
-
-#~ msgid "Do you really want to close it?"
-#~ msgstr "Er du sikker på at du ønsker at lukke det?"
-
-#~ msgid "ETA"
-#~ msgstr "Forventet afslutning"
-
-#, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "Hver {n} time"
-#~ msgstr[1] "Hver {n} timer"
-
-#~ msgid "Global"
-#~ msgstr "Globalt"
-
-#~ msgid "Home"
-#~ msgstr "Hjemmemappe"
-
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr ""
-#~ "Hvis den er på et flytbar drev, indsæt venligst drevet og tryk derefter OK."
-
-#~ msgid "License"
-#~ msgstr "Licens"
-
-#~ msgid "Look at 'man backintime' for further instructions"
-#~ msgstr "Se 'man backintime' for yderligere instruktioner"
-
-#~ msgid "Name snapshot"
-#~ msgstr "Navngiv tilstands-billede"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Newer versions of files will be renamed with trailing {suffix} before "
-#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
-#~ msgstr ""
-#~ "Nyere version af filer vil blive omdøbt med {suffix} tilføjet før "
-#~ "genddannelse. Hvis du ikke har brug for dem længere, kan de fjernes med "
-#~ "{cmd}"
-
-#~ msgid "Open user manual in browser (locally if available, otherwise online)"
-#~ msgstr ""
-#~ "Åbn brugervejledningen i weblæser (lokal hvis tilgængelig, ellers på nettet)"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "Bekræft venligst adgangskode."
-
-#, python-brace-format
-#~ msgid "Private key file \"{file}\" does not exist."
-#~ msgstr "Den private nøglefil \"{file}\" mangler."
-
-#~ msgid "Proceed?"
-#~ msgstr "Fortsæt?"
-
-#~ msgid "Sent"
-#~ msgstr "Sendt"
-
-#~ msgid "Should a new password-less public/private key pair be generated?"
-#~ msgstr "Vil du danne et nyt offentligt/privat kodeordsløst nøglepar?"
-
-#, fuzzy
-#~ msgid "Shows the message about deprecation of SSH cipher again."
-#~ msgstr "Vis beskeden om deltagelse i oversættelse igen."
-
-#~ msgid "Smart removal"
-#~ msgstr "Smart sletning"
-
-#~ msgid "Snapshot"
-#~ msgstr "Tilstands-billede"
-
-#~ msgid "Snapshot Log View"
-#~ msgstr "Se Snapshot Log"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "Tilstands-billede-navn"
-
-#~ msgid "Snapshots"
-#~ msgstr "Tilstands-billeder"
-
-#~ msgid "Snapshots:"
-#~ msgstr "Tilstands-billeder:"
-
-#~ msgid "Speed"
-#~ msgstr "Hastighed"
-
-#~ msgid "Take a snapshot"
-#~ msgstr "Tag et tilstands-billede"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "Tag et tilstands-billede"
-
-#~ msgid "The sub-directories cannot be included in the backup."
-#~ msgstr "Uundermapperne kan ikke inkluderes in backup'en."
-
-#~ msgid ""
-#~ "The warning threshold for free space must be greater than or equal to the "
-#~ "removing threshold by free space."
-#~ msgstr ""
-#~ "Advarselsgrænsen for fri plads skal være større end eller lig med "
-#~ "fjernelsesgrænsen for fri plads."
-
-#~ msgid "View last log"
-#~ msgstr "Vis seneste log"
-
-#~ msgid "View snapshot log"
-#~ msgstr "Vis tilstands-billede-log"
-
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "Du kan ikke sammenligne et tilstands-billede med sig selv."
-
-#~ msgid "You did not choose a private key file for SSH."
-#~ msgstr "Du har ikke valgt en privat nøglefil til SSH."

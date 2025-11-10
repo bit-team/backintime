@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-11-10 11:11+0100\n"
+"POT-Creation-Date: 2025-11-10 15:02+0100\n"
 "PO-Revision-Date: 2025-09-18 09:27+0000\n"
 "Last-Translator: danternas <danternas@noreply.codeberg.org>\n"
 "Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/common/sv/>\n"
@@ -64,7 +64,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "SSH privat nyckel"
 
@@ -908,11 +908,6 @@ msgstr "Din översättning"
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "I Fediversumet på Mastodon: {link_and_label}."
 
-#: qt/app.py:1657
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr "E-posta till {link_and_label}."
-
 #: qt/app.py:1660
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
@@ -1073,7 +1068,7 @@ msgstr ""
 "(t.ex. {example})."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
-#: qt/manageprofiles/tab_general.py:601
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1087,17 +1082,17 @@ msgstr ""
 "Det är inte rekommenderat att använda det där läget längre för en profil."
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
-#: qt/manageprofiles/tab_general.py:606
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr "vitpapper"
 
 #: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
-#: qt/manageprofiles/tab_general.py:603
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr "Stödet för EncFS upphör på grund av säkerhetsbrister."
 
-#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:608
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1745,7 +1740,7 @@ msgstr "aktiverad"
 msgid "Mode:"
 msgstr "Läge:"
 
-#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:633
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 msgid "Where to save backups"
 msgstr "Var säkerhetskopiorna ska sparas"
 
@@ -1780,7 +1775,7 @@ msgstr ""
 msgid "Advanced"
 msgstr "Avancerat"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:723
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 msgid "Full backup path:"
 msgstr "Fullständig genväg för säkerhetskopian:"
 
@@ -1799,21 +1794,17 @@ msgstr ""
 "felmeddelande returnerades:"
 
 #: qt/manageprofiles/tab_general.py:500
-#, fuzzy
 msgid ""
-"Copying the public SSH key to the remote host can help enable password-less "
-"login.To enable password-less login, the program can copy the public SSH key"
-" to the remote host."
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
 msgstr ""
-"Kopiera den offentliga SSH-nyckeln till fjärrvärden för att aktivera "
-"inloggning utan lösenord."
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:503
 #, fuzzy
 msgid "Proceed with copying the SSH key?"
 msgstr "Fortsätt med säkerhetskopieringen?"
 
-#: qt/manageprofiles/tab_general.py:530
+#: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
@@ -1821,31 +1812,31 @@ msgstr ""
 "Den publika SSH nyckeln kunde inte kopieras. Detta kan bero på ett "
 "anslutnings eller behörighetsfel."
 
-#: qt/manageprofiles/tab_general.py:551
+#: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "Autenticiteten för värd {host} kan inte fastställas."
 
-#: qt/manageprofiles/tab_general.py:554
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} nyckelfingeravtryck är:"
 
-#: qt/manageprofiles/tab_general.py:558
+#: qt/manageprofiles/tab_general.py:556
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
 "Vänligen bekräfta det här fingeravtrycket. Lägg till det i din "
 "'known_hosts'-fil?"
 
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:644
 msgid "Really change the backup directory?"
 msgstr "Verkligen ändra katalog för säkerhetskopiering?"
 
-#: qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:674
 msgid "Invalid file: Not a private SSH key"
 msgstr "Ogiltig fil: Inte en privat SSH-nyckel"
 
-#: qt/manageprofiles/tab_general.py:677
+#: qt/manageprofiles/tab_general.py:675
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
@@ -1854,14 +1845,14 @@ msgstr ""
 "Den valda filen ({path}) är en publik SSH nyckel. Vänligen välj den "
 "motsvarande privata nyckeln istället (utan \".pub\")."
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
 "Filen {path} finns redan. Kan inte skapa en ny SSH nyckel med det namnet."
 
-#: qt/manageprofiles/tab_general.py:711
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Misslyckades med att skapa ny SSH-nyckel i {path}."
@@ -2372,153 +2363,3 @@ msgstr ""
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Senaste kontroll {time}"
-
-#~ msgid "A private key file for SSH was not chosen."
-#~ msgstr "En privat nyckel-fil för SSH valdes inte."
-
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "Är du säker på att du vill ändra mappen för ögonblicksavbilder?"
-
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr ""
-#~ "Är du säker på att du vill ta bort alla nyare filer i din ursprungliga "
-#~ "katalog?"
-
-#, python-brace-format
-#~ msgid "Are you sure you want to remove all newer files in {path}?"
-#~ msgstr "Är du säker på att du vill ta bort alla nyare filer i {path}?"
-
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "Är du säker på att du vill ta bort denna ögonblicksavbild?"
-#~ msgstr[1] "Är du säker på att du vill ta bort de här ögonblicksavbilderna?"
-
-#~ msgid "Back In Time"
-#~ msgstr "Back In Time"
-
-#~ msgid "Backup"
-#~ msgstr "Säkerhetskopiera"
-
-#, python-brace-format
-#~ msgid "Cipher {cipher} failed for {host}."
-#~ msgstr "Chiffer {cipher} misslyckades för {host}."
-
-#~ msgid "Cipher:"
-#~ msgstr "Chiffer:"
-
-#~ msgid ""
-#~ "Create a new SSH key without password (not allowed if a private key file is "
-#~ "already selected)."
-#~ msgstr ""
-#~ "Skapa en ny SSH-nyckel utan lösenord (inte tillåtet om en privat nyckelfil "
-#~ "redan är vald)."
-
-#~ msgid "Default"
-#~ msgstr "Standard"
-
-#~ msgid "Do you really want to close it?"
-#~ msgstr "Vill du verkligen stänga det?"
-
-#~ msgid "ETA"
-#~ msgstr "Tid kvar"
-
-#, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "Varje timme"
-#~ msgstr[1] "Med {n} timmars mellanrum"
-
-#~ msgid "Global"
-#~ msgstr "Global"
-
-#~ msgid "Home"
-#~ msgstr "Hem"
-
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr ""
-#~ "Om den är på en flyttbar enhet, vänligen anslut den och tryck sedan på OK."
-
-#~ msgid "License"
-#~ msgstr "Licens"
-
-#~ msgid "Look at 'man backintime' for further instructions"
-#~ msgstr "Se \"man backintime\" för ytterligare instruktioner"
-
-#~ msgid "Name snapshot"
-#~ msgstr "Namnge ögonblicksavbild"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Newer versions of files will be renamed with trailing {suffix} before "
-#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
-#~ msgstr ""
-#~ "Nyare versioner av filer kommer att döpas om med avslutande {suffix} innan "
-#~ "de återställs. Om du inte behöver dem längre kan du ta bort dem med {cmd}"
-
-#, fuzzy
-#~ msgid "Open user manual in browser (locally if available, otherwise online)"
-#~ msgstr ""
-#~ "Öppna användarmanualen i webbläsaren (lokal om tillgängligt annars online)"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "Bekräfta lösenord."
-
-#, python-brace-format
-#~ msgid "Private key file \"{file}\" does not exist."
-#~ msgstr "Privat nyckelfil \"{file}\" existerar inte."
-
-#~ msgid "Proceed?"
-#~ msgstr "Gå vidare?"
-
-#~ msgid "Sent"
-#~ msgstr "Skickat"
-
-#~ msgid "Should a new password-less public/private key pair be generated?"
-#~ msgstr "Borde ett nytt lösenordslöst offentligt/privat nyckelpar genereras?"
-
-#, fuzzy
-#~ msgid "Shows the message about deprecation of SSH cipher again."
-#~ msgstr "Visar meddelandet om att delta i översättningen igen."
-
-#~ msgid "Smart removal"
-#~ msgstr "Smart borttagning"
-
-#~ msgid "Snapshot"
-#~ msgstr "Ögonblicksavbilder"
-
-#~ msgid "Snapshot Log View"
-#~ msgstr "Visning av logg för ögonblicksavbild"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "Namn på ögonblicksavbild"
-
-#~ msgid "Snapshots"
-#~ msgstr "Ögonblicksavbilder"
-
-#~ msgid "Snapshots:"
-#~ msgstr "Ögonblicksavbilder:"
-
-#~ msgid "Speed"
-#~ msgstr "Hastighet"
-
-#~ msgid "Take a snapshot"
-#~ msgstr "Ta en ögonblicksavbild"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "Tar ögonblicksavbild"
-
-#~ msgid "The sub-directories cannot be included in the backup."
-#~ msgstr "Underkatalogerna kan inte inkluderas i säkerhetskopian."
-
-#~ msgid "View last log"
-#~ msgstr "Visa senaste logg"
-
-#~ msgid "View snapshot log"
-#~ msgstr "Visa logg för ögonblicksavbilder"
-
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "Du kan inte jämföra en ögonblicksavbild med sig själv."
-
-#~ msgid "You did not choose a private key file for SSH."
-#~ msgstr "Du valde inte en privat nyckel-fil för SSH."

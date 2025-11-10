@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-11-10 11:11+0100\n"
+"POT-Creation-Date: 2025-11-10 15:02+0100\n"
 "PO-Revision-Date: 2025-06-16 10:37+0000\n"
 "Last-Translator: hunluki <hunluki@noreply.codeberg.org>\n"
 "Language-Team: Hungarian <https://translate.codeberg.org/projects/backintime/common/hu/>\n"
@@ -59,7 +59,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "SSH személyes kulcs"
 
@@ -930,11 +930,6 @@ msgstr "Az Ön fordítása"
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "A mastodoni födiverzumban: {link_and_label}"
 
-#: qt/app.py:1657
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr "E-mail küldése: {link_and_label}."
-
 #: qt/app.py:1660
 #, fuzzy, python-brace-format
 msgid "Mailing list {link_and_label}."
@@ -1098,7 +1093,7 @@ msgid ""
 msgstr ""
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
-#: qt/manageprofiles/tab_general.py:601
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1111,17 +1106,17 @@ msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr "Nem ajánlott ezt a módot továbbra is használni egy profilhoz."
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
-#: qt/manageprofiles/tab_general.py:606
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr "dokumentum"
 
 #: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
-#: qt/manageprofiles/tab_general.py:603
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr "Az EncFS támogatása a biztonsági sebezhetőségek miatt megszűnik."
 
-#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:608
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1791,7 +1786,7 @@ msgstr "engedélyezve"
 msgid "Mode:"
 msgstr "Mód:"
 
-#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:633
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 #, fuzzy
 msgid "Where to save backups"
 msgstr "Hová mentse a pillanatképeket"
@@ -1828,7 +1823,7 @@ msgstr ""
 msgid "Advanced"
 msgstr "Speciális"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:723
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 #, fuzzy
 msgid "Full backup path:"
 msgstr "Teljes pillanatkép útvonala:"
@@ -1846,66 +1841,62 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:500
-#, fuzzy
 msgid ""
-"Copying the public SSH key to the remote host can help enable password-less "
-"login.To enable password-less login, the program can copy the public SSH key"
-" to the remote host."
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
 msgstr ""
-"Szeretné a nyilvános SSH-kulcsát a távoli kiszolgálóra másolni a "
-"jelszómentes bejelentkezés engedélyezéséhez?"
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:503
 msgid "Proceed with copying the SSH key?"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:530
+#: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:551
+#: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "A(z) {host} kiszolgáló hitelességét nem lehet megállapítani."
 
-#: qt/manageprofiles/tab_general.py:554
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "A(z) {keytype}-kulcs ujjlenyomata:"
 
-#: qt/manageprofiles/tab_general.py:558
+#: qt/manageprofiles/tab_general.py:556
 #, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
 "Ellenőrizze ezt az ujjlenyomatot! Szeretné hozzáadni a „known_hosts” "
 "fájlhoz?"
 
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:644
 #, fuzzy
 msgid "Really change the backup directory?"
 msgstr "Létrehoz egy új titkosított könyvtárat?"
 
-#: qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:674
 #, fuzzy
 msgid "Invalid file: Not a private SSH key"
 msgstr "SSH személyes kulcs"
 
-#: qt/manageprofiles/tab_general.py:677
+#: qt/manageprofiles/tab_general.py:675
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:711
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Nem sikerült létrehozni új SSH-kulcsot a(z) {path} mappában."
@@ -2443,169 +2434,3 @@ msgstr "Ez NEM pillanatkép, hanem a helyi fájlok élő nézete"
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Utolsó ellenőrzés {time}"
-
-#, fuzzy
-#~ msgid "A private key file for SSH was not chosen."
-#~ msgstr "A(z) „{file}” személyes kulcsfájl nem létezik."
-
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "Biztosan meg szeretné változtatni a pillanatképek könyvtárát?"
-
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr ""
-#~ "Biztosan el szeretné távolítani az eredeti könyvtárban lévő összes újabb "
-#~ "fájlt?"
-
-#, python-brace-format
-#~ msgid "Are you sure you want to remove all newer files in {path}?"
-#~ msgstr ""
-#~ "Biztosan el szeretné távolítani a(z) {path} mappában lévő összes újabb "
-#~ "fájlt?"
-
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "Biztosan el szeretné távolítani ezt a pillanatképet?"
-#~ msgstr[1] "Biztosan el szeretné távolítani ezeket a pillanatképeket?"
-
-#, fuzzy
-#~ msgid "Back In Time"
-#~ msgstr "Back In &Time"
-
-#, fuzzy
-#~ msgid "Backup"
-#~ msgstr "&Biztonsági mentés"
-
-#, python-brace-format
-#~ msgid "Cipher {cipher} failed for {host}."
-#~ msgstr "A(z) {cipher} titkosító meghiúsult a(z) {host} kiszolgálónál."
-
-#~ msgid "Cipher:"
-#~ msgstr "Titkosító:"
-
-#~ msgid ""
-#~ "Create a new SSH key without password (not allowed if a private key file is "
-#~ "already selected)."
-#~ msgstr ""
-#~ "Új SSH-kulcs létrehozása jelszó nélkül (nem engedélyezett, ha egy személyes "
-#~ "kulcsfájl már ki van választva)."
-
-#~ msgid "Default"
-#~ msgstr "Alapértelmezett"
-
-#~ msgid "Do you really want to close it?"
-#~ msgstr "Valóban be szeretné zárni?"
-
-#~ msgid "ETA"
-#~ msgstr "Becsült hátralévő idő"
-
-#, fuzzy, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "{n} óránként"
-#~ msgstr[1] "{n} óránként"
-
-#~ msgid "Global"
-#~ msgstr "Globális"
-
-#~ msgid "Home"
-#~ msgstr "Saját mappa"
-
-#, fuzzy
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr ""
-#~ "Ha cserélhető meghajtón van, akkor helyezze be, és nyomja meg az OK gombot."
-
-#~ msgid "License"
-#~ msgstr "Licenc"
-
-#~ msgid "Look at 'man backintime' for further instructions"
-#~ msgstr "Nézze meg a „man backintime” parancsot a további utasításokért"
-
-#~ msgid "Name snapshot"
-#~ msgstr "Pillanatkép elnevezése"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Newer versions of files will be renamed with trailing {suffix} before "
-#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
-#~ msgstr ""
-#~ "A fájlok újabb verziói átnevezésre kerülnek {suffix} végződéssel a "
-#~ "helyreállítás előtt. Ha már nincs rájuk többé szüksége, akkor a(z) {cmd} "
-#~ "paranccsal eltávolíthatja azokat"
-
-#, fuzzy
-#~ msgid "Open user manual in browser (locally if available, otherwise online)"
-#~ msgstr ""
-#~ "Felhasználói kézikönyv megnyitása a böngészőben (helyileg, ha elérhető, "
-#~ "egyébként az internetről)"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "Erősítse meg a jelszót."
-
-#, python-brace-format
-#~ msgid "Private key file \"{file}\" does not exist."
-#~ msgstr "A(z) „{file}” személyes kulcsfájl nem létezik."
-
-#~ msgid "Sent"
-#~ msgstr "Elküldve"
-
-#, fuzzy
-#~ msgid "Should a new password-less public/private key pair be generated?"
-#~ msgstr ""
-#~ "Szeretne egy új, jelszómentes nyilvános és személyes kulcspárt előállítani?"
-
-#, fuzzy
-#~ msgid "Shows the message about deprecation of SSH cipher again."
-#~ msgstr ""
-#~ "Ismét megjeleníti a fordításban való részvétellel kapcsolatos üzenetet."
-
-#~ msgid "Smart removal"
-#~ msgstr "Intelligens eltávolítás"
-
-#~ msgid "Snapshot"
-#~ msgstr "Pillanatkép"
-
-#~ msgid "Snapshot Log View"
-#~ msgstr "Pillanatkép naplójának megtekintése"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "Pillanatkép neve"
-
-#~ msgid "Snapshots"
-#~ msgstr "Pillanatképek"
-
-#~ msgid "Snapshots:"
-#~ msgstr "Pillanatképek:"
-
-#~ msgid "Speed"
-#~ msgstr "Sebesség"
-
-#~ msgid "Take a snapshot"
-#~ msgstr "Pillanatkép készítése"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "Pillanatkép készítése"
-
-#, fuzzy
-#~ msgid "The sub-directories cannot be included in the backup."
-#~ msgstr "A biztonsági mentés almappáját nem lehet felvenni."
-
-#~ msgid ""
-#~ "The warning threshold for free space must be greater than or equal to the "
-#~ "removing threshold by free space."
-#~ msgstr ""
-#~ "A szabad helyre való figyelmeztetési határértéknek nagyobbnak vagy "
-#~ "egyenlőnek kell lennie mint az eltávolítási határértéknek."
-
-#~ msgid "View last log"
-#~ msgstr "Utolsó napló megtekintése"
-
-#~ msgid "View snapshot log"
-#~ msgstr "Pillanatkép naplójának megtekintése"
-
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "Nem lehet összehasonlítani egy pillanatképet önmagával."
-
-#~ msgid "You did not choose a private key file for SSH."
-#~ msgstr "Nem választott ki személyes kulcsfájlt az SSH-hoz."

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-11-10 11:11+0100\n"
+"POT-Creation-Date: 2025-11-10 15:02+0100\n"
 "PO-Revision-Date: 2025-08-04 20:46+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://translate.codeberg.org/projects/backintime/common/he/>\n"
@@ -62,7 +62,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "מפתח SSH פרטי"
 
@@ -879,11 +879,6 @@ msgstr "התרגום שלך"
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "בפדיברס דרך מסטודון: {link_and_label}."
 
-#: qt/app.py:1657
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr "דוא״ל אל {link_and_label}."
-
 #: qt/app.py:1660
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
@@ -1039,7 +1034,7 @@ msgstr ""
 "{example})."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
-#: qt/manageprofiles/tab_general.py:601
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1051,17 +1046,17 @@ msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr "לא מומלץ להשתמש במצב הזה לפרופיל עוד."
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
-#: qt/manageprofiles/tab_general.py:606
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr "תיעוד"
 
 #: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
-#: qt/manageprofiles/tab_general.py:603
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr "התמיכה ב־EncFS הופסקה עקב חולשות אבטחה."
 
-#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:608
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1687,7 +1682,7 @@ msgstr "מופעל"
 msgid "Mode:"
 msgstr "מצב:"
 
-#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:633
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 msgid "Where to save backups"
 msgstr "איפה לשמור גיבויים"
 
@@ -1721,7 +1716,7 @@ msgstr ""
 msgid "Advanced"
 msgstr "הגדרות מתקדמות"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:723
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 msgid "Full backup path:"
 msgstr "נתיב גיבוי מלא:"
 
@@ -1738,20 +1733,17 @@ msgid ""
 msgstr "אירעה שגיאה בניסיון להיכנס למארח המרוחק. הוחזרה הודעת השגיאה הבאה:"
 
 #: qt/manageprofiles/tab_general.py:500
-#, fuzzy
 msgid ""
-"Copying the public SSH key to the remote host can help enable password-less "
-"login.To enable password-less login, the program can copy the public SSH key"
-" to the remote host."
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
 msgstr ""
-"העתקת מפתח ה־SSH הציבורי שלך למארח המרוחק יכול לסייע בהפעלת כניסה ללא סיסמה."
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:503
 #, fuzzy
 msgid "Proceed with copying the SSH key?"
 msgstr "להמשיך עם הגיבוי?"
 
-#: qt/manageprofiles/tab_general.py:530
+#: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
@@ -1759,29 +1751,29 @@ msgstr ""
 "אי אפשר להעתיק את מפתח ה־SSH הציבורי. זה יכול לקרות עקב בעיית חיבור או "
 "הרשאות."
 
-#: qt/manageprofiles/tab_general.py:551
+#: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "אי אפשר לאמת את האמינות של {host}."
 
-#: qt/manageprofiles/tab_general.py:554
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "טביעת אצבע מפתח ה־{keytype} היא:"
 
-#: qt/manageprofiles/tab_general.py:558
+#: qt/manageprofiles/tab_general.py:556
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr "נא לאמת את טביעת האצבע הזאת. להוסיף אותה לקובץ ה־„known_hosts” שלך?"
 
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:644
 msgid "Really change the backup directory?"
 msgstr "להחליף את תיקיית הגיבוי?"
 
-#: qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:674
 msgid "Invalid file: Not a private SSH key"
 msgstr "קובץ שגוי: לא מפתח SSH פרטי"
 
-#: qt/manageprofiles/tab_general.py:677
+#: qt/manageprofiles/tab_general.py:675
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
@@ -1790,13 +1782,13 @@ msgstr ""
 "הקובץ הנבחר ({path}) הוא מפתח SSH ציבורי. נא לבחור את קובץ המפתח הפרטי "
 "המתאים במקום (בלי „‎.pub”)."
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr "הקובץ {path} כבר קיים. אי אפשר ליצור מפתח SSH חדש בשם הזה."
 
-#: qt/manageprofiles/tab_general.py:711
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "יצירת מפתח SSH חדש תחת {path} נכשלה."
@@ -2288,150 +2280,3 @@ msgstr "זה לא גיבוי אלא מבט עכשווי על הקבצים המק
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "בדיקה אחרונה {time}"
-
-#, fuzzy
-#~ msgid "A private key file for SSH was not chosen."
-#~ msgstr "קובץ המפתח הפרטי „{file}” לא קיים."
-
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "להחליף את תיקיית תמונות המצב?"
-
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr "להסיר את כל הקבצים החדשים בתיקיית המקור שלך?"
-
-#, python-brace-format
-#~ msgid "Are you sure you want to remove all newer files in {path}?"
-#~ msgstr "להסיר את כל הקבצים החדשים יותר תחת {path}?"
-
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "להסיר את תמונת המצב?"
-#~ msgstr[1] "להסיר את תמונות המצב?"
-
-#~ msgid "Back In Time"
-#~ msgstr "חזרה בזמן"
-
-#, fuzzy
-#~ msgid "Backup"
-#~ msgstr "&גיבוי"
-
-#, python-brace-format
-#~ msgid "Cipher {cipher} failed for {host}."
-#~ msgstr "מצפין {cipher} נכשל עבור המשתמש {host}."
-
-#~ msgid "Cipher:"
-#~ msgstr "צופן:"
-
-#~ msgid ""
-#~ "Create a new SSH key without password (not allowed if a private key file is "
-#~ "already selected)."
-#~ msgstr "יצירת מפתח SSH חדש ללא סיסמה (אסור אם כבר נבחר מפתח פרטי)."
-
-#~ msgid "Default"
-#~ msgstr "ברירת מחדל"
-
-#~ msgid "Do you really want to close it?"
-#~ msgstr "לסגור אותו?"
-
-#~ msgid "ETA"
-#~ msgstr "זמן משוערך"
-
-#, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "כל שעה"
-#~ msgstr[1] "כל {n} שעות"
-
-#~ msgid "Global"
-#~ msgstr "כללי"
-
-#~ msgid "Home"
-#~ msgstr "תיקיית הבית"
-
-#, fuzzy
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr "אם היא נמצאת על כונן נשלף יש לחבר אותו וללחוץ על אישור."
-
-#~ msgid "License"
-#~ msgstr "רישיון"
-
-#~ msgid "Look at 'man backintime' for further instructions"
-#~ msgstr "קרא את 'man backintime' להוראות נוספות"
-
-#~ msgid "Name snapshot"
-#~ msgstr "מתן שם לתמונת מצב"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Newer versions of files will be renamed with trailing {suffix} before "
-#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
-#~ msgstr ""
-#~ "לשם של גרסאות חדשות יותר של הקבצים יתווסף {suffix} טרם השחזור. אם אין בהם "
-#~ "יותר צורך אפשר להסיר אותם בעזרת {cmd}"
-
-#~ msgid "Open user manual in browser (locally if available, otherwise online)"
-#~ msgstr "פתיחת מדריך המשתמש בדפדפן (מקומי אם זמין או מקוון אם לא)"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "נא לאשר את הסיסמה."
-
-#, python-brace-format
-#~ msgid "Private key file \"{file}\" does not exist."
-#~ msgstr "קובץ המפתח הפרטי „{file}” לא קיים."
-
-#~ msgid "Proceed?"
-#~ msgstr "להמשיך?"
-
-#~ msgid "Sent"
-#~ msgstr "נשלח"
-
-#, fuzzy
-#~ msgid "Should a new password-less public/private key pair be generated?"
-#~ msgstr "לייצר צמד מפתחות ציבורי/פרטי ללא סיסמה?"
-
-#, fuzzy
-#~ msgid "Shows the message about deprecation of SSH cipher again."
-#~ msgstr "הצגת ההודעה בנוגע להשתתפות בתרגום שוב."
-
-#~ msgid "Smart removal"
-#~ msgstr "הסרה חכמה"
-
-#~ msgid "Snapshot"
-#~ msgstr "תמונת מצב"
-
-#~ msgid "Snapshot Log View"
-#~ msgstr "תצוגת יומן תמונות מצב"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "שם תמונת המצב"
-
-#~ msgid "Snapshots"
-#~ msgstr "גיבויים"
-
-#~ msgid "Snapshots:"
-#~ msgstr "תמונות מצב:"
-
-#~ msgid "Speed"
-#~ msgstr "מהירות"
-
-#~ msgid "Take a snapshot"
-#~ msgstr "שמירת תמונת מצב"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "תמונת מצב נשמרת"
-
-#~ msgid "The sub-directories cannot be included in the backup."
-#~ msgstr "אי אפשר לכלול את תת־התיקיות בגיבוי."
-
-#~ msgid "View last log"
-#~ msgstr "הצגת היומן האחרון"
-
-#~ msgid "View snapshot log"
-#~ msgstr "הצגת יומן תמונות מצב"
-
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "לא ניתן להשוות תמונת מצב לעצמה."
-
-#~ msgid "You did not choose a private key file for SSH."
-#~ msgstr "לא בחרת קובץ מפתח פרטי ל־SSH."

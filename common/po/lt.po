@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-11-10 11:11+0100\n"
+"POT-Creation-Date: 2025-11-10 15:02+0100\n"
 "PO-Revision-Date: 2025-11-01 15:09+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Lithuanian <https://translate.codeberg.org/projects/backintime/common/lt/>\n"
@@ -62,7 +62,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "SSH privatus raktas"
 
@@ -911,11 +911,6 @@ msgstr "Jūsų vertimas"
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Fediverse ties Mastodon: {link_and_label}."
 
-#: qt/app.py:1657
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr "El. paštas {link_and_label}."
-
 #: qt/app.py:1660
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
@@ -1079,7 +1074,7 @@ msgid ""
 msgstr ""
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
-#: qt/manageprofiles/tab_general.py:601
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1092,17 +1087,17 @@ msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr "Daugiau neberekomenduojama naudoti tos veiksenos profiliams."
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
-#: qt/manageprofiles/tab_general.py:606
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr "dokumentą"
 
 #: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
-#: qt/manageprofiles/tab_general.py:603
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr "EncFS palaikymas yra nutraukiamas dėl saugumo pažeidžiamumų."
 
-#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:608
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1777,7 +1772,7 @@ msgstr "įjungta"
 msgid "Mode:"
 msgstr "Veiksena:"
 
-#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:633
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 msgid "Where to save backups"
 msgstr "Kur įrašyti atsargines kopijas"
 
@@ -1812,7 +1807,7 @@ msgstr ""
 msgid "Advanced"
 msgstr "Išplėstiniai"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:723
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 msgid "Full backup path:"
 msgstr "Visas atsarginės kopijos kelias:"
 
@@ -1829,21 +1824,17 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:500
-#, fuzzy
 msgid ""
-"Copying the public SSH key to the remote host can help enable password-less "
-"login.To enable password-less login, the program can copy the public SSH key"
-" to the remote host."
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
 msgstr ""
-"Ar norite nukopijuoti viešąjį SSH raktą į\n"
-"nuotolinio kompiuterio, kad įgalintumėte prisijungimą be slaptažodžio?"
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:503
 #, fuzzy
 msgid "Proceed with copying the SSH key?"
 msgstr "Šalinti šią atsarginę kopiją?"
 
-#: qt/manageprofiles/tab_general.py:530
+#: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
@@ -1851,7 +1842,7 @@ msgstr ""
 "Nepavyko nukopijuoti viešo SSH rakto. Taip gali būti dėl ryšio ar leidimų "
 "problemos."
 
-#: qt/manageprofiles/tab_general.py:551
+#: qt/manageprofiles/tab_general.py:549
 #, fuzzy, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr ""
@@ -1859,24 +1850,24 @@ msgstr ""
 "\n"
 "{keytype} rakto kontrolinis kodas yra:"
 
-#: qt/manageprofiles/tab_general.py:554
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} rakto kontrolinis kodas yra:"
 
-#: qt/manageprofiles/tab_general.py:558
+#: qt/manageprofiles/tab_general.py:556
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr "Patikrinkite šį kontrolinį kodą. Ar pridėti jį į „known_hosts“ failą?"
 
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:644
 msgid "Really change the backup directory?"
 msgstr "Ar tikrai pakeisti atsarginės kopijos katalogą?"
 
-#: qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:674
 msgid "Invalid file: Not a private SSH key"
 msgstr "Neteisingas failas: Nėra privatus SSH raktas"
 
-#: qt/manageprofiles/tab_general.py:677
+#: qt/manageprofiles/tab_general.py:675
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
@@ -1885,14 +1876,14 @@ msgstr ""
 "Pasirinktas failas ({path}) yra viešas SSH raktas. Vietoj jo, pasirinkite "
 "atitinkamą privataus rakto failą (be „.pub“)."
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
 "Failas {path} jau yra. Negalima sukurti naujo SSH raktu tokiu pavadinimu."
 
-#: qt/manageprofiles/tab_general.py:711
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Nepavyko sukurti naujo SSH rakto ties {path}."
@@ -2415,161 +2406,3 @@ msgstr "Tai NĖRA atsarginė kopija, o tiesioginis vietinių failų rodinys."
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Paskutinis tikrinimas {time}"
-
-#~ msgid "A private key file for SSH was not chosen."
-#~ msgstr "Nebuvo pasirinktas privataus rakto failas, skirtas SSH."
-
-#, fuzzy
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "Ar tikrai norite pakeisti momentinių kopijų aplanką?"
-
-#, fuzzy
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr ""
-#~ "Ar tikrai norite pašalinti visus naujesnius failus iš pradinio aplanko?"
-
-#, python-brace-format
-#~ msgid "Are you sure you want to remove all newer files in {path}?"
-#~ msgstr "Ar tikrai norite pašalinti visus naujesnius failus iš {path}?"
-
-#, fuzzy
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "Ar jūs tikrai norite pašalinti momentinę kopiją"
-#~ msgstr[1] "Ar jūs tikrai norite pašalinti momentinę kopiją"
-#~ msgstr[2] "Ar jūs tikrai norite pašalinti momentinę kopiją"
-
-#~ msgid "Back In Time"
-#~ msgstr "Back In Time"
-
-#~ msgid "Backup"
-#~ msgstr "Atsarginė kopija"
-
-#~ msgid "Cipher:"
-#~ msgstr "Šifras:"
-
-#~ msgid ""
-#~ "Create a new SSH key without password (not allowed if a private key file is "
-#~ "already selected)."
-#~ msgstr ""
-#~ "Sukurti naują SSH raktą be slaptažodžio (neleidžiama, jei privataus rakto "
-#~ "failas jau pasirinktas)."
-
-#~ msgid "Default"
-#~ msgstr "Numatytasis"
-
-#, fuzzy
-#~ msgid "Do you really want to close it?"
-#~ msgstr "Ar tikrai norite atkurti failus"
-
-#, fuzzy
-#~ msgid "ETA"
-#~ msgstr "Numatomas atvykimo laikas"
-
-#, fuzzy, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "Kas {n} valandos"
-#~ msgstr[1] "Kas {n} valandos"
-#~ msgstr[2] "Kas {n} valandos"
-
-#~ msgid "Global"
-#~ msgstr "Visuotiniai"
-
-#, fuzzy
-#~ msgid "Home"
-#~ msgstr "Pradžia"
-
-#, fuzzy
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr ""
-#~ "Nepavyko rasti momentinių nuotraukų aplanko.\n"
-#~ "Jei jis yra keičiamame diske, prijunkite jį ir paspauskite OK."
-
-#~ msgid "License"
-#~ msgstr "Licenzija"
-
-#~ msgid "Look at 'man backintime' for further instructions"
-#~ msgstr "Tolimesniems nurodymams žiūrėkite „man backintime“"
-
-#, fuzzy
-#~ msgid "Name snapshot"
-#~ msgstr "Išsaugoti momentinę nuotrauką"
-
-#, fuzzy, python-brace-format
-#~ msgid ""
-#~ "Newer versions of files will be renamed with trailing {suffix} before "
-#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
-#~ msgstr ""
-#~ "Prieš atkuriant, naujesnės failų versijos bus pervardytos su pabaiga {suffix}.\n"
-#~ "Jei jums jų nebereikia, galite juos pašalinti naudodami {cmd}"
-
-#, fuzzy
-#~ msgid "Open user manual in browser (locally if available, otherwise online)"
-#~ msgstr ""
-#~ "Atverti naudotojo vadovą naršyklėje (jei prieinama vietinį, o priešingu "
-#~ "atveju internete)"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "Pakartokite slaptažodį."
-
-#, python-brace-format
-#~ msgid "Private key file \"{file}\" does not exist."
-#~ msgstr "Nėra privataus rakto failo „{file}“."
-
-#~ msgid "Proceed?"
-#~ msgstr "Tęsti?"
-
-#~ msgid "Sent"
-#~ msgstr "Išsiųsta"
-
-#, fuzzy
-#~ msgid "Should a new password-less public/private key pair be generated?"
-#~ msgstr ""
-#~ "Jūs nepasirinkote SSH privataus rakto failo.\n"
-#~ "Ar norėtumėte sugeneruoti naują viešojo / privataus raktų porą be slaptažodžių?"
-
-#, fuzzy
-#~ msgid "Shows the message about deprecation of SSH cipher again."
-#~ msgstr "Dar kartą parodo pranešimą apie dalyvavimą programos vertime."
-
-#~ msgid "Smart removal"
-#~ msgstr "Išmanus šalinimas"
-
-#~ msgid "Snapshot"
-#~ msgstr "Momentinė kopija"
-
-#~ msgid "Snapshot Log View"
-#~ msgstr "Momentinės kopijos žurnalo vaizdas"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "Momentinės kopijos pavadinimas"
-
-#~ msgid "Snapshots"
-#~ msgstr "Momentinės kopijos"
-
-#, fuzzy
-#~ msgid "Snapshots:"
-#~ msgstr "Momentinės kopijos"
-
-#~ msgid "Speed"
-#~ msgstr "Greitis"
-
-#, fuzzy
-#~ msgid "Take a snapshot"
-#~ msgstr "Išsaugoti momentinę nuotrauką"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "Padaryti momentinę nuotrauką"
-
-#~ msgid "View last log"
-#~ msgstr "Rodyti paskutinį žurnalą"
-
-#, fuzzy
-#~ msgid "View snapshot log"
-#~ msgstr "Peržiūrėti momentinių kopijų žurnalą"
-
-#, fuzzy
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "Jūs negalite palyginti momentinės kopijos su ja pačia."
