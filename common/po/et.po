@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-11-10 11:11+0100\n"
+"POT-Creation-Date: 2025-11-10 15:02+0100\n"
 "PO-Revision-Date: 2025-08-11 07:22+0000\n"
 "Last-Translator: Priit Jõerüüt <jrtcdbrg@noreply.codeberg.org>\n"
 "Language-Team: Estonian <https://translate.codeberg.org/projects/backintime/common/et/>\n"
@@ -62,7 +62,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "SSH privaatvõti"
 
@@ -907,11 +907,6 @@ msgstr "Sinu tõlge"
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Födiversumis Mastodonis: {link_and_label}."
 
-#: qt/app.py:1657
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr "Saadad e-kirja {link_and_label} aadressile."
-
 #: qt/app.py:1660
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
@@ -1077,7 +1072,7 @@ msgstr ""
 " kus esimese rea alguses on trellid ja hüüumärk (nt. {example})."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
-#: qt/manageprofiles/tab_general.py:601
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1091,17 +1086,17 @@ msgstr ""
 "Pealegi me ei soovita selle režiimi kasutamist mitte üheski profiilis."
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
-#: qt/manageprofiles/tab_general.py:606
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr "dokumendist"
 
 #: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
-#: qt/manageprofiles/tab_general.py:603
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr "EncFS tugi lõppeb temaga seotud turvavigade tõttu."
 
-#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:608
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1754,7 +1749,7 @@ msgstr "kasutusel"
 msgid "Mode:"
 msgstr "Töörežiim:"
 
-#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:633
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 msgid "Where to save backups"
 msgstr "Kuhu salvestame varukoopiad"
 
@@ -1789,7 +1784,7 @@ msgstr ""
 msgid "Advanced"
 msgstr "Täiendavad seadistused"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:723
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 msgid "Full backup path:"
 msgstr "Varukoopiate täpne asukoht:"
 
@@ -1808,21 +1803,17 @@ msgstr ""
 "veateade:"
 
 #: qt/manageprofiles/tab_general.py:500
-#, fuzzy
 msgid ""
-"Copying the public SSH key to the remote host can help enable password-less "
-"login.To enable password-less login, the program can copy the public SSH key"
-" to the remote host."
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
 msgstr ""
-"Kopeerides oma avaliku ssh võtme välisesse seadmesse saad kasutusele võtta "
-"salasõnata sisselogimise."
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:503
 #, fuzzy
 msgid "Proceed with copying the SSH key?"
 msgstr "Kas jätkame varundamisega?"
 
-#: qt/manageprofiles/tab_general.py:530
+#: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
@@ -1830,31 +1821,31 @@ msgstr ""
 "Avaliku SSH võtme kopeerimine ei õnnestunud. See võis juhtuda ühenduse vea "
 "või õiguste puudumise tõttu."
 
-#: qt/manageprofiles/tab_general.py:551
+#: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "Hosti „{host}“ autentsust pole võimalik tuvastada."
 
-#: qt/manageprofiles/tab_general.py:554
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} võtme sõrmejälg on:"
 
-#: qt/manageprofiles/tab_general.py:558
+#: qt/manageprofiles/tab_general.py:556
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
 "Palun kontrolli, et tegemist on õige sõrmejäljega. Kas sa sooviksid teda "
 "lisada ka „known_hosts“ faili?"
 
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:644
 msgid "Really change the backup directory?"
 msgstr "Kas tõesti muudame varukoopiate kausta?"
 
-#: qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:674
 msgid "Invalid file: Not a private SSH key"
 msgstr "Vigane fail: see pole SSH privaatvõti"
 
-#: qt/manageprofiles/tab_general.py:677
+#: qt/manageprofiles/tab_general.py:675
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
@@ -1863,13 +1854,13 @@ msgstr ""
 "Valitud fail ({path}) tundub olema avalik SSH võti. Palun vali privaatvõtme "
 "fail (selline, kus pole .pub laiendit)."
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr "{path} fail on juba olemas. Sellise nimega SSH-võtit ei saa luua."
 
-#: qt/manageprofiles/tab_general.py:711
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Uue SSH võtme loomine asukohta „{path}“ ei õnnestunud."
@@ -2381,168 +2372,3 @@ msgstr ""
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Viimati kontrollitud {time}"
-
-#~ msgid "A private key file for SSH was not chosen."
-#~ msgstr "SSH privaatvõtme fail on valimata."
-
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "Kas oled kindel, et soovid muuta hetktõmmiste kausta?"
-
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr ""
-#~ "Kas sa oled kindel, et soovid eemaldada kõik uuemad failid oma algsest "
-#~ "kaustast?"
-
-#, python-brace-format
-#~ msgid "Are you sure you want to remove all newer files in {path}?"
-#~ msgstr ""
-#~ "Kas sa oled kindel, et soovid eemaldada kõik uuemad failid asukohas "
-#~ "„{path}“?"
-
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "Kas oled kindel, et soovid kustutada selle hetktõmmise?"
-#~ msgstr[1] "Kas oled kindel, et soovid kustutada need hetktõmmised?"
-
-#~ msgid "Back In Time"
-#~ msgstr "Back In Time"
-
-#~ msgid "Backup"
-#~ msgstr "Varukoopia"
-
-#, python-brace-format
-#~ msgid "Cipher {cipher} failed for {host}."
-#~ msgstr "{cipher} šifti kasutamine hostis {host} ei õnnestunud."
-
-#~ msgid "Cipher:"
-#~ msgstr "Šiffer:"
-
-#~ msgid ""
-#~ "Create a new SSH key without password (not allowed if a private key file is "
-#~ "already selected)."
-#~ msgstr ""
-#~ "Loo uus ilma salasõnata ssh võti (see pole lubatud, kui privaatvõti on juba "
-#~ "valitud)."
-
-#~ msgid "Default"
-#~ msgstr "Vaikimisi"
-
-#~ msgid "Do you really want to close it?"
-#~ msgstr "Kas sa oled kindel, et tahad selle sulgeda?"
-
-#~ msgid "ETA"
-#~ msgstr "Jäänud"
-
-#, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "Iga {n} tunni järel"
-#~ msgstr[1] "Iga {n} tunni järel"
-
-#~ msgid "Global"
-#~ msgstr "Üleüldine"
-
-#~ msgid "Home"
-#~ msgstr "Kodukaust"
-
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr ""
-#~ "Kui ta asub eemaldataval andmekandjal, siis palun ühenda see ja vajuta "
-#~ "Sobib."
-
-#~ msgid "License"
-#~ msgstr "Litsents"
-
-#~ msgid "Look at 'man backintime' for further instructions"
-#~ msgstr "Lisateavet leiad käsuga „man backintime“"
-
-#~ msgid "Name snapshot"
-#~ msgstr "Anna hetktõmmisele nimi"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Newer versions of files will be renamed with trailing {suffix} before "
-#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
-#~ msgstr ""
-#~ "Enne taastamist muudetakse failide nimesid lisades neile suffiksi "
-#~ "„{suffix}“. Kui sa neid faile enam ei vaja, siis võid nad eemaldada käsuga "
-#~ "„{cmd}“"
-
-#~ msgid "No public SSH keys"
-#~ msgstr "Avalikke SSH-võtmeid pole"
-
-#~ msgid "Open user manual in browser (locally if available, otherwise online)"
-#~ msgstr ""
-#~ "Ava kasutusjuhend veebibrauseris (kui olemas, siis kohalikust arvutist, "
-#~ "vastasel juhul võrgust)"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "Palun korda salasõna."
-
-#, python-brace-format
-#~ msgid "Private key file \"{file}\" does not exist."
-#~ msgstr "Privaatvõtmefaili „{file}“ pole olemas."
-
-#~ msgid "Proceed?"
-#~ msgstr "Kas jätkad?"
-
-#~ msgid "Sent"
-#~ msgstr "Saadetud"
-
-#~ msgid "Should a new password-less public/private key pair be generated?"
-#~ msgstr ""
-#~ "Kas sa sooviksid luua uue salasõnata võtmepaari (privaatvõti/avalik võti)?"
-
-#, fuzzy
-#~ msgid "Shows the message about deprecation of SSH cipher again."
-#~ msgstr "Kuvab uuesti teate tõlkimises osalemise kohta."
-
-#~ msgid "Smart removal"
-#~ msgstr "Nutikas eemaldamine"
-
-#~ msgid "Snapshot"
-#~ msgstr "Hetktõmmis"
-
-#~ msgid "Snapshot Log View"
-#~ msgstr "Hetktõmmiste logivaade"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "Hetktõmmise nimi"
-
-#~ msgid "Snapshots"
-#~ msgstr "Hetktõmmised"
-
-#~ msgid "Snapshots:"
-#~ msgstr "Hetktõmmised:"
-
-#~ msgid "Speed"
-#~ msgstr "Kiirus"
-
-#~ msgid "Take a snapshot"
-#~ msgstr "Tee hetktõmmis"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "Teeme hetktõmmist"
-
-#~ msgid "The sub-directories cannot be included in the backup."
-#~ msgstr "Neid alamkaustu ei saa kaasata varukoopiasse."
-
-#~ msgid ""
-#~ "The warning threshold for free space must be greater than or equal to the "
-#~ "removing threshold by free space."
-#~ msgstr ""
-#~ "Vaba ruumi hoiatuse lävend peab olema suurem või võrdne vaba ruumi "
-#~ "eemaldamise lävendist."
-
-#~ msgid "View last log"
-#~ msgstr "Vaata viimast logi"
-
-#~ msgid "View snapshot log"
-#~ msgstr "Vaata hetktõmmiste logi"
-
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "Sa ei saa võrrelda hetktõmmist iseendaga."
-
-#~ msgid "You did not choose a private key file for SSH."
-#~ msgstr "Sa pole valinud ssh jaoks privaatvõtit."

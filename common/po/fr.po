@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-11-10 11:11+0100\n"
+"POT-Creation-Date: 2025-11-10 15:02+0100\n"
 "PO-Revision-Date: 2025-10-24 22:09+0000\n"
 "Last-Translator: marc9876543210 <marc9876543210@noreply.codeberg.org>\n"
 "Language-Team: French <https://translate.codeberg.org/projects/backintime/common/fr/>\n"
@@ -64,7 +64,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "clé privée SSH"
 
@@ -924,11 +924,6 @@ msgstr "Votre traduction"
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Dans le Fediverse chez Mastodon : {link_and_label}."
 
-#: qt/app.py:1657
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr "Envoyer un courriel à {link_and_label}."
-
 #: qt/app.py:1660
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
@@ -1096,7 +1091,7 @@ msgstr ""
 " la première ligne (e.g. {example})."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
-#: qt/manageprofiles/tab_general.py:601
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1109,19 +1104,19 @@ msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr "Il n'est désormais plus recommandé d'utiliser ce mode pour un profil."
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
-#: qt/manageprofiles/tab_general.py:606
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr "livre blanc"
 
 #: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
-#: qt/manageprofiles/tab_general.py:603
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr ""
 "La prise en charge de EncFS est arrêtée pour des raisons de vulnérabilités "
 "de la sécurité."
 
-#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:608
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1774,7 +1769,7 @@ msgstr "activé"
 msgid "Mode:"
 msgstr "Mode :"
 
-#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:633
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 msgid "Where to save backups"
 msgstr "Dossier pour les sauvegardes"
 
@@ -1809,7 +1804,7 @@ msgstr ""
 msgid "Advanced"
 msgstr "Avancées"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:723
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 msgid "Full backup path:"
 msgstr "Chemin d'accès complet de la sauvegarde :"
 
@@ -1828,21 +1823,17 @@ msgstr ""
 "Le message d'erreur suivant a été renvoyé :"
 
 #: qt/manageprofiles/tab_general.py:500
-#, fuzzy
 msgid ""
-"Copying the public SSH key to the remote host can help enable password-less "
-"login.To enable password-less login, the program can copy the public SSH key"
-" to the remote host."
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
 msgstr ""
-"Copier la clé SSH publique sur l'hôte distant permet d'activer "
-"l'identification sans mot de passe."
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:503
 #, fuzzy
 msgid "Proceed with copying the SSH key?"
 msgstr "Procéder à la sauvegarde ?"
 
-#: qt/manageprofiles/tab_general.py:530
+#: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
@@ -1850,31 +1841,31 @@ msgstr ""
 "La clé SSH publique n'a pas pu être copiée. Cela peut être dû à un problème "
 "de connexion ou d'autorisation."
 
-#: qt/manageprofiles/tab_general.py:551
+#: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "L'authenticité de l'hôte {host} ne peut être établie."
 
-#: qt/manageprofiles/tab_general.py:554
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "L'empreinte de la clé {keytype} est :"
 
-#: qt/manageprofiles/tab_general.py:558
+#: qt/manageprofiles/tab_general.py:556
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
 "Veuillez vérifier cette empreinte. Souhaitez-vous l'ajouter à votre fichier "
 "'known_hosts' ?"
 
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:644
 msgid "Really change the backup directory?"
 msgstr "Vraiment changer le répertoire de sauvegarde ?"
 
-#: qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:674
 msgid "Invalid file: Not a private SSH key"
 msgstr "Ficher invalide : Ce n'est pas une clé privée SSH"
 
-#: qt/manageprofiles/tab_general.py:677
+#: qt/manageprofiles/tab_general.py:675
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
@@ -1884,7 +1875,7 @@ msgstr ""
 "plutôt sélectionner le fichier de clé privée correspondant (sans l'extension"
 " \".pub\")."
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
@@ -1892,7 +1883,7 @@ msgstr ""
 "Le fichier {path} existe déjà. Impossible de créer une nouvelle clé SSH avec"
 " ce nom."
 
-#: qt/manageprofiles/tab_general.py:711
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Échec de la création de la nouvelle clé SSH dans {path}."
@@ -2411,169 +2402,3 @@ msgstr ""
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Dernière vérification {time}"
-
-#~ msgid "A private key file for SSH was not chosen."
-#~ msgstr "Un fichier de clé privée pour SSH n'a pas été choisi."
-
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "Voulez-vous vraiment changer le répertoire des instantanés ?"
-
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr ""
-#~ "Voulez-vous vraiment supprimer les fichiers plus récents du répertoire "
-#~ "d'origine ?"
-
-#, python-brace-format
-#~ msgid "Are you sure you want to remove all newer files in {path}?"
-#~ msgstr ""
-#~ "Voulez-vous vraiment supprimer tous les fichiers les plus récents dans "
-#~ "{path} ?"
-
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "Êtes-vous sûr(e) de vouloir supprimer cet instantané ?"
-#~ msgstr[1] "Êtes-vous sûr(e) de vouloir supprimer ces instantanés ?"
-
-#~ msgid "Back In Time"
-#~ msgstr "Back In Time"
-
-#~ msgid "Backup"
-#~ msgstr "Sauvegarde"
-
-#, python-brace-format
-#~ msgid "Cipher {cipher} failed for {host}."
-#~ msgstr "Le chiffrement {cipher} a échoué pour {host}."
-
-#~ msgid "Cipher:"
-#~ msgstr "Type de chiffrement :"
-
-#~ msgid ""
-#~ "Create a new SSH key without password (not allowed if a private key file is "
-#~ "already selected)."
-#~ msgstr ""
-#~ "Créer une nouvelle clé SSH sans mot de passe (non autorisé si un fichier de "
-#~ "clé privée est déjà sélectionné)."
-
-#~ msgid "Default"
-#~ msgstr "Par défaut"
-
-#~ msgid "Do you really want to close it?"
-#~ msgstr "Voulez-vous vraiment la fermer ?"
-
-#~ msgid "ETA"
-#~ msgstr "Temps restant estimé"
-
-#, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "Chaque heure"
-#~ msgstr[1] "Toutes les {n} heures"
-
-#~ msgid "Global"
-#~ msgstr "Global"
-
-#~ msgid "Home"
-#~ msgstr "Répertoire personnel"
-
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr ""
-#~ "S'il se trouve sur un disque externe, veuillez connecter ce disque puis "
-#~ "cliquer sur OK."
-
-#~ msgid "License"
-#~ msgstr "Licence"
-
-#~ msgid "Look at 'man backintime' for further instructions"
-#~ msgstr "Consultez 'man backintime' pour plus d'informations"
-
-#~ msgid "Name snapshot"
-#~ msgstr "Nommer l'instantané"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Newer versions of files will be renamed with trailing {suffix} before "
-#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
-#~ msgstr ""
-#~ "Les versions plus récentes des fichiers seront renommées avec le préfixe "
-#~ "'{suffix}' avant la restauration. Si vous n'en avez pas besoin, vous pouvez "
-#~ "les supprimer avec '{cmd}'"
-
-#, fuzzy
-#~ msgid "Open user manual in browser (locally if available, otherwise online)"
-#~ msgstr ""
-#~ "Ouvrir le manuel d'utilisation dans le navigateur (en local si disponible, "
-#~ "sinon en ligne)"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "Veuillez confirmer le mot de passe."
-
-#, python-brace-format
-#~ msgid "Private key file \"{file}\" does not exist."
-#~ msgstr "Le fichier de clé privée {file} n'existe pas."
-
-#~ msgid "Proceed?"
-#~ msgstr "Continuer ?"
-
-#~ msgid "Sent"
-#~ msgstr "Envoyé"
-
-#~ msgid "Should a new password-less public/private key pair be generated?"
-#~ msgstr ""
-#~ "Voulez-vous générer une nouvelle paire de clés publique/privée sans mot de "
-#~ "passe ?"
-
-#, fuzzy
-#~ msgid "Shows the message about deprecation of SSH cipher again."
-#~ msgstr ""
-#~ "Affiche à nouveau le message au sujet de la participation à la traduction."
-
-#~ msgid "Smart removal"
-#~ msgstr "Suppression intelligente"
-
-#~ msgid "Snapshot"
-#~ msgstr "Instantané"
-
-#~ msgid "Snapshot Log View"
-#~ msgstr "Voir le journal des instantanés"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "Nom de l'instantané"
-
-#~ msgid "Snapshots"
-#~ msgstr "Instantanés"
-
-#~ msgid "Snapshots:"
-#~ msgstr "Instantanés :"
-
-#~ msgid "Speed"
-#~ msgstr "Vitesse"
-
-#~ msgid "Take a snapshot"
-#~ msgstr "Prendre un instantané"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "Création de l'instantané"
-
-#, fuzzy
-#~ msgid "The sub-directories cannot be included in the backup."
-#~ msgstr "Les sous-dossiers ne peuvent pas être inclus dans la sauvegarde."
-
-#~ msgid ""
-#~ "The warning threshold for free space must be greater than or equal to the "
-#~ "removing threshold by free space."
-#~ msgstr ""
-#~ "Le seuil d'avertissement pour l'espace libre doit être plus grand ou égal au"
-#~ " seuil de suppression par espace libre."
-
-#~ msgid "View last log"
-#~ msgstr "Afficher le dernier journal"
-
-#~ msgid "View snapshot log"
-#~ msgstr "Voir le journal des instantanés"
-
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "Vous ne pouvez pas comparer un instantané à lui même."
-
-#~ msgid "You did not choose a private key file for SSH."
-#~ msgstr "Vous n'avez pas sélectionné de fichier de clé privée pour SSH."

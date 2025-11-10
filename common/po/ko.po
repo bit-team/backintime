@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-11-10 11:11+0100\n"
+"POT-Creation-Date: 2025-11-10 15:02+0100\n"
 "PO-Revision-Date: 2025-03-10 15:41+0000\n"
 "Last-Translator: darkcircle <darkcircle@noreply.codeberg.org>\n"
 "Language-Team: Korean <https://translate.codeberg.org/projects/backintime/common/ko/>\n"
@@ -58,7 +58,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "SSH 개인 키"
 
@@ -888,11 +888,6 @@ msgstr "귀하의 번역"
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Mastodon에서 보기: {link_and_label}"
 
-#: qt/app.py:1657
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr "{link_and_label}에 전자메일 보내기."
-
 #: qt/app.py:1660
 #, fuzzy, python-brace-format
 msgid "Mailing list {link_and_label}."
@@ -1045,7 +1040,7 @@ msgid ""
 msgstr ""
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
-#: qt/manageprofiles/tab_general.py:601
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1056,17 +1051,17 @@ msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr "프로파일에서의 이 모드 사용은 더 이상 추천하지 않습니다."
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
-#: qt/manageprofiles/tab_general.py:606
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr "백서"
 
 #: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
-#: qt/manageprofiles/tab_general.py:603
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr "EncFS 지원은 보안 취약성 문제로 더이상 진행하지 않습니다."
 
-#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:608
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1690,7 +1685,7 @@ msgstr "활성"
 msgid "Mode:"
 msgstr "모드:"
 
-#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:633
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 #, fuzzy
 msgid "Where to save backups"
 msgstr "스냅샷을 저장할 위치"
@@ -1725,7 +1720,7 @@ msgstr "크론 캐시 암호(보안 문제: 루트 계정에서 암호를 볼 �
 msgid "Advanced"
 msgstr "고급 설정"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:723
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 #, fuzzy
 msgid "Full backup path:"
 msgstr "전체 스냅샷 경로:"
@@ -1743,62 +1738,60 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:500
-#, fuzzy
 msgid ""
-"Copying the public SSH key to the remote host can help enable password-less "
-"login.To enable password-less login, the program can copy the public SSH key"
-" to the remote host."
-msgstr "원격 호스트에 암호 없는 로그인을 사용할 공개 SSH 키를 복사하시겠습니까?"
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
+msgstr ""
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:503
 msgid "Proceed with copying the SSH key?"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:530
+#: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:551
+#: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "{host} 호스트의 인증 과정을 처리할 수 없습니다."
 
-#: qt/manageprofiles/tab_general.py:554
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} 키 지문:"
 
-#: qt/manageprofiles/tab_general.py:558
+#: qt/manageprofiles/tab_general.py:556
 #, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr "이 지문키를 검증하세요. 'known_hosts' 파일에 추가하시겠습니까?"
 
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:644
 #, fuzzy
 msgid "Really change the backup directory?"
 msgstr "새 암호화 폴더를 만드시겠습니까?"
 
-#: qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:674
 #, fuzzy
 msgid "Invalid file: Not a private SSH key"
 msgstr "SSH 개인 키"
 
-#: qt/manageprofiles/tab_general.py:677
+#: qt/manageprofiles/tab_general.py:675
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:711
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "{path}에 새 SSH 키 생성 실패."
@@ -2310,147 +2303,3 @@ msgstr "이것은 스냅샷이 아니라 로컬 파일의 실시간 보기입니
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "마지막 확인 시간 {time}"
-
-#, fuzzy
-#~ msgid "A private key file for SSH was not chosen."
-#~ msgstr "\"{file}\" 개인키 파일이 없습니다."
-
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "정말 스냅샷 디렉터리를 바꾸시겠습니까?"
-
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr "정말로 원본 디렉터리에서 모든 최신 파일을 제거하시겠습니까?"
-
-#, python-brace-format
-#~ msgid "Are you sure you want to remove all newer files in {path}?"
-#~ msgstr "{path}에 있는 모든 최신 파일을 제거하시겠습니까?"
-
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "정말 이 스냅샷(들)을 제거하시겠습니까?"
-
-#, fuzzy
-#~ msgid "Back In Time"
-#~ msgstr "Back In &Time"
-
-#, fuzzy
-#~ msgid "Backup"
-#~ msgstr "백업"
-
-#, python-brace-format
-#~ msgid "Cipher {cipher} failed for {host}."
-#~ msgstr "{host}의 {cipher} 암호화에 실패했습니다."
-
-#~ msgid "Cipher:"
-#~ msgstr "암호:"
-
-#~ msgid ""
-#~ "Create a new SSH key without password (not allowed if a private key file is "
-#~ "already selected)."
-#~ msgstr "암호 없는 새 SSH 키를 만듭니다(개인 키 파일을 이미 선택했을 경우 허용하지 않음)."
-
-#~ msgid "Default"
-#~ msgstr "기본"
-
-#~ msgid "Do you really want to close it?"
-#~ msgstr "정말로 닫으시겠습니까?"
-
-#~ msgid "ETA"
-#~ msgstr "예상 소요 시간"
-
-#, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "매 {n}시간마다"
-
-#~ msgid "Global"
-#~ msgstr "전역"
-
-#~ msgid "Home"
-#~ msgstr "홈"
-
-#, fuzzy
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr "이동식 드라이브에 있는 경우 연결한 다음 확인을 누르십시오."
-
-#~ msgid "License"
-#~ msgstr "라이센스"
-
-#~ msgid "Look at 'man backintime' for further instructions"
-#~ msgstr "자세한 지침은 'man backintime'을 참조하세요"
-
-#~ msgid "Name snapshot"
-#~ msgstr "스냅샷 이름 변경"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Newer versions of files will be renamed with trailing {suffix} before "
-#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
-#~ msgstr ""
-#~ "최신 버전 파일은 복원하기 전 뒤에 {suffix}를 붙인 이름으로 바뀝니다. 더 이상 필요하지 않으면 {cmd}을(를) 사용하여 제거할"
-#~ " 수 있습니다"
-
-#, fuzzy
-#~ msgid "Open user manual in browser (locally if available, otherwise online)"
-#~ msgstr "사용자 메뉴얼을 브라우저에서 열기(로컬이 안되면 온라인으로)"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "암호를 확인하십시오."
-
-#, python-brace-format
-#~ msgid "Private key file \"{file}\" does not exist."
-#~ msgstr "\"{file}\" 개인키 파일이 없습니다."
-
-#~ msgid "Sent"
-#~ msgstr "전송"
-
-#, fuzzy
-#~ msgid "Should a new password-less public/private key pair be generated?"
-#~ msgstr "새 암호 없이 공용/개인키 쌍을 만드시겠습니까?"
-
-#, fuzzy
-#~ msgid "Shows the message about deprecation of SSH cipher again."
-#~ msgstr "번역 참여에 대한 메세지를 다시 보기."
-
-#~ msgid "Smart removal"
-#~ msgstr "똑똑한 제거"
-
-#~ msgid "Snapshot"
-#~ msgstr "스냅샷"
-
-#~ msgid "Snapshot Log View"
-#~ msgstr "스냅샷 로그 보기"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "스냅샷 이름"
-
-#~ msgid "Snapshots"
-#~ msgstr "스냅샷"
-
-#~ msgid "Snapshots:"
-#~ msgstr "스냅샷:"
-
-#~ msgid "Speed"
-#~ msgstr "속도"
-
-#~ msgid "Take a snapshot"
-#~ msgstr "스냅샷 생성"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "스냅샷 생성"
-
-#~ msgid "The sub-directories cannot be included in the backup."
-#~ msgstr "해당 하위 폴더는 백업에 포함 될 수 없습니다."
-
-#~ msgid "View last log"
-#~ msgstr "마지막 로그 보기"
-
-#~ msgid "View snapshot log"
-#~ msgstr "스냅샷 로그 보기"
-
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "스냅샷을 자신과 비교할 수 없습니다."
-
-#~ msgid "You did not choose a private key file for SSH."
-#~ msgstr "SSH용 개인 키를 선택하지 않았습니다."

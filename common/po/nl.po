@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-11-10 11:11+0100\n"
+"POT-Creation-Date: 2025-11-10 15:02+0100\n"
 "PO-Revision-Date: 2025-07-07 13:47+0000\n"
 "Last-Translator: rsschaap <rsschaap@noreply.codeberg.org>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/backintime/common/nl/>\n"
@@ -58,7 +58,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "SSH private sleutel"
 
@@ -929,11 +929,6 @@ msgstr "Uw vertaling"
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr ""
 
-#: qt/app.py:1657
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr ""
-
 #: qt/app.py:1660
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
@@ -1094,7 +1089,7 @@ msgid ""
 msgstr ""
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
-#: qt/manageprofiles/tab_general.py:601
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1108,17 +1103,17 @@ msgstr ""
 "wordt niet aanbevolen om die modus nog verder te gebruiken voor een profiel."
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
-#: qt/manageprofiles/tab_general.py:606
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr "witboek"
 
 #: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
-#: qt/manageprofiles/tab_general.py:603
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr ""
 
-#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:608
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1776,7 +1771,7 @@ msgstr "ingeschakeld"
 msgid "Mode:"
 msgstr "Modus:"
 
-#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:633
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 #, fuzzy
 msgid "Where to save backups"
 msgstr "Waar wilt u de momentopnames opslaan"
@@ -1812,7 +1807,7 @@ msgstr ""
 msgid "Advanced"
 msgstr "Geavanceerd"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:723
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 #, fuzzy
 msgid "Full backup path:"
 msgstr "Volledig momentopnamepad:"
@@ -1830,52 +1825,48 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:500
-#, fuzzy
 msgid ""
-"Copying the public SSH key to the remote host can help enable password-less "
-"login.To enable password-less login, the program can copy the public SSH key"
-" to the remote host."
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
 msgstr ""
-"Wilt u uw openbare SSH-sleutel naar de externe host kopiëren om inloggen "
-"zonder wachtwoord mogelijk te maken?"
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:503
 msgid "Proceed with copying the SSH key?"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:530
+#: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:551
+#: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "De authenticiteit van host {host} kan niet worden vastgesteld."
 
-#: qt/manageprofiles/tab_general.py:554
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} vingerafdruk van de sleutel is:"
 
-#: qt/manageprofiles/tab_general.py:558
+#: qt/manageprofiles/tab_general.py:556
 #, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
 "Controleer deze vingerafdruk. Wilt u deze toevoegen aan uw bestand "
 "'known_hosts'?"
 
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:644
 msgid "Really change the backup directory?"
 msgstr "Weet u zeker dat u de back-up directory wilt wijzigen?"
 
-#: qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:674
 #, fuzzy
 msgid "Invalid file: Not a private SSH key"
 msgstr "Geen SSH privé sleutel"
 
-#: qt/manageprofiles/tab_general.py:677
+#: qt/manageprofiles/tab_general.py:675
 #, fuzzy, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
@@ -1884,7 +1875,7 @@ msgstr ""
 "Het geselecteerde bestand {path} lijkt op een publieke SSH sleutel. "
 "Selecteer een privé sleutel bestand (zonder .pub extentie)."
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
@@ -1892,7 +1883,7 @@ msgstr ""
 "Het bestand {path} bestaat al. Kan geen nieuwe SSH sleutel aanmaken met die "
 "naam."
 
-#: qt/manageprofiles/tab_general.py:711
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Aanmaken nieuwe SSH-sleutel in {path} mislukt."
@@ -2425,157 +2416,3 @@ msgstr ""
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Laatste controle {time}"
-
-#, fuzzy
-#~ msgid "A private key file for SSH was not chosen."
-#~ msgstr "Privésleutelbestand \"{file}\" bestaat niet."
-
-#, fuzzy
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "Weet u zeker dat u de momentopnamemap wilt wijzigen?"
-
-#, fuzzy
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr ""
-#~ "Weet u zeker dat u alle nieuwere bestanden in uw oorspronkelijke map wilt "
-#~ "verwijderen?"
-
-#, python-brace-format
-#~ msgid "Are you sure you want to remove all newer files in {path}?"
-#~ msgstr ""
-#~ "Weet u zeker dat u alle nieuwere bestanden in {path} wilt verwijderen?"
-
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "Weet u zeker dat u deze momentopname wilt verwijderen?"
-#~ msgstr[1] "Weet u zeker dat u deze momentopnames wilt verwijderen?"
-
-#, fuzzy
-#~ msgid "Back In Time"
-#~ msgstr "Back In &Time"
-
-#, fuzzy
-#~ msgid "Backup"
-#~ msgstr "&Back-up"
-
-#, python-brace-format
-#~ msgid "Cipher {cipher} failed for {host}."
-#~ msgstr "Versleutelingsmethode {cipher} mislukt voor {host}."
-
-#~ msgid "Cipher:"
-#~ msgstr "Versleutelingsmethode:"
-
-#~ msgid ""
-#~ "Create a new SSH key without password (not allowed if a private key file is "
-#~ "already selected)."
-#~ msgstr ""
-#~ "Een nieuwe SSH-sleutel zonder wachtwoord aanmaken (niet toegestaan als er al"
-#~ " een privésleutelbestand is geselecteerd)."
-
-#~ msgid "Default"
-#~ msgstr "Standaard"
-
-#~ msgid "Do you really want to close it?"
-#~ msgstr "Weet u zeker dat u het wilt sluiten?"
-
-#~ msgid "ETA"
-#~ msgstr "Geschatte afhandelingstijd"
-
-#, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "Elk uur"
-#~ msgstr[1] "Elke {n} uur"
-
-#~ msgid "Global"
-#~ msgstr "Algemeen"
-
-#~ msgid "Home"
-#~ msgstr "Persoonlijke map"
-
-#, fuzzy
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr ""
-#~ "Als deze op een verwijderbaar medium staat, gelieve dit aan te sluiten en op"
-#~ " OK te drukken."
-
-#~ msgid "License"
-#~ msgstr "Licentie"
-
-#~ msgid "Look at 'man backintime' for further instructions"
-#~ msgstr "Raadpleeg 'man backintime' voor verdere instructies"
-
-#~ msgid "Name snapshot"
-#~ msgstr "Momentopname benoemen"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Newer versions of files will be renamed with trailing {suffix} before "
-#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
-#~ msgstr ""
-#~ "Nieuwere versies van bestanden worden hernoemd met achtervoegsel {suffix} "
-#~ "voordat ze worden teruggezet. Als u ze niet meer nodig heeft kunt u ze "
-#~ "verwijderen met {cmd}"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "Bevestig het wachtwoord."
-
-#, python-brace-format
-#~ msgid "Private key file \"{file}\" does not exist."
-#~ msgstr "Privésleutelbestand \"{file}\" bestaat niet."
-
-#~ msgid "Sent"
-#~ msgstr "Verzonden"
-
-#, fuzzy
-#~ msgid "Should a new password-less public/private key pair be generated?"
-#~ msgstr ""
-#~ "Wilt u een nieuw publiek/privé sleutelpaar genereren zonder wachtwoord?"
-
-#, fuzzy
-#~ msgid "Shows the message about deprecation of SSH cipher again."
-#~ msgstr "Toont het bericht over deelname aan vertaling opnieuw."
-
-#~ msgid "Smart removal"
-#~ msgstr "Slim verwijderen"
-
-#~ msgid "Snapshot"
-#~ msgstr "Momentopname"
-
-#~ msgid "Snapshot Log View"
-#~ msgstr "Weergave momentopnamelogboek"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "Naam momentopname"
-
-#~ msgid "Snapshots"
-#~ msgstr "Momentopnames"
-
-#~ msgid "Snapshots:"
-#~ msgstr "Momentopnames:"
-
-#~ msgid "Speed"
-#~ msgstr "Snelheid"
-
-#~ msgid "Take a snapshot"
-#~ msgstr "Een momentopname maken"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "Momentopname wordt gemaakt"
-
-#, fuzzy
-#~ msgid "The sub-directories cannot be included in the backup."
-#~ msgstr "Back-up-submap kan niet worden opgenomen."
-
-#~ msgid "View last log"
-#~ msgstr "Laatste logboek bekijken"
-
-#~ msgid "View snapshot log"
-#~ msgstr "Momentopnamelogboek bekijken"
-
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "U kunt een momentopname niet met zichzelf vergelijken."
-
-#~ msgid "You did not choose a private key file for SSH."
-#~ msgstr "U heeft geen privésleutelbestand voor SSH gekozen."

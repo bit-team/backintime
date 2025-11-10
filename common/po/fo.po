@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-11-10 11:11+0100\n"
+"POT-Creation-Date: 2025-11-10 15:02+0100\n"
 "PO-Revision-Date: 2025-03-12 18:58+0000\n"
 "Last-Translator: robinkjeld <robinkjeld@noreply.codeberg.org>\n"
 "Language-Team: Faroese <https://translate.codeberg.org/projects/backintime/common/fo/>\n"
@@ -58,7 +58,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "SSH privatur lykil"
 
@@ -863,11 +863,6 @@ msgstr ""
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr ""
 
-#: qt/app.py:1657
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr ""
-
 #: qt/app.py:1660
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
@@ -1004,7 +999,7 @@ msgid ""
 msgstr ""
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
-#: qt/manageprofiles/tab_general.py:601
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1015,17 +1010,17 @@ msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr ""
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
-#: qt/manageprofiles/tab_general.py:606
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr ""
 
 #: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
-#: qt/manageprofiles/tab_general.py:603
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr ""
 
-#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:608
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1633,7 +1628,7 @@ msgstr ""
 msgid "Mode:"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:633
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 #, fuzzy
 msgid "Where to save backups"
 msgstr "Hvar skullu støðumyndirnar goymast"
@@ -1668,7 +1663,7 @@ msgstr ""
 msgid "Advanced"
 msgstr "Framkomið"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:723
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 msgid "Full backup path:"
 msgstr ""
 
@@ -1686,59 +1681,58 @@ msgstr ""
 
 #: qt/manageprofiles/tab_general.py:500
 msgid ""
-"Copying the public SSH key to the remote host can help enable password-less "
-"login.To enable password-less login, the program can copy the public SSH key"
-" to the remote host."
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:503
 msgid "Proceed with copying the SSH key?"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:530
+#: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:551
+#: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:554
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:558
+#: qt/manageprofiles/tab_general.py:556
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:644
 #, fuzzy
 msgid "Really change the backup directory?"
 msgstr "Gera eina nýggja bronglaða mappu?"
 
-#: qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:674
 #, fuzzy
 msgid "Invalid file: Not a private SSH key"
 msgstr "SSH privatur lykil"
 
-#: qt/manageprofiles/tab_general.py:677
+#: qt/manageprofiles/tab_general.py:675
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:711
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr ""
@@ -2229,71 +2223,3 @@ msgstr ""
 #, python-brace-format
 msgid "Last check {time}"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "Er tú viss/ur í at broyta støðumyndaskjáttu ?"
-
-#, fuzzy
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr "Er tú viss/ur í at taka støðumyndina burtur"
-
-#, fuzzy
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "Er tú viss/ur í at taka støðumyndina burtur"
-#~ msgstr[1] "Er tú viss/ur í at taka støðumyndina burtur"
-
-#~ msgid "Default"
-#~ msgstr "Standard"
-
-#, fuzzy
-#~ msgid "Do you really want to close it?"
-#~ msgstr "Er tú viss/ur í at taka støðumyndina burtur"
-
-#, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "Hvønn {n} tími"
-#~ msgstr[1] "Hvønn {n} tími"
-
-#~ msgid "Global"
-#~ msgstr "Heiltøkur"
-
-#~ msgid "Home"
-#~ msgstr "Heim"
-
-#, fuzzy
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr "Um mappan er á einari eksternum harddiski, vinarliga set hann til."
-
-#~ msgid "Look at 'man backintime' for further instructions"
-#~ msgstr "Hygg eftir 'man backintime' fyri nærri boðum"
-
-#~ msgid "Name snapshot"
-#~ msgstr "Tak eina løtumynd"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "Vinarliga vátta loyniorðið."
-
-#~ msgid "Snapshot"
-#~ msgstr "Støðumyndir"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "Navn á støðumynd"
-
-#~ msgid "Snapshots"
-#~ msgstr "Støðumyndir"
-
-#~ msgid "Snapshots:"
-#~ msgstr "Støðumyndir:"
-
-#~ msgid "Take a snapshot"
-#~ msgstr "Tak eina løtumynd"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "Tak eina løtumynd"
-
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "Tú kannst ikki samanbera eina støðumynd við sær sjálvari."

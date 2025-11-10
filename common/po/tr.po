@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-11-10 11:11+0100\n"
+"POT-Creation-Date: 2025-11-10 15:02+0100\n"
 "PO-Revision-Date: 2025-05-04 23:53+0000\n"
 "Last-Translator: Nuri KÜÇÜKLER <nurikucukler@noreply.codeberg.org>\n"
 "Language-Team: Turkish <https://translate.codeberg.org/projects/backintime/common/tr/>\n"
@@ -64,7 +64,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "SSH özel anahtar"
 
@@ -909,11 +909,6 @@ msgstr "Sizin çeviriniz"
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Mastodon'daki Fediverse: {link_and_label}."
 
-#: qt/app.py:1657
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr "E-posta {link_and_label}."
-
 #: qt/app.py:1660
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
@@ -1073,7 +1068,7 @@ msgid ""
 msgstr ""
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
-#: qt/manageprofiles/tab_general.py:601
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1086,17 +1081,17 @@ msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr "O profil için bu modu kullanmanız artık önerilmiyor."
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
-#: qt/manageprofiles/tab_general.py:606
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr "Teknik döküman"
 
 #: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
-#: qt/manageprofiles/tab_general.py:603
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr "EncFS desteği güvenlik zafiyetleri nedeni ile sonlandırılacaktır."
 
-#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:608
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1752,7 +1747,7 @@ msgstr "etkin"
 msgid "Mode:"
 msgstr "Kip:"
 
-#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:633
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 msgid "Where to save backups"
 msgstr "Yedeklerin kaydedileceği yer"
 
@@ -1787,7 +1782,7 @@ msgstr ""
 msgid "Advanced"
 msgstr "Gelişmiş"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:723
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 msgid "Full backup path:"
 msgstr "Tam yedekleme yolu:"
 
@@ -1804,66 +1799,62 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:500
-#, fuzzy
 msgid ""
-"Copying the public SSH key to the remote host can help enable password-less "
-"login.To enable password-less login, the program can copy the public SSH key"
-" to the remote host."
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
 msgstr ""
-"Şifresiz girişi etkinleştirmek için genel SSH anahtarınızı uzak ana "
-"bilgisayara kopyalamak ister misiniz?"
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:503
 #, fuzzy
 msgid "Proceed with copying the SSH key?"
 msgstr "Bu yedek kaldırılsın mı?"
 
-#: qt/manageprofiles/tab_general.py:530
+#: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:551
+#: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "{host} ana bilgisayarının kimliği doğrulanamıyor."
 
-#: qt/manageprofiles/tab_general.py:554
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} anahtar parmak iziniz:"
 
-#: qt/manageprofiles/tab_general.py:558
+#: qt/manageprofiles/tab_general.py:556
 #, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
 "Lütfen bu parmak izini doğrulayın. 'known_hosts' dosyanıza eklemek ister "
 "misiniz?"
 
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:644
 msgid "Really change the backup directory?"
 msgstr "Yedekleme dizinini gerçekten değiştirmek istiyor musunuz?"
 
-#: qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:674
 #, fuzzy
 msgid "Invalid file: Not a private SSH key"
 msgstr "SSH özel anahtar"
 
-#: qt/manageprofiles/tab_general.py:677
+#: qt/manageprofiles/tab_general.py:675
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:711
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "{path} yolunda yeni SSH anahtarı oluşturulamadı."
@@ -2376,155 +2367,3 @@ msgstr "Bu bir yedek DEĞİL, yerel dosyalarınızın canlı bir görüntüsüd�
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Son denetim {time}"
-
-#~ msgid "A private key file for SSH was not chosen."
-#~ msgstr "Özel anahtar dosyası seçilmedi."
-
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "Anlık görüntüler klasörünü değiştirmek istediğinizden emin misiniz?"
-
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr ""
-#~ "Özgün klasördeki tüm daha yeni dosyaları kaldırmak istediğinizden emin "
-#~ "misiniz?"
-
-#, python-brace-format
-#~ msgid "Are you sure you want to remove all newer files in {path}?"
-#~ msgstr ""
-#~ "{path} içindeki tüm yeni dosyaları kaldırmak istediğinizden emin misiniz?"
-
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "Bu anlık görüntüyü silmek istediğinizden emin misiniz?"
-#~ msgstr[1] "Bu anlık görüntüleri silmek istediğinizden emin misiniz?"
-
-#~ msgid "Back In Time"
-#~ msgstr "Back In Time"
-
-#~ msgid "Backup"
-#~ msgstr "Yedek"
-
-#, python-brace-format
-#~ msgid "Cipher {cipher} failed for {host}."
-#~ msgstr "{host} için {cipher} şifresi başarısız oldu."
-
-#~ msgid "Cipher:"
-#~ msgstr "Şifre:"
-
-#~ msgid ""
-#~ "Create a new SSH key without password (not allowed if a private key file is "
-#~ "already selected)."
-#~ msgstr ""
-#~ "Parola olmadan yeni SSH anahtarı oluştur (özel anahtar dosyası zaten "
-#~ "seçiliyse buna izin verilmez)."
-
-#~ msgid "Default"
-#~ msgstr "Öntanımlı"
-
-#~ msgid "Do you really want to close it?"
-#~ msgstr "Gerçekten kapatmak istiyor musunuz?"
-
-#~ msgid "ETA"
-#~ msgstr "ETA"
-
-#, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "{n} saatte bir"
-#~ msgstr[1] "{n} saatte bir"
-
-#~ msgid "Global"
-#~ msgstr "Küresel"
-
-#~ msgid "Home"
-#~ msgstr "Ev"
-
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr ""
-#~ "Eğer bu bir çıkarılabilir sürücüde ise lütfen takın ve ardından Tamam'a "
-#~ "basın."
-
-#~ msgid "License"
-#~ msgstr "Lisans"
-
-#~ msgid "Look at 'man backintime' for further instructions"
-#~ msgstr "Daha fazla yönerge için 'man backintime' komutuna bakın"
-
-#~ msgid "Name snapshot"
-#~ msgstr "Anlık görüntüyü adlandır"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Newer versions of files will be renamed with trailing {suffix} before "
-#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
-#~ msgstr ""
-#~ "Dosyaların daha yeni sürümleri geri yüklenmeden önce sonuna {suffix} "
-#~ "eklenerek yeniden adlandırılacak. Onlara artık ihtiyacınız yoksa {cmd} ile "
-#~ "kaldırabilirsiniz"
-
-#, fuzzy
-#~ msgid "Open user manual in browser (locally if available, otherwise online)"
-#~ msgstr ""
-#~ "Kullanım kılavuzunu tarayıcıda açın (mevcutsa yerel, aksi takdirde "
-#~ "çevrimiçi)"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "Lütfen parolayı onaylayın."
-
-#, python-brace-format
-#~ msgid "Private key file \"{file}\" does not exist."
-#~ msgstr "Özel anahtar dosyası \"{file}\" yok."
-
-#~ msgid "Sent"
-#~ msgstr "Gönder"
-
-#~ msgid "Should a new password-less public/private key pair be generated?"
-#~ msgstr "Yeni bir şifresiz genel/özel anahtar çifti oluşturulmalı mı?"
-
-#, fuzzy
-#~ msgid "Shows the message about deprecation of SSH cipher again."
-#~ msgstr "Çeviriye katılım mesajını tekrar gösterir."
-
-#~ msgid "Smart removal"
-#~ msgstr "Akıllı kaldırma"
-
-#~ msgid "Snapshot"
-#~ msgstr "Anlık görüntü"
-
-#~ msgid "Snapshot Log View"
-#~ msgstr "Anlık Görüntü Günlük Görünümü"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "Anlık Görüntü Adı"
-
-#~ msgid "Snapshots"
-#~ msgstr "Anlık görüntüler"
-
-#~ msgid "Snapshots:"
-#~ msgstr "Anlık görüntüler:"
-
-#~ msgid "Speed"
-#~ msgstr "Hız"
-
-#~ msgid "Take a snapshot"
-#~ msgstr "Anlık görüntü al"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "Anlık görüntü al"
-
-#, fuzzy
-#~ msgid "The sub-directories cannot be included in the backup."
-#~ msgstr "Yedekleme alt klasörü dahil edilemez."
-
-#~ msgid "View last log"
-#~ msgstr "Son günlüğü görüntüle"
-
-#~ msgid "View snapshot log"
-#~ msgstr "Anlık görüntü günlüğünü görüntüle"
-
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "Bir anlık görüntüyü kendisiyle karşılaştıramazsınız."
-
-#~ msgid "You did not choose a private key file for SSH."
-#~ msgstr "SSH için bir gizli anahtar dosyası seçmediniz."

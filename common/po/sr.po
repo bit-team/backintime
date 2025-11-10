@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-11-10 11:11+0100\n"
+"POT-Creation-Date: 2025-11-10 15:02+0100\n"
 "PO-Revision-Date: 2025-05-01 17:53+0000\n"
 "Last-Translator: reno-tx <reno-tx@noreply.codeberg.org>\n"
 "Language-Team: Serbian <https://translate.codeberg.org/projects/backintime/common/sr/>\n"
@@ -62,7 +62,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "SSH приватни кључ"
 
@@ -923,11 +923,6 @@ msgstr "Ваш превод"
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "У Федиверзу на Мастодону: {link_and_label}"
 
-#: qt/app.py:1657
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr "Имејл на {link_and_label}."
-
 #: qt/app.py:1660
 #, fuzzy, python-brace-format
 msgid "Mailing list {link_and_label}."
@@ -1092,7 +1087,7 @@ msgid ""
 msgstr ""
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
-#: qt/manageprofiles/tab_general.py:601
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1108,17 +1103,17 @@ msgstr ""
 " коришћење тог режима за профил убудуће."
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
-#: qt/manageprofiles/tab_general.py:606
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr "бели папир"
 
 #: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
-#: qt/manageprofiles/tab_general.py:603
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr "Подршка за EncFS се прекида због безбедносних рањивости."
 
-#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:608
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1776,7 +1771,7 @@ msgstr "омогућено"
 msgid "Mode:"
 msgstr "Мод:"
 
-#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:633
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 #, fuzzy
 msgid "Where to save backups"
 msgstr "Где да чувам снимке"
@@ -1812,7 +1807,7 @@ msgstr ""
 msgid "Advanced"
 msgstr "Напредно"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:723
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 #, fuzzy
 msgid "Full backup path:"
 msgstr "Пуна путања снимка:"
@@ -1830,66 +1825,62 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:500
-#, fuzzy
 msgid ""
-"Copying the public SSH key to the remote host can help enable password-less "
-"login.To enable password-less login, the program can copy the public SSH key"
-" to the remote host."
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
 msgstr ""
-"Да ли желите да копирате ваш јавни SSH кључ на удаљеном домаћину за "
-"омогућавање пријаве без лозинке?"
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:503
 msgid "Proceed with copying the SSH key?"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:530
+#: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:551
+#: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "Аутентичност домаћина {host} се не може утврдити."
 
-#: qt/manageprofiles/tab_general.py:554
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} отисак прста кључа је:"
 
-#: qt/manageprofiles/tab_general.py:558
+#: qt/manageprofiles/tab_general.py:556
 #, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
 "Молимо проверите овај отисак прста. Да ли желите да га додате у своју "
 "датотеку 'known_hosts'?"
 
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:644
 #, fuzzy
 msgid "Really change the backup directory?"
 msgstr "Да ли желите да креирате нови шифровани директоријум?"
 
-#: qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:674
 #, fuzzy
 msgid "Invalid file: Not a private SSH key"
 msgstr "SSH приватни кључ"
 
-#: qt/manageprofiles/tab_general.py:677
+#: qt/manageprofiles/tab_general.py:675
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:711
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Креирање новог SSH кључа у {path} није успело."
@@ -2420,159 +2411,3 @@ msgstr "Ово НИЈЕ снимак, већ ужив приказ ваших л
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Задња провера {time}"
-
-#, fuzzy
-#~ msgid "A private key file for SSH was not chosen."
-#~ msgstr "Датотека приватног кључа у \"{file}\" не постоји."
-
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "Да ли сте сигурни да желите да промените директоријум снимка?"
-
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr ""
-#~ "Да ли сте сигурни да желите да уклоните све новије фајлове у вашем "
-#~ "оригиналном директоријуму?"
-
-#, python-brace-format
-#~ msgid "Are you sure you want to remove all newer files in {path}?"
-#~ msgstr "Да ли заиста желите да повратите све новије фајлове у {path}?"
-
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "Да ли сте сигурни да желите да уклоните овај снимак?"
-#~ msgstr[1] "Да ли сте сигурни да желите да уклоните ове снимке?"
-#~ msgstr[2] "Да ли сте сигурни да желите да уклоните ове снимке?"
-
-#, fuzzy
-#~ msgid "Back In Time"
-#~ msgstr "Back In &Time"
-
-#, fuzzy
-#~ msgid "Backup"
-#~ msgstr "&Резервна копија"
-
-#, python-brace-format
-#~ msgid "Cipher {cipher} failed for {host}."
-#~ msgstr "Шифра {cipher} није успела за {host}."
-
-#~ msgid "Cipher:"
-#~ msgstr "Шифра:"
-
-#~ msgid ""
-#~ "Create a new SSH key without password (not allowed if a private key file is "
-#~ "already selected)."
-#~ msgstr ""
-#~ "Креирајте нови SSH кључ без лозинке (није дозвољено ако је фајл приватног "
-#~ "кључа већ одабран)."
-
-#~ msgid "Default"
-#~ msgstr "Подразумевано"
-
-#~ msgid "Do you really want to close it?"
-#~ msgstr "Да ли заиста желите да га затворите?"
-
-#~ msgid "ETA"
-#~ msgstr "Процењено време завршетка"
-
-#, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "Сваки {n} сат"
-#~ msgstr[1] "Сваких {n} сата"
-#~ msgstr[2] "Сваких {n} сати"
-
-#~ msgid "Global"
-#~ msgstr "Глобално"
-
-#~ msgid "Home"
-#~ msgstr "Почетак"
-
-#, fuzzy
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr ""
-#~ "Ако је на преносивом уређају, молимо прикључите га и затим притисните ОК."
-
-#~ msgid "License"
-#~ msgstr "Лиценца"
-
-#~ msgid "Look at 'man backintime' for further instructions"
-#~ msgstr "Погледајте 'man backintime' за даља упутства"
-
-#~ msgid "Name snapshot"
-#~ msgstr "Именуј снимак"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Newer versions of files will be renamed with trailing {suffix} before "
-#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
-#~ msgstr ""
-#~ "Новије верзије фајлова ће се преименовати са претечим {suffix} пре враћања. "
-#~ "Ако вам више не требају, можете их уклонити помоћу {cmd}"
-
-#, fuzzy
-#~ msgid "Open user manual in browser (locally if available, otherwise online)"
-#~ msgstr ""
-#~ "Отворите приручник за кориснике у прегледачу (локално ако је доступно, иначе"
-#~ " на мрежи)"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "Молимо потврдите лозинку."
-
-#, python-brace-format
-#~ msgid "Private key file \"{file}\" does not exist."
-#~ msgstr "Датотека приватног кључа у \"{file}\" не постоји."
-
-#~ msgid "Sent"
-#~ msgstr "Послато"
-
-#, fuzzy
-#~ msgid "Should a new password-less public/private key pair be generated?"
-#~ msgstr ""
-#~ "Да ли желите да генеришете нови пар јавних/приватних кључева без лозинке?"
-
-#, fuzzy
-#~ msgid "Shows the message about deprecation of SSH cipher again."
-#~ msgstr "Поново приказује поруку о учешћу у преводу."
-
-#~ msgid "Smart removal"
-#~ msgstr "Паметно уклањање"
-
-#~ msgid "Snapshot"
-#~ msgstr "Снимак"
-
-#~ msgid "Snapshot Log View"
-#~ msgstr "Приказ дневника снимка"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "Име Снимка"
-
-#~ msgid "Snapshots"
-#~ msgstr "Снимци"
-
-#~ msgid "Snapshots:"
-#~ msgstr "Снимци:"
-
-#~ msgid "Speed"
-#~ msgstr "Брзина"
-
-#~ msgid "Take a snapshot"
-#~ msgstr "Направи снимак"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "Прављење снимка"
-
-#~ msgid "The sub-directories cannot be included in the backup."
-#~ msgstr "Под-директоријуми не могу бити укључени у резервну копију."
-
-#~ msgid "View last log"
-#~ msgstr "Погледај последњи лог"
-
-#~ msgid "View snapshot log"
-#~ msgstr "Погледај лог снимка"
-
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "Не можете упоредити снимак са самим собом."
-
-#~ msgid "You did not choose a private key file for SSH."
-#~ msgstr "Нисте изабрали датотеку приватног кључа за SSH."

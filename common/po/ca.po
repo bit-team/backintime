@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-11-10 11:11+0100\n"
+"POT-Creation-Date: 2025-11-10 15:02+0100\n"
 "PO-Revision-Date: 2025-07-29 07:57+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@noreply.codeberg.org>\n"
 "Language-Team: Catalan <https://translate.codeberg.org/projects/backintime/common/ca/>\n"
@@ -60,7 +60,7 @@ msgid "SSH"
 msgstr "SSH"
 
 #: common/config.py:265 common/config.py:275
-#: qt/manageprofiles/tab_general.py:664
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "Clau privada SSH"
 
@@ -911,11 +911,6 @@ msgstr "la teva traducció"
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Al fedivers, a Mastodon: {link_and_label}."
 
-#: qt/app.py:1657
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr "Envieu un correu electrònic a {link_and_label}."
-
 #: qt/app.py:1660
 #, fuzzy, python-brace-format
 msgid "Mailing list {link_and_label}."
@@ -1077,7 +1072,7 @@ msgid ""
 msgstr ""
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
-#: qt/manageprofiles/tab_general.py:601
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1090,19 +1085,19 @@ msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr "A més, no es recomana utilitzar aquest mode per a un perfil."
 
 #: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
-#: qt/manageprofiles/tab_general.py:606
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr "article"
 
 #: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
-#: qt/manageprofiles/tab_general.py:603
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr ""
 "El suport per a EncFS s'està interrompent a causa de vulnerabilitats de "
 "seguretat."
 
-#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:608
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1762,7 +1757,7 @@ msgstr "habilitat"
 msgid "Mode:"
 msgstr "Mode:"
 
-#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:633
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 msgid "Where to save backups"
 msgstr "A on desar còpies"
 
@@ -1798,7 +1793,7 @@ msgstr ""
 msgid "Advanced"
 msgstr "Avançat"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:723
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 msgid "Full backup path:"
 msgstr "Camí complet de la còpia:"
 
@@ -1815,66 +1810,62 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:500
-#, fuzzy
 msgid ""
-"Copying the public SSH key to the remote host can help enable password-less "
-"login.To enable password-less login, the program can copy the public SSH key"
-" to the remote host."
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
 msgstr ""
-"Voleu copiar la vostra clau SSH pública a la màquina remota per a habilitar "
-"l'inici de sessió sense contrasenya?"
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:503
 #, fuzzy
 msgid "Proceed with copying the SSH key?"
 msgstr "Voleu eliminar aquesta còpia?"
 
-#: qt/manageprofiles/tab_general.py:530
+#: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:551
+#: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "No es pot establir l'autenticitat de l'amfitrió {host}."
 
-#: qt/manageprofiles/tab_general.py:554
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "L'empremta digital de la clau {keytype} és:"
 
-#: qt/manageprofiles/tab_general.py:558
+#: qt/manageprofiles/tab_general.py:556
 #, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
 "Verifiqueu aquesta empremta digital. Voleu afegir-la al fitxer "
 "«known_hosts»?"
 
-#: qt/manageprofiles/tab_general.py:646
+#: qt/manageprofiles/tab_general.py:644
 msgid "Really change the backup directory?"
 msgstr "Realment voleu canviar el directori de les còpies?"
 
-#: qt/manageprofiles/tab_general.py:676
+#: qt/manageprofiles/tab_general.py:674
 #, fuzzy
 msgid "Invalid file: Not a private SSH key"
 msgstr "Clau privada SSH"
 
-#: qt/manageprofiles/tab_general.py:677
+#: qt/manageprofiles/tab_general.py:675
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:711
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "No s'ha pogut crear una clau SSH nova a {path}."
@@ -2392,152 +2383,3 @@ msgstr ""
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Última comprovació {time}"
-
-#~ msgid "A private key file for SSH was not chosen."
-#~ msgstr "No s'ha triat un fitxer de clau privada per a l'SSH."
-
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "Segur que voleu canviar el directori d'instantànies?"
-
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr ""
-#~ "Esteu segur que voleu eliminar tots els fitxers més nous de la carpeta "
-#~ "original?"
-
-#, python-brace-format
-#~ msgid "Are you sure you want to remove all newer files in {path}?"
-#~ msgstr "Esteu segur que voleu eliminar tots els fitxers més nous a {path}?"
-
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "Segur que voleu esborrar la instantània?"
-#~ msgstr[1] "Segur que voleu esborrar les instantànies?"
-
-#~ msgid "Back In Time"
-#~ msgstr "Back in Time"
-
-#~ msgid "Backup"
-#~ msgstr "Còpia de seguretat"
-
-#, python-brace-format
-#~ msgid "Cipher {cipher} failed for {host}."
-#~ msgstr "El xifratge {cipher} ha fallat per a {host}."
-
-#~ msgid "Cipher:"
-#~ msgstr "Xifratge:"
-
-#~ msgid ""
-#~ "Create a new SSH key without password (not allowed if a private key file is "
-#~ "already selected)."
-#~ msgstr ""
-#~ "Crea una clau SSH nova sense contrasenya (no es permet si ja hi ha "
-#~ "seleccionat un fitxer de clau privada)."
-
-#~ msgid "Default"
-#~ msgstr "Per defecte"
-
-#~ msgid "Do you really want to close it?"
-#~ msgstr "Segur que vols tancar-ho?"
-
-#~ msgid "ETA"
-#~ msgstr "Temps estimat"
-
-#, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "Cada {n} hora"
-#~ msgstr[1] "Cada {n} hores"
-
-#~ msgid "Global"
-#~ msgstr "Global"
-
-#~ msgid "Home"
-#~ msgstr "Inici"
-
-#, fuzzy
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr "Si es troba en una unitat extraïble, connecteu-la i premeu OK."
-
-#~ msgid "License"
-#~ msgstr "Llicència"
-
-#~ msgid "Look at 'man backintime' for further instructions"
-#~ msgstr "Mireu 'man backintime' per a més instruccions"
-
-#~ msgid "Name snapshot"
-#~ msgstr "Anomena la instantània"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Newer versions of files will be renamed with trailing {suffix} before "
-#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
-#~ msgstr ""
-#~ "A les versions més noves dels fitxers se'ls afegirà el sufix {suffix} al nom"
-#~ " abans de restaurar-los. Si ja no els necessiteu, podeu eliminar-los amb "
-#~ "{cmd}"
-
-#, fuzzy
-#~ msgid "Open user manual in browser (locally if available, otherwise online)"
-#~ msgstr ""
-#~ "Obre el manual d'usuari al navegador (local si està disponible en línia)"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "Si us plau confirmeu la contrasenya."
-
-#, python-brace-format
-#~ msgid "Private key file \"{file}\" does not exist."
-#~ msgstr "El fitxer de clau privada «{file}» no existeix."
-
-#~ msgid "Sent"
-#~ msgstr "Enviat"
-
-#, fuzzy
-#~ msgid "Should a new password-less public/private key pair be generated?"
-#~ msgstr "Voleu generar un nou parell de claus públic/privat sense contrasenya?"
-
-#, fuzzy
-#~ msgid "Shows the message about deprecation of SSH cipher again."
-#~ msgstr "Mostra de nou el missatge sobre la participació en la traducció."
-
-#~ msgid "Smart removal"
-#~ msgstr "Esborrat intel·ligent"
-
-#~ msgid "Snapshot"
-#~ msgstr "Instantàna"
-
-#~ msgid "Snapshot Log View"
-#~ msgstr "Visualitza el registre d'instantànies"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "Nom de la instantània"
-
-#~ msgid "Snapshots"
-#~ msgstr "Instantànies"
-
-#~ msgid "Snapshots:"
-#~ msgstr "Instantànies:"
-
-#~ msgid "Speed"
-#~ msgstr "Velocitat"
-
-#~ msgid "Take a snapshot"
-#~ msgstr "Fes una instantània"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "S'està fent una instantània"
-
-#~ msgid "The sub-directories cannot be included in the backup."
-#~ msgstr "No s'hi pot incloure les subcarpetes en la còpia de seguretat."
-
-#~ msgid "View last log"
-#~ msgstr "Visualitza l'últim registre"
-
-#~ msgid "View snapshot log"
-#~ msgstr "Visualitza el registre de les instantànies"
-
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "No podeu compara una instantània amb sí mateixa."
-
-#~ msgid "You did not choose a private key file for SSH."
-#~ msgstr "No heu escollit un fitxer de clau privada per a SSH."
