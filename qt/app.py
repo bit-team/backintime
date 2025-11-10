@@ -624,7 +624,7 @@ class MainWindow(QMainWindow):
 
         # Release Candidate ?
         self.act_help_release_candidate = None
-        if version.IS_RELEASE_CANDIDATE:
+        if version.IS_RELEASE_CANDIDATE or logger.DEBUG :
             # pylint: disable=undefined-variable
             action = QAction(icon.QUESTION, _('Release Candidate'), self)
             action.triggered.connect(self._slot_help_release_candidate)
@@ -1644,7 +1644,7 @@ class MainWindow(QMainWindow):
         html_contact_list = (
             '<ul>'
             '<li>{mastodon}</li>'
-            '<li>{email}</li>'
+            # '<li>{email}</li>'
             '<li>{mailinglist}</li>'
             '<li>{issue}</li>'
             '<li>{alternative}</li>'
@@ -1654,9 +1654,9 @@ class MainWindow(QMainWindow):
                                            '/@backintime">'
                                            '@backintime@fosstodon.org'
                                            '</a>'),
-                email=_('Email to {link_and_label}.').format(
-                    link_and_label='<a href="mailto:backintime@tuta.io">'
-                                   'backintime@tuta.io</a>'),
+                # email=_('Email to {link_and_label}.').format(
+                #     link_and_label='<a href="mailto:backintime@tuta.io">'
+                #                    'backintime@tuta.io</a>'),
                 mailinglist=_('Mailing list {link_and_label}.').format(
                     link_and_label='<a href="https://mail.python.org/mailman3/'
                                    'lists/bit-dev.python.org/">'
