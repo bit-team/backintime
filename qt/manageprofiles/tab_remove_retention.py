@@ -308,9 +308,9 @@ class RemoveRetentionTab(QDialog):
             _('Run in background on remote host.'), self)
         qttools.set_wrapped_tooltip(
             cb_in_background,
-            (_('The smart remove procedure will run directly on the remote '
+            (_('The retention policy will be executed directly on the remote '
                'machine, not locally. The commands "bash", "screen", and '
-               '"flock" must be installed and available on the '
+               '"flock" must be installed and available on that '
                'remote machine.'),
              _('If selected, Back In Time will first test the '
                'remote machine.')))

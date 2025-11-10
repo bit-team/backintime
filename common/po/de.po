@@ -1975,8 +1975,9 @@ msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual} for details and examples."
 msgstr ""
-"Die nachfolgenden Regeln werden von oben nach unten abgearbeitet. Spätere "
-"Regeln überschreiben frühere. Siehe das {manual} für Details und Beispiele."
+"Die folgenden Regeln werden von oben nach unten verarbeitet. Spätere Regeln "
+"setzen frühere Regeln außer Kraft. Siehe das {manual} für Details und "
+"Beispiele."
 
 #: qt/manageprofiles/tab_remove_retention.py:203
 msgid "user manual"
@@ -1988,28 +1989,27 @@ msgstr "Öffnet Benutzerhandbuch im Browser."
 
 #: qt/manageprofiles/tab_remove_retention.py:230
 msgid "Keep the most recent backup."
-msgstr "Behalte die neuste Sicherung."
+msgstr "Die aktuellste Sicherung behalten."
 
 #: qt/manageprofiles/tab_remove_retention.py:234
 msgid "The last or freshest backup is kept under all circumstances."
-msgstr ""
-"Die letzte bzw. frischeste Sicherung wird unter allen Umständen behalten."
+msgstr "Die letzte oder neueste Sicherung wird unter allen Umständen aufbewahrt."
 
 #: qt/manageprofiles/tab_remove_retention.py:236
 msgid "That behavior cannot be changed."
-msgstr "Das Verhalten ist unveränderlich."
+msgstr "Das Verhalten kann nicht geändert werden."
 
 #: qt/manageprofiles/tab_remove_retention.py:248
 msgid "Keep named backups."
-msgstr "Behalte Sicherungen mit Namen."
+msgstr "Benannte Sicherungen behalten."
 
 #: qt/manageprofiles/tab_remove_retention.py:251
 msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
-"Sicherungen, die zusätzlich zum üblichen Zeitstempel einen Namen erhalten "
-"haben, werden unter allen Umständen aufbewahrt und werden nicht entfernt."
+"Sicherungen, denen zusätzlich zum üblichen Zeitstempel ein Name zugewiesen "
+"wurde, werden unter allen Umständen bewahrt und nicht entfernt."
 
 #: qt/manageprofiles/tab_remove_retention.py:266
 msgid "Year(s)"
@@ -2052,7 +2052,7 @@ msgstr ""
 #: qt/manageprofiles/tab_remove_retention.py:309
 msgid "If selected, Back In Time will first test the remote machine."
 msgstr ""
-"Wenn ausgewählt, wird Back In Time zunächst das entfernte System prüfen."
+"Wenn ausgewählt, testet Back In Time zunächst das entfernte System."
 
 #: qt/manageprofiles/tab_remove_retention.py:313
 msgid "The days are counted starting from today."
@@ -2076,8 +2076,8 @@ msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
 msgstr ""
-"Wochenzählung beginnt in der aktuell laufenden Woche. Wochenbeginn ist "
-"Montag."
+"Die Wochen werden ab der aktuell laufenden Woche gezählt. Eine Woche "
+"beginnt am Montag."
 
 #: qt/manageprofiles/tab_remove_retention.py:339
 msgid "Keep the last backup for each week for the last"
@@ -2090,7 +2090,9 @@ msgstr "Woche(n)."
 #: qt/manageprofiles/tab_remove_retention.py:349
 msgid ""
 "The months are counted as calendar months starting with the current month."
-msgstr "Gezählt werden Kalendermonate, beginnend mit dem aktuellen Monat."
+msgstr ""
+"Die Monate werden als Kalendermonate gezählt, beginnend mit dem aktuellen "
+"Monat."
 
 #: qt/manageprofiles/tab_remove_retention.py:352
 msgid "Keep the last backup for each month for the last"
@@ -2103,7 +2105,9 @@ msgstr "Monat(e)."
 #: qt/manageprofiles/tab_remove_retention.py:362
 msgid ""
 "The years are counted as calendar years starting with the current year."
-msgstr "Gezählt werden Kalenderjahre, beginnend mit dem aktuellen Jahr."
+msgstr ""
+"Die Jahre werden als Kalenderjahre gezählt, beginnend mit dem aktuellen "
+"Jahr."
 
 #: qt/manageprofiles/tab_remove_retention.py:364
 msgid "Keep the last backup for each year for"
@@ -2115,15 +2119,15 @@ msgstr "alle Jahre."
 
 #: qt/manageprofiles/tab_remove_retention.py:381
 msgid "… the free space is less than"
-msgstr "… freier Speicher kleiner ist als"
+msgstr "… freier Speicher weniger ist als"
 
 #: qt/manageprofiles/tab_remove_retention.py:386
 msgid "… the free inodes are less than"
-msgstr "… weniger Inodes frei sind als"
+msgstr "… freie Inodes weniger sind als"
 
 #: qt/manageprofiles/tab_remove_retention.py:395
 msgid "Remove oldest backup if …"
-msgstr "Entferne die ältesten Sicherungen wenn …"
+msgstr "Älteste Sicherung entfernen, wenn …"
 
 #: qt/placeswidget.py:49
 msgid "Shortcuts"
@@ -2139,7 +2143,7 @@ msgstr "Dateisystem"
 
 #: qt/placeswidget.py:106
 msgid "Backup directories"
-msgstr "Sicherungs-Verzeichnisse"
+msgstr "Sicherungsverzeichnisse"
 
 #: qt/qtsystrayicon.py:66
 #, python-brace-format
@@ -2153,11 +2157,11 @@ msgstr "Letztes Protokoll ansehen"
 #: qt/qtsystrayicon.py:103
 #, python-brace-format
 msgid "Start {appname}"
-msgstr "Starte {appname}"
+msgstr "{appname} starten"
 
 #: qt/qtsystrayicon.py:172
 msgid "Working…"
-msgstr "In Bearbeitung…"
+msgstr "In Arbeit …"
 
 #: qt/restoreconfigdialog.py:72
 msgid "Import configuration"
@@ -2173,7 +2177,7 @@ msgstr "Importieren"
 
 #: qt/restoreconfigdialog.py:143 qt/restoreconfigdialog.py:247
 msgid "Searching…"
-msgstr "Suche…"
+msgstr "Suche …"
 
 #: qt/restoreconfigdialog.py:224
 #, python-brace-format
@@ -2181,8 +2185,8 @@ msgid ""
 "Select the backup directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
-"Wähle das Sicherungsverzeichnis, aus dem die Konfiguration zu importieren "
-"werden soll. Der Pfad könnte so aussehen: {samplePath}"
+"Sicherungsverzeichnis wählen, aus dem die Konfiguration importiert "
+"werden soll. Der Pfad könnte beispielsweise wie folgt aussehen: {samplePath}"
 
 #: qt/restoreconfigdialog.py:229
 msgid ""
@@ -2194,15 +2198,15 @@ msgstr ""
 
 #: qt/restoreconfigdialog.py:250
 msgid "Scan again"
-msgstr "Scan wiederholen"
+msgstr "Erneut scannen"
 
 #: qt/restoreconfigdialog.py:269
 msgid "Show hidden directories"
-msgstr "Zeige versteckte Verzeichnisse"
+msgstr "Versteckte Verzeichnisse anzeigen"
 
 #: qt/restoreconfigdialog.py:271
 msgid "Show/hide hidden directories (Ctrl+H)"
-msgstr "Zeige/verberge versteckte Verzeichnisse (Strg+H)"
+msgstr "Versteckte Verzeichnisse zeigen/ausblenden (Strg+H)"
 
 #: qt/restoreconfigdialog.py:379
 msgid "Search complete."
@@ -2210,7 +2214,7 @@ msgstr "Suche abgeschlossen."
 
 #: qt/restoredialog.py:55
 msgid "Show full Log"
-msgstr "Komplettes Protokoll anzeigen"
+msgstr "Vollständiges Protokoll zeigen"
 
 #: qt/shutdowndlg.py:27
 msgid "Countdown to Shutdown"
@@ -2226,7 +2230,7 @@ msgstr "Herunterfahren abbrechen"
 
 #: qt/shutdowndlg.py:36
 msgid "Shutdown Now"
-msgstr "Jetzt Herunterfahren"
+msgstr "Jetzt herunterfahren"
 
 #: qt/shutdowndlg.py:68
 #, python-brace-format
@@ -2249,11 +2253,11 @@ msgstr "Parameter:"
 
 #: qt/snapshotsdialog.py:79
 msgid "Use %1 and %2 for path parameters"
-msgstr "Verwende %1 und %2 als Pfadparameter"
+msgstr "Als Pfadparameter %1 und %2 verwenden"
 
 #: qt/snapshotsdialog.py:96
 msgid "Please set a diff command or press Cancel."
-msgstr "Bitte diff Befehl festlegen oder Abbrechen drücken."
+msgstr "Bitte Diff-Befehl festlegen oder Abbrechen drücken."
 
 #: qt/snapshotsdialog.py:102
 #, python-brace-format
@@ -2261,14 +2265,14 @@ msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
 "else or press Cancel."
 msgstr ""
-"Der Befehl »{cmd}« wurde auf dem System nicht gefunden. Bitte etwas anderes "
+"Der Befehl »{cmd}« kann auf dem System nicht gefunden werden. Bitte etwas anderes "
 "versuchen oder Abbrechen drücken."
 
 #: qt/snapshotsdialog.py:110
 #, python-brace-format
 msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr ""
-"Keine Parameter für den diff Befehl vorhanden. Nutze die Standardwerte "
+"Keine Parameter für den diff-Befehl festgelegt. Verwendet wird der Defaultwert "
 "»{params}«."
 
 #: qt/snapshotsdialog.py:141 qt/timeline.py:44
@@ -2297,7 +2301,7 @@ msgstr "Alles auswählen"
 
 #: qt/snapshotsdialog.py:212
 msgid "Compare"
-msgstr "Vergleiche"
+msgstr "Vergleichen"
 
 #: qt/snapshotsdialog.py:227
 msgid "Go To"
@@ -2329,7 +2333,7 @@ msgstr "Soll »{file_or_dir}« wirklich in {count} Sicherungen gelöscht werden?
 
 #: qt/snapshotsdialog.py:446
 msgid "WARNING: This cannot be revoked."
-msgstr "WARNUNG: Das kann nicht rückgängig gemacht werden."
+msgstr "WARNUNG: Dies kann nicht rückgängig gemacht werden."
 
 #: qt/snapshotsdialog.py:463
 #, python-brace-format
@@ -2338,7 +2342,7 @@ msgstr "»{path}« von zukünftigen Sicherungen ausschließen?"
 
 #: qt/statusbar.py:85
 msgid "Root mode"
-msgstr "Root Modus"
+msgstr "Root-Modus"
 
 #: qt/statusbar.py:87
 msgid ""
@@ -2365,8 +2369,7 @@ msgstr "Letzte Woche"
 
 #: qt/timeline.py:268
 msgid "This is NOT a backup but a live view of the local files."
-msgstr ""
-"Das hier ist KEINE Sicherung, aber eine aktuellen Ansicht der lokalen Daten."
+msgstr "Dies ist KEINE Sicherung, aber eine Live-Ansicht der lokalen Daten."
 
 #: qt/timeline.py:273
 #, python-brace-format
