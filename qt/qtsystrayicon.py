@@ -11,10 +11,13 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Separate application managing the systray icon"""
 import sys
+import atexit
 import os
+import tempfile
 import subprocess
 import signal
 import textwrap
+from pathlib import Path
 
 # TODO Is this really required? If the client is not configured for X11
 #      it may use Wayland or something else...
@@ -33,13 +36,18 @@ import snapshots
 import progress
 import logviewdialog
 import encfstools
-from PyQt6.QtCore import Qt, QSize, QTimer
+from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QProgressBar, QWidget
 from PyQt6.QtGui import QColor, QIcon, QRegion, QPixmap, QPainter
 
 
+
+
 class QtSysTrayIcon:
     """Application instance for the Back In Time systray icon"""
+
+    ICON_PART_A = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"'
+    ICON_PART_B = '><g transform="translate(-3 -3)"><circle cx="11" cy="16" r="3" fill-opacity=".5"/><rect width="3" height="7.5" x="9.5" y="10" rx="1.5"/><circle cy="-8.485" r="3" fill-opacity=".5" transform="rotate(135)"/><rect width="3" height="7.5" x="-1.5" y="-14.485" rx="1.5" transform="rotate(135)"/><g transform="scale(1 -1) rotate(-45)"><circle cx="15.564" cy="7.063" r="3" fill-opacity=".5"/><rect width="3" height="7.5" x="14.064" y="1.063" rx="1.5"/></g></g></svg>'
 
     def __init__(self):
 
@@ -131,23 +139,34 @@ class QtSysTrayIcon:
         return result
 
     def _create_status_icon(self) -> QSystemTrayIcon:
-        import icon
-        symbolic_logo = QIcon.fromTheme(icon.BIT_LOGO_SYMBOLIC_NAME)
-
-        return QSystemTrayIcon(symbolic_logo)
-
         # Logo color depending on dark/light mode
         dark_mode = qttools.in_dark_mode(self.qapp)
-        color = QColor('white' if dark_mode else 'black')
+        color = 'white' if dark_mode else 'black'
 
-        # Determine systray icon size depending on current graphic environment
-        style = self.qapp.style()
-        tray_icon_size = style.pixelMetric(style.PixelMetric.PM_SmallIconSize)
+        svg_fn = None
 
-        pixmap = symbolic_logo.pixmap(QSize(tray_icon_size, tray_icon_size))
-        pixmap = self._recolor_pixmap(pixmap, color)
+        with tempfile.NamedTemporaryFile(suffix='.svg', mode='w', delete=False
+                                         ) as handle:
+            handle.write(
+                self.ICON_PART_A + f' fill="{color}"' + self.ICON_PART_B)
 
-        return QSystemTrayIcon(QIcon(pixmap))
+            svg_fn = handle.name
+
+
+        atexit.register(Path(svg_fn).unlink)
+
+        return QSystemTrayIcon(QIcon(svg_fn))
+
+        # color = QColor('white' if dark_mode else 'black')
+
+        # # Determine systray icon size depending on current graphic environment
+        # style = self.qapp.style()
+        # tray_icon_size = style.pixelMetric(style.PixelMetric.PM_SmallIconSize)
+
+        # pixmap = symbolic_logo.pixmap(QSize(tray_icon_size, tray_icon_size))
+        # pixmap = self._recolor_pixmap(pixmap, color)
+
+        # return QSystemTrayIcon(QIcon(pixmap))
 
     def _create_progress_bar(self) -> QProgressBar:
         bar = QProgressBar()
