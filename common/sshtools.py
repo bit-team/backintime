@@ -1018,7 +1018,7 @@ class SSH(MountControl):
                         .format(host=self.host, command=command)
                     raise MountException(msg)
 
-            msg = _('Check commands on host {host} returned unknown error') \
+            msg = _('Checking commands on host {host} returned unknown error') \
                 .format(host=self.host)
             raise MountException(f'{msg}: "{err}"')
 

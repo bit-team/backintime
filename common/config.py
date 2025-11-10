@@ -279,7 +279,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
         # Deprecated: #2176
         self.SSH_CIPHERS = {
-            'default': _('Default'),
+            'default': 'Default',
             'aes128-ctr': 'AES128-CTR',
             'aes192-ctr': 'AES192-CTR',
             'aes256-ctr': 'AES256-CTR',
@@ -376,9 +376,9 @@ class Config(configfile.ConfigFileWithProfiles):
                     self.notifyError(
                         '{}\n{}\n{}'.format(
                             _('Profile: "{name}"').format(name=profile_name),
-                            _('The value for "Remove oldest backup if free '
-                              'space is less than" ({val_one}) must be less '
-                              'than or equal the threshold for "Warn if '
+                            _('The value for "Remove oldest backup if the '
+                              'free space is less than" ({val_one}) must be '
+                              'less than or equal the threshold for "Warn if '
                               'free disk space falls below" ({val_two}).'
                               ).format(val_one=min_free, val_two=warn),
                             _('Please adjust the settings so that the backup '

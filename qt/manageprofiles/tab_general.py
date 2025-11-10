@@ -498,9 +498,11 @@ class GeneralTab(QDialog):
                           'returned:')
                 + '</p><p>' + str(ex) + '</p><p>'
                 + _('Copying the public SSH key to the remote host can help '
-                    'enable password-less login.')
+                    'enable password-less login.'
+                    'To enable password-less login, the program can copy the '
+                    'public SSH key to the remote host.')
                 + '</p><p>'
-                + _('Proceed?')
+                + _('Proceed with copying the SSH key?')
                 + '</p>'
             )
 
@@ -591,9 +593,6 @@ class GeneralTab(QDialog):
         logger.debug(f'{snapshot_modes=}')
 
         return combobox.BitComboBox(self, snapshot_modes)
-
-    # def _cipher_combobox(self) -> combobox.BitComboBox:
-    #     return combobox.BitComboBox(self, self.config.SSH_CIPHERS)
 
     def _create_label_encfs_deprecation(self):
         icon_label = qttools.create_icon_label_warning()
