@@ -36,17 +36,17 @@ import snapshots
 import progress
 import logviewdialog
 import encfstools
-from PyQt6.QtCore import Qt, QTimer
+from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QProgressBar, QWidget
-from PyQt6.QtGui import QColor, QIcon, QRegion, QPixmap, QPainter
-
-
+from PyQt6.QtGui import QIcon, QRegion
 
 
 class QtSysTrayIcon:
     """Application instance for the Back In Time systray icon"""
 
+    # pylint: disable-next=line-too-long
     ICON_PART_A = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"'
+    # pylint: disable-next=line-too-long
     ICON_PART_B = '><g transform="translate(-3 -3)"><circle cx="11" cy="16" r="3" fill-opacity=".5"/><rect width="3" height="7.5" x="9.5" y="10" rx="1.5"/><circle cy="-8.485" r="3" fill-opacity=".5" transform="rotate(135)"/><rect width="3" height="7.5" x="-1.5" y="-14.485" rx="1.5" transform="rotate(135)"/><g transform="scale(1 -1) rotate(-45)"><circle cx="15.564" cy="7.063" r="3" fill-opacity=".5"/><rect width="3" height="7.5" x="14.064" y="1.063" rx="1.5"/></g></g></svg>'
 
     def __init__(self):
@@ -123,28 +123,15 @@ class QtSysTrayIcon:
         self.timer = QTimer()
         self.timer.timeout.connect(self.updateInfo)
 
-    def _recolor_pixmap(self, pixmap: QPixmap, color: QColor) -> QPixmap:
-        result = QPixmap(pixmap.size())
-        result.fill(Qt.GlobalColor.transparent)
-
-        painter = QPainter(result)
-        painter.setCompositionMode(
-            QPainter.CompositionMode.CompositionMode_Source)
-        painter.drawPixmap(0, 0, pixmap)
-        painter.setCompositionMode(
-            QPainter.CompositionMode.CompositionMode_SourceIn)
-        painter.fillRect(result.rect(), color)
-        painter.end()
-
-        return result
-
     def _create_status_icon(self) -> QSystemTrayIcon:
         # Logo color depending on dark/light mode
-        dark_mode = qttools.in_dark_mode(self.qapp)
-        color = 'white' if dark_mode else 'black'
+        color = 'white' if qttools.in_dark_mode(self.qapp) else 'black'
 
         svg_fn = None
 
+        # QIcon is not capable of reading from a byte stream.
+        # This workaround write the SVG/XML-string to a temporary in-RAM file
+        # before QIcon reads it back.
         with tempfile.NamedTemporaryFile(suffix='.svg', mode='w', delete=False
                                          ) as handle:
             handle.write(
@@ -152,21 +139,9 @@ class QtSysTrayIcon:
 
             svg_fn = handle.name
 
-
         atexit.register(Path(svg_fn).unlink)
 
         return QSystemTrayIcon(QIcon(svg_fn))
-
-        # color = QColor('white' if dark_mode else 'black')
-
-        # # Determine systray icon size depending on current graphic environment
-        # style = self.qapp.style()
-        # tray_icon_size = style.pixelMetric(style.PixelMetric.PM_SmallIconSize)
-
-        # pixmap = symbolic_logo.pixmap(QSize(tray_icon_size, tray_icon_size))
-        # pixmap = self._recolor_pixmap(pixmap, color)
-
-        # return QSystemTrayIcon(QIcon(pixmap))
 
     def _create_progress_bar(self) -> QProgressBar:
         bar = QProgressBar()

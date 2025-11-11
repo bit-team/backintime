@@ -16,7 +16,7 @@ other related icons.
 - `scalable/apps/backintime.svg` - The logo file used in _Back In Time_ GUI.
 - `scalable/apps/backintime-symbolic.svg` - The symbolic version of the logo
   used in systray. But that file is not directly used by BIT. The files XML
-  content is containt as a python string in `qtsystrayicon.py`.
+  content is contained as a python string in `qtsystrayicon.py`.
 - `scalable/actions/show-idden.svg` - Icon used for _Show hidden fils_ button
   in the GUI.
 
