@@ -250,19 +250,19 @@ addInstallFile "icons/scalable/apps/backintime-symbolic.svg" "/share/icons/hicol
 addInstallDir "/share/icons/hicolor/scalable/actions"
 addInstallFile "icons/scalable/actions/show-hidden.svg" "/share/icons/hicolor/scalable/actions"
 
-# rasterized versions of the logo
-for s in 16 22 24 48 64 128 256 512; do
-    # application logo (PNG)
-    addInstallDir "/share/icons/hicolor/${s}x${s}/apps"
-    addInstallFile "icons/${s}x${s}/apps/backintime.png" "/share/icons/hicolor/${s}x${s}/apps"
-    addInstallFile "icons/${s}x${s}/apps/backintime-symbolic.png" "/share/icons/hicolor/${s}x${s}/apps"
-
-    # icon: show-hidden (PNG
-    addInstallDir "/share/icons/hicolor/${s}x${s}/actions"
-    addInstallFile  "icons/${s}x${s}/actions/show-hidden.png" "/share/icons/hicolor/${s}x${s}/actions"
-done
-
-printf "\tgtk-update-icon-cache -f /usr/share/icons/hicolor\n" >> ${MAKEFILE}
+# # rasterized versions of the logo
+# for s in 16 22 24 48 64 128 256 512; do
+#     # application logo (PNG)
+#     addInstallDir "/share/icons/hicolor/${s}x${s}/apps"
+#     addInstallFile "icons/${s}x${s}/apps/backintime.png" "/share/icons/hicolor/${s}x${s}/apps"
+#     addInstallFile "icons/${s}x${s}/apps/backintime-symbolic.png" "/share/icons/hicolor/${s}x${s}/apps"
+# 
+#     # icon: show-hidden (PNG
+#     addInstallDir "/share/icons/hicolor/${s}x${s}/actions"
+#     addInstallFile  "icons/${s}x${s}/actions/show-hidden.png" "/share/icons/hicolor/${s}x${s}/actions"
+# done
+# 
+# printf "\tgtk-update-icon-cache -f /usr/share/icons/hicolor\n" >> ${MAKEFILE}
 
 addNewline
 
