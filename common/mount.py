@@ -1074,6 +1074,7 @@ class MountControl:
 
         try:
             os.remove(symlink_filename)
+
         except FileNotFoundError as exc:
             logger.error(
                 f'Can not remove unexisting symlink "{symlink_filename}". '
