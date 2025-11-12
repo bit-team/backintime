@@ -115,9 +115,9 @@ class LogFilter:  # pylint: disable=too-few-public-methods
             )
 
             if int(decode.config.currentProfile()) > 1:
-                self.header = self.header \
-                    + '--profile ' + decode.config.profileName() \
-                    + '--decode <path>\'\n\n'
+                self.header =+ f'--profile {decode.config.profileName()}'
+
+            self.header =+ '--decode <path>\'\n\n'
 
         else:
             self.header = ''
