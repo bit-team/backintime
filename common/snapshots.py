@@ -985,10 +985,10 @@ class Snapshots:
                                 # code
                                 ret_val, ret_error = self.takeSnapshot(
                                     sid, now, include_folders)
-                                BackupStatus(cfg = self.config).update_status(now)
+                                # BackupStatus(cfg = self.config).update_status(now)
 
                             except:  # TODO too broad exception
-                                BackupStatus(self.config).update_status(now)
+                                # BackupStatus(self.config).update_status(now)
                                 new = NewSnapshot(cfg = self.config)
 
                                 if new.exists():
