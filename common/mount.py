@@ -1079,8 +1079,9 @@ class MountControl:
             logger.error(
                 f'Can not remove unexisting symlink "{symlink_filename}". '
                 'See issue #2296 for details.')
+            logger.debug(exc)
+
         else:
-            logger.info('X'*150)
             logger.debug(f'Symlink removed: "{symlink_filename}"')
 
     def hash(self, s):
