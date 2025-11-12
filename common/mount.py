@@ -1058,6 +1058,8 @@ class MountControl:
             tmp_mount (bool): Symlink is a temporary link for testing new
                 settings.
         """
+        logger.error('X'*100)
+        logger.error(f'in MountControl::removeSymlink :: {self.symlink=}')
         if not self.symlink:
             return
 
@@ -1067,10 +1069,18 @@ class MountControl:
         if tmp_mount is None:
             tmp_mount = self.tmp_mount
 
+        fn = self.config.snapshotsPath(
+            profile_id=profile_id,
+            mode=self.mode,
+            tmp_mount=tmp_mount)
+        logger.error(f'in MountControl::removeSymlink :: {fn=}')
+        logger.error(f'in MountControl::removeSymlink :: {os.path.exists(fn)=}')
+
         os.remove(self.config.snapshotsPath(
             profile_id=profile_id,
             mode=self.mode,
             tmp_mount=tmp_mount))
+        logger.error('in MountControl::removeSymlink :: AFTER remove')
 
     def hash(self, s):
         """
