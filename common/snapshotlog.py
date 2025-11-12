@@ -6,16 +6,18 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""Handling log files specific for each backup (aka snapshot).
+"""
 import os
 import re
+from collections.abc import Iterator
 import logger
 import snapshots
 import tools
 import encfstools
-from collections.abc import Iterator
 
 
-class LogFilter:
+class LogFilter:  # pylint: disable=too-few-public-methods
     """
     A Filter for snapshot logs which will both decode log lines and filter them
     for the requested ``mode``.
@@ -31,7 +33,7 @@ class LogFilter:
             or ``None``
     """
 
-    # TODO Better use an enumeration
+    # Dev note: Better use an enumeration
     NO_FILTER = 0
     ERROR = 1
     CHANGES = 2
@@ -113,35 +115,34 @@ class LogFilter:
             )
 
             if int(decode.config.currentProfile()) > 1:
-                self.header += '--profile "%s" ' % decode.config.profileName()
-            self.header += '--decode <path>\'\n\n'
+                self.header = self.header \
+                    + '--profile ' + decode.config.profileName() \
+                    + '--decode <path>\'\n\n'
 
         else:
             self.header = ''
 
-    def filter(self, line):
-        """
-        Filter and decode ``line`` with predefined ``mode`` and
+    def filter(self, line: str) -> str | None:
+        """Filter and decode ``line`` with predefined ``mode`` and
         ``decode`` instance.
 
         Args:
-            line (str): log line read from disk
+            line: log line read from disk
 
         Returns:
-            str:        decoded ``line`` or ``None`` if the line was filtered
+            Decoded ``line`` or ``None`` if the line was filtered.
         """
         if not line:
             # keep empty lines
             return line
 
         if self.regex and not self.regex.match(line):
-            return
+            return None
 
         if self.decode:
             return self.decode.log(line)
 
-        else:
-            return line
+        return line
 
 
 class SnapshotLog:
@@ -168,8 +169,11 @@ class SnapshotLog:
         else:
             self.profile = cfg.currentProfile()
 
+        # pylint: disable-next=invalid-name
         self.logLevel = cfg.logLevel()
+        # pylint: disable-next=invalid-name
         self.logFileName = cfg.takeSnapshotLogFile(self.profile)
+        # pylint: disable-next=invalid-name
         self.logFile = None
 
         self.timer = tools.Alarm(self.flush, overwrite=False)
@@ -181,7 +185,8 @@ class SnapshotLog:
     def get(self,
             mode: int = None,
             decode: encfstools.Decode = None,
-            skipLines: int = 0) -> Iterator[str]:  # noqa: N803
+            skipLines: int = 0  # pylint: disable=invalid-name # noqa: N803
+            ) -> Iterator[str]:
 
         """Read the log, filter and decode it and yield its lines.
 
@@ -192,8 +197,9 @@ class SnapshotLog:
                 to append only new lines to LogView.
 
         Yields:
-            str: Filtered and decoded log lines.
+            Filtered and decoded log lines.
         """
+        # pylint: disable-next=invalid-name
         logFilter = LogFilter(mode, decode)  # noqa: N806
         count = logFilter.header.count('\n')
 
@@ -214,14 +220,14 @@ class SnapshotLog:
 
                         yield line
 
-        except Exception as exc:
+        except Exception as exc:  # pylint: disable=broad-exception-caught
             msg = (
                 f'Failed to get take_snapshot log from {self.logFile}:',
                 str(exc)
             )
             logger.debug(' '.join(msg), self)
 
-            for line in msg:
+            for line in msg:  # pylint: disable=use-yield-from
                 # Why???
                 yield line
 
@@ -266,6 +272,7 @@ class SnapshotLog:
             return
 
         if not self.logFile:
+            # pylint: disable-next=consider-using-with
             self.logFile = open(self.logFileName, mode='at', encoding='utf-8')
 
         self.logFile.write(msg + '\n')
@@ -277,8 +284,8 @@ class SnapshotLog:
         """
         if self.logFile:
             try:
-                # TODO flush() does not necessarily write the file’s data to
-                # disk. Use flush() followed by os.fsync() to ensure this
+                # Dev note: flush() does not necessarily write the file’s data
+                # to disk. Use flush() followed by os.fsync() to ensure this
                 # behavior.
                 # https://docs.python.org/2/library/stdtypes.html#file.flush
                 self.logFile.flush()
