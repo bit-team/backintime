@@ -105,22 +105,25 @@ class LogFilter:  # pylint: disable=too-few-public-methods
     def __init__(self, mode=0, decode=None):
         self.regex = self.REGEX[mode]
         self.decode = decode
+        self.header = self._header()
 
-        if decode:
-            self.header = (
-                '### This log has been decoded with automatic search pattern\n'
-                '### If some paths are not decoded you can manually decode '
-                'them with:\n'
-                '### \'backintime --quiet '
-            )
+    def _header(self) -> str:
+        if not self.decode:
+            return ''
 
-            if int(decode.config.currentProfile()) > 1:
-                self.header =+ f'--profile {decode.config.profileName()}'
+        header = (
+            '### This log has been decoded with automatic search pattern\n'
+            '### If some paths are not decoded you can manually decode '
+            'them with:\n'
+            '### \'backintime --quiet '
+        )
 
-            self.header =+ '--decode <path>\'\n\n'
+        # if int(self.decode.config.currentProfile()) > 1:
+        header = header + f'--profile {self.decode.config.profileName()}'
 
-        else:
-            self.header = ''
+        header = header + '--decode <path>\'\n\n'
+
+        return header
 
     def filter(self, line: str) -> str | None:
         """Filter and decode ``line`` with predefined ``mode`` and
