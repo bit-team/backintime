@@ -285,7 +285,7 @@ class RestoreDialog:
 
         print(line)
 
-        with open(self.logFile, 'a') as log:
+        with open(self.logFile, mode='a', encoding='utf-8') as log:
             log.write(line + '\n')
 
     def run(self):
