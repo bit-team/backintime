@@ -55,6 +55,7 @@ full_test_files = [_base_dir / fp for fp in (
     'schedule.py',
     'shutdownagent.py',
     'singleton.py',
+    'snapshotlog.py',
     'ssh_max_arg.py',
     'storagesize.py',
     'version.py',
