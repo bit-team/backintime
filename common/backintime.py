@@ -131,7 +131,6 @@ def startApp(bin_name: str) -> config.Config | None:
         bitbase.BINARY_NAME_GUI: 'GUI'
     }[bin_name]
 
-    print('X'*200)
     logger.openlog(syslog_id_suffix)
 
     args = cliarguments.parse_arguments(args=None, agent=parser_agent)
@@ -154,7 +153,7 @@ def startApp(bin_name: str) -> config.Config | None:
         logger.warning(
             "It looks like you're using 'sudo' to start "
             f"{config.Config.APP_NAME}. This will cause some trouble. "
-            f"Please use either 'sudo -i {app_name}' or 'pkexec {app_name}'.")
+            f"Please use either 'sudo -i {bin_name}' or 'pkexec {bin_name}'.")
 
     encfs_deprecation_warning()
 

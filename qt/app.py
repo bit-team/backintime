@@ -2445,7 +2445,6 @@ if __name__ == '__main__':
     cfg.PLUGIN_MANAGER.load(cfg=cfg)
     cfg.PLUGIN_MANAGER.appStart()
 
-    # logger.openlog('QT-FOO')
     qapp = qttools.create_qapplication(bitbase.APP_NAME)
     translator = qttools.initiate_translator(cfg.language())
     qapp.installTranslator(translator)
