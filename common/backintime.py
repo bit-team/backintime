@@ -110,21 +110,29 @@ def encfs_deprecation_warning():
     fp.touch()
 
 
-def startApp(app_name='backintime'):
+def startApp(bin_name: str) -> config.Config | None:
     """
-    Start the requested command or return config if there was no command
-    in arguments.
+    Start the requested command or return config.
+
+    Command (e.g. 'backup') is specified via command line argument.
+    Without command the current config is returned instead.
 
     Args:
-        app_name (str): string representing the current application
+        bin_name: The binaries name of current application.
 
     Returns:
-        config.Config:  current config if no command was given in arguments
+        Current configuration instance if command is missing.
     """
     parser_agent = cliarguments.ParserAgent(
-        app_name=bitbase.APP_NAME, bin_name=app_name)
+        app_name=bitbase.APP_NAME, bin_name=bin_name)
 
-    logger.openlog()
+    syslog_id_suffix = {
+        bitbase.BINARY_NAME_CLI: 'CLI',
+        bitbase.BINARY_NAME_GUI: 'GUI'
+    }[bin_name]
+
+    print('X'*200)
+    logger.openlog(syslog_id_suffix)
 
     args = cliarguments.parse_arguments(args=None, agent=parser_agent)
 
@@ -170,4 +178,4 @@ def startApp(app_name='backintime'):
 
 
 if __name__ == '__main__':
-    startApp()
+    startApp(bin_name=bitbase.BINARY_NAME_CLI)
