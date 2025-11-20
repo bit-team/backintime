@@ -10,9 +10,6 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 That folder contain files related to the application logo of _Back In Time_ and
 other related icons.
 
-- `backintime-qt.Source.svg` - The original file containing the logo and its
-  symbolic version. All other logo related files are derived from that
-  file. Modifications should be made on this file.
 - `scalable/apps/backintime.svg` - The logo file used in _Back In Time_ GUI.
 - `scalable/apps/backintime-symbolic.svg` - The symbolic version of the logo
   used in systray. But that file is not directly used by BIT. The files XML

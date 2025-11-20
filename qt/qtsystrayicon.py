@@ -3,6 +3,7 @@
 # SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
 # SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 # SPDX-FileCopyrightText: © 2025 Christian Buhtz <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2025 Gregory Deseck
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -47,7 +48,7 @@ class QtSysTrayIcon:
     # pylint: disable-next=line-too-long
     ICON_PART_A = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"'
     # pylint: disable-next=line-too-long
-    ICON_PART_B = '><path fill-opacity=".5" d="M10.5 12.5c0 1.379-1.121 2.5-2.5 2.5a2.5 2.5 0 0 1-2.5-2.5C5.5 11.121 6.621 10 8 10s2.5 1.121 2.5 2.5m0 0"/><path d="M4.102 1.998A1.504 1.504 0 0 0 3.04 4.562L6.5 8.024V12.5c0 .832.668 1.5 1.5 1.5s1.5-.668 1.5-1.5V8.023l3.46-3.46a1.504 1.504 0 0 0 0-2.125 1.5 1.5 0 0 0-2.12 0L8 5.28 5.16 2.438a1.5 1.5 0 0 0-1.058-.44"/><path fill-opacity=".5" d="M2.332 5.27a2.504 2.504 0 0 1 0-3.54 2.506 2.506 0 0 1 3.535 0 2.504 2.504 0 0 1 0 3.54 2.506 2.506 0 0 1-3.535 0M13.668 5.27a2.504 2.504 0 0 0 0-3.54 2.506 2.506 0 0 0-3.535 0 2.504 2.504 0 0 0 0 3.54 2.506 2.506 0 0 0 3.535 0m0 0"/></svg>'
+    ICON_PART_B = '>\n<path d="M4.1 1a2.5 2.5 0 0 0-1.768.73 2.504 2.504 0 0 0 0 3.54 2.506 2.506 0 0 0 3.535 0 2.504 2.504 0 0 0 0-3.54A2.5 2.5 0 0 0 4.1 1m7.8 0a2.5 2.5 0 0 0-1.767.73 2.504 2.504 0 0 0 0 3.54 2.506 2.506 0 0 0 3.535 0 2.504 2.504 0 0 0 0-3.54A2.5 2.5 0 0 0 11.9 1M8 10a2.5 2.5 0 0 0-2.5 2.5A2.5 2.5 0 0 0 8 15c1.379 0 2.5-1.121 2.5-2.5S9.379 10 8 10" style="fill-opacity:.5"/>\n<path d="M4.102 1.998A1.504 1.504 0 0 0 3.04 4.562L6.5 8.024V12.5c0 .832.668 1.5 1.5 1.5s1.5-.668 1.5-1.5V8.023l3.46-3.46a1.504 1.504 0 0 0 0-2.125 1.5 1.5 0 0 0-2.12 0L8 5.28 5.16 2.438a1.5 1.5 0 0 0-1.058-.44"/>\n</svg>'
 
     def __init__(self):
 
