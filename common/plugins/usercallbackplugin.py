@@ -50,7 +50,12 @@ class UserCallbackPlugin(pluginmanager.Plugin):
         in the first line of the script file.
     """
     def __init__(self):
-        logger.openlog()
+        # Dev note (2025-11, buhtz): Aryoda wrote that line one year ago in
+        # commit 9618d03. Not sure if there really is a need for it.
+        # In context of my syslog sub-identfiers, I need to remove that.
+        # My assumption is that at this point the syslog.openlog() was called.
+        # All this problems will vanish if #2286 is completed.
+        # logger.openlog('USERCALLBACKUP')
         return
 
     def init(self, snapshots):
