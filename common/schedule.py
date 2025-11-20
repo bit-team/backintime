@@ -46,7 +46,7 @@ def _determine_crontab_command() -> str | None:
             return cmd
 
     # syslog is not yet initialized
-    logger.openlog()
+    logger.openlog('pre-init.schedule')
     msg = 'Command ' + ' and '.join(to_check_commands) + ' not found.'
     logger.warning(msg)
 

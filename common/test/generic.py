@@ -143,7 +143,7 @@ class TestCase(unittest.TestCase):
 
         # Initialize logging
         logger.APP_NAME = 'BIT_unittest'
-        logger.openlog()
+        logger.openlog('UNITTEST.generic')
 
         super(TestCase, self).__init__(methodName)
 
