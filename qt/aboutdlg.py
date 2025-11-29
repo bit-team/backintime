@@ -253,9 +253,7 @@ class AboutDlg(QDialog):
         return button_box
 
     def _create_name_info(self):
-        # Experiment. This comment might appear on Weblate at context info.
-        # Does it?
-        name = QLabel(_('Back In Time'))
+        name = QLabel(bitbase.APP_NAME)
 
         font = name.font()
         font.setPointSizeF(font.pointSizeF() * 3)

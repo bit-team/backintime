@@ -143,7 +143,7 @@ class TestCase(unittest.TestCase):
 
         # Initialize logging
         logger.APP_NAME = 'BIT_unittest'
-        logger.openlog()
+        logger.openlog('UNITTEST.generic')
 
         super(TestCase, self).__init__(methodName)
 
@@ -304,7 +304,8 @@ class SnapshotsWithSidTestCase(SnapshotsTestCase):
         self.testFileFullPath = self.sid.pathBackup(self.testFile)
 
         self.sid.makeDirs(self.testDir)
-        with open(self.sid.pathBackup(self.testFile), 'wt'):
+        filename = self.sid.pathBackup(self.testFile)
+        with open(filename, mode='wt', encoding='utf-8'):
             pass
 
 
@@ -394,7 +395,7 @@ class SSHSnapshotsWithSidTestCase(SSHSnapshotTestCase):
 
         os.makedirs(self.testDirFullPath)
 
-        with open(self.testFileFullPath, 'wt'):
+        with open(self.testFileFullPath, mode='wt', encoding='utf-8'):
             pass
 
 
@@ -415,14 +416,17 @@ def create_test_files(path):
     """
     os.makedirs(os.path.join(path, 'foo', 'bar'))
 
-    with open(os.path.join(path, 'foo', 'bar', 'baz'), 'wt') as f:
-        f.write('foo')
+    filename = os.path.join(path, 'foo', 'bar', 'baz')
+    with open(filename, mode='wt', encoding='utf-8') as handle:
+        handle.write('foo')
 
-    with open(os.path.join(path, 'test'), 'wt') as f:
-        f.write('bar')
+    filename = os.path.join(path, 'test')
+    with open(filename, mode='wt', encoding='utf-8') as handle:
+        handle.write('bar')
 
-    with open(os.path.join(path, 'file with spaces'), 'wt') as f:
-        f.write('asdf')
+    filename = os.path.join(path, 'file with spaces')
+    with open(filename, mode='wt', encoding='utf-8') as handle:
+        handle.write('asdf')
 
 
 @contextmanager

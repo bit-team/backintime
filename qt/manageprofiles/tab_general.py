@@ -34,6 +34,7 @@ import sshtools
 from exceptions import MountException, NoPubKeyLogin, KnownHost
 import mount
 from bitbase import URL_ENCRYPT_TRANSITION, ENCFS_MSG_STAGE, DIR_SSH_KEYS
+import schedule
 import qttools
 import messagebox
 import encfsmsgbox
@@ -257,6 +258,17 @@ class GeneralTab(QDialog):
         vlayout2.addWidget(self._lbl_full_path)
 
         self._wdg_schedule = schedulewidget.ScheduleWidget(self)
+
+        if schedule.CRONTAB_COMMAND is None:
+            lbl_warning = qttools.create_info_label(
+                text=_('Scheduling is disabled because no cron installation '
+                       'was found. Please install cron to enable scheduled '
+                       'backups.')
+            )
+            tab_layout.addWidget(lbl_warning)
+
+            self._wdg_schedule.setHidden(True)
+
         tab_layout.addWidget(self._wdg_schedule)
 
         tab_layout.addStretch()
@@ -485,10 +497,10 @@ class GeneralTab(QDialog):
                           'the remote host. The following error message was '
                           'returned:')
                 + '</p><p>' + str(ex) + '</p><p>'
-                + _('Copying the public SSH key to the remote host can help '
-                    'enable password-less login.')
+                + _('To enable password-less login, the public SSH key can be '
+                    'copied to the remote host.')
                 + '</p><p>'
-                + _('Proceed?')
+                + _('Proceed with copying the SSH key?')
                 + '</p>'
             )
 
@@ -579,9 +591,6 @@ class GeneralTab(QDialog):
         logger.debug(f'{snapshot_modes=}')
 
         return combobox.BitComboBox(self, snapshot_modes)
-
-    # def _cipher_combobox(self) -> combobox.BitComboBox:
-    #     return combobox.BitComboBox(self, self.config.SSH_CIPHERS)
 
     def _create_label_encfs_deprecation(self):
         icon_label = qttools.create_icon_label_warning()

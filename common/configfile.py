@@ -88,7 +88,7 @@ class ConfigFile:
             return re.sub(r'\d+', lambda m: m.group(0).zfill(6), key)
 
         try:
-            with open(filename, 'wt') as f:
+            with open(filename, mode='wt', encoding='utf-8') as f:
                 keys = list(self.dict.keys())
                 keys.sort(key=numsort)
 
@@ -128,7 +128,7 @@ class ConfigFile:
             return
 
         try:
-            with open(filename, 'rt') as f:
+            with open(filename, mode='rt', encoding='utf-8') as f:
                 lines = f.readlines()
 
         except OSError as e:

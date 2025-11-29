@@ -302,6 +302,9 @@ the chance to review and potentially veto the pull request.
   the file system.
 - Translate "Back In Time"? It is the name of the application. That shouldn't
   be translated at all.
+* The target user group for Back In Time consists of end users without a
+  technical background.  Write GUI strings and messages accordingly, avoiding
+  technical or nerdy terminology.
 - Some points of the following
   [General recommendations for developers](#general-recommendations-for-develoeprs)
   are also relevant for translators. 
@@ -309,13 +312,13 @@ the chance to review and potentially veto the pull request.
 ## General recommendations for developers
 The following points are about creating translatable source strings.
 
-- Be aware that most of our translators not skilled in Python programming. They
-  might don't know about GNU gettext internals and other technical
+- Be aware that some of our translators are not skilled in Python programming.
+  They might don't know about GNU gettext internals and other technical
   details. They only see the translatable string in the web-frontend of our
   [translation platform](https://translate.codeberg.org/engage/backintime).
 - Avoid escape characters in the strings.
 - Give translators enough context with providing meaningful placeholder names.
-- Avoid addressing the person with "you".
+- Avoid addressing users as persons with "you". Try neutral phrases instead.
 - Don't "scream" by using upper case letters (e.g. `WARNING`) or an exclamation
   mark (`!`).
 - Please provide a screenshot when introducing new translatable strings or

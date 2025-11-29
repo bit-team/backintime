@@ -399,7 +399,7 @@ class QtSysTrayIcon:
 
 if __name__ == '__main__':
 
-    logger.openlog()
+    logger.openlog('SYSTRAY')
 
     # HACK: Minimal arg parsing to enable debug-level logging
     if '--debug' in sys.argv:

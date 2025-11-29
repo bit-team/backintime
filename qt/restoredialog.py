@@ -115,7 +115,7 @@ class RestoreThread(QThread):
     def __init__(self, parent):
         super().__init__()
         self.parent = parent
-        self.log = parent._log_file.open('wt')
+        self.log = parent._log_file.open('wt', encoding='utf-8')
         self.mutex = QMutex()
         self.buffer = ''
 

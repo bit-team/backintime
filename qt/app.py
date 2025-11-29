@@ -571,24 +571,24 @@ class MainWindow(QMainWindow):
                 icon.RESTORE, _('Restore'),
                 self._slot_restore_this, None,
                 _('Restore the selected files or directories to the '
-                  'original destination.')),
+                  'original location.')),
             'act_restore_to': (
                 icon.RESTORE_TO, _('Restore to …'),
                 self._slot_restore_this_to, None,
                 _('Restore the selected files or directories to a '
-                  'new destination.')),
+                  'new location.')),
             'act_restore_parent': (
                 icon.RESTORE,
                 None,  # text label is set elsewhere
                 self._slot_restore_parent, None,
                 _('Restore the currently shown directory and all its contents '
-                  'to the original destination.')),
+                  'to the original location.')),
             'act_restore_parent_to': (
                 icon.RESTORE_TO,
                 None,  # text label is set elsewhere
                 self._slot_restore_parent_to, None,
                 _('Restore the currently shown directory and all its contents '
-                  'to a new destination.')),
+                  'to a new location.')),
             'act_folder_up': (
                 icon.UP, _('Up'),
                 self._slot_files_view_dir_up, ['Alt+Up', 'Backspace'], None),
@@ -624,7 +624,7 @@ class MainWindow(QMainWindow):
 
         # Release Candidate ?
         self.act_help_release_candidate = None
-        if version.IS_RELEASE_CANDIDATE:
+        if version.IS_RELEASE_CANDIDATE or logger.DEBUG :
             # pylint: disable=undefined-variable
             action = QAction(icon.QUESTION, _('Release Candidate'), self)
             action.triggered.connect(self._slot_help_release_candidate)
@@ -1644,7 +1644,7 @@ class MainWindow(QMainWindow):
         html_contact_list = (
             '<ul>'
             '<li>{mastodon}</li>'
-            '<li>{email}</li>'
+            # '<li>{email}</li>'
             '<li>{mailinglist}</li>'
             '<li>{issue}</li>'
             '<li>{alternative}</li>'
@@ -1654,9 +1654,9 @@ class MainWindow(QMainWindow):
                                            '/@backintime">'
                                            '@backintime@fosstodon.org'
                                            '</a>'),
-                email=_('Email to {link_and_label}.').format(
-                    link_and_label='<a href="mailto:backintime@tuta.io">'
-                                   'backintime@tuta.io</a>'),
+                # email=_('Email to {link_and_label}.').format(
+                #     link_and_label='<a href="mailto:backintime@tuta.io">'
+                #                    'backintime@tuta.io</a>'),
                 mailinglist=_('Mailing list {link_and_label}.').format(
                     link_and_label='<a href="https://mail.python.org/mailman3/'
                                    'lists/bit-dev.python.org/">'
@@ -2445,7 +2445,6 @@ if __name__ == '__main__':
     cfg.PLUGIN_MANAGER.load(cfg=cfg)
     cfg.PLUGIN_MANAGER.appStart()
 
-    logger.openlog()
     qapp = qttools.create_qapplication(bitbase.APP_NAME)
     translator = qttools.initiate_translator(cfg.language())
     qapp.installTranslator(translator)

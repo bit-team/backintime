@@ -842,8 +842,8 @@ class SSH(MountControl):
 
             tmp_file = os.path.join(tmp, 'a')
 
-            with open(tmp_file, 'wt') as f:
-                f.write('foo')
+            with open(tmp_file, mode='wt', encoding='utf-8') as handle:
+                handle.write('foo')
 
             # check rsync
             rsync1 = tools.rsyncPrefix(
@@ -1018,7 +1018,7 @@ class SSH(MountControl):
                         .format(host=self.host, command=command)
                     raise MountException(msg)
 
-            msg = _('Check commands on host {host} returned unknown error') \
+            msg = _('Checking commands on host {host} returned unknown error') \
                 .format(host=self.host)
             raise MountException(f'{msg}: "{err}"')
 
@@ -1294,8 +1294,8 @@ def sshHostKey(host, port='22'):
                                     stderr=subprocess.DEVNULL)
             proc.communicate()
 
-            with open(keyFile, 'rt') as f:
-                hostKeyHash = f.read().strip()
+            with open(keyFile, mode='rt', encoding='utf-8') as handle:
+                hostKeyHash = handle.read().strip()
 
         return (hostKeyFingerprint, hostKeyHash, t.upper())
 
@@ -1346,9 +1346,9 @@ def writeKnownHostsFile(key):
     if not os.path.isdir(sshDir):
         tools.mkdir(sshDir, 0o700)
 
-    with open(knownHostFile, 'at') as f:
-        logger.info('Write host key to {}'.format(knownHostFile))
-        f.write(key + '\n')
+    with open(knownHostFile, mode='at', encoding='utf-8') as handle:
+        logger.info(f'Write host key to f{knownHostFile}')
+        handle.write(key + '\n')
 
 
 def get_private_ssh_key_files() -> list[Path]:

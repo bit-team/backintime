@@ -12,24 +12,27 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Module about the Exclude tab"""
-from PyQt6.QtWidgets import (QWidget,
-                             QVBoxLayout,
+from PyQt6.QtWidgets import (QAbstractItemView,
+                             QCheckBox,
+                             QDialog,
+                             QDialogButtonBox,
+                             QHBoxLayout,
+                             QHeaderView,
                              QLabel,
+                             QLineEdit,
+                             QPushButton,
+                             QSpinBox,
                              QTreeWidget,
                              QTreeWidgetItem,
-                             QPushButton,
-                             QHBoxLayout,
-                             QCheckBox,
-                             QSpinBox,
-                             QInputDialog,
-                             QHeaderView,
-                             QAbstractItemView)
+                             QVBoxLayout,
+                             QWidget)
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPalette, QBrush
 import tools
 import qttools
 from qttools import custom_sort_order
 from filedialog import FileDialog
+from bitwidgets import HypertextLabel
 
 MATCH_FLAGS = Qt.MatchFlag.MatchFixedString | Qt.MatchFlag.MatchCaseSensitive
 
@@ -95,7 +98,8 @@ class ExcludeTab(QWidget):
         buttons_layout = QHBoxLayout()
         layout.addLayout(buttons_layout)
 
-        self.btn_exclude_add = QPushButton(self.icon.ADD, _('Add'), self)
+        self.btn_exclude_add = QPushButton(
+            self.icon.ADD, _('Add pattern'), self)
         buttons_layout.addWidget(self.btn_exclude_add)
         self.btn_exclude_add.clicked.connect(self.btn_exclude_add_clicked)
 
@@ -268,21 +272,47 @@ class ExcludeTab(QWidget):
         self._update_exclude_recommend_label()
 
     def btn_exclude_add_clicked(self):
-        """Handle button click"""
+        """Handle button click
 
-        dlg = QInputDialog(self)
-        dlg.setInputMode(QInputDialog.InputMode.TextInput)
+        Dev note (buhtz, 2025-10): Feature idea for later versions. Use rsync
+        --dry-run with --debug=FILTER to see include/exclude decisions. Show
+        them life as preview in the pattern input dialog, for a specific file.
+        Extend this feature to show all include and exclude matches (#734).
+        """
+
+        dlg = QDialog(self)
         dlg.setWindowTitle(_('Exclude pattern'))
-        dlg.setLabelText('')
-        dlg.resize(400, 0)
+        layout = QVBoxLayout(dlg)
+        layout.addWidget(QLabel(_('Enter an exclude pattern:')))
+        line_edit = QLineEdit()
+        layout.addWidget(line_edit)
+        label_help = HypertextLabel(
+            label=_(
+                'For help, see the rsync man page section {link}.'
+            ).format(link='<a href="rsync">PATTERN MATCHING RULES</a>'),
+            link_slot=self._slot_rsync_pattern_match_link,
+            link_tooltip=_('Open rsync man page')
+        )
+        layout.addWidget(label_help)
+        buttons = QDialogButtonBox(
+            QDialogButtonBox.StandardButton.Ok
+            | QDialogButtonBox.StandardButton.Cancel)
+        buttons.accepted.connect(dlg.accept)
+        buttons.rejected.connect(dlg.reject)
+        layout.addWidget(buttons)
+
         if not dlg.exec():
             return
-        pattern = dlg.textValue().strip()
+
+        pattern = line_edit.text().strip()
 
         if not pattern:
             return
 
         self.add_exclude(pattern)
+
+    def _slot_rsync_pattern_match_link(self):
+        qttools.open_man_page('rsync', section='PATTERN MATCHING RULES')
 
     def btn_exclude_file_clicked(self):
         """Handle button click"""
