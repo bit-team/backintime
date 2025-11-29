@@ -38,7 +38,6 @@ from PyQt6.QtCore import (QEvent,
                           QLocale,
                           Qt,
                           QObject,
-                          QT_VERSION_STR,
                           QTranslator,
                           QUrl)
 from PyQt6.QtWidgets import (QApplication,
@@ -48,7 +47,6 @@ from PyQt6.QtWidgets import (QApplication,
                              QStyleFactory,
                              QSystemTrayIcon,
                              QWidget)
-from packaging.version import Version
 from qttools_path import register_backintime_path
 register_backintime_path('common')
 import tools  # noqa: E402
