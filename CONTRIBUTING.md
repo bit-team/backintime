@@ -178,8 +178,6 @@ distribution.
   - `gettext`
   - `python3-pyfakefs` (>= 5.7)
   - `asciidoctor`
-  - `librsvg2-bin` (contains `rsvg-convert`) convert SVG icons into PNG
-  * `optipng` (loseless file-size optimization for PNG files)
   - Optional but recommended:
     - `pylint` (>= 4.0.0)
     - `flake8`
@@ -302,7 +300,7 @@ the chance to review and potentially veto the pull request.
   the file system.
 - Translate "Back In Time"? It is the name of the application. That shouldn't
   be translated at all.
-* The target user group for Back In Time consists of end users without a
+- The target user group for Back In Time consists of end users without a
   technical background.  Write GUI strings and messages accordingly, avoiding
   technical or nerdy terminology.
 - Some points of the following
