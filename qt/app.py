@@ -95,6 +95,7 @@ from bitwidgets import ProfileCombo
 from shutdowndlg import get_shutdown_confirmation
 from statusbar import StatusBar
 from placeswidget import PlacesWidget
+from qtsystrayicon import QtSysTrayIcon
 
 
 class MainWindow(QMainWindow):
@@ -732,6 +733,13 @@ class MainWindow(QMainWindow):
         restore = self.act_restore_menu.menu()
         restore.insertSeparator(self.act_restore_parent)
         restore.setToolTipsVisible(True)
+
+        # Menu: "Back In Time" -> "Systray Icon"
+        ico_dark_light = QtSysTrayIcon.get_dark_light_split_icon()
+        systray_ico_menu = QMenu(_('Systray Icon'), self)
+        systray_ico_menu.setIcon(ico_dark_light)
+        self.menuBar().actions()[0].menu().insertMenu(
+            self.act_shutdown, systray_ico_menu)
 
     def _button_styles(self):
         return (
