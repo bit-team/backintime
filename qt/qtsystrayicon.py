@@ -37,10 +37,10 @@ import snapshots
 import progress
 import logviewdialog
 import encfstools
-from PyQt6.QtCore import QTimer
+from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QProgressBar, QWidget
-from PyQt6.QtGui import QIcon, QRegion
-
+from PyQt6.QtGui import QColor, QIcon, QPainter, QPixmap, QRegion
+from PyQt6.QtSvg import QSvgRenderer
 
 class QtSysTrayIcon:
     """Application instance for the Back In Time systray icon"""
@@ -298,23 +298,6 @@ class QtSysTrayIcon:
             QIcon: A QIcon object.
         """
 
-        """
-pix = QPixmap(size, size)
-pix.fill(QColor(128, 128, 128))  # grauer Hintergrund
-
-p = QPainter(pix)
-renderer = QSvgRenderer(bytearray(svg_str, encoding='utf-8'))
-renderer.render(p)
-
-p.setCompositionMode(QPainter.CompositionMode_SourceIn)
-p.fillRect(0, 0, size//2, size, Qt.GlobalColor.black)
-p.fillRect(size//2, 0, size//2, size, Qt.GlobalColor.white)
-p.end()
-
-icon = QIcon(pix)
-
-        """
-
         svg_clipping = '''
           <svg xmlns="http://www.w3.org/2000/svg"
             width="16" height="16" viewBox="0 0 16 16">
@@ -336,7 +319,36 @@ icon = QIcon(pix)
           </svg>
         '''.format(ORIGINAL_PATH=QtSysTrayIcon.ICON_PATH_ONLY)
 
-        return qttools.create_qicon_from_svg_source(svg_clipping)
+        size = 16
+        pix = QPixmap(size, size)
+        pix.fill(QColor(128, 128, 128))  # grauer Hintergrund
+
+        p = QPainter(pix)
+        svg_str = QtSysTrayIcon.ICON_PART_A + QtSysTrayIcon.ICON_PART_B
+        renderer = QSvgRenderer(bytearray(svg_str, encoding='utf-8'))
+        renderer.render(p)
+        p.end()
+
+        # linke Hälfte schwarz, rechte Hälfte weiß als Alpha-Maske
+        mask = QPixmap(size, size)
+        mask.fill(Qt.GlobalColor.transparent)
+        p = QPainter(mask)
+        p.fillRect(0, 0, size//2, size, Qt.GlobalColor.black)
+        p.fillRect(size//2, 0, size//2, size, Qt.GlobalColor.white)
+        p.end()
+
+        # fertiges Icon
+        final_pix = QPixmap(size, size)
+        final_pix.fill(Qt.GlobalColor.transparent)
+        p = QPainter(final_pix)
+        p.drawPixmap(0, 0, pix)
+        p.setCompositionMode(QPainter.CompositionMode.CompositionMode_DestinationIn)
+        p.drawPixmap(0, 0, mask)
+        p.end()
+
+        return QIcon(pix)
+
+        # return qttools.create_qicon_from_svg_source(svg_clipping)
 
 
 if __name__ == '__main__':
