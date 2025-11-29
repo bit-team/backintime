@@ -80,31 +80,38 @@ class Config(configfile.ConfigFileWithProfiles):
 
     # Used when new snapshot profile is created.
     DEFAULT_EXCLUDE = [
+        # GNOME virtual file system
         '.gvfs',
-        '.cache/*',
-        '.thumbnails*',
-        '.local/share/[Tt]rash*',
-        '*.backup*',
+        # Some editors autosave and temp files
         '*~',
-        '.dropbox*',
+        '#*#',
+        '*.swp',
+        # Thumbnails and temporary pictures
+        '.thumbnails*',
+        'Thumbs.db',
+        '.DS_Store',
+        # Windows
+        'System Volume Information',
+        # Some GNU/Linux stuff
+        '.cache/*',
+        '.local/share/[Tt]rash*',
+        'lost+found/*',
         '/proc/*',
         '/sys/*',
         '/dev/*',
         '/run/*',
         '/etc/mtab',
         '/var/cache/apt/archives/*.deb',
-        'lost+found/*',
         '/tmp/*',
         '/var/tmp/*',
         '/var/backups/*',
-        '.Private',
         '/swapfile',
-        # Discord files
-        # See also: https://github.com/bit-team/backintime/issues/1555#issuecomment-1787230708
+        # Discord files. See also: https://github.com/bit-team/backintime
+        # /issues/1555#issuecomment-1787230708
         'SingletonLock',
         'SingletonCookie',
-        # Mozilla files
-        # See also: https://github.com/bit-team/backintime/issues/1555#issuecomment-1787111063
+        # Mozilla file. See also: https://github.com/bit-team/backintime
+        # /issues/1555#issuecomment-1787111063
         'lock'
     ]
 
