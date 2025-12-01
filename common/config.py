@@ -83,9 +83,11 @@ class Config(configfile.ConfigFileWithProfiles):
         # GNOME virtual file system
         '.gvfs',
         # Some editors autosave and temp files
-        '*~',
-        '#*#',
-        '*.swp',
+        '*~',  # Emacs backup
+        '#*#',  # Emacs autosave
+        '*.swp',  # vim
+        '~$*',  # MS Office
+        '.~lock.*#',  # LibreOffice & Co
         # Thumbnails and temporary pictures
         '.thumbnails*',
         'Thumbs.db',
