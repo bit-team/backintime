@@ -466,7 +466,7 @@ class Config(configfile.ConfigFileWithProfiles):
         #?Color of systray icon.;auto,dark,light
         return self.strValue('global.systray', 'auto')
 
-    def setSystray(self, value: str) -> None:
+    def set_systray(self, value: str) -> None:
         self.setStrValue('global.systray', value)
 
     def language(self) -> str:

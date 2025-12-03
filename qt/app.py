@@ -757,6 +757,7 @@ class MainWindow(QMainWindow):
         ]
         action_group = QActionGroup(self)
         action_group.setExclusive(True)
+        action_group.triggered.connect(self._slot_systray_icon)
 
         val = self.config.systray()
 
@@ -771,7 +772,6 @@ class MainWindow(QMainWindow):
             menu.addAction(act)
 
         return menu
-
 
     def _button_styles(self):
         return (
@@ -788,6 +788,10 @@ class MainWindow(QMainWindow):
                 _('Text beside icon'),
                 Qt.ToolButtonStyle.ToolButtonTextBesideIcon),
         )
+
+    def _slot_systray_icon(self, action: QAction):
+        print(f'{action.data()=}')
+        self.config.set_systray(action.data())
 
     def _set_toolbar_button_style(self, toolbar, style):
         """Set toolbar button style and store the selected index."""
