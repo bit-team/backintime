@@ -12,13 +12,10 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Separate application managing the systray icon"""
 import sys
-import atexit
 import os
-import tempfile
 import subprocess
 import signal
 import textwrap
-from pathlib import Path
 
 # TODO Is this really required? If the client is not configured for X11
 #      it may use Wayland or something else...
@@ -37,10 +34,9 @@ import snapshots
 import progress
 import logviewdialog
 import encfstools
-from PyQt6.QtCore import Qt, QTimer
+from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QProgressBar, QWidget
-from PyQt6.QtGui import QColor, QIcon, QPainter, QPixmap, QRegion
-from PyQt6.QtSvg import QSvgRenderer
+from PyQt6.QtGui import QIcon, QRegion
 
 class QtSysTrayIcon:
     """Application instance for the Back In Time systray icon"""
@@ -49,7 +45,6 @@ class QtSysTrayIcon:
     ICON_PATH_ONLY = '<path d="M4.1 1a2.5 2.5 0 0 0-1.768.73 2.504 2.504 0 0 0 0 3.54 2.506 2.506 0 0 0 3.535 0 2.504 2.504 0 0 0 0-3.54A2.5 2.5 0 0 0 4.1 1m7.8 0a2.5 2.5 0 0 0-1.767.73 2.504 2.504 0 0 0 0 3.54 2.506 2.506 0 0 0 3.535 0 2.504 2.504 0 0 0 0-3.54A2.5 2.5 0 0 0 11.9 1M8 10a2.5 2.5 0 0 0-2.5 2.5A2.5 2.5 0 0 0 8 15c1.379 0 2.5-1.121 2.5-2.5S9.379 10 8 10" style="fill-opacity:.5"/>\n<path d="M4.102 1.998A1.504 1.504 0 0 0 3.04 4.562L6.5 8.024V12.5c0 .832.668 1.5 1.5 1.5s1.5-.668 1.5-1.5V8.023l3.46-3.46a1.504 1.504 0 0 0 0-2.125 1.5 1.5 0 0 0-2.12 0L8 5.28 5.16 2.438a1.5 1.5 0 0 0-1.058-.44"/>'
     # pylint: disable-next=line-too-long
     ICON_PART_A = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"'
-    # pylint: disable-next=line-too-long
     ICON_PART_B = '>\n' + ICON_PATH_ONLY + '\n</svg>'
 
     def __init__(self):
@@ -128,25 +123,11 @@ class QtSysTrayIcon:
 
     def _create_status_icon(self) -> QSystemTrayIcon:
         # Logo color depending on dark/light mode
-        color = 'white' if qttools.in_dark_mode(self.qapp) else 'black'
+        if qttools.in_dark_mode(self.qapp):
+            return QSystemTrayIcon(self.get_light_icon())
 
-        # svg_fn = None
+        return QSystemTrayIcon(self.get_dark_icon())
 
-        # # QIcon is not capable of reading from a byte stream.
-        # # This workaround write the SVG/XML-string to a temporary in-RAM file
-        # # before QIcon reads it back.
-        # with tempfile.NamedTemporaryFile(suffix='.svg', mode='w', delete=False
-        #                                  ) as handle:
-        #     handle.write(
-        #         self.ICON_PART_A + f' fill="{color}"' + self.ICON_PART_B)
-
-        #     svg_fn = handle.name
-
-        # atexit.register(Path(svg_fn).unlink)
-
-        svg_content = self.ICON_PART_A + f' fill="{color}"' + self.ICON_PART_B
-        qicon = qttools.create_qicon_from_svg_source(svg_content)
-        return QSystemTrayIcon(qicon)
 
     def _create_progress_bar(self) -> QProgressBar:
         bar = QProgressBar()
@@ -286,69 +267,20 @@ class QtSysTrayIcon:
         self.btnResume.setEnabled(False)
         self.snapshots.setTakeSnapshotMessage(0, 'Backup terminated')
 
+    @classmethod
+    def _get_icon_filled(cls, color: str) -> QIcon:
+        """Generate the dark symbolic icon"""
+        svg_content = cls.ICON_PART_A + f' fill="{color}"' + cls.ICON_PART_B
+        qicon = qttools.create_qicon_from_svg_source(svg_content)
+        return qicon
+
     @staticmethod
-    def get_dark_light_split_icon():
-        """Generate the symbolic icon by splitting it into dark and light halves.
+    def get_dark_icon() -> QIcon:
+        return QtSysTrayIcon._get_icon_filled('black')
 
-        The SVG is rendered twice, clipping each half separately. Left half is
-        filled black and right is white. A neutral background is applied to
-        ensure visibility across different UI themes.
-
-        Returns:
-            QIcon: A QIcon object.
-        """
-
-        svg_clipping = '''
-          <svg xmlns="http://www.w3.org/2000/svg"
-            width="16" height="16" viewBox="0 0 16 16">
-
-          <rect x="0" y="0" width="16" height="16" fill="#d0d0d0"/>
-
-          <defs>
-            <clipPath id="clip_dark">
-              [<polygon points="0,0 8,0 8,16 0,16"/>]</clipPath>
-            <clipPath id="clip_light">
-              [<polygon points="8,0 16,0 16,16 8,16"/>]</clipPath>
-
-            <g id="icon_shape">{ORIGINAL_PATH}</g>
-          </defs>
-
-          <use href="#icon_shape" clip-path="url(#clip_dark)" fill="black"/>
-          <use href="#icon_shape" clip-path="url(#clip_light)" fill="white"/>
-
-          </svg>
-        '''.format(ORIGINAL_PATH=QtSysTrayIcon.ICON_PATH_ONLY)
-
-        size = 16
-        pix = QPixmap(size, size)
-        pix.fill(QColor(128, 128, 128))  # grauer Hintergrund
-
-        p = QPainter(pix)
-        svg_str = QtSysTrayIcon.ICON_PART_A + QtSysTrayIcon.ICON_PART_B
-        renderer = QSvgRenderer(bytearray(svg_str, encoding='utf-8'))
-        renderer.render(p)
-        p.end()
-
-        # linke Hälfte schwarz, rechte Hälfte weiß als Alpha-Maske
-        mask = QPixmap(size, size)
-        mask.fill(Qt.GlobalColor.transparent)
-        p = QPainter(mask)
-        p.fillRect(0, 0, size//2, size, Qt.GlobalColor.black)
-        p.fillRect(size//2, 0, size//2, size, Qt.GlobalColor.white)
-        p.end()
-
-        # fertiges Icon
-        final_pix = QPixmap(size, size)
-        final_pix.fill(Qt.GlobalColor.transparent)
-        p = QPainter(final_pix)
-        p.drawPixmap(0, 0, pix)
-        p.setCompositionMode(QPainter.CompositionMode.CompositionMode_DestinationIn)
-        p.drawPixmap(0, 0, mask)
-        p.end()
-
-        return QIcon(pix)
-
-        # return qttools.create_qicon_from_svg_source(svg_clipping)
+    @staticmethod
+    def get_light_icon() -> QIcon:
+        return QtSysTrayIcon._get_icon_filled('white')
 
 
 if __name__ == '__main__':

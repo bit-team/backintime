@@ -462,6 +462,13 @@ class Config(configfile.ConfigFileWithProfiles):
         value = self.hashCollision() + 1
         self.setIntValue('global.hash_collision', value)
 
+    def systray(self) -> str:
+        #?Color of systray icon.;auto,dark,light
+        return self.strValue('global.systray', 'auto')
+
+    def setSystray(self, value: str) -> None:
+        self.setStrValue('global.systray', value)
+
     def language(self) -> str:
         #?Language code (ISO 639) used to translate the user interface.
         #?If empty the operating systems current local is used. If 'en' the

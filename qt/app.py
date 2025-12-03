@@ -49,6 +49,7 @@ from PyQt6.QtGui import (QAction,
                          QActionGroup,
                          QDesktopServices,
                          QFileSystemModel,
+                         QIcon,
                          QShortcut)
 from PyQt6.QtWidgets import (QAbstractItemView,
                              QApplication,
@@ -735,11 +736,42 @@ class MainWindow(QMainWindow):
         restore.setToolTipsVisible(True)
 
         # Menu: "Back In Time" -> "Systray Icon"
-        ico_dark_light = QtSysTrayIcon.get_dark_light_split_icon()
-        systray_ico_menu = QMenu(_('Systray Icon'), self)
-        systray_ico_menu.setIcon(ico_dark_light)
+        submenu_systray = self._create_submenu_systray_icon()
+        self.act_group_systray = submenu_systray.actions()[0].actionGroup()
         self.menuBar().actions()[0].menu().insertMenu(
-            self.act_shutdown, systray_ico_menu)
+            self.act_shutdown, submenu_systray)
+
+    def _create_submenu_systray_icon(self) -> QMenu:
+        menu = QMenu(_('Systray Icon'), self)
+        import icon
+        menu.setIcon(icon.SETTINGS)
+
+        ico_group_data = [
+            # (_('Automatic'), QIcon.fromTheme('system-search'), 'auto'),
+            (_('Automatic'),
+             QIcon.fromTheme('system-run',
+                             QIcon.fromTheme('system-search')),
+             'auto'),
+            (_('Light icon'), QtSysTrayIcon.get_light_icon(), 'light'),
+            (_('Dark icon'), QtSysTrayIcon.get_dark_icon(), 'dark'),
+        ]
+        action_group = QActionGroup(self)
+        action_group.setExclusive(True)
+
+        val = self.config.systray()
+
+        for txt_label, ico, data in ico_group_data:
+            act = QAction(ico, txt_label, checkable=True)
+            act.setData(data)
+
+            if val == data:
+                act.setChecked(True)
+
+            action_group.addAction(act)
+            menu.addAction(act)
+
+        return menu
+
 
     def _button_styles(self):
         return (

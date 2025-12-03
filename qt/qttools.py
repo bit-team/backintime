@@ -292,7 +292,7 @@ def create_qicon_from_svg_source(svg_source: str) -> QIcon:
     svg_fn = None
 
     with tempfile.NamedTemporaryFile(suffix='.svg', mode='w', delete=False
-                                        ) as handle:
+                                     ) as handle:
         handle.write(svg_source)
         svg_fn = handle.name
 
