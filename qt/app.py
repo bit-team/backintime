@@ -790,8 +790,8 @@ class MainWindow(QMainWindow):
         )
 
     def _slot_systray_icon(self, action: QAction):
-        print(f'{action.data()=}')
         self.config.set_systray(action.data())
+        self.config.save()
 
     def _set_toolbar_button_style(self, toolbar, style):
         """Set toolbar button style and store the selected index."""

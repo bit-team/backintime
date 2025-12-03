@@ -123,6 +123,14 @@ class QtSysTrayIcon:
 
     def _create_status_icon(self) -> QSystemTrayIcon:
         # Logo color depending on dark/light mode
+        mode = self.config.systray()
+
+        if mode == 'light':
+            return QSystemTrayIcon(self.get_light_icon())
+
+        if mode == 'dark':
+            return QSystemTrayIcon(self.get_dark_icon())
+
         if qttools.in_dark_mode(self.qapp):
             return QSystemTrayIcon(self.get_light_icon())
 
