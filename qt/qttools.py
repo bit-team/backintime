@@ -41,7 +41,6 @@ from PyQt6.QtCore import (QEvent,
                           QLocale,
                           Qt,
                           QObject,
-                          QT_VERSION_STR,
                           QTranslator,
                           QUrl)
 from PyQt6.QtWidgets import (QApplication,
@@ -51,7 +50,6 @@ from PyQt6.QtWidgets import (QApplication,
                              QStyleFactory,
                              QSystemTrayIcon,
                              QWidget)
-from packaging.version import Version
 from qttools_path import register_backintime_path
 register_backintime_path('common')
 import tools  # noqa: E402
@@ -571,11 +569,6 @@ def create_qapplication(app_name=bitbase.APP_NAME) -> QApplication:
     except NameError:
         pass
 
-    if (Version(QT_VERSION_STR) >= Version('5.6')
-            and hasattr(Qt, 'AA_EnableHighDpiScaling')):
-
-        QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
-
     qapp = QApplication(sys.argv)
 
     _show_qt_debug_info(qapp)
@@ -604,12 +597,6 @@ def create_qapplication(app_name=bitbase.APP_NAME) -> QApplication:
     except Exception as exc:  # pylint: disable=broad-exception-caught
         logger.warning('Could not set App ID (required for Wayland App icon '
                        f'and more). Reason: {exc}')
-
-    if (bitbase.IS_IN_ROOT_MODE
-            and qapp.style().objectName().lower() == 'windows'
-            and 'GTK+' in QStyleFactory.keys()):
-
-        qapp.setStyle('GTK+')
 
     # With "--debug" arg show the QT QPA platform name in the main window's
     # title
