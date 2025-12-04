@@ -10,6 +10,7 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Module offering a dialog to view log files.
 """
+from typing import Any
 from PyQt6.QtWidgets import (QCheckBox,
                              QComboBox,
                              QDialog,
@@ -37,7 +38,7 @@ class LogViewDialog(QDialog):  # pylint: disable=too-many-instance-attributes
     def __init__(self,
                  parent: QWidget | qtsystrayicon.QtSysTrayIcon = None,
                  sid: snapshots.SID = None,
-                 decoder = None):
+                 decoder: Any = None):
         """
         Args:
             parent: Parent widget.

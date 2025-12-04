@@ -293,9 +293,8 @@ class QtSysTrayIcon:
 
 
 if __name__ == '__main__':
-    """Use '--keep-alive' to keep the systray icon alive. This is for debug
-    purpose only.
-    """
+    # Use '--keep-alive' to keep the systray icon alive. This is for debug
+    # purpose only.
 
     logger.openlog('SYSTRAY')
 
