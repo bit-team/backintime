@@ -97,7 +97,8 @@ EXIT                = QIcon.fromTheme('gtk-close',
                       QIcon.fromTheme('application-exit'))
 
 # Help menu
-HELP                = QIcon.fromTheme('help-contents')
+HELP                = QIcon.fromTheme('help-browser',
+                                      QIcon.fromTheme('help-contents'))
 WEBSITE             = QIcon.fromTheme('go-home')
 CHANGELOG           = QIcon.fromTheme('format-justify-fill')
 FAQ                 = QIcon.fromTheme('help-faq',

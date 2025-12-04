@@ -20,12 +20,15 @@
 # pylint: disable=wrong-import-position,wrong-import-order
 import os
 import sys
+import atexit
 import pwd
 import re
 import json
 import textwrap
 import subprocess
+import tempfile
 from typing import Union, Iterable, Callable
+from pathlib import Path
 from contextlib import contextmanager
 from textdlg import TextDialog
 from PyQt6.QtGui import (QDesktopServices,
@@ -276,6 +279,26 @@ def create_info_label(
     label.setLayout(layout)
 
     return label
+
+
+def create_qicon_from_svg_source(svg_source: str) -> QIcon:
+    """Create a QIcon instance based on SVG/XML source.
+
+    QIcon is not capable of reading from a byte stream.
+    This workaround write the SVG/XML-string to a temporary in-RAM file
+    before QIcon reads it back.
+    """
+
+    svg_fn = None
+
+    with tempfile.NamedTemporaryFile(suffix='.svg', mode='w', delete=False
+                                     ) as handle:
+        handle.write(svg_source)
+        svg_fn = handle.name
+
+    atexit.register(Path(svg_fn).unlink)
+
+    return QIcon(svg_fn)
 
 
 def custom_sort_order(header, loop, new_column, new_order):

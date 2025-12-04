@@ -49,6 +49,7 @@ from PyQt6.QtGui import (QAction,
                          QActionGroup,
                          QDesktopServices,
                          QFileSystemModel,
+                         QIcon,
                          QShortcut)
 from PyQt6.QtWidgets import (QAbstractItemView,
                              QApplication,
@@ -95,6 +96,7 @@ from bitwidgets import ProfileCombo
 from shutdowndlg import get_shutdown_confirmation
 from statusbar import StatusBar
 from placeswidget import PlacesWidget
+from qtsystrayicon import QtSysTrayIcon
 
 
 class MainWindow(QMainWindow):
@@ -733,6 +735,44 @@ class MainWindow(QMainWindow):
         restore.insertSeparator(self.act_restore_parent)
         restore.setToolTipsVisible(True)
 
+        # Menu: "Back In Time" -> "Systray Icon"
+        submenu_systray = self._create_submenu_systray_icon()
+        self.act_group_systray = submenu_systray.actions()[0].actionGroup()
+        self.menuBar().actions()[0].menu().insertMenu(
+            self.act_shutdown, submenu_systray)
+
+    def _create_submenu_systray_icon(self) -> QMenu:
+        menu = QMenu(_('Systray Icon'), self)
+        import icon
+        menu.setIcon(icon.SETTINGS)
+
+        ico_group_data = [
+            # (_('Automatic'), QIcon.fromTheme('system-search'), 'auto'),
+            (_('Automatic'),
+             QIcon.fromTheme('system-run',
+                             QIcon.fromTheme('system-search')),
+             'auto'),
+            (_('Light icon'), QtSysTrayIcon.get_light_icon(), 'light'),
+            (_('Dark icon'), QtSysTrayIcon.get_dark_icon(), 'dark'),
+        ]
+        action_group = QActionGroup(self)
+        action_group.setExclusive(True)
+        action_group.triggered.connect(self._slot_systray_icon)
+
+        val = self.config.systray()
+
+        for txt_label, ico, data in ico_group_data:
+            act = QAction(ico, txt_label, checkable=True)
+            act.setData(data)
+
+            if val == data:
+                act.setChecked(True)
+
+            action_group.addAction(act)
+            menu.addAction(act)
+
+        return menu
+
     def _button_styles(self):
         return (
             (
@@ -748,6 +788,10 @@ class MainWindow(QMainWindow):
                 _('Text beside icon'),
                 Qt.ToolButtonStyle.ToolButtonTextBesideIcon),
         )
+
+    def _slot_systray_icon(self, action: QAction):
+        self.config.set_systray(action.data())
+        self.config.save()
 
     def _set_toolbar_button_style(self, toolbar, style):
         """Set toolbar button style and store the selected index."""
