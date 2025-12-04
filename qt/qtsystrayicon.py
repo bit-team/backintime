@@ -257,9 +257,7 @@ class QtSysTrayIcon:
         _proc = subprocess.Popen(cmd)
 
     def onOpenLog(self):
-        dlg = logviewdialog.LogViewDialog(self, systray = True)
-        dlg.decode = self.decode
-        dlg.cbDecode.setChecked(self.btnDecode.isChecked())
+        dlg = logviewdialog.LogViewDialog(parent=self, decoder=self.decode)
         dlg.exec()
 
     def onBtnDecode(self, checked):
@@ -267,8 +265,9 @@ class QtSysTrayIcon:
             self.decode = encfstools.Decode(self.config)
             self.last_message = None
             self.updateInfo()
-        else:
-            self.decode = None
+            return
+
+        self.decode = None
 
     def onBtnStop(self):
         os.kill(self.snapshots.pid(), signal.SIGKILL)

@@ -35,22 +35,23 @@ class LogViewDialog(QDialog):  # pylint: disable=too-many-instance-attributes
     """A log file viewer dialog"""
 
     def __init__(self,
-                 parent: QWidget,
-                 sid: snapshots.SID = None):
+                 parent: QWidget | qtsystrayicon.QtSysTrayIcon = None,
+                 sid: snapshots.SID = None,
+                 decoder = None):
         """
         Args:
             parent: Parent widget.
             sid: Backup ID whose log file shall be shown. If ``None`` the last
                 log is shown.
         """
-        super().__init__(parent)
+        super().__init__(parent if isinstance(parent, QWidget) else None)
 
         self.config = parent.config
         # self.snapshots = parent.snapshots
         self._main_window = parent
         self.sid = sid
         self._enable_update = False  # ???
-        self._decoder = None
+        self._decoder = decoder
 
         state_data = StateData()
         self.resize(*state_data.logview_dims)
