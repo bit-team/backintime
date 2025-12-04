@@ -171,20 +171,22 @@ class QtSysTrayIcon:
         self.qapp.processEvents()
 
     def run(self):
-        if not self.snapshots.busy():
-            sys.exit()
+        if '--keep-alive' not in sys.argv:
+            if not self.snapshots.busy():
+                sys.exit()
+
         self.status_icon.show()
         self.timer.start(500)
         self.qapp.exec()
         self.prepareExit()
 
     def updateInfo(self):
-
         # Exit this systray icon "app" when the snapshots is taken
-        if not self.snapshots.busy():
-            self.prepareExit()
-            self.qapp.exit(0)
-            return
+        if '--keep-alive' not in sys.argv:
+            if not self.snapshots.busy():
+                self.prepareExit()
+                self.qapp.exit(0)
+                return
 
         paused = tools.processPaused(self.snapshots.pid())
         self.btnPause.setVisible(not paused)
@@ -292,6 +294,9 @@ class QtSysTrayIcon:
 
 
 if __name__ == '__main__':
+    """Use '--keep-alive' to keep the systray icon alive. This is for debug
+    purpose only.
+    """
 
     logger.openlog('SYSTRAY')
 
