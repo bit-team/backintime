@@ -1426,7 +1426,7 @@ Your behavior disrespects contributors with real intent, and burden maintainers
 who work on this project in their free time. Don't waste our time.
 
 ## Can I use @ mentions freely in issues or PRs?
-No. Never. Avoid them in all caes. Mentions trigger notifications and create
+No. Never. Avoid them in all cases. Mentions trigger notifications and create
 noise. Maintainers and subscribed contributors already see all activity.
 
 ## Can I contribute without using the software?
