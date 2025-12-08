@@ -96,6 +96,13 @@ class QtSysTrayIcon:
         self.btnStop.triggered.connect(self.onBtnStop)
         self.contextMenu.addSeparator()
 
+        # Dev note (2025-12, buhtz): I wondered why this decode checkbox is
+        # visible only in ssh_encfs mode but not in local_encfs. Still not
+        # sure but I think the reason is that in ssh_encfs there is no
+        # "double-mounting": First SSH and then EncFS. In consequence this
+        # decode button is a workaround. Explicit decoding in local_encfs
+        # is not necessary because this happens via encfs-mounting. This
+        # step is missing when using ssh_encfs.
         self.btnDecode = self.contextMenu.addAction(
             icon.VIEW_SNAPSHOT_LOG, _('decode paths'))
         self.btnDecode.setCheckable(True)
@@ -257,7 +264,9 @@ class QtSysTrayIcon:
         _proc = subprocess.Popen(cmd)
 
     def onOpenLog(self):
-        dlg = logviewdialog.LogViewDialog(parent=self, decoder=self.decode)
+        dlg = logviewdialog.LogViewDialog(
+            parent=self,
+            decode=self.btnDecode.isChecked())
         dlg.exec()
 
     def onBtnDecode(self, checked):

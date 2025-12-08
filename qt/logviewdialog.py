@@ -10,7 +10,6 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Module offering a dialog to view log files.
 """
-from typing import Any
 from PyQt6.QtWidgets import (QCheckBox,
                              QComboBox,
                              QDialog,
@@ -38,7 +37,7 @@ class LogViewDialog(QDialog):  # pylint: disable=too-many-instance-attributes
     def __init__(self,
                  parent: QWidget | qtsystrayicon.QtSysTrayIcon = None,
                  sid: snapshots.SID = None,
-                 decoder: Any = None):
+                 decode: bool = False):
         """
         Args:
             parent: Parent widget.
@@ -52,7 +51,7 @@ class LogViewDialog(QDialog):  # pylint: disable=too-many-instance-attributes
         self._main_window = parent
         self.sid = sid
         self._enable_update = False  # ???
-        self._decoder = decoder
+        self._decoder = None
 
         state_data = StateData()
         self.resize(*state_data.logview_dims)
@@ -103,6 +102,7 @@ class LogViewDialog(QDialog):  # pylint: disable=too-many-instance-attributes
         # decode path
         self._checkbox_decode = QCheckBox(_('decode paths'), self)
         self._checkbox_decode.stateChanged.connect(self._slot_decode_changed)
+        self._checkbox_decode.setChecked(decode)
         main_layout.addWidget(self._checkbox_decode)
 
         btn_box = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)
