@@ -26,7 +26,9 @@ except NameError:
 # | Application |
 # |-------------|
 
+# Used as a label in the GUI. Not sure if this should be translatable.
 APP_NAME = 'Back In Time'
+
 BINARY_NAME_BASE = 'backintime'
 BINARY_NAME_CLI = f'{BINARY_NAME_BASE}'
 BINARY_NAME_GUI = f'{BINARY_NAME_BASE}-qt'

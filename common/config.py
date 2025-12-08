@@ -362,9 +362,9 @@ class Config(configfile.ConfigFileWithProfiles):
                     self.notifyError(
                         '{}\n{}\n{}'.format(
                             _('Profile: "{name}"').format(name=profile_name),
-                            _('The value for "Remove oldest backup if free '
-                              'space is less than" ({val_one}) must be less '
-                              'than or equal the threshold for "Warn if '
+                            _('The value for "Remove oldest backup if the '
+                              'free space is less than" ({val_one}) must be '
+                              'less than or equal the threshold for "Warn if '
                               'free disk space falls below" ({val_two}).'
                               ).format(val_one=min_free, val_two=warn),
                             _('Please adjust the settings so that the backup '
@@ -447,6 +447,13 @@ class Config(configfile.ConfigFileWithProfiles):
     def incrementHashCollision(self):
         value = self.hashCollision() + 1
         self.setIntValue('global.hash_collision', value)
+
+    def systray(self) -> str:
+        #?Color of systray icon.;auto,dark,light
+        return self.strValue('global.systray', 'auto')
+
+    def set_systray(self, value: str) -> None:
+        self.setStrValue('global.systray', value)
 
     def language(self) -> str:
         #?Language code (ISO 639) used to translate the user interface.

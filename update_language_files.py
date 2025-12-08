@@ -137,7 +137,6 @@ def update_po_template():
     pof.save()
 
 
-
 def update_po_language_files(remove_obsolete_entries: bool = False):
     """The po files are updated with the source strings from the pot-file (the
     template for each po-file).
@@ -637,13 +636,13 @@ def get_shortcut_groups() -> dict[str, list]:
         '&Backup',
         '&Restore',
         '&Help',
+        'Back In &Time',
         # Manage profiles dialog (tabs)
         '&General',
         '&Include',
         '&Exclude',
         '&Remove & Retention',
         '&Options',
-        'Back In &Time',
         'E&xpert Options',
     ]
 
@@ -660,14 +659,6 @@ def get_shortcut_groups() -> dict[str, list]:
             'expected.\n'
             f'  Expected: {sorted(expect)}\n'
             f'      Real: {sorted(real)}')
-
-    # WORKAROUND
-    # This source string is not a translateble string but has a shortcut
-    # letter.
-    # Dev note: From point of view of the translators it might make sense
-    # making that string translatable also. But then we risk that our projects
-    # name is translated for real.
-    expect = ['Back In &Time'] + expect
 
     return {'mainwindow': expect[:4], 'manageprofile': expect[4:]}
 

@@ -20,30 +20,36 @@
 # pylint: disable=wrong-import-position,wrong-import-order
 import os
 import sys
+import atexit
 import pwd
 import re
 import json
 import textwrap
 import subprocess
+import tempfile
 from typing import Union, Iterable, Callable
+from pathlib import Path
 from contextlib import contextmanager
 from textdlg import TextDialog
-from PyQt6.QtGui import QDesktopServices, QIcon, QPalette
+from PyQt6.QtGui import (QDesktopServices,
+                         QGuiApplication,
+                         QFontMetricsF,
+                         QIcon,
+                         QPalette)
 from PyQt6.QtCore import (QEvent,
                           QLibraryInfo,
                           QLocale,
                           Qt,
                           QObject,
-                          QT_VERSION_STR,
                           QTranslator,
                           QUrl)
 from PyQt6.QtWidgets import (QApplication,
+                             QHBoxLayout,
                              QLabel,
                              QStyle,
                              QStyleFactory,
                              QSystemTrayIcon,
                              QWidget)
-from packaging.version import Version
 from qttools_path import register_backintime_path
 register_backintime_path('common')
 import tools  # noqa: E402
@@ -249,6 +255,50 @@ def create_icon_label_warning(
         fixed_size_widget=fixed_size_widget)
 
 
+def create_info_label(
+        text: str,
+        icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
+        icon_scale_factor: float | int = None,
+        fixed_size_widget: bool = True) -> QLabel:
+    """Return a widget with an warning icon and text.
+
+    See `create_icon_label` for details.
+    """
+    ico = create_icon_label_info(
+        icon_size, icon_scale_factor, fixed_size_widget)
+    txt = QLabel(text)
+    txt.setWordWrap(True)
+
+    layout = QHBoxLayout()
+    layout.addWidget(ico)
+    layout.addWidget(txt)
+
+    label = QWidget()
+    label.setLayout(layout)
+
+    return label
+
+
+def create_qicon_from_svg_source(svg_source: str) -> QIcon:
+    """Create a QIcon instance based on SVG/XML source.
+
+    QIcon is not capable of reading from a byte stream.
+    This workaround write the SVG/XML-string to a temporary in-RAM file
+    before QIcon reads it back.
+    """
+
+    svg_fn = None
+
+    with tempfile.NamedTemporaryFile(suffix='.svg', mode='w', delete=False
+                                     ) as handle:
+        handle.write(svg_source)
+        svg_fn = handle.name
+
+    atexit.register(Path(svg_fn).unlink)
+
+    return QIcon(svg_fn)
+
+
 def custom_sort_order(header, loop, new_column, new_order):
     """Provides a toggled sort order across two columns for QTreeWidget."""
     if new_column == 0 and new_order == Qt.SortOrder.AscendingOrder:
@@ -360,13 +410,67 @@ def open_url(url: str) -> None:
                         f'Error was: {exc}')
 
 
-def open_man_page(manpage: str, icon: QIcon) -> None:
-    """Open the manpage in a terminal window."""
-    env = os.environ.copy()
-    env['MANWIDTH'] = '80'
+def screen_width_in_chars(widget: QWidget, reference_char: str = 'M') -> int:
+    """Width of the screen in number of characters ('em').
+
+    The calculation is based on the width of one character, determined via
+    font metrics regarding the given widget.
+    """
+    # Calculate width in pixel for one 'em' (letter 'M')
+    metrics = QFontMetricsF(widget.font())
+    char_px = metrics.horizontalAdvance(reference_char)
+
+    # Screen width
+    screen = QGuiApplication.screenAt(widget.pos())
+    geom = screen.availableGeometry()
+
+    # Screen width in 'em' (number of characters)
+    return int(geom.width() / char_px)
+
+
+def open_man_page(manpage: str,
+                  icon: QIcon = None,
+                  section: str = None) -> None:
+    """Open the manpage in a text browser window.
+
+    The position and geometry of the dialog depends on fractions of the screen.
+    The the man page content's linebreaks in the dialog are adjusted to the
+    width of the dialog.
+
+    Args:
+        manpage: Name of the manpage.
+        icon: Icon to use for the window.
+        section: Section of the man page to scroll to.
+    """
 
     content = ''
 
+    if section:
+        # Search for one line containing only the section heading but
+        # allow blanks before and behind it.
+        pattern = r'(?m)^\s*' + section + r'\s*$'
+    else:
+        pattern = None
+
+    # The dialog
+    td = TextDialog(
+        content,
+        markdown=False,
+        scroll_to=pattern,
+        title=_('man page: {man_page_name}').format(
+            man_page_name=manpage),
+        icon=icon
+    )
+
+    # Determine man page width in characters...
+    chars = screen_width_in_chars(td.browser_widget)
+    # ...using text dialogs screen fraction and a 5% security buffer
+    chars = int(chars * td.width_fraction * 0.95)
+
+    env = os.environ.copy()
+    env['MANWIDTH'] = f'{chars}'
+
+    # Get content from man page
     try:
         proc = subprocess.run(
             ['man', manpage],
@@ -385,15 +489,11 @@ def open_man_page(manpage: str, icon: QIcon) -> None:
     except FileNotFoundError as exc:
         messagebox.critical(None, str(exc))
         logger.error(str(exc))
+        return
 
-    else:
-        td = TextDialog(
-            content,
-            markdown=False,
-            title=_('man page: {man_page_name}').format(
-                man_page_name=manpage),
-            icon=icon)
-        td.exec()
+    # Show dialog with content
+    td.set_content(content)
+    td.exec()
 
 
 def user_manual_uri() -> str:
@@ -469,11 +569,6 @@ def create_qapplication(app_name=bitbase.APP_NAME) -> QApplication:
     except NameError:
         pass
 
-    if (Version(QT_VERSION_STR) >= Version('5.6')
-            and hasattr(Qt, 'AA_EnableHighDpiScaling')):
-
-        QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
-
     qapp = QApplication(sys.argv)
 
     _show_qt_debug_info(qapp)
@@ -502,12 +597,6 @@ def create_qapplication(app_name=bitbase.APP_NAME) -> QApplication:
     except Exception as exc:  # pylint: disable=broad-exception-caught
         logger.warning('Could not set App ID (required for Wayland App icon '
                        f'and more). Reason: {exc}')
-
-    if (bitbase.IS_IN_ROOT_MODE
-            and qapp.style().objectName().lower() == 'windows'
-            and 'GTK+' in QStyleFactory.keys()):
-
-        qapp.setStyle('GTK+')
 
     # With "--debug" arg show the QT QPA platform name in the main window's
     # title

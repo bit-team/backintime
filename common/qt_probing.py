@@ -10,7 +10,7 @@ import sys
 import resource
 import logger
 
-logger.openlog()
+logger.openlog('QT-PROBING')
 
 # from tools import isRoot
 

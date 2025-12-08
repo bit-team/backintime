@@ -49,6 +49,7 @@ from PyQt6.QtGui import (QAction,
                          QActionGroup,
                          QDesktopServices,
                          QFileSystemModel,
+                         QIcon,
                          QShortcut)
 from PyQt6.QtWidgets import (QAbstractItemView,
                              QApplication,
@@ -95,6 +96,7 @@ from bitwidgets import ProfileCombo
 from shutdowndlg import get_shutdown_confirmation
 from statusbar import StatusBar
 from placeswidget import PlacesWidget
+from qtsystrayicon import QtSysTrayIcon
 
 
 class MainWindow(QMainWindow):
@@ -571,24 +573,24 @@ class MainWindow(QMainWindow):
                 icon.RESTORE, _('Restore'),
                 self._slot_restore_this, None,
                 _('Restore the selected files or directories to the '
-                  'original destination.')),
+                  'original location.')),
             'act_restore_to': (
                 icon.RESTORE_TO, _('Restore to …'),
                 self._slot_restore_this_to, None,
                 _('Restore the selected files or directories to a '
-                  'new destination.')),
+                  'new location.')),
             'act_restore_parent': (
                 icon.RESTORE,
                 None,  # text label is set elsewhere
                 self._slot_restore_parent, None,
                 _('Restore the currently shown directory and all its contents '
-                  'to the original destination.')),
+                  'to the original location.')),
             'act_restore_parent_to': (
                 icon.RESTORE_TO,
                 None,  # text label is set elsewhere
                 self._slot_restore_parent_to, None,
                 _('Restore the currently shown directory and all its contents '
-                  'to a new destination.')),
+                  'to a new location.')),
             'act_folder_up': (
                 icon.UP, _('Up'),
                 self._slot_files_view_dir_up, ['Alt+Up', 'Backspace'], None),
@@ -624,7 +626,7 @@ class MainWindow(QMainWindow):
 
         # Release Candidate ?
         self.act_help_release_candidate = None
-        if version.IS_RELEASE_CANDIDATE:
+        if version.IS_RELEASE_CANDIDATE or logger.DEBUG :
             # pylint: disable=undefined-variable
             action = QAction(icon.QUESTION, _('Release Candidate'), self)
             action.triggered.connect(self._slot_help_release_candidate)
@@ -733,6 +735,44 @@ class MainWindow(QMainWindow):
         restore.insertSeparator(self.act_restore_parent)
         restore.setToolTipsVisible(True)
 
+        # Menu: "Back In Time" -> "Systray Icon"
+        submenu_systray = self._create_submenu_systray_icon()
+        self.act_group_systray = submenu_systray.actions()[0].actionGroup()
+        self.menuBar().actions()[0].menu().insertMenu(
+            self.act_shutdown, submenu_systray)
+
+    def _create_submenu_systray_icon(self) -> QMenu:
+        menu = QMenu(_('Systray Icon'), self)
+        import icon
+        menu.setIcon(icon.SETTINGS)
+
+        ico_group_data = [
+            # (_('Automatic'), QIcon.fromTheme('system-search'), 'auto'),
+            (_('Automatic'),
+             QIcon.fromTheme('system-run',
+                             QIcon.fromTheme('system-search')),
+             'auto'),
+            (_('Light icon'), QtSysTrayIcon.get_light_icon(), 'light'),
+            (_('Dark icon'), QtSysTrayIcon.get_dark_icon(), 'dark'),
+        ]
+        action_group = QActionGroup(self)
+        action_group.setExclusive(True)
+        action_group.triggered.connect(self._slot_systray_icon)
+
+        val = self.config.systray()
+
+        for txt_label, ico, data in ico_group_data:
+            act = QAction(ico, txt_label, checkable=True)
+            act.setData(data)
+
+            if val == data:
+                act.setChecked(True)
+
+            action_group.addAction(act)
+            menu.addAction(act)
+
+        return menu
+
     def _button_styles(self):
         return (
             (
@@ -748,6 +788,10 @@ class MainWindow(QMainWindow):
                 _('Text beside icon'),
                 Qt.ToolButtonStyle.ToolButtonTextBesideIcon),
         )
+
+    def _slot_systray_icon(self, action: QAction):
+        self.config.set_systray(action.data())
+        self.config.save()
 
     def _set_toolbar_button_style(self, toolbar, style):
         """Set toolbar button style and store the selected index."""
@@ -1644,7 +1688,7 @@ class MainWindow(QMainWindow):
         html_contact_list = (
             '<ul>'
             '<li>{mastodon}</li>'
-            '<li>{email}</li>'
+            # '<li>{email}</li>'
             '<li>{mailinglist}</li>'
             '<li>{issue}</li>'
             '<li>{alternative}</li>'
@@ -1654,9 +1698,9 @@ class MainWindow(QMainWindow):
                                            '/@backintime">'
                                            '@backintime@fosstodon.org'
                                            '</a>'),
-                email=_('Email to {link_and_label}.').format(
-                    link_and_label='<a href="mailto:backintime@tuta.io">'
-                                   'backintime@tuta.io</a>'),
+                # email=_('Email to {link_and_label}.').format(
+                #     link_and_label='<a href="mailto:backintime@tuta.io">'
+                #                    'backintime@tuta.io</a>'),
                 mailinglist=_('Mailing list {link_and_label}.').format(
                     link_and_label='<a href="https://mail.python.org/mailman3/'
                                    'lists/bit-dev.python.org/">'
@@ -2445,7 +2489,6 @@ if __name__ == '__main__':
     cfg.PLUGIN_MANAGER.load(cfg=cfg)
     cfg.PLUGIN_MANAGER.appStart()
 
-    logger.openlog()
     qapp = qttools.create_qapplication(bitbase.APP_NAME)
     translator = qttools.initiate_translator(cfg.language())
     qapp.installTranslator(translator)
