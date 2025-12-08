@@ -71,7 +71,6 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - [Project & Contributing & more](#project--Contributing--more)
    * [Can you assign this to me?](#can-you-assign-this-to-me)
    * [Can I use @ mentions freely in issues or PRs?](#can-i-use--mentions-freely-in-issues-or-prs)
-   * [Avoid mention via @](#avoid-mention-via-)
    * [Can I contribute without using the software?](#can-i-contribute-without-using-the-software)
    * [Can I boost my commit count?](#can-i-boost-my-commit-count)
    * [Alternative installation options](#alternative-installation-options)
@@ -1428,13 +1427,6 @@ who work on this project in their free time. Don't waste our time.
 ## Can I use @ mentions freely in issues or PRs?
 No. Never. Avoid them in all caes. Mentions trigger notifications and create
 noise. Maintainers and subscribed contributors already see all activity.
-
-## Avoid mention via @
-Please try to avoid using `@` mentions unless absolutely necessary.
-`@` mentions trigger notification emails, which create unnecessary
-noise and distract from the issue or pull request itself. As one of
-the maintainers, I am notified of all activity in the repository
-without the need for mentions. Thank you for understanding.
 
 ## Can I contribute without using the software?
 No, in most cases. Contributors must be users of _Back In Time_. Real
