@@ -47,7 +47,6 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [WARNING: A backup is already running](#warning-a-backup-is-already-running)
    * [_Back in Time_ does not start and shows: The application is already running! (pid: 1234567)](#back-in-time-does-not-start-and-shows-the-application-is-already-running-pid-1234567)
    * [Switching to dark or light mode in the desktop environment is ignored by BIT](#switching-to-dark-or-light-mode-in-the-desktop-environment-is-ignored-by-bit)
-   * [Segmentation fault on Exit](#segmentation-fault-on-exit)
    * [Version >= 1.2.0 works very slow / Unchanged files are backed up](#version--120-works-very-slow--unchanged-files-are-backed-up)
    * [What happens if I hibernate the computer while a backup is running?](#what-happens-if-i-hibernate-the-computer-while-a-backup-is-running)
    * [What happens if I power down the computer while a backup is running, or if a power outage happens?](#what-happens-if-i-power-down-the-computer-while-a-backup-is-running-or-if-a-power-outage-happens)
@@ -57,6 +56,8 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [Tray icon or other icons not shown correctly](#tray-icon-or-other-icons-not-shown-correctly)
    * [Non-working password safe and BiT forgets passwords (keyring backend issues)](#non-working-password-safe-and-bit-forgets-passwords-keyring-backend-issues)
    * [Incompatibility with rsync >= 3.2.4](#incompatibility-with-rsync-324-or-newer)
+   * [Outdated](#outdated)
+     * [Segmentation fault on Exit](#segmentation-fault-on-exit)
 - [user-callback and other PlugIns](#user-callback-and-other-plugins)
    * [How to backup Debian/Ubuntu Package selection?](#how-to-backup-debianubuntu-package-selection)
    * [How to restore Debian/Ubuntu Package selection?](#how-to-restore-debianubuntu-package-selection)
@@ -160,40 +161,40 @@ GNU/Linux distribution used, there are three ways to get the log entries.
 
 There are three different solutions:
 
-1. clone the drive with ``dd`` and enlarge the partition on the new drive to
+1. Clone the drive with ``dd`` and enlarge the partition on the new drive to
    use all space. This will **destroy all data** on the destination drive!
 
    ```bash
     sudo dd if=/dev/sdbX of=/dev/sdcX bs=4M
    ```
 
-   where ``/dev/sdbX`` is the partition on the source drive and ``/dev/sdcX`` is the destination drive
+   where ``/dev/sdbX`` is the partition on the source drive and
+   ``/dev/sdcX`` is the destination drive
 
-   Finally use ``gparted`` to resize the partition. Take a look at the
-   [Ubuntu Docu](https://help.ubuntu.com/community/HowtoPartition/ResizingPartition) for more info on that.
+   Finally use ``gparted`` to resize the partition.
 
-1. copy all files using ``rsync -H``
+1. Copy all files using ``rsync -H``
 
    ```bash
     rsync -avhH --info=progress2 /SOURCE /DESTINATION
    ```
 
-1. copy all files using ``tar``
+1. Copy all files using ``tar``
 
    ```bash
    cd /SOURCE; tar cf - * | tar -C /DESTINATION/ -xf -
    ```
 
 Make sure that your `/DESTINATION` contains a folder named `backintime`, which
-contains all the backups. BiT expects this folder, and needs it to import
+contains all the backups. BIT expects this folder, and needs it to import
 existing backups.
 
 ## How to move a large directory in the backup source without duplicating the files in the backup?
 
-If you move a file/folder in the source ("include") location that is backed-up by BiT
-it will treat this like a new file/folder and
-create a new backup file for it (not hard-linked to the old one). With large
-directories this can fill up your backup drive quite fast.
+If you move a file/folder in the source ("include") location that is backed-up
+by BIT it will treat this like a new file/folder and create a new backup file
+for it (not hard-linked to the old one). With large directories this can fill
+up your backup drive quite fast.
 
 You can avoid this by moving the file/directory in the last backup too:
 
@@ -201,7 +202,8 @@ You can avoid this by moving the file/directory in the last backup too:
 
 2. Move the original directory
 
-3. Manually move the same folder inside BiTs last backup in the same way you did with the original folder
+3. Manually move the same folder inside BiTs last backup in the same way you
+   did with the original folder
 
 4. Create a new backup
 
@@ -211,10 +213,12 @@ You can avoid this by moving the file/directory in the last backup too:
 
 ## How does _Back In Time_ compare with _Timeshift_?
 
-Back In Time and Timeshift are both Linux application that provides back up functionality.
+Back In Time and Timeshift are both Linux application that provides back up
+functionality.
 
 1. Similarity
-   - Both programs are backup tools for Linux and they create backups at a specific time.
+   - Both programs are backup tools for Linux and they create backups at a
+     specific time.
    - For both programs, backups are taken using rsync and hard-links, while
    Common files are shared between backups which saves disk space.
    - Both programs support GUI and CLI
@@ -223,15 +227,18 @@ Back In Time and Timeshift are both Linux application that provides back up func
 
 2. Back In Time
    - It is designed to protect user data including any folders or files.
-   - It backs up certain folders and files that you want to protect. Modified files are transferred,
-   while unchanged files are linked to the new folder. You can restore certain files and folders.
+   - It backs up certain folders and files that you want to protect. Modified
+     files are transferred, while unchanged files are linked to the new
+     folder. You can restore certain files and folders.
    - It's great for protecting your personal data
 
 3. TimeShift
-   - It is designed for system backups which allows restoring whole Linux system
-   to a previous state without affecting any user data.
-   - It backs up system files, not including any personal data unless user explicitly configured.
-   - It's good for restoring your system after an update failure or configuration change.
+   - It is designed for system backups which allows restoring whole Linux
+     system to a previous state without affecting any user data.
+   - It backs up system files, not including any personal data unless user
+     explicitly configured.
+   - It's good for restoring your system after an update failure or
+     configuration change.
 
 ## Additional features beside the GUI and benefits of using BIT
 
@@ -754,16 +761,6 @@ box. [Workarounds are known](https://stackoverflow.com/q/75457687), but
 generate a relatively large amount of code and in our opinion are not worth
 the effort.
 
-## Segmentation fault on Exit
-This problem existed at least since version 1.2.1, and will hopefully be fixed
-with version 1.5.0. For all affected versions, it does not impact the
-functionality of _Back In Time_ or jeopardize backup integrity. It can be
-safely ignored.
-
-See also:
-- [#1768](https://github.com/bit-team/backintime/pull/1768)
-- [#1095](https://github.com/bit-team/backintime/issues/1095)
-
 ## Version >= 1.2.0 works very slow / Unchanged files are backed up
 
 After updating to >= 1.2.0, BiT does a (nearly) full backup because file
@@ -901,6 +898,20 @@ workaround. Add `--old-args` in
 Note that some GNU/Linux distributions (e.g. Manjaro) using a workaround with
 environment variable `RSYNC_OLD_ARGS` in their distro-specific packages for
 _Back In Time_. In that case you may not see any problems.
+
+
+## Outdated
+### Segmentation fault on Exit
+This problem existed at least since version 1.2.1, and should hopefully be fixed
+with version 1.5.0. For all affected versions, it does not impact the
+functionality of _Back In Time_ or jeopardize backup integrity. It can be
+safely ignored. But please report the error when encountered in version 1.5.0
+or newer.
+
+See also:
+- [#1768](https://github.com/bit-team/backintime/pull/1768)
+- [#1095](https://github.com/bit-team/backintime/issues/1095)
+
 
 # user-callback and other PlugIns
 
@@ -1605,4 +1616,3 @@ a SSH server on your system.
 ## Setup SSH Server to run unit tests
 
 Please see section [Testing - SSH](CONTRIBUTING.md#ssh).
-

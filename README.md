@@ -28,9 +28,8 @@ saving storage space. Restoring is straightforward via file manager, command
 line or _Back In Time_ itself.
 
 It is written in Python3 and available for all major GNU/Linux distributions
-(but not for Windows or OS X/macOS) as command line tool `backintime` and GUI
-`backintime-qt`. Backups can be scheduled and stored locally or remotely
-through SSH.
+as command line tool `backintime` and GUI `backintime-qt`. Backups can be
+scheduled and stored locally or remotely through SSH.
 
 More background info in [CONTRIBUTING](CONTRIBUTING.md) and
 [HISTORY](HISTORY.md).
@@ -64,8 +63,7 @@ and contributions, ensuring it thrives and evolves.
 The project was
 [reactivated in 2022](https://github.com/bit-team/backintime/issues/1232))
 and thanks in large part to @emtiu and @aryoda, who helped relaunch and
-shape its direction.
-
+shape its direction. See [HISTORY](HISTORY.md) for more details.
 
 # Index
 
@@ -182,4 +180,4 @@ Please read [`LICENSES.md`](LICENSES.md).
 
 ---
 
-<sub>October 2025</sub>
+<sub>December 2025</sub>
