@@ -20,12 +20,15 @@
 # pylint: disable=wrong-import-position,wrong-import-order
 import os
 import sys
+import atexit
 import pwd
 import re
 import json
 import textwrap
 import subprocess
+import tempfile
 from typing import Union, Iterable, Callable
+from pathlib import Path
 from contextlib import contextmanager
 from textdlg import TextDialog
 from PyQt6.QtGui import (QDesktopServices,
@@ -38,7 +41,6 @@ from PyQt6.QtCore import (QEvent,
                           QLocale,
                           Qt,
                           QObject,
-                          QT_VERSION_STR,
                           QTranslator,
                           QUrl)
 from PyQt6.QtWidgets import (QApplication,
@@ -48,7 +50,6 @@ from PyQt6.QtWidgets import (QApplication,
                              QStyleFactory,
                              QSystemTrayIcon,
                              QWidget)
-from packaging.version import Version
 from qttools_path import register_backintime_path
 register_backintime_path('common')
 import tools  # noqa: E402
@@ -276,6 +277,26 @@ def create_info_label(
     label.setLayout(layout)
 
     return label
+
+
+def create_qicon_from_svg_source(svg_source: str) -> QIcon:
+    """Create a QIcon instance based on SVG/XML source.
+
+    QIcon is not capable of reading from a byte stream.
+    This workaround write the SVG/XML-string to a temporary in-RAM file
+    before QIcon reads it back.
+    """
+
+    svg_fn = None
+
+    with tempfile.NamedTemporaryFile(suffix='.svg', mode='w', delete=False
+                                     ) as handle:
+        handle.write(svg_source)
+        svg_fn = handle.name
+
+    atexit.register(Path(svg_fn).unlink)
+
+    return QIcon(svg_fn)
 
 
 def custom_sort_order(header, loop, new_column, new_order):
@@ -548,11 +569,6 @@ def create_qapplication(app_name=bitbase.APP_NAME) -> QApplication:
     except NameError:
         pass
 
-    if (Version(QT_VERSION_STR) >= Version('5.6')
-            and hasattr(Qt, 'AA_EnableHighDpiScaling')):
-
-        QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
-
     qapp = QApplication(sys.argv)
 
     _show_qt_debug_info(qapp)
@@ -581,12 +597,6 @@ def create_qapplication(app_name=bitbase.APP_NAME) -> QApplication:
     except Exception as exc:  # pylint: disable=broad-exception-caught
         logger.warning('Could not set App ID (required for Wayland App icon '
                        f'and more). Reason: {exc}')
-
-    if (bitbase.IS_IN_ROOT_MODE
-            and qapp.style().objectName().lower() == 'windows'
-            and 'GTK+' in QStyleFactory.keys()):
-
-        qapp.setStyle('GTK+')
 
     # With "--debug" arg show the QT QPA platform name in the main window's
     # title

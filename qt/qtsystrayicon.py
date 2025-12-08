@@ -12,13 +12,10 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Separate application managing the systray icon"""
 import sys
-import atexit
 import os
-import tempfile
 import subprocess
 import signal
 import textwrap
-from pathlib import Path
 
 # TODO Is this really required? If the client is not configured for X11
 #      it may use Wayland or something else...
@@ -41,14 +38,14 @@ from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QProgressBar, QWidget
 from PyQt6.QtGui import QIcon, QRegion
 
-
 class QtSysTrayIcon:
     """Application instance for the Back In Time systray icon"""
 
     # pylint: disable-next=line-too-long
-    ICON_PART_A = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"'
+    ICON_PATH_ONLY = '<path d="M4.1 1a2.5 2.5 0 0 0-1.768.73 2.504 2.504 0 0 0 0 3.54 2.506 2.506 0 0 0 3.535 0 2.504 2.504 0 0 0 0-3.54A2.5 2.5 0 0 0 4.1 1m7.8 0a2.5 2.5 0 0 0-1.767.73 2.504 2.504 0 0 0 0 3.54 2.506 2.506 0 0 0 3.535 0 2.504 2.504 0 0 0 0-3.54A2.5 2.5 0 0 0 11.9 1M8 10a2.5 2.5 0 0 0-2.5 2.5A2.5 2.5 0 0 0 8 15c1.379 0 2.5-1.121 2.5-2.5S9.379 10 8 10" style="fill-opacity:.5"/>\n<path d="M4.102 1.998A1.504 1.504 0 0 0 3.04 4.562L6.5 8.024V12.5c0 .832.668 1.5 1.5 1.5s1.5-.668 1.5-1.5V8.023l3.46-3.46a1.504 1.504 0 0 0 0-2.125 1.5 1.5 0 0 0-2.12 0L8 5.28 5.16 2.438a1.5 1.5 0 0 0-1.058-.44"/>'
     # pylint: disable-next=line-too-long
-    ICON_PART_B = '>\n<path d="M4.1 1a2.5 2.5 0 0 0-1.768.73 2.504 2.504 0 0 0 0 3.54 2.506 2.506 0 0 0 3.535 0 2.504 2.504 0 0 0 0-3.54A2.5 2.5 0 0 0 4.1 1m7.8 0a2.5 2.5 0 0 0-1.767.73 2.504 2.504 0 0 0 0 3.54 2.506 2.506 0 0 0 3.535 0 2.504 2.504 0 0 0 0-3.54A2.5 2.5 0 0 0 11.9 1M8 10a2.5 2.5 0 0 0-2.5 2.5A2.5 2.5 0 0 0 8 15c1.379 0 2.5-1.121 2.5-2.5S9.379 10 8 10" style="fill-opacity:.5"/>\n<path d="M4.102 1.998A1.504 1.504 0 0 0 3.04 4.562L6.5 8.024V12.5c0 .832.668 1.5 1.5 1.5s1.5-.668 1.5-1.5V8.023l3.46-3.46a1.504 1.504 0 0 0 0-2.125 1.5 1.5 0 0 0-2.12 0L8 5.28 5.16 2.438a1.5 1.5 0 0 0-1.058-.44"/>\n</svg>'
+    ICON_PART_A = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"'
+    ICON_PART_B = '>\n' + ICON_PATH_ONLY + '\n</svg>'
 
     def __init__(self):
 
@@ -99,6 +96,13 @@ class QtSysTrayIcon:
         self.btnStop.triggered.connect(self.onBtnStop)
         self.contextMenu.addSeparator()
 
+        # Dev note (2025-12, buhtz): I wondered why this decode checkbox is
+        # visible only in ssh_encfs mode but not in local_encfs. Still not
+        # sure but I think the reason is that in ssh_encfs there is no
+        # "double-mounting": First SSH and then EncFS. In consequence this
+        # decode button is a workaround. Explicit decoding in local_encfs
+        # is not necessary because this happens via encfs-mounting. This
+        # step is missing when using ssh_encfs.
         self.btnDecode = self.contextMenu.addAction(
             icon.VIEW_SNAPSHOT_LOG, _('decode paths'))
         self.btnDecode.setCheckable(True)
@@ -126,23 +130,19 @@ class QtSysTrayIcon:
 
     def _create_status_icon(self) -> QSystemTrayIcon:
         # Logo color depending on dark/light mode
-        color = 'white' if qttools.in_dark_mode(self.qapp) else 'black'
+        mode = self.config.systray()
 
-        svg_fn = None
+        if mode == 'light':
+            return QSystemTrayIcon(self.get_light_icon())
 
-        # QIcon is not capable of reading from a byte stream.
-        # This workaround write the SVG/XML-string to a temporary in-RAM file
-        # before QIcon reads it back.
-        with tempfile.NamedTemporaryFile(suffix='.svg', mode='w', delete=False
-                                         ) as handle:
-            handle.write(
-                self.ICON_PART_A + f' fill="{color}"' + self.ICON_PART_B)
+        if mode == 'dark':
+            return QSystemTrayIcon(self.get_dark_icon())
 
-            svg_fn = handle.name
+        if qttools.in_dark_mode(self.qapp):
+            return QSystemTrayIcon(self.get_light_icon())
 
-        atexit.register(Path(svg_fn).unlink)
+        return QSystemTrayIcon(self.get_dark_icon())
 
-        return QSystemTrayIcon(QIcon(svg_fn))
 
     def _create_progress_bar(self) -> QProgressBar:
         bar = QProgressBar()
@@ -178,20 +178,22 @@ class QtSysTrayIcon:
         self.qapp.processEvents()
 
     def run(self):
-        if not self.snapshots.busy():
-            sys.exit()
+        if '--keep-alive' not in sys.argv:
+            if not self.snapshots.busy():
+                sys.exit()
+
         self.status_icon.show()
         self.timer.start(500)
         self.qapp.exec()
         self.prepareExit()
 
     def updateInfo(self):
-
         # Exit this systray icon "app" when the snapshots is taken
-        if not self.snapshots.busy():
-            self.prepareExit()
-            self.qapp.exit(0)
-            return
+        if '--keep-alive' not in sys.argv:
+            if not self.snapshots.busy():
+                self.prepareExit()
+                self.qapp.exit(0)
+                return
 
         paused = tools.processPaused(self.snapshots.pid())
         self.btnPause.setVisible(not paused)
@@ -262,9 +264,9 @@ class QtSysTrayIcon:
         _proc = subprocess.Popen(cmd)
 
     def onOpenLog(self):
-        dlg = logviewdialog.LogViewDialog(self, systray = True)
-        dlg.decode = self.decode
-        dlg.cbDecode.setChecked(self.btnDecode.isChecked())
+        dlg = logviewdialog.LogViewDialog(
+            parent=self,
+            decode=self.btnDecode.isChecked())
         dlg.exec()
 
     def onBtnDecode(self, checked):
@@ -272,8 +274,9 @@ class QtSysTrayIcon:
             self.decode = encfstools.Decode(self.config)
             self.last_message = None
             self.updateInfo()
-        else:
-            self.decode = None
+            return
+
+        self.decode = None
 
     def onBtnStop(self):
         os.kill(self.snapshots.pid(), signal.SIGKILL)
@@ -282,8 +285,25 @@ class QtSysTrayIcon:
         self.btnResume.setEnabled(False)
         self.snapshots.setTakeSnapshotMessage(0, 'Backup terminated')
 
+    @classmethod
+    def _get_icon_filled(cls, color: str) -> QIcon:
+        """Generate the dark symbolic icon"""
+        svg_content = cls.ICON_PART_A + f' fill="{color}"' + cls.ICON_PART_B
+        qicon = qttools.create_qicon_from_svg_source(svg_content)
+        return qicon
+
+    @staticmethod
+    def get_dark_icon() -> QIcon:
+        return QtSysTrayIcon._get_icon_filled('black')
+
+    @staticmethod
+    def get_light_icon() -> QIcon:
+        return QtSysTrayIcon._get_icon_filled('white')
+
 
 if __name__ == '__main__':
+    # Use '--keep-alive' to keep the systray icon alive. This is for debug
+    # purpose only.
 
     logger.openlog('SYSTRAY')
 
