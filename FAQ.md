@@ -8,7 +8,7 @@ This file is part of the program "Back In Time" which is released under GNU
 General Public License v2 (GPLv2). See LICENSES directory or go to
 <https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
-<sub>August 2025</sub>
+<sub>December 2025</sub>
 
 # FAQ - Frequently Asked Questions
 
