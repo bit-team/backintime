@@ -55,12 +55,9 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [GUI does not scale on high resolution or 4k monitors](#gui-does-not-scale-on-high-resolution-or-4k-monitors)
    * [Tray icon or other icons not shown correctly](#tray-icon-or-other-icons-not-shown-correctly)
    * [Non-working password safe and BiT forgets passwords (keyring backend issues)](#non-working-password-safe-and-bit-forgets-passwords-keyring-backend-issues)
-   * [Incompatibility with rsync >= 3.2.4](#incompatibility-with-rsync-324-or-newer)
    * [Outdated](#outdated)
      * [Segmentation fault on Exit](#segmentation-fault-on-exit)
-- [user-callback and other PlugIns](#user-callback-and-other-plugins)
-   * [How to backup Debian/Ubuntu Package selection?](#how-to-backup-debianubuntu-package-selection)
-   * [How to restore Debian/Ubuntu Package selection?](#how-to-restore-debianubuntu-package-selection)
+     * [Incompatibility with rsync >= 3.2.4](#incompatibility-with-rsync-324-or-newer)
 - [Hardware-specific Setup](#hardware-specific-setup)
    * [How to use QNAP QTS NAS with BIT over SSH](#how-to-use-qnap-qts-nas-with-bit-over-ssh)
    * [How to use Synology DSM 5 with BIT over SSH](#how-to-use-synology-dsm-5-with-bit-over-ssh)
@@ -72,6 +69,11 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [Synology: use different volume for backup](#synology-use-different-volume-for-backup)
    * [How to use Western Digital MyBook World Edition with BIT over ssh?](#how-to-use-western-digital-mybook-world-edition-with-bit-over-ssh)
 - [Project & Contributing & more](#project--Contributing--more)
+   * [Can you assign this to me?](can-you-assign-this-to-me)
+   * [Can I use @ mentions freely in issues or PRs?](#can-i-use--mentions-freely-in-issues-or-prs)
+   * [Avoid mention via @](#avoid-mention-via-)
+   * [Can I contribute without using the software?](#can-i-contribute-without-using-the-software)
+   * [Can I boost my commit count?](#can-i-boost-my-commit-count)
    * [Alternative installation options](#alternative-installation-options)
    * [Support for specific package formats (deb, rpm, Flatpack, AppImage, Snaps, PPA, …)](#support-for-specific-package-formats-deb-rpm-flatpack-appimage-snaps-ppa-)
    + [Is BIT really not supported by Canonical Ubuntu?](#is-bit-really-not-supported-by-canonical-ubuntu)
@@ -884,21 +886,6 @@ default-keyring=keyring.backends.kwallet.DBusKeyring
 
 See also issue [#1321](https://github.com/bit-team/backintime/issues/1321)
 
-## Incompatibility with rsync 3.2.4 or newer
-
-**Status: Fixed in v1.3.3**
-
-The release (`1.3.2`) and earlier versions of _Back In Time_ are incompatible
-with `rsync >= 3.2.4`
-([#1247](https://github.com/bit-team/backintime/issues/1247)).
-
-If you use `rsync >= 3.2.4` and `backintime <= 1.3.2` there is a
-workaround. Add `--old-args` in
-[_Expert Options_ / _Additional options to rsync_](https://backintime.readthedocs.io/en/latest/settings.html#expert-options).
-Note that some GNU/Linux distributions (e.g. Manjaro) using a workaround with
-environment variable `RSYNC_OLD_ARGS` in their distro-specific packages for
-_Back In Time_. In that case you may not see any problems.
-
 
 ## Outdated
 ### Segmentation fault on Exit
@@ -912,97 +899,20 @@ See also:
 - [#1768](https://github.com/bit-team/backintime/pull/1768)
 - [#1095](https://github.com/bit-team/backintime/issues/1095)
 
+### Incompatibility with rsync 3.2.4 or newer
 
-# user-callback and other PlugIns
+**Status: Fixed in v1.3.3**
 
-## How to backup Debian/Ubuntu Package selection?
+The release (`1.3.2`) and earlier versions of _Back In Time_ are incompatible
+with `rsync >= 3.2.4`
+([#1247](https://github.com/bit-team/backintime/issues/1247)).
 
-There is a [user-callback example](https://github.com/bit-team/user-callback/blob/master/user-callback.apt-backup)
-which will backup all package
-selections, sources and repository keys which are necessary to reinstall exactly
-the same packages again. It will even backup whether a package was installed
-manually or automatically because of dependencies.
-
-Download the script, copy it to ``~/.config/backintime/user-callback`` and make
-it executable with ``chmod 755 ~/.config/backintime/user-callback``
-
-It will run every time a new backup is taken. Make sure to include
-``~/.apt-backup``.
-
-## How to restore Debian/Ubuntu Package selection?
-
-If you made backups including apt-get package selection as described in the
-FAQ "`How to backup Debian/Ubuntu Package selection?`_" you can easily restore
-your system after a disaster/on a new machine.
-
-1. install Debian/Ubuntu on your new hard drive as usual
-
-1. install backintime-qt4 from our PPA
-
-   ```bash
-    sudo add-apt-repository ppa:bit-team/stable
-    sudo apt-get update
-    sudo apt-get install backintime-qt4
-   ```
-
-1. connect your external drive with the backups
-
-1. Start *Back In Time*. It will ask you if you want to restore your
-   config. Sure you want! *Back In Time* should find your backups
-   automatically. Just select the one from which you want to
-   restore the config and click Ok.
-
-1. restore your home
-
-1. recreate your ``/etc/apt/sources.list`` if you had something
-   special in there. If your Debian/Ubuntu version changed don't
-   just copy them from ``~/.apt-backup/sources.list``
-
-1. copy your repositories with
-
-   ```bash
-    sudo cp ~/.apt-backup/sources.list.d/* /etc/apt/sources.list.d/
-   ```
-
-1. restore apt-keys for your PPAs with
-
-   ```bash
-    sudo apt-key add ~/.apt-backup/repo.keys
-   ```
-
-1. install and update `dselect` with
-
-   ```bash
-    sudo apt-get install dselect
-    sudo dselect update install
-   ```
-
-1. Make some *housecleaning* in ``~/.apt-backup/package.list``.
-   For example, you don't want to install the old kernel again.
-   So run
-
-   ```bash
-    sed -e "/^linux-\(image\|headers\)/d" -i ~/.apt-backup/package.list
-   ```
-
-1. install your old packages again with
-
-   ```bash
-    sudo apt-get update
-    sudo dpkg --set-selections < ~/.apt-backup/package.list
-    sudo apt-get dselect-upgrade
-   ```
-
-1. If you used the new script which uses apt-mark to backup
-   package selection proceed with next step. (there should be
-   files ``~/.apt-backup/pkg_auto.list`` and ``~/.apt-backup
-   /pkg_manual.list``). Otherwise, you can stop here.
-   Restore package selection with
-
-   ```bash
-    sudo apt-mark auto $(cat ~/.apt-backup/pkg_auto.list)
-    sudo apt-mark manual $(cat ~/.apt-backup/pkg_manual.list)
-   ```
+If you use `rsync >= 3.2.4` and `backintime <= 1.3.2` there is a
+workaround. Add `--old-args` in
+[_Expert Options_ / _Additional options to rsync_](https://backintime.readthedocs.io/en/latest/settings.html#expert-options).
+Note that some GNU/Linux distributions (e.g. Manjaro) using a workaround with
+environment variable `RSYNC_OLD_ARGS` in their distro-specific packages for
+_Back In Time_. In that case you may not see any problems.
 
 
 # Hardware-specific Setup
@@ -1509,6 +1419,34 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 
 
 # Project & Contributing & more
+
+## Can you assign this to me?
+No. Don't ask. Comment with intent or a plan first. Otherwise its just noise.
+Your behavior disrespects contributors with real intent, and burden maintainers
+who work on this project in their free time. Don't waste our time.
+
+## Can I use @ mentions freely in issues or PRs?
+No. Never. Avoid them in all caes. Mentions trigger notifications and create
+noise. Maintainers and subscribed contributors already see all activity.
+
+## Avoid mention via @
+Please try to avoid using `@` mentions unless absolutely necessary.
+`@` mentions trigger notification emails, which create unnecessary
+noise and distract from the issue or pull request itself. As one of
+the maintainers, I am notified of all activity in the repository
+without the need for mentions. Thank you for understanding.
+
+## Can I contribute without using the software?
+No, in most cases. Contributors must be users of _Back In Time_. Real
+contributions require familiarity with the software, its behavior, and
+workflows. Real contributions come from real usage.
+
+## Can I boost my commit count?
+No. Doing that can get your account blocked or deleted, because mainters will
+report you to the abuse team of Microsoft. This project isn't for collecting
+stars or commits. Maybe watching
+[Don't Contribute to Open Source](https://www.youtube.com/watch?v=5nY_cy8zcO4)
+will help you to understand and learn.
 
 ## Alternative installation options
 Besides the repositories of the official GNU/Linux distributions, there are
