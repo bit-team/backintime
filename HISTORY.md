@@ -28,9 +28,9 @@ moments in between.
 For details, refer to [CHANGES](CHANGES). For a glimpse into the future, see
 the [Strategy Outline](CONTRIBUTING.md#strategy-outline).
 
-## The First Era: 0.5 to ~1.0.12 (2008–2012)
+# The First Era: 0.5 to ~1.0.12 (2008–2012)
 
-### Maintenance
+## Maintenance
 
 _Back In Time_ was created by **Oprea Dan** and first published on a private
 blog in late 2008
@@ -39,7 +39,7 @@ Shortly thereafter, collaborative development started happening on
 Launchpad. Sometime around 2010, development and publication appears to have
 moved entirely to Launchpad, with the private blog being discontinued.
 
-### Core functionality
+## Core functionality
 
 At first, _Back In Time_ used `diff` to compare the latest backup with the
 source, in order to check if a new backup was necessary. If the answer was
@@ -55,7 +55,7 @@ backup. Introduced to allow saving backups on non-Unix-permission-aware
 filesystems like NTFS, `fileinfo.bz2` is consulted upon restoring a file in
 order to recreate its original ownership and permissions.
 
-### GUI
+## GUI
 
 Initially, _Back In Time_ had only a GNOME GUI.
 
@@ -64,9 +64,9 @@ the GUI, allowing for different frontends. Over the course of 2009, finishing
 roughly with version 0.9.24, two separate frontends were completed:
 `backintime-gnome` and `backintime-kde4`.
 
-## The Second Era: ~1.0.14 to 1.2 (2012–2019)
+# The Second Era: ~1.0.14 to 1.2 (2012–2019)
 
-### Maintenance
+## Maintenance
 
 Around 2012, **Germar Reitze** took over publication, maintenance and further
 development from Oprea Dan.
@@ -75,7 +75,7 @@ In early 2016, starting with version 1.1.10, development and publication moved
 to Microsoft GitHub, leaving the Launchpad project mostly abandoned (except for
 translation management and PPA publication).
 
-### Core functionality
+## Core functionality
 Development during the Second Era centered largely around remote backup
 capabilities.
 
@@ -89,13 +89,13 @@ permissions.
 In late 2013, version 1.0.26 introduced encrypted backup locations enabled by
 `encfs`.
 
-### GUI
+## GUI
 
 In early 2015, version 1.1.0 eliminated the separate `backintime-gnome` and
 `backintime-kde4` frontends and introduced `backintime-qt4` as the only
 frontend.
 
-## The Dark Age: 1.2.0 to 1.3.2 (2019–2022)
+# The Dark Age: 1.2.0 to 1.3.2 (2019–2022)
 In 2019, version 1.2.0 was released. It was the first release since version
 1.1.24 in late 2017 and contained many bugfixes accumulated over the previous
 1.5 years.
@@ -126,7 +126,7 @@ development soon came to a halt. Some bugs were fixed with version 1.3.0 in
 2021, but [#988](https://github.com/bit-team/backintime/issues/988) and
 [#994](https://github.com/bit-team/backintime/issues/994) remained.
 
-## The Third Era: since 1.3.3 (since 2022)
+# The Third Era: since 1.3.3 (since 2022)
 
 In early 2022, an epic discussion on the state of the project arose in
 [#1232](https://github.com/bit-team/backintime/issues/1232). Many users
@@ -142,7 +142,7 @@ SSH operations, system tray functionality in both X11 and Wayland as well as
 testing, coding style and other modernization to align _Back In Time_ with
 current Python practices.
 
-### Core functionality
+## Core functionality
 
 Work on fixing [#988](https://github.com/bit-team/backintime/issues/988) and
 [#994](https://github.com/bit-team/backintime/issues/994) is still ongoing as
@@ -154,7 +154,7 @@ Given that EncFS suffers from known security issues and is not actively
 maintained, _Back In Time_ is preparing to deprecate it in the foreseeable
 future ([#1734](https://github.com/bit-team/backintime/issues/1734)).
 
-### GUI
+## GUI
 
 The GUI is slated for a redesign and code refactoring, as it has become complex
 and convoluted over the years.
