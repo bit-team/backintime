@@ -73,6 +73,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [Can I use @ mentions freely in issues or PRs?](#can-i-use--mentions-freely-in-issues-or-prs)
    * [Can I contribute without using the software?](#can-i-contribute-without-using-the-software)
    * [Can I boost my commit count?](#can-i-boost-my-commit-count)
+   * [Can I submit AI-generated contributions?](#can-i-submit-ai-generated-contributions]
    * [Alternative installation options](#alternative-installation-options)
    * [Support for specific package formats (deb, rpm, Flatpack, AppImage, Snaps, PPA, …)](#support-for-specific-package-formats-deb-rpm-flatpack-appimage-snaps-ppa-)
    + [Is BIT really not supported by Canonical Ubuntu?](#is-bit-really-not-supported-by-canonical-ubuntu)
@@ -1439,6 +1440,10 @@ report you to the abuse team of Microsoft. This project isn't for collecting
 stars or commits. Maybe watching
 [Don't Contribute to Open Source](https://www.youtube.com/watch?v=5nY_cy8zcO4)
 will help you to understand and learn.
+
+## Can I submit AI-generated contributions?
+No. AI-generated contributions are prohibited. Attempting this will be
+reported to Microsoft abuse team, and your account may be blocked or deleted.
 
 ## Alternative installation options
 Besides the repositories of the official GNU/Linux distributions, there are
