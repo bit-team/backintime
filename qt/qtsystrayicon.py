@@ -96,6 +96,13 @@ class QtSysTrayIcon:
         self.btnStop.triggered.connect(self.onBtnStop)
         self.contextMenu.addSeparator()
 
+        # Dev note (2025-12, buhtz): I wondered why this decode checkbox is
+        # visible only in ssh_encfs mode but not in local_encfs. Still not
+        # sure but I think the reason is that in ssh_encfs there is no
+        # "double-mounting": First SSH and then EncFS. In consequence this
+        # decode button is a workaround. Explicit decoding in local_encfs
+        # is not necessary because this happens via encfs-mounting. This
+        # step is missing when using ssh_encfs.
         self.btnDecode = self.contextMenu.addAction(
             icon.VIEW_SNAPSHOT_LOG, _('decode paths'))
         self.btnDecode.setCheckable(True)
@@ -171,20 +178,22 @@ class QtSysTrayIcon:
         self.qapp.processEvents()
 
     def run(self):
-        if not self.snapshots.busy():
-            sys.exit()
+        if '--keep-alive' not in sys.argv:
+            if not self.snapshots.busy():
+                sys.exit()
+
         self.status_icon.show()
         self.timer.start(500)
         self.qapp.exec()
         self.prepareExit()
 
     def updateInfo(self):
-
         # Exit this systray icon "app" when the snapshots is taken
-        if not self.snapshots.busy():
-            self.prepareExit()
-            self.qapp.exit(0)
-            return
+        if '--keep-alive' not in sys.argv:
+            if not self.snapshots.busy():
+                self.prepareExit()
+                self.qapp.exit(0)
+                return
 
         paused = tools.processPaused(self.snapshots.pid())
         self.btnPause.setVisible(not paused)
@@ -255,9 +264,9 @@ class QtSysTrayIcon:
         _proc = subprocess.Popen(cmd)
 
     def onOpenLog(self):
-        dlg = logviewdialog.LogViewDialog(self, systray = True)
-        dlg.decode = self.decode
-        dlg.cbDecode.setChecked(self.btnDecode.isChecked())
+        dlg = logviewdialog.LogViewDialog(
+            parent=self,
+            decode=self.btnDecode.isChecked())
         dlg.exec()
 
     def onBtnDecode(self, checked):
@@ -265,8 +274,9 @@ class QtSysTrayIcon:
             self.decode = encfstools.Decode(self.config)
             self.last_message = None
             self.updateInfo()
-        else:
-            self.decode = None
+            return
+
+        self.decode = None
 
     def onBtnStop(self):
         os.kill(self.snapshots.pid(), signal.SIGKILL)
@@ -292,6 +302,8 @@ class QtSysTrayIcon:
 
 
 if __name__ == '__main__':
+    # Use '--keep-alive' to keep the systray icon alive. This is for debug
+    # purpose only.
 
     logger.openlog('SYSTRAY')
 
