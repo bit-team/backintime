@@ -69,7 +69,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [Synology: use different volume for backup](#synology-use-different-volume-for-backup)
    * [How to use Western Digital MyBook World Edition with BIT over ssh?](#how-to-use-western-digital-mybook-world-edition-with-bit-over-ssh)
 - [Project & Contributing & more](#project--Contributing--more)
-   * [Can you assign this to me?](can-you-assign-this-to-me)
+   * [Can you assign this to me?](#can-you-assign-this-to-me)
    * [Can I use @ mentions freely in issues or PRs?](#can-i-use--mentions-freely-in-issues-or-prs)
    * [Avoid mention via @](#avoid-mention-via-)
    * [Can I contribute without using the software?](#can-i-contribute-without-using-the-software)
