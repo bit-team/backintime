@@ -11,9 +11,10 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont, QPalette
 import sys
 
+
 class SectionedCheckList(QTreeWidget):
     class HeaderItem(QTreeWidgetItem):
-        def __init__(self, name):
+        def __init__(self, name: str):
             super().__init__()
             self.setText(0, name)
             font = self.font(0)
@@ -25,10 +26,11 @@ class SectionedCheckList(QTreeWidget):
             self.setFlags(Qt.ItemFlag.ItemIsUserCheckable | Qt.ItemFlag.ItemIsEnabled)
             self.setCheckState(0, Qt.CheckState.Unchecked)
 
-    class FileItem(QTreeWidgetItem):
+    class EntryItem(QTreeWidgetItem):
         pass
 
-    def __init__(self):
+    def __init__(self, parent: QWidget = None):
+        super().__init__(parent)
         self.setColumnCount(2)
         self.setHeaderHidden(True)
         self.setRootIsDecorated(False)
@@ -38,40 +40,50 @@ class SectionedCheckList(QTreeWidget):
         # 2nd column flexible
         self.header().setStretchLastSection(True)
 
+    def add_content(self, content: dict):
+        for section_name, entries in content.items():
+
+            header = self.HeaderItem(section_name)
+            self.addTopLevelItem(header)
+
+            for col_one, col_two in entries:
+                item = self.EntryItem()
+                self.addTopLevelItem(item)
+
+                # 1st column with checkbox
+                wdg = QWidget()
+                layout = QHBoxLayout()
+                layout.setContentsMargins(0, 0, 0, 0)
+                checkbox = QCheckBox()
+                checkbox_size = checkbox.sizeHint().width()
+                layout.addSpacerItem(QSpacerItem(
+                    checkbox_size*2,
+                    0,
+                    QSizePolicy.Policy.Fixed,
+                    QSizePolicy.Policy.Minimum))
+                layout.addWidget(checkbox)
+                label = QLabel(col_one)
+                layout.addWidget(label)
+                layout.addStretch()
+                wdg.setLayout(layout)
+
+                self.setItemWidget(item, 0, wdg)
+
+                # 2nd column
+                item.setText(1, col_two)
+
+            self.resizeColumnToContents(0)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    tree = SectionedCheckList()
     groups = {
         "Mozilla Dateien": [("prefs.js", "Size 12 KB"), ("extensions.json", "Size 45 KB")],
         "Linux Dateien": [("config.cfg", "Size 3 KB")],
-        "Misc": [("readme.txt", "Size 1 KB"), ("todo.md", "Size 2 KB")]
+        "Misc": [("readme.txt gaaaaaanz lange mit vielen wörtern ENDE", "Size 1 KB"), ("todo.md", "Size 2 KB")]
     }
-
-    for group_name, files in groups.items():
-        # Header
-        header = FileHeaderItem(group_name)
-        tree.addTopLevelItem(header)
-        for name, detail in files:
-            item = FileItem()
-            tree.addTopLevelItem(item)
-            # erste Spalte: Checkbox + Text via Widget
-            widget = QWidget()
-            layout = QHBoxLayout()
-            layout.setContentsMargins(0, 0, 0, 0)
-            checkbox = QCheckBox()
-            checkbox_size = checkbox.sizeHint().width()
-            layout.addSpacerItem(QSpacerItem(checkbox_size*2, 0, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum))
-            layout.addWidget(checkbox)
-            label = QLabel(name)
-            layout.addWidget(label)
-            layout.addStretch()
-            widget.setLayout(layout)
-            tree.setItemWidget(item, 0, widget)
-            # zweite Spalte: Text
-            item.setText(1, detail)
-
-    # flexible Spaltenbreite erst nach allen Items
-    tree.resizeColumnToContents(0)
+    tree.add_content(groups)
 
     tree.show()
     sys.exit(app.exec())
