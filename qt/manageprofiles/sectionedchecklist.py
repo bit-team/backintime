@@ -14,11 +14,58 @@ import sys
 
 
 class SectionedCheckList(QTreeWidget):
-    class HeaderItem(QTreeWidgetItem):
-        def __init__(self, name: str):
+    class ItemWithCheckbox(QTreeWidgetItem):
+        def __init__(self,
+                     tree: QTreeWidget,
+                     columns: list[str],
+                     indent_factor: int):
             super().__init__()
-            # self.setText(0, name)
-            self.setData(0, Qt.ItemDataRole.UserRole, name)
+
+            self._label = None
+
+            self.setFlags(Qt.ItemFlag.ItemIsEnabled)
+
+            layout = QHBoxLayout()
+            layout.setContentsMargins(0, 0, 0, 0)
+
+            self.checkbox = QCheckBox()
+
+            if indent_factor > 0:
+                layout.addSpacerItem(QSpacerItem(
+                    self.checkbox.sizeHint().width()*indent_factor,
+                    0,
+                    QSizePolicy.Policy.Fixed,
+                    QSizePolicy.Policy.Minimum))
+            layout.addWidget(self.checkbox)
+
+            self._label = QLabel(columns[0])
+            layout.addWidget(self._label)
+            layout.addStretch()
+
+            widget = QWidget()
+            widget.setLayout(layout)
+
+            self.setData(0, Qt.ItemDataRole.UserRole, columns[0])
+
+            tree.addTopLevelItem(self)
+            tree.setItemWidget(self, 0, widget)
+
+            for idx, col in enumerate(columns[1:], 1):
+                self.setText(idx, col)
+
+        def __hash__(self):
+            return hash(self.data(0, Qt.ItemDataRole.UserRole))
+
+        def __eq__(self, other):
+            if isinstance(other, type(self)):
+                return self.data(0, Qt.ItemDataRole.UserRole) \
+                    == other.data(0, Qt.ItemDataRole.UserRole)
+
+            return False
+
+    class HeaderItem(ItemWithCheckbox):
+        def __init__(self, tree: QTreeWidget, name: str):
+            super().__init__(tree, [name], 0)
 
             font = self.font(0)
             font.setBold(True)
@@ -35,55 +82,9 @@ class SectionedCheckList(QTreeWidget):
             self.setFlags(Qt.ItemFlag.ItemIsEnabled)
             #self.setCheckState(0, Qt.CheckState.Unchecked)
 
-        def __hash__(self):
-            return hash(self.data(0, Qt.ItemDataRole.UserRole))
-
-        def __eq__(self, other):
-            if isinstance(other, type(self)):
-                return self.data(0, Qt.ItemDataRole.UserRole) \
-                    == other.data(0, Qt.ItemDataRole.UserRole)
-
-            return False
-
-    class EntryItem(QTreeWidgetItem):
-        def __init__(self, tree: QTreeWidget, col_one: str, col_two: str):
-            super().__init__()
-
-            self.checkbox = None
-            self._label = None
-
-            self.setFlags(Qt.ItemFlag.ItemIsEnabled)
-
-            widget = self._create_checkbox_widget(col_one, 2)
-
-            self.setData(0, Qt.ItemDataRole.UserRole, col_one)
-
-            tree.addTopLevelItem(self)
-            tree.setItemWidget(self, 0, widget)
-            self.setText(1, col_two)
-
-        def _create_checkbox_widget(self, label_text: str, indent_factor: int):
-            wdg = QWidget()
-            layout = QHBoxLayout()
-            layout.setContentsMargins(0, 0, 0, 0)
-            checkbox = QCheckBox()
-
-            if indent_factor > 0:
-                layout.addSpacerItem(QSpacerItem(
-                    checkbox.sizeHint().width()*indent_factor,
-                    0,
-                    QSizePolicy.Policy.Fixed,
-                    QSizePolicy.Policy.Minimum))
-            layout.addWidget(checkbox)
-            label = QLabel(label_text)
-            layout.addWidget(label)
-            layout.addStretch()
-            wdg.setLayout(layout)
-
-            self.checkbox = checkbox
-            self._label = label
-
-            return wdg
+    class EntryItem(ItemWithCheckbox):
+        def __init__(self, tree: QTreeWidget, columns: list[str]):
+            super().__init__(tree, columns, 2)
 
     def __init__(self, parent: QWidget = None):
         super().__init__(parent)
@@ -102,16 +103,19 @@ class SectionedCheckList(QTreeWidget):
     def add_content(self, content: dict):
         for section_name, entries in content.items():
 
-            header = self.HeaderItem(section_name)
-            self.addTopLevelItem(header)
-            wdg, checkbox = self._create_checkbox_widget(section_name, 0)
-            self.setItemWidget(header, 0, wdg)
+            header = self.HeaderItem(self, section_name)
 
             # register the new header
             self._entries[header] = []
 
             for col_one, col_two in entries:
-                self._add_entry_item(col_one, col_two, header)
+                entry = self.EntryItem(self, [col_one, col_two])
+                self._entries[header].append(entry)
+
+                # forward checkbox → item.setCheckState()
+                entry.checkbox.stateChanged.connect(
+                    partial(self._on_child_checkbox_changed, item=entry)
+                )
 
             self.resizeColumnToContents(0)
 
@@ -134,18 +138,6 @@ class SectionedCheckList(QTreeWidget):
         wdg.setLayout(layout)
 
         return wdg, checkbox
-
-    def _add_entry_item(self, col_one: str, col_two: str, header):
-        item = self.EntryItem(self, col_one, col_two)
-        # self.addTopLevelItem(item)
-
-        # register the entry
-        self._entries[header].append(item)
-
-        # forward checkbox → item.setCheckState()
-        item.checkbox.stateChanged.connect(
-            partial(self._on_child_checkbox_changed, item=item)
-        )
 
     def _on_child_checkbox_changed(self, state, item):
         header = self._find_header(item)
@@ -174,12 +166,16 @@ class SectionedCheckList(QTreeWidget):
             return
 
         checked = item.checkState(0) == Qt.CheckState.Checked
-        for child in self._entries[item]:
-            wdg = self.itemWidget(child, 0)
-            if wdg:
-                cb = wdg.findChild(QCheckBox)
-                if cb:
-                    cb.setChecked(checked)
+        try:
+            for child in self._entries[item]:
+                wdg = self.itemWidget(child, 0)
+                if wdg:
+                    cb = wdg.findChild(QCheckBox)
+                    if cb:
+                        cb.setChecked(checked)
+        except KeyError:
+            print('KeyError: {item=} {self._entries=}')
+            pass
 
     def _find_header(self, child):
         for header, items in self._entries.items():
