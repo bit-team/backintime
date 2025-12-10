@@ -17,7 +17,7 @@ class SectionedCheckList(QTreeWidget):
     class HeaderItem(QTreeWidgetItem):
         def __init__(self, name: str):
             super().__init__()
-            self.setText(0, name)
+            # self.setText(0, name)
             self.setData(0, Qt.ItemDataRole.UserRole, name)
 
             font = self.font(0)
@@ -30,10 +30,10 @@ class SectionedCheckList(QTreeWidget):
             self.setBackground(
                 0, palette.color(QPalette.ColorRole.Light))
 
-            self.setFlags(
-                Qt.ItemFlag.ItemIsUserCheckable | Qt.ItemFlag.ItemIsEnabled)
-
-            self.setCheckState(0, Qt.CheckState.Unchecked)
+            # self.setFlags(
+            #     Qt.ItemFlag.ItemIsUserCheckable | Qt.ItemFlag.ItemIsEnabled)
+            self.setFlags(Qt.ItemFlag.ItemIsEnabled)
+            #self.setCheckState(0, Qt.CheckState.Unchecked)
 
         def __hash__(self):
             return hash(self.data(0, Qt.ItemDataRole.UserRole))
@@ -69,6 +69,8 @@ class SectionedCheckList(QTreeWidget):
 
             header = self.HeaderItem(section_name)
             self.addTopLevelItem(header)
+            wdg, checkbox = self._create_checkbox_widget(section_name, 0)
+            self.setItemWidget(header, 0, wdg)
 
             # register the new header
             self._entries[header] = []
@@ -77,6 +79,26 @@ class SectionedCheckList(QTreeWidget):
                 self._add_entry_item(col_one, col_two, header)
 
             self.resizeColumnToContents(0)
+
+    def _create_checkbox_widget(self, label_text: str, spacer_factor: int = 2):
+        wdg = QWidget()
+        layout = QHBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        checkbox = QCheckBox()
+
+        if spacer_factor > 0:
+            layout.addSpacerItem(QSpacerItem(
+                checkbox.sizeHint().width()*spacer_factor,
+                0,
+                QSizePolicy.Policy.Fixed,
+                QSizePolicy.Policy.Minimum))
+        layout.addWidget(checkbox)
+        label = QLabel(label_text)
+        layout.addWidget(label)
+        layout.addStretch()
+        wdg.setLayout(layout)
+
+        return wdg, checkbox
 
     def _add_entry_item(self, col_one: str, col_two: str, header):
         item = self.EntryItem()
@@ -89,21 +111,7 @@ class SectionedCheckList(QTreeWidget):
         item.setData(0, Qt.ItemDataRole.UserRole, col_one)
 
         # checkbox widget
-        wdg = QWidget()
-        layout = QHBoxLayout()
-        layout.setContentsMargins(0, 0, 0, 0)
-        checkbox = QCheckBox()
-        layout.addSpacerItem(QSpacerItem(
-            checkbox.sizeHint().width()*2,
-            0,
-            QSizePolicy.Policy.Fixed,
-            QSizePolicy.Policy.Minimum))
-        layout.addWidget(checkbox)
-        label = QLabel(col_one)
-        layout.addWidget(label)
-        layout.addStretch()
-        wdg.setLayout(layout)
-
+        wdg, checkbox = self._create_checkbox_widget(col_one, 2)
         self.setItemWidget(item, 0, wdg)
 
         # forward checkbox → item.setCheckState()
