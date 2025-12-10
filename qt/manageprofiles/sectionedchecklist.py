@@ -74,41 +74,46 @@ class SectionedCheckList(QTreeWidget):
             self._entries[header] = []
 
             for col_one, col_two in entries:
-                item = self.EntryItem()
-                self.addTopLevelItem(item)
-
-                # register the entry
-                self._entries[header].append(item)
-
-                # 1st column with checkbox
-                item.setData(0, Qt.ItemDataRole.UserRole, col_one)
-                wdg = QWidget()
-                layout = QHBoxLayout()
-                layout.setContentsMargins(0, 0, 0, 0)
-                checkbox = QCheckBox()
-                checkbox_size = checkbox.sizeHint().width()
-                layout.addSpacerItem(QSpacerItem(
-                    checkbox_size*2,
-                    0,
-                    QSizePolicy.Policy.Fixed,
-                    QSizePolicy.Policy.Minimum))
-                layout.addWidget(checkbox)
-                label = QLabel(col_one)
-                layout.addWidget(label)
-                layout.addStretch()
-                wdg.setLayout(layout)
-
-                self.setItemWidget(item, 0, wdg)
-
-                # forward checkbox → item.setCheckState()
-                checkbox.stateChanged.connect(
-                    partial(self._on_child_checkbox_changed, item=item)
-                )
-
-                # 2nd column
-                item.setText(1, col_two)
+                self._add_entry_item(col_one, col_two, header)
 
             self.resizeColumnToContents(0)
+
+    def _add_entry_item(self, col_one: str, col_two: str, header):
+        item = self.EntryItem()
+        self.addTopLevelItem(item)
+
+        # register the entry
+        self._entries[header].append(item)
+
+        # 1st column
+        item.setData(0, Qt.ItemDataRole.UserRole, col_one)
+
+        # checkbox widget
+        wdg = QWidget()
+        layout = QHBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        checkbox = QCheckBox()
+        layout.addSpacerItem(QSpacerItem(
+            checkbox.sizeHint().width()*2,
+            0,
+            QSizePolicy.Policy.Fixed,
+            QSizePolicy.Policy.Minimum))
+        layout.addWidget(checkbox)
+        label = QLabel(col_one)
+        layout.addWidget(label)
+        layout.addStretch()
+        wdg.setLayout(layout)
+
+        self.setItemWidget(item, 0, wdg)
+
+        # forward checkbox → item.setCheckState()
+        checkbox.stateChanged.connect(
+            partial(self._on_child_checkbox_changed, item=item)
+        )
+
+        # 2nd column
+        item.setText(1, col_two)
+
 
     def _on_child_checkbox_changed(self, state, item):
         header = self._find_header(item)
