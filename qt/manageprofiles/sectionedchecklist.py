@@ -6,6 +6,7 @@
 # General Public License v2 (GPLv2). See file/folder LICENSE or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """The widget ..."""
+from __future__ import annotations
 from functools import partial
 from PyQt6.QtWidgets import QApplication, QTreeWidget, QTreeWidgetItem, QWidget, QHBoxLayout, QCheckBox, QSpacerItem, QSizePolicy, QLabel
 from PyQt6.QtCore import Qt
@@ -77,14 +78,19 @@ class SectionedCheckList(QTreeWidget):
             self.setBackground(
                 0, palette.color(QPalette.ColorRole.Light))
 
-            # self.setFlags(
-            #     Qt.ItemFlag.ItemIsUserCheckable | Qt.ItemFlag.ItemIsEnabled)
             self.setFlags(Qt.ItemFlag.ItemIsEnabled)
-            #self.setCheckState(0, Qt.CheckState.Unchecked)
 
     class EntryItem(ItemWithCheckbox):
-        def __init__(self, tree: QTreeWidget, columns: list[str]):
+        def __init__(self,
+                     tree: QTreeWidget,
+                     header: SectionedCheckList.HeaderItem,
+                     columns: list[str]):
             super().__init__(tree, columns, 2)
+            self._header = header
+            self.checkbox.stateChanged.connect(self._on_state_changed)
+
+        def _on_state_changed(self, state: int):
+            print(f'_on_state_changed() :: {id(self)=} {type(state)=} {state=}')
 
     def __init__(self, parent: QWidget = None):
         super().__init__(parent)
@@ -109,13 +115,13 @@ class SectionedCheckList(QTreeWidget):
             self._entries[header] = []
 
             for col_one, col_two in entries:
-                entry = self.EntryItem(self, [col_one, col_two])
-                self._entries[header].append(entry)
-
-                # forward checkbox → item.setCheckState()
-                entry.checkbox.stateChanged.connect(
-                    partial(self._on_child_checkbox_changed, item=entry)
+                entry = self.EntryItem(
+                    tree=self,
+                    header=header,
+                    columns=[col_one, col_two]
                 )
+                self._entries[header].append(entry)
+                print(f'{self._entries=}')
 
             self.resizeColumnToContents(0)
 
@@ -138,28 +144,6 @@ class SectionedCheckList(QTreeWidget):
         wdg.setLayout(layout)
 
         return wdg, checkbox
-
-    def _on_child_checkbox_changed(self, state, item):
-        header = self._find_header(item)
-        if not header:
-            return
-        # prüfen, ob alle Kinder gecheckt sind
-        children = self._entries[header]
-        all_checked = all(
-            self.itemWidget(c, 0).findChild(QCheckBox).isChecked()
-            for c in children
-        )
-        any_checked = any(
-            self.itemWidget(c, 0).findChild(QCheckBox).isChecked()
-            for c in children
-        )
-
-        if all_checked:
-            header.setCheckState(0, Qt.CheckState.Checked)
-        elif any_checked:
-            header.setCheckState(0, Qt.CheckState.PartiallyChecked)
-        else:
-            header.setCheckState(0, Qt.CheckState.Unchecked)
 
     def _on_item_changed(self, item, column):
         if column != 0 or not isinstance(item, self.HeaderItem):
