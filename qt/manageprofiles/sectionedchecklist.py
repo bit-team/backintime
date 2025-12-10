@@ -46,9 +46,44 @@ class SectionedCheckList(QTreeWidget):
             return False
 
     class EntryItem(QTreeWidgetItem):
-        def __init__(self):
+        def __init__(self, tree: QTreeWidget, col_one: str, col_two: str):
             super().__init__()
+
+            self.checkbox = None
+            self._label = None
+
             self.setFlags(Qt.ItemFlag.ItemIsEnabled)
+
+            widget = self._create_checkbox_widget(col_one, 2)
+
+            self.setData(0, Qt.ItemDataRole.UserRole, col_one)
+
+            tree.addTopLevelItem(self)
+            tree.setItemWidget(self, 0, widget)
+            self.setText(1, col_two)
+
+        def _create_checkbox_widget(self, label_text: str, indent_factor: int):
+            wdg = QWidget()
+            layout = QHBoxLayout()
+            layout.setContentsMargins(0, 0, 0, 0)
+            checkbox = QCheckBox()
+
+            if indent_factor > 0:
+                layout.addSpacerItem(QSpacerItem(
+                    checkbox.sizeHint().width()*indent_factor,
+                    0,
+                    QSizePolicy.Policy.Fixed,
+                    QSizePolicy.Policy.Minimum))
+            layout.addWidget(checkbox)
+            label = QLabel(label_text)
+            layout.addWidget(label)
+            layout.addStretch()
+            wdg.setLayout(layout)
+
+            self.checkbox = checkbox
+            self._label = label
+
+            return wdg
 
     def __init__(self, parent: QWidget = None):
         super().__init__(parent)
@@ -101,27 +136,16 @@ class SectionedCheckList(QTreeWidget):
         return wdg, checkbox
 
     def _add_entry_item(self, col_one: str, col_two: str, header):
-        item = self.EntryItem()
-        self.addTopLevelItem(item)
+        item = self.EntryItem(self, col_one, col_two)
+        # self.addTopLevelItem(item)
 
         # register the entry
         self._entries[header].append(item)
 
-        # 1st column
-        item.setData(0, Qt.ItemDataRole.UserRole, col_one)
-
-        # checkbox widget
-        wdg, checkbox = self._create_checkbox_widget(col_one, 2)
-        self.setItemWidget(item, 0, wdg)
-
         # forward checkbox → item.setCheckState()
-        checkbox.stateChanged.connect(
+        item.checkbox.stateChanged.connect(
             partial(self._on_child_checkbox_changed, item=item)
         )
-
-        # 2nd column
-        item.setText(1, col_two)
-
 
     def _on_child_checkbox_changed(self, state, item):
         header = self._find_header(item)
