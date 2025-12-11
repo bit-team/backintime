@@ -7,22 +7,36 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """The widget ..."""
 from __future__ import annotations
-from functools import partial
-from PyQt6.QtWidgets import QApplication, QTreeWidget, QTreeWidgetItem, QWidget, QHBoxLayout, QCheckBox, QSpacerItem, QSizePolicy, QLabel
+from PyQt6.QtWidgets import (QApplication,
+                             QCheckBox,
+                             QHBoxLayout,
+                             QLabel,
+                             QSizePolicy,
+                             QSpacerItem,
+                             QTreeWidget,
+                             QTreeWidgetItem,
+                             QWidget)
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QFont, QPalette
-import sys
+from PyQt6.QtGui import QPalette
+import qttools
 
 
 class SectionedCheckList(QTreeWidget):
+    """A list widget with entries grouped and all entries checkable.
+
+    Most of treewidgets default behavior is disabled, e.g. foldable tree and
+    checkboxes. Customized checkbox widgets are used instead.
+    """
     class ItemWithCheckbox(QTreeWidgetItem):
+        """Base class for list entry with customized checkbox and a label.
+        """
         def __init__(self,
                      tree: QTreeWidget,
                      columns: list[str],
                      indent_factor: int):
             super().__init__()
 
-            self._label = None
+            self.label = None
 
             self.setFlags(Qt.ItemFlag.ItemIsEnabled)
 
@@ -39,8 +53,8 @@ class SectionedCheckList(QTreeWidget):
                     QSizePolicy.Policy.Minimum))
             layout.addWidget(self.checkbox)
 
-            self._label = QLabel(columns[0])
-            layout.addWidget(self._label)
+            self.label = QLabel(columns[0])
+            layout.addWidget(self.label)
             layout.addStretch()
 
             widget = QWidget()
@@ -65,27 +79,61 @@ class SectionedCheckList(QTreeWidget):
             return False
 
     class HeaderItem(ItemWithCheckbox):
-        def __init__(self, tree: QTreeWidget, name: str):
+        """A group header.
+
+        Its visual appearance is different from other entries. It also
+        regulates the check state of its children.
+        While creating this item it adds itself to the tree widget.
+
+        Args:
+            tree: The tree widget.
+            name: Name of group.
+            columns: Number of columns in the tree widget.
+        """
+        def __init__(self, tree: QTreeWidget, name: str, column_count: int):
             super().__init__(tree, [name], 0)
 
-            self._entry_count = 0
+            # self._entry_count = 0
             self._entries_checked = 0
+            self._entries = []
+            self._tree = tree
 
-            font = self.font(0)
+            font = self.label.font()
             font.setBold(True)
-            self.setFont(0, font)
+            self.label.setFont(font)
 
             palette = QApplication.instance().palette()
-            self.setForeground(
-                0, palette.color(QPalette.ColorRole.PlaceholderText))
-            self.setBackground(
-                0, palette.color(QPalette.ColorRole.Light))
+            # self.setForeground(
+            #     0, palette.color(QPalette.ColorRole.PlaceholderText))
+            # self.label.setForegroundRole(QPalette.ColorRole.PlaceholderText)
+
+            for idx in range(column_count):
+                self.setBackground(
+                    idx, palette.color(QPalette.ColorRole.AlternateBase))
+
+            # self.label.setBackgroundRole(QPalette.ColorRole.Window)
 
             self.setFlags(Qt.ItemFlag.ItemIsEnabled)
 
-        def on_entry_state_changed(self, state):
-            print(f'{self._label.text()=} | on_entry_state_changed() :: {state=}')
+            self.checkbox.checkStateChanged.connect(
+                self.on_header_state_changed)
 
+        def on_header_state_changed(self, state: int | Qt.CheckState):
+            """Handle click on header item."""
+            if state == Qt.CheckState.PartiallyChecked:
+                return
+
+            # Checked or unchecked
+            self._entries_checked = 0 if state == Qt.CheckState.Unchecked \
+                else self._entry_count
+
+            # Update children
+            for entry in self._entries:
+                with qttools.block_signals(entry.checkbox):
+                    entry.checkbox.setCheckState(state)
+
+        def on_entry_state_changed(self, state: int | Qt.CheckState):
+            """Handle click on one of the groups entry items."""
             if state == Qt.CheckState.Checked:
                 self._entries_checked += 1
             else:
@@ -93,22 +141,36 @@ class SectionedCheckList(QTreeWidget):
 
             self.update_state()
 
-        def increase_entry_count(self):
-            self._entry_count += 1
+        def register_entry(self, entry: SectionedCheckList.EntryItem):
+            """Register an entry to this group/header."""
+            self._entries.append(entry)
 
         def update_state(self):
-            print(f'{self._entry_count=} {self._entries_checked=}')
+            """Update check state of the group.
 
-            if self._entry_count == self._entries_checked:
+            The state depends on the check state of its entries/children.
+            """
+
+            if len(self._entries) == self._entries_checked:
                 state = Qt.CheckState.Checked
-            elif self._entry_count == 0:
+            elif self._entries_checked == 0:
                 state = Qt.CheckState.Unchecked
             else:
                 state = Qt.CheckState.PartiallyChecked
 
             self.checkbox.setCheckState(state)
 
+    # pylint: disable-next=too-few-public-methods
     class EntryItem(ItemWithCheckbox):
+        """Regular entry always as child of a group (``HeaderItem``).
+
+        While creating this item it adds itself to the tree widget.
+
+        Args:
+            tree: The tree widget.
+            header: The group as parent header item.
+            columns: List of column content.
+        """
         def __init__(self,
                      tree: QTreeWidget,
                      header: SectionedCheckList.HeaderItem,
@@ -116,13 +178,10 @@ class SectionedCheckList(QTreeWidget):
             super().__init__(tree, columns, 2)
             self._header = header
 
-            self._header.increase_entry_count()
+            self._header.register_entry(self)
 
-            # self.checkbox.stateChanged.connect(self._on_state_changed)
-            self.checkbox.checkStateChanged.connect(header.on_entry_state_changed)
-
-        def _on_state_changed(self, state: int):
-            print(f'_on_state_changed() :: {id(self)=} {type(state)=} {state=}')
+            self.checkbox.checkStateChanged.connect(
+                header.on_entry_state_changed)
 
     def __init__(self, parent: QWidget = None):
         super().__init__(parent)
@@ -133,82 +192,33 @@ class SectionedCheckList(QTreeWidget):
         self.setExpandsOnDoubleClick(False)
         self.header().setStretchLastSection(True)
 
-        self.itemChanged.connect(self._on_item_changed)
-
-        # map header with entries
-        self._entries = {}
-
     def add_content(self, content: dict):
         for section_name, entries in content.items():
 
-            header = self.HeaderItem(self, section_name)
-
-            # register the new header
-            self._entries[header] = []
+            header = self.HeaderItem(self, section_name, 2)
 
             for col_one, col_two in entries:
-                entry = self.EntryItem(
+                self.EntryItem(
                     tree=self,
                     header=header,
                     columns=[col_one, col_two]
                 )
-                self._entries[header].append(entry)
-                print(f'{self._entries=}')
 
             self.resizeColumnToContents(0)
 
-    def _create_checkbox_widget(self, label_text: str, spacer_factor: int = 2):
-        wdg = QWidget()
-        layout = QHBoxLayout()
-        layout.setContentsMargins(0, 0, 0, 0)
-        checkbox = QCheckBox()
 
-        if spacer_factor > 0:
-            layout.addSpacerItem(QSpacerItem(
-                checkbox.sizeHint().width()*spacer_factor,
-                0,
-                QSizePolicy.Policy.Fixed,
-                QSizePolicy.Policy.Minimum))
-        layout.addWidget(checkbox)
-        label = QLabel(label_text)
-        layout.addWidget(label)
-        layout.addStretch()
-        wdg.setLayout(layout)
+# if __name__ == '__main__':
+#     app = QApplication(sys.argv)
+#     thetree = SectionedCheckList()
+#     groups = {
+#         "Mozilla Dateien": [
+#             ("prefs.js", "Size 12 KB"), ("extensions.json", "Size 45 KB")],
+#         "Linux Dateien": [("config.cfg", "Size 3 KB")],
+#         "Misc": [
+#             ("readme.txt gaaaaaanz lange mit vielen wörtern ENDE",
+#              "Size 1 KB"), ("todo.md", "Size 2 KB")]
+#     }
+#     thetree.add_content(groups)
 
-        return wdg, checkbox
-
-    def _on_item_changed(self, item, column):
-        if column != 0 or not isinstance(item, self.HeaderItem):
-            return
-
-        checked = item.checkState(0) == Qt.CheckState.Checked
-        try:
-            for child in self._entries[item]:
-                wdg = self.itemWidget(child, 0)
-                if wdg:
-                    cb = wdg.findChild(QCheckBox)
-                    if cb:
-                        cb.setChecked(checked)
-        except KeyError:
-            print('KeyError: {item=} {self._entries=}')
-            pass
-
-    def _find_header(self, child):
-        for header, items in self._entries.items():
-            if child in items:
-                return header
-        return None
-
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    tree = SectionedCheckList()
-    groups = {
-        "Mozilla Dateien": [("prefs.js", "Size 12 KB"), ("extensions.json", "Size 45 KB")],
-        "Linux Dateien": [("config.cfg", "Size 3 KB")],
-        "Misc": [("readme.txt gaaaaaanz lange mit vielen wörtern ENDE", "Size 1 KB"), ("todo.md", "Size 2 KB")]
-    }
-    tree.add_content(groups)
-
-    tree.show()
-    sys.exit(app.exec())
+#     thetree.show()
+#     sys.exit(app.exec())

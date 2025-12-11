@@ -33,6 +33,7 @@ import qttools
 from qttools import custom_sort_order
 from filedialog import FileDialog
 from bitwidgets import HypertextLabel
+from manageprofiles.excludesuggestions import ExcludeSuggestionsDialog
 
 MATCH_FLAGS = Qt.MatchFlag.MatchFixedString | Qt.MatchFlag.MatchCaseSensitive
 
@@ -343,6 +344,10 @@ class ExcludeTab(QWidget):
 
     def btn_exclude_default_clicked(self):
         """Handle button click"""
+
+        dlg = ExcludeSuggestionsDialog(self)
+        dlg.exec()
+        return
         for path in self.config.DEFAULT_EXCLUDE:
             self.add_exclude(path)
 
