@@ -68,6 +68,9 @@ class SectionedCheckList(QTreeWidget):
         def __init__(self, tree: QTreeWidget, name: str):
             super().__init__(tree, [name], 0)
 
+            self._entry_count = 0
+            self._entries_checked = 0
+
             font = self.font(0)
             font.setBold(True)
             self.setFont(0, font)
@@ -80,6 +83,31 @@ class SectionedCheckList(QTreeWidget):
 
             self.setFlags(Qt.ItemFlag.ItemIsEnabled)
 
+        def on_entry_state_changed(self, state):
+            print(f'{self._label.text()=} | on_entry_state_changed() :: {state=}')
+
+            if state == Qt.CheckState.Checked:
+                self._entries_checked += 1
+            else:
+                self._entries_checked -= 1
+
+            self.update_state()
+
+        def increase_entry_count(self):
+            self._entry_count += 1
+
+        def update_state(self):
+            print(f'{self._entry_count=} {self._entries_checked=}')
+
+            if self._entry_count == self._entries_checked:
+                state = Qt.CheckState.Checked
+            elif self._entry_count == 0:
+                state = Qt.CheckState.Unchecked
+            else:
+                state = Qt.CheckState.PartiallyChecked
+
+            self.checkbox.setCheckState(state)
+
     class EntryItem(ItemWithCheckbox):
         def __init__(self,
                      tree: QTreeWidget,
@@ -87,7 +115,11 @@ class SectionedCheckList(QTreeWidget):
                      columns: list[str]):
             super().__init__(tree, columns, 2)
             self._header = header
-            self.checkbox.stateChanged.connect(self._on_state_changed)
+
+            self._header.increase_entry_count()
+
+            # self.checkbox.stateChanged.connect(self._on_state_changed)
+            self.checkbox.checkStateChanged.connect(header.on_entry_state_changed)
 
         def _on_state_changed(self, state: int):
             print(f'_on_state_changed() :: {id(self)=} {type(state)=} {state=}')
