@@ -7,21 +7,10 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """The widget ..."""
 from __future__ import annotations
-from PyQt6.QtWidgets import (QApplication,
-                             QCheckBox,
-                             QDialog,
+from PyQt6.QtWidgets import (QDialog,
                              QDialogButtonBox,
                              QVBoxLayout,
-                             QLabel,
-                             QLayout,
-                             QPushButton,
-                             QSizePolicy,
-                             QSpacerItem,
-                             QTreeWidget,
-                             QTreeWidgetItem,
-                             QWidget)
-from PyQt6.QtCore import Qt, QTimer
-from PyQt6.QtGui import QPalette
+                             QPushButton)
 from manageprofiles.sectionedchecklist import SectionedCheckList
 import bitbase
 import qttools
