@@ -11,12 +11,17 @@ from PyQt6.QtWidgets import (QDialog,
                              QDialogButtonBox,
                              QVBoxLayout,
                              QPushButton)
-from manageprofiles.sectionedchecklist import SectionedCheckList
 import bitbase
+from manageprofiles.sectionedchecklist import SectionedCheckList
 import qttools
 
 
 class ExcludeSuggestionsDialog(QDialog):
+    """A dialog suggesting entries for the exclude list.
+
+    Args:
+        content: See `bitbase.EXCLUDE_SUGGESTIONS` for example format.
+    """
     def __init__(self, parent: QDialog, content: dict):
         super().__init__(parent)
         self.setWindowTitle(_('Exclude Suggetions'))

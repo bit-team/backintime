@@ -223,7 +223,7 @@ EXCLUDE_SUGGESTIONS = {
             IS_IN_ROOT_MODE
         ],
     ),
-    'System runtime directories' : (
+    'System runtime directories': (
         ['/proc/*', 'Kernel and process information', IS_IN_ROOT_MODE],
         [
             '/sys/*',
@@ -234,7 +234,11 @@ EXCLUDE_SUGGESTIONS = {
         ['/run/*', 'Runtime system files', IS_IN_ROOT_MODE],
     ),
     'Other non-persistent': (
-        ['/etc/mtab', 'List of currently mounted filesystems', IS_IN_ROOT_MODE],
+        [
+            '/etc/mtab',
+            'List of currently mounted filesystems',
+            IS_IN_ROOT_MODE
+        ],
         ['/swapfile', 'System swap file (virtual memory)', True],
         ['.gvfs', 'GNOME virtual file system mount point', True],
         ['lost+found/*', 'Recovered filesystem objects', True],

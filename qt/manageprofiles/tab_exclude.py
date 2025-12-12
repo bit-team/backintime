@@ -386,8 +386,8 @@ class ExcludeTab(QWidget):
 
         # Modify check state of suggested includes
         for group, entries in content.items():
-            for idx in range(len(entries)):
-                check = content[group][idx][0] in suggestions
+            for idx, entry in enumerate(entries):
+                check = entry[0] in suggestions
                 content[group][idx][-1] = check
 
         return content
