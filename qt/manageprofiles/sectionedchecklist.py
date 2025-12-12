@@ -12,12 +12,13 @@ from PyQt6.QtWidgets import (QApplication,
                              QHBoxLayout,
                              QLabel,
                              QSizePolicy,
+                             QStyledItemDelegate,
                              QSpacerItem,
                              QTreeWidget,
                              QTreeWidgetItem,
                              QWidget)
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QPalette
+from PyQt6.QtGui import QBrush, QPalette
 import qttools
 
 
@@ -92,31 +93,31 @@ class SectionedCheckList(QTreeWidget):
         """
         def __init__(self, tree: QTreeWidget, name: str, column_count: int):
             super().__init__(tree, [name], 0)
-
-            # self._entry_count = 0
             self._entries_checked = 0
             self._entries = []
             self._tree = tree
+            self._set_color_and_font(column_count)
+            self.setFlags(Qt.ItemFlag.ItemIsEnabled)
+            self.checkbox.checkStateChanged.connect(
+                self.on_header_state_changed)
 
+        def _set_color_and_font(self, column_count: int):
+            # bold font
             font = self.label.font()
             font.setBold(True)
             self.label.setFont(font)
 
+            # 1st column fore-/background color
+            self.label.setForegroundRole(QPalette.ColorRole.PlaceholderText)
+            self.label.setBackgroundRole(QPalette.ColorRole.Window)
+
+            # other columns fore-/background color
             palette = QApplication.instance().palette()
-            # self.setForeground(
-            #     0, palette.color(QPalette.ColorRole.PlaceholderText))
-            # self.label.setForegroundRole(QPalette.ColorRole.PlaceholderText)
-
+            fg_color = palette.color(QPalette.ColorRole.PlaceholderText)
+            bg_color = palette.color(QPalette.ColorRole.AlternateBase)
             for idx in range(column_count):
-                self.setBackground(
-                    idx, palette.color(QPalette.ColorRole.AlternateBase))
-
-            # self.label.setBackgroundRole(QPalette.ColorRole.Window)
-
-            self.setFlags(Qt.ItemFlag.ItemIsEnabled)
-
-            self.checkbox.checkStateChanged.connect(
-                self.on_header_state_changed)
+                self.setForeground(idx, fg_color)
+                self.setBackground(idx, bg_color)
 
         def on_header_state_changed(self, state: int | Qt.CheckState):
             """Handle click on header item."""
@@ -125,7 +126,7 @@ class SectionedCheckList(QTreeWidget):
 
             # Checked or unchecked
             self._entries_checked = 0 if state == Qt.CheckState.Unchecked \
-                else self._entry_count
+                else len(self._entries)
 
             # Update children
             for entry in self._entries:
@@ -191,6 +192,18 @@ class SectionedCheckList(QTreeWidget):
         self.setItemsExpandable(False)
         self.setExpandsOnDoubleClick(False)
         self.header().setStretchLastSection(True)
+
+        groups = {
+            "Mozilla Dateien": [
+                ("prefs.js", "Size 12 KB"), ("extensions.json", "Size 45 KB")],
+            "Linux Dateien": [("config.cfg", "Size 3 KB")],
+            "Misc": [
+                ("readme.txt gaaaaaanz lange mit vielen wörtern ENDE",
+                "Size 1 KB"), ("todo.md", "Size 2 KB")]
+        }
+        self.add_content(groups)
+
+
 
     def add_content(self, content: dict):
         for section_name, entries in content.items():
