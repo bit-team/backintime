@@ -13,15 +13,18 @@ from PyQt6.QtWidgets import (QApplication,
                              QDialogButtonBox,
                              QVBoxLayout,
                              QLabel,
+                             QLayout,
                              QPushButton,
                              QSizePolicy,
                              QSpacerItem,
                              QTreeWidget,
                              QTreeWidgetItem,
                              QWidget)
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import QPalette
 from manageprofiles.sectionedchecklist import SectionedCheckList
+import bitbase
+import qttools
 
 
 class ExcludeSuggestionsDialog(QDialog):
@@ -32,7 +35,10 @@ class ExcludeSuggestionsDialog(QDialog):
         layout = QVBoxLayout()
         self.setLayout(layout)
 
-        self._wdg_list = SectionedCheckList(self)
+        txt = _('Select commonly used items to add to backup exclusions.')
+        layout.addWidget(qttools.create_info_label(txt))
+
+        self._wdg_list = SectionedCheckList(self, 2)
         layout.addWidget(self._wdg_list)
 
         # yes/no buttons
@@ -50,19 +56,4 @@ class ExcludeSuggestionsDialog(QDialog):
 
         layout.addWidget(btn_box)
 
-
-# if __name__ == '__main__':
-#     app = QApplication(sys.argv)
-#     thetree = SectionedCheckList()
-#     groups = {
-#         "Mozilla Dateien": [
-#             ("prefs.js", "Size 12 KB"), ("extensions.json", "Size 45 KB")],
-#         "Linux Dateien": [("config.cfg", "Size 3 KB")],
-#         "Misc": [
-#             ("readme.txt gaaaaaanz lange mit vielen wörtern ENDE",
-#              "Size 1 KB"), ("todo.md", "Size 2 KB")]
-#     }
-#     thetree.add_content(groups)
-
-#     thetree.show()
-#     sys.exit(app.exec())
+        self._wdg_list.add_content(bitbase.EXCLUDE_SUGGESTIONS)

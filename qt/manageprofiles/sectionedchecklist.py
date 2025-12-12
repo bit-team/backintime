@@ -89,7 +89,7 @@ class SectionedCheckList(QTreeWidget):
         Args:
             tree: The tree widget.
             name: Name of group.
-            columns: Number of columns in the tree widget.
+            column_count: Number of columns in the tree widget.
         """
         def __init__(self, tree: QTreeWidget, name: str, column_count: int):
             super().__init__(tree, [name], 0)
@@ -184,54 +184,32 @@ class SectionedCheckList(QTreeWidget):
             self.checkbox.checkStateChanged.connect(
                 header.on_entry_state_changed)
 
-    def __init__(self, parent: QWidget = None):
+    def __init__(self, parent: QWidget, column_count: int):
         super().__init__(parent)
-        self.setColumnCount(2)
+        self.setColumnCount(column_count)
         self.setHeaderHidden(True)
         self.setRootIsDecorated(False)
         self.setItemsExpandable(False)
         self.setExpandsOnDoubleClick(False)
         self.header().setStretchLastSection(True)
 
-        groups = {
-            "Mozilla Dateien": [
-                ("prefs.js", "Size 12 KB"), ("extensions.json", "Size 45 KB")],
-            "Linux Dateien": [("config.cfg", "Size 3 KB")],
-            "Misc": [
-                ("readme.txt gaaaaaanz lange mit vielen wörtern ENDE",
-                "Size 1 KB"), ("todo.md", "Size 2 KB")]
-        }
-        self.add_content(groups)
-
-
+        self.setSizeAdjustPolicy(
+            QTreeWidget.SizeAdjustPolicy.AdjustToContents)
 
     def add_content(self, content: dict):
         for section_name, entries in content.items():
 
             header = self.HeaderItem(self, section_name, 2)
 
-            for col_one, col_two in entries:
-                self.EntryItem(
+            # Last item indicates checked state
+            for *cols, checked in entries:
+                entry = self.EntryItem(
                     tree=self,
                     header=header,
-                    columns=[col_one, col_two]
+                    columns=cols
                 )
+                if checked:
+                    entry.checkbox.setCheckState(Qt.CheckState.Checked)
 
-            self.resizeColumnToContents(0)
-
-
-# if __name__ == '__main__':
-#     app = QApplication(sys.argv)
-#     thetree = SectionedCheckList()
-#     groups = {
-#         "Mozilla Dateien": [
-#             ("prefs.js", "Size 12 KB"), ("extensions.json", "Size 45 KB")],
-#         "Linux Dateien": [("config.cfg", "Size 3 KB")],
-#         "Misc": [
-#             ("readme.txt gaaaaaanz lange mit vielen wörtern ENDE",
-#              "Size 1 KB"), ("todo.md", "Size 2 KB")]
-#     }
-#     thetree.add_content(groups)
-
-#     thetree.show()
-#     sys.exit(app.exec())
+        for col in range(self.columnCount()):
+            self.resizeColumnToContents(col)

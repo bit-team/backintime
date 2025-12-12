@@ -121,6 +121,11 @@ class ExcludeTab(QWidget):
         self.btn_exclude_default.clicked.connect(
             self.btn_exclude_default_clicked)
 
+        self.btn_suggestions = QPushButton(
+            self.icon.DEFAULT_EXCLUDE, _('Suggestions'), self)
+        buttons_layout.addWidget(self.btn_suggestions)
+        self.btn_suggestions.clicked.connect(self.btn_suggestions_clicked)
+
         self.btn_exclude_remove = QPushButton(
             self.icon.REMOVE, _('Remove'), self)
         buttons_layout.addWidget(self.btn_exclude_remove)
@@ -345,6 +350,14 @@ class ExcludeTab(QWidget):
     def btn_exclude_default_clicked(self):
         """Handle button click"""
 
+        dlg = ExcludeSuggestionsDialog(self)
+        dlg.exec()
+        return
+        for path in self.config.DEFAULT_EXCLUDE:
+            self.add_exclude(path)
+
+    def btn_suggestions_clicked(self):
+        """Handle button click"""
         dlg = ExcludeSuggestionsDialog(self)
         dlg.exec()
         return
