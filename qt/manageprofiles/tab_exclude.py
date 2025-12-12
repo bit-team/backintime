@@ -30,6 +30,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPalette, QBrush
 import tools
 import qttools
+import bitbase
 from qttools import custom_sort_order
 from filedialog import FileDialog
 from bitwidgets import HypertextLabel
@@ -356,9 +357,43 @@ class ExcludeTab(QWidget):
         for path in self.config.DEFAULT_EXCLUDE:
             self.add_exclude(path)
 
+    def _suggestions_check_state(self):
+        """Sync the check state of the suggestions list with the current
+        exclude liste.
+
+        The check state of suggested exclude items is modified based on the
+        content of the exclude list. Items still in the exclude list are
+        checked and all other are not.
+        """
+        content = bitbase.EXCLUDE_SUGGESTIONS  # dict
+
+        # flat list of suggestions
+        suggestions = [
+            first_item
+            for group in content.values()
+            for first_item, *_ in group
+        ]
+
+        # remove suggestions not existent in current exclude list
+        for entry in suggestions[:]:
+            if not self.list_exclude.findItems(entry, MATCH_FLAGS):
+                suggestions.remove(entry)
+
+        # Modify check state of suggested includes
+        for group, entries in content.items():
+            for idx in range(len(entries)):
+                check = True if content[group][idx][0] in suggestions \
+                    else False
+                content[group][idx][-1] = check
+
+        return content
+
+
     def btn_suggestions_clicked(self):
         """Handle button click"""
-        dlg = ExcludeSuggestionsDialog(self)
+        content = self._suggestions_check_state()
+
+        dlg = ExcludeSuggestionsDialog(self, content)
         dlg.exec()
         return
         for path in self.config.DEFAULT_EXCLUDE:

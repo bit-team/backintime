@@ -28,7 +28,7 @@ import qttools
 
 
 class ExcludeSuggestionsDialog(QDialog):
-    def __init__(self, parent: QDialog):
+    def __init__(self, parent: QDialog, content: dict):
         super().__init__(parent)
         self.setWindowTitle(_('Exclude Suggetions'))
 
@@ -56,4 +56,4 @@ class ExcludeSuggestionsDialog(QDialog):
 
         layout.addWidget(btn_box)
 
-        self._wdg_list.add_content(bitbase.EXCLUDE_SUGGESTIONS)
+        self._wdg_list.add_content(content)

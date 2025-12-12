@@ -213,3 +213,38 @@ class SectionedCheckList(QTreeWidget):
 
         for col in range(self.columnCount()):
             self.resizeColumnToContents(col)
+
+    def get_all_entry_items(self) -> list[SectionedCheckList.EntryItem]:
+        """Return a list of all entry items.
+
+        The method assumps all items on top level.
+        """
+        result = []
+
+        for idx in range(self.topLevelItemCount()):
+            item = self.topLevelItem(idx)
+            if isinstance(item, self.EntryItem):
+                result.append(item)
+
+        return result
+
+    def get_all_entry_strings(self) -> list[str]:
+        """The string content of each entry item.
+
+        Techncially the text of the QLabel contained in the entry items first
+        column is used.
+        """
+        result = []
+        for item in self.get_all_entry_items():
+            result.append(item.label.text())
+
+        return result
+
+    def get_all_checked_entry_strings(self) -> list[str]:
+        """The string content of each checked entry item."""
+        result = []
+        for item in self.get_all_entry_items():
+            if item.checkbox.isChecked():
+                result.append(item.label.text())
+
+        return result
