@@ -41,9 +41,8 @@ class ExcludeSuggestionsDialog(QDialog):
         self._wdg_list = SectionedCheckList(self, 2)
         layout.addWidget(self._wdg_list)
 
-        # yes/no buttons
         btn_box = QDialogButtonBox(
-            QDialogButtonBox.StandardButton.Apply
+            QDialogButtonBox.StandardButton.Ok
             | QDialogButtonBox.StandardButton.Cancel)
         btn_box.button(QDialogButtonBox.StandardButton.Cancel).setDefault(True)
         btn_box.accepted.connect(self.accept)
@@ -51,9 +50,17 @@ class ExcludeSuggestionsDialog(QDialog):
 
         btn_default = QPushButton(_('Default'))
         btn_default.setToolTip(_('Reset to predefined selection'))
-        btn_default.clicked.connect(lambda: print('RESET DEFAULT'))
+        btn_default.clicked.connect(self._slot_reset_default)
         btn_box.addButton(btn_default, QDialogButtonBox.ButtonRole.ActionRole)
 
         layout.addWidget(btn_box)
 
         self._wdg_list.add_content(content)
+
+    def _slot_reset_default(self):
+        self._wdg_list.clear()
+        self._wdg_list.add_content(bitbase.EXCLUDE_SUGGESTIONS)
+
+    def get_checked_and_unchecked(self) -> tuple[list[str], list[str]]:
+        """Return two lists of checked and unchecked excludes."""
+        return self._wdg_list.get_entry_stings_separated_by_state()

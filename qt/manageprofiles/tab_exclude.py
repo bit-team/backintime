@@ -12,6 +12,7 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Module about the Exclude tab"""
+import copy
 from PyQt6.QtWidgets import (QAbstractItemView,
                              QCheckBox,
                              QDialog,
@@ -29,8 +30,8 @@ from PyQt6.QtWidgets import (QAbstractItemView,
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPalette, QBrush
 import tools
-import qttools
 import bitbase
+import qttools
 from qttools import custom_sort_order
 from filedialog import FileDialog
 from bitwidgets import HypertextLabel
@@ -124,6 +125,8 @@ class ExcludeTab(QWidget):
 
         self.btn_suggestions = QPushButton(
             self.icon.DEFAULT_EXCLUDE, _('Suggestions'), self)
+        self.btn_suggestions.setToolTip(_(
+            'Select from common used items to add to exclude list'))
         buttons_layout.addWidget(self.btn_suggestions)
         self.btn_suggestions.clicked.connect(self.btn_suggestions_clicked)
 
@@ -248,6 +251,7 @@ class ExcludeTab(QWidget):
             if index < 0:
                 continue
 
+            # means removing item at this index
             self.list_exclude.takeTopLevelItem(index)
 
         if self.list_exclude.topLevelItemCount() > 0:
@@ -353,11 +357,12 @@ class ExcludeTab(QWidget):
 
         dlg = ExcludeSuggestionsDialog(self)
         dlg.exec()
+        # TODO
         return
         for path in self.config.DEFAULT_EXCLUDE:
             self.add_exclude(path)
 
-    def _suggestions_check_state(self):
+    def _sync_suggestions_check_state(self):
         """Sync the check state of the suggestions list with the current
         exclude liste.
 
@@ -365,7 +370,7 @@ class ExcludeTab(QWidget):
         content of the exclude list. Items still in the exclude list are
         checked and all other are not.
         """
-        content = bitbase.EXCLUDE_SUGGESTIONS  # dict
+        content = copy.deepcopy(bitbase.EXCLUDE_SUGGESTIONS)  # dict
 
         # flat list of suggestions
         suggestions = [
@@ -382,22 +387,38 @@ class ExcludeTab(QWidget):
         # Modify check state of suggested includes
         for group, entries in content.items():
             for idx in range(len(entries)):
-                check = True if content[group][idx][0] in suggestions \
-                    else False
+                check = content[group][idx][0] in suggestions
                 content[group][idx][-1] = check
 
         return content
 
-
     def btn_suggestions_clicked(self):
         """Handle button click"""
-        content = self._suggestions_check_state()
+        content = self._sync_suggestions_check_state()
 
         dlg = ExcludeSuggestionsDialog(self, content)
-        dlg.exec()
-        return
-        for path in self.config.DEFAULT_EXCLUDE:
-            self.add_exclude(path)
+        answer = dlg.exec()
+
+        if answer == QDialog.DialogCode.Rejected:
+            return
+
+        checked, unchecked = dlg.get_checked_and_unchecked()
+
+        for entry in checked:
+            print(f'add {entry=}')
+            self.add_exclude(entry)
+
+        self._remove_entries(unchecked)
+
+    def _remove_entries(self, entries: list[str]) -> None:
+        """Remove entries from the exlucde list if existent."""
+        for entry in entries:
+            # find item
+            items = self.list_exclude.findItems(entry, MATCH_FLAGS)
+            if items:
+                # remove it
+                idx = self.list_exclude.indexOfTopLevelItem(items[0])
+                self.list_exclude.takeTopLevelItem(idx)
 
     def update_exclude_items(self):
         """Used by parent dialog when profile mode was changed."""

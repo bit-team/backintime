@@ -12,13 +12,12 @@ from PyQt6.QtWidgets import (QApplication,
                              QHBoxLayout,
                              QLabel,
                              QSizePolicy,
-                             QStyledItemDelegate,
                              QSpacerItem,
                              QTreeWidget,
                              QTreeWidgetItem,
                              QWidget)
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QBrush, QPalette
+from PyQt6.QtGui import QPalette
 import qttools
 
 
@@ -197,6 +196,14 @@ class SectionedCheckList(QTreeWidget):
             QTreeWidget.SizeAdjustPolicy.AdjustToContents)
 
     def add_content(self, content: dict):
+        """Fill the widget with content.
+
+        See `bitbase.EXCLUDE_SUGGESTIONS` as an example.
+
+        Args:
+            content: Keys used as headers and values are list of tuples where
+        the last entry indicates the check state.
+        """
         for section_name, entries in content.items():
 
             header = self.HeaderItem(self, section_name, 2)
@@ -210,6 +217,8 @@ class SectionedCheckList(QTreeWidget):
                 )
                 if checked:
                     entry.checkbox.setCheckState(Qt.CheckState.Checked)
+
+            header.update_state()
 
         for col in range(self.columnCount()):
             self.resizeColumnToContents(col)
@@ -248,3 +257,17 @@ class SectionedCheckList(QTreeWidget):
                 result.append(item.label.text())
 
         return result
+
+    def get_entry_stings_separated_by_state(self
+                                            ) -> tuple[list[str], list[str]]:
+        """Return to list of strings with checked and unchecked entries."""
+
+        checked, un = [], []
+
+        for item in self.get_all_entry_items():
+            if item.checkbox.isChecked():
+                checked.append(item.label.text())
+            else:
+                un.append(item.label.text())
+
+        return checked, un
