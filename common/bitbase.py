@@ -184,70 +184,73 @@ Example:
     }
 """
 EXCLUDE_SUGGESTIONS = {
-    'Editor & Office temporary files': (
-        ['*~', 'Emacs backup files', False],
-        ['#*#', 'Emacs autosave files', True],
-        ['*.swp', 'Vim swap files', True],
-        ['~$*', 'Microsoft Office temporary files', True],
+    _('Editor & Office temporary files'): (
+        ['*~', _('Emacs backup files'), False],
+        ['#*#', _('Emacs autosave files'), True],
+        ['*.swp', _('Vim swap files'), True],
+        ['~$*', _('Microsoft Office temporary files'), True],
         [
             '.~lock.*#',
-            'LibreOffice & other OpenDocument Editors lock files',
+            _('LibreOffice & other OpenDocument Editors lock files'),
             True
         ],
     ),
-    'Thumbnails & Temporary Pictures': (
+    _('Thumbnails & Temporary Pictures'): (
         [
             '.thumbnails*',
-            'Thumbnail cache on GNU/Linux and other unixoid OS\'es',
+            _("Thumbnail cache on GNU/Linux and other unixoid OS'es"),
             True
          ],
-        ['Thumbs.db', 'Thumbnail database on Windows', False],
-        ['.DS_Store', 'Metadata directory on MacOS', False],
+        ['Thumbs.db', _('Thumbnail database on Windows'), False],
+        ['.DS_Store', _('Metadata directory on MacOS'), False],
     ),
-    'Application-specific locks': (
+    _('Application-specific locks'): (
         # Discord files. See also: https://github.com/bit-team/backintime
         # /issues/1555#issuecomment-1787230708
-        ['SingletonLock', 'Discord application lock file', False],
-        ['SingletonCookie', 'Discord session lock file', False],
+        ['SingletonLock', _('Discord application lock file'), False],
+        ['SingletonCookie', _('Discord session lock file'), False],
         # Mozilla file. See also: https://github.com/bit-team/backintime
         # /issues/1555#issuecomment-1787111063
-        ['lock', 'Mozilla Firefox & Thunderbird lock file', False],
+        ['lock', _('Mozilla Firefox & Thunderbird lock file'), False],
     ),
-    'Caches & Temporary directories': (
-        ['.cache/*', 'User application cache', True],
-        ['/tmp/*', 'System temporary directory', IS_IN_ROOT_MODE],
-        ['/var/tmp/*', 'System temporary directory', IS_IN_ROOT_MODE],
+    _('Caches & Temporary directories'): (
+        ['.cache/*', _('User application cache'), True],
+        ['/tmp/*', _('System temporary directory'), IS_IN_ROOT_MODE],
+        ['/var/tmp/*', _('System temporary directory'), IS_IN_ROOT_MODE],
         [
             '/var/cache/apt/archives/*.deb',
-            'Package cache for Debian and Debian-based GNU/Linux '
-            'distributions',
+            _('Package cache for Debian(-based) GNU/Linux '
+            'distributions'),
             IS_IN_ROOT_MODE
         ],
     ),
-    'System runtime directories': (
-        ['/proc/*', 'Kernel and process information', IS_IN_ROOT_MODE],
+    _('System runtime directories'): (
+        ['/proc/*', _('Kernel and process information'), IS_IN_ROOT_MODE],
         [
             '/sys/*',
-            'Device and other hardware information (sysfs interface)',
+            _('Device and other hardware information (sysfs interface)'),
             IS_IN_ROOT_MODE
         ],
-        ['/dev/*', 'Device nodes', IS_IN_ROOT_MODE],
-        ['/run/*', 'Runtime system files', IS_IN_ROOT_MODE],
+        ['/dev/*', _('Device nodes'), IS_IN_ROOT_MODE],
+        ['/run/*', _('Runtime system files'), IS_IN_ROOT_MODE],
     ),
-    'Other non-persistent': (
+    _('Other non-persistent'): (
         [
             '/etc/mtab',
-            'List of currently mounted filesystems',
+            _('List of currently mounted filesystems'),
             IS_IN_ROOT_MODE
         ],
-        ['/swapfile', 'System swap file (virtual memory)', True],
-        ['.gvfs', 'GNOME virtual file system mount point', True],
-        ['lost+found/*', 'Recovered filesystem objects', True],
+        ['/swapfile', _('System swap file (virtual memory)'), True],
+        ['.gvfs', _('GNOME virtual file system mount point'), True],
+        ['lost+found/*', _('Recovered filesystem objects'), True],
     ),
-    'Miscellaneous': (
-        ['System Volume Information',
-         'Metadata directory on Microsoft Windows', False],
-        ['.local/share/[Tt]rash*', 'User recycle bin', True],
-        ['/var/backups/*', 'System backup files', IS_IN_ROOT_MODE],
+    _('Miscellaneous'): (
+        [
+            'System Volume Information',
+            _('Metadata directory on Microsoft Windows'),
+            False
+        ],
+        ['.local/share/[Tt]rash*', _('User recycle bin'), True],
+        ['/var/backups/*', _('System backup files'), IS_IN_ROOT_MODE],
     ),
 }
