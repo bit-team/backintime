@@ -298,7 +298,7 @@ class HeaderItem(TimeLineItem):  # pylint: disable=too-few-public-methods
         self.setForeground(
             0, palette.color(QPalette.ColorRole.PlaceholderText))
         self.setBackground(
-            0, palette.color(QPalette.ColorRole.Window))
+            0, palette.color(QPalette.ColorRole.AlternateBase))
 
         self.setFlags(Qt.ItemFlag.NoItemFlags)
 
