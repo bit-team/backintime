@@ -169,16 +169,17 @@ IS_IN_ROOT_MODE = os.geteuid() == 0
 ENCFS_MSG_STAGE = 2
 
 """
-Format is a dict with a tuple of 3-item tuples:
+Format is a dict with a list of 3-item tuples:
 
-    dict[str, tuple[tuple[str, str, bool]]
+    dict[str, list[tuple[str, str, bool]]
 
 Example:
 
     {
         'Group name': (
             ('file', 'File, by default selected', True),
-            ('pattern', 'Pattern, by default not selected', False),
+            ('directory', 'Directory, not selected by default', False),
+            ('pattern', 'Pattern, not selected by default', False),
         )
     }
 """

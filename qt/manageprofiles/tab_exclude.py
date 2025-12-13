@@ -94,9 +94,9 @@ class ExcludeTab(QWidget):
 
         layout.addWidget(self.list_exclude)
 
-        self._label_exclude_recommend = QLabel('', self)
-        self._label_exclude_recommend.setWordWrap(True)
-        layout.addWidget(self._label_exclude_recommend)
+        # self._label_exclude_recommend = QLabel('', self)
+        # self._label_exclude_recommend.setWordWrap(True)
+        # layout.addWidget(self._label_exclude_recommend)
 
         buttons_layout = QHBoxLayout()
         layout.addLayout(buttons_layout)
@@ -117,11 +117,11 @@ class ExcludeTab(QWidget):
         self.btn_exclude_folder.clicked.connect(
             self.btn_exclude_folder_clicked)
 
-        self.btn_exclude_default = QPushButton(
-            self.icon.DEFAULT_EXCLUDE, _('Add default'), self)
-        buttons_layout.addWidget(self.btn_exclude_default)
-        self.btn_exclude_default.clicked.connect(
-            self.btn_exclude_default_clicked)
+        # self.btn_exclude_default = QPushButton(
+        #     self.icon.DEFAULT_EXCLUDE, _('Add default'), self)
+        # buttons_layout.addWidget(self.btn_exclude_default)
+        # self.btn_exclude_default.clicked.connect(
+        #     self.btn_exclude_default_clicked)
 
         self.btn_suggestions = QPushButton(
             self.icon.DEFAULT_EXCLUDE, _('Suggestions'), self)
@@ -174,7 +174,7 @@ class ExcludeTab(QWidget):
             self._add_exclude_pattern(exclude)
         self.cb_exclude_by_size.setChecked(self.config.excludeBySizeEnabled())
         self.spb_exclude_by_size.setValue(self.config.excludeBySize())
-        self._update_exclude_recommend_label()
+        # self._update_exclude_recommend_label()
 
         try:
             excl_sort = profile_state.exclude_sorting
@@ -210,27 +210,27 @@ class ExcludeTab(QWidget):
 
         return True
 
-    def _update_exclude_recommend_label(self):
-        """Update the label about recommended exclude patterns."""
+    # def _update_exclude_recommend_label(self):
+    #     """Update the label about recommended exclude patterns."""
 
-        # Default patterns that are not still in the list widget
-        recommend = list(filter(
-            lambda val: not self.list_exclude.findItems(val, MATCH_FLAGS),
-            self.config.DEFAULT_EXCLUDE
-        ))
+    #     # Default patterns that are not still in the list widget
+    #     recommend = list(filter(
+    #         lambda val: not self.list_exclude.findItems(val, MATCH_FLAGS),
+    #         self.config.DEFAULT_EXCLUDE
+    #     ))
 
-        if not recommend:
-            text = _('{BOLD}Highly recommended{ENDBOLD}: (All recommendations '
-                     'already included.)').format(
-                        BOLD='<strong>', ENDBOLD='</strong>')
+    #     if not recommend:
+    #         text = _('{BOLD}Highly recommended{ENDBOLD}: (All recommendations '
+    #                  'already included.)').format(
+    #                     BOLD='<strong>', ENDBOLD='</strong>')
 
-        else:
-            text = _('{BOLD}Highly recommended{ENDBOLD}: {files}').format(
-                BOLD='<strong>',
-                ENDBOLD='</strong>',
-                files=', '.join(sorted(recommend)))
+    #     else:
+    #         text = _('{BOLD}Highly recommended{ENDBOLD}: {files}').format(
+    #             BOLD='<strong>',
+    #             ENDBOLD='</strong>',
+    #             files=', '.join(sorted(recommend)))
 
-        self._label_exclude_recommend.setText(text)
+    #     self._label_exclude_recommend.setText(text)
 
     def _add_exclude_pattern(self, pattern):
         item = QTreeWidgetItem()
@@ -257,7 +257,7 @@ class ExcludeTab(QWidget):
         if self.list_exclude.topLevelItemCount() > 0:
             self.list_exclude.setCurrentItem(self.list_exclude.topLevelItem(0))
 
-        self._update_exclude_recommend_label()
+        # self._update_exclude_recommend_label()
 
     def add_exclude(self, pattern):
         """Initiate adding a new exclude pattern to the list widget.
@@ -280,7 +280,7 @@ class ExcludeTab(QWidget):
         # Select/highlight that entry.
         self.list_exclude.setCurrentItem(item)
 
-        self._update_exclude_recommend_label()
+        # self._update_exclude_recommend_label()
 
     def btn_exclude_add_clicked(self):
         """Handle button click
@@ -352,15 +352,15 @@ class ExcludeTab(QWidget):
         for path in dirs:
             self.add_exclude(str(path))
 
-    def btn_exclude_default_clicked(self):
-        """Handle button click"""
+    # def btn_exclude_default_clicked(self):
+    #     """Handle button click"""
 
-        dlg = ExcludeSuggestionsDialog(self)
-        dlg.exec()
-        # TODO
-        return
-        for path in self.config.DEFAULT_EXCLUDE:
-            self.add_exclude(path)
+    #     dlg = ExcludeSuggestionsDialog(self)
+    #     dlg.exec()
+    #     # TODO
+    #     return
+    #     for path in self.config.DEFAULT_EXCLUDE:
+    #         self.add_exclude(path)
 
     def _sync_suggestions_check_state(self):
         """Sync the check state of the suggestions list with the current
@@ -405,7 +405,6 @@ class ExcludeTab(QWidget):
         checked, unchecked = dlg.get_checked_and_unchecked()
 
         for entry in checked:
-            print(f'add {entry=}')
             self.add_exclude(entry)
 
         self._remove_entries(unchecked)
@@ -465,13 +464,14 @@ class ExcludeTab(QWidget):
             # Remove items tooltip
             item.setData(0, Qt.ItemDataRole.ToolTipRole, None)
 
-            # Icon: default exclude item
-            if item.text(0) in self.config.DEFAULT_EXCLUDE:
-                item.setIcon(0, self.icon.DEFAULT_EXCLUDE)
+            # # Icon: default exclude item
+            # if item.text(0) in self.config.DEFAULT_EXCLUDE:
+            #     item.setIcon(0, self.icon.DEFAULT_EXCLUDE)
 
-            else:
-                # Icon: user defined
-                item.setIcon(0, self.icon.EXCLUDE)
+            # else:
+
+            # Icon: user defined
+            item.setIcon(0, self.icon.EXCLUDE)
 
     def _exclude_custom_sort_order(self, *args):
         self.list_exclude_sort_loop = custom_sort_order(

@@ -78,44 +78,44 @@ class Config(configfile.ConfigFileWithProfiles):
 
     HOURLY_BACKUPS = bitbase.HOURLY_BACKUPS
 
-    # Used when new snapshot profile is created.
-    DEFAULT_EXCLUDE = [
-        # GNOME virtual file system
-        '.gvfs',
-        # Some editors autosave and temp files
-        '*~',  # Emacs backup
-        '#*#',  # Emacs autosave
-        '*.swp',  # vim
-        '~$*',  # MS Office
-        '.~lock.*#',  # LibreOffice & Co
-        # Thumbnails and temporary pictures
-        '.thumbnails*',
-        'Thumbs.db',
-        '.DS_Store',
-        # Windows
-        'System Volume Information',
-        # Some GNU/Linux stuff
-        '.cache/*',
-        '.local/share/[Tt]rash*',
-        'lost+found/*',
-        '/proc/*',
-        '/sys/*',
-        '/dev/*',
-        '/run/*',
-        '/etc/mtab',
-        '/var/cache/apt/archives/*.deb',
-        '/tmp/*',
-        '/var/tmp/*',
-        '/var/backups/*',
-        '/swapfile',
-        # Discord files. See also: https://github.com/bit-team/backintime
-        # /issues/1555#issuecomment-1787230708
-        'SingletonLock',
-        'SingletonCookie',
-        # Mozilla file. See also: https://github.com/bit-team/backintime
-        # /issues/1555#issuecomment-1787111063
-        'lock'
-    ]
+    # # Used when new snapshot profile is created.
+    # DEFAULT_EXCLUDE = [
+    #     # GNOME virtual file system
+    #     '.gvfs',
+    #     # Some editors autosave and temp files
+    #     '*~',  # Emacs backup
+    #     '#*#',  # Emacs autosave
+    #     '*.swp',  # vim
+    #     '~$*',  # MS Office
+    #     '.~lock.*#',  # LibreOffice & Co
+    #     # Thumbnails and temporary pictures
+    #     '.thumbnails*',
+    #     'Thumbs.db',
+    #     '.DS_Store',
+    #     # Windows
+    #     'System Volume Information',
+    #     # Some GNU/Linux stuff
+    #     '.cache/*',
+    #     '.local/share/[Tt]rash*',
+    #     'lost+found/*',
+    #     '/proc/*',
+    #     '/sys/*',
+    #     '/dev/*',
+    #     '/run/*',
+    #     '/etc/mtab',
+    #     '/var/cache/apt/archives/*.deb',
+    #     '/tmp/*',
+    #     '/var/tmp/*',
+    #     '/var/backups/*',
+    #     '/swapfile',
+    #     # Discord files. See also: https://github.com/bit-team/backintime
+    #     # /issues/1555#issuecomment-1787230708
+    #     'SingletonLock',
+    #     'SingletonCookie',
+    #     # Mozilla file. See also: https://github.com/bit-team/backintime
+    #     # /issues/1555#issuecomment-1787111063
+    #     'lock'
+    # ]
 
     DEFAULT_RUN_NICE_FROM_CRON = True
     DEFAULT_RUN_NICE_ON_REMOTE = False
@@ -867,7 +867,7 @@ class Config(configfile.ConfigFileWithProfiles):
         """
         #?Exclude this file or folder. <I> must be a counter
         #?starting with 1;file, folder or pattern (relative or absolute)
-        return self.profileListValue('snapshots.exclude', 'str:value', self.DEFAULT_EXCLUDE, profile_id)
+        return self.profileListValue('snapshots.exclude', 'str:value', [], profile_id)
 
     def setExclude(self, values, profile_id = None):
         self.setProfileListValue('snapshots.exclude', 'str:value', values, profile_id)
