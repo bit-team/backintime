@@ -11,9 +11,6 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 [![Mastodon @backintime@fosstodon.org](doc/maintain/_images/badge_mastodon.svg)](https://fosstodon.org/@backintime)
 
 [![Build Status](https://app.travis-ci.com/bit-team/backintime.svg)](https://app.travis-ci.com/bit-team/backintime)
-<!--
-[![Source code documentation Status](https://readthedocs.org/projects/backintime-dev/badge/?version=latest)](https://backintime-dev.readthedocs.io)
--->
 [![User manual Status](https://readthedocs.org/projects/backintime/badge/?version=latest)](https://backintime.readthedocs.io)
 [![Translation status](https://translate.codeberg.org/widget/backintime/common/svg-badge.svg)](https://translate.codeberg.org/engage/backintime)
 [![REUSE status](https://api.reuse.software/badge/github.com/bit-team/backintime)](https://api.reuse.software/info/github.com/bit-team/backintime)
@@ -31,9 +28,8 @@ saving storage space. Restoring is straightforward via file manager, command
 line or _Back In Time_ itself.
 
 It is written in Python3 and available for all major GNU/Linux distributions
-(but not for Windows or OS X/macOS) as command line tool `backintime` and GUI
-`backintime-qt`. Backups can be scheduled and stored locally or remotely
-through SSH.
+as command line tool `backintime` and GUI `backintime-qt`. Backups can be
+scheduled and stored locally or remotely through SSH.
 
 More background info in [CONTRIBUTING](CONTRIBUTING.md) and
 [HISTORY](HISTORY.md).
@@ -57,16 +53,17 @@ those labeled as [good first issues](https://github.com/bit-team/backintime/labe
 and [help wanted](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen+label%3AHELP-WANTED).
 
 ## The team
-The current team started in summer of 2022
-(with [#1232](https://github.com/bit-team/backintime/issues/1232)) and
-constitutes the project's 3rd generation of maintainers. Consisting of three
-members with diverse backgrounds (@aryoda, @buhtz, @emtiu), the team benefits
-from the assistance of the former maintainer, @Germar, who contributes from
-behind the scenes.
+Since around 2024, @buhtz, part of the projects third generation of
+maintainers, has been the sole maintainer. He handles all core tasks, from code
+analysis and documentation to issue resolution and feature implementation. The
+work is carried out voluntarily during spare time. The project continues to
+benefit from an active and engaged community that provides advice, expertise,
+and contributions, ensuring it thrives and evolves.
 
-All team members are engaged in every aspect of the project, including code
-analysis, documentation, solving issues, and the implementation of new
-features. This work is carried out voluntarily during their limited spare time.
+The project was
+[reactivated in 2022](https://github.com/bit-team/backintime/issues/1232))
+and thanks in large part to @emtiu and @aryoda, who helped relaunch and
+shape its direction. See [HISTORY](HISTORY.md) for more details.
 
 # Index
 
@@ -104,21 +101,13 @@ latest development version of _Back In Time_ please see section
 [Build & Install](CONTRIBUTING.md#build--install) in
 [`CONTRIBUTING.md`](CONTRIBUTING.md). Also the dependencies are described there.
 
-## Alternative installation options
-Besides the repositories of the official GNU/Linux distributions, there are
-other alternative installation options provided and maintained by third
-parties. Use them at your own risk and please contact that third party
-maintainers if you encounter problems.
-
-- [@jean-christophe-manciot](https://github.com/jean-christophe-manciot)'s PPA distributing [_Back In Time_ for the latest stable Ubuntu release](https://git.sdxlive.com/PPA/about). See [PPA requirements](https://git.sdxlive.com/PPA/about/#requirements) and [install instructions](https://git.sdxlive.com/PPA/about/#installing-the-ppa).
-- The Arch User Repository ([AUR](https://aur.archlinux.org/)) does offer [some packages](https://aur.archlinux.org/packages?K=backintime).
-
 # Known Problems and Workarounds
 
 In the latest stable release:
 - [OverflowError: Value 1702441408 out of range for UInt32](#overflowerror-value-1702441408-out-of-range-for-uint32)
 - [File permissions handling and therefore possible non-differential backups](#file-permissions-handling-and-therefore-possible-non-differential-backups)
 - [`qt_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`](#qt_probingpy-may-hang-with-high-cpu-usage-when-running-bit-as-root-via-cron)
+- [`SettingsDialog` object has no attribute `cbCopyUnsafeLinks`](#settingsDialog-object-has-no-attribute-cbcopyunsafelinks)
 
 More problems described in
 [this FAQ section](FAQ.md#problems-errors--solutions).
@@ -164,6 +153,23 @@ the file `/usr/share/backintime/common/qt_probing.py`:
 
 Renaming does *not* work!
 
+## `SettingsDialog` object has no attribute `cbCopyUnsafeLinks`
+Wenn adding a file or directory, that is in fact a symlink, to the _Include_
+Tab in the _Manage profiles_ dialog, the BIT GUI crash and give the following
+error in the terminal.
+
+```pytb
+Traceback (most recent call last):
+  File "/usr/share/backintime/qt/manageprofiles/tab_include.py", line 185, in btn_include_add_clicked
+    self._parent_dialog.cbCopyUnsafeLinks.isChecked() or
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SettingsDialog' object has no attribute 'cbCopyUnsafeLinks'
+```
+
+Introduced in version `1.5.3`. Fixed in (upcoming) `1.6.0`.  See issue
+[#2279](https://github.com/bit-team/backintime/issues/2279).
+
+Workaround: Don't use a symlink but the linked target.
 
 # Contributing and other ways to support the project
 See [CONTRIBUTING](CONTRIBUTING.md) file for an overview about the projects
@@ -174,4 +180,4 @@ Please read [`LICENSES.md`](LICENSES.md).
 
 ---
 
-<sub>July 2025</sub>
+<sub>December 2025</sub>

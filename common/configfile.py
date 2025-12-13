@@ -88,7 +88,7 @@ class ConfigFile:
             return re.sub(r'\d+', lambda m: m.group(0).zfill(6), key)
 
         try:
-            with open(filename, 'wt') as f:
+            with open(filename, mode='wt', encoding='utf-8') as f:
                 keys = list(self.dict.keys())
                 keys.sort(key=numsort)
 
@@ -128,7 +128,7 @@ class ConfigFile:
             return
 
         try:
-            with open(filename, 'rt') as f:
+            with open(filename, mode='rt', encoding='utf-8') as f:
                 lines = f.readlines()
 
         except OSError as e:
@@ -583,7 +583,7 @@ class ConfigFileWithProfiles(ConfigFile):
                 self.current_profile_id = profile_id
                 logger.changeProfile(profile_id, profile_name)
                 logger.debug(
-                    f'Change current profile: {profile_id}={profile_name}',
+                    f'Change current profile to {profile_name}({profile_id})',
                     self)
 
                 return True

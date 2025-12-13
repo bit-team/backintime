@@ -42,8 +42,10 @@ _base_dir = pathlib.Path(__file__).resolve().parent.parent
 
 # Files in this lists will get the full battery of linters and rule sets.
 full_test_files = [_base_dir / fp for fp in (
+    'status.py',
     'askpass.py',
     'bitbase.py',
+    'bitlicense.py',
     # 'cliarguments.py',
     # 'clicommands.py',
     'daemon.py',
@@ -54,16 +56,19 @@ full_test_files = [_base_dir / fp for fp in (
     'schedule.py',
     'shutdownagent.py',
     'singleton.py',
+    'snapshotlog.py',
     'ssh_max_arg.py',
     'storagesize.py',
     'version.py',
     'test/test_args.py',
     'test/test_diagnostics.py',
+    'test/test_file_info_dict.py',
     'test/test_languages.py',
     'test/test_lint.py',
     'test/test_mount.py',
     'test/test_singleton.py',
     'test/test_storagesize.py',
+    'test/test_takesnapshotlog.py',
     'test/test_uniquenessset.py',
 )]
 
@@ -161,7 +166,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         """
 
         if PYLINT_AVAILABLE:
-            version_target = version.parse('3.3.0')
+            version_target = version.parse('4.0.0')
 
             proc = subprocess.run(
                 ['pylint', '--version'],
@@ -207,7 +212,8 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # - PyCodestyle (E, W)
             # - flake8-gettext (INT)
             # - useless noqua (RUF100)
-            '--extend-select=PL,E,W,INT,RUF100',
+            # - pep8-naming (N)
+            '--extend-select=PL,E,W,INT,RUF100,N',
             # Ignore: redefined-loop-name
             '--ignore=PLW2901',
             '--line-length', str(PEP8_MAX_LINE_LENGTH),
@@ -313,12 +319,21 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
 
         # Explicit activate checks
         err_codes = [
+            # 'C0103',  # invalid-name
+            # 'C0114',  # missing-module-docstring
+            # 'C0115',  # missing-class-docstring
+            # 'C0116',  # missing-function-docstring
+            # 'C0200',  # consider-using-enumerate
+            # 'C0201',  # consider-iterating-dictionary
             # 'C0301',  # line-too-long
+            'C0303',  # trailing-whitespace
             'C0305',  # trailing-newlines
-            # 'C0321',  # multiple-statements
+            'C0321',  # multiple-statements
             'C0325',  # superfluous-parens
             'C0410',  # multiple-imports
-            'C0303',  # trailing-whitespace
+            # 'C0411',  # wrong-import-order
+            # 'C0412',  # ungouped-imports
+            # 'C0413',  # wrong-import-position
             'E0100',  # init-is-generator
             'E0101',  # return-in-init
             'E0102',  # function-redefined
@@ -328,14 +343,28 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'E0401',  # import-error
             'E0602',  # undefined-variable
             'E1101',  # no-member
-            # 'E1120',  # no-value-for-parameter
+            'E1120',  # no-value-for-parameter
             # 'E1121',  # too-many-function-args
+            'E1123',  # unexpected-keyword-arg
+            'E1129',  # not-context-manager
             'I0021',  # useless-suppression
             # 'R0202',  # no-classmethod-decorator
             # 'R0203',  # no-staticmethod-decorator
             # 'R0801',  # duplicate-code
+            # 'R0902',  # too-many-instance-attributes
+            # 'R0904',  # too-many-public-methods
+            # 'R0912',  # too-many-branches
+            # 'R0913',  # too-many-arguments
+            # 'R0915',  # too-many-statements
+            'W0101',  # unreachable
+            # 'W0102',  # dangerous-default-value
+            'W0105',  # pointless-string-statement
+            'W0106',  # expression-not-assigned
             # 'W0107',  # unnecessary-pass
+            # 'W0120',  # useless-else-on-loop
+            'w0122',  # exec-used
             'W0123',  # eval-used
+            'W0150',  # lost-exception
             # 'W0201',  # attribute-defined-outside-init
             # 'W0221',  # arguments-differ
             'W0237',  # arguments-renamed
@@ -344,15 +373,33 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # 'W0603',  # global-statement
             'W0611',  # unused-import
             'W0612',  # unused-variable
+            # 'W0613',  # unused-argument
             'W0614',  # unused-wildcard-import
+            # 'W0621',  # redefined-outer-name
+            # 'W0622',  # redefined-builtin
+            'W0631',  # undefinied-loop-variable
+            # 'W0640',  # cell-var-from-loop
+            # 'W0702',  # bare-except
+            # 'W0703',  # broad-except
             'W0707',  # raise-missing-from
+            'W0711',  # binary-op-exception
+            'W1115',  # bad-format-string-key
             'W1301',  # unused-format-string-key
             'W1401',  # anomalous-backslash-in-string (invalid escape sequence)
-            'W1515',  # forgotten-debug-statement
-            'W4902',  # deprecated-method
-            'W4904',  # deprecated-class
+            # 'W1511',  # bad-thread-instantiation
+            # 'W1515',  # forgotten-debug-statement
+            # 'W4902',  # deprecated-method
+            # 'W4903',  # deprecated-argument
+            # 'W4904',  # deprecated-class
             'R0202',  # no-classmethod-decorator
             'R0203',  # no-staticmethod-decorator
+            # 'R0911',  # too-many-return-statements
+            # 'R0914',  # too-many-locals
+            # 'R1701',  # simplifiable-if-statement
+            # 'R1702',  # too-many-nested-blocks
+            # 'R1703',  # simplifiable-if-expression
+            # 'R1705',  # no-else-return
+            # 'R1720',  # no-else-raise
             # See PyLint bugs:
             # https://github.com/pylint-dev/pylint/issues/214
             # https://github.com/pylint-dev/pylint/issues/7920

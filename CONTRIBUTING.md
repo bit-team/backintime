@@ -155,6 +155,7 @@ distribution.
   - `x11-utils`
   - `python3-pyqt6` (not from _PyPi_ via `pip`)
   - `python3-dbus.mainloop.pyqt6` (not available from _PyPi_ via `pip`)
+  - `python3-pyqt6.qtsvg`
   - `pkexec`
   - `polkitd`
   - `qttranslations6-l10n`
@@ -168,10 +169,6 @@ distribution.
         packages
         - `kompare`
         - or `meld`
-      - Optional: Default icons
-        - The `oxygen` icons should be offered as optional dependency
-          since they are used as fallback in case of missing icons
-          (mainly app and system-tray icons)
 
 * Build and testing dependencies
   - All CLI runtime dependencies including the recommended
@@ -182,7 +179,7 @@ distribution.
   - `python3-pyfakefs` (>= 5.7)
   - `asciidoctor`
   - Optional but recommended:
-    - `pylint` (>= 3.3.0)
+    - `pylint` (>= 4.0.0)
     - `flake8`
     - `ruff` (>= 0.12.0)
     - `codespell`
@@ -303,6 +300,9 @@ the chance to review and potentially veto the pull request.
   the file system.
 - Translate "Back In Time"? It is the name of the application. That shouldn't
   be translated at all.
+- The target user group for Back In Time consists of end users without a
+  technical background.  Write GUI strings and messages accordingly, avoiding
+  technical or nerdy terminology.
 - Some points of the following
   [General recommendations for developers](#general-recommendations-for-develoeprs)
   are also relevant for translators. 
@@ -310,13 +310,13 @@ the chance to review and potentially veto the pull request.
 ## General recommendations for developers
 The following points are about creating translatable source strings.
 
-- Be aware that most of our translators not skilled in Python programming. They
-  might don't know about GNU gettext internals and other technical
+- Be aware that some of our translators are not skilled in Python programming.
+  They might don't know about GNU gettext internals and other technical
   details. They only see the translatable string in the web-frontend of our
   [translation platform](https://translate.codeberg.org/engage/backintime).
 - Avoid escape characters in the strings.
 - Give translators enough context with providing meaningful placeholder names.
-- Avoid addressing the person with "you".
+- Avoid addressing users as persons with "you". Try neutral phrases instead.
 - Don't "scream" by using upper case letters (e.g. `WARNING`) or an exclamation
   mark (`!`).
 - Please provide a screenshot when introducing new translatable strings or
@@ -407,10 +407,12 @@ priority.
 - [Code quality & unit tests](#code-quality--unit-tests)
 - [Issues](#issues)
 - [Replace and remove encryption library EncFS](#replace-and-remove-encryption-library-encfs)
-- [Project infrastructure](#project-infrastructure)
+- [Packaging](#packaging)
+- [Code hosting](#code-hosting)
 - [Graphical User Interface (GUI): Redesign and Refactoring](#graphical-user-interface-gui-redesign-and-refactoring)
 - [Terminal User Interface (TUI)](#terminal-user-interface-tui)
 - [Tentative rough roadmap](#tentative-rough-roadmap)
+- [More stuff](#more-stuff)
 
 ## Analyzing code and behavior
 
@@ -467,7 +469,7 @@ maintenance efforts. See
 [Issue #1734](https://github.com/bit-team/backintime/issues/1734) about the
 transition process and the discussion about alternatives to EncFS.
 
-## Project infrastructure
+## Packaging
 
 At present, _Back In Time_ utilizes a build system that relies on `make`. However,
 this approach has several shortcomings and does not adhere to modern standards
@@ -477,6 +479,11 @@ in Python packaging ([PEP 621](https://peps.python.org/pep-0621),
 [pyproject.toml](https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html)).
 The team intends to migrate to these contemporary standards to streamline
 the maintenance of _Back In Time_ ([#1575](https://github.com/bit-team/backintime/issues/1575)).
+
+## Code hosting
+
+The plan is to move to [Codeberg.org](https://codeberg.org). See also
+[this FAQ entry](FAQ.md##move-project-to-alternative-code-hoster-eg-codeberg-gitlab-).
 
 ## Graphical User Interface (GUI): Redesign and Refactoring
 
@@ -496,6 +503,13 @@ are rejected or postponed in favor of a human readable config file format using
 TOML ([#1984](https://github.com/bit-team/backintime/issues/1984)), assuming
 that a TUI or WebInterface, while convenient and pleasant, would no longer be
 necessary.
+
+## More stuff
+
+- Migration of the logging mechanic to Python's own `logging` module
+  ([#2286](https://github.com/bit-team/backintime/issues/2286).
+- Re-write interprocess communication (IPC)
+  ([#2260](https://github.com/bit-team/backintime/issues/2260).
 
 ## Tentative rough roadmap
 This is a broad overview of upcoming developlment steps depending on each other:

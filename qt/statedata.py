@@ -112,7 +112,7 @@ class StateData(dict, metaclass=singleton.Singleton):
                 Tuple with column index and its sorting order (0=ascending).
             """
             return self._state['gui']['manage_profiles'][
-                'excl_sorting'][self._profile_id]
+                    'excl_sorting'][self._profile_id]
 
         @exclude_sorting.setter
         def exclude_sorting(self, vals: tuple[int, int]) -> None:

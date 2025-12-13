@@ -8,7 +8,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of the program "Back In Time" which is released under GNU
-# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Tests about the tools module."""
 import os
@@ -16,7 +16,6 @@ import sys
 import subprocess
 import random
 import pathlib
-import gzip
 import stat
 import signal
 import unittest
@@ -41,34 +40,6 @@ UDEVADM_HAS_UUID = subprocess.Popen(
     stdout=subprocess.PIPE,
     stderr=subprocess.DEVNULL).communicate()[0].find(b'ID_FS_UUID=') > 0
 
-RSYNC_INSTALLED = tools.checkCommand('rsync')
-
-RSYNC_307_VERSION = """rsync  version 3.0.7  protocol version 30
-Copyright (C) 1996-2009 by Andrew Tridgell, Wayne Davison, and others.
-Web site: http://rsync.samba.org/
-Capabilities:
-    64-bit files, 64-bit inums, 32-bit timestamps, 64-bit long ints,
-    socketpairs, hardlinks, symlinks, IPv6, batchfiles, inplace,
-    append, ACLs, xattrs, iconv, symtimes
-
-rsync comes with ABSOLUTELY NO WARRANTY.  This is free software, and you
-are welcome to redistribute it under certain conditions.  See the GNU
-General Public License for details.
-"""
-
-RSYNC_310_VERSION = """rsync  version 3.1.0  protocol version 31
-Copyright (C) 1996-2013 by Andrew Tridgell, Wayne Davison, and others.
-Web site: http://rsync.samba.org/
-Capabilities:
-    64-bit files, 64-bit inums, 64-bit timestamps, 64-bit long ints,
-    socketpairs, hardlinks, symlinks, IPv6, batchfiles, inplace,
-    append, ACLs, xattrs, iconv, symtimes, prealloc
-
-rsync comes with ABSOLUTELY NO WARRANTY.  This is free software, and you
-are welcome to redistribute it under certain conditions.  See the GNU
-General Public License for details.
-"""
-
 
 class Basics(unittest.TestCase):
     def test_as_backintime_path(self):
@@ -81,6 +52,42 @@ class Basics(unittest.TestCase):
 
         self.assertIn(path, sys.path)
         sys.path.remove(path)
+
+    def test_which(self):
+        self.assertRegex(tools.which('ls'), r'/.*/ls')
+
+        self.assertEqual(tools.which('backintime'),
+                         os.path.join(os.getcwd(), 'backintime'))
+
+        self.assertIsNone(tools.which('notExistedCommand'))
+
+    def test_makeDirs(self):
+        self.assertFalse(tools.makeDirs('/'))
+        self.assertTrue(tools.makeDirs(os.getcwd()))
+        with TemporaryDirectory() as d:
+            path = os.path.join(d, 'foo', 'bar')
+            self.assertTrue(tools.makeDirs(path))
+
+    def test_makeDirs_not_writable(self):
+        with TemporaryDirectory() as d:
+            os.chmod(d, stat.S_IRUSR)
+            path = os.path.join(
+                d, 'foobar{}'.format(random.randrange(100, 999)))
+            self.assertFalse(tools.makeDirs(path))
+
+    def test_mkdir(self):
+        self.assertFalse(tools.mkdir('/'))
+        with TemporaryDirectory() as d:
+            path = os.path.join(d, 'foo')
+            self.assertTrue(tools.mkdir(path))
+            for mode in (0o700, 0o644, 0o777):
+                msg = 'new path should have octal permissions {0:#o}' \
+                      .format(mode)
+                path = os.path.join(d, '{0:#o}'.format(mode))
+                self.assertTrue(tools.mkdir(path, mode), msg)
+                self.assertEqual(
+                    '{0:o}'.format(os.stat(path).st_mode & 0o777),
+                    '{0:o}'.format(mode), msg)
 
 
 class General(generic.TestCase):
@@ -120,110 +127,6 @@ class General(generic.TestCase):
 
         tools.addSourceToPathEnviron()
         self.assertIn(source, os.environ['PATH'])
-
-    def test_readFile(self):
-        """
-        Test the function readFile
-        """
-        test_tools_file = os.path.abspath(__file__)
-        test_directory = os.path.dirname(test_tools_file)
-        non_existing_file = os.path.join(test_directory, "nonExistingFile")
-
-        self.assertIsInstance(tools.readFile(test_tools_file), str)
-        self.assertIsNone(tools.readFile(non_existing_file))
-
-        with NamedTemporaryFile('wt') as tmp:
-            tmp.write('foo\nbar')
-            tmp.flush()
-            self.assertIsInstance(tools.readFile(tmp.name), str)
-            self.assertEqual(tools.readFile(tmp.name), 'foo\nbar')
-
-        tmp_gz = NamedTemporaryFile().name
-        with gzip.open(tmp_gz + '.gz', 'wt') as f:
-            f.write('foo\nbar')
-            f.flush()
-        self.assertIsInstance(tools.readFile(tmp_gz), str)
-        self.assertEqual(tools.readFile(tmp_gz), 'foo\nbar')
-        os.remove(tmp_gz + '.gz')
-
-    def test_readFileLines(self):
-        """
-        Test the function readFileLines
-        """
-        test_tools_file = os.path.abspath(__file__)
-        test_directory = os.path.dirname(test_tools_file)
-        non_existing_file = os.path.join(test_directory, "nonExistingFile")
-
-        output = tools.readFileLines(test_tools_file)
-        self.assertIsInstance(output, list)
-        self.assertGreaterEqual(len(output), 1)
-        self.assertIsInstance(output[0], str)
-        self.assertIsNone(tools.readFileLines(non_existing_file))
-
-        with NamedTemporaryFile('wt') as tmp:
-            tmp.write('foo\nbar')
-            tmp.flush()
-            self.assertIsInstance(tools.readFileLines(tmp.name), list)
-            self.assertListEqual(tools.readFileLines(tmp.name), ['foo', 'bar'])
-
-        tmp_gz = NamedTemporaryFile().name
-        with gzip.open(tmp_gz + '.gz', 'wt') as f:
-            f.write('foo\nbar')
-            f.flush()
-        self.assertIsInstance(tools.readFileLines(tmp_gz), list)
-        self.assertEqual(tools.readFileLines(tmp_gz), ['foo', 'bar'])
-        os.remove(tmp_gz + '.gz')
-
-    def test_checkCommand(self):
-        """
-        Test the function checkCommand
-        """
-        self.assertFalse(tools.checkCommand(''))
-        self.assertFalse(tools.checkCommand("notExistedCommand"))
-        self.assertTrue(tools.checkCommand("ls"))
-        self.assertTrue(tools.checkCommand('backintime'))
-
-    def test_which(self):
-        """
-        Test the function which
-        """
-        self.assertRegex(tools.which("ls"), r'/.*/ls')
-        self.assertEqual(tools.which('backintime'),
-                         os.path.join(os.getcwd(), 'backintime'))
-        self.assertIsNone(tools.which("notExistedCommand"))
-
-    def test_makeDirs(self):
-        self.assertFalse(tools.makeDirs('/'))
-        self.assertTrue(tools.makeDirs(os.getcwd()))
-        with TemporaryDirectory() as d:
-            path = os.path.join(d, 'foo', 'bar')
-            self.assertTrue(tools.makeDirs(path))
-
-    def test_makeDirs_not_writable(self):
-        with TemporaryDirectory() as d:
-            os.chmod(d, stat.S_IRUSR)
-            path = os.path.join(
-                d, 'foobar{}'.format(random.randrange(100, 999)))
-            self.assertFalse(tools.makeDirs(path))
-
-    def test_mkdir(self):
-        self.assertFalse(tools.mkdir('/'))
-        with TemporaryDirectory() as d:
-            path = os.path.join(d, 'foo')
-            self.assertTrue(tools.mkdir(path))
-            for mode in (0o700, 0o644, 0o777):
-                msg = 'new path should have octal permissions {0:#o}' \
-                      .format(mode)
-                path = os.path.join(d, '{0:#o}'.format(mode))
-                self.assertTrue(tools.mkdir(path, mode), msg)
-                self.assertEqual(
-                    '{0:o}'.format(os.stat(path).st_mode & 0o777),
-                    '{0:o}'.format(mode), msg)
-
-    def test_pids(self):
-        pids = tools.pids()
-        self.assertGreater(len(pids), 0)
-        self.assertIn(os.getpid(), pids)
 
     def test_processStat(self):
         pid = self._create_process()
@@ -300,72 +203,12 @@ class General(generic.TestCase):
             self.fail(
                 'tools.ckeck_x_server() raised exception {}'.format(str(e)))
 
-    def test_preparePath(self):
-        path_with_slash_at_begin = "/test/path"
-        path_without_slash_at_begin = "test/path"
-        path_with_slash_at_end = "/test/path/"
-        path_without_slash_at_end = "/test/path"
-        self.assertEqual(
-            tools.preparePath(path_with_slash_at_begin),
-            path_with_slash_at_begin)
-        self.assertEqual(
-            tools.preparePath(path_without_slash_at_begin),
-            path_with_slash_at_begin)
-        self.assertEqual(
-            tools.preparePath(path_without_slash_at_end),
-            path_without_slash_at_end)
-        self.assertEqual(
-            tools.preparePath(path_with_slash_at_end),
-            path_without_slash_at_end)
-
     def test_powerStatusAvailable(self):
         if tools.processExists('upowerd') and not generic.ON_TRAVIS:
             self.assertTrue(tools.powerStatusAvailable())
         else:
             self.assertFalse(tools.powerStatusAvailable())
         self.assertIsInstance(tools.onBattery(), bool)
-
-    def test_rsyncCaps(self):
-        if RSYNC_INSTALLED:
-            caps = tools.rsyncCaps()
-            self.assertIsInstance(caps, list)
-            self.assertGreaterEqual(len(caps), 1)
-
-        self.assertListEqual(tools.rsyncCaps(data=RSYNC_307_VERSION),
-                             ['64-bit files',
-                              '64-bit inums',
-                              '32-bit timestamps',
-                              '64-bit long ints',
-                              'socketpairs',
-                              'hardlinks',
-                              'symlinks',
-                              'IPv6',
-                              'batchfiles',
-                              'inplace',
-                              'append',
-                              'ACLs',
-                              'xattrs',
-                              'iconv',
-                              'symtimes'])
-
-        self.assertListEqual(tools.rsyncCaps(data=RSYNC_310_VERSION),
-                             ['progress2',
-                              '64-bit files',
-                              '64-bit inums',
-                              '64-bit timestamps',
-                              '64-bit long ints',
-                              'socketpairs',
-                              'hardlinks',
-                              'symlinks',
-                              'IPv6',
-                              'batchfiles',
-                              'inplace',
-                              'append',
-                              'ACLs',
-                              'xattrs',
-                              'iconv',
-                              'symtimes',
-                              'prealloc'])
 
     def test_md5sum(self):
         with NamedTemporaryFile() as f:
@@ -374,17 +217,6 @@ class General(generic.TestCase):
 
             self.assertEqual(tools.md5sum(f.name),
                              'acbd18db4cc2f85cedef654fccc4a4d8')
-
-    def test_checkCronPattern(self):
-        self.assertTrue(tools.checkCronPattern('0'))
-        self.assertTrue(tools.checkCronPattern('0,10,13,15,17,20,23'))
-        self.assertTrue(tools.checkCronPattern('*/6'))
-        self.assertFalse(tools.checkCronPattern('a'))
-        self.assertFalse(tools.checkCronPattern(' 1'))
-        self.assertFalse(tools.checkCronPattern('0,10,13,1a,17,20,23'))
-        self.assertFalse(tools.checkCronPattern('0,10,13, 15,17,20,23'))
-        self.assertFalse(tools.checkCronPattern('*/6,8'))
-        self.assertFalse(tools.checkCronPattern('*/6 a'))
 
     def test_mountpoint(self):
         self.assertEqual(tools.mountpoint('/nonExistingFolder/foo/bar'), '/')
@@ -397,49 +229,6 @@ class General(generic.TestCase):
         self.assertEqual(
             tools.decodeOctalEscape('/mnt/path\\040with\\040space'),
             '/mnt/path with space')
-
-    def test_mountArgs(self):
-        rootArgs = tools.mountArgs('/')
-        self.assertIsInstance(rootArgs, list)
-        self.assertGreaterEqual(len(rootArgs), 3)
-        self.assertEqual(rootArgs[1], '/')
-
-        procArgs = tools.mountArgs('/proc')
-        self.assertGreaterEqual(len(procArgs), 3)
-        self.assertEqual(procArgs[0], 'proc')
-        self.assertEqual(procArgs[1], '/proc')
-        self.assertEqual(procArgs[2], 'proc')
-
-    def test_isRoot(self):
-        self.assertIsInstance(tools.isRoot(), bool)
-
-    def test_usingSudo(self):
-        self.assertIsInstance(tools.usingSudo(), bool)
-
-    def test_patternHasNotEncryptableWildcard(self):
-        self.assertFalse(tools.patternHasNotEncryptableWildcard('foo'))
-        self.assertFalse(tools.patternHasNotEncryptableWildcard('/foo'))
-        self.assertFalse(tools.patternHasNotEncryptableWildcard('foo/*/bar'))
-        self.assertFalse(tools.patternHasNotEncryptableWildcard('foo/**/bar'))
-        self.assertFalse(tools.patternHasNotEncryptableWildcard('*/foo'))
-        self.assertFalse(tools.patternHasNotEncryptableWildcard('**/foo'))
-        self.assertFalse(tools.patternHasNotEncryptableWildcard('foo/*'))
-        self.assertFalse(tools.patternHasNotEncryptableWildcard('foo/**'))
-
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo?'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo[1-2]'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo*'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('*foo'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('**foo'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('*.foo'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo*bar'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo**bar'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo*/bar'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo**/bar'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo/*bar'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo/**bar'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('foo/*/bar*'))
-        self.assertTrue(tools.patternHasNotEncryptableWildcard('*foo/*/bar'))
 
     def test_readTimeStamp(self):
         with NamedTemporaryFile('wt') as f:
@@ -495,7 +284,97 @@ class General(generic.TestCase):
             'echo start;echo foo;echo foo;echo foo;echo end')
 
 
-class EscapeIPv6(generic.TestCase):
+class CheckCronPattern(unittest.TestCase):
+    def test_valid(self):
+        to_test = (
+            '0',
+            '0,10,13,15,17,20,23',
+            '*/6'
+        )
+
+        for sut in to_test:
+            self.assertTrue(tools.checkCronPattern(sut))
+
+    def test_not_valid(self):
+        to_test = (
+            'a',
+            ' 1',
+            '0,10,13,1a,17,20,23',
+            '0,10,13, 15,17,20,23',
+            '*/6,8',
+            '*/6 a'
+        )
+
+        for sut in to_test:
+            self.assertFalse(tools.checkCronPattern(sut))
+
+
+class CheckCommand(unittest.TestCase):
+    def test_empty(self):
+        self.assertFalse(tools.checkCommand(''))
+
+    def test_not_existing(self):
+        self.assertFalse(tools.checkCommand('notExistedCommand'))
+
+    def test_existing(self):
+        for sut in ('ls', 'backintime'):
+            self.assertTrue(tools.checkCommand(sut))
+
+
+class MountArgs(unittest.TestCase):
+    def test_root_fs(self):
+        sut = tools.mountArgs('/')
+        self.assertIsInstance(sut, list)
+        self.assertGreaterEqual(len(sut), 3)
+        self.assertEqual(sut[1], '/')
+
+    def test_proc(self):
+        sut = tools.mountArgs('/proc')
+        self.assertGreaterEqual(len(sut), 3)
+        self.assertEqual(sut[0], 'proc')
+        self.assertEqual(sut[1], '/proc')
+        self.assertEqual(sut[2], 'proc')
+
+
+class EncryptableWildcards(unittest.TestCase):
+    def test_has(self):
+        to_test = (
+            'foo',
+            '/foo',
+            'foo/*/bar',
+            'foo/**/bar',
+            '*/foo',
+            '**/foo',
+            'foo/*',
+            'foo/**'
+        )
+
+        for sut in to_test:
+            self.assertFalse(tools.patternHasNotEncryptableWildcard(sut))
+
+    def test_has_not(self):
+        to_test = (
+            'foo?',
+            'foo[1-2]',
+            'foo*',
+            '*foo',
+            '**foo',
+            '*.foo',
+            'foo*bar',
+            'foo**bar',
+            'foo*/bar',
+            'foo**/bar',
+            'foo/*bar',
+            'foo/**bar',
+            'foo/*/bar*',
+            '*foo/*/bar'
+        )
+
+        for sut in to_test:
+            self.assertTrue(tools.patternHasNotEncryptableWildcard(sut))
+
+
+class EscapeIPv6(unittest.TestCase):
     def test_escaped(self):
         values_and_expected = (
             ('fd00:0::5', '[fd00:0::5]'),
@@ -621,26 +500,31 @@ class Environ(generic.TestCase):
                 self.assertEqual(test_env.strValue(k), str(i), msg)
 
 
-class ExecuteSubprocess(generic.TestCase):
-    # new method with subprocess
+class ExecuteSubprocess(unittest.TestCase):
+    def setUp(self):
+        self.run = False
+
+    def _callback(self, func, *args):
+        func(*args)
+        self.run = True
+
     def test_returncode(self):
         self.assertEqual(tools.Execute(['true']).run(), 0)
         self.assertEqual(tools.Execute(['false']).run(), 1)
 
-    def test_callback(self):
-        c = lambda x, y: self.callback(self.assertEqual, x, 'foo')
+    def test_callback_simple(self):
+        c = lambda x, y: self._callback(self.assertEqual, x, 'foo')
         tools.Execute(['echo', 'foo'], callback=c).run()
         self.assertTrue(self.run)
-        self.run = False
 
-        # give extra user_data for callback
-        c = lambda x, y: self.callback(self.assertEqual, x, y)
+    def test_callback_extra_user_data(self):
+        c = lambda x, y: self._callback(self.assertEqual, x, y)
         tools.Execute(['echo', 'foo'], callback=c, user_data='foo').run()
         self.assertTrue(self.run)
         self.run = False
 
-        # no output
-        c = lambda x, y: self.callback(self.fail,
+    def test_callback_no_output(self):
+        c = lambda x, y: self._callback(self.fail,
                                        'callback was called unexpectedly')
         tools.Execute(['true'], callback=c).run()
         self.assertFalse(self.run)
@@ -728,102 +612,203 @@ class ValidateSnapshotsPath(generic.TestCaseCfg):
             self.assertTrue(ret)
 
 
-@patch(f'{tools.__name__}.datetime', wraps=datetime)
-class OlderThan(unittest.TestCase):
+class ElapsedAtLeast(unittest.TestCase):
+    def test_hours_boundary(self):
+        # 18:23
+        last_job_run = datetime(1982, 8, 6, 18, 23, 0, 0)
 
-    def test_hours_not_older(self, mock_dt):
-        """Exact two hours
+        # 19:01 (only 36 minutes later, but the next hour)
+        end = datetime(1982, 8, 6, 19, 1, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 1, TimeUnit.HOUR))
+        self.assertFalse(tools.elapsed_at_least(last_job_run, end, 2, TimeUnit.HOUR))
 
-        Keep in mind: 20:23:00 is NOT two hours older than 18:23:00. But
-        20:23:01 IS OLDER than two hours.
-        """
-        # year, month, day, hour=0, minute=0, second=0, microsecond=0
-        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
+        # 20:01 (only 36 minutes later, but the next hour)
+        end = datetime(1982, 8, 6, 20, 1, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 2, TimeUnit.HOUR))
 
-        # exact two hours
-        mock_dt.now.return_value = datetime(1982, 8, 6, 20, 23, 0, 0)
-
-        self.assertFalse(tools.older_than(birth, 2, TimeUnit.HOUR))
-
-    def test_hours_older(self, mock_dt):
-        """Two hours plus one ms"""
-        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
-
-        # two hours + 1 ms
-        mock_dt.now.return_value = datetime(1982, 8, 6, 20, 23, 0, 1)
-
-        self.assertTrue(tools.older_than(birth, 2, TimeUnit.HOUR))
-
-    def test_days_not_older(self, mock_dt):
+    def test_days_not_older(self):
         """Two days"""
+        # 6th August, 18:23
         birth = datetime(1982, 8, 6, 18, 23, 0, 0)
-        mock_dt.now.return_value = datetime(1982, 8, 8, 18, 23, 0, 0)
 
-        self.assertFalse(tools.older_than(birth, 2, TimeUnit.DAY))
+        # 7th August, 18:23
+        end = datetime(1982, 8, 7, 18, 23, 0, 0)
 
-    def test_days_older(self, mock_dt):
+        self.assertFalse(tools.elapsed_at_least(birth, end, 2, TimeUnit.DAY))
+
+    def test_days_older(self):
         """Two days plus one ms"""
         birth = datetime(1982, 8, 6, 18, 23, 0, 0)
-        mock_dt.now.return_value = datetime(1982, 8, 8, 18, 23, 0, 1)
+        end = datetime(1982, 8, 8, 18, 23, 0, 1)
 
-        self.assertTrue(tools.older_than(birth, 2, TimeUnit.DAY))
+        self.assertTrue(tools.elapsed_at_least(birth, end, 2, TimeUnit.DAY))
 
-    def test_week_not_older(self, mock_dt):
-        """Two weeks"""
-        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
-        mock_dt.now.return_value = datetime(1982, 8, 20, 18, 23, 0, 0)
+    def test_days_boundary_one_day(self):
+        """The boundary of days not their duration."""
 
-        self.assertFalse(tools.older_than(birth, 2, TimeUnit.WEEK))
+        # 18:23 compared to ...
+        last_job_run = datetime(1982, 8, 6, 18, 23, 0, 0)
 
-    def test_week_older(self, mock_dt):
-        """Two weeks plus one ms"""
-        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
-        mock_dt.now.return_value = datetime(1982, 8, 20, 18, 23, 0, 1)
+        # next day 2:13 (only 8 hours later)
+        end = datetime(1982, 8, 7, 2, 23, 0, 0)
 
-        self.assertTrue(tools.older_than(birth, 2, TimeUnit.WEEK))
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 1, TimeUnit.DAY))
+        self.assertFalse(tools.elapsed_at_least(last_job_run, end, 2, TimeUnit.DAY))
 
-    def test_month_not_older(self, mock_dt):
-        """Two months."""
-        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
-        mock_dt.now.return_value = datetime(1982, 10, 6, 18, 23, 0, 0)
+    def test_days_boundary_four_days(self):
+        """The boundary of days not their duration."""
 
-        self.assertFalse(tools.older_than(birth, 2, TimeUnit.MONTH))
+        # 6th August, 18:23
+        last_job_run = datetime(1982, 8, 6, 18, 23, 0, 0)
 
-    def test_month_older(self, mock_dt):
-        """Two months plus one ms."""
-        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
-        mock_dt.now.return_value = datetime(1982, 10, 6, 18, 23, 0, 1)
+        # 9th August (the 4th day), at 2:13
+        end = datetime(1982, 8, 9, 2, 23, 0, 0)
+        # ...four days not finished yet
+        self.assertFalse(tools.elapsed_at_least(last_job_run, end, 4, TimeUnit.DAY))
 
-        self.assertTrue(tools.older_than(birth, 2, TimeUnit.MONTH))
+        # 10th August (the 5th day), at 2:13
+        end = datetime(1982, 8, 10, 2, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 4, TimeUnit.DAY))
 
-    def test_month_31th(self, mock_dt):
-        """From May with 31th as last day to September with 30th as last day.
+    def test_weeks_boundary(self):
         """
-        birth = datetime(1982, 5, 31, 18, 23, 0, 0)
-        mock_dt.now.return_value = datetime(1982, 9, 30, 18, 23, 0, 0)
-
-        self.assertFalse(tools.older_than(birth, 4, TimeUnit.MONTH))
-
-    def test_month_31th_plus_ms(self, mock_dt):
-        """Plus one ms"""
-        birth = datetime(1982, 5, 31, 18, 23, 0, 0)
-        mock_dt.now.return_value = datetime(1982, 9, 30, 18, 23, 0, 1)
-
-        self.assertTrue(tools.older_than(birth, 4, TimeUnit.MONTH))
-
-    def test_month_next_year(self, mock_dt):
-        """Into next year with 7 months."""
+            August 1982
+        Mo Tu We Th Fr Sa Su
+                           1
+         2  3  4  5  6  7  8
+         9 10 11 12 13 14 15
+        16 17 18 19 20 21 22
+        23 24 25 26 27 28 29
+        30 31
+        """
+        # 6th August (Friday)
         birth = datetime(1982, 8, 6, 18, 23, 0, 0)
-        mock_dt.now.return_value = datetime(1983, 3, 6, 18, 23, 0, 0)
 
-        self.assertFalse(tools.older_than(birth, 7, TimeUnit.MONTH))
+        # 9th August (Monday next week)
+        end = datetime(1982, 8, 9, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 1, TimeUnit.WEEK))
 
-    def test_month_next_year_plus_ms(self, mock_dt):
-        """Into next year with 7 months plus 1 ms."""
+        # 15th August (Saturday next week)
+        end = datetime(1982, 8, 15, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 1, TimeUnit.WEEK))
+        self.assertFalse(tools.elapsed_at_least(birth, end, 2, TimeUnit.WEEK))
+
+        # 16th August
+        end = datetime(1982, 8, 16, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 2, TimeUnit.WEEK))
+
+    def test_months_boundary(self):
+        # 6th August
         birth = datetime(1982, 8, 6, 18, 23, 0, 0)
-        mock_dt.now.return_value = datetime(1983, 3, 6, 18, 23, 0, 1)
 
-        self.assertTrue(tools.older_than(birth, 7, TimeUnit.MONTH))
+        # 1st Sept
+        end = datetime(1982, 9, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 1, TimeUnit.MONTH))
+
+        # 30 Sept
+        end = datetime(1982, 9, 30, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 1, TimeUnit.MONTH))
+        self.assertFalse(tools.elapsed_at_least(birth, end, 2, TimeUnit.MONTH))
+
+        # 1st Oct
+        end = datetime(1982, 10, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 2, TimeUnit.MONTH))
+
+        # 31 October
+        end = datetime(1982, 10, 31, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 2, TimeUnit.MONTH))
+        self.assertFalse(tools.elapsed_at_least(birth, end, 3, TimeUnit.MONTH))
+
+        # 1st November
+        end = datetime(1982, 11, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 3, TimeUnit.MONTH))
+
+    def test_months_steps(self):
+        # 14th January
+        last_job_run = datetime(1982, 1, 14, 18, 23, 0, 0)
+
+        # 31th January
+        end = datetime(1982, 1, 31, 18, 23, 0, 0)
+        self.assertFalse(tools.elapsed_at_least(last_job_run, end, 1, TimeUnit.MONTH))
+        # 1st Feb
+        end = datetime(1982, 2, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 1, TimeUnit.MONTH))
+
+        # 28th Feb
+        end = datetime(1982, 2, 28, 18, 23, 0, 0)
+        self.assertFalse(tools.elapsed_at_least(last_job_run, end, 2, TimeUnit.MONTH))
+        # 1st March
+        end = datetime(1982, 3, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 2, TimeUnit.MONTH))
+
+        # 31th March
+        end = datetime(1982, 3, 31, 18, 23, 0, 0)
+        self.assertFalse(tools.elapsed_at_least(last_job_run, end, 3, TimeUnit.MONTH))
+        # 1st April
+        end = datetime(1982, 4, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 3, TimeUnit.MONTH))
+
+        # 1st May
+        end = datetime(1982, 5, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 4, TimeUnit.MONTH))
+
+        # 1st June
+        end = datetime(1982, 6, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 5, TimeUnit.MONTH))
+
+        # 1st July
+        end = datetime(1982, 7, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 6, TimeUnit.MONTH))
+
+        # 1st Aug
+        end = datetime(1982, 8, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 7, TimeUnit.MONTH))
+
+        # 1st Sept
+        end = datetime(1982, 9, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 8, TimeUnit.MONTH))
+
+        # 1st Oct
+        end = datetime(1982, 10, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 9, TimeUnit.MONTH))
+
+        # 1st Nov
+        end = datetime(1982, 11, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 10, TimeUnit.MONTH))
+
+        # 1st Dec
+        end = datetime(1982, 12, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 11, TimeUnit.MONTH))
+
+        # 1st Jan (next year)
+        end = datetime(1983, 1, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(last_job_run, end, 12, TimeUnit.MONTH))
+
+    def test_months_31th(self):
+        # 31th May
+        birth = datetime(1982, 5, 31, 18, 23, 0, 0)
+
+        # 1st June
+        end = datetime(1982, 6, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 1, TimeUnit.MONTH))
+
+        # 30th September
+        end = datetime(1982, 9, 30, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 4, TimeUnit.MONTH))
+        self.assertFalse(tools.elapsed_at_least(birth, end, 5, TimeUnit.MONTH))
+
+    def test_months_next_year(self):
+        # 6th August, 1982
+        birth = datetime(1982, 8, 6, 18, 23, 0, 0)
+
+        # 1st March, 1983
+        end = datetime(1983, 3, 1, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 7, TimeUnit.MONTH))
+
+        # 6th March, 1983
+        end = datetime(1983, 3, 6, 18, 23, 0, 0)
+        self.assertTrue(tools.elapsed_at_least(birth, end, 7, TimeUnit.MONTH))
+        self.assertFalse(tools.elapsed_at_least(birth, end, 8, TimeUnit.MONTH))
 
 
 class NestedDictUpdate(unittest.TestCase):

@@ -8,7 +8,7 @@ This file is part of the program "Back In Time" which is released under GNU
 General Public License v2 (GPLv2). See LICENSES directory or go to
 <https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
-<sub>January 2025</sub>
+<sub>December 2025</sub>
 
 # FAQ - Frequently Asked Questions
 
@@ -22,6 +22,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [How to move backups to a new hard-drive?](#how-to-move-backups-to-a-new-hard-drive)
    * [How to move a large directory in the backup source without duplicating the files in the backup?](#how-to-move-a-large-directory-in-the-backup-source-without-duplicating-the-files-in-the-backup)
    * [How does _Back In Time_ compare with _Timeshift_?](#how-does-back-in-time-compare-with-timeshift)
+   * [Additional features beside the GUI and benefits of using BIT](#additional-features-beside-the-gui-and-benefits-of-using-bit)
 - [Backups (snapshots)](#backups-snapshots)
    * [Backup or Snapshot?](#backup-or-snapshot)
    * [Does _Back In Time_ create incremental or full backups?](#does-back-in-time-create-incremental-or-full-backups)
@@ -33,6 +34,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [What happens when I remove a backup?](#what-happens-when-i-remove-a-backup)
    * [How can I exclude cache folders to improve backup speed and reduce storage?](#how-can-i-exclude-cache-folders-to-improve-backup-speed-and-reduce-storage)
    * [How to use extended filesystem attributes (xattr) to exclude files/directories?](#how-to-use-extended-filesystem-attributes-xattr-to-exclude-filesdirectories)
+   * [How does Back In Time handle open or changed files during backup?](#how-does-back-in-time-handle-open-or-changed-files-during-backup)
 - [Restore](#restore)
    * [After Restore I have duplicates with extension ".backup.20131121"](#after-restore-i-have-duplicates-with-extension-backup20131121)
    * [Back In Time doesn't find my old backups on my new Computer](#back-in-time-doesnt-find-my-old-backups-on-my-new-computer)
@@ -45,7 +47,6 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [WARNING: A backup is already running](#warning-a-backup-is-already-running)
    * [_Back in Time_ does not start and shows: The application is already running! (pid: 1234567)](#back-in-time-does-not-start-and-shows-the-application-is-already-running-pid-1234567)
    * [Switching to dark or light mode in the desktop environment is ignored by BIT](#switching-to-dark-or-light-mode-in-the-desktop-environment-is-ignored-by-bit)
-   * [Segmentation fault on Exit](#segmentation-fault-on-exit)
    * [Version >= 1.2.0 works very slow / Unchanged files are backed up](#version--120-works-very-slow--unchanged-files-are-backed-up)
    * [What happens if I hibernate the computer while a backup is running?](#what-happens-if-i-hibernate-the-computer-while-a-backup-is-running)
    * [What happens if I power down the computer while a backup is running, or if a power outage happens?](#what-happens-if-i-power-down-the-computer-while-a-backup-is-running-or-if-a-power-outage-happens)
@@ -54,10 +55,9 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [GUI does not scale on high resolution or 4k monitors](#gui-does-not-scale-on-high-resolution-or-4k-monitors)
    * [Tray icon or other icons not shown correctly](#tray-icon-or-other-icons-not-shown-correctly)
    * [Non-working password safe and BiT forgets passwords (keyring backend issues)](#non-working-password-safe-and-bit-forgets-passwords-keyring-backend-issues)
-   * [Incompatibility with rsync >= 3.2.4](#incompatibility-with-rsync-324-or-newer)
-- [user-callback and other PlugIns](#user-callback-and-other-plugins)
-   * [How to backup Debian/Ubuntu Package selection?](#how-to-backup-debianubuntu-package-selection)
-   * [How to restore Debian/Ubuntu Package selection?](#how-to-restore-debianubuntu-package-selection)
+   * [Outdated](#outdated)
+     * [Segmentation fault on Exit](#segmentation-fault-on-exit)
+     * [Incompatibility with rsync >= 3.2.4](#incompatibility-with-rsync-324-or-newer)
 - [Hardware-specific Setup](#hardware-specific-setup)
    * [How to use QNAP QTS NAS with BIT over SSH](#how-to-use-qnap-qts-nas-with-bit-over-ssh)
    * [How to use Synology DSM 5 with BIT over SSH](#how-to-use-synology-dsm-5-with-bit-over-ssh)
@@ -69,7 +69,12 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [Synology: use different volume for backup](#synology-use-different-volume-for-backup)
    * [How to use Western Digital MyBook World Edition with BIT over ssh?](#how-to-use-western-digital-mybook-world-edition-with-bit-over-ssh)
 - [Project & Contributing & more](#project--Contributing--more)
-   * [Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? Are there additional benefits?](#which-additional-features-on-top-of-a-gui-does-bit-provide-over-a-self-configured-rsync-backup-are-there-additional-benefits)
+   * [Can you assign this to me?](#can-you-assign-this-to-me)
+   * [Can I use @ mentions freely in issues or PRs?](#can-i-use--mentions-freely-in-issues-or-prs)
+   * [Can I contribute without using the software?](#can-i-contribute-without-using-the-software)
+   * [Can I boost my commit count?](#can-i-boost-my-commit-count)
+   * [Can I submit AI-generated contributions?](#can-i-submit-ai-generated-contributions)
+   * [Alternative installation options](#alternative-installation-options)
    * [Support for specific package formats (deb, rpm, Flatpack, AppImage, Snaps, PPA, …)](#support-for-specific-package-formats-deb-rpm-flatpack-appimage-snaps-ppa-)
    + [Is BIT really not supported by Canonical Ubuntu?](#is-bit-really-not-supported-by-canonical-ubuntu)
    * [Move project to alternative code hoster (e.g. Codeberg, GitLab, …)](#move-project-to-alternative-code-hoster-eg-codeberg-gitlab-)
@@ -158,40 +163,40 @@ GNU/Linux distribution used, there are three ways to get the log entries.
 
 There are three different solutions:
 
-1. clone the drive with ``dd`` and enlarge the partition on the new drive to
+1. Clone the drive with ``dd`` and enlarge the partition on the new drive to
    use all space. This will **destroy all data** on the destination drive!
 
    ```bash
     sudo dd if=/dev/sdbX of=/dev/sdcX bs=4M
    ```
 
-   where ``/dev/sdbX`` is the partition on the source drive and ``/dev/sdcX`` is the destination drive
+   where ``/dev/sdbX`` is the partition on the source drive and
+   ``/dev/sdcX`` is the destination drive
 
-   Finally use ``gparted`` to resize the partition. Take a look at the
-   [Ubuntu Docu](https://help.ubuntu.com/community/HowtoPartition/ResizingPartition) for more info on that.
+   Finally use ``gparted`` to resize the partition.
 
-1. copy all files using ``rsync -H``
+1. Copy all files using ``rsync -H``
 
    ```bash
     rsync -avhH --info=progress2 /SOURCE /DESTINATION
    ```
 
-1. copy all files using ``tar``
+1. Copy all files using ``tar``
 
    ```bash
    cd /SOURCE; tar cf - * | tar -C /DESTINATION/ -xf -
    ```
 
 Make sure that your `/DESTINATION` contains a folder named `backintime`, which
-contains all the backups. BiT expects this folder, and needs it to import
+contains all the backups. BIT expects this folder, and needs it to import
 existing backups.
 
 ## How to move a large directory in the backup source without duplicating the files in the backup?
 
-If you move a file/folder in the source ("include") location that is backed-up by BiT
-it will treat this like a new file/folder and
-create a new backup file for it (not hard-linked to the old one). With large
-directories this can fill up your backup drive quite fast.
+If you move a file/folder in the source ("include") location that is backed-up
+by BIT it will treat this like a new file/folder and create a new backup file
+for it (not hard-linked to the old one). With large directories this can fill
+up your backup drive quite fast.
 
 You can avoid this by moving the file/directory in the last backup too:
 
@@ -199,7 +204,8 @@ You can avoid this by moving the file/directory in the last backup too:
 
 2. Move the original directory
 
-3. Manually move the same folder inside BiTs last backup in the same way you did with the original folder
+3. Manually move the same folder inside BiTs last backup in the same way you
+   did with the original folder
 
 4. Create a new backup
 
@@ -209,10 +215,12 @@ You can avoid this by moving the file/directory in the last backup too:
 
 ## How does _Back In Time_ compare with _Timeshift_?
 
-Back In Time and Timeshift are both Linux application that provides back up functionality.
+Back In Time and Timeshift are both Linux application that provides back up
+functionality.
 
 1. Similarity
-   - Both programs are backup tools for Linux and they create backups at a specific time.
+   - Both programs are backup tools for Linux and they create backups at a
+     specific time.
    - For both programs, backups are taken using rsync and hard-links, while
    Common files are shared between backups which saves disk space.
    - Both programs support GUI and CLI
@@ -221,15 +229,30 @@ Back In Time and Timeshift are both Linux application that provides back up func
 
 2. Back In Time
    - It is designed to protect user data including any folders or files.
-   - It backs up certain folders and files that you want to protect. Modified files are transferred,
-   while unchanged files are linked to the new folder. You can restore certain files and folders.
+   - It backs up certain folders and files that you want to protect. Modified
+     files are transferred, while unchanged files are linked to the new
+     folder. You can restore certain files and folders.
    - It's great for protecting your personal data
 
 3. TimeShift
-   - It is designed for system backups which allows restoring whole Linux system
-   to a previous state without affecting any user data.
-   - It backs up system files, not including any personal data unless user explicitly configured.
-   - It's good for restoring your system after an update failure or configuration change.
+   - It is designed for system backups which allows restoring whole Linux
+     system to a previous state without affecting any user data.
+   - It backs up system files, not including any personal data unless user
+     explicitly configured.
+   - It's good for restoring your system after an update failure or
+     configuration change.
+
+## Additional features beside the GUI and benefits of using BIT
+
+*Back In Time* stores the user and group name which will make it possible to
+restore permissions even if UID/GID changed. Additionally current user is
+stored. So if the User/Group doesn't exist on the system during restore it will
+restore to the old UID/GID.
+
+- Inhibit suspend/hibernate during backup creation
+- Shutdown system after finish
+- Remove & Retention policies to keep/remove old backups on reasonable rules
+- Support for Plugins and user defined callback scripts
 
 # Backups (snapshots)
 
@@ -530,6 +553,46 @@ If you encounter clear rules about configuring Samba that it works with
 _Back In Time_ in a reliable way, please let us know the details. We will than
 integrate it into the documentation.
 
+## How does _Back in Time_ handle open or changed files during backup?
+
+**Explanation**
+
+Back In Time uses rsync to copy the files and directories specified to be
+backed up in the configuration. Rsync does not lock any files that are open
+or being modified and therefore the backup can be copied in an inconsistent
+state. Rsync only reads a file on time when it goes through it and as a result
+of this only some changes are captured by rsync. This can affect files such as
+logs, browser caches, databases or virtual machine images where inconsistencies
+can even lead to data corruption.
+
+**To reduce this risk, the following approaches can be considered:**
+
+- **Filesystem snapshots**
+   If using a filesystem like btrfs and ZFS that has a snapshot function this
+   can be used together with Back in Time. Filesystem snapshots provide a
+   read-only copy of a filesystem frozen at a specific point in time, which
+   ensures data integrity even for open/changing files. Configure Back In Time
+   to backup from this filesystem's read-only snapshot.
+
+- **Use exclusions**
+   If the filesystem does not have filesystem snapshots available, one
+   solution could be to exclude files that are frequently open or actively
+   changing. The command `lsof` in GNU/Linux presents open files and the
+   processes that opened them as a list. Use this list as base for
+   configuring BIT exclusion list.
+
+- **Application specific handling**
+   For applications that opens and modifies files frequently like databases
+   or virtual machines, specific solutions may be needed. Use the databases
+   own backup function to create a consistent copy and include that in the
+   BIT backup. Virtual machines products typically have ability to create
+   snapshots of their state, that can be included in BIT.
+
+- **Choose when to perform backup**
+   Perform backup at times where less files are open, for example at night.
+
+
+
 # Restore
 
 ## After Restore I have duplicates with extension ".backup.20131121"
@@ -700,16 +763,6 @@ box. [Workarounds are known](https://stackoverflow.com/q/75457687), but
 generate a relatively large amount of code and in our opinion are not worth
 the effort.
 
-## Segmentation fault on Exit
-This problem existed at least since version 1.2.1, and will hopefully be fixed
-with version 1.5.0. For all affected versions, it does not impact the
-functionality of _Back In Time_ or jeopardize backup integrity. It can be
-safely ignored.
-
-See also:
-- [#1768](https://github.com/bit-team/backintime/pull/1768)
-- [#1095](https://github.com/bit-team/backintime/issues/1095)
-
 ## Version >= 1.2.0 works very slow / Unchanged files are backed up
 
 After updating to >= 1.2.0, BiT does a (nearly) full backup because file
@@ -833,7 +886,20 @@ default-keyring=keyring.backends.kwallet.DBusKeyring
 
 See also issue [#1321](https://github.com/bit-team/backintime/issues/1321)
 
-## Incompatibility with rsync 3.2.4 or newer
+
+## Outdated
+### Segmentation fault on Exit
+This problem existed at least since version 1.2.1, and should hopefully be fixed
+with version 1.5.0. For all affected versions, it does not impact the
+functionality of _Back In Time_ or jeopardize backup integrity. It can be
+safely ignored. But please report the error when encountered in version 1.5.0
+or newer.
+
+See also:
+- [#1768](https://github.com/bit-team/backintime/pull/1768)
+- [#1095](https://github.com/bit-team/backintime/issues/1095)
+
+### Incompatibility with rsync 3.2.4 or newer
 
 **Status: Fixed in v1.3.3**
 
@@ -847,97 +913,6 @@ workaround. Add `--old-args` in
 Note that some GNU/Linux distributions (e.g. Manjaro) using a workaround with
 environment variable `RSYNC_OLD_ARGS` in their distro-specific packages for
 _Back In Time_. In that case you may not see any problems.
-
-# user-callback and other PlugIns
-
-## How to backup Debian/Ubuntu Package selection?
-
-There is a [user-callback example](https://github.com/bit-team/user-callback/blob/master/user-callback.apt-backup)
-which will backup all package
-selections, sources and repository keys which are necessary to reinstall exactly
-the same packages again. It will even backup whether a package was installed
-manually or automatically because of dependencies.
-
-Download the script, copy it to ``~/.config/backintime/user-callback`` and make
-it executable with ``chmod 755 ~/.config/backintime/user-callback``
-
-It will run every time a new backup is taken. Make sure to include
-``~/.apt-backup``.
-
-## How to restore Debian/Ubuntu Package selection?
-
-If you made backups including apt-get package selection as described in the
-FAQ "`How to backup Debian/Ubuntu Package selection?`_" you can easily restore
-your system after a disaster/on a new machine.
-
-1. install Debian/Ubuntu on your new hard drive as usual
-
-1. install backintime-qt4 from our PPA
-
-   ```bash
-    sudo add-apt-repository ppa:bit-team/stable
-    sudo apt-get update
-    sudo apt-get install backintime-qt4
-   ```
-
-1. connect your external drive with the backups
-
-1. Start *Back In Time*. It will ask you if you want to restore your
-   config. Sure you want! *Back In Time* should find your backups
-   automatically. Just select the one from which you want to
-   restore the config and click Ok.
-
-1. restore your home
-
-1. recreate your ``/etc/apt/sources.list`` if you had something
-   special in there. If your Debian/Ubuntu version changed don't
-   just copy them from ``~/.apt-backup/sources.list``
-
-1. copy your repositories with
-
-   ```bash
-    sudo cp ~/.apt-backup/sources.list.d/* /etc/apt/sources.list.d/
-   ```
-
-1. restore apt-keys for your PPAs with
-
-   ```bash
-    sudo apt-key add ~/.apt-backup/repo.keys
-   ```
-
-1. install and update `dselect` with
-
-   ```bash
-    sudo apt-get install dselect
-    sudo dselect update install
-   ```
-
-1. Make some *housecleaning* in ``~/.apt-backup/package.list``.
-   For example, you don't want to install the old kernel again.
-   So run
-
-   ```bash
-    sed -e "/^linux-\(image\|headers\)/d" -i ~/.apt-backup/package.list
-   ```
-
-1. install your old packages again with
-
-   ```bash
-    sudo apt-get update
-    sudo dpkg --set-selections < ~/.apt-backup/package.list
-    sudo apt-get dselect-upgrade
-   ```
-
-1. If you used the new script which uses apt-mark to backup
-   package selection proceed with next step. (there should be
-   files ``~/.apt-backup/pkg_auto.list`` and ``~/.apt-backup
-   /pkg_manual.list``). Otherwise, you can stop here.
-   Restore package selection with
-
-   ```bash
-    sudo apt-mark auto $(cat ~/.apt-backup/pkg_auto.list)
-    sudo apt-mark manual $(cat ~/.apt-backup/pkg_manual.list)
-   ```
 
 
 # Hardware-specific Setup
@@ -1445,21 +1420,40 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 
 # Project & Contributing & more
 
-## Which additional features on top of a GUI does BIT provide over a self-configured rsync backup? Are there additional benefits?
+## Can you assign this to me?
+No. Don't ask. Comment with intent or a plan first. Otherwise its just noise.
+Your behavior disrespects contributors with real intent, and burden maintainers
+who work on this project in their free time. Don't waste our time.
 
-Actually it's the other way around ;) *Back In Time* stores the user and group name
-which will make it possible to restore permissions correctly even if UID/GID
-changed. Additionally it will store the current User -> UID and Group -> GID map
-so if the User/Group doesn't exist on the system during restore it will restore
-to the old UID/GID.
+## Can I use @ mentions freely in issues or PRs?
+No. Never. Avoid them in all cases. Mentions trigger notifications and create
+noise. Maintainers and subscribed contributors already see all activity.
 
-Hard to say which additional features *Back In Time* provides. You can script all of
-them in your own rsync script, too. But to name some features:
+## Can I contribute without using the software?
+No, in most cases. Contributors must be users of _Back In Time_. Real
+contributions require familiarity with the software, its behavior, and
+workflows. Real contributions come from real usage.
 
-- Inhibit suspend/hibernate during creating of a backup
-- Shutdown system after finish
-- Auto- and Smart-Removal
-- Plugin- and user-callback support
+## Can I boost my commit count?
+No. Doing that can get your account blocked or deleted, because mainters will
+report you to the abuse team of Microsoft. This project isn't for collecting
+stars or commits. Maybe watching
+[Don't Contribute to Open Source](https://www.youtube.com/watch?v=5nY_cy8zcO4)
+will help you to understand and learn.
+
+## Can I submit AI-generated contributions?
+No. AI-generated contributions are prohibited. Attempting this will be
+reported to Microsoft abuse team, and your account may be blocked or deleted.
+
+## Alternative installation options
+Besides the repositories of the official GNU/Linux distributions, there are
+other alternative installation options provided and maintained by third
+parties. Use them at your own risk and please contact that third party
+maintainers if you encounter problems. **Again**: We strongly recommend not to
+use 3rd party repositories because of possible security issues.
+
+- [@jean-christophe-manciot](https://github.com/jean-christophe-manciot)'s PPA distributing [_Back In Time_ for the latest stable Ubuntu release](https://git.sdxlive.com/PPA/about). See [PPA requirements](https://git.sdxlive.com/PPA/about/#requirements) and [install instructions](https://git.sdxlive.com/PPA/about/#installing-the-ppa).
+- The Arch User Repository ([AUR](https://aur.archlinux.org/)) does offer [some packages](https://aur.archlinux.org/packages?K=backintime).
 
 
 ## Support for specific package formats (deb, rpm, Flatpack, AppImage, Snaps, PPA, …)
@@ -1557,4 +1551,3 @@ a SSH server on your system.
 ## Setup SSH Server to run unit tests
 
 Please see section [Testing - SSH](CONTRIBUTING.md#ssh).
-

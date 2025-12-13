@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of the program "Back In Time" which is released under GNU
-# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import sys
@@ -24,13 +24,13 @@ def restore(cfg, snapshot_id=None, what=None, where=None, **kwargs):
     if what is None:
         what = input('File to restore: ')
 
-    what = tools.preparePath(os.path.abspath(os.path.expanduser(what)))
+    what = os.path.abspath(os.path.expanduser(what))
 
     if where is None:
         where = input('Restore to (empty for original path): ')
 
     if where:
-        where = tools.preparePath(os.path.abspath(os.path.expanduser(where)))
+        where = os.path.abspath(os.path.expanduser(where))
 
     snapshotsList = snapshots.listSnapshots(cfg)
 
@@ -275,14 +275,17 @@ class RestoreDialog:
         self.kwargs = kwargs
 
         self.logFile = self.config.restoreLogFile()
+
         if os.path.exists(self.logFile):
             os.remove(self.logFile)
 
-    def callback(self, line, *params):
+    def callback(self, line, *_args):
         if not line:
             return
+
         print(line)
-        with open(self.logFile, 'a') as log:
+
+        with open(self.logFile, mode='a', encoding='utf-8') as log:
             log.write(line + '\n')
 
     def run(self):

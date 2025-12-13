@@ -15,8 +15,6 @@ import shutil
 import stat
 import grp
 import re
-import random
-import string
 import unittest
 from unittest.mock import patch
 from tempfile import TemporaryDirectory
@@ -190,9 +188,10 @@ class HelperScripts(generic.SnapshotsTestCase):
         self.assertEqual(os.path.realpath(symlink), sid2.path())
 
     @patch('time.sleep') # speed up unittest
-    def test_make_dirs(self, sleep):
+    def test_make_dirs(self, _mock_sleep):
         self.assertFalse(self.sn.makeDirs('/'))
         self.assertTrue(self.sn.makeDirs(os.getcwd()))
+
         with TemporaryDirectory() as d:
             path = os.path.join(d, 'foo', 'bar')
             self.assertTrue(self.sn.makeDirs(path))
@@ -647,23 +646,6 @@ class SshSnapshots(generic.SSHTestCase):
         os.makedirs(self.remoteFullPath)
 
 
-def _rand_string(self, max_length=10, min_length=1):
-    """Create a string with random uppercase characters and digits and
-    a random length between `min_length` and `max_length`.
-
-    Args:
-        max_length (int): Max length of the string (default: 10).
-        min_length (int): Min string length (default: 1)
-
-    Returns:
-        (string): The created random string.
-    """
-    return ''.join(random.choices(
-        string.ascii_uppercase+string.digits,
-        k=random.randint(min_length, max_length)
-    ))
-
-
 def _create_selfdestructing_path(test_case, path):
     """Create a path that removes itself after the test.
 
@@ -712,7 +694,7 @@ def _init_basic_config(data_dir_prefix='DATADIR', data_dir_suffix=''):
 
     # Initialize logging
     logger.APP_NAME = 'BIT_unittest'
-    logger.openlog()
+    logger.openlog('UNITTEST')
     logger.DEBUG = '-v' in sys.argv
 
     # Path to config file (in "common/test/config")

@@ -17,44 +17,54 @@
     - Menu (tooltips in menus)
     - etc
 """
+# pylint: disable=wrong-import-position,wrong-import-order
 import os
 import sys
+import atexit
+import pwd
 import re
 import json
 import textwrap
 import subprocess
+import tempfile
 from typing import Union, Iterable, Callable
+from pathlib import Path
 from contextlib import contextmanager
-from tempfile import NamedTemporaryFile
-from PyQt6.QtGui import QDesktopServices, QIcon
+from textdlg import TextDialog
+from PyQt6.QtGui import (QDesktopServices,
+                         QGuiApplication,
+                         QFontMetricsF,
+                         QIcon,
+                         QPalette)
 from PyQt6.QtCore import (QEvent,
                           QLibraryInfo,
                           QLocale,
                           Qt,
                           QObject,
-                          QT_VERSION_STR,
                           QTranslator,
                           QUrl)
 from PyQt6.QtWidgets import (QApplication,
+                             QHBoxLayout,
                              QLabel,
                              QStyle,
                              QStyleFactory,
                              QSystemTrayIcon,
                              QWidget)
-from packaging.version import Version
 from qttools_path import register_backintime_path
 register_backintime_path('common')
 import tools  # noqa: E402
 import logger  # noqa: E402
 import bitbase  # noqa: E402
 import version  # noqa: E402
-import messagebox
-from filedialog import FileDialog
+import messagebox  # noqa: E402
 
+
+_DARK_MODE_THRESHOLD = 128
 
 # |--------------------------------|
 # | Widget modification & creation |
 # |--------------------------------|
+
 
 def can_render(string, widget):
     """Check if the string can be rendered by the font used by the widget.
@@ -75,6 +85,15 @@ def can_render(string, widget):
             return False
 
     return True
+
+
+def in_dark_mode(widget_or_application: QWidget | QApplication) -> bool:
+    """Determine if the desktop/theme is in dark mode."""
+    palette = widget_or_application.palette()
+
+    window_color = palette.color(QPalette.ColorRole.Window)
+
+    return window_color.value() < _DARK_MODE_THRESHOLD
 
 
 _REX_RICHTEXT = re.compile(
@@ -136,7 +155,7 @@ def set_wrapped_tooltip(widget: Union[QWidget, Iterable[QWidget]],
         tooltip = (tooltip, )
 
     # Richtext or plain text
-    is_richtext =  might_be_richtext(tooltip[0])
+    is_richtext = might_be_richtext(tooltip[0])
 
     newline = {True: '<br>', False: '\n'}[is_richtext]
 
@@ -176,6 +195,7 @@ def update_combo_profiles(config, combo_profiles, current_profile_id):
 def create_icon_label(
         icon_type: QStyle.StandardPixmap,
         icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
+        icon_scale_factor: float | int = None,
         fixed_size_widget: bool = False) -> QLabel:
     """Return a ``QLabel`` instance containing an icon.
 
@@ -191,6 +211,9 @@ def create_icon_label(
     ico = style.standardIcon(icon_type)
     sz = style.pixelMetric(icon_size)
 
+    if icon_scale_factor:
+        sz = int(sz * icon_scale_factor)
+
     pixmap = ico.pixmap(sz)
 
     label = QLabel()
@@ -204,6 +227,7 @@ def create_icon_label(
 
 def create_icon_label_info(
         icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
+        icon_scale_factor: float | int = None,
         fixed_size_widget: bool = False) -> QLabel:
     """Return a QLabel with an info icon.
 
@@ -212,11 +236,13 @@ def create_icon_label_info(
     return create_icon_label(
         icon_type=QStyle.StandardPixmap.SP_MessageBoxInformation,
         icon_size=icon_size,
+        icon_scale_factor=icon_scale_factor,
         fixed_size_widget=fixed_size_widget)
 
 
 def create_icon_label_warning(
         icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
+        icon_scale_factor: float | int = None,
         fixed_size_widget: bool = False) -> QLabel:
     """Return a QLabel with a warning icon.
 
@@ -225,7 +251,52 @@ def create_icon_label_warning(
     return create_icon_label(
         icon_type=QStyle.StandardPixmap.SP_MessageBoxWarning,
         icon_size=icon_size,
+        icon_scale_factor=icon_scale_factor,
         fixed_size_widget=fixed_size_widget)
+
+
+def create_info_label(
+        text: str,
+        icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
+        icon_scale_factor: float | int = None,
+        fixed_size_widget: bool = True) -> QLabel:
+    """Return a widget with an warning icon and text.
+
+    See `create_icon_label` for details.
+    """
+    ico = create_icon_label_info(
+        icon_size, icon_scale_factor, fixed_size_widget)
+    txt = QLabel(text)
+    txt.setWordWrap(True)
+
+    layout = QHBoxLayout()
+    layout.addWidget(ico)
+    layout.addWidget(txt)
+
+    label = QWidget()
+    label.setLayout(layout)
+
+    return label
+
+
+def create_qicon_from_svg_source(svg_source: str) -> QIcon:
+    """Create a QIcon instance based on SVG/XML source.
+
+    QIcon is not capable of reading from a byte stream.
+    This workaround write the SVG/XML-string to a temporary in-RAM file
+    before QIcon reads it back.
+    """
+
+    svg_fn = None
+
+    with tempfile.NamedTemporaryFile(suffix='.svg', mode='w', delete=False
+                                     ) as handle:
+        handle.write(svg_source)
+        svg_fn = handle.name
+
+    atexit.register(Path(svg_fn).unlink)
+
+    return QIcon(svg_fn)
 
 
 def custom_sort_order(header, loop, new_column, new_order):
@@ -260,7 +331,8 @@ class MouseButtonEventFilter(QObject):
 
         super().__init__()
 
-    def eventFilter(self, receiver, event):
+    # pylint: disable-next=invalid-name
+    def eventFilter(self, receiver: QObject, event: QEvent):  # noqa: N802
         """Catch global input events."""
 
         # not a mouse press event
@@ -284,25 +356,129 @@ class MouseButtonEventFilter(QObject):
         return super().eventFilter(receiver, event)
 
 
+def _determine_root_mode_user() -> str:
+    """Determine the users name who started BIT in root mode
+
+    Usually pkexec is used but some users do use sudo themself.
+    """
+    # Try pkexec
+    uid = os.getenv('PKEXEC_UID', None)
+    if uid:
+        return pwd.getpwuid(int(uid)).pw_name
+
+    # Try sudo
+    sudo_user = os.getenv('SUDO_USER', None)
+    if sudo_user:
+        return sudo_user
+
+    return None
+
+
 def open_url(url: str) -> None:
-    """Open an URL or URI"""
-    QDesktopServices.openUrl(QUrl(url))
+    """Open a URL with the systems default browser using xdg-open."""
+    # regular user mode
+    if not bitbase.IS_IN_ROOT_MODE:
+        QDesktopServices.openUrl(QUrl(url))
+        return
+
+    # root mode
+    user_name = _determine_root_mode_user()
+
+    try:
+        subprocess.run(
+            [
+                'runuser',
+                '-u',
+                user_name,
+                '--',
+                'xdg-open',
+                url
+            ],
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+
+    except (subprocess.CalledProcessError, FileNotFoundError) as exc:
+        logger.error(f'Problem while opening "{url}" in as user '
+                     f'"{user_name}" while in root-mode. '
+                     f'Error was: {exc}')
+
+    except Exception as exc:  # pylint: disable=broad-exception-caught
+        logger.critical(f'Unknown problem while opening "{url}" in as user '
+                        f'"{user_name}" while in root-mode. '
+                        f'Error was: {exc}')
 
 
-def open_man_page(manpage: str) -> None:
-    """Open the manpage in a terminal window."""
-    env=os.environ.copy()
-    env['MANWIDTH'] = '80'
+def screen_width_in_chars(widget: QWidget, reference_char: str = 'M') -> int:
+    """Width of the screen in number of characters ('em').
+
+    The calculation is based on the width of one character, determined via
+    font metrics regarding the given widget.
+    """
+    # Calculate width in pixel for one 'em' (letter 'M')
+    metrics = QFontMetricsF(widget.font())
+    char_px = metrics.horizontalAdvance(reference_char)
+
+    # Screen width
+    screen = QGuiApplication.screenAt(widget.pos())
+    geom = screen.availableGeometry()
+
+    # Screen width in 'em' (number of characters)
+    return int(geom.width() / char_px)
+
+
+def open_man_page(manpage: str,
+                  icon: QIcon = None,
+                  section: str = None) -> None:
+    """Open the manpage in a text browser window.
+
+    The position and geometry of the dialog depends on fractions of the screen.
+    The the man page content's linebreaks in the dialog are adjusted to the
+    width of the dialog.
+
+    Args:
+        manpage: Name of the manpage.
+        icon: Icon to use for the window.
+        section: Section of the man page to scroll to.
+    """
 
     content = ''
 
+    if section:
+        # Search for one line containing only the section heading but
+        # allow blanks before and behind it.
+        pattern = r'(?m)^\s*' + section + r'\s*$'
+    else:
+        pattern = None
+
+    # The dialog
+    td = TextDialog(
+        content,
+        markdown=False,
+        scroll_to=pattern,
+        title=_('man page: {man_page_name}').format(
+            man_page_name=manpage),
+        icon=icon
+    )
+
+    # Determine man page width in characters...
+    chars = screen_width_in_chars(td.browser_widget)
+    # ...using text dialogs screen fraction and a 5% security buffer
+    chars = int(chars * td.width_fraction * 0.95)
+
+    env = os.environ.copy()
+    env['MANWIDTH'] = f'{chars}'
+
+    # Get content from man page
     try:
         proc = subprocess.run(
             ['man', manpage],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
-            env=env
+            env=env,
+            check=True
         )
         content = proc.stdout
 
@@ -313,18 +489,11 @@ def open_man_page(manpage: str) -> None:
     except FileNotFoundError as exc:
         messagebox.critical(None, str(exc))
         logger.error(str(exc))
+        return
 
-    else:
-        # Write content to temp text file
-        with NamedTemporaryFile(mode='w',
-                                encoding='utf-8',
-                                suffix='.txt',
-                                delete=False,
-                                delete_on_close=False) as temp_file:
-            temp_file.write(content)
-
-        # open text file with associated default application
-        subprocess.run(['xdg-open', temp_file.name], check=True)
+    # Show dialog with content
+    td.set_content(content)
+    td.exec()
 
 
 def user_manual_uri() -> str:
@@ -348,72 +517,7 @@ def open_user_manual() -> None:
     open_url(user_manual_uri())
 
 
-def getExistingDirectories(parent, title):
-    """Workaround for selecting multiple directories adopted from
-    http://www.qtcentre.org/threads/34226-QFileDialog-select-multiple-directories?p=158482#post158482
-    This also give control about hidden folders
-    """
-
-    dlg = FileDialog(parent,
-                     title=title,
-                     show_hidden=True,
-                     allow_multiselection=True,
-                     dirs_only=True)
-    result = dlg.result()
-
-    if result:
-        return result
-    return [str(), ]
-
-
-def getExistingDirectory(parent, title, start_dir=None):
-    """Workaround to give control about hidden folders"""
-    dlg = FileDialog(parent,
-                     title=title,
-                     show_hidden=True,
-                     allow_multiselection=False,
-                     dirs_only=True,
-                     start_dir=start_dir)
-    result = dlg.result()
-
-    if result:
-        return str(result)
-
-    return str()
-
-
-def getOpenFileNames(parent, title):
-    """
-    Workaround to give control about hidden files
-    """
-    dlg = FileDialog(parent,
-                     title=title,
-                     show_hidden=True,
-                     allow_multiselection=True,
-                     dirs_only=False)
-    result = dlg.result()
-
-    if result:
-        return [str(r) for r in result]
-    return [str(), ]
-
-
-def getOpenFileName(parent, title, start_dir = None):
-    """Workaround to give control about hidden files"""
-    dlg = FileDialog(parent,
-                     title=title,
-                     show_hidden=True,
-                     allow_multiselection=False,
-                     dirs_only=False,
-                     start_dir=start_dir)
-    result = dlg.result()
-
-    if result:
-        return str(result)
-    return str()
-
-
-def _show_qt_debug_info(qapp):
+def _show_qt_debug_info(the_qapp: QApplication):
     if not logger.DEBUG:
         return
 
@@ -423,13 +527,13 @@ def _show_qt_debug_info(qapp):
             # https://doc.qt.io/qt-5/qguiapplication.html#platformName-prop
             # For more details see our X11/Wayland/Qt documentation in the
             # directory doc/maintain
-            'QT QPA platform plugin': qapp.platformName(),
-            'QT_QPA_PLATFORMTHEME': 
+            'QT QPA platform plugin': the_qapp.platformName(),
+            'QT_QPA_PLATFORMTHEME':
                 os.environ.get('QT_QPA_PLATFORMTHEME', '<not set>'),
                 # styles and themes determine the look & feel of the GUI
             'QT_STYLE_OVERRIDE':
                 os.environ.get('QT_STYLE_OVERRIDE', '<not set>'),
-            'QT active style': qapp.style().objectName(),
+            'QT active style': the_qapp.style().objectName(),
             'QT fallback style': QIcon.fallbackThemeName(),
             'QT supported styles': QStyleFactory.keys(),
             'themeSearchPaths': QIcon.themeSearchPaths(),
@@ -443,25 +547,27 @@ def _show_qt_debug_info(qapp):
         # msg = '\n' + json.dumps(info, indent=4)
         msg = json.dumps(info)
 
-    except Exception as exc:
+    except Exception as exc:  # pylint: disable=broad-exception-caught
         msg = f'Error reading QT QPA platform plugin or style: {exc}'
 
     logger.debug(msg)
 
 
-def createQApplication(app_name=bitbase.APP_NAME):
+def create_qapplication(app_name=bitbase.APP_NAME) -> QApplication:
+    """Create a QAppliction instance or return the existing one.
 
-    global qapp
+    Dev note (buhtz, 2025-10): Refactoring is needed. e.g. A QApplication
+    derived class (BITApplication) to handle the singleton.
+    """
+
+    # pylint: disable-next=global-variable-undefined
+    global qapp  # noqa: PLW0603
 
     try:
+        # pylint: disable-next=used-before-assignment
         return qapp  # "singleton pattern": Reuse already instantiated qapp
     except NameError:
         pass
-
-    if (Version(QT_VERSION_STR) >= Version('5.6')
-            and hasattr(Qt, 'AA_EnableHighDpiScaling')):
-
-        QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
 
     qapp = QApplication(sys.argv)
 
@@ -481,22 +587,16 @@ def createQApplication(app_name=bitbase.APP_NAME):
 
     try:
 
-        if tools.isRoot():
+        if bitbase.IS_IN_ROOT_MODE:
             qapp.setApplicationName(app_name + " (root)")
             qapp.setDesktopFileName("backintime-qt-root")
 
         else:
             qapp.setDesktopFileName("backintime-qt")
 
-    except Exception as exc:
+    except Exception as exc:  # pylint: disable=broad-exception-caught
         logger.warning('Could not set App ID (required for Wayland App icon '
                        f'and more). Reason: {exc}')
-
-    if (os.geteuid() == 0
-            and qapp.style().objectName().lower() == 'windows'
-            and 'GTK+' in QStyleFactory.keys()):
-
-        qapp.setStyle('GTK+')
 
     # With "--debug" arg show the QT QPA platform name in the main window's
     # title
