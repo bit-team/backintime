@@ -132,7 +132,7 @@ class PlacesWidget(QTreeWidget):
             item.setForeground(
                 0, self.palette().color(QPalette.ColorRole.PlaceholderText))
             item.setBackground(
-                0, self.palette().color(QPalette.ColorRole.Window))
+                0, self.palette().color(QPalette.ColorRole.AlternateBase))
 
         self.addTopLevelItem(item)
 
