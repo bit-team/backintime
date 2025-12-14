@@ -224,6 +224,10 @@ class SettingsDialog(QDialog):
             return
 
         current_profile_id = self._combo_profiles.current_profile_id()
+        # # DEBUG
+        # unsafed = self.config.is_profile_unsaved(current_profile_id)
+        # print(f'{current_profile_id=} {unsafed=}')
+
         if not current_profile_id:
             return
 
