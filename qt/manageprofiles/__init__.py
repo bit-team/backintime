@@ -381,7 +381,6 @@ class SettingsDialog(QDialog):
 
     def _slot_finished(self, result):
         """Handle dialogs finished signal."""
-        print('FINISHED')  # DEBUG
         self.config.clearHandlers()
 
         if not result:

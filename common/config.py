@@ -267,10 +267,9 @@ class Config(configfile.ConfigFileWithProfiles):
         }
 
     def save(self):
-        self.setIntValue('config.version', self.CONFIG_VERSION)
-        super().save(self._LOCAL_CONFIG_PATH)
-
         self._unsaved_profiles = []
+        self.setIntValue('config.version', self.CONFIG_VERSION)
+        return super().save(self._LOCAL_CONFIG_PATH)
 
     def is_profile_unsaved(self, profile_id: str) -> bool:
         return profile_id in self._unsaved_profiles
