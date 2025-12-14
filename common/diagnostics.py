@@ -205,14 +205,24 @@ def _get_qt_information():
     theme_info = {}
 
     if tools.checkXServer():  # TODO use tools.is_Qt_working() when stable
-        qapp = PyQt6.QtWidgets.QApplication([])
+        qapp = PyQt6.QtWidgets.QApplication.instance()
+
+        if not qapp:
+            qapp = PyQt6.QtWidgets.QApplication([])
+            clean_up_myself = True
+        else:
+            clean_up_myself = False
+
         theme_info = {
             'Theme': PyQt6.QtGui.QIcon.themeName(),
             'Theme Search Paths': PyQt6.QtGui.QIcon.themeSearchPaths(),
             'Fallback Theme': PyQt6.QtGui.QIcon.fallbackThemeName(),
             'Fallback Search Paths': PyQt6.QtGui.QIcon.fallbackSearchPaths()
         }
-        qapp.quit()
+
+        if clean_up_myself:
+            qapp.quit()
+            del qapp
 
     return {
         'Version': f'PyQt {PyQt6.QtCore.PYQT_VERSION_STR} '

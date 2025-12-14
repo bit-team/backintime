@@ -12,6 +12,7 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Module about the Exclude tab"""
+import copy
 from PyQt6.QtWidgets import (QAbstractItemView,
                              QCheckBox,
                              QDialog,
@@ -33,6 +34,9 @@ import qttools
 from qttools import custom_sort_order
 from filedialog import FileDialog
 from bitwidgets import HypertextLabel
+from manageprofiles.excludesuggestions import (ExcludeSuggestionsDialog,
+                                               EXCLUDE_SUGGESTIONS,
+                                               get_default_excludes)
 
 MATCH_FLAGS = Qt.MatchFlag.MatchFixedString | Qt.MatchFlag.MatchCaseSensitive
 
@@ -91,10 +95,6 @@ class ExcludeTab(QWidget):
 
         layout.addWidget(self.list_exclude)
 
-        self._label_exclude_recommend = QLabel('', self)
-        self._label_exclude_recommend.setWordWrap(True)
-        layout.addWidget(self._label_exclude_recommend)
-
         buttons_layout = QHBoxLayout()
         layout.addLayout(buttons_layout)
 
@@ -114,11 +114,12 @@ class ExcludeTab(QWidget):
         self.btn_exclude_folder.clicked.connect(
             self.btn_exclude_folder_clicked)
 
-        self.btn_exclude_default = QPushButton(
-            self.icon.DEFAULT_EXCLUDE, _('Add default'), self)
-        buttons_layout.addWidget(self.btn_exclude_default)
-        self.btn_exclude_default.clicked.connect(
-            self.btn_exclude_default_clicked)
+        self.btn_suggestions = QPushButton(
+            self.icon.DEFAULT_EXCLUDE, _('Suggestions'), self)
+        self.btn_suggestions.setToolTip(_(
+            'Select from common used items to add to exclude list.'))
+        buttons_layout.addWidget(self.btn_suggestions)
+        self.btn_suggestions.clicked.connect(self.btn_suggestions_clicked)
 
         self.btn_exclude_remove = QPushButton(
             self.icon.REMOVE, _('Remove'), self)
@@ -162,9 +163,14 @@ class ExcludeTab(QWidget):
 
         for exclude in self.config.exclude():
             self._add_exclude_pattern(exclude)
+
+        # add defaults if it is a fresh profile
+        if self.config.is_current_profile_unsaved():
+            for exclude in get_default_excludes():
+                self._add_exclude_pattern(exclude)
+
         self.cb_exclude_by_size.setChecked(self.config.excludeBySizeEnabled())
         self.spb_exclude_by_size.setValue(self.config.excludeBySize())
-        self._update_exclude_recommend_label()
 
         try:
             excl_sort = profile_state.exclude_sorting
@@ -200,28 +206,6 @@ class ExcludeTab(QWidget):
 
         return True
 
-    def _update_exclude_recommend_label(self):
-        """Update the label about recommended exclude patterns."""
-
-        # Default patterns that are not still in the list widget
-        recommend = list(filter(
-            lambda val: not self.list_exclude.findItems(val, MATCH_FLAGS),
-            self.config.DEFAULT_EXCLUDE
-        ))
-
-        if not recommend:
-            text = _('{BOLD}Highly recommended{ENDBOLD}: (All recommendations '
-                     'already included.)').format(
-                        BOLD='<strong>', ENDBOLD='</strong>')
-
-        else:
-            text = _('{BOLD}Highly recommended{ENDBOLD}: {files}').format(
-                BOLD='<strong>',
-                ENDBOLD='</strong>',
-                files=', '.join(sorted(recommend)))
-
-        self._label_exclude_recommend.setText(text)
-
     def _add_exclude_pattern(self, pattern):
         item = QTreeWidgetItem()
         item.setText(0, pattern)
@@ -241,12 +225,11 @@ class ExcludeTab(QWidget):
             if index < 0:
                 continue
 
+            # means removing item at this index
             self.list_exclude.takeTopLevelItem(index)
 
         if self.list_exclude.topLevelItemCount() > 0:
             self.list_exclude.setCurrentItem(self.list_exclude.topLevelItem(0))
-
-        self._update_exclude_recommend_label()
 
     def add_exclude(self, pattern):
         """Initiate adding a new exclude pattern to the list widget.
@@ -268,8 +251,6 @@ class ExcludeTab(QWidget):
 
         # Select/highlight that entry.
         self.list_exclude.setCurrentItem(item)
-
-        self._update_exclude_recommend_label()
 
     def btn_exclude_add_clicked(self):
         """Handle button click
@@ -341,10 +322,62 @@ class ExcludeTab(QWidget):
         for path in dirs:
             self.add_exclude(str(path))
 
-    def btn_exclude_default_clicked(self):
+    def _sync_suggestions_check_state(self):
+        """Sync the check state of the suggestions list with the current
+        exclude liste.
+
+        The check state of suggested exclude items is modified based on the
+        content of the exclude list. Items still in the exclude list are
+        checked and all other are not.
+        """
+        content = copy.deepcopy(EXCLUDE_SUGGESTIONS)  # dict
+
+        # flat list of suggestions
+        suggestions = [
+            first_item
+            for group in content.values()
+            for first_item, *_ in group
+        ]
+
+        # remove suggestions not existent in current exclude list
+        for entry in suggestions[:]:
+            if not self.list_exclude.findItems(entry, MATCH_FLAGS):
+                suggestions.remove(entry)
+
+        # Modify check state of suggested includes
+        for group, entries in content.items():
+            for idx, entry in enumerate(entries):
+                check = entry[0] in suggestions
+                content[group][idx][-1] = check
+
+        return content
+
+    def btn_suggestions_clicked(self):
         """Handle button click"""
-        for path in self.config.DEFAULT_EXCLUDE:
-            self.add_exclude(path)
+        content = self._sync_suggestions_check_state()
+
+        dlg = ExcludeSuggestionsDialog(self, content)
+        answer = dlg.exec()
+
+        if answer == QDialog.DialogCode.Rejected:
+            return
+
+        checked, unchecked = dlg.get_checked_and_unchecked()
+
+        for entry in checked:
+            self.add_exclude(entry)
+
+        self._remove_entries(unchecked)
+
+    def _remove_entries(self, entries: list[str]) -> None:
+        """Remove entries from the exlucde list if existent."""
+        for entry in entries:
+            # find item
+            items = self.list_exclude.findItems(entry, MATCH_FLAGS)
+            if items:
+                # remove it
+                idx = self.list_exclude.indexOfTopLevelItem(items[0])
+                self.list_exclude.takeTopLevelItem(idx)
 
     def update_exclude_items(self):
         """Used by parent dialog when profile mode was changed."""
@@ -377,6 +410,8 @@ class ExcludeTab(QWidget):
 
     def _format_exclude_item(self, item):
         """Modify visual appearance of an item in the exclude list widget.
+
+        Dev note (2025-12, buhtz): Why not using simple file/dir icons?
         """
         if (self.mode == 'ssh_encfs'
                 and tools.patternHasNotEncryptableWildcard(item.text(0))):
@@ -391,13 +426,14 @@ class ExcludeTab(QWidget):
             # Remove items tooltip
             item.setData(0, Qt.ItemDataRole.ToolTipRole, None)
 
-            # Icon: default exclude item
-            if item.text(0) in self.config.DEFAULT_EXCLUDE:
-                item.setIcon(0, self.icon.DEFAULT_EXCLUDE)
+            # # Icon: default exclude item
+            # if item.text(0) in self.config.DEFAULT_EXCLUDE:
+            #     item.setIcon(0, self.icon.DEFAULT_EXCLUDE)
 
-            else:
-                # Icon: user defined
-                item.setIcon(0, self.icon.EXCLUDE)
+            # else:
+
+            # Icon: user defined
+            item.setIcon(0, self.icon.EXCLUDE)
 
     def _exclude_custom_sort_order(self, *args):
         self.list_exclude_sort_loop = custom_sort_order(
