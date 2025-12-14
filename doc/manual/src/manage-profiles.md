@@ -197,6 +197,9 @@ schedules. You can use `crontab -l` to view them or `crontab -e` to edit.
 - **Every Month**: start a new backup on a configurable day/time every
   month. If the computer is not running at the configured time there will be no
   new backup for the month.
+- **Every Year**: Start a new backup on on first day of first month of each
+  year at a configurable time. If the computer is not running at the configured
+  time there will be no new backup for the year.
 
 !!! note
     For hourly schedules (every hour, every x hours, and custom hours),
