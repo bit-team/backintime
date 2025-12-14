@@ -1067,10 +1067,22 @@ class MountControl:
         if tmp_mount is None:
             tmp_mount = self.tmp_mount
 
-        os.remove(self.config.snapshotsPath(
+        symlink_filename = self.config.snapshotsPath(
             profile_id=profile_id,
             mode=self.mode,
-            tmp_mount=tmp_mount))
+            tmp_mount=tmp_mount)
+
+        try:
+            os.remove(symlink_filename)
+
+        except FileNotFoundError as exc:
+            logger.error(
+                f'Can not remove unexisting symlink "{symlink_filename}". '
+                'See issue #2296 for details.')
+            logger.debug(str(exc))
+
+        else:
+            logger.debug(f'Symlink removed: "{symlink_filename}"')
 
     def hash(self, s):
         """
