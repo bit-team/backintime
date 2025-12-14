@@ -15,17 +15,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-11-10 15:02+0100\n"
-"PO-Revision-Date: 2025-10-24 22:09+0000\n"
-"Last-Translator: marc9876543210 <marc9876543210@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-11-22 02:10+0000\n"
+"Last-Translator: Loufute <loufute@noreply.codeberg.org>\n"
 "Language-Team: French <https://translate.codeberg.org/projects/backintime/common/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.13.3\n"
+"X-Generator: Weblate 5.14\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -108,14 +108,14 @@ msgstr ""
 "de la destination de sauvegarde."
 
 #: common/config.py:379
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
 " space falls below\" ({val_two})."
 msgstr ""
-"La valeur pour \"Supprimer l'ancienne sauvegarde si l'espace libre est "
-"inférieur à\" ({val_one}) doit être inférieure ou égale au seuil de "
+"La valeur pour \"Supprimer la plus ancienne sauvegarde si l'espace libre est"
+" inférieur à\" ({val_one}) doit être inférieure ou égale au seuil de "
 "\"Avertir si l'espace libre du disque est inférieur à\" ({val_two})."
 
 #: common/config.py:384
@@ -350,12 +350,10 @@ msgid "Unable to rename {new_path} to {path}."
 msgstr "Échec de renommage de {new_path} en {path}."
 
 #: common/snapshots.py:1999
-#, fuzzy
 msgid "Applying rules to remove old backups"
 msgstr "Appliquer les règles pour supprimer les anciennes sauvegardes"
 
 #: common/snapshots.py:2032
-#, fuzzy
 msgid "Applying retention policy"
 msgstr "Appliquer la stratégie de conservation"
 
@@ -411,7 +409,7 @@ msgid "Remote host {host} doesn't support {command}"
 msgstr "L'hôte distant {host} n'accepte pas {command}"
 
 #: common/sshtools.py:1021
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Checking commands on host {host} returned unknown error"
 msgstr ""
 "La vérification des commandes sur l'hôte {host} a renvoyé une erreur "
@@ -518,7 +516,9 @@ msgid "translator-credits-placeholder"
 msgstr ""
 "bubu of Debian-l10n-fr\n"
 "Michel Corps <mahikeulbody@gmail.com> (@jej)\n"
-"milimarg <guittre@ik.me>"
+"milimarg <guittre@ik.me>\n"
+"Loufute\n"
+"Iann"
 
 #: qt/aboutdlg.py:107
 msgid "Translator credits not available for current language."
@@ -733,7 +733,6 @@ msgid "Restore"
 msgstr "Restaurer"
 
 #: qt/app.py:573
-#, fuzzy
 msgid "Restore the selected files or directories to the original location."
 msgstr ""
 "Restaurer les fichiers ou répertoires sélectionnés à leur emplacement "
@@ -744,29 +743,26 @@ msgid "Restore to …"
 msgstr "Restaurer vers …"
 
 #: qt/app.py:578
-#, fuzzy
 msgid "Restore the selected files or directories to a new location."
 msgstr ""
 "Restaurer les fichiers ou répertoires sélectionnés vers un nouvel "
 "emplacement."
 
 #: qt/app.py:584
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
 msgstr ""
-"Restaurer le répertoire affiché et tout son contenu à l'emplacement "
-"d'origine."
+"Restaurer le répertoire actuellement affiché et tout son contenu à "
+"l'emplacement d'origine."
 
 #: qt/app.py:590
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
 msgstr ""
-"Restaurer le répertoire affiché et tout son contenu vers un nouvel "
-"emplacement."
+"Restaurer le répertoire actuellement affiché et tout son contenu vers un "
+"nouvel emplacement."
 
 #: qt/app.py:593
 msgid "Up"
@@ -1524,9 +1520,8 @@ msgid "Exclude patterns, files or directories"
 msgstr "Exclure les motifs, fichiers ou répertoires"
 
 #: qt/manageprofiles/tab_exclude.py:102
-#, fuzzy
 msgid "Add pattern"
-msgstr "Exclure selon un modèle"
+msgstr "Ajouter un motif"
 
 #: qt/manageprofiles/tab_exclude.py:107 qt/manageprofiles/tab_include.py:68
 msgid "Add files"
@@ -1579,18 +1574,19 @@ msgid "Exclude pattern"
 msgstr "Exclure selon un modèle"
 
 #: qt/manageprofiles/tab_exclude.py:286
-#, fuzzy
 msgid "Enter an exclude pattern:"
-msgstr "Exclure selon un modèle"
+msgstr "Exclure selon un motif :"
 
 #: qt/manageprofiles/tab_exclude.py:291
 #, python-brace-format
 msgid "For help, see the rsync man page section {link}."
 msgstr ""
+"Pour obtenir de l'aide, consultez la section {link} de la page de manuel de "
+"rsync."
 
 #: qt/manageprofiles/tab_exclude.py:294
 msgid "Open rsync man page"
-msgstr ""
+msgstr "Ouvrir la page de manuel de rsync"
 
 #: qt/manageprofiles/tab_exclude.py:322
 msgid "Exclude files"
@@ -1813,6 +1809,8 @@ msgid ""
 "Scheduling is disabled because no cron installation was found. Please "
 "install cron to enable scheduled backups."
 msgstr ""
+"La planification est désactivée car aucune installation de cron n'a été "
+"trouvée. Veuillez installer cron pour activer les sauvegardes planifiées."
 
 #: qt/manageprofiles/tab_general.py:496
 msgid ""
@@ -1827,11 +1825,12 @@ msgid ""
 "To enable password-less login, the public SSH key can be copied to the "
 "remote host."
 msgstr ""
+"Pour activer l’authentification sans mot de passe, la clé publique SSH peut "
+"être copiée sur le serveur distant."
 
 #: qt/manageprofiles/tab_general.py:503
-#, fuzzy
 msgid "Proceed with copying the SSH key?"
-msgstr "Procéder à la sauvegarde ?"
+msgstr "Procéder à la copie de la clé SSH ?"
 
 #: qt/manageprofiles/tab_general.py:528
 msgid ""
@@ -1993,14 +1992,14 @@ msgid "user manual"
 msgstr "manuel d'utilisation"
 
 #: qt/manageprofiles/tab_remove_retention.py:206
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual_link} for details and examples."
 msgstr ""
-"Les règles suivantes sont traitées du haut vers le bas. Chaque règle qui "
-"suit est prioritaire sur celle(s) qui précède(nt). Voir le {manual} pour les"
-" détails et des exemples."
+"Les règles suivantes sont traitées de haut en bas. La règle qui suit prévaut"
+" sur celle(s) qui précède(nt). Voir le {manual_link} pour les détails et des"
+" exemples."
 
 #: qt/manageprofiles/tab_remove_retention.py:221
 msgid "Open user manual in browser."
@@ -2011,10 +2010,8 @@ msgid "Keep the most recent backup."
 msgstr "Conserver la sauvegarde la plus récente."
 
 #: qt/manageprofiles/tab_remove_retention.py:239
-#, fuzzy
 msgid "The most up-to-date backup is kept under all circumstances."
-msgstr ""
-"La dernière ou plus récente sauvegarde est conservée dans tous les cas."
+msgstr "La sauvegarde la plus récente est conservée dans tous les cas."
 
 #: qt/manageprofiles/tab_remove_retention.py:241
 msgid "That behavior cannot be changed."
@@ -2062,15 +2059,14 @@ msgid "Run in background on remote host."
 msgstr "Exécuter en tâche de fond sur l'hôte distant."
 
 #: qt/manageprofiles/tab_remove_retention.py:311
-#, fuzzy
 msgid ""
 "The retention policy will be executed directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
 "and available on that remote machine."
 msgstr ""
-"La procédure de retrait intelligent va être exécutée directement sur la "
-"machine distante, et non en local. Les commandes \"bash\", \"screen\" et "
-"\"flock\" doivent être disponibles sur la machine distante."
+"La procédure de conservation va être exécutée directement sur la machine "
+"distante, et non en local. Les commandes \"bash\", \"screen\" et \"flock\" "
+"doivent être installées et disponibles sur la machine distante."
 
 #: qt/manageprofiles/tab_remove_retention.py:315
 msgid "If selected, Back In Time will first test the remote machine."
@@ -2187,7 +2183,7 @@ msgstr "Travail en cours…"
 #: qt/qttools.py:439
 #, python-brace-format
 msgid "man page: {man_page_name}"
-msgstr ""
+msgstr "man page : {man_page_name}"
 
 #: qt/restoreconfigdialog.py:72
 msgid "Import configuration"

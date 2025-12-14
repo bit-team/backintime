@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-11-10 15:02+0100\n"
-"PO-Revision-Date: 2025-08-13 07:01+0000\n"
+"PO-Revision-Date: 2025-11-17 07:22+0000\n"
 "Last-Translator: smart2128 <smart2128@noreply.codeberg.org>\n"
 "Language-Team: Italian <https://translate.codeberg.org/projects/backintime/common/it/>\n"
 "Language: it\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -106,15 +106,15 @@ msgstr ""
 "destinazione del backup stesso."
 
 #: common/config.py:379
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
 " space falls below\" ({val_two})."
 msgstr ""
-"Il valore indicato per \"Rimuovi i backup più vecchi se lo spazio libero è "
-"inferiore a\" ({val_one}) deve essere inferiore o uguale alla soglia "
-"impostata per \"Avvisa se lo spazio libero si riduce al di sotto di\" "
+"Il valore indicato per \"Rimuovi il backup più vecchio se lo spazio libero è"
+" inferiore a\" ({val_one}) deve essere inferiore o uguale alla soglia "
+"impostata per \"Avvisa se lo spazio libero scende al di sotto di\" "
 "({val_two})."
 
 #: common/config.py:384
@@ -350,12 +350,10 @@ msgid "Unable to rename {new_path} to {path}."
 msgstr "Non posso rinominare {new_path} in {path}."
 
 #: common/snapshots.py:1999
-#, fuzzy
 msgid "Applying rules to remove old backups"
 msgstr "Applica le regole per rimuovere i vecchi backup"
 
 #: common/snapshots.py:2032
-#, fuzzy
 msgid "Applying retention policy"
 msgstr "Applica la politica di conservazione"
 
@@ -411,10 +409,10 @@ msgid "Remote host {host} doesn't support {command}"
 msgstr "L'host remoto {host} non supporta {command}"
 
 #: common/sshtools.py:1021
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Checking commands on host {host} returned unknown error"
 msgstr ""
-"Il controllo dei comandi sull'host {host} ha restituito un errore "
+"I comandi di verifica sull'host {host} hanno restituito un errore "
 "sconosciuto"
 
 #: common/sshtools.py:1039
@@ -727,38 +725,33 @@ msgid "Restore"
 msgstr "Ripristina"
 
 #: qt/app.py:573
-#, fuzzy
 msgid "Restore the selected files or directories to the original location."
 msgstr ""
-"Ripristina i file o le cartelle selezionati nella destinazione originale."
+"Ripristina i file o le cartelle selezionati nella posizione originale."
 
 #: qt/app.py:576 qt/app.py:1821 qt/snapshotsdialog.py:186
 msgid "Restore to …"
 msgstr "Ripristina su…"
 
 #: qt/app.py:578
-#, fuzzy
 msgid "Restore the selected files or directories to a new location."
-msgstr ""
-"Ripristina i file o le cartelle selezionati in una nuova destinazione."
+msgstr "Ripristina i file o le cartelle selezionati in una nuova posizione."
 
 #: qt/app.py:584
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
 msgstr ""
 "Ripristina la cartella attualmente mostrata e tutto il suo contenuto nella "
-"destinazione originale."
+"posizione originale."
 
 #: qt/app.py:590
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
 msgstr ""
 "Ripristina la cartella attualmente mostrata e tutto il suo contenuto in una "
-"nuova destinazione."
+"nuova posizione."
 
 #: qt/app.py:593
 msgid "Up"
@@ -1507,9 +1500,8 @@ msgid "Exclude patterns, files or directories"
 msgstr "Escludi pattern, file o cartelle"
 
 #: qt/manageprofiles/tab_exclude.py:102
-#, fuzzy
 msgid "Add pattern"
-msgstr "Pattern di esclusione"
+msgstr "Aggiungi pattern"
 
 #: qt/manageprofiles/tab_exclude.py:107 qt/manageprofiles/tab_include.py:68
 msgid "Add files"
@@ -1563,18 +1555,17 @@ msgid "Exclude pattern"
 msgstr "Pattern di esclusione"
 
 #: qt/manageprofiles/tab_exclude.py:286
-#, fuzzy
 msgid "Enter an exclude pattern:"
-msgstr "Pattern di esclusione"
+msgstr "Digita un pattern di esclusione:"
 
 #: qt/manageprofiles/tab_exclude.py:291
 #, python-brace-format
 msgid "For help, see the rsync man page section {link}."
-msgstr ""
+msgstr "Per aiuto, vedi la sezione {link} della pagina di manuale di rsync."
 
 #: qt/manageprofiles/tab_exclude.py:294
 msgid "Open rsync man page"
-msgstr ""
+msgstr "Aprire la pagina di manuale per rsync"
 
 #: qt/manageprofiles/tab_exclude.py:322
 msgid "Exclude files"
@@ -1797,6 +1788,8 @@ msgid ""
 "Scheduling is disabled because no cron installation was found. Please "
 "install cron to enable scheduled backups."
 msgstr ""
+"La pianificazione è stata disabilitata perchè cron non risulta installato. "
+"Installare cron per abilitare i backup pianificati."
 
 #: qt/manageprofiles/tab_general.py:496
 msgid ""
@@ -1811,11 +1804,12 @@ msgid ""
 "To enable password-less login, the public SSH key can be copied to the "
 "remote host."
 msgstr ""
+"Per abilitare il login senza password, la chiave pubblica SSH può essere "
+"copiata nell'host remoto."
 
 #: qt/manageprofiles/tab_general.py:503
-#, fuzzy
 msgid "Proceed with copying the SSH key?"
-msgstr "Vuoi procedere con il backup?"
+msgstr "Vuoi procedere con la copia della chiave SSH?"
 
 #: qt/manageprofiles/tab_general.py:528
 msgid ""
@@ -1973,13 +1967,14 @@ msgid "user manual"
 msgstr "manuale utente"
 
 #: qt/manageprofiles/tab_remove_retention.py:206
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual_link} for details and examples."
 msgstr ""
 "Le regole seguenti sono elaborate dall'alto in basso. Le regole successive "
-"scavalcano le regole precedenti. Vedi il {manual} per dettagli ed esempi."
+"scavalcano le regole precedenti. Vedi il {manual_link} per dettagli ed "
+"esempi."
 
 #: qt/manageprofiles/tab_remove_retention.py:221
 msgid "Open user manual in browser."
@@ -1990,9 +1985,8 @@ msgid "Keep the most recent backup."
 msgstr "Mantieni il backup più recente."
 
 #: qt/manageprofiles/tab_remove_retention.py:239
-#, fuzzy
 msgid "The most up-to-date backup is kept under all circumstances."
-msgstr "L'ultimo backup o il più recente è mantenuto in ogni caso."
+msgstr "Il backup più recente è mantenuto in ogni caso."
 
 #: qt/manageprofiles/tab_remove_retention.py:241
 msgid "That behavior cannot be changed."
@@ -2041,15 +2035,14 @@ msgid "Run in background on remote host."
 msgstr "Esegui in sottofondo sull'host remoto."
 
 #: qt/manageprofiles/tab_remove_retention.py:311
-#, fuzzy
 msgid ""
 "The retention policy will be executed directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
 "and available on that remote machine."
 msgstr ""
-"La procedura di rimozione intelligente sarà eseguita direttamente nella "
-"macchina remota, non localmente. I comandi \"bash\", \"screen\" e \"flock\" "
-"devono essere installati e disponibili sulla macchina remota."
+"La procedura di rimozione sarà eseguita direttamente nella macchina remota, "
+"non localmente. I comandi \"bash\", \"screen\" e \"flock\" devono essere "
+"installati e disponibili sulla macchina remota."
 
 #: qt/manageprofiles/tab_remove_retention.py:315
 msgid "If selected, Back In Time will first test the remote machine."
@@ -2167,7 +2160,7 @@ msgstr "Lavoro in corso…"
 #: qt/qttools.py:439
 #, python-brace-format
 msgid "man page: {man_page_name}"
-msgstr ""
+msgstr "pagina del manuale: {man_page_name}"
 
 #: qt/restoreconfigdialog.py:72
 msgid "Import configuration"

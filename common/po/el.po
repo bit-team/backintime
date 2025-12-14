@@ -15,17 +15,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-11-10 15:02+0100\n"
-"PO-Revision-Date: 2025-07-02 07:49+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-11-18 12:10+0000\n"
+"Last-Translator: paraskevasleivadaros <paraskevasleivadaros@gmail.com>\n"
 "Language-Team: Greek <https://translate.codeberg.org/projects/backintime/common/el/>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.11.4\n"
+"X-Generator: Weblate 5.14\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -67,7 +67,7 @@ msgstr "SSH"
 #: common/config.py:265 common/config.py:275
 #: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
-msgstr "SSH ιδιωτικό κλειδί"
+msgstr "Ιδιωτικό κλειδί SSH"
 
 #: common/config.py:268
 msgid "Local encrypted"
@@ -109,7 +109,7 @@ msgstr ""
 " αποτελεί μέρος του ίδιου του προορισμού δημιουργίας αντιγράφων ασφαλείας."
 
 #: common/config.py:379
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
@@ -354,12 +354,10 @@ msgid "Unable to rename {new_path} to {path}."
 msgstr "Αδυναμία μετονομασίας {new_path} σε {path}."
 
 #: common/snapshots.py:1999
-#, fuzzy
 msgid "Applying rules to remove old backups"
 msgstr "Εφαρμογή κανόνων για την κατάργηση παλιών αντιγράφων ασφαλείας"
 
 #: common/snapshots.py:2032
-#, fuzzy
 msgid "Applying retention policy"
 msgstr "Εφαρμόστε πολιτική διατήρησης"
 
@@ -419,7 +417,7 @@ msgstr ""
 "Ο απομακρυσμένος διακομιστής {host} δεν υποστηρίζει την εντολή {command}"
 
 #: common/sshtools.py:1021
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Checking commands on host {host} returned unknown error"
 msgstr ""
 "Οι εντολές ελέγχου στον διακομιστή {host} επέστρεψαν ένα άγνωστο σφάλμα"
@@ -555,10 +553,9 @@ msgid "User manual"
 msgstr "Εγχειρίδιο χρήστη"
 
 #: qt/aboutdlg.py:227 qt/app.py:515
-#, fuzzy
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
-"Ανοίξτε το εγχειρίδιο χρήστη στο πρόγραμμα περιήγησης (τοπικό εάν είναι "
+"Ανοίξτε το εγχειρίδιο χρήστη στο πρόγραμμα περιήγησης (τοπικά εάν είναι "
 "διαθέσιμο διαφορετικά στο διαδίκτυο)"
 
 #: qt/aboutdlg.py:277
@@ -696,11 +693,10 @@ msgid "Changelog"
 msgstr "Αρχείο αλλαγών"
 
 #: qt/app.py:539
-#, fuzzy
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr ""
-"Ανοίξτε το εγχειρίδιο χρήστη στο πρόγραμμα περιήγησης (τοπικό εάν είναι "
-"διαθέσιμο διαφορετικά στο διαδίκτυο)"
+"Ανοίξτε το εγχειρίδιο χρήστη στο πρόγραμμα περιήγησης (τοπικά εάν είναι "
+"διαθέσιμο, διαφορετικά στο διαδίκτυο)"
 
 #: qt/app.py:542
 msgid "FAQ"
@@ -744,7 +740,6 @@ msgid "Restore"
 msgstr "Επαναφορά"
 
 #: qt/app.py:573
-#, fuzzy
 msgid "Restore the selected files or directories to the original location."
 msgstr "Επανέφερε τα επιλεγμένα αρχεία ή φακέλους στον αρχικό τους προορισμό."
 
@@ -753,12 +748,10 @@ msgid "Restore to …"
 msgstr "Επαναφορά στο…"
 
 #: qt/app.py:578
-#, fuzzy
 msgid "Restore the selected files or directories to a new location."
 msgstr "Επανέφερε τα επιλεγμένα αρχεία ή φακέλους σε ένα νέο προορισμό."
 
 #: qt/app.py:584
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
@@ -767,7 +760,6 @@ msgstr ""
 " στον αρχικό προορισμό."
 
 #: qt/app.py:590
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
@@ -885,7 +877,6 @@ msgid "ETA:"
 msgstr "ΕΧΑ:"
 
 #: qt/app.py:1401
-#, fuzzy
 msgid "Backup:"
 msgstr "Αντίγραφα ασφαλείας:"
 
@@ -1028,13 +1019,13 @@ msgid "Question"
 msgstr "Ερώτηση"
 
 #: qt/confirmrestoredialog.py:76
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix} before overwriting or removing "
 "local elements."
 msgstr ""
-"Δημιουργία αντιγράφων backup με επίθεμα {suffix}\n"
-"πριν την αντικατάσταση ή αφαίρεση τοπικών στοιχείων."
+"Δημιουργία αντιγράφων backup με επίθεμα {suffix} πριν την αντικατάσταση ή "
+"αφαίρεση τοπικών στοιχείων."
 
 #: qt/confirmrestoredialog.py:81 qt/manageprofiles/tab_options.py:69
 #, python-brace-format
@@ -1047,14 +1038,13 @@ msgstr ""
 "ακόλουθη εντολή:"
 
 #: qt/confirmrestoredialog.py:94
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Only restore elements which do not exist or are newer than those in "
 "destination. Using \"{rsync_example}\" option."
 msgstr ""
-"Αποκατάσταση μόνο στοιχείων που δεν υπάρχουν ή\n"
-"είναι νεότερα από αυτά στον προορισμό.\n"
-"Χρησιμοποιώντας την επιλογή \"rsync --update\"."
+"Αποκατάσταση μόνο στοιχείων που δεν υπάρχουν ή είναι νεότερα από αυτά στον "
+"προορισμό. Χρησιμοποιώντας την επιλογή {rsync_example}."
 
 #: qt/confirmrestoredialog.py:133
 msgid "Remove newer elements in original directory."
@@ -1533,9 +1523,8 @@ msgid "Exclude patterns, files or directories"
 msgstr "Εξαιρέστε μοτίβα, αρχεία ή καταλόγους"
 
 #: qt/manageprofiles/tab_exclude.py:102
-#, fuzzy
 msgid "Add pattern"
-msgstr "Εξαίρεσε μοτίβο"
+msgstr "Πρόσθεσε μοτίβο"
 
 #: qt/manageprofiles/tab_exclude.py:107 qt/manageprofiles/tab_include.py:68
 msgid "Add files"
@@ -1589,18 +1578,17 @@ msgid "Exclude pattern"
 msgstr "Εξαίρεσε μοτίβο"
 
 #: qt/manageprofiles/tab_exclude.py:286
-#, fuzzy
 msgid "Enter an exclude pattern:"
-msgstr "Εξαίρεσε μοτίβο"
+msgstr "Εισάγετε ένα μοτίβο εξαιρέσεων:"
 
 #: qt/manageprofiles/tab_exclude.py:291
 #, python-brace-format
 msgid "For help, see the rsync man page section {link}."
-msgstr ""
+msgstr "Για βοήθεια, δείτε την ενότητα {link} στη σελίδα man του rsync."
 
 #: qt/manageprofiles/tab_exclude.py:294
 msgid "Open rsync man page"
-msgstr ""
+msgstr "Άνοιγμα της σελίδας man του rsync"
 
 #: qt/manageprofiles/tab_exclude.py:322
 msgid "Exclude files"
@@ -1829,29 +1817,37 @@ msgid ""
 "Scheduling is disabled because no cron installation was found. Please "
 "install cron to enable scheduled backups."
 msgstr ""
+"Ο προγραμματισμός είναι απενεργοποιημένος επειδή δεν βρέθηκε εγκατάσταση "
+"cron. Παρακαλώ εγκαταστήστε το cron για να ενεργοποιήσετε τα "
+"προγραμματισμένα αντίγραφα ασφαλείας."
 
 #: qt/manageprofiles/tab_general.py:496
 msgid ""
 "An error occurred while attempting to log in to the remote host. The "
 "following error message was returned:"
 msgstr ""
+"Παρουσιάστηκε σφάλμα κατά την προσπάθεια σύνδεσης στον απομακρυσμένο "
+"υπολογιστή. Επιστράφηκε το ακόλουθο μήνυμα σφάλματος:"
 
 #: qt/manageprofiles/tab_general.py:500
 msgid ""
 "To enable password-less login, the public SSH key can be copied to the "
 "remote host."
 msgstr ""
+"Για να ενεργοποιηθεί η σύνδεση χωρίς κωδικό, το δημόσιο κλειδί SSH μπορεί να"
+" αντιγραφεί στον απομακρυσμένο υπολογιστή."
 
 #: qt/manageprofiles/tab_general.py:503
-#, fuzzy
 msgid "Proceed with copying the SSH key?"
-msgstr "Συνέχεια με τη δημιουργία αντιγράφων ασφαλείας;"
+msgstr "Να γίνει αντιγραφή του κλειδιού SSH;"
 
 #: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
+"Το δημόσιο κλειδί SSH δεν ήταν δυνατό να αντιγραφεί. Αυτό μπορεί να "
+"οφείλεται σε πρόβλημα σύνδεσης ή δικαιωμάτων."
 
 #: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
@@ -1866,7 +1862,6 @@ msgid "{keytype} key fingerprint is:"
 msgstr "Το αποτύπωμα κλειδιου {keytype} είναι:"
 
 #: qt/manageprofiles/tab_general.py:556
-#, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
 "Επαληθεύστε αυτό το δακτυλικό αποτύπωμα. Θέλετε να το προσθέσετε στο αρχείο "
@@ -1877,18 +1872,17 @@ msgid "Really change the backup directory?"
 msgstr "Πραγματικά να αλλάξω τον κατάλογο αντιγράφων ασφαλείας;"
 
 #: qt/manageprofiles/tab_general.py:674
-#, fuzzy
 msgid "Invalid file: Not a private SSH key"
-msgstr "Δεν είναι ιδιωτικό κλειδί"
+msgstr "Μη έγκυρο αρχείο: Δεν είναι ιδιωτικό κλειδί SSH"
 
 #: qt/manageprofiles/tab_general.py:675
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
-"Το επιλεγμένο αρχείο {path} φαίνεται να είναι ένα δημόσιο κλειδί SSH. "
-"Επιλέξτε ένα ιδιωτικό αρχείο (χωρίς επέκταση \".pub\")."
+"Το επιλεγμένο αρχείο ({path}) είναι δημόσιο κλειδί SSH. Παρακαλώ επιλέξτε το"
+" αντίστοιχο ιδιωτικό κλειδί (χωρίς το \".pub\")."
 
 #: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
@@ -2010,14 +2004,14 @@ msgid "user manual"
 msgstr "εγχειρίδιο χρήσης"
 
 #: qt/manageprofiles/tab_remove_retention.py:206
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual_link} for details and examples."
 msgstr ""
 "Οι ακόλουθοι κανόνες υποβάλλονται σε επεξεργασία από πάνω προς τα κάτω. Οι "
 "μεταγενέστεροι κανόνες αντικαθιστούν τους προηγούμενους. Ανατρέξτε στο "
-"{manual} για λεπτομέρειες και παραδείγματα."
+"{manual_link} για λεπτομέρειες και παραδείγματα."
 
 #: qt/manageprofiles/tab_remove_retention.py:221
 msgid "Open user manual in browser."
@@ -2028,11 +2022,9 @@ msgid "Keep the most recent backup."
 msgstr "Κρατήστε το πιο πρόσφατο αντίγραφο ασφαλείας."
 
 #: qt/manageprofiles/tab_remove_retention.py:239
-#, fuzzy
 msgid "The most up-to-date backup is kept under all circumstances."
 msgstr ""
-"Το τελευταίο ή πιο πρόσφατο αντίγραφο ασφαλείας διατηρείται σε κάθε "
-"περίπτωση."
+"Το πιο πρόσφατο αντίγραφο ασφαλείας διατηρείται σε όλες τις περιπτώσεις."
 
 #: qt/manageprofiles/tab_remove_retention.py:241
 msgid "That behavior cannot be changed."
@@ -2082,15 +2074,14 @@ msgid "Run in background on remote host."
 msgstr "Εκτέλεση στο παρασκήνιο σε απομακρυσμένο κεντρικό υπολογιστή."
 
 #: qt/manageprofiles/tab_remove_retention.py:311
-#, fuzzy
 msgid ""
 "The retention policy will be executed directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
 "and available on that remote machine."
 msgstr ""
-"Η διαδικασία έξυπνης αφαίρεσης θα εκτελεστεί απευθείας στο απομακρυσμένο "
-"μηχάνημα, όχι τοπικά. Οι εντολές \"bash\", \"screen\" και \"flock\" πρέπει "
-"να είναι εγκατεστημένες και διαθέσιμες στο απομακρυσμένο μηχάνημα."
+"Η πολιτική διατήρησης θα εκτελεστεί απευθείας στο απομακρυσμένο μηχάνημα, "
+"όχι τοπικά. Τα προγράμματα \"bash\", \"screen\" και \"flock\" πρέπει να "
+"είναι εγκατεστημένα και διαθέσιμα σε εκείνο το απομακρυσμένο μηχάνημα."
 
 #: qt/manageprofiles/tab_remove_retention.py:315
 msgid "If selected, Back In Time will first test the remote machine."
@@ -2180,11 +2171,11 @@ msgstr "Συντομεύσεις"
 
 #: qt/placeswidget.py:63
 msgid "Places"
-msgstr ""
+msgstr "Τοποθεσίες"
 
 #: qt/placeswidget.py:64
 msgid "File System"
-msgstr ""
+msgstr "Σύστημα Αρχείων"
 
 #: qt/placeswidget.py:106
 msgid "Backup directories"
@@ -2211,7 +2202,7 @@ msgstr "Εργάζεται…"
 #: qt/qttools.py:439
 #, python-brace-format
 msgid "man page: {man_page_name}"
-msgstr ""
+msgstr "σελίδα man: {man_page_name}"
 
 #: qt/restoreconfigdialog.py:72
 msgid "Import configuration"
@@ -2226,9 +2217,8 @@ msgid "Import"
 msgstr "Εισαγωγή"
 
 #: qt/restoreconfigdialog.py:143 qt/restoreconfigdialog.py:247
-#, fuzzy
 msgid "Searching…"
-msgstr "Εργάζεται…"
+msgstr "Αναζήτηση…"
 
 #: qt/restoreconfigdialog.py:224
 #, python-brace-format
@@ -2250,21 +2240,19 @@ msgstr ""
 
 #: qt/restoreconfigdialog.py:250
 msgid "Scan again"
-msgstr ""
+msgstr "Σάρωση ξανά"
 
 #: qt/restoreconfigdialog.py:269
-#, fuzzy
 msgid "Show hidden directories"
-msgstr "Προβολή κρυφών αρχείων"
+msgstr "Εμφάνιση κρυφών αρχείων"
 
 #: qt/restoreconfigdialog.py:271
-#, fuzzy
 msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Εμφάνιση/απόκρυψη κρυφών αρχείων και καταλόγων (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:379
 msgid "Search complete."
-msgstr ""
+msgstr "Η αναζήτηση ολοκληρώθηκε."
 
 #: qt/restoredialog.py:58
 msgid "Show full Log"
@@ -2395,14 +2383,15 @@ msgid "Exclude {path} from future backups?"
 msgstr "Να εξαιρεθεί το {path} από μελλοντικά αντίγραφα ασφαλείας;"
 
 #: qt/statusbar.py:85
-#, fuzzy
 msgid "Root mode"
-msgstr "Ρίζα"
+msgstr "Λειτουργία root"
 
 #: qt/statusbar.py:87
 msgid ""
 "Back In Time is currently running with root privileges (full system access)"
 msgstr ""
+"Το Back In Time εκτελείται αυτή τη στιγμή με προνόμια root (πλήρης πρόσβαση "
+"στο σύστημα)"
 
 #: qt/timeline.py:69
 msgid "Today"

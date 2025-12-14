@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-11-10 15:02+0100\n"
-"PO-Revision-Date: 2025-08-05 07:04+0000\n"
+"PO-Revision-Date: 2025-11-18 12:10+0000\n"
 "Last-Translator: Outbreak2096 <outbreak2096@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -102,12 +102,12 @@ msgid ""
 msgstr "此目录不能包含在备份中，因为它是备份目标本身的一部分。"
 
 #: common/config.py:379
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
 " space falls below\" ({val_two})."
-msgstr "“如果可用空间小于则移除最旧备份”的值（{val_one}）必须小于或等于“如果可用磁盘空间小于则发出警告”的阈值（{val_two}）。"
+msgstr "“当可用空间小于（{val_one}）时移除最旧备份”的值必须小于或等于“当可用磁盘空间低于（{val_two}）时发出警告”的阈值。"
 
 #: common/config.py:384
 msgid ""
@@ -325,14 +325,12 @@ msgid "Unable to rename {new_path} to {path}."
 msgstr "无法将 {new_path} 重命名为 {path}。"
 
 #: common/snapshots.py:1999
-#, fuzzy
 msgid "Applying rules to remove old backups"
-msgstr "应用规则以移除旧备份"
+msgstr "正在应用规则以移除旧备份"
 
 #: common/snapshots.py:2032
-#, fuzzy
 msgid "Applying retention policy"
-msgstr "应用保留策略"
+msgstr "正在应用保留策略"
 
 #: common/snapshots.py:2042
 msgid "Trying to keep min free space"
@@ -384,9 +382,9 @@ msgid "Remote host {host} doesn't support {command}"
 msgstr "远程主机 {host} 不支持 {command}"
 
 #: common/sshtools.py:1021
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Checking commands on host {host} returned unknown error"
-msgstr "检查主机 {host} 上返回未知错误的命令"
+msgstr "在主机 {host} 上检查命令时返回了未知错误"
 
 #: common/sshtools.py:1039
 #, python-brace-format
@@ -481,7 +479,7 @@ msgstr "Kuntao Zhao <kt.zhao@gmail.com>"
 
 #: qt/aboutdlg.py:107
 msgid "Translator credits not available for current language."
-msgstr "‌当前语言没有列出翻译人员信息。"
+msgstr "当前语言没有列出翻译人员信息。"
 
 #: qt/aboutdlg.py:116
 msgid "this link"
@@ -544,7 +542,7 @@ msgstr "使用校验和检测文件更改。"
 
 #: qt/app.py:461 qt/qtsystrayicon.py:78
 msgid "Pause backup process"
-msgstr "暂停备份进程‌"
+msgstr "暂停备份进程"
 
 #: qt/app.py:465 qt/qtsystrayicon.py:83
 msgid "Resume backup process"
@@ -676,32 +674,28 @@ msgid "Restore"
 msgstr "恢复"
 
 #: qt/app.py:573
-#, fuzzy
 msgid "Restore the selected files or directories to the original location."
-msgstr "将所选文件或目录恢复到原目标。"
+msgstr "将所选文件或目录恢复到原始位置。"
 
 #: qt/app.py:576 qt/app.py:1821 qt/snapshotsdialog.py:186
 msgid "Restore to …"
 msgstr "恢复至…"
 
 #: qt/app.py:578
-#, fuzzy
 msgid "Restore the selected files or directories to a new location."
-msgstr "将所选文件或目录恢复到新目标。"
+msgstr "将所选文件或目录恢复到新位置。"
 
 #: qt/app.py:584
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
-msgstr "将当前显示的目录及其全部内容恢复到原目标。"
+msgstr "将当前显示的目录及其所有内容恢复到原始位置。"
 
 #: qt/app.py:590
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
-msgstr "将当前显示的目录及其全部内容恢复到新目标。"
+msgstr "将当前显示的目录及其所有内容恢复到新位置。"
 
 #: qt/app.py:593
 msgid "Up"
@@ -1103,7 +1097,7 @@ msgstr "解码路径"
 
 #: qt/logviewdialog.py:120 qt/manageprofiles/tab_options.py:188
 msgid "All"
-msgstr "全部"
+msgstr "所有"
 
 #: qt/logviewdialog.py:126 qt/logviewdialog.py:130
 #: qt/manageprofiles/tab_options.py:187
@@ -1395,9 +1389,8 @@ msgid "Exclude patterns, files or directories"
 msgstr "排除模式、文件或目录"
 
 #: qt/manageprofiles/tab_exclude.py:102
-#, fuzzy
 msgid "Add pattern"
-msgstr "排除模式"
+msgstr "添加模式"
 
 #: qt/manageprofiles/tab_exclude.py:107 qt/manageprofiles/tab_include.py:68
 msgid "Add files"
@@ -1434,7 +1427,7 @@ msgstr ""
 #, python-brace-format
 msgid ""
 "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
-msgstr "{BOLD}强烈推荐{ENDBOLD}：（全部推荐均已包括在内。）"
+msgstr "{BOLD}强烈推荐{ENDBOLD}：（所有推荐已包括。）"
 
 #: qt/manageprofiles/tab_exclude.py:218
 #, python-brace-format
@@ -1446,18 +1439,17 @@ msgid "Exclude pattern"
 msgstr "排除模式"
 
 #: qt/manageprofiles/tab_exclude.py:286
-#, fuzzy
 msgid "Enter an exclude pattern:"
-msgstr "排除模式"
+msgstr "输入排除模式："
 
 #: qt/manageprofiles/tab_exclude.py:291
 #, python-brace-format
 msgid "For help, see the rsync man page section {link}."
-msgstr ""
+msgstr "如需帮助，请参阅 rsync 手册页的 {link} 部分。"
 
 #: qt/manageprofiles/tab_exclude.py:294
 msgid "Open rsync man page"
-msgstr ""
+msgstr "打开 rsync 手册页"
 
 #: qt/manageprofiles/tab_exclude.py:322
 msgid "Exclude files"
@@ -1663,7 +1655,7 @@ msgstr "完整备份路径："
 msgid ""
 "Scheduling is disabled because no cron installation was found. Please "
 "install cron to enable scheduled backups."
-msgstr ""
+msgstr "由于未找到 cron 安装，因此已禁用计划任务功能。请安装 cron 以启用计划备份。"
 
 #: qt/manageprofiles/tab_general.py:496
 msgid ""
@@ -1675,12 +1667,11 @@ msgstr "尝试登录到远程主机时出错。返回以下错误消息："
 msgid ""
 "To enable password-less login, the public SSH key can be copied to the "
 "remote host."
-msgstr ""
+msgstr "要启用免密码登录，可以将 SSH 公钥复制到远程主机。"
 
 #: qt/manageprofiles/tab_general.py:503
-#, fuzzy
 msgid "Proceed with copying the SSH key?"
-msgstr "是否继续备份？"
+msgstr "是否继续复制 SSH 密钥？"
 
 #: qt/manageprofiles/tab_general.py:528
 msgid ""
@@ -1792,7 +1783,7 @@ msgstr "无论是否有更改，都创建新备份。"
 
 #: qt/manageprofiles/tab_options.py:95
 msgid "Warn if the free disk space falls below"
-msgstr "发出警告，如果可用磁盘空间小于"
+msgstr "发出警告，当可用磁盘空间低于"
 
 #: qt/manageprofiles/tab_options.py:101
 msgid ""
@@ -1820,11 +1811,11 @@ msgid "user manual"
 msgstr "用户手册"
 
 #: qt/manageprofiles/tab_remove_retention.py:206
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual_link} for details and examples."
-msgstr "从上到下处理以下规则。后面的规则会覆盖前面的规则。有关详情和示例，请参阅{manual}。"
+msgstr "以下规则按从上到下的顺序处理。后出现的规则会覆盖先前的规则。详情及示例请参阅{manual_link}。"
 
 #: qt/manageprofiles/tab_remove_retention.py:221
 msgid "Open user manual in browser."
@@ -1835,9 +1826,8 @@ msgid "Keep the most recent backup."
 msgstr "保留最新备份。"
 
 #: qt/manageprofiles/tab_remove_retention.py:239
-#, fuzzy
 msgid "The most up-to-date backup is kept under all circumstances."
-msgstr "在任何情况下都会保留最后或最新备份。"
+msgstr "在任何情况下都会保留最新的备份。"
 
 #: qt/manageprofiles/tab_remove_retention.py:241
 msgid "That behavior cannot be changed."
@@ -1859,7 +1849,7 @@ msgstr "年"
 
 #: qt/manageprofiles/tab_remove_retention.py:276
 msgid "Remove backups older than"
-msgstr "移除多久前的备份‌"
+msgstr "移除多久前的备份"
 
 #: qt/manageprofiles/tab_remove_retention.py:282
 msgid "Full days. Current day is ignored."
@@ -1882,16 +1872,15 @@ msgid "Run in background on remote host."
 msgstr "在远程主机后台运行。"
 
 #: qt/manageprofiles/tab_remove_retention.py:311
-#, fuzzy
 msgid ""
 "The retention policy will be executed directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
 "and available on that remote machine."
-msgstr "智能移除过程将直接在远程计算机上运行，而不是在本地运行。命令“bash”、“screen”和“flock”必须在远程计算机上安装并使用。"
+msgstr "保留策略将直接在远程机器上执行，而非本地执行。远程机器上必须安装并可用“bash”、“screen”和“flock”命令。"
 
 #: qt/manageprofiles/tab_remove_retention.py:315
 msgid "If selected, Back In Time will first test the remote machine."
-msgstr "如果选择，Back In Time 将首先测试远程计算机。"
+msgstr "如果选择，Back In Time 将首先测试远程机器。"
 
 #: qt/manageprofiles/tab_remove_retention.py:319
 msgid "The days are counted starting from today."
@@ -1899,7 +1888,7 @@ msgstr "从今天开始计算天数。"
 
 #: qt/manageprofiles/tab_remove_retention.py:320
 msgid "Keep all backups for the last"
-msgstr "保留全部备份"
+msgstr "保留所有备份"
 
 #: qt/manageprofiles/tab_remove_retention.py:325
 #: qt/manageprofiles/tab_remove_retention.py:337
@@ -1960,7 +1949,7 @@ msgstr "… 可用索引节点少于"
 
 #: qt/manageprofiles/tab_remove_retention.py:401
 msgid "Remove oldest backup if …"
-msgstr "移除最旧备份，如果…"
+msgstr "移除最旧备份，当…"
 
 #: qt/placeswidget.py:49
 msgid "Shortcuts"
@@ -1999,7 +1988,7 @@ msgstr "运行中…"
 #: qt/qttools.py:439
 #, python-brace-format
 msgid "man page: {man_page_name}"
-msgstr ""
+msgstr "手册页：{man_page_name}"
 
 #: qt/restoreconfigdialog.py:72
 msgid "Import configuration"

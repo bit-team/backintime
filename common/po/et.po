@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-11-10 15:02+0100\n"
-"PO-Revision-Date: 2025-08-11 07:22+0000\n"
+"PO-Revision-Date: 2025-11-13 10:20+0000\n"
 "Last-Translator: Priit Jõerüüt <jrtcdbrg@noreply.codeberg.org>\n"
 "Language-Team: Estonian <https://translate.codeberg.org/projects/backintime/common/et/>\n"
 "Language: et\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -106,7 +106,7 @@ msgstr ""
 "sihtkaustast endast."
 
 #: common/config.py:379
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
@@ -349,14 +349,12 @@ msgid "Unable to rename {new_path} to {path}."
 msgstr "Asukoha „{path}“ uueks nimeks ei saa määrata „{new_path}“."
 
 #: common/snapshots.py:1999
-#, fuzzy
 msgid "Applying rules to remove old backups"
-msgstr "Kehtesta vanade varukoopiate eemaldamise reeglid"
+msgstr "Kehtestan vanade varukoopiate eemaldamise reegleid"
 
 #: common/snapshots.py:2032
-#, fuzzy
 msgid "Applying retention policy"
-msgstr "Kehtesta säilitamise reeglid"
+msgstr "Kehtestan säilitamise reegleid"
 
 #: common/snapshots.py:2042
 msgid "Trying to keep min free space"
@@ -411,7 +409,7 @@ msgid "Remote host {host} doesn't support {command}"
 msgstr "Väline seade „{host}“ ei toeta käsku „{command}“"
 
 #: common/sshtools.py:1021
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Checking commands on host {host} returned unknown error"
 msgstr "Kontrollkäsud hostis {host} andsid tulemuseks tundmatu vea"
 
@@ -723,7 +721,6 @@ msgid "Restore"
 msgstr "Taasta"
 
 #: qt/app.py:573
-#, fuzzy
 msgid "Restore the selected files or directories to the original location."
 msgstr "Taasta valitud failid või kaustad algupärasesse asukohta."
 
@@ -732,12 +729,10 @@ msgid "Restore to …"
 msgstr "Taasta asukohta …"
 
 #: qt/app.py:578
-#, fuzzy
 msgid "Restore the selected files or directories to a new location."
 msgstr "Taasta valitud failid või kaustad uude asukohta."
 
 #: qt/app.py:584
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
@@ -745,7 +740,6 @@ msgstr ""
 "Taasta hetkel näidatud kaust koos kogu oma sisuga algupärasesse asukohta."
 
 #: qt/app.py:590
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
@@ -1502,9 +1496,8 @@ msgid "Exclude patterns, files or directories"
 msgstr "Jäta välja mustrid, failid või kaustad"
 
 #: qt/manageprofiles/tab_exclude.py:102
-#, fuzzy
 msgid "Add pattern"
-msgstr "Jäta välja mustri alusel"
+msgstr "Lisa muster"
 
 #: qt/manageprofiles/tab_exclude.py:107 qt/manageprofiles/tab_include.py:68
 msgid "Add files"
@@ -1556,18 +1549,17 @@ msgid "Exclude pattern"
 msgstr "Jäta välja mustri alusel"
 
 #: qt/manageprofiles/tab_exclude.py:286
-#, fuzzy
 msgid "Enter an exclude pattern:"
-msgstr "Jäta välja mustri alusel"
+msgstr "Jäta välja järgneva mustri alusel:"
 
 #: qt/manageprofiles/tab_exclude.py:291
 #, python-brace-format
 msgid "For help, see the rsync man page section {link}."
-msgstr ""
+msgstr "Abiteavet leiad käsuga „man rsync“ alalõigust {link}."
 
 #: qt/manageprofiles/tab_exclude.py:294
 msgid "Open rsync man page"
-msgstr ""
+msgstr "Ava rsynci abiteabe leht"
 
 #: qt/manageprofiles/tab_exclude.py:322
 msgid "Exclude files"
@@ -1793,6 +1785,9 @@ msgid ""
 "Scheduling is disabled because no cron installation was found. Please "
 "install cron to enable scheduled backups."
 msgstr ""
+"Kuna croni paigaldust ei leidu, siis ajastamine pole kasutusel. Kui soovid, "
+"et varukoopiate tegemine toimuks etteantud graafiku alusel, siis paigalda "
+"arvutisse cron."
 
 #: qt/manageprofiles/tab_general.py:496
 msgid ""
@@ -1807,11 +1802,12 @@ msgid ""
 "To enable password-less login, the public SSH key can be copied to the "
 "remote host."
 msgstr ""
+"Kui tahad kasutada salasõnata sisselogimist, siis kopeeri vastava kasutaja "
+"avalik SSH-võti kaugseadmesse."
 
 #: qt/manageprofiles/tab_general.py:503
-#, fuzzy
 msgid "Proceed with copying the SSH key?"
-msgstr "Kas jätkame varundamisega?"
+msgstr "Kas jätkame SSH-võtme kopeerimisega?"
 
 #: qt/manageprofiles/tab_general.py:528
 msgid ""
@@ -1969,14 +1965,14 @@ msgid "user manual"
 msgstr "kasutusjuhendis"
 
 #: qt/manageprofiles/tab_remove_retention.py:206
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual_link} for details and examples."
 msgstr ""
 "Järgnevaid reegleid töödeldakse suunaga ülevalt alla. Hilisemad reeglid "
 "alati asendavad varasemaid ega ole varasemaist kuidagi mõjutatud. "
-"Üksikasjade ja näidete teave leidub siin: {manual}."
+"Üksikasjade ja näidete teave leidub siin: {manual_link}."
 
 #: qt/manageprofiles/tab_remove_retention.py:221
 msgid "Open user manual in browser."
@@ -1987,7 +1983,6 @@ msgid "Keep the most recent backup."
 msgstr "Säilita viimane varukoopia."
 
 #: qt/manageprofiles/tab_remove_retention.py:239
-#, fuzzy
 msgid "The most up-to-date backup is kept under all circumstances."
 msgstr "Viimane ja kõige värskem varukoopia säilib igal juhul."
 
@@ -2037,13 +2032,12 @@ msgid "Run in background on remote host."
 msgstr "Käivita välises seadmes taustal."
 
 #: qt/manageprofiles/tab_remove_retention.py:311
-#, fuzzy
 msgid ""
 "The retention policy will be executed directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
 "and available on that remote machine."
 msgstr ""
-"Nutikas kustutamine töötab otseselt välisseadmes, mitte kohaliku seadmes. "
+"Säilitusreegleid järgitakse otseselt välisseadmes, mitte kohalikus seadmes. "
 "Selleks peavad välisseadmes olema paigaldatud „bash“, „screen“ ja „flock“."
 
 #: qt/manageprofiles/tab_remove_retention.py:315
@@ -2156,7 +2150,7 @@ msgstr "Töötan…"
 #: qt/qttools.py:439
 #, python-brace-format
 msgid "man page: {man_page_name}"
-msgstr ""
+msgstr "Abiteabe leht: {man_page_name}"
 
 #: qt/restoreconfigdialog.py:72
 msgid "Import configuration"

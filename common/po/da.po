@@ -13,17 +13,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-11-10 15:02+0100\n"
-"PO-Revision-Date: 2025-08-12 11:50+0000\n"
-"Last-Translator: asjo <asjo@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2025-11-19 19:10+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Danish <https://translate.codeberg.org/projects/backintime/common/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -106,7 +106,7 @@ msgstr ""
 "sikkerhedskopiens destination."
 
 #: common/config.py:379
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
@@ -344,14 +344,12 @@ msgid "Unable to rename {new_path} to {path}."
 msgstr "Kan ikke omdøbe {new_path} til {path}."
 
 #: common/snapshots.py:1999
-#, fuzzy
 msgid "Applying rules to remove old backups"
-msgstr "Brug regler til at fjerne gamle tilstandsbilleder"
+msgstr "Bruger regler til at fjerne gamle tilstandsbilleder"
 
 #: common/snapshots.py:2032
-#, fuzzy
 msgid "Applying retention policy"
-msgstr "Brug bevaringspolitik"
+msgstr "Bruger bevaringspolitik"
 
 #: common/snapshots.py:2042
 msgid "Trying to keep min free space"
@@ -405,7 +403,7 @@ msgid "Remote host {host} doesn't support {command}"
 msgstr "Den anden maskine {host} understøtter ikke {command}"
 
 #: common/sshtools.py:1021
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Checking commands on host {host} returned unknown error"
 msgstr "Check-kommandoerne på vært {host} gav en ukendt fejl"
 
@@ -710,7 +708,6 @@ msgid "Restore"
 msgstr "Gendan"
 
 #: qt/app.py:573
-#, fuzzy
 msgid "Restore the selected files or directories to the original location."
 msgstr "Gendan de valgte filer eller mapper på det oprindelige sted."
 
@@ -719,19 +716,16 @@ msgid "Restore to …"
 msgstr "Gendan …"
 
 #: qt/app.py:578
-#, fuzzy
 msgid "Restore the selected files or directories to a new location."
 msgstr "Gendan de valgte filer eller mapper på et nyt sted."
 
 #: qt/app.py:584
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
 msgstr "Gendan den viste mappe og al dens indhold på det oprindelige sted."
 
 #: qt/app.py:590
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
@@ -1479,9 +1473,8 @@ msgid "Exclude patterns, files or directories"
 msgstr "Ekskludéringmønstre, filer eller mapper"
 
 #: qt/manageprofiles/tab_exclude.py:102
-#, fuzzy
 msgid "Add pattern"
-msgstr "Ekskludér mønster"
+msgstr "Tilføj mønster"
 
 #: qt/manageprofiles/tab_exclude.py:107 qt/manageprofiles/tab_include.py:68
 msgid "Add files"
@@ -1534,18 +1527,17 @@ msgid "Exclude pattern"
 msgstr "Ekskludér mønster"
 
 #: qt/manageprofiles/tab_exclude.py:286
-#, fuzzy
 msgid "Enter an exclude pattern:"
-msgstr "Ekskludér mønster"
+msgstr "Skriv et ekskludér-mønster:"
 
 #: qt/manageprofiles/tab_exclude.py:291
 #, python-brace-format
 msgid "For help, see the rsync man page section {link}."
-msgstr ""
+msgstr "Se rsync man-siden section {link} for hjælp."
 
 #: qt/manageprofiles/tab_exclude.py:294
 msgid "Open rsync man page"
-msgstr ""
+msgstr "Åben rsync man-side"
 
 #: qt/manageprofiles/tab_exclude.py:322
 msgid "Exclude files"
@@ -1764,6 +1756,9 @@ msgid ""
 "Scheduling is disabled because no cron installation was found. Please "
 "install cron to enable scheduled backups."
 msgstr ""
+"Tidsbestemt udførsel er slået fra, fordi der ikke ser ud til at være en cron"
+" installeret. Installér venligst cron for at slå tidsbestemt "
+"tilstandsbilledtagning til."
 
 #: qt/manageprofiles/tab_general.py:496
 msgid ""
@@ -1778,24 +1773,25 @@ msgid ""
 "To enable password-less login, the public SSH key can be copied to the "
 "remote host."
 msgstr ""
+"Du kan aktivere kodeordsløst login ved at kopiere den offentlige SSH nøgle "
+"til fjernværten."
 
 #: qt/manageprofiles/tab_general.py:503
-#, fuzzy
 msgid "Proceed with copying the SSH key?"
-msgstr "Forsæt med at danne tilstandsbillede?"
+msgstr "Forsæt kopiering af SSH nøgle?"
 
 #: qt/manageprofiles/tab_general.py:528
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
-"Den offentlige SSH-nøgle kunneikke kopieres. Dette kan skyldes problem med "
-"forbindelse eller rettigheder."
+"Den offentlige SSH-nøgle kunne ikke kopieres. Dette kan skyldes problemer "
+"med forbindelse eller rettigheder."
 
 #: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
-msgstr "Autenticiteten af værten {host} kan ikke etableres."
+msgstr "Autenticiteten af værten {host} kan ikke fastslås."
 
 #: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
@@ -1940,13 +1936,13 @@ msgid "user manual"
 msgstr "brugervejledning"
 
 #: qt/manageprofiles/tab_remove_retention.py:206
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual_link} for details and examples."
 msgstr ""
 "De følgende regler håndteres fra top til bund. Senere regler tager præcedens"
-" over tidligere. Detaljer og eksempler findes i {manual}."
+" over tidligere. Detaljer og eksempler findes i {manual_link}."
 
 #: qt/manageprofiles/tab_remove_retention.py:221
 msgid "Open user manual in browser."
@@ -1957,11 +1953,8 @@ msgid "Keep the most recent backup."
 msgstr "Behold det nyeste tilstandsbillede."
 
 #: qt/manageprofiles/tab_remove_retention.py:239
-#, fuzzy
 msgid "The most up-to-date backup is kept under all circumstances."
-msgstr ""
-"Det sidste eller friskeste tilstandsbillede beholdes under alle "
-"omstændigheder."
+msgstr "Det friskeste tilstandsbillede beholdes under alle omstændigheder."
 
 #: qt/manageprofiles/tab_remove_retention.py:241
 msgid "That behavior cannot be changed."
@@ -2008,7 +2001,6 @@ msgid "Run in background on remote host."
 msgstr "Kør i bagrunden på fjernværten."
 
 #: qt/manageprofiles/tab_remove_retention.py:311
-#, fuzzy
 msgid ""
 "The retention policy will be executed directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
@@ -2129,7 +2121,7 @@ msgstr "Arbejder…"
 #: qt/qttools.py:439
 #, python-brace-format
 msgid "man page: {man_page_name}"
-msgstr ""
+msgstr "man-side: {man_page_name}"
 
 #: qt/restoreconfigdialog.py:72
 msgid "Import configuration"

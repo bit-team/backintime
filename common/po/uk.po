@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-11-10 15:02+0100\n"
-"PO-Revision-Date: 2025-09-02 11:09+0000\n"
+"PO-Revision-Date: 2025-11-11 15:00+0000\n"
 "Last-Translator: SomeTr <sometr@noreply.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -106,7 +106,7 @@ msgstr ""
 "місця призначення резервної копії."
 
 #: common/config.py:379
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
@@ -213,7 +213,7 @@ msgstr "Точка монтування {mntpoint} не порожня."
 #: common/password.py:306
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
-msgstr "Введіть пароль для профілю {mode} «{profile}»:"
+msgstr "Уведіть пароль для профілю {mode} «{profile}»:"
 
 #: common/schedule.py:238
 #, python-brace-format
@@ -335,7 +335,7 @@ msgstr "Докладніше див. «man rsync»"
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
-"Від'ємні значення кодів виходу rsync є сигнальними номерами, див. «kill -l» "
+"Від’ємні значення кодів виходу rsync є сигнальними номерами, див. «kill -l» "
 "і «man kill»"
 
 #: common/snapshots.py:1567
@@ -348,14 +348,12 @@ msgid "Unable to rename {new_path} to {path}."
 msgstr "Не вдається перейменувати {new_path} в {path}."
 
 #: common/snapshots.py:1999
-#, fuzzy
 msgid "Applying rules to remove old backups"
-msgstr "Застосувати правила для видалення старих копій"
+msgstr "Застосування правил для видалення старих копій"
 
 #: common/snapshots.py:2032
-#, fuzzy
 msgid "Applying retention policy"
-msgstr "Застосувати політику збереження"
+msgstr "Застосування політики збереження"
 
 #: common/snapshots.py:2042
 msgid "Trying to keep min free space"
@@ -409,7 +407,7 @@ msgid "Remote host {host} doesn't support {command}"
 msgstr "Сервер {host} не підтримує {command}"
 
 #: common/sshtools.py:1021
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Checking commands on host {host} returned unknown error"
 msgstr "Перевірка команд на сервері {host} повернула невідому помилку"
 
@@ -557,7 +555,7 @@ msgid ""
 "computer)?"
 msgstr ""
 "Імпортувати існуючу конфігурацію (з каталогу резервної копії або з іншого "
-"комп'ютера)?"
+"комп’ютера)?"
 
 #: qt/app.py:370
 msgid "Then press OK."
@@ -713,7 +711,6 @@ msgid "Restore"
 msgstr "Відновити"
 
 #: qt/app.py:573
-#, fuzzy
 msgid "Restore the selected files or directories to the original location."
 msgstr ""
 "Відновити вибрані файли чи каталоги до їхнього початкового розташування."
@@ -723,12 +720,10 @@ msgid "Restore to …"
 msgstr "Відновити до …"
 
 #: qt/app.py:578
-#, fuzzy
 msgid "Restore the selected files or directories to a new location."
 msgstr "Відновити вибрані файли чи каталоги до вказаного розташування."
 
 #: qt/app.py:584
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
@@ -736,7 +731,6 @@ msgstr ""
 "Відновити поточний каталог і весь його вміст до початкового розташування."
 
 #: qt/app.py:590
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
@@ -933,7 +927,7 @@ msgstr ""
 "Ця версія Back In Time є реліз-кандидатом (Release Candidate). Вона призначена в першу чергу для тестування стабільності при підготовці до наступного офіційного релізу.\n"
 "Жодних даних користувачів або телеметрії не збирається. Однак команду Back In Time дуже цікавить, чи використовується реліз-кандидат і чи варто надалі випускати такі тестові версії.\n"
 "Тому команда просить Вас надати короткий відгук про те, чи тестували Ви цю версію, навіть якщо у Вас не виникло ніяких проблем. Навіть побіжний тест протягом кількох хвилин дуже нам допоможе.\n"
-"Доступні такі варіанти зв'язку:\n"
+"Доступні такі варіанти зв’язку:\n"
 "{contact_list}\n"
 "У цій версії це повідомлення більше не виводитиметься, але воно доступне в будь-який час через меню «Допомога».\n"
 "Дякуємо за вашу підтримку і за те, що допомагаєте нам покращувати Back In Time!\n"
@@ -1300,7 +1294,7 @@ msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regularly."
 msgstr ""
-"Запускати Back In Time повторно. Корисно, якщо комп'ютер не працює постійно."
+"Запускати Back In Time повторно. Корисно, якщо комп’ютер не працює постійно."
 
 #: qt/manageprofiles/schedulewidget.py:110
 msgid "Every:"
@@ -1491,9 +1485,8 @@ msgid "Exclude patterns, files or directories"
 msgstr "Виключити шаблони, файли або каталоги"
 
 #: qt/manageprofiles/tab_exclude.py:102
-#, fuzzy
 msgid "Add pattern"
-msgstr "Виключити за шаблоном"
+msgstr "Додати шаблон"
 
 #: qt/manageprofiles/tab_exclude.py:107 qt/manageprofiles/tab_include.py:68
 msgid "Add files"
@@ -1545,18 +1538,17 @@ msgid "Exclude pattern"
 msgstr "Виключити за шаблоном"
 
 #: qt/manageprofiles/tab_exclude.py:286
-#, fuzzy
 msgid "Enter an exclude pattern:"
-msgstr "Виключити за шаблоном"
+msgstr "Уведіть шаблон виключення:"
 
 #: qt/manageprofiles/tab_exclude.py:291
 #, python-brace-format
 msgid "For help, see the rsync man page section {link}."
-msgstr ""
+msgstr "Довідку див. у розділі {link} посібника rsync."
 
 #: qt/manageprofiles/tab_exclude.py:294
 msgid "Open rsync man page"
-msgstr ""
+msgstr "Відкриває посібник rsync"
 
 #: qt/manageprofiles/tab_exclude.py:322
 msgid "Exclude files"
@@ -1611,7 +1603,7 @@ msgstr "Встановіть «nocache», щоб увімкнути цей па�
 
 #: qt/manageprofiles/tab_expert_options.py:113
 msgid "on local machine"
-msgstr "на локальному комп'ютері"
+msgstr "на локальному комп’ютері"
 
 #: qt/manageprofiles/tab_expert_options.py:127
 msgid "Redirect stdout to /dev/null in cronjobs."
@@ -1754,7 +1746,7 @@ msgstr "Пароль"
 
 #: qt/manageprofiles/tab_general.py:206
 msgid "Save Password to Keyring"
-msgstr "Зберегти пароль у зв'язці ключів"
+msgstr "Зберегти пароль у зв’язці ключів"
 
 #: qt/manageprofiles/tab_general.py:210
 msgid "Cache Password for Cron (Security issue: root can read password)"
@@ -1773,6 +1765,8 @@ msgid ""
 "Scheduling is disabled because no cron installation was found. Please "
 "install cron to enable scheduled backups."
 msgstr ""
+"Планування вимкнено, оскільки не знайдено інсталяції cron. Встановіть cron, "
+"щоб увімкнути резервне копіювання за розкладом."
 
 #: qt/manageprofiles/tab_general.py:496
 msgid ""
@@ -1786,11 +1780,12 @@ msgid ""
 "To enable password-less login, the public SSH key can be copied to the "
 "remote host."
 msgstr ""
+"Щоб увімкнути безпарольний доступ, можна скопіювати публічний ключ SSH на "
+"віддалений сервер."
 
 #: qt/manageprofiles/tab_general.py:503
-#, fuzzy
 msgid "Proceed with copying the SSH key?"
-msgstr "Продовжити резервне копіювання?"
+msgstr "Продовжити копіювання ключа SSH?"
 
 #: qt/manageprofiles/tab_general.py:528
 msgid ""
@@ -1853,12 +1848,12 @@ msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until it is"
 " included, too."
 msgstr ""
-"«{path}» — символьне посилання. Об'єкт, на який воно вказує, не буде "
+"«{path}» — символьне посилання. Об’єкт, на який воно вказує, не буде "
 "зарезервовано, якщо його не включити."
 
 #: qt/manageprofiles/tab_include.py:172
 msgid "Include the symlink's target instead?"
-msgstr "Включити в резервну копію цільовий об'єкт символьного посилання?"
+msgstr "Включити в резервну копію цільовий об’єкт символьного посилання?"
 
 #: qt/manageprofiles/tab_include.py:180
 msgid "Include files"
@@ -1945,13 +1940,13 @@ msgid "user manual"
 msgstr "iнструкції користувача"
 
 #: qt/manageprofiles/tab_remove_retention.py:206
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual_link} for details and examples."
 msgstr ""
-"Правила обробляються зверху вниз. Пізніші правила мають перевагу над "
-"попередніми. Подробиці та приклади див. в {manual}."
+"Наведені нижче правила обробляються зверху вниз. Пізніші правила мають "
+"перевагу над попередніми. Подробиці та приклади див. в {manual_link}."
 
 #: qt/manageprofiles/tab_remove_retention.py:221
 msgid "Open user manual in browser."
@@ -1962,10 +1957,8 @@ msgid "Keep the most recent backup."
 msgstr "Не видаляти найновішу резервну копію."
 
 #: qt/manageprofiles/tab_remove_retention.py:239
-#, fuzzy
 msgid "The most up-to-date backup is kept under all circumstances."
-msgstr ""
-"Остання або найсвіжіша резервна копія зберігається за будь-яких обставин."
+msgstr "Найновіша резервна копія зберігається за будь-яких обставин."
 
 #: qt/manageprofiles/tab_remove_retention.py:241
 msgid "That behavior cannot be changed."
@@ -1980,7 +1973,7 @@ msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
-"Резервні копії, яким, окрім звичайної позначки часу, було присвоєно ім'я, "
+"Резервні копії, яким, окрім звичайної позначки часу, було присвоєно ім’я, "
 "будуть збережені за будь-яких обставин і не видалятимуться."
 
 #: qt/manageprofiles/tab_remove_retention.py:271
@@ -2014,19 +2007,18 @@ msgid "Run in background on remote host."
 msgstr "Виконувати у фоні на сервері."
 
 #: qt/manageprofiles/tab_remove_retention.py:311
-#, fuzzy
 msgid ""
 "The retention policy will be executed directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
 "and available on that remote machine."
 msgstr ""
-"Процедура розумного видалення виконуватиметься безпосередньо на віддаленому "
-"комп'ютері, а не локально. На віддаленому комп'ютері мають бути встановлені "
+"Політика збереження виконуватиметься безпосередньо на віддаленому "
+"комп’ютері, а не локально. На віддаленому комп’ютері мають бути встановлені "
 "і доступні команди «bash», «screen» і «flock»."
 
 #: qt/manageprofiles/tab_remove_retention.py:315
 msgid "If selected, Back In Time will first test the remote machine."
-msgstr "Якщо вибрано, Back In Time спочатку протестує віддалений комп'ютер."
+msgstr "Якщо вибрано, Back In Time спочатку протестує віддалений комп’ютер."
 
 #: qt/manageprofiles/tab_remove_retention.py:319
 msgid "The days are counted starting from today."
@@ -2135,7 +2127,7 @@ msgstr "Виконання…"
 #: qt/qttools.py:439
 #, python-brace-format
 msgid "man page: {man_page_name}"
-msgstr ""
+msgstr "man page: {man_page_name}"
 
 #: qt/restoreconfigdialog.py:72
 msgid "Import configuration"
@@ -2340,7 +2332,7 @@ msgstr "Попереднього тижня"
 
 #: qt/timeline.py:270
 msgid "This is NOT a backup but a live view of the local files."
-msgstr "Це НЕ резервна копія, а Ваші файли на комп'ютері."
+msgstr "Це НЕ резервна копія, а Ваші файли на комп’ютері."
 
 #: qt/timeline.py:275
 #, python-brace-format

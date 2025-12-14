@@ -15,9 +15,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-11-10 15:02+0100\n"
-"PO-Revision-Date: 2025-08-06 07:20+0000\n"
+"PO-Revision-Date: 2025-11-26 14:38+0000\n"
 "Last-Translator: N4ta <codeberg@n4ta.anonaddy.me>\n"
 "Language-Team: Portuguese <https://translate.codeberg.org/projects/backintime/common/pt/>\n"
 "Language: pt\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -109,7 +109,7 @@ msgstr ""
 "destino do backup."
 
 #: common/config.py:379
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
@@ -352,12 +352,10 @@ msgid "Unable to rename {new_path} to {path}."
 msgstr "Não foi possível renomear {new_path} para {path}."
 
 #: common/snapshots.py:1999
-#, fuzzy
 msgid "Applying rules to remove old backups"
 msgstr "Aplicar regras para remover cópias de segurança antigas"
 
 #: common/snapshots.py:2032
-#, fuzzy
 msgid "Applying retention policy"
 msgstr "Aplicar política de retenção"
 
@@ -415,7 +413,7 @@ msgid "Remote host {host} doesn't support {command}"
 msgstr "O host remoto {host} não suporta {command}"
 
 #: common/sshtools.py:1021
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Checking commands on host {host} returned unknown error"
 msgstr ""
 "Os comandos de verificação no host {host} retornaram um erro desconhecido"
@@ -730,7 +728,6 @@ msgid "Restore"
 msgstr "Restaurar"
 
 #: qt/app.py:573
-#, fuzzy
 msgid "Restore the selected files or directories to the original location."
 msgstr "Restaurar os arquivos ou pastas selecionados para o destino original."
 
@@ -739,12 +736,10 @@ msgid "Restore to …"
 msgstr "Restaurar para …"
 
 #: qt/app.py:578
-#, fuzzy
 msgid "Restore the selected files or directories to a new location."
 msgstr "Restaurar os arquivos ou pastas selecionados para um novo destino."
 
 #: qt/app.py:584
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
@@ -753,7 +748,6 @@ msgstr ""
 "original."
 
 #: qt/app.py:590
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
@@ -1511,9 +1505,8 @@ msgid "Exclude patterns, files or directories"
 msgstr "Excluir padrões, arquivos ou pastas"
 
 #: qt/manageprofiles/tab_exclude.py:102
-#, fuzzy
 msgid "Add pattern"
-msgstr "Excluir padrão"
+msgstr "Adicionar padrão"
 
 #: qt/manageprofiles/tab_exclude.py:107 qt/manageprofiles/tab_include.py:68
 msgid "Add files"
@@ -1525,7 +1518,7 @@ msgstr "Adicionar pastas"
 
 #: qt/manageprofiles/tab_exclude.py:118
 msgid "Add default"
-msgstr "Adicionar padrão"
+msgstr "Adicionar predefinição"
 
 #: qt/manageprofiles/tab_exclude.py:133
 msgid "Exclude files bigger than:"
@@ -1567,18 +1560,17 @@ msgid "Exclude pattern"
 msgstr "Excluir padrão"
 
 #: qt/manageprofiles/tab_exclude.py:286
-#, fuzzy
 msgid "Enter an exclude pattern:"
-msgstr "Excluir padrão"
+msgstr "Insira um padrão de exclusão:"
 
 #: qt/manageprofiles/tab_exclude.py:291
 #, python-brace-format
 msgid "For help, see the rsync man page section {link}."
-msgstr ""
+msgstr "Para ajuda, use a página de ‘man’ secção {link}."
 
 #: qt/manageprofiles/tab_exclude.py:294
 msgid "Open rsync man page"
-msgstr ""
+msgstr "Abrir página de man rsync"
 
 #: qt/manageprofiles/tab_exclude.py:322
 msgid "Exclude files"
@@ -1798,6 +1790,9 @@ msgid ""
 "Scheduling is disabled because no cron installation was found. Please "
 "install cron to enable scheduled backups."
 msgstr ""
+"A planificação está desativada porque nenhuma instalação do cron foi "
+"encontrado. Por favor, instale cron para criar cópias de segurança "
+"planificado."
 
 #: qt/manageprofiles/tab_general.py:496
 msgid ""
@@ -1812,11 +1807,12 @@ msgid ""
 "To enable password-less login, the public SSH key can be copied to the "
 "remote host."
 msgstr ""
+"Para ativar login sem password, a chave de SSH pública pode ser copiada para"
+" o host remoto."
 
 #: qt/manageprofiles/tab_general.py:503
-#, fuzzy
 msgid "Proceed with copying the SSH key?"
-msgstr "Proceder com a cópia de segurança?"
+msgstr "Proceder a copiar a chave de SSH?"
 
 #: qt/manageprofiles/tab_general.py:528
 msgid ""
@@ -1974,13 +1970,14 @@ msgid "user manual"
 msgstr "manual do usuário"
 
 #: qt/manageprofiles/tab_remove_retention.py:206
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual_link} for details and examples."
 msgstr ""
 "As seguintes regras foram processadas de cima para baixo. As últimas regras "
-"substituem as anteriores. Verifique o {manual} para detalhes e exemplos."
+"substituem as anteriores. Verifique o {manual_link} para detalhes e "
+"exemplos."
 
 #: qt/manageprofiles/tab_remove_retention.py:221
 msgid "Open user manual in browser."
@@ -1991,7 +1988,6 @@ msgid "Keep the most recent backup."
 msgstr "Manter a cópia mais recente."
 
 #: qt/manageprofiles/tab_remove_retention.py:239
-#, fuzzy
 msgid "The most up-to-date backup is kept under all circumstances."
 msgstr ""
 "A cópia de segurança mais recente é mantida sob quaisquer circunstâncias."
@@ -2042,7 +2038,6 @@ msgid "Run in background on remote host."
 msgstr "Executar em segundo plano no servidor remoto."
 
 #: qt/manageprofiles/tab_remove_retention.py:311
-#, fuzzy
 msgid ""
 "The retention policy will be executed directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
@@ -2166,7 +2161,7 @@ msgstr "Trabalhando…"
 #: qt/qttools.py:439
 #, python-brace-format
 msgid "man page: {man_page_name}"
-msgstr ""
+msgstr "página do man: {man_page_name}"
 
 #: qt/restoreconfigdialog.py:72
 msgid "Import configuration"

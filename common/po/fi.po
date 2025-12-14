@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-11-10 15:02+0100\n"
-"PO-Revision-Date: 2025-09-30 12:17+0000\n"
+"PO-Revision-Date: 2025-11-24 11:42+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Finnish <https://translate.codeberg.org/projects/backintime/common/fi/>\n"
 "Language: fi\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13.2\n"
+"X-Generator: Weblate 5.14\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -692,9 +692,8 @@ msgid "Report a bug"
 msgstr "Ilmoita ohjelmavirheestä"
 
 #: qt/app.py:553
-#, fuzzy
 msgid "Translation"
-msgstr "Käännökset"
+msgstr "Käännös"
 
 #: qt/app.py:555
 msgid "Shows the message about participation in translation again."
@@ -718,34 +717,30 @@ msgid "Restore"
 msgstr "Palauta"
 
 #: qt/app.py:573
-#, fuzzy
 msgid "Restore the selected files or directories to the original location."
-msgstr "Palauta valitut tiedostot tai hakemistot alkuperäiseen kohteeseen."
+msgstr "Palauta valitut tiedostot tai hakemistot alkuperäiseen sijaintiin."
 
 #: qt/app.py:576 qt/app.py:1821 qt/snapshotsdialog.py:186
 msgid "Restore to …"
 msgstr "Palauta kohteeseen…"
 
 #: qt/app.py:578
-#, fuzzy
 msgid "Restore the selected files or directories to a new location."
-msgstr "Palauta valitut tiedostot tai hakemistot uuteen kohteeseen."
+msgstr "Palauta valitut tiedostot tai hakemistot uuteen sijaintiin."
 
 #: qt/app.py:584
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
 msgstr ""
 "Palauta tällä hetkellä näytettävä hakemisto ja kaikki sen sisältö "
-"alkuperäiseen kohteeseen."
+"alkuperäiseen sijaintiin."
 
 #: qt/app.py:590
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
-msgstr "Palauta näytettävä hakemisto ja kaikki sen sisältö uuteen kohteeseen."
+msgstr "Palauta näytettävä hakemisto ja kaikki sen sisältö uuteen sijaintiin."
 
 #: qt/app.py:593
 msgid "Up"
@@ -1557,7 +1552,7 @@ msgstr ""
 
 #: qt/manageprofiles/tab_exclude.py:294
 msgid "Open rsync man page"
-msgstr ""
+msgstr "Avaa rsyncin man-sivu"
 
 #: qt/manageprofiles/tab_exclude.py:322
 msgid "Exclude files"
@@ -1958,7 +1953,7 @@ msgid ""
 "earlier ones. See the {manual_link} for details and examples."
 msgstr ""
 "Seuraavat säännöt käsitellään ylhäältä alas. Myöhemmät säännöt korvaavat "
-"aiemmat. Katso lisätietoja ja esimerkkejä {manual}:sta."
+"aiemmat. Katso lisätietoja ja esimerkkejä {manual_link}:sta."
 
 #: qt/manageprofiles/tab_remove_retention.py:221
 msgid "Open user manual in browser."
@@ -2142,7 +2137,7 @@ msgstr "Käsitellään…"
 #: qt/qttools.py:439
 #, python-brace-format
 msgid "man page: {man_page_name}"
-msgstr ""
+msgstr "man-sivu: {man_page_name}"
 
 #: qt/restoreconfigdialog.py:72
 msgid "Import configuration"
