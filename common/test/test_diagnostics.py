@@ -8,6 +8,7 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Test related to diagnostics.py"""
 import unittest
+from unittest.mock import patch
 import diagnostics
 
 
@@ -30,8 +31,11 @@ class General(unittest.TestCase):
         # 2nd level "host-setup"
         self.assertCountEqual(sut['host-setup'].keys(), ['OS'])
 
-    def test_some_content(self):
+    @patch("diagnostics._get_qt_information")
+    def test_some_content(self, mock_qt):
         """Some contained elements"""
+        mock_qt.return_value = {}
+
         result = diagnostics.collect_diagnostics()
 
         # 1st level keys
