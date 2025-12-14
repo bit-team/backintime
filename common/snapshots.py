@@ -43,7 +43,7 @@ from inhibitsuspend import InhibitSuspend
 from applicationinstance import ApplicationInstance
 from exceptions import MountException
 from uniquenessset import UniquenessSet
-from status import BackupStatus
+# from status import BackupStatus  See #2321
 
 
 class Snapshots:
