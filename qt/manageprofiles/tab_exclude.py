@@ -30,12 +30,12 @@ from PyQt6.QtWidgets import (QAbstractItemView,
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPalette, QBrush
 import tools
-import bitbase
 import qttools
 from qttools import custom_sort_order
 from filedialog import FileDialog
 from bitwidgets import HypertextLabel
-from manageprofiles.excludesuggestions import ExcludeSuggestionsDialog
+from manageprofiles.excludesuggestions import (ExcludeSuggestionsDialog,
+                                               EXCLUDE_SUGGESTIONS)
 
 MATCH_FLAGS = Qt.MatchFlag.MatchFixedString | Qt.MatchFlag.MatchCaseSensitive
 
@@ -94,10 +94,6 @@ class ExcludeTab(QWidget):
 
         layout.addWidget(self.list_exclude)
 
-        # self._label_exclude_recommend = QLabel('', self)
-        # self._label_exclude_recommend.setWordWrap(True)
-        # layout.addWidget(self._label_exclude_recommend)
-
         buttons_layout = QHBoxLayout()
         layout.addLayout(buttons_layout)
 
@@ -116,12 +112,6 @@ class ExcludeTab(QWidget):
         buttons_layout.addWidget(self.btn_exclude_folder)
         self.btn_exclude_folder.clicked.connect(
             self.btn_exclude_folder_clicked)
-
-        # self.btn_exclude_default = QPushButton(
-        #     self.icon.DEFAULT_EXCLUDE, _('Add default'), self)
-        # buttons_layout.addWidget(self.btn_exclude_default)
-        # self.btn_exclude_default.clicked.connect(
-        #     self.btn_exclude_default_clicked)
 
         self.btn_suggestions = QPushButton(
             self.icon.DEFAULT_EXCLUDE, _('Suggestions'), self)
@@ -174,7 +164,6 @@ class ExcludeTab(QWidget):
             self._add_exclude_pattern(exclude)
         self.cb_exclude_by_size.setChecked(self.config.excludeBySizeEnabled())
         self.spb_exclude_by_size.setValue(self.config.excludeBySize())
-        # self._update_exclude_recommend_label()
 
         try:
             excl_sort = profile_state.exclude_sorting
@@ -209,28 +198,6 @@ class ExcludeTab(QWidget):
         )
 
         return True
-
-    # def _update_exclude_recommend_label(self):
-    #     """Update the label about recommended exclude patterns."""
-
-    #     # Default patterns that are not still in the list widget
-    #     recommend = list(filter(
-    #         lambda val: not self.list_exclude.findItems(val, MATCH_FLAGS),
-    #         self.config.DEFAULT_EXCLUDE
-    #     ))
-
-    #     if not recommend:
-    #         text = _('{BOLD}Highly recommended{ENDBOLD}: (All recommendations '
-    #                  'already included.)').format(
-    #                     BOLD='<strong>', ENDBOLD='</strong>')
-
-    #     else:
-    #         text = _('{BOLD}Highly recommended{ENDBOLD}: {files}').format(
-    #             BOLD='<strong>',
-    #             ENDBOLD='</strong>',
-    #             files=', '.join(sorted(recommend)))
-
-    #     self._label_exclude_recommend.setText(text)
 
     def _add_exclude_pattern(self, pattern):
         item = QTreeWidgetItem()
@@ -352,16 +319,6 @@ class ExcludeTab(QWidget):
         for path in dirs:
             self.add_exclude(str(path))
 
-    # def btn_exclude_default_clicked(self):
-    #     """Handle button click"""
-
-    #     dlg = ExcludeSuggestionsDialog(self)
-    #     dlg.exec()
-    #     # TODO
-    #     return
-    #     for path in self.config.DEFAULT_EXCLUDE:
-    #         self.add_exclude(path)
-
     def _sync_suggestions_check_state(self):
         """Sync the check state of the suggestions list with the current
         exclude liste.
@@ -370,7 +327,7 @@ class ExcludeTab(QWidget):
         content of the exclude list. Items still in the exclude list are
         checked and all other are not.
         """
-        content = copy.deepcopy(bitbase.EXCLUDE_SUGGESTIONS)  # dict
+        content = copy.deepcopy(EXCLUDE_SUGGESTIONS)  # dict
 
         # flat list of suggestions
         suggestions = [
@@ -450,6 +407,8 @@ class ExcludeTab(QWidget):
 
     def _format_exclude_item(self, item):
         """Modify visual appearance of an item in the exclude list widget.
+
+        Dev note (2025-12, buhtz): Why not using simple file/dir icons?
         """
         if (self.mode == 'ssh_encfs'
                 and tools.patternHasNotEncryptableWildcard(item.text(0))):
