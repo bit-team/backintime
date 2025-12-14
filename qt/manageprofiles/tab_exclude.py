@@ -117,7 +117,7 @@ class ExcludeTab(QWidget):
         self.btn_suggestions = QPushButton(
             self.icon.DEFAULT_EXCLUDE, _('Suggestions'), self)
         self.btn_suggestions.setToolTip(_(
-            'Select from common used items to add to exclude list'))
+            'Select from common used items to add to exclude list.'))
         buttons_layout.addWidget(self.btn_suggestions)
         self.btn_suggestions.clicked.connect(self.btn_suggestions_clicked)
 
