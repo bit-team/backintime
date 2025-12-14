@@ -249,7 +249,7 @@ class MountWithLocalBackend(pyfakefs_ut.TestCase):
 
     def test_pre_mount_check_always_true(self):
         """preMountCheck always returns True for 'local' mode, on first run and
-        even if still initialised.
+        even if still initialized.
         """
         for first in True, False:
             self.assertTrue(self.mount.preMountCheck(first_run=first))
@@ -388,7 +388,7 @@ class MountWithLocalBackend(pyfakefs_ut.TestCase):
 #         # self.cfg = config.Config(self.cfgFile)
 
 #         # setCurrentProfile returns False if it fails.
-#         # If this happens, crash to minimise confusion.
+#         # If this happens, crash to minimize confusion.
 #         assert self.cfg.setCurrentProfile(self.local_encfs_profile_id)
 #         self.cfg.setLocalEncfsPath(str(local_encfs_snapshots_path))
 
@@ -433,7 +433,7 @@ class MountWithLocalBackend(pyfakefs_ut.TestCase):
 
 #     def test_uninitialised_mount_and_unmount(self):
 #         """High-level Mount.mount returns the output from backend.mount.
-#         Due to inheritence, this is the same as MountControl.mount.
+#         Due to inheritance, this is the same as MountControl.mount.
 #         If all goes well, MountControl.mount returns self.hash_id.
 
 #         We have to test both mount and unmount within this test, as the test

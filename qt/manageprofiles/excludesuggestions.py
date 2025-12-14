@@ -131,7 +131,7 @@ class ExcludeSuggestionsDialog(QDialog):
 
     def __init__(self, parent: QDialog, content: dict):
         super().__init__(parent)
-        self.setWindowTitle(_('Exclude Suggetions'))
+        self.setWindowTitle(_('Exclude Suggestions'))
 
         layout = QVBoxLayout()
         self.setLayout(layout)
