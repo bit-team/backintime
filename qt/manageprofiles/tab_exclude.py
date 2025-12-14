@@ -35,7 +35,8 @@ from qttools import custom_sort_order
 from filedialog import FileDialog
 from bitwidgets import HypertextLabel
 from manageprofiles.excludesuggestions import (ExcludeSuggestionsDialog,
-                                               EXCLUDE_SUGGESTIONS)
+                                               EXCLUDE_SUGGESTIONS,
+                                               get_default_excludes)
 
 MATCH_FLAGS = Qt.MatchFlag.MatchFixedString | Qt.MatchFlag.MatchCaseSensitive
 
@@ -162,6 +163,12 @@ class ExcludeTab(QWidget):
 
         for exclude in self.config.exclude():
             self._add_exclude_pattern(exclude)
+
+        # add defaults if it is a fresh profile
+        if self.config.is_current_profile_unsaved():
+            for exclude in get_default_excludes():
+                self._add_exclude_pattern(exclude)
+
         self.cb_exclude_by_size.setChecked(self.config.excludeBySizeEnabled())
         self.spb_exclude_by_size.setValue(self.config.excludeBySize())
 
@@ -224,8 +231,6 @@ class ExcludeTab(QWidget):
         if self.list_exclude.topLevelItemCount() > 0:
             self.list_exclude.setCurrentItem(self.list_exclude.topLevelItem(0))
 
-        # self._update_exclude_recommend_label()
-
     def add_exclude(self, pattern):
         """Initiate adding a new exclude pattern to the list widget.
 
@@ -246,8 +251,6 @@ class ExcludeTab(QWidget):
 
         # Select/highlight that entry.
         self.list_exclude.setCurrentItem(item)
-
-        # self._update_exclude_recommend_label()
 
     def btn_exclude_add_clicked(self):
         """Handle button click

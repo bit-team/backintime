@@ -109,6 +109,19 @@ EXCLUDE_SUGGESTIONS = {
 }
 
 
+def get_default_excludes() -> list[str]:
+    """Return exclude items used by default."""
+    # flat list
+    excludes = [
+        first_item
+        for group in EXCLUDE_SUGGESTIONS.values()
+        for first_item, *rest in group
+        if rest[-1] is True
+    ]
+
+    return excludes
+
+
 class ExcludeSuggestionsDialog(QDialog):
     """A dialog suggesting entries for the exclude list.
 

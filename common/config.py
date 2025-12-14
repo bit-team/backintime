@@ -275,6 +275,9 @@ class Config(configfile.ConfigFileWithProfiles):
     def is_profile_unsaved(self, profile_id: str) -> bool:
         return profile_id in self._unsaved_profiles
 
+    def is_current_profile_unsaved(self) -> bool:
+        return self.is_profile_unsaved(self.currentProfile())
+
     def checkConfig(self):
         profiles = self.profiles()
 
