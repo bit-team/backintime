@@ -78,36 +78,6 @@ class Config(configfile.ConfigFileWithProfiles):
 
     HOURLY_BACKUPS = bitbase.HOURLY_BACKUPS
 
-    # Used when new snapshot profile is created.
-    DEFAULT_EXCLUDE = [
-        '.gvfs',
-        '.cache/*',
-        '.thumbnails*',
-        '.local/share/[Tt]rash*',
-        '*.backup*',
-        '*~',
-        '.dropbox*',
-        '/proc/*',
-        '/sys/*',
-        '/dev/*',
-        '/run/*',
-        '/etc/mtab',
-        '/var/cache/apt/archives/*.deb',
-        'lost+found/*',
-        '/tmp/*',
-        '/var/tmp/*',
-        '/var/backups/*',
-        '.Private',
-        '/swapfile',
-        # Discord files
-        # See also: https://github.com/bit-team/backintime/issues/1555#issuecomment-1787230708
-        'SingletonLock',
-        'SingletonCookie',
-        # Mozilla files
-        # See also: https://github.com/bit-team/backintime/issues/1555#issuecomment-1787111063
-        'lock'
-    ]
-
     DEFAULT_RUN_NICE_FROM_CRON = True
     DEFAULT_RUN_NICE_ON_REMOTE = False
     DEFAULT_RUN_IONICE_FROM_CRON = True
@@ -297,13 +267,15 @@ class Config(configfile.ConfigFileWithProfiles):
         }
 
     def save(self):
-        self.setIntValue('config.version', self.CONFIG_VERSION)
-        super().save(self._LOCAL_CONFIG_PATH)
-
         self._unsaved_profiles = []
+        self.setIntValue('config.version', self.CONFIG_VERSION)
+        return super().save(self._LOCAL_CONFIG_PATH)
 
     def is_profile_unsaved(self, profile_id: str) -> bool:
         return profile_id in self._unsaved_profiles
+
+    def is_current_profile_unsaved(self) -> bool:
+        return self.is_profile_unsaved(self.currentProfile())
 
     def checkConfig(self):
         profiles = self.profiles()
@@ -865,7 +837,7 @@ class Config(configfile.ConfigFileWithProfiles):
         """
         #?Exclude this file or folder. <I> must be a counter
         #?starting with 1;file, folder or pattern (relative or absolute)
-        return self.profileListValue('snapshots.exclude', 'str:value', self.DEFAULT_EXCLUDE, profile_id)
+        return self.profileListValue('snapshots.exclude', 'str:value', [], profile_id)
 
     def setExclude(self, values, profile_id = None):
         self.setProfileListValue('snapshots.exclude', 'str:value', values, profile_id)
