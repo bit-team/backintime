@@ -518,16 +518,23 @@ class TestConfigFileWithProfiles(generic.TestCase):
         del self.cfg.dict['profile4.name']
         self.assertEqual(self.cfg.profileName('4'), 'Profile 4')
 
-    def test_addProfile(self):
-        #add already existing profile
-        self.assertIsNone(self.cfg.addProfile('foo'))
+    def test_add_profile_existing(self):
+        # add already existing profile
+        self.assertTrue(self.cfg.profileExistsByName('foo'))
 
-        #new valid profile
-        self.assertEqual(self.cfg.addProfile('asdf'), '5')
+        pid = self.cfg.addProfile('foo')
+        self.assertIsNone(pid)
 
-        #new valid profile fill an old profile ID
+    def test_add_profile_new(self):
+        # new valid profile
+        pid = self.cfg.addProfile('asdf')
+        self.assertEqual(pid, '5')
+
+    def test_add_profile_reuse_id(self):
+        # new valid profile fill an old profile ID
         self.cfg.removeProfile('3')
-        self.assertEqual(self.cfg.addProfile('qwertz'), '3')
+        pid = self.cfg.addProfile('qwertz')
+        self.assertEqual(pid, '3')
 
     def test_removeProfile(self):
         for profile in self.cfg.profiles():

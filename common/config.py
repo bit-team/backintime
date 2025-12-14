@@ -145,6 +145,8 @@ class Config(configfile.ConfigFileWithProfiles):
         # read yet.
         configfile.ConfigFileWithProfiles.__init__(self, _('Main profile'))
 
+        self._unsaved_profiles = []
+
         self._GLOBAL_CONFIG_PATH = '/etc/backintime/config'
 
         HOME_FOLDER = os.path.expanduser('~')
@@ -305,7 +307,12 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def save(self):
         self.setIntValue('config.version', self.CONFIG_VERSION)
-        return super(Config, self).save(self._LOCAL_CONFIG_PATH)
+        super().save(self._LOCAL_CONFIG_PATH)
+
+        self._unsaved_profiles = []
+
+    def is_profile_unsaved(self, profile_id: str) -> bool:
+        return profile_id in self._unsaved_profiles
 
     def checkConfig(self):
         profiles = self.profiles()
@@ -1701,6 +1708,14 @@ class Config(configfile.ConfigFileWithProfiles):
             cmd = tools.which('nice') + ' -n19 ' + cmd
 
         return cmd
+
+    def addProfile(self, name: str) -> str | None:
+        pid = super().addProfile(name)
+
+        if pid:
+            self._unsaved_profiles.append(pid)
+
+        return pid
 
 
 def _remove_old_snapshots_date(value, unit):
