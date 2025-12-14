@@ -16,7 +16,7 @@ import string
 from unittest import mock
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from test import generic
+# from test import generic
 import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import config  # noqa: E402,RUF100
@@ -189,7 +189,7 @@ class MountWithLocalBackend(pyfakefs_ut.TestCase):
                 profiles.version=1
                 '''
 
-        local_encfs_snapshots_path = '/tmp/bit-test-snapshots'
+        local_encfs_path = '/tmp/bit-test-snapshots'
 
         minimal_configs = {
             'local': f'''
@@ -206,7 +206,7 @@ class MountWithLocalBackend(pyfakefs_ut.TestCase):
                 {defaults}
                 profile1.name=test-local_encfs-mount
                 profile1.snapshots.mode=local_encfs
-                profile1.snapshots.local_encfs.path={local_encfs_snapshots_path}
+                profile1.snapshots.local_encfs.path={local_encfs_path}
                 ''',
             'ssh_encfs': f'''
                 {defaults}
@@ -276,7 +276,8 @@ class MountWithLocalBackend(pyfakefs_ut.TestCase):
 # # Don't use pyfakefs, as most EncFS tests need a real filesystem
 # # Note: Because EncFS_mount uses subprocess, it's not compatible
 # # with pyfakefs:
-# # https://pytest-pyfakefs.readthedocs.io/en/latest/troubleshooting.html#subprocess-built-in
+# # https://pytest-pyfakefs.readthedocs.io/en/latest
+# # /troubleshooting.html#subprocess-built-in
 
 # TEST_ENCFS_PASSWORD = 'test_password'
 
@@ -337,7 +338,8 @@ class MountWithLocalBackend(pyfakefs_ut.TestCase):
 #                 {defaults}
 #                 profile1.name=test-local_encfs-mount
 #                 profile1.snapshots.mode=local_encfs
-#                 profile1.snapshots.local_encfs.path={local_encfs_snapshots_path}
+#                 profile1.snapshots.local_encfs.path=
+#                     {local_encfs_snapshots_path}
 #                 ''',
 #             'ssh_encfs': f'''
 #                 {defaults}
