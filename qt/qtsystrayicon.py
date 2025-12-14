@@ -385,6 +385,8 @@ class QtSysTrayIcon:
         user     sshd pts/0   2025-09-16 08:30 (fe80::d65:ea81:c46f:7f0d%eth0)
         lightdm  seat0        2025-09-15 16:07 (:0)
         """
+        if not os.environ.get('DISPLAY'):
+            return None
 
         try:
             # list of users logged in
@@ -419,7 +421,7 @@ class QtSysTrayIcon:
         """
         user = self._get_desktop_user_via_loginctl()
 
-        if not user and os.environ.get('DISPLAY'):
+        if not user:
             user = self._get_desktop_user_via_x11_who()
 
         logger.info(
