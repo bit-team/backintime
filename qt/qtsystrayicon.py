@@ -75,7 +75,8 @@ class QtSysTrayIcon:
 
         self.menuProfileName = self.contextMenu.addAction(
             _('Profile: {profile_name} USER: {desktop_user}').format(
-                profile_name=self.config.profileName(), desktop_user=desktop_user)
+                profile_name=self.config.profileName(),
+                desktop_user=desktop_user)
         )
         self.contextMenu.addSeparator()
 
@@ -299,14 +300,22 @@ class QtSysTrayIcon:
             output = subprocess.check_output(
                 ['loginctl', 'list-sessions', '--no-legend', '--json=short'],
                 text=True)
+
         except FileNotFoundError:
-            logging.warning('Can not determine user name of current desktop '
-                            'session because "loginctl" is not available.')
+            logger.warning(
+                'Can not determine user name of current desktop '
+                'session because "loginctl" is not available.'
+            )
             return None
+
         except Exception as exc:
-            logging.error('Unexpected error while determining user name of '
-                          f'current desktop session: {exc}')
+            logger.error(
+                'Unexpected error while determining user name of '
+                f'current desktop session: {exc}'
+            )
             return None
+
+        sessions = []
 
         # Check each session
         for session in json.loads(output):
@@ -316,18 +325,55 @@ class QtSysTrayIcon:
 
             # properties of the session
             info = subprocess.check_output(
-                ['loginctl', 'show-session', str(session['session']),
-                '--property=Active', '--property=Name', '--property=Seat'],
+                [
+                    'loginctl',
+                    'show-session',
+                    str(session['session']),
+                    '--property=Active',
+                    '--property=Name',
+                    '--property=Seat',
+                    '--property=Type',
+                    '--property=Dispplay',
+                ],
                 text=True
             ).strip()
 
-            props = dict(line.split('=') for line in info.splitlines())
+            props = dict(line.split('=', 1) for line in info.splitlines())
+            sessions.append(props)
 
-            # Active session?
-            if props.get('Active', '').lower() == 'yes':
-                # if props['Seat'] == 'seat0':
-                logger.info(f'VARIANT - systemd loginctl: {props=}', self)
-                return props['Name']
+        display = os.environ.get('DISPLAY')
+
+        if display:
+            display = display.split('.')[0]
+
+            matches = [
+                s for s in sessions
+                if s.get('Display', '').split('.')[0] == display
+            ]
+
+            if len(matches) == 1:
+                logger.info(
+                    f'VARIANT - systemd loginctl DISPLAY: {matches[0]=}',
+                    self,
+                )
+                return matches[0].get('Name')
+
+            return None
+
+        # Fallback checking for one active session, if DISPLAY not set
+        fallback = [
+            s for s in sessions
+            if s.get('Active', '').lower() == 'yes'
+            and s.get('Seat') == 'seat0'
+            and s.get('Type') in ('x11', 'wayland')
+        ]
+
+        if len(fallback) == 1:
+            logger.info(
+                f'VARIANT - systemd loginctl SAFE FALLBACK: {fallback[0]=}',
+                self,
+            )
+            return fallback[0].get('Name')
 
         return None
 
@@ -344,8 +390,10 @@ class QtSysTrayIcon:
             # list of users logged in
             output = subprocess.check_output(['who'], text=True).strip()
         except Exception as exc:
-            logging.error('Unexpected error while determining user name of '
-                          f'current desktop session: {exc}')
+            logger.error(
+                'Unexpected error while determining user name of '
+                f'current desktop session: {exc}'
+            )
             return None
 
         display = os.environ.get('DISPLAY', ':0').split('.')[0]
@@ -371,30 +419,15 @@ class QtSysTrayIcon:
         """
         user = self._get_desktop_user_via_loginctl()
 
-        if not user:
+        if not user and os.environ.get('DISPLAY'):
             user = self._get_desktop_user_via_x11_who()
 
-        logger.info(f'Systray Icon determined user "{user}" as owner of current '
-                     'desktop session.')
+        logger.info(
+            f'Systray Icon determined user "{user}" as owner of '
+            'current desktop session.')
 
         return user
 
-        # logger.debug('TRY Variant: systemd loginctl')
-
-        # That variant should be covered by the previous/first loginctl variant
-        # logger.debug('TRY Variant - Wayland XDG_SESSION_TYPE')
-        # if os.environ.get('XDG_SESSION_TYPE') == 'wayland':
-        #     session_id = os.environ.get('XDG_SESSION_ID', '')
-        #     if session_id:
-        #         info = subprocess.check_output(
-        #             ['loginctl', 'show-session', session_id,
-        #              '--property=Name'],
-        #             text=True
-        #         ).strip()
-        #         name = info.split('=')[1]
-        #         if name:
-        #             logger.debug(
-        #                 f'VARIANT - Wayland XDG_SESSION_TYPE: {name=}')
     @classmethod
     def _get_icon_filled(cls, color: str) -> QIcon:
         """Generate the dark symbolic icon"""
