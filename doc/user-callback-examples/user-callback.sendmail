@@ -8,7 +8,7 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 
 # Script should return 0 if everything is alright. Returncode !0 will cancel
-# the running snapshot (BIT version >1.1.0).
+# the running backup (BIT version >1.1.0).
 
 email="foo@bar"
 profile_id="$1"
@@ -35,21 +35,21 @@ case $reason in
          ;;
     2) send_mail "Backup process ends" "$(cat ~/.local/share/backintime/takesnapshot_$(log_id).log)"
          ;;
-    3) send_mail "A new snapshot was taken"
+    3) send_mail "A new backup was created"
          ;;
     4) #There was an error
         case $errorcode in
             1) send_mail "ERROR" "The application is not configured"
                   ;;
-            2) send_mail "ERROR" "A 'take snapshot' process is already running"
+            2) send_mail "ERROR" "A 'create backup' process is already running"
                   ;;
-            3) send_mail "ERROR" "Can't find snapshots folder (is it on a removable drive ?)"
+            3) send_mail "ERROR" "Can't find backups directory (is it on a removable drive ?)"
                   ;;
-            4) send_mail "ERROR" "A snapshot for 'now' already exist"
+            4) send_mail "ERROR" "A backup for 'now' already exist"
                   ;;
-            5) send_mail "ERROR" "Error while taking a snapshot"
+            5) send_mail "ERROR" "Error while creating a backup"
                ;;
-            6) send_mail "ERROR" "New snapshot taken but with errors"
+            6) send_mail "ERROR" "New backup created but with errors"
                ;;
             *) send_mail "ERROR" "Unknown error number"
                ;;

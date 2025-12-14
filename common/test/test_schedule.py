@@ -2,8 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This file is part of the program "Back In time" which is released under GNU
-# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import unittest
 import schedule
@@ -40,15 +40,17 @@ class Schedule(unittest.TestCase):
             '#Back In Time system entry, this will be edited by the gui:',
 
             '0 8,12,18,23 * * * /usr/bin/nice -n19 /usr/bin/ionice -c2 -n7 '
-            '/usr/bin/backintime backup-job >/dev/null',
+            '/usr/bin/backintime backup --background >/dev/null',
 
             '0 2 3 4 5 /usr/bin/nice -n19 /usr/bin/ionice -c2 -n7 '
-            '/usr/bin/backintime --profile-id 7 backup-job >/dev/null',
+            '/usr/bin/backintime --profile-id 7 '
+            'backup --background >/dev/null',
 
             '#Back In Time system entry, this will be edited by the gui:',
 
             '0 0 1 1 * /usr/bin/nice -n19 /usr/bin/ionice -c2 -n7 '
-            '/usr/bin/backintime --profile-id 3 backup-job >/dev/null',
+            '/usr/bin/backintime --profile-id 3 '
+            'backup --background >/dev/null',
         ]
 
         expect = content[:]

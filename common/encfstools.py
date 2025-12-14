@@ -14,6 +14,7 @@ import tempfile
 from datetime import datetime
 from packaging.version import Version
 import config
+import encode
 import password
 from password_ipc import TempPasswordThread
 import tools
@@ -27,6 +28,16 @@ class EncFS_mount(MountControl):
     """Mount encrypted paths with encfs."""
 
     def __init__(self, *args, **kwargs):
+        # # TODO: Remove these debug calls as they are just to help me
+        # # setup testing!
+        # logger.debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        # logger.debug("REMOVE THESE TEMPORARY DEBUG LINES!")
+        # logger.debug("EncFS_mount args:")
+        # logger.debug(str(args))
+        # logger.debug("EncFS_mount kwargs:")
+        # logger.debug(str(kwargs))
+        # logger.debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
         # init MountControl
         super(EncFS_mount, self).__init__(*args, **kwargs)
 
@@ -36,6 +47,7 @@ class EncFS_mount(MountControl):
         self.config_path = None
 
         self.setattrKwargs('path', self.config.localEncfsPath(self.profile_id), **kwargs)
+        # print(f"{self.path=}")  # DEBUG
         self.setattrKwargs('reverse', False, **kwargs)
         self.setattrKwargs('config_path', None, **kwargs)
         self.setattrKwargs('password', None, store = False, **kwargs)
@@ -78,10 +90,12 @@ class EncFS_mount(MountControl):
             self.backupConfig()
             if proc.returncode:
                 raise MountException(
-                    '{}:\n\n{}'.format(
+                    '{}:\n\n{}\n\n{}'.format(
                         _("Unable to mount '{command}'")
                         .format(command=' '.join(encfs)),
-                        output))
+                        output,
+                        f"Return code: {proc.returncode}",
+                    ))
 
     def init_backend(self):
         """
@@ -160,37 +174,42 @@ class EncFS_mount(MountControl):
         cfg = self.configFile()
 
         if os.path.isfile(cfg):
-            logger.debug(f'Found encfs config in {cfg}', self)
+            logger.debug(f'Found EncFS config in {cfg}', self)
             return True
 
-        else:
-            logger.debug(f'No encfs config in {cfg}', self)
-            msg = _('Configuration for the encrypted directory not found.')
+        logger.debug(f'No EncFS config in {cfg}', self)
+        msg = _('Configuration for the encrypted directory not found.')
 
-            if not self.tmp_mount:
-                raise MountException(msg)
+        if not self.tmp_mount:
+            raise MountException(msg)
 
-            else:
-                question = '{}\n{}'.format(
-                    msg,
-                    _('Create a new encrypted directory?')
-                )
+        question = '{}\n{}'.format(
+            msg,
+            _('Create a new encrypted directory?')
+        )
 
-                if not self.config.askQuestion(question):
-                    raise MountException(_('Cancel'))
+        if not self.config.askQuestion(question):
+            # TODO
+            # This string can appear in a "critical" message dialog.
+            # Let us know the steps to reproduce that behavior.
+            raise MountException(_('Cancel'))
 
-                else:
-                    pw = password.Password(self.config)
-                    password_confirm = pw.passwordFromUser(
-                        self.parent, prompt=_('Please confirm the password.'))
-                    if self.password == password_confirm:
-                        return False
-                    else:
-                        raise MountException(_("Password doesn't match."))
+        pw = password.Password(self.config)
+        password_confirm = pw.passwordFromUser(
+            self.parent,
+            prompt=_('Please re-enter the EncFS password to confirm.'))
+
+        if self.password == password_confirm:
+            return False
+
+        raise MountException(
+            _('The EncFS passwords do not match.'))
 
     def checkVersion(self):
         """Check encfs version.
         1.7.2 had a bug with --reverse that will create corrupt files
+
+        Dev note (buhtz, 2025-06): EncFS itself is scheduled for removal.
 
         Dev note (buhtz, 2024-05): Looking at upstream it seems that the 1.7.2
         release was widthdrawn. The release before and after are from the year
@@ -239,6 +258,7 @@ class EncFS_mount(MountControl):
         logger.debug('Create backup of encfs config %s to %s'
                      %(cfg, new_backup), self)
         shutil.copy2(cfg, new_backup)
+
 
 class EncFS_SSH(EncFS_mount):
     """
@@ -305,7 +325,7 @@ class EncFS_SSH(EncFS_mount):
         call umount for encfs, encfs --reverse and sshfs
         """
         self.config.ENCODE.close()
-        self.config.ENCODE = Bounce()
+        self.config.ENCODE = encode.Bounce()
         logger.debug('Unmount encfs', self)
         super(EncFS_SSH, self).umount(*args, **kwargs)
         logger.debug('Unmount local filesystem root mount encfs --reverse', self)
@@ -372,11 +392,13 @@ class EncFS_SSH(EncFS_mount):
                 d['hash_id'] = d['hash_id_1']
             return d
 
+
 class Encode:
     """
     encode path with encfsctl.
     ENCFS_SSH will replace config.ENCODE with this
     """
+
     def __init__(self, encfs):
         self.encfs = encfs
         self.password = self.encfs.password
@@ -442,8 +464,10 @@ class Encode:
 
         enc = ''
         m = self.re_asterisk.search(path)
+
         if not m is None:
             path_ = path[:]
+
             while True:
                 #search for foo/*, foo/*/bar, */bar or **/bar
                 #but not foo* or foo/*bar
@@ -494,34 +518,13 @@ class Encode:
             logger.debug('stop \'encfsctl encode\' process', self)
             self.p.communicate()
 
-class Bounce:
-    """
-    Dummy class that will simply return all input.
-    This is the standard for config.ENCODE
-    """
-    def __init__(self):
-        self.chroot = os.sep
-
-    def path(self, path):
-        return path
-
-    def exclude(self, path):
-        return path
-
-    def include(self, path):
-        return path
-
-    def remote(self, path):
-        return path
-
-    def close(self):
-        pass
 
 class Decode:
     """
     decode path with encfsctl.
     """
-    def __init__(self, cfg, string = True):
+
+    def __init__(self, cfg, string=True):
         self.config = cfg
         self.mode = cfg.snapshotsMode()
 

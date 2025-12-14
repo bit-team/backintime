@@ -216,25 +216,33 @@ class General(generic.TestCase):
         inst.flockUnlock()
 
     def test_thread_write_without_flock(self):
-        thread = Thread(target = self.write_after_flock, args = (self.file_name,))
+        thread = Thread(
+            target=self.write_after_flock,
+            args=(self.file_name,))
+
         thread.start()
-        #wait for the thread to finish
+        # wait for the thread to finish
         thread.join()
         self.assertExists(self.temp_file)
+
         with open(self.temp_file, 'rt') as f:
             self.assertEqual(f.read(), 'foo')
 
     def test_flock_exclusive(self):
         self.app_instance.flockExclusiv()
-        thread = Thread(target = self.write_after_flock, args = (self.file_name,))
+        thread = Thread(target=self.write_after_flock,
+                        args=(self.file_name,))
+
         thread.start()
-        #give the thread some time
+        # give the thread some time
         thread.join(0.01)
         self.assertNotExists(self.temp_file)
         self.app_instance.flockUnlock()
-        #wait for the thread to finish
+
+        # wait for the thread to finish
         thread.join()
         self.assertExists(self.temp_file)
+
         with open(self.temp_file, 'rt') as f:
             self.assertEqual(f.read(), 'foo')
 
@@ -256,30 +264,39 @@ class General(generic.TestCase):
         self.app_instance.flockExclusiv()
 
     def test_auto_flock(self):
-        self.app_instance = ApplicationInstance(os.path.abspath(self.file_name),
-                                        autoExit = False,
-                                        flock = True)
-        thread = Thread(target = self.write_after_flock, args = (self.file_name,))
+        self.app_instance = ApplicationInstance(
+            os.path.abspath(self.file_name),
+            autoExit=False,
+            flock=True)
+
+        thread = Thread(target=self.write_after_flock,
+                        args=(self.file_name,))
+
         thread.start()
-        #give the thread some time
+
+        # give the thread some time
         thread.join(0.01)
         self.assertNotExists(self.temp_file)
         self.app_instance.startApplication()
-        #wait for the thread to finish
+
+        # wait for the thread to finish
         thread.join()
         self.assertExists(self.temp_file)
         with open(self.temp_file, 'rt') as f:
             self.assertEqual(f.read(), 'foo')
 
     def test_autoExit_unique_process(self):
-        self.app_instance = ApplicationInstance(os.path.abspath(self.file_name),
-                                        autoExit = True)
+        self.app_instance = ApplicationInstance(
+            os.path.abspath(self.file_name),
+            autoExit=True)
 
         self.assertExists(self.file_name)
         this_pid = os.getpid()
         this_procname = tools.processName(this_pid)
+
         with open(self.file_name, 'rt') as file_with_pid:
-            self.assertEqual(file_with_pid.read(), '{}\n{}'.format(this_pid, this_procname))
+            self.assertEqual(file_with_pid.read(),
+                             '{}\n{}'.format(this_pid, this_procname))
 
     def test_autoExit_other_running_process(self):
         pid = self._createProcess()
@@ -291,8 +308,9 @@ class General(generic.TestCase):
             file_with_pid.write(procname)
 
         with self.assertRaises(SystemExit):
-            self.app_instance = ApplicationInstance(os.path.abspath(self.file_name),
-                                            autoExit = True)
+            self.app_instance = ApplicationInstance(
+                os.path.abspath(self.file_name),
+                autoExit=True)
 
     def test_readPidFile(self):
         with open(self.file_name, "wt") as f:

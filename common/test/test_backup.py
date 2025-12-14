@@ -17,6 +17,7 @@ import config
 import snapshots
 import tools
 import logger
+import bitbase
 from applicationinstance import ApplicationInstance
 from pluginmanager import PluginManager
 from mount import Mount
@@ -36,7 +37,7 @@ class TestBackup(generic.SnapshotsTestCase):
         self.assertIsInstance(takeSnapshot.call_args[0][2], list)
 
     @patch('subprocess.Popen', autospec=True)
-    def test_backup_async(self, Popen_mock, sleep):
+    def test_async(self, Popen_mock, sleep):
         """:py:func:`backintime.takeSnapshotAsync`:
 
         Tests if the command for async execution is created as expected
@@ -57,14 +58,14 @@ class TestBackup(generic.SnapshotsTestCase):
             'backintime',
             '--config',
             self.cfgFile,
-            '--share-path',
-            self.cfg.DATA_FOLDER_ROOT,
+            # '--share-path',
+            # self.cfg.DATA_FOLDER_ROOT,
             'backup'
         ]
         Popen_mock.assert_called_once_with(expected_call, env=ANY)
 
     @patch('subprocess.Popen', autospec=True)
-    def test_backup_async_with_checksum(self, Popen_mock, sleep):
+    def test_async_with_checksum(self, Popen_mock, sleep):
         """:py:func:`backintime.takeSnapshotAsync`:
 
         Tests if the command for async execution is created as expected
@@ -85,15 +86,15 @@ class TestBackup(generic.SnapshotsTestCase):
             'backintime',
             '--config',
             self.cfgFile,
-            '--share-path',
-            self.cfg.DATA_FOLDER_ROOT,
+            # '--share-path',
+            # self.cfg.DATA_FOLDER_ROOT,
             '--checksum',
             'backup'
         ]
         Popen_mock.assert_called_once_with(expected_call, env=ANY)
 
     @patch('subprocess.Popen', autospec=True)
-    def test_backup_async_profile_2(self, Popen_mock, sleep):
+    def test_async_profile_2(self, Popen_mock, sleep):
         """:py:func:`backintime.takeSnapshotAsync`:
 
         Tests if the command for async execution is created as expected
@@ -120,8 +121,8 @@ class TestBackup(generic.SnapshotsTestCase):
             new_profile_id,
             '--config',
             self.cfgFile,
-            '--share-path',
-            self.cfg.DATA_FOLDER_ROOT,
+            # '--share-path',
+            # self.cfg.DATA_FOLDER_ROOT,
             'backup'
         ]
 
@@ -179,7 +180,7 @@ class TestBackup(generic.SnapshotsTestCase):
         takeSnapshot.reset_mock()
 
         # third run uses anacron-like schedule so it should not run
-        self.cfg.setScheduleMode(self.cfg.REPEATEDLY)
+        self.cfg.setScheduleMode(bitbase.ScheduleMode.REPEATEDLY)
         self.assertFalse(self.sn.backup(force=False))
         self.assertFalse(takeSnapshot.called)
 

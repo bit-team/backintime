@@ -31,7 +31,7 @@ import config
 import snapshots
 
 # mock notifyplugin to suppress notifications
-tools.registerBackintimePath('qt', 'plugins')
+tools.register_backintime_path('qt', 'plugins')
 
 TMP_FLOCK = NamedTemporaryFile(prefix='backintime', suffix='.flock')
 SSH_PATH = pathlib.Path.home() / '.ssh'
@@ -113,6 +113,7 @@ PRIV_KEY_FILE = str(PRIV_KEY_FILE)
 PUBLIC_KEY_FILE = str(PUBLIC_KEY_FILE)
 AUTHORIZED_KEYS_FILE = str(AUTHORIZED_KEYS_FILE)
 
+
 class TestCase(unittest.TestCase):
     """Base class for Back In Time unit- and integration testing.
 
@@ -142,7 +143,7 @@ class TestCase(unittest.TestCase):
 
         # Initialize logging
         logger.APP_NAME = 'BIT_unittest'
-        logger.openlog()
+        logger.openlog('UNITTEST.generic')
 
         super(TestCase, self).__init__(methodName)
 
@@ -303,7 +304,8 @@ class SnapshotsWithSidTestCase(SnapshotsTestCase):
         self.testFileFullPath = self.sid.pathBackup(self.testFile)
 
         self.sid.makeDirs(self.testDir)
-        with open(self.sid.pathBackup(self.testFile), 'wt'):
+        filename = self.sid.pathBackup(self.testFile)
+        with open(filename, mode='wt', encoding='utf-8'):
             pass
 
 
@@ -326,7 +328,8 @@ class SSHTestCase(TestCaseCfg):
         self.cfg.setSshPrivateKeyFile(PRIV_KEY_FILE)
 
         # use a TemporaryDirectory for remote snapshot path
-        # self.tmpDir = TemporaryDirectory(prefix='bit_test_', suffix=' with blank')
+        # self.tmpDir = TemporaryDirectory(
+        #     prefix='bit_test_', suffix=' with blank')
         self.tmpDir = TemporaryDirectory()
         self.remotePath = os.path.join(self.tmpDir.name, 'foo')
         self.remoteFullPath = os.path.join(
@@ -392,7 +395,7 @@ class SSHSnapshotsWithSidTestCase(SSHSnapshotTestCase):
 
         os.makedirs(self.testDirFullPath)
 
-        with open(self.testFileFullPath, 'wt'):
+        with open(self.testFileFullPath, mode='wt', encoding='utf-8'):
             pass
 
 
@@ -413,24 +416,32 @@ def create_test_files(path):
     """
     os.makedirs(os.path.join(path, 'foo', 'bar'))
 
-    with open(os.path.join(path, 'foo', 'bar', 'baz'), 'wt') as f:
-        f.write('foo')
+    filename = os.path.join(path, 'foo', 'bar', 'baz')
+    with open(filename, mode='wt', encoding='utf-8') as handle:
+        handle.write('foo')
 
-    with open(os.path.join(path, 'test'), 'wt') as f:
-        f.write('bar')
+    filename = os.path.join(path, 'test')
+    with open(filename, mode='wt', encoding='utf-8') as handle:
+        handle.write('bar')
 
-    with open(os.path.join(path, 'file with spaces'), 'wt') as f:
-        f.write('asdf')
+    filename = os.path.join(path, 'file with spaces')
+    with open(filename, mode='wt', encoding='utf-8') as handle:
+        handle.write('asdf')
 
 
 @contextmanager
-def mockPermissions(path, mode=0o000):
-    """
-    """
+def mockPermissions(path: pathlib.Path | str, mode: int = 0o000) -> None:
+    # Workaround
+    if isinstance(path, str):
+        path = pathlib.Path(path)
 
-    st = os.stat(path)
-    os.chmod(path, mode)
-    yield
+    # extract permission bits only (mask out file type)
+    org_perms = path.stat().st_mode & 0o777
 
-    # fix permissions so it can be removed
-    os.chmod(path, st.st_mode)
+    path.chmod(mode)
+
+    try:
+        yield
+
+    finally:
+        path.chmod(org_perms)

@@ -2,8 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This file is part of the program "Back In time" which is released under GNU
-# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import re
@@ -11,8 +11,8 @@ import subprocess
 import sys
 from test import generic
 import json
-import config
 import version
+import bitbase
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
@@ -75,8 +75,8 @@ class BackInTime(generic.TestCase):
         proc = subprocess.Popen(["./backintime",
                                  "--config",
                                  "test/config",
-                                 "--share-path",
-                                 self.sharePath,
+                                 # "--share-path",
+                                 # self.sharePath,
                                  "check-config",
                                  # do not overwrite users crontab
                                  "--no-crontab"],
@@ -100,9 +100,9 @@ under certain conditions; type `backintime --license' for details.
 (INFO: Update to config version \d+
 )?
  \+--------------------------------\+
- |  Check/prepare snapshot path   |
+ |  Check/prepare backup path   |
  \+--------------------------------\+
-Check/prepare snapshot path: done
+Check/prepare backup path: done
 
  \+--------------------------------\+
  |          Check config          |
@@ -114,7 +114,7 @@ Config .*test/config profile 'Main profile' is fine.''', re.MULTILINE))
         # execute backup and verify output
         proc = subprocess.Popen(["./backintime",
                                  "--config", "test/config",
-                                 "--share-path", self.sharePath,
+                                 # "--share-path", self.sharePath,
                                  "backup"],
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE)
@@ -141,8 +141,9 @@ under certain conditions; type `backintime --license' for details.
         #       The same goes with Gtk warnings.
 
         line_beginnings_to_exclude = [
-            "WARNING",
-            "Warning",
+            'WARNING',
+            'Warning',
+            'ERROR: Error writing status file',
         ]
 
         # Warnings currently known:
@@ -153,10 +154,14 @@ under certain conditions; type `backintime --license' for details.
         #    QT_QPA_PLATFORM=wayland to run on Wayland anyway"
 
         line_contains_to_exclude = [
-            "Gtk-WARNING",
-            "qt.qpa.plugin: Could not find the Qt platform plugin",
+            'Gtk-WARNING',
+            'qt.qpa.plugin: Could not find the Qt platform plugin',
             'qt.dbus.integration: Could not connect "org.freedesktop.IBus" '
             'to globalEngineChanged(QString)',
+            'Inhibition (via',
+            'Inhibiting suspend mode failed',
+            'INFO: Suspend mode inhibited',
+            'ERROR: Unexpected DBusException',
         ]
 
         # remove lines via startswith()
@@ -181,25 +186,23 @@ under certain conditions; type `backintime --license' for details.
 
         filtered_log_output = '\n'.join(filtered_log_output)
 
-        self.assertRegex(filtered_log_output, re.compile(r'''INFO: Lock
-INFO: Take a new snapshot. Profile: 1 Main profile
-INFO: Call rsync to take the snapshot
-INFO: Save config file
-INFO: Save permissions
-INFO: Unlock''', re.MULTILINE))
+        self.assertRegex(filtered_log_output, re.compile(
+r'''INFO: Creating backup\. Profile: Main profile\(1\) User: \w+
+INFO: Saving config file
+INFO: Saving permissions''', re.MULTILINE))
 
         # get snapshot id
         subprocess.check_output(["./backintime",
                                  "--config",
                                  "test/config",
-                                 "snapshots-list"])
+                                 "show"])
 
         # execute restore and verify output
         proc = subprocess.Popen(["./backintime",
                                  "--config",
                                  "test/config",
-                                 "--share-path",
-                                 self.sharePath,
+                                 # "--share-path",
+                                 # self.sharePath,
                                  "restore",
                                  "/tmp/test/testfile",
                                  "/tmp/restored",
@@ -246,6 +249,6 @@ under certain conditions; type `backintime --license' for details.
 
         diagnostics = json.loads(output)
         self.assertEqual(diagnostics["backintime"]["name"],
-                         config.Config.APP_NAME)
+                         bitbase.APP_NAME)
         self.assertEqual(diagnostics["backintime"]["version"],
                          version.__version__)

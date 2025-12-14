@@ -11,26 +11,49 @@ VER=`cat VERSION`
 CURRENT=$(pwd)
 NEW="backintime-$VER"
 
+# clean up
+rm ./doc/manpages/*.gz
+
 cd ..
-if [[ -n "$(which git)" ]] && [[ -x "$(which git)" ]]; then
-    git clone ${CURRENT} ${NEW}
-else
-    cp -aR ${CURRENT} ${NEW}
-fi
+
+# if [[ -n "$(which git)" ]] && [[ -x "$(which git)" ]]; then
+#     git clone ${CURRENT} ${NEW}
+# else
+#     cp -aR ${CURRENT} ${NEW}
+# fi
+
+cp -aR ${CURRENT} ${NEW}
+
+rm backintime-$VER.tar.gz
+
 tar cfz backintime-$VER.tar.gz \
+    --exclude="*/__pycache__" \
+    --exclude="*/.pytest_cache" \
+    --exclude="*/.ruff_cache" \
+    --exclude="*/po/*.mo" \
+    --exclude-vcs \
     ${NEW}/AUTHORS \
     ${NEW}/CHANGES \
-    ${NEW}/LICENSE \
-    ${NEW}/README.md \
-    ${NEW}/FAQ.md \
     ${NEW}/CONTRIBUTING.md \
+    ${NEW}/FAQ.md \
     ${NEW}/HISTORY.md \
+    ${NEW}/LICENSES.md \
+    ${NEW}/README.md \
+    ${NEW}/REUSE.toml \
     ${NEW}/TRANSLATIONS \
     ${NEW}/VERSION \
     ${NEW}/updateversion.sh \
+    ${NEW}/update_language_files.py \
+    ${NEW}/create-manpage-backintime-config.py \
     ${NEW}/common \
     ${NEW}/qt \
+    ${NEW}/LICENSES \
     ${NEW}/doc
 
-rm -rf backintime-$VER
+tar -tzf backintime-$VER.tar.gz
+echo ""
+echo "RESULT:"
+realpath backintime-$VER.tar.gz
+
+# rm -rf backintime-$VER
 

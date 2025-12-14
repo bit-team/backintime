@@ -1,0 +1,219 @@
+# SPDX-FileCopyrightText: © 2008-2022 Oprea Dan
+# SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
+# SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
+# SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
+# SPDX-FileCopyrightText: © 2008-2022 Taylor Raak
+# SPDX-FileCopyrightText: © 2024 Christian BUHTZ <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2025 Devin Black
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""The IncludeTab class for managing include paths"""
+from pathlib import Path
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import (QWidget,
+                             QVBoxLayout,
+                             QHBoxLayout,
+                             QTreeWidget,
+                             QTreeWidgetItem,
+                             QPushButton,
+                             QHeaderView,
+                             QAbstractItemView)
+from qttools import custom_sort_order
+from filedialog import FileDialog
+
+
+class IncludeTab(QWidget):
+    """Tab for managing include files and directories."""
+    # pylint: disable=too-many-instance-attributes
+
+    def __init__(self, parent):
+        super().__init__(parent=parent)
+
+        self._parent_dialog = parent
+        self.icon = parent.icon
+        self.config = parent.config
+
+        layout = QVBoxLayout(self)
+
+        self.list_include = QTreeWidget(self)
+        self.list_include.setSelectionMode(
+            QAbstractItemView.SelectionMode.ExtendedSelection
+        )
+        self.list_include.setRootIsDecorated(False)
+        self.list_include.setHeaderLabels([
+            _('Include files and directories'), 'Count'
+        ])
+        self.list_include.header().setSectionResizeMode(
+            0, QHeaderView.ResizeMode.Stretch
+        )
+        self.list_include.header().setSectionsClickable(True)
+        self.list_include.header().setSortIndicatorShown(True)
+        self.list_include.header().setSectionHidden(1, True)
+        layout.addWidget(self.list_include)
+
+        self.list_include_count = 0
+        self.list_include_sort_loop = False
+        self.list_include.header().sortIndicatorChanged.connect(
+            self.include_custom_sort_order
+        )
+
+        buttons_layout = QHBoxLayout()
+        layout.addLayout(buttons_layout)
+
+        self.btn_include_file = QPushButton(
+            self.icon.ADD, _('Add files'), self)
+        buttons_layout.addWidget(self.btn_include_file)
+        self.btn_include_file.clicked.connect(self.btn_include_file_clicked)
+
+        self.btn_include_add = QPushButton(
+            self.icon.ADD, _('Add directories'), self
+        )
+        buttons_layout.addWidget(self.btn_include_add)
+        self.btn_include_add.clicked.connect(self.btn_include_add_clicked)
+
+        self.btn_include_remove = QPushButton(
+            self.icon.REMOVE, _('Remove'), self
+        )
+        buttons_layout.addWidget(self.btn_include_remove)
+        self.btn_include_remove.clicked.connect(
+            self.btn_include_remove_clicked
+        )
+
+    def load_values(self, profile_state):
+        """Load config values into the GUI"""
+
+        self.list_include.clear()
+        for include in self.config.include():
+            self.add_include(include)
+
+        try:
+            incl_sort = profile_state.include_sorting
+            self.list_include.sortItems(
+                incl_sort[0], Qt.SortOrder(incl_sort[1])
+            )
+        except KeyError:
+            pass
+
+    def store_values(self, profile_state):
+        """Store values from GUI into the config"""
+
+        profile_state.include_sorting = (
+            self.list_include.header().sortIndicatorSection(),
+            self.list_include.header().sortIndicatorOrder().value
+        )
+
+        self.list_include.sortItems(1, Qt.SortOrder.AscendingOrder)
+
+        include_list = []
+        for index in range(self.list_include.topLevelItemCount()):
+            item = self.list_include.topLevelItem(index)
+            include_list.append(
+                (item.text(0), item.data(0, Qt.ItemDataRole.UserRole))
+            )
+
+        self.config.setInclude(include_list)
+
+    def add_include(self, data):
+        """Add a file or directory to the list."""
+        item = QTreeWidgetItem()
+        icon = self.icon.FOLDER if data[1] == 0 else self.icon.FILE
+        item.setIcon(0, icon)
+
+        duplicates = self.list_include.findItems(
+            data[0],
+            Qt.MatchFlag.MatchFixedString | Qt.MatchFlag.MatchCaseSensitive
+        )
+
+        if duplicates:
+            self.list_include.setCurrentItem(duplicates[0])
+            return
+
+        item.setText(0, data[0])
+        item.setData(0, Qt.ItemDataRole.UserRole, data[1])
+
+        self.list_include_count += 1
+        item.setText(1, str(self.list_include_count).zfill(6))
+        item.setData(1, Qt.ItemDataRole.UserRole, self.list_include_count)
+        self.list_include.addTopLevelItem(item)
+        self.list_include.setCurrentItem(item)
+
+    def btn_include_remove_clicked(self):
+        """Handle removal of selected include entries."""
+        for item in self.list_include.selectedItems():
+            index = self.list_include.indexOfTopLevelItem(item)
+            if index >= 0:
+                self.list_include.takeTopLevelItem(index)
+        if self.list_include.topLevelItemCount() > 0:
+            self.list_include.setCurrentItem(self.list_include.topLevelItem(0))
+
+    def _copy_links_or_unsafe_links(self) -> bool:
+        """Return `True` if one of the two Expert Options "Copy links" and
+        "Copy unsafe links" are set/checked.
+
+        Dev note (buhtz, 2025-10): The values from config are used. Keep in
+        mind that these do not have to reflect the check boxes in the Expert
+        Options TAB. Modifications in those checkboxes are not stored to config
+        immediatel but only after clicking OK to the Manage Profiles dialog.
+        This behavior of the dialog need to be changed.
+
+        """
+        return self.config.copyUnsafeLinks() or self.config.copyLinks()
+
+    def _ask_include_symlinks_target(self, path: Path):
+        question_msg = _(
+            '"{path}" is a symlink. The linked target will not be backed up '
+            'until it is included, too.').format(path=path)
+
+        question_msg = question_msg + '\n' + _(
+            "Include the symlink's target instead?")
+
+        return self._parent_dialog.questionHandler(question_msg)
+
+    def btn_include_file_clicked(self):
+        """Handle file-adding button click."""
+        dlg = FileDialog(
+            parent=self,
+            title=_('Include files'),
+            show_hidden=True,
+            allow_multiselection=True,
+            dirs_only=False)
+
+        for path in dlg.result():
+            if not path:
+                continue
+
+            if path.is_symlink() and not self._copy_links_or_unsafe_links():
+                if self._ask_include_symlinks_target(path):
+                    path = path.resolve()
+
+            self.add_include((str(path), 1))
+
+    def btn_include_add_clicked(self):
+        """Handle directory-adding button click."""
+        # pylint: disable=duplicate-code
+        dlg = FileDialog(parent=self,
+                         title=_('Include directories'),
+                         show_hidden=True,
+                         allow_multiselection=True,
+                         dirs_only=True)
+
+        for path in dlg.result():
+
+            if not path:
+                continue
+
+            if path.is_symlink() and not self._copy_links_or_unsafe_links():
+                if self._ask_include_symlinks_target(path):
+                    path = path.resolve()
+
+            self.add_include((str(path), 0))
+
+    def include_custom_sort_order(self, *args):
+        """Trigger custom sort order when header is clicked."""
+        self.list_include_sort_loop = custom_sort_order(
+            self.list_include.header(), self.list_include_sort_loop, *args
+        )

@@ -7,16 +7,12 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Test related to diagnostics.py"""
-import sys
-import pathlib
 import unittest
-
-# This workaround will become obsolet when migrating to src-layout
-sys.path.append(str(pathlib.Path(__file__).parent))
-import diagnostics  # testing target
+from unittest.mock import patch
+import diagnostics
 
 
-class Diagnostics(unittest.TestCase):
+class General(unittest.TestCase):
     """Test about collecting diagnostic infos."""
 
     def test_content_minimal(self):
@@ -35,8 +31,11 @@ class Diagnostics(unittest.TestCase):
         # 2nd level "host-setup"
         self.assertCountEqual(sut['host-setup'].keys(), ['OS'])
 
-    def test_some_content(self):
+    @patch("diagnostics._get_qt_information")
+    def test_some_content(self, mock_qt):
         """Some contained elements"""
+        mock_qt.return_value = {}
+
         result = diagnostics.collect_diagnostics()
 
         # 1st level keys
@@ -85,6 +84,7 @@ class Diagnostics(unittest.TestCase):
 
     def test_no_extern_version(self):
         """Get version from not existing tool."""
+        # pylint: disable=protected-access
         self.assertEqual(
             diagnostics._get_extern_versions(['fooXbar']),
             '(no fooXbar)'
@@ -97,6 +97,7 @@ class Diagnostics(unittest.TestCase):
             'bar': '~/rsync'
         }
 
+        # pylint: disable=protected-access
         self.assertEqual(
             diagnostics._replace_username_paths(d, 'rsync'),
             {
@@ -105,6 +106,7 @@ class Diagnostics(unittest.TestCase):
             }
         )
 
+        # pylint: disable=protected-access
         self.assertEqual(
             diagnostics._replace_username_paths(d, 'user'),
             d

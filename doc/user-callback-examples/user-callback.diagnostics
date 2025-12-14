@@ -1,6 +1,7 @@
 #!/bin/bash
 # SPDX-FileCopyrightText: © 2012-2015 Germar Reitze
 # SPDX-FileCopyrightText: © 2022 Jürgen Altfeld
+# SPDX-FileCopyrightText: © 2025 Christian Buhtz <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -9,10 +10,10 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 
 # Script should return 0 if everything is alright. Returncode !0 will cancel
-# the running snapshot (BIT version >1.1.0).
+# the running backup (BIT version >1.1.0).
 
 # This script is meant for debugging purposes only (to check when
-# and how the backup process is started and snapshots are taken.
+# and how the backup process is started and backup are taken.
 # You can also add further checks (eg. check for existing mounts
 # or readable paths to diagnose problems with inaccessible mounts).
 
@@ -23,56 +24,64 @@ reason="$3"
 
 printLog() {
     # argument $1 contains the log message
-    echo "$(date +'%Y-%m-%d %H:%M:%S') ($(whoami)/$BASHPID) profile_id=$profile_id: $1" 2>&1 >> ~/backintime_usercallback_diagnostics.log
+    # echo "$(date +'%Y-%m-%d %H:%M:%S') ($(whoami)/$BASHPID) profile_id=$profile_id: $1" 2>&1 >> ~/backintime_usercallback_diagnostics.log
+
+    prio=$2
+
+    if [ -z "$prio" ]; then
+        prio="info"
+    fi
+
+    logger -id --tag backintime.$(basename "$0") --priority "$prio" "profile_id=$profile_id: $1"
 }
 
 case $reason in
-    1) #Backup process begins
+    1) # Backup process begins
         printLog "1 - backup process begins"
         ;;
-    2) #Backup process ends
+    2) # Backup process ends
         printLog "2 - backup process ends"
         ;;
-    3) #A new snapshot was taken
+    3) # A new backup was taken
         snapshot_id="$4"
         snapshot_name="$5"
-        printLog "3 - snapshot taken (snapshot_id=$snapshot_id - snapshot_name=$snapshot_name)"
+        printLog "3 - backup created (snapshot_id=$snapshot_id - snapshot_name=$snapshot_name)"
         ;;
     4) #There was an error
         errorcode="$4"
         msg="$5"
         case $errorcode in
             1) # ERROR: The application is not configured
-               printLog "4 - ERROR $errorcode: The application is not configured"
+               printLog "4 - ERROR $errorcode: The application is not configured" "error"
               ;;
             2) # ERROR: A 'take snapshot' process is already running
-               printLog "4 - ERROR $errorcode: A 'take snapshot' process is already running"
+               printLog "4 - ERROR $errorcode: A 'take snapshot' process is already running" "error"
               ;;
             3) # ERROR: Can't find snapshots folder (is it on a removable drive ?)
-               printLog "4 - ERROR $errorcode: Can't find snapshots folder (maybe it is on a removable drive)"
+               printLog "4 - ERROR $errorcode: Can't find snapshots folder (maybe it is on a removable drive)" "error"
               ;;
             4) # ERROR: A snapshot for 'now' already exist
-               printLog "4 - ERROR $errorcode: A snapshot for 'now' already exist"
+               printLog "4 - ERROR $errorcode: A snapshot for 'now' already exist" "error"
                ;;
             5) # ERROR: Error while taking a snapshot
-               printLog "4 - ERROR $errorcode: Error while taking a snapshot"
+               printLog "4 - ERROR $errorcode: Error while taking a snapshot" "error"
                ;;
             6) # ERROR: New snapshot taken but with errors
-               printLog "4 - ERROR $errorcode: New snapshot taken but with errors (may happen with 'continue on error')"
+               printLog "4 - ERROR $errorcode: New snapshot taken but with errors (may happen with 'continue on error')" "error"
                ;;
             *) # Unknown error number
-               printLog "4 - ERROR $errorcode: Unknown error code!"
+               printLog "4 - ERROR $errorcode: Unknown error code!" "error"
                ;;
         esac
-        printLog "    Error message: $msg"
+        printLog "    Error message: $msg" "error"
         ;;
-    5) #backintime-qt4 (GUI) started
+    5) # GUI started
         printLog "5 - backintime-qt GUI started"
         ;;
-    6) #backintime-qt4 (GUI) closed
+    6) # GUI closed
         printLog "6 - backintime-qt GUI closed"
         ;;
-    7) #Mount drives
+    7) # Mount drives
         printLog "7 - mount drive requested"
         # Further diagnostics examples (use "on demand"):
         
@@ -89,11 +98,11 @@ case $reason in
         # fi
         
         ;;
-    8) #Unmount the drives
+    8) # Unmount the drives
         printLog "8 - unmount drive requested"
         ;;
     *) ## Unknown reason
-        printLog "Called with invalid reason $reason"
+        printLog "Called with invalid reason $reason" "error"
         ;;
 
 esac

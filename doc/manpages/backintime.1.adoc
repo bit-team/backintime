@@ -1,0 +1,190 @@
+////
+SPDX-FileCopyrightText: © 2012 Germar Reitze
+SPDX-FileCopyrightText: © 2013 Oprea Dan
+SPDX-FileCopyrightText: © 2022 Jürgen Altfeld (aryoda)
+SPDX-FileCopyrightText: © 2023 Christian Buhtz <c.buhtz@posteo.jp>
+
+SPDX-License-Identifier: GPL-2.0-or-later
+
+This file is part of the program "Back In Time" which is released under GNU
+General Public License v2 (GPLv2). See LICENSES directory or go to
+<https://spdx.org/licenses/GPL-2.0-or-later.html>.
+////
+= backintime(1)
+:doctype: manpage
+:manmanual: Back In Time
+:mansource: backintime {version}
+:man-linkstyle: pass:[blue R < >]
+
+== NAME
+backintime - Create and manage incremental backups using rsync
+
+== SYNOPSIS
+*backintime* [<global args>] <commands> [<args>]
+
+*backintime*
+[-h | --help]
+[-p | --profile NAME|ID]
+[--config PATH]
+[--quiet]
+[--debug]
+[-v | --version]
+[--license]
+[--diagnostics]
+<commands> [<args>]
+
+*backintime*
+[-h | --help]
+[-p | --profile NAME|ID]
+[--config PATH]
+[--quiet]
+[--debug]
+[-v | --version]
+[--license]
+[--diagnostics]
+{
+    backup [--checksum] [--background]
+    | status [--json]
+    | show [--path] [--last]
+    | restore [--checksum] [--delete] [--local-backup | --no-local-backup] [--only-new] [WHAT] [WHERE] [BACKUP_ID]
+    | remove [--skip-confirmation] [BACKUP_ID ...]
+    | prune
+    | unmount
+    | shutdown
+    | check-config [--no-crontab]
+    | pw-cache [{start,stop,restart,reload,status}]
+}
+
+
+== DESCRIPTION
+*Back In Time* is a simple backup tool for Linux. The backup is done by taking
+backups of a specified set of directories and files. This is the command line
+tool. The graphical tool is *backintime-qt*(1).
+
+=== Incremental or full?
+The backups are incremental and full at the same time.  Modified files are
+transferred, while unchanged files are linked to the new destination using the
+hard link feature of *rsync*(1). This saves storage space.  In other words each
+backup is technically a full backup (contains each file) but copies only the
+really changed files (to save disk space) and "reuses" unchanged files by
+setting a so-called "hard-link".
+
+=== Scheduling
+For automatic and scheduled backups *cron*(1) is used.
+
+=== Restoring
+Restoring is straightforward via file manager, command line or *Back In Time*
+itself.
+
+=== Modes
+Several backup profile modes are supported. The simplest is the **Local**
+profile, which creates backups of items on the local machine and stores them on
+the same machine. Additionally, **Local Encrypted** profiles encrypt the backups
+using EncFS. To store backups on a remote machine, the **SSH** profile can be
+used. These backups can also be encrypted using the **SSH Encrypted** profile.
+
+Regarding **encrypted** profiles, please take a look at _A NOTE ON SECURITY_.
+
+== GLOBAL OPTIONS
+*-h*, *--help* :: Display a short help.
+
+*-p*, *--profile NAME|ID* :: Select profile by name or ID.
+
+*--config PATH* :: Read config from PATH. (Default:
+   $XDG_CONFIG_HOME/backintime/config)
+
+*--quiet* :: Suppress status messages on standard output.
+
+*--debug* :: Show debug messages.
+
+*-v*, *--version* :: Show version.
+
+*--license* :: Show license.
+
+*--diagnostics* :: Show diagnostic information to support debugging.
+
+== COMMANDS
+=== backup
+Create a new backup, but only if the profile is scheduled and if the machine is
+not running on battery.
+
+*--checksum* :: Force to use checksum for checking if files have been changed.
+*--background* :: Run in background via daemonization.
+
+=== status
+Display timepoint of last run and status (e.g. Success) of last backup.
+
+*-j*, *--json*  :: Output in JSON format.
+
+=== show
+List backup ID's or paths.
+
+*--path* :: List backup paths instead of their ID.
+*--last* :: Show the last (youngest) backup only.
+
+=== restore
+Restores entire backups or selected files and folders from them.
+
+*--checksum* :: Force to use checksum for checking if files have been changed.
+*--delete* :: Restore and delete newer files which are not in the backup. WARNING: deleting files in filesystem root could break your whole system!!!
+*--local-backup* :: Create backup files before changing local files.
+*--no-local-backup* :: Temporarily disable creation of backup files before changing local files.
+*--only-new* :: Only restore files which do not exist or are newer than those in destination. Using "rsync --update" option.
+*WHAT* :: Restore file or directory WHAT.
+*WHERE* :: Restore to WHERE; empty argument will default to original destination.
+*BACKUP_ID* :: Specific ID or an integer as index (0=last backup; -1=very first backup).
+
+=== remove
+Remove a backup.
+
+*--skip-confirmation* :: Skip the confirmation question. Be careful!
+*BACKUP_ID* :: ID of the backup to be removed.
+
+=== prune
+Remove and keep backups based on "Remove & Retention" policy.
+
+=== unmount
+Unmount the profile.
+
+=== shutdown
+Shut down the computer after the backup is finished.
+
+=== check-config
+Checks the configuration of all profiles. The config file is verified, the
+backup destination path is created for each profile, and crontab entries are
+setup for scheduled profiles.
+
+*--no-crontab* ::  Do not install crontab entries.
+
+=== pw-cache
+
+Control the Password Cache for non-interactive cronjobs.
+
+*[start|stop|restart|reload|status]* :: Commands can be send to the daemon.
+
+== A NOTE ON SECURITY AND ENCFS
+Because of security issues with EncFS it is planned to remove it from *Back In
+Time*. To continue the support of encrypted backups it is the goal to replace
+it with an alternative if possible. See this document for details and the
+current state of the transition process.
+
+ https://github.com/bit-team/backintime/doc/ENCRYPT_TRANSITION.md
+
+The security issues are mentioned in a security audit from 2014 and not fixed
+until today. The EnCFS project is not maintained anymore and his former
+maintainer recommend to switch to GoCryptFS. See the following links for
+further readings:
+
+* EncFS Security Audit (updated blog post): https://defuse.ca/audits/encfs.htm
+* EncFS Security Audit (original mailing list entry): https://sourceforge.net/p/encfs/mailman/message/31849549
+* Back In Time Issue #1734 about transition of the encryption feature: https://github.com/bit-team/backintime/issues/1734
+
+== SEE ALSO
+*backintime-qt*(1), *backintime-config*(1), *backintime-askpass*(1)
+
+*Back In Time* project website: https://github.com/bit-team/backintime
+
+*Back In Time* mailing list: https://mail.python.org/mailman3/lists/bit-dev.python.org
+
+== AUTHOR
+*Back In Time* Team

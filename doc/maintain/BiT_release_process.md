@@ -9,7 +9,7 @@ General Public License v2 (GPLv2). See directory LICENSES or go to
 <https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
 # How to prepare and publish a new BIT release
-<sub>August 2024</sub>
+<sub>February 2025</sub>
 
 ## Overview
 
@@ -44,13 +44,15 @@ using a "feature" branch and sending a pull request asking for a review.
   [#1529](https://github.com/bit-team/backintime/issues/1529)). This is related
   to the Python versions and also to the Ubuntu Distro versions.
 - `dev` version was tested (CLI in `common` and GUI in `qt`) and testers/developers agreed on "readiness to be released".
+- Consider publishing a release candidate before a full release.
 
 
 ## TLDR ;-)
 
 - Make sure we have sufficient _Credits_ to run _TravisCI_. Otherwise contact
   their support and kindly ask for new OSS credits.
-- Create a new branch in your clone for the new release candidate.
+- Create a new branch (e.g. `rc/v1.5.4`) in your clone for the new release
+  (candidate).
 - Update `VERSION` file.
 - Update `CHANGES` file.
 - Execute the script `./updateversion.sh` to update the version numbers (based on `VERSION` file) in several files.
@@ -63,12 +65,19 @@ using a "feature" branch and sending a pull request asking for a review.
   - Use `git diff` (or another diff tool) to compare them and see if the
     content is as expected.
 - Update `README.md` file.
+- Build user manual:
+  - Navigate to `./doc/manual`.
+  - Run `mkdocs build`.
 - Run `codespell` to check for common spelling errors.
 - Commit the changes.
 - Open a new pull request (PR) for review by other developers.
 
-When the PR is merged:
+Before the PR is merged:
 - Create a new tar archive (eg. `backintime-1.4.0.tar.gz`) with `./make-tarball.sh`.
+- Test the tar archive.
+- Merge.
+
+After the PR is merged:
 - Create a new release in Github (attaching above tar archive).
 - Update `VERSION` and `CHANGES` for the `dev` branch.
 
@@ -107,7 +116,7 @@ When the PR is merged:
   cd common
   ./configure
   make
-  make test
+  pytest --verbose
   cd ../qt
   ./configure
   make
@@ -210,6 +219,8 @@ When the PR is merged:
   - Add all developers as reviewers.
   - Mention bugs (and status) discovered during preparation of the release
     candidate in the description.
+
+- Create the tarball (see next section) and test it **before** merging.
 
 - Fix review findings and push the changes again to update the pull request.
 
@@ -314,15 +325,25 @@ expected. The following list suggests several actions and scenarios.
   or distros based on them. Additionally use a none-systemd distro like _Devuan
   GNU/Linux_.
 - Run _Back In Time_ and perform the following actions as user and as root.
-- Always start from terminal to catch silent errors and warnings.
-- Create snapshot profils in all available flavors (Local, SSH, with and
-  without encryption).
-- Run the snapshots.
-- Restore snapshots.
-- Delete snapshots.
-- Schedule the snapshots using regular cron (e.g. _Every 5 minutes_) and
-  anacron-like cron (_Repeatedly (anacran)_). Additionally schedule with udev
-  (_When drive gets connected (udev)_).
+  - Always start from terminal to catch silent errors and warnings.
+  - Create backup profils in all available flavors (Local, SSH, each with and
+    without encryption).
+    * Keep the variants of that flavors in mind and test them: SSH key with and
+      without passphrase, cached, in keyring, ...
+  - Take backup.
+  - Restore backup.
+  - Delete backup.
+  - Schedule backups using
+    - regular cron (e.g. _Every 5 minutes_)
+    - anacron-like cron (_Repeatedly (anacran)_)
+    - driven by USB-event using udev (_When drive gets connected (udev)_).
+  - GUI Tests
+    - Open and all available dialogs, check how they look and if BIT might
+      crash.
+    - Additionally use `qt6ct` and repeat the tests.
+    - Try some fancy desktop environments (Mate, Budgie, …)
+    - As the cherry on top of the ice cream, check the translation of the GUI
+      in your native language(s).
 
 ## Other noteworthy things
 

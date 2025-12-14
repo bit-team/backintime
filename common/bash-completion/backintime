@@ -2,8 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This file is part of the program "Back In time" which is released under GNU
-# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 
 # extract profile and config arguments
@@ -12,7 +12,7 @@ _bit_extr_opts()
     local c=0 last="" opts=""
     while [[ $c -le ${COMP_CWORD} ]]; do
         case "${last}" in
-            --profile|--profile-id|--config)
+            --profile|--config)
                 if [[ ${COMP_WORDS[$c]} != -* ]]; then
                     opts="${opts} ${last} ${COMP_WORDS[$c]}"
                 fi ;;
@@ -26,7 +26,7 @@ _bit_extr_opts()
 # return a list of all snapshots
 _bit_snapshots_list()
 {
-    backintime$(_bit_extr_opts) --quiet snapshots-list | awk '{print $2}'
+    backintime$(_bit_extr_opts) --quiet show | awk '{print $2}'
 }
 
 _backintime()
@@ -36,14 +36,13 @@ _backintime()
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
-    opts="--profile --profile-id --quiet --config --version --license       \
-          --help --debug --checksum --no-crontab --keep-mount --delete      \
-          --local-backup --no-local-backup --only-new --share-path          \
-	  --diagnostics"
-    actions="backup backup-job snapshots-path snapshots-list                \
-             snapshots-list-path last-snapshot last-snapshot-path unmount   \
-             benchmark-cipher pw-cache decode remove restore check-config   \
-             smart-remove shutdown"
+    opts="--profile --quiet --config --version --license \
+          --help --debug --checksum --no-crontab --delete \
+          --local-backup --no-local-backup --only-new \
+	      --diagnostics --last --path --background"
+    actions="backup show unmount \
+             pw-cache remove restore check-config \
+             prune shutdown"
     pw_cache_commands="start stop restart reload status"
 
     # extract the current action
@@ -91,7 +90,7 @@ _backintime()
     esac
 
     case "${prev}" in
-        --config|decode|restore|--share-path)
+        --config|decode|restore)
             if [[ ${cur} != -* ]]; then
                 _filedir
                 return 0
