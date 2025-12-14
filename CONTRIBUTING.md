@@ -178,8 +178,6 @@ distribution.
   - `gettext`
   - `python3-pyfakefs` (>= 5.7)
   - `asciidoctor`
-  - `librsvg2-bin` (contains `rsvg-convert`) convert SVG icons into PNG
-  * `optipng` (loseless file-size optimization for PNG files)
   - Optional but recommended:
     - `pylint` (>= 4.0.0)
     - `flake8`
@@ -302,7 +300,7 @@ the chance to review and potentially veto the pull request.
   the file system.
 - Translate "Back In Time"? It is the name of the application. That shouldn't
   be translated at all.
-* The target user group for Back In Time consists of end users without a
+- The target user group for Back In Time consists of end users without a
   technical background.  Write GUI strings and messages accordingly, avoiding
   technical or nerdy terminology.
 - Some points of the following
@@ -409,10 +407,12 @@ priority.
 - [Code quality & unit tests](#code-quality--unit-tests)
 - [Issues](#issues)
 - [Replace and remove encryption library EncFS](#replace-and-remove-encryption-library-encfs)
-- [Project infrastructure](#project-infrastructure)
+- [Packaging](#packaging)
+- [Code hosting](#code-hosting)
 - [Graphical User Interface (GUI): Redesign and Refactoring](#graphical-user-interface-gui-redesign-and-refactoring)
 - [Terminal User Interface (TUI)](#terminal-user-interface-tui)
 - [Tentative rough roadmap](#tentative-rough-roadmap)
+- [More stuff](#more-stuff)
 
 ## Analyzing code and behavior
 
@@ -469,7 +469,7 @@ maintenance efforts. See
 [Issue #1734](https://github.com/bit-team/backintime/issues/1734) about the
 transition process and the discussion about alternatives to EncFS.
 
-## Project infrastructure
+## Packaging
 
 At present, _Back In Time_ utilizes a build system that relies on `make`. However,
 this approach has several shortcomings and does not adhere to modern standards
@@ -479,6 +479,11 @@ in Python packaging ([PEP 621](https://peps.python.org/pep-0621),
 [pyproject.toml](https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html)).
 The team intends to migrate to these contemporary standards to streamline
 the maintenance of _Back In Time_ ([#1575](https://github.com/bit-team/backintime/issues/1575)).
+
+## Code hosting
+
+The plan is to move to [Codeberg.org](https://codeberg.org). See also
+[this FAQ entry](FAQ.md##move-project-to-alternative-code-hoster-eg-codeberg-gitlab-).
 
 ## Graphical User Interface (GUI): Redesign and Refactoring
 
@@ -498,6 +503,13 @@ are rejected or postponed in favor of a human readable config file format using
 TOML ([#1984](https://github.com/bit-team/backintime/issues/1984)), assuming
 that a TUI or WebInterface, while convenient and pleasant, would no longer be
 necessary.
+
+## More stuff
+
+- Migration of the logging mechanic to Python's own `logging` module
+  ([#2286](https://github.com/bit-team/backintime/issues/2286).
+- Re-write interprocess communication (IPC)
+  ([#2260](https://github.com/bit-team/backintime/issues/2260).
 
 ## Tentative rough roadmap
 This is a broad overview of upcoming developlment steps depending on each other:

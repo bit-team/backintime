@@ -170,8 +170,6 @@ class Mount:
                         f'Failed to {action} pw-cache: {proc.returncode}',
                         self)
 
-                    pass
-
     def mount(self, mode=None, check=True, **kwargs):
         """High-level `mount`. Check if the selected ``mode`` need to be mounted,
         select the low-level backend and mount it.
@@ -310,7 +308,7 @@ class Mount:
 
         return backend.preMountCheck(first_run)
 
-    def remount(self, new_profile_id, mode = None, hash_id = None, **kwargs):
+    def remount(self, new_profile_id, mode=None, hash_id=None, **kwargs):
         """
         High-level `remount`. Unmount the old profile presented by ``hash_id``
         and mount new profile ``new_profile_id`` with mode ``mode``. If old and
@@ -463,6 +461,7 @@ class MountControl:
         # mount.
         args = list(self.all_kwargs.keys())
         self.destination = '%s:' % self.all_kwargs['mode']
+        logger.debug(f"{self.destination=}")
 
         args.remove('mode')
         args.sort()
@@ -475,6 +474,7 @@ class MountControl:
         # the same mountpoint.
         if self.hash_id is None:
             self.hash_id = self.hash(self.destination)
+            logger.debug(f"{self.hash_id=}")
 
         # e.g. ~/.local/share/backintime/mnt
         self.mount_root = self.config._LOCAL_MOUNT_ROOT

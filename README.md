@@ -28,9 +28,8 @@ saving storage space. Restoring is straightforward via file manager, command
 line or _Back In Time_ itself.
 
 It is written in Python3 and available for all major GNU/Linux distributions
-(but not for Windows or OS X/macOS) as command line tool `backintime` and GUI
-`backintime-qt`. Backups can be scheduled and stored locally or remotely
-through SSH.
+as command line tool `backintime` and GUI `backintime-qt`. Backups can be
+scheduled and stored locally or remotely through SSH.
 
 More background info in [CONTRIBUTING](CONTRIBUTING.md) and
 [HISTORY](HISTORY.md).
@@ -54,16 +53,17 @@ those labeled as [good first issues](https://github.com/bit-team/backintime/labe
 and [help wanted](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen+label%3AHELP-WANTED).
 
 ## The team
-The current team started in summer of 2022
-(with [#1232](https://github.com/bit-team/backintime/issues/1232)) and
-constitutes the project's 3rd generation of maintainers. Consisting of three
-members with diverse backgrounds (@aryoda, @buhtz, @emtiu), the team benefits
-from the assistance of the former maintainer, @Germar, who contributes from
-behind the scenes.
+Since around 2024, @buhtz, part of the projects third generation of
+maintainers, has been the sole maintainer. He handles all core tasks, from code
+analysis and documentation to issue resolution and feature implementation. The
+work is carried out voluntarily during spare time. The project continues to
+benefit from an active and engaged community that provides advice, expertise,
+and contributions, ensuring it thrives and evolves.
 
-All team members are engaged in every aspect of the project, including code
-analysis, documentation, solving issues, and the implementation of new
-features. This work is carried out voluntarily during their limited spare time.
+The project was
+[reactivated in 2022](https://github.com/bit-team/backintime/issues/1232))
+and thanks in large part to @emtiu and @aryoda, who helped relaunch and
+shape its direction. See [HISTORY](HISTORY.md) for more details.
 
 # Index
 
@@ -180,4 +180,4 @@ Please read [`LICENSES.md`](LICENSES.md).
 
 ---
 
-<sub>October 2025</sub>
+<sub>December 2025</sub>

@@ -50,6 +50,7 @@ full_test_files = [_base_dir / fp for fp in (
     # 'clicommands.py',
     'daemon.py',
     'event.py',
+    'encode.py',
     'languages.py',
     'inhibitsuspend.py',
     'schedule.py',
