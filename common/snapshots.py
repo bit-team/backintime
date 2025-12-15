@@ -43,7 +43,7 @@ from inhibitsuspend import InhibitSuspend
 from applicationinstance import ApplicationInstance
 from exceptions import MountException
 from uniquenessset import UniquenessSet
-from status import BackupStatus
+# from status import BackupStatus  See #2321
 
 
 class Snapshots:
@@ -986,10 +986,10 @@ class Snapshots:
                                 # code
                                 ret_val, ret_error = self.takeSnapshot(
                                     sid, now, include_folders)
-                                BackupStatus(cfg = self.config).update_status(now)
+                                # BackupStatus(cfg = self.config).update_status(now)
 
                             except:  # TODO too broad exception
-                                BackupStatus(self.config).update_status(now)
+                                # BackupStatus(self.config).update_status(now)
                                 new = NewSnapshot(cfg = self.config)
 
                                 if new.exists():
