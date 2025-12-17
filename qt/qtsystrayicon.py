@@ -71,6 +71,11 @@ class QtSysTrayIcon:
         self.status_icon = self._create_status_icon()
         self.contextMenu = QMenu()
 
+        # The systray icon instance runs as the same user and with similar
+        # privilegs as the BIT instance itself; e.g. root.
+        # We need to know which user "owns" the desktop. If it is another
+        # user, the systray instance should not expose sensible data like
+        # paths of files and dirs to backup.
         desktop_user = self._determine_desktop_session_user()
 
         self.menuProfileName = self.contextMenu.addAction(
