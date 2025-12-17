@@ -148,7 +148,6 @@ class QtSysTrayIcon:
 
         return QSystemTrayIcon(self.get_dark_icon())
 
-
     def _create_progress_bar(self) -> QProgressBar:
         bar = QProgressBar()
 
