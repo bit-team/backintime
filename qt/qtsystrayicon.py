@@ -81,7 +81,7 @@ class QtSysTrayIcon:
         # paths of files and dirs in the backup.
         desktop_user = self._determine_desktop_session_user()
 
-        self._trust_desktop = False  # desktop_user == self._current_user
+        self._trust_desktop = desktop_user == self._current_user
         if self._trust_desktop:
             logger.info('Trusting the desktop session.')
         else:
