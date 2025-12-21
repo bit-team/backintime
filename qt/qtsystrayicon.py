@@ -19,7 +19,8 @@ import json
 import subprocess
 import signal
 import textwrap
-
+import functools
+from typing import Callable
 # TODO Is this really required? If the client is not configured for X11
 #      it may use Wayland or something else...
 #      Or is this just required when run as root (where GUIs are not
@@ -40,6 +41,19 @@ import encfstools
 from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QProgressBar, QWidget
 from PyQt6.QtGui import QIcon, QRegion
+
+
+def trust_required(method: Callable) -> Callable:
+    """Decorator to allow execution only if _trust_desktop is True."""
+    @functools.wraps(method)
+    def wrapper(self, *args, **kwargs):
+        if self._trust_desktop:
+            return method(self, *args, **kwargs)
+
+        return None
+
+    return wrapper
+
 
 class QtSysTrayIcon:
     """Application instance for the Back In Time systray icon"""
@@ -82,6 +96,7 @@ class QtSysTrayIcon:
         desktop_user = self._determine_desktop_session_user()
 
         self._trust_desktop = desktop_user == self._current_user
+
         if self._trust_desktop:
             logger.info('Trusting the desktop session.')
         else:
@@ -108,14 +123,12 @@ class QtSysTrayIcon:
 
         self.btnPause = self.contextMenu.addAction(
             icon.PAUSE, _('Pause backup process'))
-        action = lambda: os.kill(self.snapshots.pid(), signal.SIGSTOP)
-        self.btnPause.triggered.connect(action)
+        self.btnPause.triggered.connect(self._slot_pause)
         self.btnPause.setVisible(self._trust_desktop)
 
         self.btnResume = self.contextMenu.addAction(
             icon.RESUME, _('Resume backup process'))
-        action = lambda: os.kill(self.snapshots.pid(), signal.SIGCONT)
-        self.btnResume.triggered.connect(action)
+        self.btnResume.triggered.connect(self._slot_resume)
         self.btnResume.setVisible(False)
 
         self.btnStop = self.contextMenu.addAction(
@@ -292,20 +305,31 @@ class QtSysTrayIcon:
 
             yield txt + ' ' + value
 
-    def onStartBIT(self):
+    @trust_required
+    def _slot_pause(self, *_args, **_kwargs):
+        os.kill(self.snapshots.pid(), signal.SIGSTOP)
+
+    @trust_required
+    def _slot_resume(self, *_args, **_kwargs):
+        os.kill(self.snapshots.pid(), signal.SIGCONT)
+
+    @trust_required
+    def onStartBIT(self, *_args, **_kwargs):
         profileID = self.config.currentProfile()
         cmd = ['backintime-qt',]
         if not profileID == '1':
             cmd += ['--profile-id', profileID]
         _proc = subprocess.Popen(cmd)
 
-    def onOpenLog(self):
+    @trust_required
+    def onOpenLog(self, *_args, **_kwargs):
         dlg = logviewdialog.LogViewDialog(
             parent=self,
             decode=self.btnDecode.isChecked())
         dlg.exec()
 
-    def onBtnDecode(self, checked):
+    @trust_required
+    def onBtnDecode(self, checked, *_args, **_kwargs):
         if checked:
             self.decode = encfstools.Decode(self.config)
             self.last_message = None
@@ -314,7 +338,8 @@ class QtSysTrayIcon:
 
         self.decode = None
 
-    def onBtnStop(self):
+    @trust_required
+    def onBtnStop(self, *_args, **_kwargs):
         os.kill(self.snapshots.pid(), signal.SIGKILL)
         self.btnStop.setEnabled(False)
         self.btnPause.setEnabled(False)
