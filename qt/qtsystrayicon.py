@@ -301,9 +301,9 @@ class QtSysTrayIcon:
 
         try:
             # get list of sessions
-            output = subprocess.check_output(
-                ['loginctl', 'list-sessions', '--no-legend', '--json=short'],
-                text=True)
+            cmd = ['loginctl', 'list-sessions', '--no-legend', '--json=short']
+            logger.debug(f'Execute {cmd=}')
+            output = subprocess.check_output(cmd, text=True)
 
         except FileNotFoundError:
             logger.warning(
@@ -323,6 +323,7 @@ class QtSysTrayIcon:
 
         # Check each session
         for session in json.loads(output):
+            logger.debug(f'{session=}')
             # Ignore none-user sessions
             if session.get('class') != 'user':
                 continue
@@ -337,23 +338,30 @@ class QtSysTrayIcon:
                     '--property=Name',
                     '--property=Seat',
                     '--property=Type',
-                    '--property=Dispplay',
+                    '--property=Display',
                 ],
                 text=True
             ).strip()
+            logger.debug(f'{info=}')
 
             props = dict(line.split('=', 1) for line in info.splitlines())
+            logger.debug(f'{props=}')
             sessions.append(props)
 
+        logger.debug(f'{sessions=}')
+
         display = os.environ.get('DISPLAY')
+        logger.debug(f'{display=}')
 
         if display:
             display = display.split('.')[0]
+            logger.debug(f'after split {display=}')
 
             matches = [
                 s for s in sessions
                 if s.get('Display', '').split('.')[0] == display
             ]
+            logger.debug(f'{matches=}')
 
             if len(matches) == 1:
                 logger.info(
