@@ -293,7 +293,7 @@ class ExpertOptionsTab(QDialog):
         tab_layout.addWidget(self._cb_one_filesystem)
 
         # additional rsync options
-        tooltip = _('Options must be quoted e.g. {example}.').format(
+        tooltip = _('Options must be quoted e.g. {{example}}.').format(
             example='--exclude-from="/path/to/my exclude file"')
 
         self._txt_rsync_options = QLineEdit(self)
