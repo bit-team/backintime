@@ -14,6 +14,7 @@
 import sys
 import os
 import re
+import pwd
 import json
 import subprocess
 import signal
@@ -55,6 +56,8 @@ class QtSysTrayIcon:
         self.config = self.snapshots.config
         self.decode = None
 
+        self._current_user = pwd.getpwuid(os.getuid()).pw_name
+
         if len(sys.argv) > 1:
             if not self.config.setCurrentProfile(sys.argv[1]):
                 logger.warning(
@@ -75,17 +78,30 @@ class QtSysTrayIcon:
         # privilegs as the BIT instance itself; e.g. root.
         # We need to know which user "owns" the desktop. If it is another
         # user, the systray instance should not expose sensible data like
-        # paths of files and dirs to backup.
+        # paths of files and dirs in the backup.
         desktop_user = self._determine_desktop_session_user()
 
-        self.menuProfileName = self.contextMenu.addAction(
-            _('Profile: {profile_name} USER: {desktop_user}').format(
-                profile_name=self.config.profileName(),
-                desktop_user=desktop_user)
-        )
+        self._trust_desktop = False  # desktop_user == self._current_user
+        if self._trust_desktop:
+            logger.info('Trusting the desktop session.')
+        else:
+            logger.info(
+                'Not trusting the desktop session, which is owned by '
+                f'"{desktop_user}". '
+                f'But backup runs as "{self._current_user}".')
+
+        if self._trust_desktop:
+            txt = _('Profile: {profile_name}').format(
+                profile_name=self.config.profileName())
+        else:
+            txt = _('Profile: {profile_name} (by user "{desktop_user}")') \
+                .format(profile_name=self.config.profileName(),
+                        desktop_user=desktop_user)
+        self.menuProfileName = self.contextMenu.addAction(txt)
         self.contextMenu.addSeparator()
 
         self.menuStatusMessage = self.contextMenu.addAction(_('Done'))
+
         self.menuProgress = self.contextMenu.addAction('')
         self.menuProgress.setVisible(False)
         self.contextMenu.addSeparator()
@@ -94,6 +110,7 @@ class QtSysTrayIcon:
             icon.PAUSE, _('Pause backup process'))
         action = lambda: os.kill(self.snapshots.pid(), signal.SIGSTOP)
         self.btnPause.triggered.connect(action)
+        self.btnPause.setVisible(self._trust_desktop)
 
         self.btnResume = self.contextMenu.addAction(
             icon.RESUME, _('Resume backup process'))
@@ -104,6 +121,7 @@ class QtSysTrayIcon:
         self.btnStop = self.contextMenu.addAction(
             icon.STOP, _('Stop backup process'))
         self.btnStop.triggered.connect(self.onBtnStop)
+        self.btnStop.setVisible(self._trust_desktop)
         self.contextMenu.addSeparator()
 
         # Dev note (2025-12, buhtz): I wondered why this decode checkbox is
@@ -116,17 +134,22 @@ class QtSysTrayIcon:
         self.btnDecode = self.contextMenu.addAction(
             icon.VIEW_SNAPSHOT_LOG, _('decode paths'))
         self.btnDecode.setCheckable(True)
-        self.btnDecode.setVisible(self.config.snapshotsMode() == 'ssh_encfs')
+        self.btnDecode.setVisible(
+            self.config.snapshotsMode() == 'ssh_encfs' and self._trust_desktop)
         self.btnDecode.toggled.connect(self.onBtnDecode)
 
         self.openLog = self.contextMenu.addAction(
             icon.VIEW_LAST_LOG, _('View Last Log'))
         self.openLog.triggered.connect(self.onOpenLog)
+        self.openLog.setVisible(self._trust_desktop)
+
         self.startBIT = self.contextMenu.addAction(
             icon.BIT_LOGO,
             _('Start {appname}').format(appname=self.config.APP_NAME)
         )
         self.startBIT.triggered.connect(self.onStartBIT)
+        self.startBIT.setVisible(self._trust_desktop)
+
         self.status_icon.setContextMenu(self.contextMenu)
 
         self.progressBar = self._create_progress_bar()
@@ -205,10 +228,14 @@ class QtSysTrayIcon:
                 return
 
         paused = tools.processPaused(self.snapshots.pid())
-        self.btnPause.setVisible(not paused)
-        self.btnResume.setVisible(paused)
+        self.btnPause.setVisible(not paused and self._trust_desktop)
+        self.btnResume.setVisible(paused and self._trust_desktop)
 
-        message = self.snapshots.takeSnapshotMessage()
+        if self._trust_desktop:
+            message = self.snapshots.takeSnapshotMessage()
+        else:
+            message = None
+
         if message is None and self.last_message is None:
             message = (0, _('Working…'))
 
@@ -302,7 +329,7 @@ class QtSysTrayIcon:
         try:
             # get list of sessions
             cmd = ['loginctl', 'list-sessions', '--no-legend', '--json=short']
-            logger.debug(f'Execute {cmd=}')
+            # logger.debug(f'Execute {cmd=}')
             output = subprocess.check_output(cmd, text=True)
 
         except FileNotFoundError:
@@ -323,7 +350,7 @@ class QtSysTrayIcon:
 
         # Check each session
         for session in json.loads(output):
-            logger.debug(f'{session=}')
+            # logger.debug(f'{session=}')
             # Ignore none-user sessions
             if session.get('class') != 'user':
                 continue
@@ -342,32 +369,29 @@ class QtSysTrayIcon:
                 ],
                 text=True
             ).strip()
-            logger.debug(f'{info=}')
+            # logger.debug(f'{info=}')
 
             props = dict(line.split('=', 1) for line in info.splitlines())
-            logger.debug(f'{props=}')
+            # logger.debug(f'{props=}')
             sessions.append(props)
 
-        logger.debug(f'{sessions=}')
+        # logger.debug(f'{sessions=}')
 
         display = os.environ.get('DISPLAY')
-        logger.debug(f'{display=}')
+        # logger.debug(f'{display=}')
 
         if display:
             display = display.split('.')[0]
-            logger.debug(f'after split {display=}')
 
             matches = [
                 s for s in sessions
                 if s.get('Display', '').split('.')[0] == display
             ]
-            logger.debug(f'{matches=}')
+            # logger.debug(f'{matches=}')
 
             if len(matches) == 1:
-                logger.info(
-                    f'VARIANT - systemd loginctl DISPLAY: {matches[0]=}',
-                    self,
-                )
+                logger.debug(
+                    'User determined via loginctl using DISPLAY', self)
                 return matches[0].get('Name')
 
             return None
@@ -381,10 +405,9 @@ class QtSysTrayIcon:
         ]
 
         if len(fallback) == 1:
-            logger.info(
-                f'VARIANT - systemd loginctl SAFE FALLBACK: {fallback[0]=}',
-                self,
-            )
+            logger.debug(
+                'User determined via loginctl fallback (DISPLAY is not set)',
+                self)
             return fallback[0].get('Name')
 
         return None
@@ -423,7 +446,7 @@ class QtSysTrayIcon:
             userdisplay = userdisplay.split('.')[0]
 
             if userdisplay == display:
-                logger.info(f'VARIANT - X11 who DISPLAY: {user=}', self)
+                logger.debug('User determined via x11 who', self)
                 return user
 
         return None
@@ -431,13 +454,18 @@ class QtSysTrayIcon:
     def _determine_desktop_session_user(self):
         """Return name of user logged in to the current desktop session.
         """
+        logger.info(
+            'Try to determine user of current desktop session via loginctl')
+
         user = self._get_desktop_user_via_loginctl()
 
         if not user:
+            logger.info(
+                'Try to determine user of current desktop session via x11-who')
             user = self._get_desktop_user_via_x11_who()
 
         logger.info(
-            f'Systray Icon determined user "{user}" as owner of '
+            f'Systray Icon determined the user "{user}" as owner of '
             'current desktop session.')
 
         return user
