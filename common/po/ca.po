@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-12-14 16:59+0100\n"
+"POT-Creation-Date: 2025-12-22 15:22+0100\n"
 "PO-Revision-Date: 2025-07-29 07:57+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@noreply.codeberg.org>\n"
 "Language-Team: Catalan <https://translate.codeberg.org/projects/backintime/common/ca/>\n"
@@ -232,7 +232,7 @@ msgid "Restore permissions"
 msgstr "Restaura els permisos"
 
 #: common/snapshots.py:657 qt/app.py:240 qt/app.py:1150 qt/app.py:1166
-#: qt/qtsystrayicon.py:78
+#: qt/qtsystrayicon.py:118
 msgid "Done"
 msgstr "Fet"
 
@@ -580,15 +580,15 @@ msgstr "Crea una còpia (mode suma de verificació)"
 msgid "Use checksums for file change detection."
 msgstr "Utilitza sumes de verificació per a la detecció de canvis de fitxers."
 
-#: qt/app.py:463 qt/qtsystrayicon.py:84
+#: qt/app.py:463 qt/qtsystrayicon.py:125
 msgid "Pause backup process"
 msgstr "Pausa el procés de còpia"
 
-#: qt/app.py:467 qt/qtsystrayicon.py:89
+#: qt/app.py:467 qt/qtsystrayicon.py:130
 msgid "Resume backup process"
 msgstr "Reprèn el procés de còpia"
 
-#: qt/app.py:471 qt/qtsystrayicon.py:95
+#: qt/app.py:471 qt/qtsystrayicon.py:135
 msgid "Stop backup process"
 msgstr "Atura el procés de còpia"
 
@@ -866,15 +866,15 @@ msgstr "Treballant"
 msgid "Error"
 msgstr "Error"
 
-#: qt/app.py:1294 qt/qtsystrayicon.py:246
+#: qt/app.py:1294 qt/qtsystrayicon.py:295
 msgid "Sent:"
 msgstr "Enviat:"
 
-#: qt/app.py:1295 qt/qtsystrayicon.py:247
+#: qt/app.py:1295 qt/qtsystrayicon.py:296
 msgid "Speed:"
 msgstr "Velocitat:"
 
-#: qt/app.py:1296 qt/qtsystrayicon.py:248
+#: qt/app.py:1296 qt/qtsystrayicon.py:297
 msgid "ETA:"
 msgstr "ETA:"
 
@@ -1202,7 +1202,7 @@ msgstr "Filtre:"
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E]Error, [I]Informació, [C]Canvia"
 
-#: qt/logviewdialog.py:103 qt/qtsystrayicon.py:107
+#: qt/logviewdialog.py:103 qt/qtsystrayicon.py:148
 msgid "decode paths"
 msgstr "descodifica rutes"
 
@@ -2308,21 +2308,26 @@ msgstr "Sistema de fitxers"
 msgid "Backup directories"
 msgstr "Directoris de còpia de seguretat"
 
-#: qt/qtsystrayicon.py:73
+#: qt/qtsystrayicon.py:109
 #, python-brace-format
 msgid "Profile: {profile_name}"
 msgstr "Perfil: {profile_name}"
 
-#: qt/qtsystrayicon.py:113
+#: qt/qtsystrayicon.py:112
+#, fuzzy, python-brace-format
+msgid "Profile: {profile_name} (by user \"{desktop_user}\")"
+msgstr "Perfil: {profile_name}"
+
+#: qt/qtsystrayicon.py:155
 msgid "View Last Log"
 msgstr "Visualitza l'últim registre"
 
-#: qt/qtsystrayicon.py:117
+#: qt/qtsystrayicon.py:161
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "Inicia {appname}"
 
-#: qt/qtsystrayicon.py:204
+#: qt/qtsystrayicon.py:253
 msgid "Working…"
 msgstr "S'està treballant…"
 

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-12-14 16:59+0100\n"
-"PO-Revision-Date: 2025-12-14 15:58+0000\n"
+"POT-Creation-Date: 2025-12-22 15:22+0100\n"
+"PO-Revision-Date: 2025-12-14 17:21+0000\n"
 "Last-Translator: Merik <merik@noreply.codeberg.org>\n"
 "Language-Team: Polish <https://translate.codeberg.org/projects/backintime/common/pl/>\n"
 "Language: pl\n"
@@ -240,7 +240,7 @@ msgid "Restore permissions"
 msgstr "Przywracanie uprawnień"
 
 #: common/snapshots.py:657 qt/app.py:240 qt/app.py:1150 qt/app.py:1166
-#: qt/qtsystrayicon.py:78
+#: qt/qtsystrayicon.py:118
 msgid "Done"
 msgstr "Gotowe"
 
@@ -586,15 +586,15 @@ msgstr "Utwórz kopię zapasową (tryb sumy kontrolnej)"
 msgid "Use checksums for file change detection."
 msgstr "Używaj sum kontrolnych do wykrywania zmian plików."
 
-#: qt/app.py:463 qt/qtsystrayicon.py:84
+#: qt/app.py:463 qt/qtsystrayicon.py:125
 msgid "Pause backup process"
 msgstr "Wstrzymaj tworzenie kopii zapasowej"
 
-#: qt/app.py:467 qt/qtsystrayicon.py:89
+#: qt/app.py:467 qt/qtsystrayicon.py:130
 msgid "Resume backup process"
 msgstr "Wznów tworzenie kopii zapasowej"
 
-#: qt/app.py:471 qt/qtsystrayicon.py:95
+#: qt/app.py:471 qt/qtsystrayicon.py:135
 msgid "Stop backup process"
 msgstr "Zatrzymaj tworzenie kopii zapasowej"
 
@@ -863,15 +863,15 @@ msgstr "Działanie"
 msgid "Error"
 msgstr "Błąd"
 
-#: qt/app.py:1294 qt/qtsystrayicon.py:246
+#: qt/app.py:1294 qt/qtsystrayicon.py:295
 msgid "Sent:"
 msgstr "Wysłane:"
 
-#: qt/app.py:1295 qt/qtsystrayicon.py:247
+#: qt/app.py:1295 qt/qtsystrayicon.py:296
 msgid "Speed:"
 msgstr "Prędkość:"
 
-#: qt/app.py:1296 qt/qtsystrayicon.py:248
+#: qt/app.py:1296 qt/qtsystrayicon.py:297
 msgid "ETA:"
 msgstr "Czas do końca:"
 
@@ -1200,7 +1200,7 @@ msgstr "Filtr:"
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] błąd, [I] informacja, [C] zmiana"
 
-#: qt/logviewdialog.py:103 qt/qtsystrayicon.py:107
+#: qt/logviewdialog.py:103 qt/qtsystrayicon.py:148
 msgid "decode paths"
 msgstr "dekoduj ścieżki"
 
@@ -1419,7 +1419,6 @@ msgid "System backup files"
 msgstr "Pliki kopii zapasowej systemu"
 
 #: qt/manageprofiles/excludesuggestions.py:134
-#, fuzzy
 msgid "Exclude Suggestions"
 msgstr "Wyklucz sugestie"
 
@@ -2305,21 +2304,26 @@ msgstr "System plików"
 msgid "Backup directories"
 msgstr "Katalogi kopii zapasowej"
 
-#: qt/qtsystrayicon.py:73
+#: qt/qtsystrayicon.py:109
 #, python-brace-format
 msgid "Profile: {profile_name}"
 msgstr "Profil: {profile_name}"
 
-#: qt/qtsystrayicon.py:113
+#: qt/qtsystrayicon.py:112
+#, fuzzy, python-brace-format
+msgid "Profile: {profile_name} (by user \"{desktop_user}\")"
+msgstr "Profil: {profile_name}"
+
+#: qt/qtsystrayicon.py:155
 msgid "View Last Log"
 msgstr "Podgląd ostatniego dziennika"
 
-#: qt/qtsystrayicon.py:117
+#: qt/qtsystrayicon.py:161
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "Uruchom {appname}"
 
-#: qt/qtsystrayicon.py:204
+#: qt/qtsystrayicon.py:253
 msgid "Working…"
 msgstr "Działanie…"
 

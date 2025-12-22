@@ -6,7 +6,7 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
-# Generated at Sun Dec 14 16:59:26 2025 with help
+# Generated at Mon Dec 22 15:23:00 2025 with help
 # of package "babel" and "polib".
 # https://babel.pocoo.org
 # https://github.com/python-babel/babel
@@ -2366,31 +2366,31 @@ names = {
 
 
 completeness = {
-    'pt': 91,
+    'pt': 99,
     'nn': 50,
     'sk': 60,
     'pt_BR': 67,
-    'zh_CN': 91,
-    'et': 91,
-    'it': 91,
+    'zh_CN': 99,
+    'et': 99,
+    'it': 99,
     'bg': 59,
     'ar': 48,
-    'uk': 91,
-    'gl': 91,
+    'uk': 99,
+    'gl': 92,
     'sr': 62,
     'sr_Latn': 60,
     'hr': 25,
     'eu': 91,
-    'ko': 60,
-    'es': 78,
+    'ko': 59,
+    'es': 79,
     'ru': 46,
     'fa': 77,
-    'tr': 91,
+    'tr': 99,
     'fo': 19,
-    'da': 91,
+    'da': 99,
     'nb': 67,
     'fi': 88,
-    'de': 91,
+    'de': 99,
     'pl': 99,
     'el': 91,
     'eo': 91,
@@ -2403,11 +2403,11 @@ completeness = {
     'cs': 88,
     'sv': 87,
     'ja': 77,
-    'fr': 91,
+    'fr': 96,
     'ca': 71,
     'he': 87,
     'nl': 50,
-    'hu': 63,
+    'hu': 62,
     'sl': 43,
     'en': 100,
 }
