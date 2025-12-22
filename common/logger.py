@@ -32,6 +32,7 @@ _level_names = {
 
 syslog_id_suffix = '<unknown>'
 
+
 def openlog(suffix: str):
     """Initialize the BIT logger system using syslog.
 
