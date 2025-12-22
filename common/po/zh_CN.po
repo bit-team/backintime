@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-12-14 16:59+0100\n"
-"PO-Revision-Date: 2025-11-18 12:10+0000\n"
+"POT-Creation-Date: 2025-12-22 15:22+0100\n"
+"PO-Revision-Date: 2025-12-15 15:18+0000\n"
 "Last-Translator: Outbreak2096 <outbreak2096@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -222,7 +222,7 @@ msgid "Restore permissions"
 msgstr "恢复权限"
 
 #: common/snapshots.py:657 qt/app.py:240 qt/app.py:1150 qt/app.py:1166
-#: qt/qtsystrayicon.py:78
+#: qt/qtsystrayicon.py:118
 msgid "Done"
 msgstr "已完成"
 
@@ -540,15 +540,15 @@ msgstr "创建备份（校验和模式）"
 msgid "Use checksums for file change detection."
 msgstr "使用校验和检测文件更改。"
 
-#: qt/app.py:463 qt/qtsystrayicon.py:84
+#: qt/app.py:463 qt/qtsystrayicon.py:125
 msgid "Pause backup process"
 msgstr "暂停备份进程"
 
-#: qt/app.py:467 qt/qtsystrayicon.py:89
+#: qt/app.py:467 qt/qtsystrayicon.py:130
 msgid "Resume backup process"
 msgstr "恢复备份进程"
 
-#: qt/app.py:471 qt/qtsystrayicon.py:95
+#: qt/app.py:471 qt/qtsystrayicon.py:135
 msgid "Stop backup process"
 msgstr "停止备份进程"
 
@@ -735,19 +735,19 @@ msgstr "帮助(&H)"
 
 #: qt/app.py:745
 msgid "Systray Icon"
-msgstr ""
+msgstr "系统托盘图标"
 
 #: qt/app.py:751
 msgid "Automatic"
-msgstr ""
+msgstr "自动"
 
 #: qt/app.py:755
 msgid "Light icon"
-msgstr ""
+msgstr "浅色图标"
 
 #: qt/app.py:756
 msgid "Dark icon"
-msgstr ""
+msgstr "深色图标"
 
 #: qt/app.py:779
 msgid "Icons only"
@@ -807,15 +807,15 @@ msgstr "运行中"
 msgid "Error"
 msgstr "错误"
 
-#: qt/app.py:1294 qt/qtsystrayicon.py:246
+#: qt/app.py:1294 qt/qtsystrayicon.py:295
 msgid "Sent:"
 msgstr "已发送："
 
-#: qt/app.py:1295 qt/qtsystrayicon.py:247
+#: qt/app.py:1295 qt/qtsystrayicon.py:296
 msgid "Speed:"
 msgstr "速度："
 
-#: qt/app.py:1296 qt/qtsystrayicon.py:248
+#: qt/app.py:1296 qt/qtsystrayicon.py:297
 msgid "ETA:"
 msgstr "预计完成时间："
 
@@ -1107,7 +1107,7 @@ msgstr "筛选器："
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] 错误、[I] 信息、[C] 更改"
 
-#: qt/logviewdialog.py:103 qt/qtsystrayicon.py:107
+#: qt/logviewdialog.py:103 qt/qtsystrayicon.py:148
 msgid "decode paths"
 msgstr "解码路径"
 
@@ -1132,7 +1132,7 @@ msgstr[0] "信息"
 
 #: qt/logviewdialog.py:135
 msgid "rsync transfer failures (experimental)"
-msgstr "rsync 传输失败（实验性"
+msgstr "rsync 传输失败（实验性）"
 
 #: qt/manageprofiles/__init__.py:64
 msgid "Manage profiles"
@@ -1194,156 +1194,148 @@ msgstr "删除配置“{name}”？"
 
 #: qt/manageprofiles/excludesuggestions.py:33
 msgid "Editor & Office temporary files"
-msgstr ""
+msgstr "编辑器和办公软件临时文件"
 
 #: qt/manageprofiles/excludesuggestions.py:34
-#, fuzzy
 msgid "Emacs backup files"
-msgstr "暂停备份进程"
+msgstr "Emacs 备份文件"
 
 #: qt/manageprofiles/excludesuggestions.py:35
-#, fuzzy
 msgid "Emacs autosave files"
-msgstr "排除文件"
+msgstr "Emacs 自动保存文件"
 
 #: qt/manageprofiles/excludesuggestions.py:36
 msgid "Vim swap files"
-msgstr ""
+msgstr "Vim 交换文件"
 
 #: qt/manageprofiles/excludesuggestions.py:37
 msgid "Microsoft Office temporary files"
-msgstr ""
+msgstr "Microsoft Office 临时文件"
 
 #: qt/manageprofiles/excludesuggestions.py:40
 msgid "LibreOffice & other OpenDocument Editors lock files"
-msgstr ""
+msgstr "LibreOffice 及其他 OpenDocument 编辑器锁定文件"
 
 #: qt/manageprofiles/excludesuggestions.py:44
 msgid "Thumbnails & Temporary Pictures"
-msgstr ""
+msgstr "缩略图和临时图片"
 
 #: qt/manageprofiles/excludesuggestions.py:47
 msgid "Thumbnail cache on GNU/Linux and other unixoid OS'es"
-msgstr ""
+msgstr "GNU/Linux 及其他类 Unix 操作系统的缩略图缓存"
 
 #: qt/manageprofiles/excludesuggestions.py:50
 msgid "Thumbnail database on Windows"
-msgstr ""
+msgstr "Windows 缩略图数据库"
 
 #: qt/manageprofiles/excludesuggestions.py:51
 msgid "Metadata directory on MacOS"
-msgstr ""
+msgstr "macOS 元数据目录"
 
 #: qt/manageprofiles/excludesuggestions.py:53
 msgid "Application-specific locks"
-msgstr ""
+msgstr "应用程序特定锁定文件"
 
 #: qt/manageprofiles/excludesuggestions.py:56
 msgid "Discord application lock file"
-msgstr ""
+msgstr "Discord 应用程序锁定文件"
 
 #: qt/manageprofiles/excludesuggestions.py:57
 msgid "Discord session lock file"
-msgstr ""
+msgstr "Discord 会话锁定文件"
 
 #: qt/manageprofiles/excludesuggestions.py:60
 msgid "Mozilla Firefox & Thunderbird lock file"
-msgstr ""
+msgstr "Mozilla Firefox 及 Thunderbird 锁定文件"
 
 #: qt/manageprofiles/excludesuggestions.py:62
-#, fuzzy
 msgid "Caches & Temporary directories"
-msgstr "备份目录"
+msgstr "缓存和临时目录"
 
 #: qt/manageprofiles/excludesuggestions.py:63
 msgid "User application cache"
-msgstr ""
+msgstr "用户应用程序缓存"
 
 #: qt/manageprofiles/excludesuggestions.py:64
 #: qt/manageprofiles/excludesuggestions.py:67
-#, fuzzy
 msgid "System temporary directory"
-msgstr "无法移除目录"
+msgstr "系统临时目录"
 
 #: qt/manageprofiles/excludesuggestions.py:72
 msgid "Package cache for Debian(-based) GNU/Linux distributions"
-msgstr ""
+msgstr "Debian（基于 Debian）GNU/Linux 发行版的软件包缓存"
 
 #: qt/manageprofiles/excludesuggestions.py:76
-#, fuzzy
 msgid "System runtime directories"
-msgstr "显示隐藏目录"
+msgstr "系统运行时目录"
 
 #: qt/manageprofiles/excludesuggestions.py:79
 msgid "Kernel and process information"
-msgstr ""
+msgstr "内核及进程信息"
 
 #: qt/manageprofiles/excludesuggestions.py:84
 msgid "Device and other hardware information (sysfs interface)"
-msgstr ""
+msgstr "设备及其他硬件信息（sysfs 接口）"
 
 #: qt/manageprofiles/excludesuggestions.py:87
 msgid "Device nodes"
-msgstr ""
+msgstr "设备节点"
 
 #: qt/manageprofiles/excludesuggestions.py:88
 msgid "Runtime system files"
-msgstr ""
+msgstr "运行时系统文件"
 
 #: qt/manageprofiles/excludesuggestions.py:90
 msgid "Other non-persistent"
-msgstr ""
+msgstr "其他非持久性文件"
 
 #: qt/manageprofiles/excludesuggestions.py:93
 msgid "List of currently mounted filesystems"
-msgstr ""
+msgstr "当前已挂载的文件系统列表"
 
 #: qt/manageprofiles/excludesuggestions.py:96
 msgid "System swap file (virtual memory)"
-msgstr ""
+msgstr "系统交换文件（虚拟内存）"
 
 #: qt/manageprofiles/excludesuggestions.py:97
 msgid "GNOME virtual file system mount point"
-msgstr ""
+msgstr "GNOME 虚拟文件系统挂载点"
 
 #: qt/manageprofiles/excludesuggestions.py:98
 msgid "Recovered filesystem objects"
-msgstr ""
+msgstr "已恢复的文件系统对象"
 
 #: qt/manageprofiles/excludesuggestions.py:100
 msgid "Miscellaneous"
-msgstr ""
+msgstr "杂项"
 
 #: qt/manageprofiles/excludesuggestions.py:103
 msgid "Metadata directory on Microsoft Windows"
-msgstr ""
+msgstr "Microsoft Windows 元数据目录"
 
 #: qt/manageprofiles/excludesuggestions.py:106
 msgid "User recycle bin"
-msgstr ""
+msgstr "用户回收站"
 
 #: qt/manageprofiles/excludesuggestions.py:107
-#, fuzzy
 msgid "System backup files"
-msgstr "停止备份进程"
+msgstr "系统备份文件"
 
 #: qt/manageprofiles/excludesuggestions.py:134
-#, fuzzy
 msgid "Exclude Suggestions"
-msgstr "排除目录"
+msgstr "排除建议"
 
 #: qt/manageprofiles/excludesuggestions.py:139
 msgid "Select commonly used items to add to backup exclusions."
-msgstr ""
+msgstr "选择常用项目添加到备份排除中。"
 
 #: qt/manageprofiles/excludesuggestions.py:152
-#, fuzzy
 msgid "Default"
 msgstr "默认"
 
 #: qt/manageprofiles/excludesuggestions.py:153
 msgid "Reset to predefined selection"
-msgstr ""
+msgstr "重置为预定义选择"
 
 #: qt/manageprofiles/schedulewidget.py:38
 msgid "Schedule"
@@ -1570,13 +1562,12 @@ msgid "Add directories"
 msgstr "添加目录"
 
 #: qt/manageprofiles/tab_exclude.py:118
-#, fuzzy
 msgid "Suggestions"
-msgstr "问题"
+msgstr "建议"
 
 #: qt/manageprofiles/tab_exclude.py:120
 msgid "Select from common used items to add to exclude list."
-msgstr ""
+msgstr "从常用项目中选择添加到排除列表中。"
 
 #: qt/manageprofiles/tab_exclude.py:134
 msgid "Exclude files bigger than:"
@@ -2130,21 +2121,26 @@ msgstr "文件系统"
 msgid "Backup directories"
 msgstr "备份目录"
 
-#: qt/qtsystrayicon.py:73
+#: qt/qtsystrayicon.py:109
 #, python-brace-format
 msgid "Profile: {profile_name}"
 msgstr "配置：{profile_name}"
 
-#: qt/qtsystrayicon.py:113
+#: qt/qtsystrayicon.py:112
+#, fuzzy, python-brace-format
+msgid "Profile: {profile_name} (by user \"{desktop_user}\")"
+msgstr "配置：{profile_name}"
+
+#: qt/qtsystrayicon.py:155
 msgid "View Last Log"
 msgstr "查看最新日志"
 
-#: qt/qtsystrayicon.py:117
+#: qt/qtsystrayicon.py:161
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "启动 {appname}"
 
-#: qt/qtsystrayicon.py:204
+#: qt/qtsystrayicon.py:253
 msgid "Working…"
 msgstr "运行中…"
 

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-12-14 16:59+0100\n"
-"PO-Revision-Date: 2025-11-13 10:20+0000\n"
+"POT-Creation-Date: 2025-12-22 15:22+0100\n"
+"PO-Revision-Date: 2025-12-15 15:18+0000\n"
 "Last-Translator: Priit Jõerüüt <jrtcdbrg@noreply.codeberg.org>\n"
 "Language-Team: Estonian <https://translate.codeberg.org/projects/backintime/common/et/>\n"
 "Language: et\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -238,7 +238,7 @@ msgid "Restore permissions"
 msgstr "Taasta õigused"
 
 #: common/snapshots.py:657 qt/app.py:240 qt/app.py:1150 qt/app.py:1166
-#: qt/qtsystrayicon.py:78
+#: qt/qtsystrayicon.py:118
 msgid "Done"
 msgstr "Valmis"
 
@@ -583,15 +583,15 @@ msgstr "Tee varukoopia (kontrollsummadega)"
 msgid "Use checksums for file change detection."
 msgstr "Muutuste tuvastamiseks kasuta kontrollsummasid."
 
-#: qt/app.py:463 qt/qtsystrayicon.py:84
+#: qt/app.py:463 qt/qtsystrayicon.py:125
 msgid "Pause backup process"
 msgstr "Peata varukoopia tegemine"
 
-#: qt/app.py:467 qt/qtsystrayicon.py:89
+#: qt/app.py:467 qt/qtsystrayicon.py:130
 msgid "Resume backup process"
 msgstr "Jätka varukoopia tegemist"
 
-#: qt/app.py:471 qt/qtsystrayicon.py:95
+#: qt/app.py:471 qt/qtsystrayicon.py:135
 msgid "Stop backup process"
 msgstr "Lõpeta varukoopia tegemine"
 
@@ -783,19 +783,19 @@ msgstr "&Abiteave"
 
 #: qt/app.py:745
 msgid "Systray Icon"
-msgstr ""
+msgstr "Süsteemisalve ikoon"
 
 #: qt/app.py:751
 msgid "Automatic"
-msgstr ""
+msgstr "Automaatne"
 
 #: qt/app.py:755
 msgid "Light icon"
-msgstr ""
+msgstr "Hele ikoon"
 
 #: qt/app.py:756
 msgid "Dark icon"
-msgstr ""
+msgstr "Tume ikoon"
 
 #: qt/app.py:779
 msgid "Icons only"
@@ -857,15 +857,15 @@ msgstr "Töötan"
 msgid "Error"
 msgstr "Viga"
 
-#: qt/app.py:1294 qt/qtsystrayicon.py:246
+#: qt/app.py:1294 qt/qtsystrayicon.py:295
 msgid "Sent:"
 msgstr "Saadetud:"
 
-#: qt/app.py:1295 qt/qtsystrayicon.py:247
+#: qt/app.py:1295 qt/qtsystrayicon.py:296
 msgid "Speed:"
 msgstr "Kiirus:"
 
-#: qt/app.py:1296 qt/qtsystrayicon.py:248
+#: qt/app.py:1296 qt/qtsystrayicon.py:297
 msgid "ETA:"
 msgstr "Jäänud:"
 
@@ -1193,7 +1193,7 @@ msgstr "Filter:"
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] viga, [I] teave, [C] muudatus"
 
-#: qt/logviewdialog.py:103 qt/qtsystrayicon.py:107
+#: qt/logviewdialog.py:103 qt/qtsystrayicon.py:148
 msgid "decode paths"
 msgstr "dekodeeri asukohad"
 
@@ -1281,156 +1281,150 @@ msgstr "Oled kindel, et tahad kustuda profiili „{name}“?"
 
 #: qt/manageprofiles/excludesuggestions.py:33
 msgid "Editor & Office temporary files"
-msgstr ""
+msgstr "Tekstitoimetite ja kontoritöö tarkvara ajutised failid"
 
 #: qt/manageprofiles/excludesuggestions.py:34
-#, fuzzy
 msgid "Emacs backup files"
-msgstr "Peata varukoopia tegemine"
+msgstr "Emacsi varundusfailid"
 
 #: qt/manageprofiles/excludesuggestions.py:35
-#, fuzzy
 msgid "Emacs autosave files"
-msgstr "Välista failid"
+msgstr "Emacsi automaatse salvestuse failid"
 
 #: qt/manageprofiles/excludesuggestions.py:36
 msgid "Vim swap files"
-msgstr ""
+msgstr "Vimi saalefailid"
 
 #: qt/manageprofiles/excludesuggestions.py:37
 msgid "Microsoft Office temporary files"
-msgstr ""
+msgstr "Microsoft Office'i ajutised failid"
 
 #: qt/manageprofiles/excludesuggestions.py:40
 msgid "LibreOffice & other OpenDocument Editors lock files"
-msgstr ""
+msgstr "LibreOffice'i ja muude sama arendusliini rakenduste lukustusfailid"
 
 #: qt/manageprofiles/excludesuggestions.py:44
 msgid "Thumbnails & Temporary Pictures"
-msgstr ""
+msgstr "Pidipildid ja ajutused pildid"
 
 #: qt/manageprofiles/excludesuggestions.py:47
 msgid "Thumbnail cache on GNU/Linux and other unixoid OS'es"
-msgstr ""
+msgstr "Pisipiltide puhver GNU/Linux-is ja muudes unixilistes"
 
 #: qt/manageprofiles/excludesuggestions.py:50
 msgid "Thumbnail database on Windows"
-msgstr ""
+msgstr "Pisipiltide andmebaas Windowsis"
 
 #: qt/manageprofiles/excludesuggestions.py:51
 msgid "Metadata directory on MacOS"
-msgstr ""
+msgstr "Metainfo kaust MacOS-is"
 
 #: qt/manageprofiles/excludesuggestions.py:53
 msgid "Application-specific locks"
-msgstr ""
+msgstr "Rakendusekohased lukustusfailid"
 
 #: qt/manageprofiles/excludesuggestions.py:56
 msgid "Discord application lock file"
-msgstr ""
+msgstr "Discordi rakenduse lukustusfail"
 
 #: qt/manageprofiles/excludesuggestions.py:57
 msgid "Discord session lock file"
-msgstr ""
+msgstr "Discordi sessiooni lukustusfail"
 
 #: qt/manageprofiles/excludesuggestions.py:60
 msgid "Mozilla Firefox & Thunderbird lock file"
-msgstr ""
+msgstr "Mozilla Firefoxi ja Thunderbirdi lukustusfail"
 
 #: qt/manageprofiles/excludesuggestions.py:62
-#, fuzzy
 msgid "Caches & Temporary directories"
-msgstr "Tagavarakoopia kaustad"
+msgstr "Vahemälud ja ajutised kaustad"
 
 #: qt/manageprofiles/excludesuggestions.py:63
 msgid "User application cache"
-msgstr ""
+msgstr "Rakenduste kasutajakohane puhver"
 
 #: qt/manageprofiles/excludesuggestions.py:64
 #: qt/manageprofiles/excludesuggestions.py:67
-#, fuzzy
 msgid "System temporary directory"
-msgstr "Ei saa eemaldada kausta"
+msgstr "Süsteemi ajutised kaustad"
 
 #: qt/manageprofiles/excludesuggestions.py:72
 msgid "Package cache for Debian(-based) GNU/Linux distributions"
-msgstr ""
+msgstr "Pakettide vahemälu Debiani-põhistes GNU/Linux-i distributsioonides"
 
 #: qt/manageprofiles/excludesuggestions.py:76
-#, fuzzy
 msgid "System runtime directories"
-msgstr "Näita peidetud kaustu"
+msgstr "Süsteemi käituskaustad"
 
 #: qt/manageprofiles/excludesuggestions.py:79
 msgid "Kernel and process information"
-msgstr ""
+msgstr "Kerneli ja protsesside teave"
 
 #: qt/manageprofiles/excludesuggestions.py:84
 msgid "Device and other hardware information (sysfs interface)"
-msgstr ""
+msgstr "Seadmete ja muu riistvara teave (sysfs liides)"
 
 #: qt/manageprofiles/excludesuggestions.py:87
 msgid "Device nodes"
-msgstr ""
+msgstr "Seadmete sõlmfailid"
 
 #: qt/manageprofiles/excludesuggestions.py:88
 msgid "Runtime system files"
-msgstr ""
+msgstr "Käitusaegsed süsteemifailid"
 
 #: qt/manageprofiles/excludesuggestions.py:90
 msgid "Other non-persistent"
-msgstr ""
+msgstr "Muud ajutised ja mittepüsivad failid"
 
 #: qt/manageprofiles/excludesuggestions.py:93
 msgid "List of currently mounted filesystems"
-msgstr ""
+msgstr "Hetkel haagitud failisüsteemide loend"
 
 #: qt/manageprofiles/excludesuggestions.py:96
 msgid "System swap file (virtual memory)"
-msgstr ""
+msgstr "Süsteemi saaleala fail (virtuaalmälu)"
 
 #: qt/manageprofiles/excludesuggestions.py:97
 msgid "GNOME virtual file system mount point"
-msgstr ""
+msgstr "GNOME'i virtuaalse failisüsteemi haakepunkt"
 
 #: qt/manageprofiles/excludesuggestions.py:98
 msgid "Recovered filesystem objects"
-msgstr ""
+msgstr "Taastatud objektid failisüstemis"
 
 #: qt/manageprofiles/excludesuggestions.py:100
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Varia"
 
 #: qt/manageprofiles/excludesuggestions.py:103
 msgid "Metadata directory on Microsoft Windows"
-msgstr ""
+msgstr "Metainfo kaust Microsoft Windowsis"
 
 #: qt/manageprofiles/excludesuggestions.py:106
 msgid "User recycle bin"
-msgstr ""
+msgstr "Kasutaja prügikast"
 
 #: qt/manageprofiles/excludesuggestions.py:107
-#, fuzzy
 msgid "System backup files"
-msgstr "Lõpeta varukoopia tegemine"
+msgstr "Süsteemi varundusfailid"
 
 #: qt/manageprofiles/excludesuggestions.py:134
-#, fuzzy
 msgid "Exclude Suggestions"
-msgstr "Välista kaustad"
+msgstr "Mõned soovitused välistamiseks"
 
 #: qt/manageprofiles/excludesuggestions.py:139
 msgid "Select commonly used items to add to backup exclusions."
 msgstr ""
+"Siit saad valida levinumaid faile ja kaustu mida võiks varundamisest "
+"välistada."
 
 #: qt/manageprofiles/excludesuggestions.py:152
-#, fuzzy
 msgid "Default"
-msgstr "vaikimisi"
+msgstr "Vaikimisi"
 
 #: qt/manageprofiles/excludesuggestions.py:153
 msgid "Reset to predefined selection"
-msgstr ""
+msgstr "Lähtesta eelseadistatud valikuks"
 
 #: qt/manageprofiles/schedulewidget.py:38
 msgid "Schedule"
@@ -1677,13 +1671,12 @@ msgid "Add directories"
 msgstr "Lisa kaustu"
 
 #: qt/manageprofiles/tab_exclude.py:118
-#, fuzzy
 msgid "Suggestions"
-msgstr "Palun vasta küsimusele"
+msgstr "Soovitused"
 
 #: qt/manageprofiles/tab_exclude.py:120
 msgid "Select from common used items to add to exclude list."
-msgstr ""
+msgstr "Vali näiteid tüüpilisest välistusloendist."
 
 #: qt/manageprofiles/tab_exclude.py:134
 msgid "Exclude files bigger than:"
@@ -2291,21 +2284,26 @@ msgstr "Failisüsteem"
 msgid "Backup directories"
 msgstr "Tagavarakoopia kaustad"
 
-#: qt/qtsystrayicon.py:73
+#: qt/qtsystrayicon.py:109
 #, python-brace-format
 msgid "Profile: {profile_name}"
 msgstr "Profiil: „{profile_name}“"
 
-#: qt/qtsystrayicon.py:113
+#: qt/qtsystrayicon.py:112
+#, fuzzy, python-brace-format
+msgid "Profile: {profile_name} (by user \"{desktop_user}\")"
+msgstr "Profiil: „{profile_name}“"
+
+#: qt/qtsystrayicon.py:155
 msgid "View Last Log"
 msgstr "Vaata viimast logi"
 
-#: qt/qtsystrayicon.py:117
+#: qt/qtsystrayicon.py:161
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "Käivita {appname}"
 
-#: qt/qtsystrayicon.py:204
+#: qt/qtsystrayicon.py:253
 msgid "Working…"
 msgstr "Töötan…"
 

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-12-14 16:59+0100\n"
-"PO-Revision-Date: 2025-11-24 11:42+0000\n"
+"POT-Creation-Date: 2025-12-22 15:22+0100\n"
+"PO-Revision-Date: 2025-12-19 08:21+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Finnish <https://translate.codeberg.org/projects/backintime/common/fi/>\n"
 "Language: fi\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14\n"
+"X-Generator: Weblate 5.15\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -238,7 +238,7 @@ msgid "Restore permissions"
 msgstr "Palauta käyttöoikeudet"
 
 #: common/snapshots.py:657 qt/app.py:240 qt/app.py:1150 qt/app.py:1166
-#: qt/qtsystrayicon.py:78
+#: qt/qtsystrayicon.py:118
 msgid "Done"
 msgstr "Valmis"
 
@@ -582,15 +582,15 @@ msgstr "Luo varmuuskopio (tarkistussummatila)"
 msgid "Use checksums for file change detection."
 msgstr "Havaitse muutokset tarkistussummista."
 
-#: qt/app.py:463 qt/qtsystrayicon.py:84
+#: qt/app.py:463 qt/qtsystrayicon.py:125
 msgid "Pause backup process"
 msgstr "Keskeytä varmuuskopiointi"
 
-#: qt/app.py:467 qt/qtsystrayicon.py:89
+#: qt/app.py:467 qt/qtsystrayicon.py:130
 msgid "Resume backup process"
 msgstr "Jatka varmuuskopiointia"
 
-#: qt/app.py:471 qt/qtsystrayicon.py:95
+#: qt/app.py:471 qt/qtsystrayicon.py:135
 msgid "Stop backup process"
 msgstr "Pysäytä varmuuskopiointi"
 
@@ -692,6 +692,7 @@ msgid "Report a bug"
 msgstr "Ilmoita ohjelmavirheestä"
 
 #: qt/app.py:555
+#, fuzzy
 msgid "Translation"
 msgstr "Käännös"
 
@@ -854,15 +855,15 @@ msgstr "Käsitellään"
 msgid "Error"
 msgstr "Virhe"
 
-#: qt/app.py:1294 qt/qtsystrayicon.py:246
+#: qt/app.py:1294 qt/qtsystrayicon.py:295
 msgid "Sent:"
 msgstr "Lähetetty:"
 
-#: qt/app.py:1295 qt/qtsystrayicon.py:247
+#: qt/app.py:1295 qt/qtsystrayicon.py:296
 msgid "Speed:"
 msgstr "Nopeus:"
 
-#: qt/app.py:1296 qt/qtsystrayicon.py:248
+#: qt/app.py:1296 qt/qtsystrayicon.py:297
 msgid "ETA:"
 msgstr "Arvioitu saapumisaika (ETA):"
 
@@ -1186,7 +1187,7 @@ msgstr "Suodatin:"
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] Virhe, [I] Tietoa, [C] Muutokset"
 
-#: qt/logviewdialog.py:103 qt/qtsystrayicon.py:107
+#: qt/logviewdialog.py:103 qt/qtsystrayicon.py:148
 msgid "decode paths"
 msgstr "dekoodaa polut"
 
@@ -2278,21 +2279,26 @@ msgstr "Tiedostojärjestelmä"
 msgid "Backup directories"
 msgstr "Varmuuskopiohakemistot"
 
-#: qt/qtsystrayicon.py:73
+#: qt/qtsystrayicon.py:109
 #, python-brace-format
 msgid "Profile: {profile_name}"
 msgstr "Profiili: ”{profile_name}”"
 
-#: qt/qtsystrayicon.py:113
+#: qt/qtsystrayicon.py:112
+#, fuzzy, python-brace-format
+msgid "Profile: {profile_name} (by user \"{desktop_user}\")"
+msgstr "Profiili: ”{profile_name}”"
+
+#: qt/qtsystrayicon.py:155
 msgid "View Last Log"
 msgstr "Näytä viimeisin loki"
 
-#: qt/qtsystrayicon.py:117
+#: qt/qtsystrayicon.py:161
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "Käynnistä {appname}"
 
-#: qt/qtsystrayicon.py:204
+#: qt/qtsystrayicon.py:253
 msgid "Working…"
 msgstr "Käsitellään…"
 

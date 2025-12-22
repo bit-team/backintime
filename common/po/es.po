@@ -16,16 +16,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-12-14 16:59+0100\n"
-"PO-Revision-Date: 2025-11-26 14:38+0000\n"
-"Last-Translator: alecsargent <alecsargent@noreply.codeberg.org>\n"
+"POT-Creation-Date: 2025-12-22 15:22+0100\n"
+"PO-Revision-Date: 2025-12-17 12:14+0000\n"
+"Last-Translator: gallegonovato <gallegonovato@noreply.codeberg.org>\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/backintime/common/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14\n"
+"X-Generator: Weblate 5.15\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -108,15 +108,15 @@ msgstr ""
 "parte del destino de la copia misma."
 
 #: common/config.py:359
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
 " space falls below\" ({val_two})."
 msgstr ""
-"El valor de «Eliminar la copia de respaldo más antigua si el espacio libre "
-"es menor a» ({val_one}) debe ser inferior o igual al umbral de «Avisar si el"
-" espacio libre en disco es menor a» ({val_two})."
+"El valor de «Eliminar la copia de seguridad más antigua si el espacio libre "
+"es inferior a» ({val_one}) debe ser inferior o igual al umbral de «Advertir "
+"si el espacio libre en disco es inferior a» ({val_two})."
 
 #: common/config.py:364
 msgid ""
@@ -184,14 +184,12 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #: common/encfstools.py:163
-#, fuzzy
 msgid "Please re-enter the EncFS password to confirm."
-msgstr "Introduzca una contraseña para «{user}»."
+msgstr "Por favor, vuelve a introducir la contraseña de EncFS para confirmar."
 
 #: common/encfstools.py:169
-#, fuzzy
 msgid "The EncFS passwords do not match."
-msgstr "La contraseña no coincide."
+msgstr "Las contraseñas de EncFS no coinciden."
 
 #: common/encfstools.py:513 common/snapshots.py:1130
 msgid "Take snapshot"
@@ -242,7 +240,7 @@ msgid "Restore permissions"
 msgstr "Restaurar permisos"
 
 #: common/snapshots.py:657 qt/app.py:240 qt/app.py:1150 qt/app.py:1166
-#: qt/qtsystrayicon.py:78
+#: qt/qtsystrayicon.py:118
 msgid "Done"
 msgstr "Finalizado"
 
@@ -354,14 +352,12 @@ msgid "Unable to rename {new_path} to {path}."
 msgstr "No se puede renombrar {new_path} a {path}."
 
 #: common/snapshots.py:2000
-#, fuzzy
 msgid "Applying rules to remove old backups"
-msgstr "Aplicar reglas para eliminar respaldos antiguos"
+msgstr "Aplicando reglas para eliminar copias de seguridad antiguas"
 
 #: common/snapshots.py:2033
-#, fuzzy
 msgid "Applying retention policy"
-msgstr "Aplicar política de retención"
+msgstr "Aplicación de la política de retención"
 
 #: common/snapshots.py:2043
 msgid "Trying to keep min free space"
@@ -598,15 +594,15 @@ msgstr "Crear un respaldo (modo suma de verificación)"
 msgid "Use checksums for file change detection."
 msgstr "Utiliza sumas de verificación para detectar cambios en los archivos."
 
-#: qt/app.py:463 qt/qtsystrayicon.py:84
+#: qt/app.py:463 qt/qtsystrayicon.py:125
 msgid "Pause backup process"
 msgstr "Pausar el proceso de respaldo"
 
-#: qt/app.py:467 qt/qtsystrayicon.py:89
+#: qt/app.py:467 qt/qtsystrayicon.py:130
 msgid "Resume backup process"
 msgstr "Reanudar el proceso de respaldo"
 
-#: qt/app.py:471 qt/qtsystrayicon.py:95
+#: qt/app.py:471 qt/qtsystrayicon.py:135
 msgid "Stop backup process"
 msgstr "Detener el proceso de respaldo"
 
@@ -889,15 +885,15 @@ msgstr "En curso"
 msgid "Error"
 msgstr "Error"
 
-#: qt/app.py:1294 qt/qtsystrayicon.py:246
+#: qt/app.py:1294 qt/qtsystrayicon.py:295
 msgid "Sent:"
 msgstr "Enviado:"
 
-#: qt/app.py:1295 qt/qtsystrayicon.py:247
+#: qt/app.py:1295 qt/qtsystrayicon.py:296
 msgid "Speed:"
 msgstr "Velocidad:"
 
-#: qt/app.py:1296 qt/qtsystrayicon.py:248
+#: qt/app.py:1296 qt/qtsystrayicon.py:297
 msgid "ETA:"
 msgstr "Tiempo restante estimado:"
 
@@ -1231,7 +1227,7 @@ msgstr "Filtrar:"
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] Error, [I] Información, [C] Cambiar"
 
-#: qt/logviewdialog.py:103 qt/qtsystrayicon.py:107
+#: qt/logviewdialog.py:103 qt/qtsystrayicon.py:148
 msgid "decode paths"
 msgstr "descodificar rutas"
 
@@ -2334,21 +2330,26 @@ msgstr "Sistema de archivos"
 msgid "Backup directories"
 msgstr "Directorios de copia de respaldo"
 
-#: qt/qtsystrayicon.py:73
+#: qt/qtsystrayicon.py:109
 #, python-brace-format
 msgid "Profile: {profile_name}"
 msgstr "Perfil: {profile_name}"
 
-#: qt/qtsystrayicon.py:113
+#: qt/qtsystrayicon.py:112
+#, fuzzy, python-brace-format
+msgid "Profile: {profile_name} (by user \"{desktop_user}\")"
+msgstr "Perfil: {profile_name}"
+
+#: qt/qtsystrayicon.py:155
 msgid "View Last Log"
 msgstr "Ver último registro"
 
-#: qt/qtsystrayicon.py:117
+#: qt/qtsystrayicon.py:161
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "Iniciar {appname}"
 
-#: qt/qtsystrayicon.py:204
+#: qt/qtsystrayicon.py:253
 msgid "Working…"
 msgstr "Trabajando…"
 

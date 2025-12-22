@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-12-14 16:59+0100\n"
-"PO-Revision-Date: 2025-11-11 15:00+0000\n"
+"POT-Creation-Date: 2025-12-22 15:22+0100\n"
+"PO-Revision-Date: 2025-12-22 14:21+0000\n"
 "Last-Translator: SomeTr <sometr@noreply.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.14\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -238,7 +238,7 @@ msgid "Restore permissions"
 msgstr "Відновлення дозволів"
 
 #: common/snapshots.py:657 qt/app.py:240 qt/app.py:1150 qt/app.py:1166
-#: qt/qtsystrayicon.py:78
+#: qt/qtsystrayicon.py:118
 msgid "Done"
 msgstr "Виконано"
 
@@ -577,15 +577,15 @@ msgstr "Зробити копію (режим контрольних сум)"
 msgid "Use checksums for file change detection."
 msgstr "Виявляти зміни за контрольними сумами."
 
-#: qt/app.py:463 qt/qtsystrayicon.py:84
+#: qt/app.py:463 qt/qtsystrayicon.py:125
 msgid "Pause backup process"
 msgstr "Зупинити створення копії"
 
-#: qt/app.py:467 qt/qtsystrayicon.py:89
+#: qt/app.py:467 qt/qtsystrayicon.py:130
 msgid "Resume backup process"
 msgstr "Продовжити створення копії"
 
-#: qt/app.py:471 qt/qtsystrayicon.py:95
+#: qt/app.py:471 qt/qtsystrayicon.py:135
 msgid "Stop backup process"
 msgstr "Скасувати створення копії"
 
@@ -775,19 +775,19 @@ msgstr "&Допомога"
 
 #: qt/app.py:745
 msgid "Systray Icon"
-msgstr ""
+msgstr "Значок у треї"
 
 #: qt/app.py:751
 msgid "Automatic"
-msgstr ""
+msgstr "Автоматично"
 
 #: qt/app.py:755
 msgid "Light icon"
-msgstr ""
+msgstr "Світлий значок"
 
 #: qt/app.py:756
 msgid "Dark icon"
-msgstr ""
+msgstr "Темний значок"
 
 #: qt/app.py:779
 msgid "Icons only"
@@ -849,15 +849,15 @@ msgstr "Виконання"
 msgid "Error"
 msgstr "Помилка"
 
-#: qt/app.py:1294 qt/qtsystrayicon.py:246
+#: qt/app.py:1294 qt/qtsystrayicon.py:295
 msgid "Sent:"
 msgstr "Надіслано:"
 
-#: qt/app.py:1295 qt/qtsystrayicon.py:247
+#: qt/app.py:1295 qt/qtsystrayicon.py:296
 msgid "Speed:"
 msgstr "Швидкість:"
 
-#: qt/app.py:1296 qt/qtsystrayicon.py:248
+#: qt/app.py:1296 qt/qtsystrayicon.py:297
 msgid "ETA:"
 msgstr "Залишилося:"
 
@@ -1182,7 +1182,7 @@ msgstr "Фільтр:"
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] Помилка, [I] Інформація, [C] Зміна"
 
-#: qt/logviewdialog.py:103 qt/qtsystrayicon.py:107
+#: qt/logviewdialog.py:103 qt/qtsystrayicon.py:148
 msgid "decode paths"
 msgstr "декодувати шляхи"
 
@@ -1271,156 +1271,150 @@ msgstr "Видалити профіль «{name}»?"
 
 #: qt/manageprofiles/excludesuggestions.py:33
 msgid "Editor & Office temporary files"
-msgstr ""
+msgstr "Тимчасові файли текстових редакторів"
 
 #: qt/manageprofiles/excludesuggestions.py:34
-#, fuzzy
 msgid "Emacs backup files"
-msgstr "Зупинити створення копії"
+msgstr "Файли резервних копій Emacs"
 
 #: qt/manageprofiles/excludesuggestions.py:35
-#, fuzzy
 msgid "Emacs autosave files"
-msgstr "Виключити файли"
+msgstr "Автоматично збережені файли Emacs"
 
 #: qt/manageprofiles/excludesuggestions.py:36
 msgid "Vim swap files"
-msgstr ""
+msgstr "Файли підкачування Vim"
 
 #: qt/manageprofiles/excludesuggestions.py:37
 msgid "Microsoft Office temporary files"
-msgstr ""
+msgstr "Тимчасові файли Microsoft Office"
 
 #: qt/manageprofiles/excludesuggestions.py:40
 msgid "LibreOffice & other OpenDocument Editors lock files"
-msgstr ""
+msgstr "Файли блокування LibreOffice та інших редакторів OpenDocument"
 
 #: qt/manageprofiles/excludesuggestions.py:44
 msgid "Thumbnails & Temporary Pictures"
-msgstr ""
+msgstr "Мініатюри і тимчасові зображення"
 
 #: qt/manageprofiles/excludesuggestions.py:47
 msgid "Thumbnail cache on GNU/Linux and other unixoid OS'es"
-msgstr ""
+msgstr "Кеш мініатюр у GNU/Linux та інших Unix-подібних ОС"
 
 #: qt/manageprofiles/excludesuggestions.py:50
 msgid "Thumbnail database on Windows"
-msgstr ""
+msgstr "База даних мініатюр у Windows"
 
 #: qt/manageprofiles/excludesuggestions.py:51
 msgid "Metadata directory on MacOS"
-msgstr ""
+msgstr "Каталог метаданих у MacOS"
 
 #: qt/manageprofiles/excludesuggestions.py:53
 msgid "Application-specific locks"
-msgstr ""
+msgstr "Блокування деяких програм"
 
 #: qt/manageprofiles/excludesuggestions.py:56
 msgid "Discord application lock file"
-msgstr ""
+msgstr "Файл блокування програми Discord"
 
 #: qt/manageprofiles/excludesuggestions.py:57
 msgid "Discord session lock file"
-msgstr ""
+msgstr "Файл блокування сеансу Discord"
 
 #: qt/manageprofiles/excludesuggestions.py:60
 msgid "Mozilla Firefox & Thunderbird lock file"
-msgstr ""
+msgstr "Файл блокування Mozilla Firefox і Thunderbird"
 
 #: qt/manageprofiles/excludesuggestions.py:62
-#, fuzzy
 msgid "Caches & Temporary directories"
-msgstr "Каталоги резервування"
+msgstr "Кеш і тимчасові каталоги"
 
 #: qt/manageprofiles/excludesuggestions.py:63
 msgid "User application cache"
-msgstr ""
+msgstr "Кеш користувацьких програм"
 
 #: qt/manageprofiles/excludesuggestions.py:64
 #: qt/manageprofiles/excludesuggestions.py:67
-#, fuzzy
 msgid "System temporary directory"
-msgstr "Не вдається видалити каталог"
+msgstr "Тимчасовий каталог системи"
 
 #: qt/manageprofiles/excludesuggestions.py:72
 msgid "Package cache for Debian(-based) GNU/Linux distributions"
-msgstr ""
+msgstr "Кеш пакунків для дистрибутивів GNU/Linux (на основі) Debian"
 
 #: qt/manageprofiles/excludesuggestions.py:76
-#, fuzzy
 msgid "System runtime directories"
-msgstr "Показати приховані каталоги"
+msgstr "Каталоги середовища виконання системи"
 
 #: qt/manageprofiles/excludesuggestions.py:79
 msgid "Kernel and process information"
-msgstr ""
+msgstr "Інформація про ядро і процеси"
 
 #: qt/manageprofiles/excludesuggestions.py:84
 msgid "Device and other hardware information (sysfs interface)"
-msgstr ""
+msgstr "Інформація про пристрій та інше обладнання (інтерфейс sysfs)"
 
 #: qt/manageprofiles/excludesuggestions.py:87
 msgid "Device nodes"
-msgstr ""
+msgstr "Файли пристроїв"
 
 #: qt/manageprofiles/excludesuggestions.py:88
 msgid "Runtime system files"
-msgstr ""
+msgstr "Системні файли середовища виконання"
 
 #: qt/manageprofiles/excludesuggestions.py:90
 msgid "Other non-persistent"
-msgstr ""
+msgstr "Інші тимчасові дані"
 
 #: qt/manageprofiles/excludesuggestions.py:93
 msgid "List of currently mounted filesystems"
-msgstr ""
+msgstr "Список змонтованих файлових систем"
 
 #: qt/manageprofiles/excludesuggestions.py:96
 msgid "System swap file (virtual memory)"
-msgstr ""
+msgstr "Системний файл підкачування (віртуальна пам’ять)"
 
 #: qt/manageprofiles/excludesuggestions.py:97
 msgid "GNOME virtual file system mount point"
-msgstr ""
+msgstr "Точка монтування віртуальної файлової системи GNOME"
 
 #: qt/manageprofiles/excludesuggestions.py:98
 msgid "Recovered filesystem objects"
-msgstr ""
+msgstr "Відновлені об’єкти файлової системи"
 
 #: qt/manageprofiles/excludesuggestions.py:100
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Різне"
 
 #: qt/manageprofiles/excludesuggestions.py:103
 msgid "Metadata directory on Microsoft Windows"
-msgstr ""
+msgstr "Каталог метаданих у Microsoft Windows"
 
 #: qt/manageprofiles/excludesuggestions.py:106
 msgid "User recycle bin"
-msgstr ""
+msgstr "Кошик користувача"
 
 #: qt/manageprofiles/excludesuggestions.py:107
-#, fuzzy
 msgid "System backup files"
-msgstr "Скасувати створення копії"
+msgstr "Файли резервних копій системи"
 
 #: qt/manageprofiles/excludesuggestions.py:134
-#, fuzzy
 msgid "Exclude Suggestions"
-msgstr "Виключити каталоги"
+msgstr "Пропозиції щодо виключення"
 
 #: qt/manageprofiles/excludesuggestions.py:139
 msgid "Select commonly used items to add to backup exclusions."
 msgstr ""
+"Виберіть часто використовувані елементи, які потрібно додати до виключень "
+"резервного копіювання."
 
 #: qt/manageprofiles/excludesuggestions.py:152
-#, fuzzy
 msgid "Default"
-msgstr "за замовчуванням"
+msgstr "За замовчуванням"
 
 #: qt/manageprofiles/excludesuggestions.py:153
 msgid "Reset to predefined selection"
-msgstr ""
+msgstr "Скинути до попередньо визначеного вибору"
 
 #: qt/manageprofiles/schedulewidget.py:38
 msgid "Schedule"
@@ -1666,13 +1660,12 @@ msgid "Add directories"
 msgstr "Додати каталоги"
 
 #: qt/manageprofiles/tab_exclude.py:118
-#, fuzzy
 msgid "Suggestions"
-msgstr "Питання"
+msgstr "Пропозиції"
 
 #: qt/manageprofiles/tab_exclude.py:120
 msgid "Select from common used items to add to exclude list."
-msgstr ""
+msgstr "Додайте до списку виключень часто використовувані елементи."
 
 #: qt/manageprofiles/tab_exclude.py:134
 msgid "Exclude files bigger than:"
@@ -2268,21 +2261,26 @@ msgstr "Файлова система"
 msgid "Backup directories"
 msgstr "Каталоги резервування"
 
-#: qt/qtsystrayicon.py:73
+#: qt/qtsystrayicon.py:109
 #, python-brace-format
 msgid "Profile: {profile_name}"
 msgstr "Профіль: {profile_name}"
 
-#: qt/qtsystrayicon.py:113
+#: qt/qtsystrayicon.py:112
+#, fuzzy, python-brace-format
+msgid "Profile: {profile_name} (by user \"{desktop_user}\")"
+msgstr "Профіль: {profile_name}"
+
+#: qt/qtsystrayicon.py:155
 msgid "View Last Log"
 msgstr "Переглянути останній журнал"
 
-#: qt/qtsystrayicon.py:117
+#: qt/qtsystrayicon.py:161
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "Запуск {appname}"
 
-#: qt/qtsystrayicon.py:204
+#: qt/qtsystrayicon.py:253
 msgid "Working…"
 msgstr "Виконання…"
 
