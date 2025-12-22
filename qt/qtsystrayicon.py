@@ -13,10 +13,14 @@
 """Separate application managing the systray icon"""
 import sys
 import os
+import re
+import pwd
+import json
 import subprocess
 import signal
 import textwrap
-
+import functools
+from typing import Callable
 # TODO Is this really required? If the client is not configured for X11
 #      it may use Wayland or something else...
 #      Or is this just required when run as root (where GUIs are not
@@ -38,6 +42,19 @@ from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QProgressBar, QWidget
 from PyQt6.QtGui import QIcon, QRegion
 
+
+def trust_required(method: Callable) -> Callable:
+    """Decorator to allow execution only if _trust_desktop is True."""
+    @functools.wraps(method)
+    def wrapper(self, *args, **kwargs):
+        if self._trust_desktop:
+            return method(self, *args, **kwargs)
+
+        return None
+
+    return wrapper
+
+
 class QtSysTrayIcon:
     """Application instance for the Back In Time systray icon"""
 
@@ -52,6 +69,8 @@ class QtSysTrayIcon:
         self.snapshots = snapshots.Snapshots()
         self.config = self.snapshots.config
         self.decode = None
+
+        self._current_user = pwd.getpwuid(os.getuid()).pw_name
 
         if len(sys.argv) > 1:
             if not self.config.setCurrentProfile(sys.argv[1]):
@@ -69,31 +88,53 @@ class QtSysTrayIcon:
         self.status_icon = self._create_status_icon()
         self.contextMenu = QMenu()
 
-        self.menuProfileName = self.contextMenu.addAction(
-            _('Profile: {profile_name}').format(
+        # The systray icon instance runs as the same user and with similar
+        # privilegs as the BIT instance itself; e.g. root.
+        # We need to know which user "owns" the desktop. If it is another
+        # user, the systray instance should not expose sensible data like
+        # paths of files and dirs in the backup.
+        desktop_user = self._determine_desktop_session_user()
+
+        self._trust_desktop = desktop_user == self._current_user
+
+        if self._trust_desktop:
+            logger.info('Trusting the desktop session.')
+        else:
+            logger.info(
+                'Not trusting the desktop session, which is owned by '
+                f'"{desktop_user}". '
+                f'But backup runs as "{self._current_user}".')
+
+        if self._trust_desktop:
+            txt = _('Profile: {profile_name}').format(
                 profile_name=self.config.profileName())
-        )
+        else:
+            txt = _('Profile: {profile_name} (by user "{desktop_user}")') \
+                .format(profile_name=self.config.profileName(),
+                        desktop_user=desktop_user)
+        self.menuProfileName = self.contextMenu.addAction(txt)
         self.contextMenu.addSeparator()
 
         self.menuStatusMessage = self.contextMenu.addAction(_('Done'))
+
         self.menuProgress = self.contextMenu.addAction('')
         self.menuProgress.setVisible(False)
         self.contextMenu.addSeparator()
 
         self.btnPause = self.contextMenu.addAction(
             icon.PAUSE, _('Pause backup process'))
-        action = lambda: os.kill(self.snapshots.pid(), signal.SIGSTOP)
-        self.btnPause.triggered.connect(action)
+        self.btnPause.triggered.connect(self._slot_pause)
+        self.btnPause.setVisible(self._trust_desktop)
 
         self.btnResume = self.contextMenu.addAction(
             icon.RESUME, _('Resume backup process'))
-        action = lambda: os.kill(self.snapshots.pid(), signal.SIGCONT)
-        self.btnResume.triggered.connect(action)
+        self.btnResume.triggered.connect(self._slot_resume)
         self.btnResume.setVisible(False)
 
         self.btnStop = self.contextMenu.addAction(
             icon.STOP, _('Stop backup process'))
         self.btnStop.triggered.connect(self.onBtnStop)
+        self.btnStop.setVisible(self._trust_desktop)
         self.contextMenu.addSeparator()
 
         # Dev note (2025-12, buhtz): I wondered why this decode checkbox is
@@ -106,17 +147,22 @@ class QtSysTrayIcon:
         self.btnDecode = self.contextMenu.addAction(
             icon.VIEW_SNAPSHOT_LOG, _('decode paths'))
         self.btnDecode.setCheckable(True)
-        self.btnDecode.setVisible(self.config.snapshotsMode() == 'ssh_encfs')
+        self.btnDecode.setVisible(
+            self.config.snapshotsMode() == 'ssh_encfs' and self._trust_desktop)
         self.btnDecode.toggled.connect(self.onBtnDecode)
 
         self.openLog = self.contextMenu.addAction(
             icon.VIEW_LAST_LOG, _('View Last Log'))
         self.openLog.triggered.connect(self.onOpenLog)
+        self.openLog.setVisible(self._trust_desktop)
+
         self.startBIT = self.contextMenu.addAction(
             icon.BIT_LOGO,
             _('Start {appname}').format(appname=self.config.APP_NAME)
         )
         self.startBIT.triggered.connect(self.onStartBIT)
+        self.startBIT.setVisible(self._trust_desktop)
+
         self.status_icon.setContextMenu(self.contextMenu)
 
         self.progressBar = self._create_progress_bar()
@@ -142,7 +188,6 @@ class QtSysTrayIcon:
             return QSystemTrayIcon(self.get_light_icon())
 
         return QSystemTrayIcon(self.get_dark_icon())
-
 
     def _create_progress_bar(self) -> QProgressBar:
         bar = QProgressBar()
@@ -196,10 +241,14 @@ class QtSysTrayIcon:
                 return
 
         paused = tools.processPaused(self.snapshots.pid())
-        self.btnPause.setVisible(not paused)
-        self.btnResume.setVisible(paused)
+        self.btnPause.setVisible(not paused and self._trust_desktop)
+        self.btnResume.setVisible(paused and self._trust_desktop)
 
-        message = self.snapshots.takeSnapshotMessage()
+        if self._trust_desktop:
+            message = self.snapshots.takeSnapshotMessage()
+        else:
+            message = None
+
         if message is None and self.last_message is None:
             message = (0, _('Working…'))
 
@@ -256,20 +305,31 @@ class QtSysTrayIcon:
 
             yield txt + ' ' + value
 
-    def onStartBIT(self):
+    @trust_required
+    def _slot_pause(self, *_args, **_kwargs):
+        os.kill(self.snapshots.pid(), signal.SIGSTOP)
+
+    @trust_required
+    def _slot_resume(self, *_args, **_kwargs):
+        os.kill(self.snapshots.pid(), signal.SIGCONT)
+
+    @trust_required
+    def onStartBIT(self, *_args, **_kwargs):
         profileID = self.config.currentProfile()
         cmd = ['backintime-qt',]
         if not profileID == '1':
             cmd += ['--profile-id', profileID]
         _proc = subprocess.Popen(cmd)
 
-    def onOpenLog(self):
+    @trust_required
+    def onOpenLog(self, *_args, **_kwargs):
         dlg = logviewdialog.LogViewDialog(
             parent=self,
             decode=self.btnDecode.isChecked())
         dlg.exec()
 
-    def onBtnDecode(self, checked):
+    @trust_required
+    def onBtnDecode(self, checked, *_args, **_kwargs):
         if checked:
             self.decode = encfstools.Decode(self.config)
             self.last_message = None
@@ -278,12 +338,162 @@ class QtSysTrayIcon:
 
         self.decode = None
 
-    def onBtnStop(self):
+    @trust_required
+    def onBtnStop(self, *_args, **_kwargs):
         os.kill(self.snapshots.pid(), signal.SIGKILL)
         self.btnStop.setEnabled(False)
         self.btnPause.setEnabled(False)
         self.btnResume.setEnabled(False)
         self.snapshots.setTakeSnapshotMessage(0, 'Backup terminated')
+
+    def _get_desktop_user_via_loginctl(self) -> str | None:
+        """Get name of user logged in to the current desktop session using
+        loginctl.
+        """
+
+        try:
+            # get list of sessions
+            cmd = ['loginctl', 'list-sessions', '--no-legend', '--json=short']
+            # logger.debug(f'Execute {cmd=}')
+            output = subprocess.check_output(cmd, text=True)
+
+        except FileNotFoundError:
+            logger.warning(
+                'Can not determine user name of current desktop '
+                'session because "loginctl" is not available.'
+            )
+            return None
+
+        except Exception as exc:
+            logger.error(
+                'Unexpected error while determining user name of '
+                f'current desktop session: {exc}'
+            )
+            return None
+
+        sessions = []
+
+        # Check each session
+        for session in json.loads(output):
+            # logger.debug(f'{session=}')
+            # Ignore none-user sessions
+            if session.get('class') != 'user':
+                continue
+
+            # properties of the session
+            info = subprocess.check_output(
+                [
+                    'loginctl',
+                    'show-session',
+                    str(session['session']),
+                    '--property=Active',
+                    '--property=Name',
+                    '--property=Seat',
+                    '--property=Type',
+                    '--property=Display',
+                ],
+                text=True
+            ).strip()
+            # logger.debug(f'{info=}')
+
+            props = dict(line.split('=', 1) for line in info.splitlines())
+            # logger.debug(f'{props=}')
+            sessions.append(props)
+
+        # logger.debug(f'{sessions=}')
+
+        display = os.environ.get('DISPLAY')
+        # logger.debug(f'{display=}')
+
+        if display:
+            display = display.split('.')[0]
+
+            matches = [
+                s for s in sessions
+                if s.get('Display', '').split('.')[0] == display
+            ]
+            # logger.debug(f'{matches=}')
+
+            if len(matches) == 1:
+                logger.debug(
+                    'User determined via loginctl using DISPLAY', self)
+                return matches[0].get('Name')
+
+            return None
+
+        # Fallback checking for one active session, if DISPLAY not set
+        fallback = [
+            s for s in sessions
+            if s.get('Active', '').lower() == 'yes'
+            and s.get('Seat') == 'seat0'
+            and s.get('Type') in ('x11', 'wayland')
+        ]
+
+        if len(fallback) == 1:
+            logger.debug(
+                'User determined via loginctl fallback (DISPLAY is not set)',
+                self)
+            return fallback[0].get('Name')
+
+        return None
+
+    def _get_desktop_user_via_x11_who(self) -> str | None:
+        """Using 'who' to determine the current DISPLAY's user.
+
+        The output of 'who' can look like this:
+
+        user     sshd pts/0   2025-09-16 08:30 (fe80::d65:ea81:c46f:7f0d%eth0)
+        lightdm  seat0        2025-09-15 16:07 (:0)
+        """
+        if not os.environ.get('DISPLAY'):
+            return None
+
+        try:
+            # list of users logged in
+            output = subprocess.check_output(['who'], text=True).strip()
+        except Exception as exc:
+            logger.error(
+                'Unexpected error while determining user name of '
+                f'current desktop session: {exc}'
+            )
+            return None
+
+        display = os.environ.get('DISPLAY', ':0').split('.')[0]
+
+        # each user
+        for line in output:
+            found = re.match(r'^(\S+).*\((.*)\)$', line)
+
+            if not found:
+                continue
+
+            user, userdisplay = found.groups()
+            userdisplay = userdisplay.split('.')[0]
+
+            if userdisplay == display:
+                logger.debug('User determined via x11 who', self)
+                return user
+
+        return None
+
+    def _determine_desktop_session_user(self):
+        """Return name of user logged in to the current desktop session.
+        """
+        logger.info(
+            'Try to determine user of current desktop session via loginctl')
+
+        user = self._get_desktop_user_via_loginctl()
+
+        if not user:
+            logger.info(
+                'Try to determine user of current desktop session via x11-who')
+            user = self._get_desktop_user_via_x11_who()
+
+        logger.info(
+            f'Systray Icon determined the user "{user}" as owner of '
+            'current desktop session.')
+
+        return user
 
     @classmethod
     def _get_icon_filled(cls, color: str) -> QIcon:
@@ -311,7 +521,8 @@ if __name__ == '__main__':
     if '--debug' in sys.argv:
         logger.DEBUG = True
 
-    logger.debug('Sub process tries to show systray icon, '
-                 f'called with args {str(sys.argv)}')
+    logger.debug(
+        f'Systray icon process (PID: {os.getpid()} User: {logger.USER}) '
+        f'called with {sys.argv}')
 
     QtSysTrayIcon().run()

@@ -107,6 +107,9 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
         except Exception as exc:
             logger.critical(f'Undefined situation: {exc}', self)
 
+        else:
+            logger.info('Systray icon sub process started.')
+
     # def processEnd(self):
     #     """Dev note(2025-07, buhtz): Method makes no sense to me anymore.
     #     Remove it soon.

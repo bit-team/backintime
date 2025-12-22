@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-12-14 16:59+0100\n"
+"POT-Creation-Date: 2025-12-22 15:22+0100\n"
 "PO-Revision-Date: 2025-04-10 10:35+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Slovak <https://translate.codeberg.org/projects/backintime/common/sk/>\n"
@@ -235,7 +235,7 @@ msgid "Restore permissions"
 msgstr "Obnoviť oprávnenia"
 
 #: common/snapshots.py:657 qt/app.py:240 qt/app.py:1150 qt/app.py:1166
-#: qt/qtsystrayicon.py:78
+#: qt/qtsystrayicon.py:118
 msgid "Done"
 msgstr "Hotovo"
 
@@ -585,17 +585,17 @@ msgstr "Vytvoriť snímku (režim kontrolného súčtu)"
 msgid "Use checksums for file change detection."
 msgstr "Použiť kontrolný súčet pre zistenie zmien."
 
-#: qt/app.py:463 qt/qtsystrayicon.py:84
+#: qt/app.py:463 qt/qtsystrayicon.py:125
 #, fuzzy
 msgid "Pause backup process"
 msgstr "Pozastaviť proces snímky"
 
-#: qt/app.py:467 qt/qtsystrayicon.py:89
+#: qt/app.py:467 qt/qtsystrayicon.py:130
 #, fuzzy
 msgid "Resume backup process"
 msgstr "Obnoviť proces snímky"
 
-#: qt/app.py:471 qt/qtsystrayicon.py:95
+#: qt/app.py:471 qt/qtsystrayicon.py:135
 #, fuzzy
 msgid "Stop backup process"
 msgstr "Zastaviť proces snímky"
@@ -875,15 +875,15 @@ msgstr "Prebieha"
 msgid "Error"
 msgstr "Chyba"
 
-#: qt/app.py:1294 qt/qtsystrayicon.py:246
+#: qt/app.py:1294 qt/qtsystrayicon.py:295
 msgid "Sent:"
 msgstr "Odoslané:"
 
-#: qt/app.py:1295 qt/qtsystrayicon.py:247
+#: qt/app.py:1295 qt/qtsystrayicon.py:296
 msgid "Speed:"
 msgstr "Rýchlosť:"
 
-#: qt/app.py:1296 qt/qtsystrayicon.py:248
+#: qt/app.py:1296 qt/qtsystrayicon.py:297
 msgid "ETA:"
 msgstr "ETA:"
 
@@ -1211,7 +1211,7 @@ msgstr "Filter:"
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] Chyba, [I] Informácia, [C] Zmena"
 
-#: qt/logviewdialog.py:103 qt/qtsystrayicon.py:107
+#: qt/logviewdialog.py:103 qt/qtsystrayicon.py:148
 msgid "decode paths"
 msgstr "dekódovanie ciest"
 
@@ -2329,21 +2329,26 @@ msgstr ""
 msgid "Backup directories"
 msgstr "Adresár záloh"
 
-#: qt/qtsystrayicon.py:73
+#: qt/qtsystrayicon.py:109
 #, python-brace-format
 msgid "Profile: {profile_name}"
 msgstr "Profil: \"{profile_name}\""
 
-#: qt/qtsystrayicon.py:113
+#: qt/qtsystrayicon.py:112
+#, fuzzy, python-brace-format
+msgid "Profile: {profile_name} (by user \"{desktop_user}\")"
+msgstr "Profil: \"{profile_name}\""
+
+#: qt/qtsystrayicon.py:155
 msgid "View Last Log"
 msgstr "Zobraziť posledný log"
 
-#: qt/qtsystrayicon.py:117
+#: qt/qtsystrayicon.py:161
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "Spustiť {appname}"
 
-#: qt/qtsystrayicon.py:204
+#: qt/qtsystrayicon.py:253
 msgid "Working…"
 msgstr "Prebieha…"
 
