@@ -59,8 +59,8 @@ class LogViewDialog(QDialog):  # pylint: disable=too-many-instance-attributes
         # pylint: disable-next=import-outside-toplevel
         import icon  # noqa: PLC0415
         self.setWindowIcon(icon.VIEW_SNAPSHOT_LOG)
-        self.setWindowTitle(
-            _('Last Log View') if sid is None else _('Backup Log View'))
+        self.setWindowTitle((
+            'Last Log View') if sid is None else _('Backup Log View'))
 
         main_layout = QVBoxLayout(self)
 
@@ -105,18 +105,7 @@ class LogViewDialog(QDialog):  # pylint: disable=too-many-instance-attributes
         self._checkbox_decode.setChecked(decode)
         main_layout.addWidget(self._checkbox_decode)
 
-        btn_layout = QHBoxLayout()
-        main_layout.addLayout(btn_layout)
-
-        btn_layout.addStretch(1)
-
-        btn_box_help = QDialogButtonBox(QDialogButtonBox.StandardButton.Help)
-        btn_layout.addWidget(btn_box_help)
-        btn_box_help.helpRequested.connect(self._slot_open_test_window)
-
-        btn_box = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)
-        btn_layout.addWidget(btn_box)
-        btn_box.rejected.connect(self.close)
+        self._create_buttons(main_layout)
 
         self._update_backups()
         self._update_decode()
@@ -296,89 +285,124 @@ class LogViewDialog(QDialog):  # pylint: disable=too-many-instance-attributes
         state_data.logview_dims = (self.width(), self.height())
         event.accept()
 
-    def _slot_open_test_window(self):
-        self.test_win = TestWindow(self)
-        self.test_win.show()
+    def _create_buttons(self, main_layout):
+        """Create Help and Close buttons"""
+        btn_layout = QHBoxLayout()
+        main_layout.addLayout(btn_layout)
+        btn_layout.addStretch(1)
+
+        self.help_window = HelpWindow()
+
+        btn_box_help = QDialogButtonBox(QDialogButtonBox.StandardButton.Help)
+        btn_layout.addWidget(btn_box_help)
+        btn_box_help.helpRequested.connect(self.help_window.show)
+
+        btn_box_close = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)
+        btn_layout.addWidget(btn_box_close)
+        btn_box_close.rejected.connect(self.close)
 
 
-class TestWindow(QDialog):
+class HelpWindow(QDialog):
+    """An rsync changes help dialog"""
+
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowTitle('Test')
-        layout = QVBoxLayout(self)
-        text = """
+        self.setWindowTitle(_('Rsync Changes Guide'))
+        text = _("""
         The rsync list of changes follows this format:
         YXcstpoguax  path/to/file
 
         The update types that replace the Y are as follows:
-            o    A < means that a file is being transferred to the remote host (sent).
+          o  A < means that a file is being transferred to the remote host
+             (sent).
 
-            o    A > means that a file is being transferred to the local host (received).
+          o  A > means that a file is being transferred to the local host
+             (received).
 
-            o    A c means that a local change/creation is occurring for the item (such as the creation of a directory or the changing of a symlink, etc.).
+          o  A c means that a local change/creation is occurring for the item
+             (such as the creation of a directory or the changing of a
+             symlink, etc.).
 
-            o    A h means that the item is a hard link to another item (requires --hard-links).
+          o  A h means that the item is a hard link to another item (requires
+             --hard-links).
 
-            o    A . means that the item is not being updated (though it might have attributes that are being modified).
+          o  A . means that the item is not being updated (though it might
+             have attributes that are being modified).
 
-            o    A * means that the rest of the itemized-output area contains a message (e.g. "deleting").
+          o  A * means that the rest of the itemized-output area contains a
+             message (e.g. "deleting").
 
-        The file-types that replace the X are: 
-            o    f for a file
+        The file-types that replace the X are:
+          o  f for a file
 
-            o    d for a directory
-            
-            o    L for a symlink
+          o  d for a directory
 
-            o    D for a device
+          o  L for a symlink
 
-            o    S for a special file (e.g. named sockets and fifos).
+          o  D for a device
 
-        The other letters in the string indicate if some attributes of the file have changed, as follows:
-            o    "." - the attribute is unchanged.
+          o  S for a special file (e.g. named sockets and fifos).
 
-            o    "+" - the file is newly created.
+        The other letters in the string indicate if some attributes of the
+        file have changed, as follows:
+          o  "." - the attribute is unchanged.
 
-            o    " " - all the attributes are unchanged (all dots turn to spaces).
+          o  "+" - the file is newly created.
 
-            o    "?" - the change is unknown (when the remote rsync is old).
+          o  " " - all the attributes are unchanged (all dots turn to spaces).
 
-            o    A letter indicates an attribute is being updated.
+          o  "?" - the change is unknown (when the remote rsync is old).
+
+          o  A letter indicates an attribute is being updated.
 
         The attribute that is associated with each letter is as follows:
-            o    A c means either that a regular file has a different checksum (requires --checksum) or that a symlink, device, or special file has a
-                 changed value.  Note that if you are sending files to an rsync prior to 3.0.1, this change flag will be present only for checksum-differing regular files.
+          o  A c means either that a regular file has a different checksum
+             (requires --checksum) or that a symlink, device, or special file
+             has a changed value.  Note that if you are sending files to an
+             rsync prior to 3.0.1, this change flag will be present only for
+             checksum-differing regular files.
 
-            o    A s means the size of a regular file is different and will be updated by the file transfer.
+          o  A s means the size of a regular file is different and will be
+             updated by the file transfer.
 
-            o    A t means the modification time is different and is being updated to the sender's value (requires --times).  An alternate value of T means that the
-                 modification time will be set to the transfer time, which happens when a file/symlink/device is updated without --times and when a symlink is changed 
-                 and the receiver can't set its time. (Note: when using an rsync 3.0.0 client, you might see the s flag combined with t instead of the proper T flag for 
-                 this time-setting failure.)
+          o  A t means the modification time is different and is being updated
+             to the sender's value (requires --times).  An alternate value of
+             T means that the modification time will be set to the transfer
+             time, which happens when a file/symlink/device is updated without
+             --times and when a symlink is changed and the receiver can't set
+             its time. (Note: when using an rsync 3.0.0 client, you might see
+             the s flag combined with t instead of the proper T flag for
+             this time-setting failure.)
 
-            o    A p means the permissions are different and are being updated to the sender's value (requires --perms).
+          o  A p means the permissions are different and are being updated to
+             the sender's value (requires --perms).
 
-            o    An o means the owner is different and is being updated to the sender's value (requires --owner and super-user privileges).
+          o  An o means the owner is different and is being updated to the
+             sender's value (requires --owner and super-user privileges).
 
-            o    A g means the group is different and is being updated to the sender's value (requires --group and the authority to set the group).
+          o  A g means the group is different and is being updated to the
+             sender's value (requires --group and the authority to set the
+             group).
 
-            o
+          o  A u|n|b indicates the following information:
+              o  u  means the access (use) time is different and is being
+                 updated to the sender's value (requires --atimes)
 
-                 o   A u|n|b indicates the following information:
+              o  n means the create time (newness) is different and is being
+                 updated to the sender's value (requires --crtimes)
 
-                     o   u  means the access (use) time is different and is being updated to the sender's value (requires --atimes)
+              o  b means that both the access and create times are being
+                 updated
 
-                 o   n means the create time (newness) is different and is being updated to the sender's value (requires --crtimes)
+          o  The a means that the ACL information is being changed.
 
-                 o   b means that both the access and create times are being updated
+          o  The x means that the extended attribute information is being
+             changed.
+        """)
 
-            o    The a means that the ACL information is being changed.
-
-            o    The x means that the extended attribute information is being changed. 
-        """
-
+        layout = QVBoxLayout(self)
         layout.addWidget(QLabel(text, self))
 
         btn_box = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)
-        btn_box.rejected.connect(self.close)
         layout.addWidget(btn_box)
+        btn_box.rejected.connect(self.close)
