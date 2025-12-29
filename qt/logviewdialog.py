@@ -59,8 +59,8 @@ class LogViewDialog(QDialog):  # pylint: disable=too-many-instance-attributes
         # pylint: disable-next=import-outside-toplevel
         import icon  # noqa: PLC0415
         self.setWindowIcon(icon.VIEW_SNAPSHOT_LOG)
-        self.setWindowTitle((
-            'Last Log View') if sid is None else _('Backup Log View'))
+        self.setWindowTitle(
+            _('Last Log View') if sid is None else _('Backup Log View'))
 
         main_layout = QVBoxLayout(self)
 
