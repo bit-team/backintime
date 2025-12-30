@@ -38,7 +38,6 @@ reviewing the documentation and suggesting improvements.
 # Index
 
 <!-- TOC start -->
-- [Quick guide](#quick-guide)
 - [Best practice and recommendations](#best-practice-and-recommendations)
 - [Resources & Further Readings](#resources--further-readings)
 - [Build & Install](#build--install)
@@ -57,38 +56,17 @@ reviewing the documentation and suggesting improvements.
   - [Treat other translators work with respect](#treat-other-translators-work-with-respect)
 - [Strategy Outline](#strategy-outline)
 - [Licensing of contributed material](#licensing-of-contributed-material)
+- [Quick technical guide](#quick-tecnical-guide)
 <!-- TOC end -->
 
-# Quick guide
-> [!CAUTION]
-> Please remember to create a new branch before you begin any modifications.
-> Baseline your feature or bug fix branch on `dev`
-> (reflecting the latest development state).
-
-1. Fork this repository. See Microsoft GitHub's own documentation about
-   [how to fork](https://docs.github.com/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo).
-
-2. Clone your own fork to your local machine and enter the directory:
-
-       $ git clone git@github.com:YOURNAME/backintime.git
-       $ cd backintime
-
-3. Create and checkout your own feature or bugfix branch with `dev` as baseline branch:
-
-       $ git checkout -b myfancyfeature dev
-
-4. Now you can add your modifications.
-
-5. Commit and push it to your forked repo:
-
-        $ git commit -am 'commit message'
-        $ git push
-
-6. Test your modifications. See section [Build & Install](#build--install) and [Testing](#testing) for further details.
-
-7. Visit your own repository on Microsoft GitHub's website and create a Pull Request.
-   See Microsoft GitHub's own documentation about
-   [how to create a Pull Request based on your own fork](https://docs.github.com/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
+# Before you start
+- *Read this document carefully.*
+- Remember that this project is maintained by volunteers in their free time –
+  human beings just like you.
+- [You should be a user of this software](FAQ.md#can-i-contribute-without-using-the-software).
+- [Introduce yourself](FAQ.md#why-do-i-need-to-introduce-myself).
+- Check out the [FAQ entries about contributing to the project](FAQ.md#project--contributing--more).
+- And finally: Don't refuse to read this document carefully!
 
 # Best practice and recommendations
 If possible, please consider the following best practices. This will
@@ -540,4 +518,35 @@ format. This data is
 or can be read from the local repository with
 [REUSE tools](https://reuse.software/).
 
-<sub>July 2025</sub>
+# Quick technical guide
+> [!CAUTION]
+> Please remember to create a new branch before you begin any modifications.
+> Baseline your feature or bug fix branch on `dev`
+> (reflecting the latest development state).
+
+1. Fork this repository. See Microsoft GitHub's own documentation about
+   [how to fork](https://docs.github.com/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo).
+
+2. Clone your own fork to your local machine and enter the directory:
+
+       $ git clone git@github.com:YOURNAME/backintime.git
+       $ cd backintime
+
+3. Create and checkout your own feature or bugfix branch with `dev` as baseline branch:
+
+       $ git checkout -b myfancyfeature dev
+
+4. Now you can add your modifications.
+
+5. Commit and push it to your forked repo:
+
+        $ git commit -am 'commit message'
+        $ git push
+
+6. Test your modifications. See section [Build & Install](#build--install) and [Testing](#testing) for further details.
+
+7. Visit your own repository on Microsoft GitHub's website and create a Pull Request.
+   See Microsoft GitHub's own documentation about
+   [how to create a Pull Request based on your own fork](https://docs.github.com/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
+
+<sub>January 2026</sub>
