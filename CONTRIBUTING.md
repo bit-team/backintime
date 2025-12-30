@@ -38,6 +38,7 @@ reviewing the documentation and suggesting improvements.
 # Index
 
 <!-- TOC start -->
+- [Before you start](#before-you-start)
 - [Best practice and recommendations](#best-practice-and-recommendations)
 - [Resources & Further Readings](#resources--further-readings)
 - [Build & Install](#build--install)
@@ -60,7 +61,7 @@ reviewing the documentation and suggesting improvements.
 <!-- TOC end -->
 
 # Before you start
-- *Read this document carefully.*
+- **Read this document carefully.**
 - Remember that this project is maintained by volunteers in their free time –
   human beings just like you.
 - [You should be a user of this software](FAQ.md#can-i-contribute-without-using-the-software).
