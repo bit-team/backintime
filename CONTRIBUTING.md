@@ -34,7 +34,6 @@ reviewing the documentation and suggesting improvements.
 > Don't forget to introduce yourself if you are new to the project. Also, read
 > this document carefully.
 
-
 # Index
 
 <!-- TOC start -->
@@ -45,7 +44,6 @@ reviewing the documentation and suggesting improvements.
   - [Dependencies](#dependencies)
   - [Build and install via `make` system
     (recommended)](#build-and-install-via-make-system-recommended)
-  - [Build own `deb` file](#build-own-deb-file)
 - [Testing](#testing)
   - [SSH](#SSH)
 - [What happens after you opened a Pull Request (PR)?](#what-happens-after-you-opened-a-pull-request-PR)
@@ -98,9 +96,10 @@ pull request being accepted.
 # Resources & Further readings
 
 - [Mailing list _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/)
-- [Source code documentation for developers](https://backintime-dev.readthedocs.org)
+<!-- - [Source code documentation for developers](https://backintime-dev.readthedocs.org) Not up-to-date. No real need. No access to the RTD account, it belongs to Germar. -->
 - [Translations](https://translate.codeberg.org/engage/backintime) are done on a separate platform.
 - [HowTo's and maintenance](doc/maintain/README.md)
+- [FAQ entries about contributing to the project](FAQ.md#project--contributing--more).
 - Further readings
    - [contribution-guide.org](https://www.contribution-guide.org)
    - [How to submit a contribution (opensource.guide)](https://opensource.guide/how-to-contribute/#how-to-submit-a-contribution)
