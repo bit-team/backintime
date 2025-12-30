@@ -30,6 +30,15 @@ providing feedback on new features, designing an
 reviewing the documentation and suggesting improvements.
 🚀 Every contribution helps the project grow! 🚀
 
+> [!IMPORTANT]
+> Don't forget to introduce yourself if you are new to the project. Also, read
+> this document carefully.
+
+> [!TIP]
+> Don't forget to introduce yourself if you are new to the project. Also, read
+> this document carefully.
+
+
 # Index
 
 <!-- TOC start -->
@@ -55,7 +64,7 @@ reviewing the documentation and suggesting improvements.
 <!-- TOC end -->
 
 # Quick guide
-> [!IMPORTANT]
+> [!CAUTION]
 > Please remember to create a new branch before you begin any modifications.
 > Baseline your feature or bug fix branch on `dev`
 > (reflecting the latest development state).
