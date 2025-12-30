@@ -67,27 +67,36 @@ class EncFS_mount(MountControl):
         """
         if self.password is None:
             self.password = self.config.password(self.parent, self.profile_id, self.mode)
-        logger.debug('Provide password through temp FIFO', self)
+
+        logger.debug(f'Provide password through temp FIFO {self.password=}', self)
+
         thread = TempPasswordThread(self.password)
         env = self.env()
         env['ASKPASS_TEMP'] = thread.temp_file
+
         with thread.starter():
             encfs = [self.mountproc, '--extpass=backintime-askpass']
+
             if self.reverse:
                 encfs += ['--reverse']
+
             if not self.isConfigured():
                 encfs += ['--standard']
-            encfs += [self.path, self.currentMountpoint]
-            logger.debug('Call mount command: %s'
-                         %' '.join(encfs),
-                         self)
 
-            proc = subprocess.Popen(encfs, env = env,
-                                    stdout = subprocess.PIPE,
-                                    stderr = subprocess.STDOUT,
-                                    universal_newlines = True)
+            encfs += [self.path, self.currentMountpoint]
+            logger.debug('Call mount command: ' + ' '.join(encfs), self)
+
+            proc = subprocess.Popen(
+                encfs,
+                env=env,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                universal_newlines=True
+            )
             output = proc.communicate()[0]
+
             self.backupConfig()
+
             if proc.returncode:
                 raise MountException(
                     '{}:\n\n{}\n\n{}'.format(

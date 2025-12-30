@@ -360,7 +360,7 @@ class GeneralTab(QDialog):
 
         # local_gocryptfs
         if self.mode == 'local_gocryptfs':
-            self.editSnapshotsPath.setText(self.config.localGocryptfsPath())
+            self._edit_backup_path.setText(self.config.localGocryptfsPath())
 
         self._load_passwords()
 
@@ -420,7 +420,7 @@ class GeneralTab(QDialog):
         self.config.setLocalEncfsPath(self._edit_backup_path.text())
 
         # save local_gocryptfs
-        self.config.setLocalGocryptfsPath(self.editSnapshotsPath.text())
+        self.config.setLocalGocryptfsPath(self._edit_backup_path.text())
 
         # schedule
         success = self._wdg_schedule.store_values(self.config)
@@ -485,12 +485,17 @@ class GeneralTab(QDialog):
         # pylint: disable=too-many-return-statements
         # preMountCheck
 
-        if not mnt.isConfigured(mode=self.config.snapshotsMode(), **mount_kwargs):
+        if not mnt.isConfigured(
+                mode=self.config.snapshotsMode(), **mount_kwargs):
+
             try:
-                mnt.init_backend(mode=self.config.snapshotsMode(), **mount_kwargs)
+                mnt.init_backend(
+                    mode=self.config.snapshotsMode(), **mount_kwargs)
+
             except MountException as ex:
                 messagebox.critical(self, str(ex))
                 return False
+
         try:
             # This will run several checks depending on the snapshots mode
             # used. Exceptions are raised if something goes wrong. On mode

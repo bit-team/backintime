@@ -72,8 +72,10 @@ class GocryptfsMount(MountControl):
         init the cipher path
         """
         if self.password is None:
-            self.password = self.config.password(self.parent, self.profile_id, self.mode)
-        logger.debug('Provide password through temp FIFO', self)
+            self.password = self.config.password(
+                self.parent, self.profile_id, self.mode)
+        logger.debug(f'Provide password through temp FIFO {self.password=}', self)
+
         thread = TempPasswordThread(self.password)
         env = os.environ.copy()
         env['ASKPASS_TEMP'] = thread.temp_file
