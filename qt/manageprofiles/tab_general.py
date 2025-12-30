@@ -171,7 +171,7 @@ class GeneralTab(QDialog):
         self._group_mode_ssh_encfs = self._group_mode_ssh
 
         # gocryptfs
-        self.modeLocalGocryptfs = self.modeLocal
+        self._group_mode_local_gocrypt = self._group_mode_local
 
         # password
         group_box = QGroupBox(self)
