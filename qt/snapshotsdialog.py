@@ -400,9 +400,9 @@ class SnapshotsDialog(QDialog):
         # prevent backup data from being accidentally overwritten
         # by create a temporary local copy and only open that one
         if not isinstance(sid1, snapshots.RootSnapshot):
-            path1 = self.parent.tmpCopy(path1, sid1)
+            path1 = self.parent._create_temporary_copy(path1, sid1)
         if not isinstance(sid2, snapshots.RootSnapshot):
-            path2 = self.parent.tmpCopy(path2, sid2)
+            path2 = self.parent._create_temporary_copy(path2, sid2)
 
         params = diffParams
         params = params.replace('%1', '"%s"' % path1)
