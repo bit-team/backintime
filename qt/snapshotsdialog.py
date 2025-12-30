@@ -373,7 +373,7 @@ class SnapshotsDialog(QDialog):
         # prevent backup data from being accidentally overwritten
         # by create a temporary local copy and only open that one
         if not isinstance(self.sid, snapshots.RootSnapshot):
-            full_path = self.parent.tmpCopy(full_path, sid)
+            full_path = self.parent._create_temporary_copy(full_path, sid)
 
         QDesktopServices.openUrl(QUrl(full_path))
 
