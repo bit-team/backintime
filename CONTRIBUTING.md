@@ -30,10 +30,6 @@ providing feedback on new features, designing an
 reviewing the documentation and suggesting improvements.
 🚀 Every contribution helps the project grow! 🚀
 
-> [!IMPORTANT]
-> Don't forget to introduce yourself if you are new to the project. Also, read
-> this document carefully.
-
 > [!TIP]
 > Don't forget to introduce yourself if you are new to the project. Also, read
 > this document carefully.
