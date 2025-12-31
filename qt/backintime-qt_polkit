@@ -17,4 +17,15 @@ else
     PREFIX=""
 fi
 
-pkexec --disable-internal-agent $PREFIX "/usr/bin/backintime-qt" "$@"
+# Catch error message of pkexec if there is one. Might happen if no polkit
+# agent is active, e.g. when using IceWM.
+ERR=$(pkexec --disable-internal-agent $PREFIX "/usr/bin/backintime-qt" "$@" 2>&1)
+
+STATUS=$?
+
+if [ -n "$ERR" ]; then
+    xmessage -nearmouse "Back In Time: Can't start in root mode.
+    Error: $ERR
+    Return code: $STATUS"
+    exit $STATUS
+fi
