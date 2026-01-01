@@ -27,7 +27,7 @@ pkexec --disable-internal-agent "${PREFIX}/usr/bin/backintime-qt" "$@" 2> >(tee 
 
 STATUS=$?
 
-if [[ ${STATUS} -ne 0 ]]; then
+if (( STATUS )); then
     ERR=$(< /tmp/backintime-error)
 
     xmessage -nearmouse "Back In Time: Problems running in root mode
