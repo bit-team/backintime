@@ -52,6 +52,7 @@ Version 1.6.0-dev (development of upcoming release)
 * Removed: LICENSE file in favor of LICENSES directory and LICENSES.md file
 * Removed: SSH Cipher configuration in Manage profiles dialog (#2143)
 * Fixed: Show proper message to users when root mode fails due to inactive or missing polkit agent (#2328, Derek Veit @DerekVeit)
+* Fixed: Crash in Compare snapshots dialog (aka Snapshots dialog) whhen comparing/diff two backups (#2327 Michael Neese @madic-creates)
 * Fixed: Enforce UTF-8 encoding in takesnapshot.log and some other files (#2298)
 * Fixed: Attribute error about missing 'cbCopyUnsafeLinks' (#2279)
 * Fixed: Use LC_ALL instead of LC_TIME to set the locale
