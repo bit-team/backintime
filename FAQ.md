@@ -59,6 +59,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
      * [Segmentation fault on Exit](#segmentation-fault-on-exit)
      * [Incompatibility with rsync >= 3.2.4](#incompatibility-with-rsync-324-or-newer)
 - [Hardware-specific Setup](#hardware-specific-setup)
+   * [How to use BIT with an Ugreen NAS?](#how-to-use-bit-with-an-ugreen-nas)
    * [How to use QNAP QTS NAS with BIT over SSH](#how-to-use-qnap-qts-nas-with-bit-over-ssh)
    * [How to use Synology DSM 5 with BIT over SSH](#how-to-use-synology-dsm-5-with-bit-over-ssh)
    * [How to use Synology DSM 6 with BIT over SSH](#how-to-use-synology-dsm-6-with-bit-over-ssh)
@@ -69,9 +70,10 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [Synology: use different volume for backup](#synology-use-different-volume-for-backup)
    * [How to use Western Digital MyBook World Edition with BIT over ssh?](#how-to-use-western-digital-mybook-world-edition-with-bit-over-ssh)
 - [Project & Contributing & more](#project--Contributing--more)
+   * [Why do I need to introduce myself?](#why-do-i-need-to-introduce-myself)
+   * [Can I contribute without using the software?](#can-i-contribute-without-using-the-software)
    * [Can you assign this to me?](#can-you-assign-this-to-me)
    * [Can I use @ mentions freely in issues or PRs?](#can-i-use--mentions-freely-in-issues-or-prs)
-   * [Can I contribute without using the software?](#can-i-contribute-without-using-the-software)
    * [Can I boost my commit count?](#can-i-boost-my-commit-count)
    * [Can I submit AI-generated contributions?](#can-i-submit-ai-generated-contributions)
    * [Alternative installation options](#alternative-installation-options)
@@ -917,6 +919,11 @@ _Back In Time_. In that case you may not see any problems.
 
 # Hardware-specific Setup
 
+## How to use BIT with an Ugreen NAS?
+Please see [this
+blogpost](https://www.ruinelli.ch/how-to-use-backintime-with-an-ugreen-nas) by
+George Ruinelli @caco3.
+
 ## How to use QNAP QTS NAS with BIT over SSH
 
 To use *BackInTime* over SSH with a QNAP NAS there is still some work to be done
@@ -1420,6 +1427,26 @@ documentation about Optware on http://mybookworld.wikidot.com/optware.
 
 # Project & Contributing & more
 
+## Why do I need to introduce myself?
+It helps maintainers understand who you are and how to communicate with
+you. This saves unnecessary effort on both sides by avoiding misunderstandings
+that could lead to rejected contributions. It also helps distinguish genuine
+contributors from accounts submitting low-quality or AI-generated changes
+merely to inflate commit statistics or stars, without real engagement in the
+project.
+
+Here is a small suggestion and guidance for your introduction:
+
+- How long and in what way have you been using BIT?
+- What experience and skills do you have in software development?
+- What are your current learning goals?
+- How did you become aware of this issue?
+
+## Can I contribute without using the software?
+No, in most cases. Contributors must be users of _Back In Time_. Real
+contributions require familiarity with the software, its behavior, and
+workflows. Real contributions come from real usage.
+
 ## Can you assign this to me?
 No. Don't ask. Comment with intent or a plan first. Otherwise its just noise.
 Your behavior disrespects contributors with real intent, and burden maintainers
@@ -1428,11 +1455,6 @@ who work on this project in their free time. Don't waste our time.
 ## Can I use @ mentions freely in issues or PRs?
 No. Never. Avoid them in all cases. Mentions trigger notifications and create
 noise. Maintainers and subscribed contributors already see all activity.
-
-## Can I contribute without using the software?
-No, in most cases. Contributors must be users of _Back In Time_. Real
-contributions require familiarity with the software, its behavior, and
-workflows. Real contributions come from real usage.
 
 ## Can I boost my commit count?
 No. Doing that can get your account blocked or deleted, because mainters will
