@@ -110,6 +110,8 @@ class EncFS_mount(MountControl):
         """
         init the cipher path
         """
+        return  # DEBUG
+
         if self.password is None:
             self.password = self.config.password(self.parent, self.profile_id, self.mode)
         logger.debug('Provide password through temp FIFO', self)
