@@ -2016,7 +2016,15 @@ class MainWindow(QMainWindow):
         self.updateFilesView(1)
 
     def _slot_files_view_item_activated(self, model_index):
-        if self.qapp.keyboardModifiers() and Qt.ControlModifier:
+        print('X'*100)
+        print('_slot_files_view_item_activated()')
+        # # Ctrl button pressed?
+        # modifiers = self.qapp.keyboardModifiers()
+        # if Qt.KeyboardModifier.ControlModifier in modifiers:
+        #     return
+
+        # Multiple items selected?
+        if len(self.filesView.selectionModel().selectedIndexes()) > 1:
             return
 
         if model_index is None:
