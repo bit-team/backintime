@@ -269,8 +269,9 @@ class MainWindow(QMainWindow):
 
         # signals
         self.timeLine.itemSelectionChanged.connect(self.timeLineChanged)
-        self.filesView.doubleClicked.connect(
-            self._slot_files_view_item_dbl_clicked)
+        # Dev note (buhtz, 2026-01): Don't use doubleClicked signal because
+        # it won't catch desktops with single-click-as-double-click settings.
+        self.filesView.activated.connect(self._slot_files_view_item_activated)
 
         self.forceWaitLockCounter = 0
 
@@ -2016,7 +2017,18 @@ class MainWindow(QMainWindow):
         self.showHiddenFiles = checked
         self.updateFilesView(1)
 
-    def _slot_files_view_item_dbl_clicked(self, model_index):
+    def _slot_files_view_item_activated(self, model_index):
+        # # Ctrl button pressed?
+        # modifiers = self.qapp.keyboardModifiers()
+        # if Qt.KeyboardModifier.ControlModifier in modifiers:
+        #     return
+        x = len(self.filesView.selectionModel().selectedIndexes())
+        print(f'{x=}')
+
+        # Multiple items selected?
+        if len(self.filesView.selectionModel().selectedIndexes()) > 1:
+            return
+
         if model_index is None:
             return
 
