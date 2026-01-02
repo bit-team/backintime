@@ -267,8 +267,8 @@ class MainWindow(QMainWindow):
 
         self.updateSnapshotActions()
 
-        # signals
         self.timeLine.itemSelectionChanged.connect(self.timeLineChanged)
+
         # Dev note (buhtz, 2026-01): Don't use doubleClicked signal because
         # it won't catch desktops with single-click-as-double-click settings.
         self.filesView.activated.connect(self._slot_files_view_item_activated)
