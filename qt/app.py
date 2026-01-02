@@ -269,7 +269,8 @@ class MainWindow(QMainWindow):
 
         # signals
         self.timeLine.itemSelectionChanged.connect(self.timeLineChanged)
-        self.filesView.activated.connect(self._slot_files_view_item_activated)
+        self.filesView.doubleClicked.connect(
+            self._slot_files_view_item_dbl_clicked)
 
         self.forceWaitLockCounter = 0
 
@@ -2015,18 +2016,7 @@ class MainWindow(QMainWindow):
         self.showHiddenFiles = checked
         self.updateFilesView(1)
 
-    def _slot_files_view_item_activated(self, model_index):
-        print('X'*100)
-        print('_slot_files_view_item_activated()')
-        # # Ctrl button pressed?
-        # modifiers = self.qapp.keyboardModifiers()
-        # if Qt.KeyboardModifier.ControlModifier in modifiers:
-        #     return
-
-        # Multiple items selected?
-        if len(self.filesView.selectionModel().selectedIndexes()) > 1:
-            return
-
+    def _slot_files_view_item_dbl_clicked(self, model_index):
         if model_index is None:
             return
 
