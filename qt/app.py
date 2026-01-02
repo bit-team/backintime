@@ -2018,16 +2018,15 @@ class MainWindow(QMainWindow):
         self.updateFilesView(1)
 
     def _slot_files_view_item_activated(self, model_index):
+        if not model_index:
+            return
+
         # Ctrl button pressed, indicates ongoing multiselection?
         modifiers = self.qapp.keyboardModifiers()
         if Qt.KeyboardModifier.ControlModifier in modifiers:
             return
 
-        if not model_index:
-            return
-
         rel_path = str(self.filesViewProxyModel.data(model_index))
-
         if not rel_path:
             return
 
