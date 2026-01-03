@@ -115,7 +115,7 @@ class Log(generic.SnapshotsTestCase):
             self.assertRegex(
                 f.read(),
                 re.compile(
-                    r'''========== Take snapshot \(profile .*\): .* ==========
+                    r'''========== Create backup \(profile .*\): .* ==========
 
 ''', re.MULTILINE))
 
@@ -134,9 +134,9 @@ class Log(generic.SnapshotsTestCase):
         with open(self.logFile, 'rt') as f:
             self.assertRegex(f.read(), re.compile(r'''foo
 bar
-Last snapshot didn't finish but can be continued.
+Last backup did not complete but can be resumed.
 
-======== continue snapshot \(profile .*\): .* ========
+======== Continue backup \(profile .*\): .* ========
 
 ''', re.MULTILINE))
 

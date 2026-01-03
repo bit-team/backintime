@@ -1,6 +1,7 @@
 Back In Time
 
 Version 1.6.0-dev (development of upcoming release)
+* Changed: New dependency "bash" for root mode starter script "backintime-qt_polkit" (#2328)
 * Changed: New dependency (runtime GUI) to "python3-pyqt6.qtsvg" for loading SVG icons (#1961)
 * Changed: Disable scheduling widget in GUI if cron/crontab is missing (#2245, @m4rcu5 Marcus von Dam)
 * Changed: "Repeatedly (anacron)" scheduling behave consistent. Reversed minor bug introduced with 060324e (#1791) in 1.5.3 (#2250)
@@ -51,6 +52,10 @@ Version 1.6.0-dev (development of upcoming release)
 * Removed: UI translation in Bosnian, Thai, and Occidental/Interlingue (#1914)
 * Removed: LICENSE file in favor of LICENSES directory and LICENSES.md file
 * Removed: SSH Cipher configuration in Manage profiles dialog (#2143)
+* Fixed: Show proper message to users when root mode fails due to inactive or missing polkit agent (#2328, Derek Veit @DerekVeit)
+* Fixed: Crash in Compare snapshots dialog (aka Snapshots dialog) when comparing/diff two backups (#2327 Michael Neese @madic-creates)
+* Fixed: File view and Compare Backups dialog now open the clicked item correctly even with multiple selection or single-click-to-open enabled (#2330)
+* Fixed: Crash in Compare snapshots dialog (aka Snapshots dialog) when comparing/diff two backups (#2327 Michael Neese @madic-creates)
 * Fixed: Enforce UTF-8 encoding in takesnapshot.log and some other files (#2298)
 * Fixed: Attribute error about missing 'cbCopyUnsafeLinks' (#2279)
 * Fixed: Use LC_ALL instead of LC_TIME to set the locale
@@ -59,6 +64,7 @@ Version 1.6.0-dev (development of upcoming release)
 * Fixed: Stop waking up monitor when inhibit suspend on backup starts (#714, #1090)
 * Fixed: Avoid shutdown confirmation dialog on Budgie and Cinnamon desktop environments (#788)
 * Fixed: Crash in "Manage profiles" dialog when using "qt6ct" (#2128)
+* Fixed: **Breaking** Systray process no longer exposes sensitive backup profile information when the desktop session belongs to another user (#2237, reported and co-authored by @samo-sk)
 * Fixed: Allow in BITs root-mode opening URLs in extern browse
 
 Version 1.5.6 (2025-10-05)

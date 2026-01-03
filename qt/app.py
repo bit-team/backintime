@@ -267,8 +267,10 @@ class MainWindow(QMainWindow):
 
         self.updateSnapshotActions()
 
-        # signals
         self.timeLine.itemSelectionChanged.connect(self.timeLineChanged)
+
+        # Dev note (buhtz, 2026-01): Don't use doubleClicked signal because
+        # it won't catch desktops with single-click-as-double-click settings.
         self.filesView.activated.connect(self._slot_files_view_item_activated)
 
         self.forceWaitLockCounter = 0
@@ -2016,14 +2018,15 @@ class MainWindow(QMainWindow):
         self.updateFilesView(1)
 
     def _slot_files_view_item_activated(self, model_index):
-        if self.qapp.keyboardModifiers() and Qt.ControlModifier:
+        if not model_index:
             return
 
-        if model_index is None:
+        # Ctrl button pressed, indicates ongoing multiselection?
+        modifiers = self.qapp.keyboardModifiers()
+        if Qt.KeyboardModifier.ControlModifier in modifiers:
             return
 
         rel_path = str(self.filesViewProxyModel.data(model_index))
-
         if not rel_path:
             return
 

@@ -30,17 +30,20 @@ providing feedback on new features, designing an
 reviewing the documentation and suggesting improvements.
 🚀 Every contribution helps the project grow! 🚀
 
+> [!TIP]
+> Don't forget to introduce yourself if you are new to the project. Also, read
+> this document carefully.
+
 # Index
 
 <!-- TOC start -->
-- [Quick guide](#quick-guide)
+- [Before you start](#before-you-start)
 - [Best practice and recommendations](#best-practice-and-recommendations)
 - [Resources & Further Readings](#resources--further-readings)
 - [Build & Install](#build--install)
   - [Dependencies](#dependencies)
   - [Build and install via `make` system
     (recommended)](#build-and-install-via-make-system-recommended)
-  - [Build own `deb` file](#build-own-deb-file)
 - [Testing](#testing)
   - [SSH](#SSH)
 - [What happens after you opened a Pull Request (PR)?](#what-happens-after-you-opened-a-pull-request-PR)
@@ -52,38 +55,17 @@ reviewing the documentation and suggesting improvements.
   - [Treat other translators work with respect](#treat-other-translators-work-with-respect)
 - [Strategy Outline](#strategy-outline)
 - [Licensing of contributed material](#licensing-of-contributed-material)
+- [Quick technical guide](#quick-tecnical-guide)
 <!-- TOC end -->
 
-# Quick guide
-> [!IMPORTANT]
-> Please remember to create a new branch before you begin any modifications.
-> Baseline your feature or bug fix branch on `dev`
-> (reflecting the latest development state).
-
-1. Fork this repository. See Microsoft GitHub's own documentation about
-   [how to fork](https://docs.github.com/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo).
-
-2. Clone your own fork to your local machine and enter the directory:
-
-       $ git clone git@github.com:YOURNAME/backintime.git
-       $ cd backintime
-
-3. Create and checkout your own feature or bugfix branch with `dev` as baseline branch:
-
-       $ git checkout -b myfancyfeature dev
-
-4. Now you can add your modifications.
-
-5. Commit and push it to your forked repo:
-
-        $ git commit -am 'commit message'
-        $ git push
-
-6. Test your modifications. See section [Build & Install](#build--install) and [Testing](#testing) for further details.
-
-7. Visit your own repository on Microsoft GitHub's website and create a Pull Request.
-   See Microsoft GitHub's own documentation about
-   [how to create a Pull Request based on your own fork](https://docs.github.com/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
+# Before you start
+- **Read this document carefully.**
+- Remember that this project is maintained by volunteers in their free time –
+  human beings just like you.
+- [You should be a user of this software](FAQ.md#can-i-contribute-without-using-the-software).
+- [Introduce yourself](FAQ.md#why-do-i-need-to-introduce-myself).
+- Check out the [FAQ entries about contributing to the project](FAQ.md#project--contributing--more).
+- And finally: Don't refuse to read this document carefully!
 
 # Best practice and recommendations
 If possible, please consider the following best practices. This will
@@ -114,9 +96,10 @@ pull request being accepted.
 # Resources & Further readings
 
 - [Mailing list _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/)
-- [Source code documentation for developers](https://backintime-dev.readthedocs.org)
+<!-- - [Source code documentation for developers](https://backintime-dev.readthedocs.org) Not up-to-date. No real need. No access to the RTD account, it belongs to Germar. -->
 - [Translations](https://translate.codeberg.org/engage/backintime) are done on a separate platform.
 - [HowTo's and maintenance](doc/maintain/README.md)
+- [FAQ entries about contributing to the project](FAQ.md#project--contributing--more).
 - Further readings
    - [contribution-guide.org](https://www.contribution-guide.org)
    - [How to submit a contribution (opensource.guide)](https://opensource.guide/how-to-contribute/#how-to-submit-a-contribution)
@@ -153,10 +136,11 @@ distribution.
 * Runtime dependencies for the GUI
 
   - `x11-utils`
-  - `python3-pyqt6` (not from _PyPi_ via `pip`)
+  - `python3-pyqt6` (Do not use the version from _PyPi_ via `pip`)
   - `python3-dbus.mainloop.pyqt6` (not available from _PyPi_ via `pip`)
   - `python3-pyqt6.qtsvg`
   - `pkexec`
+  - `bash` (Used by root mode starter script `qt/backintime-qt_polkit`)
   - `polkitd`
   - `qttranslations6-l10n`
   - `qtwayland6` (if Wayland is used as display server instead of X11)
@@ -535,4 +519,35 @@ format. This data is
 or can be read from the local repository with
 [REUSE tools](https://reuse.software/).
 
-<sub>July 2025</sub>
+# Quick technical guide
+> [!CAUTION]
+> Please remember to create a new branch before you begin any modifications.
+> Baseline your feature or bug fix branch on `dev`
+> (reflecting the latest development state).
+
+1. Fork this repository. See Microsoft GitHub's own documentation about
+   [how to fork](https://docs.github.com/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo).
+
+2. Clone your own fork to your local machine and enter the directory:
+
+       $ git clone git@github.com:YOURNAME/backintime.git
+       $ cd backintime
+
+3. Create and checkout your own feature or bugfix branch with `dev` as baseline branch:
+
+       $ git checkout -b myfancyfeature dev
+
+4. Now you can add your modifications.
+
+5. Commit and push it to your forked repo:
+
+        $ git commit -am 'commit message'
+        $ git push
+
+6. Test your modifications. See section [Build & Install](#build--install) and [Testing](#testing) for further details.
+
+7. Visit your own repository on Microsoft GitHub's website and create a Pull Request.
+   See Microsoft GitHub's own documentation about
+   [how to create a Pull Request based on your own fork](https://docs.github.com/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
+
+<sub>January 2026</sub>

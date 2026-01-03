@@ -15,16 +15,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-12-14 16:59+0100\n"
-"PO-Revision-Date: 2025-11-17 07:22+0000\n"
-"Last-Translator: Dirk <dirk@noreply.codeberg.org>\n"
+"POT-Creation-Date: 2025-12-22 15:22+0100\n"
+"PO-Revision-Date: 2025-12-19 08:21+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14\n"
+"X-Generator: Weblate 5.15\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -239,7 +239,7 @@ msgid "Restore permissions"
 msgstr "Berechtigungen wiederherstellen"
 
 #: common/snapshots.py:657 qt/app.py:240 qt/app.py:1150 qt/app.py:1166
-#: qt/qtsystrayicon.py:78
+#: qt/qtsystrayicon.py:118
 msgid "Done"
 msgstr "Erledigt"
 
@@ -594,15 +594,15 @@ msgstr "Erstelle Sicherung (Prüfsummenmodus)"
 msgid "Use checksums for file change detection."
 msgstr "Prüfsummen zur Erkennung von Dateiänderungen verwenden."
 
-#: qt/app.py:463 qt/qtsystrayicon.py:84
+#: qt/app.py:463 qt/qtsystrayicon.py:125
 msgid "Pause backup process"
 msgstr "Sicherungsprozess pausieren"
 
-#: qt/app.py:467 qt/qtsystrayicon.py:89
+#: qt/app.py:467 qt/qtsystrayicon.py:130
 msgid "Resume backup process"
 msgstr "Sicherungsprozess fortsetzen"
 
-#: qt/app.py:471 qt/qtsystrayicon.py:95
+#: qt/app.py:471 qt/qtsystrayicon.py:135
 msgid "Stop backup process"
 msgstr "Sicherungsprozess stoppen"
 
@@ -800,19 +800,19 @@ msgstr "&Hilfe"
 
 #: qt/app.py:745
 msgid "Systray Icon"
-msgstr ""
+msgstr "Benachrichtigungssymbol"
 
 #: qt/app.py:751
 msgid "Automatic"
-msgstr ""
+msgstr "Automatisch"
 
 #: qt/app.py:755
 msgid "Light icon"
-msgstr ""
+msgstr "Helles Symbol"
 
 #: qt/app.py:756
 msgid "Dark icon"
-msgstr ""
+msgstr "Dunkles Symbol"
 
 #: qt/app.py:779
 msgid "Icons only"
@@ -874,15 +874,15 @@ msgstr "In Arbeit"
 msgid "Error"
 msgstr "Fehler"
 
-#: qt/app.py:1294 qt/qtsystrayicon.py:246
+#: qt/app.py:1294 qt/qtsystrayicon.py:295
 msgid "Sent:"
 msgstr "Gesendet:"
 
-#: qt/app.py:1295 qt/qtsystrayicon.py:247
+#: qt/app.py:1295 qt/qtsystrayicon.py:296
 msgid "Speed:"
 msgstr "Geschwindigkeit:"
 
-#: qt/app.py:1296 qt/qtsystrayicon.py:248
+#: qt/app.py:1296 qt/qtsystrayicon.py:297
 msgid "ETA:"
 msgstr "ETA:"
 
@@ -1212,7 +1212,7 @@ msgstr "Filter:"
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] Fehler, [I] Information, [C] Änderung"
 
-#: qt/logviewdialog.py:103 qt/qtsystrayicon.py:107
+#: qt/logviewdialog.py:103 qt/qtsystrayicon.py:148
 msgid "decode paths"
 msgstr "Pfade dekodieren"
 
@@ -1300,156 +1300,148 @@ msgstr "Das Profil »{name}« löschen?"
 
 #: qt/manageprofiles/excludesuggestions.py:33
 msgid "Editor & Office temporary files"
-msgstr ""
+msgstr "Editor- und Office-Temporärdateien"
 
 #: qt/manageprofiles/excludesuggestions.py:34
-#, fuzzy
 msgid "Emacs backup files"
-msgstr "Sicherungsprozess pausieren"
+msgstr "Emacs-Sicherungsdateien"
 
 #: qt/manageprofiles/excludesuggestions.py:35
-#, fuzzy
 msgid "Emacs autosave files"
-msgstr "Dateien ausschließen"
+msgstr "Emacs-Autospeicherdateien"
 
 #: qt/manageprofiles/excludesuggestions.py:36
 msgid "Vim swap files"
-msgstr ""
+msgstr "Vim-Swap-Dateien"
 
 #: qt/manageprofiles/excludesuggestions.py:37
 msgid "Microsoft Office temporary files"
-msgstr ""
+msgstr "Temporäre Dateien von Microsoft Office"
 
 #: qt/manageprofiles/excludesuggestions.py:40
 msgid "LibreOffice & other OpenDocument Editors lock files"
-msgstr ""
+msgstr "Sperrdateien von LibreOffice und anderen OpenDocument-Editoren"
 
 #: qt/manageprofiles/excludesuggestions.py:44
 msgid "Thumbnails & Temporary Pictures"
-msgstr ""
+msgstr "Vorschaubilder und temporäre Bilder"
 
 #: qt/manageprofiles/excludesuggestions.py:47
 msgid "Thumbnail cache on GNU/Linux and other unixoid OS'es"
-msgstr ""
+msgstr "Cache für Vorschaubilder unter GNU/Linux anderen unixoiden Systemen"
 
 #: qt/manageprofiles/excludesuggestions.py:50
 msgid "Thumbnail database on Windows"
-msgstr ""
+msgstr "Vorschaubild-Datenbank unter Windows"
 
 #: qt/manageprofiles/excludesuggestions.py:51
 msgid "Metadata directory on MacOS"
-msgstr ""
+msgstr "Metadaten-Verzeichnis unter macOS"
 
 #: qt/manageprofiles/excludesuggestions.py:53
 msgid "Application-specific locks"
-msgstr ""
+msgstr "Anwendungsspezifische Sperrdateien"
 
 #: qt/manageprofiles/excludesuggestions.py:56
 msgid "Discord application lock file"
-msgstr ""
+msgstr "Discord Anwendungssperrdatei"
 
 #: qt/manageprofiles/excludesuggestions.py:57
 msgid "Discord session lock file"
-msgstr ""
+msgstr "Discord Sitzungssperrdatei"
 
 #: qt/manageprofiles/excludesuggestions.py:60
 msgid "Mozilla Firefox & Thunderbird lock file"
-msgstr ""
+msgstr "Mozilla Firefox und Thunderbird Sperrdatei"
 
 #: qt/manageprofiles/excludesuggestions.py:62
-#, fuzzy
 msgid "Caches & Temporary directories"
-msgstr "Sicherungsverzeichnisse"
+msgstr "Caches und temporäre Verzeichnisse"
 
 #: qt/manageprofiles/excludesuggestions.py:63
 msgid "User application cache"
-msgstr ""
+msgstr "Cache für Benutzeranwendungen"
 
 #: qt/manageprofiles/excludesuggestions.py:64
 #: qt/manageprofiles/excludesuggestions.py:67
-#, fuzzy
 msgid "System temporary directory"
-msgstr "Verzeichnis kann nicht entfernt werden"
+msgstr "Temporäres Verzeichnis des Systems"
 
 #: qt/manageprofiles/excludesuggestions.py:72
 msgid "Package cache for Debian(-based) GNU/Linux distributions"
-msgstr ""
+msgstr "Paket-Cache für Debian-(basierte) GNU/Linux-Distributionen"
 
 #: qt/manageprofiles/excludesuggestions.py:76
-#, fuzzy
 msgid "System runtime directories"
-msgstr "Versteckte Verzeichnisse anzeigen"
+msgstr "Runtime-Verzeichnis des Systems"
 
 #: qt/manageprofiles/excludesuggestions.py:79
 msgid "Kernel and process information"
-msgstr ""
+msgstr "Kernel- und Prozessinformationen"
 
 #: qt/manageprofiles/excludesuggestions.py:84
 msgid "Device and other hardware information (sysfs interface)"
-msgstr ""
+msgstr "Gräte- und Hardwareinformationen (sysfs-Schnittestelle)"
 
 #: qt/manageprofiles/excludesuggestions.py:87
 msgid "Device nodes"
-msgstr ""
+msgstr "Gerätedateien"
 
 #: qt/manageprofiles/excludesuggestions.py:88
 msgid "Runtime system files"
-msgstr ""
+msgstr "Runtime-Systemdateien"
 
 #: qt/manageprofiles/excludesuggestions.py:90
 msgid "Other non-persistent"
-msgstr ""
+msgstr "Weitere nicht-persistente Daten"
 
 #: qt/manageprofiles/excludesuggestions.py:93
 msgid "List of currently mounted filesystems"
-msgstr ""
+msgstr "Liste aktuell eigehängter Dateisysteme"
 
 #: qt/manageprofiles/excludesuggestions.py:96
 msgid "System swap file (virtual memory)"
-msgstr ""
+msgstr "Swap-Datei des Systems (virtueller Speicher)"
 
 #: qt/manageprofiles/excludesuggestions.py:97
 msgid "GNOME virtual file system mount point"
-msgstr ""
+msgstr "Einhängepunkt des GNOME Virtual File System"
 
 #: qt/manageprofiles/excludesuggestions.py:98
 msgid "Recovered filesystem objects"
-msgstr ""
+msgstr "Verwaiste und wiederhergestellte Dateisystemobjekte"
 
 #: qt/manageprofiles/excludesuggestions.py:100
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Sonstiges"
 
 #: qt/manageprofiles/excludesuggestions.py:103
 msgid "Metadata directory on Microsoft Windows"
-msgstr ""
+msgstr "Metadaten-Verzeichnis unter Microsoft Windows"
 
 #: qt/manageprofiles/excludesuggestions.py:106
 msgid "User recycle bin"
-msgstr ""
+msgstr "Persönlicher Papierkorb"
 
 #: qt/manageprofiles/excludesuggestions.py:107
-#, fuzzy
 msgid "System backup files"
-msgstr "Sicherungsprozess stoppen"
+msgstr "Sicherungsdateien des Systems"
 
 #: qt/manageprofiles/excludesuggestions.py:134
-#, fuzzy
 msgid "Exclude Suggestions"
-msgstr "Verzeichnisse ausschließen"
+msgstr "Vorschläge für Ausschlüsse"
 
 #: qt/manageprofiles/excludesuggestions.py:139
 msgid "Select commonly used items to add to backup exclusions."
-msgstr ""
+msgstr "Wähle übliche Elemente aus, um sie von der Sicherung auszuschließen."
 
 #: qt/manageprofiles/excludesuggestions.py:152
-#, fuzzy
 msgid "Default"
 msgstr "Standard"
 
 #: qt/manageprofiles/excludesuggestions.py:153
 msgid "Reset to predefined selection"
-msgstr ""
+msgstr "Zurücksetzen auf vordefinierte Auswahl"
 
 #: qt/manageprofiles/schedulewidget.py:38
 msgid "Schedule"
@@ -1696,13 +1688,12 @@ msgid "Add directories"
 msgstr "Verzeichnisse hinzufügen"
 
 #: qt/manageprofiles/tab_exclude.py:118
-#, fuzzy
 msgid "Suggestions"
-msgstr "Frage"
+msgstr "Vorschläge"
 
 #: qt/manageprofiles/tab_exclude.py:120
 msgid "Select from common used items to add to exclude list."
-msgstr ""
+msgstr "Häufig genutzte Elemente für die Ausschlussliste auswählen."
 
 #: qt/manageprofiles/tab_exclude.py:134
 msgid "Exclude files bigger than:"
@@ -2319,21 +2310,26 @@ msgstr "Dateisystem"
 msgid "Backup directories"
 msgstr "Sicherungsverzeichnisse"
 
-#: qt/qtsystrayicon.py:73
+#: qt/qtsystrayicon.py:109
 #, python-brace-format
 msgid "Profile: {profile_name}"
 msgstr "Profil: {profile_name}"
 
-#: qt/qtsystrayicon.py:113
+#: qt/qtsystrayicon.py:112
+#, fuzzy, python-brace-format
+msgid "Profile: {profile_name} (by user \"{desktop_user}\")"
+msgstr "Profil: {profile_name}"
+
+#: qt/qtsystrayicon.py:155
 msgid "View Last Log"
 msgstr "Letztes Protokoll ansehen"
 
-#: qt/qtsystrayicon.py:117
+#: qt/qtsystrayicon.py:161
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "{appname} starten"
 
-#: qt/qtsystrayicon.py:204
+#: qt/qtsystrayicon.py:253
 msgid "Working…"
 msgstr "In Arbeit …"
 
