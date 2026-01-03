@@ -13,8 +13,8 @@ import json
 from pathlib import Path
 from datetime import datetime, timezone
 from copy import deepcopy
-from qttools_path import registerBackintimePath
-registerBackintimePath('common')
+from qttools_path import register_backintime_path
+register_backintime_path('common')
 import singleton  # noqa: E402
 import logger  # noqa: E402
 import tools  # noqa: E402
@@ -112,7 +112,7 @@ class StateData(dict, metaclass=singleton.Singleton):
                 Tuple with column index and its sorting order (0=ascending).
             """
             return self._state['gui']['manage_profiles'][
-                'excl_sorting'][self._profile_id]
+                    'excl_sorting'][self._profile_id]
 
         @exclude_sorting.setter
         def exclude_sorting(self, vals: tuple[int, int]) -> None:

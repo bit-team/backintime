@@ -14,6 +14,7 @@ import tempfile
 from datetime import datetime
 from packaging.version import Version
 import config
+import encode
 import password
 import password_ipc
 import tools
@@ -27,6 +28,16 @@ class EncFS_mount(MountControl):
     """Mount encrypted paths with encfs."""
 
     def __init__(self, *args, **kwargs):
+        # # TODO: Remove these debug calls as they are just to help me
+        # # setup testing!
+        # logger.debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        # logger.debug("REMOVE THESE TEMPORARY DEBUG LINES!")
+        # logger.debug("EncFS_mount args:")
+        # logger.debug(str(args))
+        # logger.debug("EncFS_mount kwargs:")
+        # logger.debug(str(kwargs))
+        # logger.debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
         # init MountControl
         super(EncFS_mount, self).__init__(*args, **kwargs)
 
@@ -36,6 +47,7 @@ class EncFS_mount(MountControl):
         self.config_path = None
 
         self.setattrKwargs('path', self.config.localEncfsPath(self.profile_id), **kwargs)
+        # print(f"{self.path=}")  # DEBUG
         self.setattrKwargs('reverse', False, **kwargs)
         self.setattrKwargs('config_path', None, **kwargs)
         self.setattrKwargs('password', None, store = False, **kwargs)
@@ -77,10 +89,12 @@ class EncFS_mount(MountControl):
             self.backupConfig()
             if proc.returncode:
                 raise MountException(
-                    '{}:\n\n{}'.format(
+                    '{}:\n\n{}\n\n{}'.format(
                         _("Unable to mount '{command}'")
                         .format(command=' '.join(encfs)),
-                        output))
+                        output,
+                        f"Return code: {proc.returncode}",
+                    ))
 
     def preMountCheck(self, first_run=False):
         """Check what ever conditions must be given for the mount.
@@ -208,6 +222,7 @@ class EncFS_mount(MountControl):
                      %(cfg, new_backup), self)
         shutil.copy2(cfg, new_backup)
 
+
 class EncFS_SSH(EncFS_mount):
     """
     Mount encrypted remote path with sshfs and encfs.
@@ -273,7 +288,7 @@ class EncFS_SSH(EncFS_mount):
         call umount for encfs, encfs --reverse and sshfs
         """
         self.config.ENCODE.close()
-        self.config.ENCODE = Bounce()
+        self.config.ENCODE = encode.Bounce()
         logger.debug('Unmount encfs', self)
         super(EncFS_SSH, self).umount(*args, **kwargs)
         logger.debug('Unmount local filesystem root mount encfs --reverse', self)
@@ -340,11 +355,13 @@ class EncFS_SSH(EncFS_mount):
                 d['hash_id'] = d['hash_id_1']
             return d
 
+
 class Encode:
     """
     encode path with encfsctl.
     ENCFS_SSH will replace config.ENCODE with this
     """
+
     def __init__(self, encfs):
         self.encfs = encfs
         self.password = self.encfs.password
@@ -410,8 +427,10 @@ class Encode:
 
         enc = ''
         m = self.re_asterisk.search(path)
+
         if not m is None:
             path_ = path[:]
+
             while True:
                 #search for foo/*, foo/*/bar, */bar or **/bar
                 #but not foo* or foo/*bar
@@ -462,34 +481,13 @@ class Encode:
             logger.debug('stop \'encfsctl encode\' process', self)
             self.p.communicate()
 
-class Bounce:
-    """
-    Dummy class that will simply return all input.
-    This is the standard for config.ENCODE
-    """
-    def __init__(self):
-        self.chroot = os.sep
-
-    def path(self, path):
-        return path
-
-    def exclude(self, path):
-        return path
-
-    def include(self, path):
-        return path
-
-    def remote(self, path):
-        return path
-
-    def close(self):
-        pass
 
 class Decode:
     """
     decode path with encfsctl.
     """
-    def __init__(self, cfg, string = True):
+
+    def __init__(self, cfg, string=True):
         self.config = cfg
         self.mode = cfg.snapshotsMode()
 

@@ -8,6 +8,7 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Test related to diagnostics.py"""
 import unittest
+from unittest.mock import patch
 import diagnostics
 
 
@@ -30,8 +31,11 @@ class General(unittest.TestCase):
         # 2nd level "host-setup"
         self.assertCountEqual(sut['host-setup'].keys(), ['OS'])
 
-    def test_some_content(self):
+    @patch("diagnostics._get_qt_information")
+    def test_some_content(self, mock_qt):
         """Some contained elements"""
+        mock_qt.return_value = {}
+
         result = diagnostics.collect_diagnostics()
 
         # 1st level keys
@@ -47,8 +51,7 @@ class General(unittest.TestCase):
             self.assertIn(key, result['backintime'], key)
 
         # 2nd level "host-setup"
-        minimal_keys = ['platform', 'system', 'display-system', 'locale',
-                        'PATH', 'RSYNC_OLD_ARGS', 'RSYNC_PROTECT_ARGS']
+        minimal_keys = ['platform', 'system', 'locale', 'PATH']
         for key in minimal_keys:
             self.assertIn(key, result['host-setup'], key)
 
@@ -56,7 +59,8 @@ class General(unittest.TestCase):
         self.assertIn('python', result['python-setup'], 'python')
 
         # 2nd level "external-programs"
-        minimal_keys = ['rsync', 'shell']
+        minimal_keys = [
+            'rsync', 'shell', 'RSYNC_OLD_ARGS', 'RSYNC_PROTECT_ARGS']
         for key in minimal_keys:
             self.assertIn(key, result['external-programs'], key)
 

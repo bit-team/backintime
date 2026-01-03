@@ -842,8 +842,8 @@ class SSH(MountControl):
 
             tmp_file = os.path.join(tmp, 'a')
 
-            with open(tmp_file, 'wt') as f:
-                f.write('foo')
+            with open(tmp_file, mode='wt', encoding='utf-8') as handle:
+                handle.write('foo')
 
             # check rsync
             rsync1 = tools.rsyncPrefix(
@@ -1018,7 +1018,7 @@ class SSH(MountControl):
                         .format(host=self.host, command=command)
                     raise MountException(msg)
 
-            msg = _('Check commands on host {host} returned unknown error') \
+            msg = _('Checking commands on host {host} returned unknown error') \
                 .format(host=self.host)
             raise MountException(f'{msg}: "{err}"')
 
@@ -1294,8 +1294,8 @@ def sshHostKey(host, port='22'):
                                     stderr=subprocess.DEVNULL)
             proc.communicate()
 
-            with open(keyFile, 'rt') as f:
-                hostKeyHash = f.read().strip()
+            with open(keyFile, mode='rt', encoding='utf-8') as handle:
+                hostKeyHash = handle.read().strip()
 
         return (hostKeyFingerprint, hostKeyHash, t.upper())
 
@@ -1346,9 +1346,9 @@ def writeKnownHostsFile(key):
     if not os.path.isdir(sshDir):
         tools.mkdir(sshDir, 0o700)
 
-    with open(knownHostFile, 'at') as f:
-        logger.info('Write host key to {}'.format(knownHostFile))
-        f.write(key + '\n')
+    with open(knownHostFile, mode='at', encoding='utf-8') as handle:
+        logger.info(f'Write host key to f{knownHostFile}')
+        handle.write(key + '\n')
 
 
 def get_private_ssh_key_files() -> list[Path]:
@@ -1357,19 +1357,22 @@ def get_private_ssh_key_files() -> list[Path]:
     # folder containing the key files
     ssh_path = Path.home() / '.ssh'
 
-    # exclude by filename
-    potential_key_files = filter(
-        # irrelevant files
-        lambda fp: fp.name not in (
-            'known_hosts',
-            'authorized_keys',
-            'config',
-            'backup'
+    try:
+        # exclude by filename
+        potential_key_files = filter(
+            # irrelevant files
+            lambda fp: fp.name not in (
+                'known_hosts',
+                'authorized_keys',
+                'config',
+                'backup'
+            )
+            # no public keys
+            and fp.suffix  != '.pub',
+            ssh_path.iterdir()
         )
-        # no public keys
-        and fp.suffix  != '.pub',
-        ssh_path.iterdir()
-    )
+    except FileNotFoundError:
+        potential_key_files = []
 
     result = []
 
@@ -1378,9 +1381,15 @@ def get_private_ssh_key_files() -> list[Path]:
 
     # check content
     for fp in potential_key_files:
-        with fp.open('r', encoding='utf-8') as handle:
-            if rex.match(handle.readline().strip()):
-                result.append(fp)
+        if not fp.is_file():
+            continue
+        try:
+            with fp.open('r', encoding='utf-8') as handle:
+                if rex.match(handle.readline().strip()):
+                    result.append(fp)
+        except OSError:
+            # ignore files that cannot be opened (e.g. sockets)
+            continue
 
     # prioritize 'ed25519' keys and move them to the beginning of the list
     result = sorted(result, key=lambda e: 0 if 'ed25519' in e.name else 1)

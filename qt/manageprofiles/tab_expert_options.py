@@ -10,6 +10,7 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""About Export Options tab"""
 from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
                              QHBoxLayout,
@@ -27,18 +28,21 @@ from manageprofiles.statebindcheckbox import StateBindCheckBox
 
 class ExpertOptionsTab(QDialog):
     """The 'Expert Options' tab in the Manage Profiles dialog."""
+    # pylint: disable=too-many-instance-attributes
 
-    def __init__(self, parent):
+    def __init__(self, parent):  # noqa: PLR0915
+        # pylint: disable=too-many-statements
         super().__init__(parent=parent)
 
         self._parent_dialog = parent
 
         tab_layout = QVBoxLayout(self)
 
-        label = QLabel('<strong>{}</strong> {}'.format(
-            _('Caution:'),
-            _('These options are for advanced configurations. Modify '
-              'only if fully aware of their implications.')))
+        label = QLabel(
+            '<strong>' + _('Caution:') + '</strong> ' + _(
+                'These options are for advanced configurations. Modify '
+                'only if fully aware of their implications.')
+        )
         label.setWordWrap(True)
         tab_layout.addWidget(label)
 
@@ -50,17 +54,17 @@ class ExpertOptionsTab(QDialog):
         grid.setColumnMinimumWidth(0, 20)  # left indent
         tab_layout.addLayout(grid)
 
-        self.cbNiceOnCron = QCheckBox(
+        self._cb_nice_on_cron = QCheckBox(
             _('as cron job')
             + self._default_string(self.config.DEFAULT_RUN_NICE_FROM_CRON),
             self)
-        grid.addWidget(self.cbNiceOnCron, 0, 1)
+        grid.addWidget(self._cb_nice_on_cron, 0, 1)
 
-        self.cbNiceOnRemote = QCheckBox(
+        self._cb_nice_on_remote = QCheckBox(
             _('on remote host')
             + self._default_string(self.config.DEFAULT_RUN_NICE_ON_REMOTE),
             self)
-        grid.addWidget(self.cbNiceOnRemote, 1, 1)
+        grid.addWidget(self._cb_nice_on_remote, 1, 1)
 
         # --- rsync with ionice ---
         tab_layout.addWidget(QLabel(
@@ -69,23 +73,23 @@ class ExpertOptionsTab(QDialog):
         grid.setColumnMinimumWidth(0, 20)
         tab_layout.addLayout(grid)
 
-        self.cbIoniceOnCron = QCheckBox(
+        self._cb_ionice_on_cron = QCheckBox(
             _('as cron job')
             + self._default_string(self.config.DEFAULT_RUN_IONICE_FROM_CRON),
             self)
-        grid.addWidget(self.cbIoniceOnCron, 0, 1)
+        grid.addWidget(self._cb_ionice_on_cron, 0, 1)
 
-        self.cbIoniceOnUser = QCheckBox(
+        self._cb_ionice_on_user = QCheckBox(
             _('when taking a manual backup')
             + self._default_string(self.config.DEFAULT_RUN_IONICE_FROM_USER),
             self)
-        grid.addWidget(self.cbIoniceOnUser, 1, 1)
+        grid.addWidget(self._cb_ionice_on_user, 1, 1)
 
-        self.cbIoniceOnRemote = QCheckBox(
+        self._cb_ionice_on_remote = QCheckBox(
             _('on remote host')
             + self._default_string(self.config.DEFAULT_RUN_IONICE_ON_REMOTE),
             self)
-        grid.addWidget(self.cbIoniceOnRemote, 2, 1)
+        grid.addWidget(self._cb_ionice_on_remote, 2, 1)
 
         # --- rsync with nocache ---
         tab_layout.addWidget(QLabel(
@@ -105,61 +109,61 @@ class ExpertOptionsTab(QDialog):
                 0,
                 1)
 
-        self.cbNocacheOnLocal = QCheckBox(
+        self._cb_nocache_on_local = QCheckBox(
             _('on local machine')
             + self._default_string(self.config.DEFAULT_RUN_NOCACHE_ON_LOCAL),
             self)
-        grid.addWidget(self.cbNocacheOnLocal, 1, 1)
-        self.cbNocacheOnLocal.setEnabled(nocache_available)
+        grid.addWidget(self._cb_nocache_on_local, 1, 1)
+        self._cb_nocache_on_local.setEnabled(nocache_available)
 
-        self.cbNocacheOnRemote = QCheckBox(
+        self._cb_nocache_on_remote = QCheckBox(
             _('on remote host')
             + self._default_string(self.config.DEFAULT_RUN_NOCACHE_ON_REMOTE),
             self)
-        grid.addWidget(self.cbNocacheOnRemote, 2, 1)
+        grid.addWidget(self._cb_nocache_on_remote, 2, 1)
 
         # --- redirect output ---
-        self.cbRedirectStdoutInCron = QCheckBox(
+        self._cb_redirect_stdout_cron = QCheckBox(
             _('Redirect stdout to /dev/null in cronjobs.')
             + self._default_string(
                 self.config.DEFAULT_REDIRECT_STDOUT_IN_CRON),
             self)
         qttools.set_wrapped_tooltip(
-            self.cbRedirectStdoutInCron,
+            self._cb_redirect_stdout_cron,
             _('Cron will automatically send an email with attached output '
               'of cronjobs if an MTA is installed.')
         )
-        tab_layout.addWidget(self.cbRedirectStdoutInCron)
+        tab_layout.addWidget(self._cb_redirect_stdout_cron)
 
-        self.cbRedirectStderrInCron = QCheckBox(
+        self._cb_redirect_stderr_cron = QCheckBox(
             _('Redirect stderr to /dev/null in cronjobs.')
             + self._default_string(
                 self.config.DEFAULT_REDIRECT_STDERR_IN_CRON),
             self)
         qttools.set_wrapped_tooltip(
-            self.cbRedirectStderrInCron,
+            self._cb_redirect_stderr_cron,
             _('Cron will automatically send an email with attached errors '
               'of cronjobs if an MTA is installed.')
         )
-        tab_layout.addWidget(self.cbRedirectStderrInCron)
+        tab_layout.addWidget(self._cb_redirect_stderr_cron)
 
         # bandwidth limit
         hlayout = QHBoxLayout()
         tab_layout.addLayout(hlayout)
 
-        self.spbBwlimit = QSpinBox(self)
-        self.spbBwlimit.setSuffix(' ' + _('KB/sec'))
-        self.spbBwlimit.setSingleStep(100)
-        self.spbBwlimit.setRange(0, 1000000)
+        self._spb_bwlimit = QSpinBox(self)
+        self._spb_bwlimit.setSuffix(' ' + _('KB/sec'))
+        self._spb_bwlimit.setSingleStep(100)
+        self._spb_bwlimit.setRange(0, 1000000)
 
-        self.cbBwlimit = StateBindCheckBox(
-            _('Limit rsync bandwidth usage:'), self, self.spbBwlimit)
-        hlayout.addWidget(self.cbBwlimit)
-        hlayout.addWidget(self.spbBwlimit)
+        self._cb_bwlimit = StateBindCheckBox(
+            _('Limit rsync bandwidth usage:'), self, self._spb_bwlimit)
+        hlayout.addWidget(self._cb_bwlimit)
+        hlayout.addWidget(self._spb_bwlimit)
         hlayout.addStretch()
 
         qttools.set_wrapped_tooltip(
-            self.cbBwlimit,
+            self._cb_bwlimit,
             [
                 "Uses 'rsync --bwlimit=RATE'. From 'man rsync':",
                 'This option allows you to specify the maximum transfer rate '
@@ -194,9 +198,9 @@ class ExpertOptionsTab(QDialog):
             ]
         )
 
-        self.cbPreserveAcl = QCheckBox(_('Preserve ACL'), self)
+        self._cb_preserve_acl = QCheckBox(_('Preserve ACL'), self)
         qttools.set_wrapped_tooltip(
-            self.cbPreserveAcl,
+            self._cb_preserve_acl,
             [
                 "Uses 'rsync -A'. From 'man rsync':",
                 'This option causes rsync to update the destination ACLs to '
@@ -209,12 +213,12 @@ class ExpertOptionsTab(QDialog):
                 'that are not compatible.'
             ]
         )
-        tab_layout.addWidget(self.cbPreserveAcl)
+        tab_layout.addWidget(self._cb_preserve_acl)
 
-        self.cbPreserveXattr = QCheckBox(
+        self._cb_preserve_xattr = QCheckBox(
             _('Preserve extended attributes (xattr)'), self)
         qttools.set_wrapped_tooltip(
-            self.cbPreserveXattr,
+            self._cb_preserve_xattr,
             [
                 "Uses 'rsync -X'. From 'man rsync':",
                 'This option causes rsync to update the destination extended '
@@ -232,12 +236,12 @@ class ExpertOptionsTab(QDialog):
                 'used with --fake-super.'
             ]
         )
-        tab_layout.addWidget(self.cbPreserveXattr)
+        tab_layout.addWidget(self._cb_preserve_xattr)
 
-        self.cbCopyUnsafeLinks = QCheckBox(
+        self._cb_copy_unsafe_links = QCheckBox(
             _('Copy unsafe links (works only with absolute links)'), self)
         qttools.set_wrapped_tooltip(
-            self.cbCopyUnsafeLinks,
+            self._cb_copy_unsafe_links,
             [
                 "Uses 'rsync --copy-unsafe-links'. From 'man rsync':",
                 'This tells rsync to copy the referent of symbolic links that '
@@ -247,12 +251,12 @@ class ExpertOptionsTab(QDialog):
                 'no additional effect if --copy-links was also specified.'
             ]
         )
-        tab_layout.addWidget(self.cbCopyUnsafeLinks)
+        tab_layout.addWidget(self._cb_copy_unsafe_links)
 
-        self.cbCopyLinks = QCheckBox(
+        self._cb_copy_links = QCheckBox(
             _('Copy links (dereference symbolic links)'), self)
         qttools.set_wrapped_tooltip(
-            self.cbCopyLinks,
+            self._cb_copy_links,
             [
                 "Uses 'rsync --copy-links'. From 'man rsync':",
                 'When symlinks are encountered, the item that they point to '
@@ -267,13 +271,13 @@ class ExpertOptionsTab(QDialog):
                 'older receiving rsync.'
             ]
         )
-        tab_layout.addWidget(self.cbCopyLinks)
+        tab_layout.addWidget(self._cb_copy_links)
 
         # one file system option
-        self.cbOneFileSystem = QCheckBox(
+        self._cb_one_filesystem = QCheckBox(
             _('Restrict to one file system'), self)
         qttools.set_wrapped_tooltip(
-            self.cbOneFileSystem,
+            self._cb_one_filesystem,
             [
                 "Uses 'rsync --one-file-system'. From 'man rsync':",
                 'This tells rsync to avoid crossing a filesystem boundary '
@@ -286,73 +290,71 @@ class ExpertOptionsTab(QDialog):
                 'being on the same filesystem.'
             ]
         )
-        tab_layout.addWidget(self.cbOneFileSystem)
+        tab_layout.addWidget(self._cb_one_filesystem)
 
         # additional rsync options
         tooltip = _('Options must be quoted e.g. {example}.').format(
             example='--exclude-from="/path/to/my exclude file"')
 
-        self.txtRsyncOptions = QLineEdit(self)
-        self.txtRsyncOptions.editingFinished.connect(
+        self._txt_rsync_options = QLineEdit(self)
+        self._txt_rsync_options.editingFinished.connect(
             self._slot_rsync_options_editing_finished)
-        self.txtRsyncOptions.setToolTip(tooltip)
+        self._txt_rsync_options.setToolTip(tooltip)
 
-        self.cbRsyncOptions = StateBindCheckBox(
+        self._cb_rsync_options = StateBindCheckBox(
             _('Paste additional options to rsync'),
             self,
-            self.txtRsyncOptions)
+            self._txt_rsync_options)
 
-        self.cbRsyncOptions.setToolTip(tooltip)
+        self._cb_rsync_options.setToolTip(tooltip)
 
         # ssh prefix
+
+        rsync_options_value = '--rsync-path="FOO=bar:\\$FOO /usr/bin/rsync"'
         tooltip = [
             _('Prefix to run before every command on remote host.'),
             _("Variables need to be escaped with \\$FOO. This doesn't touch "
               'rsync. So to add a prefix for rsync use "{example_value}" with '
               '{rsync_options_value}.').format(
-                  example_value=self.cbRsyncOptions.text(),
-                  rsync_options_value \
-                      ='--rsync-path="FOO=bar:\\$FOO /usr/bin/rsync"'),
+                  example_value=self._cb_rsync_options.text(),
+                  rsync_options_value=rsync_options_value),
             '',
-            '{default}: {def_value}'.format(
-                default=_('default'),
-                def_value=self.config.DEFAULT_SSH_PREFIX)
+            _('default') + ': ' + self.config.DEFAULT_SSH_PREFIX
         ]
-        self.txtSshPrefix = QLineEdit(self)
-        qttools.set_wrapped_tooltip(self.txtSshPrefix, tooltip)
-        self.cbSshPrefix = StateBindCheckBox(
-            _('Add prefix to SSH commands'), self, self.txtSshPrefix)
-        qttools.set_wrapped_tooltip(self.cbSshPrefix, tooltip)
+        self._txt_ssh_prefix = QLineEdit(self)
+        qttools.set_wrapped_tooltip(self._txt_ssh_prefix, tooltip)
+        self._cb_ssh_prefix = StateBindCheckBox(
+            _('Add prefix to SSH commands'), self, self._txt_ssh_prefix)
+        qttools.set_wrapped_tooltip(self._cb_ssh_prefix, tooltip)
 
         sub_grid = QGridLayout()
-        sub_grid.addWidget(self.cbRsyncOptions, 0, 0)
-        sub_grid.addWidget(self.txtRsyncOptions, 0, 1)
-        sub_grid.addWidget(self.cbSshPrefix, 1, 0)
-        sub_grid.addWidget(self.txtSshPrefix, 1, 1)
+        sub_grid.addWidget(self._cb_rsync_options, 0, 0)
+        sub_grid.addWidget(self._txt_rsync_options, 0, 1)
+        sub_grid.addWidget(self._cb_ssh_prefix, 1, 0)
+        sub_grid.addWidget(self._txt_ssh_prefix, 1, 1)
         tab_layout.addLayout(sub_grid)
 
-        self.cbSshCheckPing = QCheckBox(_('Check if remote host is online'))
+        self._cb_ssh_ping = QCheckBox(_('Check if remote host is online'))
         qttools.set_wrapped_tooltip(
-            self.cbSshCheckPing,
+            self._cb_ssh_ping,
             _('Warning: If disabled and the remote host is not available, '
               'this could lead to some weird errors.')
         )
-        self.cbSshCheckCommands = QCheckBox(
+        self._cb_ssh_check_commands = QCheckBox(
             _('Check if remote host supports all necessary commands.'))
         qttools.set_wrapped_tooltip(
-            self.cbSshCheckCommands,
+            self._cb_ssh_check_commands,
             _('Warning: If disabled and the remote host does not support all '
               'necessary commands, this could lead to some weird errors.')
         )
-        tab_layout.addWidget(self.cbSshCheckPing)
-        tab_layout.addWidget(self.cbSshCheckCommands)
+        tab_layout.addWidget(self._cb_ssh_ping)
+        tab_layout.addWidget(self._cb_ssh_check_commands)
 
-        #
         tab_layout.addStretch()
-
 
     @property
     def config(self) -> config.Config:
+        """The config instance."""
         return self._parent_dialog.config
 
     def _default_string(self, value: bool) -> str:
@@ -360,72 +362,79 @@ class ExpertOptionsTab(QDialog):
             _('enabled') if value else _('disabled'))
 
     def load_values(self):
-        self.cbNiceOnCron.setChecked(self.config.niceOnCron())
-        self.cbIoniceOnCron.setChecked(self.config.ioniceOnCron())
-        self.cbIoniceOnUser.setChecked(self.config.ioniceOnUser())
-        self.cbNiceOnRemote.setChecked(self.config.niceOnRemote())
-        self.cbIoniceOnRemote.setChecked(self.config.ioniceOnRemote())
-        self.cbNocacheOnLocal.setChecked(
-            self.config.nocacheOnLocal() and self.cbNocacheOnLocal.isEnabled())
-        self.cbNocacheOnRemote.setChecked(self.config.nocacheOnRemote())
-        self.cbRedirectStdoutInCron.setChecked(
+        """Load config values into the GUI"""
+
+        self._cb_nice_on_cron.setChecked(self.config.niceOnCron())
+        self._cb_ionice_on_cron.setChecked(self.config.ioniceOnCron())
+        self._cb_ionice_on_user.setChecked(self.config.ioniceOnUser())
+        self._cb_nice_on_remote.setChecked(self.config.niceOnRemote())
+        self._cb_ionice_on_remote.setChecked(self.config.ioniceOnRemote())
+        self._cb_nocache_on_local.setChecked(
+            self.config.nocacheOnLocal()
+            and self._cb_nocache_on_local.isEnabled())
+        self._cb_nocache_on_remote.setChecked(self.config.nocacheOnRemote())
+        self._cb_redirect_stdout_cron.setChecked(
             self.config.redirectStdoutInCron())
-        self.cbRedirectStderrInCron.setChecked(
+        self._cb_redirect_stderr_cron.setChecked(
             self.config.redirectStderrInCron())
-        self.cbBwlimit.setChecked(self.config.bwlimitEnabled())
-        self.spbBwlimit.setValue(self.config.bwlimit())
-        self.cbPreserveAcl.setChecked(self.config.preserveAcl())
-        self.cbPreserveXattr.setChecked(self.config.preserveXattr())
-        self.cbCopyUnsafeLinks.setChecked(self.config.copyUnsafeLinks())
-        self.cbCopyLinks.setChecked(self.config.copyLinks())
-        self.cbOneFileSystem.setChecked(self.config.oneFileSystem())
-        self.cbRsyncOptions.setChecked(self.config.rsyncOptionsEnabled())
-        self.txtRsyncOptions.setText(self.config.rsyncOptions())
-        self.cbSshPrefix.setChecked(self.config.sshPrefixEnabled())
-        self.txtSshPrefix.setText(self.config.sshPrefix())
-        self.cbSshCheckPing.setChecked(self.config.sshCheckPingHost())
-        self.cbSshCheckCommands.setChecked(self.config.sshCheckCommands())
+        self._cb_bwlimit.setChecked(self.config.bwlimitEnabled())
+        self._spb_bwlimit.setValue(self.config.bwlimit())
+        self._cb_preserve_acl.setChecked(self.config.preserveAcl())
+        self._cb_preserve_xattr.setChecked(self.config.preserveXattr())
+        self._cb_copy_unsafe_links.setChecked(self.config.copyUnsafeLinks())
+        self._cb_copy_links.setChecked(self.config.copyLinks())
+        self._cb_one_filesystem.setChecked(self.config.oneFileSystem())
+        self._cb_rsync_options.setChecked(self.config.rsyncOptionsEnabled())
+        self._txt_rsync_options.setText(self.config.rsyncOptions())
+        self._cb_ssh_prefix.setChecked(self.config.sshPrefixEnabled())
+        self._txt_ssh_prefix.setText(self.config.sshPrefix())
+        self._cb_ssh_ping.setChecked(self.config.sshCheckPingHost())
+        self._cb_ssh_check_commands.setChecked(self.config.sshCheckCommands())
 
     def store_values(self):
-        self.config.setNiceOnCron(self.cbNiceOnCron.isChecked())
-        self.config.setIoniceOnCron(self.cbIoniceOnCron.isChecked())
-        self.config.setIoniceOnUser(self.cbIoniceOnUser.isChecked())
-        self.config.setNiceOnRemote(self.cbNiceOnRemote.isChecked())
-        self.config.setIoniceOnRemote(self.cbIoniceOnRemote.isChecked())
-        self.config.setNocacheOnLocal(self.cbNocacheOnLocal.isChecked())
-        self.config.setNocacheOnRemote(self.cbNocacheOnRemote.isChecked())
+        """Store values from GUI into the config"""
+
+        self.config.setNiceOnCron(self._cb_nice_on_cron.isChecked())
+        self.config.setIoniceOnCron(self._cb_ionice_on_cron.isChecked())
+        self.config.setIoniceOnUser(self._cb_ionice_on_user.isChecked())
+        self.config.setNiceOnRemote(self._cb_nice_on_remote.isChecked())
+        self.config.setIoniceOnRemote(self._cb_ionice_on_remote.isChecked())
+        self.config.setNocacheOnLocal(self._cb_nocache_on_local.isChecked())
+        self.config.setNocacheOnRemote(self._cb_nocache_on_remote.isChecked())
         self.config.setRedirectStdoutInCron(
-            self.cbRedirectStdoutInCron.isChecked())
+            self._cb_redirect_stdout_cron.isChecked())
         self.config.setRedirectStderrInCron(
-            self.cbRedirectStderrInCron.isChecked())
-        self.config.setBwlimit(self.cbBwlimit.isChecked(),
-                               self.spbBwlimit.value())
-        self.config.setPreserveAcl(self.cbPreserveAcl.isChecked())
-        self.config.setPreserveXattr(self.cbPreserveXattr.isChecked())
-        self.config.setCopyUnsafeLinks(self.cbCopyUnsafeLinks.isChecked())
-        self.config.setCopyLinks(self.cbCopyLinks.isChecked())
-        self.config.setOneFileSystem(self.cbOneFileSystem.isChecked())
-        self.config.setRsyncOptions(self.cbRsyncOptions.isChecked(),
-                                    self.txtRsyncOptions.text())
-        self.config.setSshPrefix(self.cbSshPrefix.isChecked(),
-                                 self.txtSshPrefix.text())
-        self.config.setSshCheckPingHost(self.cbSshCheckPing.isChecked())
-        self.config.setSshCheckCommands(self.cbSshCheckCommands.isChecked())
+            self._cb_redirect_stderr_cron.isChecked())
+        self.config.setBwlimit(self._cb_bwlimit.isChecked(),
+                               self._spb_bwlimit.value())
+        self.config.setPreserveAcl(self._cb_preserve_acl.isChecked())
+        self.config.setPreserveXattr(self._cb_preserve_xattr.isChecked())
+        self.config.setCopyUnsafeLinks(self._cb_copy_unsafe_links.isChecked())
+        self.config.setCopyLinks(self._cb_copy_links.isChecked())
+        self.config.setOneFileSystem(self._cb_one_filesystem.isChecked())
+        self.config.setRsyncOptions(self._cb_rsync_options.isChecked(),
+                                    self._txt_rsync_options.text())
+        self.config.setSshPrefix(self._cb_ssh_prefix.isChecked(),
+                                 self._txt_ssh_prefix.text())
+        self.config.setSshCheckPingHost(self._cb_ssh_ping.isChecked())
+        self.config.setSshCheckCommands(
+            self._cb_ssh_check_commands.isChecked())
 
     def update_items_state(self, enabled: bool):
-        self.cbNiceOnRemote.setEnabled(enabled)
-        self.cbIoniceOnRemote.setEnabled(enabled)
-        self.cbNocacheOnRemote.setEnabled(enabled)
-        self.cbSshPrefix.setVisible(enabled)
-        self.txtSshPrefix.setVisible(enabled)
-        self.cbSshCheckPing.setVisible(enabled)
-        self.cbSshCheckCommands.setVisible(enabled)
+        """Update state of widgets based on changed profile mode."""
+        self._cb_nice_on_remote.setEnabled(enabled)
+        self._cb_ionice_on_remote.setEnabled(enabled)
+        self._cb_nocache_on_remote.setEnabled(enabled)
+        self._cb_ssh_prefix.setVisible(enabled)
+        self._txt_ssh_prefix.setVisible(enabled)
+        self._cb_ssh_ping.setVisible(enabled)
+        self._cb_ssh_check_commands.setVisible(enabled)
 
     def _slot_rsync_options_editing_finished(self):
         """When editing the rsync options is finished warn and remove
         --old-args option if present.
         """
-        txt = self.txtRsyncOptions.text()
+        txt = self._txt_rsync_options.text()
 
         if '--old-args' in txt:
             # No translation for this message because it is a rare case.
@@ -442,4 +451,4 @@ class ExpertOptionsTab(QDialog):
             txt = txt.replace('--old-args ', '')
             txt = txt.replace(' --old-args', '')
             txt = txt.replace('--old-args', '')
-            self.txtRsyncOptions.setText(txt)
+            self._txt_rsync_options.setText(txt)

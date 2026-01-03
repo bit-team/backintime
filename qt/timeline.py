@@ -15,7 +15,7 @@
 """
 from datetime import (datetime, date, timedelta)
 from calendar import monthrange
-from PyQt6.QtGui import QPalette
+from PyQt6.QtGui import QFont, QPalette
 from PyQt6.QtCore import (Qt,
                           pyqtSlot,
                           pyqtSignal)
@@ -24,9 +24,8 @@ from PyQt6.QtWidgets import (QAbstractItemView,
                              QTreeWidget,
                              QTreeWidgetItem)
 import snapshots
-import qttools
-from qttools_path import registerBackintimePath
-registerBackintimePath('common')
+from qttools_path import register_backintime_path
+register_backintime_path('common')
 
 
 class TimeLine(QTreeWidget):
@@ -34,7 +33,7 @@ class TimeLine(QTreeWidget):
 
     The widget is placed on the right side of the main window.
     """
-    updateFilesView = pyqtSignal(int)
+    update_files_view = pyqtSignal(int)
 
     def __init__(self, parent):
         super().__init__(parent)
@@ -133,7 +132,8 @@ class TimeLine(QTreeWidget):
         return self._root_item
 
     @pyqtSlot(snapshots.SID)
-    def addSnapshot(self, sid):  # pylint: disable=invalid-name
+    # pylint: disable-next=invalid-name
+    def addSnapshot(self, sid):  # noqa: N802
         """Slot to handle selection of snapshots."""
         item = SnapshotItem(sid)
 
@@ -184,7 +184,8 @@ class TimeLine(QTreeWidget):
         return True
 
     @pyqtSlot()
-    def checkSelection(self):  # pylint: disable=invalid-name
+    # pylint: disable-next=invalid-name
+    def checkSelection(self):  # noqa: N802
         """Slot handling selection events."""
         if self.currentItem() is None:
             self.select_root_item()
@@ -195,7 +196,7 @@ class TimeLine(QTreeWidget):
 
         if not self.parent.sid.isRoot:
             self.parent.sid = self._root_item.snapshot_id
-            self.updateFilesView.emit(2)
+            self.update_files_view.emit(2)
 
     def selected_snapshot_ids(self):
         """Snapshot IDs of all selected entries."""
@@ -220,7 +221,7 @@ class TimeLine(QTreeWidget):
 
         if self.parent.sid != item.snapshot_id:
             self.parent.sid = item.snapshot_id
-            self.updateFilesView.emit(2)
+            self.update_files_view.emit(2)
 
     def _iter_items(self):
         for index in range(self.topLevelItemCount()):
@@ -260,7 +261,6 @@ class SnapshotItem(TimeLineItem):
     def __init__(self, sid):
         super().__init__()
         self.setText(0, sid.displayName)
-        self.setFont(0, qttools.fontNormal(self.font(0)))
 
         self.setData(0, Qt.ItemDataRole.UserRole, sid)
 
@@ -290,13 +290,15 @@ class HeaderItem(TimeLineItem):  # pylint: disable=too-few-public-methods
         """
         super().__init__()
         self.setText(0, name)
-        self.setFont(0, qttools.fontBold(self.font(0)))
+        font = self.font(0)
+        font.setWeight(QFont.Weight.Bold)
+        self.setFont(0, font)
 
         palette = QApplication.instance().palette()
         self.setForeground(
             0, palette.color(QPalette.ColorRole.PlaceholderText))
         self.setBackground(
-            0, palette.color(QPalette.ColorRole.Window))
+            0, palette.color(QPalette.ColorRole.AlternateBase))
 
         self.setFlags(Qt.ItemFlag.NoItemFlags)
 

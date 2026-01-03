@@ -6,8 +6,8 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This file is part of the program "Back In time" which is released under GNU
-# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """
 Basic functions for handling Cron, Crontab, and other scheduling-related
@@ -28,14 +28,12 @@ as match target while parsing the crontab file. See
 """
 
 
-def _determine_crontab_command() -> str:
+def _determine_crontab_command() -> str | None:
     """Return the name of one of the supported crontab commands if available.
 
     Returns:
-        (str): The command name. Usually "crontab" or "fcrontab".
-
-    Raises:
-        RuntimeError: If none of the supported commands available.
+        The command name or `None` of nothing was found. Usually "crontab"
+        or "fcrontab".
     """
     to_check_commands = ['crontab', 'fcrontab']
     for cmd in to_check_commands:
@@ -48,11 +46,11 @@ def _determine_crontab_command() -> str:
             return cmd
 
     # syslog is not yet initialized
-    logger.openlog()
+    logger.openlog('pre-init.schedule')
     msg = 'Command ' + ' and '.join(to_check_commands) + ' not found.'
-    logger.critical(msg)
+    logger.warning(msg)
 
-    raise RuntimeError(msg)
+    return None
 
 
 CRONTAB_COMMAND = _determine_crontab_command()
@@ -66,6 +64,10 @@ def read_crontab():
     Returns:
         list: Crontab lines.
     """
+    if CRONTAB_COMMAND is None:
+        logger.warning('Cannot read crontab: no crontab command available.')
+        return []
+
     proc = subprocess.run(
         [CRONTAB_COMMAND, '-l'],
         check=False,
@@ -113,6 +115,10 @@ def write_crontab(lines):
         bool: ``True`` if successful otherwise ``False``.
 
     """
+    if CRONTAB_COMMAND is None:
+        logger.warning('Cannot write crontab: no crontab command available.')
+        return False
+
     content = '\n'.join(lines)
 
     # Crontab needs to end with a newline

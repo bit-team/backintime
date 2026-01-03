@@ -2,8 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This file is part of the program "Back In time" which is released under GNU
-# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Provides the ability to collect diagnostic information on Back In Time.
 
@@ -74,7 +74,7 @@ def collect_diagnostics():
     })
 
     # Git repo
-    bit_root_path = Path(tools.backintimePath(""))
+    bit_root_path = Path(tools.as_backintime_path(""))
     git_info = tools.get_git_repository_info(bit_root_path)
 
     if git_info:
@@ -92,11 +92,11 @@ def collect_diagnostics():
         'system': f'{platform.system()} {platform.version()}'
     })
 
-    # Display system (X11 or Wayland)
-    # This doesn't catch all edge cases.
-    # For more details see: https://unix.stackexchange.com/q/202891/136851
-    result['host-setup']['display-system'] = os.environ.get(
-        'XDG_SESSION_TYPE', '($XDG_SESSION_TYPE not set)')
+    # Display system (X11 or Wayland), desktop, etc
+    # $XDG_SESSION_TYPE doesn't catch all edge cases.
+    # See: https://unix.stackexchange.com/q/202891/136851
+    for var in ['XDG_SESSION_TYPE', 'XDG_CURRENT_DESKTOP', 'DESKTOP_SESSION']:
+        result['host-setup'][var] = os.environ.get(var, '(not set)')
 
     # locale (system language etc)
     #
@@ -111,10 +111,6 @@ def collect_diagnostics():
 
     # PATH environment variable
     result['host-setup']['PATH'] = os.environ.get('PATH', '($PATH unknown)')
-
-    # RSYNC environment variables
-    for var in ['RSYNC_OLD_ARGS', 'RSYNC_PROTECT_ARGS']:
-        result['host-setup'][var] = os.environ.get(var, '(not set)')
 
     # === PYTHON setup ===
     python = ' '.join((
@@ -153,6 +149,11 @@ def collect_diagnostics():
 
     # === EXTERN TOOL ===
     result['external-programs'] = {}
+
+    # RSYNC environment variables
+    for var in ['RSYNC_OLD_ARGS', 'RSYNC_PROTECT_ARGS']:
+        result['external-programs'][var] = os.environ.get(
+            var, '(not set)')
 
     result['external-programs']['rsync'] = _get_rsync_info()
 
@@ -205,14 +206,24 @@ def _get_qt_information():
     theme_info = {}
 
     if tools.checkXServer():  # TODO use tools.is_Qt_working() when stable
-        qapp = PyQt6.QtWidgets.QApplication([])
+        qapp = PyQt6.QtWidgets.QApplication.instance()
+
+        if not qapp:
+            qapp = PyQt6.QtWidgets.QApplication([])
+            clean_up_myself = True
+        else:
+            clean_up_myself = False
+
         theme_info = {
             'Theme': PyQt6.QtGui.QIcon.themeName(),
             'Theme Search Paths': PyQt6.QtGui.QIcon.themeSearchPaths(),
             'Fallback Theme': PyQt6.QtGui.QIcon.fallbackThemeName(),
             'Fallback Search Paths': PyQt6.QtGui.QIcon.fallbackSearchPaths()
         }
-        qapp.quit()
+
+        if clean_up_myself:
+            qapp.quit()
+            del qapp
 
     return {
         'Version': f'PyQt {PyQt6.QtCore.PYQT_VERSION_STR} '
@@ -318,7 +329,7 @@ def _get_rsync_info():
         )
 
     elif isinstance(info, dict):
-        # Rsync (>= 3.2.7)provided its information in JSON format.
+        # Rsync (>= 3.2.7) provide its information in JSON format.
         # Remove some irrelevant information.
         for key in ['program', 'copyright', 'url', 'license', 'caveat']:
             try:

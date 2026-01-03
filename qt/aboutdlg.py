@@ -25,6 +25,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPalette
 import logger
 import bitbase
+import bitlicense
 import tools
 import version
 import messagebox
@@ -37,6 +38,7 @@ _HREF_SPDX_GPL = 'spdx-gplv2'
 
 class AboutDlg(QDialog):
     """The about dialog accessible from the Help menu in the main window."""
+    # pylint: disable=too-few-public-methods
 
     def __init__(self, using_translation: bool, parent: QWidget = None):
         """Initialize and layout.
@@ -85,7 +87,7 @@ class AboutDlg(QDialog):
             label.setLineWidth(1)
 
         label_copyright = QLabel('<strong>' + _('Copyright:') + '</strong>')
-        copyr = QLabel(bitbase.COPYRIGHT)
+        copyr = QLabel(bitlicense.COPYRIGHT)
         _set_label_props(copyr)
 
         label_authors = QLabel('<strong>' + _('Authors:') + '</strong>')
@@ -146,13 +148,8 @@ class AboutDlg(QDialog):
         # Dev note (buhtz, 2025-03): That string is untranslated on purpose.
         # It is legally relevant, and no one should be given the opportunity
         # to change the string—whether intentionally or accidentally.
-        text_gpl = (
-            f'The application is released under <a href="{_HREF_SPDX_GPL}">'
-            'GNU General Public License v2.0 or later (GPL-2.0-or-later)</a>.')
-        text_licenses = _(
-            'All licenses used in this project are located in the {dir_link} '
-            'directory. To extract per-file license and copyright information '
-            'using SPDX metadata, refer to {readme_link}.').format(
+        text_gpl = bitlicense.get_gpl_short_text(href=_HREF_SPDX_GPL)
+        text_licenses = bitlicense.TXT_LICENSES.format(
                 dir_link=f'<a href="{_HREF_LICENSES_DIR}">LICENSES</a>',
                 readme_link=f'<a href="{_HREF_LICENSES_MD}">LICENSES.md</a>')
 
@@ -169,7 +166,7 @@ class AboutDlg(QDialog):
 
     def _slot_license_link_acivated(self, link):
         if link in (_HREF_LICENSES_DIR, _HREF_LICENSES_MD):
-            fp = bitbase.DIR_LICENSES
+            fp = bitlicense.DIR_LICENSES
 
             if link == _HREF_LICENSES_MD:
                 fp = fp.parent / 'LICENSES.md'
@@ -189,7 +186,7 @@ class AboutDlg(QDialog):
             return
 
         if link == _HREF_SPDX_GPL:
-            qttools.open_url(bitbase.URL_GPL_TWO)
+            qttools.open_url(bitlicense.URL_GPL_TWO)
             return
 
         logger.critical(f'Unknown link "{link}". Please open a bug report.')
@@ -226,8 +223,9 @@ class AboutDlg(QDialog):
             lambda: qttools.open_url(bitbase.URL_WEBSITE))
 
         manual = QPushButton(_('User manual'))
-        manual.setToolTip(_('Open user manual in browser (local if available '
-                            'otherwise online)'))
+        manual.setToolTip(
+            _('Open user manual in browser (local if available, '
+              'otherwise online)'))
         manual.clicked.connect(qttools.open_user_manual)
 
         layout.addWidget(website)
@@ -255,9 +253,7 @@ class AboutDlg(QDialog):
         return button_box
 
     def _create_name_info(self):
-        # Experiment. This comment might appear on Weblate at context info.
-        # Does it?
-        name = QLabel(_('Back In Time'))
+        name = QLabel(bitbase.APP_NAME)
 
         font = name.font()
         font.setPointSizeF(font.pointSizeF() * 3)

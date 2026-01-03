@@ -10,6 +10,7 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""Module about the Remove & Retention policy tab"""
 from PyQt6.QtWidgets import (QCheckBox,
                              QDialog,
                              QGridLayout,
@@ -22,17 +23,18 @@ from PyQt6.QtWidgets import (QCheckBox,
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QCursor
 import config
-import qttools
+from bitbase import TimeUnit
 from event import Event
+import qttools
 from manageprofiles.statebindcheckbox import StateBindCheckBox
 from manageprofiles.spinboxunit import SpinBoxWithUnit
 from manageprofiles.storagesizewidget import StorageSizeWidget
 from bitwidgets import HLineWidget
-from bitbase import TimeUnit
 
 
 class RemoveRetentionTab(QDialog):
     """The 'Remove & Retention' tab in the Manage Profiles dialog."""
+    # pylint: disable=too-many-instance-attributes
 
     def __init__(self, parent):
         super().__init__(parent=parent)
@@ -48,7 +50,7 @@ class RemoveRetentionTab(QDialog):
         self._label_keep_most_recent()
 
         # Keep named backups
-        self.cbDontRemoveNamedSnapshots = self._checkbox_keep_named()
+        self._cb_keep_named = self._checkbox_keep_named()
 
         # ---
         self._tab_layout.addWidget(
@@ -85,12 +87,12 @@ class RemoveRetentionTab(QDialog):
         self._tab_layout.addWidget(self._spinunit_remove_older, row, 2)
 
         # Retention policy
-        self.cbSmartRemove, \
-            self.cbSmartRemoveRunRemoteInBackground, \
-            self.spbKeepAll, \
-            self.spbKeepOnePerDay, \
-            self.spbKeepOnePerWeek, \
-            self.spbKeepOnePerMonth \
+        self._cb_retention_policy, \
+            self._cb_run_remote_in_background, \
+            self._spb_keep_all, \
+            self._spb_keep_one_per_day, \
+            self._spb_keep_one_per_week, \
+            self._spb_keep_one_per_month \
             = self._groupbox_retention_policy()
 
         self._checkbox_space, \
@@ -108,17 +110,20 @@ class RemoveRetentionTab(QDialog):
         # Event: Notify observers if "warn free space" value has changed
         self.event_remove_free_space_value_changed = Event()
         self._spin_unit_space.event_value_changed.register(
-            lambda value:
+            lambda value:  # pylint: disable=unnecessary-lambda
             self.event_remove_free_space_value_changed.notify(value)
         )
 
     @property
     def config(self) -> config.Config:
+        """The config instance"""
         return self._parent_dialog.config
 
     def load_values(self):
+        """Load config values into the GUI"""
+
         # don't remove named snapshots
-        self.cbDontRemoveNamedSnapshots.setChecked(
+        self._cb_keep_named.setChecked(
             self.config.dontRemoveNamedSnapshots())
 
         # remove old snapshots
@@ -130,12 +135,12 @@ class RemoveRetentionTab(QDialog):
         # smart remove
         smart_remove, keep_all, keep_one_per_day, keep_one_per_week, \
             keep_one_per_month = self.config.smartRemove()
-        self.cbSmartRemove.setChecked(smart_remove)
-        self.spbKeepAll.setValue(keep_all)
-        self.spbKeepOnePerDay.setValue(keep_one_per_day)
-        self.spbKeepOnePerWeek.setValue(keep_one_per_week)
-        self.spbKeepOnePerMonth.setValue(keep_one_per_month)
-        self.cbSmartRemoveRunRemoteInBackground.setChecked(
+        self._cb_retention_policy.setChecked(smart_remove)
+        self._spb_keep_all.setValue(keep_all)
+        self._spb_keep_one_per_day.setValue(keep_one_per_day)
+        self._spb_keep_one_per_week.setValue(keep_one_per_week)
+        self._spb_keep_one_per_month.setValue(keep_one_per_month)
+        self._cb_run_remote_in_background.setChecked(
             self.config.smartRemoveRunRemoteInBackground())
 
         # min free space
@@ -148,6 +153,8 @@ class RemoveRetentionTab(QDialog):
         self._spin_inodes.setValue(self.config.minFreeInodes())
 
     def store_values(self):
+        """Store values from GUI into the config"""
+
         self.config.setRemoveOldSnapshots(
             self._checkbox_remove_older.isChecked(),
             self._spinunit_remove_older.value(),
@@ -155,17 +162,17 @@ class RemoveRetentionTab(QDialog):
         )
 
         self.config.setDontRemoveNamedSnapshots(
-            self.cbDontRemoveNamedSnapshots.isChecked())
+            self._cb_keep_named.isChecked())
 
         self.config.setSmartRemove(
-            self.cbSmartRemove.isChecked(),
-            self.spbKeepAll.value(),
-            self.spbKeepOnePerDay.value(),
-            self.spbKeepOnePerWeek.value(),
-            self.spbKeepOnePerMonth.value())
+            self._cb_retention_policy.isChecked(),
+            self._spb_keep_all.value(),
+            self._spb_keep_one_per_day.value(),
+            self._spb_keep_one_per_week.value(),
+            self._spb_keep_one_per_month.value())
 
         self.config.setSmartRemoveRunRemoteInBackground(
-            self.cbSmartRemoveRunRemoteInBackground.isChecked())
+            self._cb_run_remote_in_background.isChecked())
 
         self.config.setMinFreeSpaceWithStorageSize(
             self._spin_unit_space.isEnabled(),
@@ -187,23 +194,22 @@ class RemoveRetentionTab(QDialog):
             self._spin_unit_space.set_storagesize(value, dont_touch_unit=True)
 
     def update_items_state(self, enabled):
-        self.cbSmartRemoveRunRemoteInBackground.setVisible(enabled)
+        """Update items regarding profile modes changes."""
+        self._cb_run_remote_in_background.setVisible(enabled)
 
     def _label_rule_execute_order(self) -> QWidget:
         icon_label = qttools.create_icon_label_info(fixed_size_widget=True)
 
         # Info text
+        manual_link = '<a href="event:manual">' + _('user manual') + '</a>'
         txt = _(
             'The following rules are processed from top to bottom. Later '
-            'rules override earlier ones. See the '
-            '{manual} for details and examples.'
-        ).format(
-            manual='<a href="event:manual">{}</a>'.format(
-                _('user manual')))
+            'rules override earlier ones. See the {manual_link} for details '
+            'and examples.').format(manual_link=manual_link)
         txt_label = QLabel(txt)
         txt_label.setWordWrap(True)
 
-        txt_label.linkActivated.connect(self.handle_link_activated)
+        txt_label.linkActivated.connect(self._handle_link_activated)
 
         txt_label.setTextInteractionFlags(
             Qt.TextInteractionFlag.TextBrowserInteraction)
@@ -222,7 +228,7 @@ class RemoveRetentionTab(QDialog):
 
         self._tab_layout.addWidget(wdg, self._tab_layout.rowCount(), 0, 1, 3)
 
-    def handle_link_activated(self, link):
+    def _handle_link_activated(self, _link):
         qttools.open_user_manual()
 
     def _label_keep_most_recent(self) -> None:
@@ -230,7 +236,7 @@ class RemoveRetentionTab(QDialog):
         qttools.set_wrapped_tooltip(
             cb,
             (
-                _('The last or freshest backup is kept under '
+                _('The most up-to-date backup is kept under '
                   'all circumstances.'),
                 _('That behavior cannot be changed.')
             )
@@ -286,7 +292,8 @@ class RemoveRetentionTab(QDialog):
 
         return checkbox, spin_unit
 
-    def _groupbox_retention_policy(self) -> tuple:
+    def _groupbox_retention_policy(self) -> tuple:  # noqa: PLR0915
+        # pylint: disable=too-many-statements
         layout = QGridLayout()
         # col, fx
         layout.setColumnStretch(0, 1)
@@ -301,9 +308,9 @@ class RemoveRetentionTab(QDialog):
             _('Run in background on remote host.'), self)
         qttools.set_wrapped_tooltip(
             cb_in_background,
-            (_('The smart remove procedure will run directly on the remote '
+            (_('The retention policy will be executed directly on the remote '
                'machine, not locally. The commands "bash", "screen", and '
-               '"flock" must be installed and available on the '
+               '"flock" must be installed and available on that '
                'remote machine.'),
              _('If selected, Back In Time will first test the '
                'remote machine.')))

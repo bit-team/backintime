@@ -42,7 +42,7 @@ before_install:
   - sudo apt-get -qq update
   # install screen, and util-linux (provides flock) for test_sshtools
   - sudo apt-get install -y sshfs screen util-linux libdbus-1-dev
-  - sudo apt-get install -y ruby rubygems asciidoctor
+  - sudo apt-get install -y ruby rubygems asciidoctor encfs
   - sudo gem install asciidoctor
 
 jobs:
@@ -62,6 +62,9 @@ install:
   - eval `ssh-agent -s`
 
 script:
+  - ruff --version
+  - flake8 --version
+  - pylint --version
   # compile all files - ensure that syntax is correct
   - python -m compileall common common/test common/plugins qt qt/test qt/plugins
   # run unit tests - ensure that functionality is correct

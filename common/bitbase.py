@@ -2,33 +2,33 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This file is part of the program "Back In time" which is released under GNU
-# General Public License v2 (GPLv2). See file/folder LICENSE or go to
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-"""Basic constants used in multiple modules."""
+"""Basic constants used in multiple modules.
+
+See also bitlicense.py for additional constants and logic."""
 import os
 from enum import Enum
 from pathlib import Path
 
+# |-------------|
+# | Application |
+# |-------------|
+
+# Used as a label in the GUI. Not sure if this should be translatable.
 APP_NAME = 'Back In Time'
+
 BINARY_NAME_BASE = 'backintime'
 BINARY_NAME_CLI = f'{BINARY_NAME_BASE}'
 BINARY_NAME_GUI = f'{BINARY_NAME_BASE}-qt'
 PACKAGE_NAME_CLI = f'{BINARY_NAME_BASE}-common'
 PACKAGE_NAME_GUI = f'{BINARY_NAME_BASE}-qt'
 
-COPYRIGHT = 'Copyright © 2008-2024 ' \
-            'Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze\n' \
-            'Copyright © 2022 ' \
-            'Christian Buhtz, Michael Büker, Jürgen Altfeld'
 
-# Used in context of CLI and argument parsing
-RETURN_OK = 0
-RETURN_ERR = 1
-RETURN_NO_CFG = 2
-
-# Indicator if BIT is running in root mode
-IS_IN_ROOT_MODE = os.geteuid() == 0
+# |-----------------|
+# | Several strings |
+# |-----------------|
 
 # Used in about dialog to add language independent translator credits
 TRANSLATION_CREDITS_MISC = (
@@ -39,34 +39,42 @@ TRANSLATION_CREDITS_MISC = (
     '(@lists.ubuntu.com) especially the user related lists',
 )
 
+
+# |-------------------------------|
+# | Online resources & references |
+# |-------------------------------|
+
 # See issue #1734 and #1735
 URL_ENCRYPT_TRANSITION = 'https://github.com/bit-team/backintime' \
                          '/blob/-/doc/ENCRYPT_TRANSITION.md'
-
 URL_SOURCE = 'https://github.com/bit-team/backintime'
 URL_WEBSITE = URL_SOURCE
 URL_FAQ = f'{URL_WEBSITE}/blob/-/FAQ.md'
 URL_ISSUES = f'{URL_WEBSITE}/issues'
 URL_ISSUES_CREATE_NEW = f'{URL_ISSUES}/new'
+URL_CHANGELOG = f'{URL_WEBSITE}/blob/dev/CHANGES'
 URL_TRANSLATION = 'https://translate.codeberg.org/engage/backintime'
-URL_GPL_TWO = 'https://spdx.org/licenses/GPL-2.0-or-later.html'
+URL_USER_MANUAL = 'https://backintime.readthedocs.io'
 
-USER_MANUAL_ONLINE_URL = 'https://backintime.readthedocs.io'
-USER_MANUAL_LOCAL_PATH = Path('/') / 'usr' / 'share' / 'doc' / \
-    PACKAGE_NAME_CLI / 'manual' / 'index.html'
+# |---------------------|
+# | Directories & files |
+# |---------------------|
+
+FILENAME_CONFIG = 'config'
+
+_DIR_DOC_PATH_BASE = Path('/') / 'usr' / 'share' / 'doc'
+
+USER_MANUAL_LOCAL_PATH = _DIR_DOC_PATH_BASE / PACKAGE_NAME_CLI \
+    / 'manual' / 'index.html'
 USER_MANUAL_LOCAL_AVAILABLE = USER_MANUAL_LOCAL_PATH.exists()
 
-DIR_CALLBACK_EXAMPLES = Path('/') / 'usr' / 'share' / 'doc' / \
-    PACKAGE_NAME_CLI / 'user-callback-examples'
+CHANGELOG_LOCAL_PATH = _DIR_DOC_PATH_BASE / PACKAGE_NAME_CLI / 'CHANGES'
+CHANGELOG_LOCAL_AVAILABLE = CHANGELOG_LOCAL_PATH.exists()
+CHANGELOG_DEBIAN_GZ = _DIR_DOC_PATH_BASE / PACKAGE_NAME_CLI / 'changelog.gz'
+
+DIR_CALLBACK_EXAMPLES = _DIR_DOC_PATH_BASE / PACKAGE_NAME_CLI \
+    / 'user-callback-examples'
 DEFAULT_CALLBACK = DIR_CALLBACK_EXAMPLES / 'user-callback.default'
-
-
-# About transition of encryption feature and the removal of EncFS (see #1734).
-# The warnings and deprecation messages are gradually increased in intensity
-# and clarity. This constant is the currently desired stage of intensity. The
-# last shown intensity is stored in the state data file. If they don't fit, the
-# message is displayed.
-ENCFS_MSG_STAGE = 2
 
 # Names used for backup directories (or symlinks to them) indicating a specific
 # state.
@@ -75,23 +83,16 @@ DIR_NAME_NEWSNAPSHOT = 'new_snapshot'
 DIR_NAME_SAVETOCONTINUE = 'save_to_continue'
 
 
-def _determine_licenses_dir():
-    for pkg in (PACKAGE_NAME_GUI,
-                PACKAGE_NAME_CLI,
-                BINARY_NAME_GUI,
-                BINARY_NAME_CLI,
-                BINARY_NAME_BASE):
-        for path in (Path('/usr/share/doc'), Path('/usr/share/licenses')):
-
-            fp = path / pkg / 'LICENSES'
-            if fp.is_dir():
-                return fp
-
-    return None
-
-
-DIR_LICENSES = _determine_licenses_dir()
 DIR_SSH_KEYS = Path.home() / '.ssh'
+
+# |-------------------|
+# | Enums & constants |
+# |-------------------|
+
+# Used in context of CLI and argument parsing
+RETURN_OK = 0
+RETURN_ERR = 1
+RETURN_NO_CFG = 2
 
 
 class TimeUnit(Enum):
@@ -152,3 +153,17 @@ HOURLY_BACKUPS = (
     ScheduleMode.HOURS_6,
     ScheduleMode.HOURS_12,
     ScheduleMode.CUSTOM_HOUR)
+
+# |------|
+# | Misc |
+# |------|
+
+# Indicator if BIT is running in root mode
+IS_IN_ROOT_MODE = os.geteuid() == 0
+
+# About transition of encryption feature and the removal of EncFS (see #1734).
+# The warnings and deprecation messages are gradually increased in intensity
+# and clarity. This constant is the currently desired stage of intensity. The
+# last shown intensity is stored in the state data file. If they don't fit, the
+# message is displayed.
+ENCFS_MSG_STAGE = 2

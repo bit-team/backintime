@@ -8,11 +8,7 @@
 # pylint: disable=missing-function-docstring, wrong-import-position
 """Tests about argument parsings."""
 import unittest
-import os
-import sys
 import itertools
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-
 import bitbase  # noqa: E402, RUF100
 import cliarguments  # noqa: E402, RUF100
 import clicommands  # noqa: E402, RUF100
@@ -33,6 +29,7 @@ def shuffle_args(*args):
         for j in i:
             if isinstance(j, (tuple, list)):
                 ret.extend(j)
+
             else:
                 ret.append(j)
 
@@ -96,15 +93,6 @@ class BackupCommand(unittest.TestCase):
         self.assertEqual(sut.command, 'backup')
         self.assertIs(sut.func, clicommands.backup)
 
-    # def test_backwards_compatiblity_alias(self):
-    #     args = backintime.argParse(['--backup'])
-    #     self.assertIn('func', args)
-    #     self.assertIs(args.func, backintime.aliasParser)
-    #     self.assertIn('replace', args)
-    #     self.assertEqual(args.replace, '--backup')
-    #     self.assertIn('alias', args)
-    #     self.assertEqual(args.alias, 'backup')
-
     def test_profile(self):
         for argv in shuffle_args('backup', ('--profile', 'foo')):
             sut = cliarguments.parse_arguments(argv, self.parser_agent)
@@ -113,17 +101,11 @@ class BackupCommand(unittest.TestCase):
 
     def test_profile_id(self):
         sut = cliarguments.parse_arguments(
-            ['backup', '--profile-id', '2'], self.parser_agent)
+            ['backup', '--profile', '2'], self.parser_agent)
 
         self.assertEqual(sut.command, 'backup')
-        self.assertIsInstance(sut.profile_id, int)
-        self.assertEqual(sut.profile_id, 2)
-
-    def test_profile_and_profile_id(self):
-        with self.assertRaises(SystemExit):
-            cliarguments.parse_arguments(
-                ['backup', '--profile', 'foo', '--profile-id', '2'],
-                self.parser_agent)
+        self.assertEqual(sut.profile, '2')
+        self.assertTrue(sut.profile.isdigit())
 
     def test_quiet(self):
         args = cliarguments.parse_arguments(
@@ -180,7 +162,7 @@ class RestoreCommand(unittest.TestCase):
                                      '20151130-230501-984'
                                  ),
                                  '--checksum',
-                                 ('--profile-id', '2'),
+                                 ('--profile', '2'),
                                  '--local-backup',
                                  '--delete',
                                  ('--config', 'foo')):
@@ -188,7 +170,7 @@ class RestoreCommand(unittest.TestCase):
 
             self.assertEqual(sut.quiet, True)
             self.assertEqual(sut.checksum, True)
-            self.assertEqual(sut.profile_id, 2)
+            self.assertEqual(sut.profile, '2')
             self.assertEqual(sut.command, 'restore')
             self.assertEqual(sut.WHAT, '/home')
             self.assertEqual(sut.WHERE, '/tmp')
@@ -198,7 +180,7 @@ class RestoreCommand(unittest.TestCase):
             self.assertEqual(sut.config, 'foo')
 
     def test_multible_args(self):
-        for argv in shuffle_args(('--profile-id', '2'),
+        for argv in shuffle_args(('--profile', '2'),
                                  '--quiet',
                                  'restore',
                                  '--checksum',
@@ -209,7 +191,7 @@ class RestoreCommand(unittest.TestCase):
 
             self.assertEqual(sut.quiet, True)
             self.assertEqual(sut.checksum, True)
-            self.assertEqual(sut.profile_id, 2)
+            self.assertEqual(sut.profile, '2')
             self.assertEqual(sut.command, 'restore')
             self.assertEqual(sut.local_backup, True)
             self.assertEqual(sut.delete, True)
@@ -249,7 +231,3 @@ class RestoreCommand(unittest.TestCase):
                 ('restore', '--local-backup', '--no-local-backup'),
                 self.parser_agent
             )
-
-
-if __name__ == '__main__':
-    unittest.main()

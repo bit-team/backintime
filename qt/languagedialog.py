@@ -87,6 +87,40 @@ class LanguageDialog(QDialog):
 
         return r
 
+    def _label_and_tooltip(self, code: str, names: list) -> tuple[str, str]:
+
+        try:
+            # Use English name if name of the language in the current set
+            # locale is unknown
+            label = names[0] or names[2]
+
+        except TypeError:
+            # Happens when no name for the language codes is available.
+            # "names" is "None" in that case.
+            label = code
+            tooltip = f'Language code "{code}" unknown.'
+
+        else:
+            # Add language name in its native representation
+            # if Native letters available in current font
+            # but prevent duplications like e.g. "Deutsch\nDeutsch"
+            if label != names[1] and qttools.can_render(names[1], self):
+                label = f'{names[1]}\n{label}'
+
+            # Tooltip: Language code
+            tooltip = f'{names[2]} ({code})'
+
+            # Tooltip: completeness of translation
+            try:
+                complete = languages.completeness[code]
+            except KeyError:
+                pass
+            else:
+                tooltip = tooltip + '\n' + _('Translated: {percent}') \
+                    .format(percent=f'{complete}%')
+
+        return label, tooltip
+
     def _language_widget(self):
         grid = QGridLayout()
         widget = QWidget(self)
@@ -128,50 +162,18 @@ class LanguageDialog(QDialog):
 
         col = 1
         for idx, code in enumerate(sorted_codes, 2):
-            names = langs[code]
-
-            try:
-                # Use English name if name of the language in the current set
-                # locale is unknown
-                label = names[0] or names[2]
-
-            except TypeError:
-                # Happens when no name for the language codes is available.
-                # "names" is "None" in that case.
-                label = code
-                tooltip = f'Language code "{code}" unknown.'
-
-            else:
-                # Add language name in its native representation
-                # if Native letters available in current font
-                # but prevent duplications like e.g. "Deutsch\nDeutsch"
-                if label != names[1] and qttools.can_render(names[1], widget):
-                    label = f'{names[1]}\n{label}'
-
-                # Tooltip: Language code
-                tooltip = f'{names[2]} ({code})'
-
-                # Tooltip: completeness of translation
-                try:
-                    complete = languages.completeness[code]
-                except KeyError:
-                    pass
-                else:
-                    tooltip = tooltip + '\n' \
-                        + _('Translated: {percent}').format(
-                            percent=f'{complete}%')
-
-            # Create button
-            r = self._create_radio_button(code, label, tooltip)
-
             # Calculate buttons location
             row = idx - ((col - 1) * per_col_n)
             if row > per_col_n:
                 row = 1
                 col = col + 1
 
-            # Add the button
-            grid.addWidget(r, row, col)
+            label, tooltip = self._label_and_tooltip(code, langs[code])
+            grid.addWidget(
+                self._create_radio_button(code, label, tooltip),
+                row,
+                col
+            )
 
         return widget
 

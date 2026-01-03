@@ -15,8 +15,6 @@ import shutil
 import stat
 import grp
 import re
-import random
-import string
 import unittest
 from unittest.mock import patch
 from tempfile import TemporaryDirectory
@@ -41,36 +39,43 @@ class SetTakeSnapshotMessage(generic.SnapshotsTestCase):
         self.sn.snapshotLog.flush()
 
         # test NotifyPlugin
-        self.mockNotifyPlugin.assert_called_once_with(self.sn.config.currentProfile(),
-                                                      self.sn.config.profileName(),
-                                                      0,
-                                                      'first message',
-                                                      -1)
+        self.mockNotifyPlugin.assert_called_once_with(
+            self.sn.config.currentProfile(),
+            self.sn.config.profileName(),
+            0,
+            'first message',
+            -1)
         self.assertExists(self.sn.config.takeSnapshotMessageFile())
         # test message file
         with open(self.sn.config.takeSnapshotMessageFile(), 'rt') as f:
             message = f.read()
         self.assertEqual(message, '0\nfirst message')
         # test snapshot log
-        self.assertEqual('\n'.join(self.sn.snapshotLog.get()), '[I] first message')
+        self.assertEqual('\n'.join(self.sn.snapshotLog.get()),
+                         '[I] first message')
 
     def test_error(self):
         self.sn.setTakeSnapshotMessage(1, 'second message')
         self.sn.snapshotLog.flush()
 
         # test NotifyPlugin
-        self.mockNotifyPlugin.assert_called_once_with(self.sn.config.currentProfile(),
-                                                      self.sn.config.profileName(),
-                                                      1,
-                                                      'second message',
-                                                      -1)
+        self.mockNotifyPlugin.assert_called_once_with(
+            self.sn.config.currentProfile(),
+            self.sn.config.profileName(),
+            1,
+            'second message',
+            -1)
+
         # test message file
         self.assertExists(self.sn.config.takeSnapshotMessageFile())
+
         with open(self.sn.config.takeSnapshotMessageFile(), 'rt') as f:
             message = f.read()
+
         self.assertEqual(message, '1\nsecond message')
         # test snapshot log
-        self.assertEqual('\n'.join(self.sn.snapshotLog.get()), '[E] second message')
+        self.assertEqual('\n'.join(self.sn.snapshotLog.get()),
+                         '[E] second message')
 
 
 class UserAndGroups(generic.SnapshotsTestCase):
@@ -88,11 +93,15 @@ class UserAndGroups(generic.SnapshotsTestCase):
     def test_uid_backup(self):
         self.assertEqual(self.sn.uid('root', backup = 99999), 0)
         self.assertEqual(self.sn.uid(b'root', backup = 99999), 0)
-        self.assertEqual(self.sn.uid('nonExistingUser', backup = 99999), 99999)
-        self.assertEqual(self.sn.uid(b'nonExistingUser', backup = 99999), 99999)
+        self.assertEqual(
+            self.sn.uid('nonExistingUser', backup = 99999), 99999)
+        self.assertEqual(
+            self.sn.uid(b'nonExistingUser', backup = 99999), 99999)
 
-        self.assertEqual(self.sn.uid(CURRENTUSER,  backup = 99999), CURRENTUID)
-        self.assertEqual(self.sn.uid(CURRENTUSER.encode(),  backup = 99999), CURRENTUID)
+        self.assertEqual(
+            self.sn.uid(CURRENTUSER,  backup = 99999), CURRENTUID)
+        self.assertEqual(
+            self.sn.uid(CURRENTUSER.encode(),  backup = 99999), CURRENTUID)
 
     def test_gid_valid(self):
         self.assertEqual(self.sn.gid('root'), 0)
@@ -108,11 +117,15 @@ class UserAndGroups(generic.SnapshotsTestCase):
     def test_gid_backup(self):
         self.assertEqual(self.sn.gid('root', backup = 99999), 0)
         self.assertEqual(self.sn.gid(b'root', backup = 99999), 0)
-        self.assertEqual(self.sn.gid('nonExistingGroup', backup = 99999), 99999)
-        self.assertEqual(self.sn.gid(b'nonExistingGroup', backup = 99999), 99999)
+        self.assertEqual(
+            self.sn.gid('nonExistingGroup', backup = 99999), 99999)
+        self.assertEqual(
+            self.sn.gid(b'nonExistingGroup', backup = 99999), 99999)
 
-        self.assertEqual(self.sn.gid(CURRENTGROUP,  backup = 99999), CURRENTGID)
-        self.assertEqual(self.sn.gid(CURRENTGROUP.encode(),  backup = 99999), CURRENTGID)
+        self.assertEqual(
+            self.sn.gid(CURRENTGROUP,  backup = 99999), CURRENTGID)
+        self.assertEqual(
+            self.sn.gid(CURRENTGROUP.encode(),  backup = 99999), CURRENTGID)
 
     def test_username_valid(self):
         self.assertEqual(self.sn.userName(0), 'root')
@@ -142,8 +155,9 @@ class HelperScripts(generic.SnapshotsTestCase):
                          '/foo')
 
         # The same as above.
-        self.assertEqual(self.sn.rsyncRemotePath('/foo', use_mode = ['local'], quote = '\\\"'),
-                         '/foo')
+        self.assertEqual(
+            self.sn.rsyncRemotePath('/foo', use_mode=['local'], quote='\\\"'),
+            '/foo')
 
         #set up SSH profile
         self.cfg.setSnapshotsMode('ssh')
@@ -174,9 +188,10 @@ class HelperScripts(generic.SnapshotsTestCase):
         self.assertEqual(os.path.realpath(symlink), sid2.path())
 
     @patch('time.sleep') # speed up unittest
-    def test_make_dirs(self, sleep):
+    def test_make_dirs(self, _mock_sleep):
         self.assertFalse(self.sn.makeDirs('/'))
         self.assertTrue(self.sn.makeDirs(os.getcwd()))
+
         with TemporaryDirectory() as d:
             path = os.path.join(d, 'foo', 'bar')
             self.assertTrue(self.sn.makeDirs(path))
@@ -214,20 +229,21 @@ class RsyncExcludeIncludeSuffix(generic.SnapshotsTestCase):
                                                        '*blub',
                                                        '/bar/2'])
         self.assertIsInstance(suffix, list)
-        self.assertRegex(' '.join(suffix), r'^--chmod=Du\+wx '      +
-                                           r'--exclude=/tmp/.*? '   +
-                                           r'--exclude=.*?\.local/share/backintime '  +
-                                           r'--exclude=\.local/share/backintime/mnt ' +
-                                           r'--include=/foo/ '      +
-                                           r'--include=/baz/1/ '    +
-                                           r'--include=/baz/ '      +
-                                           r'--exclude=/foo/bar '   +
-                                           r'--exclude=\*blub '     +
-                                           r'--exclude=/bar/2 '     +
-                                           r'--include=/foo/\*\* '  +
-                                           r'--include=/bar '       +
-                                           r'--include=/baz/1/2 '   +
-                                           r'--exclude=\* /$')
+        self.assertRegex(' '.join(suffix),
+                         r'^--chmod=Du\+wx '      +
+                         r'--exclude=/tmp/.*? '   +
+                         r'--exclude=.*?\.local/share/backintime '  +
+                         r'--exclude=\.local/share/backintime/mnt ' +
+                         r'--include=/foo/ '      +
+                         r'--include=/baz/1/ '    +
+                         r'--include=/baz/ '      +
+                         r'--exclude=/foo/bar '   +
+                         r'--exclude=\*blub '     +
+                         r'--exclude=/bar/2 '     +
+                         r'--include=/foo/\*\* '  +
+                         r'--include=/bar '       +
+                         r'--include=/baz/1/2 '   +
+                         r'--exclude=\* /$')
 
 
 class Callbacks(generic.SnapshotsTestCase):
@@ -239,7 +255,9 @@ class Callbacks(generic.SnapshotsTestCase):
         self.assertFalse(self.sn.restorePermissionFailed)
 
         self.run = False
-        callback = lambda x: self.callback(self.assertRegex, x, r'{} : \w+'.format(msg))
+        callback = lambda x: self.callback(
+            self.assertRegex, x, r'{} : \w+'.format(msg))
+
         self.sn.restoreCallback(callback, False, msg)
         self.assertTrue(self.run)
         self.assertTrue(self.sn.restorePermissionFailed)
@@ -266,34 +284,63 @@ class Callbacks(generic.SnapshotsTestCase):
 
         self.sn.rsyncCallback('BACKINTIME: <f+++++++++ /foo/bar', params)
         self.assertListEqual([False, True], params)
+
         with open(self.cfg.takeSnapshotMessageFile(), 'rt') as f:
-            self.assertEqual('0\nTake snapshot (rsync: BACKINTIME: <f+++++++++ /foo/bar)', f.read())
+            self.assertEqual(
+                '0\nTake snapshot (rsync: BACKINTIME: <f+++++++++ /foo/bar)',
+                f.read())
+
         self.sn.snapshotLog.flush()
+
         with open(self.cfg.takeSnapshotLogFile(), 'rt') as f:
-            self.assertEqual('[I] Take snapshot (rsync: BACKINTIME: <f+++++++++ /foo/bar)\n[C] <f+++++++++ /foo/bar\n', f.read())
+            self.assertEqual(
+                '[I] Take snapshot (rsync: BACKINTIME: <f+++++++++ /foo/bar)'
+                '\n[C] <f+++++++++ /foo/bar\n',
+                f.read())
 
     def test_dir(self):
         params = [False, False]
 
         self.sn.rsyncCallback('BACKINTIME: cd..t...... /foo/bar', params)
         self.assertListEqual([False, False], params)
+
         with open(self.cfg.takeSnapshotMessageFile(), 'rt') as f:
-            self.assertEqual('0\nTake snapshot (rsync: BACKINTIME: cd..t...... /foo/bar)', f.read())
+            self.assertEqual(
+                '0\nTake snapshot (rsync: BACKINTIME: cd..t...... /foo/bar)',
+                f.read())
+
         self.sn.snapshotLog.flush()
+
         with open(self.cfg.takeSnapshotLogFile(), 'rt') as f:
-            self.assertEqual('[I] Take snapshot (rsync: BACKINTIME: cd..t...... /foo/bar)\n', f.read())
+            self.assertEqual(
+                '[I] Take snapshot (rsync: '
+                'BACKINTIME: cd..t...... /foo/bar)\n',
+                f.read())
 
     def test_error(self):
         params = [False, False]
 
-        self.sn.rsyncCallback('rsync: send_files failed to open "/foo/bar": Operation not permitted (1)', params)
+        self.sn.rsyncCallback(
+            'rsync: send_files failed to open "/foo/bar": '
+            'Operation not permitted (1)',
+            params)
         self.assertListEqual([True, False], params)
+
         with open(self.cfg.takeSnapshotMessageFile(), 'rt') as f:
-            self.assertEqual('1\nError: rsync: send_files failed to open "/foo/bar": Operation not permitted (1)', f.read())
+            self.assertEqual(
+                '1\nError: rsync: send_files failed to open "/foo/bar": '
+                'Operation not permitted (1)',
+                f.read())
+
         self.sn.snapshotLog.flush()
+
         with open(self.cfg.takeSnapshotLogFile(), 'rt') as f:
-            self.assertEqual('[I] Take snapshot (rsync: rsync: send_files failed to open "/foo/bar": Operation not permitted (1))\n' \
-                             '[E] Error: rsync: send_files failed to open "/foo/bar": Operation not permitted (1)\n', f.read())
+            self.assertEqual(
+                '[I] Take snapshot (rsync: rsync: send_files failed to '
+                'open "/foo/bar": Operation not permitted (1))\n'
+                '[E] Error: rsync: send_files failed to open '
+                '"/foo/bar": Operation not permitted (1)\n',
+                f.read())
 
 
 class SnapshotWithSID(generic.SnapshotsWithSidTestCase):
@@ -323,7 +370,8 @@ snapshot_user=.+
 user.size=.+''', re.MULTILINE))
 
     def test_backup_permissions(self):
-        #TODO: add test for save permissions over SSH (and one SSH-test for path with spaces)
+        # TODO: add test for save permissions over SSH (and one SSH-test for
+        # path with spaces)
         infoFilePath = os.path.join(self.snapshotPath,
                                     '20151219-010324-123',
                                     'fileinfo.bz2')
@@ -350,9 +398,15 @@ user.size=.+''', re.MULTILINE))
             self.assertIn(file_path.encode(), fileInfo)
 
     def test_collect_permission(self):
-        # force permissions because different distributions will have different umask
-        os.chmod(self.testDirFullPath, stat.S_IRWXU | stat.S_IRWXG | stat.S_IROTH | stat.S_IXOTH)
-        os.chmod(self.testFileFullPath, stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IWGRP | stat.S_IROTH)
+        # force permissions because different distributions will have different
+        # umask
+        os.chmod(
+            self.testDirFullPath,
+            stat.S_IRWXU | stat.S_IRWXG | stat.S_IROTH | stat.S_IXOTH)
+
+        os.chmod(self.testFileFullPath,
+                 stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP
+                 | stat.S_IWGRP | stat.S_IROTH)
 
         d = snapshots.FileInfoDict()
         testDir  = self.testDirFullPath.encode()
@@ -362,8 +416,10 @@ user.size=.+''', re.MULTILINE))
 
         self.assertIn(testDir, d)
         self.assertIn(testFile, d)
-        self.assertTupleEqual(d[testDir],  (16893, CURRENTUSER.encode(), CURRENTGROUP.encode()))
-        self.assertTupleEqual(d[testFile], (33204, CURRENTUSER.encode(), CURRENTGROUP.encode()))
+        self.assertTupleEqual(
+            d[testDir],  (16893, CURRENTUSER.encode(), CURRENTGROUP.encode()))
+        self.assertTupleEqual(
+            d[testFile], (33204, CURRENTUSER.encode(), CURRENTGROUP.encode()))
 
 
 class RestorePathInfo(generic.SnapshotsTestCase):
@@ -392,8 +448,15 @@ class RestorePathInfo(generic.SnapshotsTestCase):
 
     def test_no_changes(self):
         d = snapshots.FileInfoDict()
-        d[b'foo'] = (self.modeFolder, CURRENTUSER.encode('utf-8','replace'), CURRENTGROUP.encode('utf-8','replace'))
-        d[b'bar'] = (self.modeFile, CURRENTUSER.encode('utf-8','replace'), CURRENTGROUP.encode('utf-8','replace'))
+        d[b'foo'] = (
+            self.modeFolder,
+            CURRENTUSER.encode('utf-8','replace'),
+            CURRENTGROUP.encode('utf-8','replace')
+        )
+        d[b'bar'] = (
+            self.modeFile,
+            CURRENTUSER.encode('utf-8','replace'),
+            CURRENTGROUP.encode('utf-8','replace'))
 
         callback = lambda x: self.callback(self.fail,
                              'callback function was called unexpectedly')
@@ -412,11 +475,22 @@ class RestorePathInfo(generic.SnapshotsTestCase):
 
     def test_change_owner_without_root(self):
         d = snapshots.FileInfoDict()
-        d[b'foo'] = (self.modeFolder, 'root'.encode('utf-8','replace'), CURRENTGROUP.encode('utf-8','replace'))
-        d[b'bar'] = (self.modeFile, 'root'.encode('utf-8','replace'), CURRENTGROUP.encode('utf-8','replace'))
+        d[b'foo'] = (
+            self.modeFolder,
+            'root'.encode('utf-8','replace'),
+            CURRENTGROUP.encode('utf-8','replace')
+        )
+        d[b'bar'] = (
+            self.modeFile,
+            'root'.encode('utf-8','replace'),
+            CURRENTGROUP.encode('utf-8','replace')
+        )
 
-        callback = lambda x: self.callback(self.assertRegex, x,
-                             r'^chown /tmp/test/(?:foo|bar) 0 : {} : \w+$'.format(CURRENTGID))
+        callback = lambda x: self.callback(
+            self.assertRegex,
+            x,
+            r'^chown /tmp/test/(?:foo|bar) 0 : {} : \w+$'.format(CURRENTGID)
+        )
 
         self.sn.restorePermission(b'foo', b'/tmp/test/foo', d, callback)
         self.assertTrue(self.run)
@@ -442,11 +516,22 @@ class RestorePathInfo(generic.SnapshotsTestCase):
         newGroup = [x for x in GROUPS if x != CURRENTGROUP][0]
         newGID = grp.getgrnam(newGroup).gr_gid
         d = snapshots.FileInfoDict()
-        d[b'foo'] = (self.modeFolder, CURRENTUSER.encode('utf-8','replace'), newGroup.encode('utf-8','replace'))
-        d[b'bar'] = (self.modeFile, CURRENTUSER.encode('utf-8','replace'), newGroup.encode('utf-8','replace'))
+        d[b'foo'] = (
+            self.modeFolder,
+            CURRENTUSER.encode('utf-8','replace'),
+            newGroup.encode('utf-8','replace')
+        )
+        d[b'bar'] = (
+            self.modeFile,
+            CURRENTUSER.encode('utf-8','replace'),
+            newGroup.encode('utf-8','replace')
+        )
 
-        callback = lambda x: self.callback(self.assertRegex, x,
-                             r'^chgrp /tmp/test/(?:foo|bar) {}$'.format(newGID))
+        callback = lambda x: self.callback(
+            self.assertRegex,
+            x,
+            r'^chgrp /tmp/test/(?:foo|bar) {}$'.format(newGID)
+        )
 
         self.sn.restorePermission(b'foo', b'/tmp/test/foo', d, callback)
         self.assertTrue(self.run)
@@ -470,11 +555,22 @@ class RestorePathInfo(generic.SnapshotsTestCase):
         newModeFolder = 16832 #rwx------
         newModeFile   = 33152 #rw-------
         d = snapshots.FileInfoDict()
-        d[b'foo'] = (newModeFolder, CURRENTUSER.encode('utf-8','replace'), CURRENTGROUP.encode('utf-8','replace'))
-        d[b'bar'] = (newModeFile, CURRENTUSER.encode('utf-8','replace'), CURRENTGROUP.encode('utf-8','replace'))
+        d[b'foo'] = (
+            newModeFolder,
+            CURRENTUSER.encode('utf-8','replace'),
+            CURRENTGROUP.encode('utf-8','replace')
+        )
+        d[b'bar'] = (
+            newModeFile,
+            CURRENTUSER.encode('utf-8','replace'),
+            CURRENTGROUP.encode('utf-8','replace')
+        )
 
-        callback = lambda x: self.callback(self.assertRegex, x,
-                             r'^chmod /tmp/test/(?:foo|bar) \d+$')
+        callback = lambda x: self.callback(
+            self.assertRegex,
+            x,
+            r'^chmod /tmp/test/(?:foo|bar) \d+$'
+        )
         self.sn.restorePermission(b'foo', b'/tmp/test/foo', d, callback)
         self.assertTrue(self.run)
         self.assertFalse(self.sn.restorePermissionFailed)
@@ -550,23 +646,6 @@ class SshSnapshots(generic.SSHTestCase):
         os.makedirs(self.remoteFullPath)
 
 
-def _rand_string(self, max_length=10, min_length=1):
-    """Create a string with random uppercase characters and digits and
-    a random length between `min_length` and `max_length`.
-
-    Args:
-        max_length (int): Max length of the string (default: 10).
-        min_length (int): Min string length (default: 1)
-
-    Returns:
-        (string): The created random string.
-    """
-    return ''.join(random.choices(
-        string.ascii_uppercase+string.digits,
-        k=random.randint(min_length, max_length)
-    ))
-
-
 def _create_selfdestructing_path(test_case, path):
     """Create a path that removes itself after the test.
 
@@ -615,7 +694,7 @@ def _init_basic_config(data_dir_prefix='DATADIR', data_dir_suffix=''):
 
     # Initialize logging
     logger.APP_NAME = 'BIT_unittest'
-    logger.openlog()
+    logger.openlog('UNITTEST')
     logger.DEBUG = '-v' in sys.argv
 
     # Path to config file (in "common/test/config")

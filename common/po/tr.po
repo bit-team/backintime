@@ -2,10 +2,11 @@
 # SPDX-FileCopyrightText: © Onur Esat Karabacak
 # SPDX-FileCopyrightText: © Taner Orak
 # SPDX-FileCopyrightText: © Nuri Küçükler <nurikucukler@yahoo.com>
+# SPDX-FileCopyrightText: © Baris Ozyurt
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This file is part of the program "Back In time" which is released under GNU
+# This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
@@ -16,113 +17,125 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2025-07-01 16:44+0200\n"
-"PO-Revision-Date: 2025-05-04 23:53+0000\n"
-"Last-Translator: Nuri KÜÇÜKLER <nurikucukler@noreply.codeberg.org>\n"
+"POT-Creation-Date: 2025-12-22 15:22+0100\n"
+"PO-Revision-Date: 2025-12-15 15:18+0000\n"
+"Last-Translator: barisozyurt <barisozyurt@noreply.codeberg.org>\n"
 "Language-Team: Turkish <https://translate.codeberg.org/projects/backintime/common/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.2\n"
+"X-Generator: Weblate 5.14.3\n"
 
-#: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:24
-#: qt/messagebox.py:92
+#: common/bitlicense.py:43
+#, python-brace-format
+msgid ""
+"All licenses used in this project are located in the {dir_link} directory. "
+"To extract per-file license and copyright information using SPDX metadata, "
+"refer to {readme_link}."
+msgstr ""
+"Bu projedeki bütün lisanslar {dir_link} dizininde konumlandırılmıştır. SPDX "
+"metaverisini kullanarak dosya bazında lisans ve telif bilgisini çözümlemek "
+"için şu linke başvurun: {readme_link}."
+
+#: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:25
+#: qt/messagebox.py:99
 msgid "Warning"
 msgstr "Uyarı"
 
-#: common/config.py:138 common/config.py:246
+#: common/config.py:108 common/config.py:218
 msgid "Main profile"
 msgstr "Ana profil"
 
-#: common/config.py:252
+#: common/config.py:224
 msgid "Local (EncFS encrypted)"
 msgstr "Yerel (EncFS şifreli)"
 
-#: common/config.py:253
+#: common/config.py:225
 msgid "SSH (EncFS encrypted)"
 msgstr "SSH (EncFS şifreli)"
 
-#: common/config.py:264
+#: common/config.py:236
 msgid "Local"
 msgstr "Yerel"
 
-#: common/config.py:266
+#: common/config.py:238
 msgid "SSH"
 msgstr "SSH"
 
-#: common/config.py:266 common/config.py:276
-#: qt/manageprofiles/tab_general.py:620
+#: common/config.py:238 common/config.py:248
+#: qt/manageprofiles/tab_general.py:662
 msgid "SSH private key"
 msgstr "SSH özel anahtar"
 
-#: common/config.py:269
+#: common/config.py:241
 msgid "Local encrypted"
 msgstr "Yerel olarak şifrelenmiş"
 
-#: common/config.py:270 common/config.py:277
+#: common/config.py:242 common/config.py:249
 msgid "Encryption"
 msgstr "Şifreleme"
 
-#: common/config.py:275
+#: common/config.py:247
 msgid "SSH encrypted"
 msgstr "SSH şifrelenmiş"
 
-#: common/config.py:283
-msgid "Default"
-msgstr "Öntanımlı"
-
-#: common/config.py:314 common/config.py:326 common/config.py:344
-#: common/config.py:358 common/config.py:379
+#: common/config.py:293 common/config.py:305 common/config.py:323
+#: common/config.py:337 common/config.py:358
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: \"{name}\""
 
-#: common/config.py:315
+#: common/config.py:294
 msgid "Backup directory is not valid."
 msgstr "Yedek dizini geçersiz."
 
-#: common/config.py:327
+#: common/config.py:306
 msgid "At least one directory must be selected for backup."
 msgstr "Yedek için en az bir klasör seçilmelidir."
 
-#: common/config.py:345 common/config.py:360
+#: common/config.py:324 common/config.py:339
 #, python-brace-format
 msgid "Directory: {path}"
 msgstr "{path} dizini"
 
-#: common/config.py:346 common/config.py:361
+#: common/config.py:325 common/config.py:340
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
 msgstr ""
 "Bu dizin yedek dizininin bir parçası olduğundan yedeğe dahil edilemez."
 
-#: common/config.py:380
+#: common/config.py:359
 #, python-brace-format
 msgid ""
-"The value for \"Remove oldest backup if free space is less than\" "
+"The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
 " space falls below\" ({val_two})."
 msgstr ""
+"\"Boş alan daha azsa en eski yedeklemeyi kaldır\" ({val_one}) değeri, \"Boş "
+"disk alanı altına düşerse uyar\" ({val_two}) eşiğinden küçük veya eşit "
+"olmalıdır."
 
-#: common/config.py:385
+#: common/config.py:364
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr ""
+"Lütfen yedekleme kaldırma sınırının uyarı sınırından yüksek olmaması için "
+"ayarları düzenleyin."
 
-#: common/config.py:1515
+#: common/config.py:1498
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Udev zamanlama kipi {mode} ile çalışmıyor"
 
-#: common/config.py:1569
+#: common/config.py:1552
 msgid "Failed to write new crontab."
 msgstr "Yeni crontab yazımı başarısız oldu."
 
-#: common/config.py:1577
+#: common/config.py:1560
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -143,43 +156,41 @@ msgstr "Yapılandırma kaydedilemedi"
 msgid "Failed to load config"
 msgstr "Yapılandırma yüklenemedi"
 
-#: common/configfile.py:684 common/configfile.py:783
+#: common/configfile.py:679 common/configfile.py:779
 #, python-brace-format
 msgid "Profile \"{name}\" already exists."
 msgstr "\"{name}\" profili zaten var."
 
-#: common/configfile.py:729
+#: common/configfile.py:725
 msgid "The last profile cannot be removed."
 msgstr "Son profil kaldırılamaz."
 
-#: common/encfstools.py:81
+#: common/encfstools.py:93
 #, python-brace-format
 msgid "Unable to mount '{command}'"
 msgstr "'{command}' bağlanamıyor"
 
-#: common/encfstools.py:130
+#: common/encfstools.py:144
 msgid "Configuration for the encrypted directory not found."
 msgstr "Şifrelenmiş dizin için yapılandırma bulunamadı."
 
-#: common/encfstools.py:137
+#: common/encfstools.py:151
 msgid "Create a new encrypted directory?"
 msgstr "Yeni bir şifreli dizin oluşturulsun mu?"
 
-#: common/encfstools.py:144
+#: common/encfstools.py:158
 msgid "Cancel"
 msgstr "İptal"
 
-#: common/encfstools.py:149
-#, fuzzy
+#: common/encfstools.py:163
 msgid "Please re-enter the EncFS password to confirm."
-msgstr "\"{user}\" kullanıcısı için parola giriniz."
+msgstr "Lütfen onaylamak için EncFS şifresini tekrar girin."
 
-#: common/encfstools.py:155
-#, fuzzy
+#: common/encfstools.py:169
 msgid "The EncFS passwords do not match."
-msgstr "Parola eşleşmiyor."
+msgstr "EncFS parolaları eşleşmiyor."
 
-#: common/encfstools.py:515 common/snapshots.py:1123
+#: common/encfstools.py:513 common/snapshots.py:1130
 msgid "Take snapshot"
 msgstr "Yedek al"
 
@@ -200,12 +211,12 @@ msgstr ""
 msgid "Mountpoint {mntpoint} not empty."
 msgstr "Bağlantı noktası {mntpoint} boş değil."
 
-#: common/password.py:296
+#: common/password.py:306
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "Şifrenizi {mode} \"{profile}\" profili için giriniz :"
 
-#: common/schedule.py:232
+#: common/schedule.py:238
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -214,161 +225,159 @@ msgstr ""
 "{profile_id} profili için Udev kuralı yüklenemedi. '{dbus_interface}' DBus "
 "Hizmeti kullanılabilir değildi."
 
-#: common/schedule.py:245
+#: common/schedule.py:251
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "{path} için UUID bulunamadı"
 
-#: common/snapshots.py:377 common/snapshots.py:655
+#: common/snapshots.py:379 common/snapshots.py:657
 msgid "FAILED"
 msgstr "BAŞARISIZ"
 
-#: common/snapshots.py:578 common/snapshots.py:651
+#: common/snapshots.py:580 common/snapshots.py:653
 msgid "Restore permissions"
 msgstr "İzinleri geri yükle"
 
-#: common/snapshots.py:655 qt/app.py:295 qt/app.py:1112 qt/app.py:1147
-#: qt/qtsystrayicon.py:73
+#: common/snapshots.py:657 qt/app.py:240 qt/app.py:1150 qt/app.py:1166
+#: qt/qtsystrayicon.py:118
 msgid "Done"
 msgstr "Tamamlandı"
 
-#: common/snapshots.py:748
+#: common/snapshots.py:750
 msgid ""
 "The following entries from the include list have no corresponding file or "
 "directory in the backup source:"
 msgstr ""
+"Ekleme listesindeki aşağıdaki kayıtların yedekleme kaynağında karşılık gelen"
+" bir dosyası veya dizini yoktur:"
 
-#: common/snapshots.py:811
+#: common/snapshots.py:813
 msgid "Deferring backup while on battery"
 msgstr "Pille çalışırken yedeklemeyi erteleme"
 
-#: common/snapshots.py:927 qt/app.py:369
+#: common/snapshots.py:932 qt/app.py:370
 msgid "Can't find backup directory."
 msgstr "Yedekleme klasörü bulunamadı."
 
-#: common/snapshots.py:931 qt/app.py:370
+#: common/snapshots.py:936 qt/app.py:371
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Eğer bu bir çıkarılabilir sürücüde ise, lütfen sisteme takın."
 
-#: common/snapshots.py:934
+#: common/snapshots.py:939
 #, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
 msgstr[0] "{n} saniye bekleniyor."
 msgstr[1] "{n} saniye bekleniyor."
 
-#: common/snapshots.py:1000
+#: common/snapshots.py:1007
 #, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "{snapshot_id} yedeği alınamadı."
 
-#: common/snapshots.py:1032
+#: common/snapshots.py:1039
 msgid "Please be patient. Finalizing…"
 msgstr "Lütfen sabırlı olun. Tamamlanıyor…"
 
-#: common/snapshots.py:1158
+#: common/snapshots.py:1165
 msgid "Can't create directory."
 msgstr "Dizin oluşturulamıyor."
 
-#: common/snapshots.py:1175
+#: common/snapshots.py:1182
 msgid "Saving config file…"
 msgstr "Yapılandırma dosyası kaydediliyor…"
 
-#: common/snapshots.py:1256
+#: common/snapshots.py:1263
 msgid "Saving permissions…"
 msgstr "İzinler kaydediliyor…"
 
-#: common/snapshots.py:1371
+#: common/snapshots.py:1379
 #, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr "Devam edilebilecek tamamlanmamış {snapshot_id} yedeği bulundu."
 
-#: common/snapshots.py:1395
+#: common/snapshots.py:1403
 #, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr ""
 "Son çalıştırmadan kalan tamamlanmamış {snapshot_id} dizini kaldırılıyor"
 
-#: common/snapshots.py:1406
+#: common/snapshots.py:1414
 msgid "Can't remove directory"
 msgstr "Dizin silinemiyor"
 
-#: common/snapshots.py:1460
+#: common/snapshots.py:1468
 msgid "Creating backup"
 msgstr "Yedek oluşturuluyor"
 
-#: common/snapshots.py:1511
+#: common/snapshots.py:1519
 msgid "Success"
 msgstr "Başarılı"
 
-#: common/snapshots.py:1514
+#: common/snapshots.py:1522
 msgid "Partial transfer due to error"
 msgstr "Hata sebebiyle kısmen aktarıldı"
 
-#: common/snapshots.py:1515
+#: common/snapshots.py:1523
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "Kaybolan kaynak dosyalar nedeniyle kısmi aktarım (bkz. 'man rsync')"
 
-#: common/snapshots.py:1519
+#: common/snapshots.py:1527
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' sonlandı, çıkış kodu: {exit_code}"
 
-#: common/snapshots.py:1532
+#: common/snapshots.py:1540
 msgid "See 'man rsync' for more details"
 msgstr "Daha fazla ayrıntı için bakınız; 'man rsync'"
 
-#: common/snapshots.py:1539
+#: common/snapshots.py:1547
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
 "Negatif rsync çıkış kodları sinyal numaralarıdır, bkz. 'kill -l' ve 'man "
 "kill'"
 
-#: common/snapshots.py:1560
+#: common/snapshots.py:1568
 msgid "Nothing changed, no new backup necessary"
 msgstr "Hiçbir değişiklik yok, yeni yedek gerekmiyor"
 
-#: common/snapshots.py:1604
+#: common/snapshots.py:1613
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "{new_path} yolu {path} olarak yeniden adlandırılamıyor."
 
-#: common/snapshots.py:1939
-msgid "Smart removal"
-msgstr "Akıllı kaldırma"
+#: common/snapshots.py:2000
+msgid "Applying rules to remove old backups"
+msgstr "Eski yedekleri kaldırmak için kurallar uygulanıyor"
 
-#: common/snapshots.py:1991
-msgid "Apply rules to remove old backups"
-msgstr "Eski yedekleri kaldırmak için kuralları uygula"
+#: common/snapshots.py:2033
+msgid "Applying retention policy"
+msgstr "Saklama politikası kuralları uygulanıyor"
 
-#: common/snapshots.py:2024
-msgid "Apply retention policy"
-msgstr "Saklama ilkelerini uygula"
-
-#: common/snapshots.py:2034
+#: common/snapshots.py:2043
 msgid "Trying to keep min free space"
 msgstr "En az boş alan korunmaya çalışılıyor"
 
-#: common/snapshots.py:2072
+#: common/snapshots.py:2081
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "En az {perc} boş düğümü korumaya çalışıyor"
 
-#: common/snapshots.py:3158 qt/app.py:1924
+#: common/snapshots.py:3213 qt/app.py:1437
 msgid "Now"
 msgstr "Şimdi"
 
-#: common/sshtools.py:232
+#: common/sshtools.py:233
 #, python-brace-format
 msgid "Unable to mount {sshfs}"
 msgstr "{sshfs} bağlanamadı"
 
-#: common/sshtools.py:300
+#: common/sshtools.py:301
 msgid "ssh-agent not found. Please ensure it is installed."
 msgstr "ssh-agent bulunamadı. Lütfen kurulu olduğundan emin olun."
 
-#: common/sshtools.py:483
+#: common/sshtools.py:484
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
@@ -376,55 +385,52 @@ msgstr ""
 "Ssh özel anahtarının kilidi açılamadı. Parola yanlış ya da Cron için parola "
 "yok."
 
-#: common/sshtools.py:719
+#: common/sshtools.py:716
 msgid "Remote path exists but is not a directory."
 msgstr "Uzak yol mevcut ancak bir dizin değil."
 
-#: common/sshtools.py:724
+#: common/sshtools.py:721
 msgid "Remote path is not writable."
 msgstr "Uzak yol yazılabilir değil."
 
-#: common/sshtools.py:729
+#: common/sshtools.py:726
 msgid "Remote path is not executable."
 msgstr "Uzak yol çalıştırılabilir değil."
 
-#: common/sshtools.py:734
+#: common/sshtools.py:731
 msgid "Couldn't create remote path."
 msgstr "Uzak yol oluşturulamadı."
 
-#: common/sshtools.py:1021
+#: common/sshtools.py:1017
 #, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
 msgstr "Uzak bilgisayar {host} {command} komutunu desteklemiyor"
 
-#: common/sshtools.py:1025 common/sshtools.py:1034
-msgid "Look at 'man backintime' for further instructions"
-msgstr "Daha fazla yönerge için 'man backintime' komutuna bakın"
-
-#: common/sshtools.py:1029
+#: common/sshtools.py:1021
 #, python-brace-format
-msgid "Check commands on host {host} returned unknown error"
+msgid "Checking commands on host {host} returned unknown error"
 msgstr ""
-"{host} ana bilgisayarındaki kontrol komutları bilinmeyen bir hata döndürdü"
+"{host} bilgisayarındaki komutlar kontrol edildiğinde bilinmeyen bir hata "
+"döndü"
 
-#: common/sshtools.py:1050
+#: common/sshtools.py:1039
 #, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
 msgstr "Uzak sunucu {host} sabit bağlantıları desteklemiyor"
 
-#: common/sshtools.py:1211
+#: common/sshtools.py:1201
 #, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
 msgstr ""
 "\"{pubkey}\" genel SSH anahtarını uzak ana bilgisayar \"{host}\" üzerine "
 "kopyala."
 
-#: common/sshtools.py:1213
+#: common/sshtools.py:1203
 #, python-brace-format
 msgid "Please enter a password for \"{user}\"."
 msgstr "\"{user}\" kullanıcısı için parola giriniz."
 
-#: common/tools.py:404
+#: common/tools.py:382
 #, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
@@ -433,20 +439,20 @@ msgstr ""
 "{path} için girilen hedef dosya sistemi, Unix tipi dosya sistemleriyle "
 "uyumsuz NTFS ile biçimlendirilmiş."
 
-#: common/tools.py:436
+#: common/tools.py:414
 #, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "{path} geçerli bir dizin değil."
 
-#: common/tools.py:450
+#: common/tools.py:428
 msgid "Creation of following directory failed:"
 msgstr "Aşağıdaki dizin oluşturulamadı:"
 
-#: common/tools.py:452 common/tools.py:548
+#: common/tools.py:430 common/tools.py:527
 msgid "Write access may be restricted."
 msgstr "Yazma erişimi kısıtlanmış olabilir."
 
-#: common/tools.py:492
+#: common/tools.py:471
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -455,7 +461,7 @@ msgstr ""
 "{path} için girilen hedef dosya sistemi hard-link desteklemeyen FAT ile "
 "biçimlendirilmiş. Lütfen özgün bir Linux dosya sistemi kullanın."
 
-#: common/tools.py:503
+#: common/tools.py:482
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -466,15 +472,15 @@ msgstr ""
 "SMB sunucunun sembolik bağları desteklediğini teyit edin ya da "
 "{expertOptions} bölümündeki {copyLinks} seçeneğini etkinleştirin."
 
-#: common/tools.py:507 qt/manageprofiles/tab_expert_options.py:253
+#: common/tools.py:486 qt/manageprofiles/tab_expert_options.py:257
 msgid "Copy links (dereference symbolic links)"
 msgstr "Linkleri kopyala (sembolik bağlantıların referanslarını kaldırır)"
 
-#: common/tools.py:508
+#: common/tools.py:487
 msgid "Expert Options"
 msgstr "Uzman Seçenekleri"
 
-#: common/tools.py:512
+#: common/tools.py:491
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
@@ -483,102 +489,68 @@ msgstr ""
 "{path} için hedef dosya sistemi sshfs ile bağlanılmış bir paylaşımdır. Sshfs"
 " sabit bağlantıları desteklemez. Lütfen 'SSH' modunu kullanın."
 
-#: common/tools.py:546
+#: common/tools.py:525
 msgid "File creation failed in this directory:"
 msgstr "Bu dizin içerisinde dosya oluşturulması sırasında hata:"
 
-#: qt/aboutdlg.py:49
+#: qt/aboutdlg.py:51
 msgid "About Back In Time"
 msgstr "Back In Time Hakkında"
 
-#: qt/aboutdlg.py:87
+#: qt/aboutdlg.py:89
 msgid "Copyright:"
 msgstr "Telif hakkı:"
 
-#: qt/aboutdlg.py:91
+#: qt/aboutdlg.py:93
 msgid "Authors:"
 msgstr "Yazarlar:"
 
-#: qt/aboutdlg.py:95
+#: qt/aboutdlg.py:97
 msgid "Translators:"
 msgstr "Çevirmenler:"
 
-#: qt/aboutdlg.py:98
+#: qt/aboutdlg.py:100
 msgid "translator-credits-placeholder"
 msgstr ""
 "Onur Esat Karabacak\n"
 "Taner Orak\n"
-"Nuri Küçükler <nurikucukler@yahoo.com>"
+"Nuri Küçükler <nurikucukler@yahoo.com>\n"
+"Baris Ozyurt"
 
-#: qt/aboutdlg.py:105
+#: qt/aboutdlg.py:107
 msgid "Translator credits not available for current language."
 msgstr "Yürürlükteki dil için çevirmen belirtimleri mevcut değil."
 
-#: qt/aboutdlg.py:114
+#: qt/aboutdlg.py:116
 msgid "this link"
 msgstr "bu bağlantı"
 
-#: qt/aboutdlg.py:116
+#: qt/aboutdlg.py:118
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
 "Bütün dillerdeki çevirmen belirtimleri için bu linki takip edin {thislink}."
 
-#: qt/aboutdlg.py:153
-#, python-brace-format
-msgid ""
-"All licenses used in this project are located in the {dir_link} directory. "
-"To extract per-file license and copyright information using SPDX metadata, "
-"refer to {readme_link}."
-msgstr ""
-"Bu projedeki bütün lisanslar {dir_link} dizininde konumlandırılmıştır. SPDX "
-"metaverisini kullanarak dosya bazında lisans ve telif bilgisini çözümlemek "
-"için şu linke başvurun: {readme_link}."
-
-#: qt/aboutdlg.py:223 qt/app.py:562
+#: qt/aboutdlg.py:220 qt/app.py:533
 msgid "Project website"
 msgstr "Proje Web Sitesi"
 
-#: qt/aboutdlg.py:228 qt/app.py:544
+#: qt/aboutdlg.py:225 qt/app.py:515
 msgid "User manual"
 msgstr "Kullanım kılavuzu"
 
-#: qt/aboutdlg.py:229 qt/app.py:546
-msgid "Open user manual in browser (local if available otherwise online)"
+#: qt/aboutdlg.py:227 qt/app.py:517
+msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
 "Kullanım kılavuzunu tarayıcıda açın (mevcutsa yerel, aksi takdirde "
 "çevrimiçi)"
 
-#: qt/aboutdlg.py:260
-msgid "Back In Time"
-msgstr "Back In Time"
-
-#: qt/aboutdlg.py:281
+#: qt/aboutdlg.py:277
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}Versiyon{BOLDEND}: {version}"
 
-#: qt/app.py:175
-msgid "Shortcuts"
-msgstr "Kısayollar"
-
-#: qt/app.py:195
-msgid ""
-"This directory doesn't exist\n"
-"in the current selected backup."
-msgstr ""
-"Bu klasör,\n"
-"seçili yedekte yok."
-
-#: qt/app.py:260
-msgid "Add to Include"
-msgstr "Dahil Et'e Ekle"
-
-#: qt/app.py:262
-msgid "Add to Exclude"
-msgstr "Dışla'ya Ekle"
-
-#: qt/app.py:337
+#: qt/app.py:341
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time as no configuration is "
@@ -587,7 +559,7 @@ msgstr ""
 "{app_name} herhangi bir yapılandırma bulunamadığı için ilk defa "
 "çalıştırılıyor gibi görünüyor."
 
-#: qt/app.py:342
+#: qt/app.py:346
 msgid ""
 "Import an existing configuration (from a backup target directory or another "
 "computer)?"
@@ -595,238 +567,273 @@ msgstr ""
 "Var olan bir yapılandırmayı içe aktarın (yedekleme hedef dosyasından veya "
 "farklı bir bilgisayardan)?"
 
-#: qt/app.py:371
+#: qt/app.py:372
 msgid "Then press OK."
-msgstr ""
+msgstr "Daha sonra Tamam’a basın."
 
-#: qt/app.py:481
+#: qt/app.py:454
 msgid "Create a backup"
 msgstr "Yedek oluştur"
 
-#: qt/app.py:483
+#: qt/app.py:456
 msgid "Use modification time & size for file change detection."
 msgstr ""
 "Dosya değişikliği tespiti için değişiklik zamanı ve boyutunu kullanın."
 
-#: qt/app.py:486
+#: qt/app.py:459
 msgid "Create a backup (checksum mode)"
 msgstr "Yedek oluştur (sağlama toplamı kipi)"
 
-#: qt/app.py:488
+#: qt/app.py:461
 msgid "Use checksums for file change detection."
 msgstr "Dosya değişikliklerini algılamak için sağlama toplamlarını kullan."
 
-#: qt/app.py:491 qt/qtsystrayicon.py:79
+#: qt/app.py:463 qt/qtsystrayicon.py:125
 msgid "Pause backup process"
 msgstr "Yedekleme sürecini duraklat"
 
-#: qt/app.py:496 qt/qtsystrayicon.py:84
+#: qt/app.py:467 qt/qtsystrayicon.py:130
 msgid "Resume backup process"
 msgstr "Yedekleme sürecini sürdür"
 
-#: qt/app.py:500 qt/qtsystrayicon.py:90
+#: qt/app.py:471 qt/qtsystrayicon.py:135
 msgid "Stop backup process"
 msgstr "Yedekleme sürecini durdur"
 
-#: qt/app.py:504
+#: qt/app.py:475
 msgid "Refresh backup list"
 msgstr "Yedekleme listesini yenile"
 
-#: qt/app.py:508
+#: qt/app.py:479
 msgid "Name backup"
 msgstr "Yedek isimlendir"
 
-#: qt/app.py:512
+#: qt/app.py:483
 msgid "Remove backup"
 msgstr "Yedeği kaldır"
 
-#: qt/app.py:516
-#, fuzzy
+#: qt/app.py:487
 msgid "Open backup log"
 msgstr "Yedekleme günlüğünü görüntüle"
 
-#: qt/app.py:518
-#, fuzzy
+#: qt/app.py:489
 msgid "View log of the selected backup."
-msgstr "Yedek için en az bir klasör seçilmelidir."
+msgstr "Seçili yedeklemenin günlüğünü görüntüleyin."
 
-#: qt/app.py:520
-#, fuzzy
+#: qt/app.py:491
 msgid "Open last backup log"
-msgstr "Yedekleme günlüğünü görüntüle"
+msgstr "En son yedekleme günlüğünü görüntüle"
 
-#: qt/app.py:522
+#: qt/app.py:493
 msgid "View log of the latest backup."
-msgstr ""
+msgstr "En son yedekleme günlüğünü görüntüle."
 
-#: qt/app.py:524
+#: qt/app.py:495
 msgid "Manage profiles…"
 msgstr "Profilleri yönet…"
 
-#: qt/app.py:528
+#: qt/app.py:499
 msgid "Edit user-callback"
 msgstr "Kullanıcı Geri Çağrısını Düzenle"
 
-#: qt/app.py:532
+#: qt/app.py:503
 msgid "Shutdown"
 msgstr "Kapat"
 
-#: qt/app.py:534
+#: qt/app.py:505
 msgid "Shut down system after backup has finished."
 msgstr "Yedekleme tamamlandığında sistemi kapat."
 
-#: qt/app.py:536
+#: qt/app.py:507
 msgid "Setup language…"
 msgstr "Kurulum dili…"
 
-#: qt/app.py:540
+#: qt/app.py:511
 msgid "Exit"
 msgstr "Çıkış"
 
-#: qt/app.py:550
+#: qt/app.py:521
 msgid "man page: Back In Time"
 msgstr "man sayfası: Back In Time"
 
-#: qt/app.py:552
+#: qt/app.py:523
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "\"Back In Time\" hakkındaki man sayfasını göster"
 
-#: qt/app.py:555
+#: qt/app.py:526
 msgid "man page: Profiles config file"
 msgstr "man sayfası: Profil yapılandırma dosyası"
 
-#: qt/app.py:558
+#: qt/app.py:529
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 "Profil yapılandırma dosyası (backintime-config) hakkında man sayfasını "
 "görüntüler"
 
-#: qt/app.py:565
+#: qt/app.py:536
 msgid "Open Back In Time website in browser"
 msgstr "\"Back In Time\" web sitesini aç"
 
-#: qt/app.py:567 qt/app.py:1543
+#: qt/app.py:538 qt/app.py:2223
 msgid "Changelog"
 msgstr "Değişiklik Günlüğü"
 
-#: qt/app.py:570
+#: qt/app.py:541
+msgid "Open changelog (locally if available, otherwise from the web)"
+msgstr ""
+"Değişiklik günlüğünü açın (mümkünse yerel olarak, aksi takdirde çevrimiçi)"
+
+#: qt/app.py:544
 msgid "FAQ"
 msgstr "SSS"
 
-#: qt/app.py:572
+#: qt/app.py:546
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "Sıkça Sorulan Sorular'ı (SSS) tarayıcıda açın"
 
-#: qt/app.py:574
+#: qt/app.py:548
 msgid "Ask a question"
 msgstr "Soru Sor"
 
-#: qt/app.py:578
+#: qt/app.py:552
 msgid "Report a bug"
 msgstr "Hata Bildir"
 
-#: qt/app.py:581
+#: qt/app.py:555
 msgid "Translation"
 msgstr "Çeviri"
 
-#: qt/app.py:583
+#: qt/app.py:557
 msgid "Shows the message about participation in translation again."
 msgstr "Çeviriye katılım mesajını tekrar gösterir."
 
-#: qt/app.py:587
+#: qt/app.py:561
 msgid "Encryption Transition (EncFS)"
 msgstr "Şifreleme Geçişi (EncFS)"
 
-#: qt/app.py:589
+#: qt/app.py:563
 msgid "Shows the message about EncFS removal again."
 msgstr "EncFS kaldırma mesajını tekrar gösterir."
 
-#: qt/app.py:596
+#: qt/app.py:570
 msgid "About"
 msgstr "Hakkında"
 
-#: qt/app.py:599 qt/restoredialog.py:40 qt/snapshotsdialog.py:173
-#: qt/snapshotsdialog.py:178
+#: qt/app.py:573 qt/restoredialog.py:46 qt/snapshotsdialog.py:184
+#: qt/snapshotsdialog.py:189
 msgid "Restore"
 msgstr "Geri Yükle"
 
-#: qt/app.py:601
-msgid "Restore the selected files or directories to the original destination."
-msgstr "Seçilen dosyaları veya klasörleri özgün hedefe geri yükle."
+#: qt/app.py:575
+msgid "Restore the selected files or directories to the original location."
+msgstr "Seçili dosyaları veya dizinleri orijinal konumlarına geri yükleyin."
 
-#: qt/app.py:604 qt/app.py:1715 qt/app.py:1747 qt/snapshotsdialog.py:175
+#: qt/app.py:578 qt/app.py:1865 qt/snapshotsdialog.py:186
 msgid "Restore to …"
 msgstr "Şuraya geri yükle …"
 
-#: qt/app.py:606
-msgid "Restore the selected files or directories to a new destination."
-msgstr "Seçilen dosyaları veya klasörleri yeni hedefe geri yükle."
+#: qt/app.py:580
+msgid "Restore the selected files or directories to a new location."
+msgstr "Seçili dosyaları veya dizinleri yeni bir konuma geri yükleyin."
 
-#: qt/app.py:612
+#: qt/app.py:586
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
-"destination."
-msgstr "Gösterilen klasörü ve tüm içeriğini özgün hedefe geri yükle."
+"location."
+msgstr ""
+"Şu anda gösterilen dizini ve tüm içeriğini orijinal konumuna geri yükleyin."
 
-#: qt/app.py:618
+#: qt/app.py:592
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
-"destination."
+"location."
 msgstr "Şu anda gösterilen klasörü ve tüm içeriğini yeni hedefe geri yükle."
 
-#: qt/app.py:621
+#: qt/app.py:595
 msgid "Up"
 msgstr "Yukarı"
 
-#: qt/app.py:624 qt/restoreconfigdialog.py:103
+#: qt/app.py:598
 msgid "Show hidden files"
 msgstr "Gizli dosyaları göster"
 
-#: qt/app.py:627
+#: qt/app.py:601
 msgid "Compare backups…"
 msgstr "Yedekleri karşılaştır…"
 
-#: qt/app.py:657 qt/app.py:2231
+#: qt/app.py:631 qt/app.py:1745
 msgid "Release Candidate"
 msgstr "Sürüm adayı"
 
-#: qt/app.py:660
+#: qt/app.py:634
 msgid "Shows the message about this Release Candidate again."
 msgstr "Bu Yayınlama Adayı hakkındaki mesajı tekrar gösterir."
 
-#: qt/app.py:696
+#: qt/app.py:671
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:701
+#: qt/app.py:676
 msgid "&Backup"
 msgstr "&Yedekle"
 
-#: qt/app.py:713
+#: qt/app.py:688
 msgid "&Restore"
 msgstr "&Geri Yükle"
 
-#: qt/app.py:719
+#: qt/app.py:694
 msgid "&Help"
 msgstr "Y&ardım"
 
-#: qt/app.py:766
+#: qt/app.py:745
+msgid "Systray Icon"
+msgstr "Sistem Tepsisi Simgesi"
+
+#: qt/app.py:751
+msgid "Automatic"
+msgstr "Otomatik"
+
+#: qt/app.py:755
+msgid "Light icon"
+msgstr "Açık Renk Simge"
+
+#: qt/app.py:756
+msgid "Dark icon"
+msgstr "Koyu Renk Simge"
+
+#: qt/app.py:779
 msgid "Icons only"
 msgstr "Sadece simgeler"
 
-#: qt/app.py:769
+#: qt/app.py:782
 msgid "Text only"
 msgstr "Sadece Metin"
 
-#: qt/app.py:772
+#: qt/app.py:785
 msgid "Text below icons"
 msgstr "Metin ikonların altında"
 
-#: qt/app.py:775
+#: qt/app.py:788
 msgid "Text beside icon"
 msgstr "Metin ikonların yanında"
 
-#: qt/app.py:924
+#: qt/app.py:899
+msgid ""
+"This directory doesn't exist\n"
+"in the current selected backup."
+msgstr ""
+"Bu klasör,\n"
+"seçili yedekte yok."
+
+#: qt/app.py:960
+msgid "Add to Include"
+msgstr "Dahil Et'e Ekle"
+
+#: qt/app.py:961
+msgid "Add to Exclude"
+msgstr "Dışla'ya Ekle"
+
+#: qt/app.py:975
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
@@ -834,167 +841,53 @@ msgstr ""
 "Eğer bu pencereyi kapatırsanız, Back In Time yedekleme işlemi "
 "tamamlandığında sisteminizi kapatamayacak."
 
-#: qt/app.py:927
+#: qt/app.py:978
 msgid "Close the window anyway?"
 msgstr "Yine de pencere kapansın mı?"
 
-#: qt/app.py:1102
-msgid "Working:"
-msgstr "Çalışıyor:"
-
-#: qt/app.py:1150
+#: qt/app.py:1169
 msgid "Done, no backup needed"
 msgstr "Tamamlandı, yedekleme gerekmiyor"
 
-#: qt/app.py:1162
+#: qt/app.py:1240
+msgid "Working:"
+msgstr "Çalışıyor:"
+
+#: qt/app.py:1247
 msgid "Working"
 msgstr "Çalışıyor"
 
-#: qt/app.py:1171 qt/messagebox.py:125
+#: qt/app.py:1253 qt/messagebox.py:136
 msgid "Error"
 msgstr "Hata"
 
-#: qt/app.py:1212 qt/qtsystrayicon.py:206
+#: qt/app.py:1294 qt/qtsystrayicon.py:295
 msgid "Sent:"
 msgstr "Gönderilen:"
 
-#: qt/app.py:1213 qt/qtsystrayicon.py:207
+#: qt/app.py:1295 qt/qtsystrayicon.py:296
 msgid "Speed:"
 msgstr "Hız:"
 
-#: qt/app.py:1214 qt/qtsystrayicon.py:208
+#: qt/app.py:1296 qt/qtsystrayicon.py:297
 msgid "ETA:"
 msgstr "Tahmini Varış Süresi:"
 
-#: qt/app.py:1277
-msgid "Global"
-msgstr "Küresel"
+#: qt/app.py:1445
+msgid "Backup:"
+msgstr "Yedek:"
 
-#: qt/app.py:1278
-msgid "Root"
-msgstr "Kök Dizini"
-
-#: qt/app.py:1279
-msgid "Home"
-msgstr "Ev"
-
-#: qt/app.py:1307
-msgid "Backup directories"
-msgstr "Yedekleme klasörleri"
-
-#: qt/app.py:1386
-#, python-brace-format
-msgid ""
-"Only {free} free space available on the destination, which is below the "
-"configured threshold of {threshold}."
-msgstr ""
-
-#: qt/app.py:1391
-#, fuzzy
-msgid "Proceed with the backup?"
-msgstr "Bu yedek kaldırılsın mı?"
-
-#: qt/app.py:1424
-msgid "Backup name"
-msgstr "Yedek adı"
-
-#: qt/app.py:1475
-msgid "Remove this backup?"
-msgid_plural "Remove these backups?"
-msgstr[0] "Bu yedek kaldırılsın mı?"
-msgstr[1] "Bu yedekler kaldırılsın mı?"
-
-#: qt/app.py:1573
-#, python-brace-format
-msgid ""
-"Create backup copies with trailing {suffix}\n"
-"before overwriting or removing local elements."
-msgstr ""
-"Üzerine yazmadan veya kaldırmadan önce\n"
-"{suffix} ile yerel dosyaları yedekleyin."
-
-#: qt/app.py:1581 qt/manageprofiles/tab_options.py:65
-#, python-brace-format
-msgid ""
-"Before restoring, newer versions of files will be renamed with the appended "
-"{suffix}. These files can be removed with the following command:"
-msgstr ""
-"Daha yeni dosya sürümleri, geri yüklenmeden önce sonuna {suffix} eklenerek "
-"yeniden adlandırılacaktır. Artık onlara ihtiyacınız yoksa, aşağıdaki komutla"
-" silebilirsiniz:"
-
-#: qt/app.py:1597
-msgid ""
-"Only restore elements which do not exist or\n"
-"are newer than those in destination.\n"
-"Using \"rsync --update\" option."
-msgstr ""
-"Yalnızca var olmayan ya da hedefteki ögelerden\n"
-"daha yeni olanları geri yükle.\n"
-"\"rsync --update\" seçeneğini kullanarak."
-
-#: qt/app.py:1632
-msgid "Remove newer elements in original directory."
-msgstr "Özgün klasördeki daha yeni ögeleri kaldır."
-
-#: qt/app.py:1635
-msgid ""
-"Restore selected files or directories to the original destination and delete"
-" files or directories which are not in the backup. Be extremely careful "
-"because this will delete files and directories which were excluded during "
-"the creation of the backup."
-msgstr ""
-"Seçilen dosyaları veya klasörleri orijinal hedefe geri yükleyin ve yedekte "
-"bulunmayan dosya veya klasörleri silin. Çok dikkatli olun çünkü bu işlem, "
-"yedek alınırken hariç tutulan dosya ve klasörleri silecektir."
-
-#: qt/app.py:1647
-msgid "Really restore this element into the new directory?"
-msgid_plural "Really restore these elements into the new directory?"
-msgstr[0] ""
-"Bu öğeyi gerçekten {path} yeni klasörüne geri yüklemek istiyor musunuz?"
-msgstr[1] ""
-"Bu öğeleri gerçekten {path} yeni klasörüne geri yüklemek istiyor musunuz?"
-
-#: qt/app.py:1655
-msgid "Really restore this element?"
-msgid_plural "Really restore these elements?"
-msgstr[0] "Bu öğeyi gerçekten geri yüklemek istiyor musunuz?"
-msgstr[1] "Bu öğeleri gerçekten geri yüklemek istiyor musunuz?"
-
-#: qt/app.py:1674
-#, python-brace-format
-msgid "All newer files in {path} will be removed. Proceed?"
-msgstr "{path} yolundaki bütün yeni dosyalar kaldırılacak. Devam edilsin mi?"
-
-#: qt/app.py:1677
-msgid "All newer files in the original directory will be removed. Proceed?"
-msgstr "Asıl dizindeki bütün yeni dosyalar kaldırılacak. Devam edilsin mi?"
-
-#: qt/app.py:1683
-#, python-brace-format
-msgid ""
-"{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
-"the entire system."
-msgstr ""
-"{BOLD}UYARI{BOLDEND}: Dosyaları dosya sistemi kökünden silmek, sisteminizin "
-"tamamını bozabilir."
-
-#: qt/app.py:1932
-msgid "Backup"
-msgstr "Yedek"
-
-#: qt/app.py:1971
+#: qt/app.py:1485
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "{path} geri yükle"
 
-#: qt/app.py:1973
+#: qt/app.py:1487
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "{path} geri yükle, hedef …"
 
-#: qt/app.py:2121
+#: qt/app.py:1635
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -1011,47 +904,42 @@ msgstr ""
 "Böldüğümüz için özür dileriz. Bu mesaj tekrar gösterilmeyecektir. Bu mesajı istediğiniz zaman yardım menüsünden görüntüleyebilirsiniz.\n"
 "Back In Time Ekibi"
 
-#: qt/app.py:2150
+#: qt/app.py:1664
 msgid "translation platform"
 msgstr "çeviri platformu"
 
-#: qt/app.py:2155
+#: qt/app.py:1669
 msgid "Website"
 msgstr "Web Sitesi"
 
-#: qt/app.py:2169
+#: qt/app.py:1683
 msgid "Your translation"
 msgstr "Sizin çeviriniz"
 
-#: qt/app.py:2182
+#: qt/app.py:1696
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Mastodon'daki Fediverse: {link_and_label}."
 
-#: qt/app.py:2187
-#, python-brace-format
-msgid "Email to {link_and_label}."
-msgstr "E-posta {link_and_label}."
-
-#: qt/app.py:2190
+#: qt/app.py:1704
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "E-posta listesi {link_and_label}."
 
-#: qt/app.py:2194
+#: qt/app.py:1708
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "Proje web sitesinde {link_and_label}."
 
-#: qt/app.py:2197
+#: qt/app.py:1711
 msgid "Open an issue"
 msgstr "hata bildir"
 
-#: qt/app.py:2198
+#: qt/app.py:1712
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Alternatif olarak istediğiniz iletişim yolunu kullanabilirsiniz."
 
-#: qt/app.py:2203
+#: qt/app.py:1717
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -1072,15 +960,117 @@ msgstr ""
 "Desteğiniz ve Back In Time'ı geliştirmemize yardımcı olduğunuz için teşekkür ederiz!!\n"
 "\"Back In Time\" ekibi"
 
-#: qt/app.py:2303
+#: qt/app.py:1815
+#, python-brace-format
+msgid ""
+"Only {free} free space available on the destination, which is below the "
+"configured threshold of {threshold}."
+msgstr ""
+"Hedefte yalnızca {free} boş alan mevcut ve bu alan tanımlanmış {threshold} "
+"sınırının altında."
+
+#: qt/app.py:1820
+msgid "Proceed with the backup?"
+msgstr "Yedeklemeye devam edilsin mi?"
+
+#: qt/app.py:1845
+#, python-brace-format
+msgid "All newer files in {path} will be removed. Proceed?"
+msgstr "{path} yolundaki bütün yeni dosyalar kaldırılacak. Devam edilsin mi?"
+
+#: qt/app.py:1848
+msgid "All newer files in the original directory will be removed. Proceed?"
+msgstr "Asıl dizindeki bütün yeni dosyalar kaldırılacak. Devam edilsin mi?"
+
+#: qt/app.py:1854
+#, python-brace-format
+msgid ""
+"{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
+"the entire system."
+msgstr ""
+"{BOLD}UYARI{BOLDEND}: Dosyaları dosya sistemi kökünden silmek, sisteminizin "
+"tamamını bozabilir."
+
+#: qt/app.py:2089
+msgid "Backup name"
+msgstr "Yedek adı"
+
+#: qt/app.py:2120
+msgid "Remove this backup?"
+msgid_plural "Remove these backups?"
+msgstr[0] "Bu yedek kaldırılsın mı?"
+msgstr[1] "Bu yedekler kaldırılsın mı?"
+
+#: qt/app.py:2183
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "Dil ayarları yalnızca Back In Time yeniden başlatıldıktan sonra etkili olur."
 
+#: qt/confirmrestoredialog.py:35 qt/messagebox.py:123
+msgid "Question"
+msgstr "Soru"
+
+#: qt/confirmrestoredialog.py:76
+#, python-brace-format
+msgid ""
+"Create backup copies with trailing {suffix} before overwriting or removing "
+"local elements."
+msgstr ""
+"Yerel öğelerin üzerine yazmadan veya kaldırmadan önce sonuna {suffix} "
+"ekleyerek yedek kopyalar oluşturun."
+
+#: qt/confirmrestoredialog.py:81 qt/manageprofiles/tab_options.py:69
+#, python-brace-format
+msgid ""
+"Before restoring, newer versions of files will be renamed with the appended "
+"{suffix}. These files can be removed with the following command:"
+msgstr ""
+"Daha yeni dosya sürümleri, geri yüklenmeden önce sonuna {suffix} eklenerek "
+"yeniden adlandırılacaktır. Artık onlara ihtiyacınız yoksa, aşağıdaki komutla"
+" silebilirsiniz:"
+
+#: qt/confirmrestoredialog.py:94
+#, python-brace-format
+msgid ""
+"Only restore elements which do not exist or are newer than those in "
+"destination. Using \"{rsync_example}\" option."
+msgstr ""
+"Yalnızca var olmayan veya hedeftekilerden daha yeni olan öğeleri geri "
+"yükleyin. \"{rsync_example}\" seçeneğini kullanın."
+
+#: qt/confirmrestoredialog.py:133
+msgid "Remove newer elements in original directory."
+msgstr "Özgün klasördeki daha yeni ögeleri kaldır."
+
+#: qt/confirmrestoredialog.py:135
+msgid ""
+"Restore selected files or directories to the original destination and delete"
+" files or directories which are not in the backup. Be extremely careful "
+"because this will delete files and directories which were excluded during "
+"the creation of the backup."
+msgstr ""
+"Seçilen dosyaları veya klasörleri orijinal hedefe geri yükleyin ve yedekte "
+"bulunmayan dosya veya klasörleri silin. Çok dikkatli olun çünkü bu işlem, "
+"yedek alınırken hariç tutulan dosya ve klasörleri silecektir."
+
+#: qt/confirmrestoredialog.py:147
+msgid "Really restore this element into the new directory?"
+msgid_plural "Really restore these elements into the new directory?"
+msgstr[0] ""
+"Bu öğeyi gerçekten {path} yeni klasörüne geri yüklemek istiyor musunuz?"
+msgstr[1] ""
+"Bu öğeleri gerçekten {path} yeni klasörüne geri yüklemek istiyor musunuz?"
+
+#: qt/confirmrestoredialog.py:157
+msgid "Really restore this element?"
+msgid_plural "Really restore these elements?"
+msgstr[0] "Bu öğeyi gerçekten geri yüklemek istiyor musunuz?"
+msgstr[1] "Bu öğeleri gerçekten geri yüklemek istiyor musunuz?"
+
 #: qt/editusercallback.py:43
 #, python-brace-format
 msgid "User-callback: \"{filename}\""
-msgstr ""
+msgstr "Kullanıcı geri araması: \"{filename}\""
 
 #: qt/editusercallback.py:105
 #, python-brace-format
@@ -1088,9 +1078,11 @@ msgid ""
 "The user-callback script must include a shebang on the first line (e.g. "
 "{example})."
 msgstr ""
+"Kullanıcı geri çağırma betiğinin ilk satırında bir shebang bulunmalıdır "
+"(örn. {example})."
 
-#: qt/encfsmsgbox.py:42 qt/encfsmsgbox.py:68
-#: qt/manageprofiles/tab_general.py:561
+#: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
+#: qt/manageprofiles/tab_general.py:599
 msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
@@ -1098,22 +1090,22 @@ msgstr ""
 "EncFS profil oluşturulması 2026 yılında planlanan bir sonraki sürümde (1.7) "
 "kaldırılacaktır."
 
-#: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:70
+#: qt/encfsmsgbox.py:46 qt/encfsmsgbox.py:73
 msgid "It is not recommended to use that mode for a profile furthermore."
 msgstr "O profil için bu modu kullanmanız artık önerilmiyor."
 
-#: qt/encfsmsgbox.py:47 qt/encfsmsgbox.py:79
-#: qt/manageprofiles/tab_general.py:570
+#: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:82
+#: qt/manageprofiles/tab_general.py:604
 msgid "whitepaper"
 msgstr "Teknik döküman"
 
-#: qt/encfsmsgbox.py:49 qt/encfsmsgbox.py:85
-#: qt/manageprofiles/tab_general.py:563
+#: qt/encfsmsgbox.py:51 qt/encfsmsgbox.py:88
+#: qt/manageprofiles/tab_general.py:601
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr "EncFS desteği güvenlik zafiyetleri nedeni ile sonlandırılacaktır."
 
-#: qt/encfsmsgbox.py:52 qt/manageprofiles/tab_general.py:565
+#: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
 msgid ""
 "For more details, including potential alternatives, please refer to this "
@@ -1121,17 +1113,17 @@ msgid ""
 msgstr ""
 "Daha fazla detay ve alternatif öneriler için lütfen {whitepaper}'a başvurun."
 
-#: qt/encfsmsgbox.py:82
+#: qt/encfsmsgbox.py:85
 msgid "The following profile(s) use encryption with EncFS:"
 msgstr "Aşağıdaki profil(ler) EncFS ile şifreleme kullanıyor:"
 
-#: qt/encfsmsgbox.py:87
+#: qt/encfsmsgbox.py:90
 msgid ""
 "A replacement is planned, but it cannot be guaranteed that it will arrive on"
 " time."
 msgstr "Bir değişiklik planlanıyor ama zamanında ulaşması garanti değil."
 
-#: qt/encfsmsgbox.py:89
+#: qt/encfsmsgbox.py:92
 #, python-brace-format
 msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
@@ -1140,7 +1132,7 @@ msgstr ""
 "Kullanıcılar bu tartışmaya davetlidir. Sonraki adımlar hakkında güncellenmiş"
 " detaylar burada: {whitepaper}."
 
-#: qt/encfsmsgbox.py:92
+#: qt/encfsmsgbox.py:95
 msgid ""
 "This message will not be shown again. This dialog is available at any time "
 "via the help menu."
@@ -1148,46 +1140,45 @@ msgstr ""
 "Bu mesaj bir daha gösterilmeyecek. Bu iletişim kutusu her zaman yardım "
 "menüsünden erişilebilir."
 
-#: qt/encfsmsgbox.py:94
+#: qt/encfsmsgbox.py:97
 msgid "Your Back In Time Team"
 msgstr "Back In Time Takımınız"
 
 #: qt/filedialog.py:87
-#, fuzzy
 msgid "Show/hide hidden files and directories (Ctrl+H)"
-msgstr "Dosyaları ve klasörleri dahil et"
+msgstr "Gizli dosyaları ve dizinleri göster/gizle (Ctrl+H)"
 
 #: qt/languagedialog.py:35
 msgid "Setup language"
 msgstr "Kurulum dili"
 
-#: qt/languagedialog.py:97
-msgid "System default"
-msgstr "Sistem öntanımlısı"
-
-#: qt/languagedialog.py:107
-msgid "Use operating system's language."
-msgstr "İşletim sistemi dilini kullanın."
-
-#: qt/languagedialog.py:161
+#: qt/languagedialog.py:119
 #, python-brace-format
 msgid "Translated: {percent}"
 msgstr "Çevrilen: {percent}"
 
-#: qt/logviewdialog.py:59
-msgid "Last Log View"
-msgstr "Son Günlük Görünüm"
+#: qt/languagedialog.py:131
+msgid "System default"
+msgstr "Sistem öntanımlısı"
 
-#: qt/logviewdialog.py:61
+#: qt/languagedialog.py:141
+msgid "Use operating system's language."
+msgstr "İşletim sistemi dilini kullanın."
+
+#: qt/logviewdialog.py:63
 msgid "Backup Log View"
 msgstr "Yedekleme Günlük Görünümü"
 
-#: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:67
-#: qt/manageprofiles/tab_general.py:247 qt/restoreconfigdialog.py:282
+#: qt/logviewdialog.py:63
+msgid "Last Log View"
+msgstr "Son Günlük Görünüm"
+
+#: qt/logviewdialog.py:71 qt/manageprofiles/__init__.py:72
+#: qt/manageprofiles/tab_general.py:250 qt/restoreconfigdialog.py:356
 msgid "Profile:"
 msgstr "Profil:"
 
-#: qt/logviewdialog.py:77
+#: qt/logviewdialog.py:86
 msgid "Backups:"
 msgstr "Yedekler:"
 
@@ -1195,108 +1186,245 @@ msgstr "Yedekler:"
 msgid "Filter:"
 msgstr "Filtrele:"
 
-#: qt/logviewdialog.py:99 qt/manageprofiles/tab_options.py:181
+#: qt/logviewdialog.py:100
+msgid "[E] Error, [I] Information, [C] Change"
+msgstr "[E] Hata, [I] Bilgi, [C] Değiştir"
+
+#: qt/logviewdialog.py:103 qt/qtsystrayicon.py:148
+msgid "decode paths"
+msgstr "kod çözümleme yolları"
+
+#: qt/logviewdialog.py:122 qt/manageprofiles/tab_options.py:188
 msgid "All"
 msgstr "Tümü"
 
-#: qt/logviewdialog.py:106 qt/logviewdialog.py:110
-#: qt/manageprofiles/tab_options.py:180
+#: qt/logviewdialog.py:128 qt/logviewdialog.py:132
+#: qt/manageprofiles/tab_options.py:187
 msgid "Changes"
 msgstr "Değişiklikler"
 
-#: qt/logviewdialog.py:106 qt/logviewdialog.py:109
-#: qt/manageprofiles/tab_options.py:179 qt/manageprofiles/tab_options.py:180
+#: qt/logviewdialog.py:128 qt/logviewdialog.py:131
+#: qt/manageprofiles/tab_options.py:186 qt/manageprofiles/tab_options.py:187
 msgid "Errors"
 msgstr "Hatalar"
 
-#: qt/logviewdialog.py:111 qt/messagebox.py:68
+#: qt/logviewdialog.py:133 qt/messagebox.py:75
 msgid "Information"
 msgid_plural "Information"
 msgstr[0] "Bilgi"
 msgstr[1] "Bilgiler"
 
-#: qt/logviewdialog.py:114
+#: qt/logviewdialog.py:135
 msgid "rsync transfer failures (experimental)"
 msgstr "rsync aktarımı başarısızlıkları (deneysel)"
 
-#: qt/logviewdialog.py:126
-msgid "[E] Error, [I] Information, [C] Change"
-msgstr "[E] Hata, [I] Bilgi, [C] Değiştir"
-
-#: qt/logviewdialog.py:129 qt/qtsystrayicon.py:95
-msgid "decode paths"
-msgstr "kod çözümleme yolları"
-
-#: qt/manageprofiles/__init__.py:59
+#: qt/manageprofiles/__init__.py:64
 msgid "Manage profiles"
 msgstr "Profilleri yönet"
 
-#: qt/manageprofiles/__init__.py:76
+#: qt/manageprofiles/__init__.py:83
 msgid "Edit"
 msgstr "Düzenle"
 
-#: qt/manageprofiles/__init__.py:80 qt/manageprofiles/tab_exclude.py:96
+#: qt/manageprofiles/__init__.py:87
 msgid "Add"
 msgstr "Ekle"
 
-#: qt/manageprofiles/__init__.py:84 qt/manageprofiles/tab_exclude.py:117
-#: qt/manageprofiles/tab_include.py:78
+#: qt/manageprofiles/__init__.py:91 qt/manageprofiles/tab_exclude.py:125
+#: qt/manageprofiles/tab_include.py:79
 msgid "Remove"
 msgstr "Kaldır"
 
-#: qt/manageprofiles/__init__.py:105
+#: qt/manageprofiles/__init__.py:112
 msgid "&General"
 msgstr "&Genel"
 
-#: qt/manageprofiles/__init__.py:109
+#: qt/manageprofiles/__init__.py:116
 msgid "&Include"
 msgstr "&Dahil Et"
 
-#: qt/manageprofiles/__init__.py:113
+#: qt/manageprofiles/__init__.py:120
 msgid "&Exclude"
 msgstr "Dışl&a"
 
-#: qt/manageprofiles/__init__.py:128
+#: qt/manageprofiles/__init__.py:135
 msgid "&Remove & Retention"
 msgstr "&Kaldırma & Saklama"
 
-#: qt/manageprofiles/__init__.py:132
+#: qt/manageprofiles/__init__.py:139
 msgid "&Options"
 msgstr "&Seçenekler"
 
-#: qt/manageprofiles/__init__.py:136
+#: qt/manageprofiles/__init__.py:143
 msgid "E&xpert Options"
 msgstr "&Uzman Seçenekleri"
 
-#: qt/manageprofiles/__init__.py:143
+#: qt/manageprofiles/__init__.py:151
 msgid "Restore Config"
 msgstr "Yapılandırma Geri Yükle"
 
-#: qt/manageprofiles/__init__.py:174
+#: qt/manageprofiles/__init__.py:182
 msgid "New profile"
 msgstr "Yeni profil"
 
-#: qt/manageprofiles/__init__.py:191
+#: qt/manageprofiles/__init__.py:199
 msgid "Rename profile"
 msgstr "Profili yeniden adlandır"
 
-#: qt/manageprofiles/__init__.py:207
+#: qt/manageprofiles/__init__.py:215
 #, python-brace-format
 msgid "Delete the profile \"{name}\"?"
 msgstr "\"{name}\" profili silinsin mi?"
 
-#: qt/manageprofiles/__init__.py:339
-#, python-brace-format
-msgid ""
-"\"{path}\" is a symlink. The linked target will not be backed up until it is"
-" included, too."
-msgstr ""
-"\"{path}\" bir sembolik bağlantı. Bağlantılı hedef, siz onu da dahil edene "
-"kadar yedeklenmeyecek."
+#: qt/manageprofiles/excludesuggestions.py:33
+msgid "Editor & Office temporary files"
+msgstr "Editör ve geçici Ofis dosyaları"
 
-#: qt/manageprofiles/__init__.py:343
-msgid "Include the symlink's target instead?"
-msgstr "Onun yerine sembolik bağlantının hedefi içerilsin mi?"
+#: qt/manageprofiles/excludesuggestions.py:34
+msgid "Emacs backup files"
+msgstr "Emacs yedekleme dosyaları"
+
+#: qt/manageprofiles/excludesuggestions.py:35
+msgid "Emacs autosave files"
+msgstr "Emacs otomatik kaydetme dosyaları"
+
+#: qt/manageprofiles/excludesuggestions.py:36
+msgid "Vim swap files"
+msgstr "Vim takas dosyaları"
+
+#: qt/manageprofiles/excludesuggestions.py:37
+msgid "Microsoft Office temporary files"
+msgstr "Microsoft Office geçici dosyaları"
+
+#: qt/manageprofiles/excludesuggestions.py:40
+msgid "LibreOffice & other OpenDocument Editors lock files"
+msgstr "LibreOffice ve diğer OpenDocument düzenleyicileri dosyaları kilitler"
+
+#: qt/manageprofiles/excludesuggestions.py:44
+msgid "Thumbnails & Temporary Pictures"
+msgstr "Küçük Resimler ve Geçici Fotoğraflar"
+
+#: qt/manageprofiles/excludesuggestions.py:47
+msgid "Thumbnail cache on GNU/Linux and other unixoid OS'es"
+msgstr ""
+"GNU/Linux ve diğer Unix benzeri işletim sistemlerinde küçük resim önbelleği"
+
+#: qt/manageprofiles/excludesuggestions.py:50
+msgid "Thumbnail database on Windows"
+msgstr "Windows'ta küçük resim veritabanı"
+
+#: qt/manageprofiles/excludesuggestions.py:51
+msgid "Metadata directory on MacOS"
+msgstr "MacOS'ta meta veri dizini"
+
+#: qt/manageprofiles/excludesuggestions.py:53
+msgid "Application-specific locks"
+msgstr "Uygulamaya özel kilitler"
+
+#: qt/manageprofiles/excludesuggestions.py:56
+msgid "Discord application lock file"
+msgstr "Discord uygulama kilidi dosyası"
+
+#: qt/manageprofiles/excludesuggestions.py:57
+msgid "Discord session lock file"
+msgstr "Discord oturum kilitleme dosyası"
+
+#: qt/manageprofiles/excludesuggestions.py:60
+msgid "Mozilla Firefox & Thunderbird lock file"
+msgstr "Discord kayıt kilitleme dosyası"
+
+#: qt/manageprofiles/excludesuggestions.py:62
+msgid "Caches & Temporary directories"
+msgstr "Önbellekler ve Geçici dizinler"
+
+#: qt/manageprofiles/excludesuggestions.py:63
+msgid "User application cache"
+msgstr "Kullanıcı uygulama önbelleği"
+
+#: qt/manageprofiles/excludesuggestions.py:64
+#: qt/manageprofiles/excludesuggestions.py:67
+msgid "System temporary directory"
+msgstr "Sistem geçici dizini"
+
+#: qt/manageprofiles/excludesuggestions.py:72
+msgid "Package cache for Debian(-based) GNU/Linux distributions"
+msgstr ""
+"Debian (veya Debian tabanlı) GNU/Linux dağıtımları için paket önbelleği"
+
+#: qt/manageprofiles/excludesuggestions.py:76
+msgid "System runtime directories"
+msgstr "Sistem çalışma zamanı dizinleri"
+
+#: qt/manageprofiles/excludesuggestions.py:79
+msgid "Kernel and process information"
+msgstr "Çekirdek ve işlem bilgileri"
+
+#: qt/manageprofiles/excludesuggestions.py:84
+msgid "Device and other hardware information (sysfs interface)"
+msgstr "Aygıt ve diğer donanım bilgileri (sysfs arayüzü)"
+
+#: qt/manageprofiles/excludesuggestions.py:87
+msgid "Device nodes"
+msgstr "Aygıt düğümleri"
+
+#: qt/manageprofiles/excludesuggestions.py:88
+#, fuzzy
+msgid "Runtime system files"
+msgstr "Runtime sistem dosyaları"
+
+#: qt/manageprofiles/excludesuggestions.py:90
+msgid "Other non-persistent"
+msgstr "Diğer kalıcı olmayanlar"
+
+#: qt/manageprofiles/excludesuggestions.py:93
+msgid "List of currently mounted filesystems"
+msgstr "Şu anda bağlı olan dosya sistemlerinin listesi"
+
+#: qt/manageprofiles/excludesuggestions.py:96
+msgid "System swap file (virtual memory)"
+msgstr "Sistem takas dosyası (sanal bellek)"
+
+#: qt/manageprofiles/excludesuggestions.py:97
+msgid "GNOME virtual file system mount point"
+msgstr "GNOME sanal dosya sistemi bağlama noktası"
+
+#: qt/manageprofiles/excludesuggestions.py:98
+msgid "Recovered filesystem objects"
+msgstr "Kurtarılan dosya sistemi nesneleri"
+
+#: qt/manageprofiles/excludesuggestions.py:100
+#, fuzzy
+msgid "Miscellaneous"
+msgstr "Diğer Çeşitli"
+
+#: qt/manageprofiles/excludesuggestions.py:103
+msgid "Metadata directory on Microsoft Windows"
+msgstr "Microsoft Windows'da meta veri dizini"
+
+#: qt/manageprofiles/excludesuggestions.py:106
+msgid "User recycle bin"
+msgstr "Kullanıcı geri dönüşüm kutusu"
+
+#: qt/manageprofiles/excludesuggestions.py:107
+msgid "System backup files"
+msgstr "Sistem yedekleme dosyaları"
+
+#: qt/manageprofiles/excludesuggestions.py:134
+msgid "Exclude Suggestions"
+msgstr "Önerileri Hariç Tut"
+
+#: qt/manageprofiles/excludesuggestions.py:139
+msgid "Select commonly used items to add to backup exclusions."
+msgstr ""
+"Yedekleme hariç tutma listesine eklemek için sık kullanılan öğeleri seçin."
+
+#: qt/manageprofiles/excludesuggestions.py:152
+msgid "Default"
+msgstr "Varsayılan"
+
+#: qt/manageprofiles/excludesuggestions.py:153
+msgid "Reset to predefined selection"
+msgstr "Öntanımlı seçime sıfırla"
 
 #: qt/manageprofiles/schedulewidget.py:38
 msgid "Schedule"
@@ -1425,12 +1553,12 @@ msgid "Hour(s)"
 msgstr "Saat"
 
 #: qt/manageprofiles/schedulewidget.py:229
-#: qt/manageprofiles/tab_remove_retention.py:263
+#: qt/manageprofiles/tab_remove_retention.py:269
 msgid "Day(s)"
 msgstr "Gün"
 
 #: qt/manageprofiles/schedulewidget.py:230
-#: qt/manageprofiles/tab_remove_retention.py:264
+#: qt/manageprofiles/tab_remove_retention.py:270
 msgid "Week(s)"
 msgstr "Hafta"
 
@@ -1448,60 +1576,56 @@ msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:63
 msgid "<Select another file…>"
-msgstr ""
+msgstr "<Başka bir dosya seçin…>"
 
 #: qt/manageprofiles/sshkeyselector.py:64
-#, fuzzy
 msgid "Choose an existing private key file from somewhere else."
-msgstr ""
-"Var olan bir özel anahtar dosyası seçin (normalde \"id_ed25519\" ve eski "
-"kurulumlarda \"id_rsa\" olarak adlandırılır)."
+msgstr "Başka bir yerden mevcut bir özel anahtar dosyasını seçin."
 
 #: qt/manageprofiles/sshkeyselector.py:70
 msgid "<Generate new key-pair…>"
-msgstr ""
+msgstr "<Yeni anahtar çifti oluştur…>"
 
 #: qt/manageprofiles/sshkeyselector.py:71
-#, fuzzy
 msgid "Create a new SSH key without passphrase."
-msgstr "{path} yolunda yeni SSH anahtarı oluşturulamadı."
+msgstr "Parola olmadan yeni bir SSH anahtarı oluşturun."
 
 #: qt/manageprofiles/sshkeyselector.py:91
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Full path: {path}"
-msgstr "Tam yedekleme yolu:"
+msgstr "Tam yedekleme yolu: {path}"
 
 #: qt/manageprofiles/sshkeyselector.py:185
-#, fuzzy
 msgid "Private key:"
-msgstr "Özel Anahtar:"
+msgstr "Özel anahtar:"
 
 #: qt/manageprofiles/sshkeyselector.py:190
-#, fuzzy
 msgid "Use system SSH configuration"
-msgstr "Ayarları İçe Aktar"
+msgstr "Sistem SSH yapılandırmasını kullan"
 
 #: qt/manageprofiles/sshkeyselector.py:192
 msgid ""
 "Leaves the key file unselected. SSH connections will rely on the system’s "
 "existing client configuration (e.g., ~/.ssh/config)."
 msgstr ""
+"Anahtar dosyasını seçilmemiş halde bırakır. SSH bağlantıları sistemin mevcut"
+" istemci yapılandırmasına (örneğin, ~/.ssh/config) dayanacaktır."
 
 #: qt/manageprofiles/sshproxywidget.py:47
 msgid "SSH Proxy"
 msgstr "SSH Vekil"
 
-#: qt/manageprofiles/sshproxywidget.py:54 qt/manageprofiles/tab_general.py:117
-#: qt/manageprofiles/tab_general.py:235
+#: qt/manageprofiles/sshproxywidget.py:54 qt/manageprofiles/tab_general.py:120
+#: qt/manageprofiles/tab_general.py:238
 msgid "Host:"
 msgstr "Ana Makine:"
 
-#: qt/manageprofiles/sshproxywidget.py:58 qt/manageprofiles/tab_general.py:122
+#: qt/manageprofiles/sshproxywidget.py:58 qt/manageprofiles/tab_general.py:125
 msgid "Port:"
 msgstr "Port:"
 
-#: qt/manageprofiles/sshproxywidget.py:62 qt/manageprofiles/tab_general.py:127
-#: qt/manageprofiles/tab_general.py:241
+#: qt/manageprofiles/sshproxywidget.py:62 qt/manageprofiles/tab_general.py:130
+#: qt/manageprofiles/tab_general.py:244
 msgid "User:"
 msgstr "Kullanıcı:"
 
@@ -1515,7 +1639,7 @@ msgstr ""
 "da bilinir) üzerinden bağlanın. Ayrıntılar için \"ssh\" komut belgesindeki "
 "\"-J\" veya \"ssh_config\" man sayfasındaki \"ProxyJump\" seçeneğine bakın."
 
-#: qt/manageprofiles/tab_exclude.py:53
+#: qt/manageprofiles/tab_exclude.py:62
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
@@ -1528,35 +1652,43 @@ msgstr ""
 "desenler göz ardı edilir (örneğin {example1}). Dosya adları, EncFS "
 "tarafından şifrelendiği için bu modda öngörülemez."
 
-#: qt/manageprofiles/tab_exclude.py:76
+#: qt/manageprofiles/tab_exclude.py:85
 msgid "Exclude patterns, files or directories"
 msgstr "Deseni, dosyaları veya klasörleri dışla"
 
-#: qt/manageprofiles/tab_exclude.py:101 qt/manageprofiles/tab_include.py:67
-#, fuzzy
+#: qt/manageprofiles/tab_exclude.py:102
+msgid "Add pattern"
+msgstr "Desen ekle"
+
+#: qt/manageprofiles/tab_exclude.py:107 qt/manageprofiles/tab_include.py:68
 msgid "Add files"
-msgstr "Dosya Ekle"
+msgstr "Dosya ekle"
 
-#: qt/manageprofiles/tab_exclude.py:106 qt/manageprofiles/tab_include.py:72
-#, fuzzy
+#: qt/manageprofiles/tab_exclude.py:112 qt/manageprofiles/tab_include.py:73
 msgid "Add directories"
-msgstr "Klasör Ekle"
+msgstr "Dizin ekle"
 
-#: qt/manageprofiles/tab_exclude.py:111
-msgid "Add default"
-msgstr "Öntanımlı Ekle"
+#: qt/manageprofiles/tab_exclude.py:118
+msgid "Suggestions"
+msgstr "Öneriler"
 
-#: qt/manageprofiles/tab_exclude.py:126
+#: qt/manageprofiles/tab_exclude.py:120
+msgid "Select from common used items to add to exclude list."
+msgstr ""
+"Sık kullanılan öğeler arasından seçim yaparak hariç tutma listesine eklemek "
+"istediğiniz öğeleri belirleyin."
+
+#: qt/manageprofiles/tab_exclude.py:134
 msgid "Exclude files bigger than:"
 msgstr "Dışarıda bırakılacak dosyaların boyutundan büyük olanlar:"
 
-#: qt/manageprofiles/tab_exclude.py:130
+#: qt/manageprofiles/tab_exclude.py:138
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr ""
 "{size_unit} biriminde belirtilen değerden büyük dosyaları dışarıda bırakın."
 
-#: qt/manageprofiles/tab_exclude.py:132
+#: qt/manageprofiles/tab_exclude.py:140
 msgid ""
 "With 'Full rsync mode' disabled, this setting affects only newly created "
 "files, as rsync treats it as transfer option rather than an exclusion rule. "
@@ -1568,43 +1700,43 @@ msgstr ""
 "nedenle, daha önce yedeklenmiş büyük dosyalar, değiştirilmiş olsalar bile "
 "yedeklerde korunacaktır."
 
-#: qt/manageprofiles/tab_exclude.py:200
-#, python-brace-format
-msgid ""
-"{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
-msgstr "{BOLD}Önemle Önerilir{ENDBOLD}: (Tüm öneriler zaten dahil edildi.)"
-
-#: qt/manageprofiles/tab_exclude.py:205
-#, python-brace-format
-msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
-msgstr "{BOLD}Önemle Tavsiye Edlilir{ENDBOLD}: {files}"
-
-#: qt/manageprofiles/tab_exclude.py:263
+#: qt/manageprofiles/tab_exclude.py:265
 msgid "Exclude pattern"
 msgstr "Dışlama deseni"
 
-#: qt/manageprofiles/tab_exclude.py:276
-#, fuzzy
+#: qt/manageprofiles/tab_exclude.py:267
+msgid "Enter an exclude pattern:"
+msgstr "Bir dışlama modeli girin:"
+
+#: qt/manageprofiles/tab_exclude.py:272
+#, python-brace-format
+msgid "For help, see the rsync man page section {link}."
+msgstr "Yardım için rsync man sayfasının {link} bölümüne bakın."
+
+#: qt/manageprofiles/tab_exclude.py:275
+msgid "Open rsync man page"
+msgstr "rsync man sayfasını açın"
+
+#: qt/manageprofiles/tab_exclude.py:303
 msgid "Exclude files"
-msgstr "Dosyayı dışla"
+msgstr "Dosyaları hariç tut"
 
-#: qt/manageprofiles/tab_exclude.py:282
-#, fuzzy
+#: qt/manageprofiles/tab_exclude.py:316
 msgid "Exclude directories"
-msgstr "Klasörü dışla"
+msgstr "Dizinleri hariç tut"
 
-#: qt/manageprofiles/tab_exclude.py:313
+#: qt/manageprofiles/tab_exclude.py:401
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
 "'SSH şifrelenmiş' modunda bu desen işlevli olmadığı için devre dışı "
 "bırakıldı."
 
-#: qt/manageprofiles/tab_expert_options.py:39
+#: qt/manageprofiles/tab_expert_options.py:42
 msgid "Caution:"
 msgstr "Dikkat:"
 
-#: qt/manageprofiles/tab_expert_options.py:40
+#: qt/manageprofiles/tab_expert_options.py:43
 msgid ""
 "These options are for advanced configurations. Modify only if fully aware of"
 " their implications."
@@ -1612,41 +1744,41 @@ msgstr ""
 "Aşağıdaki gelişmiş yapılandırma seçeneklerini sadece etkilerinin "
 "farkındaysanız kullanın."
 
-#: qt/manageprofiles/tab_expert_options.py:47
-#: qt/manageprofiles/tab_expert_options.py:67
-#: qt/manageprofiles/tab_expert_options.py:92
+#: qt/manageprofiles/tab_expert_options.py:51
+#: qt/manageprofiles/tab_expert_options.py:71
+#: qt/manageprofiles/tab_expert_options.py:96
 #, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
 msgstr "'rsync' komutunu '{cmd}' ile çalıştır:"
 
-#: qt/manageprofiles/tab_expert_options.py:54
-#: qt/manageprofiles/tab_expert_options.py:73
+#: qt/manageprofiles/tab_expert_options.py:58
+#: qt/manageprofiles/tab_expert_options.py:77
 msgid "as cron job"
 msgstr "zamanlanmış görev olarak"
 
-#: qt/manageprofiles/tab_expert_options.py:60
-#: qt/manageprofiles/tab_expert_options.py:85
-#: qt/manageprofiles/tab_expert_options.py:116
+#: qt/manageprofiles/tab_expert_options.py:64
+#: qt/manageprofiles/tab_expert_options.py:89
+#: qt/manageprofiles/tab_expert_options.py:120
 msgid "on remote host"
 msgstr "uzak makinede"
 
-#: qt/manageprofiles/tab_expert_options.py:79
+#: qt/manageprofiles/tab_expert_options.py:83
 msgid "when taking a manual backup"
 msgstr "elle yedek alınırken"
 
-#: qt/manageprofiles/tab_expert_options.py:103
+#: qt/manageprofiles/tab_expert_options.py:107
 msgid "Please install 'nocache' to enable this option."
 msgstr "Bu seçeneği etkinleştirmek için lütfen 'nocache' kurun."
 
-#: qt/manageprofiles/tab_expert_options.py:109
+#: qt/manageprofiles/tab_expert_options.py:113
 msgid "on local machine"
 msgstr "yerel makinede"
 
-#: qt/manageprofiles/tab_expert_options.py:123
+#: qt/manageprofiles/tab_expert_options.py:127
 msgid "Redirect stdout to /dev/null in cronjobs."
 msgstr "Zamanlanmış görevlerde stdout'u /dev/null'a yönlendir."
 
-#: qt/manageprofiles/tab_expert_options.py:129
+#: qt/manageprofiles/tab_expert_options.py:133
 msgid ""
 "Cron will automatically send an email with attached output of cronjobs if an"
 " MTA is installed."
@@ -1654,11 +1786,11 @@ msgstr ""
 "Cron, bir MTA yüklü ise, cron işlerinin çıktısını ekli bir e-posta ile "
 "otomatik olarak gönderecektir."
 
-#: qt/manageprofiles/tab_expert_options.py:135
+#: qt/manageprofiles/tab_expert_options.py:139
 msgid "Redirect stderr to /dev/null in cronjobs."
 msgstr "Zamanlanmış görevlerde stderr'ı /dev/null'a yönlendir."
 
-#: qt/manageprofiles/tab_expert_options.py:141
+#: qt/manageprofiles/tab_expert_options.py:145
 msgid ""
 "Cron will automatically send an email with attached errors of cronjobs if an"
 " MTA is installed."
@@ -1666,45 +1798,45 @@ msgstr ""
 "Eğer bir MTA yüklü ise, Cron otomatik olarak cron işlerinin hatalarını "
 "içeren bir e-posta gönderecektir."
 
-#: qt/manageprofiles/tab_expert_options.py:151
+#: qt/manageprofiles/tab_expert_options.py:155
 msgid "KB/sec"
 msgstr "KB/sn"
 
-#: qt/manageprofiles/tab_expert_options.py:156
+#: qt/manageprofiles/tab_expert_options.py:160
 msgid "Limit rsync bandwidth usage:"
 msgstr "Rsync bant genişliği kullanımını sınırla:"
 
-#: qt/manageprofiles/tab_expert_options.py:197
+#: qt/manageprofiles/tab_expert_options.py:201
 msgid "Preserve ACL"
 msgstr "ACL koru"
 
-#: qt/manageprofiles/tab_expert_options.py:215
+#: qt/manageprofiles/tab_expert_options.py:219
 msgid "Preserve extended attributes (xattr)"
 msgstr "Genişletilmiş öznitelikleri koru (xattr)"
 
-#: qt/manageprofiles/tab_expert_options.py:238
+#: qt/manageprofiles/tab_expert_options.py:242
 msgid "Copy unsafe links (works only with absolute links)"
 msgstr ""
 "Güvenli olmayan bağlantıları kopyala (yalnızca mutlak bağlantılarla çalışır)"
 
-#: qt/manageprofiles/tab_expert_options.py:274
+#: qt/manageprofiles/tab_expert_options.py:278
 msgid "Restrict to one file system"
 msgstr "Yalnızca bir dosya sistemiyle sınırla"
 
-#: qt/manageprofiles/tab_expert_options.py:292
+#: qt/manageprofiles/tab_expert_options.py:296
 #, python-brace-format
 msgid "Options must be quoted e.g. {example}."
 msgstr "Seçenekler çift tırnak içine alınmalıdır, ör: {example}."
 
-#: qt/manageprofiles/tab_expert_options.py:301
+#: qt/manageprofiles/tab_expert_options.py:305
 msgid "Paste additional options to rsync"
 msgstr "Ek seçenekleri rsyncʼa yapıştır"
 
-#: qt/manageprofiles/tab_expert_options.py:309
+#: qt/manageprofiles/tab_expert_options.py:315
 msgid "Prefix to run before every command on remote host."
 msgstr "Uzak ana bilgisayar üzerinde her komuttan önce çalıştırılacak önek."
 
-#: qt/manageprofiles/tab_expert_options.py:310
+#: qt/manageprofiles/tab_expert_options.py:316
 #, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
@@ -1713,19 +1845,19 @@ msgstr ""
 "Değişkenler $FOO ile kaçınılmalıdır. Bu rsync'i etkilemez. Rsync için bir ön"
 " ek eklemek için \"{example_value}\" ve {rsync_options_value} kullanın."
 
-#: qt/manageprofiles/tab_expert_options.py:318
+#: qt/manageprofiles/tab_expert_options.py:322
 msgid "default"
 msgstr "öntanımlı"
 
-#: qt/manageprofiles/tab_expert_options.py:324
+#: qt/manageprofiles/tab_expert_options.py:327
 msgid "Add prefix to SSH commands"
 msgstr "SSH komutlarına ön ek ekle"
 
-#: qt/manageprofiles/tab_expert_options.py:334
+#: qt/manageprofiles/tab_expert_options.py:337
 msgid "Check if remote host is online"
 msgstr "Uzak makinenin çevrim içi olduğunu denetle"
 
-#: qt/manageprofiles/tab_expert_options.py:337
+#: qt/manageprofiles/tab_expert_options.py:340
 msgid ""
 "Warning: If disabled and the remote host is not available, this could lead "
 "to some weird errors."
@@ -1733,13 +1865,13 @@ msgstr ""
 "Uyarı: Eğer devre dışı bırakılırsa ve uzak ana bilgisayar erişilemezse, bu "
 "bazı garip hatalara neden olabilir."
 
-#: qt/manageprofiles/tab_expert_options.py:341
+#: qt/manageprofiles/tab_expert_options.py:344
 msgid "Check if remote host supports all necessary commands."
 msgstr ""
 "Uzak ana bilgisayarın gerekli tüm komutları destekleyip desteklemediğini "
 "kontrol edin."
 
-#: qt/manageprofiles/tab_expert_options.py:344
+#: qt/manageprofiles/tab_expert_options.py:347
 msgid ""
 "Warning: If disabled and the remote host does not support all necessary "
 "commands, this could lead to some weird errors."
@@ -1747,106 +1879,137 @@ msgstr ""
 "Uyarı: Eğer devre dışı bırakılırsa ve uzak ana bilgisayar gerekli tüm "
 "komutları desteklemiyorsa, bu bazı garip hatalara neden olabilir."
 
-#: qt/manageprofiles/tab_expert_options.py:359
+#: qt/manageprofiles/tab_expert_options.py:361
 msgid "(default: {})"
 msgstr "(varsayılan: {})"
 
-#: qt/manageprofiles/tab_expert_options.py:360
+#: qt/manageprofiles/tab_expert_options.py:362
 msgid "disabled"
 msgstr "devre dışı"
 
-#: qt/manageprofiles/tab_expert_options.py:360
+#: qt/manageprofiles/tab_expert_options.py:362
 msgid "enabled"
 msgstr "etkin"
 
-#: qt/manageprofiles/tab_general.py:67 qt/restoreconfigdialog.py:284
+#: qt/manageprofiles/tab_general.py:70 qt/restoreconfigdialog.py:358
 msgid "Mode:"
 msgstr "Kip:"
 
-#: qt/manageprofiles/tab_general.py:79 qt/manageprofiles/tab_general.py:593
+#: qt/manageprofiles/tab_general.py:82 qt/manageprofiles/tab_general.py:631
 msgid "Where to save backups"
 msgstr "Yedeklerin kaydedileceği yer"
 
-#: qt/manageprofiles/tab_general.py:105
+#: qt/manageprofiles/tab_general.py:108
 msgid "SSH Settings"
 msgstr "SSH Ayarları"
 
-#: qt/manageprofiles/tab_general.py:132
+#: qt/manageprofiles/tab_general.py:135
 msgid "Path:"
 msgstr "Yol:"
 
-#: qt/manageprofiles/tab_general.py:139
-#, fuzzy
+#: qt/manageprofiles/tab_general.py:142
 msgid "Key file:"
-msgstr "Yeni profil"
+msgstr "Anahtar dosyası:"
 
-#: qt/manageprofiles/tab_general.py:173 qt/manageprofiles/tab_general.py:181
-#: qt/manageprofiles/tab_general.py:186
+#: qt/manageprofiles/tab_general.py:176 qt/manageprofiles/tab_general.py:184
+#: qt/manageprofiles/tab_general.py:189
 msgid "Password"
 msgstr "Parola"
 
-#: qt/manageprofiles/tab_general.py:203
+#: qt/manageprofiles/tab_general.py:206
 msgid "Save Password to Keyring"
 msgstr "Parolayı Anahtarlığa Kaydet"
 
-#: qt/manageprofiles/tab_general.py:207
+#: qt/manageprofiles/tab_general.py:210
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
 "Cron için Parolayı Önbellekle (Güvenlik sorunu: root parolayı okuyabilir)"
 
-#: qt/manageprofiles/tab_general.py:223
+#: qt/manageprofiles/tab_general.py:226
 msgid "Advanced"
 msgstr "Gelişmiş"
 
-#: qt/manageprofiles/tab_general.py:253 qt/manageprofiles/tab_general.py:670
+#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:721
 msgid "Full backup path:"
 msgstr "Tam yedekleme yolu:"
 
-#: qt/manageprofiles/tab_general.py:471
-msgid "Copy public SSH key to the remote host to enable password-less login?"
+#: qt/manageprofiles/tab_general.py:264
+msgid ""
+"Scheduling is disabled because no cron installation was found. Please "
+"install cron to enable scheduled backups."
 msgstr ""
-"Şifresiz girişi etkinleştirmek için genel SSH anahtarınızı uzak ana "
-"bilgisayara kopyalamak ister misiniz?"
+"Zamanlama devre dışı bırakıldı çünkü cron kurulumu bulunamadı. Zamanlanmış "
+"yedeklemeleri etkinleştirmek için lütfen cron'u kurun."
 
-#: qt/manageprofiles/tab_general.py:505
+#: qt/manageprofiles/tab_general.py:496
+msgid ""
+"An error occurred while attempting to log in to the remote host. The "
+"following error message was returned:"
+msgstr ""
+"Uzak bilgisayara giriş yapmaya çalışırken bir hata oluştu. Aşağıdaki hata "
+"mesajı döndürüldü:"
+
+#: qt/manageprofiles/tab_general.py:500
+msgid ""
+"To enable password-less login, the public SSH key can be copied to the "
+"remote host."
+msgstr ""
+"Şifresiz oturum açmayı etkinleştirmek için genel SSH anahtarı uzak "
+"bilgisayara kopyalanabilir."
+
+#: qt/manageprofiles/tab_general.py:503
+msgid "Proceed with copying the SSH key?"
+msgstr "SSH anahtarını kopyalamaya devam etmek istiyor musunuz?"
+
+#: qt/manageprofiles/tab_general.py:528
+msgid ""
+"The public SSH key could not be copied. This may be due to a connection or "
+"permission issue."
+msgstr ""
+"Genel SSH anahtarı kopyalanamadı. Bu bir bağlantı veya izin sorunundan "
+"kaynaklanıyor olabilir."
+
+#: qt/manageprofiles/tab_general.py:549
 #, python-brace-format
 msgid "The authenticity of host {host} can't be established."
 msgstr "{host} ana bilgisayarının kimliği doğrulanamıyor."
 
-#: qt/manageprofiles/tab_general.py:508
+#: qt/manageprofiles/tab_general.py:552
 #, python-brace-format
 msgid "{keytype} key fingerprint is:"
 msgstr "{keytype} anahtar parmak iziniz:"
 
-#: qt/manageprofiles/tab_general.py:516
-msgid "Please verify this fingerprint. Add it to the 'known_hosts' file?"
+#: qt/manageprofiles/tab_general.py:556
+msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
-"Lütfen bu parmak izini doğrulayın. 'known_hosts' dosyanıza eklemek ister "
+"Lütfen bu parmak izini doğrulayın. 'known_hosts' dosyasına eklemek ister "
 "misiniz?"
 
-#: qt/manageprofiles/tab_general.py:600
+#: qt/manageprofiles/tab_general.py:644
 msgid "Really change the backup directory?"
 msgstr "Yedekleme dizinini gerçekten değiştirmek istiyor musunuz?"
 
-#: qt/manageprofiles/tab_general.py:632
+#: qt/manageprofiles/tab_general.py:674
+msgid "Invalid file: Not a private SSH key"
+msgstr "Geçersiz dosya: Özel bir SSH anahtarı değil"
+
+#: qt/manageprofiles/tab_general.py:675
 #, python-brace-format
 msgid ""
-"The selected file {path} appears to be a public SSH key. Please select a "
-"private file (without a \".pub\" extension)."
+"The selected file ({path}) is a public SSH key. Please choose the "
+"corresponding private key file instead (without \".pub\")."
 msgstr ""
+"Seçilen dosya ({path}) bir public SSH anahtarıdır. Lütfen bunun yerine "
+"ilgili özel anahtar dosyasını (\".pub\" olmadan) seçin."
 
-#: qt/manageprofiles/tab_general.py:635
-#, fuzzy
-msgid "Not a private key"
-msgstr "SSH özel anahtar"
-
-#: qt/manageprofiles/tab_general.py:647
+#: qt/manageprofiles/tab_general.py:699
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
+"{path} dosyası zaten mevcut. Bu adla yeni bir SSH anahtarı oluşturulamaz."
 
-#: qt/manageprofiles/tab_general.py:658
+#: qt/manageprofiles/tab_general.py:709
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "{path} yolunda yeni SSH anahtarı oluşturulamadı."
@@ -1855,33 +2018,44 @@ msgstr "{path} yolunda yeni SSH anahtarı oluşturulamadı."
 msgid "Include files and directories"
 msgstr "Dosyaları ve klasörleri dahil et"
 
-#: qt/manageprofiles/tab_include.py:147
-#, fuzzy
+#: qt/manageprofiles/tab_include.py:168
+#, python-brace-format
+msgid ""
+"\"{path}\" is a symlink. The linked target will not be backed up until it is"
+" included, too."
+msgstr ""
+"\"{path}\" bir sembolik bağlantı. Bağlantılı hedef, siz onu da dahil edene "
+"kadar yedeklenmeyecek."
+
+#: qt/manageprofiles/tab_include.py:172
+msgid "Include the symlink's target instead?"
+msgstr "Onun yerine sembolik bağlantının hedefi içerilsin mi?"
+
+#: qt/manageprofiles/tab_include.py:180
 msgid "Include files"
-msgstr "Dosyayı dahil et"
+msgstr "Dosyaları dahil et"
 
-#: qt/manageprofiles/tab_include.py:163
-#, fuzzy
+#: qt/manageprofiles/tab_include.py:199
 msgid "Include directories"
-msgstr "Klasörü dahil et"
+msgstr "Dizinleri dahil et"
 
-#: qt/manageprofiles/tab_options.py:37
+#: qt/manageprofiles/tab_options.py:39
 msgid "Enable notifications"
 msgstr "Bildirimleri etkinleştir"
 
-#: qt/manageprofiles/tab_options.py:41
+#: qt/manageprofiles/tab_options.py:43
 msgid "Disable backups when on battery"
 msgstr "Pille çalışırken yedeklemeyi devre dışı bırak"
 
-#: qt/manageprofiles/tab_options.py:47
+#: qt/manageprofiles/tab_options.py:49
 msgid "Power status not available from system"
 msgstr "Güç durumu sistemden alınamıyor"
 
-#: qt/manageprofiles/tab_options.py:49
+#: qt/manageprofiles/tab_options.py:52
 msgid "Run only one backup at a time"
 msgstr "Her seferinde yalnızca bir yedekleme çalıştır"
 
-#: qt/manageprofiles/tab_options.py:53
+#: qt/manageprofiles/tab_options.py:56
 msgid ""
 "Other backups will be blocked until the current backup is completed. This is"
 " a global setting, meaning it will affect all profiles for this user. "
@@ -1891,81 +2065,86 @@ msgstr ""
 "bir seçenektir, bu nedenle bu kullanıcı için tüm profilleri etkileyecektir. "
 "Ancak diğer kullanıcılar için de bunu etkinleştirmeniz gerekecek."
 
-#: qt/manageprofiles/tab_options.py:60
+#: qt/manageprofiles/tab_options.py:63
 msgid "Backup replaced files on restore"
 msgstr "Geri yüklemede değiştirilen dosyaları yedekle"
 
-#: qt/manageprofiles/tab_options.py:75
+#: qt/manageprofiles/tab_options.py:78
 msgid "Continue on errors (keep incomplete backups)"
 msgstr "Hatalarda devam et (eksik yedekleri tut)"
 
-#: qt/manageprofiles/tab_options.py:79
+#: qt/manageprofiles/tab_options.py:82
 msgid "Use checksum to detect changes"
 msgstr "Değişiklikleri algılamak için sağlama toplamı kullan"
 
-#: qt/manageprofiles/tab_options.py:83
+#: qt/manageprofiles/tab_options.py:86
 msgid "Create a new backup whether there were changes or not."
 msgstr "Değişiklik olsun ya da olmasın yedek al."
 
-#: qt/manageprofiles/tab_options.py:92
+#: qt/manageprofiles/tab_options.py:95
 msgid "Warn if the free disk space falls below"
-msgstr ""
+msgstr "Boş disk alanı aşağıdakinin altına düşerse uyar"
 
-#: qt/manageprofiles/tab_options.py:98
+#: qt/manageprofiles/tab_options.py:101
 msgid ""
 "Shows a warning when free space on the backup destination disk is less than "
 "the specified value."
 msgstr ""
+"Yedekleme diskindeki boş alan belirtilen değerden az ise uyarı gösterir."
 
-#: qt/manageprofiles/tab_options.py:100
+#: qt/manageprofiles/tab_options.py:103
 msgid ""
 "If the Remove & Retention policy is enabled and old backups are removed "
 "based on available free space, this value cannot be lower than the value set"
 " in the policy."
 msgstr ""
+"Silme ve Saklama politikası etkinleştirilirse ve eski yedekler "
+"kullanılabilir boş alana göre silinirse, bu değer kural setinde tanımlanan "
+"değerden düşük olamaz."
 
-#: qt/manageprofiles/tab_options.py:118
+#: qt/manageprofiles/tab_options.py:122
 msgid "Log Level:"
 msgstr "Günlük Düzeyi:"
 
-#: qt/manageprofiles/tab_options.py:178
+#: qt/manageprofiles/tab_options.py:185
 msgid "None"
 msgstr "Yok"
 
-#: qt/manageprofiles/tab_remove_retention.py:197
-#, python-brace-format
-msgid ""
-"The following rules are processed from top to bottom. Later rules override "
-"earlier ones. See the {manual} for details and examples."
-msgstr ""
-"Aşağıdaki kurallar yukarıdan aşağıya doğru işlenir. Sonraki kurallar önceki "
-"kuralları geçersiz kılar. Ayrıntılar ve örnekler için {manual}'na bakın."
-
-#: qt/manageprofiles/tab_remove_retention.py:202
+#: qt/manageprofiles/tab_remove_retention.py:204
 msgid "user manual"
 msgstr "kullanım kılavuzu"
 
-#: qt/manageprofiles/tab_remove_retention.py:215
+#: qt/manageprofiles/tab_remove_retention.py:206
+#, python-brace-format
+msgid ""
+"The following rules are processed from top to bottom. Later rules override "
+"earlier ones. See the {manual_link} for details and examples."
+msgstr ""
+"Aşağıdaki kurallar yukarıdan aşağıya doğru işlenir. Sonraki kurallar önceki "
+"kuralları geçersiz kılar. Ayrıntılar ve örnekler için {manual_link} "
+"bağlantısına bakın."
+
+#: qt/manageprofiles/tab_remove_retention.py:221
 msgid "Open user manual in browser."
 msgstr "Kullanım kılavuzunu tarayıcınızda açın."
 
-#: qt/manageprofiles/tab_remove_retention.py:229
+#: qt/manageprofiles/tab_remove_retention.py:235
 msgid "Keep the most recent backup."
 msgstr "En yeni yedeği tut."
 
-#: qt/manageprofiles/tab_remove_retention.py:233
-msgid "The last or freshest backup is kept under all circumstances."
-msgstr "En son veya en yeni yedek her durumda saklanacaktır."
+#: qt/manageprofiles/tab_remove_retention.py:239
+msgid "The most up-to-date backup is kept under all circumstances."
+msgstr "Her koşulda en güncel yedekleme saklanır."
 
-#: qt/manageprofiles/tab_remove_retention.py:235
+#: qt/manageprofiles/tab_remove_retention.py:241
 msgid "That behavior cannot be changed."
 msgstr "Diğer kurallar bu davranışı değiştiremez."
 
-#: qt/manageprofiles/tab_remove_retention.py:247
+#: qt/manageprofiles/tab_remove_retention.py:253
 msgid "Keep named backups."
 msgstr "Adlandırılmış yedekleri tut."
 
-#: qt/manageprofiles/tab_remove_retention.py:250
+#: qt/manageprofiles/tab_remove_retention.py:256
 msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
@@ -1973,68 +2152,67 @@ msgstr ""
 "Olağan zaman damgasına ek olarak isim verilen yedekler her durumda "
 "saklanacak ve kaldırılmayacaktır."
 
-#: qt/manageprofiles/tab_remove_retention.py:265
+#: qt/manageprofiles/tab_remove_retention.py:271
 msgid "Year(s)"
 msgstr "Yıl"
 
-#: qt/manageprofiles/tab_remove_retention.py:270
+#: qt/manageprofiles/tab_remove_retention.py:276
 msgid "Remove backups older than"
 msgstr "Şu tarihten eski yedekleri sil"
 
-#: qt/manageprofiles/tab_remove_retention.py:276
+#: qt/manageprofiles/tab_remove_retention.py:282
 msgid "Full days. Current day is ignored."
 msgstr "Tüm günler, bu gün atlanacaktır."
 
-#: qt/manageprofiles/tab_remove_retention.py:278
+#: qt/manageprofiles/tab_remove_retention.py:284
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr "Pazartesi gününden başlayan takvim haftası, bu hafta atlanacaktır."
 
-#: qt/manageprofiles/tab_remove_retention.py:281
+#: qt/manageprofiles/tab_remove_retention.py:287
 msgid "12 months periods. Current month is ignored."
 msgstr "12 aylık dönemler. Mevcut ay dikkate alınmaz."
 
-#: qt/manageprofiles/tab_remove_retention.py:296
+#: qt/manageprofiles/tab_remove_retention.py:303
 msgid "Retention policy"
 msgstr "Saklama ilkeleri"
 
-#: qt/manageprofiles/tab_remove_retention.py:301
+#: qt/manageprofiles/tab_remove_retention.py:308
 msgid "Run in background on remote host."
 msgstr "Uzak makinede arka planda çalıştır."
 
-#: qt/manageprofiles/tab_remove_retention.py:304
+#: qt/manageprofiles/tab_remove_retention.py:311
 msgid ""
-"The smart remove procedure will run directly on the remote machine, not "
+"The retention policy will be executed directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
-"and available on the remote machine."
+"and available on that remote machine."
 msgstr ""
 "Akıllı kaldırma prosedürü doğrudan uzak makinede çalışacaktır. \"bash\", "
-"\"screen\" ve \"flock\" komutları uzak makinede yüklü ve kullanılabilir "
-"olmalıdır."
+"\"screen\" ve \"flock\" uzak makinede yüklü ve kullanılabilir olmalıdır."
 
-#: qt/manageprofiles/tab_remove_retention.py:308
+#: qt/manageprofiles/tab_remove_retention.py:315
 msgid "If selected, Back In Time will first test the remote machine."
 msgstr ""
 "Seçilmesi durumunda \"Back In Time\" ilk olarak uzak makine'yi test "
 "edecektir."
 
-#: qt/manageprofiles/tab_remove_retention.py:312
+#: qt/manageprofiles/tab_remove_retention.py:319
 msgid "The days are counted starting from today."
 msgstr "saymaya bu gün dahil edilerek başlanacaktır."
 
-#: qt/manageprofiles/tab_remove_retention.py:313
+#: qt/manageprofiles/tab_remove_retention.py:320
 msgid "Keep all backups for the last"
 msgstr "Şu kadar sürelik tüm yedekleri sakla"
 
-#: qt/manageprofiles/tab_remove_retention.py:318
-#: qt/manageprofiles/tab_remove_retention.py:330
+#: qt/manageprofiles/tab_remove_retention.py:325
+#: qt/manageprofiles/tab_remove_retention.py:337
 msgid "day(s)."
 msgstr "gün."
 
-#: qt/manageprofiles/tab_remove_retention.py:325
+#: qt/manageprofiles/tab_remove_retention.py:332
 msgid "Keep the last backup for each day for the last"
 msgstr "Son şu kadar günün son yedeklerini tut"
 
-#: qt/manageprofiles/tab_remove_retention.py:335
+#: qt/manageprofiles/tab_remove_retention.py:342
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
@@ -2042,88 +2220,114 @@ msgstr ""
 "haftalar bu hafta dahil edilerek sayılacaktır. Hafta, pazartesi gününden "
 "başlar."
 
-#: qt/manageprofiles/tab_remove_retention.py:338
+#: qt/manageprofiles/tab_remove_retention.py:345
 msgid "Keep the last backup for each week for the last"
 msgstr "Son şu kadar zaman için her haftanın son yedeğini tut"
 
-#: qt/manageprofiles/tab_remove_retention.py:343
+#: qt/manageprofiles/tab_remove_retention.py:350
 msgid "week(s)."
 msgstr "hafta."
 
-#: qt/manageprofiles/tab_remove_retention.py:348
+#: qt/manageprofiles/tab_remove_retention.py:355
 msgid ""
 "The months are counted as calendar months starting with the current month."
 msgstr "Aylar, içinde bulunulan aydan başlayarak takvim ayı olarak sayılır."
 
-#: qt/manageprofiles/tab_remove_retention.py:351
+#: qt/manageprofiles/tab_remove_retention.py:358
 msgid "Keep the last backup for each month for the last"
 msgstr "Son şu kadar zaman için her ayın son anlık yedeğini tut"
 
-#: qt/manageprofiles/tab_remove_retention.py:356
+#: qt/manageprofiles/tab_remove_retention.py:363
 msgid "month(s)."
 msgstr "ay."
 
-#: qt/manageprofiles/tab_remove_retention.py:361
+#: qt/manageprofiles/tab_remove_retention.py:368
 msgid ""
 "The years are counted as calendar years starting with the current year."
 msgstr ""
 "Yıllar, içinde bulunulan yıldan başlayarak takvim yılı olarak sayılır."
 
-#: qt/manageprofiles/tab_remove_retention.py:363
+#: qt/manageprofiles/tab_remove_retention.py:370
 msgid "Keep the last backup for each year for"
 msgstr "Son şu kadar zaman için her yılın son yedeğini tut"
 
-#: qt/manageprofiles/tab_remove_retention.py:365
+#: qt/manageprofiles/tab_remove_retention.py:372
 msgid "all years."
 msgstr "tüm yıllar."
 
-#: qt/manageprofiles/tab_remove_retention.py:380
+#: qt/manageprofiles/tab_remove_retention.py:387
 msgid "… the free space is less than"
 msgstr "... boş alan şundan az"
 
-#: qt/manageprofiles/tab_remove_retention.py:385
+#: qt/manageprofiles/tab_remove_retention.py:392
 msgid "… the free inodes are less than"
 msgstr "... boş inode sayısı şundan az"
 
-#: qt/manageprofiles/tab_remove_retention.py:394
+#: qt/manageprofiles/tab_remove_retention.py:401
 msgid "Remove oldest backup if …"
 msgstr "En eski yedekleri kaldır, eğer …"
 
-#: qt/messagebox.py:116 qt/messagebox.py:134 qt/messagebox.py:144
-msgid "Question"
-msgstr "Soru"
+#: qt/placeswidget.py:49
+msgid "Shortcuts"
+msgstr "Kısayollar"
 
-#: qt/qtsystrayicon.py:69
+#: qt/placeswidget.py:63
+msgid "Places"
+msgstr "Yer"
+
+#: qt/placeswidget.py:64
+msgid "File System"
+msgstr "Dosya Sistemi"
+
+#: qt/placeswidget.py:106
+msgid "Backup directories"
+msgstr "Yedekleme klasörleri"
+
+#: qt/qtsystrayicon.py:109
 #, python-brace-format
 msgid "Profile: {profile_name}"
 msgstr "Profil: {profile_name}"
 
-#: qt/qtsystrayicon.py:101
+#: qt/qtsystrayicon.py:112
+#, fuzzy, python-brace-format
+msgid "Profile: {profile_name} (by user \"{desktop_user}\")"
+msgstr "Profil: {profile_name}"
+
+#: qt/qtsystrayicon.py:155
 msgid "View Last Log"
 msgstr "Son Günlüğü Görüntüle"
 
-#: qt/qtsystrayicon.py:105
+#: qt/qtsystrayicon.py:161
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "{appname}ʼı Başlat"
 
-#: qt/qtsystrayicon.py:171
+#: qt/qtsystrayicon.py:253
 msgid "Working…"
 msgstr "Çalışıyor…"
 
-#: qt/restoreconfigdialog.py:68
+#: qt/qttools.py:460
+#, python-brace-format
+msgid "man page: {man_page_name}"
+msgstr "man sayfası: {man_page_name}"
+
+#: qt/restoreconfigdialog.py:72
 msgid "Import configuration"
 msgstr "Ayarları İçe Aktar"
 
-#: qt/restoreconfigdialog.py:124 qt/restoreconfigdialog.py:220
+#: qt/restoreconfigdialog.py:92 qt/restoreconfigdialog.py:318
 msgid "No config found"
 msgstr "Yapılandırma bulunamadı"
 
-#: qt/restoreconfigdialog.py:149
+#: qt/restoreconfigdialog.py:121
 msgid "Import"
 msgstr "İçe Aktar"
 
-#: qt/restoreconfigdialog.py:177
+#: qt/restoreconfigdialog.py:143 qt/restoreconfigdialog.py:247
+msgid "Searching…"
+msgstr "Taranıyor…"
+
+#: qt/restoreconfigdialog.py:224
 #, python-brace-format
 msgid ""
 "Select the backup directory from which the configuration file should be "
@@ -2132,7 +2336,7 @@ msgstr ""
 "Ayarlama dosyasının içe aktarılacağı yedekleme klasörünü seçin. Yol şu "
 "şekilde olabilir: {samplePath}"
 
-#: qt/restoreconfigdialog.py:182
+#: qt/restoreconfigdialog.py:229
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
@@ -2140,54 +2344,70 @@ msgstr ""
 "Eğer klasör harici veya uzak bir sürücüde bulunuyorsa, önceden manuel olarak"
 " bağlanmalıdır."
 
-#: qt/restoredialog.py:52
+#: qt/restoreconfigdialog.py:250
+msgid "Scan again"
+msgstr "Tekrar tara"
+
+#: qt/restoreconfigdialog.py:269
+msgid "Show hidden directories"
+msgstr "Gizli dizinleri göster"
+
+#: qt/restoreconfigdialog.py:271
+msgid "Show/hide hidden directories (Ctrl+H)"
+msgstr "Gizli dizinleri göster/gizle (Ctrl+H)"
+
+#: qt/restoreconfigdialog.py:379
+msgid "Search complete."
+msgstr "Arama tamamlandı."
+
+#: qt/restoredialog.py:58
 msgid "Show full Log"
 msgstr "Tüm Günlüğü Göster"
 
-#: qt/shutdowndlg.py:27
+#: qt/shutdowndlg.py:28
 msgid "Countdown to Shutdown"
 msgstr "Kapanış için Gerisayım"
 
-#: qt/shutdowndlg.py:28
+#: qt/shutdowndlg.py:29
 msgid "The backup has finished."
 msgstr "Yedekleme tamamlandı."
 
-#: qt/shutdowndlg.py:35
+#: qt/shutdowndlg.py:36
 msgid "Cancel Shutdown"
 msgstr "Kapatmayı İptal Et"
 
-#: qt/shutdowndlg.py:36
+#: qt/shutdowndlg.py:37
 msgid "Shutdown Now"
 msgstr "Şimdi Kapat"
 
-#: qt/shutdowndlg.py:68
+#: qt/shutdowndlg.py:69
 #, python-brace-format
 msgid "The system will shut down in {n} second."
 msgid_plural "The system will shut down in {n} seconds."
 msgstr[0] "Sistem {n} saniye içinde kapatılacak."
 msgstr[1] "Sistem {n} saniye içinde kapatılacak."
 
-#: qt/snapshotsdialog.py:58
+#: qt/snapshotsdialog.py:63
 msgid "Options about comparing backups"
 msgstr "Yedekleri karşılaştırmayla ilgili seçenekler"
 
-#: qt/snapshotsdialog.py:65
+#: qt/snapshotsdialog.py:70
 msgid "Command:"
 msgstr "Komut:"
 
-#: qt/snapshotsdialog.py:69
+#: qt/snapshotsdialog.py:74
 msgid "Parameters:"
 msgstr "Parametreler:"
 
-#: qt/snapshotsdialog.py:74
+#: qt/snapshotsdialog.py:79
 msgid "Use %1 and %2 for path parameters"
 msgstr "Yol parametreleri olarak %1 ve %2 kullan"
 
-#: qt/snapshotsdialog.py:91
+#: qt/snapshotsdialog.py:96
 msgid "Please set a diff command or press Cancel."
 msgstr "Lütfen farklı fark komutu belirleyin veya İptal'e basın."
 
-#: qt/snapshotsdialog.py:97
+#: qt/snapshotsdialog.py:102
 #, python-brace-format
 msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
@@ -2196,50 +2416,50 @@ msgstr ""
 "Bu komut \"{cmd}\" bu sistemde bulunmamaktadır. Lütfen farklı bir şey "
 "deneyin veya İptal'e basın."
 
-#: qt/snapshotsdialog.py:105
+#: qt/snapshotsdialog.py:110
 #, python-brace-format
 msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr ""
 "Fark komutu için parametre belirlenmedi. Varsayılan değerler kullanılıyor "
 "\"{params}\"."
 
-#: qt/snapshotsdialog.py:130 qt/timeline.py:45
+#: qt/snapshotsdialog.py:141 qt/timeline.py:44
 msgid "Backups"
 msgstr "Yedekler"
 
-#: qt/snapshotsdialog.py:141
+#: qt/snapshotsdialog.py:152
 msgid "Differing backups only"
 msgstr "Yalnızca farklı yedekler"
 
-#: qt/snapshotsdialog.py:150
+#: qt/snapshotsdialog.py:161
 msgid "List only backups that are equal to:"
 msgstr "Yalnızca şuna eşit yedekleri listele:"
 
-#: qt/snapshotsdialog.py:162
+#: qt/snapshotsdialog.py:173
 msgid "Deep check (more accurate, but slow)"
 msgstr "Derin denetim (daha doğru, ancak yavaş)"
 
-#: qt/snapshotsdialog.py:183
+#: qt/snapshotsdialog.py:194
 msgid "Delete"
 msgstr "Sil"
 
-#: qt/snapshotsdialog.py:188
+#: qt/snapshotsdialog.py:199
 msgid "Select All"
 msgstr "Tümünü Seç"
 
-#: qt/snapshotsdialog.py:201
+#: qt/snapshotsdialog.py:212
 msgid "Compare"
 msgstr "Karşılaştır"
 
-#: qt/snapshotsdialog.py:216
+#: qt/snapshotsdialog.py:227
 msgid "Go To"
 msgstr "Git"
 
-#: qt/snapshotsdialog.py:218
+#: qt/snapshotsdialog.py:229
 msgid "Options"
 msgstr "Seçenekler"
 
-#: qt/snapshotsdialog.py:381
+#: qt/snapshotsdialog.py:392
 msgid ""
 "It is not possible to compare a backup to itself, as the comparison would be"
 " redundant."
@@ -2247,42 +2467,51 @@ msgstr ""
 "Bir yedeği kendisiyle karşılaştırmak mümkün değildir, çünkü karşılaştırma "
 "gereksiz olacaktır."
 
-#: qt/snapshotsdialog.py:427
+#: qt/snapshotsdialog.py:438
 #, python-brace-format
 msgid "Really delete {file_or_dir} in backup {backup_id}?"
 msgstr ""
 "Yedek {backup_id}'deki {file_or_dir} dosyasını/dizinini gerçekten silmek "
 "istiyor musunuz?"
 
-#: qt/snapshotsdialog.py:432
+#: qt/snapshotsdialog.py:443
 #, python-brace-format
 msgid "Really delete {file_or_dir} in {count} backups?"
 msgstr ""
 "{count} yedeği içindeki {file_or_dir} dosyasını/dizinini gerçekten silmek "
 "istiyor musun?"
 
-#: qt/snapshotsdialog.py:435
+#: qt/snapshotsdialog.py:446
 msgid "WARNING: This cannot be revoked."
 msgstr "UYARI: Bu işlemin geri alınması mümkün değil."
 
-#: qt/snapshotsdialog.py:453
+#: qt/snapshotsdialog.py:463
 #, python-brace-format
 msgid "Exclude {path} from future backups?"
 msgstr "{path} yolu gelecek yedeklerden dışlansın mı?"
 
-#: qt/timeline.py:70
+#: qt/statusbar.py:85
+msgid "Root mode"
+msgstr "Root modu"
+
+#: qt/statusbar.py:87
+msgid ""
+"Back In Time is currently running with root privileges (full system access)"
+msgstr "Back In Time şu anda root yetkileriyle çalışıyor (tam sistem erişimi)"
+
+#: qt/timeline.py:69
 msgid "Today"
 msgstr "Bugün"
 
-#: qt/timeline.py:78
+#: qt/timeline.py:77
 msgid "Yesterday"
 msgstr "Dün"
 
-#: qt/timeline.py:88
+#: qt/timeline.py:87
 msgid "This week"
 msgstr "Bu hafta"
 
-#: qt/timeline.py:96
+#: qt/timeline.py:95
 msgid "Last week"
 msgstr "Geçen hafta"
 
@@ -2295,127 +2524,14 @@ msgstr "Bu bir yedek DEĞİL, yerel dosyalarınızın canlı bir görüntüsüd�
 msgid "Last check {time}"
 msgstr "Son denetim {time}"
 
-#~ msgid "A private key file for SSH was not chosen."
-#~ msgstr "Özel anahtar dosyası seçilmedi."
-
-#~ msgid "Are you sure you want to change snapshots directory?"
-#~ msgstr "Anlık görüntüler klasörünü değiştirmek istediğinizden emin misiniz?"
-
-#~ msgid ""
-#~ "Are you sure you want to remove all newer files in your original directory?"
-#~ msgstr ""
-#~ "Özgün klasördeki tüm daha yeni dosyaları kaldırmak istediğinizden emin "
-#~ "misiniz?"
-
-#, python-brace-format
-#~ msgid "Are you sure you want to remove all newer files in {path}?"
-#~ msgstr ""
-#~ "{path} içindeki tüm yeni dosyaları kaldırmak istediğinizden emin misiniz?"
-
-#~ msgid "Are you sure you want to remove this snapshot?"
-#~ msgid_plural "Are you sure you want to remove these snapshots?"
-#~ msgstr[0] "Bu anlık görüntüyü silmek istediğinizden emin misiniz?"
-#~ msgstr[1] "Bu anlık görüntüleri silmek istediğinizden emin misiniz?"
-
-#, python-brace-format
-#~ msgid "Cipher {cipher} failed for {host}."
-#~ msgstr "{host} için {cipher} şifresi başarısız oldu."
-
-#~ msgid "Cipher:"
-#~ msgstr "Şifre:"
-
-#~ msgid ""
-#~ "Create a new SSH key without password (not allowed if a private key file is "
-#~ "already selected)."
-#~ msgstr ""
-#~ "Parola olmadan yeni SSH anahtarı oluştur (özel anahtar dosyası zaten "
-#~ "seçiliyse buna izin verilmez)."
-
-#~ msgid "Do you really want to close it?"
-#~ msgstr "Gerçekten kapatmak istiyor musunuz?"
-
-#~ msgid "ETA"
-#~ msgstr "ETA"
-
-#, python-brace-format
-#~ msgid "Every {n} hour"
-#~ msgid_plural "Every {n} hours"
-#~ msgstr[0] "{n} saatte bir"
-#~ msgstr[1] "{n} saatte bir"
-
-#~ msgid "If it is on a removable drive, please plug it in. Then press OK."
-#~ msgstr ""
-#~ "Eğer bu bir çıkarılabilir sürücüde ise lütfen takın ve ardından Tamam'a "
-#~ "basın."
-
-#~ msgid "License"
-#~ msgstr "Lisans"
-
-#~ msgid "Name snapshot"
-#~ msgstr "Anlık görüntüyü adlandır"
+#~ msgid "Add default"
+#~ msgstr "Öntanımlı Ekle"
 
 #, python-brace-format
 #~ msgid ""
-#~ "Newer versions of files will be renamed with trailing {suffix} before "
-#~ "restoring. If you don't need them anymore you can remove them with {cmd}"
-#~ msgstr ""
-#~ "Dosyaların daha yeni sürümleri geri yüklenmeden önce sonuna {suffix} "
-#~ "eklenerek yeniden adlandırılacak. Onlara artık ihtiyacınız yoksa {cmd} ile "
-#~ "kaldırabilirsiniz"
-
-#~ msgid "Please confirm the password."
-#~ msgstr "Lütfen parolayı onaylayın."
+#~ "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
+#~ msgstr "{BOLD}Önemle Önerilir{ENDBOLD}: (Tüm öneriler zaten dahil edildi.)"
 
 #, python-brace-format
-#~ msgid "Private key file \"{file}\" does not exist."
-#~ msgstr "Özel anahtar dosyası \"{file}\" yok."
-
-#~ msgid "Sent"
-#~ msgstr "Gönder"
-
-#~ msgid "Should a new password-less public/private key pair be generated?"
-#~ msgstr "Yeni bir şifresiz genel/özel anahtar çifti oluşturulmalı mı?"
-
-#, fuzzy
-#~ msgid "Shows the message about deprecation of SSH cipher again."
-#~ msgstr "Çeviriye katılım mesajını tekrar gösterir."
-
-#~ msgid "Snapshot"
-#~ msgstr "Anlık görüntü"
-
-#~ msgid "Snapshot Log View"
-#~ msgstr "Anlık Görüntü Günlük Görünümü"
-
-#~ msgid "Snapshot Name"
-#~ msgstr "Anlık Görüntü Adı"
-
-#~ msgid "Snapshots"
-#~ msgstr "Anlık görüntüler"
-
-#~ msgid "Snapshots:"
-#~ msgstr "Anlık görüntüler:"
-
-#~ msgid "Speed"
-#~ msgstr "Hız"
-
-#~ msgid "Take a snapshot"
-#~ msgstr "Anlık görüntü al"
-
-#~ msgid "Taking snapshot"
-#~ msgstr "Anlık görüntü al"
-
-#, fuzzy
-#~ msgid "The sub-directories cannot be included in the backup."
-#~ msgstr "Yedekleme alt klasörü dahil edilemez."
-
-#~ msgid "View last log"
-#~ msgstr "Son günlüğü görüntüle"
-
-#~ msgid "View snapshot log"
-#~ msgstr "Anlık görüntü günlüğünü görüntüle"
-
-#~ msgid "You can't compare a snapshot to itself."
-#~ msgstr "Bir anlık görüntüyü kendisiyle karşılaştıramazsınız."
-
-#~ msgid "You did not choose a private key file for SSH."
-#~ msgstr "SSH için bir gizli anahtar dosyası seçmediniz."
+#~ msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
+#~ msgstr "{BOLD}Önemle Tavsiye Edlilir{ENDBOLD}: {files}"

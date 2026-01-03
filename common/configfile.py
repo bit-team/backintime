@@ -88,7 +88,7 @@ class ConfigFile:
             return re.sub(r'\d+', lambda m: m.group(0).zfill(6), key)
 
         try:
-            with open(filename, 'wt') as f:
+            with open(filename, mode='wt', encoding='utf-8') as f:
                 keys = list(self.dict.keys())
                 keys.sort(key=numsort)
 
@@ -128,7 +128,7 @@ class ConfigFile:
             return
 
         try:
-            with open(filename, 'rt') as f:
+            with open(filename, mode='rt', encoding='utf-8') as f:
                 lines = f.readlines()
 
         except OSError as e:
@@ -481,8 +481,7 @@ class ConfigFileWithProfiles(ConfigFile):
         super(ConfigFileWithProfiles, self).load(filename)
 
     def append(self, filename):
-        """
-        Load options from file and append them to current options.
+        """Load options from file and append them to current options.
 
         Args:
             filename (str): full path
@@ -583,7 +582,7 @@ class ConfigFileWithProfiles(ConfigFile):
                 self.current_profile_id = profile_id
                 logger.changeProfile(profile_id, profile_name)
                 logger.debug(
-                    f'Change current profile: {profile_id}={profile_name}',
+                    f'Change current profile to {profile_name}({profile_id})',
                     self)
 
                 return True
@@ -624,7 +623,7 @@ class ConfigFileWithProfiles(ConfigFile):
 
         return profile_id in self.profiles()
 
-    def profileExistsByName(self, name):
+    def profileExistsByName(self, name) -> bool:
         """
         ``True`` if the profile exists.
 
@@ -665,47 +664,44 @@ class ConfigFileWithProfiles(ConfigFile):
 
         return self.profileStrValue('name', default, profile_id)
 
-    def addProfile(self, name):
-        """
-        Add a new profile if the name is not already in use.
+    def addProfile(self, name: str) -> str | None:
+        """Add a new profile if the name is not already in use.
 
         Args:
-            name (str): new profile name
+            name (str): Profile name.
 
         Returns:
-            str:        new profile ID
+            str: The new profile ID or None if profile with same name
+                already exists.
         """
+        if self.profileExistsByName(name):
+            self.notifyError(
+                _('Profile "{name}" already exists.').format(name=name))
+
+            return None
+
         profiles = self.profiles()
 
-        for profile_id in profiles:
+        pid = self._next_unused_id()
 
-            if self.profileName(profile_id) == name:
-                self.notifyError(_(
-                    'Profile "{name}" already exists.').format(name=name))
-
-                return None
-
-        new_id = 1
-
-        while True:
-            ok = True
-
-            if str(new_id) in profiles:
-                ok = False
-
-            if ok:
-                break
-
-            new_id = new_id + 1
-
-        new_id = str(new_id)
-
-        profiles.append(new_id)
+        profiles.append(self._next_unused_id())
         self.setStrValue('profiles', ':'.join(profiles))
 
-        self.setProfileStrValue('name', name, new_id)
+        self.setProfileStrValue('name', name, pid)
 
-        return new_id
+        return pid
+
+    def _next_unused_id(self):
+        pid = 1
+        existing_pids = self.profiles()
+
+        while True:
+            if str(pid) in existing_pids:
+                pid += 1
+            else:
+                break
+
+        return str(pid)
 
     def removeProfile(self, profile_id=None):
         """

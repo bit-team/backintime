@@ -41,6 +41,7 @@ except NameError:
 import bitbase
 import tools
 import configfile
+import encode
 import logger
 import sshtools
 import encfstools
@@ -53,7 +54,6 @@ from exceptions import PermissionDeniedByPolicy
 
 class Config(configfile.ConfigFileWithProfiles):
     APP_NAME = bitbase.APP_NAME
-    COPYRIGHT = bitbase.COPYRIGHT
 
     CONFIG_VERSION = 6
     """Latest or highest possible version of Back in Time's config file."""
@@ -79,36 +79,6 @@ class Config(configfile.ConfigFileWithProfiles):
 
     HOURLY_BACKUPS = bitbase.HOURLY_BACKUPS
 
-    # Used when new snapshot profile is created.
-    DEFAULT_EXCLUDE = [
-        '.gvfs',
-        '.cache/*',
-        '.thumbnails*',
-        '.local/share/[Tt]rash*',
-        '*.backup*',
-        '*~',
-        '.dropbox*',
-        '/proc/*',
-        '/sys/*',
-        '/dev/*',
-        '/run/*',
-        '/etc/mtab',
-        '/var/cache/apt/archives/*.deb',
-        'lost+found/*',
-        '/tmp/*',
-        '/var/tmp/*',
-        '/var/backups/*',
-        '.Private',
-        '/swapfile',
-        # Discord files
-        # See also: https://github.com/bit-team/backintime/issues/1555#issuecomment-1787230708
-        'SingletonLock',
-        'SingletonCookie',
-        # Mozilla files
-        # See also: https://github.com/bit-team/backintime/issues/1555#issuecomment-1787111063
-        'lock'
-    ]
-
     DEFAULT_RUN_NICE_FROM_CRON = True
     DEFAULT_RUN_NICE_ON_REMOTE = False
     DEFAULT_RUN_IONICE_FROM_CRON = True
@@ -121,7 +91,7 @@ class Config(configfile.ConfigFileWithProfiles):
     DEFAULT_REDIRECT_STDERR_IN_CRON = False
     DEFAULT_OFFSET = 0
 
-    ENCODE = encfstools.Bounce()
+    ENCODE = encode.Bounce()
     PLUGIN_MANAGER = pluginmanager.PluginManager()
 
     def __init__(self, config_path=None, data_path=None):
@@ -136,6 +106,8 @@ class Config(configfile.ConfigFileWithProfiles):
         # current locale because the language code in the config file wasn't
         # read yet.
         configfile.ConfigFileWithProfiles.__init__(self, _('Main profile'))
+
+        self._unsaved_profiles = []
 
         self._GLOBAL_CONFIG_PATH = '/etc/backintime/config'
 
@@ -280,7 +252,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
         # Deprecated: #2176
         self.SSH_CIPHERS = {
-            'default': _('Default'),
+            'default': 'Default',
             'aes128-ctr': 'AES128-CTR',
             'aes192-ctr': 'AES192-CTR',
             'aes256-ctr': 'AES256-CTR',
@@ -296,8 +268,15 @@ class Config(configfile.ConfigFileWithProfiles):
         }
 
     def save(self):
+        self._unsaved_profiles = []
         self.setIntValue('config.version', self.CONFIG_VERSION)
-        return super(Config, self).save(self._LOCAL_CONFIG_PATH)
+        return super().save(self._LOCAL_CONFIG_PATH)
+
+    def is_profile_unsaved(self, profile_id: str) -> bool:
+        return profile_id in self._unsaved_profiles
+
+    def is_current_profile_unsaved(self) -> bool:
+        return self.is_profile_unsaved(self.currentProfile())
 
     def checkConfig(self):
         profiles = self.profiles()
@@ -377,9 +356,9 @@ class Config(configfile.ConfigFileWithProfiles):
                     self.notifyError(
                         '{}\n{}\n{}'.format(
                             _('Profile: "{name}"').format(name=profile_name),
-                            _('The value for "Remove oldest backup if free '
-                              'space is less than" ({val_one}) must be less '
-                              'than or equal the threshold for "Warn if '
+                            _('The value for "Remove oldest backup if the '
+                              'free space is less than" ({val_one}) must be '
+                              'less than or equal the threshold for "Warn if '
                               'free disk space falls below" ({val_two}).'
                               ).format(val_one=min_free, val_two=warn),
                             _('Please adjust the settings so that the backup '
@@ -462,6 +441,13 @@ class Config(configfile.ConfigFileWithProfiles):
     def incrementHashCollision(self):
         value = self.hashCollision() + 1
         self.setIntValue('global.hash_collision', value)
+
+    def systray(self) -> str:
+        #?Color of systray icon.;auto,dark,light
+        return self.strValue('global.systray', 'auto')
+
+    def set_systray(self, value: str) -> None:
+        self.setStrValue('global.systray', value)
 
     def language(self) -> str:
         #?Language code (ISO 639) used to translate the user interface.
@@ -852,7 +838,7 @@ class Config(configfile.ConfigFileWithProfiles):
         """
         #?Exclude this file or folder. <I> must be a counter
         #?starting with 1;file, folder or pattern (relative or absolute)
-        return self.profileListValue('snapshots.exclude', 'str:value', self.DEFAULT_EXCLUDE, profile_id)
+        return self.profileListValue('snapshots.exclude', 'str:value', [], profile_id)
 
     def setExclude(self, values, profile_id = None):
         self.setProfileListValue('snapshots.exclude', 'str:value', values, profile_id)
@@ -1049,7 +1035,8 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setMinFreeSpace(
             enabled=enabled,
             value=value.value(),
-            unit=value.unit.value
+            unit=value.unit.value,
+            profile_id=profile_id
         )
 
     def minFreeInodes(self, profile_id = None):
@@ -1422,12 +1409,6 @@ class Config(configfile.ConfigFileWithProfiles):
     def encfsconfigBackupFolder(self, profile_id = None):
         return os.path.join(self._LOCAL_DATA_FOLDER, 'encfsconfig_backup_%s' % self.fileId(profile_id))
 
-    def preparePath(self, path):
-        if len(path) > 1:
-            if path[-1] == os.sep:
-                path = path[: -1]
-        return path
-
     def isConfigured(self, profile_id=None) -> bool:
         """Checks if the program is configured.
 
@@ -1441,8 +1422,9 @@ class Config(configfile.ConfigFileWithProfiles):
             return True
 
         logger.debug(f'Profile ({profile_id=}) is not configured because '
-                        f'snapshot path is "{bool(path)}" and/or includes '
-                        f'are "{bool(includes)}".', self)
+                     f'backup path is "{bool(path)}" and/or includes '
+                     f'are "{bool(includes)}".', self)
+
         return False
 
     def canBackup(self, profile_id=None):
@@ -1478,8 +1460,9 @@ class Config(configfile.ConfigFileWithProfiles):
         if not last_time:
             return True
 
-        return tools.older_than(
-            dt=last_time,
+        return tools.elapsed_at_least(
+            start=last_time,
+            end=datetime.datetime.now(),
             value=self.scheduleRepeatedPeriod(profile_id),
             unit=self.scheduleRepeatedUnit(profile_id)
         )
@@ -1689,6 +1672,14 @@ class Config(configfile.ConfigFileWithProfiles):
             cmd = tools.which('nice') + ' -n19 ' + cmd
 
         return cmd
+
+    def addProfile(self, name: str) -> str | None:
+        pid = super().addProfile(name)
+
+        if pid:
+            self._unsaved_profiles.append(pid)
+
+        return pid
 
 
 def _remove_old_snapshots_date(value, unit):

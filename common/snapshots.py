@@ -31,6 +31,7 @@ import configfile
 import logger
 import tools
 import encfstools
+import encode
 import mount
 import progress
 import snapshotlog
@@ -42,6 +43,7 @@ from inhibitsuspend import InhibitSuspend
 from applicationinstance import ApplicationInstance
 from exceptions import MountException
 from uniquenessset import UniquenessSet
+# from status import BackupStatus  See #2321
 
 
 class Snapshots:
@@ -128,7 +130,7 @@ class Snapshots:
             return None
 
         try:
-            with open(message_fn, 'rt') as handle:
+            with open(message_fn, mode='rt', encoding='utf-8') as handle:
                 items = handle.read().split('\n')
 
         # TODO (buhtz): Too broad exception
@@ -180,7 +182,7 @@ class Snapshots:
 
         try:
             # Write message to file (and overwrites the previous one)
-            with open(message_fn, 'wt') as f:
+            with open(message_fn, mode='wt', encoding='utf-8') as f:
                 f.write(str(type_id) + '\n' + message)
 
         except Exception as exc:
@@ -816,8 +818,8 @@ class Snapshots:
             return ret_error
 
         if not force and not self.config.backupScheduled():
-            logger.info(f'Profile "{self.config.profileName()}" is not '
-                        'scheduled to run now.', self)
+            logger.debug(f'Profile "{self.config.profileName()}" is not '
+                         'scheduled to run now.', self)
             ret_error = False
             return ret_error
 
@@ -864,7 +866,7 @@ class Snapshots:
         # workaround (#1751) that should be removed/refactored after
         # this method ("backup()") is refactored.
         with flock.GlobalFlock(disable=not self.config.globalFlock()):
-            logger.info('Lock', self)
+            # logger.info('Lock', self)
             now = datetime.datetime.today()
 
             with InhibitSuspend():  # inhibit suspend mode while backup
@@ -875,7 +877,7 @@ class Snapshots:
                 except MountException as ex:
                     logger.error(str(ex), self)
                     instance.exitApplication()
-                    logger.info('Unlock', self)
+                    # logger.info('Unlock', self)
                     time.sleep(2)
 
                     return True
@@ -914,9 +916,12 @@ class Snapshots:
 
                     profile_id = self.config.currentProfile()
                     profile_name = self.config.profileName()
+                    user_name = logger.USER
 
-                    logger.info(f"Create a new backup. Profile: {profile_id} "
-                                f"{profile_name}", self)
+                    logger.info(f'Creating backup. Profile: '
+                                f'{profile_name}({profile_id})'
+                                f' User: {user_name}',
+                                self)
 
                     if not self.config.canBackup(profile_id):
 
@@ -981,9 +986,11 @@ class Snapshots:
                                 # code
                                 ret_val, ret_error = self.takeSnapshot(
                                     sid, now, include_folders)
+                                # BackupStatus(cfg = self.config).update_status(now)
 
                             except:  # TODO too broad exception
-                                new = NewSnapshot(self.config)
+                                # BackupStatus(self.config).update_status(now)
+                                new = NewSnapshot(cfg = self.config)
 
                                 if new.exists():
                                     new.saveToContinue = False
@@ -1006,8 +1013,8 @@ class Snapshots:
 
                                 time.sleep(2)
 
-                            else:
-                                logger.warning("No new backup", self)
+                            # else:
+                            #     logger.warning("No new backup", self)
 
                         else:  # new snapshot taken...
 
@@ -1059,7 +1066,7 @@ class Snapshots:
 
                         instance.exitApplication()
 
-                        logger.info('Unlock', self)
+                        # logger.info('Unlock', self)
                         # --- END GlobalFlock context ---
 
             if sleep:
@@ -1171,7 +1178,7 @@ class Snapshots:
         Args:
             sid (SID):  snapshot in which the config should be stored
         """
-        logger.info('Save config file', self)
+        logger.info('Saving config file', self)
         self.setTakeSnapshotMessage(0, _('Saving config file…'))
 
         with open(self.config._LOCAL_CONFIG_PATH, 'rb') as src:
@@ -1252,7 +1259,7 @@ class Snapshots:
         Returns:
             int: Return code of rsync.
         """
-        logger.info('Save permissions', self)
+        logger.info('Saving permissions', self)
         self.setTakeSnapshotMessage(0, _('Saving permissions…'))
 
         fileInfoDict = FileInfoDict()
@@ -1260,7 +1267,7 @@ class Snapshots:
         if self.config.snapshotsMode() == 'ssh_encfs':
             decode = encfstools.Decode(self.config, False)
         else:
-            decode = encfstools.Bounce()
+            decode = encode.Bounce()
 
         # backup permissions of /
         # bugfix for https://github.com/bit-team/backintime/issues/708
@@ -1360,8 +1367,9 @@ class Snapshots:
         # instead, e.g. a DataClass
 
         if new_snapshot.exists() and new_snapshot.saveToContinue:
-            logger.info(f"Found incomplete backup '{new_snapshot.displayID}' "
-                        "that can be continued.", self)
+            logger.warning(
+                f'Found incomplete backup "{new_snapshot.displayID}" '
+                'that can be continued.', self)
 
             # TODO
             # Not sure but {snapshot_id} is always "new_snapshot", isn't it?
@@ -1448,7 +1456,7 @@ class Snapshots:
             rsync_prefix.append('--link-dest=%s' % link_dest)
 
         # sync changed folders
-        logger.info("Call rsync to create a backup", self)
+        # logger.info("Call rsync to create a backup", self)
         new_snapshot.saveToContinue = True
         cmd = rsync_prefix + rsync_suffix
 
@@ -1580,6 +1588,7 @@ class Snapshots:
             self.snapshotLog.flush()
             with open(self.snapshotLog.logFileName, 'rb') as logfile:
                 new_snapshot.setLog(logfile.read())
+
 
         except Exception as e:
             logger.debug('Failed to write takeSnapshot log %s into '
@@ -1938,7 +1947,7 @@ class Snapshots:
                         % del_snapshots, self)
 
             for i, sid in enumerate(del_snapshots, 1):
-                log(_('Smart removal') + ' %s/%s' %(i, len(del_snapshots)))
+                log('Smart removal' + ' %s/%s' %(i, len(del_snapshots)))
                 self.remove(sid)
 
     def get_free_space_at_destination(self) -> StorageSize | None:
@@ -1990,13 +1999,13 @@ class Snapshots:
         # Remove snapshots older than N years/weeks/days
         if self.config.removeOldSnapshotsEnabled():
             self.setTakeSnapshotMessage(
-                0, _('Apply rules to remove old backups'))
+                0, _('Applying rules to remove old backups'))
 
             # The oldest backup to keep. Others older than this are removed.
             oldSID = SID(self.config.removeOldSnapshotsDate(), self.config)
             oldBackupId = oldSID.withoutTag
 
-            logger.debug(f'Remove backups older than: {oldBackupId}', self)
+            logger.debug(f'Removing backups older than: {oldBackupId}', self)
 
             while True:
                 # Keep min one backup
@@ -2012,7 +2021,7 @@ class Snapshots:
                         del snapshots[0]
                         continue
 
-                msg = 'Remove backup {} because it is older than {}'
+                msg = 'Removing backup {} because it is older than {}'
                 logger.debug(msg.format(
                     snapshots[0].withoutTag, oldBackupId), self)
 
@@ -2023,7 +2032,7 @@ class Snapshots:
         enabled, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month = self.config.smartRemove()
 
         if enabled:
-            self.setTakeSnapshotMessage(0, _('Apply retention policy'))
+            self.setTakeSnapshotMessage(0, _('Applying retention policy'))
             del_snapshots = self.smartRemoveList(now,
                                                  keep_all,
                                                  keep_one_per_day,
@@ -2203,7 +2212,9 @@ class Snapshots:
 
         # check for duplicates
         uniqueness = UniquenessSet(
-            flag_deep_check, follow_symlink=False, list_equal_to=list_equal_to)
+            deep_check=flag_deep_check,
+            follow_symlink=False,
+            equal_to=list_equal_to)
 
         for sid in allSnapshotsList:
             path = sid.pathBackup(base_path)
@@ -2277,12 +2288,15 @@ class Snapshots:
         dirname = os.path.dirname(full_path)
         dir_st = os.stat(dirname)
         os.chmod(dirname, dir_st.st_mode | stat.S_IWUSR)
+
         if os.path.isdir(full_path) and not os.path.islink(full_path):
             shutil.rmtree(full_path, onerror = errorHandler)
+
         else:
             st = os.stat(full_path)
             os.chmod(full_path, st.st_mode | stat.S_IWUSR)
             os.remove(full_path)
+
         os.chmod(dirname, dir_st.st_mode)
 
     def createLastSnapshotSymlink(self, sid: SID) -> bool:
@@ -2822,7 +2836,7 @@ class SID:
         """
         return self.sid[0:15]
 
-    def path(self, *path, use_mode = []):
+    def path(self, *path, use_mode = []) -> str:
         """
         Current path of this snapshot automatically altered for
         remote/encrypted version of this path
@@ -2936,12 +2950,14 @@ class SID:
         nameFile = self.path(self.NAME)
         if not os.path.isfile(nameFile):
             return ''
+
         try:
-            with open(nameFile, 'rt') as f:
-                return f.read()
-        except Exception as e:
+            with open(nameFile, mode='rt', encoding='utf-8') as handle:
+                return handle.read()
+
+        except Exception as exc:
             logger.debug('Failed to get snapshot {} name: {}'.format(
-                         self.sid, str(e)),
+                         self.sid, str(exc)),
                          self)
 
     @name.setter
@@ -2949,12 +2965,14 @@ class SID:
         nameFile = self.path(self.NAME)
 
         self.makeWritable()
+
         try:
-            with open(nameFile, 'wt') as f:
-                f.write(name)
-        except Exception as e:
+            with open(nameFile, mode='wt', encoding='utf-8') as handle:
+                handle.write(name)
+
+        except Exception as exc:
             logger.debug('Failed to set snapshot {} name: {}'.format(
-                         self.sid, str(e)),
+                         self.sid, str(exc)),
                          self)
 
     @property
@@ -3000,15 +3018,19 @@ class SID:
     @failed.setter
     def failed(self, enable):
         failedFile = self.path(self.FAILED)
+
         if enable:
             self.makeWritable()
+
             try:
-                with open(failedFile, 'wt') as f:
-                    f.write('')
-            except Exception as e:
+                with open(failedFile, mode='wt', encoding='utf-8') as handle:
+                    handle.write('')
+
+            except Exception as exc:
                 logger.debug('Failed to mark snapshot {} failed: {}'.format(
-                             self.sid, str(e)),
+                             self.sid, str(exc)),
                              self)
+
         elif os.path.exists(failedFile):
             os.remove(failedFile)
 
@@ -3034,7 +3056,7 @@ class SID:
         i.save(self.path(self.INFO))
 
     @property
-    def fileInfo(self):
+    def fileInfo(self) -> FileInfoDict:
         """
         Load/save "fileinfo.bz2"
 
@@ -3046,47 +3068,69 @@ class SID:
         """
         d = FileInfoDict()
         infoFile = self.path(self.FILEINFO)
+
         if not os.path.isfile(infoFile):
             return d
 
         try:
             with bz2.BZ2File(infoFile, 'rb') as fileinfo:
+
                 for line in fileinfo:
                     line = line.strip(b'\n')
+
                     if not line:
                         continue
+
                     index = line.find(b'/')
+
                     if index < 0:
                         continue
+
                     f = line[index:]
+
                     if not f:
                         continue
+
                     info = line[:index].strip().split(b' ')
+
                     if len(info) == 3:
-                        d[f] = (int(info[0]), info[1], info[2]) #perms, user, group
-        except (FileNotFoundError, PermissionError) as e:
-            logger.error('Failed to load {} from snapshot {}: {}'.format(
-                         self.FILEINFO, self.sid, str(e)),
+                        d[f] = (
+                            int(info[0]),  # perms
+                            info[1],  # user
+                            info[2]  # group
+                        )
+
+        except (FileNotFoundError, PermissionError) as exc:
+            logger.error(f'Failed to load {self.FILEINFO} from snapshot '
+                         f'{self.sid}: {exc}',
                          self)
         return d
 
     @fileInfo.setter
-    def fileInfo(self, d):
-        assert isinstance(d, FileInfoDict), 'd is not FileInfoDict type: {}'.format(d)
-        try:
-            with bz2.BZ2File(self.path(self.FILEINFO), 'wb') as f:
-                for path, info in d.items():
-                    f.write(b' '.join((str(info[0]).encode('utf-8', 'replace'),
-                                       info[1],
-                                       info[2],
-                                       path))
-                                       + b'\n')
-        except PermissionError as e:
-            logger.error('Failed to write {}: {}'.format(self.FILEINFO, str(e)))
+    def fileInfo(self, fi_dict: FileInfoDict):
+        fp = Path(self.path(self.FILEINFO))
 
-    # TODO use @property decorator? IMHO not because it is not a "getter" but processes data
+        try:
+            with bz2.BZ2File(str(fp), 'wb') as handle:
+
+                for path, info in fi_dict.items():
+                    handle.write(b' '.join((
+                        str(info[0]).encode('utf-8', 'replace'),
+                        info[1],
+                        info[2],
+                        path)) + b'\n')
+
+            # Owner only permissions
+            fp.chmod(0o600)  # -rw-------
+
+        except PermissionError as exc:
+            logger.error(f'Failed to write "{fp}": {exc}')
+
+    # TODO use @property decorator? IMHO not because it is not
+    # a "getter" but processes data
     # TODO Should have an action name like "loadLogFile"
-    def log(self, mode = None, decode = None):
+    def log(self, mode: int = None, decode: encfstools.Decode = None
+            ) -> Generator[str, None, None]:
         """
         Load log from "takesnapshot.log.bz2"
 
@@ -3100,37 +3144,48 @@ class SID:
         """
         logFile = self.path(self.LOG)
         logFilter = snapshotlog.LogFilter(mode, decode)
+
         try:
             with bz2.BZ2File(logFile, 'rb') as f:
+
                 if logFilter.header:
                     yield logFilter.header
+
                 for line in f.readlines():
                     line = logFilter.filter(line.decode('utf-8').rstrip('\n'))
+
                     if not line is None:
+
                         yield line
-        except Exception as e:
+
+        except FileNotFoundError as e:
             msg = ('Failed to get snapshot log from {}:'.format(logFile), str(e))
             logger.debug(' '.join(msg), self)
+
             for line in msg:
                 yield line
 
-    def setLog(self, log):
-        """
-        Write log to "takesnapshot.log.bz2"
+    def setLog(self, content: str | bytes) -> None:
+        """Write log to "takesnapshot.log.bz2"
 
         Args:
-            log: full snapshot log
+            content: full snapshot log
         """
-        if isinstance(log, str):
-            log = log.encode('utf-8', 'replace')
-        logFile = self.path(self.LOG)
+        if isinstance(content, str):
+            content = content.encode('utf-8', 'replace')
+
+        log_fp = Path(self.path(self.LOG))
+
         try:
-            with bz2.BZ2File(logFile, 'wb') as f:
-                f.write(log)
-        except Exception as e:
-            logger.error('Failed to write log into compressed file {}: {}'.format(
-                         logFile, str(e)),
-                         self)
+            with bz2.BZ2File(str(log_fp), 'wb') as handle:
+                handle.write(content)
+
+            # Owner only permissions
+            log_fp.chmod(0o600)  # -rw-------
+
+
+        except PermissionError as exc:
+            logger.error(f'Failed to write log into "{log_fp}": {exc}')
 
     def makeWritable(self):
         """
@@ -3218,22 +3273,22 @@ class NewSnapshot(GenericNonSnapshot):
 
         if enable:
             try:
-                with open(flag, 'wt'):
+                with open(flag, mode='wt', encoding='utf-8'):
                     pass
 
-            except Exception as e:
+            except Exception as exc:
                 # should be "safe", throughout
                 logger.error(
-                    "Failed to set 'save_to_continue' flag: %s" %str(e))
+                    f"Failed to set 'save_to_continue' flag: {exc}")
 
         elif os.path.exists(flag):
             try:
                 os.remove(flag)
 
-            except Exception as e:
+            except Exception as exc:
                 # should be "safe", throughout
                 logger.error(
-                    "Failed to remove 'save_to_continue' flag: %s" %str(e))
+                    f"Failed to remove 'save_to_continue' flag: {exc}")
 
     @property
     def hasChanges(self):

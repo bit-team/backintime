@@ -34,6 +34,7 @@ import tools
 # E.g. when using --diagnostics and other argparse.Action
 tools.initiate_translation(None)
 import bitbase  # noqa: E402
+import bitlicense  # noqa: E402
 import diagnostics  # noqa: E402
 import logger  # noqa: E402
 import clicommands  # noqa: E402
@@ -58,10 +59,13 @@ def _license_info() -> tuple[str, str]:
     """
     # Extract the SPDX license info from current file.
     # interpreted as primary/project license
+
+    # REUSE-IgnoreStart
     prim = re.search(
         r'SPDX-License-Identifier:\s(:?.*)',
         Path(__file__).read_text(encoding='utf-8')
     )
+    # REUSE-IgnoreEnd
 
     try:
         result = prim.groups()[0]
@@ -71,9 +75,9 @@ def _license_info() -> tuple[str, str]:
 
     # all used licenses
     licenses = None
-    if bitbase.DIR_LICENSES:
+    if bitlicense.DIR_LICENSES:
         licenses = [
-            f.with_suffix('').name for f in bitbase.DIR_LICENSES.iterdir()]
+            f.with_suffix('').name for f in bitlicense.DIR_LICENSES.iterdir()]
 
         if result:
             licenses.remove(result)
@@ -91,7 +95,9 @@ def _license_info() -> tuple[str, str]:
 
     if not result[1]:
         result = (
-            result[0], 'Unable to extract licenses from LICENSES directory.')
+            result[0],
+            'Unable to extract licenses from LICENSES '
+            f'directory "{bitlicense.DIR_LICENSES}".')
         logger.error(result[1])
 
     return result
@@ -121,6 +127,7 @@ class ParserAgent:
             'prune': clicommands.prune,
             'show': clicommands.show_backups,
             'unmount': clicommands.unmount,
+            'status': clicommands.status,
             # Deprecated commands (#2124)
             'decode': clicommands.decode,
             'backup-job': clicommands.backup_job,
@@ -170,7 +177,7 @@ class ParserAgent:
             logo,
             '',
             f'            Project : {bitbase.URL_WEBSITE}',
-            f'        User Manual : {bitbase.USER_MANUAL_ONLINE_URL}',
+            f'        User Manual : {bitbase.URL_USER_MANUAL}',
             '          Copyright : see file LICENSES.md',
             f'    Project License : {prj_license}',
             f'Additional Licenses : {add_licenses}',
@@ -211,13 +218,13 @@ class ParserAgent:
             '-v', '--version',
             action='version',
             version='%(prog)s ' + __version__,
-            help="show %(prog)s's version number.")
+            help="show %(prog)s's version number")
 
         parser.add_argument(
             '--license',
             action=ActionPrintLicense,
             nargs=0,
-            help="show %(prog)s's license")
+            help="show %(prog)s's license details")
 
         parser.add_argument(
             '--diagnostics',
@@ -708,6 +715,28 @@ class ParserAgent:
         parser.set_defaults(func=self._cmd_func_dict[name])
         self.parsers[name] = parser
 
+    def _create_cmd_status(self):
+        name = 'status'
+
+        parser = self._command_subparsers.add_parser(
+            name,
+            parents=[
+                self._reusable_parsers['profile'],
+                self._reusable_parsers['common'],
+            ],
+            help='summarize backup status for all profiles or a specific one',
+            description='Display last run and status of last backup')
+
+        parser.set_defaults(func=self._cmd_func_dict[name])
+
+        parser.add_argument(
+            '--json', '-j',
+            action='store_true',
+            default=False,
+            help="output in json format")
+
+        self.parsers[name] = parser
+
     def _create_cmd_show(self):
         name = 'show'
 
@@ -780,6 +809,7 @@ class ParserAgent:
             title='Commands', dest='command')
 
         self._create_cmd_backup()
+        self._create_cmd_status()
         self._create_cmd_backup_job()
         self._create_cmd_show()
         self._create_cmd_restore()
@@ -978,17 +1008,19 @@ def parse_arguments(args: Namespace,
 
 
 class ActionPrintLicense(argparse.Action):
-    """Print license text."""
+    """Print license details."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
     def __call__(self, *args, **kwargs):
-        license_path = Path(tools.docPath()) / 'LICENSE'
-        # Dev note (buhtz, 2025-05): ToDo
-        # display aboutdlg license text (see bitbase)
-        # and show path of all license files in LICENSES dir
-        print(license_path.read_text('utf-8'))
+        text_gpl = bitlicense.get_gpl_short_text()
+        text_licenses = bitlicense.TXT_LICENSES.format(
+                dir_link=bitlicense.DIR_LICENSES,
+                readme_link=bitlicense.DIR_LICENSES.parent / 'LICENSES.md')
+
+        print(f'{text_gpl}\n{text_licenses}')
+
         sys.exit(bitbase.RETURN_OK)
 
 
