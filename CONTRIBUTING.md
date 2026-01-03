@@ -136,10 +136,11 @@ distribution.
 * Runtime dependencies for the GUI
 
   - `x11-utils`
-  - `python3-pyqt6` (not from _PyPi_ via `pip`)
+  - `python3-pyqt6` (Do not use the version from _PyPi_ via `pip`)
   - `python3-dbus.mainloop.pyqt6` (not available from _PyPi_ via `pip`)
   - `python3-pyqt6.qtsvg`
   - `pkexec`
+  - `bash` (Used by root mode starter script `qt/backintime-qt_polkit`)
   - `polkitd`
   - `qttranslations6-l10n`
   - `qtwayland6` (if Wayland is used as display server instead of X11)

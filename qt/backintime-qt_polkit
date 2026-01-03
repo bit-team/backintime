@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # SPDX-FileCopyrightText: © 2009 Back In Time team
 #
 # SPDX-License-Identifier: CC0-1.0
@@ -10,11 +10,29 @@
 # and <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 if [ "x$XDG_SESSION_TYPE" = "xwayland" ]; then
     # PREFIX="env QT_QPA_PLATFORM=wayland-egl XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR"
-    # Empty prefix to use the default Qt platform plugin (normally xcb) to fix #836 and #1350
+    # Empty prefix to use the default Qt platform plugin (normally xcb)
+    # to fix #836 and #1350
     PREFIX=""
 else
     # X11
     PREFIX=""
 fi
 
-pkexec --disable-internal-agent $PREFIX "/usr/bin/backintime-qt" "$@"
+# Catch error message of pkexec if there is one. Might happen if no polkit
+# agent is active, e.g. when using IceWM.
+# Details:
+#    https://github.com/bit-team/backintime/pull/2328#issuecomment-3702705290
+# Error message (stderr) of pkexec is written to /tmp/backintime-error
+pkexec --disable-internal-agent "${PREFIX}/usr/bin/backintime-qt" "$@" 2> >(tee /tmp/backintime-error >&2)
+
+STATUS=$?
+
+if (( STATUS )); then
+    ERR=$(< /tmp/backintime-error)
+
+    xmessage -nearmouse "Back In Time: Problems running in root mode
+    Error: ${ERR}
+    Return code: ${STATUS}"
+
+    exit "${STATUS}"
+fi

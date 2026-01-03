@@ -92,11 +92,11 @@ def collect_diagnostics():
         'system': f'{platform.system()} {platform.version()}'
     })
 
-    # Display system (X11 or Wayland)
-    # This doesn't catch all edge cases.
-    # For more details see: https://unix.stackexchange.com/q/202891/136851
-    result['host-setup']['display-system'] = os.environ.get(
-        'XDG_SESSION_TYPE', '($XDG_SESSION_TYPE not set)')
+    # Display system (X11 or Wayland), desktop, etc
+    # $XDG_SESSION_TYPE doesn't catch all edge cases.
+    # See: https://unix.stackexchange.com/q/202891/136851
+    for var in ['XDG_SESSION_TYPE', 'XDG_CURRENT_DESKTOP', 'DESKTOP_SESSION']:
+        result['host-setup'][var] = os.environ.get(var, '(not set)')
 
     # locale (system language etc)
     #
@@ -111,10 +111,6 @@ def collect_diagnostics():
 
     # PATH environment variable
     result['host-setup']['PATH'] = os.environ.get('PATH', '($PATH unknown)')
-
-    # RSYNC environment variables
-    for var in ['RSYNC_OLD_ARGS', 'RSYNC_PROTECT_ARGS']:
-        result['host-setup'][var] = os.environ.get(var, '(not set)')
 
     # === PYTHON setup ===
     python = ' '.join((
@@ -153,6 +149,11 @@ def collect_diagnostics():
 
     # === EXTERN TOOL ===
     result['external-programs'] = {}
+
+    # RSYNC environment variables
+    for var in ['RSYNC_OLD_ARGS', 'RSYNC_PROTECT_ARGS']:
+        result['external-programs'][var] = os.environ.get(
+            var, '(not set)')
 
     result['external-programs']['rsync'] = _get_rsync_info()
 
