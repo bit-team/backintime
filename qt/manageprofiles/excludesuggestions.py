@@ -72,6 +72,11 @@ EXCLUDE_SUGGESTIONS = {
             _('Package cache for Debian(-based) GNU/Linux distributions'),
             bitbase.IS_IN_ROOT_MODE
         ],
+        [
+            '~/.local/share/flatpak',
+            _('Flatpak app and runtime repository'),
+            True
+        ],
     ),
     _('System runtime directories'): (
         [
