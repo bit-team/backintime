@@ -243,8 +243,8 @@ class SnapshotLog:
             date (datetime.datetime):   current date
         """
         if snapshots.NewSnapshot(self.config).saveToContinue:
-            msg = "Last snapshot didn't finish but can be continued.\n\n"
-            msg += "======== continue snapshot (profile %s): %s ========\n"
+            msg = "Last backup did not complete but can be resumed.\n\n"
+            msg += "======== Continue backup (profile %s): %s ========\n"
 
         else:
             if os.path.exists(self.logFileName):
@@ -252,7 +252,7 @@ class SnapshotLog:
                     self.logFile.close()
                     self.logFile = None
                 os.remove(self.logFileName)
-            msg = "========== Take snapshot (profile %s): %s ==========\n"
+            msg = "========== Create backup (profile %s): %s ==========\n"
 
         self.append(msg % (self.profile, date.strftime('%c')), 1)
 

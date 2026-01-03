@@ -51,8 +51,7 @@ class General(unittest.TestCase):
             self.assertIn(key, result['backintime'], key)
 
         # 2nd level "host-setup"
-        minimal_keys = ['platform', 'system', 'display-system', 'locale',
-                        'PATH', 'RSYNC_OLD_ARGS', 'RSYNC_PROTECT_ARGS']
+        minimal_keys = ['platform', 'system', 'locale', 'PATH']
         for key in minimal_keys:
             self.assertIn(key, result['host-setup'], key)
 
@@ -60,7 +59,8 @@ class General(unittest.TestCase):
         self.assertIn('python', result['python-setup'], 'python')
 
         # 2nd level "external-programs"
-        minimal_keys = ['rsync', 'shell']
+        minimal_keys = [
+            'rsync', 'shell', 'RSYNC_OLD_ARGS', 'RSYNC_PROTECT_ARGS']
         for key in minimal_keys:
             self.assertIn(key, result['external-programs'], key)
 
