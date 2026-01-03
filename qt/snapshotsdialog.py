@@ -359,7 +359,9 @@ class SnapshotsDialog(QDialog):
         self.updateToolbar()
 
     def timeLineExecute(self, _item, _column):
-        if self.qapp.keyboardModifiers() and Qt.ControlModifier:
+        # Ctrl button pressed, indicates ongoing multiselection?
+        modifiers = self.qapp.keyboardModifiers()
+        if Qt.KeyboardModifier.ControlModifier in modifiers:
             return
 
         sid = self.timeLine.current_snapshot_id()
