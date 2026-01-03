@@ -25,7 +25,7 @@ themes_to_try = (
     'adwaita',
     'adwaita-dark',
     'yaru',
-    'oxygen'
+    'oxygen',
 )
 ICON_NAME_TO_CHECK = 'document-save'
 
@@ -37,8 +37,9 @@ for theme in themes_to_try:
     # (not fully compliant to the freedesktop.org spec)
     # and is not recommended as main theme (it is meant as fallback only).
     if not QIcon.fromTheme(ICON_NAME_TO_CHECK).isNull():
-        logger.debug(f'Icon "{ICON_NAME_TO_CHECK}" found in '
-                     'installed theme: {QIcon.themeName()}')
+        logger.debug(
+            f'Icon "{ICON_NAME_TO_CHECK}" found in theme: {QIcon.themeName()}'
+        )
         break
 
     # try next theme (activate it)...
@@ -47,9 +48,11 @@ for theme in themes_to_try:
                  f'(activated as "{QIcon.themeName()}")')
 
 if QIcon.fromTheme(ICON_NAME_TO_CHECK).isNull():
-    logger.error('No supported theme installed (missing icons). '
-                 'Please consult the project web site for instructions '
-                 'how to fix this.')
+    logger.error(
+        f'Icon theme missing or not supported. Icon "{ICON_NAME_TO_CHECK}" '
+        'not found. An icon theme should be installed. '
+        'For example: tango-icon-theme, oxygen-icon-theme'
+    )
 
 # Dev note: Please prefer choosing icons from the freedesktop.org spec
 #           to improve the chance that the icon is available and
