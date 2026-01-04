@@ -724,8 +724,10 @@ class ParserAgent:
                 self._reusable_parsers['profile'],
                 self._reusable_parsers['common'],
             ],
-            help='summarize backup status for all profiles or a specific one',
-            description='Display last run and status of last backup')
+            help='[TEMPORARILY DISABLED] summarize backup status',
+            description='TEMPORARILY DISABLED due to unresolved problems '
+                        '(see issue #2321). Will be re-enabled in a future '
+                        'release.')
 
         parser.set_defaults(func=self._cmd_func_dict[name])
 

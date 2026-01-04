@@ -32,7 +32,7 @@ import mount
 from exceptions import MountException
 from applicationinstance import ApplicationInstance
 from shutdownagent import ShutdownAgent
-from status import BackupStatus
+# BackupStatus import removed - status command temporarily disabled (see #2321)
 
 
 def _deprecation_msg(cmd_flag: str, replacement: str) -> str:
@@ -652,15 +652,15 @@ def status(args: argparse.Namespace):
         args (argparse.Namespace):
                         Parsed command-line arguments.
     """
-    cfg = _get_config(args)
-
-    status_object = BackupStatus(
-        cfg=cfg,
-        all_status=False if args.profile else True,
-        format_json=args.json
+    # Temporarily disabled due to unresolved problems with remote filesystem
+    # mounting/unmounting. See issue #2321 for details.
+    # The feature will be re-enabled once the underlying issues are resolved.
+    logger.error(
+        'The "status" command is temporarily disabled due to unresolved '
+        'problems (see https://github.com/bit-team/backintime/issues/2321). '
+        'It will be re-enabled in a future release once the issues are fixed.'
     )
-
-    print(status_object.get_status())
+    sys.exit(bitbase.RETURN_ERR)
 
 
 def unmount(args):
