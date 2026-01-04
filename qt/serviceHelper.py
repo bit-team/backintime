@@ -241,12 +241,18 @@ class UdevRules(dbus.service.Object):
         # create su command
         sucmd = f"{self.su} - '{user}' -c '{cmd}'"
 
-        # create Udev rule
-        rule = 'ACTION=="add|change", ENV{ID_FS_UUID}=="' \
-            + uuid \
-            + '", RUN+="' \
-            + sucmd \
-            + '"\n'
+        # create Udev rules
+        # Two separate rules to handle both regular drives and LUKS-encrypted
+        # volumes properly (see issue #2340):
+        # 1. "add" event: For regular (non-encrypted) drives when connected
+        # 2. "change" event with DM_ACTIVATION=1: For LUKS-encrypted volumes
+        #    when the encrypted filesystem is unlocked. This prevents multiple
+        #    triggers during the LUKS unlock process.
+        rule = (
+            f'ACTION=="add", ENV{{ID_FS_UUID}}=="{uuid}", RUN+="{sucmd}"\n'
+            f'ACTION=="change", ENV{{ID_FS_UUID}}=="{uuid}", '
+            f'ENV{{DM_ACTIVATION}}=="1", RUN+="{sucmd}"\n'
+        )
 
         print(f'{sucmd=} {rule=}')
 
