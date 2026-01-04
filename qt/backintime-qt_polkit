@@ -23,7 +23,7 @@ fi
 # Details:
 #    https://github.com/bit-team/backintime/pull/2328#issuecomment-3702705290
 # Error message (stderr) of pkexec is written to /tmp/backintime-error
-pkexec --disable-internal-agent "${PREFIX}/usr/bin/backintime-qt" "$@" 2> >(tee /tmp/backintime-error >&2)
+pkexec --disable-internal-agent $PREFIX "/usr/bin/backintime-qt" "$@" 2> >(tee /tmp/backintime-error >&2)
 
 STATUS=$?
 
