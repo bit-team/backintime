@@ -614,14 +614,36 @@ class MountControl:
         Raises:
             exceptions.MountException: If unmount failed.
         """
-        try:
-            subprocess.check_call(['fusermount', '-u', self.currentMountpoint])
+        proc = subprocess.run(
+            ['fusermount', '-u', self.currentMountpoint],
+            capture_output=True,
+            text=True
+        )
 
-        except subprocess.CalledProcessError as exc:
+        if proc.returncode != 0:
             raise MountException(
                 _('Unable to unmount {mountprocess} from {mountpoint}.')
                 .format(mountprocess=self.mountproc,
-                        mountpoint=self.currentMountpoint)) from exc
+                        mountpoint=self.currentMountpoint))
+
+        # Check for known warnings in stderr (see issue #2276)
+        if proc.stderr:
+            stderr_lower = proc.stderr.lower()
+
+            # Warning about userspace mount table (mtab) not being updated.
+            # This typically happens when /etc/mtab is not a symlink to
+            # /proc/mounts. The filesystem is unmounted successfully, but
+            # the mount table wasn't updated.
+            if 'failed to update userspace mount table' in stderr_lower:
+                logger.warning(
+                    f'Unmount warning for {self.currentMountpoint}: '
+                    f'{proc.stderr.strip()}. '
+                    'This may indicate an issue with /etc/mtab configuration. '
+                    'The filesystem was unmounted successfully.'
+                )
+            else:
+                # Log any other stderr output as debug
+                logger.debug(f'fusermount stderr: {proc.stderr.strip()}')
 
     def preMountCheck(self, first_run=False):
         """
