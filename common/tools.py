@@ -466,7 +466,7 @@ def is_filesystem_valid(full_path, msg_path, mode, copy_links):
 
     msg = None
 
-    if fs == 'vfat':
+    if fs in ('vfat', 'exfat'):
         msg = _(
             "Destination filesystem for {path} is formatted with FAT "
             "which doesn't support hard-links. "
@@ -1734,19 +1734,21 @@ def device(path):
     return None
 
 
-def filesystem(path):
+def filesystem(path: str) -> str | None:
     """
-    Get the filesystem type for the filesystem of ``path``.
+    Get type of filesystem for ``path``.
 
     Args:
-        path (str): full path
+        path: full path
 
     Returns:
         str:        filesystem
     """
     args = mountArgs(path)
+
     if args and len(args) >= 3:
         return args[2]
+
     return None
 
 
