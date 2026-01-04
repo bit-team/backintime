@@ -50,8 +50,10 @@ for theme in themes_to_try:
 if QIcon.fromTheme(ICON_NAME_TO_CHECK).isNull():
     logger.error(
         f'Icon theme missing or not supported. Icon "{ICON_NAME_TO_CHECK}" '
-        'not found. An icon theme should be installed. '
-        'For example: tango-icon-theme, oxygen-icon-theme'
+        'not found. Please install a complete icon theme. '
+        'For Debian/Ubuntu with Gnome: "apt install adwaita-icon-theme-legacy". '
+        'For other systems: oxygen-icon-theme, breeze-icon-theme, or '
+        'tango-icon-theme.'
     )
 
 # Dev note: Please prefer choosing icons from the freedesktop.org spec
