@@ -20,6 +20,7 @@ from exceptions import MountException
 class GocryptfsMount(MountControl):
     """
     """
+
     def __init__(self, *args, **kwargs):
         super(GocryptfsMount, self).__init__(*args, **kwargs)
 
@@ -28,9 +29,11 @@ class GocryptfsMount(MountControl):
         self.reverse = None
         self.config_path = None
 
-        self.setattrKwargs('path', self.config.localGocryptfsPath(self.profile_id), **kwargs)
+        self.setattrKwargs(
+            'path', self.config.localGocryptfsPath(self.profile_id), **kwargs
+        )
         self.setattrKwargs('reverse', False, **kwargs)
-        self.setattrKwargs('password', None, store = False, **kwargs)
+        self.setattrKwargs('password', None, store=False, **kwargs)
         self.setattrKwargs('config_path', None, **kwargs)
 
         self.setDefaultArgs()
@@ -44,30 +47,46 @@ class GocryptfsMount(MountControl):
         mount the service
         """
         if self.password is None:
-            self.password = self.config.password(self.parent, self.profile_id, self.mode)
-        logger.debug('Provide password through temp FIFO', self)
+            self.password = self.config.password(
+                self.parent, self.profile_id, self.mode
+            )
         thread = TempPasswordThread(self.password)
         env = os.environ.copy()
         env['ASKPASS_TEMP'] = thread.temp_file
 
         with thread.starter():
-            gocryptfs = [self.mountproc, '-extpass', 'backintime-askpass', '-quiet']
+            gocryptfs = [
+                self.mountproc,
+                '-extpass',
+                'backintime-askpass',
+                '-quiet'
+            ]
             if self.reverse:
                 gocryptfs += ['-reverse']
-            gocryptfs += [self.path, self.currentMountpoint]
-            logger.debug('Call mount command: %s'
-                         %' '.join(gocryptfs),
-                         self)
 
-            proc = subprocess.Popen(gocryptfs, env = env,
-                                    stdout = subprocess.PIPE,
-                                    stderr = subprocess.STDOUT,
-                                    universal_newlines = True)
+            gocryptfs += [
+                self.path,
+                self.currentMountpoint
+            ]
+
+            logger.debug(f'Call mount command: {gocryptfs}', self)
+
+            proc = subprocess.Popen(
+                gocryptfs,
+                env=env,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                universal_newlines=True
+            )
             output = proc.communicate()[0]
-            #### self.backupConfig()
+
             if proc.returncode:
-                raise MountException(_('Can\'t mount \'%(command)s\':\n\n%(error)s') \
-                                        % {'command': ' '.join(gocryptfs), 'error': output})
+                msg = _('Unable to mount "{command}"').format(
+                    command=' '.join(gocryptfs)
+                )
+                raise MountException(
+                    f'{msg}:\n\n{output}\n\nReturn code: {proc.returncode}'
+                )
 
     def init_backend(self):
         """
@@ -76,35 +95,46 @@ class GocryptfsMount(MountControl):
         if self.password is None:
             self.password = self.config.password(
                 self.parent, self.profile_id, self.mode)
-        logger.debug(f'Provide password through temp FIFO {self.password=}', self)
 
+        # Dev note: See docstring in EncFS_mount._mount() for detailed
+        # description about the password thing.
         thread = TempPasswordThread(self.password)
         env = os.environ.copy()
         env['ASKPASS_TEMP'] = thread.temp_file
 
         with thread.starter():
-            gocryptfs = [self.mountproc, '-extpass', 'backintime-askpass']
+            gocryptfs = [
+                self.mountproc,
+                '-extpass',
+                'backintime-askpass']
+
             gocryptfs.append('-init')
+
             gocryptfs.append(self.path)
+
             logger.debug(
-                'Call command to create gocryptfs config file: %s'
-                 %' '.join(gocryptfs),
-                 self
+                f'Call command to create gocryptfs config file: {gocryptfs}',
+                self
             )
 
-            proc = subprocess.Popen(gocryptfs, env = env,
-                                    stdout = subprocess.PIPE,
-                                    stderr = subprocess.STDOUT,
-                                    universal_newlines = True)
+            proc = subprocess.Popen(
+                gocryptfs,
+                env=env,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                universal_newlines=True)
+
             output = proc.communicate()[0]
-            #### self.backupConfig()
+
             if proc.returncode:
+                msg = _('Unable to init encrypted path "{command}"').format(
+                    command=' '.join(gocryptfs)
+                )
                 raise MountException(
-                    _("Can't init encrypted path '{command}':\n\n{error}")
-                    .format(command=' '.join(gocryptfs), error=output)
+                    f'{msg}:\n\n{output}\n\nReturn code: {proc.returncode}'
                 )
 
-    def preMountCheck(self, first_run = False):
+    def preMountCheck(self, first_run=False):
         """
         check what ever conditions must be given for the mount
         """
@@ -130,8 +160,10 @@ class GocryptfsMount(MountControl):
         """
         conf = self.configFile()
         ret = os.path.exists(conf)
+
         if ret:
-            logger.debug('Found gocryptfs config file in {}'.format(conf), self)
+            logger.debug(f'Found gocryptfs config file in {conf}', self)
         else:
-            logger.debug('No config in {}'.format(conf), self)
+            logger.debug(f'No config in {conf}', self)
+
         return ret
