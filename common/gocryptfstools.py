@@ -1,4 +1,6 @@
 # SPDX-FileCopyrightText: © 2017 Germar Reitze
+# SPDX-FileCopyrightText: © 2025 David Wales (@daviewales)
+# SPDX-FileCopyrightText: © 2025 Christian Buhtz <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #

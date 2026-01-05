@@ -1,5 +1,7 @@
 # SPDX-FileCopyrightText: © 2012-2022 Germar Reitze
 # SPDX-FileCopyrightText: © 2012-2022 Taylor Raack
+# SPDX-FileCopyrightText: © 2025 David Wales (@daviewales)
+# SPDX-FileCopyrightText: © 2025 Christian Buhtz <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -28,15 +30,7 @@ class EncFS_mount(MountControl):
     """Mount encrypted paths with encfs."""
 
     def __init__(self, *args, **kwargs):
-        # # TODO: Remove these debug calls as they are just to help me
-        # # setup testing!
-        # logger.debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        # logger.debug("REMOVE THESE TEMPORARY DEBUG LINES!")
-        # logger.debug("EncFS_mount args:")
-        # logger.debug(str(args))
-        # logger.debug("EncFS_mount kwargs:")
-        # logger.debug(str(kwargs))
-        # logger.debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        # logger.debug("EncFS_mount.init() :: {args=} {kwargs=}")  # DEBUG
 
         # init MountControl
         super(EncFS_mount, self).__init__(*args, **kwargs)
@@ -46,11 +40,12 @@ class EncFS_mount(MountControl):
         self.reverse = None
         self.config_path = None
 
-        self.setattrKwargs('path', self.config.localEncfsPath(self.profile_id), **kwargs)
-        # print(f"{self.path=}")  # DEBUG
+        self.setattrKwargs(
+            'path', self.config.localEncfsPath(self.profile_id), **kwargs)
+        # logger.debug("EncFS_mount.init() :: {self.path=}")  # DEBUG
         self.setattrKwargs('reverse', False, **kwargs)
         self.setattrKwargs('config_path', None, **kwargs)
-        self.setattrKwargs('password', None, store = False, **kwargs)
+        self.setattrKwargs('password', None, store=False, **kwargs)
         self.setattrKwargs('hash_id_1', None, **kwargs)
         self.setattrKwargs('hash_id_2', None, **kwargs)
 
@@ -65,16 +60,50 @@ class EncFS_mount(MountControl):
         """
         mount the service
         """
+
         if self.password is None:
-            self.password = self.config.password(self.parent, self.profile_id, self.mode)
+            self.password = self.config.password(
+                self.parent, self.profile_id, self.mode)
 
-        logger.debug(f'Provide password through temp FIFO {self.password=}', self)
+        # DEBUG
+        logger.debug(
+            f'Provide password through temp FIFO {self.password=}', self)
 
+        # Dev note (2026-01, buhtz):
+        # Password flow overview:
+        #
+        # 1. Back In Time creates a TempPasswordThread and passes the password
+        # to it.
+        # 2. The thread creates a temporary FIFO and blocks while writing the
+        #    password to it, waiting for a reader.
+        # 3. Back In Time starts encfs with "--extpass=backintime-askpass".
+        # 4. The FIFO path is passed via the environment variable ASKPASS_TEMP.
+        # 5. encfs invokes backintime-askpass as an external password helper.
+        # 6. backintime-askpass reads the FIFO path from ASKPASS_TEMP, opens
+        #    the FIFO, reads the password, and writes it to stdout.
+        # 7. encfs reads the password from backintime-askpass's stdout.
+        # 8. After the read completes, the FIFO is removed and the thread
+        # exits.
+        #
+        # Result:
+        # The password is transferred exactly once, synchronously, via a FIFO,
+        # without appearing on the command line, in files, or in the process
+        # list.
+        #
+        # Reason:
+        # It is about security. It minimizes password lifetime and exposure.
+        # Password never appears in a shell context, is transffered only once.
+
+        # Prepare the password-fifo-thread
         thread = TempPasswordThread(self.password)
         env = self.env()
         env['ASKPASS_TEMP'] = thread.temp_file
 
+        # Start thread and write password to FIFO
         with thread.starter():
+
+            # build encfs command and provide "backintime-askpass" as
+            # password helper
             encfs = [self.mountproc, '--extpass=backintime-askpass']
 
             if self.reverse:
@@ -86,6 +115,9 @@ class EncFS_mount(MountControl):
             encfs += [self.path, self.currentMountpoint]
             logger.debug('Call mount command: ' + ' '.join(encfs), self)
 
+            # Encfs aks backintime-askpass for the password.
+            # backintime-askpass will read the password from FIFO and provide
+            # it via return on stdout to the encfs process
             proc = subprocess.Popen(
                 encfs,
                 env=env,
@@ -100,10 +132,10 @@ class EncFS_mount(MountControl):
             if proc.returncode:
                 raise MountException(
                     '{}:\n\n{}\n\n{}'.format(
-                        _("Unable to mount '{command}'")
+                        _('Unable to mount '{command}'')
                         .format(command=' '.join(encfs)),
                         output,
-                        f"Return code: {proc.returncode}",
+                        f'Return code: {proc.returncode}',
                     ))
 
     def init_backend(self):
