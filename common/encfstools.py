@@ -130,50 +130,20 @@ class EncFS_mount(MountControl):
             self.backupConfig()
 
             if proc.returncode:
+                msg = _('Unable to mount "{command}"').format(
+                    command=' '.join(encfs)
+                )
                 raise MountException(
-                    '{}:\n\n{}\n\n{}'.format(
-                        _('Unable to mount '{command}'')
-                        .format(command=' '.join(encfs)),
-                        output,
-                        f'Return code: {proc.returncode}',
-                    ))
+                    f'{msg}:\n\n{output}\n\nReturn code: {proc.returncode}'
+                )
 
     def init_backend(self):
+        """Empty for Encfs because initialization happens implicite.
+
+        Init happens in mount() via "--standard" switch on encfs if
+        self.isConfigured() is False.
         """
-        init the cipher path
-        """
-        return  # DEBUG
-
-        if self.password is None:
-            self.password = self.config.password(self.parent, self.profile_id, self.mode)
-        logger.debug('Provide password through temp FIFO', self)
-        thread = TempPasswordThread(self.password)
-        env = os.environ.copy()
-        env['ASKPASS_TEMP'] = thread.temp_file
-
-        with thread.starter():
-            encfs = [self.mountproc, '--extpass=backintime-askpass']
-            if self.reverse:
-                encfs += ['--reverse']
-            encfs += ['--standard']
-            encfs += [self.path, self.currentMountpoint]
-            logger.debug(
-                'Call command to create EncFS config file: %s'
-                 %' '.join(encfs),
-                 self
-            )
-
-            proc = subprocess.Popen(encfs, env = env,
-                                    stdout = subprocess.PIPE,
-                                    stderr = subprocess.STDOUT,
-                                    universal_newlines = True)
-            output = proc.communicate()[0]
-            self.backupConfig()
-            if proc.returncode:
-                raise MountException(
-                    _("Can't init encrypted path '{command}':\n\n{error}")
-                    .format(command=' '.join(encfs), error=output)
-                )
+        return
 
     def preMountCheck(self, first_run=False):
         """Check what ever conditions must be given for the mount.
@@ -281,25 +251,34 @@ class EncFS_mount(MountControl):
         """
         cfg = self.configFile()
         if not os.path.isfile(cfg):
-            logger.warning('No encfs config in %s. Skip backup of config file.' %cfg, self)
+            logger.warning(
+                f'No encfs config in {cfg}. Skip backup of config file.', self
+            )
             return
+
         backup_folder = self.config.encfsconfigBackupFolder(self.profile_id)
         tools.makeDirs(backup_folder)
+
         old_backups = os.listdir(backup_folder)
-        old_backups.sort(reverse = True)
+        old_backups.sort(reverse=True)
+
         if len(old_backups):
             last_backup = os.path.join(backup_folder, old_backups[0])
 
-            #don't create a new backup if config hasn't changed
+            # Don't create a new backup if config hasn't changed
             if tools.md5sum(cfg) == \
                tools.md5sum(last_backup):
                 logger.debug('Encfs config did not change. Skip backup', self)
                 return
 
-        new_backup_file = '.'.join((os.path.basename(cfg), datetime.now().strftime('%Y%m%d%H%M')))
+        new_backup_file = '.'.join((
+            os.path.basename(cfg),
+            datetime.now().strftime('%Y%m%d%H%M')
+        ))
         new_backup = os.path.join(backup_folder, new_backup_file)
-        logger.debug('Create backup of encfs config %s to %s'
-                     %(cfg, new_backup), self)
+        logger.debug(
+            f'Create backup of encfs config {cfg} to {new_backup}', self
+        )
         shutil.copy2(cfg, new_backup)
 
 

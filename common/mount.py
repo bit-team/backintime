@@ -130,6 +130,9 @@ class Mount:
         tmp_mount (bool): If ``True`` mount to a temporary destination.
         parent (QWidget): Parent widget for QDialogs or ``None`` if there
             is no parent.
+
+    Dev note (buhtz, 2026-01): Rename that class into something like
+        MountOrchestrator or MountManager.
     """
 
     def __init__(self,
@@ -435,6 +438,7 @@ class Mount:
                                  **kwargs)
             return backend.init_backend()
 
+
 class MountControl:
     """This is the low-level mount API. This should be subclassed by backends.
 
@@ -473,6 +477,9 @@ class MountControl:
                                 ``ssh_encfs``
         hash_collision (int):   global value used to prevent hash collisions on
                                 mountpoints
+
+    Dev note (buhtz, 2026-01): Rename that class into something like
+        MountController or MountBase
     """
 
     def __init__(self,
