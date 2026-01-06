@@ -43,7 +43,6 @@ from inhibitsuspend import InhibitSuspend
 from applicationinstance import ApplicationInstance
 from exceptions import MountException
 from uniquenessset import UniquenessSet
-# from status import BackupStatus  See #2321
 
 
 class Snapshots:
@@ -958,9 +957,10 @@ class Snapshots:
                                 break
 
                     if not self.config.canBackup(profile_id):
-                        logger.error('Backup directory not '
-                                        'accessible. Tries stopped.',
-                                        self)
+                        logger.error(
+                            'Backup directory not accessible. Tries stopped.',
+                            self
+                        )
                         # Can't find snapshots directory (is it on a
                         # removable drive ?)
                         self.config.PLUGIN_MANAGER.error(3)
@@ -986,11 +986,9 @@ class Snapshots:
                                 # code
                                 ret_val, ret_error = self.takeSnapshot(
                                     sid, now, include_folders)
-                                # BackupStatus(cfg = self.config).update_status(now)
 
                             except:  # TODO too broad exception
-                                # BackupStatus(self.config).update_status(now)
-                                new = NewSnapshot(cfg = self.config)
+                                new = NewSnapshot(cfg=self.config)
 
                                 if new.exists():
                                     new.saveToContinue = False
