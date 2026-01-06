@@ -94,14 +94,30 @@ class CopySymlinksWidget(QWidget):
         self._disable()
 
     @property
-    def copy_all_links(self) -> bool:
+    def all_links(self) -> bool:
         """--copy-links"""
         return self._rb_all.isChecked()
 
     @property
-    def copy_only_external_links(self) -> bool:
+    def only_external_links(self) -> bool:
         """--copy-unsafe-links"""
         return self._rb_external.isChecked()
+
+    def set_values(self, all_links: bool, only_external: bool):
+        # Disable the whole widget
+        if not any((all_links, only_external)):
+            self._disable()
+            return
+
+        # Set checkbox
+        self._checkbox.setChecked(True)
+
+        if all_links:
+            self._rb_all.setChecked(True)
+            return
+
+        if only_external:
+            self._rb_external.setChecked(True)
 
     def _slot_checkbox_changed(self, state: int):
         if Qt.CheckState(state) == Qt.CheckState.Checked:

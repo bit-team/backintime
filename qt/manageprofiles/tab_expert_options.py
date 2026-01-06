@@ -384,8 +384,14 @@ class ExpertOptionsTab(QDialog):
         self._spb_bwlimit.setValue(self.config.bwlimit())
         self._cb_preserve_acl.setChecked(self.config.preserveAcl())
         self._cb_preserve_xattr.setChecked(self.config.preserveXattr())
-        self._cb_copy_unsafe_links.setChecked(self.config.copyUnsafeLinks())
+
+        all_links = self.config.copyLinks()
+        only_external = self.config.copyUnsafeLinks()
+        self._wdg_copy_links.set_values(all_links, only_external)
+
         self._cb_copy_links.setChecked(self.config.copyLinks())
+        self._cb_copy_unsafe_links.setChecked(self.config.copyUnsafeLinks())
+
         self._cb_one_filesystem.setChecked(self.config.oneFileSystem())
         self._cb_rsync_options.setChecked(self.config.rsyncOptionsEnabled())
         self._txt_rsync_options.setText(self.config.rsyncOptions())
@@ -412,8 +418,12 @@ class ExpertOptionsTab(QDialog):
                                self._spb_bwlimit.value())
         self.config.setPreserveAcl(self._cb_preserve_acl.isChecked())
         self.config.setPreserveXattr(self._cb_preserve_xattr.isChecked())
-        self.config.setCopyUnsafeLinks(self._cb_copy_unsafe_links.isChecked())
-        self.config.setCopyLinks(self._cb_copy_links.isChecked())
+
+        # self.config.setCopyUnsafeLinks(self._cb_copy_unsafe_links.isChecked())
+        # self.config.setCopyLinks(self._cb_copy_links.isChecked())
+        self.config.setCopyLinks(self._wdg_copy_links.all_links)
+        self.config.setCopyUnsafeLinks(self._wdg_copy_links.only_external_links)
+
         self.config.setOneFileSystem(self._cb_one_filesystem.isChecked())
         self.config.setRsyncOptions(self._cb_rsync_options.isChecked(),
                                     self._txt_rsync_options.text())
