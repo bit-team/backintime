@@ -242,40 +242,6 @@ class ExpertOptionsTab(QDialog):
         self._wdg_copy_links = CopySymlinksWidget(self)
         tab_layout.addWidget(self._wdg_copy_links)
 
-        self._cb_copy_unsafe_links = QCheckBox(
-            _('Copy external symbolic links as files'),
-            self
-        )
-        qttools.set_wrapped_tooltip(
-            self._cb_copy_unsafe_links,
-            [
-                'If enabled, symbolic links that point outside the backup '
-                'source are copied as real files or directories. '
-                'Links that point inside the source are kept as links.',
-                'This avoids broken links in the backup, but may use more '
-                'disk space.',
-                'This option is automatically enabled when "Copy symbolic '
-                'links as files" is enabled.',
-                "Uses 'rsync --copy-unsafe-links'."
-            ]
-        )
-        tab_layout.addWidget(self._cb_copy_unsafe_links)
-
-        self._cb_copy_links = QCheckBox(
-            _('Copy symbolic links as files'),
-            self
-        )
-        qttools.set_wrapped_tooltip(
-            self._cb_copy_links,
-            [
-                'If enabled, all symbolic links are replaced with the real '
-                'files or directories they point to. This increases backup '
-                'size and may store the same files multiple times.',
-                "Uses 'rsync --copy-links'."
-            ]
-        )
-        tab_layout.addWidget(self._cb_copy_links)
-
         # one file system option
         self._cb_one_filesystem = QCheckBox(
             _('Restrict to one file system'), self)
@@ -389,9 +355,6 @@ class ExpertOptionsTab(QDialog):
         only_external = self.config.copyUnsafeLinks()
         self._wdg_copy_links.set_values(all_links, only_external)
 
-        self._cb_copy_links.setChecked(self.config.copyLinks())
-        self._cb_copy_unsafe_links.setChecked(self.config.copyUnsafeLinks())
-
         self._cb_one_filesystem.setChecked(self.config.oneFileSystem())
         self._cb_rsync_options.setChecked(self.config.rsyncOptionsEnabled())
         self._txt_rsync_options.setText(self.config.rsyncOptions())
@@ -419,10 +382,9 @@ class ExpertOptionsTab(QDialog):
         self.config.setPreserveAcl(self._cb_preserve_acl.isChecked())
         self.config.setPreserveXattr(self._cb_preserve_xattr.isChecked())
 
-        # self.config.setCopyUnsafeLinks(self._cb_copy_unsafe_links.isChecked())
-        # self.config.setCopyLinks(self._cb_copy_links.isChecked())
         self.config.setCopyLinks(self._wdg_copy_links.all_links)
-        self.config.setCopyUnsafeLinks(self._wdg_copy_links.only_external_links)
+        self.config.setCopyUnsafeLinks(
+            self._wdg_copy_links.only_external_links)
 
         self.config.setOneFileSystem(self._cb_one_filesystem.isChecked())
         self.config.setRsyncOptions(self._cb_rsync_options.isChecked(),

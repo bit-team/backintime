@@ -104,6 +104,15 @@ class CopySymlinksWidget(QWidget):
         return self._rb_external.isChecked()
 
     def set_values(self, all_links: bool, only_external: bool):
+        """Set the widgest values and state.
+
+        Args:
+            all_links: Related to --copy-links
+            only_external: Related to --copy-unsafe-links
+
+        The logic of two rsyncs is preserved. Also the enabled state is
+        considered.
+        """
         # Disable the whole widget
         if not any((all_links, only_external)):
             self._disable()
