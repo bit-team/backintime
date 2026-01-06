@@ -53,6 +53,7 @@ Version 1.6.0-dev (development of upcoming release)
 * Removed: UI translation in Bosnian, Thai, and Occidental/Interlingue (#1914)
 * Removed: LICENSE file in favor of LICENSES directory and LICENSES.md file
 * Removed: SSH Cipher configuration in Manage profiles dialog (#2143)
+* Fixed: Warn users and prevent backups to exFAT volumes due to lack of hardlink support (#2337)
 * Fixed: Show proper message to users when root mode fails due to inactive or missing polkit agent (#2328, Derek Veit @DerekVeit)
 * Fixed: Crash in Compare snapshots dialog (aka Snapshots dialog) when comparing/diff two backups (#2327 Michael Neese @madic-creates)
 * Fixed: File view and Compare Backups dialog now open the clicked item correctly even with multiple selection or single-click-to-open enabled (#2330)
