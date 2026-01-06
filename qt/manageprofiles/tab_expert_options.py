@@ -239,36 +239,35 @@ class ExpertOptionsTab(QDialog):
         tab_layout.addWidget(self._cb_preserve_xattr)
 
         self._cb_copy_unsafe_links = QCheckBox(
-            _('Copy unsafe links (works only with absolute links)'), self)
+            _('Copy external symbolic links as files'),
+            self
+        )
         qttools.set_wrapped_tooltip(
             self._cb_copy_unsafe_links,
             [
-                "Uses 'rsync --copy-unsafe-links'. From 'man rsync':",
-                'This tells rsync to copy the referent of symbolic links that '
-                'point outside the copied tree. Absolute symlinks are also '
-                'treated like ordinary files, and so are any symlinks in the '
-                'source path itself when --relative is used. This option has '
-                'no additional effect if --copy-links was also specified.'
+                'If enabled, symbolic links that point outside the backup '
+                'source are copied as real files or directories. '
+                'Links that point inside the source are kept as links.',
+                'This avoids broken links in the backup, but may use more '
+                'disk space.',
+                'This option is automatically enabled when "Copy symbolic '
+                'links as files" is enabled.',
+                "Uses 'rsync --copy-unsafe-links'."
             ]
         )
         tab_layout.addWidget(self._cb_copy_unsafe_links)
 
         self._cb_copy_links = QCheckBox(
-            _('Copy links (dereference symbolic links)'), self)
+            _('Copy symbolic links as files'),
+            self
+        )
         qttools.set_wrapped_tooltip(
             self._cb_copy_links,
             [
-                "Uses 'rsync --copy-links'. From 'man rsync':",
-                'When symlinks are encountered, the item that they point to '
-                '(the referent) is copied, rather than the symlink. In older '
-                'versions of rsync, this option also had the side-effect of '
-                'telling the receiving side to follow symlinks, such as '
-                'symlinks to directories. In a modern rsync such as this one,'
-                ' you will need to specify --keep-dirlinks (-K) to get this '
-                'extra behavior. The only exception is when sending files to '
-                'an rsync that is too old to understand -K -- in that case, '
-                'the -L option will still have the side-effect of -K on that '
-                'older receiving rsync.'
+                'If enabled, all symbolic links are replaced with the real '
+                'files or directories they point to. This increases backup '
+                'size and may store the same files multiple times.',
+                "Uses 'rsync --copy-links'."
             ]
         )
         tab_layout.addWidget(self._cb_copy_links)
