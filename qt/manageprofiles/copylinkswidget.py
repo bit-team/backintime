@@ -44,7 +44,7 @@ class CopySymlinksWidget(QWidget):
                   'backup. Select whether all links or only those '
                   'pointing outside the source are copied.'),
                 _('This option may increase backup size.'),
-                _('Dsabled by default.')
+                _('Disabled by default.')
             ]
         )
         main_layout.addWidget(self._checkbox)
@@ -60,7 +60,7 @@ class CopySymlinksWidget(QWidget):
                 _('All symbolic links are replaced with real files or '
                   'directories they point to. This increases backup '
                   'size and may store the same files multiple times.'),
-                _("Uses 'rsync --copy-links'.")
+                _("Uses 'rsync --copy-links'."),
             ]
         )
 
@@ -115,6 +115,7 @@ class CopySymlinksWidget(QWidget):
         """
         # Disable the whole widget
         if not any((all_links, only_external)):
+            self._checkbox.setChecked(False)
             self._disable()
             return
 
