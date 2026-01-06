@@ -24,6 +24,7 @@ import tools
 import qttools
 import messagebox
 from manageprofiles.statebindcheckbox import StateBindCheckBox
+from manageprofiles.copylinkswidget import CopySymlinksWidget
 
 
 class ExpertOptionsTab(QDialog):
@@ -237,6 +238,9 @@ class ExpertOptionsTab(QDialog):
             ]
         )
         tab_layout.addWidget(self._cb_preserve_xattr)
+
+        self._wdg_copy_links = CopySymlinksWidget(self)
+        tab_layout.addWidget(self._wdg_copy_links)
 
         self._cb_copy_unsafe_links = QCheckBox(
             _('Copy external symbolic links as files'),
