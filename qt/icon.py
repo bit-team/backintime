@@ -28,6 +28,10 @@ themes_to_try = (
     'oxygen',
 )
 ICON_NAME_TO_CHECK = 'document-save'
+# A workaround especially for GNOME systems not offering regular icons
+# specified by the Free Desktop Icon Naming Specs.
+# See this thread for more discussion:
+# https://lists.debian.org/debian-gtk-gnome/2026/01/msg00000.html
 ICON_NAME_TO_CHECK_SYMBOLIC = f'{ICON_NAME_TO_CHECK}-symbolic'
 
 for theme in themes_to_try:
