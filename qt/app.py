@@ -2261,7 +2261,7 @@ class MainWindow(QMainWindow):
         self._open_release_candidate_dialog()
 
     def _slot_help_cipher_deprecation(self):
-        self._open_ssh_cipher_deprecation_dialog()
+        self._open_ssh_cipher_deprecation_dialog(self._cipher_using_profiles())
 
     def _slot_help_encryption(self):
         dlg = encfsmsgbox.EncfsExistsWarning(self, ['(not determined)'])
