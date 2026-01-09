@@ -379,8 +379,10 @@ class MainWindow(QMainWindow):
 
         # SSH Cipher deprecation
         if state_data.msg_cipher_deprecation is False:
-            self._open_ssh_cipher_deprecation_dialog()
-            state_data.msg_cipher_deprecation = True
+            cipher_profiles = self._cipher_using_profiles()
+            if cipher_profiles:
+                self._open_ssh_cipher_deprecation_dialog(cipher_profiles)
+                state_data.msg_cipher_deprecation = True
 
         # Countdown of manual GUI starts finished?
         if 0 == state_data.manual_starts_countdown():
@@ -1748,19 +1750,26 @@ class MainWindow(QMainWindow):
             full_label=rc_message)
         dlg.exec()
 
-    def _open_ssh_cipher_deprecation_dialog(self, always_show: bool = False):
-        """SSH cipher deprecation warning (#2143, #2176)"""
+    def _cipher_using_profiles(self) -> bool:
+        """Check if any of the SSH profiles explicit configured a cipher."""
 
-        # SSH profiles using cipher other than default
         ssh_cipher_profiles = []
-        for pid in self.config.profiles():
-            if 'ssh' in self.config.snapshotsMode(pid):
-                if self.config.sshCipher(pid) != 'default':
-                    ssh_cipher_profiles.append(
-                        f'{self.config.profileName(pid)} ({pid})')
 
-        if always_show is False and not ssh_cipher_profiles:
-            return
+        # all profiles
+        for pid in self.config.profiles():
+            # SSH only
+            if 'ssh' not in self.config.snapshotsMode(pid):
+                continue
+
+            # cipher other than "default"
+            if self.config.sshCipher(pid) != 'default':
+                ssh_cipher_profiles.append(
+                    f'{self.config.profileName(pid)} ({pid})')
+
+        return ssh_cipher_profiles
+
+    def _open_ssh_cipher_deprecation_dialog(self, ssh_cipher_profiles):
+        """SSH cipher deprecation warning (#2143, #2176)"""
 
         def _complete_text(profiles: list[str]) -> str:
             txt = (
@@ -2248,7 +2257,7 @@ class MainWindow(QMainWindow):
         self._open_release_candidate_dialog()
 
     def _slot_help_cipher_deprecation(self):
-        self._open_ssh_cipher_deprecation_dialog(always_show=True)
+        self._open_ssh_cipher_deprecation_dialog()
 
     def _slot_help_encryption(self):
         dlg = encfsmsgbox.EncfsExistsWarning(self, ['(not determined)'])
