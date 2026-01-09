@@ -375,6 +375,10 @@ class MainWindow(QMainWindow):
             messagebox.critical(self, msg)
 
     def _handle_user_messages(self):
+        # Ignore if debug or release/testing candidate
+        if version.IS_RELEASE_CANDIDATE or logger.DEBUG:
+            return
+
         state_data = StateData()
 
         # SSH Cipher deprecation
