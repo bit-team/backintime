@@ -17,14 +17,13 @@ import logger
 # If the current theme does not even contain the "document-save" icon
 # try to use another well-known working theme (if it is installed):
 themes_to_try = (
-    'ubuntu-mono-dark',
     'gnome',
     'breeze',
-    'breeze dark',
+    'breeze-dark',
     'hicolor',
-    'adwaita',
-    'adwaita-dark',
-    'yaru',
+    'Adwaita',
+    'Adwaita-dark',
+    'Yaru',
     'oxygen',
 )
 ICON_NAME_TO_CHECK = 'document-save'
