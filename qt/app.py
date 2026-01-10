@@ -388,8 +388,28 @@ class MainWindow(QMainWindow):
                 self._open_ssh_cipher_deprecation_dialog(cipher_profiles)
                 state_data.msg_cipher_deprecation = True
 
+        # Issue: https://github.com/bit-team/backintime/issues/2080
+        lang_planed_for_removal = [
+            'fo',  # Faroes
+            'hr',  # Croatian
+            'vi',  # Vietnamese
+            'is',  # Icelandic
+            'sl',  # Slovenian
+            'ro',  # Romanian
+            # On the edge. 40-50% completeness. inactive. But some
+            # activity not very long ago.
+            # 'ar',  # Arabic. Last activity 2025-10
+            # 'ru',  # Russian. Last activity 2025-07
+        ]
+
+        # Language removal message
+        if self.config.language_used in lang_planed_for_removal:
+            if state_data.msg_language_remove is False:
+                self._open_language_remove_statement()
+                state_data.msg_language_remove = True
+
         # Countdown of manual GUI starts finished?
-        if 0 == state_data.manual_starts_countdown():
+        if state_data.manual_starts_countdown() == 0:
 
             # Do nothing if English is the current used language
             if self.config.language_used != 'en':
@@ -1692,6 +1712,30 @@ class MainWindow(QMainWindow):
             full_label=_complete_text(name, perc))
         dlg.exec()
 
+    def _open_language_remove_statement(self):
+        code = self.config.language_used
+        name, _ = tools.get_native_language_and_completeness(code)
+
+        txt = [
+            f'The selected language ({name}) will be <strong>removed in the '
+            'release</strong>.',
+            'Reason: No recent '
+            f'<a href="{bitbase.URL_TRANSLATION}">translation activity</a> '
+            'and no active maintainer.',
+            'New translators are welcome. Guidance and support are '
+            'provided by '
+            f'<a href="{bitbase.URL_WEBSITE}">the project</a>.',
+            'The project maintainers regret this change. However, continuing '
+            'support without active maintenance leads to quality issues.'
+        ]
+        txt = '\n'.join(txt)
+
+        dlg = UserMessageDialog(
+            parent=self,
+            title=f'{name} will be removed soon',
+            full_label=txt)
+        dlg.exec()
+
     def _open_release_candidate_dialog(self):
         html_contact_list = (
             '<ul>'
@@ -1780,8 +1824,8 @@ class MainWindow(QMainWindow):
                 'The following backup profiles are using an explicitly '
                 'configured SSH cipher.',
                 '{profiles}',
-                'Setting a cipher directly within Back In Time is '
-                'deprecated and will be removed in future versions.',
+                'Setting a cipher directly within Back In Time <strong>is '
+                'deprecated and will be removed</strong> in future versions.',
                 'Recommended action:',
                 'Please configure the preferred cipher in the SSH client'
                 'config file (e.g. ~/.ssh/config) instead.'
