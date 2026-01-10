@@ -87,7 +87,8 @@ def load_icon_alt(names: list[str]) -> QIcon | None:
         if not ico.isNull():
             return ico
 
-    return None
+    return QIcon()
+
 
 # BackInTime Logo
 # TODO If we knew for sure that the global var "qapp" exists then
