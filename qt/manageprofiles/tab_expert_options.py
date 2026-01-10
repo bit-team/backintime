@@ -25,6 +25,7 @@ import qttools
 import messagebox
 from manageprofiles.statebindcheckbox import StateBindCheckBox
 from manageprofiles.copylinkswidget import CopySymlinksWidget
+from bitwidgets import HLineWidget
 
 
 class ExpertOptionsTab(QDialog):
@@ -39,13 +40,14 @@ class ExpertOptionsTab(QDialog):
 
         tab_layout = QVBoxLayout(self)
 
-        label = QLabel(
-            '<strong>' + _('Caution:') + '</strong> ' + _(
-                'These options are for advanced configurations. Modify '
-                'only if fully aware of their implications.')
+        # --- initial warning ---
+        txt = _(
+            'These options are for advanced configurations. Modify '
+            'only if fully aware of their implications.'
         )
-        label.setWordWrap(True)
+        label = qttools.create_warning_label(txt)
         tab_layout.addWidget(label)
+        tab_layout.addWidget(HLineWidget())
 
         # --- rsync with nice ---
         tab_layout.addWidget(QLabel(
