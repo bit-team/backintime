@@ -29,7 +29,12 @@ class UserMessageDialog(QDialog):
 
     """
 
-    def __init__(self, parent: QWidget, title: str, full_label: str):
+    def __init__(
+            self,
+            parent: QWidget,
+            title: str,
+            full_label: str,
+    ):
         super().__init__(parent)
         # screen_width = QApplication.primaryScreen().size().width()
         # min_width = 300 if screen_width <= 1080 else 450
@@ -70,6 +75,17 @@ class UserMessageDialog(QDialog):
 
         if self.height() < best.height():
             self.resize(best)
+
+        QTimer.singleShot(0, self._center_to_parent)
+
+    def _center_to_parent(self):
+        parent = self.parentWidget()
+        if parent is None:
+            return
+
+        geo = self.frameGeometry()
+        geo.moveCenter(parent.frameGeometry().center())
+        self.move(geo.topLeft())
 
     # pylint: disable-next=invalid-name
     def resizeEvent(self, event):  # noqa: N802
