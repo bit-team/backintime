@@ -1824,8 +1824,8 @@ class MainWindow(QMainWindow):
                 'The following backup profiles are using an explicitly '
                 'configured SSH cipher.',
                 '{profiles}',
-                'Setting a cipher directly within Back In Time is '
-                'deprecated and will be removed in future versions.',
+                'Setting a cipher directly within Back In Time <strong>is '
+                'deprecated and will be removed</strong> in future versions.',
                 'Recommended action:',
                 'Please configure the preferred cipher in the SSH client'
                 'config file (e.g. ~/.ssh/config) instead.'
@@ -2305,7 +2305,7 @@ class MainWindow(QMainWindow):
         self._open_release_candidate_dialog()
 
     def _slot_help_cipher_deprecation(self):
-        self._open_ssh_cipher_deprecation_dialog()
+        self._open_ssh_cipher_deprecation_dialog(self._cipher_using_profiles())
 
     def _slot_help_encryption(self):
         dlg = encfsmsgbox.EncfsExistsWarning(self, ['(not determined)'])
