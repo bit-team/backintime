@@ -260,17 +260,49 @@ def create_info_label(
         icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
         icon_scale_factor: float | int = None,
         fixed_size_widget: bool = True) -> QLabel:
-    """Return a widget with an warning icon and text.
+    """Return a widget with an info icon and text.
 
     See `create_icon_label` for details.
     """
     ico = create_icon_label_info(
         icon_size, icon_scale_factor, fixed_size_widget)
+
+    return _combine_icon_with_label(ico, text)
+
+
+def create_warning_label(
+        text: str,
+        icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
+        icon_scale_factor: float | int = None,
+        fixed_size_widget: bool = True) -> QLabel:
+    """Return a widget with a warning icon and text.
+
+    See `create_icon_label` for details.
+    """
+    ico = create_icon_label_warning(
+        icon_size, icon_scale_factor, fixed_size_widget)
+
+    return _combine_icon_with_label(ico, text)
+
+
+def _combine_icon_with_label(icon: QLabel, text: str) -> QWidget:
+    """Horizontally combine the given `icon` with a text label
+
+    Args:
+        icon: A `QLabel` containing an icon used as first item in the
+            horizontal layout.
+        text: The text used in a `Qlabel` as second item in the horizontal
+            layout.
+
+    Returns:
+        A widget with horizontal layout containing an icon label and a text
+            label.
+    """
     txt = QLabel(text)
     txt.setWordWrap(True)
 
     layout = QHBoxLayout()
-    layout.addWidget(ico)
+    layout.addWidget(icon)
     layout.addWidget(txt)
 
     label = QWidget()

@@ -54,6 +54,7 @@ full_test_files = [_base_dir / fp for fp in (
     'logviewdialog.py',
     'manageprofiles/__init__.py',
     'manageprofiles/combobox.py',
+    'manageprofiles/copylinkswidget.py',
     'manageprofiles/excludesuggestions.py',
     'manageprofiles/schedulewidget.py',
     'manageprofiles/sectionedchecklist.py',

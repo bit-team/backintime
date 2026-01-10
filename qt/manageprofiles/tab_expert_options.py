@@ -24,6 +24,8 @@ import tools
 import qttools
 import messagebox
 from manageprofiles.statebindcheckbox import StateBindCheckBox
+from manageprofiles.copylinkswidget import CopySymlinksWidget
+from bitwidgets import HLineWidget
 
 
 class ExpertOptionsTab(QDialog):
@@ -38,13 +40,14 @@ class ExpertOptionsTab(QDialog):
 
         tab_layout = QVBoxLayout(self)
 
-        label = QLabel(
-            '<strong>' + _('Caution:') + '</strong> ' + _(
-                'These options are for advanced configurations. Modify '
-                'only if fully aware of their implications.')
+        # --- initial warning ---
+        txt = _(
+            'These options are for advanced configurations. Modify '
+            'only if fully aware of their implications.'
         )
-        label.setWordWrap(True)
+        label = qttools.create_warning_label(txt)
         tab_layout.addWidget(label)
+        tab_layout.addWidget(HLineWidget())
 
         # --- rsync with nice ---
         tab_layout.addWidget(QLabel(
@@ -238,40 +241,8 @@ class ExpertOptionsTab(QDialog):
         )
         tab_layout.addWidget(self._cb_preserve_xattr)
 
-        self._cb_copy_unsafe_links = QCheckBox(
-            _('Copy unsafe links (works only with absolute links)'), self)
-        qttools.set_wrapped_tooltip(
-            self._cb_copy_unsafe_links,
-            [
-                "Uses 'rsync --copy-unsafe-links'. From 'man rsync':",
-                'This tells rsync to copy the referent of symbolic links that '
-                'point outside the copied tree. Absolute symlinks are also '
-                'treated like ordinary files, and so are any symlinks in the '
-                'source path itself when --relative is used. This option has '
-                'no additional effect if --copy-links was also specified.'
-            ]
-        )
-        tab_layout.addWidget(self._cb_copy_unsafe_links)
-
-        self._cb_copy_links = QCheckBox(
-            _('Copy links (dereference symbolic links)'), self)
-        qttools.set_wrapped_tooltip(
-            self._cb_copy_links,
-            [
-                "Uses 'rsync --copy-links'. From 'man rsync':",
-                'When symlinks are encountered, the item that they point to '
-                '(the referent) is copied, rather than the symlink. In older '
-                'versions of rsync, this option also had the side-effect of '
-                'telling the receiving side to follow symlinks, such as '
-                'symlinks to directories. In a modern rsync such as this one,'
-                ' you will need to specify --keep-dirlinks (-K) to get this '
-                'extra behavior. The only exception is when sending files to '
-                'an rsync that is too old to understand -K -- in that case, '
-                'the -L option will still have the side-effect of -K on that '
-                'older receiving rsync.'
-            ]
-        )
-        tab_layout.addWidget(self._cb_copy_links)
+        self._wdg_copy_links = CopySymlinksWidget(self)
+        tab_layout.addWidget(self._wdg_copy_links)
 
         # one file system option
         self._cb_one_filesystem = QCheckBox(
@@ -381,8 +352,11 @@ class ExpertOptionsTab(QDialog):
         self._spb_bwlimit.setValue(self.config.bwlimit())
         self._cb_preserve_acl.setChecked(self.config.preserveAcl())
         self._cb_preserve_xattr.setChecked(self.config.preserveXattr())
-        self._cb_copy_unsafe_links.setChecked(self.config.copyUnsafeLinks())
-        self._cb_copy_links.setChecked(self.config.copyLinks())
+
+        all_links = self.config.copyLinks()
+        only_external = self.config.copyUnsafeLinks()
+        self._wdg_copy_links.set_values(all_links, only_external)
+
         self._cb_one_filesystem.setChecked(self.config.oneFileSystem())
         self._cb_rsync_options.setChecked(self.config.rsyncOptionsEnabled())
         self._txt_rsync_options.setText(self.config.rsyncOptions())
@@ -409,8 +383,11 @@ class ExpertOptionsTab(QDialog):
                                self._spb_bwlimit.value())
         self.config.setPreserveAcl(self._cb_preserve_acl.isChecked())
         self.config.setPreserveXattr(self._cb_preserve_xattr.isChecked())
-        self.config.setCopyUnsafeLinks(self._cb_copy_unsafe_links.isChecked())
-        self.config.setCopyLinks(self._cb_copy_links.isChecked())
+
+        self.config.setCopyLinks(self._wdg_copy_links.all_links)
+        self.config.setCopyUnsafeLinks(
+            self._wdg_copy_links.only_external_links)
+
         self.config.setOneFileSystem(self._cb_one_filesystem.isChecked())
         self.config.setRsyncOptions(self._cb_rsync_options.isChecked(),
                                     self._txt_rsync_options.text())
