@@ -233,6 +233,19 @@ class StateData(dict, metaclass=singleton.Singleton):
         self['message']['release_candidate'] = val
 
     @property
+    def msg_language_remove(self) -> bool:
+        """Language planned for removal message shown."""
+        try:
+            return self['message']['language_remove']
+        except KeyError:
+            self.msg_language_remove = False
+            return self.msg_language_remove
+
+    @msg_language_remove.setter
+    def msg_language_remove(self, val: bool) -> None:
+        self['message']['language_remove'] = val
+
+    @property
     def msg_cipher_deprecation(self) -> bool:
         """Cipher deprecation message shown."""
         try:
