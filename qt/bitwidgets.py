@@ -147,6 +147,7 @@ class WrappedCheckBox(QWidget):
     """A checkbox with word wrap capabilities.
 
     QCheckBox itself is not able to wrap text in its label, without hacks."""
+
     def __init__(self,
                  label: str,
                  tooltip: str = None,

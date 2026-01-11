@@ -7,7 +7,6 @@
 # This file is part of the program "Back In time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-
 import os
 import subprocess
 
@@ -39,7 +38,7 @@ class GocryptfsMount(MountControl):
         self.setDefaultArgs()
 
         self.mountproc = 'gocryptfs'
-        self.log_command = '%s: %s' % (self.mode, self.path)
+        self.log_command = f'{self.mode}: {self.path}'
         self.symlink_subfolder = None
 
     def _mount(self):
@@ -139,31 +138,31 @@ class GocryptfsMount(MountControl):
         check what ever conditions must be given for the mount
         """
         self.checkFuse()
+
         if first_run:
             pass
+
         return True
 
-    def configFile(self):
-        """
-        return gocryptfs config file
-        """
-        f = 'gocryptfs.conf'
+    def configFile(self) -> str:
+        """Full path of gocryptfs config file"""
+        fn = 'gocryptfs.conf'
+
         if self.config_path is None:
-            cfg = os.path.join(self.path, f)
+            cfg = os.path.join(self.path, fn)
         else:
-            cfg = os.path.join(self.config_path, f)
+            cfg = os.path.join(self.config_path, fn)
+
         return cfg
 
-    def isConfigured(self):
-        """
-        Check if `gocryptfs.conf` exists.
-        """
+    def isConfigured(self) -> bool:
+        """Check if `gocryptfs.conf` exists."""
         conf = self.configFile()
-        ret = os.path.exists(conf)
 
-        if ret:
+        if os.path.exists(conf):
             logger.debug(f'Found gocryptfs config file in {conf}', self)
-        else:
-            logger.debug(f'No config in {conf}', self)
+            return True
 
-        return ret
+        logger.debug(f'No gocryptfs config in {conf}', self)
+
+        return False

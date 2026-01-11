@@ -164,14 +164,26 @@ class Mount:
                 cmd = [bit, 'pw-cache', action]
                 logger.debug(f'Call command: {cmd}', self)
 
-                proc = subprocess.Popen(cmd,
-                                        stdout = subprocess.DEVNULL,
-                                        stderr = subprocess.DEVNULL)
+                proc = subprocess.Popen(
+                    cmd,
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL
+                )
 
                 if proc.returncode:
                     logger.error(
                         f'Failed to {action} pw-cache: {proc.returncode}',
                         self)
+
+    def get_backend(self, mode, **kwargs):
+        mounttools = self.config.SNAPSHOT_MODES[mode][0]
+        return mounttools(
+            cfg=self.config,
+            profile_id=self.profile_id,
+            tmp_mount=self.tmp_mount,
+            mode=mode,
+            parent=self.parent,
+            **kwargs)
 
     def mount(self, mode=None, check=True, **kwargs):
         """High-level `mount`. Check if the selected ``mode`` need to be mounted,
@@ -208,15 +220,8 @@ class Mount:
             while True:  # ???
 
                 try:
-                    mounttools = self.config.SNAPSHOT_MODES[mode][0]
-                    backend = mounttools(cfg = self.config,
-                                         profile_id = self.profile_id,
-                                         tmp_mount = self.tmp_mount,
-                                         mode = mode,
-                                         parent = self.parent,
-                                         **kwargs)
-
-                    return backend.mount(check = check)
+                    backend = self.get_backend(mode, **kwargs)
+                    return backend.mount(check=check)
 
                 except HashCollision as ex:
                     logger.warning(str(ex), self)
@@ -347,38 +352,42 @@ class Mount:
         """
         if mode is None:
             mode = self.config.snapshotsMode(new_profile_id)
+
         if hash_id is None:
             hash_id = self.config.current_hash_id
 
         if self.config.SNAPSHOT_MODES[mode][0] is None:
-            #new profile don't need to mount.
-            self.umount(hash_id = hash_id)
+            # new profile don't need to mount.
+            self.umount(hash_id=hash_id)
             return 'local'
 
         if hash_id == 'local':
-            #old profile don't need to umount.
+            # old profile don't need to umount.
             self.profile_id = new_profile_id
-            return self.mount(mode = mode, **kwargs)
+            return self.mount(mode=mode, **kwargs)
 
         mounttools = self.config.SNAPSHOT_MODES[mode][0]
-        backend = mounttools(cfg = self.config,
-                             profile_id = new_profile_id,
-                             tmp_mount = self.tmp_mount,
-                             mode = mode,
-                             parent = self.parent,
-                             **kwargs)
+        backend = mounttools(
+            cfg=self.config,
+            profile_id=new_profile_id,
+            tmp_mount=self.tmp_mount,
+            mode=mode,
+            parent=self.parent,
+            **kwargs
+        )
+
         if backend.compareRemount(hash_id):
-            #profiles uses the same settings. just swap the symlinks
-            backend.removeSymlink(profile_id = self.profile_id)
-            backend.setSymlink(profile_id = new_profile_id, hash_id = hash_id)
+            # profiles uses the same settings. just swap the symlinks
+            backend.removeSymlink(profile_id=self.profile_id)
+            backend.setSymlink(profile_id=new_profile_id, hash_id=hash_id)
             return hash_id
         else:
-            #profiles are different. we need to umount and mount again
-            self.umount(hash_id = hash_id)
+            # profiles are different. we need to umount and mount again
+            self.umount(hash_id=hash_id)
             self.profile_id = new_profile_id
-            return self.mount(mode = mode, **kwargs)
+            return self.mount(mode=mode, **kwargs)
 
-    def isConfigured(self, mode = None, **kwargs):
+    def isConfigured(self, mode=None, **kwargs):
         """
         High-level check. Run :py:func:`MountControl.isConfigured` to check
         if the backend is configured.
@@ -396,19 +405,13 @@ class Mount:
             mode = self.config.snapshotsMode(self.profile_id)
 
         if self.config.SNAPSHOT_MODES[mode][0] is None:
-            #mode doesn't need to mount
+            # mode doesn't need to mount
             return True
-        else:
-            mounttools = self.config.SNAPSHOT_MODES[mode][0]
-            backend = mounttools(cfg = self.config,
-                                 profile_id = self.profile_id,
-                                 tmp_mount = self.tmp_mount,
-                                 mode = mode,
-                                 parent = self.parent,
-                                 **kwargs)
-            return backend.isConfigured()
 
-    def init_backend(self, mode = None, **kwargs):
+        backend = self.get_backend(mode, **kwargs)
+        return backend.isConfigured()
+
+    def init_backend(self, mode=None, **kwargs):
         """
         High-level init. Run :py:func:`MountControl.init_backend` to initiate
         the backend if not configured yet.
@@ -426,17 +429,11 @@ class Mount:
             mode = self.config.snapshotsMode(self.profile_id)
 
         if self.config.SNAPSHOT_MODES[mode][0] is None:
-            #mode doesn't need to mount
+            # mode doesn't need to mount
             return True
-        else:
-            mounttools = self.config.SNAPSHOT_MODES[mode][0]
-            backend = mounttools(cfg = self.config,
-                                 profile_id = self.profile_id,
-                                 tmp_mount = self.tmp_mount,
-                                 mode = mode,
-                                 parent = self.parent,
-                                 **kwargs)
-            return backend.init_backend()
+
+        backend = self.get_backend(mode, **kwargs)
+        return backend.init_backend()
 
 
 class MountControl:
