@@ -172,7 +172,8 @@ class WrappedCheckBox(QWidget):
         if tooltip:
             qttools.set_wrapped_tooltip([self.checkbox, self.label], tooltip)
 
-        self.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
+        self.setSizePolicy(
+            QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
 
         # # DEBUG
         # self.setStyleSheet("background: lightblue; border: 1px solid red;")

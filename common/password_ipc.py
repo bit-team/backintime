@@ -15,6 +15,7 @@ from contextlib import contextmanager
 
 import logger
 
+
 class FIFO:
     """Inter-process communication (IPC) with named pipes using the first-in,
     first-out principle (FIFO).
@@ -32,6 +33,7 @@ class FIFO:
         """Remove named pipe file."""
         try:
             os.remove(self.fifo)
+
         # TODO: Catch FileNotFoundError only
         except:
             pass
@@ -121,9 +123,10 @@ class FIFO:
 
 
 class TempPasswordThread(threading.Thread):
-    """
-    in case BIT is not configured yet provide password through temp FIFO
-    to backintime-askpass.
+    """Provide password through temp FIFO.
+
+    In case BIT is not configured yet this provides a password through temp
+    FIFO to backintime-askpass.
     """
 
     def __init__(self, string):
