@@ -15,7 +15,7 @@ import os
 from pathlib import Path
 from typing import Any
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QCursor
+from PyQt6.QtGui import QCursor, QColor
 from PyQt6.QtWidgets import (QCheckBox,
                              QDialog,
                              QGridLayout,
@@ -324,8 +324,12 @@ class GeneralTab(QDialog):
 
     def load_values(self) -> Any:
         """Set the values of the widgets regarding the current config."""
+        backup_mode = self.config.snapshotsMode()
+        self._combo_modes.select_by_data(backup_mode)
 
-        self._combo_modes.select_by_data(self.config.snapshotsMode())
+        # If the profile us an deprecated backup mode (#1734)
+        if 'encfs' in backup_mode:
+            self._combo_modes.unhide_by_data(backup_mode)
 
         # local
         self._edit_backup_path.setText(
@@ -606,10 +610,17 @@ class GeneralTab(QDialog):
         return hash_id
 
     def _snapshot_mode_combobox(self) -> combobox.BitComboBox:
+        # Workaround until encryption transition (#1734) is finished.
+
+        # # Find out if profiles using EncFS
+        # all_used_modes = {
+        #     self.config.snapshotsMode(pid) for pid in self.config.profiles()
+        # }
+        # print(f'{all_used_modes=}')  # DEBUG
+
         snapshot_modes = {}
         for key in self.config.SNAPSHOT_MODES:
             snapshot_modes[key] = self.config.SNAPSHOT_MODES[key][1]
-        logger.debug(f'{snapshot_modes=}')
 
         return combobox.BitComboBox(self, snapshot_modes)
 
@@ -759,41 +770,32 @@ class GeneralTab(QDialog):
         This is not a slot connected to a signal. But it is called by the
         parent dialog.
         """
+        # Mode selected in the combo box
         active_mode = self.get_active_snapshots_mode()
 
         state_data = StateData()
         profile_state = state_data.profile(self.config.currentProfile())
 
-        # hide/show group boxes related to current mode
-        # note: self._group_mode_local_encfs = self._group_mode_local
-        # note: self._group_mode_sshEncfs = self._group_mode_ssh
+        # New selected mode different from previous one?
         if active_mode != self.mode:
-            # # DevNote (buhtz): Widgets of the GUI related to the four
-            # # snapshot modes are acccesed via "getattr(self, ...)".
-            # # These are 'Local', 'Ssh', 'LocalEncfs', 'SshEncfs'
-            # for mode in list(self.config.SNAPSHOT_MODES.keys()):
-            #     logger.debug(f'HIDE() :: mode%s' % tools.camelCase(mode))
-            #     # Hide all widgets
-            #     getattr(self, 'mode%s' % tools.camelCase(mode)).hide()
-
-            # for mode in list(self.config.SNAPSHOT_MODES.keys()):
-            #     # Show up the widget related to the selected mode.
-            #     if active_mode == mode:
-            #         logger.debug(f'SHOW() :: mode%s' % tools.camelCase(mode))
-            #         getattr(self, 'mode%s' % tools.camelCase(mode)).show()
 
             self.mode = active_mode
 
             self._group_mode_local.setVisible(
                 active_mode in ('local', 'local_encfs', 'local_gocryptfs'))
+
             self._group_mode_ssh.setVisible(
                 active_mode in ('ssh', 'ssh_encfs'))
-            # self._group_mode_local_encfs = self._group_mode_local
-            # self._group_mode_sshEncfs = self._group_mode_ssh
 
             self._wdg_schedule.allow_udev(
                 active_mode in ('local', 'local_encfs', 'local_gocryptfs'))
 
+            # Don't offer depreacted modes (#1734)
+            modes_to_hide = {'local_encfs', 'ssh_encfs'} - {active_mode}
+            for hide in modes_to_hide:
+                self._combo_modes.hide_by_data(hide)
+
+        # A mode using password fields?
         if self.config.modeNeedPassword(active_mode):
 
             self._lbl_password1.setText(
@@ -812,6 +814,7 @@ class GeneralTab(QDialog):
                 self._txt_password2.hide()
 
             self._load_passwords()
+
         else:
             self._group_password1.hide()
 
@@ -828,5 +831,6 @@ class GeneralTab(QDialog):
                     profile_state.msg_encfs = ENCFS_MSG_STAGE
                     dlg = encfsmsgbox.EncfsCreateWarning(self)
                     dlg.exec()
+
         else:
             self._lbl_encfs_warning.hide()
