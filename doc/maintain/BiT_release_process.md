@@ -150,6 +150,7 @@ After the PR is merged:
 
   - `common/version.py`
   - `common/man/C/backintime*.1`
+  - `common/man/C/backintime*.5`
   - `qt/man/C/backintime*.1`
 
 - Check that the version numbers have been update by opening some of the above
@@ -160,7 +161,7 @@ After the PR is merged:
   changing the month and year in the first line that looks like this:
 
   ```
-  .TH backintime-config 1 "Aug 2023" "version 1.4.0" "USER COMMANDS"
+  .TH backintime-config 5 "Aug 2023" "version 1.4.0" "USER COMMANDS"
   ```
 
 - Update the `AUTHORS` file in the project's root folder if necessary.
