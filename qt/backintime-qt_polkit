@@ -18,21 +18,33 @@ else
     PREFIX=""
 fi
 
+ERR_FILE=$(mktemp)
+
 # Catch error message of pkexec if there is one. Might happen if no polkit
 # agent is active, e.g. when using IceWM.
 # Details:
 #    https://github.com/bit-team/backintime/pull/2328#issuecomment-3702705290
 # Error message (stderr) of pkexec is written to /tmp/backintime-error
-pkexec --disable-internal-agent $PREFIX "/usr/bin/backintime-qt" "$@" 2> >(tee /tmp/backintime-error >&2)
+pkexec --disable-internal-agent $PREFIX "/usr/bin/backintime-qt" "$@" 2> >(tee "$ERR_FILE" >&2)
 
 STATUS=$?
 
 if (( STATUS )); then
-    ERR=$(< /tmp/backintime-error)
+    ERR=$(< "$ERR_FILE")
+    rm -f "$ERR_FILE"
 
-    xmessage -nearmouse "Back In Time: Problems running in root mode
-    Error: ${ERR}
-    Return code: ${STATUS}"
+    # Use zentiy or xmessage
+    if command -v zenity >/dev/null 2>&1; then
+        zenity --error \
+            --title="Back In Time - Problems running in root mode" \
+            --text="Error: ${ERR}\nReturn code: ${STATUS}"
+    else
+        xmessage -nearmouse "Back In Time: Problems running in root mode
+        Error: ${ERR}
+        Return code: ${STATUS}"
+    fi
 
     exit "${STATUS}"
 fi
+
+

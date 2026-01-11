@@ -66,6 +66,8 @@ class RestoreConfigDialog(QDialog):
     def __init__(self, config: Config):
         super().__init__()
 
+        self.config = config
+
         # pylint: disable-next=import-outside-toplevel
         import icon  # noqa: PLC0415
         self.setWindowIcon(icon.SETTINGS_DIALOG)
