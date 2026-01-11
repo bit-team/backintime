@@ -1,6 +1,7 @@
 Back In Time
 
 Version 1.6.0-dev (development of upcoming release)
+* Changed: Manpage backintime-config moved from section 1 to 5 (#1773)
 * Changed: New dependency "bash" for root mode starter script "backintime-qt_polkit" (#2328)
 * Changed: New dependency (runtime GUI) to "python3-pyqt6.qtsvg" for loading SVG icons (#1961)
 * Changed: Disable scheduling widget in GUI if cron/crontab is missing (#2245, @m4rcu5 Marcus von Dam)
@@ -52,7 +53,8 @@ Version 1.6.0-dev (development of upcoming release)
 * Removed: UI translation in Bosnian, Thai, and Occidental/Interlingue (#1914)
 * Removed: LICENSE file in favor of LICENSES directory and LICENSES.md file
 * Removed: SSH Cipher configuration in Manage profiles dialog (#2143)
-# Fixed: Consider symbolic icons as fallbacks (#2345, #2289)
+* Fixed: Crash in config restore dialog
+* Fixed: Consider symbolic icons as fallbacks (#2345, #2289)
 * Fixed: Warn users and prevent backups to exFAT volumes due to lack of hardlink support (#2337)
 * Fixed: Show proper message to users when root mode fails due to inactive or missing polkit agent (#2328, Derek Veit @DerekVeit)
 * Fixed: Crash in Compare snapshots dialog (aka Snapshots dialog) when comparing/diff two backups (#2327 Michael Neese @madic-creates)
