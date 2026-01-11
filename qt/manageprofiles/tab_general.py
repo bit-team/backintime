@@ -170,6 +170,9 @@ class GeneralTab(QDialog):
         self._group_mode_local_encfs = self._group_mode_local
         self._group_mode_ssh_encfs = self._group_mode_ssh
 
+        # gocryptfs
+        self._group_mode_local_gocrypt = self._group_mode_local
+
         # password
         group_box = QGroupBox(self)
         self._group_password1 = group_box
@@ -355,6 +358,10 @@ class GeneralTab(QDialog):
         if self.mode == 'local_encfs':
             self._edit_backup_path.setText(self.config.localEncfsPath())
 
+        # local_gocryptfs
+        if self.mode == 'local_gocryptfs':
+            self._edit_backup_path.setText(self.config.localGocryptfsPath())
+
         self._load_passwords()
 
         host, user, profile = self.config.hostUserProfile()
@@ -411,6 +418,9 @@ class GeneralTab(QDialog):
 
         # save local_encfs
         self.config.setLocalEncfsPath(self._edit_backup_path.text())
+
+        # save local_gocryptfs
+        self.config.setLocalGocryptfsPath(self._edit_backup_path.text())
 
         # schedule
         success = self._wdg_schedule.store_values(self.config)
@@ -474,6 +484,17 @@ class GeneralTab(QDialog):
         """
         # pylint: disable=too-many-return-statements
         # preMountCheck
+
+        if not mnt.isConfigured(
+                mode=self.config.snapshotsMode(), **mount_kwargs):
+
+            try:
+                mnt.init_backend(
+                    mode=self.config.snapshotsMode(), **mount_kwargs)
+
+            except MountException as ex:
+                messagebox.critical(self, str(ex))
+                return False
 
         try:
             # This will run several checks depending on the snapshots mode
@@ -764,14 +785,14 @@ class GeneralTab(QDialog):
             self.mode = active_mode
 
             self._group_mode_local.setVisible(
-                active_mode in ('local', 'local_encfs'))
+                active_mode in ('local', 'local_encfs', 'local_gocryptfs'))
             self._group_mode_ssh.setVisible(
                 active_mode in ('ssh', 'ssh_encfs'))
             # self._group_mode_local_encfs = self._group_mode_local
             # self._group_mode_sshEncfs = self._group_mode_ssh
 
             self._wdg_schedule.allow_udev(
-                active_mode in ('local', 'local_encfs'))
+                active_mode in ('local', 'local_encfs', 'local_gocryptfs'))
 
         if self.config.modeNeedPassword(active_mode):
 

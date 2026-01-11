@@ -45,6 +45,7 @@ import encode
 import logger
 import sshtools
 import encfstools
+import gocryptfstools
 import password
 import pluginmanager
 import schedule
@@ -238,7 +239,7 @@ class Config(configfile.ConfigFileWithProfiles):
                         sshtools.SSH, _('SSH'), _('SSH private key'), False),
                     'local_encfs': (
                         encfstools.EncFS_mount,
-                        _('Local encrypted'),
+                        _('Local encrypted') + ' (EncFS)',
                         _('Encryption'),
                         False
                     ),
@@ -247,7 +248,13 @@ class Config(configfile.ConfigFileWithProfiles):
                         _('SSH encrypted'),
                         _('SSH private key'),
                         _('Encryption')
-                    )
+                    ),
+                    'local_gocryptfs':(
+                        gocryptfstools.GocryptfsMount,
+                        _('Local encrypted') + ' (gocryptfs)',
+                        _('Encryption'),
+                        False
+                    ),
         }
 
         # Deprecated: #2176
@@ -383,7 +390,7 @@ class Config(configfile.ConfigFileWithProfiles):
         if mode == 'local':
             return self.get_snapshots_path(profile_id)
 
-        # else: ssh/local_encfs/ssh_encfs
+        # else: ssh/local_encfs/ssh_encfs/local_gocryptfs
 
         symlink = f'{profile_id}_{os.getpid()}'
         if tmp_mount:
@@ -425,7 +432,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def snapshotsMode(self, profile_id=None):
         #? Use mode (or backend) for this snapshot. Look at 'man backintime'
-        #? section 'Modes'.;local|local_encfs|ssh|ssh_encfs
+        #? section 'Modes'.;local|local_encfs|ssh|ssh_encfs|local_gocryptfs
         return self.profileStrValue('snapshots.mode', 'local', profile_id)
 
     def setSnapshotsMode(self, value, profile_id = None):
@@ -722,6 +729,14 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def setLocalEncfsPath(self, value, profile_id = None):
         self.setProfileStrValue('snapshots.local_encfs.path', value, profile_id)
+
+    # gocryptfs
+    def localGocryptfsPath(self, profile_id = None):
+        #?Where to save snapshots in mode 'local_gocryptfs'.;absolute path
+        return self.profileStrValue('snapshots.local_gocryptfs.path', '', profile_id)
+
+    def setLocalGocryptfsPath(self, value, profile_id = None):
+        self.setProfileStrValue('snapshots.local_gocryptfs.path', value, profile_id)
 
     def passwordSave(self, profile_id = None, mode = None):
         if mode is None:
