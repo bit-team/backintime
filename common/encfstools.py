@@ -111,7 +111,7 @@ class EncFS_mount(MountControl):
             encfs += [self.path, self.currentMountpoint]
             logger.debug('Call mount command: ' + ' '.join(encfs), self)
 
-            # Encfs aks backintime-askpass for the password.
+            # Encfs ask backintime-askpass for the password.
             # backintime-askpass will read the password from FIFO and provide
             # it via return on stdout to the encfs process
             proc = subprocess.Popen(
@@ -134,7 +134,7 @@ class EncFS_mount(MountControl):
                 )
 
     def init_backend(self):
-        """Empty for Encfs because initialization happens implicite.
+        """Empty for Encfs because initialization happens implicit.
 
         Init happens in mount() via "--standard" switch on encfs if
         self.isConfigured() is False.
