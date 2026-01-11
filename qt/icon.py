@@ -17,14 +17,13 @@ import logger
 # If the current theme does not even contain the "document-save" icon
 # try to use another well-known working theme (if it is installed):
 themes_to_try = (
-    'ubuntu-mono-dark',
     'gnome',
     'breeze',
-    'breeze dark',
+    'breeze-dark',
     'hicolor',
-    'adwaita',
-    'adwaita-dark',
-    'yaru',
+    'Adwaita',
+    'Adwaita-dark',
+    'Yaru',
     'oxygen',
 )
 ICON_NAME_TO_CHECK = 'document-save'
@@ -88,7 +87,8 @@ def load_icon_alt(names: list[str]) -> QIcon | None:
         if not ico.isNull():
             return ico
 
-    return None
+    return QIcon()
+
 
 # BackInTime Logo
 # TODO If we knew for sure that the global var "qapp" exists then
