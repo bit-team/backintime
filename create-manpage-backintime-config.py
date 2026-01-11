@@ -46,7 +46,7 @@ from time import strftime, gmtime
 PATH = os.path.join(os.getcwd(), 'common')
 
 CONFIG = os.path.join(PATH, 'config.py')
-MAN = os.path.join(PATH, 'man/C/backintime-config.1')
+MAN = os.path.join(PATH, 'man/C/backintime-config.5')
 
 with open(os.path.join(PATH, '../VERSION'), 'r') as f:
     VERSION = f.read().strip('\n')
@@ -56,7 +56,7 @@ SORT = True  # True = sort by alphabet; False = sort by line numbering
 c_list = re.compile(r'.*?self\.(?!set)((?:profile)?)(List)Value ?\( ?[\'"](.*?)[\'"], ?((?:\(.*\)|[^,]*)), ?[\'"]?([^\'",\)]*)[\'"]?')
 c = re.compile(r'.*?self\.(?!set)((?:profile)?)(.*?)Value ?\( ?[\'"](.*?)[\'"] ?(%?[^,]*?), ?[\'"]?([^\'",\)]*)[\'"]?')
 
-HEADER = r'''.TH backintime-config 1 "%s" "version %s" "USER COMMANDS"
+HEADER = r'''.TH backintime-config 5 "%s" "version %s" "USER COMMANDS"
 .SH NAME
 config \- BackInTime configuration files.
 .SH SYNOPSIS
