@@ -89,23 +89,23 @@ def encfs_deprecation_warning():
         xdg_state = pathlib.Path.home() / '.local' / 'state'
     fp = xdg_state / 'backintime.encfs-warning.timestamp'
 
-    # ensure existence
-    if not fp.exists():
+    if fp.exists():
+        # Calculate age of that file
+        delta = datetime.now() - datetime.fromtimestamp(fp.stat().st_mtime)
+
+        # Don't warn if to young
+        if delta.days < 30:
+            return
+
+    else:
+        # ensure existence
         fp.parent.mkdir(parents=True, exist_ok=True)
-        fp.touch()
-
-    # Calculate age of that file
-    delta = datetime.now() - datetime.fromtimestamp(fp.stat().st_mtime)
-
-    # Don't warn if to young
-    if delta.days < 30:
-        return
 
     logger.error(
         'EncFS encrypted profiles are no longer supported in Back In Time. '
         'Existing profiles can be used. New ones can not be created. EncFS '
         'support will be completely removed in a future release (expected '
-        'around 2027). For details read: {bitbase.URL_ENCRYPT_TRANSITION}'
+        f'around 2027). For details read: {bitbase.URL_ENCRYPT_TRANSITION}'
     )
 
     # refresh timestamp
