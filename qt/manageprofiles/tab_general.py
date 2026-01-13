@@ -813,15 +813,15 @@ class GeneralTab(QDialog):
         if active_mode in ('local_encfs', 'ssh_encfs'):
             self._lbl_encfs_warning.show()
 
-            # Workaround to avoid showing the warning messagebox just when
-            # opening the manage profiles dialog.
-            if self._parent_dialog.isVisible():
-                # Show the profile specific warning dialog only once per
-                # profile.
-                if profile_state.msg_encfs < ENCFS_MSG_STAGE:
-                    profile_state.msg_encfs = ENCFS_MSG_STAGE
-                    dlg = encfsmsgbox.EncfsCreateWarning(self)
-                    dlg.exec()
+            # # Workaround to avoid showing the warning messagebox just when
+            # # opening the manage profiles dialog.
+            # if self._parent_dialog.isVisible():
+            #     # Show the profile specific warning dialog only once per
+            #     # profile.
+            #     if profile_state.msg_encfs < ENCFS_MSG_STAGE:
+            #         profile_state.msg_encfs = ENCFS_MSG_STAGE
+            #         dlg = encfsmsgbox.EncfsCreateWarning(self)
+            #         dlg.exec()
 
         else:
             self._lbl_encfs_warning.hide()
