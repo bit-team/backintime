@@ -15,7 +15,6 @@ import os
 from pathlib import Path
 from typing import Any
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QCursor, QColor
 from PyQt6.QtWidgets import (QCheckBox,
                              QDialog,
                              QGridLayout,
@@ -24,21 +23,18 @@ from PyQt6.QtWidgets import (QCheckBox,
                              QLabel,
                              QLineEdit,
                              QToolButton,
-                             QToolTip,
-                             QVBoxLayout,
-                             QWidget)
+                             QVBoxLayout)
 import config
 import tools
 import logger
 import sshtools
 from exceptions import MountException, NoPubKeyLogin, KnownHost
 import mount
-from bitbase import URL_ENCRYPT_TRANSITION, ENCFS_MSG_STAGE, DIR_SSH_KEYS
+from bitbase import URL_ENCRYPT_TRANSITION, DIR_SSH_KEYS
 import schedule
 import qttools
 import messagebox
-import encfsmsgbox
-from statedata import StateData
+# from statedata import StateData
 from manageprofiles import combobox
 from manageprofiles import schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
@@ -764,8 +760,8 @@ class GeneralTab(QDialog):
         # Mode selected in the combo box
         active_mode = self.get_active_snapshots_mode()
 
-        state_data = StateData()
-        profile_state = state_data.profile(self.config.currentProfile())
+        # state_data = StateData()
+        # profile_state = state_data.profile(self.config.currentProfile())
 
         # New selected mode different from previous one?
         if active_mode != self.mode:

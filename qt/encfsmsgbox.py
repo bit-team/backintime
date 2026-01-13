@@ -19,7 +19,7 @@ class _EncfsWarningBase(QMessageBox):
     """
     # pylint: disable=too-few-public-methods
 
-    def __init__(self, parent, text, informative_text, button_label = None):
+    def __init__(self, parent, text, informative_text, button_label=None):
         super().__init__(parent)
 
         self.setWindowTitle(_('Warning'))
@@ -56,8 +56,8 @@ class _EncfsWarningBase(QMessageBox):
 #         informative_text = _('Support for EncFS is being discontinued due '
 #                              'to security vulnerabilities.')
 #         informative_text = informative_text + ' ' + _(
-#             'For more details, including potential alternatives, please refer '
-#             'to this {whitepaper}.').format(
+#             'For more details, including potential alternatives, please '
+#             'refer to this {whitepaper}.').format(
 #                 whitepaper=whitepaper)
 
 #         super().__init__(parent, text, informative_text)
