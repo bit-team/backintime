@@ -101,10 +101,12 @@ def encfs_deprecation_warning():
     if delta.days < 30:
         return
 
-    logger.warning('EncFS encrypted profiles are deprecated in Back In Time. '
-                   'Removal is schedule for minor release 1.7 in year 2026. '
-                   'For details and alternatives '
-                   f'read: {bitbase.URL_ENCRYPT_TRANSITION}')
+    logger.error(
+        'EncFS encrypted profiles are no longer supported in Back In Time. '
+        'Existing profiles can be used. New ones can not be created. EncFS '
+        'support will be completely removed in a future release (expected '
+        'around 2027). For details read: {bitbase.URL_ENCRYPT_TRANSITION}'
+    )
 
     # refresh timestamp
     fp.touch()

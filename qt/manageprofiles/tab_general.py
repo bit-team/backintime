@@ -628,7 +628,7 @@ class GeneralTab(QDialog):
         # encfs deprecation warning (see #1734, #1735)
 
         whitepaper = f'<a href="{URL_ENCRYPT_TRANSITION}">'
-        whitepaper = whitepaper + _('whitepaper') + '</a>'
+        whitepaper = whitepaper + 'whitepaper' + '</a>'
 
         txt = [
             '<strong>Encrypted profiles using EncFS are no longer '
