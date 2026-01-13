@@ -625,35 +625,26 @@ class GeneralTab(QDialog):
         return combobox.BitComboBox(self, snapshot_modes)
 
     def _create_label_encfs_deprecation(self):
-        icon_label = qttools.create_icon_label_warning()
-
         # encfs deprecation warning (see #1734, #1735)
-        txt = _('EncFS profile creation will be removed in the next minor '
-                'release (1.7), scheduled for 2026.')
-        txt = txt + ' ' + _('Support for EncFS is being discontinued due '
-                            'to security vulnerabilities.')
+
         whitepaper = f'<a href="{URL_ENCRYPT_TRANSITION}">'
         whitepaper = whitepaper + _('whitepaper') + '</a>'
-        txt = txt + ' ' + _(
-            'For more details, including potential alternatives, please '
-            'refer to this {whitepaper}.'
-        ).format(whitepaper=whitepaper)
-        txt_label = QLabel(txt)
-        txt_label.setWordWrap(True)
-        txt_label.setOpenExternalLinks(True)
 
-        # Show URL in tooltip without anoing http-protocol prefix.
-        txt_label.linkHovered.connect(
-            lambda url: QToolTip.showText(
-                QCursor.pos(), url.replace('https://', ''))
-        )
+        txt = [
+            '<strong>Encrypted profiles using EncFS are no longer '
+            'supported.</strong>',
+            'New EncFS backup profiles can no longer be created. '
+            'Existing EncFS profiles are still displayed and '
+            'supported for now, but EncFS support will be <strong>'
+            'completely removed</strong> in a future release '
+            '(expected around 2027).',
+            'EncFS is considered insecure and is no longer actively '
+            'maintained. For more information, see this '
+            f'{whitepaper}.'
+        ]
+        txt = '<p>' + '</p><p>'.join(txt) + '</p>'
 
-        wdg = QWidget()
-        layout = QHBoxLayout(wdg)
-        layout.addWidget(icon_label, stretch=0)
-        layout.addWidget(txt_label, stretch=1)
-
-        return wdg
+        return qttools.create_warning_label(txt, icon_scale_factor=3)
 
     def _slot_snapshots_path_clicked(self):
         old_path = Path(self._edit_backup_path.text())
@@ -790,7 +781,7 @@ class GeneralTab(QDialog):
             self._wdg_schedule.allow_udev(
                 active_mode in ('local', 'local_encfs', 'local_gocryptfs'))
 
-            # Don't offer depreacted modes (#1734)
+            # Don't offer deprecated modes (#1734)
             modes_to_hide = {'local_encfs', 'ssh_encfs'} - {active_mode}
             for hide in modes_to_hide:
                 self._combo_modes.hide_by_data(hide)
