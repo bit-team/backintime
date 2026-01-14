@@ -91,6 +91,9 @@ class GocryptfsMount(MountControl):
         """
         init the cipher path
         """
+
+        self.checkFuse()  # gocryptfs binary available?
+
         if self.password is None:
             self.password = self.config.password(
                 self.parent, self.profile_id, self.mode)
@@ -156,7 +159,9 @@ class GocryptfsMount(MountControl):
         return cfg
 
     def isConfigured(self) -> bool:
-        """Check if `gocryptfs.conf` exists."""
+        """Check if config is complete.
+
+        """
         conf = self.configFile()
 
         if os.path.exists(conf):
@@ -164,5 +169,12 @@ class GocryptfsMount(MountControl):
             return True
 
         logger.debug(f'No gocryptfs config in {conf}', self)
+
+        # # Path exists
+        # if not self.path:
+        #     raise MountException(
+        # print(f'isConfigured() :: {self.path=}')
+
+        # # Dev note: confirm password?
 
         return False

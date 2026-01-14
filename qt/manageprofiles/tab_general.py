@@ -394,7 +394,6 @@ class GeneralTab(QDialog):
             mount_kwargs = {'ssh_password': password_1,
                             'encfs_password': password_2}
 
-        # snapshots path
         self.config.setHostUserProfile(
             self._txt_host.text(),
             self._txt_user.text(),
@@ -665,11 +664,7 @@ class GeneralTab(QDialog):
         # gocryptfs destination need to be empty
         if 'gocryptfs' in self.mode:
             # is not empty
-            if any(path.iterdir()):
-                messagebox.warning(
-                    '<p>' + _('The selected path is not empty.') + '<p></p>'
-                    + _('The backup destination must be empty to use '
-                        'encryption.') + '</p>')
+            if not self._is_gocryptfs_path_empty(path):
                 return
 
         # Really change?
@@ -682,6 +677,23 @@ class GeneralTab(QDialog):
 
         # Set the path
         self._edit_backup_path.setText(str(path))
+
+    def _is_gocryptfs_path_empty(self, path: Path) -> bool:
+        # is not empty
+        if not any(path.iterdir()):
+            return True
+
+        messagebox.warning(
+            '<p>'
+            + _('The selected backup destination is not empty.')
+            + '<p></p>'
+            + _('It must be empty to use encryption.')
+            + '</p>',
+            widget_to_center_on=self
+        )
+
+        return False
+
 
     def _slot_ssh_private_key_file_clicked(self):
         key_file = self.key_selector.get_key()
@@ -791,6 +803,13 @@ class GeneralTab(QDialog):
 
             self._wdg_schedule.allow_udev(
                 active_mode in ('local', 'local_encfs', 'local_gocryptfs'))
+
+            # gocryptfs destination need to be empty
+            if 'gocryptfs' in self.mode:
+                path = self._edit_backup_path.text()
+                # dir exists and is not empty
+                if path and any(Path(path).iterdir()):
+                    self._edit_backup_path.setText('')
 
             # Don't offer deprecated modes (#1734)
             modes_to_hide = {'local_encfs', 'ssh_encfs'} - {active_mode}

@@ -286,6 +286,7 @@ class Config(configfile.ConfigFileWithProfiles):
         return self.is_profile_unsaved(self.currentProfile())
 
     def checkConfig(self):
+        print('Config.checkConfig()')  # DEBUG
         profiles = self.profiles()
 
         for profile_id in profiles:
