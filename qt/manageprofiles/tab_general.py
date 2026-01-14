@@ -654,18 +654,33 @@ class GeneralTab(QDialog):
             start_dir=old_path)
         path = dlg.result()
 
+        # nothing selected (Cancel)
         if not path:
             return
 
-        if old_path and old_path != path:
+        # nothing changed
+        if old_path and old_path == path:
+            return
 
-            answer = messagebox.question(
-                text=_('Really change the backup directory?'),
-                widget_to_center_on=self)
-
-            if not answer:
+        # gocryptfs destination need to be empty
+        if 'gocryptfs' in self.mode:
+            # is not empty
+            if any(path.iterdir()):
+                messagebox.warning(
+                    '<p>' + _('The selected path is not empty.') + '<p></p>'
+                    + _('The backup destination must be empty to use '
+                        'encryption.') + '</p>')
                 return
 
+        # Really change?
+        answer = messagebox.question(
+            text=_('Really change the backup directory?'),
+            widget_to_center_on=self)
+
+        if not answer:
+            return
+
+        # Set the path
         self._edit_backup_path.setText(str(path))
 
     def _slot_ssh_private_key_file_clicked(self):
