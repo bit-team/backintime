@@ -629,7 +629,7 @@ class GeneralTab(QDialog):
         txt = [
             '<strong>Encrypted profiles using EncFS are no longer '
             'supported.</strong>',
-            'New EncFS backup profiles can no longer be created. '
+            'New EncFS backup profiles can not be created anymore. '
             'Existing EncFS profiles are still displayed and '
             'supported for now, but EncFS support will be <strong>'
             'completely removed</strong> in a future release '
