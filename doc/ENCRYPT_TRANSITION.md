@@ -9,7 +9,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 -->
 
 # Transition of the encryption feature in _Back In Time_
-<sub>January 2026</sub>
+<sub>Last update: January 2026</sub>
 
 This document outlines the current status of the encryption feature in _Back In
 Time_. Support for encrypted backup profiles is undergoing significant
@@ -19,6 +19,7 @@ changes.
  * [Rational](#rational)
  * [Alternatives to EncFS](#alternatives-to-encfs)
  * [Planned steps of the transition process](#planned-steps-of-the-transition-process)
+ * [How to migrate an EncFS backup profile to an gocryptfs backup profile?](#how-to-migrate-an-encfs-backup-profile-to-an-gocryptfs-backup-profile)
  * [About EncFS security issues](#about-encfs-security-issues)
  * [Further readings and resources](#further-readings-and-resources)
 
@@ -32,8 +33,7 @@ changes.
   lead time.
 - EncFS has known security issues, is no longer maintained and therefore does
   not receive updates.
-- The plan is to replace EncFS with
-  [gocryptfs](https://github.com/rfjakob/gocryptfs).
+- The plan is to replace [EncFS] with [gocryptfs].
   Implementing gocryptfs support does not align with the EncFS removal time
   schedule, due to limited resources in the project team. See
   [meta issue #1734](https://github.com/bit-team/backintime/issues/1734) about
@@ -41,10 +41,10 @@ changes.
 
 ## Rational
 
-Removing [EncFS] is necessary because it has known security issues, the
-upstream project is not active anymore and its maintainer himself recommends to
-replace EncFS. To keep _Back In Time_ secure and maintenable there is no
-alternative to remove it.
+Removing [EncFS] is necessary because it has known security issues, the upstream
+project is not active anymore and its maintainer himself recommends to replace
+EncFS. To keep _Back In Time_ secure and maintenable there is no alternative to
+remove it.
 
 The necessity to remove EncFS exists regardless of whether an alternative for
 this library is implemented or not.
@@ -84,6 +84,13 @@ and up-to-date plan.
 4. Year 2029/30 with Debian 15 release: Transformation then has reached Debian
    stable.
 
+
+## How to migrate an EncFS backup profile to an gocryptfs backup profile?
+
+...will follow...
+
+See [this discussion on the mailing list](https://mail.python.org/archives/list/bit-dev@python.org/message/ZYA6YRSCBIVLQTGR2VMNOQQIBA522AWI/).
+
 ## About EncFS security issues
 
    - EncFS Security Audit
@@ -102,8 +109,7 @@ and up-to-date plan.
   [#1549](https://github.com/bit-team/backintime/issues/1549).
 - Our [mailing list](https://mail.python.org/mailman3/lists/bit-dev.python.org).
 - [EncFS]
-- [GoCryptFS]
+- [gocryptfs]
 
 [EncFS]: https://github.com/vgough/encfs
-[GoCryptFS]: https://github.com/rfjakob/gocryptfs
-[LUKS]: https://en.wikipedia.org/wiki/Linux_Unified_Key_Setup
+[gocryptfs]: https://github.com/rfjakob/gocryptfs
