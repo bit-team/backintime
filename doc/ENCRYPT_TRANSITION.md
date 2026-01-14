@@ -9,14 +9,11 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 -->
 
 # Transition of the encryption feature in _Back In Time_
-<sub>February 2025</sub>
+<sub>January 2026</sub>
 
 This document outlines the current status of the encryption feature in _Back In
 Time_. Support for encrypted backup profiles is undergoing significant
 changes.
-
-**Please note** that we have a [pending PR implementing gocryptfs for local
-encrypted profiles](https://github.com/bit-team/backintime/pull/1897).
 
  * [Short summary](#short-summary)
  * [Rational](#rational)
@@ -26,26 +23,28 @@ encrypted profiles](https://github.com/bit-team/backintime/pull/1897).
  * [Further readings and resources](#further-readings-and-resources)
 
 ## Short summary
-- To realize encrypted backups in _Back In Time_, [EncFS] is used.
-- EncFS has known security issues and also is no longer maintained.
-- EncFS **deprecation starts in year 2025**.
-- EncFS library will be **removed** from _Back In Time_ **around the year 2029**.
+- To realize encrypted backups in _Back In Time_, EncFS was/is used.
+- **Dropping support** for EncFS backup profiles started with _Back In Time_
+  version 1.6.0 is performed in several stages, with sufficient warnings and
+  lead time.
+- Final **removal** will happen **around the year 2029** at the code level.
   This will happen in slow and small steps with sufficient advance warnings and
   lead time.
-- The plan is to replace EncFS with [GoCryptFS] as an alternative.
-- The current maintenance team does not have the resources to implement an
-  alternative for EncFS. So extern contributors are need to step in. See [meta
-  issue #1734](https://github.com/bit-team/backintime/issues/1734) about the
-  current progress.
-- The replacement with an alternative happens indepeneded from from the EncFS
-  deprecation and removal process.
+- EncFS has known security issues, is no longer maintained and therefore does
+  not receive updates.
+- The plan is to replace EncFS with
+  [gocryptfs](https://github.com/rfjakob/gocryptfs).
+  Implementing gocryptfs support does not align with the EncFS removal time
+  schedule, due to limited resources in the project team. See
+  [meta issue #1734](https://github.com/bit-team/backintime/issues/1734) about
+  the current progress.
 
 ## Rational
 
 Removing [EncFS] is necessary because it has known security issues, the
 upstream project is not active anymore and its maintainer himself recommends to
 replace EncFS. To keep _Back In Time_ secure and maintenable there is no
-alternative to deprecat EncFS in _Back In Time_ and finally remove it.
+alternative to remove it.
 
 The necessity to remove EncFS exists regardless of whether an alternative for
 this library is implemented or not.
@@ -54,44 +53,35 @@ this library is implemented or not.
 
 The [EncFS] maintainer himself [recommends to
 switch](https://github.com/vgough/encfs?tab=readme-ov-file#status) to
-[GoCryptFS]. It seems to work similar to EncFS. Therefore, according to the
-[current state of research and discussion](https://github.com/bit-team/backintime/issues/1734),
-GoCryptFS is the preferred choice for a solution.
-
-It was also discussed if file system encryption (e.g. [LUKS]) could be an
-option. In this case _Back In Time_ won't need an encryption feature anymore
-because the file system tools do take care of it. It might be an option for
-some of the affected users but [it was also
-shown](https://github.com/bit-team/backintime/issues/1734#issuecomment-2151875246)
-that file system encryption is not an option in all use cases.
-
-The project also is open for other alternative solutions.
+[gocryptfs]. So we are going this path. See
+[#1734](https://github.com/bit-team/backintime/issues/1734) for details.
 
 ## Planned steps of the transition process
 
 The transition is a process *not fixed* in all details and planned to take
 until the *year 2029 or 2030*. The project will try to adapt to users needs and
 other extern issues. Therefore the plan is not written in stone.
+The transition is scheduled around the release cycles of
+[Debian GNU/Linux](https://www.debian.org/). It has very long release cycles
+and is the base for most of the distributions out there.
+This is a short overview of the plan. See
+[#1734](https://github.com/bit-team/backintime/issues/1734) for a more accurate
+and up-to-date plan.
 
-The transition is scheduled around the release cycles of Debian GNU Linux
-because Debian has very long release cycles and is the base for most of the
-distributions out there.
-
-The goal is to have slow and transparent steps in a timeline of multiple years
-until round about the year 2029 or 2030 when Debian 15 will be
-released. Current stable Debian is version 12.
-
-1. Year 2024: Clear and strong warning about the planned removing or replacement
-   of EncFS ([#1735](https://github.com/bit-team/backintime/issues/1734)).
-   Planned for the upcoming release 1.5.0 reaching Ubuntu 24.10 ("Oracular
-   Oriole").
-2. After Debian 13 released (year 2025 or 2026): Disable creation of new EncFS
-   profiles. This become "relevant" for "Debian stable" users round about year
-   2027/28 when Debian 14 is released.
-3. After Debian 14 released (Year 2027 or 2028): Remove EncFS in upstream
-   BIT. This will affect rolling release GNU Linux distributions (e.g. Arch)
-   and upcoming Ubuntu releases.
-4. Debian 15 in year 2029 or 2030: Our transformation then has reached Debian
+1. Year 2024: Clear and strong warning about the planned removing of EncFS in
+   version 1.5.*.
+2. Year 2025 after Debian 13 released: Creation of new EncFS profiles is
+   disabled ([#2356](https://github.com/bit-team/backintime/issues/2315))
+   starting with _Back In Time_ version 1.6.0. This become relevant for "Debian
+   stable" users when Debian 14 will be released (round about year 2027/28).
+   - Version 1.6.0 will have support for _local_ backup profiles using
+     _gocryptfs_.
+   - There is a high chance that _gocrypt_ support for _SSH_ profiles can be
+     implemented in this 1.6.*.
+3. Year 2027/2028 after Debian 14 released: Final removal of EncFS in upstream
+   _Back In Time_. This will affect rolling release GNU/Linux distributions
+   (e.g. Arch) and upcoming Ubuntu releases.
+4. Year 2029/30 with Debian 15 release: Transformation then has reached Debian
    stable.
 
 ## About EncFS security issues
