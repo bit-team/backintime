@@ -160,7 +160,6 @@ class GocryptfsMount(MountControl):
 
     def isConfigured(self) -> bool:
         """Check if config is complete.
-
         """
         conf = self.configFile()
 
@@ -169,12 +168,5 @@ class GocryptfsMount(MountControl):
             return True
 
         logger.debug(f'No gocryptfs config in {conf}', self)
-
-        # # Path exists
-        # if not self.path:
-        #     raise MountException(
-        # print(f'isConfigured() :: {self.path=}')
-
-        # # Dev note: confirm password?
 
         return False

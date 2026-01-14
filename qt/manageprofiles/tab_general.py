@@ -31,6 +31,7 @@ import sshtools
 from exceptions import MountException, NoPubKeyLogin, KnownHost
 import mount
 from bitbase import URL_ENCRYPT_TRANSITION, DIR_SSH_KEYS
+import version
 import schedule
 import qttools
 import messagebox
@@ -189,12 +190,12 @@ class GeneralTab(QDialog):
         self._txt_password2 = QLineEdit(self)
         self._txt_password2.setEchoMode(QLineEdit.EchoMode.Password)
 
-        # # DEBUG
-        # if logger.DEBUG:
-        #     self.lblPassword1.setToolTip('password 1')
-        #     self.txtPassword1.setToolTip('password 1')
-        #     self.lblPassword2.setToolTip('password 2')
-        #     self.txtPassword2.setToolTip('password 2')
+        # DEBUG
+        if logger.DEBUG or version.IS_UNSTABLE_DEV_VERSION:
+            self._lbl_password1.setToolTip('DEBUG - password 1')
+            self._txt_password1.setToolTip('DEBUG - password 1')
+            self._lbl_password2.setToolTip('DEBUG - password 2')
+            self._txt_password2.setToolTip('DEBUG - password 2')
 
         grid.addWidget(self._lbl_password1, 0, 0)
         grid.addWidget(self._txt_password1, 0, 1)
@@ -383,7 +384,7 @@ class GeneralTab(QDialog):
 
         mount_kwargs = {}
 
-        # password
+        # passwords
         password_1 = self._txt_password1.text()
         password_2 = self._txt_password2.text()
 
@@ -419,20 +420,33 @@ class GeneralTab(QDialog):
         self.config.setLocalEncfsPath(self._edit_backup_path.text())
 
         # save local_gocryptfs
-        self.config.setLocalGocryptfsPath(self._edit_backup_path.text())
+        if mode == 'local_gocryptfs':
+            # backup path
+            path = self._edit_backup_path.text()
+            if path and Path(path).exists():
+                self.config.setLocalGocryptfsPath(path)
+            else:
+                messagebox.warning(
+                    _('The backup destination path cannot be empty.'),
+                    _('Where to save backups'),
+                    self
+                )
+                return False
+
+            # password
+            if not password_1:
+                messagebox.warning(
+                    _('The encryption password cannot be empty.'),
+                    _('Encryption'),
+                    self
+                )
+                return False
 
         # schedule
         success = self._wdg_schedule.store_values(self.config)
 
         if success is False:
             return False
-
-        if mode != 'local':
-            mnt = mount.Mount(cfg=self.config, tmp_mount=True, parent=self)
-            hash_id = self._do_alot_pre_mount_checking(mnt, mount_kwargs)
-
-            if hash_id is False:
-                return False
 
         # save password
         self.config.setPasswordSave(self._cb_password_save.isChecked(),
@@ -442,6 +456,13 @@ class GeneralTab(QDialog):
             mode=mode)
         self.config.setPassword(password_1, mode=mode)
         self.config.setPassword(password_2, mode=mode, pw_id=2)
+
+        if mode != 'local':
+            mnt = mount.Mount(cfg=self.config, tmp_mount=True, parent=self)
+            hash_id = self._do_alot_pre_mount_checking(mnt, mount_kwargs)
+
+            if hash_id is False:
+                return False
 
         # snaphots_path
         if mode == 'local':
