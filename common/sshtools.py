@@ -735,6 +735,21 @@ class SSH(MountControl):
             # returncode is 0
             logger.info(f'Create remote path {self.path}', self)
 
+        def isConfigured(self):
+            """
+            Backend configuration check.
+
+            Verifies that the SSH backend has the minimum required information
+            to perform a mount operation. This method is used by high-level
+            mount validation before attempting to mount.
+
+            Returns:
+                bool: ``True`` if the backend is sufficiently configured,
+                     otherwise ``False``.
+            """
+            return True
+
+
     def checkPingHost(self):
         """
         Check if the remote host is online. Other than methods name may let
