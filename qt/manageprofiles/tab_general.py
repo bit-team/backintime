@@ -485,7 +485,9 @@ class GeneralTab(QDialog):
         # pylint: disable=too-many-return-statements
 
         try:
-            mnt.init_backend(mode=self.config.snapshotsMode(), **mount_kwargs)
+            mode = self.config.snapshotsMode()
+            if 'gocryptsfs' in mode and not mnt.isConfigured():
+                mnt.init_backend(mode=mode, **mount_kwargs)
 
         except MountException as ex:
             messagebox.critical(self, str(ex))
