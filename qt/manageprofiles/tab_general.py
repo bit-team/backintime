@@ -483,18 +483,14 @@ class GeneralTab(QDialog):
             bool: ``True`` if successful otherwise ``False``.
         """
         # pylint: disable=too-many-return-statements
-        # preMountCheck
 
-        if not mnt.isConfigured(
-                mode=self.config.snapshotsMode(), **mount_kwargs):
+        try:
+            mnt.init_backend(mode=self.config.snapshotsMode(), **mount_kwargs)
 
-            try:
-                mnt.init_backend(
-                    mode=self.config.snapshotsMode(), **mount_kwargs)
+        except MountException as ex:
+            messagebox.critical(self, str(ex))
 
-            except MountException as ex:
-                messagebox.critical(self, str(ex))
-                return False
+            return False
 
         try:
             # This will run several checks depending on the snapshots mode

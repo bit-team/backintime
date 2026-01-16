@@ -155,14 +155,3 @@ class GocryptfsMount(MountControl):
 
         return cfg
 
-    def isConfigured(self) -> bool:
-        """Check if `gocryptfs.conf` exists."""
-        conf = self.configFile()
-
-        if os.path.exists(conf):
-            logger.debug(f'Found gocryptfs config file in {conf}', self)
-            return True
-
-        logger.debug(f'No gocryptfs config in {conf}', self)
-
-        return False
