@@ -235,6 +235,11 @@ class SSH(MountControl):
             )
         )
 
+    def init_backend(self):
+        """Empty for SSH because initialization happens implicit.
+        """
+        return
+
     def preMountCheck(self, first_run=False):
         """
         Check that everything is prepared and ready for successfully mount the
