@@ -296,6 +296,11 @@ class MainWindow(QMainWindow):
         update_backup_messages.start()
 
     def _restore_visual_state(self):
+        # This prevents that the restore-config-question will be overlayed
+        # by the main window.
+        if not self.config.isConfigured():
+            return
+
         state_data = StateData()
 
         try:

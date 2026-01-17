@@ -31,6 +31,7 @@ import sshtools
 from exceptions import MountException, NoPubKeyLogin, KnownHost
 import mount
 from bitbase import URL_ENCRYPT_TRANSITION, DIR_SSH_KEYS
+import version
 import schedule
 import qttools
 import messagebox
@@ -189,12 +190,12 @@ class GeneralTab(QDialog):
         self._txt_password2 = QLineEdit(self)
         self._txt_password2.setEchoMode(QLineEdit.EchoMode.Password)
 
-        # # DEBUG
-        # if logger.DEBUG:
-        #     self.lblPassword1.setToolTip('password 1')
-        #     self.txtPassword1.setToolTip('password 1')
-        #     self.lblPassword2.setToolTip('password 2')
-        #     self.txtPassword2.setToolTip('password 2')
+        # DEBUG
+        if logger.DEBUG or version.IS_UNSTABLE_DEV_VERSION:
+            self._lbl_password1.setToolTip('DEBUG - password 1')
+            self._txt_password1.setToolTip('DEBUG - password 1')
+            self._lbl_password2.setToolTip('DEBUG - password 2')
+            self._txt_password2.setToolTip('DEBUG - password 2')
 
         grid.addWidget(self._lbl_password1, 0, 0)
         grid.addWidget(self._txt_password1, 0, 1)
@@ -372,6 +373,42 @@ class GeneralTab(QDialog):
         # Schedule
         self._wdg_schedule.load_values(self.config)
 
+    def _store_local_gocryptfs_destination_path(self) -> bool:
+        """Path and password related to local gocryptfs profile.
+
+        """
+
+        # save local_gocryptfs
+        if self.get_active_snapshots_mode() != 'local_gocryptfs':
+            return True
+
+        # backup path
+        path = self._edit_backup_path.text()
+
+        if path and Path(path).exists():
+            self.config.setLocalGocryptfsPath(path)
+
+        else:
+            messagebox.warning(
+                _('The backup destination path cannot be empty.'),
+                _('Where to save backups'),
+                self
+            )
+            return False
+
+        # password
+        password_1 = self._txt_password1.text()
+
+        if not password_1:
+            messagebox.warning(
+                _('The encryption password cannot be empty.'),
+                _('Encryption'),
+                self
+            )
+            return False
+
+        return True
+
     def store_values(self) -> bool:
         """Store the tab's values into the config instance.
 
@@ -381,20 +418,19 @@ class GeneralTab(QDialog):
         mode = self.get_active_snapshots_mode()
         self.config.setSnapshotsMode(mode)
 
-        mount_kwargs = {}
-
-        # password
+        # passwords
         password_1 = self._txt_password1.text()
         password_2 = self._txt_password2.text()
+
+        mount_kwargs = {}
 
         if mode in ('ssh', 'local_encfs'):
             mount_kwargs = {'password': password_1}
 
-        if mode == 'ssh_encfs':
+        elif mode == 'ssh_encfs':
             mount_kwargs = {'ssh_password': password_1,
                             'encfs_password': password_2}
 
-        # snapshots path
         self.config.setHostUserProfile(
             self._txt_host.text(),
             self._txt_user.text(),
@@ -419,21 +455,15 @@ class GeneralTab(QDialog):
         # save local_encfs
         self.config.setLocalEncfsPath(self._edit_backup_path.text())
 
-        # save local_gocryptfs
-        self.config.setLocalGocryptfsPath(self._edit_backup_path.text())
+        # _gocryptfs: path & password
+        if self._store_local_gocryptfs_destination_path() is False:
+            return False
 
         # schedule
         success = self._wdg_schedule.store_values(self.config)
 
         if success is False:
             return False
-
-        if mode != 'local':
-            mnt = mount.Mount(cfg=self.config, tmp_mount=True, parent=self)
-            hash_id = self._do_alot_pre_mount_checking(mnt, mount_kwargs)
-
-            if hash_id is False:
-                return False
 
         # save password
         self.config.setPasswordSave(self._cb_password_save.isChecked(),
@@ -443,6 +473,13 @@ class GeneralTab(QDialog):
             mode=mode)
         self.config.setPassword(password_1, mode=mode)
         self.config.setPassword(password_2, mode=mode, pw_id=2)
+
+        if mode != 'local':
+            mnt = mount.Mount(cfg=self.config, tmp_mount=True, parent=self)
+            hash_id = self._do_alot_pre_mount_checking(mnt, mount_kwargs)
+
+            if hash_id is False:
+                return False
 
         # snaphots_path
         if mode == 'local':
@@ -486,8 +523,9 @@ class GeneralTab(QDialog):
 
         try:
             mode = self.config.snapshotsMode()
-            if 'gocryptsfs' in mode and not mnt.isConfigured():
-                mnt.init_backend(mode=mode, **mount_kwargs)
+            if 'gocryptfs' in mode:
+                if not mnt.get_backend(mode).isConfigured():
+                    mnt.init_backend(mode=mode, **mount_kwargs)
 
         except MountException as ex:
             messagebox.critical(self, str(ex))
@@ -652,19 +690,46 @@ class GeneralTab(QDialog):
             start_dir=old_path)
         path = dlg.result()
 
+        # nothing selected (Cancel)
         if not path:
             return
 
-        if old_path and old_path != path:
+        # nothing changed
+        if old_path and old_path == path:
+            return
 
-            answer = messagebox.question(
-                text=_('Really change the backup directory?'),
-                widget_to_center_on=self)
-
-            if not answer:
+        # gocryptfs destination need to be empty
+        if 'gocryptfs' in self.mode:
+            # is not empty
+            if not self._is_gocryptfs_path_empty(path):
                 return
 
+        # Really change?
+        answer = messagebox.question(
+            text=_('Really change the backup directory?'),
+            widget_to_center_on=self)
+
+        if not answer:
+            return
+
+        # Set the path
         self._edit_backup_path.setText(str(path))
+
+    def _is_gocryptfs_path_empty(self, path: Path) -> bool:
+        # is not empty
+        if not any(path.iterdir()):
+            return True
+
+        messagebox.warning(
+            '<p>'
+            + _('The selected backup destination is not empty.')
+            + '<p></p>'
+            + _('It must be empty to use encryption.')
+            + '</p>',
+            widget_to_center_on=self
+        )
+
+        return False
 
     def _slot_ssh_private_key_file_clicked(self):
         key_file = self.key_selector.get_key()
@@ -774,6 +839,13 @@ class GeneralTab(QDialog):
 
             self._wdg_schedule.allow_udev(
                 active_mode in ('local', 'local_encfs', 'local_gocryptfs'))
+
+            # gocryptfs destination need to be empty
+            if 'gocryptfs' in self.mode:
+                path = self._edit_backup_path.text()
+                # dir exists and is not empty
+                if path and any(Path(path).iterdir()):
+                    self._edit_backup_path.setText('')
 
             # Don't offer deprecated modes (#1734)
             modes_to_hide = {'local_encfs', 'ssh_encfs'} - {active_mode}

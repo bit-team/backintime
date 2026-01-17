@@ -92,6 +92,9 @@ class GocryptfsMount(MountControl):
         """
         init the cipher path
         """
+
+        self.checkFuse()  # gocryptfs binary available?
+
         if self.password is None:
             self.password = self.config.password(
                 self.parent, self.profile_id, self.mode)
