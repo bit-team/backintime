@@ -15,17 +15,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-12-22 15:22+0100\n"
-"PO-Revision-Date: 2025-09-18 09:27+0000\n"
-"Last-Translator: danternas <danternas@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-01-07 09:17+0000\n"
+"Last-Translator: bittin <bittin@noreply.codeberg.org>\n"
 "Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/common/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13.2\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -108,15 +108,15 @@ msgstr ""
 "katalogen är en del av själva säkerhetskopian."
 
 #: common/config.py:359
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
 " space falls below\" ({val_two})."
 msgstr ""
-"Värdet för \"Ta bort den äldsta säkerhetskopian om ledigt utrymme är mindre "
-"än\" ({val_one}) måste vara mindre eller lika med gränsvärdet för \"Varna om"
-" ledigt lagringsutrymme blir mindre än\" ({val_two})."
+"Värdet för \"Ta bort äldsta säkerhetskopia om det lediga utrymmet är mindre "
+"än\" ({val_one}) måste vara mindre än eller lika med tröskelvärdet för "
+"\"Varna om det lediga diskutrymmet sjunker under\" ({val_two})."
 
 #: common/config.py:364
 msgid ""
@@ -350,14 +350,12 @@ msgid "Unable to rename {new_path} to {path}."
 msgstr "Kan inte byta namn på {new_path} till {path}."
 
 #: common/snapshots.py:2000
-#, fuzzy
 msgid "Applying rules to remove old backups"
 msgstr "Verkställ regler för att ta bort gamla säkerhetskopior"
 
 #: common/snapshots.py:2033
-#, fuzzy
 msgid "Applying retention policy"
-msgstr "Verkställ policy för bevarande"
+msgstr "Verkställer bevarandepolicy"
 
 #: common/snapshots.py:2043
 msgid "Trying to keep min free space"
@@ -411,9 +409,9 @@ msgid "Remote host {host} doesn't support {command}"
 msgstr "Fjärrvärd {host} stöder inte {command}"
 
 #: common/sshtools.py:1021
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Checking commands on host {host} returned unknown error"
-msgstr "Kontrollera kommandon på värd {host} gav okänt fel"
+msgstr "Kontroll av kommandon på värden {host} returnerade ett okänt fel"
 
 #: common/sshtools.py:1039
 #, python-brace-format
@@ -723,34 +721,32 @@ msgid "Restore"
 msgstr "Återskapa"
 
 #: qt/app.py:575
-#, fuzzy
 msgid "Restore the selected files or directories to the original location."
 msgstr ""
-"Återskapa de valda filerna eller mapparna på den ursprungliga platsen."
+"Återskapa de valda filerna eller mapparna till den ursprungliga platsen."
 
 #: qt/app.py:578 qt/app.py:1865 qt/snapshotsdialog.py:186
 msgid "Restore to …"
 msgstr "Återskapa till…"
 
 #: qt/app.py:580
-#, fuzzy
 msgid "Restore the selected files or directories to a new location."
-msgstr "Återskapa de valda filerna eller mapparna på en ny plats."
+msgstr "Återskapa de valda filerna eller mapparna till en ny plats."
 
 #: qt/app.py:586
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
 msgstr ""
-"Återskapa denna mappen och hela dess innehåll på den ursprungliga platsen."
+"Återskapa denna mappen och hela dess innehåll till dess ursprungliga plats."
 
 #: qt/app.py:592
-#, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
-msgstr "Återskapa denna mappen och hela dess innehåll på en ny plats."
+msgstr ""
+"Återskapa den nuvarande mappen som visas och hela dess innehåll till en ny "
+"plats."
 
 #: qt/app.py:595
 msgid "Up"
@@ -790,19 +786,19 @@ msgstr "&Hjälp"
 
 #: qt/app.py:745
 msgid "Systray Icon"
-msgstr ""
+msgstr "Systray-ikon"
 
 #: qt/app.py:751
 msgid "Automatic"
-msgstr ""
+msgstr "Automatisk"
 
 #: qt/app.py:755
 msgid "Light icon"
-msgstr ""
+msgstr "Ljus ikon"
 
 #: qt/app.py:756
 msgid "Dark icon"
-msgstr ""
+msgstr "Mörk ikon"
 
 #: qt/app.py:779
 msgid "Icons only"
@@ -1284,156 +1280,148 @@ msgstr "Ta bort profilen \"{name}\" ?"
 
 #: qt/manageprofiles/excludesuggestions.py:33
 msgid "Editor & Office temporary files"
-msgstr ""
+msgstr "Temporära filer för redigerare och Office"
 
 #: qt/manageprofiles/excludesuggestions.py:34
-#, fuzzy
 msgid "Emacs backup files"
-msgstr "Pausa processen för säkerhetskopieringen"
+msgstr "Emacs säkerhetskopieringsfiler"
 
 #: qt/manageprofiles/excludesuggestions.py:35
-#, fuzzy
 msgid "Emacs autosave files"
-msgstr "Exkludera filer"
+msgstr "Emacs automatiskt sparade filer"
 
 #: qt/manageprofiles/excludesuggestions.py:36
 msgid "Vim swap files"
-msgstr ""
+msgstr "Vim swap filer"
 
 #: qt/manageprofiles/excludesuggestions.py:37
 msgid "Microsoft Office temporary files"
-msgstr ""
+msgstr "Tillfälliga Microsoft Office-filer"
 
 #: qt/manageprofiles/excludesuggestions.py:40
 msgid "LibreOffice & other OpenDocument Editors lock files"
-msgstr ""
+msgstr "LibreOffice och andra OpenDocument-redigerare lås filer"
 
 #: qt/manageprofiles/excludesuggestions.py:44
 msgid "Thumbnails & Temporary Pictures"
-msgstr ""
+msgstr "Tumnaglar & Temporära bilder"
 
 #: qt/manageprofiles/excludesuggestions.py:47
 msgid "Thumbnail cache on GNU/Linux and other unixoid OS'es"
-msgstr ""
+msgstr "Tumnagel cache på GNU/Linux och andra Unixoid-operativsystem"
 
 #: qt/manageprofiles/excludesuggestions.py:50
 msgid "Thumbnail database on Windows"
-msgstr ""
+msgstr "Tumnagel databas på Windows"
 
 #: qt/manageprofiles/excludesuggestions.py:51
 msgid "Metadata directory on MacOS"
-msgstr ""
+msgstr "Metadata katalog på MacOS"
 
 #: qt/manageprofiles/excludesuggestions.py:53
 msgid "Application-specific locks"
-msgstr ""
+msgstr "Program-specifika lås"
 
 #: qt/manageprofiles/excludesuggestions.py:56
 msgid "Discord application lock file"
-msgstr ""
+msgstr "Discord program låsfil"
 
 #: qt/manageprofiles/excludesuggestions.py:57
 msgid "Discord session lock file"
-msgstr ""
+msgstr "Discord session låsfil"
 
 #: qt/manageprofiles/excludesuggestions.py:60
 msgid "Mozilla Firefox & Thunderbird lock file"
-msgstr ""
+msgstr "Mozilla Firefox & Thunderbird låsfil"
 
 #: qt/manageprofiles/excludesuggestions.py:62
-#, fuzzy
 msgid "Caches & Temporary directories"
-msgstr "Mappar för säkerhetskopior"
+msgstr "Cacher & tillfälliga kataloger"
 
 #: qt/manageprofiles/excludesuggestions.py:63
 msgid "User application cache"
-msgstr ""
+msgstr "Användarens programcache"
 
 #: qt/manageprofiles/excludesuggestions.py:64
 #: qt/manageprofiles/excludesuggestions.py:67
-#, fuzzy
 msgid "System temporary directory"
-msgstr "Kan inte ta bort katalog"
+msgstr "Systemets temporära katalog"
 
 #: qt/manageprofiles/excludesuggestions.py:72
 msgid "Package cache for Debian(-based) GNU/Linux distributions"
-msgstr ""
+msgstr "Paketcache för Debian(-baserade) GNU/Linux-distributioner"
 
 #: qt/manageprofiles/excludesuggestions.py:76
-#, fuzzy
 msgid "System runtime directories"
-msgstr "Visa dolda mappar"
+msgstr "System körtid kataloger"
 
 #: qt/manageprofiles/excludesuggestions.py:79
 msgid "Kernel and process information"
-msgstr ""
+msgstr "Kärn och processinformation"
 
 #: qt/manageprofiles/excludesuggestions.py:84
 msgid "Device and other hardware information (sysfs interface)"
-msgstr ""
+msgstr "Enhets och annan hårdvaruinformation (sysfs-gränssnitt)"
 
 #: qt/manageprofiles/excludesuggestions.py:87
 msgid "Device nodes"
-msgstr ""
+msgstr "Enhetsnoder"
 
 #: qt/manageprofiles/excludesuggestions.py:88
 msgid "Runtime system files"
-msgstr ""
+msgstr "Körtid system filer"
 
 #: qt/manageprofiles/excludesuggestions.py:90
 msgid "Other non-persistent"
-msgstr ""
+msgstr "Andra icke-ihållande"
 
 #: qt/manageprofiles/excludesuggestions.py:93
 msgid "List of currently mounted filesystems"
-msgstr ""
+msgstr "Lista över för närvarande monterade filsystem"
 
 #: qt/manageprofiles/excludesuggestions.py:96
 msgid "System swap file (virtual memory)"
-msgstr ""
+msgstr "System swap fil (virtuellt minne)"
 
 #: qt/manageprofiles/excludesuggestions.py:97
 msgid "GNOME virtual file system mount point"
-msgstr ""
+msgstr "GNOME virtuellt filsystem monteringpunkt"
 
 #: qt/manageprofiles/excludesuggestions.py:98
 msgid "Recovered filesystem objects"
-msgstr ""
+msgstr "Återställda filsystemobjekt"
 
 #: qt/manageprofiles/excludesuggestions.py:100
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Diverse"
 
 #: qt/manageprofiles/excludesuggestions.py:103
 msgid "Metadata directory on Microsoft Windows"
-msgstr ""
+msgstr "Metadata katalog på Microsoft Windows"
 
 #: qt/manageprofiles/excludesuggestions.py:106
 msgid "User recycle bin"
-msgstr ""
+msgstr "Användarens papperskorg"
 
 #: qt/manageprofiles/excludesuggestions.py:107
-#, fuzzy
 msgid "System backup files"
-msgstr "Stoppa processen för säkerhetskopiering"
+msgstr "System säkerhetskopiering filer"
 
 #: qt/manageprofiles/excludesuggestions.py:134
-#, fuzzy
 msgid "Exclude Suggestions"
-msgstr "Exkludera mappar"
+msgstr "Exkludera Förslag"
 
 #: qt/manageprofiles/excludesuggestions.py:139
 msgid "Select commonly used items to add to backup exclusions."
-msgstr ""
+msgstr "Välj vanliga objekt att lägga till i säkerhetskopieringsundantag."
 
 #: qt/manageprofiles/excludesuggestions.py:152
-#, fuzzy
 msgid "Default"
-msgstr "standard"
+msgstr "Standard"
 
 #: qt/manageprofiles/excludesuggestions.py:153
 msgid "Reset to predefined selection"
-msgstr ""
+msgstr "Återställ till fördefinierat val"
 
 #: qt/manageprofiles/schedulewidget.py:38
 msgid "Schedule"
@@ -1664,9 +1652,8 @@ msgid "Exclude patterns, files or directories"
 msgstr "Exkludera mönster, filer eller kataloger"
 
 #: qt/manageprofiles/tab_exclude.py:102
-#, fuzzy
 msgid "Add pattern"
-msgstr "Exkludera mönster"
+msgstr "Lägg till mönster"
 
 #: qt/manageprofiles/tab_exclude.py:107 qt/manageprofiles/tab_include.py:68
 msgid "Add files"
@@ -1677,13 +1664,12 @@ msgid "Add directories"
 msgstr "Lägg till mappar"
 
 #: qt/manageprofiles/tab_exclude.py:118
-#, fuzzy
 msgid "Suggestions"
-msgstr "Fråga"
+msgstr "Förslag"
 
 #: qt/manageprofiles/tab_exclude.py:120
 msgid "Select from common used items to add to exclude list."
-msgstr ""
+msgstr "Välj bland vanliga objekt att lägga till i undantagslistan."
 
 #: qt/manageprofiles/tab_exclude.py:134
 msgid "Exclude files bigger than:"
@@ -1712,18 +1698,17 @@ msgid "Exclude pattern"
 msgstr "Exkludera mönster"
 
 #: qt/manageprofiles/tab_exclude.py:267
-#, fuzzy
 msgid "Enter an exclude pattern:"
-msgstr "Exkludera mönster"
+msgstr "Ange ett exkluderings mönster:"
 
 #: qt/manageprofiles/tab_exclude.py:272
 #, python-brace-format
 msgid "For help, see the rsync man page section {link}."
-msgstr ""
+msgstr "För hjälp, se rsync manual-sida-avsnittet {link}."
 
 #: qt/manageprofiles/tab_exclude.py:275
 msgid "Open rsync man page"
-msgstr ""
+msgstr "Öppna rsync manualsida"
 
 #: qt/manageprofiles/tab_exclude.py:303
 msgid "Exclude files"
@@ -1945,6 +1930,8 @@ msgid ""
 "Scheduling is disabled because no cron installation was found. Please "
 "install cron to enable scheduled backups."
 msgstr ""
+"Schemaläggning är inaktiverad eftersom ingen cron-installation hittades. "
+"Installera cron för att aktivera schemalagda säkerhetskopior."
 
 #: qt/manageprofiles/tab_general.py:496
 msgid ""
@@ -1959,11 +1946,12 @@ msgid ""
 "To enable password-less login, the public SSH key can be copied to the "
 "remote host."
 msgstr ""
+"För att aktivera lösenordsfri inloggning kan den publika SSH-nyckeln "
+"kopieras till fjärrdatorn."
 
 #: qt/manageprofiles/tab_general.py:503
-#, fuzzy
 msgid "Proceed with copying the SSH key?"
-msgstr "Fortsätt med säkerhetskopieringen?"
+msgstr "Fortsätt med att kopiera SSH-nyckel?"
 
 #: qt/manageprofiles/tab_general.py:528
 msgid ""
@@ -2121,13 +2109,13 @@ msgid "user manual"
 msgstr "användarmanual"
 
 #: qt/manageprofiles/tab_remove_retention.py:206
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual_link} for details and examples."
 msgstr ""
-"De följande reglerna behandlas längst upp till längst ner. Senare regler "
-"åsidosätter de tidigare. Se {manual} för detaljer och exempel."
+"Följande regler bearbetas uppifrån och ner. Senare regler åsidosätter "
+"tidigare regler. Se {manual_link} för detaljer och exempel."
 
 #: qt/manageprofiles/tab_remove_retention.py:221
 msgid "Open user manual in browser."
@@ -2138,10 +2126,8 @@ msgid "Keep the most recent backup."
 msgstr "Behåll den mest senaste säkerhetskopian."
 
 #: qt/manageprofiles/tab_remove_retention.py:239
-#, fuzzy
 msgid "The most up-to-date backup is kept under all circumstances."
-msgstr ""
-"Den sista eller färskaste säkerhetskopian bevaras under alla omständigheter."
+msgstr "Den mest aktuella säkerhetskopian bevaras under alla omständigheter."
 
 #: qt/manageprofiles/tab_remove_retention.py:241
 msgid "That behavior cannot be changed."
@@ -2188,15 +2174,14 @@ msgid "Run in background on remote host."
 msgstr "Kör i bakgrunden på fjärrvärden."
 
 #: qt/manageprofiles/tab_remove_retention.py:311
-#, fuzzy
 msgid ""
 "The retention policy will be executed directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
 "and available on that remote machine."
 msgstr ""
-"Proceduren för smart borttagning kommer att köras direkt på fjärrmaskinen, "
-"inte lokalt. Kommandona \"bash\", \"screen\" och \"flock\" måste vara "
-"installerade och tillgängliga på fjärrmaskinen."
+"Bevaringspolicyn kommer att köras direkt på fjärrdatorn, inte lokalt. "
+"Kommandona \"bash\", \"screen\" och \"flock\" måste vara installerade och "
+"tillgängliga på fjärrdatorn."
 
 #: qt/manageprofiles/tab_remove_retention.py:315
 msgid "If selected, Back In Time will first test the remote machine."
@@ -2295,9 +2280,9 @@ msgid "Profile: {profile_name}"
 msgstr "Profil: \"{profile_name}\""
 
 #: qt/qtsystrayicon.py:112
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: {profile_name} (by user \"{desktop_user}\")"
-msgstr "Profil: \"{profile_name}\""
+msgstr "Profil: \"{profile_name}\" (av användare \"{desktop_user}\")"
 
 #: qt/qtsystrayicon.py:155
 msgid "View Last Log"
@@ -2315,7 +2300,7 @@ msgstr "Arbetar…"
 #: qt/qttools.py:460
 #, python-brace-format
 msgid "man page: {man_page_name}"
-msgstr ""
+msgstr "manualsida: {man_page_name}"
 
 #: qt/restoreconfigdialog.py:72
 msgid "Import configuration"

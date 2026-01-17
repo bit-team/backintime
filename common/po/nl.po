@@ -12,17 +12,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-12-22 15:22+0100\n"
-"PO-Revision-Date: 2025-07-07 13:47+0000\n"
-"Last-Translator: rsschaap <rsschaap@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-01-08 14:21+0000\n"
+"Last-Translator: dheijl <dheijl@noreply.codeberg.org>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/backintime/common/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -87,7 +87,7 @@ msgstr "Momentopname-folder is ongeldig!"
 
 #: common/config.py:306
 msgid "At least one directory must be selected for backup."
-msgstr ""
+msgstr "Er moet minstens één backup map geselecteerd worden."
 
 #: common/config.py:324 common/config.py:339
 #, fuzzy, python-brace-format
@@ -108,12 +108,17 @@ msgid ""
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
 " space falls below\" ({val_two})."
 msgstr ""
+"De waarde voor \"Verwijder oudste backup indien de vrije plaats kleiner is "
+"dan\" ({val_one}) moet kleiner dan of gelijk zijn aan de grenswaarde voor "
+"\"Waarschuw als de vrije schijfruimte minder is dan\" ({val_two})."
 
 #: common/config.py:364
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr ""
+"Pas aub. de waarden aan zodat limiet om backups te verwijderen niet groter "
+"is dan de limiet voor de waarschuwing."
 
 #: common/config.py:1498
 #, fuzzy, python-brace-format
@@ -243,6 +248,8 @@ msgid ""
 "The following entries from the include list have no corresponding file or "
 "directory in the backup source:"
 msgstr ""
+"De volgende items uit de op te nemen lijst komen niet overeen met een "
+"bestand of map in de backup bron:"
 
 #: common/snapshots.py:813
 msgid "Deferring backup while on battery"
@@ -306,7 +313,7 @@ msgstr "Kan map niet verwijderen"
 
 #: common/snapshots.py:1468
 msgid "Creating backup"
-msgstr ""
+msgstr "Aanmaken backup"
 
 #: common/snapshots.py:1519
 msgid "Success"
@@ -450,7 +457,7 @@ msgstr "Kon volgende map niet aanmaken:"
 
 #: common/tools.py:430 common/tools.py:527
 msgid "Write access may be restricted."
-msgstr ""
+msgstr "Schrijftoegang kan begrensd zijn."
 
 #: common/tools.py:471
 #, fuzzy, python-brace-format
@@ -503,7 +510,7 @@ msgstr "Back In &Time"
 
 #: qt/aboutdlg.py:89
 msgid "Copyright:"
-msgstr ""
+msgstr "Copyright:"
 
 #: qt/aboutdlg.py:93
 #, fuzzy
@@ -517,37 +524,39 @@ msgstr "Vertalingen"
 
 #: qt/aboutdlg.py:100
 msgid "translator-credits-placeholder"
-msgstr ""
+msgstr "placeholder-voor-vertaler-credits"
 
 #: qt/aboutdlg.py:107
 msgid "Translator credits not available for current language."
-msgstr ""
+msgstr "Geen vertaler credits bechikbaar voor de huidige taal."
 
 #: qt/aboutdlg.py:116
 msgid "this link"
-msgstr ""
+msgstr "deze link"
 
 #: qt/aboutdlg.py:118
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
-msgstr ""
+msgstr "Volg {thislink} om vertaler credits te verkrijgen voor alle talen."
 
 #: qt/aboutdlg.py:220 qt/app.py:533
 msgid "Project website"
-msgstr ""
+msgstr "Projectwebsite"
 
 #: qt/aboutdlg.py:225 qt/app.py:515
 msgid "User manual"
-msgstr ""
+msgstr "Gebruikershandleiding"
 
 #: qt/aboutdlg.py:227 qt/app.py:517
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
+"Open de gebuikershandleiding in de browser (lokaal indien beschikbaar, "
+"anders online)"
 
 #: qt/aboutdlg.py:277
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
-msgstr ""
+msgstr "{BOLD}Versie{BOLDEND}: {version}"
 
 #: qt/app.py:341
 #, python-brace-format
@@ -569,11 +578,11 @@ msgstr ""
 
 #: qt/app.py:372
 msgid "Then press OK."
-msgstr ""
+msgstr "Druk vervolgens op OK."
 
 #: qt/app.py:454
 msgid "Create a backup"
-msgstr ""
+msgstr "Maak een backup"
 
 #: qt/app.py:456
 msgid "Use modification time & size for file change detection."
@@ -611,7 +620,7 @@ msgstr "Momentopnamelijst vernieuwen"
 
 #: qt/app.py:479
 msgid "Name backup"
-msgstr ""
+msgstr "Naam van de backup"
 
 #: qt/app.py:483
 #, fuzzy
@@ -635,7 +644,7 @@ msgstr "Laatste logboek bekijken"
 
 #: qt/app.py:493
 msgid "View log of the latest backup."
-msgstr ""
+msgstr "Bekijk de laatste backuplog."
 
 #: qt/app.py:495
 msgid "Manage profiles…"
@@ -669,7 +678,7 @@ msgstr "Back In &Time"
 
 #: qt/app.py:523
 msgid "Displays man page about Back In Time (backintime)"
-msgstr ""
+msgstr "Toont de help pagina over Back In Time(backintime)"
 
 #: qt/app.py:526
 #, fuzzy
@@ -679,10 +688,11 @@ msgstr "Profielconfiguratiebestand"
 #: qt/app.py:529
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
+"Toont de help pagina over profiel configuratie bestanden(backintime-config)"
 
 #: qt/app.py:536
 msgid "Open Back In Time website in browser"
-msgstr ""
+msgstr "Open Back In Time website in de browser"
 
 #: qt/app.py:538 qt/app.py:2223
 msgid "Changelog"
@@ -690,7 +700,7 @@ msgstr "Wijzigingslogboek"
 
 #: qt/app.py:541
 msgid "Open changelog (locally if available, otherwise from the web)"
-msgstr ""
+msgstr "Toon het wijzigingslogboek (lokaal als beschikbaar, anders online)"
 
 #: qt/app.py:544
 msgid "FAQ"
@@ -698,7 +708,7 @@ msgstr "FAQ"
 
 #: qt/app.py:546
 msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr ""
+msgstr "Toon de Vaak Gestelde Vragen (FAQ) in de browser"
 
 #: qt/app.py:548
 msgid "Ask a question"
@@ -783,7 +793,7 @@ msgstr "Momentopnames vergelijken…"
 
 #: qt/app.py:631 qt/app.py:1745
 msgid "Release Candidate"
-msgstr ""
+msgstr "Release Candidate"
 
 #: qt/app.py:634
 #, fuzzy
@@ -808,35 +818,35 @@ msgstr "&Hulp"
 
 #: qt/app.py:745
 msgid "Systray Icon"
-msgstr ""
+msgstr "Systeemvak pictogram"
 
 #: qt/app.py:751
 msgid "Automatic"
-msgstr ""
+msgstr "Automatisch"
 
 #: qt/app.py:755
 msgid "Light icon"
-msgstr ""
+msgstr "Licht icoon"
 
 #: qt/app.py:756
 msgid "Dark icon"
-msgstr ""
+msgstr "Donker icoon"
 
 #: qt/app.py:779
 msgid "Icons only"
-msgstr ""
+msgstr "Enkel iconen"
 
 #: qt/app.py:782
 msgid "Text only"
-msgstr ""
+msgstr "Enkel tekst"
 
 #: qt/app.py:785
 msgid "Text below icons"
-msgstr ""
+msgstr "Tekst onder de iconen"
 
 #: qt/app.py:788
 msgid "Text beside icon"
-msgstr ""
+msgstr "Tekst naast de iconen"
 
 #: qt/app.py:899
 #, fuzzy
@@ -866,7 +876,7 @@ msgstr ""
 
 #: qt/app.py:978
 msgid "Close the window anyway?"
-msgstr ""
+msgstr "Het venster toch sluiten?"
 
 #: qt/app.py:1169
 msgid "Done, no backup needed"
@@ -943,25 +953,25 @@ msgstr "Uw vertaling"
 #: qt/app.py:1696
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
-msgstr ""
+msgstr "In de Fediverse op Mastodon: {link_and_label}."
 
 #: qt/app.py:1704
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
-msgstr ""
+msgstr "Mailinglijst {link_and_label}."
 
 #: qt/app.py:1708
 #, python-brace-format
 msgid "{link_and_label} on the project website."
-msgstr ""
+msgstr "{link_and_label} op de website van het project."
 
 #: qt/app.py:1711
 msgid "Open an issue"
-msgstr ""
+msgstr "Meld een probleem"
 
 #: qt/app.py:1712
 msgid "Alternatively, you can use another channel of your choice."
-msgstr ""
+msgstr "U kunt ook een ander kanaal naar keuze gebruiken."
 
 #: qt/app.py:1717
 #, python-brace-format
@@ -975,6 +985,14 @@ msgid ""
 "Thank you for your support and for helping us improve Back In Time!\n"
 "Your Back In Time Team"
 msgstr ""
+"Deze versie van Back In Time is een Release Candidate en is voornamelijk bedoeld voor stabiliteitstesten ter voorbereiding op de volgende officiële release.\n"
+"Er worden geen gebruikersgegevens of telemetrie verzameld. Het Back In Time-team is echter zeer geïnteresseerd in het gebruik van de Release Candidate en of het de moeite waard is om dergelijke pre-releaseversies te blijven aanbieden.\n"
+"Daarom vraagt het team vriendelijk om een korte feedback over het testen van deze versie, zelfs als u geen problemen bent tegengekomen. Zelfs een korte test van een paar minuten zou ons enorm helpen.\n"
+"U kunt contact met ons opnemen via de volgende contactgegevens:\n"
+"{contact_list}\n"
+"In deze versie wordt dit bericht niet meer weergegeven, maar u kunt het op elk moment raadplegen via het helpmenu.\n"
+"Bedankt voor uw steun en voor uw hulp bij het verbeteren van Back In Time!\n"
+"Uw Back In Time-team"
 
 #: qt/app.py:1815
 #, python-brace-format
@@ -982,19 +1000,23 @@ msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr ""
+"Er is slechts {free} vrije plaats beschikbaar op de bestemming, minder dan "
+"het geconfigureerde minimum van {threshold}."
 
 #: qt/app.py:1820
 msgid "Proceed with the backup?"
-msgstr ""
+msgstr "Doorgaan met de backup?"
 
 #: qt/app.py:1845
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
-msgstr ""
+msgstr "Alle nieuwere bestanden in {path} zullen verwijderd worden. Doorgaan?"
 
 #: qt/app.py:1848
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
+"Alle recentere bestanden in de originele map zullen verwijderd worden. "
+"Doorgaan?"
 
 #: qt/app.py:1854
 #, fuzzy, python-brace-format
@@ -1013,8 +1035,8 @@ msgstr "&Back-up"
 #: qt/app.py:2120
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Deze backup verwijderen?"
+msgstr[1] "Deze backups verwijderen?"
 
 #: qt/app.py:2183
 msgid "The language settings take effect only after restarting Back In Time."
@@ -1095,7 +1117,7 @@ msgstr[1] "Weet u zeker dat u deze elementen wilt herstellen?"
 #: qt/editusercallback.py:43
 #, python-brace-format
 msgid "User-callback: \"{filename}\""
-msgstr ""
+msgstr "Gebruikerscallback: \"{filename}\""
 
 #: qt/editusercallback.py:105
 #, python-brace-format
@@ -1103,6 +1125,8 @@ msgid ""
 "The user-callback script must include a shebang on the first line (e.g. "
 "{example})."
 msgstr ""
+"Het gebruiker-callback-script moet een shebang op de eerste regel bevatten "
+"(bijv. {example})."
 
 #: qt/encfsmsgbox.py:44 qt/encfsmsgbox.py:71
 #: qt/manageprofiles/tab_general.py:599
@@ -1110,6 +1134,8 @@ msgid ""
 "EncFS profile creation will be removed in the next minor release (1.7), "
 "scheduled for 2026."
 msgstr ""
+"Het aanmaken van EncFS-profielen wordt verwijderd in de volgende kleine "
+"release (1.7), gepland voor 2026."
 
 #: qt/encfsmsgbox.py:46 qt/encfsmsgbox.py:73
 #, fuzzy
@@ -1128,6 +1154,7 @@ msgstr "witboek"
 msgid ""
 "Support for EncFS is being discontinued due to security vulnerabilities."
 msgstr ""
+"De ondersteuning voor EncFS wordt stopgezet vanwege beveiligingslekken."
 
 #: qt/encfsmsgbox.py:54 qt/manageprofiles/tab_general.py:606
 #, python-brace-format
@@ -1135,6 +1162,8 @@ msgid ""
 "For more details, including potential alternatives, please refer to this "
 "{whitepaper}."
 msgstr ""
+"Voor meer informatie, inclusief mogelijke alternatieven, verwijzen wij u "
+"naar dit {whitepaper}."
 
 #: qt/encfsmsgbox.py:85
 msgid "The following profile(s) use encryption with EncFS:"
@@ -1145,6 +1174,8 @@ msgid ""
 "A replacement is planned, but it cannot be guaranteed that it will arrive on"
 " time."
 msgstr ""
+"Er is een vervanging gepland, maar het is niet te garanderen dat deze op "
+"tijd arriveert."
 
 #: qt/encfsmsgbox.py:92
 #, python-brace-format
@@ -1152,6 +1183,9 @@ msgid ""
 "Users are invited to join this discussion. Updated details on the next steps"
 " are available in this {whitepaper}."
 msgstr ""
+"Gebruikers worden uitgenodigd om deel te nemen aan deze discussie. "
+"Bijgewerkte details over de volgende stappen zijn beschikbaar in dit "
+"{whitepaper}."
 
 #: qt/encfsmsgbox.py:95
 msgid ""
@@ -2528,16 +2562,18 @@ msgid ""
 "It is not possible to compare a backup to itself, as the comparison would be"
 " redundant."
 msgstr ""
+"Het is niet mogelijk om een backup met zichzelf te vergelijken, de "
+"vergelijking is zinloos."
 
 #: qt/snapshotsdialog.py:438
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Really delete {file_or_dir} in backup {backup_id}?"
-msgstr "Wilt u {file} in momentopname {snapshot_id} echt verwijderen?"
+msgstr "Wilt u {file_or_dir} in backup {backup_id} echt verwijderen?"
 
 #: qt/snapshotsdialog.py:443
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Really delete {file_or_dir} in {count} backups?"
-msgstr "Wilt u {file} in {count} momentopnames echt verwijderen?"
+msgstr "Wilt u {file_or_dir} in {count} backups echt verwijderen?"
 
 #: qt/snapshotsdialog.py:446
 msgid "WARNING: This cannot be revoked."
@@ -2557,6 +2593,7 @@ msgstr "Hoofdmap"
 msgid ""
 "Back In Time is currently running with root privileges (full system access)"
 msgstr ""
+"Back In Time draait momenteel met root rechten (volledige systeem toegang)"
 
 #: qt/timeline.py:69
 msgid "Today"

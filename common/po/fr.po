@@ -17,9 +17,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-12-22 15:22+0100\n"
-"PO-Revision-Date: 2025-12-19 08:21+0000\n"
+"PO-Revision-Date: 2025-12-30 15:23+0000\n"
 "Last-Translator: Loufute <loufute@noreply.codeberg.org>\n"
 "Language-Team: French <https://translate.codeberg.org/projects/backintime/common/fr/>\n"
 "Language: fr\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.15\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -803,9 +803,8 @@ msgid "&Help"
 msgstr "&Aide"
 
 #: qt/app.py:745
-#, fuzzy
 msgid "Systray Icon"
-msgstr "Icône de la barre système (systray)"
+msgstr "Icône de la zone de notification (system tray)"
 
 #: qt/app.py:751
 msgid "Automatic"
@@ -1189,7 +1188,7 @@ msgstr "Traduit à : {percent}"
 
 #: qt/languagedialog.py:131
 msgid "System default"
-msgstr "Par défaut"
+msgstr "Langue du système"
 
 #: qt/languagedialog.py:141
 msgid "Use operating system's language."
@@ -1307,7 +1306,6 @@ msgid "Delete the profile \"{name}\"?"
 msgstr "Êtes-vous sûr(e) de vouloir supprimer le profil \"{name}\" ?"
 
 #: qt/manageprofiles/excludesuggestions.py:33
-#, fuzzy
 msgid "Editor & Office temporary files"
 msgstr "Fichiers temporaires d'éditeurs et d'Office"
 
@@ -1328,7 +1326,6 @@ msgid "Microsoft Office temporary files"
 msgstr "Fichiers temporaires Microsoft Office"
 
 #: qt/manageprofiles/excludesuggestions.py:40
-#, fuzzy
 msgid "LibreOffice & other OpenDocument Editors lock files"
 msgstr ""
 "Fichiers de verrouillage LibreOffice et d'autres éditeurs OpenDocument"
@@ -1338,7 +1335,6 @@ msgid "Thumbnails & Temporary Pictures"
 msgstr "Miniatures et photos temporaires"
 
 #: qt/manageprofiles/excludesuggestions.py:47
-#, fuzzy
 msgid "Thumbnail cache on GNU/Linux and other unixoid OS'es"
 msgstr ""
 "Cache des miniatures sous GNU/Linux et les autres systèmes d'exploitation "
@@ -1353,17 +1349,14 @@ msgid "Metadata directory on MacOS"
 msgstr "Répertoire de métadonnées sur macOS"
 
 #: qt/manageprofiles/excludesuggestions.py:53
-#, fuzzy
 msgid "Application-specific locks"
-msgstr "Verrous spécifiques à des applications"
+msgstr "Verrous spécifiques aux applications"
 
 #: qt/manageprofiles/excludesuggestions.py:56
-#, fuzzy
 msgid "Discord application lock file"
 msgstr "Fichier de verrouillage de l'application Discord"
 
 #: qt/manageprofiles/excludesuggestions.py:57
-#, fuzzy
 msgid "Discord session lock file"
 msgstr "Fichier de verrouillage de session Discord"
 
@@ -1390,23 +1383,19 @@ msgstr ""
 "Cache des paquets pour les distributions GNU/Linux (basées sur) Debian"
 
 #: qt/manageprofiles/excludesuggestions.py:76
-#, fuzzy
 msgid "System runtime directories"
 msgstr "Répertoires d'exécution du système (runtime)"
 
 #: qt/manageprofiles/excludesuggestions.py:79
-#, fuzzy
 msgid "Kernel and process information"
 msgstr "Informations noyau et de processus"
 
 #: qt/manageprofiles/excludesuggestions.py:84
-#, fuzzy
 msgid "Device and other hardware information (sysfs interface)"
 msgstr ""
-"Informations sur le périphérique et les autres matériels (interface sysfs)"
+"Informations sur l'appareil et les autres périphériques (interface sysfs)"
 
 #: qt/manageprofiles/excludesuggestions.py:87
-#, fuzzy
 msgid "Device nodes"
 msgstr "Nœuds de périphériques"
 
@@ -1423,12 +1412,10 @@ msgid "List of currently mounted filesystems"
 msgstr "Liste des systèmes de fichiers actuellement montés"
 
 #: qt/manageprofiles/excludesuggestions.py:96
-#, fuzzy
 msgid "System swap file (virtual memory)"
 msgstr "Fichier d'échange système (mémoire virtuelle)"
 
 #: qt/manageprofiles/excludesuggestions.py:97
-#, fuzzy
 msgid "GNOME virtual file system mount point"
 msgstr "Point de montage du système de fichiers virtuel GNOME"
 
@@ -1457,7 +1444,6 @@ msgid "Exclude Suggestions"
 msgstr "Suggestion d’exclusions"
 
 #: qt/manageprofiles/excludesuggestions.py:139
-#, fuzzy
 msgid "Select commonly used items to add to backup exclusions."
 msgstr ""
 "Choisir les éléments fréquemment utilisés à ajouter aux exclusions de "
@@ -1468,7 +1454,6 @@ msgid "Default"
 msgstr "Par défaut"
 
 #: qt/manageprofiles/excludesuggestions.py:153
-#, fuzzy
 msgid "Reset to predefined selection"
 msgstr "Remettre la sélection prédéfinie"
 
@@ -2346,9 +2331,9 @@ msgid "Profile: {profile_name}"
 msgstr "Profil : {profile_name}"
 
 #: qt/qtsystrayicon.py:112
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: {profile_name} (by user \"{desktop_user}\")"
-msgstr "Profil : {profile_name}"
+msgstr "Profil : {profile_name} (par l'utilisateur \"{desktop_user}\")"
 
 #: qt/qtsystrayicon.py:155
 msgid "View Last Log"

@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2025-12-22 15:22+0100\n"
-"PO-Revision-Date: 2025-11-22 02:10+0000\n"
+"PO-Revision-Date: 2025-12-27 18:21+0000\n"
 "Last-Translator: andika <andika@noreply.codeberg.org>\n"
 "Language-Team: Indonesian <https://translate.codeberg.org/projects/backintime/common/id/>\n"
 "Language: id\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -112,12 +112,17 @@ msgid ""
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
 " space falls below\" ({val_two})."
 msgstr ""
+"Nilai bagi \"Buang cadangan tertua bila ruang kosong kurang dari\" "
+"({val_one}) mesti kurang dari atau sama dengan ambang bagi \"Peringatkan "
+"bila ruang disk kosong turun di bawah\" ({val_two})."
 
 #: common/config.py:364
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr ""
+"Harap sesuaikan pengaturan sehingga batas penghapusan cadangan tidak lebih "
+"tinggi daripada batas peringatan."
 
 #: common/config.py:1498
 #, python-brace-format
@@ -342,14 +347,12 @@ msgid "Unable to rename {new_path} to {path}."
 msgstr "Tidak bisa mengubah nama {new_path} ke {path}."
 
 #: common/snapshots.py:2000
-#, fuzzy
 msgid "Applying rules to remove old backups"
-msgstr "Terapkan aturan untuk membuang cadangan lama"
+msgstr "Menerapkan aturan untuk membuang cadangan lama"
 
 #: common/snapshots.py:2033
-#, fuzzy
 msgid "Applying retention policy"
-msgstr "Terapkan kebijakan retensi"
+msgstr "Menerapkan kebijakan retensi"
 
 #: common/snapshots.py:2043
 msgid "Trying to keep min free space"
@@ -374,12 +377,11 @@ msgid "ssh-agent not found. Please ensure it is installed."
 msgstr "ssh-agent tidak ditemukan. Pastikan sudah terpasang."
 
 #: common/sshtools.py:484
-#, fuzzy
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
 msgstr ""
-"Tidak dapat membuka kunci kunci privat SSH. Kata sandi salah atau tidak "
+"Tidak bisa membuka kunci privat SSH. Kata sandi salah atau kata sandi tidak "
 "tersedia untuk cron."
 
 #: common/sshtools.py:716
@@ -404,7 +406,7 @@ msgid "Remote host {host} doesn't support {command}"
 msgstr "Host {host} remote tak mendukung {command}"
 
 #: common/sshtools.py:1021
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Checking commands on host {host} returned unknown error"
 msgstr ""
 "Pemeriksaan perintah pada host {host} mengembalikan kesalahan yang tak "
@@ -490,23 +492,20 @@ msgid "File creation failed in this directory:"
 msgstr "Pembuatan berkas gagal di direktori ini:"
 
 #: qt/aboutdlg.py:51
-#, fuzzy
 msgid "About Back In Time"
-msgstr "Back In &Time"
+msgstr "Tentang Back In Time"
 
 #: qt/aboutdlg.py:89
 msgid "Copyright:"
-msgstr ""
+msgstr "Hak cipta:"
 
 #: qt/aboutdlg.py:93
-#, fuzzy
 msgid "Authors:"
-msgstr "Penulis"
+msgstr "Penulis:"
 
 #: qt/aboutdlg.py:97
-#, fuzzy
 msgid "Translators:"
-msgstr "Terjemahan"
+msgstr "Penerjemah:"
 
 #: qt/aboutdlg.py:100
 msgid "translator-credits-placeholder"
@@ -514,16 +513,17 @@ msgstr "Andika Triwidada <andika@gmail.com>"
 
 #: qt/aboutdlg.py:107
 msgid "Translator credits not available for current language."
-msgstr ""
+msgstr "Kredit penerjemah tidak tersedia untuk bahasa saat ini."
 
 #: qt/aboutdlg.py:116
 msgid "this link"
-msgstr ""
+msgstr "tautan ini"
 
 #: qt/aboutdlg.py:118
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
+"Ikuti {thislink} untuk mendapatkan kredit penerjemah bagi semua bahasa."
 
 #: qt/aboutdlg.py:220 qt/app.py:533
 msgid "Project website"
