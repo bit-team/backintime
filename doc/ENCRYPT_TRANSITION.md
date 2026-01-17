@@ -26,11 +26,9 @@ changes.
 ## Short summary
 - To realize encrypted backups in _Back In Time_, EncFS was/is used.
 - **Dropping support** for EncFS backup profiles started with _Back In Time_
-  version 1.6.0 is performed in several stages, with sufficient warnings and
-  lead time.
+  version 1.6.0 and is performed in several stages, with sufficient warnings
+  and lead time.
 - Final **removal** will happen **around the year 2029** at the code level.
-  This will happen in slow and small steps with sufficient advance warnings and
-  lead time.
 - EncFS has known security issues, is no longer maintained and therefore does
   not receive updates.
 - The plan is to replace [EncFS] with [gocryptfs].
@@ -41,13 +39,12 @@ changes.
 
 ## Rational
 
-Removing [EncFS] is necessary because it has known security issues, the upstream
-project is not active anymore and its maintainer himself recommends to replace
-EncFS. To keep _Back In Time_ secure and maintenable there is no alternative to
-remove it.
-
-The necessity to remove EncFS exists regardless of whether an alternative for
-this library is implemented or not.
+Removing [EncFS] is necessary because it has
+[known security issues](#about-encfs-security-issues),
+the upstream project is not active anymore. To keep _Back In Time_ secure and
+maintenable there is no alternative to remove it.  The necessity to remove
+EncFS exists regardless of whether an alternative for this library is
+implemented or not.
 
 ## Alternatives to EncFS
 
@@ -105,8 +102,10 @@ See [this discussion on the mailing list](https://mail.python.org/archives/list/
 
 - The meta issue [#1734](https://github.com/bit-team/backintime/issues/1734)
   about the transition, its current state and related steps and issues.
-- First discussion about deprecating EncFS was in
-  [#1549](https://github.com/bit-team/backintime/issues/1549).
+- First concrete discussion about deprecating EncFS was in
+  [#1549](https://github.com/bit-team/backintime/issues/1549). But the topic
+  started much further
+  (e.g. [#1248](https://github.com/bit-team/backintime/issues/1248)).
 - Our [mailing list](https://mail.python.org/mailman3/lists/bit-dev.python.org).
 - [EncFS]
 - [gocryptfs]
