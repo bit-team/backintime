@@ -166,4 +166,4 @@ IS_IN_ROOT_MODE = os.geteuid() == 0
 # and clarity. This constant is the currently desired stage of intensity. The
 # last shown intensity is stored in the state data file. If they don't fit, the
 # message is displayed.
-ENCFS_MSG_STAGE = 2
+ENCFS_MSG_STAGE = 3

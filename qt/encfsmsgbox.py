@@ -19,7 +19,7 @@ class _EncfsWarningBase(QMessageBox):
     """
     # pylint: disable=too-few-public-methods
 
-    def __init__(self, parent, text, informative_text):
+    def __init__(self, parent, text, informative_text, button_label=None):
         super().__init__(parent)
 
         self.setWindowTitle(_('Warning'))
@@ -33,29 +33,34 @@ class _EncfsWarningBase(QMessageBox):
                 lambda url: QToolTip.showText(
                     QCursor.pos(), url.replace('https://', '')))
 
+        if button_label:
+            self.setStandardButtons(QMessageBox.StandardButton.Ok)
+            ok_button = self.button(QMessageBox.StandardButton.Ok)
+            ok_button.setText(button_label)
 
-class EncfsCreateWarning(_EncfsWarningBase):
-    """Warning box when using EncFS encrypting while creating a new profile
-    or modify an existing one.
-    """
-    # pylint: disable=too-few-public-methods
 
-    def __init__(self, parent):
-        text = _('EncFS profile creation will be removed in the next minor '
-                 'release (1.7), scheduled for 2026.')
-        text = text + ' ' + _('It is not recommended to use that '
-                              'mode for a profile furthermore.')
-        whitepaper = f'<a href="{URL_ENCRYPT_TRANSITION}">' \
-            + _('whitepaper') + '</a>'
+# class EncfsCreateWarning(_EncfsWarningBase):
+#     """Warning box when using EncFS encrypting while creating a new profile
+#     or modify an existing one.
+#     """
+#     # pylint: disable=too-few-public-methods
 
-        informative_text = _('Support for EncFS is being discontinued due '
-                             'to security vulnerabilities.')
-        informative_text = informative_text + ' ' + _(
-            'For more details, including potential alternatives, please refer '
-            'to this {whitepaper}.').format(
-                whitepaper=whitepaper)
+#     def __init__(self, parent):
+#         text = _('EncFS profile creation will be removed in the next minor '
+#                  'release (1.7), scheduled for 2026.')
+#         text = text + ' ' + _('It is not recommended to use that '
+#                               'mode for a profile furthermore.')
+#         whitepaper = f'<a href="{URL_ENCRYPT_TRANSITION}">' \
+#             + _('whitepaper') + '</a>'
 
-        super().__init__(parent, text, informative_text)
+#         informative_text = _('Support for EncFS is being discontinued due '
+#                              'to security vulnerabilities.')
+#         informative_text = informative_text + ' ' + _(
+#             'For more details, including potential alternatives, please '
+#             'refer to this {whitepaper}.').format(
+#                 whitepaper=whitepaper)
+
+#         super().__init__(parent, text, informative_text)
 
 
 class EncfsExistsWarning(_EncfsWarningBase):
@@ -64,40 +69,33 @@ class EncfsExistsWarning(_EncfsWarningBase):
     # pylint: disable=too-few-public-methods
 
     def __init__(self, parent, profiles):
-        # DevNote: Code looks ugly because we need to take the needs of
-        # translators into account. Also the limitations of Qt's RichText
-        # feature need to be considered.
-        text = ' '.join([
-            _('EncFS profile creation will be removed in the next minor '
-              'release (1.7), scheduled for 2026.'),
-            _('It is not recommended to use that mode for a '
-              'profile furthermore.')
-        ])
+
+        whitepaper = f'<a href="{URL_ENCRYPT_TRANSITION}">' \
+            + 'whitepaper' + '</a>'
+
+        text = (
+            '<p><span style="color: red;"><strong>Encrypted profiles using '
+            'EncFS are no longer supported.</strong></span></p>'
+            '<p>EncFS is considered insecure and receives no further '
+            'updates.</p>'
+            '<p>Creation of new EncFS backup profiles is not possible. '
+            'Existing EncFS profiles are still displayed and supported for '
+            'now, but EncFS support will be <strong>completely removed'
+            '</strong> in a future release (expected around 2027).</p>'
+            f'For more information, see the {whitepaper}. This dialog is '
+            'available at any time via the help menu.'
+        )
 
         profiles = '<ul>' \
             + ''.join(f'<li>{profile}</li>' for profile in profiles) \
             + '</ul>'
 
-        whitepaper = f'<a href="{URL_ENCRYPT_TRANSITION}">' \
-            + _('whitepaper') + '</a>'
-
         info_paragraphs = (
-            _('The following profile(s) use encryption with EncFS:'),
+            'The following profile(s) use encryption with EncFS:',
             profiles,
-            ' '.join([
-                _('Support for EncFS is being discontinued due '
-                  'to security vulnerabilities.'),
-                _('A replacement is planned, but it cannot be guaranteed that '
-                  'it will arrive on time.')]),
-            _('Users are invited to join this discussion. Updated details '
-              'on the next steps are available in this {whitepaper}.').format(
-                  whitepaper=whitepaper),
-            _('This message will not be shown again. This dialog is '
-              'available at any time via the help menu.'),
-            _('Your Back In Time Team')
         )
 
         informative_text = ''.join(
             [f'<p>{par}</p>' for par in info_paragraphs])
 
-        super().__init__(parent, text, informative_text)
+        super().__init__(parent, text, informative_text, 'Got it')
