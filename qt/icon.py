@@ -56,7 +56,7 @@ for theme in themes_to_try:
 if QIcon.fromTheme(ICON_NAME_TO_CHECK,
                    QIcon.fromTheme(ICON_NAME_TO_CHECK_SYMBOLIC)
                    ).isNull():
-    logger.error(
+    logger.warning(
         f'Icon theme missing or not supported. Icon "{ICON_NAME_TO_CHECK}" '
         f' and "{ICON_NAME_TO_CHECK_SYMBOLIC}" not found. An icon theme should'
         ' be installed. For example: tango-icon-theme, oxygen-icon-theme'

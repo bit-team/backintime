@@ -11,6 +11,7 @@ import os
 import subprocess
 
 import logger
+from pathlib import Path
 from password_ipc import TempPasswordThread
 from mount import MountControl
 from exceptions import MountException
@@ -152,21 +153,18 @@ class GocryptfsMount(MountControl):
         fn = 'gocryptfs.conf'
 
         if self.config_path is None:
-            cfg = os.path.join(self.path, fn)
-        else:
-            cfg = os.path.join(self.config_path, fn)
+            return os.path.join(self.path, fn)
 
-        return cfg
+        return os.path.join(self.config_path, fn)
 
     def isConfigured(self) -> bool:
-        """Check if config is complete.
-        """
-        conf = self.configFile()
+        """Check if `gocryptfs.conf` exists."""
+        fp_conf = Path(self.configFile())
 
-        if os.path.exists(conf):
-            logger.debug(f'Found gocryptfs config file in {conf}', self)
+        if fp_conf.exists():
+            logger.debug(f'Found gocryptfs config file in {fp_conf}', self)
             return True
 
-        logger.debug(f'No gocryptfs config in {conf}', self)
+        logger.debug(f'No gocryptfs config found. Missing {fp_conf}', self)
 
         return False
