@@ -523,7 +523,7 @@ class GeneralTab(QDialog):
 
         try:
             mode = self.config.snapshotsMode()
-            if 'gocryptsfs' in mode and not mnt.isConfigured():
+            if 'gocryptfs' in mode and not mnt.isConfigured():
                 mnt.init_backend(mode=mode, **mount_kwargs)
 
         except MountException as ex:
