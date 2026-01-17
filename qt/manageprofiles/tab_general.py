@@ -15,7 +15,6 @@ import os
 from pathlib import Path
 from typing import Any
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import (QCheckBox,
                              QDialog,
                              QGridLayout,
@@ -24,21 +23,18 @@ from PyQt6.QtWidgets import (QCheckBox,
                              QLabel,
                              QLineEdit,
                              QToolButton,
-                             QToolTip,
-                             QVBoxLayout,
-                             QWidget)
+                             QVBoxLayout)
 import config
 import tools
 import logger
 import sshtools
 from exceptions import MountException, NoPubKeyLogin, KnownHost
 import mount
-from bitbase import URL_ENCRYPT_TRANSITION, ENCFS_MSG_STAGE, DIR_SSH_KEYS
+from bitbase import URL_ENCRYPT_TRANSITION, DIR_SSH_KEYS
 import schedule
 import qttools
 import messagebox
-import encfsmsgbox
-from statedata import StateData
+# from statedata import StateData
 from manageprofiles import combobox
 from manageprofiles import schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
@@ -324,8 +320,12 @@ class GeneralTab(QDialog):
 
     def load_values(self) -> Any:
         """Set the values of the widgets regarding the current config."""
+        backup_mode = self.config.snapshotsMode()
+        self._combo_modes.select_by_data(backup_mode)
 
-        self._combo_modes.select_by_data(self.config.snapshotsMode())
+        # If the profile us an deprecated backup mode (#1734)
+        if 'encfs' in backup_mode:
+            self._combo_modes.unhide_by_data(backup_mode)
 
         # local
         self._edit_backup_path.setText(
@@ -604,43 +604,41 @@ class GeneralTab(QDialog):
         return hash_id
 
     def _snapshot_mode_combobox(self) -> combobox.BitComboBox:
+        # Workaround until encryption transition (#1734) is finished.
+
+        # # Find out if profiles using EncFS
+        # all_used_modes = {
+        #     self.config.snapshotsMode(pid) for pid in self.config.profiles()
+        # }
+        # print(f'{all_used_modes=}')  # DEBUG
+
         snapshot_modes = {}
         for key in self.config.SNAPSHOT_MODES:
             snapshot_modes[key] = self.config.SNAPSHOT_MODES[key][1]
-        logger.debug(f'{snapshot_modes=}')
 
         return combobox.BitComboBox(self, snapshot_modes)
 
     def _create_label_encfs_deprecation(self):
-        icon_label = qttools.create_icon_label_warning()
-
         # encfs deprecation warning (see #1734, #1735)
-        txt = _('EncFS profile creation will be removed in the next minor '
-                'release (1.7), scheduled for 2026.')
-        txt = txt + ' ' + _('Support for EncFS is being discontinued due '
-                            'to security vulnerabilities.')
+
         whitepaper = f'<a href="{URL_ENCRYPT_TRANSITION}">'
-        whitepaper = whitepaper + _('whitepaper') + '</a>'
-        txt = txt + ' ' + _(
-            'For more details, including potential alternatives, please '
-            'refer to this {whitepaper}.'
-        ).format(whitepaper=whitepaper)
-        txt_label = QLabel(txt)
-        txt_label.setWordWrap(True)
-        txt_label.setOpenExternalLinks(True)
+        whitepaper = whitepaper + 'whitepaper' + '</a>'
 
-        # Show URL in tooltip without anoing http-protocol prefix.
-        txt_label.linkHovered.connect(
-            lambda url: QToolTip.showText(
-                QCursor.pos(), url.replace('https://', ''))
-        )
+        txt = [
+            '<strong>Encrypted profiles using EncFS are no longer '
+            'supported.</strong>',
+            'New EncFS backup profiles can not be created anymore. '
+            'Existing EncFS profiles are still displayed and '
+            'supported for now, but EncFS support will be <strong>'
+            'completely removed</strong> in a future release '
+            '(expected around 2027).',
+            'EncFS is considered insecure and is no longer actively '
+            'maintained. For more information, see this '
+            f'{whitepaper}.'
+        ]
+        txt = '<p>' + '</p><p>'.join(txt) + '</p>'
 
-        wdg = QWidget()
-        layout = QHBoxLayout(wdg)
-        layout.addWidget(icon_label, stretch=0)
-        layout.addWidget(txt_label, stretch=1)
-
-        return wdg
+        return qttools.create_warning_label(txt, icon_scale_factor=3)
 
     def _slot_snapshots_path_clicked(self):
         old_path = Path(self._edit_backup_path.text())
@@ -757,41 +755,32 @@ class GeneralTab(QDialog):
         This is not a slot connected to a signal. But it is called by the
         parent dialog.
         """
+        # Mode selected in the combo box
         active_mode = self.get_active_snapshots_mode()
 
-        state_data = StateData()
-        profile_state = state_data.profile(self.config.currentProfile())
+        # state_data = StateData()
+        # profile_state = state_data.profile(self.config.currentProfile())
 
-        # hide/show group boxes related to current mode
-        # note: self._group_mode_local_encfs = self._group_mode_local
-        # note: self._group_mode_sshEncfs = self._group_mode_ssh
+        # New selected mode different from previous one?
         if active_mode != self.mode:
-            # # DevNote (buhtz): Widgets of the GUI related to the four
-            # # snapshot modes are acccesed via "getattr(self, ...)".
-            # # These are 'Local', 'Ssh', 'LocalEncfs', 'SshEncfs'
-            # for mode in list(self.config.SNAPSHOT_MODES.keys()):
-            #     logger.debug(f'HIDE() :: mode%s' % tools.camelCase(mode))
-            #     # Hide all widgets
-            #     getattr(self, 'mode%s' % tools.camelCase(mode)).hide()
-
-            # for mode in list(self.config.SNAPSHOT_MODES.keys()):
-            #     # Show up the widget related to the selected mode.
-            #     if active_mode == mode:
-            #         logger.debug(f'SHOW() :: mode%s' % tools.camelCase(mode))
-            #         getattr(self, 'mode%s' % tools.camelCase(mode)).show()
 
             self.mode = active_mode
 
             self._group_mode_local.setVisible(
                 active_mode in ('local', 'local_encfs', 'local_gocryptfs'))
+
             self._group_mode_ssh.setVisible(
                 active_mode in ('ssh', 'ssh_encfs'))
-            # self._group_mode_local_encfs = self._group_mode_local
-            # self._group_mode_sshEncfs = self._group_mode_ssh
 
             self._wdg_schedule.allow_udev(
                 active_mode in ('local', 'local_encfs', 'local_gocryptfs'))
 
+            # Don't offer deprecated modes (#1734)
+            modes_to_hide = {'local_encfs', 'ssh_encfs'} - {active_mode}
+            for hide in modes_to_hide:
+                self._combo_modes.hide_by_data(hide)
+
+        # A mode using password fields?
         if self.config.modeNeedPassword(active_mode):
 
             self._lbl_password1.setText(
@@ -810,6 +799,7 @@ class GeneralTab(QDialog):
                 self._txt_password2.hide()
 
             self._load_passwords()
+
         else:
             self._group_password1.hide()
 
@@ -817,14 +807,15 @@ class GeneralTab(QDialog):
         if active_mode in ('local_encfs', 'ssh_encfs'):
             self._lbl_encfs_warning.show()
 
-            # Workaround to avoid showing the warning messagebox just when
-            # opening the manage profiles dialog.
-            if self._parent_dialog.isVisible():
-                # Show the profile specific warning dialog only once per
-                # profile.
-                if profile_state.msg_encfs < ENCFS_MSG_STAGE:
-                    profile_state.msg_encfs = ENCFS_MSG_STAGE
-                    dlg = encfsmsgbox.EncfsCreateWarning(self)
-                    dlg.exec()
+            # # Workaround to avoid showing the warning messagebox just when
+            # # opening the manage profiles dialog.
+            # if self._parent_dialog.isVisible():
+            #     # Show the profile specific warning dialog only once per
+            #     # profile.
+            #     if profile_state.msg_encfs < ENCFS_MSG_STAGE:
+            #         profile_state.msg_encfs = ENCFS_MSG_STAGE
+            #         dlg = encfsmsgbox.EncfsCreateWarning(self)
+            #         dlg.exec()
+
         else:
             self._lbl_encfs_warning.hide()

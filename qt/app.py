@@ -1085,16 +1085,16 @@ class MainWindow(QMainWindow):
         else:
             self.places.set_sorting(sorting)
 
-        # EncFS deprecation warning (see #1734)
-        current_mode = self.config.snapshotsMode(profile_id)
-        if current_mode in ('local_encfs', 'ssh_encfs'):
-            # Show the profile specific warning dialog only once per profile
-            # and only if the global warning was shown before.
-            if (state_data.msg_encfs_global == bitbase.ENCFS_MSG_STAGE
-                    and profile_state.msg_encfs < bitbase.ENCFS_MSG_STAGE):
-                profile_state.msg_encfs = bitbase.ENCFS_MSG_STAGE
-                dlg = encfsmsgbox.EncfsCreateWarning(self)
-                dlg.exec()
+        # # EncFS deprecation warning (see #1734)
+        # current_mode = self.config.snapshotsMode(profile_id)
+        # if current_mode in ('local_encfs', 'ssh_encfs'):
+        #     # Show the profile specific warning dialog only once per profile
+        #     # and only if the global warning was shown before.
+        #     if (state_data.msg_encfs_global == bitbase.ENCFS_MSG_STAGE
+        #             and profile_state.msg_encfs < bitbase.ENCFS_MSG_STAGE):
+        #         profile_state.msg_encfs = bitbase.ENCFS_MSG_STAGE
+        #         dlg = encfsmsgbox.EncfsCreateWarning(self)
+        #         dlg.exec()
 
     def comboProfileChanged(self, _index):
         if self.disableProfileChanged:

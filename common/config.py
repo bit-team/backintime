@@ -235,25 +235,25 @@ class Config(configfile.ConfigFileWithProfiles):
                     # ),
                     'local': (
                         None, _('Local'), False, False),
+                    'local_gocryptfs': (
+                        gocryptfstools.GocryptfsMount,
+                        _('Local encrypted') + ' (via gocryptfs)',
+                        _('Encryption'),
+                        False
+                    ),
                     'ssh': (
                         sshtools.SSH, _('SSH'), _('SSH private key'), False),
                     'local_encfs': (
                         encfstools.EncFS_mount,
-                        _('Local encrypted') + ' (EncFS)',
+                        'DEPRECATED - Local encrypted (via EncFS)',
                         _('Encryption'),
                         False
                     ),
                     'ssh_encfs': (
                         encfstools.EncFS_SSH,
-                        _('SSH encrypted'),
+                        'DEPRECATED - SSH encrypted (via EncFS)',
                         _('SSH private key'),
                         _('Encryption')
-                    ),
-                    'local_gocryptfs':(
-                        gocryptfstools.GocryptfsMount,
-                        _('Local encrypted') + ' (gocryptfs)',
-                        _('Encryption'),
-                        False
                     ),
         }
 
@@ -426,9 +426,9 @@ class Config(configfile.ConfigFileWithProfiles):
 
         self.setProfileStrValue('snapshots.path', value, profile_id)
 
-    def is_mode_encrypted(self, profile_id=None):
-        mode = self.snapshotsMode(profile_id)
-        return mode in ('local_encfs', 'ssh_encfs')
+    # def is_mode_encrypted(self, profile_id=None):
+    #     mode = self.snapshotsMode(profile_id)
+    #     return mode in ('local_encfs', 'ssh_encfs')
 
     def snapshotsMode(self, profile_id=None):
         #? Use mode (or backend) for this snapshot. Look at 'man backintime'

@@ -31,7 +31,8 @@ from typing import Union, Iterable, Callable
 from pathlib import Path
 from contextlib import contextmanager
 from textdlg import TextDialog
-from PyQt6.QtGui import (QDesktopServices,
+from PyQt6.QtGui import (QCursor,
+                         QDesktopServices,
                          QGuiApplication,
                          QFontMetricsF,
                          QIcon,
@@ -49,6 +50,7 @@ from PyQt6.QtWidgets import (QApplication,
                              QStyle,
                              QStyleFactory,
                              QSystemTrayIcon,
+                             QToolTip,
                              QWidget)
 from qttools_path import register_backintime_path
 register_backintime_path('common')
@@ -300,6 +302,14 @@ def _combine_icon_with_label(icon: QLabel, text: str) -> QWidget:
     """
     txt = QLabel(text)
     txt.setWordWrap(True)
+
+    # Show URL in tooltip without anoing http-protocol prefix.
+    if '<a href' in text:
+        txt.setOpenExternalLinks(True)
+        txt.linkHovered.connect(
+            lambda url: QToolTip.showText(
+                QCursor.pos(), url.replace('https://', ''))
+        )
 
     layout = QHBoxLayout()
     layout.addWidget(icon)
