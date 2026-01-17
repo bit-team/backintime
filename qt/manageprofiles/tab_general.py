@@ -523,8 +523,9 @@ class GeneralTab(QDialog):
 
         try:
             mode = self.config.snapshotsMode()
-            if 'gocryptfs' in mode and not mnt.get_backend().isConfigured():
-                mnt.init_backend(mode=mode, **mount_kwargs)
+            if 'gocryptfs' in mode:
+                if not mnt.get_backend(mode).isConfigured():
+                    mnt.init_backend(mode=mode, **mount_kwargs)
 
         except MountException as ex:
             messagebox.critical(self, str(ex))
