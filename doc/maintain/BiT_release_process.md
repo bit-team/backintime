@@ -70,6 +70,8 @@ using a "feature" branch and sending a pull request asking for a review.
 - Build user manual:
   - Navigate to `./doc/manual`.
   - Run `mkdocs build`.
+  - Be aware that the generated HTML files are not included in the git
+    repo. But they will be included in the source tar ball.
 - Run `codespell` to check for common spelling errors.
 - Commit the changes.
 - Open a new pull request (PR) for review by other developers.
