@@ -38,8 +38,10 @@ using a "feature" branch and sending a pull request asking for a review.
 
 ## Preconditions for a new release
 
-- Developers agreed on the new version number.
-- Most-recent translations were merged into `dev` branch. See the [localization documentation](2_localization.md).
+- Developers agreed on the new version number. Release candidates need a suffix
+  like `*-rc` or `*-rc1`.
+- Most-recent translations were merged into `dev` branch. See the
+  [localization documentation](2_localization.md).
 - Full CI build pipeline matrix is activate (see
   [#1529](https://github.com/bit-team/backintime/issues/1529)). This is related
   to the Python versions and also to the Ubuntu Distro versions.
@@ -51,8 +53,7 @@ using a "feature" branch and sending a pull request asking for a review.
 
 - Make sure we have sufficient _Credits_ to run _TravisCI_. Otherwise contact
   their support and kindly ask for new OSS credits.
-- Create a new branch (e.g. `rc/v1.5.4`) in your clone for the new release
-  (candidate).
+- Create a new branch (e.g. `rc/v1.5.4`) in your clone for the new release.
 - Update `VERSION` file.
 - Update `CHANGES` file.
 - Execute the script `./updateversion.sh` to update the version numbers (based on `VERSION` file) in several files.
