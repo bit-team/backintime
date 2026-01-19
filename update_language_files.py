@@ -791,12 +791,8 @@ if __name__ == '__main__':
         tree = etree.parse(policy_fp, parser)
         root = tree.getroot()
 
-        # <message> and <description> tags containing attribute
-        # "gettext-domin='backintime'"
-        for elem in root.xpath(
-            ".//message[@gettext-domain='backintime'] | "
-            ".//description[@gettext-domain='backintime']"
-        ):
+        # All tags containing attribute "gettext-domin='backintime'"
+        for elem in root.xpath(".//*[@gettext-domain='backintime']"):
             # ignore empty fields
             if not elem.text:
                 continue
