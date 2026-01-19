@@ -823,7 +823,7 @@ if __name__ == '__main__':
                     )
                 )
 
-    po.save(TEMPLATE_PO)
+    po_file.save(TEMPLATE_PO)
 
     sys.exit()
     FIN_MSG = 'Please check the result via "git diff" before committing.'
