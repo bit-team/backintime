@@ -51,6 +51,7 @@ except ImportError:
 LOCAL_DIR = Path('common') / 'po'
 TEMPLATE_PO = LOCAL_DIR / 'messages.pot'
 LANGUAGE_NAMES_PY = Path('common') / 'languages.py'
+GUI_DIR = Path('qt')
 WEBLATE_URL = 'https://translate.codeberg.org/git/backintime/common'
 PACKAGE_NAME = 'Back In Time'
 PACKAGE_VERSION = version.__version__
@@ -173,7 +174,6 @@ def _update_po_template_from_polkit_policies():
     BIT in root mode or modifying Udev rules.
     """
 
-    po_file = polib.pofile(TEMPLATE_PO)
     path = Path.cwd() / 'qt'
 
     for policy_fp in path.glob('*.policy'):
@@ -190,27 +190,37 @@ def _update_po_template_from_polkit_policies():
             if not elem.text:
                 continue
 
-            # extract field
-            location = (policy_fp.relative_to(Path.cwd()), elem.sourceline)
-            text = elem.text.strip()
+            # add to messages.pot considere duplicates and location/occurrence
+            _add_entry_to_po_template(
+                msgid=elem.text.strip(),
+                fp=policy_fp.relative_to(Path.cwd()),
+                linenr=elem.sourceline
+            )
 
-            # add to messages.pot
-            entry = po_file.find(text)
 
-            if entry:
-                # Update location
-                if location not in entry.occurrences:
-                    entry.occurrences.append(location)
+def _add_entry_to_po_template(msgid: str,
+                              fp: Path,
+                              linenr: int):
 
-            else:
-                # Add new entry
-                po_file.append(
-                    polib.POEntry(
-                        msgid=text,
-                        msgstr='',
-                        occurrences=[location],
-                    )
-                )
+    po_file = polib.pofile(TEMPLATE_PO)
+
+    entry = po_file.find(msgid)
+    location = (fp, linenr)
+
+    if entry:
+        # Update location
+        if location not in entry.occurrences:
+            entry.occurrences.append(location)
+
+    else:
+        # Add new entry
+        po_file.append(
+            polib.POEntry(
+                msgid=msgid,
+                msgstr='',
+                occurrences=[location],
+            )
+        )
 
     po_file.save(TEMPLATE_PO)
 
@@ -841,6 +851,31 @@ def get_spdx_metadata_lines(ignore_copyright: bool = False,
 if __name__ == '__main__':
     check_existence()
 
+    fields_to_translate = ['GenericName', 'Comment']
+
+    # Alle Desktop-Dateien durchsuchen
+    for desktop_fp in GUI_DIR.glob('*.desktop'):
+        print(f'Update PO template file with strings from {desktop_fp} …')
+        content = desktop_fp.read_text(encoding='utf-8')
+
+        for idx, line in enumerate(content.split('\n'), start=1):
+
+            # ignore comments
+            if line.startswith('#'):
+                continue
+
+            field, value = line.split('=', 1)
+
+            if field not in fields_to_translate:
+                continue
+
+            _add_entry_to_po_template(
+                msgid=value,
+                fp=desktop_fp.relative_to(Path.cwd()),
+                linenr=idx
+            )
+
+    sys.exit()
     FIN_MSG = 'Please check the result via "git diff" before committing.'
 
     # Scan python source files for translatable strings
