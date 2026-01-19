@@ -40,7 +40,6 @@ tar cfz backintime-$VER.tar.gz \
     ${NEW}/LICENSES.md \
     ${NEW}/README.md \
     ${NEW}/REUSE.toml \
-    ${NEW}/TRANSLATIONS \
     ${NEW}/VERSION \
     ${NEW}/updateversion.sh \
     ${NEW}/update_language_files.py \
