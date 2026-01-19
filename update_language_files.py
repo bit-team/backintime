@@ -874,7 +874,7 @@ if __name__ == '__main__':
 
             _add_entry_to_po_template(
                 msgid=value,
-                fp=desktop_fp.relative_to(Path.cwd()),
+                fp=desktop_fp,
                 linenr=idx
             )
 
