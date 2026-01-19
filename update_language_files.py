@@ -806,7 +806,7 @@ if __name__ == '__main__':
             text = elem.text.strip()
 
             # add to messages.pot
-            entry = po.find(text)
+            entry = po_file.find(text)
 
             if entry:
                 # Update location
@@ -815,7 +815,7 @@ if __name__ == '__main__':
 
             else:
                 # Add new entry
-                po.append(
+                po_file.append(
                     polib.POEntry(
                         msgid=text,
                         msgstr='',
