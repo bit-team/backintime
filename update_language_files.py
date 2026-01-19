@@ -142,6 +142,12 @@ def update_po_template():
     print(f'Execute "{cmd}".')
     run(cmd, check=True)
 
+    _update_po_template_from_polkit_policies()
+
+    _add_spdx_header_to_po_tempalte()
+
+
+def _add_spdx_header_to_po_tempalte():
     # Header comment with SPDX data
     spdx_base = get_spdx_metadata_lines(ignore_copyright=True,
                                         without_comment_prefix=True)
@@ -154,6 +160,54 @@ def update_po_template():
 
     pof.header = f'{DEFAULT_COPYRIGHT}\n{spdx_base}\n{MISSING_TRANSLATORS_TXT}'
     pof.save()
+
+
+def _update_po_template_from_polkit_policies():
+    """Extract translatable strings from polkit related policy files.
+
+    Policy files are XML content. Translatable strings are marked by
+    an "gettext-domain" attribute. That strings are used in the
+    password request dialogs used by polkit agents; e.g. when starting
+    BIT in root mode or modifying Udev rules.
+    """
+    po_file = polib.pofile(TEMPLATE_PO)
+
+    path = Path.cwd() / 'qt'
+    for policy_fp in path.glob('*.policy'):
+
+        parser = etree.XMLParser(remove_comments=False)
+        tree = etree.parse(policy_fp, parser)
+        root = tree.getroot()
+
+        # All tags containing attribute "gettext-domin='backintime'"
+        for elem in root.xpath(".//*[@gettext-domain='backintime']"):
+            # ignore empty fields
+            if not elem.text:
+                continue
+
+            # extract field
+            location = (policy_fp.relative_to(Path.cwd()), elem.sourceline)
+            text = elem.text.strip()
+
+            # add to messages.pot
+            entry = po_file.find(text)
+
+            if entry:
+                # Update location
+                if location not in entry.occurrences:
+                    entry.occurrences.append(location)
+
+            else:
+                # Add new entry
+                po_file.append(
+                    polib.POEntry(
+                        msgid=text,
+                        msgstr='',
+                        occurrences=[location],
+                    )
+                )
+
+    po_file.save(TEMPLATE_PO)
 
 
 def update_po_language_files(remove_obsolete_entries: bool = False):
@@ -781,45 +835,6 @@ def get_spdx_metadata_lines(ignore_copyright: bool = False,
 
 if __name__ == '__main__':
     check_existence()
-
-    po_file = polib.pofile(TEMPLATE_PO)
-
-    path = Path.cwd() / 'qt'
-    for policy_fp in path.glob('*.policy'):
-
-        parser = etree.XMLParser(remove_comments=False)
-        tree = etree.parse(policy_fp, parser)
-        root = tree.getroot()
-
-        # All tags containing attribute "gettext-domin='backintime'"
-        for elem in root.xpath(".//*[@gettext-domain='backintime']"):
-            # ignore empty fields
-            if not elem.text:
-                continue
-
-            # extract field
-            location = (policy_fp.relative_to(Path.cwd()), elem.sourceline)
-            text = elem.text.strip()
-
-            # add to messages.pot
-            entry = po_file.find(text)
-
-            if entry:
-                # Update location
-                if location not in entry.occurrences:
-                    entry.occurrences.append(location)
-
-            else:
-                # Add new entry
-                po_file.append(
-                    polib.POEntry(
-                        msgid=text,
-                        msgstr='',
-                        occurrences=[location],
-                    )
-                )
-
-    po_file.save(TEMPLATE_PO)
 
     sys.exit()
     FIN_MSG = 'Please check the result via "git diff" before committing.'
