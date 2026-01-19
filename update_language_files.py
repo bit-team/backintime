@@ -864,7 +864,10 @@ if __name__ == '__main__':
             if line.startswith('#'):
                 continue
 
-            field, value = line.split('=', 1)
+            try:
+                field, value = line.split('=', 1)
+            except ValueError:
+                continue
 
             if field not in fields_to_translate:
                 continue
