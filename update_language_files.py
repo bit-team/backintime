@@ -148,6 +148,8 @@ def update_po_template():
 
 
 def _add_spdx_header_to_po_tempalte():
+    print(f'Add SPDX Header to PO template file "{TEMPLATE_PO}" …')
+
     # Header comment with SPDX data
     spdx_base = get_spdx_metadata_lines(ignore_copyright=True,
                                         without_comment_prefix=True)
@@ -170,10 +172,13 @@ def _update_po_template_from_polkit_policies():
     password request dialogs used by polkit agents; e.g. when starting
     BIT in root mode or modifying Udev rules.
     """
-    po_file = polib.pofile(TEMPLATE_PO)
 
+    po_file = polib.pofile(TEMPLATE_PO)
     path = Path.cwd() / 'qt'
+
     for policy_fp in path.glob('*.policy'):
+        print(
+            f'Update PO template file with policy strigns from {policy_fp} …')
 
         parser = etree.XMLParser(remove_comments=False)
         tree = etree.parse(policy_fp, parser)
@@ -836,7 +841,6 @@ def get_spdx_metadata_lines(ignore_copyright: bool = False,
 if __name__ == '__main__':
     check_existence()
 
-    sys.exit()
     FIN_MSG = 'Please check the result via "git diff" before committing.'
 
     # Scan python source files for translatable strings
