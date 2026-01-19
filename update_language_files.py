@@ -178,7 +178,7 @@ def _update_po_template_from_polkit_policies():
 
     for policy_fp in path.glob('*.policy'):
         print(
-            f'Update PO template file with policy strigns from {policy_fp} …')
+            f'Update PO template file with policy strings from {policy_fp} …')
 
         parser = etree.XMLParser(remove_comments=False)
         tree = etree.parse(policy_fp, parser)
