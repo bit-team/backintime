@@ -802,7 +802,7 @@ if __name__ == '__main__':
                 continue
 
             # extract field
-            location = (policy_fp, elem.sourceline)
+            location = (policy_fp.relative_to(Path.cwd()), elem.sourceline)
             text = elem.text.strip()
 
             # add to messages.pot
