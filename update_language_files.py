@@ -35,6 +35,8 @@ import shutil
 import json
 from pathlib import Path
 from subprocess import run, check_output
+from lxml import etree
+# import xml.etree.ElementTree as ET
 from common import languages, version
 
 try:
@@ -780,6 +782,50 @@ def get_spdx_metadata_lines(ignore_copyright: bool = False,
 if __name__ == '__main__':
     check_existence()
 
+    po_file = polib.pofile(TEMPLATE_PO)
+
+    path = Path.cwd() / 'qt'
+    for policy_fp in path.glob('*.policy'):
+
+        parser = etree.XMLParser(remove_comments=False)
+        tree = etree.parse(policy_fp, parser)
+        root = tree.getroot()
+
+        # <message> and <description> tags containing attribute
+        # "gettext-domin='backintime'"
+        for elem in root.xpath(
+            ".//message[@gettext-domain='backintime'] | "
+            ".//description[@gettext-domain='backintime']"
+        ):
+            # ignore empty fields
+            if not elem.text:
+                continue
+
+            # extract field
+            location = (policy_fp, elem.sourceline)
+            text = elem.text.strip()
+
+            # add to messages.pot
+            entry = po.find(text)
+
+            if entry:
+                # Update location
+                if location not in entry.occurrences:
+                    entry.occurrences.append(location)
+
+            else:
+                # Add new entry
+                po.append(
+                    polib.POEntry(
+                        msgid=text,
+                        msgstr='',
+                        occurrences=[location],
+                    )
+                )
+
+    po.save(TEMPLATE_PO)
+
+    sys.exit()
     FIN_MSG = 'Please check the result via "git diff" before committing.'
 
     # Scan python source files for translatable strings
