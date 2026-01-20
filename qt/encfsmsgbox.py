@@ -19,8 +19,8 @@ class _EncfsWarningBase(QMessageBox):
     """
     # pylint: disable=too-few-public-methods
 
-    def __init__(self, parent, text, informative_text, button_label=None):
-        super().__init__(parent)
+    def __init__(self, text, informative_text, button_label=None):
+        super().__init__()
 
         self.setWindowTitle(_('Warning'))
         self.setIcon(QMessageBox.Icon.Warning)
@@ -68,7 +68,7 @@ class EncfsExistsWarning(_EncfsWarningBase):
     """
     # pylint: disable=too-few-public-methods
 
-    def __init__(self, parent, profiles):
+    def __init__(self, profiles):
 
         whitepaper = f'<a href="{URL_ENCRYPT_TRANSITION}">' \
             + 'whitepaper' + '</a>'
@@ -98,4 +98,4 @@ class EncfsExistsWarning(_EncfsWarningBase):
         informative_text = ''.join(
             [f'<p>{par}</p>' for par in info_paragraphs])
 
-        super().__init__(parent, text, informative_text, 'Got it')
+        super().__init__(text, informative_text, 'Got it')

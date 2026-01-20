@@ -442,7 +442,7 @@ class MainWindow(QMainWindow):
             # EncFS deprecation warning (#1734, #1735)
             if encfs_profiles:
                 state_data.msg_encfs_global = bitbase.ENCFS_MSG_STAGE
-                dlg = encfsmsgbox.EncfsExistsWarning(self, encfs_profiles)
+                dlg = encfsmsgbox.EncfsExistsWarning(encfs_profiles)
                 dlg.exec()
 
     @property
@@ -1745,9 +1745,9 @@ class MainWindow(QMainWindow):
         html_contact_list = (
             '<ul>'
             '<li>{mastodon}</li>'
-            # '<li>{email}</li>'
             '<li>{mailinglist}</li>'
             '<li>{issue}</li>'
+            '<li>{email}</li>'
             '<li>{alternative}</li>'
             '</ul>').format(
                 mastodon=_('In the Fediverse at Mastodon: {link_and_label}.') \
@@ -1755,9 +1755,10 @@ class MainWindow(QMainWindow):
                                            '/@backintime">'
                                            '@backintime@fosstodon.org'
                                            '</a>'),
-                # email=_('Email to {link_and_label}.').format(
-                #     link_and_label='<a href="mailto:backintime@tuta.io">'
-                #                    'backintime@tuta.io</a>'),
+                email=_('Email to {link_and_label}.').format(
+                    link_and_label='<a href="mailto:backintime-project'
+                                   '@posteo.de">'
+                                   'backintime-project@posteo.de</a>'),
                 mailinglist=_('Mailing list {link_and_label}.').format(
                     link_and_label='<a href="https://mail.python.org/mailman3/'
                                    'lists/bit-dev.python.org/">'
@@ -1798,7 +1799,7 @@ class MainWindow(QMainWindow):
             'Your Back In Time Team').format(contact_list=html_contact_list)
 
         dlg = UserMessageDialog(
-            parent=self,
+            parent=None,
             title=_('Release Candidate'),
             full_label=rc_message)
         dlg.exec()
@@ -2313,7 +2314,7 @@ class MainWindow(QMainWindow):
         self._open_ssh_cipher_deprecation_dialog(self._cipher_using_profiles())
 
     def _slot_help_encryption(self):
-        dlg = encfsmsgbox.EncfsExistsWarning(self, ['(not determined)'])
+        dlg = encfsmsgbox.EncfsExistsWarning(['(not determined)'])
         dlg.exec()
 
     def _slot_edit_user_callback(self):
