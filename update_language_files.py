@@ -52,6 +52,7 @@ LOCAL_DIR = Path('common') / 'po'
 TEMPLATE_PO = LOCAL_DIR / 'messages.pot'
 LANGUAGE_NAMES_PY = Path('common') / 'languages.py'
 GUI_DIR = Path('qt')
+DESKTOP_FILE_FIELDS = ['GenericName', 'Comment']
 WEBLATE_URL = 'https://translate.codeberg.org/git/backintime/common'
 PACKAGE_NAME = 'Back In Time'
 PACKAGE_VERSION = version.__version__
@@ -145,10 +146,12 @@ def update_po_template():
 
     _update_po_template_from_polkit_policies()
 
-    _add_spdx_header_to_po_tempalte()
+    _update_po_template_from_desktop_files()
+
+    _add_spdx_header_to_po_template()
 
 
-def _add_spdx_header_to_po_tempalte():
+def _add_spdx_header_to_po_template():
     print(f'Add SPDX Header to PO template file "{TEMPLATE_PO}" …')
 
     # Header comment with SPDX data
@@ -195,6 +198,33 @@ def _update_po_template_from_polkit_policies():
                 msgid=elem.text.strip(),
                 fp=policy_fp.relative_to(Path.cwd()),
                 linenr=elem.sourceline
+            )
+
+
+def _update_po_template_from_desktop_files():
+    # Each qt/*.desktop file
+    for desktop_fp in all_desktop_files_in_qt_dir():
+        print(f'Update PO template file with strings from {desktop_fp} …')
+        content = desktop_fp.read_text(encoding='utf-8')
+
+        for idx, line in enumerate(content.split('\n'), start=1):
+
+            # ignore comments
+            if line.startswith('#'):
+                continue
+
+            try:
+                field, value = line.split('=', 1)
+            except ValueError:
+                continue
+
+            if field not in DESKTOP_FILE_FIELDS:
+                continue
+
+            _add_entry_to_po_template(
+                msgid=value,
+                fp=desktop_fp,
+                linenr=idx
             )
 
 
@@ -536,6 +566,8 @@ def all_po_files_in_local_dir():
     """All po files (recursive)."""
     return LOCAL_DIR.rglob('**/*.po')
 
+def all_desktop_files_in_qt_dir():
+    return GUI_DIR.glob('*.desktop'):
 
 def create_completeness_dict():
     """Create a simple dictionary indexed by language code and value that
@@ -848,17 +880,44 @@ def get_spdx_metadata_lines(ignore_copyright: bool = False,
     return result
 
 
+def _get_translation_for_desktop_string(value: str) -> dict[str, str]:
+    """Check all po files for a translation of 'value' and create a list
+    of the results fitting to a desktop file.
+
+    e.g.
+        GenericName[de]=Foo
+        GenericName[vi]=Bar
+
+    Returns:
+        A dictionary indexed by language code and the translation as value.
+    """
+    translations: dict[str, str] = {}
+
+    for po_path in LOCAL_DIR.rglob('**/*.po'):
+        lang = po_path.stem
+        po = pofile.pofile(po_path)
+
+        entry = po.find(value)
+
+        # Nothing found or no translation
+        if entry is None or not entry.msgstr:
+            continue
+
+        translations[po_path.stem] = entry.msgstr
+
+    return translations
+
+
 if __name__ == '__main__':
     check_existence()
 
-    fields_to_translate = ['GenericName', 'Comment']
-
-    # Alle Desktop-Dateien durchsuchen
-    for desktop_fp in GUI_DIR.glob('*.desktop'):
-        print(f'Update PO template file with strings from {desktop_fp} …')
+    # update_desktop_files()
+    for desktop_fp in all_desktop_files_in_qt_dir():
+        print(f'Update desktop file {desktop_fp} with translations …')
         content = desktop_fp.read_text(encoding='utf-8')
+        content = content.split('\n')
 
-        for idx, line in enumerate(content.split('\n'), start=1):
+        for idx, line in enumerate(content[:]):
 
             # ignore comments
             if line.startswith('#'):
@@ -869,14 +928,34 @@ if __name__ == '__main__':
             except ValueError:
                 continue
 
-            if field not in fields_to_translate:
-                continue
+            # each translatable or translated field
+            for target_field in DESKTOP_FILE_FIELDS:
+                if not field.startswith(target_filed):
+                    continue
 
-            _add_entry_to_po_template(
-                msgid=value,
-                fp=desktop_fp,
-                linenr=idx
-            )
+                # translated field
+                if field.startswidth(f'{target_field}['):
+                    # remove translation
+                    content = content[:idx] + [idx+1:]
+
+                # PLAUSI
+                if field == target_field:
+                    raise RuntimeError(
+                        f'Unexpected situation. {target_field=} {field=} '
+                        f'{value=} {line=}'
+                    )
+
+                translations = [
+                    f'{target_field[{lang}]={translated}'
+                    for lang, translated
+                    in _get_translation_for_desktop_string(value)
+                ]
+                content = content + translations
+
+                # DEBUG
+                for t in translations:
+                    print(t)
+
 
     sys.exit()
     FIN_MSG = 'Please check the result via "git diff" before committing.'
