@@ -6,8 +6,9 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Module about UserMessageDialog"""
+from typing import Optional
 from PyQt6.QtCore import Qt, QSize, QTimer
-from PyQt6.QtGui import QCursor
+from PyQt6.QtGui import QCursor, QGuiApplication
 from PyQt6.QtWidgets import (QDialog,
                              QLayout,
                              QVBoxLayout,
@@ -27,11 +28,13 @@ class UserMessageDialog(QDialog):
     HTML tags supported because of Qt rich text feature. Text between Newline
     characters ``\n`` will be converted into ``<p>`` paragraphs.
 
+    The dialog is centered relative to its parent if present, otherwise to the
+    screen.
     """
 
     def __init__(
             self,
-            parent: QWidget,
+            parent: Optional[QWidget],
             title: str,
             full_label: str,
     ):
@@ -76,16 +79,32 @@ class UserMessageDialog(QDialog):
         if self.height() < best.height():
             self.resize(best)
 
-        QTimer.singleShot(0, self._center_to_parent)
+        QTimer.singleShot(0, self._center)
+
+    def _center(self):
+        if self.parentWidget():
+            self._center_to_parent()
+
+        else:
+            self._center_to_screen()
 
     def _center_to_parent(self):
-        parent = self.parentWidget()
-        if parent is None:
-            return
-
         geo = self.frameGeometry()
-        geo.moveCenter(parent.frameGeometry().center())
+        geo.moveCenter(self.parentWidget().frameGeometry().center())
         self.move(geo.topLeft())
+
+    def _center_to_screen(self):
+        """Center the dialog to
+        """
+        screen = QGuiApplication.screenAt(self.pos())
+        geom = screen.availableGeometry()
+
+        self.move(
+            # center horizontal
+            geom.center().x() - (self.geometry().width() // 2),
+            # center vertical
+            geom.center().y() - (self.geometry().height() // 2),
+        )
 
     # pylint: disable-next=invalid-name
     def resizeEvent(self, event):  # noqa: N802

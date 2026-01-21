@@ -387,30 +387,6 @@ class Mount:
             self.profile_id = new_profile_id
             return self.mount(mode=mode, **kwargs)
 
-    def isConfigured(self, mode=None, **kwargs):
-        """
-        High-level check. Run :py:func:`MountControl.isConfigured` to check
-        if the backend is configured.
-
-        Args:
-            mode (str):         mode to use. One of 'local', 'ssh',
-                                'local_encfs' or 'ssh_encfs'
-            **kwargs:           keyword arguments paste to low-level
-                                :py:class:`MountControl` subclass backend
-
-        Returns:
-            bool:               ``True`` if backend is configured
-        """
-        if mode is None:
-            mode = self.config.snapshotsMode(self.profile_id)
-
-        if self.config.SNAPSHOT_MODES[mode][0] is None:
-            # mode doesn't need to mount
-            return True
-
-        backend = self.get_backend(mode, **kwargs)
-        return backend.isConfigured()
-
     def init_backend(self, mode=None, **kwargs):
         """
         High-level init. Run :py:func:`MountControl.init_backend` to initiate
@@ -433,6 +409,7 @@ class Mount:
             return True
 
         backend = self.get_backend(mode, **kwargs)
+
         return backend.init_backend()
 
 
