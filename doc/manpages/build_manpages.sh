@@ -12,6 +12,8 @@ set -e
 
 BIT_VERSION=$(cat ../../VERSION)
 echo "Using BIT_VERSION $BIT_VERSION"
+# This is default behavior
+echo "Using modified date of the adoc files as man page date"
 
 adoc_to_manpage () {
     # the .adoc-file

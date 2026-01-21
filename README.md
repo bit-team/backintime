@@ -16,10 +16,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 [![REUSE status](https://api.reuse.software/badge/github.com/bit-team/backintime)](https://api.reuse.software/info/github.com/bit-team/backintime)
 
 # Back In Time
-<sub>Copyright © 2008-2024 Oprea Dan, Bart de Koning, Richard Bailey,
-Germar Reitze, Taylor Raack</sub><br />
-<sub>Copyright © 2022 Christian Buhtz, Michael Büker, Jürgen Altfeld</sub>
- 
+
 _Back In Time_ is a comfortable and well-configurable graphical frontend for
 incremental backups using [`rsync`](https://rsync.samba.org/), with a
 command-line version also available. Modified files are transferred, while
@@ -180,4 +177,10 @@ Please read [`LICENSES.md`](LICENSES.md).
 
 ---
 
-<sub>December 2025</sub>
+<sub>January 2026</sub>
+
+---
+
+<sub>Copyright © 2008-2024 Oprea Dan, Bart de Koning, Richard Bailey,
+Germar Reitze, Taylor Raack</sub><br />
+<sub>Copyright © 2022 Christian Buhtz, Michael Büker, Jürgen Altfeld</sub>
