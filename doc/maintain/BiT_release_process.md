@@ -38,8 +38,10 @@ using a "feature" branch and sending a pull request asking for a review.
 
 ## Preconditions for a new release
 
-- Developers agreed on the new version number.
-- Most-recent translations were merged into `dev` branch. See the [localization documentation](2_localization.md).
+- Developers agreed on the new version number. Release candidates need a suffix
+  like `*-rc` or `*-rc1`.
+- Most-recent translations were merged into `dev` branch. See the
+  [localization documentation](2_localization.md).
 - Full CI build pipeline matrix is activate (see
   [#1529](https://github.com/bit-team/backintime/issues/1529)). This is related
   to the Python versions and also to the Ubuntu Distro versions.
@@ -51,12 +53,11 @@ using a "feature" branch and sending a pull request asking for a review.
 
 - Make sure we have sufficient _Credits_ to run _TravisCI_. Otherwise contact
   their support and kindly ask for new OSS credits.
-- Create a new branch (e.g. `rc/v1.5.4`) in your clone for the new release
-  (candidate).
+- Create a new branch (e.g. `rc/v1.5.4`) in your clone for the new release.
 - Update `VERSION` file.
 - Update `CHANGES` file.
 - Execute the script `./updateversion.sh` to update the version numbers (based on `VERSION` file) in several files.
-- Update the "as at" date in the man page files `backintime.1` and `backintime-askpass.1`.
+<!--
 - Autogenerate and update the man page file `backintime-config.1` by executing the script `common/create-manapge-backintime-config.py`.
   - Validate the content of the created man page. For example compared it to a
     previous version of the man page.
@@ -64,10 +65,13 @@ using a "feature" branch and sending a pull request asking for a review.
     man.plain.txt`
   - Use `git diff` (or another diff tool) to compare them and see if the
     content is as expected.
+!-->
 - Update `README.md` file.
 - Build user manual:
   - Navigate to `./doc/manual`.
   - Run `mkdocs build`.
+  - Be aware that the generated HTML files are not included in the git
+    repo. But they will be included in the source tar ball.
 - Run `codespell` to check for common spelling errors.
 - Commit the changes.
 - Open a new pull request (PR) for review by other developers.
