@@ -973,7 +973,6 @@ def _get_translation_for_desktop_string(value: str) -> dict[str, str]:
 if __name__ == '__main__':
     check_existence()
 
-   sys.exit()
     FIN_MSG = 'Please check the result via "git diff" before committing.'
 
     # Scan python source files for translatable strings
