@@ -302,6 +302,66 @@ def update_po_language_files(remove_obsolete_entries: bool = False):
         _set_header(po_path, spdx_base)
 
 
+def update_desktop_files():
+    for desktop_fp in all_desktop_files_in_qt_dir():
+        print(f'Update desktop file {desktop_fp} with translations …')
+        content = desktop_fp.read_text(encoding='utf-8')
+        content = content.split('\n')
+
+        for idx, line in enumerate(content[:]):
+
+            # ignore comments
+            if line.startswith('#'):
+                continue
+
+            try:
+                field, value = line.split('=', 1)
+            except ValueError:
+                continue
+
+            # each translatable or translated field
+            for target_field in DESKTOP_FILE_FIELDS:
+                if not field.startswith(target_field):
+                    continue
+
+                # translated field
+                if field.startswith(f'{target_field}['):
+                    # remove translation
+                    content = content[:idx] + content[idx+1:]
+
+                # PLAUSI
+                if field != target_field:
+                    raise RuntimeError(
+                        f'Unexpected situation. {target_field=} {field=} '
+                        f'{value=} {line=}'
+                    )
+
+                translations = _get_translation_for_desktop_string(value)
+
+                # Debian GNU/Linux (lintian) limit the length of this field
+                # to 80 chars.
+                if field == 'Comment':
+                    LIMIT = 79
+                    for lang, val in translations:
+                        if len(val) <= LIMIT:
+                            continue
+
+                        print(
+                            f'WARNING: Lenght of {field}[{lang}] reached the '
+                            f'limit of {LIMIT} and is {len(val)}. "{val}"'
+                        )
+
+                translations = [
+                    f'{target_field}[{lang}]={translated}'
+                    for lang, translated
+                    in translations
+                ]
+
+                content = content + translations
+
+    desktop_fp.write_text('\n'.join(content), encoding='utf-8')
+
+
 def _set_header(po_path: Path, spdx_base: str):
     """Setup the header and comments header of the given po-file to the current
     state.
@@ -594,7 +654,7 @@ def create_completeness_dict():
     return result
 
 
-def create_languages_file():
+def create_languages_py_file():
     """Create the languages.py file containing language names and the
     completeness of their translation.
 
@@ -913,73 +973,15 @@ def _get_translation_for_desktop_string(value: str) -> dict[str, str]:
 if __name__ == '__main__':
     check_existence()
 
-    # update_desktop_files()
-    for desktop_fp in all_desktop_files_in_qt_dir():
-        print(f'Update desktop file {desktop_fp} with translations …')
-        content = desktop_fp.read_text(encoding='utf-8')
-        content = content.split('\n')
-
-        for idx, line in enumerate(content[:]):
-
-            # ignore comments
-            if line.startswith('#'):
-                continue
-
-            try:
-                field, value = line.split('=', 1)
-            except ValueError:
-                continue
-
-            # each translatable or translated field
-            for target_field in DESKTOP_FILE_FIELDS:
-                if not field.startswith(target_field):
-                    continue
-
-                # translated field
-                if field.startswith(f'{target_field}['):
-                    # remove translation
-                    content = content[:idx] + content[idx+1:]
-
-                # PLAUSI
-                if field != target_field:
-                    raise RuntimeError(
-                        f'Unexpected situation. {target_field=} {field=} '
-                        f'{value=} {line=}'
-                    )
-
-                translations = _get_translation_for_desktop_string(value)
-
-                # Debian GNU/Linux (lintian) limit the length of this field
-                # to 80 chars.
-                if field == 'Comment':
-                    LIMIT = 79
-                    for lang, val:
-                        if len(val) <= LIMIT:
-                            continue
-
-                        print(
-                            f'WARNING: Lenght of {field}[{lang}] reached the '
-                            f'limit of {LIMIT} and is {len(val)}. "{val}"'
-                        )
-
-                translations = [
-                    f'{target_field}[{lang}]={translated}'
-                    for lang, translated
-                    in translations
-                ]
-
-                content = content + translations
-
-    desktop_fp.write_text('\n'.join(content), encoding='utf-8')
-
-    sys.exit()
+   sys.exit()
     FIN_MSG = 'Please check the result via "git diff" before committing.'
 
     # Scan python source files for translatable strings
     if 'source' in sys.argv:
         update_po_template()
         update_po_language_files('--remove-obsolete-entries' in sys.argv)
-        create_languages_file()
+        update_desktop_files()
+        create_languages_py_file()
         print(FIN_MSG)
         sys.exit()
 
@@ -988,7 +990,7 @@ if __name__ == '__main__':
     if 'weblate' in sys.argv:
         update_from_weblate()
         check_syntax_of_po_files()
-        create_languages_file()
+        create_languages_py_file()
         print(FIN_MSG)
         sys.exit()
 
