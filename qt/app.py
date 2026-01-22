@@ -330,6 +330,7 @@ class MainWindow(QMainWindow):
                 self.filesView.header().resizeSection(idx, width)
 
     def _handle_release_candidate(self):
+        self._open_release_candidate_dialog()
         if not version.IS_RELEASE_CANDIDATE:
             return
 

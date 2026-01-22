@@ -566,8 +566,10 @@ def all_po_files_in_local_dir():
     """All po files (recursive)."""
     return LOCAL_DIR.rglob('**/*.po')
 
+
 def all_desktop_files_in_qt_dir():
     return GUI_DIR.glob('*.desktop')
+
 
 def create_completeness_dict():
     """Create a simple dictionary indexed by language code and value that
@@ -945,22 +947,31 @@ if __name__ == '__main__':
                         f'{value=} {line=}'
                     )
 
+                translations = _get_translation_for_desktop_string(value)
+
+                # Debian GNU/Linux (lintian) limit the length of this field
+                # to 80 chars.
+                if field == 'Comment':
+                    LIMIT = 79
+                    for lang, val:
+                        if len(val) <= LIMIT:
+                            continue
+
+                        print(
+                            f'WARNING: Lenght of {field}[{lang}] reached the '
+                            f'limit of {LIMIT} and is {len(val)}. "{val}"'
+                        )
+
                 translations = [
                     f'{target_field}[{lang}]={translated}'
                     for lang, translated
-                    in _get_translation_for_desktop_string(value)
+                    in translations
                 ]
+
                 content = content + translations
 
-                # DEBUG
-                for t in translations:
-                    print(t)
+    desktop_fp.write_text('\n'.join(content), encoding='utf-8')
 
-
-    SOMEHOW CHECK 80 char limit for field Comment
-    print('----')
-    for c in content:
-        print(c)
     sys.exit()
     FIN_MSG = 'Please check the result via "git diff" before committing.'
 
