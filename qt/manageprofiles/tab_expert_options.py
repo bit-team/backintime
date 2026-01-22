@@ -20,9 +20,9 @@ from PyQt6.QtWidgets import (QDialog,
                              QLineEdit,
                              QCheckBox)
 import tools
+from config import Config
 import qttools
 import messagebox
-from config import Config
 from manageprofiles.statebindcheckbox import StateBindCheckBox
 from manageprofiles.copylinkswidget import CopySymlinksWidget
 from bitwidgets import HLineWidget
