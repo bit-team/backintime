@@ -9,23 +9,6 @@
 """This helper script does manage transferring translations to and from the
 translation platform (currently Weblate).
 """
-
-"""
-Notes:
- - take care of strings in qt/net.launchpad.backintime.policy
- - use po4a to extract them
-   po4a-gettextize -f polkit -m "$POLICY_FILE" -p "$TEMP_POLICY_POT"
- - use msgcat to combine with messages.pot
-   msgcat --sort-output -o "$OUTPUT_POT" "$TEMP_PY_POT" "$TEMP_POLICY_POT"
-
- - take care of desktop files
- - extract source strings
-   po4a-gettextize -f desktop -m backintime.desktop -p po/template.pot
- - per langauge po
-   po4a --translate --format=desktop --master=backintime.desktop --po=de.po --localized=backintime.desktop
-
-"""
-
 import sys
 import datetime
 import re
@@ -36,7 +19,6 @@ import json
 from pathlib import Path
 from subprocess import run, check_output
 from lxml import etree
-# import xml.etree.ElementTree as ET
 from common import languages, version
 
 try:
