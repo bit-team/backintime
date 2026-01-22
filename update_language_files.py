@@ -567,7 +567,7 @@ def all_po_files_in_local_dir():
     return LOCAL_DIR.rglob('**/*.po')
 
 def all_desktop_files_in_qt_dir():
-    return GUI_DIR.glob('*.desktop'):
+    return GUI_DIR.glob('*.desktop')
 
 def create_completeness_dict():
     """Create a simple dictionary indexed by language code and value that
@@ -895,7 +895,7 @@ def _get_translation_for_desktop_string(value: str) -> dict[str, str]:
 
     for po_path in LOCAL_DIR.rglob('**/*.po'):
         lang = po_path.stem
-        po = pofile.pofile(po_path)
+        po = polib.pofile(po_path)
 
         entry = po.find(value)
 
@@ -930,23 +930,23 @@ if __name__ == '__main__':
 
             # each translatable or translated field
             for target_field in DESKTOP_FILE_FIELDS:
-                if not field.startswith(target_filed):
+                if not field.startswith(target_field):
                     continue
 
                 # translated field
-                if field.startswidth(f'{target_field}['):
+                if field.startswith(f'{target_field}['):
                     # remove translation
-                    content = content[:idx] + [idx+1:]
+                    content = content[:idx] + content[idx+1:]
 
                 # PLAUSI
-                if field == target_field:
+                if field != target_field:
                     raise RuntimeError(
                         f'Unexpected situation. {target_field=} {field=} '
                         f'{value=} {line=}'
                     )
 
                 translations = [
-                    f'{target_field[{lang}]={translated}'
+                    f'{target_field}[{lang}]={translated}'
                     for lang, translated
                     in _get_translation_for_desktop_string(value)
                 ]
@@ -957,6 +957,10 @@ if __name__ == '__main__':
                     print(t)
 
 
+    SOMEHOW CHECK 80 char limit for field Comment
+    print('----')
+    for c in content:
+        print(c)
     sys.exit()
     FIN_MSG = 'Please check the result via "git diff" before committing.'
 
