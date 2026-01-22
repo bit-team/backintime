@@ -18,6 +18,7 @@ import shutil
 import json
 from pathlib import Path
 from subprocess import run, check_output
+from lxml import etree
 from common import languages, version
 
 try:
@@ -32,6 +33,8 @@ except ImportError:
 LOCAL_DIR = Path('common') / 'po'
 TEMPLATE_PO = LOCAL_DIR / 'messages.pot'
 LANGUAGE_NAMES_PY = Path('common') / 'languages.py'
+GUI_DIR = Path('qt')
+DESKTOP_FILE_FIELDS = ['GenericName', 'Comment']
 WEBLATE_URL = 'https://translate.codeberg.org/git/backintime/common'
 PACKAGE_NAME = 'Back In Time'
 PACKAGE_VERSION = version.__version__
@@ -123,6 +126,16 @@ def update_po_template():
     print(f'Execute "{cmd}".')
     run(cmd, check=True)
 
+    _update_po_template_from_polkit_policies()
+
+    _update_po_template_from_desktop_files()
+
+    _add_spdx_header_to_po_template()
+
+
+def _add_spdx_header_to_po_template():
+    print(f'Add SPDX Header to PO template file "{TEMPLATE_PO}" …')
+
     # Header comment with SPDX data
     spdx_base = get_spdx_metadata_lines(ignore_copyright=True,
                                         without_comment_prefix=True)
@@ -135,6 +148,93 @@ def update_po_template():
 
     pof.header = f'{DEFAULT_COPYRIGHT}\n{spdx_base}\n{MISSING_TRANSLATORS_TXT}'
     pof.save()
+
+
+def _update_po_template_from_polkit_policies():
+    """Extract translatable strings from polkit related policy files.
+
+    Policy files are XML content. Translatable strings are marked by
+    an "gettext-domain" attribute. That strings are used in the
+    password request dialogs used by polkit agents; e.g. when starting
+    BIT in root mode or modifying Udev rules.
+    """
+
+    path = Path.cwd() / 'qt'
+
+    for policy_fp in path.glob('*.policy'):
+        print(
+            f'Update PO template file with policy strings from {policy_fp} …')
+
+        parser = etree.XMLParser(remove_comments=False)
+        tree = etree.parse(policy_fp, parser)
+        root = tree.getroot()
+
+        # All tags containing attribute "gettext-domin='backintime'"
+        for elem in root.xpath(".//*[@gettext-domain='backintime']"):
+            # ignore empty fields
+            if not elem.text:
+                continue
+
+            # add to messages.pot considere duplicates and location/occurrence
+            _add_entry_to_po_template(
+                msgid=elem.text.strip(),
+                fp=policy_fp.relative_to(Path.cwd()),
+                linenr=elem.sourceline
+            )
+
+
+def _update_po_template_from_desktop_files():
+    # Each qt/*.desktop file
+    for desktop_fp in all_desktop_files_in_qt_dir():
+        print(f'Update PO template file with strings from {desktop_fp} …')
+        content = desktop_fp.read_text(encoding='utf-8')
+
+        for idx, line in enumerate(content.split('\n'), start=1):
+
+            # ignore comments
+            if line.startswith('#'):
+                continue
+
+            try:
+                field, value = line.split('=', 1)
+            except ValueError:
+                continue
+
+            if field not in DESKTOP_FILE_FIELDS:
+                continue
+
+            _add_entry_to_po_template(
+                msgid=value,
+                fp=desktop_fp,
+                linenr=idx
+            )
+
+
+def _add_entry_to_po_template(msgid: str,
+                              fp: Path,
+                              linenr: int):
+
+    po_file = polib.pofile(TEMPLATE_PO)
+
+    entry = po_file.find(msgid)
+    location = (fp, linenr)
+
+    if entry:
+        # Update location
+        if location not in entry.occurrences:
+            entry.occurrences.append(location)
+
+    else:
+        # Add new entry
+        po_file.append(
+            polib.POEntry(
+                msgid=msgid,
+                msgstr='',
+                occurrences=[location],
+            )
+        )
+
+    po_file.save(TEMPLATE_PO)
 
 
 def update_po_language_files(remove_obsolete_entries: bool = False):
@@ -182,6 +282,66 @@ def update_po_language_files(remove_obsolete_entries: bool = False):
             run(cmd, check=True)
 
         _set_header(po_path, spdx_base)
+
+
+def update_desktop_files():
+    for desktop_fp in all_desktop_files_in_qt_dir():
+        print(f'Update desktop file {desktop_fp} with translations …')
+        content = desktop_fp.read_text(encoding='utf-8')
+        content = content.split('\n')
+
+        for idx, line in enumerate(content[:]):
+
+            # ignore comments
+            if line.startswith('#'):
+                continue
+
+            try:
+                field, value = line.split('=', 1)
+            except ValueError:
+                continue
+
+            # each translatable or translated field
+            for target_field in DESKTOP_FILE_FIELDS:
+                if not field.startswith(target_field):
+                    continue
+
+                # translated field
+                if field.startswith(f'{target_field}['):
+                    # remove translation
+                    content = content[:idx] + content[idx+1:]
+
+                # PLAUSI
+                if field != target_field:
+                    raise RuntimeError(
+                        f'Unexpected situation. {target_field=} {field=} '
+                        f'{value=} {line=}'
+                    )
+
+                translations = _get_translation_for_desktop_string(value)
+
+                # Debian GNU/Linux (lintian) limit the length of this field
+                # to 80 chars.
+                if field == 'Comment':
+                    LIMIT = 79
+                    for lang, val in translations:
+                        if len(val) <= LIMIT:
+                            continue
+
+                        print(
+                            f'WARNING: Lenght of {field}[{lang}] reached the '
+                            f'limit of {LIMIT} and is {len(val)}. "{val}"'
+                        )
+
+                translations = [
+                    f'{target_field}[{lang}]={translated}'
+                    for lang, translated
+                    in translations.items()
+                ]
+
+                content = content + translations
+
+    desktop_fp.write_text('\n'.join(content), encoding='utf-8')
 
 
 def _set_header(po_path: Path, spdx_base: str):
@@ -449,6 +609,10 @@ def all_po_files_in_local_dir():
     return LOCAL_DIR.rglob('**/*.po')
 
 
+def all_desktop_files_in_qt_dir():
+    return GUI_DIR.glob('*.desktop')
+
+
 def create_completeness_dict():
     """Create a simple dictionary indexed by language code and value that
     indicate the completeness of the translation in percent.
@@ -472,7 +636,7 @@ def create_completeness_dict():
     return result
 
 
-def create_languages_file():
+def create_languages_py_file():
     """Create the languages.py file containing language names and the
     completeness of their translation.
 
@@ -760,6 +924,34 @@ def get_spdx_metadata_lines(ignore_copyright: bool = False,
     return result
 
 
+def _get_translation_for_desktop_string(value: str) -> dict[str, str]:
+    """Check all po files for a translation of 'value' and create a list
+    of the results fitting to a desktop file.
+
+    e.g.
+        GenericName[de]=Foo
+        GenericName[vi]=Bar
+
+    Returns:
+        A dictionary indexed by language code and the translation as value.
+    """
+    translations: dict[str, str] = {}
+
+    for po_path in LOCAL_DIR.rglob('**/*.po'):
+        lang = po_path.stem
+        po = polib.pofile(po_path)
+
+        entry = po.find(value)
+
+        # Nothing found or no translation
+        if entry is None or not entry.msgstr:
+            continue
+
+        translations[po_path.stem] = entry.msgstr
+
+    return translations
+
+
 if __name__ == '__main__':
     check_existence()
 
@@ -769,7 +961,8 @@ if __name__ == '__main__':
     if 'source' in sys.argv:
         update_po_template()
         update_po_language_files('--remove-obsolete-entries' in sys.argv)
-        create_languages_file()
+        update_desktop_files()
+        create_languages_py_file()
         print(FIN_MSG)
         sys.exit()
 
@@ -778,7 +971,7 @@ if __name__ == '__main__':
     if 'weblate' in sys.argv:
         update_from_weblate()
         check_syntax_of_po_files()
-        create_languages_file()
+        create_languages_py_file()
         print(FIN_MSG)
         sys.exit()
 

@@ -19,8 +19,8 @@ from PyQt6.QtWidgets import (QDialog,
                              QSpinBox,
                              QLineEdit,
                              QCheckBox)
-import config
 import tools
+from config import Config
 import qttools
 import messagebox
 from manageprofiles.statebindcheckbox import StateBindCheckBox
@@ -324,7 +324,7 @@ class ExpertOptionsTab(QDialog):
         tab_layout.addStretch()
 
     @property
-    def config(self) -> config.Config:
+    def config(self) -> Config:
         """The config instance."""
         return self._parent_dialog.config
 

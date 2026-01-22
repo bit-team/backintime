@@ -11,7 +11,7 @@
 # Version of the Desktop Entry Specification
 Version=1.5
 Name=Back In Time
-GenericName=Backup
+GenericName=Versioned Backups
 Exec=backintime-qt
 Icon=backintime
 Terminal=false
@@ -19,8 +19,7 @@ Type=Application
 StartupNotify=true
 # See Desktop Menu Specification
 Categories=Utility;System;Archiving;Qt;
-# Limit comments to 80 chars (Desktop Entry Specification)                    80th char --> |
-Comment=Comfortable GUI for incremental (rsync) backups to save storage space
-Comment[de]=Einfache GUI für inkrementelle (rsync) Backups zur Speicherplatzreduzierung
+# Limit comments to 80 chars (Not in Desktop Entry Spec but Debian Lintian)   80th char --> |
+Comment=User-friendly GUI for versioned backups that reduces disk usage
 Keywords=backup;incremental;automatic;restore;rsync;
 

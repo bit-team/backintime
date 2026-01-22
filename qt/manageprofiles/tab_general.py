@@ -24,7 +24,7 @@ from PyQt6.QtWidgets import (QCheckBox,
                              QLineEdit,
                              QToolButton,
                              QVBoxLayout)
-import config
+from config import Config
 import tools
 import logger
 import sshtools
@@ -283,7 +283,7 @@ class GeneralTab(QDialog):
         self._parent_dialog.mode = value
 
     @property
-    def config(self) -> config.Config:
+    def config(self) -> Config:
         """The config instance"""
         return self._parent_dialog.config
 
