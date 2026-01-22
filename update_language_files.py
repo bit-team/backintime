@@ -354,7 +354,7 @@ def update_desktop_files():
                 translations = [
                     f'{target_field}[{lang}]={translated}'
                     for lang, translated
-                    in translations
+                    in translations.items()
                 ]
 
                 content = content + translations
