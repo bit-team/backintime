@@ -16,7 +16,7 @@ from PyQt6.QtWidgets import (QDialog,
                              QHBoxLayout,
                              QLabel,
                              QCheckBox)
-import config
+from config import Config
 import tools
 from event import Event
 import qttools
@@ -128,7 +128,7 @@ class OptionsTab(QDialog):
         tab_layout.addStretch()
 
     @property
-    def config(self) -> config.Config:
+    def config(self) -> Config:
         """The config instance."""
         return self._parent_dialog.config
 
