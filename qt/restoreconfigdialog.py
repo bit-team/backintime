@@ -150,7 +150,8 @@ class RestoreConfigDialog(QDialog):
     def _resize_to_full_hight(self):
         """Resize dialog to full height and center it horizontal.
         """
-        screen = QGuiApplication.screenAt(self.pos())
+        handle = self.windowHandle()
+        screen = handle.screen() if handle else QGuiApplication.primaryScreen()
         geom = screen.availableGeometry()
 
         # Determine the height of the dialog's title bar and border. This
