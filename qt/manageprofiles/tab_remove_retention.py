@@ -22,7 +22,7 @@ from PyQt6.QtWidgets import (QCheckBox,
                              QWidget)
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QCursor
-import config
+from config import Config
 from bitbase import TimeUnit
 from event import Event
 import qttools
@@ -115,7 +115,7 @@ class RemoveRetentionTab(QDialog):
         )
 
     @property
-    def config(self) -> config.Config:
+    def config(self) -> Config:
         """The config instance"""
         return self._parent_dialog.config
 
