@@ -30,7 +30,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
   </action>
 
   <action id="net.launchpad.backintime.UdevRuleSave">
-    <message gettext-domain="backintime">Authentication is required to add Udev rules.</message>
+    <message gettext-domain="backintime">Authentication is required to change backup schedules triggered by external storage device connections.</message>
     <description>This will install Udev rules which will start Back In Time if a drive get connected.</description>
     <defaults>
       <allow_any>auth_admin</allow_any>
@@ -40,8 +40,8 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
   </action>
 
   <action id="net.launchpad.backintime.UdevRuleDelete">
-    <message gettext-domain="backintime">Authentication is required to delete Udev rules.</message>
-    <description>This will delete Udev rules.</description>
+    <message gettext-domain="backintime">Authentication is required to change backup schedules triggered by external storage device connections.</message>
+    <description>This will delete Udev rules related to a specific Back In Time backup profile.</description>
     <defaults>
       <allow_any>auth_admin</allow_any>
       <allow_inactive>auth_admin_keep</allow_inactive>
