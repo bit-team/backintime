@@ -1503,6 +1503,8 @@ class Config(configfile.ConfigFileWithProfiles):
             backup_mode = self.snapshotsMode(pid)
             if backup_mode == 'local':
                 dest_path = self.snapshotsFullPath(pid)
+            elif backup_mode == 'local_gocryptfs':
+                dest_path = self.localGocryptfsPath(pid)
             elif backup_mode == 'local_encfs':
                 dest_path = self.localEncfsPath(pid)
             else:
