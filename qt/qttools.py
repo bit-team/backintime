@@ -463,7 +463,8 @@ def screen_width_in_chars(widget: QWidget, reference_char: str = 'M') -> int:
     char_px = metrics.horizontalAdvance(reference_char)
 
     # Screen width
-    screen = QGuiApplication.screenAt(widget.pos())
+    handle = widget.windowHandle()
+    screen = handle.screen() if handle else QGuiApplication.primaryScreen()
     geom = screen.availableGeometry()
 
     # Screen width in 'em' (number of characters)
