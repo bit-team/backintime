@@ -2208,17 +2208,7 @@ class SetupUdev:
         if not self.isReady:
             return
 
-        try:
-            self.iface.clean()
-
-        except dbus.exceptions.DBusException as exc:
-            logger.warning(
-                'Uncritical exception with Udev clean(): '
-                + exc.get_dbus_name() or '(dbus name missing)'
-                + ': '
-                + exc.get_dbus_message() or '(no message)'
-            )
-            logger.debug(f'Udev clean() exception. {exc=}')
+        self.iface.clean()
 
 
 class PathHistory:
