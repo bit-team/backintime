@@ -1410,6 +1410,7 @@ def rsyncRemove(config, run_local=True):
         cmd.extend(rsyncSshArgs(config))
     return cmd
 
+
 # TODO: check if we really need this
 def tempFailureRetry(func, *args, **kwargs):
     while True:
@@ -2204,7 +2205,17 @@ class SetupUdev:
         if not self.isReady:
             return
 
-        self.iface.clean()
+        try:
+            self.iface.clean()
+
+        except dbus.exceptions.DBusException as exc:
+            logger.warning(
+                'Uncritical exception with Udev clean(): '
+                + exc.get_dbus_name() or '(dbus name missing)'
+                + ': '
+                + exc.get_dbus_message() or '(no message)'
+            )
+            logger.debug(f'Udev clean() exception. {exc=}')
 
 
 class PathHistory:
@@ -2213,7 +2224,7 @@ class PathHistory:
         self.index = 0
 
     def append(self, path):
-        #append path after the current index
+        # append path after the current index
         self.history = self.history[:self.index + 1] + [path,]
         self.index = len(self.history) - 1
 
