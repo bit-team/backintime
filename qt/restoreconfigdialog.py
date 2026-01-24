@@ -27,7 +27,6 @@ from snapshots import SID
 from PyQt6.QtGui import (QBrush,
                          QColor,
                          QFont,
-                         QGuiApplication,
                          QFileSystemModel,
                          QPalette,
                          QShortcut)
@@ -38,6 +37,7 @@ from PyQt6.QtWidgets import (QDialog,
                              QLabel,
                              QLayout,
                              QPushButton,
+                             QSizePolicy,
                              QToolButton,
                              QTreeView,
                              QVBoxLayout,
@@ -73,16 +73,25 @@ class RestoreConfigDialog(QDialog):
         self.setWindowIcon(icon.SETTINGS_DIALOG)
         self.setWindowTitle(_('Import configuration'))
 
-        layout = QVBoxLayout(self)
+        self.setSizePolicy(
+            QSizePolicy.Policy.Preferred,
+            QSizePolicy.Policy.Expanding
+        )
 
-        self._create_hint(layout, config)
+        main_layout = QVBoxLayout(self)
+
+        top_layout = QVBoxLayout()
+        self._create_hint(top_layout, config)
         self._lbl_spinner, self._spinner, self._btn_scan \
-            = self._create_scan_controls(layout)
+            = self._create_scan_controls(top_layout)
 
         self._btn_scan.clicked.connect(self.start_scanning)
 
+        main_layout.addLayout(top_layout, 0)
         self._tree_view, self._tree_model = self._create_tree()
-        layout.addWidget(self._tree_view)
+        tree_layout = QVBoxLayout()
+        tree_layout.addWidget(self._tree_view)
+        main_layout.addLayout(tree_layout, 1)
 
         # expand users home
         self._expand_with_parents(self._index_from_path(Path.home()))
@@ -90,11 +99,13 @@ class RestoreConfigDialog(QDialog):
         # colors
         self._color_red, self._color_green = __class__._red_and_green()
 
+        bottom_layout = QVBoxLayout()
+
         # show where a snapshot with config was found
         self._lbl_found = QLabel(_('No config found'), self)
         self._lbl_found.setWordWrap(True)
         self._lbl_found.setPalette(self._color_red)
-        layout.addWidget(self._lbl_found)
+        bottom_layout.addWidget(self._lbl_found)
 
         # show profiles inside the config
         self._wdg_profiles = QWidget(self)
@@ -104,7 +115,7 @@ class RestoreConfigDialog(QDialog):
         self._grid_layout.setContentsMargins(0, 0, 0, 0)
         self._grid_layout.setHorizontalSpacing(20)
         self._wdg_profiles.setLayout(self._grid_layout)
-        layout.addWidget(self._wdg_profiles)
+        bottom_layout.addWidget(self._wdg_profiles)
 
         self._config_to_restore = None
 
@@ -123,7 +134,9 @@ class RestoreConfigDialog(QDialog):
         self._btn_restore.setText(_('Import'))
         self._btn_restore.setEnabled(False)
 
-        layout.addWidget(btn_box)
+        bottom_layout.addWidget(btn_box)
+
+        main_layout.addLayout(bottom_layout, 0)
 
         self._queue = Queue()
 
@@ -134,10 +147,6 @@ class RestoreConfigDialog(QDialog):
 
         self.start_scanning()
 
-        # See _resize_to_full_height() for details.
-        self._resize_tries = 10
-        QTimer.singleShot(1, self._resize_to_full_hight)
-
     def start_scanning(self):
         """Start the file system scanning thread and prepare the GUI"""
         self._btn_scan.setVisible(False)
@@ -147,36 +156,6 @@ class RestoreConfigDialog(QDialog):
         self._scan_fs_thread = _ScanFileSystem(queue=self._queue)
         self._scan_fs_thread.start()
 
-    def _resize_to_full_hight(self):
-        """Resize dialog to full height and center it horizontal.
-        """
-        handle = self.windowHandle()
-        screen = handle.screen() if handle else QGuiApplication.primaryScreen()
-        geom = screen.availableGeometry()
-
-        # Determine the height of the dialog's title bar and border. This
-        # value is unknown or incorrect until the dialg is fully drawn.
-        # That is the reason why we use this workaround.
-        deco_height = self.frameGeometry().height() - self.geometry().height()
-        if deco_height == 0 and self._resize_tries > 0:
-            self._resize_tries -= 1
-            QTimer.singleShot(1, self._resize_to_full_hight)
-            return
-
-        new_width = geom.width() // 3
-
-        self.move(
-            # center horizontal
-            geom.center().x() - (new_width // 2),
-            # vertical to top
-            geom.y()
-        )
-        self.resize(
-            # the desired width
-            new_width,
-            # full height (incl. window decoration) on available screen
-            geom.height() - deco_height)
-
     def _create_tree(self) -> tuple[QTreeView, QFileSystemModel]:
         model = _CfgFileSystemModel(self)
         model.setRootPath(QDir().rootPath())
@@ -184,6 +163,11 @@ class RestoreConfigDialog(QDialog):
         model.setFilter(QDir.Filter.AllDirs | QDir.Filter.NoDotAndDotDot)
 
         view = QTreeView(self)
+        view.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Expanding
+        )
+
         view.setModel(model)
         view.setAnimated(False)
 
