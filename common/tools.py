@@ -2135,6 +2135,9 @@ class SetupUdev:
             bus = dbus.SystemBus()
             conn = bus.get_object(SetupUdev.CONNECTION, SetupUdev.OBJECT)
             self.iface = dbus.Interface(conn, SetupUdev.INTERFACE)
+            # Dummy message to catch org.freedesktop.DBus.Error.AccessDenied
+            # See #2366
+            self.iface.clean()
 
         except dbus.exceptions.DBusException as e:
             # Only DBusExceptions are  handled to do a "graceful recovery"
