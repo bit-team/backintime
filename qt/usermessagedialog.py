@@ -94,9 +94,14 @@ class UserMessageDialog(QDialog):
         self.move(geo.topLeft())
 
     def _center_to_screen(self):
-        """Center the dialog to
-        """
-        screen = QGuiApplication.screenAt(self.pos())
+        """Center the dialog to screen"""
+
+        handle = self.windowHandle()
+        screen = handle.screen() if handle else QGuiApplication.primaryScreen()
+
+        if not screen:
+            return
+
         geom = screen.availableGeometry()
 
         self.move(

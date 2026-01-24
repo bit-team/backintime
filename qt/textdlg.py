@@ -95,7 +95,8 @@ class TextDialog(QDialog):
             QTimer.singleShot(1, self._center_and_resize)
             return
 
-        screen = QGuiApplication.screenAt(self.pos())
+        handle = self.windowHandle()
+        screen = handle.screen() if handle else QGuiApplication.primaryScreen()
         geom = screen.availableGeometry()
 
         new_width = int(geom.width() * self._width_fraction)
