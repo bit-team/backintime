@@ -1410,6 +1410,7 @@ def rsyncRemove(config, run_local=True):
         cmd.extend(rsyncSshArgs(config))
     return cmd
 
+
 # TODO: check if we really need this
 def tempFailureRetry(func, *args, **kwargs):
     while True:
@@ -2134,6 +2135,9 @@ class SetupUdev:
             bus = dbus.SystemBus()
             conn = bus.get_object(SetupUdev.CONNECTION, SetupUdev.OBJECT)
             self.iface = dbus.Interface(conn, SetupUdev.INTERFACE)
+            # Dummy message to catch org.freedesktop.DBus.Error.AccessDenied
+            # See #2366
+            self.iface.clean()
 
         except dbus.exceptions.DBusException as e:
             # Only DBusExceptions are  handled to do a "graceful recovery"
@@ -2213,7 +2217,7 @@ class PathHistory:
         self.index = 0
 
     def append(self, path):
-        #append path after the current index
+        # append path after the current index
         self.history = self.history[:self.index + 1] + [path,]
         self.index = len(self.history) - 1
 
