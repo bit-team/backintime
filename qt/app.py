@@ -345,13 +345,14 @@ class MainWindow(QMainWindow):
             return
 
         message = _(
-            '{app_name} appears to be running for the first time as no '
+            '{app_name} appears to be running for the first time because no '
             'configuration is found.'
         ).format(app_name=self.config.APP_NAME)
         message = f'{message}\n\n'
         message = message + _(
-            'Import an existing configuration (from a backup target '
-            'directory or another computer)?')
+            'Import an existing configuration from a backup location '
+            'or another computer?'
+        )
 
         answer = messagebox.question(text=message)
 

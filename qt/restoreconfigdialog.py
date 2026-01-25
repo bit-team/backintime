@@ -102,7 +102,7 @@ class RestoreConfigDialog(QDialog):
         bottom_layout = QVBoxLayout()
 
         # show where a snapshot with config was found
-        self._lbl_found = QLabel(_('No config found'), self)
+        self._lbl_found = QLabel(_('No directory selected'), self)
         self._lbl_found.setWordWrap(True)
         self._lbl_found.setPalette(self._color_red)
         bottom_layout.addWidget(self._lbl_found)
@@ -302,7 +302,7 @@ class RestoreConfigDialog(QDialog):
             self._config_to_restore = cfg
 
         else:
-            self._lbl_found.setText(_('No config found'))
+            self._lbl_found.setText(_('No config found in this dicrectory'))
             self._lbl_found.setPalette(self._color_red)
             self._wdg_profiles.hide()
             self._config_to_restore = None
