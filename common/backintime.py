@@ -40,7 +40,7 @@ def takeSnapshotAsync(cfg, checksum=False):
     cmd.append('backintime')
 
     if '1' != cfg.currentProfile():
-        cmd.extend(('--profile-id', str(cfg.currentProfile())))
+        cmd.extend(('--profile', str(cfg.currentProfile())))
 
     if cfg._LOCAL_CONFIG_PATH is not cfg._DEFAULT_CONFIG_PATH:
         cmd.extend(('--config', cfg._LOCAL_CONFIG_PATH))
