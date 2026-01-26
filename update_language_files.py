@@ -290,27 +290,40 @@ def update_desktop_files():
         content = desktop_fp.read_text(encoding='utf-8')
         content = content.split('\n')
 
-        for idx, line in enumerate(content[:]):
+        to_translate = {key: None for key in DESKTOP_FILE_FIELDS}
+
+        # iterate from the ende to the start
+        for idx, line in reversed(list(enumerate(content[:])):
+            print(f'{idx=} {line=}')
 
             # ignore comments
             if line.startswith('#'):
+                print('comment - continue')
                 continue
 
             try:
                 field, value = line.split('=', 1)
             except ValueError:
+                print('value error')
                 continue
 
             # each translatable or translated field
             for target_field in DESKTOP_FILE_FIELDS:
+                print(f'{target_field=}')
                 if not field.startswith(target_field):
+                    print(f'{field=} not starts with target')
                     continue
 
                 # translated field
                 if field.startswith(f'{target_field}['):
+                    print(f'is translation - remove')
                     # remove translation
-                    content = content[:idx] + content[idx+1:]
+                    content.remove(line)
                     continue
+
+                # remember original string
+                to_translate[target_field] = value
+                continue
 
                 # PLAUSI
                 if field != target_field:
@@ -319,28 +332,37 @@ def update_desktop_files():
                         f'{value=} {line=}'
                     )
 
-                translations = _get_translation_for_desktop_string(value)
+        # iterate from the ende to the start
+        for field, value in to_translate.items():
+            print(f'{field=} {value=}')
 
-                # Debian GNU/Linux (lintian) limit the length of this field
-                # to 80 chars.
-                if field == 'Comment':
-                    LIMIT = 79
-                    for lang, val in translations.items():
-                        if len(val) <= LIMIT:
-                            continue
+            translations = _get_translation_for_desktop_string(value)
 
-                        print(
-                            f'WARNING: Length of {field}[{lang}] reached the '
-                            f'limit of {LIMIT} and is {len(val)}. "{val}"'
-                        )
+            # # Debian GNU/Linux (lintian) limit the length of this field
+            # # to 80 chars.
+            # if field == 'Comment':
+            #     LIMIT = 79
+            #     for lang, val in translations.items():
+            #         if len(val) <= LIMIT:
+            #             continue
 
-                translations = [
-                    f'{target_field}[{lang}]={translated}'
-                    for lang, translated
-                    in translations.items()
-                ]
+            #         print(
+            #             f'WARNING: Length of {field}[{lang}] reached the '
+            #             f'limit of {LIMIT} and is {len(val)}. "{val}"'
+            #         )
 
-                content = content + translations
+            translations = [
+                f'{field}[{lang}]={translated}'
+                for lang, translated
+                in translations.items()
+            ]
+
+            content = content + translations
+
+    for c in content:
+        print(content)
+
+    sys.exit()
 
     # remove blank lines
     content = list(filter(lambda line: len(line), content))
