@@ -311,7 +311,6 @@ def update_desktop_files():
 
             # each translatable or translated field
             for target_field in DESKTOP_FILE_FIELDS:
-                print(f'{target_field=}')
                 if not field.startswith(target_field):
                     continue
 
