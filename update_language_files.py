@@ -294,11 +294,9 @@ def update_desktop_files():
 
         # iterate from the ende to the start
         for idx, line in reversed(list(enumerate(content[:]))):
-            print(f'{idx=} {line=}')
 
             # ignore comments
             if line.startswith('#'):
-                print('comment - continue')
                 continue
 
             # blank line?
@@ -309,19 +307,16 @@ def update_desktop_files():
             try:
                 field, value = line.split('=', 1)
             except ValueError:
-                print('value error')
                 continue
 
             # each translatable or translated field
             for target_field in DESKTOP_FILE_FIELDS:
                 print(f'{target_field=}')
                 if not field.startswith(target_field):
-                    print(f'{field=} not starts with target')
                     continue
 
                 # translated field
                 if field.startswith(f'{target_field}['):
-                    print(f'is translation - remove')
                     # remove translation
                     content = content[:idx] + content[idx+1:]
                     continue
@@ -337,28 +332,24 @@ def update_desktop_files():
                         f'{value=} {line=}'
                     )
 
-        for c in content:
-            print(c)
-        print('xxxxxxxxxxxxxxxx')
-
         # iterate from the ende to the start
         for field, value in to_translate.items():
             print(f'{field=} {value=}')
 
             translations = _get_translation_for_desktop_string(value)
 
-            # # Debian GNU/Linux (lintian) limit the length of this field
-            # # to 80 chars.
-            # if field == 'Comment':
-            #     LIMIT = 79
-            #     for lang, val in translations.items():
-            #         if len(val) <= LIMIT:
-            #             continue
+            # Debian GNU/Linux (lintian) limit the length of this field
+            # to 80 chars.
+            if field == 'Comment':
+                LIMIT = 79
+                for lang, val in translations.items():
+                    if len(val) <= LIMIT:
+                        continue
 
-            #         print(
-            #             f'WARNING: Length of {field}[{lang}] reached the '
-            #             f'limit of {LIMIT} and is {len(val)}. "{val}"'
-            #         )
+                    print(
+                        f'WARNING: Length of {field}[{lang}] reached the '
+                        f'limit of {LIMIT} and is {len(val)}. "{val}"'
+                    )
 
             translations = [
                 f'{field}[{lang}]={translated}'
@@ -368,14 +359,8 @@ def update_desktop_files():
 
             content = content + translations
 
-        for c in content:
-            print(c)
-        print('--------------')
-
-    sys.exit()
-
-    # remove blank lines
-    content = list(filter(lambda line: len(line), content))
+    # # remove blank lines
+    # content = list(filter(lambda line: len(line), content))
 
     # ensure newline at end of file
     content = content + ['\n']
