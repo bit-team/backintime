@@ -292,7 +292,7 @@ def update_desktop_files():
 
         to_translate = {key: None for key in DESKTOP_FILE_FIELDS}
 
-        # iterate from the ende to the start
+        # iterate from the end to the start
         for idx, line in reversed(list(enumerate(content[:]))):
 
             # ignore comments
@@ -331,24 +331,13 @@ def update_desktop_files():
                         f'{value=} {line=}'
                     )
 
-        # iterate from the ende to the start
         for field, value in to_translate.items():
             print(f'{field=} {value=}')
 
             translations = _get_translation_for_desktop_string(value)
 
-            # Debian GNU/Linux (lintian) limit the length of this field
-            # to 80 chars.
             if field == 'Comment':
-                LIMIT = 79
-                for lang, val in translations.items():
-                    if len(val) <= LIMIT:
-                        continue
-
-                    print(
-                        f'WARNING: Length of {field}[{lang}] reached the '
-                        f'limit of {LIMIT} and is {len(val)}. "{val}"'
-                    )
+                _check_value_length(translations, field)
 
             translations = [
                 f'{field}[{lang}]={translated}'
@@ -362,6 +351,21 @@ def update_desktop_files():
     content = content + ['\n']
 
     desktop_fp.write_text('\n'.join(content), encoding='utf-8')
+
+
+def _check_value_length(translations, field):
+    """Debian GNU/Linux (lintian) limit the length of this field to 80 chars.
+    """
+    LIMIT = 79
+
+    for lang, val in translations.items():
+        if len(val) <= LIMIT:
+            continue
+
+        print(
+            f'WARNING: Length of {field}[{lang}] reached the '
+            f'limit of {LIMIT} and is {len(val)}. "{val}"'
+        )
 
 
 def _set_header(po_path: Path, spdx_base: str):
