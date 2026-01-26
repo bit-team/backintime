@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-rc1\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-01-26 06:38+0100\n"
-"PO-Revision-Date: 2026-01-18 08:02+0000\n"
+"POT-Creation-Date: 2026-01-26 18:10+0100\n"
+"PO-Revision-Date: 2026-01-26 15:04+0000\n"
 "Last-Translator: Merik <merik@noreply.codeberg.org>\n"
 "Language-Team: Polish <https://translate.codeberg.org/projects/backintime/common/pl/>\n"
 "Language: pl\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -552,21 +552,20 @@ msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}Wersja{BOLDEND}: {version}"
 
 #: qt/app.py:348
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time because no configuration"
 " is found."
 msgstr ""
-"Wygląda na to, że {app_name} działa po raz pierwszy, ponieważ nie znaleziono"
-" żadnej konfiguracji."
+"{app_name} prawdopodobnie działa po raz pierwszy, ponieważ nie znaleziono "
+"żadnej konfiguracji."
 
 #: qt/app.py:353
-#, fuzzy
 msgid ""
 "Import an existing configuration from a backup location or another computer?"
 msgstr ""
-"Zaimportować istniejącą konfigurację (z katalogu docelowego kopii zapasowej "
-"lub innego komputera)?"
+"Czy zaimportować istniejącą konfigurację z kopii zapasowej lub innego "
+"komputera?"
 
 #: qt/app.py:380
 msgid "Then press OK."
@@ -926,9 +925,9 @@ msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "W Fediverse na platformie Mastodon: {link_and_label}."
 
 #: qt/app.py:1759
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr "Lista mailingowa {link_and_label}."
+msgstr "Wyślij wiadomość e-mail na adres {link_and_label}."
 
 #: qt/app.py:1763
 #, python-brace-format
@@ -1020,21 +1019,24 @@ msgstr ""
 
 #: qt/backintime-qt-root.desktop:14
 msgid "Versioned Backups (root)"
-msgstr ""
+msgstr "Wersjonowane kopie zapasowe (root)"
 
 #: qt/backintime-qt-root.desktop:23
 msgid ""
 "User-friendly GUI for versioned backups that reduces disk usage (root mode)"
 msgstr ""
+"Łatwy w obsłudze interfejs do tworzenia wersjonowanych kopii zapasowych "
+"zmniejszających wykorzystanie dysku (tryb root)"
 
 #: qt/backintime-qt.desktop:14
-#, fuzzy
 msgid "Versioned Backups"
-msgstr "Zachowaj nazwane kopie zapasowe."
+msgstr "Wersjonowane kopie zapasowe"
 
 #: qt/backintime-qt.desktop:23
 msgid "User-friendly GUI for versioned backups that reduces disk usage"
 msgstr ""
+"Łatwy w obsłudze interfejs do tworzenia wersjonowanych kopii zapasowych "
+"zmniejszających wykorzystanie dysku"
 
 #: qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -2310,13 +2312,16 @@ msgstr "Usuń najstarszą kopię zapasową, jeśli…"
 
 #: qt/net.launchpad.backintime.policy:21
 msgid "Authentication is required to run Back In Time as root."
-msgstr ""
+msgstr "Uwierzytelnienie jest wymagane, aby uruchomić Back In Time jako root."
 
 #: qt/net.launchpad.backintime.policy:33 qt/net.launchpad.backintime.policy:43
 msgid ""
 "Authentication is required to change backup schedules triggered by external "
 "storage device connections."
 msgstr ""
+"Uwierzytelnienie jest wymagane do zmiany harmonogramów tworzenia kopii "
+"zapasowych uruchamianych przez połączenia z zewnętrznymi urządzeniami "
+"pamięci masowej."
 
 #: qt/placeswidget.py:49
 msgid "Shortcuts"
@@ -2368,7 +2373,7 @@ msgstr "Importuj konfigurację"
 
 #: qt/restoreconfigdialog.py:105
 msgid "No directory selected"
-msgstr ""
+msgstr "Nie wybrano katalogu"
 
 #: qt/restoreconfigdialog.py:134
 msgid "Import"
@@ -2409,8 +2414,8 @@ msgstr "Pokaż/ukryj ukryte katalogi (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:305
 #, fuzzy
-msgid "No config found in this dicrectory"
-msgstr "Tworzenie pliku w tym katalogu nie powiodło się:"
+msgid "No config found in this directory"
+msgstr "Nie znaleziono konfiguracji w tym katalogu"
 
 #: qt/restoreconfigdialog.py:366
 msgid "Search complete."

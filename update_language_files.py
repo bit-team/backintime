@@ -175,7 +175,7 @@ def _update_po_template_from_polkit_policies():
             if not elem.text:
                 continue
 
-            # add to messages.pot considere duplicates and location/occurrence
+            # Add to messages.pot, consider duplicates and location/occurrence
             _add_entry_to_po_template(
                 msgid=elem.text.strip(),
                 fp=policy_fp.relative_to(Path.cwd()),
@@ -290,10 +290,18 @@ def update_desktop_files():
         content = desktop_fp.read_text(encoding='utf-8')
         content = content.split('\n')
 
-        for idx, line in enumerate(content[:]):
+        to_translate = {key: None for key in DESKTOP_FILE_FIELDS}
+
+        # iterate from the end to the start
+        for idx, line in reversed(list(enumerate(content[:]))):
 
             # ignore comments
             if line.startswith('#'):
+                continue
+
+            # blank line?
+            if not line:
+                content = content[:idx] + content[idx+1:]
                 continue
 
             try:
@@ -312,6 +320,10 @@ def update_desktop_files():
                     content = content[:idx] + content[idx+1:]
                     continue
 
+                # remember original string
+                to_translate[target_field] = value
+                continue
+
                 # PLAUSI
                 if field != target_field:
                     raise RuntimeError(
@@ -319,30 +331,41 @@ def update_desktop_files():
                         f'{value=} {line=}'
                     )
 
-                translations = _get_translation_for_desktop_string(value)
+        for field, value in to_translate.items():
+            print(f'{field=} {value=}')
 
-                # Debian GNU/Linux (lintian) limit the length of this field
-                # to 80 chars.
-                if field == 'Comment':
-                    LIMIT = 79
-                    for lang, val in translations:
-                        if len(val) <= LIMIT:
-                            continue
+            translations = _get_translation_for_desktop_string(value)
 
-                        print(
-                            f'WARNING: Lenght of {field}[{lang}] reached the '
-                            f'limit of {LIMIT} and is {len(val)}. "{val}"'
-                        )
+            if field == 'Comment':
+                _check_value_length(translations, field)
 
-                translations = [
-                    f'{target_field}[{lang}]={translated}'
-                    for lang, translated
-                    in translations.items()
-                ]
+            translations = [
+                f'{field}[{lang}]={translated}'
+                for lang, translated
+                in translations.items()
+            ]
 
-                content = content + translations
+            content = content + translations
+
+    # ensure newline at end of file
+    content = content + ['\n']
 
     desktop_fp.write_text('\n'.join(content), encoding='utf-8')
+
+
+def _check_value_length(translations, field):
+    """Debian GNU/Linux (lintian) limit the length of this field to 80 chars.
+    """
+    LIMIT = 79
+
+    for lang, val in translations.items():
+        if len(val) <= LIMIT:
+            continue
+
+        print(
+            f'WARNING: Length of {field}[{lang}] reached the '
+            f'limit of {LIMIT} and is {len(val)}. "{val}"'
+        )
 
 
 def _set_header(po_path: Path, spdx_base: str):
@@ -611,7 +634,7 @@ def all_po_files_in_local_dir():
 
 
 def all_desktop_files_in_qt_dir():
-    return GUI_DIR.glob('*.desktop')
+    return sorted(GUI_DIR.glob('*.desktop'))
 
 
 def create_completeness_dict():
