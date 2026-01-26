@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-rc1\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-01-26 06:38+0100\n"
-"PO-Revision-Date: 2026-01-19 13:21+0000\n"
+"PO-Revision-Date: 2026-01-26 17:08+0000\n"
 "Last-Translator: Priit Jõerüüt <jrtcdbrg@noreply.codeberg.org>\n"
 "Language-Team: Estonian <https://translate.codeberg.org/projects/backintime/common/et/>\n"
 "Language: et\n"
@@ -514,7 +514,7 @@ msgstr "Tõlkijad:"
 
 #: qt/aboutdlg.py:100
 msgid "translator-credits-placeholder"
-msgstr "Priit Jõerüüt 2024-2025 ja mitu tõlkijat enne seda"
+msgstr "Priit Jõerüüt 2024-2026 ja mitu tõlkijat enne seda"
 
 #: qt/aboutdlg.py:107
 msgid "Translator credits not available for current language."
@@ -549,7 +549,7 @@ msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}Versioon{BOLDEND}: {version}"
 
 #: qt/app.py:348
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time because no configuration"
 " is found."
@@ -558,7 +558,6 @@ msgstr ""
 "esimest korda."
 
 #: qt/app.py:353
-#, fuzzy
 msgid ""
 "Import an existing configuration from a backup location or another computer?"
 msgstr ""
@@ -920,9 +919,9 @@ msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Födiversumis Mastodonis: {link_and_label}."
 
 #: qt/app.py:1759
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr "Postiloend {link_and_label}."
+msgstr "Saada e-kiri: {link_and_label}."
 
 #: qt/app.py:1763
 #, python-brace-format
@@ -1012,21 +1011,24 @@ msgstr "Keelevalikud jõustuvad vaid Back In Time'i uuesti käivitamisel."
 
 #: qt/backintime-qt-root.desktop:14
 msgid "Versioned Backups (root)"
-msgstr ""
+msgstr "Versioonidega varukoopiad (peakasutaja)"
 
 #: qt/backintime-qt-root.desktop:23
 msgid ""
 "User-friendly GUI for versioned backups that reduces disk usage (root mode)"
 msgstr ""
+"Pruugi kasutajasõbralikku liidest versioonidega varukoopiate jaoks - see "
+"vähendab andmeruumi kasutust (eeldab peakasutaja õigusi)"
 
 #: qt/backintime-qt.desktop:14
-#, fuzzy
 msgid "Versioned Backups"
-msgstr "Ära kustuta nimedega varukoopiaid."
+msgstr "Versioonidega varukoopiad"
 
 #: qt/backintime-qt.desktop:23
 msgid "User-friendly GUI for versioned backups that reduces disk usage"
 msgstr ""
+"Kasutajasõbralik liides versioonidega varukoopiate jaoks - see vähendab "
+"andmeruumi kasutust"
 
 #: qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -2295,12 +2297,16 @@ msgstr "Eemalda vanimad varukoopiad, kui…"
 #: qt/net.launchpad.backintime.policy:21
 msgid "Authentication is required to run Back In Time as root."
 msgstr ""
+"Et saaksid Back In Time'i käivitada peakasutaja õigustes, pead end "
+"autentima."
 
 #: qt/net.launchpad.backintime.policy:33 qt/net.launchpad.backintime.policy:43
 msgid ""
 "Authentication is required to change backup schedules triggered by external "
 "storage device connections."
 msgstr ""
+"Kui soovid muuta varunduse ajastamist, mis käivituvad väliste andmekandjate "
+"ühendamisel, siis pead end autentima."
 
 #: qt/placeswidget.py:49
 msgid "Shortcuts"
@@ -2352,7 +2358,7 @@ msgstr "Impordi seadistused"
 
 #: qt/restoreconfigdialog.py:105
 msgid "No directory selected"
-msgstr ""
+msgstr "Sa pole valinud ühtegi kausta"
 
 #: qt/restoreconfigdialog.py:134
 msgid "Import"
@@ -2392,9 +2398,8 @@ msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Näita/peida peidetud kaustu (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:305
-#, fuzzy
 msgid "No config found in this dicrectory"
-msgstr "Faili loomine siia kausta ei õnnestunud:"
+msgstr "Selles kaustas ei leidunud ühtegi seadistustefaili"
 
 #: qt/restoreconfigdialog.py:366
 msgid "Search complete."

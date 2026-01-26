@@ -15,9 +15,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-rc1\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-01-26 06:38+0100\n"
-"PO-Revision-Date: 2026-01-18 12:15+0000\n"
+"PO-Revision-Date: 2026-01-26 15:04+0000\n"
 "Last-Translator: N4ta <codeberg@n4ta.anonaddy.me>\n"
 "Language-Team: Portuguese <https://translate.codeberg.org/projects/backintime/common/pt/>\n"
 "Language: pt\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -556,21 +556,20 @@ msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}Versão{BOLDEND}: {version}"
 
 #: qt/app.py:348
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time because no configuration"
 " is found."
 msgstr ""
-"{app_name} parece estar rodando pela primeira vez uma vez que não foi "
+"{app_name} parece estar a executar pela primeira vez, pois não foi "
 "encontrada nenhuma configuração."
 
 #: qt/app.py:353
-#, fuzzy
 msgid ""
 "Import an existing configuration from a backup location or another computer?"
 msgstr ""
-"Importar uma configuração existente (de um destino de backup ou outro "
-"computador)?"
+"Importar uma configuração existente (de um destino de cópia de segurança ou "
+"de outro computador)?"
 
 #: qt/app.py:380
 msgid "Then press OK."
@@ -930,9 +929,9 @@ msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "No Fediverse no Mastodon: {link_and_label}."
 
 #: qt/app.py:1759
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr "Lista de email {link_and_label}."
+msgstr "Email {link_and_label}."
 
 #: qt/app.py:1763
 #, python-brace-format
@@ -1023,21 +1022,23 @@ msgstr ""
 
 #: qt/backintime-qt-root.desktop:14
 msgid "Versioned Backups (root)"
-msgstr ""
+msgstr "Copias de Segurança com Versões (root)"
 
 #: qt/backintime-qt-root.desktop:23
 msgid ""
 "User-friendly GUI for versioned backups that reduces disk usage (root mode)"
 msgstr ""
+"GUI intuitivo para cópias de segurança com versões que reduzem uso do disco "
+"(modo root)"
 
 #: qt/backintime-qt.desktop:14
-#, fuzzy
 msgid "Versioned Backups"
-msgstr "Manter as cópias nomeadas."
+msgstr "Copias de Segurança com Versões"
 
 #: qt/backintime-qt.desktop:23
 msgid "User-friendly GUI for versioned backups that reduces disk usage"
 msgstr ""
+"GUI intuitivo para cópias de segurança com versões que reduzem uso do disco"
 
 #: qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -2304,13 +2305,15 @@ msgstr "Remover as cópias de segurança antigas se …"
 
 #: qt/net.launchpad.backintime.policy:21
 msgid "Authentication is required to run Back In Time as root."
-msgstr ""
+msgstr "Autenticação é necessária para executar Back In Time como root."
 
 #: qt/net.launchpad.backintime.policy:33 qt/net.launchpad.backintime.policy:43
 msgid ""
 "Authentication is required to change backup schedules triggered by external "
 "storage device connections."
 msgstr ""
+"Autenticação é necessária para mudar cópias programadas acionadas por "
+"conexões de dispositivos de armazenamento externos."
 
 #: qt/placeswidget.py:49
 msgid "Shortcuts"
@@ -2362,7 +2365,7 @@ msgstr "Importar configuração"
 
 #: qt/restoreconfigdialog.py:105
 msgid "No directory selected"
-msgstr ""
+msgstr "Nenhuma diretória selecionada"
 
 #: qt/restoreconfigdialog.py:134
 msgid "Import"
@@ -2402,9 +2405,8 @@ msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Mostrar/esconder diretórios escondidos (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:305
-#, fuzzy
 msgid "No config found in this dicrectory"
-msgstr "A criação de arquivo falhou na pasta:"
+msgstr "Nenhuma configuração encontrada neste diretório"
 
 #: qt/restoreconfigdialog.py:366
 msgid "Search complete."
