@@ -12,9 +12,9 @@
 # been documented and could be lost.
 msgid ""
 msgstr ""
-"Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
+"Project-Id-Version: Back In Time 1.6.0-rc1\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-01-17 17:28+0100\n"
+"POT-Creation-Date: 2026-01-26 06:38+0100\n"
 "PO-Revision-Date: 2026-01-17 13:21+0000\n"
 "Last-Translator: zvavybir <codeberg@zvavybir.eu>\n"
 "Language-Team: Esperanto <https://translate.codeberg.org/projects/backintime/common/eo/>\n"
@@ -121,16 +121,16 @@ msgstr ""
 "Bonvolu ĝustigi la agordojn por ke la limo por forigi savkopiojn ne estas "
 "pli ol la limo por averti."
 
-#: common/config.py:1513
+#: common/config.py:1515
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "udev-planado ne funkcias je reĝimo {mode}"
 
-#: common/config.py:1567
+#: common/config.py:1569
 msgid "Failed to write new crontab."
 msgstr "Malsukcesis skribi novan crontab-on."
 
-#: common/config.py:1575
+#: common/config.py:1577
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -238,7 +238,7 @@ msgstr "Malpravis"
 msgid "Restore permissions"
 msgstr "Restaŭri permesojn"
 
-#: common/snapshots.py:656 qt/app.py:240 qt/app.py:1183 qt/app.py:1199
+#: common/snapshots.py:656 qt/app.py:240 qt/app.py:1184 qt/app.py:1200
 #: qt/qtsystrayicon.py:118
 msgid "Done"
 msgstr "Farite"
@@ -255,11 +255,11 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "Atendas baterion antaŭ komenci savkopii"
 
-#: common/snapshots.py:931 qt/app.py:377
+#: common/snapshots.py:931 qt/app.py:378
 msgid "Can't find backup directory."
 msgstr "Ne povas trovi savkopi-dosierujon."
 
-#: common/snapshots.py:935 qt/app.py:378
+#: common/snapshots.py:935 qt/app.py:379
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Se ĝi estas je demetebla disko, bonvolu konekti ĝin."
 
@@ -363,7 +363,7 @@ msgstr "Provas konservi la minimumo da libera diskospaco"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Provante konservi minimume {perc} da malplenaj indeksnodoj"
 
-#: common/snapshots.py:3211 qt/app.py:1470
+#: common/snapshots.py:3211 qt/app.py:1471
 msgid "Now"
 msgstr "Nun"
 
@@ -522,15 +522,15 @@ msgstr "tiu ĉi ligilon"
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr "Sekvu {thislink} por la agnosko de la tradukintoj por ĉiuj lingvoj."
 
-#: qt/aboutdlg.py:220 qt/app.py:566
+#: qt/aboutdlg.py:220 qt/app.py:567
 msgid "Project website"
 msgstr "Projekt-retejo"
 
-#: qt/aboutdlg.py:225 qt/app.py:548
+#: qt/aboutdlg.py:225 qt/app.py:549
 msgid "User manual"
 msgstr "Manlibro por uzantoj"
 
-#: qt/aboutdlg.py:227 qt/app.py:550
+#: qt/aboutdlg.py:227 qt/app.py:551
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
 "Malfermi manlibron por uzantoj je foliumilo (loke se disponebla, alie "
@@ -542,185 +542,185 @@ msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}Versio{BOLDEND}: {version}"
 
 #: qt/app.py:348
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
-"{app_name} appears to be running for the first time as no configuration is "
-"found."
+"{app_name} appears to be running for the first time because no configuration"
+" is found."
 msgstr "Ŝajnas, ke {app_name} rulas unue, ĉar agordo ne estas trovita."
 
 #: qt/app.py:353
+#, fuzzy
 msgid ""
-"Import an existing configuration (from a backup target directory or another "
-"computer)?"
+"Import an existing configuration from a backup location or another computer?"
 msgstr ""
 "Ĉu importi ekzistantan agordon (de savkopi-celdosierujo aŭ alia komputilo)?"
 
-#: qt/app.py:379
+#: qt/app.py:380
 msgid "Then press OK."
 msgstr "Do premu OK."
 
-#: qt/app.py:487
+#: qt/app.py:488
 msgid "Create a backup"
 msgstr "Krei savkopion"
 
-#: qt/app.py:489
+#: qt/app.py:490
 msgid "Use modification time & size for file change detection."
 msgstr "Uzi tempon kaj grandon de modifo por detektado de dosierŝanĝoj."
 
-#: qt/app.py:492
+#: qt/app.py:493
 msgid "Create a backup (checksum mode)"
 msgstr "Krei savkopion (kontrolsumreĝimo)"
 
-#: qt/app.py:494
+#: qt/app.py:495
 msgid "Use checksums for file change detection."
 msgstr "Uzi kontrolsumojn por detektado de dosierŝanĝoj."
 
-#: qt/app.py:496 qt/qtsystrayicon.py:125
+#: qt/app.py:497 qt/qtsystrayicon.py:125
 msgid "Pause backup process"
 msgstr "Paŭzi savkopi-kreon"
 
-#: qt/app.py:500 qt/qtsystrayicon.py:130
+#: qt/app.py:501 qt/qtsystrayicon.py:130
 msgid "Resume backup process"
 msgstr "Malpaŭzi savkopi-kreon"
 
-#: qt/app.py:504 qt/qtsystrayicon.py:135
+#: qt/app.py:505 qt/qtsystrayicon.py:135
 msgid "Stop backup process"
 msgstr "Ĉesi savkopi-kreon"
 
-#: qt/app.py:508
+#: qt/app.py:509
 msgid "Refresh backup list"
 msgstr "Aktualigi liston da savkopioj"
 
-#: qt/app.py:512
+#: qt/app.py:513
 msgid "Name backup"
 msgstr "Nomi savkopion"
 
-#: qt/app.py:516
+#: qt/app.py:517
 msgid "Remove backup"
 msgstr "Forigi savkopion"
 
-#: qt/app.py:520
+#: qt/app.py:521
 msgid "Open backup log"
 msgstr "Vidi savkopi-protokolon"
 
-#: qt/app.py:522
+#: qt/app.py:523
 msgid "View log of the selected backup."
 msgstr "Vidi protokolon de la elektita savkopio."
 
-#: qt/app.py:524
+#: qt/app.py:525
 msgid "Open last backup log"
 msgstr "Vidi lastan savkopi-protokolon"
 
-#: qt/app.py:526
+#: qt/app.py:527
 msgid "View log of the latest backup."
 msgstr "Vidi protokolon de la lasta savkopio."
 
-#: qt/app.py:528
+#: qt/app.py:529
 msgid "Manage profiles…"
 msgstr "Administri profilojn…"
 
-#: qt/app.py:532
+#: qt/app.py:533
 msgid "Edit user-callback"
 msgstr "Redakti uzantan callback"
 
-#: qt/app.py:536
+#: qt/app.py:537
 msgid "Shutdown"
 msgstr "Sistemfermo"
 
-#: qt/app.py:538
+#: qt/app.py:539
 msgid "Shut down system after backup has finished."
 msgstr "Malŝati sistemon post fini savkopikreon."
 
-#: qt/app.py:540
+#: qt/app.py:541
 msgid "Setup language…"
 msgstr "Agordi lingvon…"
 
-#: qt/app.py:544
+#: qt/app.py:545
 msgid "Exit"
 msgstr "Eliri"
 
-#: qt/app.py:554
+#: qt/app.py:555
 msgid "man page: Back In Time"
 msgstr "manpaĝo: Back In Time"
 
-#: qt/app.py:556
+#: qt/app.py:557
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "Vidigas manpaĝon pri Back In Time (backintime)"
 
-#: qt/app.py:559
+#: qt/app.py:560
 msgid "man page: Profiles config file"
 msgstr "manpaĝo: Agord-dosiero de profiloj"
 
-#: qt/app.py:562
+#: qt/app.py:563
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr "Vidigas manpaĝon pri agord-dosiero de profiloj (backintime-config)"
 
-#: qt/app.py:569
+#: qt/app.py:570
 msgid "Open Back In Time website in browser"
 msgstr "Malfermi la Back In Time retejon je foliumilo"
 
-#: qt/app.py:571 qt/app.py:2288
+#: qt/app.py:572 qt/app.py:2290
 msgid "Changelog"
 msgstr "Ŝanĝoprotokolo"
 
-#: qt/app.py:574
+#: qt/app.py:575
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr "Malfermas ŝanĝoprotokolon (loke se haveble, alie je reto)"
 
-#: qt/app.py:577
+#: qt/app.py:578
 msgid "FAQ"
 msgstr "Oftaj demandoj"
 
-#: qt/app.py:579
+#: qt/app.py:580
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "Malfermas Oftajn Demandojn en foliumilo"
 
-#: qt/app.py:581
+#: qt/app.py:582
 msgid "Ask a question"
 msgstr "Demandi"
 
-#: qt/app.py:585
+#: qt/app.py:586
 msgid "Report a bug"
 msgstr "Raporti cimon"
 
-#: qt/app.py:588
+#: qt/app.py:589
 msgid "Translation"
 msgstr "Traduko"
 
-#: qt/app.py:590
+#: qt/app.py:591
 msgid "Shows the message about participation in translation again."
 msgstr "Vidigas la mesaĝon pri partopreni je la tradukoj ree."
 
-#: qt/app.py:594
+#: qt/app.py:595
 msgid "Encryption Transition (EncFS)"
 msgstr "Ŝanĝi la kriptadon (EncFS)"
 
-#: qt/app.py:596
+#: qt/app.py:597
 msgid "Shows the message about EncFS removal again."
 msgstr "Vidigas ree la mesaĝon pri la fortigado de EncFS."
 
-#: qt/app.py:603
+#: qt/app.py:604
 msgid "About"
 msgstr "Pri"
 
-#: qt/app.py:606 qt/restoredialog.py:46 qt/snapshotsdialog.py:184
+#: qt/app.py:607 qt/restoredialog.py:46 qt/snapshotsdialog.py:184
 #: qt/snapshotsdialog.py:189
 msgid "Restore"
 msgstr "Restaŭri"
 
-#: qt/app.py:608
+#: qt/app.py:609
 msgid "Restore the selected files or directories to the original location."
 msgstr "Restaŭri la selektitajn dosierojn aŭ dosierujojn al originala celo."
 
-#: qt/app.py:611 qt/app.py:1929 qt/snapshotsdialog.py:186
+#: qt/app.py:612 qt/app.py:1931 qt/snapshotsdialog.py:186
 msgid "Restore to …"
 msgstr "Restaŭri al …"
 
-#: qt/app.py:613
+#: qt/app.py:614
 msgid "Restore the selected files or directories to a new location."
 msgstr "Restaŭri la selektitajn dosierojn aŭ dosierujojn al nova celo."
 
-#: qt/app.py:619
+#: qt/app.py:620
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
@@ -728,7 +728,7 @@ msgstr ""
 "Restaŭri la nuntempe vidigitajn dosierujojn kaj ĉiojn de ilia enhavo al "
 "originala celo."
 
-#: qt/app.py:625
+#: qt/app.py:626
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
@@ -736,75 +736,75 @@ msgstr ""
 "Restaŭri la nuntempe vidigitajn dosierujojn kaj ĉiojn de ilia enhavo al nova"
 " celo."
 
-#: qt/app.py:628
+#: qt/app.py:629
 msgid "Up"
 msgstr "Supren"
 
-#: qt/app.py:631
+#: qt/app.py:632
 msgid "Show hidden files"
 msgstr "Montri kaŝitajn dosierojn"
 
-#: qt/app.py:634
+#: qt/app.py:635
 msgid "Compare backups…"
 msgstr "Kompari savkopiojn…"
 
-#: qt/app.py:664 qt/app.py:1802
+#: qt/app.py:665 qt/app.py:1804
 msgid "Release Candidate"
 msgstr "Testa Antaŭversio"
 
-#: qt/app.py:667
+#: qt/app.py:668
 msgid "Shows the message about this Release Candidate again."
 msgstr "Vidigas ree la mesaĝon pri tio ĉi testa antaŭversio."
 
-#: qt/app.py:704
+#: qt/app.py:705
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:709
+#: qt/app.py:710
 msgid "&Backup"
 msgstr "&Savkopio"
 
-#: qt/app.py:721
+#: qt/app.py:722
 msgid "&Restore"
 msgstr "&Restaŭri"
 
-#: qt/app.py:727
+#: qt/app.py:728
 msgid "&Help"
 msgstr "&Helpo"
 
-#: qt/app.py:778
+#: qt/app.py:779
 msgid "Systray Icon"
 msgstr "Piktogramo de Taskopleto"
 
-#: qt/app.py:784
+#: qt/app.py:785
 msgid "Automatic"
 msgstr "Aŭtomata"
 
-#: qt/app.py:788
+#: qt/app.py:789
 msgid "Light icon"
 msgstr "Pala piktogramo"
 
-#: qt/app.py:789
+#: qt/app.py:790
 msgid "Dark icon"
 msgstr "Malpala piktogramo"
 
-#: qt/app.py:812
+#: qt/app.py:813
 msgid "Icons only"
 msgstr "Sole bildsimboloj"
 
-#: qt/app.py:815
+#: qt/app.py:816
 msgid "Text only"
 msgstr "Sole teksto"
 
-#: qt/app.py:818
+#: qt/app.py:819
 msgid "Text below icons"
 msgstr "Teksto malsupre de bildsimboloj"
 
-#: qt/app.py:821
+#: qt/app.py:822
 msgid "Text beside icon"
 msgstr "Teksto flanke de bildsimboloj"
 
-#: qt/app.py:932
+#: qt/app.py:933
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected backup."
@@ -812,15 +812,15 @@ msgstr ""
 "Tio dosierujo ne ekzistas\n"
 "en la nuntempe selektita savkopio."
 
-#: qt/app.py:993
+#: qt/app.py:994
 msgid "Add to Include"
 msgstr "Aldoni al la inkluzivitoj"
 
-#: qt/app.py:994
+#: qt/app.py:995
 msgid "Add to Exclude"
 msgstr "Aldoni al la ekskluzivitoj"
 
-#: qt/app.py:1008
+#: qt/app.py:1009
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
@@ -828,53 +828,53 @@ msgstr ""
 "Se vi fermi tiun fenestron, Back in Time ne eblos malŝalti vian sistemon "
 "kiam la savkopio finiĝas."
 
-#: qt/app.py:1011
+#: qt/app.py:1012
 msgid "Close the window anyway?"
 msgstr "Ĉu vi volas fermi la fenestron tamen?"
 
-#: qt/app.py:1202
+#: qt/app.py:1203
 msgid "Done, no backup needed"
 msgstr "Farita, savkopio ne estas bezonata"
 
-#: qt/app.py:1273
+#: qt/app.py:1274
 msgid "Working:"
 msgstr "Faranta:"
 
-#: qt/app.py:1280
+#: qt/app.py:1281
 msgid "Working"
 msgstr "Laborante"
 
-#: qt/app.py:1286 qt/messagebox.py:136
+#: qt/app.py:1287 qt/messagebox.py:136
 msgid "Error"
 msgstr "Eraro"
 
-#: qt/app.py:1327 qt/qtsystrayicon.py:295
+#: qt/app.py:1328 qt/qtsystrayicon.py:295
 msgid "Sent:"
 msgstr "Sendita:"
 
-#: qt/app.py:1328 qt/qtsystrayicon.py:296
+#: qt/app.py:1329 qt/qtsystrayicon.py:296
 msgid "Speed:"
 msgstr "Rapideco:"
 
-#: qt/app.py:1329 qt/qtsystrayicon.py:297
+#: qt/app.py:1330 qt/qtsystrayicon.py:297
 msgid "ETA:"
 msgstr "Restanta:"
 
-#: qt/app.py:1478
+#: qt/app.py:1479
 msgid "Backup:"
 msgstr "Savkopio:"
 
-#: qt/app.py:1518
+#: qt/app.py:1519
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Restaŭri {path}"
 
-#: qt/app.py:1520
+#: qt/app.py:1521
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Restaŭri {path} al …"
 
-#: qt/app.py:1668
+#: qt/app.py:1669
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -891,42 +891,47 @@ msgstr ""
 "Ni pardonpetas pri la interrompo, kaj ĉi tiu mesaĝo ne plu aperos. Ĉi tio dialogo estos ĉiam disponebla en la helpmenuo.\n"
 "Via Back In Time teamo"
 
-#: qt/app.py:1697
+#: qt/app.py:1698
 msgid "translation platform"
 msgstr "tradukplatformon"
 
-#: qt/app.py:1702
+#: qt/app.py:1703
 msgid "Website"
 msgstr "Retejo"
 
-#: qt/app.py:1716
+#: qt/app.py:1717
 msgid "Your translation"
 msgstr "Via traduko"
 
-#: qt/app.py:1753
+#: qt/app.py:1754
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "En la Fediverso je Mastodon: {link_and_label}."
 
-#: qt/app.py:1761
+#: qt/app.py:1759
+#, fuzzy, python-brace-format
+msgid "Email to {link_and_label}."
+msgstr "Dissendolisto {link_and_label}."
+
+#: qt/app.py:1763
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "Dissendolisto {link_and_label}."
 
-#: qt/app.py:1765
+#: qt/app.py:1767
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} je la retejo de la projekto."
 
-#: qt/app.py:1768
+#: qt/app.py:1770
 msgid "Open an issue"
 msgstr "Malfermi problemon (\"issue\" angle)"
 
-#: qt/app.py:1769
+#: qt/app.py:1771
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Alie, vi eblas uzi alian kanalon, kion vi elektas."
 
-#: qt/app.py:1774
+#: qt/app.py:1776
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -947,7 +952,7 @@ msgstr ""
 "Dankon por via subteno kaj por helpi nin plibonigi Back In Time!\n"
 "Via Teamo de Back In Time"
 
-#: qt/app.py:1879
+#: qt/app.py:1881
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
@@ -956,22 +961,22 @@ msgstr ""
 "Sola {free} da libera loko estas disponebla je la celo, kio estas sub la "
 "agordita sojlo da {threshold}."
 
-#: qt/app.py:1884
+#: qt/app.py:1886
 msgid "Proceed with the backup?"
 msgstr "Procedas pri la savkopio?"
 
-#: qt/app.py:1909
+#: qt/app.py:1911
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr "Ĉiuj pli novaj dosieroj en {path} estos forigataj. Ĉu procedas?"
 
-#: qt/app.py:1912
+#: qt/app.py:1914
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 "Ĉiuj plia novaj dosierojn en la originala dosierujo estos forigataj. Ĉu "
 "procedas?"
 
-#: qt/app.py:1918
+#: qt/app.py:1920
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -980,19 +985,37 @@ msgstr ""
 "{BOLD}AVERTO{BOLDEND}: Forigi dosierojn en la radiko de la dosiersistemo "
 "povas rompi vian tutan sistemon."
 
-#: qt/app.py:2154
+#: qt/app.py:2156
 msgid "Backup name"
 msgstr "Nomo de la savkopio"
 
-#: qt/app.py:2185
+#: qt/app.py:2187
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "Ĉu forigos tio ĉi savkopion?"
 msgstr[1] "Ĉu forigos tio ĉi savkopiojn?"
 
-#: qt/app.py:2248
+#: qt/app.py:2250
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "La lingoagordoj ne efikas antaŭ restarti Back In Time."
+
+#: qt/backintime-qt-root.desktop:14
+msgid "Versioned Backups (root)"
+msgstr ""
+
+#: qt/backintime-qt-root.desktop:23
+msgid ""
+"User-friendly GUI for versioned backups that reduces disk usage (root mode)"
+msgstr ""
+
+#: qt/backintime-qt.desktop:14
+#, fuzzy
+msgid "Versioned Backups"
+msgstr "Ne forigi nomitajn savkopiojn."
+
+#: qt/backintime-qt.desktop:23
+msgid "User-friendly GUI for versioned backups that reduces disk usage"
+msgstr ""
 
 #: qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -1073,20 +1096,20 @@ msgstr ""
 msgid "Show/hide hidden files and directories (Ctrl+H)"
 msgstr "Vidigi/malvidigi kaŝitajn dosierojn kaj dosierujojn (Ctrl+H)"
 
-#: qt/languagedialog.py:35
+#: qt/languagedialog.py:36
 msgid "Setup language"
 msgstr "Agordi lingvon"
 
-#: qt/languagedialog.py:119
+#: qt/languagedialog.py:120
 #, python-brace-format
 msgid "Translated: {percent}"
 msgstr "Tradukita: {percent}"
 
-#: qt/languagedialog.py:131
+#: qt/languagedialog.py:132
 msgid "System default"
 msgstr "Defaŭlto de la sistemo"
 
-#: qt/languagedialog.py:141
+#: qt/languagedialog.py:142
 msgid "Use operating system's language."
 msgstr "Uzi la lingvon de la operaciumo."
 
@@ -1099,7 +1122,7 @@ msgid "Last Log View"
 msgstr "Vidaĵo je lastaj protokoloj"
 
 #: qt/logviewdialog.py:71 qt/manageprofiles/__init__.py:72
-#: qt/manageprofiles/tab_general.py:250 qt/restoreconfigdialog.py:358
+#: qt/manageprofiles/tab_general.py:250 qt/restoreconfigdialog.py:343
 msgid "Profile:"
 msgstr "Profilo:"
 
@@ -1840,7 +1863,7 @@ msgstr "malŝaltita"
 msgid "enabled"
 msgstr "ŝaltita"
 
-#: qt/manageprofiles/tab_general.py:67 qt/restoreconfigdialog.py:360
+#: qt/manageprofiles/tab_general.py:67 qt/restoreconfigdialog.py:345
 msgid "Mode:"
 msgstr "Maniero:"
 
@@ -2236,6 +2259,16 @@ msgstr "… la kvanto de liberaj indeksnodoj estas malpli ol"
 msgid "Remove oldest backup if …"
 msgstr "Malnovaj savkopioj estas forigitaj se …"
 
+#: qt/net.launchpad.backintime.policy:21
+msgid "Authentication is required to run Back In Time as root."
+msgstr ""
+
+#: qt/net.launchpad.backintime.policy:33 qt/net.launchpad.backintime.policy:43
+msgid ""
+"Authentication is required to change backup schedules triggered by external "
+"storage device connections."
+msgstr ""
+
 #: qt/placeswidget.py:49
 msgid "Shortcuts"
 msgstr "Klavkombinoj"
@@ -2275,7 +2308,7 @@ msgstr "Komencu {appname}"
 msgid "Working…"
 msgstr "Laborante…"
 
-#: qt/qttools.py:502
+#: qt/qttools.py:503
 #, python-brace-format
 msgid "man page: {man_page_name}"
 msgstr "manpaĝo: {man_page_name}"
@@ -2284,19 +2317,19 @@ msgstr "manpaĝo: {man_page_name}"
 msgid "Import configuration"
 msgstr "Importi agordon"
 
-#: qt/restoreconfigdialog.py:94 qt/restoreconfigdialog.py:320
-msgid "No config found"
-msgstr "Ne trovas agordon"
+#: qt/restoreconfigdialog.py:105
+msgid "No directory selected"
+msgstr ""
 
-#: qt/restoreconfigdialog.py:123
+#: qt/restoreconfigdialog.py:134
 msgid "Import"
 msgstr "Importi"
 
-#: qt/restoreconfigdialog.py:145 qt/restoreconfigdialog.py:249
+#: qt/restoreconfigdialog.py:154 qt/restoreconfigdialog.py:234
 msgid "Searching…"
 msgstr "Serĉanta…"
 
-#: qt/restoreconfigdialog.py:226
+#: qt/restoreconfigdialog.py:211
 #, python-brace-format
 msgid ""
 "Select the backup directory from which the configuration file should be "
@@ -2305,7 +2338,7 @@ msgstr ""
 "Elekti la savkopi-dosierujon de kie la agord-dosiero devus esti importota. "
 "La vojo eble aspektas tiel: {samplePath}"
 
-#: qt/restoreconfigdialog.py:231
+#: qt/restoreconfigdialog.py:216
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
@@ -2313,19 +2346,24 @@ msgstr ""
 "Se la dosierujo estas je ekstera aŭ fora disko, ĝi devas esti mane surmetita"
 " antaŭe."
 
-#: qt/restoreconfigdialog.py:252
+#: qt/restoreconfigdialog.py:237
 msgid "Scan again"
 msgstr "Skani ree"
 
-#: qt/restoreconfigdialog.py:271
+#: qt/restoreconfigdialog.py:256
 msgid "Show hidden directories"
 msgstr "Montri kaŝitajn dosierujojn"
 
-#: qt/restoreconfigdialog.py:273
+#: qt/restoreconfigdialog.py:258
 msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Vidigi/malvidigi kaŝitajn dosierujojn (Ctrl+H)"
 
-#: qt/restoreconfigdialog.py:381
+#: qt/restoreconfigdialog.py:305
+#, fuzzy
+msgid "No config found in this dicrectory"
+msgstr "Kreado de dosiero malsukcesis en tio dosierujo:"
+
+#: qt/restoreconfigdialog.py:366
 msgid "Search complete."
 msgstr "Serĉado kompletas."
 
@@ -2522,6 +2560,9 @@ msgstr "Lasta kontrolo {time}"
 
 #~ msgid "It is not recommended to use that mode for a profile furthermore."
 #~ msgstr "Ne estas rekomendita uzi tio ĉi reĝimo por profilo plue."
+
+#~ msgid "No config found"
+#~ msgstr "Ne trovas agordon"
 
 #~ msgid "SSH encrypted"
 #~ msgstr "kriptita SSH"

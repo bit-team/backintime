@@ -13,9 +13,9 @@
 # been documented and could be lost.
 msgid ""
 msgstr ""
-"Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
+"Project-Id-Version: Back In Time 1.6.0-rc1\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-01-17 17:28+0100\n"
+"POT-Creation-Date: 2026-01-26 06:38+0100\n"
 "PO-Revision-Date: 2025-04-11 12:32+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Norwegian Nynorsk <https://translate.codeberg.org/projects/backintime/common/nn/>\n"
@@ -113,16 +113,16 @@ msgid ""
 "than the warning limit."
 msgstr ""
 
-#: common/config.py:1513
+#: common/config.py:1515
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Timeplan udev verker ikkje med modusen {mode}"
 
-#: common/config.py:1567
+#: common/config.py:1569
 msgid "Failed to write new crontab."
 msgstr "Klara ikkje å skriva ny crontab."
 
-#: common/config.py:1575
+#: common/config.py:1577
 #, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
@@ -233,7 +233,7 @@ msgstr "FEILA"
 msgid "Restore permissions"
 msgstr "Gjennopprett tillatelsar"
 
-#: common/snapshots.py:656 qt/app.py:240 qt/app.py:1183 qt/app.py:1199
+#: common/snapshots.py:656 qt/app.py:240 qt/app.py:1184 qt/app.py:1200
 #: qt/qtsystrayicon.py:118
 msgid "Done"
 msgstr "Fullført"
@@ -248,12 +248,12 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "Ventar med sikkerhetskopi medan på batteri"
 
-#: common/snapshots.py:931 qt/app.py:377
+#: common/snapshots.py:931 qt/app.py:378
 #, fuzzy
 msgid "Can't find backup directory."
 msgstr "Fann ikkje mappe for augeblinksbilete."
 
-#: common/snapshots.py:935 qt/app.py:378
+#: common/snapshots.py:935 qt/app.py:379
 #, fuzzy
 msgid "If it is on a removable drive, please plug it in."
 msgstr ""
@@ -361,7 +361,7 @@ msgstr "Prøver å oppretthalde minimum ledig plass"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Prøver å halde minimum {perc} ledige inodar"
 
-#: common/snapshots.py:3211 qt/app.py:1470
+#: common/snapshots.py:3211 qt/app.py:1471
 msgid "Now"
 msgstr "No"
 
@@ -525,15 +525,15 @@ msgstr ""
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
 
-#: qt/aboutdlg.py:220 qt/app.py:566
+#: qt/aboutdlg.py:220 qt/app.py:567
 msgid "Project website"
 msgstr "Prosjektet si nettside"
 
-#: qt/aboutdlg.py:225 qt/app.py:548
+#: qt/aboutdlg.py:225 qt/app.py:549
 msgid "User manual"
 msgstr "Brukarhandbok"
 
-#: qt/aboutdlg.py:227 qt/app.py:550
+#: qt/aboutdlg.py:227 qt/app.py:551
 #, fuzzy
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
@@ -545,287 +545,287 @@ msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr ""
 
 #: qt/app.py:348
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
-"{app_name} appears to be running for the first time as no configuration is "
-"found."
+"{app_name} appears to be running for the first time because no configuration"
+" is found."
 msgstr ""
 "{app_name} ser ut til å køyre for første gong ettersom ingen konfigrasjon "
 "vart funnen."
 
 #: qt/app.py:353
+#, fuzzy
 msgid ""
-"Import an existing configuration (from a backup target directory or another "
-"computer)?"
+"Import an existing configuration from a backup location or another computer?"
 msgstr ""
 "Importer eksisterande konfigurasjon frå ein sikkerheitskopi eller anna "
 "datamaskin?"
 
-#: qt/app.py:379
+#: qt/app.py:380
 msgid "Then press OK."
 msgstr ""
 
-#: qt/app.py:487
+#: qt/app.py:488
 msgid "Create a backup"
 msgstr ""
 
-#: qt/app.py:489
+#: qt/app.py:490
 msgid "Use modification time & size for file change detection."
 msgstr ""
 "Bruk tidspunkt for endring og størrelse for å detektere endringar i filer."
 
-#: qt/app.py:492
+#: qt/app.py:493
 #, fuzzy
 msgid "Create a backup (checksum mode)"
 msgstr "Ta eit augneblinksbilete (sjekksum-modus)"
 
-#: qt/app.py:494
+#: qt/app.py:495
 msgid "Use checksums for file change detection."
 msgstr "Bruk sjekksummar for å oppdage endringar."
 
-#: qt/app.py:496 qt/qtsystrayicon.py:125
+#: qt/app.py:497 qt/qtsystrayicon.py:125
 #, fuzzy
 msgid "Pause backup process"
 msgstr "Set augneblinksbilete-prosessen på pause"
 
-#: qt/app.py:500 qt/qtsystrayicon.py:130
+#: qt/app.py:501 qt/qtsystrayicon.py:130
 #, fuzzy
 msgid "Resume backup process"
 msgstr "Taka opp att augneblinksbilete-prosessen"
 
-#: qt/app.py:504 qt/qtsystrayicon.py:135
+#: qt/app.py:505 qt/qtsystrayicon.py:135
 #, fuzzy
 msgid "Stop backup process"
 msgstr "Stansa augneblinksbilete-prosessen"
 
-#: qt/app.py:508
+#: qt/app.py:509
 #, fuzzy
 msgid "Refresh backup list"
 msgstr "Oppdater lista over augneblinksbilete"
 
-#: qt/app.py:512
+#: qt/app.py:513
 msgid "Name backup"
 msgstr ""
 
-#: qt/app.py:516
+#: qt/app.py:517
 #, fuzzy
 msgid "Remove backup"
 msgstr "Fjern augneblinksbilete"
 
-#: qt/app.py:520
+#: qt/app.py:521
 #, fuzzy
 msgid "Open backup log"
 msgstr "Vis siste logg"
 
-#: qt/app.py:522
+#: qt/app.py:523
 #, fuzzy
 msgid "View log of the selected backup."
 msgstr "Minst ei mappe må veljast for sikkerhetskopiering."
 
-#: qt/app.py:524
+#: qt/app.py:525
 #, fuzzy
 msgid "Open last backup log"
 msgstr "Vis siste logg"
 
-#: qt/app.py:526
+#: qt/app.py:527
 msgid "View log of the latest backup."
 msgstr ""
 
-#: qt/app.py:528
+#: qt/app.py:529
 msgid "Manage profiles…"
 msgstr "Administrer profilar…"
 
-#: qt/app.py:532
+#: qt/app.py:533
 msgid "Edit user-callback"
 msgstr "Rediger user-callback"
 
-#: qt/app.py:536
+#: qt/app.py:537
 msgid "Shutdown"
 msgstr "Slå av"
 
-#: qt/app.py:538
+#: qt/app.py:539
 #, fuzzy
 msgid "Shut down system after backup has finished."
 msgstr "Slår av systemet etter at augneblinksbilete er ferdig."
 
-#: qt/app.py:540
+#: qt/app.py:541
 msgid "Setup language…"
 msgstr "Sett opp språk…"
 
-#: qt/app.py:544
+#: qt/app.py:545
 msgid "Exit"
 msgstr "Avslutt"
 
-#: qt/app.py:554
+#: qt/app.py:555
 msgid "man page: Back In Time"
 msgstr "man-side: Back In Time"
 
-#: qt/app.py:556
+#: qt/app.py:557
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "Viser man-sida om Back In time (backintime)"
 
-#: qt/app.py:559
+#: qt/app.py:560
 msgid "man page: Profiles config file"
 msgstr "man-side: profilen si konfig-fil"
 
-#: qt/app.py:562
+#: qt/app.py:563
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr "Viser man-side om profil-konfigfil (backintime-config)"
 
-#: qt/app.py:569
+#: qt/app.py:570
 msgid "Open Back In Time website in browser"
 msgstr "Opne Back In Time-nettsida i nettlesaren"
 
-#: qt/app.py:571 qt/app.py:2288
+#: qt/app.py:572 qt/app.py:2290
 msgid "Changelog"
 msgstr "Endringslogg"
 
-#: qt/app.py:574
+#: qt/app.py:575
 #, fuzzy
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr ""
 "Opne brukarhandboka i nettlesaren (lokal om tilgjengeleg, elles på nett)"
 
-#: qt/app.py:577
+#: qt/app.py:578
 msgid "FAQ"
 msgstr "Vanlege spørsmål"
 
-#: qt/app.py:579
+#: qt/app.py:580
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "Opne ofte stilte spørsmål (FAQ) i nettlesaren"
 
-#: qt/app.py:581
+#: qt/app.py:582
 msgid "Ask a question"
 msgstr "Still eit spørsmål"
 
-#: qt/app.py:585
+#: qt/app.py:586
 msgid "Report a bug"
 msgstr "Rapporter ein feil"
 
-#: qt/app.py:588
+#: qt/app.py:589
 msgid "Translation"
 msgstr "Oversetning"
 
-#: qt/app.py:590
+#: qt/app.py:591
 msgid "Shows the message about participation in translation again."
 msgstr "Viser beskjed om å delta i oversettjinga igjen."
 
-#: qt/app.py:594
+#: qt/app.py:595
 #, fuzzy
 msgid "Encryption Transition (EncFS)"
 msgstr "Kryptert transisjon (EncFS)"
 
-#: qt/app.py:596
+#: qt/app.py:597
 msgid "Shows the message about EncFS removal again."
 msgstr "Vis melding om fjerning av EncFS igjen."
 
-#: qt/app.py:603
+#: qt/app.py:604
 msgid "About"
 msgstr "Om"
 
-#: qt/app.py:606 qt/restoredialog.py:46 qt/snapshotsdialog.py:184
+#: qt/app.py:607 qt/restoredialog.py:46 qt/snapshotsdialog.py:184
 #: qt/snapshotsdialog.py:189
 msgid "Restore"
 msgstr "Før tilbake"
 
-#: qt/app.py:608
+#: qt/app.py:609
 #, fuzzy
 msgid "Restore the selected files or directories to the original location."
 msgstr "Gjenopprett valde filer og mapper til opphavleg stad."
 
-#: qt/app.py:611 qt/app.py:1929 qt/snapshotsdialog.py:186
+#: qt/app.py:612 qt/app.py:1931 qt/snapshotsdialog.py:186
 msgid "Restore to …"
 msgstr "Før tilbake til …"
 
-#: qt/app.py:613
+#: qt/app.py:614
 #, fuzzy
 msgid "Restore the selected files or directories to a new location."
 msgstr "Gjenopprett valde filer og mapper til ein ny stad."
 
-#: qt/app.py:619
+#: qt/app.py:620
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
 msgstr "Gjenopprett den viste mappa med alt innhald til opphavleg stad."
 
-#: qt/app.py:625
+#: qt/app.py:626
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
 msgstr "Gjenopprett den viste mappa og alt innhald til ein ny stad."
 
-#: qt/app.py:628
+#: qt/app.py:629
 msgid "Up"
 msgstr "Opp"
 
-#: qt/app.py:631
+#: qt/app.py:632
 msgid "Show hidden files"
 msgstr "Vis gøymde filer"
 
-#: qt/app.py:634
+#: qt/app.py:635
 #, fuzzy
 msgid "Compare backups…"
 msgstr "Jamstill augneblinksbilete…"
 
-#: qt/app.py:664 qt/app.py:1802
+#: qt/app.py:665 qt/app.py:1804
 msgid "Release Candidate"
 msgstr "sleppkandidat"
 
-#: qt/app.py:667
+#: qt/app.py:668
 msgid "Shows the message about this Release Candidate again."
 msgstr "Viser melding om sleppkandidat igjen."
 
-#: qt/app.py:704
+#: qt/app.py:705
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:709
+#: qt/app.py:710
 msgid "&Backup"
 msgstr "&Sikkerheitskopier"
 
-#: qt/app.py:721
+#: qt/app.py:722
 msgid "&Restore"
 msgstr "Før &tilbake"
 
-#: qt/app.py:727
+#: qt/app.py:728
 msgid "&Help"
 msgstr "&Hjelp"
 
-#: qt/app.py:778
+#: qt/app.py:779
 msgid "Systray Icon"
 msgstr ""
 
-#: qt/app.py:784
+#: qt/app.py:785
 msgid "Automatic"
 msgstr ""
 
-#: qt/app.py:788
+#: qt/app.py:789
 msgid "Light icon"
 msgstr ""
 
-#: qt/app.py:789
+#: qt/app.py:790
 msgid "Dark icon"
 msgstr ""
 
-#: qt/app.py:812
+#: qt/app.py:813
 msgid "Icons only"
 msgstr "Kun ikon"
 
-#: qt/app.py:815
+#: qt/app.py:816
 msgid "Text only"
 msgstr "Kun tekst"
 
-#: qt/app.py:818
+#: qt/app.py:819
 msgid "Text below icons"
 msgstr "Tekst under ikon"
 
-#: qt/app.py:821
+#: qt/app.py:822
 msgid "Text beside icon"
 msgstr "Tekst ved sidan av ikon"
 
-#: qt/app.py:932
+#: qt/app.py:933
 #, fuzzy
 msgid ""
 "This directory doesn't exist\n"
@@ -834,15 +834,15 @@ msgstr ""
 "Denne mappa finst ikkje\n"
 "i det valde augenblinksbiletet."
 
-#: qt/app.py:993
+#: qt/app.py:994
 msgid "Add to Include"
 msgstr "Legg til for å inkludere"
 
-#: qt/app.py:994
+#: qt/app.py:995
 msgid "Add to Exclude"
 msgstr "Legg til for å ekskludere"
 
-#: qt/app.py:1008
+#: qt/app.py:1009
 #, fuzzy
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
@@ -851,55 +851,55 @@ msgstr ""
 "Om du lukkar vindauget vil ikkje Back In Time kunne skru av maskina di når "
 "augeblinksbiletet er ferdig."
 
-#: qt/app.py:1011
+#: qt/app.py:1012
 msgid "Close the window anyway?"
 msgstr ""
 
-#: qt/app.py:1202
+#: qt/app.py:1203
 msgid "Done, no backup needed"
 msgstr "Ferdig, trong ikkje tryggleikskopiera"
 
-#: qt/app.py:1273
+#: qt/app.py:1274
 msgid "Working:"
 msgstr "Arbeider:"
 
-#: qt/app.py:1280
+#: qt/app.py:1281
 msgid "Working"
 msgstr "Arbeider"
 
-#: qt/app.py:1286 qt/messagebox.py:136
+#: qt/app.py:1287 qt/messagebox.py:136
 msgid "Error"
 msgstr "Feil"
 
-#: qt/app.py:1327 qt/qtsystrayicon.py:295
+#: qt/app.py:1328 qt/qtsystrayicon.py:295
 msgid "Sent:"
 msgstr "Sendt:"
 
-#: qt/app.py:1328 qt/qtsystrayicon.py:296
+#: qt/app.py:1329 qt/qtsystrayicon.py:296
 #, fuzzy
 msgid "Speed:"
 msgstr "Hastigheit"
 
-#: qt/app.py:1329 qt/qtsystrayicon.py:297
+#: qt/app.py:1330 qt/qtsystrayicon.py:297
 msgid "ETA:"
 msgstr ""
 
-#: qt/app.py:1478
+#: qt/app.py:1479
 #, fuzzy
 msgid "Backup:"
 msgstr "&Sikkerheitskopier"
 
-#: qt/app.py:1518
+#: qt/app.py:1519
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Gjennoppretta {path}"
 
-#: qt/app.py:1520
+#: qt/app.py:1521
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Gjennopprett {path} til …"
 
-#: qt/app.py:1668
+#: qt/app.py:1669
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -916,42 +916,47 @@ msgstr ""
 "Me orsakar avbrotet og kjem ikkje til å syna denne førespurnaden att. Dette vindauget finn du når som helst frå hjelp-menyen.\n"
 "Helsing laget for Back In Time"
 
-#: qt/app.py:1697
+#: qt/app.py:1698
 msgid "translation platform"
 msgstr "Oversetjingsplattform"
 
-#: qt/app.py:1702
+#: qt/app.py:1703
 msgid "Website"
 msgstr "Nettstad"
 
-#: qt/app.py:1716
+#: qt/app.py:1717
 msgid "Your translation"
 msgstr "Di oversetjing"
 
-#: qt/app.py:1753
+#: qt/app.py:1754
 #, fuzzy, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "I fødiverset på Mastodon: {link_and_label}"
 
-#: qt/app.py:1761
+#: qt/app.py:1759
+#, fuzzy, python-brace-format
+msgid "Email to {link_and_label}."
+msgstr "E-postliste {link_and_label}"
+
+#: qt/app.py:1763
 #, fuzzy, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "E-postliste {link_and_label}"
 
-#: qt/app.py:1765
+#: qt/app.py:1767
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} på prosjektet si nettside."
 
-#: qt/app.py:1768
+#: qt/app.py:1770
 msgid "Open an issue"
 msgstr "Rapporter eit problem"
 
-#: qt/app.py:1769
+#: qt/app.py:1771
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Alternativt kan du bruke ein anna valfri kanal."
 
-#: qt/app.py:1774
+#: qt/app.py:1776
 #, fuzzy, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -970,27 +975,27 @@ msgstr ""
 "Denne beskjeden vil ikkje verte vist igjen i denne versjonen, men finst tilgjengeleg i hjelpe-menyen.\n"
 "Helsing oss bak Back In Time"
 
-#: qt/app.py:1879
+#: qt/app.py:1881
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr ""
 
-#: qt/app.py:1884
+#: qt/app.py:1886
 msgid "Proceed with the backup?"
 msgstr ""
 
-#: qt/app.py:1909
+#: qt/app.py:1911
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr ""
 
-#: qt/app.py:1912
+#: qt/app.py:1914
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 
-#: qt/app.py:1918
+#: qt/app.py:1920
 #, fuzzy, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -999,20 +1004,38 @@ msgstr ""
 "{BOLD}Åtvaring{BOLDEND}: Sletting av filer i rota av filsystemet kan "
 "øydeleggje heile systemet ditt."
 
-#: qt/app.py:2154
+#: qt/app.py:2156
 #, fuzzy
 msgid "Backup name"
 msgstr "&Sikkerheitskopier"
 
-#: qt/app.py:2185
+#: qt/app.py:2187
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qt/app.py:2248
+#: qt/app.py:2250
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "Språk instillingane vert aktivert etter omstart av Back In Time."
+
+#: qt/backintime-qt-root.desktop:14
+msgid "Versioned Backups (root)"
+msgstr ""
+
+#: qt/backintime-qt-root.desktop:23
+msgid ""
+"User-friendly GUI for versioned backups that reduces disk usage (root mode)"
+msgstr ""
+
+#: qt/backintime-qt.desktop:14
+#, fuzzy
+msgid "Versioned Backups"
+msgstr "Ikkje fjern namngitte snapshot."
+
+#: qt/backintime-qt.desktop:23
+msgid "User-friendly GUI for versioned backups that reduces disk usage"
+msgstr ""
 
 #: qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -1096,20 +1119,20 @@ msgstr ""
 msgid "Show/hide hidden files and directories (Ctrl+H)"
 msgstr "Inkluder filer og mapper"
 
-#: qt/languagedialog.py:35
+#: qt/languagedialog.py:36
 msgid "Setup language"
 msgstr "Oppsettspråk"
 
-#: qt/languagedialog.py:119
+#: qt/languagedialog.py:120
 #, python-brace-format
 msgid "Translated: {percent}"
 msgstr "Omsett: {percent}"
 
-#: qt/languagedialog.py:131
+#: qt/languagedialog.py:132
 msgid "System default"
 msgstr "System standard"
 
-#: qt/languagedialog.py:141
+#: qt/languagedialog.py:142
 #, fuzzy
 msgid "Use operating system's language."
 msgstr "Bruk operativsystemets språk."
@@ -1124,7 +1147,7 @@ msgid "Last Log View"
 msgstr "Visning av siste logg"
 
 #: qt/logviewdialog.py:71 qt/manageprofiles/__init__.py:72
-#: qt/manageprofiles/tab_general.py:250 qt/restoreconfigdialog.py:358
+#: qt/manageprofiles/tab_general.py:250 qt/restoreconfigdialog.py:343
 msgid "Profile:"
 msgstr "Profil:"
 
@@ -1879,7 +1902,7 @@ msgstr "deaktivert"
 msgid "enabled"
 msgstr "aktivert"
 
-#: qt/manageprofiles/tab_general.py:67 qt/restoreconfigdialog.py:360
+#: qt/manageprofiles/tab_general.py:67 qt/restoreconfigdialog.py:345
 msgid "Mode:"
 msgstr "Modus:"
 
@@ -2273,6 +2296,16 @@ msgstr "Viss ledige inodes er mindre enn"
 msgid "Remove oldest backup if …"
 msgstr "Fjern gamle augneblinksbilete"
 
+#: qt/net.launchpad.backintime.policy:21
+msgid "Authentication is required to run Back In Time as root."
+msgstr ""
+
+#: qt/net.launchpad.backintime.policy:33 qt/net.launchpad.backintime.policy:43
+msgid ""
+"Authentication is required to change backup schedules triggered by external "
+"storage device connections."
+msgstr ""
+
 #: qt/placeswidget.py:49
 msgid "Shortcuts"
 msgstr "Snarvegar"
@@ -2312,7 +2345,7 @@ msgstr "Start {appname}"
 msgid "Working…"
 msgstr "Arbeider…"
 
-#: qt/qttools.py:502
+#: qt/qttools.py:503
 #, python-brace-format
 msgid "man page: {man_page_name}"
 msgstr ""
@@ -2321,27 +2354,27 @@ msgstr ""
 msgid "Import configuration"
 msgstr ""
 
-#: qt/restoreconfigdialog.py:94 qt/restoreconfigdialog.py:320
-msgid "No config found"
-msgstr "Ingen konfigurasjon funne"
+#: qt/restoreconfigdialog.py:105
+msgid "No directory selected"
+msgstr ""
 
-#: qt/restoreconfigdialog.py:123
+#: qt/restoreconfigdialog.py:134
 msgid "Import"
 msgstr ""
 
-#: qt/restoreconfigdialog.py:145 qt/restoreconfigdialog.py:249
+#: qt/restoreconfigdialog.py:154 qt/restoreconfigdialog.py:234
 #, fuzzy
 msgid "Searching…"
 msgstr "Arbeider…"
 
-#: qt/restoreconfigdialog.py:226
+#: qt/restoreconfigdialog.py:211
 #, python-brace-format
 msgid ""
 "Select the backup directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
 
-#: qt/restoreconfigdialog.py:231
+#: qt/restoreconfigdialog.py:216
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
@@ -2349,21 +2382,26 @@ msgstr ""
 "Dersom mappa er på ein ekstern eller fjerntilkopla disk, må den monterast "
 "manuelt først."
 
-#: qt/restoreconfigdialog.py:252
+#: qt/restoreconfigdialog.py:237
 msgid "Scan again"
 msgstr ""
 
-#: qt/restoreconfigdialog.py:271
+#: qt/restoreconfigdialog.py:256
 #, fuzzy
 msgid "Show hidden directories"
 msgstr "Vis gøymde filer"
 
-#: qt/restoreconfigdialog.py:273
+#: qt/restoreconfigdialog.py:258
 #, fuzzy
 msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Inkluder filer og mapper"
 
-#: qt/restoreconfigdialog.py:381
+#: qt/restoreconfigdialog.py:305
+#, fuzzy
+msgid "No config found in this dicrectory"
+msgstr "Oppretting av filer i denne katalogen feila:"
+
+#: qt/restoreconfigdialog.py:366
 msgid "Search complete."
 msgstr ""
 
@@ -2565,6 +2603,9 @@ msgstr "Sist sjekka {time}"
 
 #~ msgid "It is not recommended to use that mode for a profile furthermore."
 #~ msgstr "Det er ikkje anbefalt å bruke den moden for profilar lengre."
+
+#~ msgid "No config found"
+#~ msgstr "Ingen konfigurasjon funne"
 
 #~ msgid "SSH encrypted"
 #~ msgstr "SSH-kryptert"

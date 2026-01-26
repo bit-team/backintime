@@ -310,6 +310,7 @@ def update_desktop_files():
                 if field.startswith(f'{target_field}['):
                     # remove translation
                     content = content[:idx] + content[idx+1:]
+                    continue
 
                 # PLAUSI
                 if field != target_field:
@@ -920,7 +921,7 @@ def get_spdx_metadata_lines(ignore_copyright: bool = False,
                 line = line[1:]
 
             result = result + line.strip() + '\n'
-       
+
     return result
 
 
@@ -938,13 +939,16 @@ def _get_translation_for_desktop_string(value: str) -> dict[str, str]:
     translations: dict[str, str] = {}
 
     for po_path in LOCAL_DIR.rglob('**/*.po'):
-        lang = po_path.stem
         po = polib.pofile(po_path)
 
         entry = po.find(value)
 
         # Nothing found or no translation
         if entry is None or not entry.msgstr:
+            continue
+
+        # Translation finished?
+        if 'fuzzy' in entry.flags or entry.obsolete:
             continue
 
         translations[po_path.stem] = entry.msgstr
