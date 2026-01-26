@@ -301,6 +301,11 @@ def update_desktop_files():
                 print('comment - continue')
                 continue
 
+            # blank line?
+            if not line:
+                content = content[:idx] + content[idx+1:]
+                continue
+
             try:
                 field, value = line.split('=', 1)
             except ValueError:
@@ -318,7 +323,7 @@ def update_desktop_files():
                 if field.startswith(f'{target_field}['):
                     print(f'is translation - remove')
                     # remove translation
-                    content.remove(line)
+                    content = content[:idx] + content[idx+1:]
                     continue
 
                 # remember original string
