@@ -293,7 +293,7 @@ def update_desktop_files():
         to_translate = {key: None for key in DESKTOP_FILE_FIELDS}
 
         # iterate from the ende to the start
-        for idx, line in reversed(list(enumerate(content[:])):
+        for idx, line in reversed(list(enumerate(content[:]))):
             print(f'{idx=} {line=}')
 
             # ignore comments
