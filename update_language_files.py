@@ -343,7 +343,7 @@ def update_desktop_files():
                 content = content + translations
 
     # remove blank lines
-    content = list(filter(lambda line: len(line)))
+    content = list(filter(lambda line: len(line), content))
 
     # ensure newline at end of file
     content = content + ['\n']
