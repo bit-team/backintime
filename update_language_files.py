@@ -359,8 +359,9 @@ def update_desktop_files():
 
             content = content + translations
 
-    for c in content:
-        print(content)
+        for c in content:
+            print(content)
+        print('--------------')
 
     sys.exit()
 
