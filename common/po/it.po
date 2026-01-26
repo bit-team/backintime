@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-01-17 17:28+0100\n"
-"PO-Revision-Date: 2025-12-29 14:16+0000\n"
+"PO-Revision-Date: 2026-01-19 13:21+0000\n"
 "Last-Translator: smart2128 <smart2128@noreply.codeberg.org>\n"
 "Language-Team: Italian <https://translate.codeberg.org/projects/backintime/common/it/>\n"
 "Language: it\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -163,9 +163,9 @@ msgid "The last profile cannot be removed."
 msgstr "L'ultimo profilo non può essere rimosso."
 
 #: common/encfstools.py:129 common/gocryptfstools.py:84
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount \"{command}\""
-msgstr "Impossibile montare '{command}'"
+msgstr "Impossibile montare \"{command}\""
 
 #: common/encfstools.py:190
 msgid "Configuration for the encrypted directory not found."
@@ -192,9 +192,9 @@ msgid "Take snapshot"
 msgstr "Crea istantanea"
 
 #: common/gocryptfstools.py:133
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to init encrypted path \"{command}\""
-msgstr "Impossibile montare '{command}'"
+msgstr "Impossibile inizializzare il percorso cifrato \"{command}\""
 
 #: common/mount.py:663
 #, python-brace-format
@@ -1225,45 +1225,54 @@ msgstr "Vuoi eliminare il profilo \"{name}\"?"
 
 #: qt/manageprofiles/copylinkswidget.py:38
 msgid "Copy symbolic links as files"
-msgstr ""
+msgstr "Copia i collegamenti simbolici come file"
 
 #: qt/manageprofiles/copylinkswidget.py:43
 msgid ""
 "Copy symbolic links as real files or directories in the backup. Select "
 "whether all links or only those pointing outside the source are copied."
 msgstr ""
+"Copia i collegamenti simbolici come file o cartelle reali nel backup. "
+"Seleziona se copiare tutti i collegamenti o solo quelli che puntano "
+"all'esterno della sorgente."
 
 #: qt/manageprofiles/copylinkswidget.py:46
 msgid "This option may increase backup size."
-msgstr ""
+msgstr "Questa opzione potrebbe aumentare le dimensioni del backup."
 
 #: qt/manageprofiles/copylinkswidget.py:47
 msgid "Disabled by default."
-msgstr ""
+msgstr "Disabilitata in modo predefinito."
 
 #: qt/manageprofiles/copylinkswidget.py:60
 msgid ""
 "All symbolic links are replaced with real files or directories they point "
 "to. This increases backup size and may store the same files multiple times."
 msgstr ""
+"Tutti i collegamenti simbolici sono sostituiti con file o cartelle reali a "
+"cui puntano. Questo aumenta le dimensioni del backup e potrebbe memorizzare "
+"gli stessi file più volte."
 
 #: qt/manageprofiles/copylinkswidget.py:63
 msgid "Uses 'rsync --copy-links'."
-msgstr ""
+msgstr "Utilizza 'rsync --copy-links'."
 
 #: qt/manageprofiles/copylinkswidget.py:68
 msgid "Only external"
-msgstr ""
+msgstr "Solo esterni"
 
 #: qt/manageprofiles/copylinkswidget.py:72
 msgid ""
 "Only links pointing outside the backup source are copied as files. This "
 "increases backup size and may store the same files multiple times."
 msgstr ""
+"Solo i collegamenti che puntano all'esterno della sorgente di backup sono "
+"copiati come file. Questo aumenta le dimensioni del backup e potrebbe "
+"archiviare gli stessi file più volte."
 
 #: qt/manageprofiles/copylinkswidget.py:75
 msgid "Uses 'rsync --copy-unsafe-links'."
-msgstr ""
+msgstr "Utilizza 'rsync --copy-unsafe-links'."
 
 #: qt/manageprofiles/excludesuggestions.py:33
 msgid "Editor & Office temporary files"
@@ -1340,7 +1349,7 @@ msgstr "Cache dei pacchetti per le distribuzioni GNU/Linux basate su Debian"
 
 #: qt/manageprofiles/excludesuggestions.py:77
 msgid "Flatpak app and runtime repository"
-msgstr ""
+msgstr "Applicazione Flatpak e repository di runtime"
 
 #: qt/manageprofiles/excludesuggestions.py:81
 msgid "System runtime directories"
@@ -1923,12 +1932,11 @@ msgstr ""
 
 #: qt/manageprofiles/tab_general.py:393
 msgid "The backup destination path cannot be empty."
-msgstr ""
+msgstr "Il percorso di destinazione del backup non può essere vuoto."
 
 #: qt/manageprofiles/tab_general.py:404
-#, fuzzy
 msgid "The encryption password cannot be empty."
-msgstr "Le password EncFS non corrispondono."
+msgstr "La password di cifratura non può essere vuota."
 
 #: qt/manageprofiles/tab_general.py:553
 msgid ""
@@ -1979,11 +1987,11 @@ msgstr "Vuoi cambiare la cartella del backup?"
 
 #: qt/manageprofiles/tab_general.py:725
 msgid "The selected backup destination is not empty."
-msgstr ""
+msgstr "La destinazione selezionata per il backup non è vuota."
 
 #: qt/manageprofiles/tab_general.py:727
 msgid "It must be empty to use encryption."
-msgstr ""
+msgstr "Per utilizzare la cifratura deve essere vuoto."
 
 #: qt/manageprofiles/tab_general.py:756
 msgid "Invalid file: Not a private SSH key"
@@ -1995,16 +2003,16 @@ msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
-"Il file selezionato ({path}) sembra essere una chiave SSH pubblica. Scegli "
-"il file della chiave privata corrispondente (senza estensione \".pub\")."
+"Il file selezionato ({path}) è una chiave pubblica SSH. Scegli il file della"
+" chiave privata corrispondente (senza estensione \".pub\")."
 
 #: qt/manageprofiles/tab_general.py:781
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
-"Il file {path} esiste già. Impossibile creare una nuova chiave SSH con lo "
-"stesso nome."
+"Il file {path} esiste già. Impossibile creare una nuova chiave SSH con tale "
+"nome."
 
 #: qt/manageprofiles/tab_general.py:791
 #, python-brace-format
@@ -2038,7 +2046,7 @@ msgstr "Includi cartelle"
 
 #: qt/manageprofiles/tab_options.py:39
 msgid "Enable notifications"
-msgstr "Attiva le notifiche"
+msgstr "Abilita le notifiche"
 
 #: qt/manageprofiles/tab_options.py:43
 msgid "Disable backups when on battery"
@@ -2058,14 +2066,14 @@ msgid ""
 " a global setting, meaning it will affect all profiles for this user. "
 "However, it must also be activated for all other users."
 msgstr ""
-"Le altre istantanee saranno bloccate finché il backup attuale non sarà "
+"Gli altri backup saranno bloccati finché il backup attuale non sarà "
 "completato. Questa è un'opzione globale, pertanto avrà effetto su tutti i "
 "profili di questo utente. Tuttavia, devi attivare quest'opzione anche per "
 "gli altri utenti."
 
 #: qt/manageprofiles/tab_options.py:63
 msgid "Backup replaced files on restore"
-msgstr "Esegui il backup dei file sostituiti durante il ripristino"
+msgstr "Backup dei file sostituiti durante il ripristino"
 
 #: qt/manageprofiles/tab_options.py:78
 msgid "Continue on errors (keep incomplete backups)"
@@ -2073,7 +2081,7 @@ msgstr "Continua in caso di errore (mantieni backup incompleti)"
 
 #: qt/manageprofiles/tab_options.py:82
 msgid "Use checksum to detect changes"
-msgstr "Usa il checksum per riconoscere i cambiamenti"
+msgstr "Usa il checksum per rilevare i cambiamenti"
 
 #: qt/manageprofiles/tab_options.py:86
 msgid "Create a new backup whether there were changes or not."
@@ -2097,7 +2105,7 @@ msgid ""
 "based on available free space, this value cannot be lower than the value set"
 " in the policy."
 msgstr ""
-"Se la politica di Rimozione e conservazione è abilitata e i vecchi backup "
+"Se la politica di rimozione e conservazione è abilitata e i vecchi backup "
 "vengono rimossi in base allo spazio libero disponibile, questo valore non "
 "può essere inferiore al valore impostato nella politica."
 
@@ -2107,7 +2115,7 @@ msgstr "Livello di log:"
 
 #: qt/manageprofiles/tab_options.py:185
 msgid "None"
-msgstr "Nulla"
+msgstr "Nessuno"
 
 #: qt/manageprofiles/tab_remove_retention.py:204
 msgid "user manual"

@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-01-17 17:28+0100\n"
-"PO-Revision-Date: 2025-12-23 09:50+0000\n"
+"PO-Revision-Date: 2026-01-19 13:21+0000\n"
 "Last-Translator: mbouzada <mbouzada@noreply.codeberg.org>\n"
 "Language-Team: Galician <https://translate.codeberg.org/projects/backintime/common/gl/>\n"
 "Language: gl\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -163,7 +163,7 @@ msgid "The last profile cannot be removed."
 msgstr "Non é posíbel revogar o último perfil."
 
 #: common/encfstools.py:129 common/gocryptfstools.py:84
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount \"{command}\""
 msgstr "Non é posíbel montar «{command}»"
 
@@ -192,9 +192,9 @@ msgid "Take snapshot"
 msgstr "Facer unha instantánea"
 
 #: common/gocryptfstools.py:133
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to init encrypted path \"{command}\""
-msgstr "Non é posíbel montar «{command}»"
+msgstr "Non é posíbel iniciar a ruta cifrada «{command}»"
 
 #: common/mount.py:663
 #, python-brace-format
@@ -957,7 +957,7 @@ msgid ""
 "Your Back In Time Team"
 msgstr ""
 "Esta versión de Back In Time é unha edición candidata e está pensada principalmente para probas de estabilidade en preparación para a próxima edición oficial.\n"
-"Non se recollen datos de usuario nin se fai telemetría. Porén, o equipo de Back In Time está moi interesado en saber se se está a utilizar a edición candidata e se paga a pena seguir fornecendo estas edicións preliminares.\n"
+"Non se recollen datos de usuario nin se fai telemetría. Porén, o equipo de Back In Time está moi interesado en saber se se está a empregar a edición candidata e se paga a pena seguir fornecendo estas edicións preliminares.\n"
 "Polo tanto, o equipo pídelle amablemente un breve comentario sobre se probou esta versión, aínda que non teña atopado ningún incidente. Incluso unha proba rápida duns minutos axudaríanos moito.\n"
 "Ten ao seu dispor as seguintes opcións de contacto:\n"
 "{contact_list}\n"
@@ -1221,45 +1221,54 @@ msgstr "Quere eliminar o perfil «{name}»?"
 
 #: qt/manageprofiles/copylinkswidget.py:38
 msgid "Copy symbolic links as files"
-msgstr ""
+msgstr "Copiar as ligazóns simbólicas como ficheiros"
 
 #: qt/manageprofiles/copylinkswidget.py:43
 msgid ""
 "Copy symbolic links as real files or directories in the backup. Select "
 "whether all links or only those pointing outside the source are copied."
 msgstr ""
+"Copiar as ligazóns simbólicas como ficheiros ou directorios reais na copia "
+"de seguranza. Seleccione se se copian todas as ligazóns ou só as que apuntan"
+" fóra da orixe."
 
 #: qt/manageprofiles/copylinkswidget.py:46
 msgid "This option may increase backup size."
-msgstr ""
+msgstr "Esta opción pode aumentar o tamaño da copia de seguranza."
 
 #: qt/manageprofiles/copylinkswidget.py:47
 msgid "Disabled by default."
-msgstr ""
+msgstr "Desactivado de xeito predeterminado."
 
 #: qt/manageprofiles/copylinkswidget.py:60
 msgid ""
 "All symbolic links are replaced with real files or directories they point "
 "to. This increases backup size and may store the same files multiple times."
 msgstr ""
+"Todas as ligazóns simbólicas son substituídas polos ficheiros ou directorios"
+" reais aos que apuntan. Isto aumenta o tamaño das copias de seguranza e pode"
+" almacenar os mesmos ficheiros varias veces."
 
 #: qt/manageprofiles/copylinkswidget.py:63
 msgid "Uses 'rsync --copy-links'."
-msgstr ""
+msgstr "Emprega «rsync --copy-links»."
 
 #: qt/manageprofiles/copylinkswidget.py:68
 msgid "Only external"
-msgstr ""
+msgstr "Só as externas"
 
 #: qt/manageprofiles/copylinkswidget.py:72
 msgid ""
 "Only links pointing outside the backup source are copied as files. This "
 "increases backup size and may store the same files multiple times."
 msgstr ""
+"Só se copian como ficheiros as ligazóns que apuntan fóra da orixe. Isto "
+"aumenta o tamaño das copias de seguranza e pode almacenar os mesmos "
+"ficheiros varias veces."
 
 #: qt/manageprofiles/copylinkswidget.py:75
 msgid "Uses 'rsync --copy-unsafe-links'."
-msgstr ""
+msgstr "Emprega «rsync --copy-unsafe-links»."
 
 #: qt/manageprofiles/excludesuggestions.py:33
 msgid "Editor & Office temporary files"
@@ -1337,7 +1346,7 @@ msgstr "Caché de paquetes para distribucións GNU/Linux (baseadas en) Debian"
 
 #: qt/manageprofiles/excludesuggestions.py:77
 msgid "Flatpak app and runtime repository"
-msgstr ""
+msgstr "Aplicación Flatpak e repositorio en tempo de execución"
 
 #: qt/manageprofiles/excludesuggestions.py:81
 msgid "System runtime directories"
@@ -1923,12 +1932,11 @@ msgstr ""
 
 #: qt/manageprofiles/tab_general.py:393
 msgid "The backup destination path cannot be empty."
-msgstr ""
+msgstr "A ruta de destino da copia de seguranza non pode estar baleira."
 
 #: qt/manageprofiles/tab_general.py:404
-#, fuzzy
 msgid "The encryption password cannot be empty."
-msgstr "Os contrasinais de EncFS non coinciden."
+msgstr "O contrasinal de cifrado non pode estar baleiro."
 
 #: qt/manageprofiles/tab_general.py:553
 msgid ""
@@ -1979,11 +1987,11 @@ msgstr "Confirma que quere cambiar o directorio de copia de seguranza?"
 
 #: qt/manageprofiles/tab_general.py:725
 msgid "The selected backup destination is not empty."
-msgstr ""
+msgstr "O destino da copia de seguranza seleccionado non está baleiro."
 
 #: qt/manageprofiles/tab_general.py:727
 msgid "It must be empty to use encryption."
-msgstr ""
+msgstr "Debe estar baleiro para usar o cifrado."
 
 #: qt/manageprofiles/tab_general.py:756
 msgid "Invalid file: Not a private SSH key"

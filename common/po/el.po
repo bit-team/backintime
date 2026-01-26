@@ -15,17 +15,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-01-17 17:28+0100\n"
-"PO-Revision-Date: 2025-12-19 08:21+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-01-20 19:21+0000\n"
+"Last-Translator: gnutechie <gnutechie@noreply.codeberg.org>\n"
 "Language-Team: Greek <https://translate.codeberg.org/projects/backintime/common/el/>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -196,9 +196,9 @@ msgid "Take snapshot"
 msgstr "Λήψη στιγμιότυπου"
 
 #: common/gocryptfstools.py:133
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to init encrypted path \"{command}\""
-msgstr "Αδυναμία προσάρτησης '{command}'"
+msgstr "Αδυναμία αρχικοποίησης κρυπτογραφημένου μονοπατιού '{command}'"
 
 #: common/mount.py:663
 #, python-brace-format
@@ -1243,35 +1243,41 @@ msgstr "Διαγραφή του προφίλ \"{name}\";"
 
 #: qt/manageprofiles/copylinkswidget.py:38
 msgid "Copy symbolic links as files"
-msgstr ""
+msgstr "Αντέγραψε συμβολικούς συνδέσμους ως αρχεία"
 
 #: qt/manageprofiles/copylinkswidget.py:43
 msgid ""
 "Copy symbolic links as real files or directories in the backup. Select "
 "whether all links or only those pointing outside the source are copied."
 msgstr ""
+"Αντέγραψε συμβολικούς συνδέσμους ως πραγματικά αρχεία ή καταλόγους στο "
+"αντίγραφο ασφαλείας. Επέλεξε αν θα αντιγραφούν όλοι οι σύνδεσμοι ή μόνο "
+"αυτοί που δείχνουν έξω από την πηγή."
 
 #: qt/manageprofiles/copylinkswidget.py:46
 msgid "This option may increase backup size."
-msgstr ""
+msgstr "Η επιλογή αυτή ίσως αυξήσει το μέγεθος του αντίγραφου ασφαλείας."
 
 #: qt/manageprofiles/copylinkswidget.py:47
 msgid "Disabled by default."
-msgstr ""
+msgstr "Απενεργοποιημένο εκ προεπιλογής."
 
 #: qt/manageprofiles/copylinkswidget.py:60
 msgid ""
 "All symbolic links are replaced with real files or directories they point "
 "to. This increases backup size and may store the same files multiple times."
 msgstr ""
+"Όλοι οι συμβολικοί σύνδεσμοι αντικαθίστανται από πραγματικά αρχεία ή "
+"καταλόγους στους οποίους δείχνουν. Αυτό θα αυξήσει το μέγεθος του αντίγραφου"
+" ασφαλείας και ίσως να αποθηκεύσει τα ίδια αρχεία πολλαπλές φορές."
 
 #: qt/manageprofiles/copylinkswidget.py:63
 msgid "Uses 'rsync --copy-links'."
-msgstr ""
+msgstr "Χρησιμοποιεί 'rsync --copy-links'."
 
 #: qt/manageprofiles/copylinkswidget.py:68
 msgid "Only external"
-msgstr ""
+msgstr "Μόνο εξωτερικά"
 
 #: qt/manageprofiles/copylinkswidget.py:72
 msgid ""
@@ -1362,7 +1368,7 @@ msgstr ""
 
 #: qt/manageprofiles/excludesuggestions.py:77
 msgid "Flatpak app and runtime repository"
-msgstr ""
+msgstr "Αποθετήριο εφαρμογής και εκτελέσιμου αρχείου Flatpak"
 
 #: qt/manageprofiles/excludesuggestions.py:81
 #, fuzzy
@@ -1959,12 +1965,11 @@ msgstr ""
 
 #: qt/manageprofiles/tab_general.py:393
 msgid "The backup destination path cannot be empty."
-msgstr ""
+msgstr "Το μονοπάτι του αντίγραφου ασφαλείας δεν μπορεί να είναι άδειο."
 
 #: qt/manageprofiles/tab_general.py:404
-#, fuzzy
 msgid "The encryption password cannot be empty."
-msgstr "Οι κωδικοί πρόσβασης του EncFS δεν ταιριάζουν."
+msgstr "Ο κωδικός κρυπτογράφησης δεν γίνεται να είναι άδειος."
 
 #: qt/manageprofiles/tab_general.py:553
 msgid ""
@@ -2018,11 +2023,11 @@ msgstr "Πραγματικά να αλλάξω τον κατάλογο αντι�
 
 #: qt/manageprofiles/tab_general.py:725
 msgid "The selected backup destination is not empty."
-msgstr ""
+msgstr "Ο επιλεγμένος προορισμός αντιγράφων ασφαλείας δεν είναι κενός."
 
 #: qt/manageprofiles/tab_general.py:727
 msgid "It must be empty to use encryption."
-msgstr ""
+msgstr "Πρέπει να είναι άδειο για να χρησιμοποιηθεί κρυπτογράφηση."
 
 #: qt/manageprofiles/tab_general.py:756
 msgid "Invalid file: Not a private SSH key"

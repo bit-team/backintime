@@ -15,9 +15,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-01-17 17:28+0100\n"
-"PO-Revision-Date: 2025-12-23 11:38+0000\n"
+"PO-Revision-Date: 2026-01-18 12:15+0000\n"
 "Last-Translator: N4ta <codeberg@n4ta.anonaddy.me>\n"
 "Language-Team: Portuguese <https://translate.codeberg.org/projects/backintime/common/pt/>\n"
 "Language: pt\n"
@@ -164,9 +164,9 @@ msgid "The last profile cannot be removed."
 msgstr "O último perfil não pode ser removido."
 
 #: common/encfstools.py:129 common/gocryptfstools.py:84
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount \"{command}\""
-msgstr "Não foi possível montar '{command}'"
+msgstr "Não foi possível montar \"{command}\""
 
 #: common/encfstools.py:190
 msgid "Configuration for the encrypted directory not found."
@@ -193,9 +193,9 @@ msgid "Take snapshot"
 msgstr "Tirar snapshot"
 
 #: common/gocryptfstools.py:133
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to init encrypted path \"{command}\""
-msgstr "Não foi possível montar '{command}'"
+msgstr "Não foi possível inicializar o caminho encriptado \"{command}\""
 
 #: common/mount.py:663
 #, python-brace-format
@@ -1225,45 +1225,54 @@ msgstr "Tem certeza que deseja remover este perfil \"{name}\" ?"
 
 #: qt/manageprofiles/copylinkswidget.py:38
 msgid "Copy symbolic links as files"
-msgstr ""
+msgstr "Copiar ligações simbólicas como ficheiros"
 
 #: qt/manageprofiles/copylinkswidget.py:43
 msgid ""
 "Copy symbolic links as real files or directories in the backup. Select "
 "whether all links or only those pointing outside the source are copied."
 msgstr ""
+"Copiar ligações simbólicas como ficheiros ou diretórios verdadeiros no "
+"backup. Selecione se todas as ligações ou apenas as que apontam fora da "
+"fonte são copiadas."
 
 #: qt/manageprofiles/copylinkswidget.py:46
 msgid "This option may increase backup size."
-msgstr ""
+msgstr "Esta opção poderá aumentar o tamanho da cópia."
 
 #: qt/manageprofiles/copylinkswidget.py:47
 msgid "Disabled by default."
-msgstr ""
+msgstr "Desativado por predefinição."
 
 #: qt/manageprofiles/copylinkswidget.py:60
 msgid ""
 "All symbolic links are replaced with real files or directories they point "
 "to. This increases backup size and may store the same files multiple times."
 msgstr ""
+"Todas as ligações simbólicos são substituídas por ficheiros ou diretórios "
+"verdadeiros para as quais elas apontam. Isto pode aumentar a dimensão da "
+"cópia de segurança e poderá guardar os mesmos ficheiros várias vezes."
 
 #: qt/manageprofiles/copylinkswidget.py:63
 msgid "Uses 'rsync --copy-links'."
-msgstr ""
+msgstr "Usa 'rsync --copy-links'."
 
 #: qt/manageprofiles/copylinkswidget.py:68
 msgid "Only external"
-msgstr ""
+msgstr "Só externo"
 
 #: qt/manageprofiles/copylinkswidget.py:72
 msgid ""
 "Only links pointing outside the backup source are copied as files. This "
 "increases backup size and may store the same files multiple times."
 msgstr ""
+"Só ligações que apontam para fora da fonte de backup são copiadas como "
+"ficheiros. Isto aumenta a dimensão da cópia de segurança e poderá guardar os"
+" mesmos ficheiros várias vezes."
 
 #: qt/manageprofiles/copylinkswidget.py:75
 msgid "Uses 'rsync --copy-unsafe-links'."
-msgstr ""
+msgstr "Usa 'rsync --copy-unsafe-links'."
 
 #: qt/manageprofiles/excludesuggestions.py:33
 msgid "Editor & Office temporary files"
@@ -1340,7 +1349,7 @@ msgstr "Cache de pacotes para distribuições GNU/Linux (baseadas em) Debian"
 
 #: qt/manageprofiles/excludesuggestions.py:77
 msgid "Flatpak app and runtime repository"
-msgstr ""
+msgstr "Repositório de aplicações e runtime Flatpak"
 
 #: qt/manageprofiles/excludesuggestions.py:81
 msgid "System runtime directories"
@@ -1926,12 +1935,11 @@ msgstr ""
 
 #: qt/manageprofiles/tab_general.py:393
 msgid "The backup destination path cannot be empty."
-msgstr ""
+msgstr "O caminho de destino da cópia não pode estar vazio."
 
 #: qt/manageprofiles/tab_general.py:404
-#, fuzzy
 msgid "The encryption password cannot be empty."
-msgstr "A senha de EncFS não coincide."
+msgstr "A password de encriptação não pode estar vazia."
 
 #: qt/manageprofiles/tab_general.py:553
 msgid ""
@@ -1983,11 +1991,11 @@ msgstr "Mudar mesmo a pasta de cópias de segurança?"
 
 #: qt/manageprofiles/tab_general.py:725
 msgid "The selected backup destination is not empty."
-msgstr ""
+msgstr "O destino de cópia selecionado não está vazio."
 
 #: qt/manageprofiles/tab_general.py:727
 msgid "It must be empty to use encryption."
-msgstr ""
+msgstr "Precisa de estar vazio para usar encriptação."
 
 #: qt/manageprofiles/tab_general.py:756
 msgid "Invalid file: Not a private SSH key"

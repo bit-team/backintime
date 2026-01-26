@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-01-17 17:28+0100\n"
-"PO-Revision-Date: 2026-01-05 20:21+0000\n"
+"PO-Revision-Date: 2026-01-18 08:02+0000\n"
 "Last-Translator: SomeTr <sometr@noreply.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
@@ -162,7 +162,7 @@ msgid "The last profile cannot be removed."
 msgstr "Неможливо видалити останній профіль."
 
 #: common/encfstools.py:129 common/gocryptfstools.py:84
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount \"{command}\""
 msgstr "Не вдається змонтувати «{command}»"
 
@@ -191,9 +191,9 @@ msgid "Take snapshot"
 msgstr "Зробити копію"
 
 #: common/gocryptfstools.py:133
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to init encrypted path \"{command}\""
-msgstr "Не вдається змонтувати «{command}»"
+msgstr "Не вдається ініціалізувати зашифрований шлях «{command}»"
 
 #: common/mount.py:663
 #, python-brace-format
@@ -1126,7 +1126,7 @@ msgstr "декодувати шляхи"
 #: qt/logviewdialog.py:122 qt/manageprofiles/copylinkswidget.py:56
 #: qt/manageprofiles/tab_options.py:188
 msgid "All"
-msgstr "Усе"
+msgstr "Усі"
 
 #: qt/logviewdialog.py:128 qt/logviewdialog.py:132
 #: qt/manageprofiles/tab_options.py:187
@@ -1209,45 +1209,54 @@ msgstr "Видалити профіль «{name}»?"
 
 #: qt/manageprofiles/copylinkswidget.py:38
 msgid "Copy symbolic links as files"
-msgstr ""
+msgstr "Копіювати символьні посилання як файли"
 
 #: qt/manageprofiles/copylinkswidget.py:43
 msgid ""
 "Copy symbolic links as real files or directories in the backup. Select "
 "whether all links or only those pointing outside the source are copied."
 msgstr ""
+"Копіювати символьні посилання як реальні файли або каталоги в резервну "
+"копію. Виберіть, копіювати всі посилання чи тільки ті, що вказують за межі "
+"джерела."
 
 #: qt/manageprofiles/copylinkswidget.py:46
 msgid "This option may increase backup size."
-msgstr ""
+msgstr "Цей параметр може збільшити розмір резервної копії."
 
 #: qt/manageprofiles/copylinkswidget.py:47
 msgid "Disabled by default."
-msgstr ""
+msgstr "За замовчуванням вимкнено."
 
 #: qt/manageprofiles/copylinkswidget.py:60
 msgid ""
 "All symbolic links are replaced with real files or directories they point "
 "to. This increases backup size and may store the same files multiple times."
 msgstr ""
+"Усі символьні посилання замінюються реальними файлами або каталогами, на які"
+" вони вказують. Це збільшує розмір резервної копії і може призвести до "
+"збереження одних і тих самих файлів по кілька разів."
 
 #: qt/manageprofiles/copylinkswidget.py:63
 msgid "Uses 'rsync --copy-links'."
-msgstr ""
+msgstr "Використовує «rsync --copy-links»."
 
 #: qt/manageprofiles/copylinkswidget.py:68
 msgid "Only external"
-msgstr ""
+msgstr "Лише зовнішні"
 
 #: qt/manageprofiles/copylinkswidget.py:72
 msgid ""
 "Only links pointing outside the backup source are copied as files. This "
 "increases backup size and may store the same files multiple times."
 msgstr ""
+"Як файли копіюються лише посилання, що вказують за межі джерела резервної "
+"копії. Це збільшує розмір резервної копії і може призвести до збереження "
+"одних і тих самих файлів по кілька разів."
 
 #: qt/manageprofiles/copylinkswidget.py:75
 msgid "Uses 'rsync --copy-unsafe-links'."
-msgstr ""
+msgstr "Використовує «rsync --copy-unsafe-links»."
 
 #: qt/manageprofiles/excludesuggestions.py:33
 msgid "Editor & Office temporary files"
@@ -1324,7 +1333,7 @@ msgstr "Кеш пакунків для дистрибутивів GNU/Linux (н�
 
 #: qt/manageprofiles/excludesuggestions.py:77
 msgid "Flatpak app and runtime repository"
-msgstr ""
+msgstr "Репозиторій додатків і середовищ виконання Flatpak"
 
 #: qt/manageprofiles/excludesuggestions.py:81
 msgid "System runtime directories"
@@ -1902,12 +1911,11 @@ msgstr ""
 
 #: qt/manageprofiles/tab_general.py:393
 msgid "The backup destination path cannot be empty."
-msgstr ""
+msgstr "Шлях до місця призначення резервної копії не може бути порожнім."
 
 #: qt/manageprofiles/tab_general.py:404
-#, fuzzy
 msgid "The encryption password cannot be empty."
-msgstr "Паролі EncFS не збігаються."
+msgstr "Пароль шифрування не може бути порожнім."
 
 #: qt/manageprofiles/tab_general.py:553
 msgid ""
@@ -1956,11 +1964,11 @@ msgstr "Справді змінити каталог для резервних �
 
 #: qt/manageprofiles/tab_general.py:725
 msgid "The selected backup destination is not empty."
-msgstr ""
+msgstr "Вибране місце призначення резервної копії не порожнє."
 
 #: qt/manageprofiles/tab_general.py:727
 msgid "It must be empty to use encryption."
-msgstr ""
+msgstr "Щоб використовувати шифрування, воно повинно бути порожнім."
 
 #: qt/manageprofiles/tab_general.py:756
 msgid "Invalid file: Not a private SSH key"

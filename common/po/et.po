@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-01-17 17:28+0100\n"
-"PO-Revision-Date: 2025-12-23 09:50+0000\n"
+"PO-Revision-Date: 2026-01-19 13:21+0000\n"
 "Last-Translator: Priit Jõerüüt <jrtcdbrg@noreply.codeberg.org>\n"
 "Language-Team: Estonian <https://translate.codeberg.org/projects/backintime/common/et/>\n"
 "Language: et\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -162,7 +162,7 @@ msgid "The last profile cannot be removed."
 msgstr "Viimase profiili eemaldamine pole võimalik."
 
 #: common/encfstools.py:129 common/gocryptfstools.py:84
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount \"{command}\""
 msgstr "Haakimine pole võimalik: „{command}“"
 
@@ -191,9 +191,9 @@ msgid "Take snapshot"
 msgstr "Tee hetktõmmis"
 
 #: common/gocryptfstools.py:133
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to init encrypted path \"{command}\""
-msgstr "Haakimine pole võimalik: „{command}“"
+msgstr "Krüptitud haakepunkti valmendamine pole võimalik: „{command}“"
 
 #: common/mount.py:663
 #, python-brace-format
@@ -1218,45 +1218,54 @@ msgstr "Oled kindel, et tahad kustuda profiili „{name}“?"
 
 #: qt/manageprofiles/copylinkswidget.py:38
 msgid "Copy symbolic links as files"
-msgstr ""
+msgstr "Kopeeri sümbollingid failidena"
 
 #: qt/manageprofiles/copylinkswidget.py:43
 msgid ""
 "Copy symbolic links as real files or directories in the backup. Select "
 "whether all links or only those pointing outside the source are copied."
 msgstr ""
+"Kopeeri sümbollingid varukoopiasse tegelike failidena või kaustadena. Saad "
+"valida, kas see kehtiv kõikidel sümbollinkide puhul või vaid sel juhul, kui "
+"nad viitavad varukoopia andmeruumist välja."
 
 #: qt/manageprofiles/copylinkswidget.py:46
 msgid "This option may increase backup size."
-msgstr ""
+msgstr "See eelistus võib suurendada varukoopia andmemahtu."
 
 #: qt/manageprofiles/copylinkswidget.py:47
 msgid "Disabled by default."
-msgstr ""
+msgstr "Vaikimisi pole kasutusel."
 
 #: qt/manageprofiles/copylinkswidget.py:60
 msgid ""
 "All symbolic links are replaced with real files or directories they point "
 "to. This increases backup size and may store the same files multiple times."
 msgstr ""
+"Kõik sümbollingid asendatakse failide või kaustadega, millele nad viitavad. "
+"See suurendab varukoopia andmemahtu ja tõenäoliselt varundab osa faile mitu "
+"korda."
 
 #: qt/manageprofiles/copylinkswidget.py:63
 msgid "Uses 'rsync --copy-links'."
-msgstr ""
+msgstr "Kasutusel on käsk: „rsync --copy-links“."
 
 #: qt/manageprofiles/copylinkswidget.py:68
 msgid "Only external"
-msgstr ""
+msgstr "Vaid väline"
 
 #: qt/manageprofiles/copylinkswidget.py:72
 msgid ""
 "Only links pointing outside the backup source are copied as files. This "
 "increases backup size and may store the same files multiple times."
 msgstr ""
+"Failidena kopeeritakse ainult need lingid, mis viitavad varunduse "
+"lähtekohast väljapoole. See suurendab varukoopia andmemahtu ja tõenäoliselt "
+"varundab osa faile mitu korda."
 
 #: qt/manageprofiles/copylinkswidget.py:75
 msgid "Uses 'rsync --copy-unsafe-links'."
-msgstr ""
+msgstr "Kasutusel on käsk: „rsync --copy-unsafe-links“."
 
 #: qt/manageprofiles/excludesuggestions.py:33
 msgid "Editor & Office temporary files"
@@ -1333,7 +1342,7 @@ msgstr "Pakettide vahemälu Debiani-põhistes GNU/Linux-i distributsioonides"
 
 #: qt/manageprofiles/excludesuggestions.py:77
 msgid "Flatpak app and runtime repository"
-msgstr ""
+msgstr "Flatpaki rakendus ja käituskaustad"
 
 #: qt/manageprofiles/excludesuggestions.py:81
 msgid "System runtime directories"
@@ -1922,12 +1931,11 @@ msgstr ""
 
 #: qt/manageprofiles/tab_general.py:393
 msgid "The backup destination path cannot be empty."
-msgstr ""
+msgstr "Varunduse sihtkaust ei saa jääda tühjaks."
 
 #: qt/manageprofiles/tab_general.py:404
-#, fuzzy
 msgid "The encryption password cannot be empty."
-msgstr "EncFS-i salasõnad ei klapi omavahel."
+msgstr "Krüptimise salasõna ei saa jääda tühjaks."
 
 #: qt/manageprofiles/tab_general.py:553
 msgid ""
@@ -1979,11 +1987,11 @@ msgstr "Kas tõesti muudame varukoopiate kausta?"
 
 #: qt/manageprofiles/tab_general.py:725
 msgid "The selected backup destination is not empty."
-msgstr ""
+msgstr "Valitud varunduse sihtkaust pole tühi."
 
 #: qt/manageprofiles/tab_general.py:727
 msgid "It must be empty to use encryption."
-msgstr ""
+msgstr "Krüptimise kasutamiseks peab ta olema tühi."
 
 #: qt/manageprofiles/tab_general.py:756
 msgid "Invalid file: Not a private SSH key"

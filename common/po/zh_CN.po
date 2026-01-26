@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-01-17 17:28+0100\n"
-"PO-Revision-Date: 2025-12-24 08:49+0000\n"
+"PO-Revision-Date: 2026-01-18 08:02+0000\n"
 "Last-Translator: Outbreak2096 <outbreak2096@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -150,7 +150,7 @@ msgid "The last profile cannot be removed."
 msgstr "无法移除最后一个配置。"
 
 #: common/encfstools.py:129 common/gocryptfstools.py:84
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount \"{command}\""
 msgstr "无法挂载“{command}”"
 
@@ -179,9 +179,9 @@ msgid "Take snapshot"
 msgstr "创建快照"
 
 #: common/gocryptfstools.py:133
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to init encrypted path \"{command}\""
-msgstr "无法挂载“{command}”"
+msgstr "无法初始化加密路径“{command}”"
 
 #: common/mount.py:663
 #, python-brace-format
@@ -442,7 +442,7 @@ msgstr ""
 
 #: common/tools.py:486
 msgid "Copy links (dereference symbolic links)"
-msgstr "复制链接（取消引用符号链接）"
+msgstr "复制链接（解引用符号链接）"
 
 #: common/tools.py:487
 msgid "Expert Options"
@@ -1141,45 +1141,45 @@ msgstr "删除配置“{name}”？"
 
 #: qt/manageprofiles/copylinkswidget.py:38
 msgid "Copy symbolic links as files"
-msgstr ""
+msgstr "将符号链接复制为文件"
 
 #: qt/manageprofiles/copylinkswidget.py:43
 msgid ""
 "Copy symbolic links as real files or directories in the backup. Select "
 "whether all links or only those pointing outside the source are copied."
-msgstr ""
+msgstr "将符号链接复制为备份中的实际文件或目录。可选择复制所有链接还是仅复制指向源外部的链接。"
 
 #: qt/manageprofiles/copylinkswidget.py:46
 msgid "This option may increase backup size."
-msgstr ""
+msgstr "此选项可能会增加备份大小。"
 
 #: qt/manageprofiles/copylinkswidget.py:47
 msgid "Disabled by default."
-msgstr ""
+msgstr "默认禁用。"
 
 #: qt/manageprofiles/copylinkswidget.py:60
 msgid ""
 "All symbolic links are replaced with real files or directories they point "
 "to. This increases backup size and may store the same files multiple times."
-msgstr ""
+msgstr "所有符号链接均会被替换为其指向的实际文件或目录。这会增加备份大小，并且可能会多次存储相同文件。"
 
 #: qt/manageprofiles/copylinkswidget.py:63
 msgid "Uses 'rsync --copy-links'."
-msgstr ""
+msgstr "使用“rsync --copy-links”。"
 
 #: qt/manageprofiles/copylinkswidget.py:68
 msgid "Only external"
-msgstr ""
+msgstr "仅外部"
 
 #: qt/manageprofiles/copylinkswidget.py:72
 msgid ""
 "Only links pointing outside the backup source are copied as files. This "
 "increases backup size and may store the same files multiple times."
-msgstr ""
+msgstr "仅将指向备份源外部的链接复制为文件。这会增加备份大小，并且可能会多次存储相同文件。"
 
 #: qt/manageprofiles/copylinkswidget.py:75
 msgid "Uses 'rsync --copy-unsafe-links'."
-msgstr ""
+msgstr "使用“rsync --copy-unsafe-links”。"
 
 #: qt/manageprofiles/excludesuggestions.py:33
 msgid "Editor & Office temporary files"
@@ -1256,7 +1256,7 @@ msgstr "Debian（基于 Debian）GNU/Linux 发行版的软件包缓存"
 
 #: qt/manageprofiles/excludesuggestions.py:77
 msgid "Flatpak app and runtime repository"
-msgstr ""
+msgstr "Flatpak 应用和运行时仓库"
 
 #: qt/manageprofiles/excludesuggestions.py:81
 msgid "System runtime directories"
@@ -1799,12 +1799,11 @@ msgstr "由于未找到 cron 安装，因此已禁用计划任务功能。请安
 
 #: qt/manageprofiles/tab_general.py:393
 msgid "The backup destination path cannot be empty."
-msgstr ""
+msgstr "备份目标路径不能为空。"
 
 #: qt/manageprofiles/tab_general.py:404
-#, fuzzy
 msgid "The encryption password cannot be empty."
-msgstr "EncFS 密码不匹配。"
+msgstr "加密密码不能为空。"
 
 #: qt/manageprofiles/tab_general.py:553
 msgid ""
@@ -1848,11 +1847,11 @@ msgstr "是否确定要更改备份目录？"
 
 #: qt/manageprofiles/tab_general.py:725
 msgid "The selected backup destination is not empty."
-msgstr ""
+msgstr "所选备份目标不为空。"
 
 #: qt/manageprofiles/tab_general.py:727
 msgid "It must be empty to use encryption."
-msgstr ""
+msgstr "使用加密时必须为空。"
 
 #: qt/manageprofiles/tab_general.py:756
 msgid "Invalid file: Not a private SSH key"
