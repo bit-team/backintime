@@ -53,12 +53,12 @@ class Cron(unittest.TestCase):
         self.assertIn('*/2 * * *', result[0])
         self.assertIn('backintime', result[0])
         self.assertIn('backup --background', result[0])
-        self.assertNotIn('--profile-id', result[0])
+        self.assertNotIn('--profile', result[0])
 
         self.assertIn('*/30 * * *', result[1])
         self.assertIn('backintime', result[1])
         self.assertIn('backup --background', result[1])
-        self.assertIn('--profile-id 3', result[1])
+        self.assertIn('--profile 3', result[1])
 
 
 class CrontabDebug(pyfakefs_ut.TestCase):

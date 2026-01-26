@@ -1653,7 +1653,7 @@ class Config(configfile.ConfigFileWithProfiles):
         # The "--profile-id" argument is used only for profiles different from
         # first profile
         if profile_id != '1':
-            cmd += '--profile-id %s ' % profile_id
+            cmd += '--profile %s ' % profile_id
 
         # User defined path to config file
         if not self._LOCAL_CONFIG_PATH is self._DEFAULT_CONFIG_PATH:
