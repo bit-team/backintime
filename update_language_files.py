@@ -343,7 +343,7 @@ def update_desktop_files():
                 content = content + translations
 
     # ensure newline at end of file
-    content = content.append('\n')
+    content = content + ['\n']
 
     desktop_fp.write_text('\n'.join(content), encoding='utf-8')
 
