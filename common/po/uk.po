@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-rc1\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-01-26 06:38+0100\n"
-"PO-Revision-Date: 2026-01-18 08:02+0000\n"
+"POT-Creation-Date: 2026-01-26 18:10+0100\n"
+"PO-Revision-Date: 2026-01-26 15:04+0000\n"
 "Last-Translator: SomeTr <sometr@noreply.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -543,7 +543,7 @@ msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}Версія{BOLDEND}: {version}"
 
 #: qt/app.py:348
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time because no configuration"
 " is found."
@@ -552,12 +552,11 @@ msgstr ""
 "конфігурації."
 
 #: qt/app.py:353
-#, fuzzy
 msgid ""
 "Import an existing configuration from a backup location or another computer?"
 msgstr ""
-"Імпортувати існуючу конфігурацію (з каталогу резервної копії або з іншого "
-"комп’ютера)?"
+"Імпортувати існуючу конфігурацію з каталогу резервної копії або з іншого "
+"комп’ютера?"
 
 #: qt/app.py:380
 msgid "Then press OK."
@@ -913,9 +912,9 @@ msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "На Mastodon {link_and_label} у Федісвіті."
 
 #: qt/app.py:1759
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr "Список розсилки {link_and_label}."
+msgstr "Електронна пошта {link_and_label}."
 
 #: qt/app.py:1763
 #, python-brace-format
@@ -1005,21 +1004,24 @@ msgstr ""
 
 #: qt/backintime-qt-root.desktop:14
 msgid "Versioned Backups (root)"
-msgstr ""
+msgstr "Резервні копії з версіями (root)"
 
 #: qt/backintime-qt-root.desktop:23
 msgid ""
 "User-friendly GUI for versioned backups that reduces disk usage (root mode)"
 msgstr ""
+"Інтерфейс для резервного копіювання з підтримкою версій, що зменшує "
+"використання дискового простору (режим root)"
 
 #: qt/backintime-qt.desktop:14
-#, fuzzy
 msgid "Versioned Backups"
-msgstr "Не видаляти названі резервні копії."
+msgstr "Резервні копії з версіями"
 
 #: qt/backintime-qt.desktop:23
 msgid "User-friendly GUI for versioned backups that reduces disk usage"
 msgstr ""
+"Інтерфейс для резервного копіювання з підтримкою версій, що зменшує "
+"використання дискового простору"
 
 #: qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -2272,13 +2274,15 @@ msgstr "Видаляти найстарішу копію, якщо…"
 
 #: qt/net.launchpad.backintime.policy:21
 msgid "Authentication is required to run Back In Time as root."
-msgstr ""
+msgstr "Для запуску Back In Time від імені root необхідна автентифікація."
 
 #: qt/net.launchpad.backintime.policy:33 qt/net.launchpad.backintime.policy:43
 msgid ""
 "Authentication is required to change backup schedules triggered by external "
 "storage device connections."
 msgstr ""
+"Для зміни розкладів резервного копіювання, що запускаються підключенням "
+"зовнішнього сховища, потрібна автентифікація."
 
 #: qt/placeswidget.py:49
 msgid "Shortcuts"
@@ -2330,7 +2334,7 @@ msgstr "Імпортувати конфігурацію"
 
 #: qt/restoreconfigdialog.py:105
 msgid "No directory selected"
-msgstr ""
+msgstr "Не вибрано каталог"
 
 #: qt/restoreconfigdialog.py:134
 msgid "Import"
@@ -2371,8 +2375,8 @@ msgstr "Показати/сховати приховані каталоги (Ctr
 
 #: qt/restoreconfigdialog.py:305
 #, fuzzy
-msgid "No config found in this dicrectory"
-msgstr "Не вдалося створити файл у каталозі:"
+msgid "No config found in this directory"
+msgstr "Не знайдено конфігурації в цьому каталозі"
 
 #: qt/restoreconfigdialog.py:366
 msgid "Search complete."

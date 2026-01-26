@@ -54,7 +54,7 @@ before_install:
 
 install:
   - pip install -U pip
-  - pip install pylint ruff flake8 pyfakefs keyring
+  - pip install pylint ruff flake8 codespell pyfakefs keyring
   - pip install pyqt6 dbus-python
   # add ssh public / private key pair to ensure user can start ssh session to localhost for tests
   - ssh-keygen -b 2048 -t rsa -f /home/travis/.ssh/id_rsa -N ""
@@ -63,21 +63,28 @@ install:
   - eval `ssh-agent -s`
 
 script:
+  # Add linter versions to build log
   - ruff --version
   - flake8 --version
   - pylint --version
+  - codespell --version
   # compile all files - ensure that syntax is correct
   - python -m compileall common common/test common/plugins qt qt/test qt/plugins
-  # run unit tests - ensure that functionality is correct
+  # common: Install 
   - cd common
   - ./configure
   - make
-  # Install to ensure that backintime-askpass is on $PATH
   - sudo make install
+  # common: test
   - pytest --verbose
+  # qt: Install
   - cd ..
   - cd qt
   - ./configure
   - make
+  # qt: Test
   - pytest --verbose
+  # Codespell on whole repo
+  - cd ..
+  - codespell
 

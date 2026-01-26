@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-rc1\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-01-26 06:38+0100\n"
-"PO-Revision-Date: 2026-01-18 08:02+0000\n"
+"POT-Creation-Date: 2026-01-26 18:10+0100\n"
+"PO-Revision-Date: 2026-01-26 15:04+0000\n"
 "Last-Translator: Outbreak2096 <outbreak2096@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -510,17 +510,16 @@ msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}版本{BOLDEND}：{version}"
 
 #: qt/app.py:348
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time because no configuration"
 " is found."
-msgstr "{app_name} 似乎是首次运行，未找到配置。"
+msgstr "{app_name} 似乎是首次运行，因为未找到配置。"
 
 #: qt/app.py:353
-#, fuzzy
 msgid ""
 "Import an existing configuration from a backup location or another computer?"
-msgstr "是否导入现有配置（从备份目标目录或另一台计算机）？"
+msgstr "是否从备份位置或其他计算机导入现有配置？"
 
 #: qt/app.py:380
 msgid "Then press OK."
@@ -870,9 +869,9 @@ msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "在联邦宇宙 Mastodon：{link_and_label}。"
 
 #: qt/app.py:1759
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr "邮件列表 {link_and_label}。"
+msgstr "发送邮件至 {link_and_label}。"
 
 #: qt/app.py:1763
 #, python-brace-format
@@ -955,21 +954,20 @@ msgstr "语言设置仅在重新启动 Back In Time 后生效。"
 
 #: qt/backintime-qt-root.desktop:14
 msgid "Versioned Backups (root)"
-msgstr ""
+msgstr "版本化备份（root）"
 
 #: qt/backintime-qt-root.desktop:23
 msgid ""
 "User-friendly GUI for versioned backups that reduces disk usage (root mode)"
-msgstr ""
+msgstr "用户友好的版本化备份 GUI，减少磁盘使用（root 模式）"
 
 #: qt/backintime-qt.desktop:14
-#, fuzzy
 msgid "Versioned Backups"
-msgstr "保留已命名的备份。"
+msgstr "版本化备份"
 
 #: qt/backintime-qt.desktop:23
 msgid "User-friendly GUI for versioned backups that reduces disk usage"
-msgstr ""
+msgstr "用户友好的版本化备份 GUI，减少磁盘使用"
 
 #: qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -2132,13 +2130,13 @@ msgstr "移除最旧备份，当…"
 
 #: qt/net.launchpad.backintime.policy:21
 msgid "Authentication is required to run Back In Time as root."
-msgstr ""
+msgstr "需要进行身份验证才能以 root 运行 Back In Time。"
 
 #: qt/net.launchpad.backintime.policy:33 qt/net.launchpad.backintime.policy:43
 msgid ""
 "Authentication is required to change backup schedules triggered by external "
 "storage device connections."
-msgstr ""
+msgstr "需要进行身份验证才能更改由外部存储设备连接触发的备份计划。"
 
 #: qt/placeswidget.py:49
 msgid "Shortcuts"
@@ -2190,7 +2188,7 @@ msgstr "导入配置"
 
 #: qt/restoreconfigdialog.py:105
 msgid "No directory selected"
-msgstr ""
+msgstr "未选择目录"
 
 #: qt/restoreconfigdialog.py:134
 msgid "Import"
@@ -2227,8 +2225,8 @@ msgstr "显示/隐藏隐藏目录（Ctrl+H）"
 
 #: qt/restoreconfigdialog.py:305
 #, fuzzy
-msgid "No config found in this dicrectory"
-msgstr "在此目录中创建文件失败："
+msgid "No config found in this directory"
+msgstr "此目录中未找到配置"
 
 #: qt/restoreconfigdialog.py:366
 msgid "Search complete."
@@ -2355,12 +2353,12 @@ msgstr "是否从未来的备份中排除 {path}？"
 
 #: qt/statusbar.py:85
 msgid "Root mode"
-msgstr "Root 模式"
+msgstr "root 模式"
 
 #: qt/statusbar.py:87
 msgid ""
 "Back In Time is currently running with root privileges (full system access)"
-msgstr "Back In Time 当前正在以 Root 权限（完整系统访问权限）运行"
+msgstr "Back In Time 当前正在以 root 权限（完整系统访问权限）运行"
 
 #: qt/timeline.py:69
 msgid "Today"
