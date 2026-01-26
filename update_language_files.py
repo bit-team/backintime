@@ -325,7 +325,7 @@ def update_desktop_files():
                 # to 80 chars.
                 if field == 'Comment':
                     LIMIT = 79
-                    for lang, val in translations:
+                    for lang, val in translations.items():
                         if len(val) <= LIMIT:
                             continue
 
