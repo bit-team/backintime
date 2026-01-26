@@ -617,7 +617,7 @@ def all_po_files_in_local_dir():
 
 
 def all_desktop_files_in_qt_dir():
-    return GUI_DIR.glob('*.desktop')
+    return sorted(GUI_DIR.glob('*.desktop'))
 
 
 def create_completeness_dict():
