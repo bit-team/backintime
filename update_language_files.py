@@ -175,7 +175,7 @@ def _update_po_template_from_polkit_policies():
             if not elem.text:
                 continue
 
-            # add to messages.pot considere duplicates and location/occurrence
+            # Add to messages.pot, consider duplicates and location/occurrence
             _add_entry_to_po_template(
                 msgid=elem.text.strip(),
                 fp=policy_fp.relative_to(Path.cwd()),
@@ -330,7 +330,7 @@ def update_desktop_files():
                             continue
 
                         print(
-                            f'WARNING: Lenght of {field}[{lang}] reached the '
+                            f'WARNING: Length of {field}[{lang}] reached the '
                             f'limit of {LIMIT} and is {len(val)}. "{val}"'
                         )
 
