@@ -332,6 +332,10 @@ def update_desktop_files():
                         f'{value=} {line=}'
                     )
 
+        for c in content:
+            print(c)
+        print('xxxxxxxxxxxxxxxx')
+
         # iterate from the ende to the start
         for field, value in to_translate.items():
             print(f'{field=} {value=}')
@@ -360,7 +364,7 @@ def update_desktop_files():
             content = content + translations
 
         for c in content:
-            print(content)
+            print(c)
         print('--------------')
 
     sys.exit()
