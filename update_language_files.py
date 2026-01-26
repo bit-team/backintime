@@ -296,11 +296,6 @@ def update_desktop_files():
             if line.startswith('#'):
                 continue
 
-            # remove blank lines
-            if line == '':
-                content = content[:idx] + content[idx+1:]
-                continue
-
             try:
                 field, value = line.split('=', 1)
             except ValueError:
@@ -346,6 +341,9 @@ def update_desktop_files():
                 ]
 
                 content = content + translations
+
+    # remove blank lines
+    content = list(filter(lambda line: len(line)))
 
     # ensure newline at end of file
     content = content + ['\n']
