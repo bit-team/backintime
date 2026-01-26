@@ -12,9 +12,9 @@
 # been documented and could be lost.
 msgid ""
 msgstr ""
-"Project-Id-Version: Back In Time 1.6.0-dev.0927479b\n"
+"Project-Id-Version: Back In Time 1.6.0-rc1\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-01-17 17:28+0100\n"
+"POT-Creation-Date: 2026-01-26 06:38+0100\n"
 "PO-Revision-Date: 2025-05-01 17:53+0000\n"
 "Last-Translator: reno-tx <reno-tx@noreply.codeberg.org>\n"
 "Language-Team: Serbian <https://translate.codeberg.org/projects/backintime/common/sr/>\n"
@@ -116,16 +116,16 @@ msgid ""
 "than the warning limit."
 msgstr ""
 
-#: common/config.py:1513
+#: common/config.py:1515
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Udev распоред не ради са режимом {mode}"
 
-#: common/config.py:1567
+#: common/config.py:1569
 msgid "Failed to write new crontab."
 msgstr "Неуспешно чување новог crontab-а."
 
-#: common/config.py:1575
+#: common/config.py:1577
 #, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
@@ -236,7 +236,7 @@ msgstr "НЕУСПЕШНО"
 msgid "Restore permissions"
 msgstr "Поврати дозволе"
 
-#: common/snapshots.py:656 qt/app.py:240 qt/app.py:1183 qt/app.py:1199
+#: common/snapshots.py:656 qt/app.py:240 qt/app.py:1184 qt/app.py:1200
 #: qt/qtsystrayicon.py:118
 msgid "Done"
 msgstr "Готово"
@@ -251,12 +251,12 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "Одлагање резервне копије док је уређај на батерији"
 
-#: common/snapshots.py:931 qt/app.py:377
+#: common/snapshots.py:931 qt/app.py:378
 #, fuzzy
 msgid "Can't find backup directory."
 msgstr "Не могу да пронађем директоријум снимка."
 
-#: common/snapshots.py:935 qt/app.py:378
+#: common/snapshots.py:935 qt/app.py:379
 #, fuzzy
 msgid "If it is on a removable drive, please plug it in."
 msgstr ""
@@ -368,7 +368,7 @@ msgstr "Покушавамо сачувати минимални слобода�
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Покушавам да задржим мин {perc} слободних инода"
 
-#: common/snapshots.py:3211 qt/app.py:1470
+#: common/snapshots.py:3211 qt/app.py:1471
 msgid "Now"
 msgstr "Сада"
 
@@ -529,15 +529,15 @@ msgstr "Ова веза"
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr "Пратите {thislink} да добијете захвалнице преводиоца за све језике."
 
-#: qt/aboutdlg.py:220 qt/app.py:566
+#: qt/aboutdlg.py:220 qt/app.py:567
 msgid "Project website"
 msgstr "Вебсајт пројекта"
 
-#: qt/aboutdlg.py:225 qt/app.py:548
+#: qt/aboutdlg.py:225 qt/app.py:549
 msgid "User manual"
 msgstr "Приручник за кориснике"
 
-#: qt/aboutdlg.py:227 qt/app.py:550
+#: qt/aboutdlg.py:227 qt/app.py:551
 #, fuzzy
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
@@ -550,204 +550,204 @@ msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}Верзија{BOLDEND}: {version}"
 
 #: qt/app.py:348
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
-"{app_name} appears to be running for the first time as no configuration is "
-"found."
+"{app_name} appears to be running for the first time because no configuration"
+" is found."
 msgstr "Чини се да {app_name} ради први пут јер није пронађена конфигурација."
 
 #: qt/app.py:353
+#, fuzzy
 msgid ""
-"Import an existing configuration (from a backup target directory or another "
-"computer)?"
+"Import an existing configuration from a backup location or another computer?"
 msgstr ""
 "Увоз постојеће конфигурације (из резервне мета директоријума или другог "
 "рачунара)?"
 
-#: qt/app.py:379
+#: qt/app.py:380
 msgid "Then press OK."
 msgstr ""
 
-#: qt/app.py:487
+#: qt/app.py:488
 msgid "Create a backup"
 msgstr "Направите резервну копију"
 
-#: qt/app.py:489
+#: qt/app.py:490
 msgid "Use modification time & size for file change detection."
 msgstr "Користи време измене и величину за детекцију промене фајла."
 
-#: qt/app.py:492
+#: qt/app.py:493
 #, fuzzy
 msgid "Create a backup (checksum mode)"
 msgstr "Направи снимак (режим контролне суме)"
 
-#: qt/app.py:494
+#: qt/app.py:495
 msgid "Use checksums for file change detection."
 msgstr "Користи контролне суме за детекцију промене фајла."
 
-#: qt/app.py:496 qt/qtsystrayicon.py:125
+#: qt/app.py:497 qt/qtsystrayicon.py:125
 #, fuzzy
 msgid "Pause backup process"
 msgstr "Паузирај процес снимања"
 
-#: qt/app.py:500 qt/qtsystrayicon.py:130
+#: qt/app.py:501 qt/qtsystrayicon.py:130
 #, fuzzy
 msgid "Resume backup process"
 msgstr "Настави процес снимања"
 
-#: qt/app.py:504 qt/qtsystrayicon.py:135
+#: qt/app.py:505 qt/qtsystrayicon.py:135
 #, fuzzy
 msgid "Stop backup process"
 msgstr "Заустави процес снимања"
 
-#: qt/app.py:508
+#: qt/app.py:509
 #, fuzzy
 msgid "Refresh backup list"
 msgstr "Освежи листу снимка"
 
-#: qt/app.py:512
+#: qt/app.py:513
 msgid "Name backup"
 msgstr "Име резервне копије"
 
-#: qt/app.py:516
+#: qt/app.py:517
 #, fuzzy
 msgid "Remove backup"
 msgstr "Уклони снимак"
 
-#: qt/app.py:520
+#: qt/app.py:521
 #, fuzzy
 msgid "Open backup log"
 msgstr "Погледај последњи лог"
 
-#: qt/app.py:522
+#: qt/app.py:523
 #, fuzzy
 msgid "View log of the selected backup."
 msgstr "Најмање један директоријум мора бити изабран за резервну копију."
 
-#: qt/app.py:524
+#: qt/app.py:525
 #, fuzzy
 msgid "Open last backup log"
 msgstr "Погледај последњи лог"
 
-#: qt/app.py:526
+#: qt/app.py:527
 msgid "View log of the latest backup."
 msgstr ""
 
-#: qt/app.py:528
+#: qt/app.py:529
 msgid "Manage profiles…"
 msgstr "Управљај профилима…"
 
-#: qt/app.py:532
+#: qt/app.py:533
 msgid "Edit user-callback"
 msgstr "Промени user-callback"
 
-#: qt/app.py:536
+#: qt/app.py:537
 msgid "Shutdown"
 msgstr "Искључивање"
 
-#: qt/app.py:538
+#: qt/app.py:539
 #, fuzzy
 msgid "Shut down system after backup has finished."
 msgstr "Искључи систем након што снимак буде завршен."
 
-#: qt/app.py:540
+#: qt/app.py:541
 msgid "Setup language…"
 msgstr "Подеси језик…"
 
-#: qt/app.py:544
+#: qt/app.py:545
 msgid "Exit"
 msgstr "Излаз"
 
-#: qt/app.py:554
+#: qt/app.py:555
 #, fuzzy
 msgid "man page: Back In Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:556
+#: qt/app.py:557
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "Приказује ман страницу о Back In Time (backintime)"
 
-#: qt/app.py:559
+#: qt/app.py:560
 #, fuzzy
 msgid "man page: Profiles config file"
 msgstr "Конфигурациони фајл профила"
 
-#: qt/app.py:562
+#: qt/app.py:563
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 "Приказује ман страницу о конфигурационом фајлу профила (backintime-config)"
 
-#: qt/app.py:569
+#: qt/app.py:570
 msgid "Open Back In Time website in browser"
 msgstr "Отворите Back In Time вебсајт у прегледачу"
 
-#: qt/app.py:571 qt/app.py:2288
+#: qt/app.py:572 qt/app.py:2290
 msgid "Changelog"
 msgstr "Дневник измена"
 
-#: qt/app.py:574
+#: qt/app.py:575
 #, fuzzy
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr ""
 "Отворите приручник за кориснике у прегледачу (локално ако је доступно, иначе"
 " на мрежи)"
 
-#: qt/app.py:577
+#: qt/app.py:578
 msgid "FAQ"
 msgstr "Честа питања"
 
-#: qt/app.py:579
+#: qt/app.py:580
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "Отворите Често Постављана Питања (FAQ) у прегледачу"
 
-#: qt/app.py:581
+#: qt/app.py:582
 msgid "Ask a question"
 msgstr "Постави питање"
 
-#: qt/app.py:585
+#: qt/app.py:586
 msgid "Report a bug"
 msgstr "Пријави грешку"
 
-#: qt/app.py:588
+#: qt/app.py:589
 msgid "Translation"
 msgstr "Превод"
 
-#: qt/app.py:590
+#: qt/app.py:591
 msgid "Shows the message about participation in translation again."
 msgstr "Поново приказује поруку о учешћу у преводу."
 
-#: qt/app.py:594
+#: qt/app.py:595
 msgid "Encryption Transition (EncFS)"
 msgstr "Прелазак на шифровање (EncFS)"
 
-#: qt/app.py:596
+#: qt/app.py:597
 msgid "Shows the message about EncFS removal again."
 msgstr "Поново приказује поруку о уклањању EncFS."
 
-#: qt/app.py:603
+#: qt/app.py:604
 msgid "About"
 msgstr "О апликацији"
 
-#: qt/app.py:606 qt/restoredialog.py:46 qt/snapshotsdialog.py:184
+#: qt/app.py:607 qt/restoredialog.py:46 qt/snapshotsdialog.py:184
 #: qt/snapshotsdialog.py:189
 msgid "Restore"
 msgstr "Поврати"
 
-#: qt/app.py:608
+#: qt/app.py:609
 #, fuzzy
 msgid "Restore the selected files or directories to the original location."
 msgstr "Вратите изабране фајлове или директоријуме на оригиналну одредиште."
 
-#: qt/app.py:611 qt/app.py:1929 qt/snapshotsdialog.py:186
+#: qt/app.py:612 qt/app.py:1931 qt/snapshotsdialog.py:186
 msgid "Restore to …"
 msgstr "Поврати у …"
 
-#: qt/app.py:613
+#: qt/app.py:614
 #, fuzzy
 msgid "Restore the selected files or directories to a new location."
 msgstr "Вратите изабране фајлове или директоријуме на нову одредиште."
 
-#: qt/app.py:619
+#: qt/app.py:620
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
@@ -756,7 +756,7 @@ msgstr ""
 "Вратите тренутно приказани директоријум и све његове садржаје на оригинално "
 "одредиште."
 
-#: qt/app.py:625
+#: qt/app.py:626
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
@@ -765,76 +765,76 @@ msgstr ""
 "Вратите тренутно приказани директоријум и све његове садржаје на ново "
 "одредиште."
 
-#: qt/app.py:628
+#: qt/app.py:629
 msgid "Up"
 msgstr "Горе"
 
-#: qt/app.py:631
+#: qt/app.py:632
 msgid "Show hidden files"
 msgstr "Прикажи скривене фајлове"
 
-#: qt/app.py:634
+#: qt/app.py:635
 #, fuzzy
 msgid "Compare backups…"
 msgstr "Упореди снимке…"
 
-#: qt/app.py:664 qt/app.py:1802
+#: qt/app.py:665 qt/app.py:1804
 msgid "Release Candidate"
 msgstr "Кандидат за објаву"
 
-#: qt/app.py:667
+#: qt/app.py:668
 msgid "Shows the message about this Release Candidate again."
 msgstr "Поново приказује поруку о овом кандидату објаве."
 
-#: qt/app.py:704
+#: qt/app.py:705
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:709
+#: qt/app.py:710
 msgid "&Backup"
 msgstr "&Резервна копија"
 
-#: qt/app.py:721
+#: qt/app.py:722
 msgid "&Restore"
 msgstr "&Врати"
 
-#: qt/app.py:727
+#: qt/app.py:728
 msgid "&Help"
 msgstr "Помоћ"
 
-#: qt/app.py:778
+#: qt/app.py:779
 msgid "Systray Icon"
 msgstr ""
 
-#: qt/app.py:784
+#: qt/app.py:785
 msgid "Automatic"
 msgstr ""
 
-#: qt/app.py:788
+#: qt/app.py:789
 msgid "Light icon"
 msgstr ""
 
-#: qt/app.py:789
+#: qt/app.py:790
 msgid "Dark icon"
 msgstr ""
 
-#: qt/app.py:812
+#: qt/app.py:813
 msgid "Icons only"
 msgstr "Само иконице"
 
-#: qt/app.py:815
+#: qt/app.py:816
 msgid "Text only"
 msgstr "Само текст"
 
-#: qt/app.py:818
+#: qt/app.py:819
 msgid "Text below icons"
 msgstr "Текст испод иконица"
 
-#: qt/app.py:821
+#: qt/app.py:822
 msgid "Text beside icon"
 msgstr "Текст поред иконице"
 
-#: qt/app.py:932
+#: qt/app.py:933
 #, fuzzy
 msgid ""
 "This directory doesn't exist\n"
@@ -843,15 +843,15 @@ msgstr ""
 "Овај директоријум не постоји\n"
 "у тренутном изабраном снимку."
 
-#: qt/app.py:993
+#: qt/app.py:994
 msgid "Add to Include"
 msgstr "Додај у Укључења"
 
-#: qt/app.py:994
+#: qt/app.py:995
 msgid "Add to Exclude"
 msgstr "Додај у Искључења"
 
-#: qt/app.py:1008
+#: qt/app.py:1009
 #, fuzzy
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
@@ -860,54 +860,54 @@ msgstr ""
 "Ако затворите овај прозор, Back In Time неће моћи да искључи ваш систем када"
 " снимак буде завршен."
 
-#: qt/app.py:1011
+#: qt/app.py:1012
 msgid "Close the window anyway?"
 msgstr "Затворити прозор свеједно?"
 
-#: qt/app.py:1202
+#: qt/app.py:1203
 msgid "Done, no backup needed"
 msgstr "Завршено, снимање није потребно"
 
-#: qt/app.py:1273
+#: qt/app.py:1274
 msgid "Working:"
 msgstr "Радим:"
 
-#: qt/app.py:1280
+#: qt/app.py:1281
 msgid "Working"
 msgstr "Радим"
 
-#: qt/app.py:1286 qt/messagebox.py:136
+#: qt/app.py:1287 qt/messagebox.py:136
 msgid "Error"
 msgstr "Грешка"
 
-#: qt/app.py:1327 qt/qtsystrayicon.py:295
+#: qt/app.py:1328 qt/qtsystrayicon.py:295
 msgid "Sent:"
 msgstr "Послато:"
 
-#: qt/app.py:1328 qt/qtsystrayicon.py:296
+#: qt/app.py:1329 qt/qtsystrayicon.py:296
 msgid "Speed:"
 msgstr "Брзина:"
 
-#: qt/app.py:1329 qt/qtsystrayicon.py:297
+#: qt/app.py:1330 qt/qtsystrayicon.py:297
 msgid "ETA:"
 msgstr "Процењено време завршетка:"
 
-#: qt/app.py:1478
+#: qt/app.py:1479
 #, fuzzy
 msgid "Backup:"
 msgstr "&Резервна копија"
 
-#: qt/app.py:1518
+#: qt/app.py:1519
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Поврати {path}"
 
-#: qt/app.py:1520
+#: qt/app.py:1521
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Врати {path} на …"
 
-#: qt/app.py:1668
+#: qt/app.py:1669
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -924,42 +924,47 @@ msgstr ""
 "Жао нам је што вас ометамо, а ова се порука више неће приказивати. Овај диалог је доступан у било ком тренутку у менију за помоћ.\n"
 "Ваш Back In Time тим"
 
-#: qt/app.py:1697
+#: qt/app.py:1698
 msgid "translation platform"
 msgstr "платформа за превод"
 
-#: qt/app.py:1702
+#: qt/app.py:1703
 msgid "Website"
 msgstr "Веб сајт"
 
-#: qt/app.py:1716
+#: qt/app.py:1717
 msgid "Your translation"
 msgstr "Ваш превод"
 
-#: qt/app.py:1753
+#: qt/app.py:1754
 #, fuzzy, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "У Федиверзу на Мастодону: {link_and_label}"
 
-#: qt/app.py:1761
+#: qt/app.py:1759
+#, fuzzy, python-brace-format
+msgid "Email to {link_and_label}."
+msgstr "Mailing list {link_and_label}"
+
+#: qt/app.py:1763
 #, fuzzy, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "Mailing list {link_and_label}"
 
-#: qt/app.py:1765
+#: qt/app.py:1767
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} на вебсајту пројекта."
 
-#: qt/app.py:1768
+#: qt/app.py:1770
 msgid "Open an issue"
 msgstr "Отворите питање"
 
-#: qt/app.py:1769
+#: qt/app.py:1771
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Алтернативно, можете користити други канал по вашем избору."
 
-#: qt/app.py:1774
+#: qt/app.py:1776
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -980,28 +985,28 @@ msgstr ""
 "Хвала вам на подршци и што нам помажете да побољшамо Back In Time!\n"
 "Ваш Back In Time тим"
 
-#: qt/app.py:1879
+#: qt/app.py:1881
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr ""
 
-#: qt/app.py:1884
+#: qt/app.py:1886
 msgid "Proceed with the backup?"
 msgstr ""
 
-#: qt/app.py:1909
+#: qt/app.py:1911
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr "Све новије датотеке у {path} биће уклоњене. Наставити?"
 
-#: qt/app.py:1912
+#: qt/app.py:1914
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 "Све новије датотеке у оригиналном директоријуму биће уклоњене. Наставити?"
 
-#: qt/app.py:1918
+#: qt/app.py:1920
 #, fuzzy, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -1010,23 +1015,41 @@ msgstr ""
 "{BOLD}Упозорење{BOLDEND}: Брисање фајлова у корену фајл система може "
 "покварити цео ваш систем."
 
-#: qt/app.py:2154
+#: qt/app.py:2156
 #, fuzzy
 msgid "Backup name"
 msgstr "&Резервна копија"
 
-#: qt/app.py:2185
+#: qt/app.py:2187
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: qt/app.py:2248
+#: qt/app.py:2250
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "Језичка подешавања ступају на снагу тек након поновног покретања Back In "
 "Time."
+
+#: qt/backintime-qt-root.desktop:14
+msgid "Versioned Backups (root)"
+msgstr ""
+
+#: qt/backintime-qt-root.desktop:23
+msgid ""
+"User-friendly GUI for versioned backups that reduces disk usage (root mode)"
+msgstr ""
+
+#: qt/backintime-qt.desktop:14
+#, fuzzy
+msgid "Versioned Backups"
+msgstr "Чувајте именоване снимке."
+
+#: qt/backintime-qt.desktop:23
+msgid "User-friendly GUI for versioned backups that reduces disk usage"
+msgstr ""
 
 #: qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -1109,20 +1132,20 @@ msgstr ""
 msgid "Show/hide hidden files and directories (Ctrl+H)"
 msgstr "Укључи фајлове и директоријуме"
 
-#: qt/languagedialog.py:35
+#: qt/languagedialog.py:36
 msgid "Setup language"
 msgstr "Подесите језик"
 
-#: qt/languagedialog.py:119
+#: qt/languagedialog.py:120
 #, python-brace-format
 msgid "Translated: {percent}"
 msgstr "Преведено: {percent}"
 
-#: qt/languagedialog.py:131
+#: qt/languagedialog.py:132
 msgid "System default"
 msgstr "Подразумевано системско"
 
-#: qt/languagedialog.py:141
+#: qt/languagedialog.py:142
 #, fuzzy
 msgid "Use operating system's language."
 msgstr "Користи језик оперативног система."
@@ -1137,7 +1160,7 @@ msgid "Last Log View"
 msgstr "Приказ последњег дневника"
 
 #: qt/logviewdialog.py:71 qt/manageprofiles/__init__.py:72
-#: qt/manageprofiles/tab_general.py:250 qt/restoreconfigdialog.py:358
+#: qt/manageprofiles/tab_general.py:250 qt/restoreconfigdialog.py:343
 msgid "Profile:"
 msgstr "Профил:"
 
@@ -1904,7 +1927,7 @@ msgstr "онемогућено"
 msgid "enabled"
 msgstr "омогућено"
 
-#: qt/manageprofiles/tab_general.py:67 qt/restoreconfigdialog.py:360
+#: qt/manageprofiles/tab_general.py:67 qt/restoreconfigdialog.py:345
 msgid "Mode:"
 msgstr "Мод:"
 
@@ -2306,6 +2329,16 @@ msgstr "Ако је број слободних inode-ова мањи од:"
 msgid "Remove oldest backup if …"
 msgstr "Уклањање старог снимка"
 
+#: qt/net.launchpad.backintime.policy:21
+msgid "Authentication is required to run Back In Time as root."
+msgstr ""
+
+#: qt/net.launchpad.backintime.policy:33 qt/net.launchpad.backintime.policy:43
+msgid ""
+"Authentication is required to change backup schedules triggered by external "
+"storage device connections."
+msgstr ""
+
 #: qt/placeswidget.py:49
 msgid "Shortcuts"
 msgstr "Пречице"
@@ -2345,7 +2378,7 @@ msgstr "Покрени {appname}"
 msgid "Working…"
 msgstr "Радим…"
 
-#: qt/qttools.py:502
+#: qt/qttools.py:503
 #, python-brace-format
 msgid "man page: {man_page_name}"
 msgstr ""
@@ -2354,20 +2387,20 @@ msgstr ""
 msgid "Import configuration"
 msgstr "Увези конфигурацију"
 
-#: qt/restoreconfigdialog.py:94 qt/restoreconfigdialog.py:320
-msgid "No config found"
-msgstr "Конфигурација није пронађена"
+#: qt/restoreconfigdialog.py:105
+msgid "No directory selected"
+msgstr ""
 
-#: qt/restoreconfigdialog.py:123
+#: qt/restoreconfigdialog.py:134
 msgid "Import"
 msgstr "Увези"
 
-#: qt/restoreconfigdialog.py:145 qt/restoreconfigdialog.py:249
+#: qt/restoreconfigdialog.py:154 qt/restoreconfigdialog.py:234
 #, fuzzy
 msgid "Searching…"
 msgstr "Радим…"
 
-#: qt/restoreconfigdialog.py:226
+#: qt/restoreconfigdialog.py:211
 #, fuzzy, python-brace-format
 msgid ""
 "Select the backup directory from which the configuration file should be "
@@ -2376,7 +2409,7 @@ msgstr ""
 "Изаберите директоријум снимка из којег треба да се увезе конфигурациони "
 "фајл. Путања може изгледати овако: {samplePath}"
 
-#: qt/restoreconfigdialog.py:231
+#: qt/restoreconfigdialog.py:216
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
@@ -2384,21 +2417,26 @@ msgstr ""
 "Ако се директоријум налази на спољном или удаљеном диску, мора бити ручно "
 "монтиран пре тога."
 
-#: qt/restoreconfigdialog.py:252
+#: qt/restoreconfigdialog.py:237
 msgid "Scan again"
 msgstr ""
 
-#: qt/restoreconfigdialog.py:271
+#: qt/restoreconfigdialog.py:256
 #, fuzzy
 msgid "Show hidden directories"
 msgstr "Прикажи скривене фајлове"
 
-#: qt/restoreconfigdialog.py:273
+#: qt/restoreconfigdialog.py:258
 #, fuzzy
 msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Укључи фајлове и директоријуме"
 
-#: qt/restoreconfigdialog.py:381
+#: qt/restoreconfigdialog.py:305
+#, fuzzy
+msgid "No config found in this dicrectory"
+msgstr "Креирање фајла није успело у овом директоријуму:"
+
+#: qt/restoreconfigdialog.py:366
 msgid "Search complete."
 msgstr ""
 
@@ -2606,6 +2644,9 @@ msgstr "Задња провера {time}"
 #~ msgstr ""
 #~ "Подршка за EncFS ће бити прекинута у догледној будућности. Не препоручује се"
 #~ " коришћење тог режима за профил убудуће."
+
+#~ msgid "No config found"
+#~ msgstr "Конфигурација није пронађена"
 
 #~ msgid "SSH encrypted"
 #~ msgstr "SSH криптовано"
