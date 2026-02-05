@@ -685,7 +685,7 @@ def create_languages_py_file():
     # the same with completeness dict
     compl_dict = create_completeness_dict()
 
-    show_completeness_info(compl_dit, names_dict)
+    show_completeness_info(compl_dict, names_dict)
 
     content.append('')
     content.append('')
