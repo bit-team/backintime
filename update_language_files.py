@@ -638,10 +638,16 @@ def all_desktop_files_in_qt_dir():
 
 
 def show_completeness_info(compl_dict, names_dict):
-    print('X'*100)
-    print(compl_dict)
-    print('Y'*100)
-    print(names_dict)
+    sorted_dict = dict(
+        sorted(
+            compl_dict.items(),
+            lambda items: items[1],
+            reverse=True
+        )
+    )
+    for code, completeness in sorted_dict:
+        lang = names_dict['en'][code]
+        print(f'{code} - {lang:20}{completeness}%')
 
 
 def create_completeness_dict():
