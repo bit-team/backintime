@@ -13,17 +13,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-rc2\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-01-26 18:10+0100\n"
-"PO-Revision-Date: 2025-12-19 08:21+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-01-31 12:36+0000\n"
+"Last-Translator: artnay <artnay@noreply.codeberg.org>\n"
 "Language-Team: Finnish <https://translate.codeberg.org/projects/backintime/common/fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -73,7 +73,7 @@ msgstr "SSH"
 #: common/config.py:245 common/config.py:255
 #: qt/manageprofiles/tab_general.py:744
 msgid "SSH private key"
-msgstr "yksityinen SSH-avain"
+msgstr "Yksityinen SSH-avain"
 
 #: common/config.py:300 common/config.py:312 common/config.py:330
 #: common/config.py:344 common/config.py:365
@@ -783,19 +783,19 @@ msgstr "&Ohje"
 
 #: qt/app.py:779
 msgid "Systray Icon"
-msgstr ""
+msgstr "Ilmoitusalueen kuvake"
 
 #: qt/app.py:785
 msgid "Automatic"
-msgstr ""
+msgstr "Automaattinen"
 
 #: qt/app.py:789
 msgid "Light icon"
-msgstr ""
+msgstr "Vaalea kuvake"
 
 #: qt/app.py:790
 msgid "Dark icon"
-msgstr ""
+msgstr "Tumma kuvake"
 
 #: qt/app.py:813
 msgid "Icons only"
@@ -920,9 +920,9 @@ msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Fediversumissa Mastodonissa: {link_and_label}."
 
 #: qt/app.py:1759
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr "Postituslista {link_and_label}."
+msgstr "Sähköposti {link_and_label}."
 
 #: qt/app.py:1763
 #, python-brace-format
@@ -1012,7 +1012,7 @@ msgstr "Kielivalinta astuu voimaan uudelleenkäynnistyksen jälkeen."
 
 #: qt/backintime-qt-root.desktop:14
 msgid "Versioned Backups (root)"
-msgstr ""
+msgstr "Versioidut varmuuskopiot (root)"
 
 #: qt/backintime-qt-root.desktop:23
 msgid ""
@@ -1020,9 +1020,8 @@ msgid ""
 msgstr ""
 
 #: qt/backintime-qt.desktop:14
-#, fuzzy
 msgid "Versioned Backups"
-msgstr "Säilytä nimetyt varmuuskopiot."
+msgstr "Versioidut varmuuskopiot"
 
 #: qt/backintime-qt.desktop:23
 msgid "User-friendly GUI for versioned backups that reduces disk usage"
@@ -1237,7 +1236,7 @@ msgstr "Haluatko poistaa profiilin \"{name}\"?"
 
 #: qt/manageprofiles/copylinkswidget.py:38
 msgid "Copy symbolic links as files"
-msgstr ""
+msgstr "Kopioi symboliset linkit tiedostoina"
 
 #: qt/manageprofiles/copylinkswidget.py:43
 msgid ""
@@ -1247,11 +1246,11 @@ msgstr ""
 
 #: qt/manageprofiles/copylinkswidget.py:46
 msgid "This option may increase backup size."
-msgstr ""
+msgstr "Tämä valinta saattaa kasvattaa varmuuskopion kokoa."
 
 #: qt/manageprofiles/copylinkswidget.py:47
 msgid "Disabled by default."
-msgstr ""
+msgstr "Pois käytöstä oletusarvoisesti."
 
 #: qt/manageprofiles/copylinkswidget.py:60
 msgid ""
@@ -1282,14 +1281,12 @@ msgid "Editor & Office temporary files"
 msgstr ""
 
 #: qt/manageprofiles/excludesuggestions.py:34
-#, fuzzy
 msgid "Emacs backup files"
-msgstr "Keskeytä varmuuskopiointi"
+msgstr "Emacs-varmuuskopiotiedostot"
 
 #: qt/manageprofiles/excludesuggestions.py:35
-#, fuzzy
 msgid "Emacs autosave files"
-msgstr "Jätä pois tiedostot"
+msgstr "Emacs-automaattitallennuksen tiedostot"
 
 #: qt/manageprofiles/excludesuggestions.py:36
 msgid "Vim swap files"
@@ -1297,11 +1294,11 @@ msgstr ""
 
 #: qt/manageprofiles/excludesuggestions.py:37
 msgid "Microsoft Office temporary files"
-msgstr ""
+msgstr "Microsoft Officen väliaikaistiedostot"
 
 #: qt/manageprofiles/excludesuggestions.py:40
 msgid "LibreOffice & other OpenDocument Editors lock files"
-msgstr ""
+msgstr "LibreOfficen ja muiden OpenDocument-muokkainten lukkotiedostot"
 
 #: qt/manageprofiles/excludesuggestions.py:44
 msgid "Thumbnails & Temporary Pictures"
@@ -1325,15 +1322,15 @@ msgstr ""
 
 #: qt/manageprofiles/excludesuggestions.py:56
 msgid "Discord application lock file"
-msgstr ""
+msgstr "Discord-sovelluksen lukkotiedosto"
 
 #: qt/manageprofiles/excludesuggestions.py:57
 msgid "Discord session lock file"
-msgstr ""
+msgstr "Discord-istunnon lukkotiedosto"
 
 #: qt/manageprofiles/excludesuggestions.py:60
 msgid "Mozilla Firefox & Thunderbird lock file"
-msgstr ""
+msgstr "Mozilla Firefoxin ja Thunderbirdin lukkotiedosto"
 
 #: qt/manageprofiles/excludesuggestions.py:62
 #, fuzzy
@@ -1401,7 +1398,7 @@ msgstr ""
 
 #: qt/manageprofiles/excludesuggestions.py:105
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Sekalaiset"
 
 #: qt/manageprofiles/excludesuggestions.py:108
 msgid "Metadata directory on Microsoft Windows"
@@ -1426,9 +1423,8 @@ msgid "Select commonly used items to add to backup exclusions."
 msgstr ""
 
 #: qt/manageprofiles/excludesuggestions.py:157
-#, fuzzy
 msgid "Default"
-msgstr "oletus"
+msgstr "Oletusasetukset"
 
 #: qt/manageprofiles/excludesuggestions.py:158
 msgid "Reset to predefined selection"
@@ -1678,9 +1674,8 @@ msgid "Add directories"
 msgstr "Lisää hakemistoja"
 
 #: qt/manageprofiles/tab_exclude.py:118
-#, fuzzy
 msgid "Suggestions"
-msgstr "Kysymys"
+msgstr "Ehdotukset"
 
 #: qt/manageprofiles/tab_exclude.py:120
 msgid "Select from common used items to add to exclude list."
@@ -1942,9 +1937,8 @@ msgid "The backup destination path cannot be empty."
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:404
-#, fuzzy
 msgid "The encryption password cannot be empty."
-msgstr "EncFS-salasanat eivät täsmää."
+msgstr "Salauksen salasana ei voi olla tyhjä."
 
 #: qt/manageprofiles/tab_general.py:553
 msgid ""
@@ -1994,11 +1988,11 @@ msgstr "Haluatko todella vaihtaa varmuuskopioinnin hakemistoa?"
 
 #: qt/manageprofiles/tab_general.py:725
 msgid "The selected backup destination is not empty."
-msgstr ""
+msgstr "Valittu varmuuskopion sijainti ei ole tyhjä."
 
 #: qt/manageprofiles/tab_general.py:727
 msgid "It must be empty to use encryption."
-msgstr ""
+msgstr "Sen tulee olla tyhjä, jotta salausta voi käyttää."
 
 #: qt/manageprofiles/tab_general.py:756
 msgid "Invalid file: Not a private SSH key"
@@ -2313,9 +2307,9 @@ msgid "Profile: {profile_name}"
 msgstr "Profiili: ”{profile_name}”"
 
 #: qt/qtsystrayicon.py:112
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: {profile_name} (by user \"{desktop_user}\")"
-msgstr "Profiili: ”{profile_name}”"
+msgstr "Profiili: {profile_name} (käyttäjän \"{desktop_user}\")"
 
 #: qt/qtsystrayicon.py:155
 msgid "View Last Log"
@@ -2341,7 +2335,7 @@ msgstr "Tuo kokoonpano"
 
 #: qt/restoreconfigdialog.py:105
 msgid "No directory selected"
-msgstr ""
+msgstr "Hakemistoa ei ole valittu"
 
 #: qt/restoreconfigdialog.py:134
 msgid "Import"

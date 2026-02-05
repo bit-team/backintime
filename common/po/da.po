@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-rc2\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-01-26 18:10+0100\n"
-"PO-Revision-Date: 2026-01-20 19:21+0000\n"
+"PO-Revision-Date: 2026-01-28 11:56+0000\n"
 "Last-Translator: asjo <asjo@noreply.codeberg.org>\n"
 "Language-Team: Danish <https://translate.codeberg.org/projects/backintime/common/da/>\n"
 "Language: da\n"
@@ -73,7 +73,7 @@ msgstr "SSH"
 #: common/config.py:245 common/config.py:255
 #: qt/manageprofiles/tab_general.py:744
 msgid "SSH private key"
-msgstr "SSH privat nøgle"
+msgstr "Privat SSH nøgle"
 
 #: common/config.py:300 common/config.py:312 common/config.py:330
 #: common/config.py:344 common/config.py:365
@@ -538,21 +538,20 @@ msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}Version{BOLDEND}: {version}"
 
 #: qt/app.py:348
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time because no configuration"
 " is found."
 msgstr ""
-"{app_name} synes at køre for den første gang, da ingen konfiguration blev "
-"fundet."
+"{app_name} ser ud til at køre for første gang, eftersom der ingen "
+"konfiguration var."
 
 #: qt/app.py:353
-#, fuzzy
 msgid ""
 "Import an existing configuration from a backup location or another computer?"
 msgstr ""
-"Importer en eksisterende konfiguration (fra en backup destinationsmappe "
-"eller anden computer)?"
+"Importer en eksisterende konfiguration fra en tilstandsbillede-"
+"destinationsmappe eller anden computer?"
 
 #: qt/app.py:380
 msgid "Then press OK."
@@ -906,9 +905,9 @@ msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "I fødiverset på Mastodon: {link_and_label}."
 
 #: qt/app.py:1759
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr "Emailliste {link_and_label}."
+msgstr "Email til {link_and_label}."
 
 #: qt/app.py:1763
 #, python-brace-format
@@ -996,21 +995,24 @@ msgstr "Sprogopsætningen ændres først efter genstart af Back In Time."
 
 #: qt/backintime-qt-root.desktop:14
 msgid "Versioned Backups (root)"
-msgstr ""
+msgstr "Versionerede tilstandsbilleder (root)"
 
 #: qt/backintime-qt-root.desktop:23
 msgid ""
 "User-friendly GUI for versioned backups that reduces disk usage (root mode)"
 msgstr ""
+"Brugervenligt grafisk interface for versionerede tilstandsbilleder der "
+"reducerer lagerforbrug (root mode)"
 
 #: qt/backintime-qt.desktop:14
-#, fuzzy
 msgid "Versioned Backups"
-msgstr "Behold navngivne tilstandsbilleder."
+msgstr "Versionerede tilstandsbilleder"
 
 #: qt/backintime-qt.desktop:23
 msgid "User-friendly GUI for versioned backups that reduces disk usage"
 msgstr ""
+"Brugervenligt grafisk interface for versionerede tilstandsbilleder der "
+"reducerer lagerforbrug"
 
 #: qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -2263,13 +2265,15 @@ msgstr "Fjern ældste tilstandsbillede hvis …"
 
 #: qt/net.launchpad.backintime.policy:21
 msgid "Authentication is required to run Back In Time as root."
-msgstr ""
+msgstr "Autentikering er nødvendigt for at køre Back In Time som root."
 
 #: qt/net.launchpad.backintime.policy:33 qt/net.launchpad.backintime.policy:43
 msgid ""
 "Authentication is required to change backup schedules triggered by external "
 "storage device connections."
 msgstr ""
+"Autentikering er nødvendig for at ændre tilstandsbillede-kørsler udløst af "
+"tilslutning af eksternt lager."
 
 #: qt/placeswidget.py:49
 msgid "Shortcuts"
@@ -2321,7 +2325,7 @@ msgstr "Importeer konfiguration"
 
 #: qt/restoreconfigdialog.py:105
 msgid "No directory selected"
-msgstr ""
+msgstr "Ingen mappe valgt"
 
 #: qt/restoreconfigdialog.py:134
 msgid "Import"
@@ -2361,9 +2365,8 @@ msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Vis/skjul skjulte mapper (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:305
-#, fuzzy
 msgid "No config found in this directory"
-msgstr "Filoprettelse fejlede i mappe:"
+msgstr "Ingen konfiguration fundet i denne mappe"
 
 #: qt/restoreconfigdialog.py:366
 msgid "Search complete."

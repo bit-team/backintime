@@ -13,17 +13,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-rc2\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-01-26 18:10+0100\n"
-"PO-Revision-Date: 2026-01-17 13:21+0000\n"
-"Last-Translator: zvavybir <codeberg@zvavybir.eu>\n"
+"PO-Revision-Date: 2026-02-05 17:33+0000\n"
+"Last-Translator: marc9876543210 <marc9876543210@noreply.codeberg.org>\n"
 "Language-Team: Esperanto <https://translate.codeberg.org/projects/backintime/common/eo/>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -47,11 +47,11 @@ msgstr "Ĉefa profilo"
 
 #: common/config.py:225
 msgid "Local (EncFS encrypted)"
-msgstr "Loka (EncFS-kriptita)"
+msgstr "Loka (EncFS ĉifrita)"
 
 #: common/config.py:226
 msgid "SSH (EncFS encrypted)"
-msgstr "SSH (EncFS-kriptita)"
+msgstr "SSH (EncFS ĉifrita)"
 
 #: common/config.py:237
 msgid "Local"
@@ -59,12 +59,12 @@ msgstr "Loka"
 
 #: common/config.py:240
 msgid "Local encrypted"
-msgstr "Kriptita loke"
+msgstr "loka ĉifrita"
 
 #: common/config.py:241 common/config.py:249 common/config.py:256
 #: qt/manageprofiles/tab_general.py:405
 msgid "Encryption"
-msgstr "kriptante"
+msgstr "ĉifrado"
 
 #: common/config.py:245
 msgid "SSH"
@@ -73,7 +73,7 @@ msgstr "SSH"
 #: common/config.py:245 common/config.py:255
 #: qt/manageprofiles/tab_general.py:744
 msgid "SSH private key"
-msgstr "Privata SSH-ŝlosilo"
+msgstr "SSH privata ŝlosilo"
 
 #: common/config.py:300 common/config.py:312 common/config.py:330
 #: common/config.py:344 common/config.py:365
@@ -87,7 +87,7 @@ msgstr "Dosiero por savkopio ne estas valida."
 
 #: common/config.py:313
 msgid "At least one directory must be selected for backup."
-msgstr "Almenaŭ unu dosierujo devas esti elektita for savkopii."
+msgstr "Almenaŭ unu dosierujo devas esti elektita for savkopio."
 
 #: common/config.py:331 common/config.py:346
 #, python-brace-format
@@ -161,9 +161,9 @@ msgid "The last profile cannot be removed."
 msgstr "Ĉi tio ne povas esti nuligita."
 
 #: common/encfstools.py:129 common/gocryptfstools.py:84
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount \"{command}\""
-msgstr "Ne povas surmeti '{command}'"
+msgstr "Ne povas surmeti \"{command}\""
 
 #: common/encfstools.py:190
 msgid "Configuration for the encrypted directory not found."
@@ -190,9 +190,9 @@ msgid "Take snapshot"
 msgstr "Krei savkopion"
 
 #: common/gocryptfstools.py:133
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to init encrypted path \"{command}\""
-msgstr "Ne povas surmeti '{command}'"
+msgstr "Eraro dum inicialigo de ĉifrita vojo '{command}'"
 
 #: common/mount.py:663
 #, python-brace-format
@@ -542,18 +542,18 @@ msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}Versio{BOLDEND}: {version}"
 
 #: qt/app.py:348
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time because no configuration"
 " is found."
-msgstr "Ŝajnas, ke {app_name} rulas unue, ĉar agordo ne estas trovita."
+msgstr ""
+"Ŝajnas ke {app_name} funkcias unuafoje, ĉar neniu agordo estas trovita."
 
 #: qt/app.py:353
-#, fuzzy
 msgid ""
 "Import an existing configuration from a backup location or another computer?"
 msgstr ""
-"Ĉu importi ekzistantan agordon (de savkopi-celdosierujo aŭ alia komputilo)?"
+"Ĉu importi ekzistantan agordon el dosierujo de savkopio aŭ alia komputilo?"
 
 #: qt/app.py:380
 msgid "Then press OK."
@@ -561,7 +561,7 @@ msgstr "Do premu OK."
 
 #: qt/app.py:488
 msgid "Create a backup"
-msgstr "Krei savkopion"
+msgstr "Krei savkopio"
 
 #: qt/app.py:490
 msgid "Use modification time & size for file change detection."
@@ -909,9 +909,9 @@ msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "En la Fediverso je Mastodon: {link_and_label}."
 
 #: qt/app.py:1759
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr "Dissendolisto {link_and_label}."
+msgstr "sendu retposto {link_and_label}."
 
 #: qt/app.py:1763
 #, python-brace-format
@@ -1001,21 +1001,24 @@ msgstr "La lingoagordoj ne efikas antaŭ restarti Back In Time."
 
 #: qt/backintime-qt-root.desktop:14
 msgid "Versioned Backups (root)"
-msgstr ""
+msgstr "Versiita sekurkopio (root)"
 
 #: qt/backintime-qt-root.desktop:23
 msgid ""
 "User-friendly GUI for versioned backups that reduces disk usage (root mode)"
 msgstr ""
+"Uzanto-amika hom-maŝina interfaco por versiigitaj sekurkopioj kiu reduktas "
+"diskouzadon (root mode)"
 
 #: qt/backintime-qt.desktop:14
-#, fuzzy
 msgid "Versioned Backups"
-msgstr "Ne forigi nomitajn savkopiojn."
+msgstr "Ne forigi nomitajn savkopiojn"
 
 #: qt/backintime-qt.desktop:23
 msgid "User-friendly GUI for versioned backups that reduces disk usage"
 msgstr ""
+"Uzanto-amika hom-maŝina interfaco por versiigitaj sekurkopioj kiu reduktas "
+"diskouzadon"
 
 #: qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -1160,7 +1163,7 @@ msgstr "Eraroj"
 #: qt/logviewdialog.py:133 qt/messagebox.py:75
 msgid "Information"
 msgid_plural "Information"
-msgstr[0] "Informoj"
+msgstr[0] "Informo"
 msgstr[1] "Informoj"
 
 #: qt/logviewdialog.py:135
@@ -1227,45 +1230,54 @@ msgstr "Ĉu vi certas ke vi volas forigi la profilon \"{name}\"?"
 
 #: qt/manageprofiles/copylinkswidget.py:38
 msgid "Copy symbolic links as files"
-msgstr ""
+msgstr "kopiu la dosierojn montritajn per simbolaj ligiloj"
 
 #: qt/manageprofiles/copylinkswidget.py:43
 msgid ""
 "Copy symbolic links as real files or directories in the backup. Select "
 "whether all links or only those pointing outside the source are copied."
 msgstr ""
+"Kopiu simbolajn ligilojn kiel realajn dosierojn aŭ dosierujojn en la "
+"savkopio. Elektu ĉu ĉiuj ligiloj aŭ nur tiuj, kiuj montras ekster la fonto, "
+"estas kopiitaj."
 
 #: qt/manageprofiles/copylinkswidget.py:46
 msgid "This option may increase backup size."
-msgstr ""
+msgstr "Ĉi tiu opcio povas pligrandigi la grandecon de la savkopio."
 
 #: qt/manageprofiles/copylinkswidget.py:47
 msgid "Disabled by default."
-msgstr ""
+msgstr "Malŝaltita defaŭlte."
 
 #: qt/manageprofiles/copylinkswidget.py:60
 msgid ""
 "All symbolic links are replaced with real files or directories they point "
 "to. This increases backup size and may store the same files multiple times."
 msgstr ""
+"Ĉiuj simbolaj ligiloj estas anstataŭigitaj per la faktaj dosieroj aŭ "
+"dosierujoj, al kiuj ili montras. Tio pligrandigas la savkopio kaj povas "
+"konservi la samajn dosierojn plurfoje."
 
 #: qt/manageprofiles/copylinkswidget.py:63
 msgid "Uses 'rsync --copy-links'."
-msgstr ""
+msgstr "Uzita 'rsync --copy-links'."
 
 #: qt/manageprofiles/copylinkswidget.py:68
 msgid "Only external"
-msgstr ""
+msgstr "nur eksteraj ligiloj"
 
 #: qt/manageprofiles/copylinkswidget.py:72
 msgid ""
 "Only links pointing outside the backup source are copied as files. This "
 "increases backup size and may store the same files multiple times."
 msgstr ""
+"nur ligiloj montrantaj ekster la fonto de la savkopio estas kopiitaj kiel "
+"dosieroj. Tio pligrandigas la grandecon de la savkopio kaj povas konservi la"
+" samajn dosierojn plurfoje."
 
 #: qt/manageprofiles/copylinkswidget.py:75
 msgid "Uses 'rsync --copy-unsafe-links'."
-msgstr ""
+msgstr "Uzas 'rsync --copy-unsafe-links'."
 
 #: qt/manageprofiles/excludesuggestions.py:33
 msgid "Editor & Office temporary files"
@@ -1342,7 +1354,7 @@ msgstr "Kaŝmemoro por Debian(-bazitaj) GNU/Linux distribuoj"
 
 #: qt/manageprofiles/excludesuggestions.py:77
 msgid "Flatpak app and runtime repository"
-msgstr ""
+msgstr "Flatpak aplikaĵa kaj rultempa deponejo"
 
 #: qt/manageprofiles/excludesuggestions.py:81
 msgid "System runtime directories"
@@ -1915,12 +1927,11 @@ msgstr "Planado estas malvalidigita ĉar instalo de cron ne estas trovita."
 
 #: qt/manageprofiles/tab_general.py:393
 msgid "The backup destination path cannot be empty."
-msgstr ""
+msgstr "La cela vojo de la savkopio ne povas esti malplena."
 
 #: qt/manageprofiles/tab_general.py:404
-#, fuzzy
 msgid "The encryption password cannot be empty."
-msgstr "La EncFS pasvortoj ne kongruas."
+msgstr "La ĉifrada pasvorto ne povas esti malplena."
 
 #: qt/manageprofiles/tab_general.py:553
 msgid ""
@@ -1972,11 +1983,11 @@ msgstr "Vere ŝanĝi la dosierujon por savkopioj?"
 
 #: qt/manageprofiles/tab_general.py:725
 msgid "The selected backup destination is not empty."
-msgstr ""
+msgstr "La elektita celloko por la savkopio ne estas malplena."
 
 #: qt/manageprofiles/tab_general.py:727
 msgid "It must be empty to use encryption."
-msgstr ""
+msgstr "Ĝi devas esti malplena por uzi ĉifradon."
 
 #: qt/manageprofiles/tab_general.py:756
 msgid "Invalid file: Not a private SSH key"
@@ -2261,13 +2272,15 @@ msgstr "Malnovaj savkopioj estas forigitaj se …"
 
 #: qt/net.launchpad.backintime.policy:21
 msgid "Authentication is required to run Back In Time as root."
-msgstr ""
+msgstr "Aŭtentigo estas necesa por ruli Back In Time kiel administranto."
 
 #: qt/net.launchpad.backintime.policy:33 qt/net.launchpad.backintime.policy:43
 msgid ""
 "Authentication is required to change backup schedules triggered by external "
 "storage device connections."
 msgstr ""
+"Aŭtentigo estas necesa por ŝanĝi rezervhorarojn ekigitajn de konektoj de "
+"eksteraj memoriloj."
 
 #: qt/placeswidget.py:49
 msgid "Shortcuts"
@@ -2319,7 +2332,7 @@ msgstr "Importi agordon"
 
 #: qt/restoreconfigdialog.py:105
 msgid "No directory selected"
-msgstr ""
+msgstr "Neniu dosierujo elektita"
 
 #: qt/restoreconfigdialog.py:134
 msgid "Import"
@@ -2359,9 +2372,8 @@ msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Vidigi/malvidigi kaŝitajn dosierujojn (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:305
-#, fuzzy
 msgid "No config found in this directory"
-msgstr "Kreado de dosiero malsukcesis en tio dosierujo:"
+msgstr "neniu agordo trovita en ĉi tiu dosierujo"
 
 #: qt/restoreconfigdialog.py:366
 msgid "Search complete."

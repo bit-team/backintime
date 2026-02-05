@@ -17,9 +17,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-rc2\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-01-26 18:10+0100\n"
-"PO-Revision-Date: 2026-01-22 16:21+0000\n"
+"PO-Revision-Date: 2026-02-05 17:33+0000\n"
 "Last-Translator: marc9876543210 <marc9876543210@noreply.codeberg.org>\n"
 "Language-Team: French <https://translate.codeberg.org/projects/backintime/common/fr/>\n"
 "Language: fr\n"
@@ -77,7 +77,7 @@ msgstr "SSH"
 #: common/config.py:245 common/config.py:255
 #: qt/manageprofiles/tab_general.py:744
 msgid "SSH private key"
-msgstr "clé privée SSH"
+msgstr "Clé privée SSH"
 
 #: common/config.py:300 common/config.py:312 common/config.py:330
 #: common/config.py:344 common/config.py:365
@@ -103,8 +103,8 @@ msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
 msgstr ""
-"Le répertoire ne peut pas être inclus dans la sauvegarde car il fait partie "
-"de la destination de sauvegarde."
+"Ce répertoire ne peut pas être inclus dans la sauvegarde, car il fait partie"
+" de la destination de la sauvegarde."
 
 #: common/config.py:366
 #, python-brace-format
@@ -122,8 +122,8 @@ msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr ""
-"Veuillez ajuster les paramètres pour que la limite de suppression de la "
-"sauvegarde ne soit pas supérieure à limite d'alerte."
+"Veuillez ajuster les paramètres pour que la limite de suppression des "
+"sauvegardes ne soit pas supérieure à limite d'alerte."
 
 #: common/config.py:1515
 #, python-brace-format
@@ -197,7 +197,7 @@ msgstr "Prendre un instantané"
 #: common/gocryptfstools.py:133
 #, python-brace-format
 msgid "Unable to init encrypted path \"{command}\""
-msgstr "Erreur au montage du répertoire chiffré \"{command}\""
+msgstr "Impossible de monter le répertoire chiffré \"{command}\""
 
 #: common/mount.py:663
 #, python-brace-format
@@ -262,7 +262,7 @@ msgstr "Différer la sauvegarde lors du fonctionnement sur batterie"
 
 #: common/snapshots.py:931 qt/app.py:378
 msgid "Can't find backup directory."
-msgstr "Répertoire des sauvegardes inaccessible."
+msgstr "Répertoire de sauvegarde non trouvé."
 
 #: common/snapshots.py:935 qt/app.py:379
 msgid "If it is on a removable drive, please plug it in."
@@ -272,8 +272,8 @@ msgstr "S'il se trouve sur un disque externe, veuillez le connecter."
 #, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
-msgstr[0] "Prochain essai dans {n} seconde."
-msgstr[1] "Prochain essai dans {n} secondes."
+msgstr[0] "Attendre {n} seconde."
+msgstr[1] "Attendre {n} secondes."
 
 #: common/snapshots.py:1005
 #, python-brace-format
@@ -368,7 +368,7 @@ msgstr "Tentative de garder un minimum d'espace libre"
 #: common/snapshots.py:2079
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
-msgstr "Tentative de garder un minimum de {perc} d'inodes libres"
+msgstr "Tentative de garder un minimum de {perc} inodes libres"
 
 #: common/snapshots.py:3211 qt/app.py:1471
 msgid "Now"
@@ -393,7 +393,7 @@ msgstr ""
 
 #: common/sshtools.py:721
 msgid "Remote path exists but is not a directory."
-msgstr "Le chemin d'accès distant existe mais n'est pas un répertoire."
+msgstr "Le chemin d'accès distant existe, mais n'est pas un répertoire."
 
 #: common/sshtools.py:726
 msgid "Remote path is not writable."
@@ -432,7 +432,7 @@ msgstr "Copie de la clé SSH publique \"{pubkey}\" sur l'hôte distant \"{host}\
 #: common/sshtools.py:1208
 #, python-brace-format
 msgid "Please enter a password for \"{user}\"."
-msgstr "Veuillez entrer un mot de passe pour \"{user}\"."
+msgstr "Veuillez entrer le mot de passe pour \"{user}\"."
 
 #: common/tools.py:382
 #, python-brace-format
@@ -479,11 +479,11 @@ msgstr ""
 
 #: common/tools.py:486
 msgid "Copy links (dereference symbolic links)"
-msgstr "Copier les liens (déréférencer les liens symboliques)"
+msgstr "Copier les liens (suivre les liens symboliques)"
 
 #: common/tools.py:487
 msgid "Expert Options"
-msgstr "Options avancées"
+msgstr "Options pour expert"
 
 #: common/tools.py:491
 #, python-brace-format
@@ -497,7 +497,7 @@ msgstr ""
 
 #: common/tools.py:525
 msgid "File creation failed in this directory:"
-msgstr "Échec de création de fichier dans le répertoire suivant :"
+msgstr "Échec de création du fichier dans le répertoire suivant :"
 
 #: qt/aboutdlg.py:51
 msgid "About Back In Time"
@@ -522,7 +522,8 @@ msgstr ""
 "Michel Corps <mahikeulbody@gmail.com> (@jej)\n"
 "milimarg <guittre@ik.me>\n"
 "Loufute\n"
-"Iann"
+"Iann\n"
+"Over_score"
 
 #: qt/aboutdlg.py:107
 msgid "Translator credits not available for current language."
@@ -559,21 +560,20 @@ msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}Version{BOLDEND} : {version}"
 
 #: qt/app.py:348
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time because no configuration"
 " is found."
 msgstr ""
-"{app_name} semble s'exécuter pour la première fois car aucune configuration "
-"n'a été trouvée."
+"{app_name} semble s'exécuter pour la première fois, aucune configuration "
+"n'ayant été trouvée."
 
 #: qt/app.py:353
-#, fuzzy
 msgid ""
 "Import an existing configuration from a backup location or another computer?"
 msgstr ""
-"Importer une configuration existante (à partir d'un répertoire de sauvegarde"
-" ou d'un autre ordinateur) ?"
+"Importer une configuration existante à partir d'un répertoire de sauvegarde "
+"ou d'un autre ordinateur ?"
 
 #: qt/app.py:380
 msgid "Then press OK."
@@ -600,15 +600,15 @@ msgstr ""
 
 #: qt/app.py:497 qt/qtsystrayicon.py:125
 msgid "Pause backup process"
-msgstr "Mettre en pause la prise de la sauvegarde"
+msgstr "Mettre la sauvegarde en pause"
 
 #: qt/app.py:501 qt/qtsystrayicon.py:130
 msgid "Resume backup process"
-msgstr "Reprendre la prise de la sauvegarde"
+msgstr "Reprendre la sauvegarde"
 
 #: qt/app.py:505 qt/qtsystrayicon.py:135
 msgid "Stop backup process"
-msgstr "Arrêter la prise de la sauvegarde"
+msgstr "Arrêter la sauvegarde"
 
 #: qt/app.py:509
 msgid "Refresh backup list"
@@ -624,7 +624,7 @@ msgstr "Supprimer la sauvegarde"
 
 #: qt/app.py:521
 msgid "Open backup log"
-msgstr "Afficher le journal de la sauvegarde"
+msgstr "Afficher le journal des sauvegardes"
 
 #: qt/app.py:523
 msgid "View log of the selected backup."
@@ -700,7 +700,7 @@ msgstr "FAQ"
 
 #: qt/app.py:580
 msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr "Ouvrir la Foire aux questions (FAQ) dans le navigateur"
+msgstr "Ouvrir la Foire Aux Questions (FAQ) dans le navigateur"
 
 #: qt/app.py:582
 msgid "Ask a question"
@@ -941,9 +941,9 @@ msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Dans le Fediverse chez Mastodon : {link_and_label}."
 
 #: qt/app.py:1759
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr "Liste de diffusion {link_and_label}."
+msgstr "Courriel à {link_and_label}."
 
 #: qt/app.py:1763
 #, python-brace-format
@@ -980,7 +980,7 @@ msgstr ""
 "L'équipe vous demande donc un retour rapide de votre part, pour savoir si vous avez testé cette version, et ce même si vous n'avez pas identifié de problème. Même un retour sur un rapide essai de quelques minutes serait d'une aide importante.\n"
 "Vous pouvez faire un retour de plusieurs manières :\n"
 "{contact_list}\n"
-"Ce message n'apparaîtra plus mais peut être affiché à tout moment via le menu d'aide.\n"
+"Ce message n'apparaîtra plus, mais peut être affiché à tout moment via le menu d'aide.\n"
 "Merci pour votre soutien et pour l'aide apportée à l'amélioration de Back In Time !\n"
 "Votre équipe Back In Time"
 
@@ -1037,21 +1037,24 @@ msgstr ""
 
 #: qt/backintime-qt-root.desktop:14
 msgid "Versioned Backups (root)"
-msgstr ""
+msgstr "Versionning des sauvegardes (root)"
 
 #: qt/backintime-qt-root.desktop:23
 msgid ""
 "User-friendly GUI for versioned backups that reduces disk usage (root mode)"
 msgstr ""
+"Interface utilisateur facile d'usage pour sauvegardes nommées qui réduit "
+"l'utilisation disque (mode root)"
 
 #: qt/backintime-qt.desktop:14
-#, fuzzy
 msgid "Versioned Backups"
-msgstr "Conserver les sauvegardes nommées."
+msgstr "Sauvegardes nommées"
 
 #: qt/backintime-qt.desktop:23
 msgid "User-friendly GUI for versioned backups that reduces disk usage"
 msgstr ""
+"Interface utilisateur facile d'usage pour sauvegardes nommées qui réduit "
+"l'utilisation disque"
 
 #: qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -1064,7 +1067,7 @@ msgid ""
 "local elements."
 msgstr ""
 "Créer des copies de sauvegarde avec le suffixe '{suffix}' avant d'écraser ou"
-" de supprimer les fichiers locaux."
+" de supprimer des éléments locaux."
 
 #: qt/confirmrestoredialog.py:81 qt/manageprofiles/tab_options.py:69
 #, python-brace-format
@@ -1342,7 +1345,7 @@ msgstr ""
 
 #: qt/manageprofiles/excludesuggestions.py:44
 msgid "Thumbnails & Temporary Pictures"
-msgstr "Miniatures et photos temporaires"
+msgstr "Miniatures et images temporaires"
 
 #: qt/manageprofiles/excludesuggestions.py:47
 msgid "Thumbnail cache on GNU/Linux and other unixoid OS'es"
@@ -2334,12 +2337,15 @@ msgstr "Supprimer les anciennes sauvegardes si…"
 #: qt/net.launchpad.backintime.policy:21
 msgid "Authentication is required to run Back In Time as root."
 msgstr ""
+"Authentification nécessaire pour lancer Back In Time en tant que root."
 
 #: qt/net.launchpad.backintime.policy:33 qt/net.launchpad.backintime.policy:43
 msgid ""
 "Authentication is required to change backup schedules triggered by external "
 "storage device connections."
 msgstr ""
+"Authentification nécessaire pour changer le calendrier de sauvegarde "
+"déclenché par les connexions de stockages externes."
 
 #: qt/placeswidget.py:49
 msgid "Shortcuts"
@@ -2391,7 +2397,7 @@ msgstr "Importer la configuration"
 
 #: qt/restoreconfigdialog.py:105
 msgid "No directory selected"
-msgstr ""
+msgstr "Pas de répertoire sélectionné"
 
 #: qt/restoreconfigdialog.py:134
 msgid "Import"
@@ -2431,9 +2437,8 @@ msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Afficher/masquer les répertoires cachés (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:305
-#, fuzzy
 msgid "No config found in this directory"
-msgstr "Échec de création de fichier dans le répertoire suivant :"
+msgstr "Aucune configuration trouvée dans ce répertoire"
 
 #: qt/restoreconfigdialog.py:366
 msgid "Search complete."

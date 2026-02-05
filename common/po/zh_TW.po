@@ -13,17 +13,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-rc2\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-01-26 18:10+0100\n"
-"PO-Revision-Date: 2025-08-19 08:03+0000\n"
-"Last-Translator: hsiangjenli <hsiangjenli@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-01-31 12:36+0000\n"
+"Last-Translator: ktzhao <ktzhao@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hant/>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -100,13 +100,12 @@ msgid ""
 msgstr "該目錄不能包含在備份中，因為它是備份目標本身的一部分。"
 
 #: common/config.py:366
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
 " space falls below\" ({val_two})."
-msgstr ""
-"「如果可用空間小於則刪除最舊的備份」（{val_one}）的值必須小於或等於「如果可用磁碟空間低於則發出警告」（{val_two}）的閾值。"
+msgstr "「如果可用空間小於」的值「刪除最舊的備份」({val_one})必須小於或等於「如果可用磁碟空間低於」的閾值({val_two})。"
 
 #: common/config.py:371
 msgid ""
@@ -152,7 +151,7 @@ msgid "The last profile cannot be removed."
 msgstr "無法刪除最後一個設定檔。"
 
 #: common/encfstools.py:129 common/gocryptfstools.py:84
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount \"{command}\""
 msgstr "無法掛載 “{command}”"
 
@@ -181,9 +180,9 @@ msgid "Take snapshot"
 msgstr "進行快照"
 
 #: common/gocryptfstools.py:133
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to init encrypted path \"{command}\""
-msgstr "無法掛載 “{command}”"
+msgstr "無法初始化加密路徑“{command}”"
 
 #: common/mount.py:663
 #, python-brace-format
@@ -329,14 +328,12 @@ msgid "Unable to rename {new_path} to {path}."
 msgstr "無法將 {new_path} 重新命名為 {path}。"
 
 #: common/snapshots.py:1998
-#, fuzzy
 msgid "Applying rules to remove old backups"
-msgstr "應用程式規則刪除舊快照"
+msgstr "應用程式規則刪除舊備份"
 
 #: common/snapshots.py:2031
-#, fuzzy
 msgid "Applying retention policy"
-msgstr "應用保留策略"
+msgstr "正在應用保留策略"
 
 #: common/snapshots.py:2041
 msgid "Trying to keep min free space"
@@ -388,7 +385,7 @@ msgid "Remote host {host} doesn't support {command}"
 msgstr "遠端主機 {host} 不支援 {command}"
 
 #: common/sshtools.py:1026
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Checking commands on host {host} returned unknown error"
 msgstr "檢查主機 {host} 上的指令回傳未知錯誤"
 
@@ -505,9 +502,8 @@ msgid "User manual"
 msgstr "使用者手冊"
 
 #: qt/aboutdlg.py:227 qt/app.py:551
-#, fuzzy
 msgid "Open user manual in browser (local if available, otherwise online)"
-msgstr "在瀏覽器中開啟使用手冊（如果可用則在本地，否則在線）"
+msgstr "在瀏覽器中開啟使用者手冊（如果是本機文件則打開，否則線上開啟）"
 
 #: qt/aboutdlg.py:277
 #, python-brace-format
@@ -515,17 +511,16 @@ msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}版本{BOLDEND}：{version}"
 
 #: qt/app.py:348
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time because no configuration"
 " is found."
-msgstr "未找到設定檔，{app_name} 看起來是第一次啟動。"
+msgstr "{app_name} 似乎是第一次運行，因為找不到任何配置。"
 
 #: qt/app.py:353
-#, fuzzy
 msgid ""
 "Import an existing configuration from a backup location or another computer?"
-msgstr "是否從備份目標目錄或另一台電腦匯入現有設定檔？"
+msgstr "從備份位置或其他電腦匯入現有配置？"
 
 #: qt/app.py:380
 msgid "Then press OK."
@@ -636,9 +631,8 @@ msgid "Changelog"
 msgstr "變更日誌"
 
 #: qt/app.py:575
-#, fuzzy
 msgid "Open changelog (locally if available, otherwise from the web)"
-msgstr "在瀏覽器中開啟使用手冊（如果可用則在本地，否則在線）"
+msgstr "開啟變更日誌（如果本機有則打開，否則從網路開啟）"
 
 #: qt/app.py:578
 msgid "FAQ"
@@ -682,9 +676,8 @@ msgid "Restore"
 msgstr "還原"
 
 #: qt/app.py:609
-#, fuzzy
 msgid "Restore the selected files or directories to the original location."
-msgstr "將選定的檔案或目錄還原到原始目標。"
+msgstr "將選定的檔案或目錄還原到原始位置。"
 
 #: qt/app.py:612 qt/app.py:1931 qt/snapshotsdialog.py:186
 msgid "Restore to …"
