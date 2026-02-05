@@ -109,8 +109,10 @@ class RemoveRetentionTab(QDialog):
 
         # Event: Notify observers if "warn free space" value has changed
         self.event_remove_free_space_value_changed = Event()
+
+        # pylint: disable=unnecessary-lambda
         self._spin_unit_space.event_value_changed.register(
-            lambda value:  # pylint: disable=unnecessary-lambda
+            lambda value:  # noqa: PLW0108
             self.event_remove_free_space_value_changed.notify(value)
         )
 
