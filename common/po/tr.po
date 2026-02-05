@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-rc2\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-01-26 18:10+0100\n"
-"PO-Revision-Date: 2026-01-19 13:21+0000\n"
+"POT-Creation-Date: 2026-02-05 22:25+0100\n"
+"PO-Revision-Date: 2026-02-02 07:08+0000\n"
 "Last-Translator: barisozyurt <barisozyurt@noreply.codeberg.org>\n"
 "Language-Team: Turkish <https://translate.codeberg.org/projects/backintime/common/tr/>\n"
 "Language: tr\n"
@@ -163,7 +163,7 @@ msgid "The last profile cannot be removed."
 msgstr "Son profil kaldırılamaz."
 
 #: common/encfstools.py:129 common/gocryptfstools.py:84
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount \"{command}\""
 msgstr "'{command}' bağlanamıyor"
 
@@ -192,9 +192,9 @@ msgid "Take snapshot"
 msgstr "Yedek al"
 
 #: common/gocryptfstools.py:133
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to init encrypted path \"{command}\""
-msgstr "'{command}' bağlanamıyor"
+msgstr "\"{command}\" şifrelenmiş yolunu başlatamadı"
 
 #: common/mount.py:663
 #, python-brace-format
@@ -553,21 +553,20 @@ msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}Versiyon{BOLDEND}: {version}"
 
 #: qt/app.py:348
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time because no configuration"
 " is found."
 msgstr ""
-"{app_name} herhangi bir yapılandırma bulunamadığı için ilk defa "
+"{app_name} uygulaması, herhangi bir yapılandırma bulunmadığı için ilk kez "
 "çalıştırılıyor gibi görünüyor."
 
 #: qt/app.py:353
-#, fuzzy
 msgid ""
 "Import an existing configuration from a backup location or another computer?"
 msgstr ""
-"Var olan bir yapılandırmayı içe aktarın (yedekleme hedef dosyasından veya "
-"farklı bir bilgisayardan)?"
+"Yedekleme konumundan veya başka bir bilgisayardan mevcut bir yapılandırmayı "
+"içe aktarmak ister misiniz?"
 
 #: qt/app.py:380
 msgid "Then press OK."
@@ -924,9 +923,9 @@ msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Mastodon'daki Fediverse: {link_and_label}."
 
 #: qt/app.py:1759
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr "E-posta listesi {link_and_label}."
+msgstr "{link_and_label} adresine e-posta gönderin."
 
 #: qt/app.py:1763
 #, python-brace-format
@@ -1015,21 +1014,24 @@ msgstr ""
 
 #: qt/backintime-qt-root.desktop:14
 msgid "Versioned Backups (root)"
-msgstr ""
+msgstr "Sürümlü Yedeklemeler (root)"
 
 #: qt/backintime-qt-root.desktop:23
 msgid ""
 "User-friendly GUI for versioned backups that reduces disk usage (root mode)"
 msgstr ""
+"Disk kullanımını azaltan, sürümlü yedeklemeler için kullanıcı dostu grafik "
+"arayüzü (root modu)"
 
 #: qt/backintime-qt.desktop:14
-#, fuzzy
 msgid "Versioned Backups"
-msgstr "Adlandırılmış yedekleri tut."
+msgstr "Sürümlü Yedeklemeler"
 
 #: qt/backintime-qt.desktop:23
 msgid "User-friendly GUI for versioned backups that reduces disk usage"
 msgstr ""
+"Disk kullanımını azaltan, sürümlü yedeklemeler için kullanıcı dostu grafik "
+"arayüzü"
 
 #: qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -1241,45 +1243,54 @@ msgstr "\"{name}\" profili silinsin mi?"
 
 #: qt/manageprofiles/copylinkswidget.py:38
 msgid "Copy symbolic links as files"
-msgstr ""
+msgstr "Sembolik bağlantıları dosya gibi kopyala"
 
 #: qt/manageprofiles/copylinkswidget.py:43
 msgid ""
 "Copy symbolic links as real files or directories in the backup. Select "
 "whether all links or only those pointing outside the source are copied."
 msgstr ""
+"Yedekleekensembolik bağlantıları gerçek dosya veya dizin olarak kopyala. Tüm"
+" bağlantıların mı yoksa yalnızca kaynak dizinin dışına işaret eden "
+"bağlantıların mı kopyalanacağını seçiniz."
 
 #: qt/manageprofiles/copylinkswidget.py:46
 msgid "This option may increase backup size."
-msgstr ""
+msgstr "Bu seçenek yedekleme boyutunu artırabilir."
 
 #: qt/manageprofiles/copylinkswidget.py:47
 msgid "Disabled by default."
-msgstr ""
+msgstr "Varsayılan olarak devre dışı."
 
 #: qt/manageprofiles/copylinkswidget.py:60
 msgid ""
 "All symbolic links are replaced with real files or directories they point "
 "to. This increases backup size and may store the same files multiple times."
 msgstr ""
+"Tüm sembolik bağlantılar, işaret ettikleri gerçek dosyalar veya dizinlerle "
+"değiştirilir. Bu işlem yedekleme boyutunu artırır ve aynı dosyaların birden "
+"fazla kez saklanmasına neden olabilir."
 
 #: qt/manageprofiles/copylinkswidget.py:63
 msgid "Uses 'rsync --copy-links'."
-msgstr ""
+msgstr "'rsync --copy-links' komutu kullanılır."
 
 #: qt/manageprofiles/copylinkswidget.py:68
 msgid "Only external"
-msgstr ""
+msgstr "Sadece harici"
 
 #: qt/manageprofiles/copylinkswidget.py:72
 msgid ""
 "Only links pointing outside the backup source are copied as files. This "
 "increases backup size and may store the same files multiple times."
 msgstr ""
+"Yalnızca yedekleme kaynağının dışına işaret eden bağlantılar dosya olarak "
+"kopyalanır. Bu, yedekleme boyutunu artırır ve aynı dosyaların birden fazla "
+"kez saklanmasına neden olabilir."
 
 #: qt/manageprofiles/copylinkswidget.py:75
 msgid "Uses 'rsync --copy-unsafe-links'."
-msgstr ""
+msgstr "'rsync --copy-unsafe-links' komutu kullanılır."
 
 #: qt/manageprofiles/excludesuggestions.py:33
 msgid "Editor & Office temporary files"
@@ -1358,7 +1369,7 @@ msgstr ""
 
 #: qt/manageprofiles/excludesuggestions.py:77
 msgid "Flatpak app and runtime repository"
-msgstr ""
+msgstr "Flatpak uygulaması ve çalışma zamanı deposu"
 
 #: qt/manageprofiles/excludesuggestions.py:81
 msgid "System runtime directories"
@@ -1942,12 +1953,11 @@ msgstr ""
 
 #: qt/manageprofiles/tab_general.py:393
 msgid "The backup destination path cannot be empty."
-msgstr ""
+msgstr "Yedekleme hedef yolu boş bırakılamaz."
 
 #: qt/manageprofiles/tab_general.py:404
-#, fuzzy
 msgid "The encryption password cannot be empty."
-msgstr "EncFS parolaları eşleşmiyor."
+msgstr "Şifreleme parolası boş bırakılamaz."
 
 #: qt/manageprofiles/tab_general.py:553
 msgid ""
@@ -1999,7 +2009,7 @@ msgstr "Yedekleme dizinini gerçekten değiştirmek istiyor musunuz?"
 
 #: qt/manageprofiles/tab_general.py:725
 msgid "The selected backup destination is not empty."
-msgstr ""
+msgstr "Seçilen yedekleme hedefi boş değil."
 
 #: qt/manageprofiles/tab_general.py:727
 msgid "It must be empty to use encryption."
@@ -2060,9 +2070,8 @@ msgid "Enable notifications"
 msgstr "Bildirimleri etkinleştir"
 
 #: qt/manageprofiles/tab_options.py:43
-#, fuzzy
 msgid "Disable backups when on battery"
-msgstr "Pil modundayken yedeklemeyi devre dışı bırak"
+msgstr "Pil modundayken yedeklemeleri devre dışı bırak"
 
 #: qt/manageprofiles/tab_options.py:49
 msgid "Power status not available from system"
@@ -2073,15 +2082,14 @@ msgid "Run only one backup at a time"
 msgstr "Her seferinde yalnızca bir yedekleme çalıştır"
 
 #: qt/manageprofiles/tab_options.py:56
-#, fuzzy
 msgid ""
 "Other backups will be blocked until the current backup is completed. This is"
 " a global setting, meaning it will affect all profiles for this user. "
 "However, it must also be activated for all other users."
 msgstr ""
 "Mevcut yedekleme tamamlanana kadar diğer yedeklemeler engellenecektir. Bu "
-"genel bir ayardır; yani bu kullanıcının tüm profillerini etkileyecektir. "
-"Ancak diğer tüm kullanıcılar için de etkinleştirilmesi gerekir."
+"genel bir ayardır; bu kullanıcının tüm profillerini etkileyecektir. Ancak, "
+"diğer tüm kullanıcılar için de etkinleştirilmesi gerekir."
 
 #: qt/manageprofiles/tab_options.py:63
 msgid "Backup replaced files on restore"
@@ -2289,12 +2297,16 @@ msgstr "En eski yedekleri kaldır, eğer …"
 #: qt/net.launchpad.backintime.policy:21
 msgid "Authentication is required to run Back In Time as root."
 msgstr ""
+"Back In Time programını root olarak çalıştırmak için kimlik doğrulama "
+"gereklidir."
 
 #: qt/net.launchpad.backintime.policy:33 qt/net.launchpad.backintime.policy:43
 msgid ""
 "Authentication is required to change backup schedules triggered by external "
 "storage device connections."
 msgstr ""
+"Harici depolama aygıtı bağlantıları tarafından tetiklenen yedekleme "
+"zamanlamalarını değiştirmek için kimlik doğrulama gereklidir."
 
 #: qt/placeswidget.py:49
 msgid "Shortcuts"
@@ -2346,7 +2358,7 @@ msgstr "Ayarları İçe Aktar"
 
 #: qt/restoreconfigdialog.py:105
 msgid "No directory selected"
-msgstr ""
+msgstr "Hiçbir dizin seçilmedi"
 
 #: qt/restoreconfigdialog.py:134
 msgid "Import"
@@ -2386,9 +2398,8 @@ msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Gizli dizinleri göster/gizle (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:305
-#, fuzzy
 msgid "No config found in this directory"
-msgstr "Bu dizin içerisinde dosya oluşturulması sırasında hata:"
+msgstr "Bu dizinde yapılandırma dosyası bulunamadı"
 
 #: qt/restoreconfigdialog.py:366
 msgid "Search complete."
@@ -2396,7 +2407,7 @@ msgstr "Arama tamamlandı."
 
 #: qt/restoredialog.py:58
 msgid "Show full Log"
-msgstr "Tüm Günlüğü Göster"
+msgstr "Tüm günlüğü göster"
 
 #: qt/shutdowndlg.py:28
 msgid "Countdown to Shutdown"
@@ -2418,12 +2429,12 @@ msgstr "Şimdi Kapat"
 #, python-brace-format
 msgid "The system will shut down in {n} second."
 msgid_plural "The system will shut down in {n} seconds."
-msgstr[0] "Sistem {n} saniye içinde kapatılacak."
-msgstr[1] "Sistem {n} saniye içinde kapatılacak."
+msgstr[0] "Sistem {n} saniye sonra kapanacak."
+msgstr[1] "Sistem {n} saniye sonra kapanacak."
 
 #: qt/snapshotsdialog.py:63
 msgid "Options about comparing backups"
-msgstr "Yedekleri karşılaştırmayla ilgili seçenekler"
+msgstr "Yedeklemeleri karşılaştırmaya ilişkin seçenekler"
 
 #: qt/snapshotsdialog.py:70
 msgid "Command:"
@@ -2439,7 +2450,7 @@ msgstr "Yol parametreleri olarak %1 ve %2 kullan"
 
 #: qt/snapshotsdialog.py:96
 msgid "Please set a diff command or press Cancel."
-msgstr "Lütfen farklı fark komutu belirleyin veya İptal'e basın."
+msgstr "Lütfen bir diff komutu tanımlayın veya İptal'e basın."
 
 #: qt/snapshotsdialog.py:102
 #, python-brace-format
@@ -2447,15 +2458,15 @@ msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
 "else or press Cancel."
 msgstr ""
-"Bu komut \"{cmd}\" bu sistemde bulunmamaktadır. Lütfen farklı bir şey "
-"deneyin veya İptal'e basın."
+"\"{cmd}\" komutu bu sistemde bulunmamaktadır. Lütfen farklı bir şey deneyin "
+"veya İptal'e basın."
 
 #: qt/snapshotsdialog.py:110
 #, python-brace-format
 msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr ""
-"Fark komutu için parametre belirlenmedi. Varsayılan değerler kullanılıyor "
-"\"{params}\"."
+"diff komutu için hiçbir parametre ayarlanmadı. Varsayılan değer \"{params}\""
+" kullanılıyor."
 
 #: qt/snapshotsdialog.py:141 qt/timeline.py:44
 msgid "Backups"
@@ -2467,11 +2478,11 @@ msgstr "Yalnızca farklı yedekler"
 
 #: qt/snapshotsdialog.py:161
 msgid "List only backups that are equal to:"
-msgstr "Yalnızca şuna eşit yedekleri listele:"
+msgstr "Yalnızca şu koşullara uyan yedeklemeleri listele:"
 
 #: qt/snapshotsdialog.py:173
 msgid "Deep check (more accurate, but slow)"
-msgstr "Derin denetim (daha doğru, ancak yavaş)"
+msgstr "Derinlemesine denetim (daha doğru, ancak yavaş)"
 
 #: qt/snapshotsdialog.py:194
 msgid "Delete"
@@ -2498,8 +2509,8 @@ msgid ""
 "It is not possible to compare a backup to itself, as the comparison would be"
 " redundant."
 msgstr ""
-"Bir yedeği kendisiyle karşılaştırmak mümkün değildir, çünkü karşılaştırma "
-"gereksiz olacaktır."
+"Bir yedeği kendisiyle karşılaştırmak mümkün değildir, bu karşılaştırma "
+"anlamsızdır."
 
 #: qt/snapshotsdialog.py:440
 #, python-brace-format
