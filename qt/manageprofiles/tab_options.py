@@ -111,7 +111,7 @@ class OptionsTab(QDialog):
         self.event_warn_free_space_value_changed = Event()
         # pylint: disable=unnecessary-lambda
         self._su_warn_free_space.event_value_changed.register(
-            lambda value:
+            lambda value:  # noqa: PLW0108
             self.event_warn_free_space_value_changed.notify(value)
         )
 

@@ -617,8 +617,8 @@ def check_syntax_of_po_files():
 
         if error_count:
             print(f' {lang_code} >> {error_count} errors')
-        else:
-            print(f' {lang_code} >> OK')
+        # else:
+        #     print(f' {lang_code} >> OK')
 
     translators = {
         key: translators[key] for key in sorted(translators.keys())}
@@ -635,6 +635,19 @@ def all_po_files_in_local_dir():
 
 def all_desktop_files_in_qt_dir():
     return sorted(GUI_DIR.glob('*.desktop'))
+
+
+def show_completeness_info(compl_dict, names_dict):
+    sorted_dict = dict(
+        sorted(
+            compl_dict.items(),
+            key=lambda items: items[1],
+            reverse=True
+        )
+    )
+    for code, completeness in sorted_dict.items():
+        lang = names_dict[code]['en']
+        print(f'{completeness:3} % - {lang} ({code})')
 
 
 def create_completeness_dict():
@@ -677,6 +690,9 @@ def create_languages_py_file():
 
     # the same with completeness dict
     compl_dict = create_completeness_dict()
+
+    show_completeness_info(compl_dict, names_dict)
+
     content.append('')
     content.append('')
     content.append('completeness = {')
@@ -752,7 +768,7 @@ def create_language_names_dict(language_codes: list) -> dict:
     result = {}
 
     for code in sorted(language_codes):
-        print(f'Processing language code "{code}"…')
+        # print(f'Processing language code "{code}"…')
 
         lang = babel.Locale.parse(code)
         result[code] = {}

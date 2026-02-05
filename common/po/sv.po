@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-rc2\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-01-26 18:10+0100\n"
-"PO-Revision-Date: 2026-01-19 13:21+0000\n"
+"POT-Creation-Date: 2026-02-05 22:25+0100\n"
+"PO-Revision-Date: 2026-01-30 12:28+0000\n"
 "Last-Translator: bittin <bittin@noreply.codeberg.org>\n"
 "Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/common/sv/>\n"
 "Language: sv\n"
@@ -75,7 +75,7 @@ msgstr "SSH"
 #: common/config.py:245 common/config.py:255
 #: qt/manageprofiles/tab_general.py:744
 msgid "SSH private key"
-msgstr "SSH privat nyckel"
+msgstr "Privat nyckel för SSH"
 
 #: common/config.py:300 common/config.py:312 common/config.py:330
 #: common/config.py:344 common/config.py:365
@@ -550,21 +550,20 @@ msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}Version{BOLDEND}: {version}"
 
 #: qt/app.py:348
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time because no configuration"
 " is found."
 msgstr ""
-"{app_name} verkar köras för första gången eftersom att ingen inställning "
-"kunde hittas."
+"{app_name} verkar köras för första gången eftersom att ingen konfiguration "
+"hittades."
 
 #: qt/app.py:353
-#, fuzzy
 msgid ""
 "Import an existing configuration from a backup location or another computer?"
 msgstr ""
-"Importera en befintlig konfiguration (från en målkatalog för "
-"säkerhetskopiering eller en annan dator)?"
+"Importera en befintlig konfiguration från en säkerhetskopia eller en annan "
+"dator?"
 
 #: qt/app.py:380
 msgid "Then press OK."
@@ -923,9 +922,9 @@ msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "I Fediversumet på Mastodon: {link_and_label}."
 
 #: qt/app.py:1759
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr "Diskussionslistan {link_and_label}."
+msgstr "Skicka e-post till {link_and_label}."
 
 #: qt/app.py:1763
 #, python-brace-format
@@ -1013,21 +1012,24 @@ msgstr "Språkinställningarna aktiveras inte förrän Back in Time startas om."
 
 #: qt/backintime-qt-root.desktop:14
 msgid "Versioned Backups (root)"
-msgstr ""
+msgstr "Versionsbaserade säkerhetskopior (root)"
 
 #: qt/backintime-qt-root.desktop:23
 msgid ""
 "User-friendly GUI for versioned backups that reduces disk usage (root mode)"
 msgstr ""
+"Användarvänligt gränssnitt för versionsbaserade säkerhetskopior som "
+"reducerar användning av diskutrymme (root-läge)"
 
 #: qt/backintime-qt.desktop:14
-#, fuzzy
 msgid "Versioned Backups"
-msgstr "Behåll namngivna säkerhetskopior."
+msgstr "Versionsbaserade säkerhetskopior"
 
 #: qt/backintime-qt.desktop:23
 msgid "User-friendly GUI for versioned backups that reduces disk usage"
 msgstr ""
+"Användarvänligt gränssnitt för versionsbaserade säkerhetskopior som "
+"reducerar användning av diskutrymme"
 
 #: qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -2282,13 +2284,15 @@ msgstr "Ta bort gamla säkerhetskopior om …"
 
 #: qt/net.launchpad.backintime.policy:21
 msgid "Authentication is required to run Back In Time as root."
-msgstr ""
+msgstr "Autentisering krävs för att köra Back In Time som root."
 
 #: qt/net.launchpad.backintime.policy:33 qt/net.launchpad.backintime.policy:43
 msgid ""
 "Authentication is required to change backup schedules triggered by external "
 "storage device connections."
 msgstr ""
+"Autentisering krävs för att ändra på schemalagda säkerhetskopieringar som "
+"triggas av att externa lagringsenheter ansluts."
 
 #: qt/placeswidget.py:49
 msgid "Shortcuts"
@@ -2340,7 +2344,7 @@ msgstr "Importera konfiguration"
 
 #: qt/restoreconfigdialog.py:105
 msgid "No directory selected"
-msgstr ""
+msgstr "Ingen katalog har valts"
 
 #: qt/restoreconfigdialog.py:134
 msgid "Import"
@@ -2380,9 +2384,8 @@ msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Visa/göm dolda mappar (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:305
-#, fuzzy
 msgid "No config found in this directory"
-msgstr "Filskapandet misslyckades i denna katalog:"
+msgstr "Ingen config hittades i den här katalogen"
 
 #: qt/restoreconfigdialog.py:366
 msgid "Search complete."

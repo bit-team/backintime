@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-rc2\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-01-27 20:19+0100\n"
-"PO-Revision-Date: 2026-01-27 08:10+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
+"POT-Creation-Date: 2026-02-05 22:25+0100\n"
+"PO-Revision-Date: 2026-02-02 07:08+0000\n"
+"Last-Translator: Atalanttore <atalanttore@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -560,7 +560,7 @@ msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}Version{BOLDEND}: {version}"
 
 #: qt/app.py:348
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time because no configuration"
 " is found."
@@ -569,12 +569,11 @@ msgstr ""
 "gefunden wurde."
 
 #: qt/app.py:353
-#, fuzzy
 msgid ""
 "Import an existing configuration from a backup location or another computer?"
 msgstr ""
-"Eine vorhandene Konfiguration importieren (aus einem "
-"Sicherungszielverzeichnis oder einem anderen Computer)?"
+"Eine vorhandene Konfiguration aus einem Sicherungsspeicherort oder einem "
+"anderen Computer importieren?"
 
 #: qt/app.py:380
 msgid "Then press OK."
@@ -1031,20 +1030,24 @@ msgstr ""
 
 #: qt/backintime-qt-root.desktop:14
 msgid "Versioned Backups (root)"
-msgstr ""
+msgstr "Versionierte Sicherungen (root)"
 
 #: qt/backintime-qt-root.desktop:23
 msgid ""
 "User-friendly GUI for versioned backups that reduces disk usage (root mode)"
 msgstr ""
+"Benutzerfreundliche GUI für versionierte Sicherungen, die den "
+"Speicherplatzbedarf reduziert (root-Modus)"
 
 #: qt/backintime-qt.desktop:14
 msgid "Versioned Backups"
-msgstr ""
+msgstr "Versionierte Sicherungen"
 
 #: qt/backintime-qt.desktop:23
 msgid "User-friendly GUI for versioned backups that reduces disk usage"
 msgstr ""
+"Benutzerfreundliche GUI für versionierte Sicherungen, die den "
+"Speicherplatzbedarf reduziert"
 
 #: qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -2316,12 +2319,16 @@ msgstr "Älteste Sicherung entfernen, wenn …"
 #: qt/net.launchpad.backintime.policy:21
 msgid "Authentication is required to run Back In Time as root."
 msgstr ""
+"Zur Ausführung von Back In Time als root ist eine Authentifizierung "
+"erforderlich."
 
 #: qt/net.launchpad.backintime.policy:33 qt/net.launchpad.backintime.policy:43
 msgid ""
 "Authentication is required to change backup schedules triggered by external "
 "storage device connections."
 msgstr ""
+"Zur Änderung von Sicherungszeitplänen, die durch den Anschluss externer "
+"Speichergeräte ausgelöst werden, ist eine Authentifizierung erforderlich."
 
 #: qt/placeswidget.py:49
 msgid "Shortcuts"
@@ -2373,7 +2380,7 @@ msgstr "Konfiguration importieren"
 
 #: qt/restoreconfigdialog.py:105
 msgid "No directory selected"
-msgstr ""
+msgstr "Kein Verzeichnis ausgewählt"
 
 #: qt/restoreconfigdialog.py:134
 msgid "Import"
@@ -2414,7 +2421,7 @@ msgstr "Versteckte Verzeichnisse zeigen/ausblenden (Strg+H)"
 
 #: qt/restoreconfigdialog.py:305
 msgid "No config found in this directory"
-msgstr ""
+msgstr "In diesem Verzeichnis wurde keine Konfiguration gefunden"
 
 #: qt/restoreconfigdialog.py:366
 msgid "Search complete."
