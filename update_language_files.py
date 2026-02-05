@@ -646,8 +646,8 @@ def show_completeness_info(compl_dict, names_dict):
         )
     )
     for code, completeness in sorted_dict.items():
-        lang = names_dict['en'][code]
-        print(f'{code} - {lang:20}{completeness}%')
+        lang = names_dict[code]['en']
+        print(f'{completeness:3} % - {lang} ({code})')
 
 
 def create_completeness_dict():
