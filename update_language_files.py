@@ -637,6 +637,13 @@ def all_desktop_files_in_qt_dir():
     return sorted(GUI_DIR.glob('*.desktop'))
 
 
+def show_completeness_info(compl_dict, names_dict):
+    print('X'*100)
+    print(compl_dict)
+    print('Y'*100)
+    print(names_dict)
+
+
 def create_completeness_dict():
     """Create a simple dictionary indexed by language code and value that
     indicate the completeness of the translation in percent.
@@ -677,6 +684,9 @@ def create_languages_py_file():
 
     # the same with completeness dict
     compl_dict = create_completeness_dict()
+
+    show_completeness_info(compl_dit, names_dict)
+
     content.append('')
     content.append('')
     content.append('completeness = {')
