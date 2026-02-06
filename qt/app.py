@@ -396,16 +396,12 @@ class MainWindow(QMainWindow):
 
         # Issue: https://github.com/bit-team/backintime/issues/2080
         lang_planed_for_removal = [
-            'fo',  # Faroes
-            'hr',  # Croatian
-            'vi',  # Vietnamese
-            'is',  # Icelandic
-            'sl',  # Slovenian
-            'ro',  # Romanian
-            # On the edge. 40-50% completeness. inactive. But some
-            # activity not very long ago.
-            # 'ar',  # Arabic. Last activity 2025-10
-            # 'ru',  # Russian. Last activity 2025-07
+            'fo',  # Faroes 18
+            'ka',  # Georgian 23
+            'hr',  # Croatian 24
+            'vi',  # Vietnamese 35
+            'is',  # Icelandic 44
+            # 'ar',  # Arabic. Last activity 2025-10 45
         ]
 
         # Language removal message
@@ -422,7 +418,7 @@ class MainWindow(QMainWindow):
 
                 # Show the message only if the current used language is
                 # translated equal or less then {cutoff}%
-                self._open_approach_translator_dialog(cutoff=97)
+                self._open_approach_translator_dialog(cutoff=90)
 
         # BIT counts down how often the GUI was started. Until the end of that
         # countdown a dialog with a text about contributing to translating
@@ -1724,7 +1720,7 @@ class MainWindow(QMainWindow):
 
         txt = [
             f'The selected language ({name}) will be <strong>removed in the '
-            'release</strong>.',
+            'next version</strong>.',
             'Reason: No recent '
             f'<a href="{bitbase.URL_TRANSLATION}">translation activity</a> '
             'and no active maintainer.',

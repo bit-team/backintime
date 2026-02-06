@@ -165,7 +165,7 @@ distribution.
   - Optional but recommended:
     - `pylint` (>= 4.0.0)
     - `flake8`
-    - `ruff` (>= 0.12.0)
+    - `ruff` (>= 0.15.0)
     - `codespell`
     - `reuse` (>= 4.0.0)
  
