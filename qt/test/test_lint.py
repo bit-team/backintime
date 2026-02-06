@@ -201,7 +201,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
                 f'be {version_target} or higher.')
 
         if RUFF_AVAILABLE:
-            version_target = version.parse('0.12.0')
+            version_target = version.parse('0.15.0')
 
             proc = subprocess.run(
                 ['ruff', '--version'],
