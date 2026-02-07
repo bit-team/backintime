@@ -178,9 +178,3 @@ Please read [`LICENSES.md`](LICENSES.md).
 ---
 
 <sub>January 2026</sub>
-
----
-
-<sub>Copyright © 2008-2024 Oprea Dan, Bart de Koning, Richard Bailey,
-Germar Reitze, Taylor Raack</sub><br />
-<sub>Copyright © 2022 Christian Buhtz, Michael Büker, Jürgen Altfeld</sub>
