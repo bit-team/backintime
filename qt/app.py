@@ -357,7 +357,13 @@ class MainWindow(QMainWindow):
         answer = messagebox.question(text=message)
 
         if answer:
-            RestoreConfigDialog(self.config).exec()
+            rc = RestoreConfigDialog(self.config).exec()
+            # Workaround:
+            #
+            if rc == QDialog.DialogCode.Rejected:
+                # failesafe: Main profile only
+                if self.config.profiles == ['1']:
+                    self.config._unsaved_profiles.append('1')
 
         SettingsDialog(self).exec()
 
