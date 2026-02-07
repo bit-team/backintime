@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: © 2009 Back In Time Team
+SPDX-FileCopyrightText: © 2009 Back In Time Team <backintime-project@posteo.de>
 
 SPDX-License-Identifier: GPL-2.0-or-later
 
@@ -50,12 +50,13 @@ those labeled as [good first issues](https://github.com/bit-team/backintime/labe
 and [help wanted](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen+label%3AHELP-WANTED).
 
 ## The team
-Since around 2024, @buhtz, part of the projects third generation of
-maintainers, has been the sole maintainer. He handles all core tasks, from code
-analysis and documentation to issue resolution and feature implementation. The
-work is carried out voluntarily during spare time. The project continues to
-benefit from an active and engaged community that provides advice, expertise,
-and contributions, ensuring it thrives and evolves.
+Since around 2024, [@buhtz](https://buhtz.codeberg.page/), part of the projects
+third generation of maintainers, has been the sole maintainer. He handles all
+core tasks, from code analysis and documentation to issue resolution and
+feature implementation. The work is carried out voluntarily during spare
+time. The project continues to benefit from an active and engaged community
+that provides advice, expertise, and contributions, ensuring it thrives and
+evolves.
 
 The project was
 [reactivated in 2022](https://github.com/bit-team/backintime/issues/1232))
@@ -88,6 +89,7 @@ shape its direction. See [HISTORY](HISTORY.md) for more details.
    Time_. Despite its name it is not restricted to development topics only.
  * **Fediverse** on **Mastodon**: [@backintime@fosstodon.org](https://fosstodon.org/@backintime)
  * **Bugs** & **Feature Requests**: [Issues section](https://github.com/bit-team/backintime/issues)
+ * **Email**: [backintime-project@posteo.de](mailto:backintime-project@posteo.de)
 
 # Installation
 
@@ -101,27 +103,11 @@ latest development version of _Back In Time_ please see section
 # Known Problems and Workarounds
 
 In the latest stable release:
-- [OverflowError: Value 1702441408 out of range for UInt32](#overflowerror-value-1702441408-out-of-range-for-uint32)
 - [File permissions handling and therefore possible non-differential backups](#file-permissions-handling-and-therefore-possible-non-differential-backups)
 - [`qt_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`](#qt_probingpy-may-hang-with-high-cpu-usage-when-running-bit-as-root-via-cron)
-- [`SettingsDialog` object has no attribute `cbCopyUnsafeLinks`](#settingsDialog-object-has-no-attribute-cbcopyunsafelinks)
 
 More problems described in
 [this FAQ section](FAQ.md#problems-errors--solutions).
-
-## OverflowError: Value 1702441408 out of range for UInt32
-The _Back In Time_ GUI crashes and this exception appears in its terminal
-output. Known to happen on restoring (#2084) and removing (#2192) of backups.
-Assuming it might happen also on creating backups.
-
-The current hypothesis the problem was introduced or happens more often since
-the migration from PyQt version 5 to version 6 (BIT version 1.5.0).
-
-A fix (PR #2099) will be released with
-[upcoming 1.6.0](https://github.com/bit-team/backintime/milestone/34).
-Don't use the latest development version and risk your data! Until the fix is
-released, there is a tiny workaround described in that
-[issue comment](https://github.com/bit-team/backintime/issues/2084#issuecomment-2787602155).
 
 ## File permissions handling and therefore possible non-differential backups
 
@@ -150,24 +136,6 @@ the file `/usr/share/backintime/common/qt_probing.py`:
 
 Renaming does *not* work!
 
-## `SettingsDialog` object has no attribute `cbCopyUnsafeLinks`
-Wenn adding a file or directory, that is in fact a symlink, to the _Include_
-Tab in the _Manage profiles_ dialog, the BIT GUI crash and give the following
-error in the terminal.
-
-```pytb
-Traceback (most recent call last):
-  File "/usr/share/backintime/qt/manageprofiles/tab_include.py", line 185, in btn_include_add_clicked
-    self._parent_dialog.cbCopyUnsafeLinks.isChecked() or
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AttributeError: 'SettingsDialog' object has no attribute 'cbCopyUnsafeLinks'
-```
-
-Introduced in version `1.5.3`. Fixed in (upcoming) `1.6.0`.  See issue
-[#2279](https://github.com/bit-team/backintime/issues/2279).
-
-Workaround: Don't use a symlink but the linked target.
-
 # Contributing and other ways to support the project
 See [CONTRIBUTING](CONTRIBUTING.md) file for an overview about the projects
 workflow and strategy.
@@ -177,7 +145,7 @@ Please read [`LICENSES.md`](LICENSES.md).
 
 ---
 
-<sub>January 2026</sub>
+<sub>February 2026</sub>
 
 ---
 
