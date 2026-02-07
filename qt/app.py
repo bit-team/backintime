@@ -356,14 +356,23 @@ class MainWindow(QMainWindow):
 
         answer = messagebox.question(text=message)
 
+        mark_main_profile_unsaved = False if answer else True
+
         if answer:
             rc = RestoreConfigDialog(self.config).exec()
-            # Workaround:
-            #
             if rc == QDialog.DialogCode.Rejected:
-                # failesafe: Main profile only
-                if self.config.profiles == ['1']:
-                    self.config._unsaved_profiles.append('1')
+                mark_main_profile_unsaved = True
+
+        # Workaround: If BIT config is fresh the Main Profile is not
+        # saved yet. If it wouldn't be recognized as unsaved the
+        # default excludes are not added to it.
+        # This workaround need to remain until #1371 and other related
+        # issues are solved.
+        if mark_main_profile_unsaved:
+            # failesafe: Main profile only
+            if self.config.profiles() == ['1']:
+                # Mark "Main profile" as unsaved.
+                self.config._unsaved_profiles.append('1')
 
         SettingsDialog(self).exec()
 
