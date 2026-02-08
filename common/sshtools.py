@@ -1373,7 +1373,7 @@ def get_private_ssh_key_files() -> list[Path]:
                 'backup'
             )
             # no public keys
-            and fp.suffix  != '.pub',
+            and fp.suffix != '.pub',
             ssh_path.iterdir()
         )
     except FileNotFoundError:
@@ -1382,16 +1382,30 @@ def get_private_ssh_key_files() -> list[Path]:
     result = []
 
     # e.g. "-----BEGIN OPENSSH PRIVATE KEY-----"
-    rex = re.compile(r'^-+BEGIN\s\S+\sPRIVATE KEY-+$')
+    # rex = re.compile(r'^-+BEGIN\s\S+\sPRIVATE KEY-+$')
+    rex = re.compile(br'^-+BEGIN\s+\S+\s+PRIVATE KEY-+')
 
     # check content
     for fp in potential_key_files:
         if not fp.is_file():
             continue
+
         try:
-            with fp.open('r', encoding='utf-8') as handle:
-                if rex.match(handle.readline().strip()):
+            with fp.open('rb') as handle:
+                data = handle.read(4096)  # read max. 4 KB
+
+                # PEM (text based)
+                if rex.search(data):
                     result.append(fp)
+
+                # DER / ASN.1 (binary key file) with long keys
+                elif data[:2] in (b'\x30\x82', b'\x30\x81'):
+                    result.append(fp)
+
+                # DER / ASN.1 (binary key file) with short keys
+                elif data[:1] == b'\x30':
+                    result.append(fp)
+
         except OSError:
             # ignore files that cannot be opened (e.g. sockets)
             continue
