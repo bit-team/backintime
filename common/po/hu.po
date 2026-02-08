@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: © 2008 Back In Time Team <bit-dev@python.org>
-# SPDX-FileCopyrightText: © Balázs Úr <balazs@urbalazs.hu> (@urbalazs)
+# SPDX-FileCopyrightText: © Úr Balázs <ur dot balazs at fsf dot hu>, 2024, 2025, 2026.
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -12,9 +12,9 @@
 # been documented and could be lost.
 msgid ""
 msgstr ""
-"Project-Id-Version: Back In Time 1.6.0-rc2\n"
-"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
-"POT-Creation-Date: 2026-01-26 18:10+0100\n"
+"Project-Id-Version: Back In Time 1.6.0\n"
+"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"POT-Creation-Date: 2026-02-08 08:27+0100\n"
 "PO-Revision-Date: 2026-02-08 06:18+0000\n"
 "Last-Translator: urbalazs <urbalazs@noreply.codeberg.org>\n"
 "Language-Team: Hungarian <https://translate.codeberg.org/projects/backintime/common/hu/>\n"
@@ -242,7 +242,7 @@ msgstr "SIKERTELEN"
 msgid "Restore permissions"
 msgstr "Jogosultságok helyreállítása"
 
-#: common/snapshots.py:656 qt/app.py:240 qt/app.py:1184 qt/app.py:1200
+#: common/snapshots.py:656 qt/app.py:240 qt/app.py:1195 qt/app.py:1211
 #: qt/qtsystrayicon.py:118
 msgid "Done"
 msgstr "Kész"
@@ -259,11 +259,11 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "Biztonsági mentés elhalasztása akkumulátorról való működésnél"
 
-#: common/snapshots.py:931 qt/app.py:378
+#: common/snapshots.py:931 qt/app.py:393
 msgid "Can't find backup directory."
 msgstr "Nem található a biztonsági mentés könyvtára."
 
-#: common/snapshots.py:935 qt/app.py:379
+#: common/snapshots.py:935 qt/app.py:394
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Ha cserélhető meghajtón van, akkor helyezze be."
 
@@ -370,7 +370,7 @@ msgstr "Kísérlet a legkisebb szabad hely megtartására"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Kísérlet legalább {perc} szabad inode megtartására"
 
-#: common/snapshots.py:3211 qt/app.py:1471
+#: common/snapshots.py:3211 qt/app.py:1482
 msgid "Now"
 msgstr "Most"
 
@@ -536,15 +536,15 @@ msgstr "ezt a hivatkozást"
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr "Kövesse {thislink} az összes nyelv fordítói névsorának lekéréséhez."
 
-#: qt/aboutdlg.py:220 qt/app.py:567
+#: qt/aboutdlg.py:220 qt/app.py:578
 msgid "Project website"
 msgstr "Projekt webhelye"
 
-#: qt/aboutdlg.py:225 qt/app.py:549
+#: qt/aboutdlg.py:225 qt/app.py:560
 msgid "User manual"
 msgstr "Felhasználói kézikönyv"
 
-#: qt/aboutdlg.py:227 qt/app.py:551
+#: qt/aboutdlg.py:227 qt/app.py:562
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
 "Felhasználói kézikönyv megnyitása a böngészőben (helyileg, ha elérhető, "
@@ -571,177 +571,177 @@ msgstr ""
 "Importál egy meglévő beállítást (egy biztonsági mentés helyéről vagy egy "
 "másik számítógépről)?"
 
-#: qt/app.py:380
+#: qt/app.py:395
 msgid "Then press OK."
 msgstr "Ezután nyomja meg a Rendben gombot."
 
-#: qt/app.py:488
+#: qt/app.py:499
 msgid "Create a backup"
 msgstr "Biztonsági mentés létrehozása"
 
-#: qt/app.py:490
+#: qt/app.py:501
 msgid "Use modification time & size for file change detection."
 msgstr ""
 "A módosítás ideje és a méret használata a fájlváltoztatások felismeréséhez."
 
-#: qt/app.py:493
+#: qt/app.py:504
 msgid "Create a backup (checksum mode)"
 msgstr "Biztonsági mentés létrehozása (ellenőrzőösszeg mód)"
 
-#: qt/app.py:495
+#: qt/app.py:506
 msgid "Use checksums for file change detection."
 msgstr "Ellenőrzőösszegek használata a fájlváltoztatások felismeréséhez."
 
-#: qt/app.py:497 qt/qtsystrayicon.py:125
+#: qt/app.py:508 qt/qtsystrayicon.py:125
 msgid "Pause backup process"
 msgstr "Biztonsági mentési folyamat szüneteltetése"
 
-#: qt/app.py:501 qt/qtsystrayicon.py:130
+#: qt/app.py:512 qt/qtsystrayicon.py:130
 msgid "Resume backup process"
 msgstr "Biztonsági mentési folyamat folytatása"
 
-#: qt/app.py:505 qt/qtsystrayicon.py:135
+#: qt/app.py:516 qt/qtsystrayicon.py:135
 msgid "Stop backup process"
 msgstr "Biztonsági mentési folyamat leállítása"
 
-#: qt/app.py:509
+#: qt/app.py:520
 msgid "Refresh backup list"
 msgstr "Biztonsági mentési lista frissítése"
 
-#: qt/app.py:513
+#: qt/app.py:524
 msgid "Name backup"
 msgstr "Biztonsági mentés elnevezése"
 
-#: qt/app.py:517
+#: qt/app.py:528
 msgid "Remove backup"
 msgstr "Biztonsági mentés eltávolítása"
 
-#: qt/app.py:521
+#: qt/app.py:532
 msgid "Open backup log"
 msgstr "Biztonsági mentési napló megnyitása"
 
-#: qt/app.py:523
+#: qt/app.py:534
 msgid "View log of the selected backup."
 msgstr "A kiválasztott biztonsági mentés naplójának megtekintése."
 
-#: qt/app.py:525
+#: qt/app.py:536
 msgid "Open last backup log"
 msgstr "Utolsó biztonság mentési napló megnyitása"
 
-#: qt/app.py:527
+#: qt/app.py:538
 msgid "View log of the latest backup."
 msgstr "Az utolsó biztonsági mentés naplójának megtekintése."
 
-#: qt/app.py:529
+#: qt/app.py:540
 msgid "Manage profiles…"
 msgstr "Profilok kezelése…"
 
-#: qt/app.py:533
+#: qt/app.py:544
 msgid "Edit user-callback"
 msgstr "Felhasználó-visszahívás szerkesztése"
 
-#: qt/app.py:537
+#: qt/app.py:548
 msgid "Shutdown"
 msgstr "Leállítás"
 
-#: qt/app.py:539
+#: qt/app.py:550
 msgid "Shut down system after backup has finished."
 msgstr "A rendszer leállítása a biztonsági mentés befejezése után."
 
-#: qt/app.py:541
+#: qt/app.py:552
 msgid "Setup language…"
 msgstr "Nyelv beállítása…"
 
-#: qt/app.py:545
+#: qt/app.py:556
 msgid "Exit"
 msgstr "Kilépés"
 
-#: qt/app.py:555
+#: qt/app.py:566
 msgid "man page: Back In Time"
 msgstr "kézikönyvoldal: Back In Time"
 
-#: qt/app.py:557
+#: qt/app.py:568
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "Megjeleníti a Back In Time (backintime) kézikönyvoldalát"
 
-#: qt/app.py:560
+#: qt/app.py:571
 msgid "man page: Profiles config file"
 msgstr "kézikönyvoldal: Profilok beállítófájlja"
 
-#: qt/app.py:563
+#: qt/app.py:574
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 "Megjeleníti a profilok beállítófájljával kapcsolatos kézikönyvoldalt "
 "(backintime-config)"
 
-#: qt/app.py:570
+#: qt/app.py:581
 msgid "Open Back In Time website in browser"
 msgstr "A Back In Time webhelyének megnyitása a böngészőben"
 
-#: qt/app.py:572 qt/app.py:2290
+#: qt/app.py:583 qt/app.py:2301
 msgid "Changelog"
 msgstr "Változásnapló"
 
-#: qt/app.py:575
+#: qt/app.py:586
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr ""
 "Változásnapló megnyitása (helyileg, ha elérhető, egyébként az internetről)"
 
-#: qt/app.py:578
+#: qt/app.py:589
 msgid "FAQ"
 msgstr "GYIK"
 
-#: qt/app.py:580
+#: qt/app.py:591
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "Gyakran ismételt kérdések (GYIK) megnyitása a böngészőben"
 
-#: qt/app.py:582
+#: qt/app.py:593
 msgid "Ask a question"
 msgstr "Kérdés feltevése"
 
-#: qt/app.py:586
+#: qt/app.py:597
 msgid "Report a bug"
 msgstr "Hiba jelentése"
 
-#: qt/app.py:589
+#: qt/app.py:600
 msgid "Translation"
 msgstr "Fordítás"
 
-#: qt/app.py:591
+#: qt/app.py:602
 msgid "Shows the message about participation in translation again."
 msgstr ""
 "Ismét megjeleníti a fordításban való részvétellel kapcsolatos üzenetet."
 
-#: qt/app.py:595
+#: qt/app.py:606
 msgid "Encryption Transition (EncFS)"
 msgstr "Titkosítási átmenet (EncFS)"
 
-#: qt/app.py:597
+#: qt/app.py:608
 msgid "Shows the message about EncFS removal again."
 msgstr "Ismét megjeleníti az EncFS eltávolításával kapcsolatos üzenetet."
 
-#: qt/app.py:604
+#: qt/app.py:615
 msgid "About"
 msgstr "Névjegy"
 
-#: qt/app.py:607 qt/restoredialog.py:46 qt/snapshotsdialog.py:184
+#: qt/app.py:618 qt/restoredialog.py:46 qt/snapshotsdialog.py:184
 #: qt/snapshotsdialog.py:189
 msgid "Restore"
 msgstr "Helyreállítás"
 
-#: qt/app.py:609
+#: qt/app.py:620
 msgid "Restore the selected files or directories to the original location."
 msgstr "A kijelölt fájlok vagy könyvtárak helyreállítása az eredeti helyre."
 
-#: qt/app.py:612 qt/app.py:1931 qt/snapshotsdialog.py:186
+#: qt/app.py:623 qt/app.py:1942 qt/snapshotsdialog.py:186
 msgid "Restore to …"
 msgstr "Helyreállítás ide…"
 
-#: qt/app.py:614
+#: qt/app.py:625
 msgid "Restore the selected files or directories to a new location."
 msgstr "A kijelölt fájlok vagy könyvtárak helyreállítása új helyre."
 
-#: qt/app.py:620
+#: qt/app.py:631
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
@@ -749,7 +749,7 @@ msgstr ""
 "A jelenleg megjelenített könyvtár és annak teljes tartalmának helyreállítása"
 " az eredeti helyre."
 
-#: qt/app.py:626
+#: qt/app.py:637
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
@@ -757,75 +757,75 @@ msgstr ""
 "A jelenleg megjelenített könyvtár és annak teljes tartalmának helyreállítása"
 " új helyre."
 
-#: qt/app.py:629
+#: qt/app.py:640
 msgid "Up"
 msgstr "Fel"
 
-#: qt/app.py:632
+#: qt/app.py:643
 msgid "Show hidden files"
 msgstr "Rejtett fájlok megjelenítése"
 
-#: qt/app.py:635
+#: qt/app.py:646
 msgid "Compare backups…"
 msgstr "Biztonsági mentések összehasonlítása…"
 
-#: qt/app.py:665 qt/app.py:1804
+#: qt/app.py:676 qt/app.py:1815
 msgid "Release Candidate"
 msgstr "Kiadásra jelölt"
 
-#: qt/app.py:668
+#: qt/app.py:679
 msgid "Shows the message about this Release Candidate again."
 msgstr "Ismét megjeleníti az ezzel a kiadásra jelölttel kapcsolatos üzenetet."
 
-#: qt/app.py:705
+#: qt/app.py:716
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:710
+#: qt/app.py:721
 msgid "&Backup"
 msgstr "&Biztonsági mentés"
 
-#: qt/app.py:722
+#: qt/app.py:733
 msgid "&Restore"
 msgstr "&Helyreállítás"
 
-#: qt/app.py:728
+#: qt/app.py:739
 msgid "&Help"
 msgstr "&Súgó"
 
-#: qt/app.py:779
+#: qt/app.py:790
 msgid "Systray Icon"
 msgstr "Rendszertálca ikon"
 
-#: qt/app.py:785
+#: qt/app.py:796
 msgid "Automatic"
 msgstr "Automatikus"
 
-#: qt/app.py:789
+#: qt/app.py:800
 msgid "Light icon"
 msgstr "Világos ikon"
 
-#: qt/app.py:790
+#: qt/app.py:801
 msgid "Dark icon"
 msgstr "Sötét ikon"
 
-#: qt/app.py:813
+#: qt/app.py:824
 msgid "Icons only"
 msgstr "Csak ikonok"
 
-#: qt/app.py:816
+#: qt/app.py:827
 msgid "Text only"
 msgstr "Csak szöveg"
 
-#: qt/app.py:819
+#: qt/app.py:830
 msgid "Text below icons"
 msgstr "Szöveg az ikonok alatt"
 
-#: qt/app.py:822
+#: qt/app.py:833
 msgid "Text beside icon"
 msgstr "Szöveg az ikon mellett"
 
-#: qt/app.py:933
+#: qt/app.py:944
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected backup."
@@ -833,15 +833,15 @@ msgstr ""
 "Ez a könyvtár nem létezik a jelenleg\n"
 "kiválasztott biztonsági mentésben."
 
-#: qt/app.py:994
+#: qt/app.py:1005
 msgid "Add to Include"
 msgstr "Hozzáadás a felvettekhez"
 
-#: qt/app.py:995
+#: qt/app.py:1006
 msgid "Add to Exclude"
 msgstr "Hozzáadás a kizártakhoz"
 
-#: qt/app.py:1009
+#: qt/app.py:1020
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
@@ -849,53 +849,53 @@ msgstr ""
 "Ha ezt az ablak bezárásra kerül, akkor a Back In Time nem lesz képes "
 "leállítani a rendszert a biztonsági mentés befejezése után."
 
-#: qt/app.py:1012
+#: qt/app.py:1023
 msgid "Close the window anyway?"
 msgstr "Mindenképp bezárja az ablakot?"
 
-#: qt/app.py:1203
+#: qt/app.py:1214
 msgid "Done, no backup needed"
 msgstr "Kész, nincs szükség biztonsági mentésre"
 
-#: qt/app.py:1274
+#: qt/app.py:1285
 msgid "Working:"
 msgstr "Munkavégzés:"
 
-#: qt/app.py:1281
+#: qt/app.py:1292
 msgid "Working"
 msgstr "Munkavégzés"
 
-#: qt/app.py:1287 qt/messagebox.py:136
+#: qt/app.py:1298 qt/messagebox.py:136
 msgid "Error"
 msgstr "Hiba"
 
-#: qt/app.py:1328 qt/qtsystrayicon.py:295
+#: qt/app.py:1339 qt/qtsystrayicon.py:295
 msgid "Sent:"
 msgstr "Elküldve:"
 
-#: qt/app.py:1329 qt/qtsystrayicon.py:296
+#: qt/app.py:1340 qt/qtsystrayicon.py:296
 msgid "Speed:"
 msgstr "Sebesség:"
 
-#: qt/app.py:1330 qt/qtsystrayicon.py:297
+#: qt/app.py:1341 qt/qtsystrayicon.py:297
 msgid "ETA:"
 msgstr "Becsült hátralévő idő:"
 
-#: qt/app.py:1479
+#: qt/app.py:1490
 msgid "Backup:"
 msgstr "Biztonsági mentés:"
 
-#: qt/app.py:1519
+#: qt/app.py:1530
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "{path} helyreállítása"
 
-#: qt/app.py:1521
+#: qt/app.py:1532
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "{path} helyreállítása ide…"
 
-#: qt/app.py:1669
+#: qt/app.py:1680
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -912,48 +912,48 @@ msgstr ""
 "Elnézést kérünk a zavarásért. Ez az üzenet nem fog többé megjelenni. Ez a párbeszédablak később is bármikor elérhető a súgó menüben.\n"
 "A Back In Time csapata"
 
-#: qt/app.py:1698
+#: qt/app.py:1709
 msgid "translation platform"
 msgstr "fordítási platform"
 
-#: qt/app.py:1703
+#: qt/app.py:1714
 msgid "Website"
 msgstr "Webhely"
 
-#: qt/app.py:1717
+#: qt/app.py:1728
 msgid "Your translation"
 msgstr "Az Ön fordítása"
 
-#: qt/app.py:1754
+#: qt/app.py:1765
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "A mastodoni födiverzumban: {link_and_label}."
 
-#: qt/app.py:1759
+#: qt/app.py:1770
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "E-mail küldése: {link_and_label}."
 
-#: qt/app.py:1763
+#: qt/app.py:1774
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "Levelezőlista: {link_and_label}."
 
-#: qt/app.py:1767
+#: qt/app.py:1778
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} a projekt webhelyén."
 
-#: qt/app.py:1770
+#: qt/app.py:1781
 msgid "Open an issue"
 msgstr "Nyisson hibajegyet"
 
-#: qt/app.py:1771
+#: qt/app.py:1782
 msgid "Alternatively, you can use another channel of your choice."
 msgstr ""
 "Alternatívaként egy másik, Ön által választott csatornát is használhat."
 
-#: qt/app.py:1776
+#: qt/app.py:1787
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -974,7 +974,7 @@ msgstr ""
 "Köszönjük a támogatását és azt, hogy segít nekünk a Back In Time fejlesztésében!\n"
 "Az Ön Back In Time csapata"
 
-#: qt/app.py:1881
+#: qt/app.py:1892
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
@@ -983,22 +983,22 @@ msgstr ""
 "Csak {free} szabad terület érhető el a célon, amely a beállított {threshold}"
 " küszöbszint alatt van."
 
-#: qt/app.py:1886
+#: qt/app.py:1897
 msgid "Proceed with the backup?"
 msgstr "Folytatja a biztonsági mentést?"
 
-#: qt/app.py:1911
+#: qt/app.py:1922
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr ""
 "A(z) {path} útvonalon lévő összes újabb fájl el lesz távolítva. Folytatja?"
 
-#: qt/app.py:1914
+#: qt/app.py:1925
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 "Az eredeti könyvtárban lévő összes újabb fájl el lesz távolítva. Folytatja?"
 
-#: qt/app.py:1920
+#: qt/app.py:1931
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -1007,17 +1007,17 @@ msgstr ""
 "{BOLD}Figyelmeztetés:{BOLDEND} a fájlrendszer gyökerében lévő fájlok törlése"
 " tönkreteheti az egész rendszert."
 
-#: qt/app.py:2156
+#: qt/app.py:2167
 msgid "Backup name"
 msgstr "Biztonsági mentés neve"
 
-#: qt/app.py:2187
+#: qt/app.py:2198
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "Eltávolítja ezt a biztonsági mentést?"
 msgstr[1] "Eltávolítja ezeket a biztonsági mentéseket?"
 
-#: qt/app.py:2250
+#: qt/app.py:2261
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "A nyelvi beállítások csak a Back In Time újraindítása után lépnek érvénybe."
@@ -1580,12 +1580,12 @@ msgid "Hour(s)"
 msgstr "Óra"
 
 #: qt/manageprofiles/schedulewidget.py:229
-#: qt/manageprofiles/tab_remove_retention.py:269
+#: qt/manageprofiles/tab_remove_retention.py:271
 msgid "Day(s)"
 msgstr "Nap"
 
 #: qt/manageprofiles/schedulewidget.py:230
-#: qt/manageprofiles/tab_remove_retention.py:270
+#: qt/manageprofiles/tab_remove_retention.py:272
 msgid "Week(s)"
 msgstr "Hét"
 
@@ -2157,11 +2157,11 @@ msgstr "Naplózási szint:"
 msgid "None"
 msgstr "Nincs"
 
-#: qt/manageprofiles/tab_remove_retention.py:204
+#: qt/manageprofiles/tab_remove_retention.py:206
 msgid "user manual"
 msgstr "felhasználói kézikönyv"
 
-#: qt/manageprofiles/tab_remove_retention.py:206
+#: qt/manageprofiles/tab_remove_retention.py:208
 #, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
@@ -2171,28 +2171,28 @@ msgstr ""
 "szabályok felülírják a korábbiakat. Részleteket és példákat a {manual_link} "
 "tartalmaz."
 
-#: qt/manageprofiles/tab_remove_retention.py:221
+#: qt/manageprofiles/tab_remove_retention.py:223
 msgid "Open user manual in browser."
 msgstr "Felhasználói kézikönyv megnyitása a böngészőben."
 
-#: qt/manageprofiles/tab_remove_retention.py:235
+#: qt/manageprofiles/tab_remove_retention.py:237
 msgid "Keep the most recent backup."
 msgstr "A legfrissebb biztonsági mentés megtartása."
 
-#: qt/manageprofiles/tab_remove_retention.py:239
+#: qt/manageprofiles/tab_remove_retention.py:241
 msgid "The most up-to-date backup is kept under all circumstances."
 msgstr ""
 "A legfrissebb biztonsági mentés minden körülmények között megtartásra kerül."
 
-#: qt/manageprofiles/tab_remove_retention.py:241
+#: qt/manageprofiles/tab_remove_retention.py:243
 msgid "That behavior cannot be changed."
 msgstr "Ezt a viselkedést nem lehet megváltoztatni."
 
-#: qt/manageprofiles/tab_remove_retention.py:253
+#: qt/manageprofiles/tab_remove_retention.py:255
 msgid "Keep named backups."
 msgstr "Elnevezett biztonsági mentések megtartása."
 
-#: qt/manageprofiles/tab_remove_retention.py:256
+#: qt/manageprofiles/tab_remove_retention.py:258
 msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
@@ -2201,37 +2201,37 @@ msgstr ""
 " adtak, minden körülmények között megtartásra kerülnek, és nem lesznek "
 "eltávolítva."
 
-#: qt/manageprofiles/tab_remove_retention.py:271
+#: qt/manageprofiles/tab_remove_retention.py:273
 msgid "Year(s)"
 msgstr "Év"
 
-#: qt/manageprofiles/tab_remove_retention.py:276
+#: qt/manageprofiles/tab_remove_retention.py:278
 msgid "Remove backups older than"
 msgstr "Az ennél régebbi biztonsági mentések eltávolítása"
 
-#: qt/manageprofiles/tab_remove_retention.py:282
+#: qt/manageprofiles/tab_remove_retention.py:284
 msgid "Full days. Current day is ignored."
 msgstr "Teljes napok. A jelenlegi nap figyelmen kívül van hagyva."
 
-#: qt/manageprofiles/tab_remove_retention.py:284
+#: qt/manageprofiles/tab_remove_retention.py:286
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
 "Hétfővel, mint első nappal kezdődő naptári hetek. A jelenlegi hét figyelmen "
 "kívül van hagyva."
 
-#: qt/manageprofiles/tab_remove_retention.py:287
+#: qt/manageprofiles/tab_remove_retention.py:289
 msgid "12 months periods. Current month is ignored."
 msgstr "12 hónapos időszakok. A jelenlegi hónap figyelmen kívül van hagyva."
 
-#: qt/manageprofiles/tab_remove_retention.py:303
+#: qt/manageprofiles/tab_remove_retention.py:305
 msgid "Retention policy"
 msgstr "Megtartási irányelv"
 
-#: qt/manageprofiles/tab_remove_retention.py:308
+#: qt/manageprofiles/tab_remove_retention.py:310
 msgid "Run in background on remote host."
 msgstr "Futtatás a háttérben a távoli kiszolgálón."
 
-#: qt/manageprofiles/tab_remove_retention.py:311
+#: qt/manageprofiles/tab_remove_retention.py:313
 msgid ""
 "The retention policy will be executed directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
@@ -2241,80 +2241,80 @@ msgstr ""
 "helyileg. A „bash”, „screen” és „flock” parancsoknak telepítve kell lenniük "
 "azon a távoli gépen, és elérhetőnek kell lenniük."
 
-#: qt/manageprofiles/tab_remove_retention.py:315
+#: qt/manageprofiles/tab_remove_retention.py:317
 msgid "If selected, Back In Time will first test the remote machine."
 msgstr ""
 "Ha ki van választva, akkor a Back in Time először leteszteli a távoli gépet."
 
-#: qt/manageprofiles/tab_remove_retention.py:319
+#: qt/manageprofiles/tab_remove_retention.py:321
 msgid "The days are counted starting from today."
 msgstr "A napok a mai naptól kezdve számítanak."
 
-#: qt/manageprofiles/tab_remove_retention.py:320
+#: qt/manageprofiles/tab_remove_retention.py:322
 msgid "Keep all backups for the last"
 msgstr "Az összes biztonsági mentés megtartása a legutóbbi"
 
-#: qt/manageprofiles/tab_remove_retention.py:325
-#: qt/manageprofiles/tab_remove_retention.py:337
+#: qt/manageprofiles/tab_remove_retention.py:327
+#: qt/manageprofiles/tab_remove_retention.py:339
 msgid "day(s)."
 msgstr "napról."
 
-#: qt/manageprofiles/tab_remove_retention.py:332
+#: qt/manageprofiles/tab_remove_retention.py:334
 msgid "Keep the last backup for each day for the last"
 msgstr "Minden egyes nap utolsó biztonsági mentésének megtartása a legutóbbi"
 
-#: qt/manageprofiles/tab_remove_retention.py:342
+#: qt/manageprofiles/tab_remove_retention.py:344
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
 msgstr ""
 "A hetek a jelenlegi héttől kezdve számítanak. Egy hét hétfőn kezdődik."
 
-#: qt/manageprofiles/tab_remove_retention.py:345
+#: qt/manageprofiles/tab_remove_retention.py:347
 msgid "Keep the last backup for each week for the last"
 msgstr "Minden egyes hét utolsó biztonsági mentésének megtartása a legutóbbi"
 
-#: qt/manageprofiles/tab_remove_retention.py:350
+#: qt/manageprofiles/tab_remove_retention.py:352
 msgid "week(s)."
 msgstr "hétről."
 
-#: qt/manageprofiles/tab_remove_retention.py:355
+#: qt/manageprofiles/tab_remove_retention.py:357
 msgid ""
 "The months are counted as calendar months starting with the current month."
 msgstr ""
 "A hónapok a jelenlegi hónappal kezdődő naptári hónappal kezdve számítanak."
 
-#: qt/manageprofiles/tab_remove_retention.py:358
+#: qt/manageprofiles/tab_remove_retention.py:360
 msgid "Keep the last backup for each month for the last"
 msgstr ""
 "Minden egyes hónap utolsó biztonsági mentésének megtartása a legutóbbi"
 
-#: qt/manageprofiles/tab_remove_retention.py:363
+#: qt/manageprofiles/tab_remove_retention.py:365
 msgid "month(s)."
 msgstr "hónapról."
 
-#: qt/manageprofiles/tab_remove_retention.py:368
+#: qt/manageprofiles/tab_remove_retention.py:370
 msgid ""
 "The years are counted as calendar years starting with the current year."
 msgstr "Az évek a jelenlegi évvel kezdődő naptári évekkel kezdve számítanak."
 
-#: qt/manageprofiles/tab_remove_retention.py:370
+#: qt/manageprofiles/tab_remove_retention.py:372
 msgid "Keep the last backup for each year for"
 msgstr "Minden egyes év utolsó biztonsági mentésének megtartása a legutóbbi"
 
-#: qt/manageprofiles/tab_remove_retention.py:372
+#: qt/manageprofiles/tab_remove_retention.py:374
 msgid "all years."
 msgstr "teljes évről."
 
-#: qt/manageprofiles/tab_remove_retention.py:387
+#: qt/manageprofiles/tab_remove_retention.py:389
 msgid "… the free space is less than"
 msgstr "… a szabad hely kevesebb mint"
 
-#: qt/manageprofiles/tab_remove_retention.py:392
+#: qt/manageprofiles/tab_remove_retention.py:394
 msgid "… the free inodes are less than"
 msgstr "… a szabad inode-ok száma kevesebb mint"
 
-#: qt/manageprofiles/tab_remove_retention.py:401
+#: qt/manageprofiles/tab_remove_retention.py:403
 msgid "Remove oldest backup if …"
 msgstr "A legrégebbi biztonsági mentés eltávolítása, ha …"
 
@@ -2591,82 +2591,3 @@ msgstr "Ez NEM biztonsági mentés, hanem a helyi fájlok élő nézete."
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Utolsó ellenőrzés {time}"
-
-#~ msgid ""
-#~ "A replacement is planned, but it cannot be guaranteed that it will arrive on"
-#~ " time."
-#~ msgstr ""
-#~ "A helyettesítése tervben van, de nem garantálható, hogy időben megérkezik."
-
-#~ msgid "Add default"
-#~ msgstr "Alapértelmezett hozzáadása"
-
-#~ msgid "Caution:"
-#~ msgstr "Vigyázat:"
-
-#~ msgid "Copy unsafe links (works only with absolute links)"
-#~ msgstr ""
-#~ "Nem biztonságos hivatkozások másolása (csak abszolút hivatkozásokkal "
-#~ "működik)"
-
-#~ msgid ""
-#~ "EncFS profile creation will be removed in the next minor release (1.7), "
-#~ "scheduled for 2026."
-#~ msgstr ""
-#~ "Az EncFS-profil létrehozása eltávolításra kerül a következő, 2026-ra "
-#~ "tervezett kisebb kiadásban (1.7)."
-
-#, python-brace-format
-#~ msgid ""
-#~ "For more details, including potential alternatives, please refer to this "
-#~ "{whitepaper}."
-#~ msgstr ""
-#~ "További részletekért, beleértve a lehetséges alternatívákat, ez a "
-#~ "{whitepaper} ad tájékoztatást."
-
-#~ msgid "It is not recommended to use that mode for a profile furthermore."
-#~ msgstr "Nem ajánlott ezt a módot továbbra is használni egy profilhoz."
-
-#~ msgid "No config found"
-#~ msgstr "Nem találhatók beállítások"
-
-#~ msgid "SSH encrypted"
-#~ msgstr "SSH-val titkosított"
-
-#~ msgid ""
-#~ "Support for EncFS is being discontinued due to security vulnerabilities."
-#~ msgstr "Az EncFS támogatása a biztonsági sebezhetőségek miatt megszűnik."
-
-#~ msgid "The following profile(s) use encryption with EncFS:"
-#~ msgstr "A következő profilok használnak EncFS-sel történő titkosítást:"
-
-#~ msgid ""
-#~ "This message will not be shown again. This dialog is available at any time "
-#~ "via the help menu."
-#~ msgstr ""
-#~ "Ez az üzenet többé nem jelenik meg. Ez a párbeszédablak bármikor elérhető a "
-#~ "súgó menüből."
-
-#, python-brace-format
-#~ msgid ""
-#~ "Users are invited to join this discussion. Updated details on the next steps"
-#~ " are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Arra kérjük a felhasználókat, hogy csatlakozzanak ehhez a beszélgetéshez. A "
-#~ "következő lépések frissített részleteiről ez a {whitepaper} ad "
-#~ "tájékoztatást."
-
-#~ msgid "Your Back In Time Team"
-#~ msgstr "Az Ön Back In Time csapata"
-
-#~ msgid "whitepaper"
-#~ msgstr "dokumentum"
-
-#, python-brace-format
-#~ msgid ""
-#~ "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
-#~ msgstr "{BOLD}Erősen ajánlott{ENDBOLD}: (Már tartalmazza az összes ajánlást.)"
-
-#, python-brace-format
-#~ msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
-#~ msgstr "{BOLD}Erősen ajánlott{ENDBOLD}: {files}"
