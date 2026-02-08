@@ -483,10 +483,24 @@ class Snapshots:
                                         or are newer than those in destination.
                                         Using ``rsync --update`` option.
         """
+        backup_instance = ApplicationInstance(
+            pidFile=self.config.takeSnapshotInstanceFile(),
+            autoExit=False)
+
+        if not backup_instance.check():
+            logger.warning(
+                'A backup process is already running. Restore has been '
+                'stopped. The PID of the running backup is stored in '
+                f'{backup_instance.pidFile}. Consider deleting the PID '
+                'file if there is actually no backup process running.',
+                self)
+            return
+
         instance = ApplicationInstance(
             pidFile=self.config.restoreInstanceFile(),
             autoExit=False,
-            flock=True)
+            flock=True
+        )
 
         if instance.check():
             instance.startApplication()

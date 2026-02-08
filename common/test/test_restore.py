@@ -13,6 +13,7 @@ import sys
 import unittest
 import stat
 from tempfile import TemporaryDirectory
+from unittest.mock import patch
 
 from test import generic
 from test.constants import CURRENTUSER, CURRENTGROUP
@@ -190,3 +191,22 @@ class RestoreSSH(generic.SSHSnapshotsWithSidTestCase, RestoreLocal):
         super().tearDown()
 
         self.include.cleanup()
+
+
+class Locking(RestoreTestCase):
+    @patch('snapshots.tools.Execute')
+    def test_running_backup_blocks_restore(self, execute_mock):
+        restore_file = os.path.join(self.include.name, 'test')
+        self.prepairFileInfo(restore_file)
+
+        lock_file = self.cfg.takeSnapshotInstanceFile()
+
+        with open(lock_file, mode='wt', encoding='utf-8') as handle:
+            # Keep procname empty. This also allows the test to run on
+            # systems without a /proc filesystem.
+            handle.write(f'{os.getpid()}\n')
+
+        self.sn.restore(self.sid, restore_file)
+
+        self.assertFalse(execute_mock.called)
+        self.assertFalse(os.path.exists(restore_file))
