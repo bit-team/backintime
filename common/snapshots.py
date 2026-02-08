@@ -483,6 +483,26 @@ class Snapshots:
                                         or are newer than those in destination.
                                         Using ``rsync --update`` option.
         """
+        # Backup already running?
+        # Using flock=True serializes this check with backup() creating its PID
+        # file so restore doesn't race with a just-starting backup process.
+        backup_instance = ApplicationInstance(
+            pidFile=self.config.takeSnapshotInstanceFile(),
+            autoExit=False,
+            flock=True)
+
+        backup_running = not backup_instance.check()
+        backup_instance.flockUnlock()
+
+        if backup_running:
+            logger.warning(
+                'A backup process is already running. Restore has been '
+                'stopped. The PID of the running backup is stored in '
+                f'{backup_instance.pidFile}. Consider deleting the PID file '
+                'if there is actually no backup process running.',
+                self)
+            return
+
         instance = ApplicationInstance(
             pidFile=self.config.restoreInstanceFile(),
             autoExit=False,

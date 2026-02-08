@@ -342,6 +342,55 @@ class Callbacks(generic.SnapshotsTestCase):
                 '"/foo/bar": Operation not permitted (1)\n',
                 f.read())
 
+    @patch('snapshots.ApplicationInstance')
+    @patch('snapshots.tools.Execute')
+    def test_restore_stops_if_backup_running(self, mock_execute, mock_app_instance):
+        backup_instance = unittest.mock.Mock()
+        backup_instance.check.return_value = False
+        backup_instance.pidFile = self.cfg.takeSnapshotInstanceFile()
+        mock_app_instance.return_value = backup_instance
+
+        sid = snapshots.SID('20151219-010324-123', self.cfg)
+        self.sn.restore(sid, '/foo')
+
+        mock_app_instance.assert_called_once_with(
+            pidFile=self.cfg.takeSnapshotInstanceFile(),
+            autoExit=False,
+            flock=True)
+        backup_instance.check.assert_called_once_with()
+        backup_instance.flockUnlock.assert_called_once_with()
+        backup_instance.startApplication.assert_not_called()
+        mock_execute.assert_not_called()
+
+    @patch('snapshots.ApplicationInstance')
+    @patch('snapshots.tools.Execute')
+    def test_restore_stops_if_restore_running(self, mock_execute, mock_app_instance):
+        backup_instance = unittest.mock.Mock()
+        backup_instance.check.return_value = True
+        backup_instance.pidFile = self.cfg.takeSnapshotInstanceFile()
+
+        restore_instance = unittest.mock.Mock()
+        restore_instance.check.return_value = False
+        restore_instance.pidFile = self.cfg.restoreInstanceFile()
+
+        mock_app_instance.side_effect = [backup_instance, restore_instance]
+
+        sid = snapshots.SID('20151219-010324-123', self.cfg)
+        self.sn.restore(sid, '/foo')
+
+        self.assertEqual(mock_app_instance.call_count, 2)
+        mock_app_instance.assert_any_call(
+            pidFile=self.cfg.takeSnapshotInstanceFile(),
+            autoExit=False,
+            flock=True)
+        mock_app_instance.assert_any_call(
+            pidFile=self.cfg.restoreInstanceFile(),
+            autoExit=False,
+            flock=True)
+        backup_instance.flockUnlock.assert_called_once_with()
+        restore_instance.startApplication.assert_not_called()
+        mock_execute.assert_not_called()
+
 
 class SnapshotWithSID(generic.SnapshotsWithSidTestCase):
     def test_backup_config(self):
