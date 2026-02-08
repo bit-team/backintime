@@ -44,6 +44,8 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?](#if-i-edit-my-crontab-and-add-additional-entries-will-that-be-a-problem-for-bit-as-long-as-i-dont-touch-its-entries-what-does-it-look-for-in-the-crontab-to-find-its-own-entries)
    * [Can I use a systemd timer instead of cron?](#can-i-use-a-systemd-timer-instead-of-cron)
 - [Problems, Errors & Solutions](#problems-errors--solutions)
+   * [OverflowError: Value 1702441408 out of range for UInt32](#overflowerror-value-1702441408-out-of-range-for-uint32)
+   * [`SettingsDialog` object has no attribute `cbCopyUnsafeLinks`](#settingsDialog-object-has-no-attribute-cbcopyunsafelinks)
    * [WARNING: A backup is already running](#warning-a-backup-is-already-running)
    * [_Back in Time_ does not start and shows: The application is already running! (pid: 1234567)](#back-in-time-does-not-start-and-shows-the-application-is-already-running-pid-1234567)
    * [Switching to dark or light mode in the desktop environment is ignored by BIT](#switching-to-dark-or-light-mode-in-the-desktop-environment-is-ignored-by-bit)
@@ -726,6 +728,36 @@ ExecStart=/usr/bin/nice -n19 /usr/bin/ionice -c2 -n7 /usr/bin/backintime backup-
 ```
 
 # Problems, Errors & Solutions
+## OverflowError: Value 1702441408 out of range for UInt32
+The _Back In Time_ GUI crashes and this exception appears in its terminal
+output. Known to happen on restoring (#2084) and removing (#2192) of backups.
+Assuming it might happen also on creating backups.
+
+The current hypothesis the problem was introduced or happens more often since
+the migration from PyQt version 5 to version 6 (BIT version `1.5.0`).
+
+The fix (PR #2099) was released with version `1.6.0`.
+For users prior to this version, there is a tiny workaround described in that
+[issue comment](https://github.com/bit-team/backintime/issues/2084#issuecomment-2787602155).
+
+## `SettingsDialog` object has no attribute `cbCopyUnsafeLinks`
+Wenn adding a file or directory, that is in fact a symlink, to the _Include_
+Tab in the _Manage profiles_ dialog, the BIT GUI crash and give the following
+error in the terminal.
+
+```pytb
+Traceback (most recent call last):
+  File "/usr/share/backintime/qt/manageprofiles/tab_include.py", line 185, in btn_include_add_clicked
+    self._parent_dialog.cbCopyUnsafeLinks.isChecked() or
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SettingsDialog' object has no attribute 'cbCopyUnsafeLinks'
+```
+
+Introduced in version `1.5.3`. Fixed in `1.6.0`.  See issue
+[#2279](https://github.com/bit-team/backintime/issues/2279).
+
+Workaround: Don't use a symlink but the linked target.
+
 ## WARNING: A backup is already running
 _Back In Time_ uses signal files like `worker<PID>.lock` to avoid starting the same backup twice.
 Normally it is deleted as soon as the backup finishes. In some case something went wrong
