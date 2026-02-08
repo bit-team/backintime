@@ -59,6 +59,8 @@
 """Handling udev rules via DBUS service"""
 import os
 import re
+import sys
+import syslog
 from subprocess import Popen, PIPE
 try:
     import pwd
@@ -68,10 +70,27 @@ except ImportError:
 import dbus
 import dbus.service
 import dbus.mainloop
-# pylint: disable-next=import-error,useless-suppression
-import dbus.mainloop.pyqt6
-# pylint: disable-next=import-error,useless-suppression
-from dbus.mainloop.pyqt6 import DBusQtMainLoop
+
+
+def _report_mainloop_import_error(exc):
+    """Report import problems to stderr and syslog."""
+    msg = (
+        'Can not import "dbus.mainloop.pyqt6". '
+        'Please install package "python3-dbus.mainloop.pyqt6". '
+        f'Original error: {repr(exc)}'
+    )
+    print(msg, file=sys.stderr)
+    syslog.syslog(syslog.LOG_ERR, msg)
+
+
+try:
+    # pylint: disable-next=import-error,useless-suppression
+    import dbus.mainloop.pyqt6
+    # pylint: disable-next=import-error,useless-suppression
+    from dbus.mainloop.pyqt6 import DBusQtMainLoop
+except ImportError as exc:
+    _report_mainloop_import_error(exc)
+    raise
 from PyQt6.QtCore import QCoreApplication
 
 UDEV_RULES_PATH = '/etc/udev/rules.d/99-backintime-%s.rules'
