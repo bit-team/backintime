@@ -164,7 +164,7 @@ class SSH(MountControl):
 
                 logger.warning("Couldn't get fingerprint for private key "
                                f'{self.private_key_file}. Most likely because'
-                               f' the public key {self.private_key_file.pub} '
+                               f' the public key {self.private_key_file}.pub '
                                "wasn't found. Using fallback to private keys "
                                'path instead. But this can make troubles with '
                                'passphrase-less keys.',
