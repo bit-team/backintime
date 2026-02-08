@@ -16,9 +16,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-rc2\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-02-05 22:25+0100\n"
-"PO-Revision-Date: 2026-02-03 14:29+0000\n"
+"PO-Revision-Date: 2026-02-06 12:48+0000\n"
 "Last-Translator: gallegonovato <gallegonovato@noreply.codeberg.org>\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/backintime/common/es/>\n"
 "Language: es\n"
@@ -86,7 +86,7 @@ msgstr "Perfil: «{name}»"
 
 #: common/config.py:301
 msgid "Backup directory is not valid."
-msgstr "El directorio de backup no es válido."
+msgstr "El directorio de la copia de seguridad no es válido."
 
 #: common/config.py:313
 msgid "At least one directory must be selected for backup."
@@ -102,8 +102,8 @@ msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
 msgstr ""
-"Este directorio no puede incluirse en la copia de respaldo porque forma "
-"parte del destino de la copia misma."
+"Este directorio no puede incluirse en la copia de seguridad ya que es parte "
+"del destino de la misma."
 
 #: common/config.py:366
 #, python-brace-format
@@ -369,7 +369,7 @@ msgstr "Intentar mantener el espacio libre mínimo"
 #: common/snapshots.py:2079
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
-msgstr "Intentando conservar un mínimo de {perc} de inodos libres"
+msgstr "Intentando mantener un mínimo de {perc} inodos libres"
 
 #: common/snapshots.py:3211 qt/app.py:1471
 msgid "Now"
@@ -1035,9 +1035,7 @@ msgstr "Copias de seguridad versionadas (root)"
 #: qt/backintime-qt-root.desktop:23
 msgid ""
 "User-friendly GUI for versioned backups that reduces disk usage (root mode)"
-msgstr ""
-"Interfaz gráfica de usuario fácil de usar para copias de seguridad "
-"versionadas que reduce el uso del disco (modo root)"
+msgstr "GUI para copias de seguridad con menor uso de espacio (modo root)"
 
 #: qt/backintime-qt.desktop:14
 msgid "Versioned Backups"
@@ -1613,44 +1611,38 @@ msgid "<Select another file…>"
 msgstr "<Seleccionar otro archivo…>"
 
 #: qt/manageprofiles/sshkeyselector.py:64
-#, fuzzy
 msgid "Choose an existing private key file from somewhere else."
-msgstr ""
-"Elija un archivo de clave privada existente (normalmente llamado "
-"\"id_ed25519\", o \"id_rsa\" en configuraciones más antiguas)."
+msgstr "Elija un archivo con clave privada existente de otra ubicación."
 
 #: qt/manageprofiles/sshkeyselector.py:70
 msgid "<Generate new key-pair…>"
 msgstr "<Generar nuevo par de llaves...>"
 
 #: qt/manageprofiles/sshkeyselector.py:71
-#, fuzzy
 msgid "Create a new SSH key without passphrase."
-msgstr "Error al crear una nueva clave SSH en {path}."
+msgstr "Cree una nueva clave SSH sin contraseña."
 
 #: qt/manageprofiles/sshkeyselector.py:91
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Full path: {path}"
-msgstr "Ruta completa del respaldo:"
+msgstr "Ruta completa: {path}"
 
 #: qt/manageprofiles/sshkeyselector.py:185
-#, fuzzy
 msgid "Private key:"
 msgstr "Clave privada:"
 
 #: qt/manageprofiles/sshkeyselector.py:190
-#, fuzzy
 msgid "Use system SSH configuration"
-msgstr "Importar configuración"
+msgstr "Utilizar la configuración SSH del sistema"
 
 #: qt/manageprofiles/sshkeyselector.py:192
-#, fuzzy
 msgid ""
 "Leaves the key file unselected. SSH connections will rely on the system’s "
 "existing client configuration (e.g., ~/.ssh/config)."
 msgstr ""
-"Deja el archivo de llaves sin seleccionar. Conexiones SSH  dependerán de la "
-"configuración existente del cliente del sistema (e.g., ~/.ssh/config)."
+"Deja el archivo de claves sin seleccionar. Las conexiones SSH se basarán en "
+"la configuración del cliente existente en el sistema (por ejemplo, "
+"~/.ssh/config)."
 
 #: qt/manageprofiles/sshproxywidget.py:47
 msgid "SSH Proxy"
@@ -1703,19 +1695,16 @@ msgid "Add pattern"
 msgstr "Añadir patrón"
 
 #: qt/manageprofiles/tab_exclude.py:107 qt/manageprofiles/tab_include.py:68
-#, fuzzy
 msgid "Add files"
-msgstr "Añadir archivo"
+msgstr "Añadir archivos"
 
 #: qt/manageprofiles/tab_exclude.py:112 qt/manageprofiles/tab_include.py:73
-#, fuzzy
 msgid "Add directories"
-msgstr "Añadir directorio"
+msgstr "Añadir directorios"
 
 #: qt/manageprofiles/tab_exclude.py:118
-#, fuzzy
 msgid "Suggestions"
-msgstr "Pregunta"
+msgstr "Sugerencias"
 
 #: qt/manageprofiles/tab_exclude.py:120
 msgid "Select from common used items to add to exclude list."
@@ -1733,26 +1722,25 @@ msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Excluir archivos mayores que el valor en {size_unit}."
 
 #: qt/manageprofiles/tab_exclude.py:140
-#, fuzzy
 msgid ""
 "With 'Full rsync mode' disabled, this setting affects only newly created "
 "files, as rsync treats it as transfer option rather than an exclusion rule. "
 "Consequently, large files that have already been backed up will remain in "
 "backups even if they are modified."
 msgstr ""
-"Con el «modo rsync completo» desactivado, solo se impactarán los archivos "
-"nuevos, dado que, para rsync, esta es una opción de transferencia, no de "
-"exclusión. Por tanto, los archivos grandes que se hayan respaldado "
-"previamente se conservarán en las instantáneas, aunque se hayan modificado."
+"Con el «modo rsync completo» desactivado, esta configuración solo afecta a "
+"los archivos recién creados, ya que rsync lo trata como una opción de "
+"transferencia en lugar de una regla de exclusión. Por lo tanto, los archivos"
+" grandes que ya se han copiado permanecerán en las copias de seguridad "
+"aunque se modifiquen."
 
 #: qt/manageprofiles/tab_exclude.py:265
 msgid "Exclude pattern"
 msgstr "Excluir patrón"
 
 #: qt/manageprofiles/tab_exclude.py:267
-#, fuzzy
 msgid "Enter an exclude pattern:"
-msgstr "Excluir patrón"
+msgstr "Introduzca un patrón de exclusión:"
 
 #: qt/manageprofiles/tab_exclude.py:272
 #, python-brace-format
@@ -1764,14 +1752,12 @@ msgid "Open rsync man page"
 msgstr "Abrir página de manual para rsync"
 
 #: qt/manageprofiles/tab_exclude.py:303
-#, fuzzy
 msgid "Exclude files"
-msgstr "Excluir archivo"
+msgstr "Excluir archivos"
 
 #: qt/manageprofiles/tab_exclude.py:316
-#, fuzzy
 msgid "Exclude directories"
-msgstr "Excluir directorio"
+msgstr "Excluir directorios"
 
 #: qt/manageprofiles/tab_exclude.py:401
 msgid ""
@@ -1807,9 +1793,8 @@ msgid "on remote host"
 msgstr "en un anfitrión remoto"
 
 #: qt/manageprofiles/tab_expert_options.py:86
-#, fuzzy
 msgid "when taking a manual backup"
-msgstr "al tomar una instantánea manualmente"
+msgstr "al realizar una copia de seguridad manual"
 
 #: qt/manageprofiles/tab_expert_options.py:110
 msgid "Please install 'nocache' to enable this option."
@@ -1948,9 +1933,8 @@ msgid "Path:"
 msgstr "Ruta:"
 
 #: qt/manageprofiles/tab_general.py:139
-#, fuzzy
 msgid "Key file:"
-msgstr "Perfil nuevo"
+msgstr "Archivo de claves:"
 
 #: qt/manageprofiles/tab_general.py:176 qt/manageprofiles/tab_general.py:184
 #: qt/manageprofiles/tab_general.py:189
@@ -1988,9 +1972,8 @@ msgid "The backup destination path cannot be empty."
 msgstr "La ruta de destino de la copia de seguridad no puede estar vacía."
 
 #: qt/manageprofiles/tab_general.py:404
-#, fuzzy
 msgid "The encryption password cannot be empty."
-msgstr "Las contraseñas de EncFS no coinciden."
+msgstr "La contraseña de cifrado no puede estar vacía."
 
 #: qt/manageprofiles/tab_general.py:553
 msgid ""
@@ -2009,9 +1992,8 @@ msgstr ""
 "puede copiar al host remoto."
 
 #: qt/manageprofiles/tab_general.py:560
-#, fuzzy
 msgid "Proceed with copying the SSH key?"
-msgstr "¿Quiere quitar este respaldo?"
+msgstr "¿Deseas continuar con la copia de la clave SSH?"
 
 #: qt/manageprofiles/tab_general.py:585
 msgid ""
@@ -2032,9 +2014,9 @@ msgid "{keytype} key fingerprint is:"
 msgstr "La huella digital de la clave {keytype} es:"
 
 #: qt/manageprofiles/tab_general.py:613
-#, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
-msgstr "Verifique esta huella. ¿Quiere añadirla al archivo «known_hosts»?"
+msgstr ""
+"Verifique esta huella digital. ¿Deseas añadirla al archivo «known_hosts»?"
 
 #: qt/manageprofiles/tab_general.py:709
 msgid "Really change the backup directory?"
@@ -2049,9 +2031,8 @@ msgid "It must be empty to use encryption."
 msgstr "Debe estar vacío para utilizar el cifrado."
 
 #: qt/manageprofiles/tab_general.py:756
-#, fuzzy
 msgid "Invalid file: Not a private SSH key"
-msgstr "Clave privada SSH"
+msgstr "Archivo no válido: No es una clave SSH privada"
 
 #: qt/manageprofiles/tab_general.py:757
 #, python-brace-format
@@ -2117,16 +2098,15 @@ msgid "Run only one backup at a time"
 msgstr "Ejecutar solo un respaldo a la vez"
 
 #: qt/manageprofiles/tab_options.py:56
-#, fuzzy
 msgid ""
 "Other backups will be blocked until the current backup is completed. This is"
 " a global setting, meaning it will affect all profiles for this user. "
 "However, it must also be activated for all other users."
 msgstr ""
-"Las demás instantáneas se bloquearán hasta que finalice la instantánea "
-"actual. Esta es una opción global. Así que afectará a todos los perfiles de "
-"este usuario. Pero es necesario activar esto para todos los demás usuarios, "
-"también."
+"Las demás copias de seguridad se bloquearán hasta que se complete la copia "
+"de seguridad actual. Se trata de una configuración global, lo que significa "
+"que afectará a todos los perfiles de este usuario. Sin embargo, también debe"
+" activarse para todos los demás usuarios."
 
 #: qt/manageprofiles/tab_options.py:63
 msgid "Backup replaced files on restore"
@@ -2179,14 +2159,14 @@ msgid "user manual"
 msgstr "manual de utilización"
 
 #: qt/manageprofiles/tab_remove_retention.py:206
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual_link} for details and examples."
 msgstr ""
-"Las reglas siguientes se procesan de arriba a abajo. Las últimas reglas "
-"sobreescriben las anteriores y no están restringidas por estas. Vea el "
-"{manual} para más detalles y ejemplos."
+"Las siguientes reglas se procesan de arriba abajo. Las reglas posteriores "
+"anulan las anteriores. Consulte {manual_link} para obtener más detalles y "
+"ejemplos."
 
 #: qt/manageprofiles/tab_remove_retention.py:221
 msgid "Open user manual in browser."
@@ -2197,9 +2177,8 @@ msgid "Keep the most recent backup."
 msgstr "Conservar el respaldo más reciente."
 
 #: qt/manageprofiles/tab_remove_retention.py:239
-#, fuzzy
 msgid "The most up-to-date backup is kept under all circumstances."
-msgstr "La instantánea más reciente se conserva en cualquier circunstancia."
+msgstr "La copia de seguridad más actual se conservará siempre."
 
 #: qt/manageprofiles/tab_remove_retention.py:241
 msgid "That behavior cannot be changed."
@@ -2246,15 +2225,14 @@ msgid "Run in background on remote host."
 msgstr "Ejecutar en segundo plano en el anfitrión remoto."
 
 #: qt/manageprofiles/tab_remove_retention.py:311
-#, fuzzy
 msgid ""
 "The retention policy will be executed directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
 "and available on that remote machine."
 msgstr ""
-"El procedimiento de borrado inteligente se ejecutará directamente en la "
-"máquina remota, no localmente. Las órdenes «bash», «screen» y «flock» deben "
-"estar instaladas y disponibles en la máquina remota."
+"La política de retención se ejecutará directamente en la máquina remota, no "
+"localmente. Los comandos «bash», «screen» y «flock» deben estar instalados y"
+" disponibles en esa máquina remota."
 
 #: qt/manageprofiles/tab_remove_retention.py:315
 msgid "If selected, Back In Time will first test the remote machine."
@@ -2265,9 +2243,8 @@ msgid "The days are counted starting from today."
 msgstr "Los días se empiezan a contar desde hoy."
 
 #: qt/manageprofiles/tab_remove_retention.py:320
-#, fuzzy
 msgid "Keep all backups for the last"
-msgstr "Mantener todas las instantáneas hasta la última"
+msgstr "Conserve todas las copias de seguridad de los últimos"
 
 #: qt/manageprofiles/tab_remove_retention.py:325
 #: qt/manageprofiles/tab_remove_retention.py:337
@@ -2366,9 +2343,9 @@ msgid "Profile: {profile_name}"
 msgstr "Perfil: {profile_name}"
 
 #: qt/qtsystrayicon.py:112
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Profile: {profile_name} (by user \"{desktop_user}\")"
-msgstr "Perfil: {profile_name}"
+msgstr "Perfil: {profile_name} (por el usuario «{desktop_user}»)"
 
 #: qt/qtsystrayicon.py:155
 msgid "View Last Log"
@@ -2401,18 +2378,17 @@ msgid "Import"
 msgstr "Importar"
 
 #: qt/restoreconfigdialog.py:154 qt/restoreconfigdialog.py:234
-#, fuzzy
 msgid "Searching…"
-msgstr "Trabajando…"
+msgstr "Buscando…"
 
 #: qt/restoreconfigdialog.py:211
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Select the backup directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
-"Seleccione la carpeta de instantáneas desde la que debe importarse el "
-"archivo de configuración. La ruta puede tener el siguiente aspecto "
+"Seleccione el directorio de copia de seguridad desde el que se debe importar"
+" el archivo de configuración. La ruta puede tener el siguiente aspecto: "
 "{samplePath}"
 
 #: qt/restoreconfigdialog.py:216
@@ -2432,30 +2408,28 @@ msgid "Show hidden directories"
 msgstr "Mostrar directorios ocultos"
 
 #: qt/restoreconfigdialog.py:258
-#, fuzzy
 msgid "Show/hide hidden directories (Ctrl+H)"
-msgstr "Incluir archivos y carpetas"
+msgstr "Mostrar/ocultar directorios ocultos (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:305
-#, fuzzy
 msgid "No config found in this directory"
-msgstr "La creación del archivo falló en este directorio:"
+msgstr "No se encontró ninguna configuración en este directorio"
 
 #: qt/restoreconfigdialog.py:366
 msgid "Search complete."
-msgstr "Se completó la búsqueda."
+msgstr "Búsqueda completa."
 
 #: qt/restoredialog.py:58
 msgid "Show full Log"
-msgstr "Mostrar registro completo"
+msgstr "Mostrar el registro completo"
 
 #: qt/shutdowndlg.py:28
 msgid "Countdown to Shutdown"
-msgstr "Cuenta atrás para apagado"
+msgstr "Cuenta regresiva para el cierre"
 
 #: qt/shutdowndlg.py:29
 msgid "The backup has finished."
-msgstr "El respaldo se ha terminado."
+msgstr "La copia de seguridad ha terminado."
 
 #: qt/shutdowndlg.py:36
 msgid "Cancel Shutdown"
@@ -2571,9 +2545,8 @@ msgid "Exclude {path} from future backups?"
 msgstr "¿Quiere excluir {path} de futuros respaldos?"
 
 #: qt/statusbar.py:85
-#, fuzzy
 msgid "Root mode"
-msgstr "Administrador"
+msgstr "Root"
 
 #: qt/statusbar.py:87
 msgid ""

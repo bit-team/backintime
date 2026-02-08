@@ -18,10 +18,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 1.6.0-rc2\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-02-05 22:25+0100\n"
-"PO-Revision-Date: 2026-02-05 17:33+0000\n"
-"Last-Translator: marc9876543210 <marc9876543210@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-02-06 12:48+0000\n"
+"Last-Translator: Loufute <loufute@noreply.codeberg.org>\n"
 "Language-Team: French <https://translate.codeberg.org/projects/backintime/common/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -169,7 +169,7 @@ msgstr "Le dernier profil ne peut pas être supprimé."
 #: common/encfstools.py:129 common/gocryptfstools.py:84
 #, python-brace-format
 msgid "Unable to mount \"{command}\""
-msgstr "Échec de montage de '{command}'"
+msgstr "Impossible de monter '{command}'"
 
 #: common/encfstools.py:190
 msgid "Configuration for the encrypted directory not found."
@@ -378,7 +378,7 @@ msgstr "Maintenant"
 #: common/sshtools.py:233
 #, python-brace-format
 msgid "Unable to mount {sshfs}"
-msgstr "Échec de montage de {sshfs}"
+msgstr "Impossible de monter {sshfs}"
 
 #: common/sshtools.py:306
 msgid "ssh-agent not found. Please ensure it is installed."
@@ -573,8 +573,8 @@ msgstr ""
 msgid ""
 "Import an existing configuration from a backup location or another computer?"
 msgstr ""
-"Importer une configuration existante à partir d'un répertoire de sauvegarde "
-"ou d'un autre ordinateur ?"
+"Importer une configuration existante à partir d'un emplacement de sauvegarde"
+" ou d'un autre ordinateur ?"
 
 #: qt/app.py:380
 msgid "Then press OK."
@@ -1038,24 +1038,22 @@ msgstr ""
 
 #: qt/backintime-qt-root.desktop:14
 msgid "Versioned Backups (root)"
-msgstr "Versionning des sauvegardes (root)"
+msgstr "Sauvegardes versionnées (root)"
 
 #: qt/backintime-qt-root.desktop:23
 msgid ""
 "User-friendly GUI for versioned backups that reduces disk usage (root mode)"
 msgstr ""
-"Interface utilisateur facile d'usage pour sauvegardes nommées qui réduit "
-"l'utilisation disque (mode root)"
+"Interface facile pour sauvegardes versionnées prenant moins d'espace (mode "
+"root)"
 
 #: qt/backintime-qt.desktop:14
 msgid "Versioned Backups"
-msgstr "Sauvegardes nommées"
+msgstr "Sauvegardes versionnées"
 
 #: qt/backintime-qt.desktop:23
 msgid "User-friendly GUI for versioned backups that reduces disk usage"
-msgstr ""
-"Interface utilisateur facile d'usage pour sauvegardes nommées qui réduit "
-"l'utilisation disque"
+msgstr "Interface facile pour sauvegardes versionnées prenant moins d'espace"
 
 #: qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -1275,9 +1273,9 @@ msgid ""
 "Copy symbolic links as real files or directories in the backup. Select "
 "whether all links or only those pointing outside the source are copied."
 msgstr ""
-"Copie les liens symboliques en tant que fichier ou répertoires réels dans la"
-" sauvegarde. Détermine si tous les liens seront copiés ou seulement ceux "
-"pointant hors du répertoire source."
+"Copie les liens symboliques en tant que fichiers ou répertoires réels dans "
+"la sauvegarde. Sélectionnez si tous les liens ou seulement ceux pointant "
+"hors du répertoire source doivent être copiés."
 
 #: qt/manageprofiles/copylinkswidget.py:46
 msgid "This option may increase backup size."
@@ -1285,7 +1283,7 @@ msgstr "Cette option peut augmenter la taille de la sauvegarde."
 
 #: qt/manageprofiles/copylinkswidget.py:47
 msgid "Disabled by default."
-msgstr "Inactif par défaut."
+msgstr "Désactivé par défaut."
 
 #: qt/manageprofiles/copylinkswidget.py:60
 msgid ""
@@ -1398,7 +1396,7 @@ msgstr ""
 
 #: qt/manageprofiles/excludesuggestions.py:77
 msgid "Flatpak app and runtime repository"
-msgstr "Répertoire des applications Flatpak et de l’exécution du système"
+msgstr "Dépôt des applications et d'exécution (runtime) Flatpak"
 
 #: qt/manageprofiles/excludesuggestions.py:81
 msgid "System runtime directories"
@@ -1987,7 +1985,7 @@ msgstr ""
 
 #: qt/manageprofiles/tab_general.py:393
 msgid "The backup destination path cannot be empty."
-msgstr "Le répertoire de destination des sauvegardes ne doit pas être vide."
+msgstr "Le chemin de destination de la sauvegarde ne peut pas être vide."
 
 #: qt/manageprofiles/tab_general.py:404
 msgid "The encryption password cannot be empty."
@@ -2043,7 +2041,7 @@ msgstr "Vraiment changer le répertoire de sauvegarde ?"
 
 #: qt/manageprofiles/tab_general.py:725
 msgid "The selected backup destination is not empty."
-msgstr "La destination de la sauvegarde sélectionnée n'est pas vide."
+msgstr "La destination de sauvegarde sélectionnée n'est pas vide."
 
 #: qt/manageprofiles/tab_general.py:727
 msgid "It must be empty to use encryption."
@@ -2338,7 +2336,7 @@ msgstr "Supprimer les anciennes sauvegardes si…"
 #: qt/net.launchpad.backintime.policy:21
 msgid "Authentication is required to run Back In Time as root."
 msgstr ""
-"Authentification nécessaire pour lancer Back In Time en tant que root."
+"Authentification nécessaire pour exécuter Back In Time en tant que root."
 
 #: qt/net.launchpad.backintime.policy:33 qt/net.launchpad.backintime.policy:43
 msgid ""
