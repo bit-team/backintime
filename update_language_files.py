@@ -342,7 +342,7 @@ def update_desktop_files():
             translations = [
                 f'{field}[{lang}]={translated}'
                 for lang, translated
-                in translations.items()
+                in sorted(translations.items())
             ]
 
             content = content + translations
@@ -670,7 +670,7 @@ def create_completeness_dict():
     # "en" is the source language
     result['en'] = 100
 
-    return result
+    return {key: result[key] for key in sorted(result.keys())}
 
 
 def create_languages_py_file():
