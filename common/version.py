@@ -13,7 +13,7 @@ See Issue #1575 for details about that migration.
 import re
 
 # Version string regularyly used by the application and presented to users.
-__version__ = '1.6.0-rc2'
+__version__ = '1.6.0'
 
 # Version string ends with lower case ``rc`` and optionally with a number.
 # e.g. "1.6.0rc", "1.6.0-rc", "1.6.0-rc2"
