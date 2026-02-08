@@ -342,6 +342,47 @@ class Callbacks(generic.SnapshotsTestCase):
                 '"/foo/bar": Operation not permitted (1)\n',
                 f.read())
 
+    def test_error_socket_io(self):
+        params = [False, False]
+
+        self.sn.rsyncCallback(
+            'rsync error: error in socket I/O (code 10) '
+            'at io.c(228) [Receiver=3.2.7]',
+            params)
+        self.assertListEqual([True, False], params)
+
+        with open(self.cfg.takeSnapshotMessageFile(), 'rt') as f:
+            self.assertEqual(
+                '1\nError: rsync error: error in socket I/O (code 10) '
+                'at io.c(228) [Receiver=3.2.7]',
+                f.read())
+
+        self.sn.snapshotLog.flush()
+
+        with open(self.cfg.takeSnapshotLogFile(), 'rt') as f:
+            self.assertEqual(
+                '[I] Take snapshot (rsync: rsync error: error in socket I/O '
+                '(code 10) at io.c(228) [Receiver=3.2.7])\n'
+                '[E] Error: rsync error: error in socket I/O (code 10) '
+                'at io.c(228) [Receiver=3.2.7]\n',
+                f.read())
+
+    def test_warning_line_not_marked_as_error(self):
+        params = [False, False]
+
+        self.sn.rsyncCallback(
+            'rsync warning: some files vanished before they could be '
+            'transferred (code 24) at main.c(1333) [sender=3.2.3]',
+            params)
+        self.assertListEqual([False, False], params)
+
+        with open(self.cfg.takeSnapshotMessageFile(), 'rt') as f:
+            self.assertEqual(
+                '0\nTake snapshot (rsync: rsync warning: some files vanished '
+                'before they could be transferred (code 24) at main.c(1333) '
+                '[sender=3.2.3])',
+                f.read())
+
 
 class SnapshotWithSID(generic.SnapshotsWithSidTestCase):
     def test_backup_config(self):

@@ -1128,13 +1128,14 @@ class Snapshots:
             0, _('Take snapshot') + " (rsync: %s)" % line)
 
         # Did rsync report an error?
-        if line.endswith(')'):
-            if line.startswith('rsync:'):
-                if not line.startswith('rsync: chgrp ') and not line.startswith('rsync: chown '):
-                    # matches rsync error lines like:
-                    # rsync: [generator] link [...] failed: Invalid cross-device link (18)
-                    params[0] = True
-                    self.setTakeSnapshotMessage(1, 'Error: ' + line)
+        if line.startswith('rsync:') or line.startswith('rsync error:'):
+            if (not line.startswith('rsync: chgrp ')
+                    and not line.startswith('rsync: chown ')):
+                # matches rsync error lines like:
+                # rsync: [generator] link [...] failed: Invalid cross-device link (18)
+                # rsync error: error in socket I/O (code 10) at io.c(...)
+                params[0] = True
+                self.setTakeSnapshotMessage(1, 'Error: ' + line)
 
         if len(line) >= 13:
             # The prefix is created by rsync via the argument "--out-format=BACKINTIME: %i %n%L"
@@ -1521,6 +1522,12 @@ class Snapshots:
             24: _("Partial transfer due to vanished source files "
                   "(see 'man rsync')")
         }
+        # dict of exit codes (as keys) that are treated as errors with
+        # specific hints for the user.
+        rsync_error_exit_codes = {
+            10: _("Error in socket I/O. This can be caused by no free "
+                  "space on the destination.")
+        }
 
         rsync_exit_code_msg = _("'rsync' ended with exit code {exit_code}") \
             .format(exit_code=rsync_exit_code)
@@ -1535,7 +1542,9 @@ class Snapshots:
             params[0] = True
             self.setTakeSnapshotMessage(
                 1, rsync_exit_code_msg + ": "
-                   + _("See 'man rsync' for more details"))
+                   + rsync_error_exit_codes.get(
+                       rsync_exit_code,
+                       _("See 'man rsync' for more details")))
 
         elif rsync_exit_code < 0:  # an rsync error caused by a signal
             # HACK to fix #489 (params[0] and has_errors should be merged)
