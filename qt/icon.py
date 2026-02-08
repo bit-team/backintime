@@ -172,3 +172,4 @@ DEFAULT_EXCLUDE = load_icon('emblem-important')
 INVALID_EXCLUDE = load_icon_alt(['emblem-ohno', 'face-surprise'])
 ENCRYPT = load_icon_alt(['lock', 'security-high'])
 LANGUAGE = load_icon('preferences-desktop-locale')
+SSH_KEY_INVALID = INVALID_EXCLUDE
