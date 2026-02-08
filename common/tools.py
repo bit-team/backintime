@@ -2200,6 +2200,11 @@ class SetupUdev:
                     == 'com.ubuntu.DeviceDriver.PermissionDeniedByPolicy'):
                 raise PermissionDeniedByPolicy(str(err)) from err
 
+            if err._dbus_error_name == 'org.freedesktop.DBus.Error.NoReply':
+                raise PermissionDeniedByPolicy(
+                    _('Authorization timed out or was cancelled.')
+                ) from err
+
             raise err
 
     def clean(self):

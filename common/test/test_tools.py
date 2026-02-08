@@ -18,6 +18,7 @@ import random
 import pathlib
 import stat
 import signal
+import types
 import unittest
 from datetime import datetime
 from time import sleep
@@ -30,6 +31,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import tools
 import configfile
 from bitbase import TimeUnit
+from exceptions import PermissionDeniedByPolicy
 
 # chroot jails used for building may have no UUID devices (because of tmpfs)
 # we need to skip tests that require UUIDs
@@ -844,3 +846,69 @@ class NestedDictUpdate(unittest.TestCase):
         self.assertDictEqual(
             tools.nested_dict_update(org, update),
             expect)
+
+
+class SetupUdev(unittest.TestCase):
+    class DummyDBusException(Exception):
+        def __init__(self, name, message='dummy error'):
+            super().__init__(message)
+            self._dbus_error_name = name
+
+    class DummyIface:
+        def __init__(self, exc):
+            self.exc = exc
+
+        def save(self):
+            raise self.exc
+
+    def test_save_noreply_raises_permission_denied(self):
+        err = self.DummyDBusException('org.freedesktop.DBus.Error.NoReply')
+        sut = tools.SetupUdev.__new__(tools.SetupUdev)
+        sut.isReady = True
+        sut.iface = self.DummyIface(err)
+
+        fake_dbus = types.SimpleNamespace(
+            exceptions=types.SimpleNamespace(
+                DBusException=self.DummyDBusException
+            )
+        )
+
+        with patch.object(tools, 'dbus', fake_dbus):
+            with self.assertRaises(PermissionDeniedByPolicy):
+                sut.save()
+
+    def test_save_permission_denied_raises_permission_denied(self):
+        err = self.DummyDBusException(
+            'com.ubuntu.DeviceDriver.PermissionDeniedByPolicy'
+        )
+        sut = tools.SetupUdev.__new__(tools.SetupUdev)
+        sut.isReady = True
+        sut.iface = self.DummyIface(err)
+
+        fake_dbus = types.SimpleNamespace(
+            exceptions=types.SimpleNamespace(
+                DBusException=self.DummyDBusException
+            )
+        )
+
+        with patch.object(tools, 'dbus', fake_dbus):
+            with self.assertRaises(PermissionDeniedByPolicy):
+                sut.save()
+
+    def test_save_unknown_dbus_error_reraised(self):
+        err = self.DummyDBusException(
+            'org.freedesktop.DBus.Error.ServiceUnknown'
+        )
+        sut = tools.SetupUdev.__new__(tools.SetupUdev)
+        sut.isReady = True
+        sut.iface = self.DummyIface(err)
+
+        fake_dbus = types.SimpleNamespace(
+            exceptions=types.SimpleNamespace(
+                DBusException=self.DummyDBusException
+            )
+        )
+
+        with patch.object(tools, 'dbus', fake_dbus):
+            with self.assertRaises(self.DummyDBusException):
+                sut.save()
