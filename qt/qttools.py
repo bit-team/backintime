@@ -521,13 +521,15 @@ def open_man_page(manpage: str,
             stderr=subprocess.PIPE,
             text=True,
             env=env,
-            check=True
+            check=False
         )
         content = proc.stdout
 
         if not content:
             raise FileNotFoundError(
-                f'No content for man page "{manpage}". {proc.stderr=}')
+                f'No content for man page "{manpage}".\n'
+                f'Error: {proc.stderr} ({proc.returncode})'
+            )
 
     except FileNotFoundError as exc:
         messagebox.critical(None, str(exc))
