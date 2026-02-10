@@ -9,7 +9,7 @@ General Public License v2 (GPLv2). See directory LICENSES or go to
 <https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
 # How to prepare and publish a new BIT release
-<sub>February 2025</sub>
+<sub>February 2026</sub>
 
 ## Overview
 
@@ -72,6 +72,9 @@ using a "feature" branch and sending a pull request asking for a review.
   - Run `mkdocs build`.
   - Be aware that the generated HTML files are not included in the git
     repo. But they will be included in the source tar ball.
+- Build man pages:
+  - Navigate to `./doc/manpages`.
+  - Run `./build_manpages.sh`.
 - Run `codespell` to check for common spelling errors.
 - Commit the changes.
 - Open a new pull request (PR) for review by other developers.
@@ -170,6 +173,16 @@ After the PR is merged:
 
 - Update the `AUTHORS` file in the project's root folder if necessary.
   Do not publish contributors names and email address without their permission.
+
+### Build documentation
+- Build user manual:
+  - Navigate to `./doc/manual`.
+  - Run `mkdocs build`.
+  - Be aware that the generated HTML files are not included in the git
+    repo. But they will be included in the source tar ball.
+- Build man pages:
+  - Navigate to `./doc/manpages`.
+  - Run `./build_manpages.sh`.
 
 ### Testing & Miscellaneous
 

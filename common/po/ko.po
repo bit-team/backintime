@@ -11,9 +11,9 @@
 # been documented and could be lost.
 msgid ""
 msgstr ""
-"Project-Id-Version: Back In Time 1.6.0\n"
+"Project-Id-Version: Back In Time 1.6.1\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-02-08 08:27+0100\n"
+"POT-Creation-Date: 2026-02-10 15:49+0100\n"
 "PO-Revision-Date: 2025-03-10 15:41+0000\n"
 "Last-Translator: darkcircle <darkcircle@noreply.codeberg.org>\n"
 "Language-Team: Korean <https://translate.codeberg.org/projects/backintime/common/ko/>\n"
@@ -1554,40 +1554,40 @@ msgstr ""
 "개별 설정 시간은 쉼표로 구분한 시간 값(예: 8, 12, 18, 23)이거나 3시간당 주기 백업일 경우 */3 과 같은 형식의 "
 "값입니다."
 
-#: qt/manageprofiles/sshkeyselector.py:63
+#: qt/manageprofiles/sshkeyselector.py:64
 msgid "<Select another file…>"
 msgstr ""
 
-#: qt/manageprofiles/sshkeyselector.py:64
+#: qt/manageprofiles/sshkeyselector.py:65
 #, fuzzy
 msgid "Choose an existing private key file from somewhere else."
 msgstr "기존 개인 키 파일을 선택하십시오(보통 \"id_ed25519\" 파일이며, 오래된 설정에는 \"id_rsa\" 이름으로 설정함)."
 
-#: qt/manageprofiles/sshkeyselector.py:70
+#: qt/manageprofiles/sshkeyselector.py:71
 msgid "<Generate new key-pair…>"
 msgstr ""
 
-#: qt/manageprofiles/sshkeyselector.py:71
+#: qt/manageprofiles/sshkeyselector.py:72
 #, fuzzy
 msgid "Create a new SSH key without passphrase."
 msgstr "{path}에 새 SSH 키 생성 실패."
 
-#: qt/manageprofiles/sshkeyselector.py:91
+#: qt/manageprofiles/sshkeyselector.py:92
 #, fuzzy, python-brace-format
 msgid "Full path: {path}"
 msgstr "전체 스냅샷 경로:"
 
-#: qt/manageprofiles/sshkeyselector.py:185
+#: qt/manageprofiles/sshkeyselector.py:205
 #, fuzzy
 msgid "Private key:"
 msgstr "개인 키:"
 
-#: qt/manageprofiles/sshkeyselector.py:190
+#: qt/manageprofiles/sshkeyselector.py:210
 #, fuzzy
 msgid "Use system SSH configuration"
 msgstr "설정 가져오기"
 
-#: qt/manageprofiles/sshkeyselector.py:192
+#: qt/manageprofiles/sshkeyselector.py:212
 msgid ""
 "Leaves the key file unselected. SSH connections will rely on the system’s "
 "existing client configuration (e.g., ~/.ssh/config)."
