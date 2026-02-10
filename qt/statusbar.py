@@ -22,6 +22,7 @@ from PyQt6.QtWidgets import (QFrame,
                              )
 from PyQt6.QtCore import QEvent
 from PyQt6.QtGui import QPalette, QColor
+import os
 import bitbase
 import qttools
 
@@ -44,7 +45,6 @@ class StatusBar(QStatusBar):
         layout = QHBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
         container.setLayout(layout)
-
         # Status text
         self._status = QLabel(container)
         self._status.setWordWrap(False)
@@ -58,12 +58,23 @@ class StatusBar(QStatusBar):
         self._progress.setTextVisible(False)
         self._progress.setVisible(False)
 
+        # Disk space info label
+        self._disk_space = QLabel(container)
+        self._disk_space.setWordWrap(False)
+        self._disk_space.setSizePolicy(
+            QSizePolicy.Policy.Preferred,
+            QSizePolicy.Policy.Preferred,
+        )
+        self._disk_space.setVisible(False)
+
         # Layout
         if self._root:
             layout.addWidget(self._root)
         layout.addWidget(self._status, stretch=_PROGRESS_BAR_WIDTH_FX-1)
+        layout.addWidget(self._disk_space)
         layout.addStretch(0)
         layout.addWidget(self._progress, stretch=1)
+
         self.addPermanentWidget(container, 1)
         container.resizeEvent = self._on_resize
 
@@ -125,3 +136,32 @@ class StatusBar(QStatusBar):
     def set_progress_value(self, val: int) -> None:
         """Set numeric value of progress bar."""
         self._progress.setValue(val)
+
+    def set_disk_space_info(self, path: str) -> None:
+        """Set the backup disk space information."""
+        if not path:
+            self._disk_space.setVisible(False)
+            return
+
+        try:
+            statvfs = os.statvfs(path)
+
+            free = statvfs.f_frsize * (
+                statvfs.f_bfree if bitbase.IS_IN_ROOT_MODE else statvfs.f_bavail
+            )
+
+            for unit in ["B", "KB", "MB", "GB", "TB"]:
+                if free < 1024.0:
+                    break
+                free /= 1024.0
+
+            formatted = f"{free:.1f} {unit}"
+            self._disk_space.setText(_("Free space: ") + formatted)
+            self._disk_space.setVisible(True)
+
+        except OSError:
+            self._disk_space.setVisible(False)
+
+    def hide_disk_space_info(self) -> None:
+        """Hide the disk space information."""
+        self._disk_space.setVisible(False)
