@@ -318,7 +318,7 @@ class QtSysTrayIcon:
         profileID = self.config.currentProfile()
         cmd = ['backintime-qt',]
         if not profileID == '1':
-            cmd += ['--profile-id', profileID]
+            cmd += ['--profile', profileID]
         _proc = subprocess.Popen(cmd)
 
     @trust_required

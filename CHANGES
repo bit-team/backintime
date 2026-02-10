@@ -1,14 +1,24 @@
 Back In Time
 
-Version 1.6.0-dev (development of upcoming release)
+Unreleased Development version (might become 1.6.2)
+* 
+
+Version 1.6.1 (2026-02-10)
+* Fixed: SSH-Key selector widget handle binary keys, missing but configured keys (#2399, #2400)
+* Fixed: SSH-Key selector widget is more robust on unexpected edge cases (#2399, #2400)
+* Fixed: Install backintime-config man page in correct location
+
+Version 1.6.0 (2026-02-08)
+* Changed: **Breaking** Disable EncFS for creation of new backup profiles (#2315, #1734)
+* Changed: **Breaking** A "snapshot" now is a "backup" (#1929)
+* Changed: **Breaking** Deprecated and removed make targets: "test", "test-v", "unittest", "unittest-v"
+* Changed: Manpage backintime-config moved from section 1 to 5 (#1773)
 * Changed: New dependency "bash" for root mode starter script "backintime-qt_polkit" (#2328)
 * Changed: New dependency (runtime GUI) to "python3-pyqt6.qtsvg" for loading SVG icons (#1961)
 * Changed: Disable scheduling widget in GUI if cron/crontab is missing (#2245, @m4rcu5 Marcus von Dam)
 * Changed: Expert Options replaced two checkboxes with single widget to configure symlink copying behavior (#1652)
 * Changed: "Repeatedly (anacron)" scheduling behave consistent. Reversed minor bug introduced with 060324e (#1791) in 1.5.3 (#2250)
 * Changed: Stricter permissions (600) for fileinfo.bz2 and takesnapshot.log.bz2 (#2235)
-* Changed: **Breaking** A "snapshot" now is a "backup" (#1929)
-* Changed: **Breaking** Deprecated and removed make targets: "test", "test-v", "unittest", "unittest-v"
 * Changed: Unlocking ssh-agent use "force" instead of "prefer" for SSH_ASKPASS_REQUIRE (#2170) (@daviewales)
 * Changed: Stop passing window ID when inhibiting suspend via D-Bus power manager (#2084)
 * Changed: Reorder DBUS service provider list for suspend mode inhibition (#2084)
@@ -28,6 +38,8 @@ Version 1.6.0-dev (development of upcoming release)
 * Changed: Generating new SSH key will use default key type provided by ssh-keygen (#2194)
 * Changed: Open man page and changelog in a text dialog
 * Changed: Minimum PyLint version increased to 4.0.0
+* Added: Language Georgian (ka)
+* Added: Gocryptfs for local encrypted profiles (#1897, #1734, @germar, @daviewales)
 * Added: Dialog to suggest commonly used files/dirs/patterns for backup exclusion (#2309)
 * Added: Systray icon can be forced to Dark or Light
 * Added: Application logo and symbolic systray icon (#1961, Gregory Deseck @gregorydk)
@@ -52,7 +64,8 @@ Version 1.6.0-dev (development of upcoming release)
 * Removed: UI translation in Bosnian, Thai, and Occidental/Interlingue (#1914)
 * Removed: LICENSE file in favor of LICENSES directory and LICENSES.md file
 * Removed: SSH Cipher configuration in Manage profiles dialog (#2143)
-# Fixed: Consider symbolic icons as fallbacks (#2345, #2289)
+* Fixed: Crash in config restore dialog
+* Fixed: Consider symbolic icons as fallbacks (#2345, #2289)
 * Fixed: Warn users and prevent backups to exFAT volumes due to lack of hardlink support (#2337)
 * Fixed: Show proper message to users when root mode fails due to inactive or missing polkit agent (#2328, Derek Veit @DerekVeit)
 * Fixed: Crash in Compare snapshots dialog (aka Snapshots dialog) when comparing/diff two backups (#2327 Michael Neese @madic-creates)

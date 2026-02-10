@@ -296,6 +296,11 @@ class MainWindow(QMainWindow):
         update_backup_messages.start()
 
     def _restore_visual_state(self):
+        # This prevents that the restore-config-question will be overlaid
+        # by the main window.
+        if not self.config.isConfigured():
+            return
+
         state_data = StateData()
 
         try:
@@ -340,18 +345,34 @@ class MainWindow(QMainWindow):
             return
 
         message = _(
-            '{app_name} appears to be running for the first time as no '
+            '{app_name} appears to be running for the first time because no '
             'configuration is found.'
         ).format(app_name=self.config.APP_NAME)
         message = f'{message}\n\n'
         message = message + _(
-            'Import an existing configuration (from a backup target '
-            'directory or another computer)?')
+            'Import an existing configuration from a backup location '
+            'or another computer?'
+        )
 
         answer = messagebox.question(text=message)
 
+        mark_main_profile_unsaved = False if answer else True
+
         if answer:
-            RestoreConfigDialog(self.config).exec()
+            rc = RestoreConfigDialog(self.config).exec()
+            if rc == QDialog.DialogCode.Rejected:
+                mark_main_profile_unsaved = True
+
+        # Workaround: If BIT config is fresh the Main Profile is not
+        # saved yet. If it wouldn't be recognized as unsaved the
+        # default excludes are not added to it.
+        # This workaround need to remain until #1371 and other related
+        # issues are solved.
+        if mark_main_profile_unsaved:
+            # failesafe: Main profile only
+            if self.config.profiles() == ['1']:
+                # Mark "Main profile" as unsaved.
+                self.config._unsaved_profiles.append('1')
 
         SettingsDialog(self).exec()
 
@@ -390,16 +411,12 @@ class MainWindow(QMainWindow):
 
         # Issue: https://github.com/bit-team/backintime/issues/2080
         lang_planed_for_removal = [
-            'fo',  # Faroes
-            'hr',  # Croatian
-            'vi',  # Vietnamese
-            'is',  # Icelandic
-            'sl',  # Slovenian
-            'ro',  # Romanian
-            # On the edge. 40-50% completeness. inactive. But some
-            # activity not very long ago.
-            # 'ar',  # Arabic. Last activity 2025-10
-            # 'ru',  # Russian. Last activity 2025-07
+            'fo',  # Faroes 18
+            'ka',  # Georgian 23
+            'hr',  # Croatian 24
+            'vi',  # Vietnamese 35
+            'is',  # Icelandic 44
+            # 'ar',  # Arabic. Last activity 2025-10 45
         ]
 
         # Language removal message
@@ -416,7 +433,7 @@ class MainWindow(QMainWindow):
 
                 # Show the message only if the current used language is
                 # translated equal or less then {cutoff}%
-                self._open_approach_translator_dialog(cutoff=99)
+                self._open_approach_translator_dialog(cutoff=90)
 
         # BIT counts down how often the GUI was started. Until the end of that
         # countdown a dialog with a text about contributing to translating
@@ -437,7 +454,7 @@ class MainWindow(QMainWindow):
             # EncFS deprecation warning (#1734, #1735)
             if encfs_profiles:
                 state_data.msg_encfs_global = bitbase.ENCFS_MSG_STAGE
-                dlg = encfsmsgbox.EncfsExistsWarning(self, encfs_profiles)
+                dlg = encfsmsgbox.EncfsExistsWarning(encfs_profiles)
                 dlg.exec()
 
     @property
@@ -1085,16 +1102,16 @@ class MainWindow(QMainWindow):
         else:
             self.places.set_sorting(sorting)
 
-        # EncFS deprecation warning (see #1734)
-        current_mode = self.config.snapshotsMode(profile_id)
-        if current_mode in ('local_encfs', 'ssh_encfs'):
-            # Show the profile specific warning dialog only once per profile
-            # and only if the global warning was shown before.
-            if (state_data.msg_encfs_global == bitbase.ENCFS_MSG_STAGE
-                    and profile_state.msg_encfs < bitbase.ENCFS_MSG_STAGE):
-                profile_state.msg_encfs = bitbase.ENCFS_MSG_STAGE
-                dlg = encfsmsgbox.EncfsCreateWarning(self)
-                dlg.exec()
+        # # EncFS deprecation warning (see #1734)
+        # current_mode = self.config.snapshotsMode(profile_id)
+        # if current_mode in ('local_encfs', 'ssh_encfs'):
+        #     # Show the profile specific warning dialog only once per profile
+        #     # and only if the global warning was shown before.
+        #     if (state_data.msg_encfs_global == bitbase.ENCFS_MSG_STAGE
+        #             and profile_state.msg_encfs < bitbase.ENCFS_MSG_STAGE):
+        #         profile_state.msg_encfs = bitbase.ENCFS_MSG_STAGE
+        #         dlg = encfsmsgbox.EncfsCreateWarning(self)
+        #         dlg.exec()
 
     def comboProfileChanged(self, _index):
         if self.disableProfileChanged:
@@ -1718,7 +1735,7 @@ class MainWindow(QMainWindow):
 
         txt = [
             f'The selected language ({name}) will be <strong>removed in the '
-            'release</strong>.',
+            'next version</strong>.',
             'Reason: No recent '
             f'<a href="{bitbase.URL_TRANSLATION}">translation activity</a> '
             'and no active maintainer.',
@@ -1740,9 +1757,9 @@ class MainWindow(QMainWindow):
         html_contact_list = (
             '<ul>'
             '<li>{mastodon}</li>'
-            # '<li>{email}</li>'
             '<li>{mailinglist}</li>'
             '<li>{issue}</li>'
+            '<li>{email}</li>'
             '<li>{alternative}</li>'
             '</ul>').format(
                 mastodon=_('In the Fediverse at Mastodon: {link_and_label}.') \
@@ -1750,9 +1767,10 @@ class MainWindow(QMainWindow):
                                            '/@backintime">'
                                            '@backintime@fosstodon.org'
                                            '</a>'),
-                # email=_('Email to {link_and_label}.').format(
-                #     link_and_label='<a href="mailto:backintime@tuta.io">'
-                #                    'backintime@tuta.io</a>'),
+                email=_('Email to {link_and_label}.').format(
+                    link_and_label='<a href="mailto:backintime-project'
+                                   '@posteo.de">'
+                                   'backintime-project@posteo.de</a>'),
                 mailinglist=_('Mailing list {link_and_label}.').format(
                     link_and_label='<a href="https://mail.python.org/mailman3/'
                                    'lists/bit-dev.python.org/">'
@@ -1793,7 +1811,7 @@ class MainWindow(QMainWindow):
             'Your Back In Time Team').format(contact_list=html_contact_list)
 
         dlg = UserMessageDialog(
-            parent=self,
+            parent=None,
             title=_('Release Candidate'),
             full_label=rc_message)
         dlg.exec()
@@ -2308,7 +2326,7 @@ class MainWindow(QMainWindow):
         self._open_ssh_cipher_deprecation_dialog(self._cipher_using_profiles())
 
     def _slot_help_encryption(self):
-        dlg = encfsmsgbox.EncfsExistsWarning(self, ['(not determined)'])
+        dlg = encfsmsgbox.EncfsExistsWarning(['(not determined)'])
         dlg.exec()
 
     def _slot_edit_user_callback(self):

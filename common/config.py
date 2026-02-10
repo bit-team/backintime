@@ -45,6 +45,7 @@ import encode
 import logger
 import sshtools
 import encfstools
+import gocryptfstools
 import password
 import pluginmanager
 import schedule
@@ -234,20 +235,26 @@ class Config(configfile.ConfigFileWithProfiles):
                     # ),
                     'local': (
                         None, _('Local'), False, False),
+                    'local_gocryptfs': (
+                        gocryptfstools.GocryptfsMount,
+                        _('Local encrypted') + ' (via gocryptfs)',
+                        _('Encryption'),
+                        False
+                    ),
                     'ssh': (
                         sshtools.SSH, _('SSH'), _('SSH private key'), False),
                     'local_encfs': (
                         encfstools.EncFS_mount,
-                        _('Local encrypted'),
+                        'DEPRECATED - Local encrypted (via EncFS)',
                         _('Encryption'),
                         False
                     ),
                     'ssh_encfs': (
                         encfstools.EncFS_SSH,
-                        _('SSH encrypted'),
+                        'DEPRECATED - SSH encrypted (via EncFS)',
                         _('SSH private key'),
                         _('Encryption')
-                    )
+                    ),
         }
 
         # Deprecated: #2176
@@ -369,7 +376,7 @@ class Config(configfile.ConfigFileWithProfiles):
         if mode == 'local':
             return self.get_snapshots_path(profile_id)
 
-        # else: ssh/local_encfs/ssh_encfs
+        # else: ssh/local_encfs/ssh_encfs/local_gocryptfs
 
         symlink = f'{profile_id}_{os.getpid()}'
         if tmp_mount:
@@ -405,13 +412,13 @@ class Config(configfile.ConfigFileWithProfiles):
 
         self.setProfileStrValue('snapshots.path', value, profile_id)
 
-    def is_mode_encrypted(self, profile_id=None):
-        mode = self.snapshotsMode(profile_id)
-        return mode in ('local_encfs', 'ssh_encfs')
+    # def is_mode_encrypted(self, profile_id=None):
+    #     mode = self.snapshotsMode(profile_id)
+    #     return mode in ('local_encfs', 'ssh_encfs')
 
     def snapshotsMode(self, profile_id=None):
         #? Use mode (or backend) for this snapshot. Look at 'man backintime'
-        #? section 'Modes'.;local|local_encfs|ssh|ssh_encfs
+        #? section 'Modes'.;local|local_encfs|ssh|ssh_encfs|local_gocryptfs
         return self.profileStrValue('snapshots.mode', 'local', profile_id)
 
     def setSnapshotsMode(self, value, profile_id = None):
@@ -708,6 +715,14 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def setLocalEncfsPath(self, value, profile_id = None):
         self.setProfileStrValue('snapshots.local_encfs.path', value, profile_id)
+
+    # gocryptfs
+    def localGocryptfsPath(self, profile_id = None):
+        #?Where to save snapshots in mode 'local_gocryptfs'.;absolute path
+        return self.profileStrValue('snapshots.local_gocryptfs.path', '', profile_id)
+
+    def setLocalGocryptfsPath(self, value, profile_id = None):
+        self.setProfileStrValue('snapshots.local_gocryptfs.path', value, profile_id)
 
     def passwordSave(self, profile_id = None, mode = None):
         if mode is None:
@@ -1474,6 +1489,8 @@ class Config(configfile.ConfigFileWithProfiles):
             backup_mode = self.snapshotsMode(pid)
             if backup_mode == 'local':
                 dest_path = self.snapshotsFullPath(pid)
+            elif backup_mode == 'local_gocryptfs':
+                dest_path = self.localGocryptfsPath(pid)
             elif backup_mode == 'local_encfs':
                 dest_path = self.localEncfsPath(pid)
             else:
@@ -1622,7 +1639,7 @@ class Config(configfile.ConfigFileWithProfiles):
         # The "--profile-id" argument is used only for profiles different from
         # first profile
         if profile_id != '1':
-            cmd += '--profile-id %s ' % profile_id
+            cmd += '--profile %s ' % profile_id
 
         # User defined path to config file
         if not self._LOCAL_CONFIG_PATH is self._DEFAULT_CONFIG_PATH:

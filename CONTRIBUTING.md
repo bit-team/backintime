@@ -132,6 +132,7 @@ distribution.
   - `python3-packaging`
   -  Recommended
      - `encfs`
+     - `gocryptfs`
 
 * Runtime dependencies for the GUI
 
@@ -142,8 +143,9 @@ distribution.
   - `pkexec`
   - `bash` (Used by root mode starter script `qt/backintime-qt_polkit`)
   - `polkitd`
-  - `qttranslations6-l10n`
-  - `qtwayland6` (if Wayland is used as display server instead of X11)
+  - `qttranslations6-l10n` or alternative package name `qt6-translations-l10n`
+  - `qtwayland6` (if Wayland is used as display server instead of X11) or
+    alternative package name `qt6-wayland`
   - Recommended
       - For SSH key storage **one** of these packages
         - `python3-secretstorage`
@@ -165,7 +167,7 @@ distribution.
   - Optional but recommended:
     - `pylint` (>= 4.0.0)
     - `flake8`
-    - `ruff` (>= 0.12.0)
+    - `ruff` (>= 0.15.0)
     - `codespell`
     - `reuse` (>= 4.0.0)
  

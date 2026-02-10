@@ -234,7 +234,7 @@ addComment "man"
 addInstallDir                                            "/share/man/man1"
 addInstallFile "../doc/manpages/backintime.1.gz"         "/share/man/man1"
 addInstallFile "../doc/manpages/backintime-askpass.1.gz" "/share/man/man1"
-addInstallFile "../doc/manpages/backintime-config.1.gz"  "/share/man/man1"
+addInstallFile "../doc/manpages/backintime-config.5.gz"  "/share/man/man5"
 addUninstallDir                                          "/share/man"
 addNewline
 
@@ -263,8 +263,8 @@ printf "compress:\n" >> ${MAKEFILE}
 printf "\t# Man pages\n" >> ${MAKEFILE}
 printf "\t@cd ./../doc/manpages && ./build_manpages.sh backintime.1.adoc\n" >> ${MAKEFILE}
 printf "\t@cd ./../doc/manpages && ./build_manpages.sh backintime-askpass.1.adoc\n" >> ${MAKEFILE}
-printf "\t@cd ./../doc/manpages && gzip --best --stdout backintime-config.1 > backintime-config.1.gz\n" >> ${MAKEFILE}
-printf "\t@echo \"Compressed backintime-config.1 into backintime-config.1.gz\"\n" >> ${MAKEFILE}
+printf "\t@cd ./../doc/manpages && gzip --best --stdout backintime-config.5 > backintime-config.5.gz\n" >> ${MAKEFILE}
+printf "\t@echo \"Compressed backintime-config.5 into backintime-config.5.gz\"\n" >> ${MAKEFILE}
 
 printf "\t# Config-examples\n" >> ${MAKEFILE}
 printf "\tgzip -n --best -c config-example-local > config-example-local.gz\n" >> ${MAKEFILE}

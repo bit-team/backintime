@@ -147,6 +147,7 @@ class WrappedCheckBox(QWidget):
     """A checkbox with word wrap capabilities.
 
     QCheckBox itself is not able to wrap text in its label, without hacks."""
+
     def __init__(self,
                  label: str,
                  tooltip: str = None,
@@ -171,9 +172,11 @@ class WrappedCheckBox(QWidget):
         if tooltip:
             qttools.set_wrapped_tooltip([self.checkbox, self.label], tooltip)
 
+        self.setSizePolicy(
+            QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
+
         # # DEBUG
         # self.setStyleSheet("background: lightblue; border: 1px solid red;")
-        # self.label.setStyleSheet("background: yellow;")
 
     def _slot_label_clicked(self, event: QMouseEvent):
         if event.button() == Qt.MouseButton.LeftButton:

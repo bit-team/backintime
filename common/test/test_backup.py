@@ -117,7 +117,7 @@ class TestBackup(generic.SnapshotsTestCase):
 
         expected_call = [
             'backintime',
-            '--profile-id',
+            '--profile',
             new_profile_id,
             '--config',
             self.cfgFile,

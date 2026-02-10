@@ -16,7 +16,7 @@ from PyQt6.QtWidgets import (QDialog,
                              QHBoxLayout,
                              QLabel,
                              QCheckBox)
-import config
+from config import Config
 import tools
 from event import Event
 import qttools
@@ -111,7 +111,7 @@ class OptionsTab(QDialog):
         self.event_warn_free_space_value_changed = Event()
         # pylint: disable=unnecessary-lambda
         self._su_warn_free_space.event_value_changed.register(
-            lambda value:
+            lambda value:  # noqa: PLW0108
             self.event_warn_free_space_value_changed.notify(value)
         )
 
@@ -128,7 +128,7 @@ class OptionsTab(QDialog):
         tab_layout.addStretch()
 
     @property
-    def config(self) -> config.Config:
+    def config(self) -> Config:
         """The config instance."""
         return self._parent_dialog.config
 

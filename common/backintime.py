@@ -40,7 +40,7 @@ def takeSnapshotAsync(cfg, checksum=False):
     cmd.append('backintime')
 
     if '1' != cfg.currentProfile():
-        cmd.extend(('--profile-id', str(cfg.currentProfile())))
+        cmd.extend(('--profile', str(cfg.currentProfile())))
 
     if cfg._LOCAL_CONFIG_PATH is not cfg._DEFAULT_CONFIG_PATH:
         cmd.extend(('--config', cfg._LOCAL_CONFIG_PATH))
@@ -89,22 +89,24 @@ def encfs_deprecation_warning():
         xdg_state = pathlib.Path.home() / '.local' / 'state'
     fp = xdg_state / 'backintime.encfs-warning.timestamp'
 
-    # ensure existence
-    if not fp.exists():
+    if fp.exists():
+        # Calculate age of that file
+        delta = datetime.now() - datetime.fromtimestamp(fp.stat().st_mtime)
+
+        # Don't warn if to young
+        if delta.days < 30:
+            return
+
+    else:
+        # ensure existence
         fp.parent.mkdir(parents=True, exist_ok=True)
-        fp.touch()
 
-    # Calculate age of that file
-    delta = datetime.now() - datetime.fromtimestamp(fp.stat().st_mtime)
-
-    # Don't warn if to young
-    if delta.days < 30:
-        return
-
-    logger.warning('EncFS encrypted profiles are deprecated in Back In Time. '
-                   'Removal is schedule for minor release 1.7 in year 2026. '
-                   'For details and alternatives '
-                   f'read: {bitbase.URL_ENCRYPT_TRANSITION}')
+    logger.error(
+        'EncFS encrypted profiles are no longer supported in Back In Time. '
+        'Existing profiles can be used. New ones can not be created. EncFS '
+        'support will be completely removed in a future release (expected '
+        f'around 2027). For details read: {bitbase.URL_ENCRYPT_TRANSITION}'
+    )
 
     # refresh timestamp
     fp.touch()

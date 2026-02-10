@@ -353,9 +353,9 @@ class SettingsDialog(QDialog):
 
         That slot is connected to a signal in the `GeneralTab`.
         """
-        self._tab_general.handle_combo_modes_changed()
-
         active_mode = self._tab_general.get_active_snapshots_mode()
+
+        self._tab_general.handle_combo_modes_changed()
 
         self._tab_exclude.mode = active_mode
         self._tab_exclude.update_exclude_items()

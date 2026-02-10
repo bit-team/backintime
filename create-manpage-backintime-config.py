@@ -57,6 +57,9 @@ REX_DICT_EXTRACT = re.compile(r'\{([\s\S]*)\}')
 # Extract attribute name
 REX_ATTR_NAME = re.compile(r"self(?:\._conf)?\[['\"](.*)['\"]\]")
 
+CONFIG = os.path.join(PATH, 'config.py')
+MAN = os.path.join(PATH, 'man/C/backintime-config.5')
+
 # |--------------------------|
 # | GNU Trof (groff) helpers |
 # |--------------------------|
@@ -64,7 +67,6 @@ REX_ATTR_NAME = re.compile(r"self(?:\._conf)?\[['\"](.*)['\"]\]")
 def groff_section(section: str) -> str:
     """Section header"""
     return f'.SH {section}\n'
-
 
 def groff_indented_paragraph(label: str, indent: int=6) -> str:
     """.IP - Indented Paragraph"""

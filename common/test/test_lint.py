@@ -51,8 +51,11 @@ full_test_files = [_base_dir / fp for fp in (
     'daemon.py',
     'event.py',
     'encode.py',
+    # 'encfstools.py',
+    # 'gocryptfstools.py',
     'inhibitsuspend.py',
     'languages.py',
+    # 'mount.py',
     'schedule.py',
     'shutdownagent.py',
     'singleton.py',
@@ -183,7 +186,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
                 f'be {version_target} or higher.')
 
         if RUFF_AVAILABLE:
-            version_target = version.parse('0.12.0')
+            version_target = version.parse('0.15.0')
 
             proc = subprocess.run(
                 ['ruff', '--version'],

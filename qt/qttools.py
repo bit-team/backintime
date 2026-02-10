@@ -31,7 +31,8 @@ from typing import Union, Iterable, Callable
 from pathlib import Path
 from contextlib import contextmanager
 from textdlg import TextDialog
-from PyQt6.QtGui import (QDesktopServices,
+from PyQt6.QtGui import (QCursor,
+                         QDesktopServices,
                          QGuiApplication,
                          QFontMetricsF,
                          QIcon,
@@ -49,6 +50,7 @@ from PyQt6.QtWidgets import (QApplication,
                              QStyle,
                              QStyleFactory,
                              QSystemTrayIcon,
+                             QToolTip,
                              QWidget)
 from qttools_path import register_backintime_path
 register_backintime_path('common')
@@ -301,6 +303,14 @@ def _combine_icon_with_label(icon: QLabel, text: str) -> QWidget:
     txt = QLabel(text)
     txt.setWordWrap(True)
 
+    # Show URL in tooltip without anoing http-protocol prefix.
+    if '<a href' in text:
+        txt.setOpenExternalLinks(True)
+        txt.linkHovered.connect(
+            lambda url: QToolTip.showText(
+                QCursor.pos(), url.replace('https://', ''))
+        )
+
     layout = QHBoxLayout()
     layout.addWidget(icon)
     layout.addWidget(txt)
@@ -453,7 +463,8 @@ def screen_width_in_chars(widget: QWidget, reference_char: str = 'M') -> int:
     char_px = metrics.horizontalAdvance(reference_char)
 
     # Screen width
-    screen = QGuiApplication.screenAt(widget.pos())
+    handle = widget.windowHandle()
+    screen = handle.screen() if handle else QGuiApplication.primaryScreen()
     geom = screen.availableGeometry()
 
     # Screen width in 'em' (number of characters)
@@ -510,13 +521,15 @@ def open_man_page(manpage: str,
             stderr=subprocess.PIPE,
             text=True,
             env=env,
-            check=True
+            check=False
         )
         content = proc.stdout
 
         if not content:
             raise FileNotFoundError(
-                f'No content for man page "{manpage}". {proc.stderr=}')
+                f'No content for man page "{manpage}".\n'
+                f'Error: {proc.stderr.strip()} ({proc.returncode})'
+            )
 
     except FileNotFoundError as exc:
         messagebox.critical(None, str(exc))

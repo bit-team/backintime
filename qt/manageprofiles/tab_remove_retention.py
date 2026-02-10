@@ -22,7 +22,7 @@ from PyQt6.QtWidgets import (QCheckBox,
                              QWidget)
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QCursor
-import config
+from config import Config
 from bitbase import TimeUnit
 from event import Event
 import qttools
@@ -109,13 +109,15 @@ class RemoveRetentionTab(QDialog):
 
         # Event: Notify observers if "warn free space" value has changed
         self.event_remove_free_space_value_changed = Event()
+
+        # pylint: disable=unnecessary-lambda
         self._spin_unit_space.event_value_changed.register(
-            lambda value:  # pylint: disable=unnecessary-lambda
+            lambda value:  # noqa: PLW0108
             self.event_remove_free_space_value_changed.notify(value)
         )
 
     @property
-    def config(self) -> config.Config:
+    def config(self) -> Config:
         """The config instance"""
         return self._parent_dialog.config
 
