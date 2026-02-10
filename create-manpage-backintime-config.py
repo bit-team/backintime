@@ -68,6 +68,7 @@ def groff_section(section: str) -> str:
     """Section header"""
     return f'.SH {section}\n'
 
+
 def groff_indented_paragraph(label: str, indent: int=6) -> str:
     """.IP - Indented Paragraph"""
     return f'.IP "{label}" {indent}'
