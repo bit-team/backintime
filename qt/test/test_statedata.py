@@ -49,6 +49,21 @@ class IsSingleton(unittest.TestCase):
 
         self.assertEqual(one, two)
 
+    def test_set_and_get_value(self):
+        """Setting a key should allow retrieving it."""
+        sut = statedata.StateData()
+        sut['example'] = 123
+
+        self.assertEqual(sut['example'], 123)
+
+
+    def test_missing_key_raises(self):
+        """Accessing missing key should raise KeyError."""
+        sut = statedata.StateData()
+
+        with self.assertRaises(KeyError):
+            _ = sut['does_not_exist']
+
 
 class Properties(unittest.TestCase):
     """Property access without errors."""
