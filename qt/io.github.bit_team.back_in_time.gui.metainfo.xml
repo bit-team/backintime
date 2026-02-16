@@ -2,11 +2,14 @@
 <!--
 SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
 
-SPDX-License-Identifier: GPL-2.0-or-later
+SPDX-License-Identifier: CC0-1.0
 
-This file is part of the program "Back In Time" which is released under GNU
-General Public License v2 (GPLv2). See LICENSES directory or go to
-<https://spdx.org/licenses/GPL-2.0-or-later.html>
+This file is released under Creative Commons Zero 1.0 (CC0-1.0) and part of
+the program "Back In Time". The program as a whole is released under GNU
+General Public License v2 or any later version (GPL-2.0-or-later).
+See LICENSES directory or go
+to <https://spdx.org/licenses/CC0-1.0.html>
+and <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 -->
 <!--
     Docu:
@@ -24,30 +27,23 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
   -->
   <summary>Backup tool for GNU/Linux desktop using rsync's hard-links feature to save storage space</summary>
 
-  <metadata_license>FSFAP</metadata_license>
+  <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0-or-later</project_license>
 
   <description>
     <p>
-      It is an easy-to-use backup tool for files and folders. It runs on GNU
-      Linux and provides a command line tool "backintime" and a Qt5 GUI
-      "backintime-qt". It uses "rsync" in the back to take manual or scheduled
-      snapshots and stores them locally or remotely through SSH. Each snapshot
-      is in its own folder with copies of the original files, but unchanged files
-      are hard-linked between snapshots to save space. It was inspired by
-      "FlyBack".
+      A comfortable and well-configurable tool for incremental
+      backups using, provindg a command line tool "backintime" and a graphical
+      frontend "backintime-qt". It uses "rsync" in the back to take manual or
+      scheduled backups and stores them locally or remotely through SSH.
+      Modified files are transferred, while unchanged files are linked to
+      the new directory using rsync's hard link feature, saving storage space.
+      Restoring is straightforward via file manager, command line or
+      Back In Time itself.
     </p>
-    <p>
-      You only need to specify 3 things:
-    </p>
-    <ol>
-      <li>What folders to back up.</li>
-      <li>Where to save snapshots.</li>
-      <li>The backup frequency (manual, every hour, every day, every month).</li>
-    </ol>
   </description>
 
-  <icon type="stock">document-save</icon>
+  <icon type="stock">backintime-qt</icon>
 
   <categories>
     <!-- https://specifications.freedesktop.org/menu-spec/latest/apa.html -->
@@ -104,5 +100,5 @@ finished.
   <!-- https://hughsie.github.io/oars/generate.html -->
   <content_rating type="oars-1.0" />
 
-  <update_contact>bit-dev@python.org</update_contact>
+  <update_contact>backintime-project@posteo.de</update_contact>
 </component>
