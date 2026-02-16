@@ -19,6 +19,7 @@ from PyQt6.QtWidgets import (QButtonGroup,
                              QWidget)
 from PyQt6.QtGui import QColor, QPalette
 import sshtools
+import logger
 import qttools
 from manageprofiles.combobox import BitComboBox
 
@@ -100,27 +101,46 @@ class SshKeyCombo(BitComboBox):
 
         handler()
 
-    def add_and_select(self, key_path: Path):
+    def add_and_select(self, key_path: Path, is_invalid: bool = False):
         """Add a new entry and select it after that."""
-        # pylint: disable-next=import-outside-toplevel
-        import icon  # noqa: PLC0415
 
         with qttools.block_signals(self):
 
-            # still exists?
             if self.has_data(key_path):
                 self.select_by_data(key_path)
 
             else:
-                self.insertItem(
-                    0, icon.ENCRYPT, key_path.name, userData=key_path)
-                self.setItemData(
-                    0,
-                    SshKeyCombo._key_tooltip(key_path),
-                    Qt.ItemDataRole.ToolTipRole)
+                if is_invalid:
+                    self._add_on_top(
+                        key_path,
+                        'Invalid or missing: ',
+                        'The key file is missing or somehow invalid.\n'
+                    )
+                else:
+                    self._add_on_top(key_path)
+
                 self.setCurrentIndex(0)
 
         self._fade_background()
+
+    def _add_on_top(self,
+                    key_path: Path,
+                    prefix: str = '',
+                    tooltip_prefix: str = ''):
+        # pylint: disable-next=import-outside-toplevel
+        import icon  # noqa: PLC0415
+
+        self.insertItem(
+            0,
+            icon.SSH_KEY_INVALID if prefix else icon.ENCRYPT,
+            f'{prefix}{key_path.name}',
+            userData=key_path
+        )
+        self.setItemData(
+            0,
+            SshKeyCombo._key_tooltip(f'{tooltip_prefix}{key_path}'),
+            Qt.ItemDataRole.ToolTipRole
+        )
 
     def _fade_background(self, duration_ms=1200, steps=30):
         palette = self.palette()
@@ -231,11 +251,26 @@ class SshKeySelector(QWidget):
         """Select an existing key based on its path.
 
         If not enabled this will also enable the drop down. If path is ``None``
-        the drop down widget is disabled."""
+        the drop down widget is disabled.
+        """
+
         if key_path:
-            self.selector.select_by_data(key_path)
+            try:
+                self.selector.select_by_data(key_path)
+            except ValueError:
+                # Edge case that should not happen
+                if key_path.exists():
+                    logger.critical(
+                        'Undefined situation: Key path exists but is not '
+                        'present in the key select widget. '
+                        f'{key_path=}'
+                    )
+                # Add this entry but mark it es invalid
+                self.selector.add_and_select(key_path, True)
+
             self.radio_key.setChecked(True)
             self.btn_group.buttonClicked.emit(self.radio_key)
+
         else:
             self.radio_no.setChecked(True)
             self.btn_group.buttonClicked.emit(self.radio_no)

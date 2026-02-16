@@ -12,9 +12,9 @@
 # been documented and could be lost.
 msgid ""
 msgstr ""
-"Project-Id-Version: Back In Time 1.6.0-rc2\n"
+"Project-Id-Version: Back In Time 1.6.1\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-01-26 18:10+0100\n"
+"POT-Creation-Date: 2026-02-10 15:49+0100\n"
 "PO-Revision-Date: 2026-01-19 13:21+0000\n"
 "Last-Translator: andika <andika@noreply.codeberg.org>\n"
 "Language-Team: Indonesian <https://translate.codeberg.org/projects/backintime/common/id/>\n"
@@ -239,7 +239,7 @@ msgstr "GAGAL"
 msgid "Restore permissions"
 msgstr "Pulihkan izin"
 
-#: common/snapshots.py:656 qt/app.py:240 qt/app.py:1184 qt/app.py:1200
+#: common/snapshots.py:656 qt/app.py:240 qt/app.py:1195 qt/app.py:1211
 #: qt/qtsystrayicon.py:118
 msgid "Done"
 msgstr "Selesai"
@@ -256,11 +256,11 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "Tunda pencadangan saat memakai baterai"
 
-#: common/snapshots.py:931 qt/app.py:378
+#: common/snapshots.py:931 qt/app.py:393
 msgid "Can't find backup directory."
 msgstr "Tak bisa temukan direktori cadangan."
 
-#: common/snapshots.py:935 qt/app.py:379
+#: common/snapshots.py:935 qt/app.py:394
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Jika itu ada pada drive lepas pasang, harap tancapkan."
 
@@ -365,7 +365,7 @@ msgstr "Mencoba menjaga ruang kosong minimum"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Mencoba menjaga min {perc} inode bebas"
 
-#: common/snapshots.py:3211 qt/app.py:1471
+#: common/snapshots.py:3211 qt/app.py:1482
 msgid "Now"
 msgstr "Sekarang"
 
@@ -527,15 +527,15 @@ msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
 "Ikuti {thislink} untuk mendapatkan kredit penerjemah bagi semua bahasa."
 
-#: qt/aboutdlg.py:220 qt/app.py:567
+#: qt/aboutdlg.py:220 qt/app.py:578
 msgid "Project website"
 msgstr "Situs web proyek"
 
-#: qt/aboutdlg.py:225 qt/app.py:549
+#: qt/aboutdlg.py:225 qt/app.py:560
 msgid "User manual"
 msgstr "Manual pengguna"
 
-#: qt/aboutdlg.py:227 qt/app.py:551
+#: qt/aboutdlg.py:227 qt/app.py:562
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
 "Buka manual pengguna dalam peramban (lokal bila tersedia, daring bila tidak)"
@@ -562,173 +562,173 @@ msgstr ""
 "Impor konfigurasi yang ada (dari direktori target cadangan atau komputer "
 "lain)?"
 
-#: qt/app.py:380
+#: qt/app.py:395
 msgid "Then press OK."
 msgstr "Kemudian tekan OK."
 
-#: qt/app.py:488
+#: qt/app.py:499
 msgid "Create a backup"
 msgstr "Buat cadangan"
 
-#: qt/app.py:490
+#: qt/app.py:501
 msgid "Use modification time & size for file change detection."
 msgstr "Gunakan waktu & ukuran modifikasi untuk deteksi perubahan berkas."
 
-#: qt/app.py:493
+#: qt/app.py:504
 msgid "Create a backup (checksum mode)"
 msgstr "Buat cadangan (mode checksum)"
 
-#: qt/app.py:495
+#: qt/app.py:506
 msgid "Use checksums for file change detection."
 msgstr "Gunakan checksum untuk deteksi perubahan berkas."
 
-#: qt/app.py:497 qt/qtsystrayicon.py:125
+#: qt/app.py:508 qt/qtsystrayicon.py:125
 msgid "Pause backup process"
 msgstr "Istirahatkan proses pencadangan"
 
-#: qt/app.py:501 qt/qtsystrayicon.py:130
+#: qt/app.py:512 qt/qtsystrayicon.py:130
 msgid "Resume backup process"
 msgstr "Lanjutkan proses pencadangan"
 
-#: qt/app.py:505 qt/qtsystrayicon.py:135
+#: qt/app.py:516 qt/qtsystrayicon.py:135
 msgid "Stop backup process"
 msgstr "Hentikan proses pencadangan"
 
-#: qt/app.py:509
+#: qt/app.py:520
 msgid "Refresh backup list"
 msgstr "Segarkan daftar cadangan"
 
-#: qt/app.py:513
+#: qt/app.py:524
 msgid "Name backup"
 msgstr "Namai cadangan"
 
-#: qt/app.py:517
+#: qt/app.py:528
 msgid "Remove backup"
 msgstr "Buang cadangan"
 
-#: qt/app.py:521
+#: qt/app.py:532
 msgid "Open backup log"
 msgstr "Buka catatan log pencadangan"
 
-#: qt/app.py:523
+#: qt/app.py:534
 msgid "View log of the selected backup."
 msgstr "Lihat catatan log dari cadangan yang dipilih."
 
-#: qt/app.py:525
+#: qt/app.py:536
 msgid "Open last backup log"
 msgstr "Buka catatan log pencadangan terakhir"
 
-#: qt/app.py:527
+#: qt/app.py:538
 msgid "View log of the latest backup."
 msgstr "Lihat catatan log dari cadangan terakhir."
 
-#: qt/app.py:529
+#: qt/app.py:540
 msgid "Manage profiles…"
 msgstr "Kelola profil…"
 
-#: qt/app.py:533
+#: qt/app.py:544
 msgid "Edit user-callback"
 msgstr "Sunting user-callback"
 
-#: qt/app.py:537
+#: qt/app.py:548
 msgid "Shutdown"
 msgstr "Matikan"
 
-#: qt/app.py:539
+#: qt/app.py:550
 msgid "Shut down system after backup has finished."
 msgstr "Matikan sistem setelah pencadangan selesai."
 
-#: qt/app.py:541
+#: qt/app.py:552
 msgid "Setup language…"
 msgstr "Siapkan bahasa…"
 
-#: qt/app.py:545
+#: qt/app.py:556
 msgid "Exit"
 msgstr "Keluar"
 
-#: qt/app.py:555
+#: qt/app.py:566
 msgid "man page: Back In Time"
 msgstr "halaman man: Back In Time"
 
-#: qt/app.py:557
+#: qt/app.py:568
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "Menampilkan halaman man tentang Back In Time (backintime)"
 
-#: qt/app.py:560
+#: qt/app.py:571
 msgid "man page: Profiles config file"
 msgstr "halaman man: Berkas konfigurasi profil"
 
-#: qt/app.py:563
+#: qt/app.py:574
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 "Menampilkan halaman man tentang berkas konfig profil (backintime-config)"
 
-#: qt/app.py:570
+#: qt/app.py:581
 msgid "Open Back In Time website in browser"
 msgstr "Buka situs web Back In Time dalam peramban"
 
-#: qt/app.py:572 qt/app.py:2290
+#: qt/app.py:583 qt/app.py:2301
 msgid "Changelog"
 msgstr "Log Perubahan"
 
-#: qt/app.py:575
+#: qt/app.py:586
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr "Buka log perubahan (secara lokal jika tersedia, dari web jika tidak)"
 
-#: qt/app.py:578
+#: qt/app.py:589
 msgid "FAQ"
 msgstr "FAQ"
 
-#: qt/app.py:580
+#: qt/app.py:591
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "Buka Pertanyaan Sering Muncul (FAQ) dalam peramban"
 
-#: qt/app.py:582
+#: qt/app.py:593
 msgid "Ask a question"
 msgstr "Ajukan pertanyaan"
 
-#: qt/app.py:586
+#: qt/app.py:597
 msgid "Report a bug"
 msgstr "Laporkan bug"
 
-#: qt/app.py:589
+#: qt/app.py:600
 msgid "Translation"
 msgstr "Terjemahan"
 
-#: qt/app.py:591
+#: qt/app.py:602
 msgid "Shows the message about participation in translation again."
 msgstr "Menampilkan lagi pesan tentang partisipasi dalam penerjemahan."
 
-#: qt/app.py:595
+#: qt/app.py:606
 msgid "Encryption Transition (EncFS)"
 msgstr "Transisi Enkripsi (EncFS)"
 
-#: qt/app.py:597
+#: qt/app.py:608
 msgid "Shows the message about EncFS removal again."
 msgstr "Menampilkan lagi pesan tentang penghapusan EncFS."
 
-#: qt/app.py:604
+#: qt/app.py:615
 msgid "About"
 msgstr "Tentang"
 
-#: qt/app.py:607 qt/restoredialog.py:46 qt/snapshotsdialog.py:184
+#: qt/app.py:618 qt/restoredialog.py:46 qt/snapshotsdialog.py:184
 #: qt/snapshotsdialog.py:189
 msgid "Restore"
 msgstr "Pulihkan"
 
-#: qt/app.py:609
+#: qt/app.py:620
 msgid "Restore the selected files or directories to the original location."
 msgstr "Pulihkan berkas atau direktori yang dipilih ke tujuan asli."
 
-#: qt/app.py:612 qt/app.py:1931 qt/snapshotsdialog.py:186
+#: qt/app.py:623 qt/app.py:1942 qt/snapshotsdialog.py:186
 msgid "Restore to …"
 msgstr "Pulihkan ke …"
 
-#: qt/app.py:614
+#: qt/app.py:625
 msgid "Restore the selected files or directories to a new location."
 msgstr "Pulihkan berkas atau direktori yang dipilih ke sebuah lokasi baru."
 
-#: qt/app.py:620
+#: qt/app.py:631
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
@@ -736,7 +736,7 @@ msgstr ""
 "Pulihkan direktori yang saat ini ditampilkan dan semua isinya ke tujuan "
 "asli."
 
-#: qt/app.py:626
+#: qt/app.py:637
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
@@ -744,75 +744,75 @@ msgstr ""
 "Pulihkan direktori yang saat ini ditampilkan dan semua isinya ke lokasi "
 "baru."
 
-#: qt/app.py:629
+#: qt/app.py:640
 msgid "Up"
 msgstr "Naik"
 
-#: qt/app.py:632
+#: qt/app.py:643
 msgid "Show hidden files"
 msgstr "Tampilkan berkas tersembunyi"
 
-#: qt/app.py:635
+#: qt/app.py:646
 msgid "Compare backups…"
 msgstr "Bandingkan cadangan…"
 
-#: qt/app.py:665 qt/app.py:1804
+#: qt/app.py:676 qt/app.py:1815
 msgid "Release Candidate"
 msgstr "Kandidat Rilis"
 
-#: qt/app.py:668
+#: qt/app.py:679
 msgid "Shows the message about this Release Candidate again."
 msgstr "Menampilkan lagi pesan tentang Kandidat Rilis ini."
 
-#: qt/app.py:705
+#: qt/app.py:716
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:710
+#: qt/app.py:721
 msgid "&Backup"
 msgstr "&Backup"
 
-#: qt/app.py:722
+#: qt/app.py:733
 msgid "&Restore"
 msgstr "&Pulihkan"
 
-#: qt/app.py:728
+#: qt/app.py:739
 msgid "&Help"
 msgstr "B&antuan"
 
-#: qt/app.py:779
+#: qt/app.py:790
 msgid "Systray Icon"
 msgstr "Ikon Systray"
 
-#: qt/app.py:785
+#: qt/app.py:796
 msgid "Automatic"
 msgstr "Otomatis"
 
-#: qt/app.py:789
+#: qt/app.py:800
 msgid "Light icon"
 msgstr "Ikon terang"
 
-#: qt/app.py:790
+#: qt/app.py:801
 msgid "Dark icon"
 msgstr "Ikon gelap"
 
-#: qt/app.py:813
+#: qt/app.py:824
 msgid "Icons only"
 msgstr "Hanya ikon"
 
-#: qt/app.py:816
+#: qt/app.py:827
 msgid "Text only"
 msgstr "Hanya teks"
 
-#: qt/app.py:819
+#: qt/app.py:830
 msgid "Text below icons"
 msgstr "Teks di bawah ikon"
 
-#: qt/app.py:822
+#: qt/app.py:833
 msgid "Text beside icon"
 msgstr "Teks di samping ikon"
 
-#: qt/app.py:933
+#: qt/app.py:944
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected backup."
@@ -820,15 +820,15 @@ msgstr ""
 "Direktori ini tidak ada\n"
 "dalam cadangan yang sedang dipilih."
 
-#: qt/app.py:994
+#: qt/app.py:1005
 msgid "Add to Include"
 msgstr "Tambah ke Disertakan"
 
-#: qt/app.py:995
+#: qt/app.py:1006
 msgid "Add to Exclude"
 msgstr "Tambah ke Pengecualian"
 
-#: qt/app.py:1009
+#: qt/app.py:1020
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
@@ -836,53 +836,53 @@ msgstr ""
 "Jika Anda menutup jendela ini, Back In Time tidak akan mampu mematikan "
 "sistem Anda ketika pencadangan selesai."
 
-#: qt/app.py:1012
+#: qt/app.py:1023
 msgid "Close the window anyway?"
 msgstr "Tutup saja jendelanya?"
 
-#: qt/app.py:1203
+#: qt/app.py:1214
 msgid "Done, no backup needed"
 msgstr "Selesai, backup tidak diperlukan"
 
-#: qt/app.py:1274
+#: qt/app.py:1285
 msgid "Working:"
 msgstr "Sedang Bekerja:"
 
-#: qt/app.py:1281
+#: qt/app.py:1292
 msgid "Working"
 msgstr "Sedang Bekerja"
 
-#: qt/app.py:1287 qt/messagebox.py:136
+#: qt/app.py:1298 qt/messagebox.py:136
 msgid "Error"
 msgstr "Kesalahan"
 
-#: qt/app.py:1328 qt/qtsystrayicon.py:295
+#: qt/app.py:1339 qt/qtsystrayicon.py:295
 msgid "Sent:"
 msgstr "Terkirim:"
 
-#: qt/app.py:1329 qt/qtsystrayicon.py:296
+#: qt/app.py:1340 qt/qtsystrayicon.py:296
 msgid "Speed:"
 msgstr "Kecepatan:"
 
-#: qt/app.py:1330 qt/qtsystrayicon.py:297
+#: qt/app.py:1341 qt/qtsystrayicon.py:297
 msgid "ETA:"
 msgstr "ETA:"
 
-#: qt/app.py:1479
+#: qt/app.py:1490
 msgid "Backup:"
 msgstr "Cadangan:"
 
-#: qt/app.py:1519
+#: qt/app.py:1530
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Pulihkan {path}"
 
-#: qt/app.py:1521
+#: qt/app.py:1532
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Pulihkan {path} ke …"
 
-#: qt/app.py:1669
+#: qt/app.py:1680
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -899,47 +899,47 @@ msgstr ""
 "Maaf atas gangguannya, dan pesan ini tidak akan ditampilkan lagi. Dialog ini tersedia kapan saja melalui menu bantuan.\n"
 "Tim Back In Time"
 
-#: qt/app.py:1698
+#: qt/app.py:1709
 msgid "translation platform"
 msgstr "platform penerjemahan"
 
-#: qt/app.py:1703
+#: qt/app.py:1714
 msgid "Website"
 msgstr "Situs Web"
 
-#: qt/app.py:1717
+#: qt/app.py:1728
 msgid "Your translation"
 msgstr "Terjemahan Anda"
 
-#: qt/app.py:1754
+#: qt/app.py:1765
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Dalam Fediverse pada Mastodon: {link_and_label}."
 
-#: qt/app.py:1759
+#: qt/app.py:1770
 #, fuzzy, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "Milis {link_and_label}."
 
-#: qt/app.py:1763
+#: qt/app.py:1774
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "Milis {link_and_label}."
 
-#: qt/app.py:1767
+#: qt/app.py:1778
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} di laman web proyek."
 
-#: qt/app.py:1770
+#: qt/app.py:1781
 msgid "Open an issue"
 msgstr "Buat laporan masalah"
 
-#: qt/app.py:1771
+#: qt/app.py:1782
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Atau, Anda dapat menggunakan saluran lain sesuai keinginan Anda."
 
-#: qt/app.py:1776
+#: qt/app.py:1787
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -960,7 +960,7 @@ msgstr ""
 "Terima kasih atas dukungan Anda dan telah membantu kami meningkatkan Back In Time!\n"
 "Tim Back In Time Anda"
 
-#: qt/app.py:1881
+#: qt/app.py:1892
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
@@ -969,21 +969,21 @@ msgstr ""
 "Hanya tersedia {free} ruang kosong pada tujuan, yang berada di bawah ambang "
 "batas yang telah dikonfigurasi yaitu {threshold}."
 
-#: qt/app.py:1886
+#: qt/app.py:1897
 msgid "Proceed with the backup?"
 msgstr "Lanjutkan dengan pencadangan?"
 
-#: qt/app.py:1911
+#: qt/app.py:1922
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr "Semua berkas yang lebih baru di {path} akan dihapus. Lanjutkan?"
 
-#: qt/app.py:1914
+#: qt/app.py:1925
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 "Semua berkas yang lebih baru di direktori asli akan dihapus. Lanjutkan?"
 
-#: qt/app.py:1920
+#: qt/app.py:1931
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -992,16 +992,16 @@ msgstr ""
 "{BOLD}Peringatan{BOLDEND}: Menghapus berkas dalam sistem berkas root dapat "
 "merusak seluruh sistem."
 
-#: qt/app.py:2156
+#: qt/app.py:2167
 msgid "Backup name"
 msgstr "Nama cadangan"
 
-#: qt/app.py:2187
+#: qt/app.py:2198
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "Hapus cadangan ini?"
 
-#: qt/app.py:2250
+#: qt/app.py:2261
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "Pengaturan bahasa hanya berlaku setelah memulai ulang Back In Time."
 
@@ -1553,12 +1553,12 @@ msgid "Hour(s)"
 msgstr "Jam"
 
 #: qt/manageprofiles/schedulewidget.py:229
-#: qt/manageprofiles/tab_remove_retention.py:269
+#: qt/manageprofiles/tab_remove_retention.py:271
 msgid "Day(s)"
 msgstr "Hari"
 
 #: qt/manageprofiles/schedulewidget.py:230
-#: qt/manageprofiles/tab_remove_retention.py:270
+#: qt/manageprofiles/tab_remove_retention.py:272
 msgid "Week(s)"
 msgstr "Minggu"
 
@@ -1574,36 +1574,36 @@ msgstr ""
 "Jam ubahan hanya dapat berupa daftar jam yang dipisah koma (contoh: "
 "8,12,18,23) atau */3 untuk backup terjadwal setiap 3 jam."
 
-#: qt/manageprofiles/sshkeyselector.py:63
+#: qt/manageprofiles/sshkeyselector.py:64
 msgid "<Select another file…>"
 msgstr "<Pilih berkas lain…>"
 
-#: qt/manageprofiles/sshkeyselector.py:64
+#: qt/manageprofiles/sshkeyselector.py:65
 msgid "Choose an existing private key file from somewhere else."
 msgstr "Pilih berkas kunci privat yang sudah ada dari tempat lain."
 
-#: qt/manageprofiles/sshkeyselector.py:70
+#: qt/manageprofiles/sshkeyselector.py:71
 msgid "<Generate new key-pair…>"
 msgstr "<Hasilkan pasangan kunci baru…>"
 
-#: qt/manageprofiles/sshkeyselector.py:71
+#: qt/manageprofiles/sshkeyselector.py:72
 msgid "Create a new SSH key without passphrase."
 msgstr "Buat kunci SSH baru tanpa kata sandi."
 
-#: qt/manageprofiles/sshkeyselector.py:91
+#: qt/manageprofiles/sshkeyselector.py:92
 #, python-brace-format
 msgid "Full path: {path}"
 msgstr "Path lengkap: {path}"
 
-#: qt/manageprofiles/sshkeyselector.py:185
+#: qt/manageprofiles/sshkeyselector.py:205
 msgid "Private key:"
 msgstr "Kunci privat:"
 
-#: qt/manageprofiles/sshkeyselector.py:190
+#: qt/manageprofiles/sshkeyselector.py:210
 msgid "Use system SSH configuration"
 msgstr "Gunakan konfigurasi SSH sistem"
 
-#: qt/manageprofiles/sshkeyselector.py:192
+#: qt/manageprofiles/sshkeyselector.py:212
 msgid ""
 "Leaves the key file unselected. SSH connections will rely on the system’s "
 "existing client configuration (e.g., ~/.ssh/config)."
@@ -2119,11 +2119,11 @@ msgstr "Level Log:"
 msgid "None"
 msgstr "Nihil"
 
-#: qt/manageprofiles/tab_remove_retention.py:204
+#: qt/manageprofiles/tab_remove_retention.py:206
 msgid "user manual"
 msgstr "manual pengguna"
 
-#: qt/manageprofiles/tab_remove_retention.py:206
+#: qt/manageprofiles/tab_remove_retention.py:208
 #, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
@@ -2133,27 +2133,27 @@ msgstr ""
 " akan menggantikan aturan-aturan sebelumnya. Lihat {manual_link} untuk "
 "detail dan contohnya."
 
-#: qt/manageprofiles/tab_remove_retention.py:221
+#: qt/manageprofiles/tab_remove_retention.py:223
 msgid "Open user manual in browser."
 msgstr "Buka manual pengguna dalam peramban."
 
-#: qt/manageprofiles/tab_remove_retention.py:235
+#: qt/manageprofiles/tab_remove_retention.py:237
 msgid "Keep the most recent backup."
 msgstr "Simpan cadangan terbaru."
 
-#: qt/manageprofiles/tab_remove_retention.py:239
+#: qt/manageprofiles/tab_remove_retention.py:241
 msgid "The most up-to-date backup is kept under all circumstances."
 msgstr "Cadangan data terbaru selalu disimpan dalam segala keadaan."
 
-#: qt/manageprofiles/tab_remove_retention.py:241
+#: qt/manageprofiles/tab_remove_retention.py:243
 msgid "That behavior cannot be changed."
 msgstr "Perilaku itu tidak bisa diubah."
 
-#: qt/manageprofiles/tab_remove_retention.py:253
+#: qt/manageprofiles/tab_remove_retention.py:255
 msgid "Keep named backups."
 msgstr "Simpan cadangan yang dinamai."
 
-#: qt/manageprofiles/tab_remove_retention.py:256
+#: qt/manageprofiles/tab_remove_retention.py:258
 msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
@@ -2161,36 +2161,36 @@ msgstr ""
 "Cadangan yang telah diberi nama, selain stempel waktu biasa, akan disimpan "
 "dalam semua keadaan dan tidak akan dihapus."
 
-#: qt/manageprofiles/tab_remove_retention.py:271
+#: qt/manageprofiles/tab_remove_retention.py:273
 msgid "Year(s)"
 msgstr "Tahun"
 
-#: qt/manageprofiles/tab_remove_retention.py:276
+#: qt/manageprofiles/tab_remove_retention.py:278
 msgid "Remove backups older than"
 msgstr "Hapus cadangan yang lebih lama dari"
 
-#: qt/manageprofiles/tab_remove_retention.py:282
+#: qt/manageprofiles/tab_remove_retention.py:284
 msgid "Full days. Current day is ignored."
 msgstr "Hari penuh. Hari kini diabaikan."
 
-#: qt/manageprofiles/tab_remove_retention.py:284
+#: qt/manageprofiles/tab_remove_retention.py:286
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
 "Minggu kalender dengan Senin sebagai hari pertama. Minggu kini diabaikan."
 
-#: qt/manageprofiles/tab_remove_retention.py:287
+#: qt/manageprofiles/tab_remove_retention.py:289
 msgid "12 months periods. Current month is ignored."
 msgstr "Periode 12 bulan. Bulan kini diabaikan."
 
-#: qt/manageprofiles/tab_remove_retention.py:303
+#: qt/manageprofiles/tab_remove_retention.py:305
 msgid "Retention policy"
 msgstr "Kebijakan retensi"
 
-#: qt/manageprofiles/tab_remove_retention.py:308
+#: qt/manageprofiles/tab_remove_retention.py:310
 msgid "Run in background on remote host."
 msgstr "Jalankan di latar belakang pada host jarak jauh."
 
-#: qt/manageprofiles/tab_remove_retention.py:311
+#: qt/manageprofiles/tab_remove_retention.py:313
 msgid ""
 "The retention policy will be executed directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
@@ -2200,29 +2200,29 @@ msgstr ""
 "secara lokal. Perintah \"bash\", \"screen\", dan \"flock\" harus dipasang "
 "dan tersedia pada mesin jarak jauh tersebut."
 
-#: qt/manageprofiles/tab_remove_retention.py:315
+#: qt/manageprofiles/tab_remove_retention.py:317
 msgid "If selected, Back In Time will first test the remote machine."
 msgstr ""
 "Jika dipilih, Back In Time akan terlebih dahulu menguji mesin jarak jauh."
 
-#: qt/manageprofiles/tab_remove_retention.py:319
+#: qt/manageprofiles/tab_remove_retention.py:321
 msgid "The days are counted starting from today."
 msgstr "Hari-hari dihitung mulai dari hari ini."
 
-#: qt/manageprofiles/tab_remove_retention.py:320
+#: qt/manageprofiles/tab_remove_retention.py:322
 msgid "Keep all backups for the last"
 msgstr "Simpan semua cadangan untuk yang terakhir"
 
-#: qt/manageprofiles/tab_remove_retention.py:325
-#: qt/manageprofiles/tab_remove_retention.py:337
+#: qt/manageprofiles/tab_remove_retention.py:327
+#: qt/manageprofiles/tab_remove_retention.py:339
 msgid "day(s)."
 msgstr "hari terakhir."
 
-#: qt/manageprofiles/tab_remove_retention.py:332
+#: qt/manageprofiles/tab_remove_retention.py:334
 msgid "Keep the last backup for each day for the last"
 msgstr "Simpan cadangan terakhir setiap hari untuk yang terakhir"
 
-#: qt/manageprofiles/tab_remove_retention.py:342
+#: qt/manageprofiles/tab_remove_retention.py:344
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
@@ -2230,49 +2230,49 @@ msgstr ""
 "Minggu-minggu dihitung mulai dari minggu kini yang sedang berjalan. Suatu "
 "minggu mulai pada hari Senin."
 
-#: qt/manageprofiles/tab_remove_retention.py:345
+#: qt/manageprofiles/tab_remove_retention.py:347
 msgid "Keep the last backup for each week for the last"
 msgstr "Simpan cadangan terakhir setiap minggu untuk yang terakhir"
 
-#: qt/manageprofiles/tab_remove_retention.py:350
+#: qt/manageprofiles/tab_remove_retention.py:352
 msgid "week(s)."
 msgstr "minggu terakhir."
 
-#: qt/manageprofiles/tab_remove_retention.py:355
+#: qt/manageprofiles/tab_remove_retention.py:357
 msgid ""
 "The months are counted as calendar months starting with the current month."
 msgstr "Bulan-bulan dihitung sebagai bulan kalender mulai dari bulan kini."
 
-#: qt/manageprofiles/tab_remove_retention.py:358
+#: qt/manageprofiles/tab_remove_retention.py:360
 msgid "Keep the last backup for each month for the last"
 msgstr "Simpan cadangan terakhir setiap bulan untuk yang terakhir"
 
-#: qt/manageprofiles/tab_remove_retention.py:363
+#: qt/manageprofiles/tab_remove_retention.py:365
 msgid "month(s)."
 msgstr "bulan terakhir."
 
-#: qt/manageprofiles/tab_remove_retention.py:368
+#: qt/manageprofiles/tab_remove_retention.py:370
 msgid ""
 "The years are counted as calendar years starting with the current year."
 msgstr "Tahun-tahun dihitung sebagai tahun kalender mulai dari tahun kini."
 
-#: qt/manageprofiles/tab_remove_retention.py:370
+#: qt/manageprofiles/tab_remove_retention.py:372
 msgid "Keep the last backup for each year for"
 msgstr "Simpan cadangan terakhir setiap tahun untuk"
 
-#: qt/manageprofiles/tab_remove_retention.py:372
+#: qt/manageprofiles/tab_remove_retention.py:374
 msgid "all years."
 msgstr "semua tahun."
 
-#: qt/manageprofiles/tab_remove_retention.py:387
+#: qt/manageprofiles/tab_remove_retention.py:389
 msgid "… the free space is less than"
 msgstr "... ruang kosong kurang dari"
 
-#: qt/manageprofiles/tab_remove_retention.py:392
+#: qt/manageprofiles/tab_remove_retention.py:394
 msgid "… the free inodes are less than"
 msgstr "... inode bebas kurang dari"
 
-#: qt/manageprofiles/tab_remove_retention.py:401
+#: qt/manageprofiles/tab_remove_retention.py:403
 msgid "Remove oldest backup if …"
 msgstr "Hapus cadangan terlama jika …"
 
@@ -2543,80 +2543,3 @@ msgstr "Ini BUKAN cadangan, melainkan tampilan langsung dari berkas lokal."
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Pemeriksaan terakhir {time}"
-
-#~ msgid ""
-#~ "A replacement is planned, but it cannot be guaranteed that it will arrive on"
-#~ " time."
-#~ msgstr ""
-#~ "Suatu pengganti ada direncanakan, tapi tidak bisa menjamin akan hadir pada "
-#~ "waktunya."
-
-#~ msgid "Add default"
-#~ msgstr "Tambahkan baku"
-
-#~ msgid "Caution:"
-#~ msgstr "Peringatan:"
-
-#~ msgid "Copy unsafe links (works only with absolute links)"
-#~ msgstr "Salin tautan yang tidak aman (hanya bisa untuk tautan absolut)"
-
-#~ msgid ""
-#~ "EncFS profile creation will be removed in the next minor release (1.7), "
-#~ "scheduled for 2026."
-#~ msgstr ""
-#~ "Penciptaan profil EncFS akan dihapus dalam rilis minor selanjutnya (1.7), "
-#~ "yang dijadwalkan pada 2026."
-
-#, python-brace-format
-#~ msgid ""
-#~ "For more details, including potential alternatives, please refer to this "
-#~ "{whitepaper}."
-#~ msgstr ""
-#~ "Untuk rincian lebih lanjut, termasuk alternatif-alternatif potensial, harap "
-#~ "mengacu ke {whitepaper} ini."
-
-#~ msgid "It is not recommended to use that mode for a profile furthermore."
-#~ msgstr "Tidak disarankan lagi untuk memakai mode itu bagi suatu profil."
-
-#~ msgid "No config found"
-#~ msgstr "Konfigurasi tidak ditemukan"
-
-#~ msgid "SSH encrypted"
-#~ msgstr "Terenkripsi SSH"
-
-#~ msgid ""
-#~ "Support for EncFS is being discontinued due to security vulnerabilities."
-#~ msgstr "Dukungan bagi EncFS dihentikan karena kerentanan keamanan."
-
-#~ msgid "The following profile(s) use encryption with EncFS:"
-#~ msgstr "Profil berikut memakai enkripsi dengan EncFS:"
-
-#~ msgid ""
-#~ "This message will not be shown again. This dialog is available at any time "
-#~ "via the help menu."
-#~ msgstr ""
-#~ "Pesan ini tidak akan ditampilkan lagi. Dialog ini tersedia kapan pun melalui"
-#~ " menu bantuan."
-
-#, python-brace-format
-#~ msgid ""
-#~ "Users are invited to join this discussion. Updated details on the next steps"
-#~ " are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Pengguna diundang bergabung ke diskusi ini. Rincian terbarui tentang "
-#~ "langkah-langkah selanjutnya tersedia pada {whitepaper} ini."
-
-#~ msgid "Your Back In Time Team"
-#~ msgstr "Tim Back In Time Anda"
-
-#~ msgid "whitepaper"
-#~ msgstr "whitepaper"
-
-#, python-brace-format
-#~ msgid ""
-#~ "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
-#~ msgstr "{BOLD}Sangat disarankan{ENDBOLD}: (Semua saran telah disertakan.)"
-
-#, python-brace-format
-#~ msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
-#~ msgstr "{BOLD}Sangat disarankan{ENDBOLD}: {files}"

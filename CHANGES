@@ -1,9 +1,14 @@
 Back In Time
 
-Version 1.6.0-rc2 (2026-01-27)
-* See 1.6.0-rc1
+Unreleased Development version (might become 1.6.2)
+* 
 
-Version 1.6.0-rc1 (2026-01-19)
+Version 1.6.1 (2026-02-10)
+* Fixed: SSH-Key selector widget handle binary keys, missing but configured keys (#2399, #2400)
+* Fixed: SSH-Key selector widget is more robust on unexpected edge cases (#2399, #2400)
+* Fixed: Install backintime-config man page in correct location
+
+Version 1.6.0 (2026-02-08)
 * Changed: **Breaking** Disable EncFS for creation of new backup profiles (#2315, #1734)
 * Changed: **Breaking** A "snapshot" now is a "backup" (#1929)
 * Changed: **Breaking** Deprecated and removed make targets: "test", "test-v", "unittest", "unittest-v"

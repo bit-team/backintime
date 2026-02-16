@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: © 2008 Back In Time Team <bit-dev@python.org>
-# SPDX-FileCopyrightText: © Miguel A. Bouzada <mbouzada@gmail.com>, 2024, 2025
+# SPDX-FileCopyrightText: © Miguel A. Bouzada <mbouzada@gmail.com>, 2024, 2025, 2026
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -12,10 +12,10 @@
 # been documented and could be lost.
 msgid ""
 msgstr ""
-"Project-Id-Version: Back In Time 1.6.0-rc2\n"
+"Project-Id-Version: Back In Time 1.6.1\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-02-05 22:25+0100\n"
-"PO-Revision-Date: 2026-01-30 12:28+0000\n"
+"POT-Creation-Date: 2026-02-10 15:49+0100\n"
+"PO-Revision-Date: 2026-02-09 19:03+0000\n"
 "Last-Translator: mbouzada <mbouzada@noreply.codeberg.org>\n"
 "Language-Team: Galician <https://translate.codeberg.org/projects/backintime/common/gl/>\n"
 "Language: gl\n"
@@ -73,7 +73,7 @@ msgstr "SSH"
 #: common/config.py:245 common/config.py:255
 #: qt/manageprofiles/tab_general.py:744
 msgid "SSH private key"
-msgstr "Chave SSH privada"
+msgstr "Chave privada SSH"
 
 #: common/config.py:300 common/config.py:312 common/config.py:330
 #: common/config.py:344 common/config.py:365
@@ -238,7 +238,7 @@ msgstr "FALLOU"
 msgid "Restore permissions"
 msgstr "Restaurar os permisos"
 
-#: common/snapshots.py:656 qt/app.py:240 qt/app.py:1184 qt/app.py:1200
+#: common/snapshots.py:656 qt/app.py:240 qt/app.py:1195 qt/app.py:1211
 #: qt/qtsystrayicon.py:118
 msgid "Done"
 msgstr "Feito"
@@ -255,11 +255,11 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "Adiando a copia de seguranza mentres se usa a batería"
 
-#: common/snapshots.py:931 qt/app.py:378
+#: common/snapshots.py:931 qt/app.py:393
 msgid "Can't find backup directory."
 msgstr "Non é posíbel atopar o directorio de copias de seguranza."
 
-#: common/snapshots.py:935 qt/app.py:379
+#: common/snapshots.py:935 qt/app.py:394
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Se está nunha unidade extraíbel, conéctea."
 
@@ -367,7 +367,7 @@ msgstr "Tentar preservar o espazo libre mínimo"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Tentando manter un mínimo de {perc} inodos libres"
 
-#: common/snapshots.py:3211 qt/app.py:1471
+#: common/snapshots.py:3211 qt/app.py:1482
 msgid "Now"
 msgstr "Agora"
 
@@ -512,7 +512,7 @@ msgstr "Tradutores:"
 
 #: qt/aboutdlg.py:100
 msgid "translator-credits-placeholder"
-msgstr "Miguel A. Bouzada <mbouzada@gmail.com>, 2024, 2025"
+msgstr "Miguel A. Bouzada <mbouzada@gmail.com>, 2024, 2025, 2026"
 
 #: qt/aboutdlg.py:107
 msgid "Translator credits not available for current language."
@@ -528,15 +528,15 @@ msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
 "Vexa {thislink} para obter os créditos de tradutores para todos os idiomas."
 
-#: qt/aboutdlg.py:220 qt/app.py:567
+#: qt/aboutdlg.py:220 qt/app.py:578
 msgid "Project website"
 msgstr "Sitio web do proxecto"
 
-#: qt/aboutdlg.py:225 qt/app.py:549
+#: qt/aboutdlg.py:225 qt/app.py:560
 msgid "User manual"
 msgstr "Manual de usuario"
 
-#: qt/aboutdlg.py:227 qt/app.py:551
+#: qt/aboutdlg.py:227 qt/app.py:562
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
 "Abrir o manual de usuario no navegador (local se está dispoñíbel, senón, en "
@@ -563,181 +563,181 @@ msgstr ""
 "Importar unha configuración existente desde unha localización de copia de "
 "seguranza ou doutro computador)?"
 
-#: qt/app.py:380
+#: qt/app.py:395
 msgid "Then press OK."
 msgstr "A continuación, prema en Aceptar."
 
-#: qt/app.py:488
+#: qt/app.py:499
 msgid "Create a backup"
 msgstr "Crear unha copia de seguranza"
 
-#: qt/app.py:490
+#: qt/app.py:501
 msgid "Use modification time & size for file change detection."
 msgstr ""
 "Usar a data de modificación e o tamaño para atopar ficheiros modificados."
 
-#: qt/app.py:493
+#: qt/app.py:504
 msgid "Create a backup (checksum mode)"
 msgstr "Crear unha copia de seguranza (con suma de comprobación)"
 
-#: qt/app.py:495
+#: qt/app.py:506
 msgid "Use checksums for file change detection."
 msgstr "Usar a suma de comprobación para detectar cambios."
 
-#: qt/app.py:497 qt/qtsystrayicon.py:125
+#: qt/app.py:508 qt/qtsystrayicon.py:125
 msgid "Pause backup process"
 msgstr "Pausar o proceso de copia de seuranza"
 
-#: qt/app.py:501 qt/qtsystrayicon.py:130
+#: qt/app.py:512 qt/qtsystrayicon.py:130
 msgid "Resume backup process"
 msgstr "Retomar co proceso de copia de seguranza"
 
-#: qt/app.py:505 qt/qtsystrayicon.py:135
+#: qt/app.py:516 qt/qtsystrayicon.py:135
 msgid "Stop backup process"
 msgstr "Deter o proceso de copia de seguranza"
 
-#: qt/app.py:509
+#: qt/app.py:520
 msgid "Refresh backup list"
 msgstr "Actualizar a lista de copias de seguranza"
 
-#: qt/app.py:513
+#: qt/app.py:524
 msgid "Name backup"
 msgstr "Nomear a copia de seguranza"
 
-#: qt/app.py:517
+#: qt/app.py:528
 msgid "Remove backup"
 msgstr "Retirar a copia de seguranza"
 
-#: qt/app.py:521
+#: qt/app.py:532
 msgid "Open backup log"
 msgstr "Abrir o rexistro de copias de seguranza"
 
-#: qt/app.py:523
+#: qt/app.py:534
 msgid "View log of the selected backup."
 msgstr "Ver o rexistro da copia de seguranza seleccionada."
 
-#: qt/app.py:525
+#: qt/app.py:536
 msgid "Open last backup log"
 msgstr "Abrir o último rexistro de copia de seguranza"
 
-#: qt/app.py:527
+#: qt/app.py:538
 msgid "View log of the latest backup."
 msgstr "Ver o rexistro da última copia de seguranza."
 
-#: qt/app.py:529
+#: qt/app.py:540
 msgid "Manage profiles…"
 msgstr "Xestionar perfís…"
 
-#: qt/app.py:533
+#: qt/app.py:544
 msgid "Edit user-callback"
 msgstr "Editar a devolución de chamada do usuario"
 
-#: qt/app.py:537
+#: qt/app.py:548
 msgid "Shutdown"
 msgstr "Apagar"
 
-#: qt/app.py:539
+#: qt/app.py:550
 msgid "Shut down system after backup has finished."
 msgstr "Apagar o sistema ao rematar a copia de seguranza."
 
-#: qt/app.py:541
+#: qt/app.py:552
 msgid "Setup language…"
 msgstr "Configurar o idioma…"
 
-#: qt/app.py:545
+#: qt/app.py:556
 msgid "Exit"
 msgstr "Saír"
 
-#: qt/app.py:555
+#: qt/app.py:566
 msgid "man page: Back In Time"
 msgstr "páxina de inicio: Back In Time"
 
-#: qt/app.py:557
+#: qt/app.py:568
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "Amosar a páxina de inicio sobre Back In Time (backintime)"
 
-#: qt/app.py:560
+#: qt/app.py:571
 msgid "man page: Profiles config file"
 msgstr "páxina de inicio: Ficheiro de configuración dos perfís"
 
-#: qt/app.py:563
+#: qt/app.py:574
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 "Amosar a páxina de inicio sobre o ficheiro de configuración de perfís "
 "(backintime-config)"
 
-#: qt/app.py:570
+#: qt/app.py:581
 msgid "Open Back In Time website in browser"
 msgstr "Abrir o sitio web de Back In Time no navegador"
 
-#: qt/app.py:572 qt/app.py:2290
+#: qt/app.py:583 qt/app.py:2301
 msgid "Changelog"
 msgstr "Rexistro de cambios"
 
-#: qt/app.py:575
+#: qt/app.py:586
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr ""
 "Abrir o rexistro de cambios (localmente se está dispoñíbel, se non, desde a "
 "web)"
 
-#: qt/app.py:578
+#: qt/app.py:589
 msgid "FAQ"
 msgstr "FAQ (preguntas frecuentes)"
 
-#: qt/app.py:580
+#: qt/app.py:591
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "Abrir as preguntas frecuentes (FAQ) no navegador"
 
-#: qt/app.py:582
+#: qt/app.py:593
 msgid "Ask a question"
 msgstr "Faga unha pregunta"
 
-#: qt/app.py:586
+#: qt/app.py:597
 msgid "Report a bug"
 msgstr "Informar dun fallo"
 
-#: qt/app.py:589
+#: qt/app.py:600
 msgid "Translation"
 msgstr "Tradución"
 
-#: qt/app.py:591
+#: qt/app.py:602
 msgid "Shows the message about participation in translation again."
 msgstr "Amosa de novo a mensaxe sobre colaborar na tradución."
 
-#: qt/app.py:595
+#: qt/app.py:606
 msgid "Encryption Transition (EncFS)"
 msgstr "Transición do cifrado (EncFS)"
 
-#: qt/app.py:597
+#: qt/app.py:608
 msgid "Shows the message about EncFS removal again."
 msgstr "Amosa de novo a mensaxe sobre a retirada de EncFS."
 
-#: qt/app.py:604
+#: qt/app.py:615
 msgid "About"
 msgstr "Sobre"
 
-#: qt/app.py:607 qt/restoredialog.py:46 qt/snapshotsdialog.py:184
+#: qt/app.py:618 qt/restoredialog.py:46 qt/snapshotsdialog.py:184
 #: qt/snapshotsdialog.py:189
 msgid "Restore"
 msgstr "Restaurar"
 
-#: qt/app.py:609
+#: qt/app.py:620
 msgid "Restore the selected files or directories to the original location."
 msgstr ""
 "Restaurar os ficheiros ou directorios seleccionado á súa localización "
 "orixinal."
 
-#: qt/app.py:612 qt/app.py:1931 qt/snapshotsdialog.py:186
+#: qt/app.py:623 qt/app.py:1942 qt/snapshotsdialog.py:186
 msgid "Restore to …"
 msgstr "Restaurar en…"
 
-#: qt/app.py:614
+#: qt/app.py:625
 msgid "Restore the selected files or directories to a new location."
 msgstr ""
 "Restaurar os ficheiros ou directorios seleccionados a unha nova "
 "localización."
 
-#: qt/app.py:620
+#: qt/app.py:631
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
@@ -745,7 +745,7 @@ msgstr ""
 "Restaurar o directorio amosado actualmente e todo o seu contido á súa "
 "localización orixinal."
 
-#: qt/app.py:626
+#: qt/app.py:637
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
@@ -753,75 +753,75 @@ msgstr ""
 "Restaurar o directorio amosado actualmente e todo o seu contido á unha nova "
 "localización."
 
-#: qt/app.py:629
+#: qt/app.py:640
 msgid "Up"
 msgstr "Subir"
 
-#: qt/app.py:632
+#: qt/app.py:643
 msgid "Show hidden files"
 msgstr "Amosar os ficheiros agochados"
 
-#: qt/app.py:635
+#: qt/app.py:646
 msgid "Compare backups…"
 msgstr "Comparar copias de seguranza…"
 
-#: qt/app.py:665 qt/app.py:1804
+#: qt/app.py:676 qt/app.py:1815
 msgid "Release Candidate"
 msgstr "Versión candidata"
 
-#: qt/app.py:668
+#: qt/app.py:679
 msgid "Shows the message about this Release Candidate again."
 msgstr "Amosa de novo a mensaxe sobre esta versión candidata."
 
-#: qt/app.py:705
+#: qt/app.py:716
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:710
+#: qt/app.py:721
 msgid "&Backup"
 msgstr "&Copia de seguranza"
 
-#: qt/app.py:722
+#: qt/app.py:733
 msgid "&Restore"
 msgstr "&Restaurar"
 
-#: qt/app.py:728
+#: qt/app.py:739
 msgid "&Help"
 msgstr "A&xuda"
 
-#: qt/app.py:779
+#: qt/app.py:790
 msgid "Systray Icon"
 msgstr "Icona da área de notificación"
 
-#: qt/app.py:785
+#: qt/app.py:796
 msgid "Automatic"
 msgstr "Automático"
 
-#: qt/app.py:789
+#: qt/app.py:800
 msgid "Light icon"
 msgstr "Icona clara"
 
-#: qt/app.py:790
+#: qt/app.py:801
 msgid "Dark icon"
 msgstr "Icona escura"
 
-#: qt/app.py:813
+#: qt/app.py:824
 msgid "Icons only"
 msgstr "Só iconas"
 
-#: qt/app.py:816
+#: qt/app.py:827
 msgid "Text only"
 msgstr "Só texto"
 
-#: qt/app.py:819
+#: qt/app.py:830
 msgid "Text below icons"
 msgstr "Texto baixo as iconas"
 
-#: qt/app.py:822
+#: qt/app.py:833
 msgid "Text beside icon"
 msgstr "Texto a carón das iconas"
 
-#: qt/app.py:933
+#: qt/app.py:944
 msgid ""
 "This directory doesn't exist\n"
 "in the current selected backup."
@@ -829,15 +829,15 @@ msgstr ""
 "Este directorio non existe na\n"
 "copia de seguranza seleccionada."
 
-#: qt/app.py:994
+#: qt/app.py:1005
 msgid "Add to Include"
 msgstr "Engadir á lista de inclusión"
 
-#: qt/app.py:995
+#: qt/app.py:1006
 msgid "Add to Exclude"
 msgstr "Engadir á lista de exclusión"
 
-#: qt/app.py:1009
+#: qt/app.py:1020
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
@@ -845,53 +845,53 @@ msgstr ""
 "Se pecha esta xanela Back In Time non poderá apagar o seu sistema cando "
 "remate a a copia de seguranza."
 
-#: qt/app.py:1012
+#: qt/app.py:1023
 msgid "Close the window anyway?"
 msgstr "Pechar a xanela aínda así?"
 
-#: qt/app.py:1203
+#: qt/app.py:1214
 msgid "Done, no backup needed"
 msgstr "Rematado, non foi necesario facer unha copia de seguranza"
 
-#: qt/app.py:1274
+#: qt/app.py:1285
 msgid "Working:"
 msgstr "En proceso:"
 
-#: qt/app.py:1281
+#: qt/app.py:1292
 msgid "Working"
 msgstr "En proceso"
 
-#: qt/app.py:1287 qt/messagebox.py:136
+#: qt/app.py:1298 qt/messagebox.py:136
 msgid "Error"
 msgstr "Erro"
 
-#: qt/app.py:1328 qt/qtsystrayicon.py:295
+#: qt/app.py:1339 qt/qtsystrayicon.py:295
 msgid "Sent:"
 msgstr "Enviada:"
 
-#: qt/app.py:1329 qt/qtsystrayicon.py:296
+#: qt/app.py:1340 qt/qtsystrayicon.py:296
 msgid "Speed:"
 msgstr "Velocidade:"
 
-#: qt/app.py:1330 qt/qtsystrayicon.py:297
+#: qt/app.py:1341 qt/qtsystrayicon.py:297
 msgid "ETA:"
 msgstr "Tempo restante estimado:"
 
-#: qt/app.py:1479
+#: qt/app.py:1490
 msgid "Backup:"
 msgstr "Copia de seguranza:"
 
-#: qt/app.py:1519
+#: qt/app.py:1530
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Restaurar {path}"
 
-#: qt/app.py:1521
+#: qt/app.py:1532
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Restaurar {path} en…"
 
-#: qt/app.py:1669
+#: qt/app.py:1680
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -908,47 +908,47 @@ msgstr ""
 "Descúlpenos a interrupción, esta mensaxe non volverá ser amosada. Pode abrir de novo este diálogo en calquera momento no menú de axuda.\n"
 "O equipo de Back In Time"
 
-#: qt/app.py:1698
+#: qt/app.py:1709
 msgid "translation platform"
 msgstr "plataforma de tradución"
 
-#: qt/app.py:1703
+#: qt/app.py:1714
 msgid "Website"
 msgstr "Sitio web"
 
-#: qt/app.py:1717
+#: qt/app.py:1728
 msgid "Your translation"
 msgstr "A súa tradución"
 
-#: qt/app.py:1754
+#: qt/app.py:1765
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "No Fediverso en Mastodon: {link_and_label}."
 
-#: qt/app.py:1759
+#: qt/app.py:1770
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "Enviar correo a {link_and_label}."
 
-#: qt/app.py:1763
+#: qt/app.py:1774
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "Lista de correo {link_and_label}."
 
-#: qt/app.py:1767
+#: qt/app.py:1778
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} no sitio web do proxecto."
 
-#: qt/app.py:1770
+#: qt/app.py:1781
 msgid "Open an issue"
 msgstr "Abrir unha incidencia"
 
-#: qt/app.py:1771
+#: qt/app.py:1782
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Tamén pode empregar outra canle da súa elección."
 
-#: qt/app.py:1776
+#: qt/app.py:1787
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -969,7 +969,7 @@ msgstr ""
 "Grazas polo seu apoio e por axudarnos a mellorar Back In Time!\n"
 "O equipo de Back In Time"
 
-#: qt/app.py:1881
+#: qt/app.py:1892
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
@@ -978,23 +978,23 @@ msgstr ""
 "Só hai {free} de espazo libre dispoñíbel no destino, que está por baixo do "
 "limiar configurado de{threshold}."
 
-#: qt/app.py:1886
+#: qt/app.py:1897
 msgid "Proceed with the backup?"
 msgstr "Continuar coa copia de seguranza?"
 
-#: qt/app.py:1911
+#: qt/app.py:1922
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr ""
 "Retiraranse todos os ficheiros máis recentes en {path}. Quere continuar?"
 
-#: qt/app.py:1914
+#: qt/app.py:1925
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 "Retiraranse todos os ficheiros máis recentes do cartafol orixinal. Quere "
 "continuar?"
 
-#: qt/app.py:1920
+#: qt/app.py:1931
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -1003,17 +1003,17 @@ msgstr ""
 "{BOLD}Advertencia{BOLDEND}: a eliminación de ficheiros na raíz do sistema de"
 " ficheiros pode estragar todo o sistema."
 
-#: qt/app.py:2156
+#: qt/app.py:2167
 msgid "Backup name"
 msgstr "Nome da copia de seguranza"
 
-#: qt/app.py:2187
+#: qt/app.py:2198
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "Quere retirar esta copia de seguranza?"
 msgstr[1] "Quere retirar estas copias de seguranza?"
 
-#: qt/app.py:2250
+#: qt/app.py:2261
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "Os axustes de idioma só teñen efecto após reiniciar Back In Time."
 
@@ -1025,8 +1025,7 @@ msgstr "Copias de seguranza versionadas (root)"
 msgid ""
 "User-friendly GUI for versioned backups that reduces disk usage (root mode)"
 msgstr ""
-"Interface gráfica de usuario doada de empregar para copias de seguranza "
-"versionadas que reduce o uso do disco (modo root)"
+"GUI amigábel para copias de seguranza con uso reducido de espazo (modo root)"
 
 #: qt/backintime-qt.desktop:14
 msgid "Versioned Backups"
@@ -1034,9 +1033,7 @@ msgstr "Copias de seguranza versionadas"
 
 #: qt/backintime-qt.desktop:23
 msgid "User-friendly GUI for versioned backups that reduces disk usage"
-msgstr ""
-"Interface gráfica de usuario doada de empregar para copias de seguranza "
-"versionadas que reduce o uso do disco"
+msgstr "GUI amigábel para copias de seguranza con uso reducido de disco"
 
 #: qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -1574,12 +1571,12 @@ msgid "Hour(s)"
 msgstr "Hora(s)"
 
 #: qt/manageprofiles/schedulewidget.py:229
-#: qt/manageprofiles/tab_remove_retention.py:269
+#: qt/manageprofiles/tab_remove_retention.py:271
 msgid "Day(s)"
 msgstr "Día(s)"
 
 #: qt/manageprofiles/schedulewidget.py:230
-#: qt/manageprofiles/tab_remove_retention.py:270
+#: qt/manageprofiles/tab_remove_retention.py:272
 msgid "Week(s)"
 msgstr "Semana(s)"
 
@@ -1595,36 +1592,36 @@ msgstr ""
 "As horas personalizadas só poden ser unha lista de horas separadas por comas"
 " (p. ex.: 8,12,18,23) ou */3 para copias periódicas cada 3 horas."
 
-#: qt/manageprofiles/sshkeyselector.py:63
+#: qt/manageprofiles/sshkeyselector.py:64
 msgid "<Select another file…>"
 msgstr "<Seleccionar outro ficheiro…>"
 
-#: qt/manageprofiles/sshkeyselector.py:64
+#: qt/manageprofiles/sshkeyselector.py:65
 msgid "Choose an existing private key file from somewhere else."
 msgstr "Escolla un ficheiro de chave privada existente noutro lugar."
 
-#: qt/manageprofiles/sshkeyselector.py:70
+#: qt/manageprofiles/sshkeyselector.py:71
 msgid "<Generate new key-pair…>"
 msgstr "<Xerar un novo par de chaves…>"
 
-#: qt/manageprofiles/sshkeyselector.py:71
+#: qt/manageprofiles/sshkeyselector.py:72
 msgid "Create a new SSH key without passphrase."
 msgstr "Crear unha nova chave SSH sen contrasinal."
 
-#: qt/manageprofiles/sshkeyselector.py:91
+#: qt/manageprofiles/sshkeyselector.py:92
 #, python-brace-format
 msgid "Full path: {path}"
 msgstr "Ruta completa: {path}"
 
-#: qt/manageprofiles/sshkeyselector.py:185
+#: qt/manageprofiles/sshkeyselector.py:205
 msgid "Private key:"
 msgstr "Chave privada:"
 
-#: qt/manageprofiles/sshkeyselector.py:190
+#: qt/manageprofiles/sshkeyselector.py:210
 msgid "Use system SSH configuration"
 msgstr "Usar a configuración SSH do sistema"
 
-#: qt/manageprofiles/sshkeyselector.py:192
+#: qt/manageprofiles/sshkeyselector.py:212
 msgid ""
 "Leaves the key file unselected. SSH connections will rely on the system’s "
 "existing client configuration (e.g., ~/.ssh/config)."
@@ -2142,11 +2139,11 @@ msgstr "Nivel do rexistro:"
 msgid "None"
 msgstr "Ningún"
 
-#: qt/manageprofiles/tab_remove_retention.py:204
+#: qt/manageprofiles/tab_remove_retention.py:206
 msgid "user manual"
 msgstr "manual do usuario"
 
-#: qt/manageprofiles/tab_remove_retention.py:206
+#: qt/manageprofiles/tab_remove_retention.py:208
 #, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
@@ -2156,29 +2153,29 @@ msgstr ""
 "anulan as anteriores. Consulte o {manual_link} para obter máis detalles e "
 "exemplos."
 
-#: qt/manageprofiles/tab_remove_retention.py:221
+#: qt/manageprofiles/tab_remove_retention.py:223
 msgid "Open user manual in browser."
 msgstr "Abrir o manual de usuario no navegador."
 
-#: qt/manageprofiles/tab_remove_retention.py:235
+#: qt/manageprofiles/tab_remove_retention.py:237
 msgid "Keep the most recent backup."
 msgstr "Conservar a copia de seguranza máis recente."
 
-#: qt/manageprofiles/tab_remove_retention.py:239
+#: qt/manageprofiles/tab_remove_retention.py:241
 msgid "The most up-to-date backup is kept under all circumstances."
 msgstr ""
 "A última ou máis recente das copias de seguranza conservase en todas as "
 "circunstancias."
 
-#: qt/manageprofiles/tab_remove_retention.py:241
+#: qt/manageprofiles/tab_remove_retention.py:243
 msgid "That behavior cannot be changed."
 msgstr "Non é posíbel cambiar este comportamento."
 
-#: qt/manageprofiles/tab_remove_retention.py:253
+#: qt/manageprofiles/tab_remove_retention.py:255
 msgid "Keep named backups."
 msgstr "Conservar as copias de seguranza con nome."
 
-#: qt/manageprofiles/tab_remove_retention.py:256
+#: qt/manageprofiles/tab_remove_retention.py:258
 msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
@@ -2186,35 +2183,35 @@ msgstr ""
 "As copias de seguranza ás que se lles deu un nome, ademais da marca de tempo"
 " habitual, conservaranse en todas as circunstancias e non se eliminarán."
 
-#: qt/manageprofiles/tab_remove_retention.py:271
+#: qt/manageprofiles/tab_remove_retention.py:273
 msgid "Year(s)"
 msgstr "Ano(s)"
 
-#: qt/manageprofiles/tab_remove_retention.py:276
+#: qt/manageprofiles/tab_remove_retention.py:278
 msgid "Remove backups older than"
 msgstr "Retirar as copias de seguranza anteriores a"
 
-#: qt/manageprofiles/tab_remove_retention.py:282
+#: qt/manageprofiles/tab_remove_retention.py:284
 msgid "Full days. Current day is ignored."
 msgstr "Días completos. O día actual ignorase."
 
-#: qt/manageprofiles/tab_remove_retention.py:284
+#: qt/manageprofiles/tab_remove_retention.py:286
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr "Semanas naturais co luns como primeiro día. A semana actual ignorase."
 
-#: qt/manageprofiles/tab_remove_retention.py:287
+#: qt/manageprofiles/tab_remove_retention.py:289
 msgid "12 months periods. Current month is ignored."
 msgstr "Períodos de 12 meses. O mes actual ignórase."
 
-#: qt/manageprofiles/tab_remove_retention.py:303
+#: qt/manageprofiles/tab_remove_retention.py:305
 msgid "Retention policy"
 msgstr "Directiva de retención"
 
-#: qt/manageprofiles/tab_remove_retention.py:308
+#: qt/manageprofiles/tab_remove_retention.py:310
 msgid "Run in background on remote host."
 msgstr "Executar en segundo plano no servidor remoto."
 
-#: qt/manageprofiles/tab_remove_retention.py:311
+#: qt/manageprofiles/tab_remove_retention.py:313
 msgid ""
 "The retention policy will be executed directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
@@ -2224,77 +2221,77 @@ msgstr ""
 "localmente. As ordes «bash», «screen» e «flock» deben estar instaladas e "
 "dispoñíbeis na máquina remota."
 
-#: qt/manageprofiles/tab_remove_retention.py:315
+#: qt/manageprofiles/tab_remove_retention.py:317
 msgid "If selected, Back In Time will first test the remote machine."
 msgstr "Se se selecciona, Back In Time probará primeiro a máquina remota."
 
-#: qt/manageprofiles/tab_remove_retention.py:319
+#: qt/manageprofiles/tab_remove_retention.py:321
 msgid "The days are counted starting from today."
 msgstr "Os días cóntanse a partir de hoxe."
 
-#: qt/manageprofiles/tab_remove_retention.py:320
+#: qt/manageprofiles/tab_remove_retention.py:322
 msgid "Keep all backups for the last"
 msgstr "Conservar todas as copias de seguranza dos últimos"
 
-#: qt/manageprofiles/tab_remove_retention.py:325
-#: qt/manageprofiles/tab_remove_retention.py:337
+#: qt/manageprofiles/tab_remove_retention.py:327
+#: qt/manageprofiles/tab_remove_retention.py:339
 msgid "day(s)."
 msgstr "día(s)."
 
-#: qt/manageprofiles/tab_remove_retention.py:332
+#: qt/manageprofiles/tab_remove_retention.py:334
 msgid "Keep the last backup for each day for the last"
 msgstr "Conservar a última copia de seguranza de cada día para o último"
 
-#: qt/manageprofiles/tab_remove_retention.py:342
+#: qt/manageprofiles/tab_remove_retention.py:344
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
 msgstr ""
 "As semanas cóntanse a partir da semana actual. Unha semana comeza o luns."
 
-#: qt/manageprofiles/tab_remove_retention.py:345
+#: qt/manageprofiles/tab_remove_retention.py:347
 msgid "Keep the last backup for each week for the last"
 msgstr "Conservar a última copia de seguranza por semana para a última"
 
-#: qt/manageprofiles/tab_remove_retention.py:350
+#: qt/manageprofiles/tab_remove_retention.py:352
 msgid "week(s)."
 msgstr "semana(s)."
 
-#: qt/manageprofiles/tab_remove_retention.py:355
+#: qt/manageprofiles/tab_remove_retention.py:357
 msgid ""
 "The months are counted as calendar months starting with the current month."
 msgstr "Os meses cóntanse como meses naturais a partir do mes en curso."
 
-#: qt/manageprofiles/tab_remove_retention.py:358
+#: qt/manageprofiles/tab_remove_retention.py:360
 msgid "Keep the last backup for each month for the last"
 msgstr "Conservar a última copia de seguranza de cada mes para o último"
 
-#: qt/manageprofiles/tab_remove_retention.py:363
+#: qt/manageprofiles/tab_remove_retention.py:365
 msgid "month(s)."
 msgstr "mes(es)."
 
-#: qt/manageprofiles/tab_remove_retention.py:368
+#: qt/manageprofiles/tab_remove_retention.py:370
 msgid ""
 "The years are counted as calendar years starting with the current year."
 msgstr "Os anos cóntanse como anos naturais a partir do ano en curso."
 
-#: qt/manageprofiles/tab_remove_retention.py:370
+#: qt/manageprofiles/tab_remove_retention.py:372
 msgid "Keep the last backup for each year for"
 msgstr "Conservar a última copia de seguranza de cada ano para"
 
-#: qt/manageprofiles/tab_remove_retention.py:372
+#: qt/manageprofiles/tab_remove_retention.py:374
 msgid "all years."
 msgstr "todos os anos."
 
-#: qt/manageprofiles/tab_remove_retention.py:387
+#: qt/manageprofiles/tab_remove_retention.py:389
 msgid "… the free space is less than"
 msgstr "… o espazo libre é inferior a"
 
-#: qt/manageprofiles/tab_remove_retention.py:392
+#: qt/manageprofiles/tab_remove_retention.py:394
 msgid "… the free inodes are less than"
 msgstr "… os inodos libres son menos do"
 
-#: qt/manageprofiles/tab_remove_retention.py:401
+#: qt/manageprofiles/tab_remove_retention.py:403
 msgid "Remove oldest backup if …"
 msgstr "Retirar as copias de seguranza antigas se…"
 
@@ -2572,82 +2569,3 @@ msgstr ""
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Última comprobación {time}"
-
-#~ msgid ""
-#~ "A replacement is planned, but it cannot be guaranteed that it will arrive on"
-#~ " time."
-#~ msgstr ""
-#~ "Está previsto un substituto, mais non se pode garantir que chegue a tempo."
-
-#~ msgid "Add default"
-#~ msgstr "Engadir predeterminado"
-
-#~ msgid "Caution:"
-#~ msgstr "Precaución:"
-
-#~ msgid "Copy unsafe links (works only with absolute links)"
-#~ msgstr "Copiar as ligazóns non seguras (funciona só con ligazóns absolutas)"
-
-#~ msgid ""
-#~ "EncFS profile creation will be removed in the next minor release (1.7), "
-#~ "scheduled for 2026."
-#~ msgstr ""
-#~ "A creación de perfís EncFS retirarase na próxima versión menor (1.7), "
-#~ "prevista para o 2026."
-
-#, python-brace-format
-#~ msgid ""
-#~ "For more details, including potential alternatives, please refer to this "
-#~ "{whitepaper}."
-#~ msgstr ""
-#~ "Para obter máis detalles, incluíndo potenciais alternativas, consulte este "
-#~ "{whitepaper}."
-
-#~ msgid "It is not recommended to use that mode for a profile furthermore."
-#~ msgstr "Ademais, non se recomenda utilizar ese modo para un perfil."
-
-#~ msgid "No config found"
-#~ msgstr "Non se atopou ningunha configuración"
-
-#~ msgid "SSH encrypted"
-#~ msgstr "Cifrado SSH"
-
-#~ msgid ""
-#~ "Support for EncFS is being discontinued due to security vulnerabilities."
-#~ msgstr ""
-#~ "A compatibilidade con EncFS está a ser descontinuado por mor de "
-#~ "vulnerabilidades da seguranza."
-
-#~ msgid "The following profile(s) use encryption with EncFS:"
-#~ msgstr "Os seguinte (ou seguintes) perfís usan cifrado con EncFS:"
-
-#~ msgid ""
-#~ "This message will not be shown again. This dialog is available at any time "
-#~ "via the help menu."
-#~ msgstr ""
-#~ "Esta mensaxe non volverá ser amosada. Este diálogo está dispoñíbel en "
-#~ "calquera momento a través do menú de axuda."
-
-#, python-brace-format
-#~ msgid ""
-#~ "Users are invited to join this discussion. Updated details on the next steps"
-#~ " are available in this {whitepaper}."
-#~ msgstr ""
-#~ "Os usuarios están convidados a unirse a esta discusión. Os detalles "
-#~ "actualizados sobre os próximos pasos están dispoñibles neste {whitepaper}."
-
-#~ msgid "Your Back In Time Team"
-#~ msgstr "O equipo de Back In Time"
-
-#~ msgid "whitepaper"
-#~ msgstr "documento técnico"
-
-#, python-brace-format
-#~ msgid ""
-#~ "{BOLD}Highly recommended{ENDBOLD}: (All recommendations already included.)"
-#~ msgstr ""
-#~ "{BOLD}Moi recomendado{ENDBOLD}: (Todas as recomendacións xa incluídas.)"
-
-#, python-brace-format
-#~ msgid "{BOLD}Highly recommended{ENDBOLD}: {files}"
-#~ msgstr "{BOLD}Moi recomendado{ENDBOLD}: {files}"

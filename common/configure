@@ -234,7 +234,8 @@ addComment "man"
 addInstallDir                                            "/share/man/man1"
 addInstallFile "../doc/manpages/backintime.1.gz"         "/share/man/man1"
 addInstallFile "../doc/manpages/backintime-askpass.1.gz" "/share/man/man1"
-addInstallFile "../doc/manpages/backintime-config.5.gz"  "/share/man/man1"
+addInstallDir                                            "/share/man/man5"
+addInstallFile "../doc/manpages/backintime-config.5.gz"  "/share/man/man5"
 addUninstallDir                                          "/share/man"
 addNewline
 
