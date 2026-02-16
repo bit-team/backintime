@@ -442,12 +442,12 @@ def open_url(url: str) -> None:
         )
 
     except (subprocess.CalledProcessError, FileNotFoundError) as exc:
-        logger.error(f'Problem while opening "{url}" in as user '
+        logger.error(f'Problem while opening "{url}" as user '
                      f'"{user_name}" while in root-mode. '
                      f'Error was: {exc}')
 
     except Exception as exc:  # pylint: disable=broad-exception-caught
-        logger.critical(f'Unknown problem while opening "{url}" in as user '
+        logger.critical(f'Unknown problem while opening "{url}" as user '
                         f'"{user_name}" while in root-mode. '
                         f'Error was: {exc}')
 
