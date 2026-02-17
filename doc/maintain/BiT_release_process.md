@@ -68,6 +68,10 @@ using a "feature" branch and sending a pull request asking for a review.
 !-->
 - Update `README.md` file.
 - Build user manual:
+  - Considere if there was a modification to the application
+    logo (in `qt/icons/scalable/apps/backintime.svg`). If this is the case
+    replace the logo in the documentation
+    (`doc/manual/src/_images/backintime.svg`) with the new version.
   - Navigate to `./doc/manual`.
   - Run `mkdocs build`.
   - Be aware that the generated HTML files are not included in the git

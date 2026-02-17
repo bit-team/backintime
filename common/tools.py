@@ -2035,6 +2035,22 @@ def escapeIPv6Address(address):
     return address
 
 
+def xdg_open(uri: str) -> bool:
+    """Use xdg-open command to open a resource (file, url, ...) with the
+    systems default application.
+
+    Errors are logged as critical.
+    """
+    try:
+        subprocess.run(['xdg-open', str(uri)], check=True)
+
+    except subprocess.CalledProcessError as exc:
+        logger.critical(str(exc))
+        return False
+
+    return True
+
+
 class Alarm:
     """Establish a callback function that is called after a timeout using
     SIGALRM signal.

@@ -20,7 +20,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 _Back In Time_ is a comfortable and well-configurable graphical frontend for
 incremental backups using [`rsync`](https://rsync.samba.org/), with a
 command-line version also available. Modified files are transferred, while
-unchanged files are linked to the new folder using rsync's hard link feature,
+unchanged files are linked to the new directory using rsync's hard link feature,
 saving storage space. Restoring is straightforward via file manager, command
 line or _Back In Time_ itself.
 
@@ -129,7 +129,7 @@ to it. Note that the exact file permissions can still be found in
 
 See the related issue [#1592](https://github.com/bit-team/backintime/issues/1592).
 
-The only reliable work-around is to delete (or move into another folder)
+The only reliable work-around is to delete (or move into another directory)
 the file `/usr/share/backintime/common/qt_probing.py`:
 
 `mv /usr/share/backintime/common/qt_probing.py /usr/share/backintime/`
@@ -144,11 +144,4 @@ workflow and strategy.
 Please read [`LICENSES.md`](LICENSES.md).
 
 ---
-
 <sub>February 2026</sub>
-
----
-
-<sub>Copyright © 2008-2024 Oprea Dan, Bart de Koning, Richard Bailey,
-Germar Reitze, Taylor Raack</sub><br />
-<sub>Copyright © 2022 Christian Buhtz, Michael Büker, Jürgen Altfeld</sub>
