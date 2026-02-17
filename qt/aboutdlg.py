@@ -163,6 +163,20 @@ class AboutDlg(QDialog):
 
         return gpl
 
+    def _slot_license_link_acivated(self, link):
+        if link == _HREF_LICENSES_MD:
+            self._show_licenses_md_file()
+
+        elif link == _HREF_LICENSES_DIR:
+            self._show_licenses_dir()
+
+        elif link == _HREF_SPDX_GPL:
+            qttools.open_url(bitlicense.URL_GPL_TWO)
+
+        else:
+            logger.critical(
+                f'Unknown link "{link}". Please open a bug report.')
+
     def _show_licenses_dir(self):
         fp = bitlicense.DIR_LICENSES
 
@@ -196,20 +210,6 @@ class AboutDlg(QDialog):
                 f'Unable to open {fp} using "xdg-open". Please contact the '
                 'Back In Time team and report a bug.'
             )
-
-    def _slot_license_link_acivated(self, link):
-        if link == _HREF_LICENSES_MD:
-            self._show_licenses_md_file()
-
-        elif link == _HREF_LICENSES_DIR:
-            self._show_licenses_dir()
-
-        elif link == _HREF_SPDX_GPL:
-            qttools.open_url(bitlicense.URL_GPL_TWO)
-
-        else:
-            logger.critical(
-                f'Unknown link "{link}". Please open a bug report.')
 
     def _get_authors(self):
         fp = Path('/usr/share/doc') / bitbase.PACKAGE_NAME_CLI / 'AUTHORS'
