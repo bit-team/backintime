@@ -26,6 +26,7 @@ from PyQt6.QtGui import QFont, QIcon, QPalette
 from PyQt6.QtCore import Qt
 import bitbase
 import config
+from profile_operations import ProfileOperations
 
 
 class PlacesWidget(QTreeWidget):
@@ -41,6 +42,8 @@ class PlacesWidget(QTreeWidget):
         self.config = cfg
         self.parent = parent
 
+        self._profile_operations = None
+
         # Do not show controls for expanding and collapsing top-level items
         self.setRootIsDecorated(False)
 
@@ -54,6 +57,16 @@ class PlacesWidget(QTreeWidget):
 
         self.header().sortIndicatorChanged.connect(self.do_update)
         self.currentItemChanged.connect(self._slot_changed)
+
+    def set_profile_operations(self, pop: ProfileOperations) -> None:
+        self._profile_operations = pop
+        self._profile_operations.event_dir_added_to_include.register(
+            self._handle_new_dir_included
+        )
+
+    def _handle_new_dir_included(self):
+        # do_update() somehow
+        raise NotImplementedError
 
     def do_update(self, _col: int = None, _order: Qt.SortOrder = None) -> None:
         """Update the places view"""

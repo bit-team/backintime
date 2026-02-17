@@ -13,6 +13,7 @@
 #
 # Split from app.py
 """The file view widget in the main window."""
+from __future__ import annotations
 import os
 import sys
 import pathlib
@@ -40,6 +41,7 @@ import guiapplicationinstance
 import mount
 import progress
 import encfsmsgbox
+from event import Event
 from inhibitsuspend import InhibitSuspend
 from exceptions import MountException
 from statedata import StateData
@@ -92,22 +94,18 @@ from restoreconfigdialog import RestoreConfigDialog
 from usermessagedialog import UserMessageDialog
 from aboutdlg import AboutDlg
 from timeline import TimeLine, SnapshotItem
-from bitwidgets import ProfileCombo
-from shutdowndlg import get_shutdown_confirmation
-from statusbar import StatusBar
-from placeswidget import PlacesWidget
-from qtsystrayicon import QtSysTrayIcon
 
 class ProxyModel(QSortFilterProxyModel):
     def __init__(self, parent, model):
-        QSortFilterProxyModel.__init__(parent)
-        self.filesViewProxyModel.setDynamicSortFilter(True)
-        self.filesViewProxyModel.setSourceModel(model)
+        super().__init__(parent)
+        self.setDynamicSortFilter(True)
+        self.setSourceModel(model)
 
 
-class FileModel(QFileSystemModel):
+class FilesModel(QFileSystemModel):
     def __init__(self, parent):
-        QFileSystemModel.__init__(parent)
+        super().__init__(parent)
+
         self.setRootPath(QDir().rootPath())
         self.setReadOnly(True)
         self.setFilter(
@@ -117,9 +115,6 @@ class FileModel(QFileSystemModel):
             QDir.Filter.Hidden
         )
 
-        self.styled_item_delegate = QStyledItemDelegate(parent)
-        self.setItemDelegate(self.styled_item_delegate)
-
     def set_sort(self, view: FilesView):
         self.sort(
             view.header().sortIndicatorSection(),
@@ -127,14 +122,20 @@ class FileModel(QFileSystemModel):
         )
 
 
-
-class FileView(QTreeView):
+class FilesView(QTreeView):
     """File view widget in the main window"""
 
-    def __init__(self, window: QMainWindow)
-        QTreeView.__init__(window)
+    def __init__(self,
+                 parent,
+                 action_restore: QAction,
+                 action_restore_to: QAction,
+                 action_snapshots_dialog: QAction,
+                 action_show_hidden: QAction,
+                 sort_column,
+                 sort_order):
+        super().__init__(parent)
 
-        self._window = window
+        self._profile_operations = None
 
         # self.filesView = QTreeView(self)
         self.setRootIsDecorated(False)
@@ -145,33 +146,55 @@ class FileView(QTreeView):
         self.setSelectionMode(
             QAbstractItemView.SelectionMode.ExtendedSelection)
 
+        # ???
+        self.styled_item_delegate = QStyledItemDelegate(self)
+        self.setItemDelegate(self.styled_item_delegate)
+
         self.header().setSectionsClickable(True)
         self.header().setSectionsMovable(False)
         self.header().setSortIndicatorShown(True)
 
         # = model
-        self.filesViewModel = FilesModel(self)
+        self.model = FilesModel(self)
 
         # = proxy
-        self.filesViewProxyModel = ProxyModel(self, self.filesViewModel)
+        self.proxy = ProxyModel(self, self.model)
+
+        self.setModel(self.proxy)
 
         # setup sorting
-        sortColumn, sortOrder = state_data.files_view_sorting
-        self.header().setSortIndicator(sortColumn, Qt.SortOrder(sortOrder))
-        self.header().sortIndicatorChanged.connect(self.filesViewModel.sort)
-        self.filesViewModel.set_sort(self)
+        self.header().setSortIndicator(sort_column, Qt.SortOrder(sort_order))
+        self.header().sortIndicatorChanged.connect(self.model.sort)
+        self.model.set_sort(self)
 
-        self._context_menu = self._context_menu()
+        self._context_menu = self._create_context_menu(
+                 action_restore,
+                 action_restore_to,
+                 action_snapshots_dialog,
+                 action_show_hidden
+        )
 
         # self._restore_visual_state()
 
         # self._try_to_mount()
 
-        self.filesViewProxyModel.layoutChanged.connect(self.dirListerCompleted)
+        self.proxy.layoutChanged.connect(self._on_proxy_layout_changed)
 
         # Dev note (buhtz, 2026-01): Don't use doubleClicked signal because
         # it won't catch desktops with single-click-as-double-click settings.
         self.activated.connect(self._slot_item_activated)
+
+        self.event_path_clicked = Event()
+        self.event_proxy_changed = Event()
+
+    def _on_proxy_layout_changed(self):
+        """A workaround until app.py::MainWindow.dirListerComplete() is
+        refactored.
+        """
+        self.event_proxy_changed.notify()
+
+    def set_profile_operations(self, pop: ProfileOperations) -> None:
+        self._profile_operations = pop
 
     def set_columns_width(self, widths: list[int]):
         for idx, width in enumerate(widths):
@@ -190,24 +213,32 @@ class FileView(QTreeView):
             self.header().sortIndicatorOrder().value
         )
 
-    def _context_menu(self):
+    def _create_context_menu(self,
+                             action_restore: QAction,
+                             action_restore_to: QAction,
+                             action_snapshots_dialog: QAction,
+                             action_show_hidden: QAction) -> QMenu:
+        """Create a menu instance for later reuse as context menu."""
         self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.customContextMenuRequested \
                       .connect(self._slot_context_menu)
 
         menu  = QMenu(self)
-        menu.addAction(self.act_restore)
-        menu.addAction(self.act_restore_to)
-        menu.addAction(self.act_snapshots_dialog)
+        menu.addAction(action_restore)
+        menu.addAction(action_restore_to)
+        menu.addAction(action_snapshots_dialog)
+
         menu.addSeparator()
+
         import icon
-        self.btnAddInclude = menu.addAction(icon.ADD, _('Add to Include'))
-        self.btnAddExclude = menu.addAction(icon.ADD, _('Add to Exclude'))
-        # connect to parent or use (blind) Event class
-        self.btnAddInclude.triggered.connect(self._slot_add_to_include)
-        self.btnAddExclude.triggered.connect(self._slot_add_to_exclude)
+        btn_include = menu.addAction(icon.ADD, _('Add to Include'))
+        btn_exclude = menu.addAction(icon.ADD, _('Add to Exclude'))
+        btn_include.triggered.connect(self._slot_add_to_include)
+        btn_exclude.triggered.connect(self._slot_add_to_exclude)
+
         menu.addSeparator()
-        menu.addAction(self.act_show_hidden)
+
+        menu.addAction(action_show_hidden)
 
         return menu
 
@@ -231,13 +262,13 @@ class FileView(QTreeView):
 
             # proxy should know this by itself!
             if self.showHiddenFiles:
-                self.filesViewProxyModel.setFilterRegularExpression(r'')
+                self.proxy.setFilterRegularExpression(r'')
 
             else:
-                self.filesViewProxyModel.setFilterRegularExpression(r'^[^\.]')
+                self.proxy.setFilterRegularExpression(r'^[^\.]')
 
-            model_index = self.filesViewModel.setRootPath(full_path)
-            proxy_model_index = self.filesViewProxyModel.mapFromSource(
+            model_index = self.model.setRootPath(full_path)
+            proxy_model_index = self.proxy.mapFromSource(
                 model_index)
 
             self.setRootIndex(proxy_model_index)
@@ -260,13 +291,13 @@ class FileView(QTreeView):
         if model_index.column() > 0:
             model_index = model_index.sibling(model_index.row(), 0)
 
-        selected_file = str(self.filesViewProxyModel.data(model_index))
+        selected_file = str(self.proxy.data(model_index))
 
         if selected_file == '/':
             # nothing is selected
             selected_file = ''
-            model_index = self.filesViewProxyModel.mapFromSource(
-                self.filesViewModel.index(self.path, 0))
+            model_index = self.proxy.mapFromSource(
+                self.model.index(self.path, 0))
 
         if fullPath:
             # resolve to full path
@@ -275,12 +306,13 @@ class FileView(QTreeView):
         return (selected_file, model_index)
 
     def multiFileSelected(self, fullPath=False):
+        # ????
         count = 0
         for idx in self.selectedIndexes():
             if idx.column() > 0:
                 continue
 
-            selected_file = str(self.filesViewProxyModel.data(idx))
+            selected_file = str(self.proxy.data(idx))
 
             if selected_file == '/':
                 continue
@@ -294,8 +326,8 @@ class FileView(QTreeView):
 
         if not count:
             # nothing is selected
-            idx = self.filesViewProxyModel.mapFromSource(
-                self.filesViewModel.index(self.path, 0))
+            idx = self.proxy.mapFromSource(
+                self.model.index(self.path, 0))
 
             selected_file = self.path if fullPath else ''
 
@@ -309,44 +341,43 @@ class FileView(QTreeView):
         self.updateFilesView(1)
 
     def _slot_item_activated(self, model_index):
-        # Dev: move to main window. using an Event signal
         if not model_index:
             return
 
         # Ctrl button pressed, indicates ongoing multiselection?
-        modifiers = self.qapp.keyboardModifiers()
+        qapp = QApplication.instance()
+        modifiers = qapp.keyboardModifiers()
         if Qt.KeyboardModifier.ControlModifier in modifiers:
             return
 
-        rel_path = str(self.filesViewProxyModel.data(model_index))
+        rel_path = str(self.proxy.data(model_index))
         if not rel_path:
             return
+
+        # "double" clicked?
+        self.event_path_clicked.notify(rel_path)
 
         self._open_path(rel_path)
 
     def _slot_add_to_include(self):
-        # Dev: move to main window. using an Event signal
         paths = [f for f, idx in self.multiFileSelected(fullPath=True)]
-        include = self.config.include()
-        updatePlaces = False
+        self._profile_operations.add_include(paths)
 
-        for item in paths:
+        updatePlaces = True  # False
 
-            if os.path.isdir(item):
-                include.append((item, 0))
-                updatePlaces = True
-            else:
-                include.append((item, 1))
+        # for item in paths:
 
-        self.config.setInclude(include)
+        #     if os.path.isdir(item):
+        #         include.append((item, 0))
+        #         updatePlaces = True
+        #     else:
+        #         include.append((item, 1))
+
+        # self.config.setInclude(include)
 
         if updatePlaces:
             self.places.do_update()
 
     def _slot_add_to_exclude(self):
-        # Dev: move to main window. using an Event signal
         paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
-        exclude = self.config.exclude()
-        exclude.extend(paths)
-        self.config.setExclude(exclude)
-
+        self._profile_operations.add_excludes(paths)

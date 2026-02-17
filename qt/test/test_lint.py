@@ -48,6 +48,7 @@ full_test_files = [_base_dir / fp for fp in (
     'confirmrestoredialog.py',
     'editusercallback.py',
     'encfsmsgbox.py',
+    'event.py',
     'filedialog.py',
     # 'icon.py',
     'languagedialog.py',

@@ -97,6 +97,9 @@ from shutdowndlg import get_shutdown_confirmation
 from statusbar import StatusBar
 from placeswidget import PlacesWidget
 from qtsystrayicon import QtSysTrayIcon
+from fileview import FilesView
+from profile_operations import ProfileOperations
+from event import Event
 
 
 class MainWindow(QMainWindow):
@@ -109,6 +112,8 @@ class MainWindow(QMainWindow):
         self.appInstance = appInstance
         self.qapp = qapp
         self.snapshots = snapshots.Snapshots(config)
+
+        self._profile_operations = None
 
         self.lastTakeSnapshotMessage = None
         self.tmpDirs = []
@@ -179,62 +184,38 @@ class MainWindow(QMainWindow):
         self.stackFilesView = QStackedLayout(widget)
         self.secondSplitter.addWidget(widget)
 
-        # folder don't exist label
+        # directory don't exist label
         self._label_not_a_dir = self._label_dir_dont_exist()
         self.stackFilesView.addWidget(self._label_not_a_dir)
 
-        # list files view
-        self.filesView = QTreeView(self)
+        # files view
+        sort_column, sort_order = state_data.files_view_sorting
+        self.filesView = FilesView(
+            self,
+            self.act_restore,
+            self.act_restore_to,
+            self.act_snapshots_dialog,
+            self.act_show_hidden,
+            sort_column,
+            sort_order
+        )
+        self.filesView.event_path_clicked.register(
+            self._on_list_view_path_activated
+        )
+        # workaround
+        self.filesView.event_proxy_changed.register(
+            self._on_files_view_proxy_changed
+        )
         self.stackFilesView.addWidget(self.filesView)
-        self.filesView.setRootIsDecorated(False)
-        self.filesView.setAlternatingRowColors(True)
-        self.filesView.setEditTriggers(
-            QAbstractItemView.EditTrigger.NoEditTriggers)
-        self.filesView.setItemsExpandable(False)
-        self.filesView.setDragEnabled(False)
-        self.filesView.setSelectionMode(
-            QAbstractItemView.SelectionMode.ExtendedSelection)
-
-        self.filesView.header().setSectionsClickable(True)
-        self.filesView.header().setSectionsMovable(False)
-        self.filesView.header().setSortIndicatorShown(True)
-
-        self.filesViewModel = QFileSystemModel(self)
-        self.filesViewModel.setRootPath(QDir().rootPath())
-        self.filesViewModel.setReadOnly(True)
-        self.filesViewModel.setFilter(QDir.Filter.AllDirs |
-                                      QDir.Filter.AllEntries |
-                                      QDir.Filter.NoDotAndDotDot |
-                                      QDir.Filter.Hidden)
-
-        self.filesViewProxyModel = QSortFilterProxyModel(self)
-        self.filesViewProxyModel.setDynamicSortFilter(True)
-        self.filesViewProxyModel.setSourceModel(self.filesViewModel)
-
-        self.filesView.setModel(self.filesViewProxyModel)
-
-        self.filesViewDelegate = QStyledItemDelegate(self)
-        self.filesView.setItemDelegate(self.filesViewDelegate)
-
-        sortColumn, sortOrder = state_data.files_view_sorting
-
-        self.filesView.header().setSortIndicator(
-            sortColumn, Qt.SortOrder(sortOrder))
-        self.filesViewModel.sort(
-            self.filesView.header().sortIndicatorSection(),
-            self.filesView.header().sortIndicatorOrder())
-        self.filesView.header() \
-                      .sortIndicatorChanged.connect(self.filesViewModel.sort)
-
+        # self.filesViewModel = QFileSystemModel(self)
+        # self.filesViewProxyModel = QSortFilterProxyModel(self)
         self.stackFilesView.setCurrentWidget(self.filesView)
 
-        #
         self.setCentralWidget(self.mainSplitter)
 
         # context menu for Files View
-        self._context_menu = self._files_view_context_menu()
+        # self._context_menu = self._files_view_context_menu()
 
-        # self.statusBar().addWidget(layoutWidget, 100)
         self.status_bar = StatusBar(self)
         self.statusBar().addWidget(self.status_bar, 100)
         self.status_bar.set_status_message(_('Done'))
@@ -244,6 +225,13 @@ class MainWindow(QMainWindow):
         self.path = self.config.profileStrValue('qt.last_path', '/')
         self.widget_current_path.setText(self.path)
         self.path_history = tools.PathHistory(self.path)
+
+        # Events
+        self.event_profile_changed = Event()
+        self.event_profile_changed.register([
+            self.filesView.set_profile_operations,
+            self.places.set_profile_operations,
+        ])
 
         self._restore_visual_state()
 
@@ -256,7 +244,8 @@ class MainWindow(QMainWindow):
 
         self._try_to_mount()
 
-        self.filesViewProxyModel.layoutChanged.connect(self.dirListerCompleted)
+        # self.filesViewProxyModel.layoutChanged.connect(self.dirListerCompleted)
+
 
         # populate lists
         self.updateProfiles()
@@ -268,10 +257,6 @@ class MainWindow(QMainWindow):
         self.updateSnapshotActions()
 
         self.timeLine.itemSelectionChanged.connect(self.timeLineChanged)
-
-        # Dev note (buhtz, 2026-01): Don't use doubleClicked signal because
-        # it won't catch desktops with single-click-as-double-click settings.
-        self.filesView.activated.connect(self._slot_files_view_item_activated)
 
         self.forceWaitLockCounter = 0
 
@@ -990,26 +975,26 @@ class MainWindow(QMainWindow):
 
         return toolbar
 
-    def _files_view_context_menu(self):
-        self.filesView.setContextMenuPolicy(
-            Qt.ContextMenuPolicy.CustomContextMenu)
-        self.filesView.customContextMenuRequested \
-                      .connect(self._slot_files_view_context_menu)
+    # def _files_view_context_menu(self):
+    #     self.filesView.setContextMenuPolicy(
+    #         Qt.ContextMenuPolicy.CustomContextMenu)
+    #     self.filesView.customContextMenuRequested \
+    #                   .connect(self._slot_files_view_context_menu)
 
-        menu  = QMenu(self)
-        menu.addAction(self.act_restore)
-        menu.addAction(self.act_restore_to)
-        menu.addAction(self.act_snapshots_dialog)
-        menu.addSeparator()
-        import icon
-        self.btnAddInclude = menu.addAction(icon.ADD, _('Add to Include'))
-        self.btnAddExclude = menu.addAction(icon.ADD, _('Add to Exclude'))
-        self.btnAddInclude.triggered.connect(self._slot_add_to_include)
-        self.btnAddExclude.triggered.connect(self._slot_add_to_exclude)
-        menu.addSeparator()
-        menu.addAction(self.act_show_hidden)
+    #     menu  = QMenu(self)
+    #     menu.addAction(self.act_restore)
+    #     menu.addAction(self.act_restore_to)
+    #     menu.addAction(self.act_snapshots_dialog)
+    #     menu.addSeparator()
+    #     import icon
+    #     self.btnAddInclude = menu.addAction(icon.ADD, _('Add to Include'))
+    #     self.btnAddExclude = menu.addAction(icon.ADD, _('Add to Exclude'))
+    #     self.btnAddInclude.triggered.connect(self._slot_add_to_include)
+    #     self.btnAddExclude.triggered.connect(self._slot_add_to_exclude)
+    #     menu.addSeparator()
+    #     menu.addAction(self.act_show_hidden)
 
-        return menu
+    #     return menu
 
     def closeEvent(self, event):
         state_data = StateData()
@@ -1050,7 +1035,7 @@ class MainWindow(QMainWindow):
             self.filesView.header().sortIndicatorOrder().value
         )
 
-        self.filesViewModel.deleteLater()
+        self.filesView.model.deleteLater()
 
         # umount
         try:
@@ -1093,25 +1078,25 @@ class MainWindow(QMainWindow):
         self.updateFilesView(0)
 
         profile_id = self.config.currentProfile()
+
+        self._profile_operations = ProfileOperations(
+            profile_id=profile_id,
+            config=self.config
+        )
+        self.event_profile_changed.notify(self._profile_operations)
+
         state_data = StateData()
         profile_state = state_data.profile(profile_id)
+
         try:
             sorting = profile_state.places_sorting
+
         except KeyError:
             pass
+
         else:
             self.places.set_sorting(sorting)
 
-        # # EncFS deprecation warning (see #1734)
-        # current_mode = self.config.snapshotsMode(profile_id)
-        # if current_mode in ('local_encfs', 'ssh_encfs'):
-        #     # Show the profile specific warning dialog only once per profile
-        #     # and only if the global warning was shown before.
-        #     if (state_data.msg_encfs_global == bitbase.ENCFS_MSG_STAGE
-        #             and profile_state.msg_encfs < bitbase.ENCFS_MSG_STAGE):
-        #         profile_state.msg_encfs = bitbase.ENCFS_MSG_STAGE
-        #         dlg = encfsmsgbox.EncfsCreateWarning(self)
-        #         dlg.exec()
 
     def comboProfileChanged(self, _index):
         if self.disableProfileChanged:
@@ -1452,6 +1437,20 @@ class MainWindow(QMainWindow):
             file_url = QUrl('file://' + full_path)
             QDesktopServices.openUrl(file_url)
 
+    def _update_files_widget(self):
+        if self.sid.isRoot:
+            text = _('Now')
+
+        else:
+            name = self.sid.displayName
+            # buhtz (2023-07)3 blanks at the end of that string as a
+            # workaround to a visual issue where the last character was
+            # cutoff. Not sure if this is DE and/or theme related.
+            # Wasn't able to reproduc in an MWE. Remove after refactoring.
+            text = '{} {}   '.format(_('Backup:'), name)
+
+        self.filesWidget.setTitle(text)
+
     @pyqtSlot(int)
     def updateFilesView(self,
                         changed_from,
@@ -1477,19 +1476,7 @@ class MainWindow(QMainWindow):
                     self.places.setCurrentItem(item)
                     break
 
-        text = ''
-        if self.sid.isRoot:
-            text = _('Now')
-
-        else:
-            name = self.sid.displayName
-            # buhtz (2023-07)3 blanks at the end of that string as a
-            # workaround to a visual issue where the last character was
-            # cutoff. Not sure if this is DE and/or theme related.
-            # Wasn't able to reproduc in an MWE. Remove after refactoring.
-            text = '{} {}   '.format(_('Backup:'), name)
-
-        self.filesWidget.setTitle(text)
+        self._update_files_widget()
 
         # try to keep old selected file
         if selected_file is None:
@@ -1503,14 +1490,16 @@ class MainWindow(QMainWindow):
         if os.path.isdir(full_path):
 
             if self.showHiddenFiles:
-                self.filesViewProxyModel.setFilterRegularExpression(r'')
+                self.filesView.proxy.setFilterRegularExpression(r'')
 
             else:
-                self.filesViewProxyModel.setFilterRegularExpression(r'^[^\.]')
+                self.filesView.proxy.setFilterRegularExpression(r'^[^\.]')
 
-            model_index = self.filesViewModel.setRootPath(full_path)
-            proxy_model_index = self.filesViewProxyModel.mapFromSource(
-                model_index)
+            # WEITE HIER. Code in filesview.py schieben
+            # model: path to read from
+            model_index = self.filesView.model.setRootPath(full_path)
+            proxy_model_index = self.filesView.proxy.mapFromSource(model_index)
+            # view: show that path as root path
             self.filesView.setRootIndex(proxy_model_index)
 
             self.toolbar_filesview.setEnabled(False)
@@ -1557,9 +1546,15 @@ class MainWindow(QMainWindow):
         self.act_restore.setEnabled(enable)
         self.act_restore_to.setEnabled(enable)
 
+    def _on_files_view_proxy_changed(self):
+        """A workaround until app.py::MainWindow.dirListerComplete() is
+        refactored.
+        """
+        self.dirListerCompleted()
+
     def dirListerCompleted(self):
-        row_count = self.filesViewProxyModel.rowCount(
-            self.filesView.rootIndex())
+        """ToDo refactor"""
+        row_count = self.filesView.proxy.rowCount(self.filesView.rootIndex())
         has_files = row_count > 0
 
         # update restore button state
@@ -1583,7 +1578,7 @@ class MainWindow(QMainWindow):
                 return
 
             while index.isValid():
-                file_name = (str(self.filesViewProxyModel.data(index)))
+                file_name = (str(self.filesView.proxy.data(index)))
 
                 if file_name == self.selected_file:
                     # TODO: doesn't work reliable
@@ -1597,7 +1592,7 @@ class MainWindow(QMainWindow):
 
         if not found and has_files:
             self.filesView.setCurrentIndex(
-                self.filesViewProxyModel.index(0, 0))
+                self.filesView.proxy.index(0, 0))
 
     def fileSelected(self, fullPath=False):
         """Return path and index of the currently in Files View highlighted
@@ -2085,27 +2080,15 @@ class MainWindow(QMainWindow):
 
         self._open_path(path)
 
-    def _slot_files_view_context_menu(self, point):
+    def _DEP_slot_files_view_context_menu(self, point):
         self._context_menu.exec(self.filesView.mapToGlobal(point))
 
     def _slot_files_view_hidden_files_toggled(self, checked: bool):
         self.showHiddenFiles = checked
         self.updateFilesView(1)
 
-    def _slot_files_view_item_activated(self, model_index):
-        if not model_index:
-            return
-
-        # Ctrl button pressed, indicates ongoing multiselection?
-        modifiers = self.qapp.keyboardModifiers()
-        if Qt.KeyboardModifier.ControlModifier in modifiers:
-            return
-
-        rel_path = str(self.filesViewProxyModel.data(model_index))
-        if not rel_path:
-            return
-
-        self._open_path(rel_path)
+    def _on_list_view_path_activated(self, path):
+        self._open_path(path)
 
     # |-----------------|
     # | some more Slots |
