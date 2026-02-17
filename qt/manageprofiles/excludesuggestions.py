@@ -29,7 +29,7 @@ Example:
         )
     }
 """
-EXCLUDE_SUGGESTIONS = {
+EXCLUDE_SUGGESTIONS = {  # pylint: disable=invalid-name
     _('Editor & Office temporary files'): (
         ['*~', _('Emacs backup files'), False],
         ['#*#', _('Emacs autosave files'), True],
