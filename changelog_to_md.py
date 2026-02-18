@@ -197,7 +197,11 @@ def process_raw_results(raw_result):
         r'^Version (\d+\.\d+.*) \((.+)\)$')
 
     for heading, items in raw_result:
-        version, date = rex_ver_date.search(heading).groups()
+        try:
+            version, date = rex_ver_date.search(heading).groups()
+        except Exception as exc:
+            print(f'{heading=} {items=}')
+            raise exc
 
         result.append(
             (

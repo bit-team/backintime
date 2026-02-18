@@ -8,11 +8,137 @@
 ### Fixed
 -->
 
-## [1.6.0-dev] (development of upcoming release)
+## [1.6.2] (Unreleased Development)
 
 ### Uncategorized
 
-- ...
+- 
+
+## [1.6.1] (2026-02-10)
+
+### Uncategorized
+
+- Fixed: SSH-Key selector widget handle binary keys, missing but configured keys ([#2399](https://github.com/bit-team/backintime/issues/2399), [#2400](https://github.com/bit-team/backintime/issues/2400))
+- Fixed: SSH-Key selector widget is more robust on unexpected edge cases ([#2399](https://github.com/bit-team/backintime/issues/2399), [#2400](https://github.com/bit-team/backintime/issues/2400))
+- Fixed: Install backintime-config man page in correct location
+
+## [1.6.0] (2026-02-08)
+
+### Uncategorized
+
+- Changed: **Breaking** Disable EncFS for creation of new backup profiles ([#2315](https://github.com/bit-team/backintime/issues/2315), [#1734](https://github.com/bit-team/backintime/issues/1734))
+- Changed: **Breaking** A "snapshot" now is a "backup" ([#1929](https://github.com/bit-team/backintime/issues/1929))
+- Changed: **Breaking** Deprecated and removed make targets: "test", "test-v", "unittest", "unittest-v"
+- Changed: Manpage backintime-config moved from section 1 to 5 ([#1773](https://github.com/bit-team/backintime/issues/1773))
+- Changed: New dependency "bash" for root mode starter script "backintime-qt_polkit" ([#2328](https://github.com/bit-team/backintime/issues/2328))
+- Changed: New dependency (runtime GUI) to "python3-pyqt6.qtsvg" for loading SVG icons ([#1961](https://github.com/bit-team/backintime/issues/1961))
+- Changed: Disable scheduling widget in GUI if cron/crontab is missing ([#2245](https://github.com/bit-team/backintime/issues/2245), @m4rcu5 Marcus von Dam)
+- Changed: Expert Options replaced two checkboxes with single widget to configure symlink copying behavior ([#1652](https://github.com/bit-team/backintime/issues/1652))
+- Changed: "Repeatedly (anacron)" scheduling behave consistent. Reversed minor bug introduced with 060324e ([#1791](https://github.com/bit-team/backintime/issues/1791)) in 1.5.3 ([#2250](https://github.com/bit-team/backintime/issues/2250))
+- Changed: Stricter permissions (600) for fileinfo.bz2 and takesnapshot.log.bz2 ([#2235](https://github.com/bit-team/backintime/issues/2235))
+- Changed: Unlocking ssh-agent use "force" instead of "prefer" for SSH_ASKPASS_REQUIRE ([#2170](https://github.com/bit-team/backintime/issues/2170)) (@daviewales)
+- Changed: Stop passing window ID when inhibiting suspend via D-Bus power manager ([#2084](https://github.com/bit-team/backintime/issues/2084))
+- Changed: Reorder DBUS service provider list for suspend mode inhibition ([#2084](https://github.com/bit-team/backintime/issues/2084))
+- Changed: Man pages generated from AsciiDoc, except backintime-config ([#2085](https://github.com/bit-team/backintime/issues/2085))
+- Changed: Deprecate command "benchmark-cipher" ([#2120](https://github.com/bit-team/backintime/issues/2120))
+- Changed: Deprecate command "snapshots-path" ([#2130](https://github.com/bit-team/backintime/issues/2130))
+- Changed: Deprecate commands "snapshots-list", "snapshots-list-path", "last-snapshots" and "last-snapshot-path" ([#2130](https://github.com/bit-team/backintime/issues/2130))
+- Changed: Deprecate command "smart-remove" ([#2124](https://github.com/bit-team/backintime/issues/2124))
+- Changed: Deprecate command "backup-job" ([#2124](https://github.com/bit-team/backintime/issues/2124))
+- Changed: Deprecate command "remove-and-do-not-ask-again" ([#2124](https://github.com/bit-team/backintime/issues/2124))
+- Changed: Deprecate command "decode" ([#2124](https://github.com/bit-team/backintime/issues/2124))
+- Changed: Deprecate flag-like command aliases (e.g. "--backup" for "backup") ([#2124](https://github.com/bit-team/backintime/issues/2124))
+- Changed: Deprecate argument flag "--profile-id" ([#2125](https://github.com/bit-team/backintime/issues/2125))
+- Changed: Deprecate argument flag "--share-path" ([#2124](https://github.com/bit-team/backintime/issues/2124))
+- Changed: Deprecate use of SSH Cipher ([#2143](https://github.com/bit-team/backintime/issues/2143))
+- Changed: Prefer ed25519 SSH keys (if present) for new created profiles ([#2094](https://github.com/bit-team/backintime/issues/2094))
+- Changed: Generating new SSH key will use default key type provided by ssh-keygen ([#2194](https://github.com/bit-team/backintime/issues/2194))
+- Changed: Open man page and changelog in a text dialog
+- Changed: Minimum PyLint version increased to 4.0.0
+- Added: Language Georgian (ka)
+- Added: Gocryptfs for local encrypted profiles ([#1897](https://github.com/bit-team/backintime/issues/1897), [#1734](https://github.com/bit-team/backintime/issues/1734), @germar, @daviewales)
+- Added: Dialog to suggest commonly used files/dirs/patterns for backup exclusion ([#2309](https://github.com/bit-team/backintime/issues/2309))
+- Added: Systray icon can be forced to Dark or Light
+- Added: Application logo and symbolic systray icon ([#1961](https://github.com/bit-team/backintime/issues/1961), Gregory Deseck @gregorydk)
+- Added: Root mode indicator in status bar ([#1964](https://github.com/bit-team/backintime/issues/1964))
+- Added: Option to not using an explicit SSH key file. In consequence this supports extern key agents and SSH clients own configuration ([#1146](https://github.com/bit-team/backintime/issues/1146))
+- Added: SSH-Key selector widget in Manage profiles dialog ([#1146](https://github.com/bit-team/backintime/issues/1146), [#2094](https://github.com/bit-team/backintime/issues/2094), [#2095](https://github.com/bit-team/backintime/issues/2095), [#2275](https://github.com/bit-team/backintime/issues/2275) @m4rcu5 Marcus van Dam)
+- Added: "ETA" value in status bar ([#2101](https://github.com/bit-team/backintime/issues/2101))
+- Added: Shutdown confirmation dialog ([#2102](https://github.com/bit-team/backintime/issues/2102)) (Huaide Jiang @LatiosInAltoMare)
+- Added: Check and warn if include list entries do not exists in backup source ([#1586](https://github.com/bit-team/backintime/issues/1586)) (@rafaelhdr)
+- Added: Asciidoctor as build dependence ([#2085](https://github.com/bit-team/backintime/issues/2085))
+- Added: Command "show" to replace "snapshots-list", "snapshots-list-path", "last-snapshots" and "last-snapshot-path" ([#2130](https://github.com/bit-team/backintime/issues/2130))
+- Added: Command "prune" to replace "smart-remove" ([#2124](https://github.com/bit-team/backintime/issues/2124))
+- Added: Flag "--background" for command "backup" to replace command "backup-job" ([#2124](https://github.com/bit-team/backintime/issues/2124))
+- Added: Flag "--skip-confirmation" for command "remove" to replace command "remove-and-do-not-ask-again" ([#2124](https://github.com/bit-team/backintime/issues/2124))
+- Added: Flag "--profile" accept ID's beside names only ([#2125](https://github.com/bit-team/backintime/issues/2125))
+- Added: Flag "-p" as alias for "--profile" ([#2125](https://github.com/bit-team/backintime/issues/2125))
+- Added: "Less storage space" threshold to warn the user ([#2110](https://github.com/bit-team/backintime/issues/2110)) (@fest6)
+- Added: Remember size and position of Manage profiles dialog
+- Added: User-callback editor offer a default script in case no script exists ([#1331](https://github.com/bit-team/backintime/issues/1331))
+- Removed: **Breaking** Drop Python support for version 3.9 & 3.10 ([#2129](https://github.com/bit-team/backintime/issues/2129))
+- Removed: Stop using QWindow.winId() ([#2084](https://github.com/bit-team/backintime/issues/2084))
+- Removed: UI translation in Bosnian, Thai, and Occidental/Interlingue ([#1914](https://github.com/bit-team/backintime/issues/1914))
+- Removed: LICENSE file in favor of LICENSES directory and LICENSES.md file
+- Removed: SSH Cipher configuration in Manage profiles dialog ([#2143](https://github.com/bit-team/backintime/issues/2143))
+- Fixed: Crash in config restore dialog
+- Fixed: Consider symbolic icons as fallbacks ([#2345](https://github.com/bit-team/backintime/issues/2345), [#2289](https://github.com/bit-team/backintime/issues/2289))
+- Fixed: Warn users and prevent backups to exFAT volumes due to lack of hardlink support ([#2337](https://github.com/bit-team/backintime/issues/2337))
+- Fixed: Show proper message to users when root mode fails due to inactive or missing polkit agent ([#2328](https://github.com/bit-team/backintime/issues/2328), Derek Veit @DerekVeit)
+- Fixed: Crash in Compare snapshots dialog (aka Snapshots dialog) when comparing/diff two backups ([#2327](https://github.com/bit-team/backintime/issues/2327) Michael Neese @madic-creates)
+- Fixed: File view and Compare Backups dialog now open the clicked item correctly even with multiple selection or single-click-to-open enabled ([#2330](https://github.com/bit-team/backintime/issues/2330))
+- Fixed: Crash in Compare snapshots dialog (aka Snapshots dialog) when comparing/diff two backups ([#2327](https://github.com/bit-team/backintime/issues/2327) Michael Neese @madic-creates)
+- Fixed: Enforce UTF-8 encoding in takesnapshot.log and some other files ([#2298](https://github.com/bit-team/backintime/issues/2298))
+- Fixed: Attribute error about missing 'cbCopyUnsafeLinks' ([#2279](https://github.com/bit-team/backintime/issues/2279))
+- Fixed: Use LC_ALL instead of LC_TIME to set the locale
+- Fixed: Optimize subparsers and usage output ([#2132](https://github.com/bit-team/backintime/issues/2132))
+- Fixed: Re-design about dialog ([#1936](https://github.com/bit-team/backintime/issues/1936))
+- Fixed: Stop waking up monitor when inhibit suspend on backup starts ([#714](https://github.com/bit-team/backintime/issues/714), [#1090](https://github.com/bit-team/backintime/issues/1090))
+- Fixed: Avoid shutdown confirmation dialog on Budgie and Cinnamon desktop environments ([#788](https://github.com/bit-team/backintime/issues/788))
+- Fixed: Crash in "Manage profiles" dialog when using "qt6ct" ([#2128](https://github.com/bit-team/backintime/issues/2128))
+- Fixed: **Breaking** Systray process no longer exposes sensitive backup profile information when the desktop session belongs to another user ([#2237](https://github.com/bit-team/backintime/issues/2237), reported and co-authored by @samo-sk)
+- Fixed: Allow in BITs root-mode opening URLs in extern browse
+
+## [1.5.6] (2025-10-05)
+
+### Uncategorized
+
+- Fixed: Always use 0 as window ID value when inhibiting suspend via D-Bus power manager ([#2084](https://github.com/bit-team/backintime/issues/2084), [#2268](https://github.com/bit-team/backintime/issues/2268), [#2192](https://github.com/bit-team/backintime/issues/2192))
+- Fixed: Crash in "Manage profiles" dialog when using "qt6ct" ([#2128](https://github.com/bit-team/backintime/issues/2128))
+- Fixed: Open online changelog if local CHANGES file is missing ([#2266](https://github.com/bit-team/backintime/issues/2266))
+- Fixed: Disable opening browser (e.g. project website) in root-mode
+
+## [1.5.5] (2025-06-05)
+
+### Uncategorized
+
+- Fixed: Unlocking SSH keys with passphrases on new created profiles ([#2164](https://github.com/bit-team/backintime/issues/2164)) (@davidfjoh)
+
+## [1.5.4] (2025-03-24)
+
+### Uncategorized
+
+- Breaking Change: Auto-remove rules "Free inodes" and "Free space" disabled by default in new created profiles ([#1976](https://github.com/bit-team/backintime/issues/1976))
+- Changed: Completed license information to conform to REUSE.software and SPDX standards.
+- Changed: More clear and intense warning about EncFS deprecation and removal ([#1904](https://github.com/bit-team/backintime/issues/1904))
+- Changed: Updated desktop entry files
+- Changed: Move several values from config file into new introduce state file ($XDG_STATE_HOME/backintime.json)
+- Fix!: Smart-remove rule "Keep one snapshots per week or the last week" use calendar weeks
+- Doc: Remove & Retention (formally known as Auto-/Smart-Remove) with improved GUI and user manual section ([#2000](https://github.com/bit-team/backintime/issues/2000))
+
+### Fixed
+
+- Exclude patterns are now case-sensitive when added ([#2040](https://github.com/bit-team/backintime/issues/2040))
+- The width of the fourth column in files view is now saved
+- Snapshot compare copy symlink as symlink ([#1902](https://github.com/bit-team/backintime/issues/1902)) (Peter Sevens @sevens)
+- Crash when comparing a snapshot with a symlink pointing to a nonexistent target (Peter Sevens @sevens)
+- Crash (KeyError) opening language setup dialog with unknown locale/language
+
+### Added
+
+- Open user manual (local if available otherwise online) via Help menu
+- Toolbar context menu to display the buttons in different combinations with icons and text ([#1105](https://github.com/bit-team/backintime/issues/1105), [#2002](https://github.com/bit-team/backintime/issues/2002)) (Samuel Moore @s4moore)
+- Add offset minutes to hourly schedules (David Gibbs @fallingrock)
 
 ## [1.5.3] (2024-11-13)
 
@@ -1314,7 +1440,12 @@
 
 - This is the first release.
 
-[1.6.0-dev]: https://github.com/bit-team/backintime/releases/tag/v1.6.0-dev
+[1.6.2]: https://github.com/bit-team/backintime/releases/tag/v1.6.2
+[1.6.1]: https://github.com/bit-team/backintime/releases/tag/v1.6.1
+[1.6.0]: https://github.com/bit-team/backintime/releases/tag/v1.6.0
+[1.5.6]: https://github.com/bit-team/backintime/releases/tag/v1.5.6
+[1.5.5]: https://github.com/bit-team/backintime/releases/tag/v1.5.5
+[1.5.4]: https://github.com/bit-team/backintime/releases/tag/v1.5.4
 [1.5.3]: https://github.com/bit-team/backintime/releases/tag/v1.5.3
 [1.5.2]: https://github.com/bit-team/backintime/releases/tag/v1.5.2
 [1.5.1]: https://github.com/bit-team/backintime/releases/tag/v1.5.1
