@@ -72,7 +72,9 @@ def get_std_suffix(suffix):
 
     added = (
         'FEATURE',
-        'Added'
+        'Added',
+        'Add',
+        'add',
     )
     if suffix.upper() in added:
         return 'Added'
@@ -129,6 +131,7 @@ github_link_cache = {}
 def format_links(content):
     # https://bugs.launchpad.net/backintime/+bug
     # Launchpad Bug Links
+    return content
 
     for bug_id in REX_LAUNCHPAD_BUG.findall(content):
         old_link = f'{LAUNCHPAD_BASE_URL}{bug_id}'
