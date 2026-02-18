@@ -40,6 +40,7 @@ _base_dir = pathlib.Path(__file__).resolve().parent.parent
 """
 
 """
+# TODO: Invert the list
 # Files in this lists will get the full battery of linters and rule sets.
 full_test_files = [_base_dir / fp for fp in (
     'aboutdlg.py',
@@ -72,6 +73,7 @@ full_test_files = [_base_dir / fp for fp in (
     'manageprofiles/tab_remove_retention.py',
     'messagebox.py',
     'placeswidget.py',
+    'profile_operations.py',
     'plugins/notifyplugin.py',
     'plugins/systrayiconplugin.py',
     # 'qtsystrayicon.py',
@@ -86,6 +88,7 @@ full_test_files = [_base_dir / fp for fp in (
     'statusbar.py',
     'test/__init__.py',
     'test/test_lint.py',
+    'test/test_profile_operations.py',
     'test/test_statedata.py',
     'textdlg.py',
     'timeline.py',

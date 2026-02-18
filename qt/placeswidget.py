@@ -65,8 +65,7 @@ class PlacesWidget(QTreeWidget):
         )
 
     def _handle_new_dir_included(self):
-        # do_update() somehow
-        raise NotImplementedError
+        self.do_update()
 
     def do_update(self, _col: int = None, _order: Qt.SortOrder = None) -> None:
         """Update the places view"""

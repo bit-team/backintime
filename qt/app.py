@@ -144,8 +144,10 @@ class MainWindow(QMainWindow):
         self._create_main_toolbar()
 
         # timeline (left widget)
-        self.timeLine = TimeLine(self)
-        self.timeLine.update_files_view.connect(self.updateFilesView)
+        self.timeline = TimeLine(self)
+        self.timeline.event_selection_changed.register(
+            self._on_timeline_selection_changed
+        )
 
         # right widget
         self.filesWidget = QGroupBox(self)
@@ -155,7 +157,7 @@ class MainWindow(QMainWindow):
 
         # main splitter
         self.mainSplitter = QSplitter(Qt.Orientation.Horizontal, self)
-        self.mainSplitter.addWidget(self.timeLine)
+        self.mainSplitter.addWidget(self.timeline)
         self.mainSplitter.addWidget(self.filesWidget)
 
         # FilesView toolbar
@@ -200,7 +202,7 @@ class MainWindow(QMainWindow):
             sort_order
         )
         self.filesView.event_path_clicked.register(
-            self._on_list_view_path_activated
+            self._on_files_view_path_clicked
         )
         # workaround
         self.filesView.event_proxy_changed.register(
@@ -222,7 +224,10 @@ class MainWindow(QMainWindow):
 
         self.snapshotsList = []
         self.sid = snapshots.RootSnapshot(self.config)
+
+        # ???
         self.path = self.config.profileStrValue('qt.last_path', '/')
+
         self.widget_current_path.setText(self.path)
         self.path_history = tools.PathHistory(self.path)
 
@@ -246,7 +251,6 @@ class MainWindow(QMainWindow):
 
         # self.filesViewProxyModel.layoutChanged.connect(self.dirListerCompleted)
 
-
         # populate lists
         self.updateProfiles()
         self.comboProfiles.currentIndexChanged \
@@ -256,7 +260,9 @@ class MainWindow(QMainWindow):
 
         self.updateSnapshotActions()
 
-        self.timeLine.itemSelectionChanged.connect(self.timeLineChanged)
+        # Dev note (buhtz, 2026-02): It is not clear to me what the diff is
+        # to timeLine.event_selection_changed. But keep it for now.
+        self.timeline.itemSelectionChanged.connect(self.timeLineChanged)
 
         self.forceWaitLockCounter = 0
 
@@ -975,27 +981,6 @@ class MainWindow(QMainWindow):
 
         return toolbar
 
-    # def _files_view_context_menu(self):
-    #     self.filesView.setContextMenuPolicy(
-    #         Qt.ContextMenuPolicy.CustomContextMenu)
-    #     self.filesView.customContextMenuRequested \
-    #                   .connect(self._slot_files_view_context_menu)
-
-    #     menu  = QMenu(self)
-    #     menu.addAction(self.act_restore)
-    #     menu.addAction(self.act_restore_to)
-    #     menu.addAction(self.act_snapshots_dialog)
-    #     menu.addSeparator()
-    #     import icon
-    #     self.btnAddInclude = menu.addAction(icon.ADD, _('Add to Include'))
-    #     self.btnAddExclude = menu.addAction(icon.ADD, _('Add to Exclude'))
-    #     self.btnAddInclude.triggered.connect(self._slot_add_to_include)
-    #     self.btnAddExclude.triggered.connect(self._slot_add_to_exclude)
-    #     menu.addSeparator()
-    #     menu.addAction(self.act_show_hidden)
-
-    #     return menu
-
     def closeEvent(self, event):
         state_data = StateData()
         profile_state = state_data.profile(self.config.current_profile_id)
@@ -1342,7 +1327,7 @@ class MainWindow(QMainWindow):
         enabled = False
 
         if item is None:
-            item = self.timeLine.currentItem()
+            item = self.timeline.currentItem()
 
         if not item is None:
             if not item.snapshot_id.isRoot:
@@ -1354,7 +1339,7 @@ class MainWindow(QMainWindow):
         self.act_snapshot_logview.setEnabled(enabled)
 
     def timeLineChanged(self):
-        item = self.timeLine.currentItem()
+        item = self.timeline.currentItem()
         self.updateSnapshotActions(item)
 
         if item is None:
@@ -1369,20 +1354,21 @@ class MainWindow(QMainWindow):
         self.updateFilesView(2)
 
     def updateTimeLine(self, refreshSnapshotsList=True):
-        self.timeLine.clear()
-        self.timeLine.add_root(snapshots.RootSnapshot(self.config))
+        """Initiate update of the timeline content"""
+        self.timeline.clear()
+        self.timeline.add_root(snapshots.RootSnapshot(self.config))
 
         if refreshSnapshotsList:
             self.snapshotsList = []
             thread = FillTimeLineThread(self)
-            thread.addSnapshot.connect(self.timeLine.addSnapshot)
-            thread.finished.connect(self.timeLine.checkSelection)
+            thread.addSnapshot.connect(self.timeline.addSnapshot)
+            thread.finished.connect(self.timeline.checkSelection)
             thread.start()
 
         else:
             for sid in self.snapshotsList:
-                self.timeLine.addSnapshot(sid)
-            self.timeLine.checkSelection()
+                self.timeline.addSnapshot(sid)
+            self.timeline.checkSelection()
 
     def _create_temporary_copy(self, full_path: str, sid=None):
         """Create a temporary local copy a file or directory.
@@ -1411,6 +1397,9 @@ class MainWindow(QMainWindow):
         self.tmpDirs.append(d)
 
         return tmp_file
+
+    def _on_files_view_path_clicked(self, path):
+        self._open_path(path)
 
     def _open_path(self, rel_path: str):
         rel_path = os.path.join(self.path, rel_path)
@@ -1451,7 +1440,12 @@ class MainWindow(QMainWindow):
 
         self.filesWidget.setTitle(text)
 
-    @pyqtSlot(int)
+    def _on_timeline_selection_changed(self):
+        """
+        """
+        self.updateFilesView(2)
+
+    #@pyqtSlot(int)
     def updateFilesView(self,
                         changed_from,
                         selected_file=None,
@@ -1463,6 +1457,8 @@ class MainWindow(QMainWindow):
             2 - time_line,
             3 - places
         """
+        print(f'updateFilesView() - {changed_from=} {selected_file=} {_show_snapshots=}')
+
         if 0 == changed_from or 3 == changed_from:
             selected_file = ''
 
@@ -1609,13 +1605,13 @@ class MainWindow(QMainWindow):
         if model_index.column() > 0:
             model_index = model_index.sibling(model_index.row(), 0)
 
-        selected_file = str(self.filesViewProxyModel.data(model_index))
+        selected_file = str(self.filesView.proxy.data(model_index))
 
         if selected_file == '/':
             # nothing is selected
             selected_file = ''
-            model_index = self.filesViewProxyModel.mapFromSource(
-                self.filesViewModel.index(self.path, 0))
+            model_index = self.filesView.proxy.mapFromSource(
+                self.filesView.model.index(self.path, 0))
 
         if fullPath:
             # resolve to full path
@@ -1623,13 +1619,13 @@ class MainWindow(QMainWindow):
 
         return (selected_file, model_index)
 
-    def multiFileSelected(self, fullPath=False):
+    def _DEP_multiFileSelected(self, fullPath=False):
         count = 0
         for idx in self.filesView.selectedIndexes():
             if idx.column() > 0:
                 continue
 
-            selected_file = str(self.filesViewProxyModel.data(idx))
+            selected_file = str(self.filesView.proxy.data(idx))
 
             if selected_file == '/':
                 continue
@@ -1643,8 +1639,8 @@ class MainWindow(QMainWindow):
 
         if not count:
             # nothing is selected
-            idx = self.filesViewProxyModel.mapFromSource(
-                self.filesViewModel.index(self.path, 0))
+            idx = self.filesView.proxy.mapFromSource(
+                self.filesView.model.index(self.path, 0))
 
             selected_file = self.path if fullPath else ''
 
@@ -1976,7 +1972,8 @@ class MainWindow(QMainWindow):
         if self.sid.isRoot:
             return
 
-        paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
+        paths = self.filesView.get_selected_paths()
+        # paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
 
         confirm_dlg = ConfirmRestoreDialog(
             parent=self,
@@ -2006,7 +2003,8 @@ class MainWindow(QMainWindow):
     def _slot_restore_this_to(self):
         """Restore current in GUI selected backup to ..."""
 
-        paths = [f for f, _idx in self.multiFileSelected(fullPath=True)]
+        # paths = [f for f, _idx in self.multiFileSelected(fullPath=True)]
+        paths = self.filesView.get_selected_paths()
 
         self._restore_to(paths)
 
@@ -2080,15 +2078,14 @@ class MainWindow(QMainWindow):
 
         self._open_path(path)
 
-    def _DEP_slot_files_view_context_menu(self, point):
-        self._context_menu.exec(self.filesView.mapToGlobal(point))
-
     def _slot_files_view_hidden_files_toggled(self, checked: bool):
+        print(f'_slot_files_view_hidden_files_toggled({checked=})')
         self.showHiddenFiles = checked
+        self.filesView.show_hidden_files(checked)
         self.updateFilesView(1)
 
-    def _on_list_view_path_activated(self, path):
-        self._open_path(path)
+        # ???
+        self.dirListerCompleted()
 
     # |-----------------|
     # | some more Slots |
@@ -2103,7 +2100,7 @@ class MainWindow(QMainWindow):
             logviewdialog.LogViewDialog(self).show()
 
     def _slot_backup_open_log(self):
-        item = self.timeLine.currentItem()
+        item = self.timeline.currentItem()
         if item is None:
             return
 
@@ -2115,7 +2112,7 @@ class MainWindow(QMainWindow):
             dlg = logviewdialog.LogViewDialog(self, sid)
             dlg.show()
             if sid != dlg.sid:
-                self.timeLine.set_current_snapshot_id(dlg.sid)
+                self.timeline.set_current_snapshot_id(dlg.sid)
 
     def _slot_manage_profiles(self):
         with self.suspend_mouse_button_navigation():
@@ -2133,10 +2130,10 @@ class MainWindow(QMainWindow):
             if dlg.exec() == QDialog.DialogCode.Accepted:
 
                 if dlg.sid != self.sid:
-                    self.timeLine.set_current_snapshot_id(dlg.sid)
+                    self.timeline.set_current_snapshot_id(dlg.sid)
 
     def _slot_backup_name(self):
-        item = self.timeLine.currentItem()
+        item = self.timeline.currentItem()
         if item is None:
             return
 
@@ -2169,7 +2166,7 @@ class MainWindow(QMainWindow):
 
         # try to use filter(..)
         items = [
-            item for item in self.timeLine.selectedItems()
+            item for item in self.timeline.selectedItems()
             if not isinstance(item, snapshots.RootSnapshot)
         ]
 
@@ -2194,8 +2191,8 @@ class MainWindow(QMainWindow):
 
             item.setDisabled(True)
 
-            if item is self.timeLine.currentItem():
-                self.timeLine.select_root_item()
+            if item is self.timeline.currentItem():
+                self.timeline.select_root_item()
 
         thread = RemoveSnapshotThread(self, items)
         thread.refreshSnapshotList.connect(self.updateTimeLine)
@@ -2203,7 +2200,8 @@ class MainWindow(QMainWindow):
         thread.start()
 
     def _slot_add_to_include(self):
-        paths = [f for f, idx in self.multiFileSelected(fullPath=True)]
+        # paths = [f for f, idx in self.multiFileSelected(fullPath=True)]
+        paths = self.filesView.get_selected_paths()
         include = self.config.include()
         updatePlaces = False
 
@@ -2221,7 +2219,9 @@ class MainWindow(QMainWindow):
             self.places.do_update()
 
     def _slot_add_to_exclude(self):
-        paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
+
+        paths = self.filesView.get_selected_paths()
+        # paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
         exclude = self.config.exclude()
         exclude.extend(paths)
         self.config.setExclude(exclude)

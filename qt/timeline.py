@@ -24,6 +24,7 @@ from PyQt6.QtWidgets import (QAbstractItemView,
                              QTreeWidget,
                              QTreeWidgetItem)
 import snapshots
+from event import Event
 from qttools_path import register_backintime_path
 register_backintime_path('common')
 
@@ -33,7 +34,9 @@ class TimeLine(QTreeWidget):
 
     The widget is placed on the right side of the main window.
     """
-    update_files_view = pyqtSignal(int)
+    # update_files_view = pyqtSignal(int)
+
+    event_selection_changed = Event()
 
     def __init__(self, parent):
         super().__init__(parent)
@@ -196,7 +199,8 @@ class TimeLine(QTreeWidget):
 
         if not self.parent.sid.isRoot:
             self.parent.sid = self._root_item.snapshot_id
-            self.update_files_view.emit(2)
+            #self.update_files_view.emit(2)
+            self.event_selection_changed.notify()
 
     def selected_snapshot_ids(self):
         """Snapshot IDs of all selected entries."""
@@ -221,7 +225,8 @@ class TimeLine(QTreeWidget):
 
         if self.parent.sid != item.snapshot_id:
             self.parent.sid = item.snapshot_id
-            self.update_files_view.emit(2)
+            #self.update_files_view.emit(2)
+            self.event_selection_changed.notify()
 
     def _iter_items(self):
         for index in range(self.topLevelItemCount()):

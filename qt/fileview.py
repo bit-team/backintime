@@ -76,6 +76,7 @@ from PyQt6.QtCore import (QDir,
                           pyqtSlot,
                           pyqtSignal,
                           QSortFilterProxyModel,
+                          QModelIndex,
                           Qt,
                           QTimer,
                           QThread,
@@ -124,6 +125,9 @@ class FilesModel(QFileSystemModel):
 
 class FilesView(QTreeView):
     """File view widget in the main window"""
+
+    event_path_clicked = Event()
+    event_proxy_changed = Event()
 
     def __init__(self,
                  parent,
@@ -184,9 +188,6 @@ class FilesView(QTreeView):
         # it won't catch desktops with single-click-as-double-click settings.
         self.activated.connect(self._slot_item_activated)
 
-        self.event_path_clicked = Event()
-        self.event_proxy_changed = Event()
-
     def _on_proxy_layout_changed(self):
         """A workaround until app.py::MainWindow.dirListerComplete() is
         refactored.
@@ -242,39 +243,22 @@ class FilesView(QTreeView):
 
         return menu
 
-    # why pySlot? -> using Qts emit system -> change to own Event class
-    @pyqtSlot(int)
-    def updateFilesView(self,
-                        changed_from,
-                        selected_file=None,
-                        _show_snapshots=False):
-        """
-        changed_from? WTF!
-            0 - files view change directory,
-            1 - files view,
-            2 - time_line,
-            3 - places
-        """
-        # update files view
-        full_path = self.sid.pathBackup(self.path)
+    def show_hidden_files(self, show: bool):
+        print(f'{show=}')
+        self.proxy.setFilterRole(Qt.ItemDataRole.DisplayRole)
+        self.proxy.setFilterKeyColumn(0)
+        self.proxy.setRecursiveFilteringEnabled(False)
 
-        if os.path.isdir(full_path):
+        if show:
+            self.proxy.setFilterRegularExpression(r'')
+        else:
+            self.proxy.setFilterRegularExpression(r'^[^\.].*')
 
-            # proxy should know this by itself!
-            if self.showHiddenFiles:
-                self.proxy.setFilterRegularExpression(r'')
+        self.proxy.invalidateFilter()
 
-            else:
-                self.proxy.setFilterRegularExpression(r'^[^\.]')
-
-            model_index = self.model.setRootPath(full_path)
-            proxy_model_index = self.proxy.mapFromSource(
-                model_index)
-
-            self.setRootIndex(proxy_model_index)
-
-            # TODO: find a signal for this
-            self.window.dirListerCompleted()
+        current_path = self.model.rootPath()
+        self.model.setRootPath('')
+        self.model.setRootPath(current_path)
 
     def fileSelected(self, fullPath=False):
         """Return path and index of the currently in Files View highlighted
@@ -305,40 +289,33 @@ class FilesView(QTreeView):
 
         return (selected_file, model_index)
 
-    def multiFileSelected(self, fullPath=False):
-        # ????
-        count = 0
-        for idx in self.selectedIndexes():
-            if idx.column() > 0:
-                continue
+    def get_selected_paths(self) -> list[str]:
 
-            selected_file = str(self.proxy.data(idx))
+        selection = []
 
-            if selected_file == '/':
-                continue
+        for proxy_idx in self.selectionModel().selectedRows(0):
+            src_idx = self.proxy.mapToSource(proxy_idx)
+            path = self.model.filePath(src_idx)
+            selection.append(path)
 
-            count += 1
+        # ???
+        if len(selection) == 0:
+            # Does it mean to return the current path instead of nothing?
+            raise RuntimeError(
+                'FilesView.multiFileSelected() nothing selected, not count')
 
-            if fullPath:
-                selected_file = os.path.join(self.path, selected_file)
+            # # nothing is selected
+            # idx = self.proxy.mapFromSource(
+            #     self.model.index(self.path, 0))
 
-            yield (selected_file, idx)
+            # selected_file = self.path if fullPath else ''
 
-        if not count:
-            # nothing is selected
-            idx = self.proxy.mapFromSource(
-                self.model.index(self.path, 0))
+            # yield (selected_file, idx)
 
-            selected_file = self.path if fullPath else ''
-
-            yield (selected_file, idx)
+        return selection
 
     def _slot_context_menu(self, point):
         self._context_menu.exec(self.mapToGlobal(point))
-
-    def _MAYBE_slot_files_view_hidden_files_toggled(self, checked: bool):
-        self.showHiddenFiles = checked
-        self.updateFilesView(1)
 
     def _slot_item_activated(self, model_index):
         if not model_index:
@@ -357,27 +334,43 @@ class FilesView(QTreeView):
         # "double" clicked?
         self.event_path_clicked.notify(rel_path)
 
-        self._open_path(rel_path)
-
     def _slot_add_to_include(self):
-        paths = [f for f, idx in self.multiFileSelected(fullPath=True)]
-        self._profile_operations.add_include(paths)
+        paths = self.get_selected_paths()
+        duplicates = self._profile_operations.add_include(paths)
 
-        updatePlaces = True  # False
-
-        # for item in paths:
-
-        #     if os.path.isdir(item):
-        #         include.append((item, 0))
-        #         updatePlaces = True
-        #     else:
-        #         include.append((item, 1))
-
-        # self.config.setInclude(include)
-
-        if updatePlaces:
-            self.places.do_update()
+        if len(paths) == len(duplicates):
+            messagebox.warning(ngettext(
+                'The selected item is already in the include list.',
+                'The selected items are already in the include list.',
+                len(duplicates)
+            ))
+        elif len(duplicates):
+            messagebox.warning('{}\n\n{}'.format(
+                ngettext(
+                    'The following item is already in the include list.',
+                    'The following items are already in the include list.',
+                    len(duplicates)
+                ),
+                '\n'.join(duplicates)
+            ))
 
     def _slot_add_to_exclude(self):
-        paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
-        self._profile_operations.add_excludes(paths)
+        paths = self.get_selected_paths()
+
+        duplicates = self._profile_operations.add_exclude(paths)
+
+        if len(paths) == len(duplicates):
+            messagebox.warning(ngettext(
+                'The selected item is already in the exclude list.',
+                'The selected items are already in the exclude list.',
+                len(duplicates)
+            ))
+        elif len(duplicates):
+            messagebox.warning('{}\n\n{}'.format(
+                ngettext(
+                    'The following item is already in the exclude list.',
+                    'The following items are already in the exclude list.',
+                    len(duplicates)
+                ),
+                '\n'.join(duplicates)
+            ))
