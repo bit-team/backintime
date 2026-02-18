@@ -64,13 +64,30 @@ def get_std_suffix(suffix):
         'BACKPORT BUG FIX',
         'FIX CRITICAL BUG',
         'BUG FIX (GNOME)',
+        'Fix',
+        'Fixed',
     )
     if suffix.upper() in fixed:
         return 'Fixed'
 
-    added = ('FEATURE')
+    added = (
+        'FEATURE',
+        'Added'
+    )
     if suffix.upper() in added:
         return 'Added'
+
+    changed = (
+        'Changed'
+    )
+    if suffix in changed:
+        return 'Changed'
+
+    removed = (
+        'Removed'
+    )
+    if suffix in removed:
+        return 'Removed'
 
     other = ()
     if suffix in other:
@@ -199,6 +216,7 @@ def process_raw_results(raw_result):
     for heading, items in raw_result:
         try:
             version, date = rex_ver_date.search(heading).groups()
+
         except Exception as exc:
             print(f'{heading=} {items=}')
             raise exc
@@ -219,6 +237,17 @@ def to_markdown(data, fh):
     ref_links = []
 
     # Head
+    fh.writelines([
+        '<!---\n',
+        'SPDX-FileCopyrightText: © 2023 Christian BUHTZ '
+        '<c.buhtz@posteo.jp>\n\n',
+        'SPDX-License-Identifier: GPL-2.0-or-later\n\n',
+        'This file is part of the program "Back In Time" which is '
+        'released under GNU\n',
+        'General Public License v2 (GPLv2). See LICENSES directory or go to\n',
+        '<https://spdx.org/licenses/GPL-2.0-or-later.html>\n',
+        '-->\n',
+    ])
     fh.write('# Changelog\n')
     fh.write('[![Common Changelog](https://common-changelog.org/badge.svg)]'
              '(https://common-changelog.org)\n')
