@@ -25,11 +25,11 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ## [1.6.1] (2026-02-10)
 
-### Uncategorized
+### Fixed
 
-- Fixed: SSH-Key selector widget handle binary keys, missing but configured keys (#2399, #2400)
-- Fixed: SSH-Key selector widget is more robust on unexpected edge cases (#2399, #2400)
-- Fixed: Install backintime-config man page in correct location
+- SSH-Key selector widget handle binary keys, missing but configured keys (#2399, #2400)
+- SSH-Key selector widget is more robust on unexpected edge cases (#2399, #2400)
+- Install backintime-config man page in correct location
 
 ## [1.6.0] (2026-02-08)
 
@@ -65,46 +65,29 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Open man page and changelog in a text dialog
 - Minimum PyLint version increased to 4.0.0
 
-### Uncategorized
+### Added
 
-- Added: Language Georgian (ka)
-- Added: Gocryptfs for local encrypted profiles (#1897, #1734, @germar, @daviewales)
-- Added: Dialog to suggest commonly used files/dirs/patterns for backup exclusion (#2309)
-- Added: Systray icon can be forced to Dark or Light
-- Added: Application logo and symbolic systray icon (#1961, Gregory Deseck @gregorydk)
-- Added: Root mode indicator in status bar (#1964)
-- Added: Option to not using an explicit SSH key file. In consequence this supports extern key agents and SSH clients own configuration (#1146)
-- Added: SSH-Key selector widget in Manage profiles dialog (#1146, #2094, #2095, #2275 @m4rcu5 Marcus van Dam)
-- Added: "ETA" value in status bar (#2101)
-- Added: Shutdown confirmation dialog (#2102) (Huaide Jiang @LatiosInAltoMare)
-- Added: Check and warn if include list entries do not exists in backup source (#1586) (@rafaelhdr)
-- Added: Asciidoctor as build dependence (#2085)
-- Added: Command "show" to replace "snapshots-list", "snapshots-list-path", "last-snapshots" and "last-snapshot-path" (#2130)
-- Added: Command "prune" to replace "smart-remove" (#2124)
-- Added: Flag "--background" for command "backup" to replace command "backup-job" (#2124)
-- Added: Flag "--skip-confirmation" for command "remove" to replace command "remove-and-do-not-ask-again" (#2124)
-- Added: Flag "--profile" accept ID's beside names only (#2125)
-- Added: Flag "-p" as alias for "--profile" (#2125)
-- Added: "Less storage space" threshold to warn the user (#2110) (@fest6)
-- Added: Remember size and position of Manage profiles dialog
-- Added: User-callback editor offer a default script in case no script exists (#1331)
-- Fixed: Crash in config restore dialog
-- Fixed: Consider symbolic icons as fallbacks (#2345, #2289)
-- Fixed: Warn users and prevent backups to exFAT volumes due to lack of hardlink support (#2337)
-- Fixed: Show proper message to users when root mode fails due to inactive or missing polkit agent (#2328, Derek Veit @DerekVeit)
-- Fixed: Crash in Compare snapshots dialog (aka Snapshots dialog) when comparing/diff two backups (#2327 Michael Neese @madic-creates)
-- Fixed: File view and Compare Backups dialog now open the clicked item correctly even with multiple selection or single-click-to-open enabled (#2330)
-- Fixed: Crash in Compare snapshots dialog (aka Snapshots dialog) when comparing/diff two backups (#2327 Michael Neese @madic-creates)
-- Fixed: Enforce UTF-8 encoding in takesnapshot.log and some other files (#2298)
-- Fixed: Attribute error about missing 'cbCopyUnsafeLinks' (#2279)
-- Fixed: Use LC_ALL instead of LC_TIME to set the locale
-- Fixed: Optimize subparsers and usage output (#2132)
-- Fixed: Re-design about dialog (#1936)
-- Fixed: Stop waking up monitor when inhibit suspend on backup starts (#714, #1090)
-- Fixed: Avoid shutdown confirmation dialog on Budgie and Cinnamon desktop environments (#788)
-- Fixed: Crash in "Manage profiles" dialog when using "qt6ct" (#2128)
-- Fixed: **Breaking** Systray process no longer exposes sensitive backup profile information when the desktop session belongs to another user (#2237, reported and co-authored by @samo-sk)
-- Fixed: Allow in BITs root-mode opening URLs in extern browse
+- Language Georgian (ka)
+- Gocryptfs for local encrypted profiles (#1897, #1734, @germar, @daviewales)
+- Dialog to suggest commonly used files/dirs/patterns for backup exclusion (#2309)
+- Systray icon can be forced to Dark or Light
+- Application logo and symbolic systray icon (#1961, Gregory Deseck @gregorydk)
+- Root mode indicator in status bar (#1964)
+- Option to not using an explicit SSH key file. In consequence this supports extern key agents and SSH clients own configuration (#1146)
+- SSH-Key selector widget in Manage profiles dialog (#1146, #2094, #2095, #2275 @m4rcu5 Marcus van Dam)
+- "ETA" value in status bar (#2101)
+- Shutdown confirmation dialog (#2102) (Huaide Jiang @LatiosInAltoMare)
+- Check and warn if include list entries do not exists in backup source (#1586) (@rafaelhdr)
+- Asciidoctor as build dependence (#2085)
+- Command "show" to replace "snapshots-list", "snapshots-list-path", "last-snapshots" and "last-snapshot-path" (#2130)
+- Command "prune" to replace "smart-remove" (#2124)
+- Flag "--background" for command "backup" to replace command "backup-job" (#2124)
+- Flag "--skip-confirmation" for command "remove" to replace command "remove-and-do-not-ask-again" (#2124)
+- Flag "--profile" accept ID's beside names only (#2125)
+- Flag "-p" as alias for "--profile" (#2125)
+- "Less storage space" threshold to warn the user (#2110) (@fest6)
+- Remember size and position of Manage profiles dialog
+- User-callback editor offer a default script in case no script exists (#1331)
 
 ### Removed
 
@@ -114,20 +97,40 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - LICENSE file in favor of LICENSES directory and LICENSES.md file
 - SSH Cipher configuration in Manage profiles dialog (#2143)
 
+### Fixed
+
+- Crash in config restore dialog
+- Consider symbolic icons as fallbacks (#2345, #2289)
+- Warn users and prevent backups to exFAT volumes due to lack of hardlink support (#2337)
+- Show proper message to users when root mode fails due to inactive or missing polkit agent (#2328, Derek Veit @DerekVeit)
+- Crash in Compare snapshots dialog (aka Snapshots dialog) when comparing/diff two backups (#2327 Michael Neese @madic-creates)
+- File view and Compare Backups dialog now open the clicked item correctly even with multiple selection or single-click-to-open enabled (#2330)
+- Crash in Compare snapshots dialog (aka Snapshots dialog) when comparing/diff two backups (#2327 Michael Neese @madic-creates)
+- Enforce UTF-8 encoding in takesnapshot.log and some other files (#2298)
+- Attribute error about missing 'cbCopyUnsafeLinks' (#2279)
+- Use LC_ALL instead of LC_TIME to set the locale
+- Optimize subparsers and usage output (#2132)
+- Re-design about dialog (#1936)
+- Stop waking up monitor when inhibit suspend on backup starts (#714, #1090)
+- Avoid shutdown confirmation dialog on Budgie and Cinnamon desktop environments (#788)
+- Crash in "Manage profiles" dialog when using "qt6ct" (#2128)
+- **Breaking** Systray process no longer exposes sensitive backup profile information when the desktop session belongs to another user (#2237, reported and co-authored by @samo-sk)
+- Allow in BITs root-mode opening URLs in extern browse
+
 ## [1.5.6] (2025-10-05)
 
-### Uncategorized
+### Fixed
 
-- Fixed: Always use 0 as window ID value when inhibiting suspend via D-Bus power manager (#2084, #2268, #2192)
-- Fixed: Crash in "Manage profiles" dialog when using "qt6ct" (#2128)
-- Fixed: Open online changelog if local CHANGES file is missing (#2266)
-- Fixed: Disable opening browser (e.g. project website) in root-mode
+- Always use 0 as window ID value when inhibiting suspend via D-Bus power manager (#2084, #2268, #2192)
+- Crash in "Manage profiles" dialog when using "qt6ct" (#2128)
+- Open online changelog if local CHANGES file is missing (#2266)
+- Disable opening browser (e.g. project website) in root-mode
 
 ## [1.5.5] (2025-06-05)
 
-### Uncategorized
+### Fixed
 
-- Fixed: Unlocking SSH keys with passphrases on new created profiles (#2164) (@davidfjoh)
+- Unlocking SSH keys with passphrases on new created profiles (#2164) (@davidfjoh)
 
 ## [1.5.4] (2025-03-24)
 
@@ -166,11 +169,6 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Doc: User-callback topic in user manual (#1659)
 - Breaking Change: Minimal Python version 3.9 required (#1731)
 - Breaking Change: Auto migration of config version 4 or lower not longer supported (#1857)
-- Refactor: General tab and its Schedule section
-- Refactor: Own module for Manage Profiles dialog and separate Generals tab code (#1865)
-- Refactor: Remove class OrderedSet
-- Refactor: Remove os.system() from class Execute
-- Refactor: Systray notifications send utilize DBUS instead of notify-send (#1156) (Felix Stupp @Zocker1999NET)
 - Refactor!: Remove unused config field "user_callback.no_logging" (#1887)
 - Refactor!: Remove eCryptFS check for home folder (#1855)
 - Dependency: Remove libnotify-bin (notify-send) (#1156)
@@ -190,6 +188,14 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Fix Qt segmentation fault when canceling out of unconfigured BiT (#1095) (Derek Veit @DerekVeit)
 - Correct global flock fallbacks (#1834) (Timothy Southwick @NickNackGus)
 - Use SSH key password only if it is valid, otherwise request it from user (#1852) (David Wales @daviewales)
+
+### Changed
+
+- General tab and its Schedule section
+- Own module for Manage Profiles dialog and separate Generals tab code (#1865)
+- Remove class OrderedSet
+- Remove os.system() from class Execute
+- Systray notifications send utilize DBUS instead of notify-send (#1156) (Felix Stupp @Zocker1999NET)
 
 ## [1.5.2] (2024-08-06)
 
@@ -215,7 +221,6 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Dependency: Migration to PyQt6
 - Breaking Change: EncFS deprecation warning (#1735, #1734)
 - Breaking Change: GUI started with --debug does no longer add --debug to the crontab for scheduled profiles. 
-- Refactor: Replace Config.user() with getpass.getuser() (#1694)
 - Chore!: Remove "debian" folder (#1548)
 - Build: Enable several PyLint rules (#1755, #1766)
 - Build: Add AppStream meta data (#1642)
@@ -250,6 +255,10 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Context menu in LogViewDialog (#1578)
 - Field "filesystem_mount" and "snapshot_version" in "info" file (#1684)
 
+### Changed
+
+- Replace Config.user() with getpass.getuser() (#1694)
+
 ## [1.4.3] (2024-01-30)
 
 ### Added
@@ -270,7 +279,6 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Build: Install dbus configuration file to /usr/share not /etc (#1596)
 - Build: `configure` does delete old installed files (`qt4plugin.py` and `net.launchpad.backintime.serviceHelper.conf`) that were renamed or moved in a previous release (#1596)
 - Translation: Minor modifications in source strings and updating language files.
-- Refactor: Solved circular dependency between tools.py and logger.py to fix #820
 - Improved: qtsystrayicon.py, qt5_probing.py, usercallbackplugin.py and all parts of app.py 
 
 ### Fixed
@@ -281,6 +289,10 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - RTE: module 'qttools' has no attribute 'initate_translator' with encFS when prompting the user for a password (#1553).
 - Schedule dropdown menu used "minutes" instead of "hours".
 - Unhandled exception "TypeError: 'NoneType' object is not callable" in tools.py function __log_keyring_warning (#820). 
+
+### Changed
+
+- Solved circular dependency between tools.py and logger.py to fix #820
 
 ## [1.4.1] (2023-10-01)
 
@@ -299,8 +311,6 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 ### Uncategorized
 
 - Project: Renamed branch "master" to "main" and started "gitflow" branching model.
-- Refactor: Renamed qt4plugin.py to systrayiconplugin.py (we are using Qt5 for years now ;-)
-- Refactor: Removed unfinished feature "Full system backup" (#1526)
 - GUI Change: View last (snapshot) log button in GUI uses "document-open-recent" icon now instead of "document-new" (#1386)
 - Breaking change: Minimal Python version 3.8 required (#1358).
 - Documentation: Removed outdated docbook (#1345).
@@ -310,8 +320,11 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Translation: Strings to translate now easier to understand for translators (#1448, #1457, #1462, #1465).
 - Translation: Improved completeness of translations and additional modifications of source strings (#1454, #1512)
 - Translation: Plural forms support (#1488).
-- Added: Translation in Persian and Vietnamese (#1460).
-- Added: Message to users (after 10 starts of BIT Gui) to motivate them contributing translations (#1473).
+
+### Changed
+
+- Renamed qt4plugin.py to systrayiconplugin.py (we are using Qt5 for years now ;-)
+- Removed unfinished feature "Full system backup" (#1526)
 
 ### Fixed
 
@@ -338,6 +351,8 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Exclude /swapfile by default (#1053)
 - Rearranged menu bar and its entries in the main window (#1487, #1478).
 - Configure user interface language via config file and GUI.
+- Translation in Persian and Vietnamese (#1460).
+- Message to users (after 10 starts of BIT Gui) to motivate them contributing translations (#1473).
 
 ### Removed
 
@@ -469,25 +484,22 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ### Uncategorized
 
-- minor changes to allow running BiT inside Docker (https: //github.com/bit-team/backintime/pull/959)
-- remove progressbar on systray icon until BiT has it's own icon (https: //github.com/bit-team/backintime/issues/902)
-- clarify 'nocache' option (https: //github.com/bit-team/backintime/issues/857)
-- create a config-backup in root dir if backup is encrypted (https: //github.com/bit-team/backintime/issues/556)
-- remove unused and undocumented userscript plugin
-- add contextmenu for logview dialog which can copy, exclude and decode lines
+- minor changes to allow running BiT inside Docker (https://github.com/bit-team/backintime/pull/959)
+- remove progressbar on systray icon until BiT has it's own icon (https://github.com/bit-team/backintime/issues/902)
+- clarify 'nocache' option (https://github.com/bit-team/backintime/issues/857)
+- create a config-backup in root dir if backup is encrypted (https://github.com/bit-team/backintime/issues/556)
 - move progressbar under statusbar
-- alleviate default exclude [Tt]rash* (https: //github.com/bit-team/backintime/issues/759)
-- enable high DPI scaling (https: //github.com/bit-team/backintime/issues/732)
-- Smart Remove try to keep healthy snapshots (https: //github.com/bit-team/backintime/issues/703)
-- ask for restore-to path before confirm (https: //github.com/bit-team/backintime/issues/678)
-- fix 'Back in Time (root)' on wayland (https: //github.com/bit-team/backintime/issues/640)
-- sort int values in config numerical instead if alphabetical (https: //github.com/bit-team/backintime/issues/175#issuecomment-272941811)
-- set timestamp directly after new snapshot (https: //github.com/bit-team/backintime/issues/584)
-- add shortcut CTRL+H for toggle show hidden files to fileselect dialog (https: //github.com/bit-team/backintime/issues/378)
-- add 'Edit user-callback' dialog
-- redesign restore menu (https: //github.com/bit-team/backintime/issues/661)
-- add ability to disable SSH command- and ping-check (https: //github.com/bit-team/backintime/issues/647)
-- enable bwlimit for local profiles (https: //github.com/bit-team/backintime/issues/646)
+- alleviate default exclude [Tt]rash* (https://github.com/bit-team/backintime/issues/759)
+- enable high DPI scaling (https://github.com/bit-team/backintime/issues/732)
+- Smart Remove try to keep healthy snapshots (https://github.com/bit-team/backintime/issues/703)
+- ask for restore-to path before confirm (https://github.com/bit-team/backintime/issues/678)
+- fix 'Back in Time (root)' on wayland (https://github.com/bit-team/backintime/issues/640)
+- sort int values in config numerical instead if alphabetical (https://github.com/bit-team/backintime/issues/175#issuecomment-272941811)
+- set timestamp directly after new snapshot (https://github.com/bit-team/backintime/issues/584)
+- add shortcut CTRL+H for toggle show hidden files to fileselect dialog (https://github.com/bit-team/backintime/issues/378)
+- redesign restore menu (https://github.com/bit-team/backintime/issues/661)
+- add ability to disable SSH command- and ping-check (https://github.com/bit-team/backintime/issues/647)
+- enable bwlimit for local profiles (https://github.com/bit-team/backintime/issues/646)
 - import remote host-key into known_hosts from Settings
 - copy public SSH key to remote host from Settings
 - create a new SSH key from Settings
@@ -495,34 +507,46 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - rename paths and methods from *qt4* into *qt*
 - rename executable backintime-qt4 into backintime-qt
 - new config version 6, rename qt4 keys into qt, add new domain for schedule
-- check crontab entries on every GUI startup (https: //github.com/bit-team/backintime/issues/129)
+- check crontab entries on every GUI startup (https://github.com/bit-team/backintime/issues/129)
 - start a new ssh-agent instance only if necessary
-- add cli command 'shutdown' (https: //github.com/bit-team/backintime/issues/596)
-- add cli command 'smart-remove'
-- make LogView and Settings Dialog non-modal (https: //github.com/bit-team/backintime/issues/608)
-- port to Qt5/pyqt5 (https: //github.com/bit-team/backintime/issues/518)
+- add cli command 'shutdown' (https://github.com/bit-team/backintime/issues/596)
+- make LogView and Settings Dialog non-modal (https://github.com/bit-team/backintime/issues/608)
+- port to Qt5/pyqt5 (https://github.com/bit-team/backintime/issues/518)
 - Recognize changes on previous runs while continuing new snapshots
-- Add pause, resume and stop function for running snapshots (https: //github.com/bit-team/backintime/issues/474, https://github.com/bit-team/backintime/issues/195)
+- Add pause, resume and stop function for running snapshots (https://github.com/bit-team/backintime/issues/474, https://github.com/bit-team/backintime/issues/195)
 - use rsync to save permissions
 - replace os.system calls with subprocess.Popen
 - automatically refresh log view if a snapshot is currently running
-- remove dependency for extended 'find' command on remote host
 - make full-rsync mode default, remove the other mode
-- use rsync to remove snapshots which will give a nice speedup (https: //github.com/bit-team/backintime/issues/151)
+- use rsync to remove snapshots which will give a nice speedup (https://github.com/bit-team/backintime/issues/151)
 - open temporary local copy of files instead of original backup on double-click in GUI
-- add option to decrypt paths in systray menu with mode ssh-encrypted
 - open current log directly from systray icon during taking a snapshot
-- add tool-tips to restore menu
-- add --share-path option
 - use Monospace font in logview
-- add restore option --only-new
-- add button 'Take snapshot with checksums'
-- change default configure option to --no-fuse-group as Ubuntu >= 12.04 don't need fuse group-membership anymore
 - Fix lintian warning: manpage-has-errors-from-man: bad argument name 'P'
 - Do not print 'SnapshotID' or 'SnapshotPath' if running 'snapshots-list' command (and other) with '--quiet'
 - Remove dependency 'ps'
 - rewrite huge parts of snapshots.py
-- remove backwards compatibility to version < 1.0
+
+### Removed
+
+- unused and undocumented userscript plugin
+- dependency for extended 'find' command on remote host
+- backwards compatibility to version < 1.0
+
+### Added
+
+- contextmenu for logview dialog which can copy, exclude and decode lines
+- 'Edit user-callback' dialog
+- cli command 'smart-remove'
+- option to decrypt paths in systray menu with mode ssh-encrypted
+- tool-tips to restore menu
+- --share-path option
+- restore option --only-new
+- button 'Take snapshot with checksums'
+
+### Changed
+
+- default configure option to --no-fuse-group as Ubuntu >= 12.04 don't need fuse group-membership anymore
 
 ## [1.1.24] (2017-11-07)
 
@@ -595,17 +619,20 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ### Uncategorized
 
-- Add Icon 'show-hidden' (https: //github.com/bit-team/backintime/issues/507)
-- Add Modify for Full System Backup button to settings page, to change some profile settings
-- add get|set_list_value to configfile
+- Add Icon 'show-hidden' (https://github.com/bit-team/backintime/issues/507)
 - subclass ApplicationInstance in GUIApplicationInstance to reduce redundant code
 - speed up app start by adding snapshots to timeline in background thread
-- add warning on failed permission restore (https: //github.com/bit-team/backintime/issues/58)
-- add unittest (thanks to Dorian, Alexandre, Aurélien and Gregory from IAGL)
-- continue an unfinished new_snapshot if possible (https: //github.com/bit-team/backintime/issues/400)
-- Add Nautilus-like shortcuts for navigating in file browser (https: //github.com/bit-team/backintime/issues/483)
+- add warning on failed permission restore (https://github.com/bit-team/backintime/issues/58)
+- continue an unfinished new_snapshot if possible (https://github.com/bit-team/backintime/issues/400)
+- Add Nautilus-like shortcuts for navigating in file browser (https://github.com/bit-team/backintime/issues/483)
 - speed up mounting of SSH+encrypted profiles
 - Move source code and bug tracking to GitHub
+
+### Added
+
+- Modify for Full System Backup button to settings page, to change some profile settings
+- get|set_list_value to configfile
+- unittest (thanks to Dorian, Alexandre, Aurélien and Gregory from IAGL)
 
 ## [1.1.8] (2015-09-28)
 
@@ -615,6 +642,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - BiT freeze when activate 'Decode path' in 'Snapshot Log View'
 - empty gray window appears when starting the gui as root (https://launchpad.net/bugs/1493020)
 - gnu_find_suffix_support doesn't set back to True (https://launchpad.net/bugs/1487781)
+- lintian warning dbus-policy-without-send-destination
 - dbus exception if dbus systembus is not running
 - depend on virtual package cron-daemon instead of cron for compatibility with other cron implementations (https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=776856)
 - wasn't able to start from alternate install dir (https://launchpad.net/bugs/478689)
@@ -623,33 +651,38 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - No mounting while selecting a secondary profile in the gui (https://launchpad.net/bugs/1481267)
 - fix for bug #1419466 broke crontab on Slackware (https://launchpad.net/bugs/1478576)
 - fix for bug #1431305 broke pw-cache on Ubuntu (https://launchpad.net/bugs/1431305)
+- bash-complete
 - Settings accepted empty strings for Host/User/Profile-ID (https://launchpad.net/bugs/1477733)
 - IndexError on 'check_remote_commands' due to too long args (https://launchpad.net/bugs/1471930)
 - Makefile has no uninstall target (https://launchpad.net/bugs/1469152)
 
 ### Uncategorized
 
-- show current app name and profile ID in syslog (https: //launchpad.net/bugs/906213)
-- Show 'Profiles' dropdown only in 'Last Log Viewer', add 'Snapshots' dropdown in 'Snapshot Log Viewer' (https: //launchpad.net/bugs/1478219)
+- show current app name and profile ID in syslog (https://launchpad.net/bugs/906213)
+- Show 'Profiles' dropdown only in 'Last Log Viewer', add 'Snapshots' dropdown in 'Snapshot Log Viewer' (https://launchpad.net/bugs/1478219)
 - do not restore permission if they are identical with current permissions
 - security issue: do not run user-callback in a shell
-- add option to not log user-callback output
-- Fix lintian warning dbus-policy-without-send-destination
 - apply timestamps-in-gzip.patch from Debian backintime/1.1.6-1 package
-- run multiple smart-remove jobs in one screen session (https: //launchpad.net/bugs/1487781)
-- add error messages if PID file creation fail
-- Add Warning about unsupported filesystems
+- run multiple smart-remove jobs in one screen session (https://launchpad.net/bugs/1487781)
 - use native Python code to check mountpoint
-- Add expert option for stdout and stderr redirection in cronjobs (https: //answers.launchpad.net/questions/270105)
-- remove shebang in common/askpass.py and common/create-manpage-backintime-config.py
-- Fix bash-complete
-- show 'man backintime' on Help; remove link to backintime.le-web.org (https: //launchpad.net/bugs/1475995)
-- add --debug argument
-- add --local-backup, --no-local-backup and --delete option to restore on command-line (https: //launchpad.net/bugs/1467239)
-- add 'backup on restore' option to confirm dialog
-- add check-config command for command-line
+- Add expert option for stdout and stderr redirection in cronjobs (https://answers.launchpad.net/questions/270105)
+- show 'man backintime' on Help; remove link to backintime.le-web.org (https://launchpad.net/bugs/1475995)
+- add --local-backup, --no-local-backup and --delete option to restore on command-line (https://launchpad.net/bugs/1467239)
 - rewrite command-line argument parsing. Now using argparse
-- add expert option SSH command prefix
+
+### Added
+
+- option to not log user-callback output
+- error messages if PID file creation fail
+- Warning about unsupported filesystems
+- --debug argument
+- 'backup on restore' option to confirm dialog
+- check-config command for command-line
+- expert option SSH command prefix
+
+### Removed
+
+- shebang in common/askpass.py and common/create-manpage-backintime-config.py
 
 ## [1.1.6] (2015-06-27)
 
@@ -657,10 +690,9 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 - show Profile name in systrayicon menu
 - make own Exceptions a childclass from BackInTimeException
-- remove consolekit from dependencies
-- Specifying the SSH private key whenever ssh is called (https: //launchpad.net/bugs/1433682)
-- add to in-/exclude directly from mainwindow (https: //launchpad.net/bugs/1454856)
-- add option to run Smart Remove in background on remote host (https: //launchpad.net/bugs/1457210)
+- Specifying the SSH private key whenever ssh is called (https://launchpad.net/bugs/1433682)
+- add to in-/exclude directly from mainwindow (https://launchpad.net/bugs/1454856)
+- add option to run Smart Remove in background on remote host (https://launchpad.net/bugs/1457210)
 - Use current profile when starting GUI from Systray
 
 ### Fixed
@@ -675,19 +707,20 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - failed to restore file names with white spaces using CLI (https://launchpad.net/bugs/1435602)
 - UnboundLocalError with 'last_snapshot' in _free_space (https://launchpad.net/bugs/1437623)
 
+### Removed
+
+- consolekit from dependencies
+
 ## [1.1.4] (2015-03-22)
 
 ### Uncategorized
 
-- add option to keep new snapshot with 'full rsync mode' regardless of changes (https: //launchpad.net/bugs/1434722)
-- remove base64 encoding for passwords as it doesn't add any security but broke the password process (https: //launchpad.net/bugs/1431305)
-- add confirm dialog before restoring (https: //launchpad.net/bugs/438079)
-- add option to run only one snapshot at a time
-- cache uuid in config so it doesn't fail if the device isn't plugged in (https: //launchpad.net/bugs/1426881)
-- add warning about wrong Python version in configure
-- prevent snapshots from being removed with restore and delete; show warning if restore and delete filesystem root (https: //answers.launchpad.net/questions/262837)
-- add bash-completion
-- use 'crontab' instead of 'crontab -' to read from stdin (https: //launchpad.net/bugs/1419466)
+- add option to keep new snapshot with 'full rsync mode' regardless of changes (https://launchpad.net/bugs/1434722)
+- remove base64 encoding for passwords as it doesn't add any security but broke the password process (https://launchpad.net/bugs/1431305)
+- add confirm dialog before restoring (https://launchpad.net/bugs/438079)
+- cache uuid in config so it doesn't fail if the device isn't plugged in (https://launchpad.net/bugs/1426881)
+- prevent snapshots from being removed with restore and delete; show warning if restore and delete filesystem root (https://answers.launchpad.net/questions/262837)
+- use 'crontab' instead of 'crontab -' to read from stdin (https://launchpad.net/bugs/1419466)
 
 ### Fixed
 
@@ -699,6 +732,12 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - OSError in free_space; add alternate method to get free space
 - ugly theme while running as root on Gnome based DEs (https://launchpad.net/bugs/1418447)
 - UnicodeError thrown if filename has broken charset (https://launchpad.net/bugs/1419694)
+
+### Added
+
+- option to run only one snapshot at a time
+- warning about wrong Python version in configure
+- bash-completion
 
 ## [1.1.2] (2015-02-04)
 
@@ -712,54 +751,60 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ## [1.1.0] (2015-01-15)
 
+### Added
+
+- tooltips for rsync options
+- more user-callback events (on App start and exit, on mount and unmount)
+- context menu to files view
+- more default exclude; remove [Cc]ache* from exclude
+- option for custom rsync-options
+- ProgressBar for rsync
+- progress for smart-remove
+- --gksu/--gksudo arg to qt4/configure
+
 ### Uncategorized
 
-- add tooltips for rsync options
 - make only one debian/control
-- multiselect files to restore (https: //launchpad.net/bugs/1135886)
-- force run manual snapshots on battery (https: //launchpad.net/bugs/861553)
+- multiselect files to restore (https://launchpad.net/bugs/1135886)
+- force run manual snapshots on battery (https://launchpad.net/bugs/861553)
 - backup encfs config to local config folder
 - apply 'install-docs-move.patch' from Debian package by Jonathan Wiltshire
-- add restore option to delete new files during restore (https: //launchpad.net/bugs/1371951)
+- add restore option to delete new files during restore (https://launchpad.net/bugs/1371951)
 - use flock to prevent two instances running at the same time
-- restore config dialog added (https: //launchpad.net/bugs/480391)
+- restore config dialog added (https://launchpad.net/bugs/480391)
 - inhibit suspend/hibernate while take_snapshot or restore
 - use more reliable code for get_user
 - implement anacrons functions inside BIT => more flexible schedules and no new timestamp if there was an error
 - automatically run in background if started with 'backintime --backup-job'
-- fix typos and style warnings in manpages reported by Lintian (https: //lintian.debian.org/full/jmw@debian.org.html#backintime_1.0.34-0.1)
-- add exclude files by size (https: //launchpad.net/bugs/823719)
-- remove 'Auto Host/User/Profile-ID' as this is more confusing than helping
-- optional run 'rsync' with 'nocache' (https: //launchpad.net/bugs/1344528)
+- fix typos and style warnings in manpages reported by Lintian (https://lintian.debian.org/full/jmw@debian.org.html#backintime_1.0.34-0.1)
+- add exclude files by size (https://launchpad.net/bugs/823719)
+- optional run 'rsync' with 'nocache' (https://launchpad.net/bugs/1344528)
 - mark invalid exclude pattern with mode ssh-encrypted
 - make Settingsdialog tabs scrollable
 - remove colon (: ) restriction in exclude pattern
 - prevent starting new snapshot if restore is running
-- add top-level directory for tarball (https: //launchpad.net/bugs/1359076)
-- add more user-callback events (on App start and exit, on mount and unmount)
-- add context menu to files view
-- remove snapshots from commandline
+- add top-level directory for tarball (https://launchpad.net/bugs/1359076)
 - multi selection in timeline => remove multiple snapshots with one click
 - print warning if started with sudo
-- add more default exclude; remove [Cc]ache* from exclude
-- add option for custom rsync-options
-- add ProgressBar for rsync
-- add progress for smart-remove
-- remove old status-bar message after a snapshot crashed.
-- ask to include symlinks target instead link (https: //launchpad.net/bugs/1117709)
+- ask to include symlinks target instead link (https://launchpad.net/bugs/1117709)
 - port to Python 3.x
-- returncode >0 if there was an error (https: //launchpad.net/bugs/1040995)
+- returncode >0 if there was an error (https://launchpad.net/bugs/1040995)
 - Enable user-callback script to cancel a backup by returning a non-zero exit code.
 - merge backintime-notify into backintime-qt4
-- add --gksu/--gksudo arg to qt4/configure
-- remember last path for each profile (https: //bugs.launchpad.net/bugs/1254870)
-- sort include and exclude list (https: //bugs.launchpad.net/bugs/1193149)
+- remember last path for each profile (https://bugs.launchpad.net/bugs/1254870)
+- sort include and exclude list (https://bugs.launchpad.net/bugs/1193149)
 - Timeline show tooltip 'Last check'
-- show hidden files in FileDialog (https: //bugs.launchpad.net/backintime/+bug/995925)
-- add button text for all buttons (https: //bugs.launchpad.net/backintime/+bug/992020)
-- add shortcuts (https: //bugs.launchpad.net/backintime/+bug/686694)
-- add menubar (https: //bugs.launchpad.net/backintime/+bug/528851)
+- show hidden files in FileDialog (https://bugs.launchpad.net/backintime/+bug/995925)
+- add button text for all buttons (https://bugs.launchpad.net/backintime/+bug/992020)
+- add shortcuts (https://bugs.launchpad.net/backintime/+bug/686694)
+- add menubar (https://bugs.launchpad.net/backintime/+bug/528851)
 - port KDE4 GUI to pure Qt4 to replace both KDE4 and Gnome GUI
+
+### Removed
+
+- 'Auto Host/User/Profile-ID' as this is more confusing than helping
+- snapshots from commandline
+- old status-bar message after a snapshot crashed.
 
 ### Fixed
 
@@ -772,8 +817,8 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ### Uncategorized
 
-- use fingerprint to check if ssh key was unlocked correctly (https: //answers.launchpad.net/questions/256408)
-- add fallback method to get UUID (https: //answers.launchpad.net/questions/254140)
+- use fingerprint to check if ssh key was unlocked correctly (https://answers.launchpad.net/questions/256408)
+- add fallback method to get UUID (https://answers.launchpad.net/questions/254140)
 
 ### Fixed
 
@@ -796,8 +841,8 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ### Uncategorized
 
-- remove UbuntuOne from exclude (https: //bugs.launchpad.net/bugs/1340131)
-- Gray out 'Add Profile' if 'Main Profile' isn't configured yet (https: //bugs.launchpad.net/bugs/1335545)
+- remove UbuntuOne from exclude (https://bugs.launchpad.net/bugs/1340131)
+- Gray out 'Add Profile' if 'Main Profile' isn't configured yet (https://bugs.launchpad.net/bugs/1335545)
 - Don't check for fuse group-membership if group doesn't exist
 - disable keyring for root
 
@@ -813,7 +858,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ### Uncategorized
 
-- sync/flush all disks before shutdown (https: //bugs.launchpad.net/bugs/1261031)
+- sync/flush all disks before shutdown (https://bugs.launchpad.net/bugs/1261031)
 
 ### Fixed
 
@@ -830,30 +875,34 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 ### Uncategorized
 
 - scheduled and manual snapshots use --config
-- make configure scripts portable (https: //bugs.launchpad.net/backintime/+bug/377429)
-- add symlink last_snapshot (https: //bugs.launchpad.net/backintime/+bug/787118)
-- add virtual package backintime-kde for PPA
-- Fix multiple errors in PPA build process; reorganize updateversion.sh
-- add option to run rsync with 'nice' or 'ionice' on remote host (https: //bugs.launchpad.net/backintime/+bug/1240301)
-- add Shutdown button to shutdown system after snapshot has finished (https: //bugs.launchpad.net/backintime/+bug/838742)
+- make configure scripts portable (https://bugs.launchpad.net/backintime/+bug/377429)
+- add symlink last_snapshot (https://bugs.launchpad.net/backintime/+bug/787118)
+- add option to run rsync with 'nice' or 'ionice' on remote host (https://bugs.launchpad.net/backintime/+bug/1240301)
+- add Shutdown button to shutdown system after snapshot has finished (https://bugs.launchpad.net/backintime/+bug/838742)
 - wrap long lines for syslog
 
 ### Fixed
 
 - udev rule doesn't finish (https://bugs.launchpad.net/backintime/+bug/1249466)
+- multiple errors in PPA build process; reorganize updateversion.sh
 - Mate and xfce desktop didn't show systray icon (https://bugs.launchpad.net/backintime/+bug/658424/comments/31)
 - Ubuntu Lucid doesn't provide SecretServiceKeyring (https://bugs.launchpad.net/backintime/+bug/1243911)
 - 'gksu backintime-gnome' failed with dbus.exceptions.DBusException
 
+### Added
+
+- virtual package backintime-kde for PPA
+
 ## [1.0.28] (2013-10-19)
 
-### Uncategorized
+### Removed
 
-- remove config on 'apt-get purge'
-- add more options for configure scripts; update README
-- add udev schedule (run BIT as soon as the drive is connected)
-- add '--checksum' commandline option (https: //bugs.launchpad.net/backintime/+bug/886021)
-- multi selection for include and exclude list (https: //bugs.launchpad.net/backintime/+bug/660753)
+- config on 'apt-get purge'
+
+### Added
+
+- more options for configure scripts; update README
+- udev schedule (run BIT as soon as the drive is connected)
 
 ### Fixed
 
@@ -867,25 +916,33 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - KPassivePopup is not defined (https://bugs.launchpad.net/backintime/+bug/871475)
 - ValueError while reading pw-cache PID (https://answers.launchpad.net/backintime/+question/235407)
 
+### Uncategorized
+
+- add '--checksum' commandline option (https://bugs.launchpad.net/backintime/+bug/886021)
+- multi selection for include and exclude list (https://bugs.launchpad.net/backintime/+bug/660753)
+
 ## [1.0.26] (2013-09-07)
 
 ### Uncategorized
 
 - add feature: keep min free inodes
 - roll back commit 836.1.5 (check free-space on ssh remote host): statvfs DOES work over sshfs. But not with quite outdated sshd
-- add daily anacron schedule
-- add delete button and 'list only equal' in Snapshot dialog; multiSelect in snapshot list
-- add manpage backintime-config and config-examples
 - add feature: restore from command line; add option --config
 - use 'ps ax' to check if 'backintime --pw-cache' is still running
 - mount after locking, unmount before unlocking in take_snapshot
-- add option --bwlimit for rsync
 - redirect logger.error and .warning to stderr; new argument --quiet
 - deactivate 'Save Password' if no keyring is available
 - use Password-cache for user-input too
 - handle two Passwords
 - add 'SSH encrypted': mount / with encfs reverse and sync encrypted with rsync. EXPERIMENTAL!
 - add 'Local encrypted': mount encfs
+
+### Added
+
+- daily anacron schedule
+- delete button and 'list only equal' in Snapshot dialog; multiSelect in snapshot list
+- manpage backintime-config and config-examples
+- option --bwlimit for rsync
 
 ### Fixed
 
@@ -905,8 +962,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - 'Save Password' default off to avoid problems with existing profiles
 - if restore uid/gid failed try to restore at least gid
 - SSH need to store permissions in separate file with "Full rsync mode" because remote user might not be able to store ownership
-- switch to 'find -exec cmd {} +' (https: //bugs.launchpad.net/backintime/+bug/1157639)
-- change all indent tabs to 4 spaces
+- switch to 'find -exec cmd {} +' (https://bugs.launchpad.net/backintime/+bug/1157639)
 
 ### Fixed
 
@@ -917,13 +973,20 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - GtkWarning: Unknown property: GtkLabel.margin-top
 - check keyring backend only if password is needed
 
+### Changed
+
+- all indent tabs to 4 spaces
+
 ## [1.0.22] (2013-03-26)
 
 ### Uncategorized
 
 - check free-space on ssh remote host (statvfs didn't work over sshfs)
-- Add Password storage mode ssh
-- Add "Full rsync mode" (can be faster but ...)
+
+### Added
+
+- Password storage mode ssh
+- "Full rsync mode" (can be faster but ...)
 
 ### Fixed
 
@@ -954,13 +1017,13 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ### Uncategorized
 
-- Fix a package dependency problem ... this time for good (https: //bugs.launchpad.net/backintime/+bug/1077446)
+- Fix a package dependency problem ... this time for good (https://bugs.launchpad.net/backintime/+bug/1077446)
 
 ## [1.0.14] (2012-11-09)
 
-### Uncategorized
+### Fixed
 
-- Fix a package dependency problem
+- a package dependency problem
 
 ## [1.0.12] (2012-11-08)
 
@@ -969,8 +1032,6 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Add links to: website, documentation, report a bug, answers, faq
 - Use libnotify for gnome/kde4 notifications instead of gnome specific libraries
 - Add more schedule options: every 30 min, every 2 hours, every 4 hours, every 6 hours & every 12 hours
-- Add generic mount-framework
-- Add mode 'SSH' for backups on remote host using ssh protocol.
 
 ### Fixed
 
@@ -979,11 +1040,16 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - glade (xml) files did not translate
 - https://bugs.launchpad.net/backintime/+bug/1073867
 
+### Added
+
+- generic mount-framework
+- mode 'SSH' for backups on remote host using ssh protocol.
+
 ## [1.0.10] (2012-03-06)
 
-### Uncategorized
+### Added
 
-- Add "Restore to ..." in replacement of copy (with or without drag & drop) because copy don't restore user/group/rights
+- "Restore to ..." in replacement of copy (with or without drag & drop) because copy don't restore user/group/rights
 
 ## [1.0.8] (2011-06-18)
 
@@ -1010,8 +1076,8 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 ### Uncategorized
 
 - SettingsDialog: show highly recommended excludes
-- Option to use checksum to detect changes (https: //bugs.launchpad.net/backintime/+bug/666964)
-- Option to select log verbosity (https: //bugs.launchpad.net/backintime/+bug/664423)
+- Option to use checksum to detect changes (https://bugs.launchpad.net/backintime/+bug/666964)
+- Option to select log verbosity (https://bugs.launchpad.net/backintime/+bug/664423)
 - Gnome: use gloobus-preview if installed
 
 ### Fixed
@@ -1029,21 +1095,18 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ### Uncategorized
 
-- add '.dropbox*' to default exclude patterns (https: //bugs.launchpad.net/backintime/+bug/628172)
-- add option to take a snapshot at every boot (https: //bugs.launchpad.net/backintime/+bug/621810)
-- fix xattr
-- add continue on errors (https: //bugs.launchpad.net/backintime/+bug/616299)
+- add '.dropbox*' to default exclude patterns (https://bugs.launchpad.net/backintime/+bug/628172)
+- add option to take a snapshot at every boot (https://bugs.launchpad.net/backintime/+bug/621810)
+- add continue on errors (https://bugs.launchpad.net/backintime/+bug/616299)
 - add expert options: copy unsafe links & copy links
 - "user-callback" replace "user.callback" and receive profile information
 - documentation: on-line only (easier to maintain)
-- add error log and error log view dialog (Gnome & KDE4)
 - merge with: lp:~dave2010/backintime/minor-edits
 - merge with: lp:~mcfonty/backintime/unique-snapshots-view
 - reduce memory usage during compare with previous snapshot process
 - custom backup hour (for daily backups or mode): https://bugs.launchpad.net/backintime/+bug/507451
-- smart remove was slightly changed (https: //bugs.launchpad.net/backintime/+bug/502435)
+- smart remove was slightly changed (https://bugs.launchpad.net/backintime/+bug/502435)
 - make backup on restore optional
-- add ionice support for user/cron backup process
 - fix bug that could cause "ghost" folders in snapshots (LP: 406092)
 - fix bug that converted / into // (LP: #455149)
 - remove "schedule per included directory" (profiles do that) (+ bug LP: #412470)
@@ -1052,8 +1115,6 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - multiple profiles support
 - GNOME: fix notification
 - backintime snapshot folder is restructured to ../backintime/machine/user/profile_id/
-- added the possibility to include other snapshot folders within a profile, it can only read those, there is not a GUI implementation yet
-- added a tag suffix to the snapshot_id, to avoid double snapshot_ids
 - added a desktop file for kdesu and a test if kdesu or kdesudo should be used (LP: #389988)
 - added expert option to disable snapshots when on battery (LP: #388178)
 - fix bug handling big files by the GNOME GUI (LP: #409130)
@@ -1070,6 +1131,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ### Fixed
 
+- xattr
 - https://bugs.launchpad.net/backintime/+bug/588841
 - https://bugs.launchpad.net/backintime/+bug/588215
 - https://bugs.launchpad.net/backintime/+bug/588393
@@ -1095,24 +1157,34 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - https://bugs.launchpad.net/backintime/+bug/447841
 - https://bugs.launchpad.net/backintime/+bug/412695
 
+### Added
+
+- error log and error log view dialog (Gnome & KDE4)
+- ionice support for user/cron backup process
+- the possibility to include other snapshot folders within a profile, it can only read those, there is not a GUI implementation yet
+- a tag suffix to the snapshot_id, to avoid double snapshot_ids
+
 ## [0.9.26] (2009-05-19)
 
 ### Uncategorized
 
 - update translations from Launchpad
-- Fix a bug in smart-remove algorithm (https: //bugs.launchpad.net/backintime/+bug/376104)
+- Fix a bug in smart-remove algorithm (https://bugs.launchpad.net/backintime/+bug/376104)
 - update German translation (Michael Wiedmann <mw@miwie.in-berlin.de>)
-- add '--no-check' option to configure scripts
 - use only 'folder' term (more consistent with GNOME/KDE)
 - add 'expert option': enable/disable nice for cron jobs
 - GNOME & KDE4: refresh snapshots button force files view to update too
 - you can include a backup parent directory (backup directory will auto-exclude itself)
-- fix some small bugs
 
 ### Fixed
 
 - https://bugs.launchpad.net/backintime/+bug/374477
 - https://bugs.launchpad.net/backintime/+bug/375113
+- some small bugs
+
+### Added
+
+- '--no-check' option to configure scripts
 
 ## [0.9.24] (2009-05-07)
 
@@ -1123,17 +1195,20 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - KDE4 FilesView/SnapshotsDialog: ctrl-click just select (don't execute)
 - KDE4: fix crush after "take snapshot" process (https://bugs.launchpad.net/backintime/+bug/366241)
 - store basic permission in a special file so it can restore them correctly (event from NTFS)
-- add config version
 - implement Gnome/KDE4 systray icons and user.callback as plugins
 - reorganize code: common/GNOME/KDE4
 - GNOME: break the big glade file in multiple file
 - backintime is no longer aware of 'backintime-gnome' and 'backintime-kde4'  
 
+### Added
+
+- config version
+
 ## [0.9.22.1] (2009-04-27)
 
-### Uncategorized
+### Fixed
 
-- fix French translation
+- French translation
 
 ## [0.9.22] (2009-04-24)
 
@@ -1141,7 +1216,6 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 - update translations from Launchpad
 - KDE4: fix some translation problems
-- remove --safe-links for save/restore (this means copy symlinks as symlinks)
 - update German translation (Michael Wiedmann <mw@miwie.in-berlin.de>)
 - create directory now use python os.makedirs (replace use of mkdir command)
 - KDE4: fix a crush related to QString - python string conversion
@@ -1152,6 +1226,10 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - add more command line options: --snapshots-list, --snapshots-list-path, --last-snapshot, --last-snapshot-path
 - follow FreeDesktop directories specs:  
 - new install system: use more common steps (./configure; make; sudo make install)
+
+### Removed
+
+- --safe-links for save/restore (this means copy symlinks as symlinks)
 
 ## [0.9.20] (2009-04-06)
 
@@ -1178,23 +1256,25 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - SettingDialog: add an expert option to enable to schedule automatic backups per directory
 - SettingDialog: schedule automatic backups - if the application can't find crontab it show an error
 - SettingDialog: if the application can't write in snapshots directory there should be an error message
-- add Polish translation (Paweł Hołuj <pholuj@gmail.com>)
-- add cron in common package dependencies
 - GNOME & KDE4: rework settings dialog
 - SettingDialog: add an option to enable/disable notifications
 
+### Added
+
+- Polish translation (Paweł Hołuj <pholuj@gmail.com>)
+- cron in common package dependencies
+
 ## [0.9.16.1] (2009-03-16)
 
-### Uncategorized
+### Fixed
 
-- fix a bug/crush for French version
+- a bug/crush for French version
 
 ## [0.9.16] (2009-03-13)
 
 ### Uncategorized
 
 - update Spanish translation (Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>)
-- add Slovak translation (Tomáš Vadina <kyberdev@gmail.com>)
 - update Swedish translation (Niklas Grahn <terra.unknown@yahoo.com>)
 - update French translation (Michel Corps <mahikeulbody@gmail.com>)
 - update German translation (Michael Wiedmann <mw@miwie.in-berlin.de>)
@@ -1206,6 +1286,10 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - when it tries to take a snapshot if the snapshots directory don't exists  
 - GNOME & KDE4: add notify if the snapshots directory don't exists
 - KDE4: rework MainWindow
+
+### Added
+
+- Slovak translation (Tomáš Vadina <kyberdev@gmail.com>)
 
 ## [0.9.14] (2009-03-05)
 
@@ -1229,13 +1313,19 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 ### Uncategorized
 
 - KDE4: add help
-- add Slovenian translation (Vanja Cvelbar <cvelbar@gmail.com>)
+
+### Added
+
+- Slovenian translation (Vanja Cvelbar <cvelbar@gmail.com>)
 
 ## [0.9.10] (2009-02-24)
 
+### Added
+
+- Swedish translation (Niklas Grahn <terra.unknown@yahoo.com>)
+
 ### Uncategorized
 
-- add Swedish translation (Niklas Grahn <terra.unknown@yahoo.com>)
 - KDE4: drop and drop from backintime files view to any file manager
 
 ### Fixed
@@ -1285,12 +1375,15 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - update German translation (Michael Wiedmann <mw@miwie.in-berlin.de>)
 - replace diff with rsync to check if a new snapshot is needed
 - code cleanup
-- add show hidden & backup files toggle button for files view
 
 ### Fixed
 
 - if you add "/a" in include directories and "/a/b" in exclude patterns, "/a/b*" items 
 - it does not include ".*" items even if they are not excluded  
+
+### Added
+
+- show hidden & backup files toggle button for files view
 
 ## [0.9] (2009-01-09)
 
@@ -1321,8 +1414,14 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 ### Uncategorized
 
 - update man/docbook
-- add sort columns in MainWindow/FileView (by name, by size or by date) and SnapshotsDialog (by date)
-- fix German translation (Michael Wiedmann <mw@miwie.in-berlin.de>)
+
+### Added
+
+- sort columns in MainWindow/FileView (by name, by size or by date) and SnapshotsDialog (by date)
+
+### Fixed
+
+- German translation (Michael Wiedmann <mw@miwie.in-berlin.de>)
 
 ## [0.8.16] (2008-12-11)
 
@@ -1333,21 +1432,33 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ## [0.8.14] (2008-12-07)
 
+### Added
+
+- more command line parameters ( --version, --snapshots, --help )
+
+### Fixed
+
+- a crush for getting info on dead symbolic links
+
 ### Uncategorized
 
-- add more command line parameters ( --version, --snapshots, --help )
-- fix a crush for getting info on dead symbolic links
 - when taking a new backup based on the previous one don't copy the previous extra info (ex: name)
 - copy unsafe links when taking a snapshot
 
 ## [0.8.12] (2008-12-01)
 
+### Added
+
+- German translation (Michael Wiedmann <mw@miwie.in-berlin.de>)
+- SnapshotNameDialog
+- Name/Remove snapshot in main toolbar
+
+### Changed
+
+- the way it detects if the mainwindow is the active window (no dialogs)
+
 ### Uncategorized
 
-- add German translation (Michael Wiedmann <mw@miwie.in-berlin.de>)
-- add SnapshotNameDialog
-- add Name/Remove snapshot in main toolbar
-- change the way it detects if the mainwindow is the active window (no dialogs)
 - toolbars: show icons only
 - update Spanish translation (Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>)
 
@@ -1358,8 +1469,11 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - SnapshotsDialog: add right-click popup-menu and a toolbar with copy & restore buttons
 - use a more robust backup lock file
 - log using syslog
-- fix a small bug in copy to clipboard
 - update Spanish translation (Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>)
+
+### Fixed
+
+- a small bug in copy to clipboard
 
 ## [0.8.8] (2008-11-19)
 
@@ -1370,37 +1484,46 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ## [0.8.6] (2008-11-17)
 
-### Uncategorized
+### Fixed
 
-- fix change backup path crush
-- add SnapshotsDialog
+- change backup path crush
+
+### Added
+
+- SnapshotsDialog
 
 ## [0.8.2] (2008-11-14)
 
 ### Uncategorized
 
 - add right-click menu in files list: open (using gnome-open), copy (you can paste in Nautilus), restore (for snapshots only)
-- add Copy toolbar button for files list
+
+### Added
+
+- Copy toolbar button for files list
 
 ## [0.8.1] (2008-11-10)
 
-### Uncategorized
+### Added
 
-- add every 5/10 minutes automatic backup
+- every 5/10 minutes automatic backup
 
 ## [0.8] (2008-11-07)
 
 ### Uncategorized
 
 - don't show backup files (*~)
-- add backup files to default exclude patterns (*~)
 - makedeb.sh: make a single package with all languages included
 - install.sh: install all languages
-- add English manual (man)
-- add English help (docbook)
-- add help button in main toolbar
 - the application can be started with a 'path' to a folder or file as command line parameter
 - when the application start, if it is already running pass its command line to the first instance (this allow a basic integration with file-managers - see README)
+
+### Added
+
+- backup files to default exclude patterns (*~)
+- English manual (man)
+- English help (docbook)
+- help button in main toolbar
 
 ### Fixed
 
@@ -1411,7 +1534,10 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 ### Uncategorized
 
 - if there is already a GUI instance running raise it
-- add Spanish translation (Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>)
+
+### Added
+
+- Spanish translation (Francisco Manuel García Claramonte <franciscomanuel.garcia@hispalinux.es>)
 
 ## [0.7.2] (2008-10-28)
 
@@ -1423,18 +1549,27 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ## [0.7] (2008-10-22)
 
+### Fixed
+
+- cron segfault
+- a crush when launched the very first time (not configured)
+
 ### Uncategorized
 
-- fix cron segfault
-- fix a crush when launched the very first time (not configured)
 - multi-lingual support
-- add French translation
+
+### Added
+
+- French translation
 
 ## [0.6.4] (2008-10-20)
 
+### Removed
+
+- About & Settings dialogs from the pager
+
 ### Uncategorized
 
-- remove About & Settings dialogs from the pager
 - allow only one instance of the application
 
 ## [0.6.2] (2008-10-16)
@@ -1453,10 +1588,13 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ## [0.5.1] (2008-10-10)
 
-### Uncategorized
+### Added
 
-- add size & date columns in files view
-- changed some texts
+- size & date columns in files view
+
+### Changed
+
+- some texts
 
 ## [0.5] (2008-10-03)
 

@@ -50,10 +50,6 @@ def main():
 
 
 def get_std_suffix(suffix):
-    """
-    '### Changed',
-    '### Removed',
-    """
     if suffix == 'Uncategorized':
         return suffix
 
@@ -64,29 +60,33 @@ def get_std_suffix(suffix):
         'BACKPORT BUG FIX',
         'FIX CRITICAL BUG',
         'BUG FIX (GNOME)',
-        'Fix',
-        'Fixed',
+        'FIXED',
     )
     if suffix.upper() in fixed:
         return 'Fixed'
 
     added = (
         'FEATURE',
-        'Added',
-        'Add',
-        'add',
+        'ADDED',
+        'ADD',
     )
     if suffix.upper() in added:
         return 'Added'
 
     changed = (
-        'Changed'
+        'Changed',
+        'changed',
+        'change',
+        'updated',
+        'Updated',
+        'Refactor',
     )
     if suffix in changed:
         return 'Changed'
 
     removed = (
-        'Removed'
+        'Removed',
+        'remove',
     )
     if suffix in removed:
         return 'Removed'
@@ -186,24 +186,35 @@ def format_links(content):
 def process_items(items):
     result = defaultdict(list)
 
+    # "* suffix: content"
     rex_suffix = re.compile(r'^\*\s*([^:]+):\s*(.+)')
+    # "* suffix content"
+    rex_first_word = re.compile(r'^\*\s*(\w+)\s+(.+)')
 
     for i in items:
 
         try:
-            suffix, content = rex_suffix.search(i).groups()
+            if ':' in i:
+                suffix, content = rex_suffix.search(i).groups()
+            else:
+                suffix, content = rex_first_word.search(i).groups()
+                print(f'{i=}\n{suffix=} {content=}')
+
         except AttributeError:
+            print(f'{i=}')
             suffix = 'Uncategorized'
             content = i[2:]  # cut bullet
 
         std_suffix = get_std_suffix(suffix)
 
         if std_suffix is None:
-            content = suffix + ': ' + content
+            sep = ': ' if ':' in i else ' '
+            content = suffix + sep + content
             std_suffix = 'Uncategorized'
 
         content = format_links(content)
 
+        content = content.replace('https: //', 'https://')
         result[std_suffix].append(content)
 
     return result
