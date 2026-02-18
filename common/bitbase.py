@@ -16,7 +16,9 @@ from pathlib import Path
 # | Application |
 # |-------------|
 
+# Used as a label in the GUI. Not sure if this should be translatable.
 APP_NAME = 'Back In Time'
+
 BINARY_NAME_BASE = 'backintime'
 BINARY_NAME_CLI = f'{BINARY_NAME_BASE}'
 BINARY_NAME_GUI = f'{BINARY_NAME_BASE}-qt'
@@ -164,4 +166,4 @@ IS_IN_ROOT_MODE = os.geteuid() == 0
 # and clarity. This constant is the currently desired stage of intensity. The
 # last shown intensity is stored in the state data file. If they don't fit, the
 # message is displayed.
-ENCFS_MSG_STAGE = 2
+ENCFS_MSG_STAGE = 3

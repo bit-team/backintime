@@ -9,7 +9,7 @@ General Public License v2 (GPLv2). See directory LICENSES or go to
 <https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
 # How to prepare and publish a new BIT release
-<sub>February 2025</sub>
+<sub>February 2026</sub>
 
 ## Overview
 
@@ -38,8 +38,10 @@ using a "feature" branch and sending a pull request asking for a review.
 
 ## Preconditions for a new release
 
-- Developers agreed on the new version number.
-- Most-recent translations were merged into `dev` branch. See the [localization documentation](2_localization.md).
+- Developers agreed on the new version number. Release candidates need a suffix
+  like `*-rc` or `*-rc1`.
+- Most-recent translations were merged into `dev` branch. See the
+  [localization documentation](2_localization.md).
 - Full CI build pipeline matrix is activate (see
   [#1529](https://github.com/bit-team/backintime/issues/1529)). This is related
   to the Python versions and also to the Ubuntu Distro versions.
@@ -51,12 +53,11 @@ using a "feature" branch and sending a pull request asking for a review.
 
 - Make sure we have sufficient _Credits_ to run _TravisCI_. Otherwise contact
   their support and kindly ask for new OSS credits.
-- Create a new branch (e.g. `rc/v1.5.4`) in your clone for the new release
-  (candidate).
+- Create a new branch (e.g. `rc/v1.5.4`) in your clone for the new release.
 - Update `VERSION` file.
 - Update `CHANGES` file.
 - Execute the script `./updateversion.sh` to update the version numbers (based on `VERSION` file) in several files.
-- Update the "as at" date in the man page files `backintime.1` and `backintime-askpass.1`.
+<!--
 - Autogenerate and update the man page file `backintime-config.1` by executing the script `common/create-manapge-backintime-config.py`.
   - Validate the content of the created man page. For example compared it to a
     previous version of the man page.
@@ -64,10 +65,20 @@ using a "feature" branch and sending a pull request asking for a review.
     man.plain.txt`
   - Use `git diff` (or another diff tool) to compare them and see if the
     content is as expected.
+!-->
 - Update `README.md` file.
 - Build user manual:
+  - Considere if there was a modification to the application
+    logo (in `qt/icons/scalable/apps/backintime.svg`). If this is the case
+    replace the logo in the documentation
+    (`doc/manual/src/_images/backintime.svg`) with the new version.
   - Navigate to `./doc/manual`.
   - Run `mkdocs build`.
+  - Be aware that the generated HTML files are not included in the git
+    repo. But they will be included in the source tar ball.
+- Build man pages:
+  - Navigate to `./doc/manpages`.
+  - Run `./build_manpages.sh`.
 - Run `codespell` to check for common spelling errors.
 - Commit the changes.
 - Open a new pull request (PR) for review by other developers.
@@ -150,6 +161,7 @@ After the PR is merged:
 
   - `common/version.py`
   - `common/man/C/backintime*.1`
+  - `common/man/C/backintime*.5`
   - `qt/man/C/backintime*.1`
 
 - Check that the version numbers have been update by opening some of the above
@@ -160,11 +172,21 @@ After the PR is merged:
   changing the month and year in the first line that looks like this:
 
   ```
-  .TH backintime-config 1 "Aug 2023" "version 1.4.0" "USER COMMANDS"
+  .TH backintime-config 5 "Aug 2023" "version 1.4.0" "USER COMMANDS"
   ```
 
 - Update the `AUTHORS` file in the project's root folder if necessary.
   Do not publish contributors names and email address without their permission.
+
+### Build documentation
+- Build user manual:
+  - Navigate to `./doc/manual`.
+  - Run `mkdocs build`.
+  - Be aware that the generated HTML files are not included in the git
+    repo. But they will be included in the source tar ball.
+- Build man pages:
+  - Navigate to `./doc/manpages`.
+  - Run `./build_manpages.sh`.
 
 ### Testing & Miscellaneous
 

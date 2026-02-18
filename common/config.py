@@ -41,9 +41,11 @@ except NameError:
 import bitbase
 import tools
 import configfile
+import encode
 import logger
 import sshtools
 import encfstools
+import gocryptfstools
 import password
 import pluginmanager
 import schedule
@@ -78,36 +80,6 @@ class Config(configfile.ConfigFileWithProfiles):
 
     HOURLY_BACKUPS = bitbase.HOURLY_BACKUPS
 
-    # Used when new snapshot profile is created.
-    DEFAULT_EXCLUDE = [
-        '.gvfs',
-        '.cache/*',
-        '.thumbnails*',
-        '.local/share/[Tt]rash*',
-        '*.backup*',
-        '*~',
-        '.dropbox*',
-        '/proc/*',
-        '/sys/*',
-        '/dev/*',
-        '/run/*',
-        '/etc/mtab',
-        '/var/cache/apt/archives/*.deb',
-        'lost+found/*',
-        '/tmp/*',
-        '/var/tmp/*',
-        '/var/backups/*',
-        '.Private',
-        '/swapfile',
-        # Discord files
-        # See also: https://github.com/bit-team/backintime/issues/1555#issuecomment-1787230708
-        'SingletonLock',
-        'SingletonCookie',
-        # Mozilla files
-        # See also: https://github.com/bit-team/backintime/issues/1555#issuecomment-1787111063
-        'lock'
-    ]
-
     DEFAULT_RUN_NICE_FROM_CRON = True
     DEFAULT_RUN_NICE_ON_REMOTE = False
     DEFAULT_RUN_IONICE_FROM_CRON = True
@@ -120,7 +92,7 @@ class Config(configfile.ConfigFileWithProfiles):
     DEFAULT_REDIRECT_STDERR_IN_CRON = False
     DEFAULT_OFFSET = 0
 
-    ENCODE = encfstools.Bounce()
+    ENCODE = encode.Bounce()
     PLUGIN_MANAGER = pluginmanager.PluginManager()
 
     def __init__(self, config_path=None, data_path=None):
@@ -135,6 +107,8 @@ class Config(configfile.ConfigFileWithProfiles):
         # current locale because the language code in the config file wasn't
         # read yet.
         configfile.ConfigFileWithProfiles.__init__(self, _('Main profile'))
+
+        self._unsaved_profiles = []
 
         self._GLOBAL_CONFIG_PATH = '/etc/backintime/config'
 
@@ -261,25 +235,31 @@ class Config(configfile.ConfigFileWithProfiles):
                     # ),
                     'local': (
                         None, _('Local'), False, False),
+                    'local_gocryptfs': (
+                        gocryptfstools.GocryptfsMount,
+                        _('Local encrypted') + ' (via gocryptfs)',
+                        _('Encryption'),
+                        False
+                    ),
                     'ssh': (
                         sshtools.SSH, _('SSH'), _('SSH private key'), False),
                     'local_encfs': (
                         encfstools.EncFS_mount,
-                        _('Local encrypted'),
+                        'DEPRECATED - Local encrypted (via EncFS)',
                         _('Encryption'),
                         False
                     ),
                     'ssh_encfs': (
                         encfstools.EncFS_SSH,
-                        _('SSH encrypted'),
+                        'DEPRECATED - SSH encrypted (via EncFS)',
                         _('SSH private key'),
                         _('Encryption')
-                    )
+                    ),
         }
 
         # Deprecated: #2176
         self.SSH_CIPHERS = {
-            'default': _('Default'),
+            'default': 'Default',
             'aes128-ctr': 'AES128-CTR',
             'aes192-ctr': 'AES192-CTR',
             'aes256-ctr': 'AES256-CTR',
@@ -295,8 +275,15 @@ class Config(configfile.ConfigFileWithProfiles):
         }
 
     def save(self):
+        self._unsaved_profiles = []
         self.setIntValue('config.version', self.CONFIG_VERSION)
-        return super(Config, self).save(self._LOCAL_CONFIG_PATH)
+        return super().save(self._LOCAL_CONFIG_PATH)
+
+    def is_profile_unsaved(self, profile_id: str) -> bool:
+        return profile_id in self._unsaved_profiles
+
+    def is_current_profile_unsaved(self) -> bool:
+        return self.is_profile_unsaved(self.currentProfile())
 
     def checkConfig(self):
         profiles = self.profiles()
@@ -376,9 +363,9 @@ class Config(configfile.ConfigFileWithProfiles):
                     self.notifyError(
                         '{}\n{}\n{}'.format(
                             _('Profile: "{name}"').format(name=profile_name),
-                            _('The value for "Remove oldest backup if free '
-                              'space is less than" ({val_one}) must be less '
-                              'than or equal the threshold for "Warn if '
+                            _('The value for "Remove oldest backup if the '
+                              'free space is less than" ({val_one}) must be '
+                              'less than or equal the threshold for "Warn if '
                               'free disk space falls below" ({val_two}).'
                               ).format(val_one=min_free, val_two=warn),
                             _('Please adjust the settings so that the backup '
@@ -403,7 +390,7 @@ class Config(configfile.ConfigFileWithProfiles):
         if mode == 'local':
             return self.get_snapshots_path(profile_id)
 
-        # else: ssh/local_encfs/ssh_encfs
+        # else: ssh/local_encfs/ssh_encfs/local_gocryptfs
 
         symlink = f'{profile_id}_{os.getpid()}'
         if tmp_mount:
@@ -439,13 +426,13 @@ class Config(configfile.ConfigFileWithProfiles):
 
         self.setProfileStrValue('snapshots.path', value, profile_id)
 
-    def is_mode_encrypted(self, profile_id=None):
-        mode = self.snapshotsMode(profile_id)
-        return mode in ('local_encfs', 'ssh_encfs')
+    # def is_mode_encrypted(self, profile_id=None):
+    #     mode = self.snapshotsMode(profile_id)
+    #     return mode in ('local_encfs', 'ssh_encfs')
 
     def snapshotsMode(self, profile_id=None):
         #? Use mode (or backend) for this snapshot. Look at 'man backintime'
-        #? section 'Modes'.;local|local_encfs|ssh|ssh_encfs
+        #? section 'Modes'.;local|local_encfs|ssh|ssh_encfs|local_gocryptfs
         return self.profileStrValue('snapshots.mode', 'local', profile_id)
 
     def setSnapshotsMode(self, value, profile_id = None):
@@ -461,6 +448,13 @@ class Config(configfile.ConfigFileWithProfiles):
     def incrementHashCollision(self):
         value = self.hashCollision() + 1
         self.setIntValue('global.hash_collision', value)
+
+    def systray(self) -> str:
+        #?Color of systray icon.;auto,dark,light
+        return self.strValue('global.systray', 'auto')
+
+    def set_systray(self, value: str) -> None:
+        self.setStrValue('global.systray', value)
 
     def language(self) -> str:
         #?Language code (ISO 639) used to translate the user interface.
@@ -736,6 +730,14 @@ class Config(configfile.ConfigFileWithProfiles):
     def setLocalEncfsPath(self, value, profile_id = None):
         self.setProfileStrValue('snapshots.local_encfs.path', value, profile_id)
 
+    # gocryptfs
+    def localGocryptfsPath(self, profile_id = None):
+        #?Where to save snapshots in mode 'local_gocryptfs'.;absolute path
+        return self.profileStrValue('snapshots.local_gocryptfs.path', '', profile_id)
+
+    def setLocalGocryptfsPath(self, value, profile_id = None):
+        self.setProfileStrValue('snapshots.local_gocryptfs.path', value, profile_id)
+
     def passwordSave(self, profile_id = None, mode = None):
         if mode is None:
             mode = self.snapshotsMode(profile_id)
@@ -851,7 +853,7 @@ class Config(configfile.ConfigFileWithProfiles):
         """
         #?Exclude this file or folder. <I> must be a counter
         #?starting with 1;file, folder or pattern (relative or absolute)
-        return self.profileListValue('snapshots.exclude', 'str:value', self.DEFAULT_EXCLUDE, profile_id)
+        return self.profileListValue('snapshots.exclude', 'str:value', [], profile_id)
 
     def setExclude(self, values, profile_id = None):
         self.setProfileListValue('snapshots.exclude', 'str:value', values, profile_id)
@@ -1501,6 +1503,8 @@ class Config(configfile.ConfigFileWithProfiles):
             backup_mode = self.snapshotsMode(pid)
             if backup_mode == 'local':
                 dest_path = self.snapshotsFullPath(pid)
+            elif backup_mode == 'local_gocryptfs':
+                dest_path = self.localGocryptfsPath(pid)
             elif backup_mode == 'local_encfs':
                 dest_path = self.localEncfsPath(pid)
             else:
@@ -1649,7 +1653,7 @@ class Config(configfile.ConfigFileWithProfiles):
         # The "--profile-id" argument is used only for profiles different from
         # first profile
         if profile_id != '1':
-            cmd += '--profile-id %s ' % profile_id
+            cmd += '--profile %s ' % profile_id
 
         # User defined path to config file
         if not self._LOCAL_CONFIG_PATH is self._DEFAULT_CONFIG_PATH:
@@ -1685,6 +1689,14 @@ class Config(configfile.ConfigFileWithProfiles):
             cmd = tools.which('nice') + ' -n19 ' + cmd
 
         return cmd
+
+    def addProfile(self, name: str) -> str | None:
+        pid = super().addProfile(name)
+
+        if pid:
+            self._unsaved_profiles.append(pid)
+
+        return pid
 
 
 def _remove_old_snapshots_date(value, unit):

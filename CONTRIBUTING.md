@@ -30,17 +30,20 @@ providing feedback on new features, designing an
 reviewing the documentation and suggesting improvements.
 🚀 Every contribution helps the project grow! 🚀
 
+> [!TIP]
+> Don't forget to introduce yourself if you are new to the project. Also, read
+> this document carefully.
+
 # Index
 
 <!-- TOC start -->
-- [Quick guide](#quick-guide)
+- [Before you start](#before-you-start)
 - [Best practice and recommendations](#best-practice-and-recommendations)
 - [Resources & Further Readings](#resources--further-readings)
 - [Build & Install](#build--install)
   - [Dependencies](#dependencies)
   - [Build and install via `make` system
     (recommended)](#build-and-install-via-make-system-recommended)
-  - [Build own `deb` file](#build-own-deb-file)
 - [Testing](#testing)
   - [SSH](#SSH)
 - [What happens after you opened a Pull Request (PR)?](#what-happens-after-you-opened-a-pull-request-PR)
@@ -52,38 +55,17 @@ reviewing the documentation and suggesting improvements.
   - [Treat other translators work with respect](#treat-other-translators-work-with-respect)
 - [Strategy Outline](#strategy-outline)
 - [Licensing of contributed material](#licensing-of-contributed-material)
+- [Quick technical guide](#quick-tecnical-guide)
 <!-- TOC end -->
 
-# Quick guide
-> [!IMPORTANT]
-> Please remember to create a new branch before you begin any modifications.
-> Baseline your feature or bug fix branch on `dev`
-> (reflecting the latest development state).
-
-1. Fork this repository. See Microsoft GitHub's own documentation about
-   [how to fork](https://docs.github.com/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo).
-
-2. Clone your own fork to your local machine and enter the directory:
-
-       $ git clone git@github.com:YOURNAME/backintime.git
-       $ cd backintime
-
-3. Create and checkout your own feature or bugfix branch with `dev` as baseline branch:
-
-       $ git checkout -b myfancyfeature dev
-
-4. Now you can add your modifications.
-
-5. Commit and push it to your forked repo:
-
-        $ git commit -am 'commit message'
-        $ git push
-
-6. Test your modifications. See section [Build & Install](#build--install) and [Testing](#testing) for further details.
-
-7. Visit your own repository on Microsoft GitHub's website and create a Pull Request.
-   See Microsoft GitHub's own documentation about
-   [how to create a Pull Request based on your own fork](https://docs.github.com/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
+# Before you start
+- **Read this document carefully.**
+- Remember that this project is maintained by volunteers in their free time –
+  human beings just like you.
+- [You should be a user of this software](FAQ.md#can-i-contribute-without-using-the-software).
+- [Introduce yourself](FAQ.md#why-do-i-need-to-introduce-myself).
+- Check out the [FAQ entries about contributing to the project](FAQ.md#project--contributing--more).
+- And finally: Don't refuse to read this document carefully!
 
 # Best practice and recommendations
 If possible, please consider the following best practices. This will
@@ -114,9 +96,10 @@ pull request being accepted.
 # Resources & Further readings
 
 - [Mailing list _bit-dev_](https://mail.python.org/mailman3/lists/bit-dev.python.org/)
-- [Source code documentation for developers](https://backintime-dev.readthedocs.org)
+<!-- - [Source code documentation for developers](https://backintime-dev.readthedocs.org) Not up-to-date. No real need. No access to the RTD account, it belongs to Germar. -->
 - [Translations](https://translate.codeberg.org/engage/backintime) are done on a separate platform.
 - [HowTo's and maintenance](doc/maintain/README.md)
+- [FAQ entries about contributing to the project](FAQ.md#project--contributing--more).
 - Further readings
    - [contribution-guide.org](https://www.contribution-guide.org)
    - [How to submit a contribution (opensource.guide)](https://opensource.guide/how-to-contribute/#how-to-submit-a-contribution)
@@ -149,17 +132,20 @@ distribution.
   - `python3-packaging`
   -  Recommended
      - `encfs`
+     - `gocryptfs`
 
 * Runtime dependencies for the GUI
 
   - `x11-utils`
-  - `python3-pyqt6` (not from _PyPi_ via `pip`)
+  - `python3-pyqt6` (Do not use the version from _PyPi_ via `pip`)
   - `python3-dbus.mainloop.pyqt6` (not available from _PyPi_ via `pip`)
   - `python3-pyqt6.qtsvg`
   - `pkexec`
+  - `bash` (Used by root mode starter script `qt/backintime-qt_polkit`)
   - `polkitd`
-  - `qttranslations6-l10n`
-  - `qtwayland6` (if Wayland is used as display server instead of X11)
+  - `qttranslations6-l10n` or alternative package name `qt6-translations-l10n`
+  - `qtwayland6` (if Wayland is used as display server instead of X11) or
+    alternative package name `qt6-wayland`
   - Recommended
       - For SSH key storage **one** of these packages
         - `python3-secretstorage`
@@ -178,12 +164,10 @@ distribution.
   - `gettext`
   - `python3-pyfakefs` (>= 5.7)
   - `asciidoctor`
-  - `librsvg2-bin` (contains `rsvg-convert`) convert SVG icons into PNG
-  * `optipng` (loseless file-size optimization for PNG files)
   - Optional but recommended:
     - `pylint` (>= 4.0.0)
     - `flake8`
-    - `ruff` (>= 0.12.0)
+    - `ruff` (>= 0.15.0)
     - `codespell`
     - `reuse` (>= 4.0.0)
  
@@ -302,6 +286,9 @@ the chance to review and potentially veto the pull request.
   the file system.
 - Translate "Back In Time"? It is the name of the application. That shouldn't
   be translated at all.
+- The target user group for Back In Time consists of end users without a
+  technical background.  Write GUI strings and messages accordingly, avoiding
+  technical or nerdy terminology.
 - Some points of the following
   [General recommendations for developers](#general-recommendations-for-develoeprs)
   are also relevant for translators. 
@@ -309,13 +296,13 @@ the chance to review and potentially veto the pull request.
 ## General recommendations for developers
 The following points are about creating translatable source strings.
 
-- Be aware that most of our translators not skilled in Python programming. They
-  might don't know about GNU gettext internals and other technical
+- Be aware that some of our translators are not skilled in Python programming.
+  They might don't know about GNU gettext internals and other technical
   details. They only see the translatable string in the web-frontend of our
   [translation platform](https://translate.codeberg.org/engage/backintime).
 - Avoid escape characters in the strings.
 - Give translators enough context with providing meaningful placeholder names.
-- Avoid addressing the person with "you".
+- Avoid addressing users as persons with "you". Try neutral phrases instead.
 - Don't "scream" by using upper case letters (e.g. `WARNING`) or an exclamation
   mark (`!`).
 - Please provide a screenshot when introducing new translatable strings or
@@ -406,10 +393,12 @@ priority.
 - [Code quality & unit tests](#code-quality--unit-tests)
 - [Issues](#issues)
 - [Replace and remove encryption library EncFS](#replace-and-remove-encryption-library-encfs)
-- [Project infrastructure](#project-infrastructure)
+- [Packaging](#packaging)
+- [Code hosting](#code-hosting)
 - [Graphical User Interface (GUI): Redesign and Refactoring](#graphical-user-interface-gui-redesign-and-refactoring)
 - [Terminal User Interface (TUI)](#terminal-user-interface-tui)
 - [Tentative rough roadmap](#tentative-rough-roadmap)
+- [More stuff](#more-stuff)
 
 ## Analyzing code and behavior
 
@@ -466,7 +455,7 @@ maintenance efforts. See
 [Issue #1734](https://github.com/bit-team/backintime/issues/1734) about the
 transition process and the discussion about alternatives to EncFS.
 
-## Project infrastructure
+## Packaging
 
 At present, _Back In Time_ utilizes a build system that relies on `make`. However,
 this approach has several shortcomings and does not adhere to modern standards
@@ -476,6 +465,11 @@ in Python packaging ([PEP 621](https://peps.python.org/pep-0621),
 [pyproject.toml](https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html)).
 The team intends to migrate to these contemporary standards to streamline
 the maintenance of _Back In Time_ ([#1575](https://github.com/bit-team/backintime/issues/1575)).
+
+## Code hosting
+
+The plan is to move to [Codeberg.org](https://codeberg.org). See also
+[this FAQ entry](FAQ.md##move-project-to-alternative-code-hoster-eg-codeberg-gitlab-).
 
 ## Graphical User Interface (GUI): Redesign and Refactoring
 
@@ -495,6 +489,13 @@ are rejected or postponed in favor of a human readable config file format using
 TOML ([#1984](https://github.com/bit-team/backintime/issues/1984)), assuming
 that a TUI or WebInterface, while convenient and pleasant, would no longer be
 necessary.
+
+## More stuff
+
+- Migration of the logging mechanic to Python's own `logging` module
+  ([#2286](https://github.com/bit-team/backintime/issues/2286).
+- Re-write interprocess communication (IPC)
+  ([#2260](https://github.com/bit-team/backintime/issues/2260).
 
 ## Tentative rough roadmap
 This is a broad overview of upcoming developlment steps depending on each other:
@@ -520,4 +521,35 @@ format. This data is
 or can be read from the local repository with
 [REUSE tools](https://reuse.software/).
 
-<sub>July 2025</sub>
+# Quick technical guide
+> [!CAUTION]
+> Please remember to create a new branch before you begin any modifications.
+> Baseline your feature or bug fix branch on `dev`
+> (reflecting the latest development state).
+
+1. Fork this repository. See Microsoft GitHub's own documentation about
+   [how to fork](https://docs.github.com/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo).
+
+2. Clone your own fork to your local machine and enter the directory:
+
+       $ git clone git@github.com:YOURNAME/backintime.git
+       $ cd backintime
+
+3. Create and checkout your own feature or bugfix branch with `dev` as baseline branch:
+
+       $ git checkout -b myfancyfeature dev
+
+4. Now you can add your modifications.
+
+5. Commit and push it to your forked repo:
+
+        $ git commit -am 'commit message'
+        $ git push
+
+6. Test your modifications. See section [Build & Install](#build--install) and [Testing](#testing) for further details.
+
+7. Visit your own repository on Microsoft GitHub's website and create a Pull Request.
+   See Microsoft GitHub's own documentation about
+   [how to create a Pull Request based on your own fork](https://docs.github.com/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
+
+<sub>January 2026</sub>

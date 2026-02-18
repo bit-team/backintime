@@ -42,7 +42,6 @@ _base_dir = pathlib.Path(__file__).resolve().parent.parent
 
 # Files in this lists will get the full battery of linters and rule sets.
 full_test_files = [_base_dir / fp for fp in (
-    'status.py',
     'askpass.py',
     'bitbase.py',
     'bitlicense.py',
@@ -50,14 +49,18 @@ full_test_files = [_base_dir / fp for fp in (
     # 'clicommands.py',
     'daemon.py',
     'event.py',
-    'languages.py',
+    'encode.py',
+    # 'encfstools.py',
+    # 'gocryptfstools.py',
     'inhibitsuspend.py',
+    'languages.py',
+    # 'mount.py',
     'schedule.py',
     'shutdownagent.py',
     'singleton.py',
+    'snapshotlog.py',
     'ssh_max_arg.py',
     'storagesize.py',
-    'version.py',
     'test/test_args.py',
     'test/test_diagnostics.py',
     'test/test_file_info_dict.py',
@@ -68,6 +71,7 @@ full_test_files = [_base_dir / fp for fp in (
     'test/test_storagesize.py',
     'test/test_takesnapshotlog.py',
     'test/test_uniquenessset.py',
+    'version.py',
 )]
 
 # Not all linters do respect PEP8 (e.g. ruff, PyLint)
@@ -181,7 +185,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
                 f'be {version_target} or higher.')
 
         if RUFF_AVAILABLE:
-            version_target = version.parse('0.12.0')
+            version_target = version.parse('0.15.0')
 
             proc = subprocess.run(
                 ['ruff', '--version'],

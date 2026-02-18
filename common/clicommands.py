@@ -32,7 +32,6 @@ import mount
 from exceptions import MountException
 from applicationinstance import ApplicationInstance
 from shutdownagent import ShutdownAgent
-from status import BackupStatus
 
 
 def _deprecation_msg(cmd_flag: str, replacement: str) -> str:
@@ -643,24 +642,6 @@ def prune(args: argparse.Namespace):
     # else
     logger.error('Remove & Retention is not configured.')
     sys.exit(bitbase.RETURN_NO_CFG)
-
-
-def status(args: argparse.Namespace):
-    """Handler for CLI command 'status'.
-
-    Args:
-        args (argparse.Namespace):
-                        Parsed command-line arguments.
-    """
-    cfg = _get_config(args)
-
-    status_object = BackupStatus(
-        cfg=cfg,
-        all_status=False if args.profile else True,
-        format_json=args.json
-    )
-
-    print(status_object.get_status())
 
 
 def unmount(args):

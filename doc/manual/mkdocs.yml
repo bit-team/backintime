@@ -12,6 +12,8 @@
 #
 # https://squidfunk.github.io/mkdocs-material/reference/admonitions/
 
+strict: True
+
 # Project information
 site_name: Back In Time - User Manual
 site_author: Back In Time Team
@@ -26,7 +28,7 @@ site_dir: html
 # sub directories. See https://github.com/mkdocs/mkdocs/discussions/3847
 use_directory_urls: false
 
-site_url: https://backintime-docs.readthedocs.io/en/latest/
+site_url: https://backintime-docs.readthedocs.io
 # site_description: Back In Time is a simple backup tool for Linux inspired by "FlyBack".
 
 # Repository information
@@ -44,8 +46,8 @@ nav:
     - 'log.md'
     - 'remove_retention.md'
   - 'user-callback.md'
-  - Command-line interface:
-    - 'cli_status.md'
+#  - Command-line interface:
+#    - 'cli_status.md'
   - 'security.md'
   - 'additional.md'
 
@@ -71,9 +73,10 @@ markdown_extensions:
 # Configuration
 theme:
     name: material
-    logo: _images/logo48.png
-    favicon: _images/logo48.png
+    logo: _images/backintime.svg
+    favicon: _images/backintime.svg
     language: en
+    fonts: false  # Disable Google Fonts or other dirty font tracking
     features:
       # Load content of main page only instead of the whole site
       - navigation.instant

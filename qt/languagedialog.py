@@ -25,6 +25,7 @@ LOW_RESOLUTION_WIDTH = 1024
 
 class LanguageDialog(QDialog):
     """Dialog to choose GUI language."""
+
     def __init__(self, used_language_code: str, configured_language_code: str):
         super().__init__()
 

@@ -31,6 +31,7 @@ import configfile
 import logger
 import tools
 import encfstools
+import encode
 import mount
 import progress
 import snapshotlog
@@ -42,7 +43,6 @@ from inhibitsuspend import InhibitSuspend
 from applicationinstance import ApplicationInstance
 from exceptions import MountException
 from uniquenessset import UniquenessSet
-from status import BackupStatus
 
 
 class Snapshots:
@@ -129,7 +129,7 @@ class Snapshots:
             return None
 
         try:
-            with open(message_fn, 'rt') as handle:
+            with open(message_fn, mode='rt', encoding='utf-8') as handle:
                 items = handle.read().split('\n')
 
         # TODO (buhtz): Too broad exception
@@ -181,7 +181,7 @@ class Snapshots:
 
         try:
             # Write message to file (and overwrites the previous one)
-            with open(message_fn, 'wt') as f:
+            with open(message_fn, mode='wt', encoding='utf-8') as f:
                 f.write(str(type_id) + '\n' + message)
 
         except Exception as exc:
@@ -957,9 +957,10 @@ class Snapshots:
                                 break
 
                     if not self.config.canBackup(profile_id):
-                        logger.error('Backup directory not '
-                                        'accessible. Tries stopped.',
-                                        self)
+                        logger.error(
+                            'Backup directory not accessible. Tries stopped.',
+                            self
+                        )
                         # Can't find snapshots directory (is it on a
                         # removable drive ?)
                         self.config.PLUGIN_MANAGER.error(3)
@@ -985,11 +986,9 @@ class Snapshots:
                                 # code
                                 ret_val, ret_error = self.takeSnapshot(
                                     sid, now, include_folders)
-                                BackupStatus(cfg = self.config).update_status(now)
 
                             except:  # TODO too broad exception
-                                BackupStatus(self.config).update_status(now)
-                                new = NewSnapshot(cfg = self.config)
+                                new = NewSnapshot(cfg=self.config)
 
                                 if new.exists():
                                     new.saveToContinue = False
@@ -1266,7 +1265,7 @@ class Snapshots:
         if self.config.snapshotsMode() == 'ssh_encfs':
             decode = encfstools.Decode(self.config, False)
         else:
-            decode = encfstools.Bounce()
+            decode = encode.Bounce()
 
         # backup permissions of /
         # bugfix for https://github.com/bit-team/backintime/issues/708
@@ -1944,7 +1943,7 @@ class Snapshots:
                         % del_snapshots, self)
 
             for i, sid in enumerate(del_snapshots, 1):
-                log(_('Smart removal') + ' %s/%s' %(i, len(del_snapshots)))
+                log('Smart removal' + ' %s/%s' %(i, len(del_snapshots)))
                 self.remove(sid)
 
     def get_free_space_at_destination(self) -> StorageSize | None:
@@ -1996,13 +1995,13 @@ class Snapshots:
         # Remove snapshots older than N years/weeks/days
         if self.config.removeOldSnapshotsEnabled():
             self.setTakeSnapshotMessage(
-                0, _('Apply rules to remove old backups'))
+                0, _('Applying rules to remove old backups'))
 
             # The oldest backup to keep. Others older than this are removed.
             oldSID = SID(self.config.removeOldSnapshotsDate(), self.config)
             oldBackupId = oldSID.withoutTag
 
-            logger.debug(f'Remove backups older than: {oldBackupId}', self)
+            logger.debug(f'Removing backups older than: {oldBackupId}', self)
 
             while True:
                 # Keep min one backup
@@ -2018,7 +2017,7 @@ class Snapshots:
                         del snapshots[0]
                         continue
 
-                msg = 'Remove backup {} because it is older than {}'
+                msg = 'Removing backup {} because it is older than {}'
                 logger.debug(msg.format(
                     snapshots[0].withoutTag, oldBackupId), self)
 
@@ -2029,7 +2028,7 @@ class Snapshots:
         enabled, keep_all, keep_one_per_day, keep_one_per_week, keep_one_per_month = self.config.smartRemove()
 
         if enabled:
-            self.setTakeSnapshotMessage(0, _('Apply retention policy'))
+            self.setTakeSnapshotMessage(0, _('Applying retention policy'))
             del_snapshots = self.smartRemoveList(now,
                                                  keep_all,
                                                  keep_one_per_day,
@@ -2820,12 +2819,14 @@ class SID:
         nameFile = self.path(self.NAME)
         if not os.path.isfile(nameFile):
             return ''
+
         try:
-            with open(nameFile, 'rt') as f:
-                return f.read()
-        except Exception as e:
+            with open(nameFile, mode='rt', encoding='utf-8') as handle:
+                return handle.read()
+
+        except Exception as exc:
             logger.debug('Failed to get snapshot {} name: {}'.format(
-                         self.sid, str(e)),
+                         self.sid, str(exc)),
                          self)
 
     @name.setter
@@ -2833,12 +2834,14 @@ class SID:
         nameFile = self.path(self.NAME)
 
         self.makeWritable()
+
         try:
-            with open(nameFile, 'wt') as f:
-                f.write(name)
-        except Exception as e:
+            with open(nameFile, mode='wt', encoding='utf-8') as handle:
+                handle.write(name)
+
+        except Exception as exc:
             logger.debug('Failed to set snapshot {} name: {}'.format(
-                         self.sid, str(e)),
+                         self.sid, str(exc)),
                          self)
 
     @property
@@ -2884,15 +2887,19 @@ class SID:
     @failed.setter
     def failed(self, enable):
         failedFile = self.path(self.FAILED)
+
         if enable:
             self.makeWritable()
+
             try:
-                with open(failedFile, 'wt') as f:
-                    f.write('')
-            except Exception as e:
+                with open(failedFile, mode='wt', encoding='utf-8') as handle:
+                    handle.write('')
+
+            except Exception as exc:
                 logger.debug('Failed to mark snapshot {} failed: {}'.format(
-                             self.sid, str(e)),
+                             self.sid, str(exc)),
                              self)
+
         elif os.path.exists(failedFile):
             os.remove(failedFile)
 
@@ -3135,22 +3142,22 @@ class NewSnapshot(GenericNonSnapshot):
 
         if enable:
             try:
-                with open(flag, 'wt'):
+                with open(flag, mode='wt', encoding='utf-8'):
                     pass
 
-            except Exception as e:
+            except Exception as exc:
                 # should be "safe", throughout
                 logger.error(
-                    "Failed to set 'save_to_continue' flag: %s" %str(e))
+                    f"Failed to set 'save_to_continue' flag: {exc}")
 
         elif os.path.exists(flag):
             try:
                 os.remove(flag)
 
-            except Exception as e:
+            except Exception as exc:
                 # should be "safe", throughout
                 logger.error(
-                    "Failed to remove 'save_to_continue' flag: %s" %str(e))
+                    f"Failed to remove 'save_to_continue' flag: {exc}")
 
     @property
     def hasChanges(self):

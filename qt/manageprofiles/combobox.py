@@ -84,10 +84,24 @@ class BitComboBox(QComboBox):
         idx = self._idx_by_data(data)
         self.model().item(idx).setEnabled(enable)
 
+    def disable_by_data(self, data: Any):
+        """Disable an entry based on its underlying data."""
+        self.enable_by_data(data, False)
+
+    def hide_by_data(self, data: Any, hide: bool = True):
+        """Hide an entry."""
+        idx = self._idx_by_data(data)
+        self.view().setRowHidden(idx, hide)
+
+    def unhide_by_data(self, data: Any):
+        """Hide an entry."""
+        self.hide_by_data(data, False)
+
     def select_by_data(self, data: Any):
         """Select an entry in the combo box by its underlying data.
 
-        Raise: ???
+        Args:
+            data: The data to select.
         """
         self.setCurrentIndex(self._idx_by_data(data))
 

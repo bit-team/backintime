@@ -57,7 +57,15 @@ def _determine_licenses_dir() -> str | None:
             if fp.is_dir():
                 return fp
 
+    # it might be a source repo
+    fp = Path.cwd().parent / 'LICENSES'
+    if fp.is_dir():
+        return fp
+
     return None
 
 
 DIR_LICENSES = _determine_licenses_dir()
+
+FALLBACK_DIR_LICENSES = f'{bitbase.URL_SOURCE}/tree/dev/LICENSES'
+FALLBACK_LICENSES_MD = f'{bitbase.URL_SOURCE}/blob/-/LICENSES.md'

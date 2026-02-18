@@ -694,7 +694,7 @@ def _init_basic_config(data_dir_prefix='DATADIR', data_dir_suffix=''):
 
     # Initialize logging
     logger.APP_NAME = 'BIT_unittest'
-    logger.openlog()
+    logger.openlog('UNITTEST')
     logger.DEBUG = '-v' in sys.argv
 
     # Path to config file (in "common/test/config")

@@ -359,7 +359,9 @@ class SnapshotsDialog(QDialog):
         self.updateToolbar()
 
     def timeLineExecute(self, _item, _column):
-        if self.qapp.keyboardModifiers() and Qt.ControlModifier:
+        # Ctrl button pressed, indicates ongoing multiselection?
+        modifiers = self.qapp.keyboardModifiers()
+        if Qt.KeyboardModifier.ControlModifier in modifiers:
             return
 
         sid = self.timeLine.current_snapshot_id()
@@ -373,7 +375,7 @@ class SnapshotsDialog(QDialog):
         # prevent backup data from being accidentally overwritten
         # by create a temporary local copy and only open that one
         if not isinstance(self.sid, snapshots.RootSnapshot):
-            full_path = self.parent.tmpCopy(full_path, sid)
+            full_path = self.parent._create_temporary_copy(full_path, sid)
 
         QDesktopServices.openUrl(QUrl(full_path))
 
@@ -400,9 +402,9 @@ class SnapshotsDialog(QDialog):
         # prevent backup data from being accidentally overwritten
         # by create a temporary local copy and only open that one
         if not isinstance(sid1, snapshots.RootSnapshot):
-            path1 = self.parent.tmpCopy(path1, sid1)
+            path1 = self.parent._create_temporary_copy(path1, sid1)
         if not isinstance(sid2, snapshots.RootSnapshot):
-            path2 = self.parent.tmpCopy(path2, sid2)
+            path2 = self.parent._create_temporary_copy(path2, sid2)
 
         params = diffParams
         params = params.replace('%1', '"%s"' % path1)

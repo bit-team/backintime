@@ -44,7 +44,6 @@ backintime - Create and manage incremental backups using rsync
 [--diagnostics]
 {
     backup [--checksum] [--background]
-    | status [--json]
     | show [--path] [--last]
     | restore [--checksum] [--delete] [--local-backup | --no-local-backup] [--only-new] [WHAT] [WHERE] [BACKUP_ID]
     | remove [--skip-confirmation] [BACKUP_ID ...]
@@ -111,11 +110,6 @@ not running on battery.
 *--checksum* :: Force to use checksum for checking if files have been changed.
 *--background* :: Run in background via daemonization.
 
-=== status
-Display timepoint of last run and status (e.g. Success) of last backup.
-
-*-j*, *--json*  :: Output in JSON format.
-
 === show
 List backup ID's or paths.
 
@@ -180,7 +174,7 @@ further readings:
 * Back In Time Issue #1734 about transition of the encryption feature: https://github.com/bit-team/backintime/issues/1734
 
 == SEE ALSO
-*backintime-qt*(1), *backintime-config*(1), *backintime-askpass*(1)
+*backintime-qt*(1), *backintime-config*(5), *backintime-askpass*(1)
 
 *Back In Time* project website: https://github.com/bit-team/backintime
 

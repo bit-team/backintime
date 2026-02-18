@@ -49,6 +49,7 @@ from PyQt6.QtGui import (QAction,
                          QActionGroup,
                          QDesktopServices,
                          QFileSystemModel,
+                         QIcon,
                          QShortcut)
 from PyQt6.QtWidgets import (QAbstractItemView,
                              QApplication,
@@ -95,6 +96,7 @@ from bitwidgets import ProfileCombo
 from shutdowndlg import get_shutdown_confirmation
 from statusbar import StatusBar
 from placeswidget import PlacesWidget
+from qtsystrayicon import QtSysTrayIcon
 
 
 class MainWindow(QMainWindow):
@@ -265,8 +267,10 @@ class MainWindow(QMainWindow):
 
         self.updateSnapshotActions()
 
-        # signals
         self.timeLine.itemSelectionChanged.connect(self.timeLineChanged)
+
+        # Dev note (buhtz, 2026-01): Don't use doubleClicked signal because
+        # it won't catch desktops with single-click-as-double-click settings.
         self.filesView.activated.connect(self._slot_files_view_item_activated)
 
         self.forceWaitLockCounter = 0
@@ -292,6 +296,11 @@ class MainWindow(QMainWindow):
         update_backup_messages.start()
 
     def _restore_visual_state(self):
+        # This prevents that the restore-config-question will be overlaid
+        # by the main window.
+        if not self.config.isConfigured():
+            return
+
         state_data = StateData()
 
         try:
@@ -336,18 +345,34 @@ class MainWindow(QMainWindow):
             return
 
         message = _(
-            '{app_name} appears to be running for the first time as no '
+            '{app_name} appears to be running for the first time because no '
             'configuration is found.'
         ).format(app_name=self.config.APP_NAME)
         message = f'{message}\n\n'
         message = message + _(
-            'Import an existing configuration (from a backup target '
-            'directory or another computer)?')
+            'Import an existing configuration from a backup location '
+            'or another computer?'
+        )
 
         answer = messagebox.question(text=message)
 
+        mark_main_profile_unsaved = False if answer else True
+
         if answer:
-            RestoreConfigDialog(self.config).exec()
+            rc = RestoreConfigDialog(self.config).exec()
+            if rc == QDialog.DialogCode.Rejected:
+                mark_main_profile_unsaved = True
+
+        # Workaround: If BIT config is fresh the Main Profile is not
+        # saved yet. If it wouldn't be recognized as unsaved the
+        # default excludes are not added to it.
+        # This workaround need to remain until #1371 and other related
+        # issues are solved.
+        if mark_main_profile_unsaved:
+            # failesafe: Main profile only
+            if self.config.profiles() == ['1']:
+                # Mark "Main profile" as unsaved.
+                self.config._unsaved_profiles.append('1')
 
         SettingsDialog(self).exec()
 
@@ -371,22 +396,44 @@ class MainWindow(QMainWindow):
             messagebox.critical(self, msg)
 
     def _handle_user_messages(self):
+        # Ignore if debug or release/testing candidate
+        if version.IS_RELEASE_CANDIDATE or logger.DEBUG:
+            return
+
         state_data = StateData()
 
         # SSH Cipher deprecation
         if state_data.msg_cipher_deprecation is False:
-            self._open_ssh_cipher_deprecation_dialog()
-            state_data.msg_cipher_deprecation = True
+            cipher_profiles = self._cipher_using_profiles()
+            if cipher_profiles:
+                self._open_ssh_cipher_deprecation_dialog(cipher_profiles)
+                state_data.msg_cipher_deprecation = True
+
+        # Issue: https://github.com/bit-team/backintime/issues/2080
+        lang_planed_for_removal = [
+            'fo',  # Faroes 18
+            'ka',  # Georgian 23
+            'hr',  # Croatian 24
+            'vi',  # Vietnamese 35
+            'is',  # Icelandic 44
+            # 'ar',  # Arabic. Last activity 2025-10 45
+        ]
+
+        # Language removal message
+        if self.config.language_used in lang_planed_for_removal:
+            if state_data.msg_language_remove is False:
+                self._open_language_remove_statement()
+                state_data.msg_language_remove = True
 
         # Countdown of manual GUI starts finished?
-        if 0 == state_data.manual_starts_countdown():
+        if state_data.manual_starts_countdown() == 0:
 
             # Do nothing if English is the current used language
             if self.config.language_used != 'en':
 
                 # Show the message only if the current used language is
                 # translated equal or less then {cutoff}%
-                self._open_approach_translator_dialog(cutoff=99)
+                self._open_approach_translator_dialog(cutoff=90)
 
         # BIT counts down how often the GUI was started. Until the end of that
         # countdown a dialog with a text about contributing to translating
@@ -407,7 +454,7 @@ class MainWindow(QMainWindow):
             # EncFS deprecation warning (#1734, #1735)
             if encfs_profiles:
                 state_data.msg_encfs_global = bitbase.ENCFS_MSG_STAGE
-                dlg = encfsmsgbox.EncfsExistsWarning(self, encfs_profiles)
+                dlg = encfsmsgbox.EncfsExistsWarning(encfs_profiles)
                 dlg.exec()
 
     @property
@@ -571,24 +618,24 @@ class MainWindow(QMainWindow):
                 icon.RESTORE, _('Restore'),
                 self._slot_restore_this, None,
                 _('Restore the selected files or directories to the '
-                  'original destination.')),
+                  'original location.')),
             'act_restore_to': (
                 icon.RESTORE_TO, _('Restore to …'),
                 self._slot_restore_this_to, None,
                 _('Restore the selected files or directories to a '
-                  'new destination.')),
+                  'new location.')),
             'act_restore_parent': (
                 icon.RESTORE,
                 None,  # text label is set elsewhere
                 self._slot_restore_parent, None,
                 _('Restore the currently shown directory and all its contents '
-                  'to the original destination.')),
+                  'to the original location.')),
             'act_restore_parent_to': (
                 icon.RESTORE_TO,
                 None,  # text label is set elsewhere
                 self._slot_restore_parent_to, None,
                 _('Restore the currently shown directory and all its contents '
-                  'to a new destination.')),
+                  'to a new location.')),
             'act_folder_up': (
                 icon.UP, _('Up'),
                 self._slot_files_view_dir_up, ['Alt+Up', 'Backspace'], None),
@@ -624,7 +671,7 @@ class MainWindow(QMainWindow):
 
         # Release Candidate ?
         self.act_help_release_candidate = None
-        if version.IS_RELEASE_CANDIDATE:
+        if version.IS_RELEASE_CANDIDATE or logger.DEBUG :
             # pylint: disable=undefined-variable
             action = QAction(icon.QUESTION, _('Release Candidate'), self)
             action.triggered.connect(self._slot_help_release_candidate)
@@ -733,6 +780,44 @@ class MainWindow(QMainWindow):
         restore.insertSeparator(self.act_restore_parent)
         restore.setToolTipsVisible(True)
 
+        # Menu: "Back In Time" -> "Systray Icon"
+        submenu_systray = self._create_submenu_systray_icon()
+        self.act_group_systray = submenu_systray.actions()[0].actionGroup()
+        self.menuBar().actions()[0].menu().insertMenu(
+            self.act_shutdown, submenu_systray)
+
+    def _create_submenu_systray_icon(self) -> QMenu:
+        menu = QMenu(_('Systray Icon'), self)
+        import icon
+        menu.setIcon(icon.SETTINGS)
+
+        ico_group_data = [
+            # (_('Automatic'), QIcon.fromTheme('system-search'), 'auto'),
+            (_('Automatic'),
+             QIcon.fromTheme('system-run',
+                             QIcon.fromTheme('system-search')),
+             'auto'),
+            (_('Light icon'), QtSysTrayIcon.get_light_icon(), 'light'),
+            (_('Dark icon'), QtSysTrayIcon.get_dark_icon(), 'dark'),
+        ]
+        action_group = QActionGroup(self)
+        action_group.setExclusive(True)
+        action_group.triggered.connect(self._slot_systray_icon)
+
+        val = self.config.systray()
+
+        for txt_label, ico, data in ico_group_data:
+            act = QAction(ico, txt_label, checkable=True)
+            act.setData(data)
+
+            if val == data:
+                act.setChecked(True)
+
+            action_group.addAction(act)
+            menu.addAction(act)
+
+        return menu
+
     def _button_styles(self):
         return (
             (
@@ -748,6 +833,10 @@ class MainWindow(QMainWindow):
                 _('Text beside icon'),
                 Qt.ToolButtonStyle.ToolButtonTextBesideIcon),
         )
+
+    def _slot_systray_icon(self, action: QAction):
+        self.config.set_systray(action.data())
+        self.config.save()
 
     def _set_toolbar_button_style(self, toolbar, style):
         """Set toolbar button style and store the selected index."""
@@ -1013,16 +1102,16 @@ class MainWindow(QMainWindow):
         else:
             self.places.set_sorting(sorting)
 
-        # EncFS deprecation warning (see #1734)
-        current_mode = self.config.snapshotsMode(profile_id)
-        if current_mode in ('local_encfs', 'ssh_encfs'):
-            # Show the profile specific warning dialog only once per profile
-            # and only if the global warning was shown before.
-            if (state_data.msg_encfs_global == bitbase.ENCFS_MSG_STAGE
-                    and profile_state.msg_encfs < bitbase.ENCFS_MSG_STAGE):
-                profile_state.msg_encfs = bitbase.ENCFS_MSG_STAGE
-                dlg = encfsmsgbox.EncfsCreateWarning(self)
-                dlg.exec()
+        # # EncFS deprecation warning (see #1734)
+        # current_mode = self.config.snapshotsMode(profile_id)
+        # if current_mode in ('local_encfs', 'ssh_encfs'):
+        #     # Show the profile specific warning dialog only once per profile
+        #     # and only if the global warning was shown before.
+        #     if (state_data.msg_encfs_global == bitbase.ENCFS_MSG_STAGE
+        #             and profile_state.msg_encfs < bitbase.ENCFS_MSG_STAGE):
+        #         profile_state.msg_encfs = bitbase.ENCFS_MSG_STAGE
+        #         dlg = encfsmsgbox.EncfsCreateWarning(self)
+        #         dlg.exec()
 
     def comboProfileChanged(self, _index):
         if self.disableProfileChanged:
@@ -1640,13 +1729,37 @@ class MainWindow(QMainWindow):
             full_label=_complete_text(name, perc))
         dlg.exec()
 
+    def _open_language_remove_statement(self):
+        code = self.config.language_used
+        name, _ = tools.get_native_language_and_completeness(code)
+
+        txt = [
+            f'The selected language ({name}) will be <strong>removed in the '
+            'next version</strong>.',
+            'Reason: No recent '
+            f'<a href="{bitbase.URL_TRANSLATION}">translation activity</a> '
+            'and no active maintainer.',
+            'New translators are welcome. Guidance and support are '
+            'provided by '
+            f'<a href="{bitbase.URL_WEBSITE}">the project</a>.',
+            'The project maintainers regret this change. However, continuing '
+            'support without active maintenance leads to quality issues.'
+        ]
+        txt = '\n'.join(txt)
+
+        dlg = UserMessageDialog(
+            parent=self,
+            title=f'{name} will be removed soon',
+            full_label=txt)
+        dlg.exec()
+
     def _open_release_candidate_dialog(self):
         html_contact_list = (
             '<ul>'
             '<li>{mastodon}</li>'
-            '<li>{email}</li>'
             '<li>{mailinglist}</li>'
             '<li>{issue}</li>'
+            '<li>{email}</li>'
             '<li>{alternative}</li>'
             '</ul>').format(
                 mastodon=_('In the Fediverse at Mastodon: {link_and_label}.') \
@@ -1655,8 +1768,9 @@ class MainWindow(QMainWindow):
                                            '@backintime@fosstodon.org'
                                            '</a>'),
                 email=_('Email to {link_and_label}.').format(
-                    link_and_label='<a href="mailto:backintime@tuta.io">'
-                                   'backintime@tuta.io</a>'),
+                    link_and_label='<a href="mailto:backintime-project'
+                                   '@posteo.de">'
+                                   'backintime-project@posteo.de</a>'),
                 mailinglist=_('Mailing list {link_and_label}.').format(
                     link_and_label='<a href="https://mail.python.org/mailman3/'
                                    'lists/bit-dev.python.org/">'
@@ -1697,32 +1811,39 @@ class MainWindow(QMainWindow):
             'Your Back In Time Team').format(contact_list=html_contact_list)
 
         dlg = UserMessageDialog(
-            parent=self,
+            parent=None,
             title=_('Release Candidate'),
             full_label=rc_message)
         dlg.exec()
 
-    def _open_ssh_cipher_deprecation_dialog(self, always_show: bool = False):
-        """SSH cipher deprecation warning (#2143, #2176)"""
+    def _cipher_using_profiles(self) -> bool:
+        """Check if any of the SSH profiles explicit configured a cipher."""
 
-        # SSH profiles using cipher other than default
         ssh_cipher_profiles = []
-        for pid in self.config.profiles():
-            if 'ssh' in self.config.snapshotsMode(pid):
-                if self.config.sshCipher(pid) != 'default':
-                    ssh_cipher_profiles.append(
-                        f'{self.config.profileName(pid)} ({pid})')
 
-        if always_show is False and not ssh_cipher_profiles:
-            return
+        # all profiles
+        for pid in self.config.profiles():
+            # SSH only
+            if 'ssh' not in self.config.snapshotsMode(pid):
+                continue
+
+            # cipher other than "default"
+            if self.config.sshCipher(pid) != 'default':
+                ssh_cipher_profiles.append(
+                    f'{self.config.profileName(pid)} ({pid})')
+
+        return ssh_cipher_profiles
+
+    def _open_ssh_cipher_deprecation_dialog(self, ssh_cipher_profiles):
+        """SSH cipher deprecation warning (#2143, #2176)"""
 
         def _complete_text(profiles: list[str]) -> str:
             txt = (
                 'The following backup profiles are using an explicitly '
                 'configured SSH cipher.',
                 '{profiles}',
-                'Setting a cipher directly within Back In Time is '
-                'deprecated and will be removed in future versions.',
+                'Setting a cipher directly within Back In Time <strong>is '
+                'deprecated and will be removed</strong> in future versions.',
                 'Recommended action:',
                 'Please configure the preferred cipher in the SSH client'
                 'config file (e.g. ~/.ssh/config) instead.'
@@ -1972,14 +2093,15 @@ class MainWindow(QMainWindow):
         self.updateFilesView(1)
 
     def _slot_files_view_item_activated(self, model_index):
-        if self.qapp.keyboardModifiers() and Qt.ControlModifier:
+        if not model_index:
             return
 
-        if model_index is None:
+        # Ctrl button pressed, indicates ongoing multiselection?
+        modifiers = self.qapp.keyboardModifiers()
+        if Qt.KeyboardModifier.ControlModifier in modifiers:
             return
 
         rel_path = str(self.filesViewProxyModel.data(model_index))
-
         if not rel_path:
             return
 
@@ -2201,10 +2323,10 @@ class MainWindow(QMainWindow):
         self._open_release_candidate_dialog()
 
     def _slot_help_cipher_deprecation(self):
-        self._open_ssh_cipher_deprecation_dialog(always_show=True)
+        self._open_ssh_cipher_deprecation_dialog(self._cipher_using_profiles())
 
     def _slot_help_encryption(self):
-        dlg = encfsmsgbox.EncfsExistsWarning(self, ['(not determined)'])
+        dlg = encfsmsgbox.EncfsExistsWarning(['(not determined)'])
         dlg.exec()
 
     def _slot_edit_user_callback(self):
@@ -2445,7 +2567,6 @@ if __name__ == '__main__':
     cfg.PLUGIN_MANAGER.load(cfg=cfg)
     cfg.PLUGIN_MANAGER.appStart()
 
-    logger.openlog()
     qapp = qttools.create_qapplication(bitbase.APP_NAME)
     translator = qttools.initiate_translator(cfg.language())
     qapp.installTranslator(translator)

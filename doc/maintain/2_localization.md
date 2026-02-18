@@ -53,7 +53,7 @@ GitHub.
     via `./update_language_files.py shortcuts`.
 11. Create PR and merge into "dev".
 12. Weblate ["Repository maintenance"](https://translate.codeberg.org/projects/backintime/#repository):
-    1. Go to "Danger zone" and click on "Reset".
+    1. Go to "Danger zone" and click on "Reset and discard".
     2. "Unlock" the project.
 
 # Introducing the localization process in the Back In Time project

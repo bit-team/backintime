@@ -40,7 +40,7 @@ def takeSnapshotAsync(cfg, checksum=False):
     cmd.append('backintime')
 
     if '1' != cfg.currentProfile():
-        cmd.extend(('--profile-id', str(cfg.currentProfile())))
+        cmd.extend(('--profile', str(cfg.currentProfile())))
 
     if cfg._LOCAL_CONFIG_PATH is not cfg._DEFAULT_CONFIG_PATH:
         cmd.extend(('--config', cfg._LOCAL_CONFIG_PATH))
@@ -89,42 +89,51 @@ def encfs_deprecation_warning():
         xdg_state = pathlib.Path.home() / '.local' / 'state'
     fp = xdg_state / 'backintime.encfs-warning.timestamp'
 
-    # ensure existence
-    if not fp.exists():
+    if fp.exists():
+        # Calculate age of that file
+        delta = datetime.now() - datetime.fromtimestamp(fp.stat().st_mtime)
+
+        # Don't warn if to young
+        if delta.days < 30:
+            return
+
+    else:
+        # ensure existence
         fp.parent.mkdir(parents=True, exist_ok=True)
-        fp.touch()
 
-    # Calculate age of that file
-    delta = datetime.now() - datetime.fromtimestamp(fp.stat().st_mtime)
-
-    # Don't warn if to young
-    if delta.days < 30:
-        return
-
-    logger.warning('EncFS encrypted profiles are deprecated in Back In Time. '
-                   'Removal is schedule for minor release 1.7 in year 2026. '
-                   'For details and alternatives '
-                   f'read: {bitbase.URL_ENCRYPT_TRANSITION}')
+    logger.error(
+        'EncFS encrypted profiles are no longer supported in Back In Time. '
+        'Existing profiles can be used. New ones can not be created. EncFS '
+        'support will be completely removed in a future release (expected '
+        f'around 2027). For details read: {bitbase.URL_ENCRYPT_TRANSITION}'
+    )
 
     # refresh timestamp
     fp.touch()
 
 
-def startApp(app_name='backintime'):
+def startApp(bin_name: str) -> config.Config | None:
     """
-    Start the requested command or return config if there was no command
-    in arguments.
+    Start the requested command or return config.
+
+    Command (e.g. 'backup') is specified via command line argument.
+    Without command the current config is returned instead.
 
     Args:
-        app_name (str): string representing the current application
+        bin_name: The binaries name of current application.
 
     Returns:
-        config.Config:  current config if no command was given in arguments
+        Current configuration instance if command is missing.
     """
     parser_agent = cliarguments.ParserAgent(
-        app_name=bitbase.APP_NAME, bin_name=app_name)
+        app_name=bitbase.APP_NAME, bin_name=bin_name)
 
-    logger.openlog()
+    syslog_id_suffix = {
+        bitbase.BINARY_NAME_CLI: 'CLI',
+        bitbase.BINARY_NAME_GUI: 'GUI'
+    }[bin_name]
+
+    logger.openlog(syslog_id_suffix)
 
     args = cliarguments.parse_arguments(args=None, agent=parser_agent)
 
@@ -146,7 +155,7 @@ def startApp(app_name='backintime'):
         logger.warning(
             "It looks like you're using 'sudo' to start "
             f"{config.Config.APP_NAME}. This will cause some trouble. "
-            f"Please use either 'sudo -i {app_name}' or 'pkexec {app_name}'.")
+            f"Please use either 'sudo -i {bin_name}' or 'pkexec {bin_name}'.")
 
     encfs_deprecation_warning()
 
@@ -170,4 +179,4 @@ def startApp(app_name='backintime'):
 
 
 if __name__ == '__main__':
-    startApp()
+    startApp(bin_name=bitbase.BINARY_NAME_CLI)

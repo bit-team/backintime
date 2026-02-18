@@ -54,7 +54,10 @@ full_test_files = [_base_dir / fp for fp in (
     'logviewdialog.py',
     'manageprofiles/__init__.py',
     'manageprofiles/combobox.py',
+    'manageprofiles/copylinkswidget.py',
+    'manageprofiles/excludesuggestions.py',
     'manageprofiles/schedulewidget.py',
+    'manageprofiles/sectionedchecklist.py',
     'manageprofiles/sshkeyselector.py',
     'manageprofiles/spinboxunit.py',
     'manageprofiles/statebindcheckbox.py',
@@ -198,7 +201,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
                 f'be {version_target} or higher.')
 
         if RUFF_AVAILABLE:
-            version_target = version.parse('0.12.0')
+            version_target = version.parse('0.15.0')
 
             proc = subprocess.run(
                 ['ruff', '--version'],

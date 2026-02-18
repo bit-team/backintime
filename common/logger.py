@@ -30,14 +30,16 @@ _level_names = {
     syslog.LOG_DEBUG: 'DEBUG',
 }
 
+syslog_id_suffix = '<unknown>'
 
-def openlog():
-    """Initialize the BIT logger system (which uses syslog)
 
-    Esp. sets the app name as identifier for the log entries in the syslog.
+def openlog(suffix: str):
+    """Initialize the BIT logger system using syslog.
 
     Attention: Call it in each sub process that uses logging.
     """
+    global syslog_id_suffix
+    syslog_id_suffix = suffix
     syslog.openlog(SYSLOG_IDENTIFIER)
     atexit.register(closelog)
 
@@ -52,10 +54,10 @@ def closelog():
 
 
 def _do_syslog(message: str, level: int) -> str:
-    syslog.syslog(level, '{}{}{}: {}'.format(
+    syslog.syslog(level, '{}: {}{}{}'.format(
+        _level_names[level],
         f'{USER} ' if DEBUG else '',
         SYSLOG_MESSAGE_PREFIX,
-        _level_names[level],
         message
     ))
 
@@ -117,4 +119,4 @@ def _debugHeader(parent, traceDepth):
 
     fclass = f'{parent.__class__.__name__}.' if parent else ''
 
-    return f'[{fmodule}/{fname}:{line} {fclass}{func}]'
+    return f'[{syslog_id_suffix}::{fmodule}/{fname}:{line} {fclass}{func}]'

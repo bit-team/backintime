@@ -43,13 +43,13 @@ class Schedule(unittest.TestCase):
             '/usr/bin/backintime backup --background >/dev/null',
 
             '0 2 3 4 5 /usr/bin/nice -n19 /usr/bin/ionice -c2 -n7 '
-            '/usr/bin/backintime --profile-id 7 '
+            '/usr/bin/backintime --profile 7 '
             'backup --background >/dev/null',
 
             '#Back In Time system entry, this will be edited by the gui:',
 
             '0 0 1 1 * /usr/bin/nice -n19 /usr/bin/ionice -c2 -n7 '
-            '/usr/bin/backintime --profile-id 3 '
+            '/usr/bin/backintime --profile 3 '
             'backup --background >/dev/null',
         ]
 
@@ -64,7 +64,7 @@ class Schedule(unittest.TestCase):
         result = schedule.remove_bit_from_crontab(content)
 
         self.assertEqual(result, expect)
-        self.assertIn('--profile-id 7', result[-1])
+        self.assertIn('--profile 7', result[-1])
 
     def test_bit_to_crontab(self):
         result = schedule.append_bit_to_crontab(
