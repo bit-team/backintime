@@ -17,6 +17,7 @@ from event import Event
 
 
 class ProfileOperations:
+    """Profile related operations"""
     event_dir_added_to_include = Event()
 
     def __init__(self, profile_id, config):
@@ -42,7 +43,6 @@ class ProfileOperations:
             (duplicates if val in existing else to_add).append(val)
 
         return duplicates, to_add
-
 
     def add_include(self, paths: list[str] | list[Path]) -> None:
         """Add entries to the include list.

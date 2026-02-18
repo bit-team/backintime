@@ -59,6 +59,9 @@ class PlacesWidget(QTreeWidget):
         self.currentItemChanged.connect(self._slot_changed)
 
     def set_profile_operations(self, pop: ProfileOperations) -> None:
+        """Connect an `ProfileOperations` instance and register
+        event callbacks to it.
+        """
         self._profile_operations = pop
         self._profile_operations.event_dir_added_to_include.register(
             self._handle_new_dir_included

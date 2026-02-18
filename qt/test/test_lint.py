@@ -40,7 +40,7 @@ _base_dir = pathlib.Path(__file__).resolve().parent.parent
 """
 
 """
-# TODO: Invert the list
+# To-Do: Invert the list
 # Files in this lists will get the full battery of linters and rule sets.
 full_test_files = [_base_dir / fp for fp in (
     'aboutdlg.py',

@@ -5,12 +5,10 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+# pylint: disable=C0115, C0116
 """Tests about ProfileOperations class"""
 import unittest
-from unittest.mock import patch, Mock
-from pathlib import Path
-# from qttools_path import register_backintime_path
-# register_backintime_path('common')
+from unittest.mock import Mock
 from profile_operations import ProfileOperations
 
 

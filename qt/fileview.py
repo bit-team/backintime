@@ -14,96 +14,52 @@
 # Split from app.py
 """The file view widget in the main window."""
 from __future__ import annotations
-import os
-import sys
-import pathlib
-import json
-import threading
-import shutil
-import textwrap
-import signal
-from collections.abc import Generator
+from functools import partial
 from contextlib import contextmanager
-from tempfile import TemporaryDirectory
 # We need to import common/tools.py
 import qttools_path
 qttools_path.register_backintime_path('common')
 # Workaround until the codebase is rectified/equalized.
 import tools
 tools.initiate_translation(None)
-import qttools
-import backintime
-import bitbase
-import config
-import logger
-import snapshots
-import guiapplicationinstance
-import mount
-import progress
-import encfsmsgbox
 from event import Event
-from inhibitsuspend import InhibitSuspend
-from exceptions import MountException
-from statedata import StateData
-from filedialog import FileDialog
-from textdlg import TextDialog
-from PyQt6.QtGui import (QAction,
-                         QActionGroup,
-                         QDesktopServices,
-                         QFileSystemModel,
-                         QIcon,
-                         QShortcut)
+from PyQt6.QtGui import QAction, QFileSystemModel
 from PyQt6.QtWidgets import (QAbstractItemView,
                              QApplication,
-                             QDialog,
-                             QFrame,
-                             QGroupBox,
-                             QInputDialog,
-                             QLabel,
-                             QLineEdit,
-                             QMainWindow,
                              QMenu,
                              QStyledItemDelegate,
-                             QStackedLayout,
-                             QSplitter,
-                             QToolBar,
-                             QToolButton,
-                             QTreeView,
-                             QVBoxLayout,
-                             QWidget)
+                             QTreeView)
 from PyQt6.QtCore import (QDir,
-                          QPoint,
-                          pyqtSlot,
-                          pyqtSignal,
+                          QItemSelectionModel,
                           QSortFilterProxyModel,
-                          QModelIndex,
                           Qt,
-                          QTimer,
-                          QThread,
-                          QUrl)
-import snapshotsdialog
-import logviewdialog
-import languagedialog
+                          QTimer)
 import messagebox
-import version
-from confirmrestoredialog import ConfirmRestoreDialog
-from editusercallback import EditUserCallback
-from shutdownagent import ShutdownAgent
-from manageprofiles import SettingsDialog
-from restoredialog import RestoreDialog
-from restoreconfigdialog import RestoreConfigDialog
-from usermessagedialog import UserMessageDialog
-from aboutdlg import AboutDlg
-from timeline import TimeLine, SnapshotItem
+from profile_operations import ProfileOperations
+
 
 class ProxyModel(QSortFilterProxyModel):
+    """Filter between model and view"""
+
     def __init__(self, parent, model):
         super().__init__(parent)
         self.setDynamicSortFilter(True)
         self.setSourceModel(model)
 
+        self.setFilterRole(Qt.ItemDataRole.DisplayRole)
+        self.setFilterKeyColumn(0)
+        # self.setRecursiveFilteringEnabled(False)
+
+    def show_hidden_files(self, show: bool):
+        """Set regex based filter to show or hide hidden files."""
+        self.setFilterRegularExpression(
+            r'' if show else r'^[^\.].*'
+        )
+
 
 class FilesModel(QFileSystemModel):
+    """The model containing data about file system elements and structure"""
+
     def __init__(self, parent):
         super().__init__(parent)
 
@@ -129,7 +85,7 @@ class FilesView(QTreeView):
     event_path_clicked = Event()
     event_proxy_changed = Event()
 
-    def __init__(self,
+    def __init__(self,  # pylint: disable=too-many-arguments
                  parent,
                  action_restore: QAction,
                  action_restore_to: QAction,
@@ -188,6 +144,23 @@ class FilesView(QTreeView):
         # it won't catch desktops with single-click-as-double-click settings.
         self.activated.connect(self._slot_item_activated)
 
+    @contextmanager
+    def _preserve_selection(self):
+        # Helper variable to restore item selection after rebuilding the
+        # files view; e.g. in case show-hidden-files state was toggled.
+        previous_selection = self.get_selected_paths()
+        print(f'remember selection: {previous_selection=}')
+
+        try:
+            yield
+
+        finally:
+            # Call asynchronously, to make sure the fileview is ready
+            QTimer.singleShot(
+                0,
+                partial(self.select_paths, previous_selection)
+            )
+
     def _on_proxy_layout_changed(self):
         """A workaround until app.py::MainWindow.dirListerComplete() is
         refactored.
@@ -221,10 +194,9 @@ class FilesView(QTreeView):
                              action_show_hidden: QAction) -> QMenu:
         """Create a menu instance for later reuse as context menu."""
         self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
-        self.customContextMenuRequested \
-                      .connect(self._slot_context_menu)
+        self.customContextMenuRequested.connect(self._slot_context_menu)
 
-        menu  = QMenu(self)
+        menu = QMenu(self)
         menu.addAction(action_restore)
         menu.addAction(action_restore_to)
         menu.addAction(action_snapshots_dialog)
@@ -243,51 +215,23 @@ class FilesView(QTreeView):
 
         return menu
 
+    def select_paths(self, paths: list[str]):
+        print(f'try to select paths: {paths=}')
+
+        flag = QItemSelectionModel.SelectionFlag.Select \
+            | QItemSelectionModel.SelectionFlag.Rows
+
+        for path in paths:
+            print(f'{path=}')
+            src_idx = self.model.index(path)
+            print(f'{src_idx=}')
+            proxy_idx = self.proxy.mapFromSource(src_idx)
+            print(f'{proxy_idx=} {proxy_idx.isValid()=}')
+            self.selectionModel().select(proxy_idx, flag)
+
     def show_hidden_files(self, show: bool):
-        print(f'{show=}')
-        self.proxy.setFilterRole(Qt.ItemDataRole.DisplayRole)
-        self.proxy.setFilterKeyColumn(0)
-        self.proxy.setRecursiveFilteringEnabled(False)
-
-        if show:
-            self.proxy.setFilterRegularExpression(r'')
-        else:
-            self.proxy.setFilterRegularExpression(r'^[^\.].*')
-
-        self.proxy.invalidateFilter()
-
-        current_path = self.model.rootPath()
-        self.model.setRootPath('')
-        self.model.setRootPath(current_path)
-
-    def fileSelected(self, fullPath=False):
-        """Return path and index of the currently in Files View highlighted
-        (selected) file.
-
-        Args:
-            fullPath(bool): Resolve relative to a full path.
-
-        Returns:
-            (tuple): Path as a string and the index.
-        """
-        model_index = self.currentIndex()
-
-        if model_index.column() > 0:
-            model_index = model_index.sibling(model_index.row(), 0)
-
-        selected_file = str(self.proxy.data(model_index))
-
-        if selected_file == '/':
-            # nothing is selected
-            selected_file = ''
-            model_index = self.proxy.mapFromSource(
-                self.model.index(self.path, 0))
-
-        if fullPath:
-            # resolve to full path
-            selected_file = os.path.join(self.path, selected_file)
-
-        return (selected_file, model_index)
+        with self._preserve_selection():
+            self.proxy.show_hidden_files(show)
 
     def get_selected_paths(self) -> list[str]:
 

@@ -48,10 +48,9 @@ from textdlg import TextDialog
 from PyQt6.QtGui import (QAction,
                          QActionGroup,
                          QDesktopServices,
-                         QFileSystemModel,
                          QIcon,
                          QShortcut)
-from PyQt6.QtWidgets import (QAbstractItemView,
+from PyQt6.QtWidgets import (
                              QApplication,
                              QDialog,
                              QFrame,
@@ -61,19 +60,15 @@ from PyQt6.QtWidgets import (QAbstractItemView,
                              QLineEdit,
                              QMainWindow,
                              QMenu,
-                             QStyledItemDelegate,
                              QStackedLayout,
                              QSplitter,
                              QToolBar,
                              QToolButton,
-                             QTreeView,
                              QVBoxLayout,
                              QWidget)
-from PyQt6.QtCore import (QDir,
+from PyQt6.QtCore import (
                           QPoint,
-                          pyqtSlot,
                           pyqtSignal,
-                          QSortFilterProxyModel,
                           Qt,
                           QTimer,
                           QThread,
@@ -120,7 +115,7 @@ class MainWindow(QMainWindow):
         self.firstUpdateAll = True
         self.disableProfileChanged = False
 
-        # related to files view
+        # related to files view ???
         self.selected_file = ''
 
         # "Magic" object handling shutdown procedure in different desktop
@@ -249,7 +244,8 @@ class MainWindow(QMainWindow):
 
         self._try_to_mount()
 
-        # self.filesViewProxyModel.layoutChanged.connect(self.dirListerCompleted)
+        # self.filesViewProxyModel.layoutChanged.connect(
+        #     self.dirListerCompleted)
 
         # populate lists
         self.updateProfiles()
@@ -1457,7 +1453,8 @@ class MainWindow(QMainWindow):
             2 - time_line,
             3 - places
         """
-        print(f'updateFilesView() - {changed_from=} {selected_file=} {_show_snapshots=}')
+        print(f'updateFilesView() - {changed_from=} '
+              f'{selected_file=} {_show_snapshots=}')
 
         if 0 == changed_from or 3 == changed_from:
             selected_file = ''
@@ -1548,17 +1545,20 @@ class MainWindow(QMainWindow):
         """
         self.dirListerCompleted()
 
-    def dirListerCompleted(self):
-        """ToDo refactor"""
+    def _DEP_dirListerCompleted(self):
+        """ToDo refactor
+
+        What is the event?
+        Seems to try to re-create the item seletion after rebuild the tree view
+        """
+        # number of fileview entries
         row_count = self.filesView.proxy.rowCount(self.filesView.rootIndex())
         has_files = row_count > 0
 
-        # update restore button state
-        enable = not self.sid.isRoot and has_files
-        # TODO(buhtz) self.btnRestoreMenu.setEnabled(enable)
-        self._enable_restore_ui_elements(enable)
+        # enable restore buttons if backup is selected and files shown
+        self._enable_restore_ui_elements(not self.sid.isRoot and has_files)
 
-        # update snapshots button state
+        # enable snapshot dialog menu entry if files shown
         self.act_snapshots_dialog.setEnabled(has_files)
 
         # enable files toolbar
@@ -1567,7 +1567,7 @@ class MainWindow(QMainWindow):
         # select selected_file
         found = False
 
-        if self.selected_file:
+        if self.selected_file:  # ???
             index = self.filesView.indexAt(QPoint(0,0))
 
             if not index.isValid():
@@ -2082,7 +2082,7 @@ class MainWindow(QMainWindow):
         print(f'_slot_files_view_hidden_files_toggled({checked=})')
         self.showHiddenFiles = checked
         self.filesView.show_hidden_files(checked)
-        self.updateFilesView(1)
+        # self.updateFilesView(1)
 
         # ???
         self.dirListerCompleted()

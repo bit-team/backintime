@@ -17,8 +17,7 @@ from datetime import (datetime, date, timedelta)
 from calendar import monthrange
 from PyQt6.QtGui import QFont, QPalette
 from PyQt6.QtCore import (Qt,
-                          pyqtSlot,
-                          pyqtSignal)
+                          pyqtSlot)
 from PyQt6.QtWidgets import (QAbstractItemView,
                              QApplication,
                              QTreeWidget,
@@ -199,7 +198,7 @@ class TimeLine(QTreeWidget):
 
         if not self.parent.sid.isRoot:
             self.parent.sid = self._root_item.snapshot_id
-            #self.update_files_view.emit(2)
+            # self.update_files_view.emit(2)
             self.event_selection_changed.notify()
 
     def selected_snapshot_ids(self):
@@ -225,7 +224,7 @@ class TimeLine(QTreeWidget):
 
         if self.parent.sid != item.snapshot_id:
             self.parent.sid = item.snapshot_id
-            #self.update_files_view.emit(2)
+            # self.update_files_view.emit(2)
             self.event_selection_changed.notify()
 
     def _iter_items(self):
