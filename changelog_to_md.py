@@ -119,9 +119,13 @@ REX_GITHUB_IDS = re.compile(
 REX_GITHUB_ISSUE_URL = re.compile(
     r'(?<!\]\()https:\/\/github.com\/bit-team\/backintime\/issues\/(\d+)')
 
+# extract Issues and PRs #1234 and @nicknames
+REX_HASHTAG_AT_LINKS = re.compile(r'[#@][A-Za-z0-9_]+')
+
 LAUNCHPAD_BASE_URL = 'https://bugs.launchpad.net/backintime/+bug/'
 LAUNCHPAD_BASE_URL3 = 'https://launchpad.net/bugs/'
 LAUNCHPAD_BASE_URL4 = 'https://bugs.launchpad.net/bugs/'
+GITHUB_BASE_URL = 'https://github.com/bit-team/'
 GITHUB_ISSUE_BASE_URL = 'https://github.com/bit-team/backintime/issues/'
 GITHUB_PULL_BASE_URL = 'https://github.com/bit-team/backintime/pull/'
 
@@ -131,7 +135,6 @@ github_link_cache = {}
 def format_links(content):
     # https://bugs.launchpad.net/backintime/+bug
     # Launchpad Bug Links
-    return content
 
     for bug_id in REX_LAUNCHPAD_BUG.findall(content):
         old_link = f'{LAUNCHPAD_BASE_URL}{bug_id}'
@@ -160,19 +163,7 @@ def format_links(content):
 
     for github_id in REX_GITHUB_IDS.findall(content):
         old_link = f'#{github_id}'
-
-        try:
-            new_link = github_link_cache[github_id]
-        except KeyError:
-            new_link = f'{GITHUB_ISSUE_BASE_URL}{github_id}'
-            print(f'Check link {new_link} …')
-
-            # PullRequest?
-            if not requests.get(new_link).ok:
-                new_link = f'{GITHUB_PULL_BASE_URL}{github_id}'
-
-            github_link_cache[github_id] = new_link
-
+        new_link = get_github_url_by_id(github_id)
         content = content.replace(old_link, f'[{old_link}]({new_link})')
 
     for bug_id in REX_GITHUB_ISSUE_URL.findall(content):
@@ -182,6 +173,21 @@ def format_links(content):
 
     return content
 
+def get_github_url_by_id(github_id):
+    try:
+        return github_link_cache[github_id]
+
+    except KeyError:
+        url = f'{GITHUB_ISSUE_BASE_URL}{github_id}'
+        print(f'Check link {url} …')
+
+        # PullRequest?
+        if not requests.get(url).ok:
+            url = f'{GITHUB_PULL_BASE_URL}{github_id}'
+
+        github_link_cache[github_id] = url
+
+    return url
 
 def process_items(items):
     result = defaultdict(list)
@@ -215,10 +221,33 @@ def process_items(items):
         content = format_links(content)
 
         content = content.replace('https: //', 'https://')
+
+        content = explicit_links(content)
+
         result[std_suffix].append(content)
 
     return result
 
+def explicit_links(content):
+    """Implicit links to issues/PR or nicknames are replaced with their real
+    URL, to be independent form the git hoster platform.
+    """
+    REX_HASHTAG_AT_LINKS = re.compile(r'[#@][A-Za-z0-9_]+')
+
+    for link in REX_HASHTAG_AT_LINKS.findall(content):
+        if link[0] == '#':
+            url = get_github_url_by_id(link)
+            content = content.replace(link, f'[#{link}]({url})')
+            continue
+
+        if link[0] == '@':
+            url = f'[{link}]({GITHUB_BASE_URL}{link})'
+            content = content.replace(link, url)
+            continue
+
+        raise RuntimeError(f'{content=} {link=}')
+
+    return content
 
 def process_raw_results(raw_result):
     result = []
@@ -244,7 +273,6 @@ def process_raw_results(raw_result):
         )
 
     return result
-
 
 def to_markdown(data, fh):
     # reference links added to the end of the markdown File
