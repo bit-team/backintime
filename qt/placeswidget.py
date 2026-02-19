@@ -56,6 +56,8 @@ class PlacesWidget(QTreeWidget):
         self.header().setSectionHidden(1, True)
 
         self.header().sortIndicatorChanged.connect(self.do_update)
+
+        # previous and new item given as arguments
         self.currentItemChanged.connect(self._slot_changed)
 
     def set_profile_operations(self, pop: ProfileOperations) -> None:

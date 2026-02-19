@@ -199,10 +199,6 @@ class MainWindow(QMainWindow):
         self.filesView.event_path_clicked.register(
             self._on_files_view_path_clicked
         )
-        # workaround
-        self.filesView.event_proxy_changed.register(
-            self._on_files_view_proxy_changed
-        )
         self.stackFilesView.addWidget(self.filesView)
         # self.filesViewModel = QFileSystemModel(self)
         # self.filesViewProxyModel = QSortFilterProxyModel(self)
@@ -256,8 +252,8 @@ class MainWindow(QMainWindow):
 
         self.updateSnapshotActions()
 
-        # Dev note (buhtz, 2026-02): It is not clear to me what the diff is
-        # to timeLine.event_selection_changed. But keep it for now.
+        WEITER: should go into timline and exposed via Event()
+        # any selection change. no item given as argument
         self.timeline.itemSelectionChanged.connect(self.timeLineChanged)
 
         self.forceWaitLockCounter = 0
@@ -1056,6 +1052,7 @@ class MainWindow(QMainWindow):
     def updateProfile(self):
         self.updateTimeLine()
         self.places.do_update()
+        self._update_files_widget()
         self.updateFilesView(0)
 
         profile_id = self.config.currentProfile()
@@ -1346,6 +1343,7 @@ class MainWindow(QMainWindow):
             return
 
         self.sid = sid
+        WEITER: places should be registered to an timeline event
         self.places.do_update()
         self.updateFilesView(2)
 
@@ -1452,6 +1450,8 @@ class MainWindow(QMainWindow):
             1 - files view,
             2 - time_line,
             3 - places
+
+        To-Do : make it oboslete. Use Events for timeline and places
         """
         print(f'updateFilesView() - {changed_from=} '
               f'{selected_file=} {_show_snapshots=}')
@@ -1471,52 +1471,33 @@ class MainWindow(QMainWindow):
 
         self._update_files_widget()
 
-        # try to keep old selected file
-        if selected_file is None:
-            selected_file, _idx = self.fileSelected()
-
-        self.selected_file = selected_file
-
         # update files view
         full_path = self.sid.pathBackup(self.path)
 
+        # Dev note: Places (and timeline) should emit a select change event.
+        # the handler in mainwindow than should decide about enable or disable
+        # all this other UI elements.
         if os.path.isdir(full_path):
-
-            if self.showHiddenFiles:
-                self.filesView.proxy.setFilterRegularExpression(r'')
-
-            else:
-                self.filesView.proxy.setFilterRegularExpression(r'^[^\.]')
-
-            # WEITE HIER. Code in filesview.py schieben
-            # model: path to read from
-            model_index = self.filesView.model.setRootPath(full_path)
-            proxy_model_index = self.filesView.proxy.mapFromSource(model_index)
-            # view: show that path as root path
-            self.filesView.setRootIndex(proxy_model_index)
-
-            self.toolbar_filesview.setEnabled(False)
-            self.stackFilesView.setCurrentWidget(self.filesView)
-
-            # TODO: find a signal for this
-            self.dirListerCompleted()
-
+            self.filesView.show_hidden(self.showHiddenFiles)
+            self.filesView.set_root_path(full_path)
+            enable_flag = True
         else:
-            self._enable_restore_ui_elements(False)
-            self.act_snapshots_dialog.setEnabled(False)
-            self.stackFilesView.setCurrentWidget(self._label_not_a_dir)
+            enable_flag = False
+
+        self.toolbar_filesview.setEnabled(enable_flag)
+        self._enable_restore_ui_elements(enable_flag, self.path)
+        self.act_snapshots_dialog.setEnabled(enable_flag)
+        self.stackFilesView.setCurrentWidget(
+            self.filesView if enable_flag else self._label_not_a_dir
+        )
 
         # show current path
         self.widget_current_path.setText(self.path)
-        self.act_restore_parent.setText(
-            _('Restore {path}').format(path=self.path))
-        self.act_restore_parent_to.setText(
-            _('Restore {path} to …').format(path=self.path))
 
         # update folder_up button state
         self.act_folder_up.setEnabled(len(self.path) > 1)
 
-    def _enable_restore_ui_elements(self, enable):
+    def _enable_restore_ui_elements(self, enable, path=None):
         """Enable or disable all buttons and menu entries related to the
         restore feature.
 
@@ -1539,56 +1520,12 @@ class MainWindow(QMainWindow):
         self.act_restore.setEnabled(enable)
         self.act_restore_to.setEnabled(enable)
 
-    def _on_files_view_proxy_changed(self):
-        """A workaround until app.py::MainWindow.dirListerComplete() is
-        refactored.
-        """
-        self.dirListerCompleted()
+        if path:
+            self.act_restore_parent.setText(
+                _('Restore {path}').format(path=path))
+            self.act_restore_parent_to.setText(
+                _('Restore {path} to …').format(path=path))
 
-    def _DEP_dirListerCompleted(self):
-        """ToDo refactor
-
-        What is the event?
-        Seems to try to re-create the item seletion after rebuild the tree view
-        """
-        # number of fileview entries
-        row_count = self.filesView.proxy.rowCount(self.filesView.rootIndex())
-        has_files = row_count > 0
-
-        # enable restore buttons if backup is selected and files shown
-        self._enable_restore_ui_elements(not self.sid.isRoot and has_files)
-
-        # enable snapshot dialog menu entry if files shown
-        self.act_snapshots_dialog.setEnabled(has_files)
-
-        # enable files toolbar
-        self.toolbar_filesview.setEnabled(True)
-
-        # select selected_file
-        found = False
-
-        if self.selected_file:  # ???
-            index = self.filesView.indexAt(QPoint(0,0))
-
-            if not index.isValid():
-                return
-
-            while index.isValid():
-                file_name = (str(self.filesView.proxy.data(index)))
-
-                if file_name == self.selected_file:
-                    # TODO: doesn't work reliable
-                    self.filesView.setCurrentIndex(index)
-                    found = True
-                    break
-
-                index = self.filesView.indexBelow(index)
-
-            self.selected_file = ''
-
-        if not found and has_files:
-            self.filesView.setCurrentIndex(
-                self.filesView.proxy.index(0, 0))
 
     def fileSelected(self, fullPath=False):
         """Return path and index of the currently in Files View highlighted
@@ -1618,33 +1555,6 @@ class MainWindow(QMainWindow):
             selected_file = os.path.join(self.path, selected_file)
 
         return (selected_file, model_index)
-
-    def _DEP_multiFileSelected(self, fullPath=False):
-        count = 0
-        for idx in self.filesView.selectedIndexes():
-            if idx.column() > 0:
-                continue
-
-            selected_file = str(self.filesView.proxy.data(idx))
-
-            if selected_file == '/':
-                continue
-
-            count += 1
-
-            if fullPath:
-                selected_file = os.path.join(self.path, selected_file)
-
-            yield (selected_file, idx)
-
-        if not count:
-            # nothing is selected
-            idx = self.filesView.proxy.mapFromSource(
-                self.filesView.model.index(self.path, 0))
-
-            selected_file = self.path if fullPath else ''
-
-            yield (selected_file, idx)
 
     @contextmanager
     def suspend_mouse_button_navigation(self):
@@ -2047,6 +1957,7 @@ class MainWindow(QMainWindow):
         if len(self.path) <= 1:
             return
 
+        # like Path.parent
         path = os.path.dirname(self.path)
 
         if self.path == path:
@@ -2081,11 +1992,8 @@ class MainWindow(QMainWindow):
     def _slot_files_view_hidden_files_toggled(self, checked: bool):
         print(f'_slot_files_view_hidden_files_toggled({checked=})')
         self.showHiddenFiles = checked
-        self.filesView.show_hidden_files(checked)
+        self.filesView.show_hidden(checked)
         # self.updateFilesView(1)
-
-        # ???
-        self.dirListerCompleted()
 
     # |-----------------|
     # | some more Slots |

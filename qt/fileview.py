@@ -50,7 +50,7 @@ class ProxyModel(QSortFilterProxyModel):
         self.setFilterKeyColumn(0)
         # self.setRecursiveFilteringEnabled(False)
 
-    def show_hidden_files(self, show: bool):
+    def show_hidden(self, show: bool):
         """Set regex based filter to show or hide hidden files."""
         self.setFilterRegularExpression(
             r'' if show else r'^[^\.].*'
@@ -83,7 +83,7 @@ class FilesView(QTreeView):
     """File view widget in the main window"""
 
     event_path_clicked = Event()
-    event_proxy_changed = Event()
+    # event_proxy_changed = Event()
 
     def __init__(self,  # pylint: disable=too-many-arguments
                  parent,
@@ -134,11 +134,7 @@ class FilesView(QTreeView):
                  action_show_hidden
         )
 
-        # self._restore_visual_state()
-
-        # self._try_to_mount()
-
-        self.proxy.layoutChanged.connect(self._on_proxy_layout_changed)
+        # self.proxy.layoutChanged.connect(self._on_proxy_layout_changed)
 
         # Dev note (buhtz, 2026-01): Don't use doubleClicked signal because
         # it won't catch desktops with single-click-as-double-click settings.
@@ -149,7 +145,6 @@ class FilesView(QTreeView):
         # Helper variable to restore item selection after rebuilding the
         # files view; e.g. in case show-hidden-files state was toggled.
         previous_selection = self.get_selected_paths()
-        print(f'remember selection: {previous_selection=}')
 
         try:
             yield
@@ -165,7 +160,16 @@ class FilesView(QTreeView):
         """A workaround until app.py::MainWindow.dirListerComplete() is
         refactored.
         """
-        self.event_proxy_changed.notify()
+        # self.event_proxy_changed.notify()
+        pass
+
+    def set_root_path(self, path: str):
+        # model: path to read from
+        model_index = self.model.setRootPath(path)
+        proxy_model_index = self.proxy.mapFromSource(model_index)
+
+        # view: show that path as root path
+        self.setRootIndex(proxy_model_index)
 
     def set_profile_operations(self, pop: ProfileOperations) -> None:
         self._profile_operations = pop
@@ -216,22 +220,17 @@ class FilesView(QTreeView):
         return menu
 
     def select_paths(self, paths: list[str]):
-        print(f'try to select paths: {paths=}')
-
         flag = QItemSelectionModel.SelectionFlag.Select \
             | QItemSelectionModel.SelectionFlag.Rows
 
         for path in paths:
-            print(f'{path=}')
             src_idx = self.model.index(path)
-            print(f'{src_idx=}')
             proxy_idx = self.proxy.mapFromSource(src_idx)
-            print(f'{proxy_idx=} {proxy_idx.isValid()=}')
             self.selectionModel().select(proxy_idx, flag)
 
-    def show_hidden_files(self, show: bool):
+    def show_hidden(self, show: bool):
         with self._preserve_selection():
-            self.proxy.show_hidden_files(show)
+            self.proxy.show_hidden(show)
 
     def get_selected_paths(self) -> list[str]:
 
@@ -242,19 +241,19 @@ class FilesView(QTreeView):
             path = self.model.filePath(src_idx)
             selection.append(path)
 
-        # ???
-        if len(selection) == 0:
-            # Does it mean to return the current path instead of nothing?
-            raise RuntimeError(
-                'FilesView.multiFileSelected() nothing selected, not count')
+        # # ???
+        # if len(selection) == 0:
+        #     # Does it mean to return the current path instead of nothing?
+        #     raise RuntimeError(
+        #         'FilesView.multiFileSelected() nothing selected, not count')
 
-            # # nothing is selected
-            # idx = self.proxy.mapFromSource(
-            #     self.model.index(self.path, 0))
+        #     # # nothing is selected
+        #     # idx = self.proxy.mapFromSource(
+        #     #     self.model.index(self.path, 0))
 
-            # selected_file = self.path if fullPath else ''
+        #     # selected_file = self.path if fullPath else ''
 
-            # yield (selected_file, idx)
+        #     # yield (selected_file, idx)
 
         return selection
 
@@ -318,3 +317,5 @@ class FilesView(QTreeView):
                 ),
                 '\n'.join(duplicates)
             ))
+
+    def do_update(self):

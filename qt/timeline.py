@@ -196,10 +196,10 @@ class TimeLine(QTreeWidget):
         """Dev note: Don't know what 'root' means in this context."""
         self._set_current_item(self._root_item)
 
-        if not self.parent.sid.isRoot:
-            self.parent.sid = self._root_item.snapshot_id
-            # self.update_files_view.emit(2)
-            self.event_selection_changed.notify()
+        # if not self.parent.sid.isRoot:
+        #     self.parent.sid = self._root_item.snapshot_id
+        #     # self.update_files_view.emit(2)
+        #     self.event_selection_changed.notify()
 
     def selected_snapshot_ids(self):
         """Snapshot IDs of all selected entries."""
