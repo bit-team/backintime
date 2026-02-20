@@ -315,7 +315,7 @@ Version 1.2.0 (2019-04-27)
 * Fix bug: IndexError in inhibitSuspend (https://github.com/bit-team/backintime/issues/772)
 * alleviate default exclude [Tt]rash* (https://github.com/bit-team/backintime/issues/759)
 * enable high DPI scaling (https://github.com/bit-team/backintime/issues/732)
-* Fix bug: polkit CheckAuthorization: race condition in privilege authorization (https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-7572)
+* Fix bug: polkit CheckAuthorization: race condition in privilege authorization (https://www.cve.org/CVERecord?id=CVE-2017-7572)
 * Fix bug: OSError when running backup-job from systemd (https://github.com/bit-team/backintime/issues/720)
 * Smart Remove try to keep healthy snapshots (https://github.com/bit-team/backintime/issues/703)
 * Fix critical bug: restore filesystem-root without 'Full rsync mode' with ACL and/or xargs activated broke whole system (https://github.com/bit-team/backintime/issues/708)
@@ -402,15 +402,15 @@ Version 1.2.0 (2019-04-27)
 * remove backwards compatibility to version < 1.0
 
 Version 1.1.24 (2017-11-07)
-* fix critical bug: CVE-2017-16667: shell injection in notify-send (https://github.com/bit-team/backintime/issues/834)
+* fix critical bug: shell injection in notify-send (https://github.com/bit-team/backintime/issues/834, https://www.cve.org/CVERecord?id=CVE-2017-16667)
 
 Version 1.1.22 (2017-10-28)
-* fix bug: stat free space for snapshot folder instead of backintime folder (https://github.com/bit-team/backintime/issues/552733)
-* backport bug fix: backintime root crontab doesn't run; missing line-feed 0x0A on last line (https://github.com/bit-team/backintime/issues/552781)
-* backport bug fix: can't open files with spaces in name (https://github.com/bit-team/backintime/issues/552552)
+* fix bug: stat free space for snapshot folder instead of backintime folder (https://github.com/bit-team/backintime/issues/733)
+* backport bug fix: backintime root crontab doesn't run; missing line-feed 0x0A on last line (https://github.com/bit-team/backintime/issues/781)
+* backport bug fix: can't open files with spaces in name (https://github.com/bit-team/backintime/issues/552)
 
 Version 1.1.20 (2017-04-09)
-* backport bug fix: CVE-2017-7572: polkit CheckAuthorization: race condition in privilege authorization
+* backport bug fix: polkit CheckAuthorization: race condition in privilege authorization (https://www.cve.org/CVERecord?id=CVE-2017-7572)
 
 Version 1.1.18 (2017-03-29)
 * Fix bug: manual snapshots from GUI didn't work (https://github.com/bit-team/backintime/issues/728)
@@ -481,8 +481,8 @@ Version 1.1.8 (2015-09-28)
 * Fix bug: 'Inhibit Suspend' fails with 'org.freedesktop.PowerManagement.Inhibit' (https://launchpad.net/bugs/1485242)
 * Fix bug: No mounting while selecting a secondary profile in the gui (https://launchpad.net/bugs/1481267)
 * remove shebang in common/askpass.py and common/create-manpage-backintime-config.py
-* Fix bug: fix for bug #1419466 broke crontab on Slackware (https://launchpad.net/bugs/1478576)
-* Fix bug: fix for bug #1431305 broke pw-cache on Ubuntu (https://launchpad.net/bugs/1431305)
+* Fix bug: fix for bug #1419466 broke crontab on Slackware
+* Fix bug: fix for bug #1431305 broke pw-cache on Ubuntu
 * Fix bash-complete
 * show 'man backintime' on Help; remove link to backintime.le-web.org (https://launchpad.net/bugs/1475995)
 * add --debug argument

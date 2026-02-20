@@ -125,9 +125,12 @@ REX_GITHUB_ISSUE_URL = re.compile(
 REX_DEBIAN_BUG = re.compile(
     r'https:\/\/bugs\.debian\.org\/cgi-bin\/bugreport.cgi\?bug\=(\d{6})')
 
+REX_CVE_RECORD = re.compile(
+    r'https:\/\/www\.cve\.org\/CVERecord\?id\=CVE-(\d{4}-\d{5,6})')
+
 # extract Issues and PRs #1234 and @nicknames
 # REX_NICK_AT = re.compile(r'[@][A-Za-z0-9_]+')
-REX_NICK_AT = re.compile(r'(?<![A-Za-z0-9_.])@[A-Za-z0-9_]+')
+REX_NICK_AT = re.compile(r'(?<![A-Za-z0-9_.])@[A-Za-z0-9_-]+')
 
 LAUNCHPAD_BASE_URL = 'https://bugs.launchpad.net/backintime/+bug/'
 LAUNCHPAD_BASE_URL3 = 'https://launchpad.net/bugs/'
@@ -135,7 +138,7 @@ LAUNCHPAD_BASE_URL4 = 'https://bugs.launchpad.net/bugs/'
 GITHUB_BASE_URL = 'https://github.com/'
 GITHUB_ISSUE_BASE_URL = 'https://github.com/bit-team/backintime/issues/'
 GITHUB_PULL_BASE_URL = 'https://github.com/bit-team/backintime/pull/'
-
+CVE_BASE_URL = 'https://www.cve.org/CVERecord?id='
 github_link_cache = {}
 
 
@@ -193,6 +196,11 @@ def format_links(content):
     for nick_id in REX_NICK_AT.findall(content):
         old_link = nick_id
         new_link = f'[{nick_id}]({GITHUB_BASE_URL}{nick_id[1:]})'
+        content = content.replace(old_link, new_link)
+
+    for cve in REX_CVE_RECORD.findall(content):
+        old_link = f'{CVE_BASE_URL}CVE-{cve}'
+        new_link = f'[CVE-{cve}]({CVE_BASE_URL}CVE-{cve})'
         content = content.replace(old_link, new_link)
 
     return content
