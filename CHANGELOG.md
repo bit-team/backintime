@@ -103,9 +103,9 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Consider symbolic icons as fallbacks ([#2345](https://github.com/bit-team/backintime/issues/2345), [#2289](https://github.com/bit-team/backintime/issues/2289))
 - Warn users and prevent backups to exFAT volumes due to lack of hardlink support ([#2337](https://github.com/bit-team/backintime/issues/2337))
 - Show proper message to users when root mode fails due to inactive or missing polkit agent ([#2328](https://github.com/bit-team/backintime/issues/2328), Derek Veit [@DerekVeit](https://github.com/DerekVeit))
-- Crash in Compare snapshots dialog (aka Snapshots dialog) when comparing/diff two backups ([#2327](https://github.com/bit-team/backintime/issues/2327) Michael Neese [@madic](https://github.com/madic)-creates)
+- Crash in Compare snapshots dialog (aka Snapshots dialog) when comparing/diff two backups ([#2327](https://github.com/bit-team/backintime/issues/2327) Michael Neese [@madic-creates](https://github.com/madic-creates))
 - File view and Compare Backups dialog now open the clicked item correctly even with multiple selection or single-click-to-open enabled ([#2330](https://github.com/bit-team/backintime/issues/2330))
-- Crash in Compare snapshots dialog (aka Snapshots dialog) when comparing/diff two backups ([#2327](https://github.com/bit-team/backintime/issues/2327) Michael Neese [@madic](https://github.com/madic)-creates)
+- Crash in Compare snapshots dialog (aka Snapshots dialog) when comparing/diff two backups ([#2327](https://github.com/bit-team/backintime/issues/2327) Michael Neese [@madic-creates](https://github.com/madic-creates))
 - Enforce UTF-8 encoding in takesnapshot.log and some other files ([#2298](https://github.com/bit-team/backintime/issues/2298))
 - Attribute error about missing 'cbCopyUnsafeLinks' ([#2279](https://github.com/bit-team/backintime/issues/2279))
 - Use LC_ALL instead of LC_TIME to set the locale
@@ -114,7 +114,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Stop waking up monitor when inhibit suspend on backup starts ([#714](https://github.com/bit-team/backintime/issues/714), [#1090](https://github.com/bit-team/backintime/issues/1090))
 - Avoid shutdown confirmation dialog on Budgie and Cinnamon desktop environments ([#788](https://github.com/bit-team/backintime/issues/788))
 - Crash in "Manage profiles" dialog when using "qt6ct" ([#2128](https://github.com/bit-team/backintime/issues/2128))
-- **Breaking** Systray process no longer exposes sensitive backup profile information when the desktop session belongs to another user ([#2237](https://github.com/bit-team/backintime/issues/2237), reported and co-authored by [@samo](https://github.com/samo)-sk)
+- **Breaking** Systray process no longer exposes sensitive backup profile information when the desktop session belongs to another user ([#2237](https://github.com/bit-team/backintime/issues/2237), reported and co-authored by [@samo-sk](https://github.com/samo-sk))
 - Allow in BITs root-mode opening URLs in extern browse
 
 ## [1.5.6] (2025-10-05)
@@ -336,7 +336,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Improve KDE plasma icon compatibility ([#1159](https://github.com/bit-team/backintime/issues/1159))
 - Unit test fails on some machines due to warning "Ignoring XDG_SESSION_TYPE=wayland on Gnome..." ([#1429](https://github.com/bit-team/backintime/issues/1429))
 - Generation of config-manpage caused an error with Debian's Lintian ([#1398](https://github.com/bit-team/backintime/issues/1398)).
-- Return empty list in smartRemove ([#1392](https://github.com/bit-team/backintime/issues/1392), Debian Bug Report 973760)
+- Return empty list in smartRemove ([#1392](https://github.com/bit-team/backintime/issues/1392), [Debian#973760](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=973760))
 - Taking a snapshot reports `rsync` errors now even if no snapshot was taken ([#1491](https://github.com/bit-team/backintime/issues/1491))
 - takeSnapshot() recognizes errors now by also evaluating the rsync exit code ([#489](https://github.com/bit-team/backintime/issues/489)) 
 - The error user-callback is now always called if an error happened while taking a snapshot ([#1491](https://github.com/bit-team/backintime/issues/1491))
@@ -409,12 +409,12 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ### Uncategorized
 
-- Merge PR: Fix FileNotFoundError exception in mount.mounted, Thanks tatokis (https://github.com/bit-team/backintime/pull/1157)
-- Merge PR: qt/plugins/notifyplugin: Fix setting self.user, not local variable, Thanks Zocker1999NET (https://github.com/bit-team/backintime/pull/1155)
-- Merge PR: Use Link Color instead of lightGray as not to break theming, Thanks newhinton (https://github.com/bit-team/backintime/pull/1153)
-- Merge PR: Match old and new rsync version format, Thanks TheTimeWalker (https://github.com/bit-team/backintime/pull/1139)
-- Merge PR: 'TempPasswordThread' object has no attribute 'isAlive', Thanks FMeinicke (https://github.com/bit-team/backintime/pull/1135)
-- Merge PR: Keep permissions of an existing mountpoint from being overridden, Thanks bentolor (https://github.com/bit-team/backintime/pull/1058)
+- Merge PR: Fix FileNotFoundError exception in mount.mounted, Thanks tatokis ([PR #1157](https://github.com/bit-team/backintime/pull/1157))
+- Merge PR: qt/plugins/notifyplugin: Fix setting self.user, not local variable, Thanks Zocker1999NET ([PR #1155](https://github.com/bit-team/backintime/pull/1155))
+- Merge PR: Use Link Color instead of lightGray as not to break theming, Thanks newhinton ([PR #1153](https://github.com/bit-team/backintime/pull/1153))
+- Merge PR: Match old and new rsync version format, Thanks TheTimeWalker ([PR #1139](https://github.com/bit-team/backintime/pull/1139))
+- Merge PR: 'TempPasswordThread' object has no attribute 'isAlive', Thanks FMeinicke ([PR #1135](https://github.com/bit-team/backintime/pull/1135))
+- Merge PR: Keep permissions of an existing mountpoint from being overridden, Thanks bentolor ([PR #1058](https://github.com/bit-team/backintime/pull/1058))
 
 ### Fixed
 
@@ -441,7 +441,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - stat free space for snapshot folder instead of backintime folder ([#733](https://github.com/bit-team/backintime/issues/733))
 - backintime root crontab doesn't run; missing line-feed 0x0A on last line ([#781](https://github.com/bit-team/backintime/issues/781))
 - IndexError in inhibitSuspend ([#772](https://github.com/bit-team/backintime/issues/772))
-- polkit CheckAuthorization: race condition in privilege authorization (https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-7572)
+- polkit CheckAuthorization: race condition in privilege authorization ([CVE-2017-7572](https://www.cve.org/CVERecord?id=CVE-2017-7572))
 - OSError when running backup-job from systemd ([#720](https://github.com/bit-team/backintime/issues/720))
 - restore filesystem-root without 'Full rsync mode' with ACL and/or xargs activated broke whole system ([#708](https://github.com/bit-team/backintime/issues/708))
 - use current folder if no file is selected in files view ([#687](https://github.com/bit-team/backintime/issues/687), [#685](https://github.com/bit-team/backintime/issues/685))
@@ -453,7 +453,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - DEFAULT_EXCLUDE not deletable ([#634](https://github.com/bit-team/backintime/issues/634))
 - GUI status bar unreadable ([#612](https://github.com/bit-team/backintime/issues/612))
 - udev schedule not working ([#605](https://github.com/bit-team/backintime/issues/605))
-- decode path spooled from /etc/mtab (https://github.com/bit-team/backintime/pull/607)
+- decode path spooled from /etc/mtab ([PR #607](https://github.com/bit-team/backintime/pull/607))
 - in snapshots.py, gives more helpful advice if a lock file is present that shouldn't be.  ([#601](https://github.com/bit-team/backintime/issues/601))
 - Fail to create remote snapshot path with spaces ([#567](https://github.com/bit-team/backintime/issues/567))
 - broken new_snapshot can run into infinite saveToContinue loop ([#583](https://github.com/bit-team/backintime/issues/583))
@@ -484,7 +484,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ### Uncategorized
 
-- minor changes to allow running BiT inside Docker (https://github.com/bit-team/backintime/pull/959)
+- minor changes to allow running BiT inside Docker ([PR #959](https://github.com/bit-team/backintime/pull/959))
 - remove progressbar on systray icon until BiT has it's own icon ([#902](https://github.com/bit-team/backintime/issues/902))
 - clarify 'nocache' option ([#857](https://github.com/bit-team/backintime/issues/857))
 - create a config-backup in root dir if backup is encrypted ([#556](https://github.com/bit-team/backintime/issues/556))
@@ -552,21 +552,21 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ### Fixed
 
-- CVE-2017-16667: shell injection in notify-send ([#834](https://github.com/bit-team/backintime/issues/834))
+- shell injection in notify-send ([#834](https://github.com/bit-team/backintime/issues/834), [CVE-2017-16667](https://www.cve.org/CVERecord?id=CVE-2017-16667))
 
 ## [1.1.22] (2017-10-28)
 
 ### Fixed
 
-- stat free space for snapshot folder instead of backintime folder ([#552733](https://github.com/bit-team/backintime/issues/552733))
-- backintime root crontab doesn't run; missing line-feed 0x0A on last line ([#552781](https://github.com/bit-team/backintime/issues/552781))
-- can't open files with spaces in name ([#552552](https://github.com/bit-team/backintime/issues/552552))
+- stat free space for snapshot folder instead of backintime folder ([#733](https://github.com/bit-team/backintime/issues/733))
+- backintime root crontab doesn't run; missing line-feed 0x0A on last line ([#781](https://github.com/bit-team/backintime/issues/781))
+- can't open files with spaces in name ([#552](https://github.com/bit-team/backintime/issues/552))
 
 ## [1.1.20] (2017-04-09)
 
 ### Fixed
 
-- CVE-2017-7572: polkit CheckAuthorization: race condition in privilege authorization
+- polkit CheckAuthorization: race condition in privilege authorization ([CVE-2017-7572](https://www.cve.org/CVERecord?id=CVE-2017-7572))
 
 ## [1.1.18] (2017-03-29)
 
@@ -649,8 +649,8 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - wasn't able to start from source dir
 - 'Inhibit Suspend' fails with 'org.freedesktop.PowerManagement.Inhibit' ([Launchpad#1485242](https://bugs.launchpad.net/backintime/+bug/1485242))
 - No mounting while selecting a secondary profile in the gui ([Launchpad#1481267](https://bugs.launchpad.net/backintime/+bug/1481267))
-- fix for bug [Launchpad#1419466](https://bugs.launchpad.net/backintime/+bug/1419466) broke crontab on Slackware ([Launchpad#1478576](https://bugs.launchpad.net/backintime/+bug/1478576))
-- fix for bug [Launchpad#1431305](https://bugs.launchpad.net/backintime/+bug/1431305) broke pw-cache on Ubuntu ([Launchpad[Launchpad#1431305](https://bugs.launchpad.net/backintime/+bug/1431305)](https://bugs.launchpad.net/backintime/+bug/1431305))
+- fix for bug [Launchpad#1419466](https://bugs.launchpad.net/backintime/+bug/1419466) broke crontab on Slackware
+- fix for bug [Launchpad#1431305](https://bugs.launchpad.net/backintime/+bug/1431305) broke pw-cache on Ubuntu
 - bash-complete
 - Settings accepted empty strings for Host/User/Profile-ID ([Launchpad#1477733](https://bugs.launchpad.net/backintime/+bug/1477733))
 - IndexError on 'check_remote_commands' due to too long args ([Launchpad#1471930](https://bugs.launchpad.net/backintime/+bug/1471930))

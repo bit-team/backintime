@@ -122,11 +122,14 @@ REX_GITHUB_IDS = re.compile(
 REX_GITHUB_ISSUE_URL = re.compile(
     r'(?<!\]\()https:\/\/github.com\/bit-team\/backintime\/issues\/(\d+)')
 
+REX_GITHUB_PULL_URL = re.compile(
+    r'(?<!\]\()https:\/\/github.com\/bit-team\/backintime\/pull\/(\d+)')
+
 REX_DEBIAN_BUG = re.compile(
     r'https:\/\/bugs\.debian\.org\/cgi-bin\/bugreport.cgi\?bug\=(\d{6})')
 
 REX_CVE_RECORD = re.compile(
-    r'https:\/\/www\.cve\.org\/CVERecord\?id\=CVE-(\d{4}-\d{5,6})')
+    r'https:\/\/www\.cve\.org\/CVERecord\?id\=CVE-(\d{4}-\d{4,7})')
 
 # extract Issues and PRs #1234 and @nicknames
 # REX_NICK_AT = re.compile(r'[@][A-Za-z0-9_]+')
@@ -143,9 +146,7 @@ github_link_cache = {}
 
 
 def format_links(content):
-    # https://bugs.launchpad.net/backintime/+bug
-    # Launchpad Bug Links
-    print(f'format_links: {content}')
+    # print(f'format_links: {content}')
 
     for bug_id in REX_LAUNCHPAD_BUG.findall(content):
         old_link = f'{LAUNCHPAD_BASE_URL}{bug_id}'
@@ -180,17 +181,24 @@ def format_links(content):
     for github_id in REX_GITHUB_IDS.findall(content):
         old_link = f'#{github_id}'
         new_link = get_github_url_by_id(github_id)
-        content = content.replace(old_link, f'[{old_link}]({new_link})')
+        if 'pull' in new_link:
+            content = content.replace(old_link, f'[PR {old_link}]({new_link})')
+        else:
+            content = content.replace(old_link, f'[{old_link}]({new_link})')
 
     for bug_id in REX_GITHUB_ISSUE_URL.findall(content):
         old_link = f'{GITHUB_ISSUE_BASE_URL}{bug_id}'
         new_link = f'[#{bug_id}]({old_link})'
         content = content.replace(old_link, new_link)
 
+    for pr_id in REX_GITHUB_PULL_URL.findall(content):
+        old_link = f'{GITHUB_PULL_BASE_URL}{pr_id}'
+        new_link = f'[PR #{pr_id}]({old_link})'
+        content = content.replace(old_link, new_link)
+
     for bug_id in REX_DEBIAN_BUG.findall(content):
         old_link = f'https://bugs.debian.org/cgi-bin/bugreport.cgi?bug={bug_id}'
         new_link = f'[Debian#{bug_id}]({old_link})'
-        print(f'{old_link=}\n{new_link=}')
         content = content.replace(old_link, new_link)
 
     for nick_id in REX_NICK_AT.findall(content):
@@ -255,9 +263,7 @@ def process_items(items):
 
         content = content.replace('https: //', 'https://')
 
-        # content = explicit_links(content)
-
-        print(f'{std_suffix} :: {content}\n')
+        # print(f'{std_suffix} :: {content}\n')
         result[std_suffix].append(content)
 
     return result

@@ -217,7 +217,7 @@ Version 1.4.0 (2023-09-14)
 * GUI Change: View last (snapshot) log button in GUI uses "document-open-recent" icon now instead of "document-new" (#1386)
 * Fix bug: Unit test fails on some machines due to warning "Ignoring XDG_SESSION_TYPE=wayland on Gnome..." (#1429)
 * Fix bug: Generation of config-manpage caused an error with Debian's Lintian (#1398).
-* Fix bug: Return empty list in smartRemove (#1392, Debian Bug Report 973760)
+* Fix bug: Return empty list in smartRemove (#1392, https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=973760)
 * Fix bug: Taking a snapshot reports `rsync` errors now even if no snapshot was taken (#1491)
 * Fix bug: takeSnapshot() recognizes errors now by also evaluating the rsync exit code (#489)
            Fixes related problem: Killing `rsync` was not handled gracefully (by ignoring the rsync exit code)
