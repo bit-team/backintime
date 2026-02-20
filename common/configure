@@ -215,6 +215,7 @@ addInstallFile "../AUTHORS"          "/share/doc/backintime-common"
 addInstallFile "../README.md"        "/share/doc/backintime-common"
 addInstallFile "../FAQ.md"           "/share/doc/backintime-common"
 addInstallFile "../CHANGELOG.md"     "/share/doc/backintime-common"
+addInstallFile "../CHANGELOG.html"   "/share/doc/backintime-common"
 addInstallFile "../LICENSES.md"      "/share/doc/backintime-common"
 addInstallDir                        "/share/doc/backintime-common/LICENSES"
 addInstallFiles "../LICENSES/*"      "/share/doc/backintime-common/LICENSES"
@@ -266,6 +267,8 @@ printf "\t@cd ./../doc/manpages && ./build_manpages.sh backintime.1.adoc\n" >> $
 printf "\t@cd ./../doc/manpages && ./build_manpages.sh backintime-askpass.1.adoc\n" >> ${MAKEFILE}
 printf "\t@cd ./../doc/manpages && gzip --best --stdout backintime-config.5 > backintime-config.5.gz\n" >> ${MAKEFILE}
 printf "\t@echo \"Compressed backintime-config.5 into backintime-config.5.gz\"\n" >> ${MAKEFILE}
+
+printf "pandoc --standalone --from ./../CHANGELOG.md --to ./../CHANGELOG.html --metadata title=\"Back In Time - CHANGELOG\"\n" >> ${MAKEFILE}
 
 printf "\t# Config-examples\n" >> ${MAKEFILE}
 printf "\tgzip -n --best -c config-example-local > config-example-local.gz\n" >> ${MAKEFILE}

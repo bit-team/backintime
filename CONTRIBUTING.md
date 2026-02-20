@@ -173,8 +173,9 @@ distribution.
  
 * Dependencies to build documentation
   - All runtime, build, testing dependencies including the recommended
-  - `mkdocs`
+  - `mkdocs` to build HTML user manual
   - `mkdocs-material`
+  - `pandoc` to convert changelog from Markdown into HTML
 
 ## Build and install via `make` system (recommended)
 

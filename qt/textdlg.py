@@ -7,11 +7,12 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """A dialog containing a QTextBrowser"""
 from PyQt6.QtWidgets import QDialog, QTextBrowser, QVBoxLayout
-from PyQt6.QtGui import (QFontDatabase,
+from PyQt6.QtGui import (QDesktopServices,
+                         QFontDatabase,
                          QGuiApplication,
                          QIcon,
                          QTextCursor)
-from PyQt6.QtCore import QRegularExpression, QTimer
+from PyQt6.QtCore import QRegularExpression, QTimer, QUrl
 
 
 class TextDialog(QDialog):
@@ -56,6 +57,10 @@ class TextDialog(QDialog):
         font = QFontDatabase.systemFont(QFontDatabase.SystemFont.FixedFont)
         self._browser.setFont(font)
 
+        self._browser.setOpenLinks(False)
+        self._browser.setOpenExternalLinks(False)
+        self._browser.anchorClicked.connect(self._on_link_clicked)
+
         layout = QVBoxLayout(self)
         layout.addWidget(self._browser)
 
@@ -70,6 +75,12 @@ class TextDialog(QDialog):
     def browser_widget(self) -> QTextBrowser:
         """The primary widget"""
         return self._browser
+
+    def _on_link_clicked(self, url: QUrl):
+        if url.scheme() in ('http', 'https'):
+            QDesktopServices.openUrl(url)
+        else:
+            self._browser.setSource(url)
 
     def set_content(self, content: str):
         """Set content to the primary widget.
