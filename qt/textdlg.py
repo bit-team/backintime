@@ -27,7 +27,8 @@ class TextDialog(QDialog):
     # pylint: disable-next=too-many-arguments,too-many-positional-arguments
     def __init__(self,  # noqa: PLR0913
                  content: str,
-                 markdown: bool = True,
+                 markdown: bool = False,
+                 html: bool = False,
                  scroll_to: str = None,
                  title: str = '',
                  icon: QIcon = None,
@@ -43,6 +44,7 @@ class TextDialog(QDialog):
 
         self._scroll_to_pattern = scroll_to
         self._markdown = markdown
+        self._html = html
         self._resize_tries = -1
         self._height_fraction = height_fraction
         self._width_fraction = width_fraction
@@ -74,6 +76,8 @@ class TextDialog(QDialog):
         """
         if self._markdown:
             self._browser.setMarkdown(content)
+        elif self._html:
+            self._browser.setHtml(content)
         else:
             self._browser.setPlainText(content)
 
