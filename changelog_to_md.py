@@ -132,7 +132,7 @@ REX_NICK_AT = re.compile(r'(?<![A-Za-z0-9_.])@[A-Za-z0-9_]+')
 LAUNCHPAD_BASE_URL = 'https://bugs.launchpad.net/backintime/+bug/'
 LAUNCHPAD_BASE_URL3 = 'https://launchpad.net/bugs/'
 LAUNCHPAD_BASE_URL4 = 'https://bugs.launchpad.net/bugs/'
-GITHUB_BASE_URL = 'https://github.com/bit-team/'
+GITHUB_BASE_URL = 'https://github.com/'
 GITHUB_ISSUE_BASE_URL = 'https://github.com/bit-team/backintime/issues/'
 GITHUB_PULL_BASE_URL = 'https://github.com/bit-team/backintime/pull/'
 
@@ -197,6 +197,7 @@ def format_links(content):
 
     return content
 
+
 def get_github_url_by_id(github_id):
     try:
         return github_link_cache[github_id]
@@ -212,6 +213,7 @@ def get_github_url_by_id(github_id):
         github_link_cache[github_id] = url
 
     return url
+
 
 def process_items(items):
     result = defaultdict(list)
@@ -252,29 +254,6 @@ def process_items(items):
 
     return result
 
-# def explicit_links(content):
-#     """Implicit links to issues/PR or nicknames are replaced with their real
-#     URL, to be independent form the git hoster platform.
-#     """
-#     return content
-#     REX_HASHTAG_AT_LINKS = re.compile(r'[#@][A-Za-z0-9_]+')
-
-#     print('explicit_links() ::')
-#     for link in REX_HASHTAG_AT_LINKS.findall(content):
-#         print(f'  {content=}')
-#         if link[0] == '#':
-#             url = get_github_url_by_id(link)
-#             content = content.replace(link, f'[#{link}]({url})')
-#             continue
-
-#         if link[0] == '@':
-#             url = f'[{link}]({GITHUB_BASE_URL}{link})'
-#             content = content.replace(link, url)
-#             continue
-
-#         raise RuntimeError(f'{content=} {link=}')
-
-#     return content
 
 def process_raw_results(raw_result):
     result = []

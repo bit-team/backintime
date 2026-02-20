@@ -41,11 +41,11 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Manpage backintime-config moved from section 1 to 5 ([#1773](https://github.com/bit-team/backintime/issues/1773))
 - New dependency "bash" for root mode starter script "backintime-qt_polkit" ([#2328](https://github.com/bit-team/backintime/issues/2328))
 - New dependency (runtime GUI) to "python3-pyqt6.qtsvg" for loading SVG icons ([#1961](https://github.com/bit-team/backintime/issues/1961))
-- Disable scheduling widget in GUI if cron/crontab is missing ([#2245](https://github.com/bit-team/backintime/issues/2245), [@m4rcu5](https://github.com/bit-team/m4rcu5) Marcus von Dam)
+- Disable scheduling widget in GUI if cron/crontab is missing ([#2245](https://github.com/bit-team/backintime/issues/2245), [@m4rcu5](https://github.com/m4rcu5) Marcus von Dam)
 - Expert Options replaced two checkboxes with single widget to configure symlink copying behavior ([#1652](https://github.com/bit-team/backintime/issues/1652))
 - "Repeatedly (anacron)" scheduling behave consistent. Reversed minor bug introduced with 060324e ([#1791](https://github.com/bit-team/backintime/issues/1791)) in 1.5.3 ([#2250](https://github.com/bit-team/backintime/issues/2250))
 - Stricter permissions (600) for fileinfo.bz2 and takesnapshot.log.bz2 ([#2235](https://github.com/bit-team/backintime/issues/2235))
-- Unlocking ssh-agent use "force" instead of "prefer" for SSH_ASKPASS_REQUIRE ([#2170](https://github.com/bit-team/backintime/issues/2170)) ([@daviewales](https://github.com/bit-team/daviewales))
+- Unlocking ssh-agent use "force" instead of "prefer" for SSH_ASKPASS_REQUIRE ([#2170](https://github.com/bit-team/backintime/issues/2170)) ([@daviewales](https://github.com/daviewales))
 - Stop passing window ID when inhibiting suspend via D-Bus power manager ([#2084](https://github.com/bit-team/backintime/issues/2084))
 - Reorder DBUS service provider list for suspend mode inhibition ([#2084](https://github.com/bit-team/backintime/issues/2084))
 - Man pages generated from AsciiDoc, except backintime-config ([#2085](https://github.com/bit-team/backintime/issues/2085))
@@ -68,16 +68,16 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 ### Added
 
 - Language Georgian (ka)
-- Gocryptfs for local encrypted profiles ([#1897](https://github.com/bit-team/backintime/issues/1897), [#1734](https://github.com/bit-team/backintime/issues/1734), [@germar](https://github.com/bit-team/germar), [@daviewales](https://github.com/bit-team/daviewales))
+- Gocryptfs for local encrypted profiles ([#1897](https://github.com/bit-team/backintime/issues/1897), [#1734](https://github.com/bit-team/backintime/issues/1734), [@germar](https://github.com/germar), [@daviewales](https://github.com/daviewales))
 - Dialog to suggest commonly used files/dirs/patterns for backup exclusion ([#2309](https://github.com/bit-team/backintime/issues/2309))
 - Systray icon can be forced to Dark or Light
-- Application logo and symbolic systray icon ([#1961](https://github.com/bit-team/backintime/issues/1961), Gregory Deseck [@gregorydk](https://github.com/bit-team/gregorydk))
+- Application logo and symbolic systray icon ([#1961](https://github.com/bit-team/backintime/issues/1961), Gregory Deseck [@gregorydk](https://github.com/gregorydk))
 - Root mode indicator in status bar ([#1964](https://github.com/bit-team/backintime/issues/1964))
 - Option to not using an explicit SSH key file. In consequence this supports extern key agents and SSH clients own configuration ([#1146](https://github.com/bit-team/backintime/issues/1146))
-- SSH-Key selector widget in Manage profiles dialog ([#1146](https://github.com/bit-team/backintime/issues/1146), [#2094](https://github.com/bit-team/backintime/issues/2094), [#2095](https://github.com/bit-team/backintime/issues/2095), [#2275](https://github.com/bit-team/backintime/issues/2275) [@m4rcu5](https://github.com/bit-team/m4rcu5) Marcus van Dam)
+- SSH-Key selector widget in Manage profiles dialog ([#1146](https://github.com/bit-team/backintime/issues/1146), [#2094](https://github.com/bit-team/backintime/issues/2094), [#2095](https://github.com/bit-team/backintime/issues/2095), [#2275](https://github.com/bit-team/backintime/issues/2275) [@m4rcu5](https://github.com/m4rcu5) Marcus van Dam)
 - "ETA" value in status bar ([#2101](https://github.com/bit-team/backintime/issues/2101))
-- Shutdown confirmation dialog ([#2102](https://github.com/bit-team/backintime/issues/2102)) (Huaide Jiang [@LatiosInAltoMare](https://github.com/bit-team/LatiosInAltoMare))
-- Check and warn if include list entries do not exists in backup source ([#1586](https://github.com/bit-team/backintime/issues/1586)) ([@rafaelhdr](https://github.com/bit-team/rafaelhdr))
+- Shutdown confirmation dialog ([#2102](https://github.com/bit-team/backintime/issues/2102)) (Huaide Jiang [@LatiosInAltoMare](https://github.com/LatiosInAltoMare))
+- Check and warn if include list entries do not exists in backup source ([#1586](https://github.com/bit-team/backintime/issues/1586)) ([@rafaelhdr](https://github.com/rafaelhdr))
 - Asciidoctor as build dependence ([#2085](https://github.com/bit-team/backintime/issues/2085))
 - Command "show" to replace "snapshots-list", "snapshots-list-path", "last-snapshots" and "last-snapshot-path" ([#2130](https://github.com/bit-team/backintime/issues/2130))
 - Command "prune" to replace "smart-remove" ([#2124](https://github.com/bit-team/backintime/issues/2124))
@@ -85,7 +85,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Flag "--skip-confirmation" for command "remove" to replace command "remove-and-do-not-ask-again" ([#2124](https://github.com/bit-team/backintime/issues/2124))
 - Flag "--profile" accept ID's beside names only ([#2125](https://github.com/bit-team/backintime/issues/2125))
 - Flag "-p" as alias for "--profile" ([#2125](https://github.com/bit-team/backintime/issues/2125))
-- "Less storage space" threshold to warn the user ([#2110](https://github.com/bit-team/backintime/issues/2110)) ([@fest6](https://github.com/bit-team/fest6))
+- "Less storage space" threshold to warn the user ([#2110](https://github.com/bit-team/backintime/issues/2110)) ([@fest6](https://github.com/fest6))
 - Remember size and position of Manage profiles dialog
 - User-callback editor offer a default script in case no script exists ([#1331](https://github.com/bit-team/backintime/issues/1331))
 
@@ -102,10 +102,10 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Crash in config restore dialog
 - Consider symbolic icons as fallbacks ([#2345](https://github.com/bit-team/backintime/issues/2345), [#2289](https://github.com/bit-team/backintime/issues/2289))
 - Warn users and prevent backups to exFAT volumes due to lack of hardlink support ([#2337](https://github.com/bit-team/backintime/issues/2337))
-- Show proper message to users when root mode fails due to inactive or missing polkit agent ([#2328](https://github.com/bit-team/backintime/issues/2328), Derek Veit [@DerekVeit](https://github.com/bit-team/DerekVeit))
-- Crash in Compare snapshots dialog (aka Snapshots dialog) when comparing/diff two backups ([#2327](https://github.com/bit-team/backintime/issues/2327) Michael Neese [@madic](https://github.com/bit-team/madic)-creates)
+- Show proper message to users when root mode fails due to inactive or missing polkit agent ([#2328](https://github.com/bit-team/backintime/issues/2328), Derek Veit [@DerekVeit](https://github.com/DerekVeit))
+- Crash in Compare snapshots dialog (aka Snapshots dialog) when comparing/diff two backups ([#2327](https://github.com/bit-team/backintime/issues/2327) Michael Neese [@madic](https://github.com/madic)-creates)
 - File view and Compare Backups dialog now open the clicked item correctly even with multiple selection or single-click-to-open enabled ([#2330](https://github.com/bit-team/backintime/issues/2330))
-- Crash in Compare snapshots dialog (aka Snapshots dialog) when comparing/diff two backups ([#2327](https://github.com/bit-team/backintime/issues/2327) Michael Neese [@madic](https://github.com/bit-team/madic)-creates)
+- Crash in Compare snapshots dialog (aka Snapshots dialog) when comparing/diff two backups ([#2327](https://github.com/bit-team/backintime/issues/2327) Michael Neese [@madic](https://github.com/madic)-creates)
 - Enforce UTF-8 encoding in takesnapshot.log and some other files ([#2298](https://github.com/bit-team/backintime/issues/2298))
 - Attribute error about missing 'cbCopyUnsafeLinks' ([#2279](https://github.com/bit-team/backintime/issues/2279))
 - Use LC_ALL instead of LC_TIME to set the locale
@@ -114,7 +114,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Stop waking up monitor when inhibit suspend on backup starts ([#714](https://github.com/bit-team/backintime/issues/714), [#1090](https://github.com/bit-team/backintime/issues/1090))
 - Avoid shutdown confirmation dialog on Budgie and Cinnamon desktop environments ([#788](https://github.com/bit-team/backintime/issues/788))
 - Crash in "Manage profiles" dialog when using "qt6ct" ([#2128](https://github.com/bit-team/backintime/issues/2128))
-- **Breaking** Systray process no longer exposes sensitive backup profile information when the desktop session belongs to another user ([#2237](https://github.com/bit-team/backintime/issues/2237), reported and co-authored by [@samo](https://github.com/bit-team/samo)-sk)
+- **Breaking** Systray process no longer exposes sensitive backup profile information when the desktop session belongs to another user ([#2237](https://github.com/bit-team/backintime/issues/2237), reported and co-authored by [@samo](https://github.com/samo)-sk)
 - Allow in BITs root-mode opening URLs in extern browse
 
 ## [1.5.6] (2025-10-05)
@@ -130,7 +130,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ### Fixed
 
-- Unlocking SSH keys with passphrases on new created profiles ([#2164](https://github.com/bit-team/backintime/issues/2164)) ([@davidfjoh](https://github.com/bit-team/davidfjoh))
+- Unlocking SSH keys with passphrases on new created profiles ([#2164](https://github.com/bit-team/backintime/issues/2164)) ([@davidfjoh](https://github.com/davidfjoh))
 
 ## [1.5.4] (2025-03-24)
 
@@ -151,21 +151,21 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 - Exclude patterns are now case-sensitive when added ([#2040](https://github.com/bit-team/backintime/issues/2040))
 - The width of the fourth column in files view is now saved
-- Snapshot compare copy symlink as symlink ([#1902](https://github.com/bit-team/backintime/issues/1902)) (Peter Sevens [@sevens](https://github.com/bit-team/sevens))
-- Crash when comparing a snapshot with a symlink pointing to a nonexistent target (Peter Sevens [@sevens](https://github.com/bit-team/sevens))
+- Snapshot compare copy symlink as symlink ([#1902](https://github.com/bit-team/backintime/issues/1902)) (Peter Sevens [@sevens](https://github.com/sevens))
+- Crash when comparing a snapshot with a symlink pointing to a nonexistent target (Peter Sevens [@sevens](https://github.com/sevens))
 - Crash (KeyError) opening language setup dialog with unknown locale/language
 
 ### Added
 
 - Open user manual (local if available otherwise online) via Help menu
-- Toolbar context menu to display the buttons in different combinations with icons and text ([#1105](https://github.com/bit-team/backintime/issues/1105), [#2002](https://github.com/bit-team/backintime/issues/2002)) (Samuel Moore [@s4moore](https://github.com/bit-team/s4moore))
-- Add offset minutes to hourly schedules (David Gibbs [@fallingrock](https://github.com/bit-team/fallingrock))
+- Toolbar context menu to display the buttons in different combinations with icons and text ([#1105](https://github.com/bit-team/backintime/issues/1105), [#2002](https://github.com/bit-team/backintime/issues/2002)) (Samuel Moore [@s4moore](https://github.com/s4moore))
+- Add offset minutes to hourly schedules (David Gibbs [@fallingrock](https://github.com/fallingrock))
 
 ## [1.5.3] (2024-11-13)
 
 ### Uncategorized
 
-- Doc: User manual (build with MkDocs) ([#1838](https://github.com/bit-team/backintime/issues/1838)) (Kosta Vukicevic [@stcksmsh](https://github.com/bit-team/stcksmsh))
+- Doc: User manual (build with MkDocs) ([#1838](https://github.com/bit-team/backintime/issues/1838)) (Kosta Vukicevic [@stcksmsh](https://github.com/stcksmsh))
 - Doc: User-callback topic in user manual ([#1659](https://github.com/bit-team/backintime/issues/1659))
 - Breaking Change: Minimal Python version 3.9 required ([#1731](https://github.com/bit-team/backintime/issues/1731))
 - Breaking Change: Auto migration of config version 4 or lower not longer supported ([#1857](https://github.com/bit-team/backintime/issues/1857))
@@ -178,16 +178,16 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 ### Added
 
 - Support language Interlingua (Occidental)
-- Warn if destination directory is formatted as NTFS ([#1854](https://github.com/bit-team/backintime/issues/1854)) (David Gibbs [@fallingrock](https://github.com/bit-team/fallingrock))
+- Warn if destination directory is formatted as NTFS ([#1854](https://github.com/bit-team/backintime/issues/1854)) (David Gibbs [@fallingrock](https://github.com/fallingrock))
 - Support fcron ([#610](https://github.com/bit-team/backintime/issues/610))
 - User message about release candidate ([#1906](https://github.com/bit-team/backintime/issues/1906))
 
 ### Fixed
 
 - Prevent duplicates in Exclude/Include list of Manage Profiles dialog
-- Fix Qt segmentation fault when canceling out of unconfigured BiT ([#1095](https://github.com/bit-team/backintime/issues/1095)) (Derek Veit [@DerekVeit](https://github.com/bit-team/DerekVeit))
-- Correct global flock fallbacks ([#1834](https://github.com/bit-team/backintime/issues/1834)) (Timothy Southwick [@NickNackGus](https://github.com/bit-team/NickNackGus))
-- Use SSH key password only if it is valid, otherwise request it from user ([#1852](https://github.com/bit-team/backintime/issues/1852)) (David Wales [@daviewales](https://github.com/bit-team/daviewales))
+- Fix Qt segmentation fault when canceling out of unconfigured BiT ([#1095](https://github.com/bit-team/backintime/issues/1095)) (Derek Veit [@DerekVeit](https://github.com/DerekVeit))
+- Correct global flock fallbacks ([#1834](https://github.com/bit-team/backintime/issues/1834)) (Timothy Southwick [@NickNackGus](https://github.com/NickNackGus))
+- Use SSH key password only if it is valid, otherwise request it from user ([#1852](https://github.com/bit-team/backintime/issues/1852)) (David Wales [@daviewales](https://github.com/daviewales))
 
 ### Changed
 
@@ -195,7 +195,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Own module for Manage Profiles dialog and separate Generals tab code ([#1865](https://github.com/bit-team/backintime/issues/1865))
 - Remove class OrderedSet
 - Remove os.system() from class Execute
-- Systray notifications send utilize DBUS instead of notify-send ([#1156](https://github.com/bit-team/backintime/issues/1156)) (Felix Stupp [@Zocker1999NET](https://github.com/bit-team/Zocker1999NET))
+- Systray notifications send utilize DBUS instead of notify-send ([#1156](https://github.com/bit-team/backintime/issues/1156)) (Felix Stupp [@Zocker1999NET](https://github.com/Zocker1999NET))
 
 ## [1.5.2] (2024-08-06)
 
@@ -232,8 +232,8 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 ### Added
 
 - Warn if Cron is not running ([#1747](https://github.com/bit-team/backintime/issues/1747))
-- Profile and GUI allow to activate debug output for scheduled jobs by adding '--debug' to crontab entry ([#1616](https://github.com/bit-team/backintime/issues/1616), contributed by [@stcksmsh](https://github.com/bit-team/stcksmsh) Kosta Vukicevic)
-- Support SSH proxy (jump) host ([#1688](https://github.com/bit-team/backintime/issues/1688)) ([@cgrinham](https://github.com/bit-team/cgrinham), Christie Grinham)
+- Profile and GUI allow to activate debug output for scheduled jobs by adding '--debug' to crontab entry ([#1616](https://github.com/bit-team/backintime/issues/1616), contributed by [@stcksmsh](https://github.com/stcksmsh) Kosta Vukicevic)
+- Support SSH proxy (jump) host ([#1688](https://github.com/bit-team/backintime/issues/1688)) ([@cgrinham](https://github.com/cgrinham), Christie Grinham)
 - Support rsync '--one-file-system' in Expert Options ([#1598](https://github.com/bit-team/backintime/issues/1598))
 - "*-dev" version strings contain last commit hash ([#1637](https://github.com/bit-team/backintime/issues/1637))
 
@@ -243,8 +243,8 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Fix Qt segmentation fault with uninstall ExtraMouseButtonEventFilter when closing main window ([#1095](https://github.com/bit-team/backintime/issues/1095))
 - Names of weekdays and months translated correct ([#1729](https://github.com/bit-team/backintime/issues/1729))
 - Global flock for multiple users ([#1122](https://github.com/bit-team/backintime/issues/1122), [#1676](https://github.com/bit-team/backintime/issues/1676))
-- "Backup folders" list does reflect the selected snapshot ([#1585](https://github.com/bit-team/backintime/issues/1585)) ([@rafaelhdr](https://github.com/bit-team/rafaelhdr) Rafael Hurpia da Rocha)
-- Validation of diff command settings in compare snapshots dialog ([#1662](https://github.com/bit-team/backintime/issues/1662)) ([@stcksmsh](https://github.com/bit-team/stcksmsh) Kosta Vukicevic)
+- "Backup folders" list does reflect the selected snapshot ([#1585](https://github.com/bit-team/backintime/issues/1585)) ([@rafaelhdr](https://github.com/rafaelhdr) Rafael Hurpia da Rocha)
+- Validation of diff command settings in compare snapshots dialog ([#1662](https://github.com/bit-team/backintime/issues/1662)) ([@stcksmsh](https://github.com/stcksmsh) Kosta Vukicevic)
 - Open symlinked folders in file view ([#1476](https://github.com/bit-team/backintime/issues/1476))
 - Respect dark mode using color roles ([#1601](https://github.com/bit-team/backintime/issues/1601))
 - "Highly recommended" exclusion pattern in "Manage Profile" dialog's "Exclude" tab show missing only ([#1620](https://github.com/bit-team/backintime/issues/1620))
