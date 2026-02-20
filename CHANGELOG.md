@@ -19,6 +19,10 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ## [1.6.2] (Unreleased Development)
 
+## Changed
+- Changelog migrated to Common Changelog standard
+- Build: Changelog shipped as HTML
+
 ### Uncategorized
 
 - 
