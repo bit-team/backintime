@@ -200,14 +200,9 @@ class MainWindow(QMainWindow):
             self._on_files_view_path_clicked
         )
         self.stackFilesView.addWidget(self.filesView)
-        # self.filesViewModel = QFileSystemModel(self)
-        # self.filesViewProxyModel = QSortFilterProxyModel(self)
         self.stackFilesView.setCurrentWidget(self.filesView)
 
         self.setCentralWidget(self.mainSplitter)
-
-        # context menu for Files View
-        # self._context_menu = self._files_view_context_menu()
 
         self.status_bar = StatusBar(self)
         self.statusBar().addWidget(self.status_bar, 100)
@@ -240,9 +235,6 @@ class MainWindow(QMainWindow):
 
         self._try_to_mount()
 
-        # self.filesViewProxyModel.layoutChanged.connect(
-        #     self.dirListerCompleted)
-
         # populate lists
         self.updateProfiles()
         self.comboProfiles.currentIndexChanged \
@@ -252,12 +244,18 @@ class MainWindow(QMainWindow):
 
         self.updateSnapshotActions()
 
-        WEITER: should go into timline and exposed via Event()
+        # WEITER: should go into timline and exposed via Event()
         # any selection change. no item given as argument
         self.timeline.itemSelectionChanged.connect(self.timeLineChanged)
 
-        self.forceWaitLockCounter = 0
+        self.timeline.event_now_item_selected.register(
+            self._on_now_selected
+        )
+        self.timeline.event_backup_item_selected.register(
+            self._on_backup_selected
+        )
 
+        self.forceWaitLockCounter = 0
         self._setup_timers()
 
         threading.Thread(
@@ -1075,7 +1073,6 @@ class MainWindow(QMainWindow):
         else:
             self.places.set_sorting(sorting)
 
-
     def comboProfileChanged(self, _index):
         if self.disableProfileChanged:
             return
@@ -1331,6 +1328,14 @@ class MainWindow(QMainWindow):
         self.act_remove_snapshot.setEnabled(enabled)
         self.act_snapshot_logview.setEnabled(enabled)
 
+    def _on_now_selected(self):
+        print('Y'*30)
+        print('NOW')
+
+    def _on_backup_selected(self, sid):
+        print('Z'*30)
+        print(f'backup {sid=}')
+
     def timeLineChanged(self):
         item = self.timeline.currentItem()
         self.updateSnapshotActions(item)
@@ -1343,7 +1348,7 @@ class MainWindow(QMainWindow):
             return
 
         self.sid = sid
-        WEITER: places should be registered to an timeline event
+        # WEITER: places should be registered to an timeline event
         self.places.do_update()
         self.updateFilesView(2)
 

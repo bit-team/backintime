@@ -318,4 +318,3 @@ class FilesView(QTreeView):
                 '\n'.join(duplicates)
             ))
 
-    def do_update(self):

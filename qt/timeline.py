@@ -36,6 +36,8 @@ class TimeLine(QTreeWidget):
     # update_files_view = pyqtSignal(int)
 
     event_selection_changed = Event()
+    event_now_item_selected = Event()
+    event_backup_item_selected = Event()
 
     def __init__(self, parent):
         super().__init__(parent)
@@ -53,6 +55,23 @@ class TimeLine(QTreeWidget):
         self.snapshots = parent.snapshots
         self._root_item = None
         self._reset_header_data()
+
+        self.itemSelectionChanged.connect(self._on_item_selection_changed)
+
+    def _on_item_selection_changed(self):
+        print('TimeLine._on_item_selection_changed()')
+        # Maybe remove
+        self.event_selection_changed.notify()
+
+        sid = self.current_snapshot_id()
+
+        if not sid:
+            return
+
+        if sid.isRoot:
+            self.event_now_item_selected.notify()
+        else:
+            self.event_backup_item_selected.notify(sid)
 
     def clear(self):
         """Clear all entries from the widget."""
@@ -176,6 +195,7 @@ class TimeLine(QTreeWidget):
             self._header_data.append((text, start_date, end_date))
 
     def _create_header_item(self, text, end_date):
+        # Don't create if it still exists.
         for item in self._iter_header_items():
             if item.snapshot_id.date == end_date:
                 return False
@@ -225,6 +245,7 @@ class TimeLine(QTreeWidget):
         if self.parent.sid != item.snapshot_id:
             self.parent.sid = item.snapshot_id
             # self.update_files_view.emit(2)
+            print('TimeLine._set_current_item()')
             self.event_selection_changed.notify()
 
     def _iter_items(self):
@@ -265,10 +286,13 @@ class SnapshotItem(TimeLineItem):
     def __init__(self, sid):
         super().__init__()
         self.setText(0, sid.displayName)
-
         self.setData(0, Qt.ItemDataRole.UserRole, sid)
 
-        if sid.isRoot:
+        print(self.__dict__)
+
+        self.is_now = sid.isRoot
+
+        if self.is_now:
             self.setToolTip(
                 0,
                 _('This is NOT a backup but a live view '
@@ -278,10 +302,12 @@ class SnapshotItem(TimeLineItem):
                 0,
                 _('Last check {time}').format(time=sid.lastChecked))
 
-    def update_text(self):
-        """Update the widgets text with its snapshots displayName."""
-        sid = self.snapshot_id
-        self.setText(0, sid.displayName)
+    # def update_text(self):
+    #     """Update the widgets text with its snapshots displayName."""
+    #     print('X'*300)
+    #     print(self.__dict__)
+    #     sid = self.snapshot_id
+    #     self.setText(0, sid.displayName)
 
 
 class HeaderItem(TimeLineItem):  # pylint: disable=too-few-public-methods
