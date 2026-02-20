@@ -58,6 +58,9 @@ class TimeLine(QTreeWidget):
 
         self.itemSelectionChanged.connect(self._on_item_selection_changed)
 
+    def get_root_sid(self):
+        return self._root_item.sid
+
     def _on_item_selection_changed(self):
         print('TimeLine._on_item_selection_changed()')
         # Maybe remove
@@ -215,11 +218,6 @@ class TimeLine(QTreeWidget):
     def select_root_item(self):
         """Dev note: Don't know what 'root' means in this context."""
         self._set_current_item(self._root_item)
-
-        # if not self.parent.sid.isRoot:
-        #     self.parent.sid = self._root_item.snapshot_id
-        #     # self.update_files_view.emit(2)
-        #     self.event_selection_changed.notify()
 
     def selected_snapshot_ids(self):
         """Snapshot IDs of all selected entries."""

@@ -246,13 +246,15 @@ class MainWindow(QMainWindow):
 
         # WEITER: should go into timline and exposed via Event()
         # any selection change. no item given as argument
-        self.timeline.itemSelectionChanged.connect(self.timeLineChanged)
+        # self.timeline.itemSelectionChanged.connect(self.timeLineChanged)
 
         self.timeline.event_now_item_selected.register(
-            self._on_now_selected
+            self._on_now_selected,
+            self.places.on_new_selected,
         )
         self.timeline.event_backup_item_selected.register(
-            self._on_backup_selected
+            self._on_backup_selected,
+            self.on_backup_changed,
         )
 
         self.forceWaitLockCounter = 0
@@ -1313,43 +1315,20 @@ class MainWindow(QMainWindow):
 
         yield message
 
-    def updateSnapshotActions(self, item = None):
-        enabled = False
-
-        if item is None:
-            item = self.timeline.currentItem()
-
-        if not item is None:
-            if not item.snapshot_id.isRoot:
-                enabled = True
-
-        # update remove/name snapshot buttons
+    def _enable_snapshot_actions(self, enable: bool = True):
         self.act_name_snapshot.setEnabled(enabled)
         self.act_remove_snapshot.setEnabled(enabled)
         self.act_snapshot_logview.setEnabled(enabled)
 
     def _on_now_selected(self):
-        print('Y'*30)
-        print('NOW')
+        self._enable_snapshot_actions(False)
+        # Workaround
+        self.sid = self.timeline.get_root_sid()
+        self.updateFilesView(2)
 
     def _on_backup_selected(self, sid):
-        print('Z'*30)
-        print(f'backup {sid=}')
-
-    def timeLineChanged(self):
-        item = self.timeline.currentItem()
-        self.updateSnapshotActions(item)
-
-        if item is None:
-            return
-
-        sid = item.snapshot_id
-        if not sid or sid == self.sid:
-            return
-
+        self._enable_snapshot_actions(True)
         self.sid = sid
-        # WEITER: places should be registered to an timeline event
-        self.places.do_update()
         self.updateFilesView(2)
 
     def updateTimeLine(self, refreshSnapshotsList=True):
@@ -1464,12 +1443,15 @@ class MainWindow(QMainWindow):
         if 0 == changed_from or 3 == changed_from:
             selected_file = ''
 
+        # TODO: Places should react on filesview.event_XYZ
         if 0 == changed_from:
             # update places
             self.places.setCurrentItem(None)
 
+            # each places entry
             for place_index in range(self.places.topLevelItemCount()):
                 item = self.places.topLevelItem(place_index)
+                # if current path(??) is present in places, select it
                 if self.path == str(item.data(0, Qt.ItemDataRole.UserRole)):
                     self.places.setCurrentItem(item)
                     break

@@ -72,6 +72,14 @@ class PlacesWidget(QTreeWidget):
     def _handle_new_dir_included(self):
         self.do_update()
 
+    def on_now_selected(self):
+        # WEITER
+        self.do_update()
+
+    def on_backup_changed(self, sid):
+        # WEITER
+        self.do_update()
+
     def do_update(self, _col: int = None, _order: Qt.SortOrder = None) -> None:
         """Update the places view"""
         self.clear()
