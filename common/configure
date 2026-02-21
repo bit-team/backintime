@@ -270,7 +270,7 @@ printf "\t@echo \"Compressed backintime-config.5 into backintime-config.5.gz\"\n
 
 printf "\n\t# Changelog\n" >> ${MAKEFILE}
 printf "\t@pandoc ./../CHANGELOG.md --standalone --from markdown --to html --metadata title=\"Back In Time - CHANGELOG\" --output ./../CHANGELOG.html\n" >> ${MAKEFILE}
-printf "\t@echo \"Converted CHANGELOG.md to CHANGELOG.html"\n" >> ${MAKEFILE}
+printf "\t@echo \"Converted CHANGELOG.md to CHANGELOG.html\"\n" >> ${MAKEFILE}
 
 printf "\n\t# Config-examples\n" >> ${MAKEFILE}
 printf "\tgzip -n --best -c config-example-local > config-example-local.gz\n" >> ${MAKEFILE}

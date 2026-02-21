@@ -63,6 +63,8 @@ install:
   - eval `ssh-agent -s`
 
 script:
+  # Stop on errors
+  - set -e
   # Add linter versions to build log
   - ruff --version
   - flake8 --version
