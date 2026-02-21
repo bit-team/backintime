@@ -7,9 +7,9 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Provide operations related to manipulating backup profiles.
 
-This module contains the application logic independed from the GUI layer.
+This module contains the application logic independent from the GUI layer.
 
-Dev note (buhtz, 2026-02): Copeling to the config modul will be refactored
+Dev note (buhtz, 2026-02): Copeling to the config module will be refactored
 soon. See PR #1850
 """
 from pathlib import Path
