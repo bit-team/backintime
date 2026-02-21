@@ -7,11 +7,12 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """A dialog containing a QTextBrowser"""
 from PyQt6.QtWidgets import QDialog, QTextBrowser, QVBoxLayout
-from PyQt6.QtGui import (QFontDatabase,
+from PyQt6.QtGui import (QDesktopServices,
+                         QFontDatabase,
                          QGuiApplication,
                          QIcon,
                          QTextCursor)
-from PyQt6.QtCore import QRegularExpression, QTimer
+from PyQt6.QtCore import QRegularExpression, QTimer, QUrl
 
 
 class TextDialog(QDialog):
@@ -27,7 +28,8 @@ class TextDialog(QDialog):
     # pylint: disable-next=too-many-arguments,too-many-positional-arguments
     def __init__(self,  # noqa: PLR0913
                  content: str,
-                 markdown: bool = True,
+                 markdown: bool = False,
+                 html: bool = False,
                  scroll_to: str = None,
                  title: str = '',
                  icon: QIcon = None,
@@ -43,6 +45,7 @@ class TextDialog(QDialog):
 
         self._scroll_to_pattern = scroll_to
         self._markdown = markdown
+        self._html = html
         self._resize_tries = -1
         self._height_fraction = height_fraction
         self._width_fraction = width_fraction
@@ -53,6 +56,10 @@ class TextDialog(QDialog):
         self._browser = QTextBrowser()
         font = QFontDatabase.systemFont(QFontDatabase.SystemFont.FixedFont)
         self._browser.setFont(font)
+
+        self._browser.setOpenLinks(False)
+        self._browser.setOpenExternalLinks(False)
+        self._browser.anchorClicked.connect(self._on_link_clicked)
 
         layout = QVBoxLayout(self)
         layout.addWidget(self._browser)
@@ -69,11 +76,19 @@ class TextDialog(QDialog):
         """The primary widget"""
         return self._browser
 
+    def _on_link_clicked(self, url: QUrl):
+        if url.scheme() in ('http', 'https'):
+            QDesktopServices.openUrl(url)
+        else:
+            self._browser.setSource(url)
+
     def set_content(self, content: str):
         """Set content to the primary widget.
         """
         if self._markdown:
             self._browser.setMarkdown(content)
+        elif self._html:
+            self._browser.setHtml(content)
         else:
             self._browser.setPlainText(content)
 
