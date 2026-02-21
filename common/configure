@@ -214,7 +214,8 @@ addInstallDir                        "/share/doc/backintime-common"
 addInstallFile "../AUTHORS"          "/share/doc/backintime-common"
 addInstallFile "../README.md"        "/share/doc/backintime-common"
 addInstallFile "../FAQ.md"           "/share/doc/backintime-common"
-addInstallFile "../CHANGES"          "/share/doc/backintime-common"
+addInstallFile "../CHANGELOG.md"     "/share/doc/backintime-common"
+addInstallFile "../CHANGELOG.html"   "/share/doc/backintime-common"
 addInstallFile "../LICENSES.md"      "/share/doc/backintime-common"
 addInstallDir                        "/share/doc/backintime-common/LICENSES"
 addInstallFiles "../LICENSES/*"      "/share/doc/backintime-common/LICENSES"
@@ -267,7 +268,11 @@ printf "\t@cd ./../doc/manpages && ./build_manpages.sh backintime-askpass.1.adoc
 printf "\t@cd ./../doc/manpages && gzip --best --stdout backintime-config.5 > backintime-config.5.gz\n" >> ${MAKEFILE}
 printf "\t@echo \"Compressed backintime-config.5 into backintime-config.5.gz\"\n" >> ${MAKEFILE}
 
-printf "\t# Config-examples\n" >> ${MAKEFILE}
+printf "\n\t# Changelog\n" >> ${MAKEFILE}
+printf "\t@pandoc ./../CHANGELOG.md --standalone --from markdown --to html --metadata title=\"Back In Time - CHANGELOG\" --output ./../CHANGELOG.html\n" >> ${MAKEFILE}
+printf "\t@echo \"Converted CHANGELOG.md to CHANGELOG.html\"\n" >> ${MAKEFILE}
+
+printf "\n\t# Config-examples\n" >> ${MAKEFILE}
 printf "\tgzip -n --best -c config-example-local > config-example-local.gz\n" >> ${MAKEFILE}
 printf "\tgzip -n --best -c config-example-ssh > config-example-ssh.gz\n\n" >> ${MAKEFILE}
 

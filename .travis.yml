@@ -43,7 +43,7 @@ before_install:
   - sudo apt-get -qq update
   # install screen, and util-linux (provides flock) for test_sshtools
   - sudo apt-get install -y sshfs screen util-linux libdbus-1-dev
-  - sudo apt-get install -y ruby rubygems asciidoctor encfs gocryptfs
+  - sudo apt-get install -y ruby rubygems asciidoctor encfs gocryptfs pandoc
   - sudo gem install asciidoctor
 
 jobs:
@@ -63,6 +63,8 @@ install:
   - eval `ssh-agent -s`
 
 script:
+  # Stop on errors
+  - set -e
   # Add linter versions to build log
   - ruff --version
   - flake8 --version

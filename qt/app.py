@@ -2163,24 +2163,27 @@ class MainWindow(QMainWindow):
         qttools.open_url(bitbase.URL_WEBSITE)
 
     def _slot_help_changelog(self):
+        markdown = False
         if bitbase.CHANGELOG_LOCAL_PATH.exists():
-            content = bitbase.CHANGELOG_LOCAL_PATH.read_text('utf-8')
-        elif bitbase.CHANGELOG_DEBIAN_GZ.exists():
-            import gzip
-            with gzip.open(bitbase.CHANGELOG_DEBIAN_GZ, 'rt') as handle:
-                content = handle.read()
-        else:
-            content = None
-
-        if content:
-            td = TextDialog(
-                content,
-                markdown=False,
-                title=_('Changelog'),
-                icon=self.act_help_changelog.icon()
-            )
-            td.exec()
+            qttools.open_url(str(bitbase.CHANGELOG_LOCAL_PATH))
             return
+
+        if bitbase.CHANGELOG_DEBIAN_GZ.exists():
+            try:
+                import gzip
+                with gzip.open(bitbase.CHANGELOG_DEBIAN_GZ, 'rt') as handle:
+                    td = TextDialog(
+                        content=handle.read(),
+                        markdown=markdown,
+                        title=_('Changelog'),
+                        icon=self.act_help_changelog.icon()
+                    )
+                    td.exec()
+                    return
+            except Exception as exc:
+                logger.error(
+                    f'Unexpected exception while opening changelog. {exc}'
+                )
 
         # Fallback: Use upstream website changelog
         qttools.open_url(bitbase.URL_CHANGELOG)
