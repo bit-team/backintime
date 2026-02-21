@@ -17,15 +17,14 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 ### Fixed
 -->
 
-## [1.6.2] (Unreleased Development)
+## 1.6.2 (Unreleased Development)
 
 ## Changed
 - Changelog migrated to Common Changelog standard
 - Build: Changelog shipped as HTML
 
-### Uncategorized
-
-- 
+## Added
+- Build dependency `pandoc` to convert markdown changelog into HTML
 
 ## [1.6.1] (2026-02-10)
 
