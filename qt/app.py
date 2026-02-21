@@ -242,20 +242,16 @@ class MainWindow(QMainWindow):
 
         self.filesView.setFocus()
 
-        self.updateSnapshotActions()
+        # self.updateSnapshotActions()
 
-        # WEITER: should go into timline and exposed via Event()
-        # any selection change. no item given as argument
-        # self.timeline.itemSelectionChanged.connect(self.timeLineChanged)
-
-        self.timeline.event_now_item_selected.register(
+        self.timeline.event_now_item_selected.register([
             self._on_now_selected,
-            self.places.on_new_selected,
-        )
-        self.timeline.event_backup_item_selected.register(
+            self.places.on_now_selected,
+        ])
+        self.timeline.event_backup_item_selected.register([
             self._on_backup_selected,
-            self.on_backup_changed,
-        )
+            # self.on_backup_changed,
+        ])
 
         self.forceWaitLockCounter = 0
         self._setup_timers()
@@ -1316,27 +1312,34 @@ class MainWindow(QMainWindow):
         yield message
 
     def _enable_snapshot_actions(self, enable: bool = True):
-        self.act_name_snapshot.setEnabled(enabled)
-        self.act_remove_snapshot.setEnabled(enabled)
-        self.act_snapshot_logview.setEnabled(enabled)
+        self.act_name_snapshot.setEnabled(enable)
+        self.act_remove_snapshot.setEnabled(enable)
+        self.act_snapshot_logview.setEnabled(enable)
 
     def _on_now_selected(self):
+        print('MainWindow._on_NOW_selected()')
         self._enable_snapshot_actions(False)
         # Workaround
-        self.sid = self.timeline.get_root_sid()
+        self.sid = self.timeline.get_now_sid()
+        # IDEE: sid should stay in the timeline and nowhere else
         self.updateFilesView(2)
 
     def _on_backup_selected(self, sid):
+        print('MainWindow._on_backup_selected()')
         self._enable_snapshot_actions(True)
         self.sid = sid
         self.updateFilesView(2)
 
     def updateTimeLine(self, refreshSnapshotsList=True):
         """Initiate update of the timeline content"""
+        print('updateTimeLine() - A')
         self.timeline.clear()
+        print('updateTimeLine() - B')
         self.timeline.add_root(snapshots.RootSnapshot(self.config))
 
+        print('updateTimeLine() - C')
         if refreshSnapshotsList:
+            print('refresh')
             self.snapshotsList = []
             thread = FillTimeLineThread(self)
             thread.addSnapshot.connect(self.timeline.addSnapshot)
@@ -1344,7 +1347,9 @@ class MainWindow(QMainWindow):
             thread.start()
 
         else:
+            print('else')
             for sid in self.snapshotsList:
+                print(f'{sid=}')
                 self.timeline.addSnapshot(sid)
             self.timeline.checkSelection()
 
@@ -1419,8 +1424,7 @@ class MainWindow(QMainWindow):
         self.filesWidget.setTitle(text)
 
     def _on_timeline_selection_changed(self):
-        """
-        """
+        print('MW._on_timeline_selection_changed()')
         self.updateFilesView(2)
 
     #@pyqtSlot(int)
@@ -1440,11 +1444,11 @@ class MainWindow(QMainWindow):
         print(f'updateFilesView() - {changed_from=} '
               f'{selected_file=} {_show_snapshots=}')
 
-        if 0 == changed_from or 3 == changed_from:
+        if changed_from in (0, 3):
             selected_file = ''
 
         # TODO: Places should react on filesview.event_XYZ
-        if 0 == changed_from:
+        if changed_from == 0:
             # update places
             self.places.setCurrentItem(None)
 
