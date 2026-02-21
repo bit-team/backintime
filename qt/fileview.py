@@ -134,8 +134,6 @@ class FilesView(QTreeView):
                  action_show_hidden
         )
 
-        # self.proxy.layoutChanged.connect(self._on_proxy_layout_changed)
-
         # Dev note (buhtz, 2026-01): Don't use doubleClicked signal because
         # it won't catch desktops with single-click-as-double-click settings.
         self.activated.connect(self._slot_item_activated)
@@ -155,13 +153,6 @@ class FilesView(QTreeView):
                 0,
                 partial(self.select_paths, previous_selection)
             )
-
-    def _on_proxy_layout_changed(self):
-        """A workaround until app.py::MainWindow.dirListerComplete() is
-        refactored.
-        """
-        # self.event_proxy_changed.notify()
-        pass
 
     def set_root_path(self, path: str):
         # model: path to read from
@@ -317,4 +308,3 @@ class FilesView(QTreeView):
                 ),
                 '\n'.join(duplicates)
             ))
-

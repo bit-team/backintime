@@ -73,11 +73,11 @@ class PlacesWidget(QTreeWidget):
         self.do_update()
 
     def on_now_selected(self):
-        # WEITER
+        """Event handler if 'Now' entry in timeline was selected"""
         self.do_update()
 
-    def on_backup_changed(self, sid):
-        # WEITER
+    def on_backup_changed(self, _sid):
+        """Event handler if a bacup entry in timeline was selected"""
         self.do_update()
 
     def do_update(self, _col: int = None, _order: Qt.SortOrder = None) -> None:

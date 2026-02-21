@@ -1317,7 +1317,6 @@ class MainWindow(QMainWindow):
         self.act_snapshot_logview.setEnabled(enable)
 
     def _on_now_selected(self):
-        print('MainWindow._on_NOW_selected()')
         self._enable_snapshot_actions(False)
         # Workaround
         self.sid = self.timeline.get_now_sid()
@@ -1325,31 +1324,25 @@ class MainWindow(QMainWindow):
         self.updateFilesView(2)
 
     def _on_backup_selected(self, sid):
-        print('MainWindow._on_backup_selected()')
         self._enable_snapshot_actions(True)
         self.sid = sid
         self.updateFilesView(2)
 
     def updateTimeLine(self, refreshSnapshotsList=True):
         """Initiate update of the timeline content"""
-        print('updateTimeLine() - A')
         self.timeline.clear()
-        print('updateTimeLine() - B')
         self.timeline.add_root(snapshots.RootSnapshot(self.config))
 
-        print('updateTimeLine() - C')
         if refreshSnapshotsList:
-            print('refresh')
             self.snapshotsList = []
             thread = FillTimeLineThread(self)
             thread.addSnapshot.connect(self.timeline.addSnapshot)
+            # Select "Now" if previous backup item is goe
             thread.finished.connect(self.timeline.checkSelection)
             thread.start()
 
         else:
-            print('else')
             for sid in self.snapshotsList:
-                print(f'{sid=}')
                 self.timeline.addSnapshot(sid)
             self.timeline.checkSelection()
 
@@ -1424,13 +1417,12 @@ class MainWindow(QMainWindow):
         self.filesWidget.setTitle(text)
 
     def _on_timeline_selection_changed(self):
-        print('MW._on_timeline_selection_changed()')
         self.updateFilesView(2)
 
-    #@pyqtSlot(int)
+    # @pyqtSlot(int)
     def updateFilesView(self,
                         changed_from,
-                        selected_file=None,
+                        _selected_file=None,
                         _show_snapshots=False):
         """
         changed_from? WTF!
@@ -1441,11 +1433,9 @@ class MainWindow(QMainWindow):
 
         To-Do : make it oboslete. Use Events for timeline and places
         """
-        print(f'updateFilesView() - {changed_from=} '
-              f'{selected_file=} {_show_snapshots=}')
 
-        if changed_from in (0, 3):
-            selected_file = ''
+        # if changed_from in (0, 3):
+        #     _selected_file = ''
 
         # TODO: Places should react on filesview.event_XYZ
         if changed_from == 0:
@@ -1981,7 +1971,6 @@ class MainWindow(QMainWindow):
         self._open_path(path)
 
     def _slot_files_view_hidden_files_toggled(self, checked: bool):
-        print(f'_slot_files_view_hidden_files_toggled({checked=})')
         self.showHiddenFiles = checked
         self.filesView.show_hidden(checked)
         # self.updateFilesView(1)

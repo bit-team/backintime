@@ -23,10 +23,10 @@ from PyQt6.QtWidgets import (QAbstractItemView,
                              QTreeWidget,
                              QTreeWidgetItem)
 import snapshots
+import qttools
 from event import Event
 from qttools_path import register_backintime_path
 register_backintime_path('common')
-import qttools
 
 
 class TimeLine(QTreeWidget):
@@ -60,6 +60,7 @@ class TimeLine(QTreeWidget):
         self.itemSelectionChanged.connect(self._on_item_selection_changed)
 
     def get_now_sid(self):
+        """Bullshit to refactore. 'Now' shouldn't have a backu id."""
         return self._root_item.snapshot_id
 
     def _on_item_selection_changed(self):
@@ -68,7 +69,6 @@ class TimeLine(QTreeWidget):
 
         sid = self.current_snapshot_id()
 
-        print(f'TimeLine._on_item_selection_changed() :: {sid=} {sid.isRoot=} {sid.__dict__=}')
         if not sid:
             return
 
@@ -79,14 +79,12 @@ class TimeLine(QTreeWidget):
 
     def clear(self):
         """Clear all entries from the widget."""
-        print('SILENT')
         # dirty signal hack
         with self.event_selection_changed.keep_silent():
             with self.event_now_item_selected.keep_silent():
                 with self.event_backup_item_selected.keep_silent():
                     self._reset_header_data()
                     result = super().clear()
-        print('LOUD')
 
         return result
 
@@ -160,11 +158,9 @@ class TimeLine(QTreeWidget):
         Returns:
             The root item itself.
         """
-        print(f'TimeLine.add_root() :: {sid=}')
         # dirty signal hack
         with qttools.block_signals(self):
             self._root_item = self.addSnapshot(sid)
-        print(f'TimeLine.add_root() :: {self._root_item=}')
 
         return self._root_item
 
@@ -172,17 +168,13 @@ class TimeLine(QTreeWidget):
     # pylint: disable-next=invalid-name
     def addSnapshot(self, sid):  # noqa: N802
         """Slot to handle selection of snapshots."""
-        print(f'TimeLine.addSnapshot() :: {sid=}')
         item = SnapshotItem(sid)
 
         self.addTopLevelItem(item)
-        print('TimeLine.addSnapshot() :: AFTER addTopLevelItem()')
 
         # Select the snapshot that was selected before
         if sid == self.parent.sid:
-            print('TimeLine.addSnapshot() :: sid == self.parent.sid')
             self._set_current_item(item)
-            print('TimeLine.addSnapshot() :: AFTER _set_current_item()')
 
         if not sid.isRoot:
             self.add_header(sid)
@@ -225,7 +217,7 @@ class TimeLine(QTreeWidget):
 
         return True
 
-    @pyqtSlot()
+    # @pyqtSlot()
     # pylint: disable-next=invalid-name
     def checkSelection(self):  # noqa: N802
         """Slot handling selection events."""
@@ -255,14 +247,11 @@ class TimeLine(QTreeWidget):
                 break
 
     def _set_current_item(self, item, *args, **kwargs):
-        print('TimeLine._set_current_item() - before setCurrentItem()')
         self.setCurrentItem(item, *args, **kwargs)
-        print('TimeLine._set_current_item() - AFTER setCurrentItem()')
 
         if self.parent.sid != item.snapshot_id:
             self.parent.sid = item.snapshot_id
             # self.update_files_view.emit(2)
-            print('TimeLine._set_current_item()')
             self.event_selection_changed.notify()
 
     def _iter_items(self):
@@ -297,15 +286,13 @@ class TimeLineItem(QTreeWidgetItem):
         return self.data(0, Qt.ItemDataRole.UserRole)
 
 
-class SnapshotItem(TimeLineItem):
+class SnapshotItem(TimeLineItem):  # pylint: disable=too-few-public-methods
     """Snapshot entry widget used in TimeLine."""
 
     def __init__(self, sid):
         super().__init__()
         self.setText(0, sid.displayName)
         self.setData(0, Qt.ItemDataRole.UserRole, sid)
-
-        print(self.__dict__)
 
         self.is_now = sid.isRoot
 
