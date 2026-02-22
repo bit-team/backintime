@@ -232,12 +232,22 @@ class TimeLine(QTreeWidget):
         """Snapshot IDs of all selected entries."""
         return [i.snapshot_id for i in self.selectedItems()]
 
-    def current_snapshot_id(self):
+    def is_now_selected(self) -> bool:
+        """If the 'Now' item, the first in the widget, is selected."""
+        model_index = self.currentIndex()
+        return model_index.row() == 0
+
+    def current_backup_descriptor(self) -> snapshots.SID:
         """Snapshot ID of current selected entry."""
+        if self.is_now_selected():
+            return None
+
         item = self.currentItem()
 
         return item.snapshot_id if item else None
 
+    def current_snapshot_id(self):
+        return self.current_backup_descriptor()
     def set_current_snapshot_id(self, sid):
         """Select entry related to the snapshot ID."""
         for item in self._iter_items():
@@ -269,32 +279,30 @@ class TimeLine(QTreeWidget):
             if isinstance(item, HeaderItem):
                 yield item
 
+WEITER : RESET, die items hier nach SID.date (echte zeitobjektei sortieren
+                                              dann könnte ich auch für Now
+                                              ein entsprechendes zeitobjektei
+                                              in der zukunft setzen und
+                                              bräuchte RootSnapshot nicht mehr
 
-class TimeLineItem(QTreeWidgetItem):
-    """Base class for TimeLine entry widgets.
+class _SortableItem(QTreeWidgetItem):
+    def __init__(self, backup_id: snapshots):
+        super().__init__()
 
-    Dev note (buhtz, 2025-03): I don't see a need for this. SnapshotItem and
-    HeaderItem can directly derive from QTreeWidgetItem.
-    """
+        self.setText(0, backup_descriptor.displayName)
+        self.setData(0, Qt.ItemDataRole.UserRole, backup_descriptor)
 
     def __lt__(self, other):
-        return self.snapshot_id < other.snapshot_id
-
-    @property
-    def snapshot_id(self):
-        """Id of the related snapshot."""
-        return self.data(0, Qt.ItemDataRole.UserRole)
+        return self.data(0, Qt.ItemDataRole.UserRole) \
+            < other.data(0, Qt.ItemDataRole.UserRole)
 
 
-class SnapshotItem(TimeLineItem):  # pylint: disable=too-few-public-methods
-    """Snapshot entry widget used in TimeLine."""
+class BackupEntry(QTreeWidgetItem):
+    """Backup entry widget used in TimeLine."""
+    def __init__(self, backup_id: str):
+        super().__init__(backup_id)
 
-    def __init__(self, sid):
-        super().__init__()
-        self.setText(0, sid.displayName)
-        self.setData(0, Qt.ItemDataRole.UserRole, sid)
-
-        self.is_now = sid.isRoot
+        self.is_now = backup_id.isRoot
 
         if self.is_now:
             self.setToolTip(
@@ -304,7 +312,16 @@ class SnapshotItem(TimeLineItem):  # pylint: disable=too-few-public-methods
         else:
             self.setToolTip(
                 0,
-                _('Last check {time}').format(time=sid.lastChecked))
+                _('Last check {time}').format(time=backup_id.lastChecked))
+
+    @property
+    def backup_descriptor(self):
+        """Id of the related snapshot."""
+        return self.data(0, Qt.ItemDataRole.UserRole)
+
+
+
+class SnapshotItem(TimeLineItem):  # pylint: disable=too-few-public-methods
 
 
 class HeaderItem(TimeLineItem):  # pylint: disable=too-few-public-methods

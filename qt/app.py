@@ -209,6 +209,7 @@ class MainWindow(QMainWindow):
         self.status_bar.set_status_message(_('Done'))
 
         self.snapshotsList = []
+        # ???
         self.sid = snapshots.RootSnapshot(self.config)
 
         # ???
@@ -260,6 +261,12 @@ class MainWindow(QMainWindow):
             target=self.config.setup_automation, daemon=True).start()
 
         self._handle_user_messages()
+
+    def get_selected_backup_descriptor(self) -> snapshots.SID:
+        """Return the identiy of the current selected backup in the timeline.
+        A replacement for self.sid
+        """
+        return self.timeline.current_backup_descriptor()
 
     def _setup_timers(self):
         raise_application = QTimer(self)
@@ -2013,6 +2020,7 @@ class MainWindow(QMainWindow):
         path, _idx = self.fileSelected(fullPath = True)
 
         with self.suspend_mouse_button_navigation():
+            # TODO: self.sid or "Now"
             dlg = snapshotsdialog.SnapshotsDialog(self, self.sid, path)
 
             if dlg.exec() == QDialog.DialogCode.Accepted:
