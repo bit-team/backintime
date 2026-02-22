@@ -17,13 +17,14 @@ from datetime import (datetime, date, timedelta)
 from calendar import monthrange
 from PyQt6.QtGui import QFont, QPalette
 from PyQt6.QtCore import (Qt,
-                          pyqtSlot,
-                          pyqtSignal)
+                          pyqtSlot)
 from PyQt6.QtWidgets import (QAbstractItemView,
                              QApplication,
                              QTreeWidget,
                              QTreeWidgetItem)
 import snapshots
+import qttools
+from event import Event
 from qttools_path import register_backintime_path
 register_backintime_path('common')
 
@@ -33,7 +34,11 @@ class TimeLine(QTreeWidget):
 
     The widget is placed on the right side of the main window.
     """
-    update_files_view = pyqtSignal(int)
+    # update_files_view = pyqtSignal(int)
+
+    event_selection_changed = Event()
+    event_now_item_selected = Event()
+    event_backup_item_selected = Event()
 
     def __init__(self, parent):
         super().__init__(parent)
@@ -52,10 +57,36 @@ class TimeLine(QTreeWidget):
         self._root_item = None
         self._reset_header_data()
 
+        self.itemSelectionChanged.connect(self._on_item_selection_changed)
+
+    def get_now_sid(self):
+        """Bullshit to refactore. 'Now' shouldn't have a backu id."""
+        return self._root_item.snapshot_id
+
+    def _on_item_selection_changed(self):
+        # Maybe remove
+        # self.event_selection_changed.notify()
+
+        sid = self.current_snapshot_id()
+
+        if not sid:
+            return
+
+        if sid.isRoot:
+            self.event_now_item_selected.notify()
+        else:
+            self.event_backup_item_selected.notify(sid)
+
     def clear(self):
         """Clear all entries from the widget."""
-        self._reset_header_data()
-        return super().clear()
+        # dirty signal hack
+        with self.event_selection_changed.keep_silent():
+            with self.event_now_item_selected.keep_silent():
+                with self.event_backup_item_selected.keep_silent():
+                    self._reset_header_data()
+                    result = super().clear()
+
+        return result
 
     def _reset_header_data(self):
         self.now = date.today()
@@ -127,7 +158,9 @@ class TimeLine(QTreeWidget):
         Returns:
             The root item itself.
         """
-        self._root_item = self.addSnapshot(sid)
+        # dirty signal hack
+        with qttools.block_signals(self):
+            self._root_item = self.addSnapshot(sid)
 
         return self._root_item
 
@@ -174,6 +207,7 @@ class TimeLine(QTreeWidget):
             self._header_data.append((text, start_date, end_date))
 
     def _create_header_item(self, text, end_date):
+        # Don't create if it still exists.
         for item in self._iter_header_items():
             if item.snapshot_id.date == end_date:
                 return False
@@ -183,7 +217,7 @@ class TimeLine(QTreeWidget):
 
         return True
 
-    @pyqtSlot()
+    # @pyqtSlot()
     # pylint: disable-next=invalid-name
     def checkSelection(self):  # noqa: N802
         """Slot handling selection events."""
@@ -193,10 +227,6 @@ class TimeLine(QTreeWidget):
     def select_root_item(self):
         """Dev note: Don't know what 'root' means in this context."""
         self._set_current_item(self._root_item)
-
-        if not self.parent.sid.isRoot:
-            self.parent.sid = self._root_item.snapshot_id
-            self.update_files_view.emit(2)
 
     def selected_snapshot_ids(self):
         """Snapshot IDs of all selected entries."""
@@ -221,7 +251,8 @@ class TimeLine(QTreeWidget):
 
         if self.parent.sid != item.snapshot_id:
             self.parent.sid = item.snapshot_id
-            self.update_files_view.emit(2)
+            # self.update_files_view.emit(2)
+            self.event_selection_changed.notify()
 
     def _iter_items(self):
         for index in range(self.topLevelItemCount()):
@@ -255,16 +286,17 @@ class TimeLineItem(QTreeWidgetItem):
         return self.data(0, Qt.ItemDataRole.UserRole)
 
 
-class SnapshotItem(TimeLineItem):
+class SnapshotItem(TimeLineItem):  # pylint: disable=too-few-public-methods
     """Snapshot entry widget used in TimeLine."""
 
     def __init__(self, sid):
         super().__init__()
         self.setText(0, sid.displayName)
-
         self.setData(0, Qt.ItemDataRole.UserRole, sid)
 
-        if sid.isRoot:
+        self.is_now = sid.isRoot
+
+        if self.is_now:
             self.setToolTip(
                 0,
                 _('This is NOT a backup but a live view '
@@ -273,11 +305,6 @@ class SnapshotItem(TimeLineItem):
             self.setToolTip(
                 0,
                 _('Last check {time}').format(time=sid.lastChecked))
-
-    def update_text(self):
-        """Update the widgets text with its snapshots displayName."""
-        sid = self.snapshot_id
-        self.setText(0, sid.displayName)
 
 
 class HeaderItem(TimeLineItem):  # pylint: disable=too-few-public-methods
