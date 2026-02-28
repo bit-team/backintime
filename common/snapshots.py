@@ -2563,6 +2563,12 @@ class SID:
             raise TypeError("'date' must be an instance of str, datetime.date "
                             f"or datetime.datetime but is '{date}'")
 
+    def get_descriptor(self):
+        return self.sid
+
+    def get_timestamp(self):
+        return self.date
+
     def __repr__(self):
         return self.sid
 
