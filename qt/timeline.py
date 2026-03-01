@@ -17,13 +17,13 @@ from datetime import (datetime, date, timedelta)
 from calendar import monthrange
 from PyQt6.QtGui import QFont, QPalette
 from PyQt6.QtCore import (Qt,
-                          pyqtSlot)
+                          pyqtSlot,
+                          QSignalBlocker)
 from PyQt6.QtWidgets import (QAbstractItemView,
                              QApplication,
                              QTreeWidget,
                              QTreeWidgetItem)
 import snapshots
-import qttools
 from event import Event
 from qttools_path import register_backintime_path
 register_backintime_path('common')
@@ -50,7 +50,6 @@ class TimeLine(QTreeWidget):
         self.setHeaderLabels([_('Backups')])
 
         self.setSortingEnabled(True)
-        self.setSortRole(Qt.ItemDataRole.UserRole)
         self.sortByColumn(0, Qt.SortOrder.DescendingOrder)
 
         self.header().setSectionsClickable(False)
@@ -66,113 +65,111 @@ class TimeLine(QTreeWidget):
 
         self.itemSelectionChanged.connect(self._on_item_selection_changed)
 
-    # def get_now_sid(self):
-    #     """Bullshit to refactore. 'Now' shouldn't have a backu id."""
-    #     return self._root_item.snapshot_id
-
     def _on_item_selection_changed(self):
         # Maybe remove
         # self.event_selection_changed.notify()
+        # print('_on_item_selection_changed()')
 
-        sid = self.current_snapshot_id()
-
-        if not sid:
+        if self.is_now_selected():
+            self.event_now_item_selected.notify()
             return
 
-        if sid.isRoot:
-            self.event_now_item_selected.notify()
-        else:
-            self.event_backup_item_selected.notify(sid)
+        self.event_backup_item_selected.notify(self.current_backup_descriptor)
 
-    def clear(self):
-        """Clear all entries from the widget."""
+    def clear_and_rebuild_header(self):
+        # blocker = QSignalBlocker(self)
+        # import traceback
+        # traceback.print_stack(limit=5)
+
         # dirty signal hack
         with self.event_selection_changed.keep_silent():
             with self.event_now_item_selected.keep_silent():
                 with self.event_backup_item_selected.keep_silent():
                     self._calculate_header_data()
-                    result = super().clear()
+                    super().clear()
 
-        return result
+        # "Now"
+        self.addTopLevelItem(NowEntry())
+
+        for label, start, end in self._header_data:
+            item = HeaderEntry(label=label, timestamp=end)
+            # DEBUG
+            item.setToolTip(0, f'DEBUG - {start.strftime("%c")} to {end.strftime("%c")}')
+            self.addTopLevelItem(item)
 
     def _add_header_data(self, label: str, start: datetime, end: datetime):
-        if start < end:
-            self._header_data.append((label, start, end))
+        if start >= end:
+            return
+
+        self._header_data.append((label, start, end))
+
+    @staticmethod
+    def start_of_day(day: date) -> datetime:
+        return datetime.combine(day, datetime.min.time())
+
+    @staticmethod
+    def end_of_day(day: date) -> datetime:
+        return datetime.combine(day, datetime.max.time())
 
     def _calculate_header_data(self):
         """Calculate timestamps for the sub-headers.
         """
-        def start_of_day(day: date) -> datetime:
-            return datetime.combine(day, datetime.min.time())
-
-        def end_of_day(day: date) -> datetime:
-            return datetime.combine(day, datetime.max.time())
-
         self.now = date.today()
+        self._specific_month_boundary = None
 
         # list of tuples with (text, startDate, endDate)
         self._header_data = []
 
         # Today
-        today_min = start_of_day(self.now)
-        today_max = end_of_day(self.now)
+        today_min = self.start_of_day(self.now)
+        today_max = self.end_of_day(self.now)
         self._add_header_data(_('Today'), today_min, today_max)
 
         # Yesterday
-        yesterday_min = start_of_day(self.now - timedelta(days=1))
-        yesterday_max = end_of_day(today_min - timedelta(hours=1))
+        yesterday_min = self.start_of_day(self.now - timedelta(days=1))
+        yesterday_max = self.end_of_day(today_min - timedelta(hours=1))
         self._add_header_data(_('Yesterday'), yesterday_min, yesterday_max)
 
         # This week
-        this_week_min = start_of_day(self.now - timedelta(self.now.weekday()))
-        this_week_max = end_of_day(yesterday_min - timedelta(hours=1))
+        this_week_min = self.start_of_day(self.now - timedelta(self.now.weekday()))
+        this_week_max = self.end_of_day(yesterday_min - timedelta(hours=1))
         self._add_header_data(_('This week'), this_week_min, this_week_max)
 
         # Last week
-        last_week_min = start_of_day(self.now - timedelta(self.now.weekday() + 7))
-        last_week_max = end_of_day(self._header_data[-1][1] - timedelta(hours=1))
+        last_week_min = self.start_of_day(self.now - timedelta(self.now.weekday() + 7))
+        last_week_max = self.end_of_day(self._header_data[-1][1] - timedelta(hours=1))
         self._add_header_data(_('Last week'), last_week_min, last_week_max)
 
-        # Rest of current month. Otherwise this months header would be
-        # above today.
-        this_month_min = start_of_day(self.now - timedelta(self.now.day - 1))
-        this_month_max = end_of_day(last_week_min - timedelta(hours=1))
+        # Rest of current month, but only if Yesterday, This Week and
+        # Last Week do not touch the last month.
+        this_month_min = self.start_of_day(self.now.replace(day=1))
+        this_month_max = self.end_of_day(this_week_min - timedelta(hours=1))
         self._add_header_data(
-            this_month_min.strftime('%B').capitalize(),
+            _('This month'),  # this_month_min.strftime('%B').capitalize(),
             this_month_min,
             this_month_max
         )
 
-        # Rest of last month
-        last_month_min = start_of_day(date(last_month_max.year, last_month_max.month, 1))
-        last_month_max = end_of_day(self._header_data[-1][1] - timedelta(hours=1))
+        # Rest of last month (before last week)
+        last_month_max = self.end_of_day(last_week_min) - timedelta(microseconds=1)
+        last_month_min = self.start_of_day(last_month_max.date().replace(day=1))
         self._add_header_data(
-            last_month_min.strftime('%B').capitalize(),
+            _('Last month'),  # last_month_min.strftime('%B').capitalize(),
             last_month_min,
             last_month_max
         )
 
+        # DEBUG
+        # for a, b, c in self._header_data:
+        #     print(a, b, c)
+
         self._specific_month_boundary = last_month_min
-
-    # def add_root(self):
-    #     """Dev note: What is 'root' in this context?
-
-    #     Args:
-    #         sid: Snapshot ID
-
-    #     Returns:
-    #         The root item itself.
-    #     """
-    #     # dirty signal hack
-    #     with qttools.block_signals(self):
-    #         self._root_item = self.addSnapshot(sid)
-
-    #     return self._root_item
 
     @pyqtSlot(snapshots.SID)
     # pylint: disable-next=invalid-name
     def addSnapshot(self, sid):  # noqa: N802
         """Slot to handle selection of snapshots."""
+        # print(f'addSnapshot() :: {sid=}')
         item = BackupEntry(
             backup_descriptor=sid.get_descriptor(),
             backup_timestamp=sid.get_timestamp(),
@@ -186,7 +183,7 @@ class TimeLine(QTreeWidget):
         if sid == self.parent.sid:
             self._set_current_item(item)
 
-        self._create_header_if_necessary(sid.get_timestmap())
+        self._create_header_if_necessary(sid.get_timestamp())
 
         return item
 
@@ -220,11 +217,13 @@ class TimeLine(QTreeWidget):
         label = first_day.strftime('%B' if year == self.now.year else '%B, %Y')
         label = label.capitalize()
 
+        first_day = self.start_of_day(first_day)
+        last_day = self.end_of_day(last_day)
+
         self._add_header_data(label, first_day, last_day)
 
-        WEITEW
-        if self._create_header_item(text, end_date):
-            self._header_data.append((text, start_date, end_date))
+        item = HeaderEntry(label=label, timestamp=last_day)
+        self.addTopLevelItem(item)
 
     def _remove_consecutive_header_entries(self):
         """Remove header items without backup entries."""
@@ -247,18 +246,17 @@ class TimeLine(QTreeWidget):
         for idx in reversed(to_remove):
             self.takeTopLevelItem(idx)
 
-    def _create_header_item(self, text, end_date):
+    def _create_header_entry(self, text, end_date):
         # Don't create if it still exists.
         for item in self._iter_header_items():
             if item.snapshot_id.date == end_date:
                 return False
 
-        item = HeaderItem(text, snapshots.SID(end_date, self.parent.config))
+        item = HeaderEntry(text, snapshots.SID(end_date, self.parent.config))
         self.addTopLevelItem(item)
 
         return True
 
-    # @pyqtSlot()
     # pylint: disable-next=invalid-name
     def checkSelection(self):  # noqa: N802
         """Slot handling selection events."""
@@ -266,8 +264,7 @@ class TimeLine(QTreeWidget):
             self.select_root_item()
 
     def select_root_item(self):
-        """Dev note: Don't know what 'root' means in this context."""
-        self._set_current_item(self._root_item)
+        self._set_current_item(self.topLevelItem(0))
 
     def selected_snapshot_ids(self):
         """Snapshot IDs of all selected entries."""
@@ -278,14 +275,21 @@ class TimeLine(QTreeWidget):
         model_index = self.currentIndex()
         return model_index.row() == 0
 
-    def current_backup_descriptor(self) -> snapshots.SID:
-        """Snapshot ID of current selected entry."""
+    def current_backup_descriptor(self) -> str:
         if self.is_now_selected():
             return None
 
         item = self.currentItem()
 
-        return item.snapshot_id if item else None
+        return item.backup_descriptor if item else None
+
+    def current_backup_label(self) -> str:
+        if self.is_now_selected():
+            return None
+
+        item = self.currentItem()
+
+        return item.backup_label if item else None
 
     def current_snapshot_id(self):
         return self.current_backup_descriptor()
@@ -301,10 +305,11 @@ class TimeLine(QTreeWidget):
     def _set_current_item(self, item, *args, **kwargs):
         self.setCurrentItem(item, *args, **kwargs)
 
-        if self.parent.sid != item.snapshot_id:
-            self.parent.sid = item.snapshot_id
+        # if self.parent.sid != item.snapshot_id:
+        #     self.parent.sid = item.snapshot_id
             # self.update_files_view.emit(2)
-            self.event_selection_changed.notify()
+        #    self.event_selection_changed.notify()
+        self.event_selection_changed.notify()
 
     def _iter_items(self):
         for index in range(self.topLevelItemCount()):
@@ -354,12 +359,13 @@ class BackupEntry(_TimeLineItemBase):
         tooltip = _('Last check {time}').format(time=last_checked)
 
         super().__init__(
-            timestmap=backup_timestamp,
+            timestamp=backup_timestamp,
             tooltip=tooltip,
             label=label
         )
 
         self._backup_descriptor = backup_descriptor
+        self._backup_label = label
 
     @property
     def backup_descriptor(self) -> str:

@@ -69,6 +69,7 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtCore import (
                           QPoint,
                           pyqtSignal,
+                          QSignalBlocker,
                           Qt,
                           QTimer,
                           QThread,
@@ -78,6 +79,7 @@ import logviewdialog
 import languagedialog
 import messagebox
 import version
+import timeline
 from confirmrestoredialog import ConfirmRestoreDialog
 from editusercallback import EditUserCallback
 from shutdownagent import ShutdownAgent
@@ -86,7 +88,6 @@ from restoredialog import RestoreDialog
 from restoreconfigdialog import RestoreConfigDialog
 from usermessagedialog import UserMessageDialog
 from aboutdlg import AboutDlg
-from timeline import TimeLine, SnapshotItem
 from bitwidgets import ProfileCombo
 from shutdowndlg import get_shutdown_confirmation
 from statusbar import StatusBar
@@ -139,7 +140,7 @@ class MainWindow(QMainWindow):
         self._create_main_toolbar()
 
         # timeline (left widget)
-        self.timeline = TimeLine(self)
+        self.timeline = timeline.TimeLine(self)
         self.timeline.event_selection_changed.register(
             self._on_timeline_selection_changed
         )
@@ -1325,8 +1326,7 @@ class MainWindow(QMainWindow):
 
     def _on_now_selected(self):
         self._enable_snapshot_actions(False)
-        # Workaround
-        self.sid = self.timeline.get_now_sid()
+        # self.sid = self.timeline.get_now_sid()
         # IDEE: sid should stay in the timeline and nowhere else
         self.updateFilesView(2)
 
@@ -1337,8 +1337,7 @@ class MainWindow(QMainWindow):
 
     def updateTimeLine(self, refreshSnapshotsList=True):
         """Initiate update of the timeline content"""
-        self.timeline.clear()
-        self.timeline.add_root(snapshots.RootSnapshot(self.config))
+        self.timeline.clear_and_rebuild_header()
 
         if refreshSnapshotsList:
             self.snapshotsList = []
@@ -1410,11 +1409,11 @@ class MainWindow(QMainWindow):
             QDesktopServices.openUrl(file_url)
 
     def _update_files_widget(self):
-        if self.sid.isRoot:
+        if self.timeline.is_now_selected():
             text = _('Now')
 
         else:
-            name = self.sid.displayName
+            name = self.timeline.current_backup_label()
             # buhtz (2023-07)3 blanks at the end of that string as a
             # workaround to a visual issue where the last character was
             # cutoff. Not sure if this is DE and/or theme related.
@@ -2222,7 +2221,7 @@ class RemoveSnapshotThread(QThread):
     remove snapshots in background thread so GUI will not freeze
     """
     refreshSnapshotList = pyqtSignal()
-    hideTimelineItem = pyqtSignal(SnapshotItem)
+    hideTimelineItem = pyqtSignal(timeline.BackupEntry)
 
     def __init__(self, parent, items):
         self.config = parent.config
