@@ -694,6 +694,18 @@ def block_signals(widget: QWidget) -> None:
     """Context manager to temporary block Qt signals"""
     widget.blockSignals(True)
 
-    yield
+    try:
+        yield
+    finally:
+        widget.blockSignals(False)
 
-    widget.blockSignals(False)
+
+@contextmanager
+def block_paint_updates(widget: QWidget) -> None:
+    """Context manager to temporary block Qt paintng"""
+    widget.setUpdatesEnabled(False)
+
+    try:
+        yield
+    finally:
+        widget.setUpdatesEnabled(True)

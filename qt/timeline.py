@@ -24,9 +24,65 @@ from PyQt6.QtWidgets import (QAbstractItemView,
                              QTreeWidget,
                              QTreeWidgetItem)
 import snapshots
+import qttools
 from event import Event
 from qttools_path import register_backintime_path
 register_backintime_path('common')
+
+try:
+    _('Warning')
+except NameError:
+    _ = lambda s: s
+
+
+def _calculate_timeline_periods(now: date = date.today()
+                                ) -> list[tuple[str, datetime, datetime]]:
+    """Calculate timestamps for the sub-headers.
+
+    Returns:
+        A list of tuples with label, start and end datetime of each periode.
+    """
+
+    def start_of_day(day: date) -> datetime:
+        return datetime.combine(day, datetime.min.time())
+
+    def end_of_day(day: date) -> datetime:
+        return datetime.combine(day, datetime.max.time())
+
+    result = []
+
+    # Today
+    today_min = start_of_day(now)
+    today_max = end_of_day(now)
+    result.append((_('Today'), today_min, today_max))
+
+    # Yesterday
+    yesterday_min = start_of_day(now - timedelta(days=1))
+    yesterday_max = end_of_day(today_min - timedelta(hours=1))
+    result.append((_('Yesterday'), yesterday_min, yesterday_max))
+
+    # This week, but not yesterday or today
+    this_week_min = start_of_day(now - timedelta(now.weekday()))
+    this_week_max = end_of_day(yesterday_min - timedelta(days=1))
+    result.append((_('This week'), this_week_min, this_week_max))
+
+    # Last week
+    last_week_min = start_of_day(now - timedelta(now.weekday() + 7))
+    last_week_max = end_of_day(last_week_min + timedelta(days=6))
+    result.append((_('Last week'), last_week_min, last_week_max))
+
+    # This month
+    if now.month == last_week_min.month and now.month == this_week_min.month:
+        this_month_min = start_of_day(now.replace(day=1))
+        this_month_max = end_of_day(last_week_min - timedelta(days=1))
+        result.append((_('This month'), this_month_min, this_month_max))
+
+    # Last months
+    last_month_max = end_of_day(now.replace(day=1) - timedelta(days=1))
+    last_month_min = start_of_day(last_month_max.replace(day=1))
+    result.append((_('Last month'), last_month_min, last_month_max))
+
+    return result
 
 
 class TimeLine(QTreeWidget):
@@ -81,35 +137,29 @@ class TimeLine(QTreeWidget):
         # import traceback
         # traceback.print_stack(limit=5)
 
-        # dirty signal hack
-        with self.event_selection_changed.keep_silent():
-            with self.event_now_item_selected.keep_silent():
-                with self.event_backup_item_selected.keep_silent():
-                    self._calculate_header_data()
-                    super().clear()
+        with qttools.block_paint_updates(self):
 
-        # "Now"
-        self.addTopLevelItem(NowEntry())
+            # # dirty signal hack
+            # with self.event_selection_changed.keep_silent():
+            #     with self.event_now_item_selected.keep_silent():
+            #         with self.event_backup_item_selected.keep_silent():
+            self._calculate_header_data()
+            super().clear()
 
-        for label, start, end in self._header_data:
-            item = HeaderEntry(label=label, timestamp=end)
-            # DEBUG
-            item.setToolTip(0, f'DEBUG - {start.strftime("%c")} to {end.strftime("%c")}')
-            self.addTopLevelItem(item)
+            # "Now"
+            self.addTopLevelItem(NowEntry())
+
+            for label, start, end in self._header_data:
+                item = HeaderEntry(label=label, timestamp=end)
+                # DEBUG
+                item.setToolTip(0, f'DEBUG - {start.strftime("%c")} to {end.strftime("%c")}')
+                self.addTopLevelItem(item)
 
     def _add_header_data(self, label: str, start: datetime, end: datetime):
         if start >= end:
             return
 
         self._header_data.append((label, start, end))
-
-    @staticmethod
-    def start_of_day(day: date) -> datetime:
-        return datetime.combine(day, datetime.min.time())
-
-    @staticmethod
-    def end_of_day(day: date) -> datetime:
-        return datetime.combine(day, datetime.max.time())
 
     def _calculate_header_data(self):
         """Calculate timestamps for the sub-headers.
