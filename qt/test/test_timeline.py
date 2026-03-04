@@ -82,7 +82,7 @@ class Periods(unittest.TestCase):
 
         self.assertEqual(_datetime_to_str(sut), expect)
 
-    def test_foo(self):
+    def test_last_week_overlap_last_month(self):
         """Without 'This month' and shorter 'Last month'
 
         This months, is covered by all previous periods in the list.
@@ -97,7 +97,21 @@ class Periods(unittest.TestCase):
             ('Yesterday', '2026-03-06 Fri 00:00', '2026-03-06 Fri 23:59'),
             ('This week', '2026-03-02 Mon 00:00', '2026-03-05 Thu 23:59'),
             ('Last week', '2026-02-23 Mon 00:00', '2026-03-01 Sun 23:59'),
-            # WEITER
+            ('Last month', '2026-02-01 Sun 00:00', '2026-02-22 Sun 23:59'),
+        ]
+
+        self.assertEqual(_datetime_to_str(sut), expect)
+
+    def test_this_week_overlap_yesterday(self):
+        """Without 'This week' because it touches 'Yesterday'.
+        """
+        today = date(2026, 3, 3)
+        sut = timeline._calculate_timeline_periods(today)
+
+        expect = [
+            ('Today', '2026-03-03 Tue 00:00', '2026-03-03 Tue 23:59'),
+            ('Yesterday', '2026-03-02 Mon 00:00', '2026-03-02 Mon 23:59'),
+            ('Last week', '2026-02-23 Mon 00:00', '2026-03-01 Sun 23:59'),
             ('Last month', '2026-02-01 Sun 00:00', '2026-02-22 Sun 23:59'),
         ]
 

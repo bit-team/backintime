@@ -64,7 +64,9 @@ def _calculate_timeline_periods(now: date = date.today()
     # This week, but not yesterday or today
     this_week_min = start_of_day(now - timedelta(now.weekday()))
     this_week_max = end_of_day(yesterday_min - timedelta(days=1))
-    result.append((_('This week'), this_week_min, this_week_max))
+    # Add only, if not overlapping with Yesterday
+    if this_week_max > this_week_min:
+        result.append((_('This week'), this_week_min, this_week_max))
 
     # Last week
     last_week_min = start_of_day(now - timedelta(now.weekday() + 7))
@@ -80,6 +82,8 @@ def _calculate_timeline_periods(now: date = date.today()
     # Last months
     last_month_max = end_of_day(now.replace(day=1) - timedelta(days=1))
     last_month_min = start_of_day(last_month_max.replace(day=1))
+    if last_month_max.date() >= last_week_min.date():
+        last_month_max = end_of_day(last_week_min.date() - timedelta(days=1))
     result.append((_('Last month'), last_month_min, last_month_max))
 
     return result
@@ -113,11 +117,16 @@ class TimeLine(QTreeWidget):
         self.parent = parent
         self.snapshots = parent.snapshots
 
+        self.now = None
+
+        # list of tuples with (text, startDate, endDate)
+        self._header_data = None
+
         # That timestmap is used to decide if a backup needs an extra
         # header item. It is previous to the last month or older.
         self._specific_month_boundary = None
 
-        self._calculate_header_data()
+        self._reset_default_header_data()
 
         self.itemSelectionChanged.connect(self._on_item_selection_changed)
 
@@ -132,6 +141,11 @@ class TimeLine(QTreeWidget):
 
         self.event_backup_item_selected.notify(self.current_backup_descriptor)
 
+    def _reset_default_header_data(self):
+        self.now = date.today()
+        self._header_data = _calculate_timeline_periods(self.now)
+        self._specific_month_boundary = self._header_data[-1][1]
+
     def clear_and_rebuild_header(self):
         # blocker = QSignalBlocker(self)
         # import traceback
@@ -143,7 +157,7 @@ class TimeLine(QTreeWidget):
             # with self.event_selection_changed.keep_silent():
             #     with self.event_now_item_selected.keep_silent():
             #         with self.event_backup_item_selected.keep_silent():
-            self._calculate_header_data()
+            self._reset_default_header_data()
             super().clear()
 
             # "Now"
@@ -154,66 +168,6 @@ class TimeLine(QTreeWidget):
                 # DEBUG
                 item.setToolTip(0, f'DEBUG - {start.strftime("%c")} to {end.strftime("%c")}')
                 self.addTopLevelItem(item)
-
-    def _add_header_data(self, label: str, start: datetime, end: datetime):
-        if start >= end:
-            return
-
-        self._header_data.append((label, start, end))
-
-    def _calculate_header_data(self):
-        """Calculate timestamps for the sub-headers.
-        """
-        self.now = date.today()
-        self._specific_month_boundary = None
-
-        # list of tuples with (text, startDate, endDate)
-        self._header_data = []
-
-        # Today
-        today_min = self.start_of_day(self.now)
-        today_max = self.end_of_day(self.now)
-        self._add_header_data(_('Today'), today_min, today_max)
-
-        # Yesterday
-        yesterday_min = self.start_of_day(self.now - timedelta(days=1))
-        yesterday_max = self.end_of_day(today_min - timedelta(hours=1))
-        self._add_header_data(_('Yesterday'), yesterday_min, yesterday_max)
-
-        # This week
-        this_week_min = self.start_of_day(self.now - timedelta(self.now.weekday()))
-        this_week_max = self.end_of_day(yesterday_min - timedelta(hours=1))
-        self._add_header_data(_('This week'), this_week_min, this_week_max)
-
-        # Last week
-        last_week_min = self.start_of_day(self.now - timedelta(self.now.weekday() + 7))
-        last_week_max = self.end_of_day(self._header_data[-1][1] - timedelta(hours=1))
-        self._add_header_data(_('Last week'), last_week_min, last_week_max)
-
-        # Rest of current month, but only if Yesterday, This Week and
-        # Last Week do not touch the last month.
-        this_month_min = self.start_of_day(self.now.replace(day=1))
-        this_month_max = self.end_of_day(this_week_min - timedelta(hours=1))
-        self._add_header_data(
-            _('This month'),  # this_month_min.strftime('%B').capitalize(),
-            this_month_min,
-            this_month_max
-        )
-
-        # Rest of last month (before last week)
-        last_month_max = self.end_of_day(last_week_min) - timedelta(microseconds=1)
-        last_month_min = self.start_of_day(last_month_max.date().replace(day=1))
-        self._add_header_data(
-            _('Last month'),  # last_month_min.strftime('%B').capitalize(),
-            last_month_min,
-            last_month_max
-        )
-
-        # DEBUG
-        # for a, b, c in self._header_data:
-        #     print(a, b, c)
-
-        self._specific_month_boundary = last_month_min
 
     @pyqtSlot(snapshots.SID)
     # pylint: disable-next=invalid-name
