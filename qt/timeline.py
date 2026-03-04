@@ -35,6 +35,12 @@ except NameError:
     _ = lambda s: s
 
 
+def start_of_day(day: date) -> datetime:
+    return datetime.combine(day, datetime.min.time())
+
+def end_of_day(day: date) -> datetime:
+    return datetime.combine(day, datetime.max.time())
+
 def _calculate_timeline_periods(now: date = date.today()
                                 ) -> list[tuple[str, datetime, datetime]]:
     """Calculate timestamps for the sub-headers.
@@ -42,12 +48,6 @@ def _calculate_timeline_periods(now: date = date.today()
     Returns:
         A list of tuples with label, start and end datetime of each periode.
     """
-
-    def start_of_day(day: date) -> datetime:
-        return datetime.combine(day, datetime.min.time())
-
-    def end_of_day(day: date) -> datetime:
-        return datetime.combine(day, datetime.max.time())
 
     result = []
 
@@ -146,6 +146,9 @@ class TimeLine(QTreeWidget):
         self._header_data = _calculate_timeline_periods(self.now)
         self._specific_month_boundary = self._header_data[-1][1]
 
+        print('')
+        print(self._header_data)
+
     def clear_and_rebuild_header(self):
         # blocker = QSignalBlocker(self)
         # import traceback
@@ -221,10 +224,10 @@ class TimeLine(QTreeWidget):
         label = first_day.strftime('%B' if year == self.now.year else '%B, %Y')
         label = label.capitalize()
 
-        first_day = self.start_of_day(first_day)
-        last_day = self.end_of_day(last_day)
+        first_day = start_of_day(first_day)
+        last_day = end_of_day(last_day)
 
-        self._add_header_data(label, first_day, last_day)
+        self._header_data.append((label, first_day, last_day))
 
         item = HeaderEntry(label=label, timestamp=last_day)
         self.addTopLevelItem(item)
