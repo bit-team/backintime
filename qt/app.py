@@ -18,6 +18,7 @@ if not os.getenv('DISPLAY', ''):
 import pathlib
 import json
 import threading
+import queue
 import shutil
 import textwrap
 import signal
@@ -1339,18 +1340,52 @@ class MainWindow(QMainWindow):
         """Initiate update of the timeline content"""
         self.timeline.clear_and_reset()
 
-        if refreshSnapshotsList:
-            self.snapshotsList = []
-            thread = FillTimeLineThread(self)
-            thread.addSnapshot.connect(self.timeline.addSnapshot)
-            # Select "Now" if previous backup item is goe
-            thread.finished.connect(self.timeline.checkSelection)
-            thread.start()
-
-        else:
+        if not refreshSnapshotsList:
             for sid in self.snapshotsList:
-                self.timeline.addSnapshot(sid)
+                self.timeline.create_backup_entry(
+                    descriptor=sid.get_descriptor(),
+                    tiemstamp=sid.get_timestamp(),
+                    last_checked=sid.lastChecked,
+                    label=sid.displayName
+                )
+            # ??? useless I think
             self.timeline.checkSelection()
+            return
+
+        self.snapshotsList = []  # TODO: -> backup_list ???
+        backup_queue = queue.Queue()
+
+        def _worker():
+            for sid in snapshots.iterSnapshots(self.config):
+                self.snapshotsList.append(sid)
+                backup_queue.put(
+                    (
+                        sid.get_descriptor(),
+                        sid.get_timestamp(),
+                        sid.lastChecked,
+                        sid.displayName
+                    )
+                )
+            backup_queue.put(None)  # Finished signal
+
+        threading.Thread(target=_worker, daemon=True).start()
+
+        def _process_queue():
+            while not backup_queue.empty():
+                entry = backup_queue.get()
+                if entry is None:
+                    self.timeline.checkSelection()
+                    return
+
+                self.timeline.create_backup_entry(
+                    descriptor=entry[0],
+                    timestamp=entry[1],
+                    last_checked=entry[2],
+                    label=entry[3]
+                )
+
+        QTimer.singleShot(250, _process_queue)
+
 
     def _create_temporary_copy(self, full_path: str, sid=None):
         """Create a temporary local copy a file or directory.
@@ -2250,23 +2285,23 @@ class RemoveSnapshotThread(QThread):
                     snapshots.lastSnapshot(self.config))
 
 
-class FillTimeLineThread(QThread):
-    """
-    add snapshot IDs to timeline in background
-    """
-    addSnapshot = pyqtSignal(snapshots.SID)
+# class FillTimeLineThread(QThread):
+#     """
+#     add snapshot IDs to timeline in background
+#     """
+#     addSnapshot = pyqtSignal(snapshots.SID)
 
-    def __init__(self, parent):
-        self.parent = parent
-        self.config = parent.config
-        super(FillTimeLineThread, self).__init__(parent)
+#     def __init__(self, parent):
+#         self.parent = parent
+#         self.config = parent.config
+#         super(FillTimeLineThread, self).__init__(parent)
 
-    def run(self):
-        for sid in snapshots.iterSnapshots(self.config):
-            self.addSnapshot.emit(sid)
-            self.parent.snapshotsList.append(sid)
+#     def run(self):
+#         for sid in snapshots.iterSnapshots(self.config):
+#             self.addSnapshot.emit(sid)
+#             self.parent.snapshotsList.append(sid)
 
-        self.parent.snapshotsList.sort()
+#         self.parent.snapshotsList.sort()
 
 
 def _get_state_data_from_config(cfg: config.Config) -> StateData:

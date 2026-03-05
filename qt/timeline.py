@@ -163,27 +163,23 @@ class TimeLine(QTreeWidget):
             # "Now"
             self.addTopLevelItem(NowEntry())
 
-    @pyqtSlot(snapshots.SID)
-    # pylint: disable-next=invalid-name
-    def addSnapshot(self, sid):  # noqa: N802
-        """Slot to handle selection of snapshots."""
-        # print(f'addSnapshot() :: {sid=}')
+    def create_backup_entry(self,
+                            descriptor: str,
+                            timestamp: datetime,
+                            last_checked: str,
+                            label: str):
         item = BackupEntry(
-            backup_descriptor=sid.get_descriptor(),
-            backup_timestamp=sid.get_timestamp(),
-            last_checked=sid.lastChecked,
-            label=sid.displayName,
+            backup_descriptor=descriptor,
+            backup_timestamp=timestamp,
+            last_checked=last_checked,
+            label=label
         )
 
         self.addTopLevelItem(item)
+        self._create_header_if_necessary(timestamp)
 
         # Select the snapshot that was selected before
-        if sid == self.parent.sid:
-            self._set_current_item(item)
-
-        self._create_header_if_necessary(sid.get_timestamp())
-
-        return item
+        # use FileView.preserve_selection() TODO
 
     def _header_in_use(self, backup_timestamp: datetime) -> bool:
         """Check if the backup timestamp fit into an already existing
