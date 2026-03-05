@@ -1055,7 +1055,7 @@ class MainWindow(QMainWindow):
         self.disableProfileChanged = False
 
     def updateProfile(self):
-        self.updateTimeLine()
+        self.rebuild_timeline()
         self.places.do_update()
         self._update_files_widget()
         self.updateFilesView(0)
@@ -1174,7 +1174,7 @@ class MainWindow(QMainWindow):
 
             if snapshotsList != self.snapshotsList:
                 self.snapshotsList = snapshotsList
-                self.updateTimeLine(False)
+                self._rebuild_timeline_without_refresh()
                 takeSnapshotMessage = (0, _('Done'))
             else:
                 if takeSnapshotMessage[0] == 0:
@@ -1336,26 +1336,33 @@ class MainWindow(QMainWindow):
         self.sid = sid
         self.updateFilesView(2)
 
-    def updateTimeLine(self, refreshSnapshotsList=True):
-        """Initiate update of the timeline content"""
+    def _rebuild_timeline_without_refresh(self):
+        """Initiate recreation of the timeline content based on the existing
+        list of backups/snapshots without refreshing the snapshot list via
+        a thread."""
         self.timeline.clear_and_reset()
 
-        if not refreshSnapshotsList:
-            for sid in self.snapshotsList:
-                self.timeline.create_backup_entry(
-                    descriptor=sid.get_descriptor(),
-                    tiemstamp=sid.get_timestamp(),
-                    last_checked=sid.lastChecked,
-                    label=sid.displayName
-                )
-            # ??? useless I think
-            self.timeline.checkSelection()
-            return
+        for sid in self.snapshotsList:
+            self.timeline.create_backup_entry(
+                descriptor=sid.get_descriptor(),
+                tiemstamp=sid.get_timestamp(),
+                last_checked=sid.lastChecked,
+                label=sid.displayName
+            )
+        # ??? useless I think
+        self.timeline.checkSelection()
+
+    def rebuild_timeline(self):
+        """Get a fresh list of backups/snapshots and initiate update of the
+        timeline content with that list."""
+        self.timeline.clear_and_reset()
 
         self.snapshotsList = []  # TODO: -> backup_list ???
         backup_queue = queue.Queue()
 
         def _worker():
+            """Proceed all backups and put their timline related information
+            into a thread-safe queue."""
             for sid in snapshots.iterSnapshots(self.config):
                 self.snapshotsList.append(sid)
                 backup_queue.put(
@@ -1368,9 +1375,8 @@ class MainWindow(QMainWindow):
                 )
             backup_queue.put(None)  # Finished signal
 
-        threading.Thread(target=_worker, daemon=True).start()
-
         def _process_queue():
+            """Read backup data from the queue and add them to the timeline"""
             while not backup_queue.empty():
                 entry = backup_queue.get()
                 if entry is None:
@@ -1384,6 +1390,10 @@ class MainWindow(QMainWindow):
                     label=entry[3]
                 )
 
+        # Start getting backups
+        threading.Thread(target=_worker, daemon=True).start()
+
+        # Start updating the timeline widget with backups
         QTimer.singleShot(250, _process_queue)
 
 
@@ -2020,7 +2030,7 @@ class MainWindow(QMainWindow):
     # | some more Slots |
     # |-----------------|
     def _slot_timeline_refresh(self):
-        self.updateTimeLine()
+        self.rebuild_timeline()
         self.updateFilesView(2)
 
     def _slot_backup_open_last_log(self):
@@ -2125,7 +2135,7 @@ class MainWindow(QMainWindow):
                 self.timeline.select_root_item()
 
         thread = RemoveSnapshotThread(self, items)
-        thread.refreshSnapshotList.connect(self.updateTimeLine)
+        thread.refreshSnapshotList.connect(self.rebuild_timeline)
         thread.hideTimelineItem.connect(hideItem)
         thread.start()
 
