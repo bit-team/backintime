@@ -41,7 +41,7 @@ def start_of_day(day: date) -> datetime:
 def end_of_day(day: date) -> datetime:
     return datetime.combine(day, datetime.max.time())
 
-def _calculate_timeline_periods(now: date = date.today()
+def _calculate_timeline_periods(today: date = date.today()
                                 ) -> list[tuple[str, datetime, datetime]]:
     """Calculate timestamps for the sub-headers.
 
@@ -52,17 +52,17 @@ def _calculate_timeline_periods(now: date = date.today()
     result = []
 
     # Today
-    today_min = start_of_day(now)
-    today_max = end_of_day(now)
+    today_min = start_of_day(today)
+    today_max = end_of_day(today)
     result.append((_('Today'), today_min, today_max))
 
     # Yesterday
-    yesterday_min = start_of_day(now - timedelta(days=1))
+    yesterday_min = start_of_day(today - timedelta(days=1))
     yesterday_max = end_of_day(today_min - timedelta(hours=1))
     result.append((_('Yesterday'), yesterday_min, yesterday_max))
 
     # This week, but not yesterday or today
-    this_week_min = start_of_day(now - timedelta(now.weekday()))
+    this_week_min = start_of_day(today - timedelta(now.weekday()))
     this_week_max = end_of_day(yesterday_min - timedelta(days=1))
     # Add only, if not overlapping with Yesterday
     if this_week_max > this_week_min:
@@ -75,12 +75,12 @@ def _calculate_timeline_periods(now: date = date.today()
 
     # This month
     if now.month == last_week_min.month and now.month == this_week_min.month:
-        this_month_min = start_of_day(now.replace(day=1))
+        this_month_min = start_of_day(today.replace(day=1))
         this_month_max = end_of_day(last_week_min - timedelta(days=1))
         result.append((_('This month'), this_month_min, this_month_max))
 
     # Last months
-    last_month_max = end_of_day(now.replace(day=1) - timedelta(days=1))
+    last_month_max = end_of_day(today.replace(day=1) - timedelta(days=1))
     last_month_min = start_of_day(last_month_max.replace(day=1))
     if last_month_max.date() >= last_week_min.date():
         last_month_max = end_of_day(last_week_min.date() - timedelta(days=1))
@@ -117,16 +117,18 @@ class TimeLine(QTreeWidget):
         self.parent = parent
         self.snapshots = parent.snapshots
 
-        self.now = None
-
-        # list of tuples with (text, startDate, endDate)
+        # Used headers. A of tuples with (label, start, end)
         self._header_data = None
 
-        # That timestmap is used to decide if a backup needs an extra
-        # header item. It is previous to the last month or older.
+        # Timestamp boundaries (from-to) used for the header items:
+        # Today, Yesterday, This Week, Last Week, This Months, Last Months
+        self._default_header_data = None
+
+        # Helper variable. Timestamps older than this need and extra header,
+        # other than a default header.
         self._specific_month_boundary = None
 
-        self._reset_default_header_data()
+        self.clear_and_reset()
 
         self.itemSelectionChanged.connect(self._on_item_selection_changed)
 
@@ -141,15 +143,7 @@ class TimeLine(QTreeWidget):
 
         self.event_backup_item_selected.notify(self.current_backup_descriptor)
 
-    def _reset_default_header_data(self):
-        self.now = date.today()
-        self._header_data = _calculate_timeline_periods(self.now)
-        self._specific_month_boundary = self._header_data[-1][1]
-
-        print('')
-        print(self._header_data)
-
-    def clear_and_rebuild_header(self):
+    def clear_and_reset(self):
         # blocker = QSignalBlocker(self)
         # import traceback
         # traceback.print_stack(limit=5)
@@ -160,17 +154,13 @@ class TimeLine(QTreeWidget):
             # with self.event_selection_changed.keep_silent():
             #     with self.event_now_item_selected.keep_silent():
             #         with self.event_backup_item_selected.keep_silent():
-            self._reset_default_header_data()
             super().clear()
+            self._header_data = []
+            self._default_header_data = self._calculate_timtline_periods()
+            self._specific_month_boundary = self._default_header_data[-1][1]
 
             # "Now"
             self.addTopLevelItem(NowEntry())
-
-            for label, start, end in self._header_data:
-                item = HeaderEntry(label=label, timestamp=end)
-                # DEBUG
-                item.setToolTip(0, f'DEBUG - {start.strftime("%c")} to {end.strftime("%c")}')
-                self.addTopLevelItem(item)
 
     @pyqtSlot(snapshots.SID)
     # pylint: disable-next=invalid-name
@@ -194,13 +184,10 @@ class TimeLine(QTreeWidget):
 
         return item
 
-    def _header_exists(self, backup_timestamp: datetime) -> bool:
-        # Not necessary. The timestamps is before the boundary of existing
-        # default headers.
-        if backup_timestamp >= self._specific_month_boundary:
-            return True
+    def _header_in_use(self, backup_timestamp: datetime) -> bool:
+        """Check if the backup timestamp fit into an already existing
+        header item."""
 
-        # maybe an extra/older months exists?
         for _text, start, end in self._header_data:
             if start <= backup_timestamp <= end:
                 return True
@@ -210,18 +197,30 @@ class TimeLine(QTreeWidget):
     def _create_header_if_necessary(self, backup_timestamp: datetime):
         """Create an header entry for the backup timestamp if necessary"""
 
-        if self._header_exists(backup_timestamp):
+        # Already used header fit this timestamp?
+        if self._header_in_use(backup_timestamp):
             return
 
-        # Any previous months
-        year = backup_timestamp.year
-        month = backup_timestamp.month
+        # Use a default header?
+        if backup_timestamp >= self._sepcific_month_boundary:
+            for label, start, end in self._default_header_data:
+                if start <= backup_timestamp <= end:
+                    self._create_header(label, start, end)
+                    return
+
+            logger.critical(
+                'Unexpected situation. Found no default header for '
+                f'{backup_timestamp=} in {self._default_header_data=}'
+            )
+
+
+        # Create an extra months header
 
         # Calculate start and end of backup months
-        first_day = date(year, month, 1)
-        last_day = date(year, month, monthrange(year, month)[1])
+        start = backup_timestamp.date().replace(day=1)
+        end = first_day.replace(day=monthrange(first_day.year, first_day.month)[1])
 
-        label = first_day.strftime('%B' if year == self.now.year else '%B, %Y')
+        label = start.strftime('%B' if start.year == date.year else '%B, %Y')
         label = label.capitalize()
 
         first_day = start_of_day(first_day)
@@ -232,35 +231,32 @@ class TimeLine(QTreeWidget):
         item = HeaderEntry(label=label, timestamp=last_day)
         self.addTopLevelItem(item)
 
-    def _remove_consecutive_header_entries(self):
-        """Remove header items without backup entries."""
-        previous_was_header = False
-        to_remove = []
+    # def _remove_consecutive_header_entries(self):
+    #     """Remove header items without backup entries."""
+    #     previous_was_header = False
+    #     to_remove = []
 
-        for idx in range(self.topLevelItemCount()):
-            item = self.topLevelItem(idx)
+    #     for idx in range(self.topLevelItemCount()):
+    #         item = self.topLevelItem(idx)
 
-            if not isinstance(item, HeaderEntry):
-                previous_was_header = False
-                continue
+    #         if not isinstance(item, HeaderEntry):
+    #             previous_was_header = False
+    #             continue
 
-            if previous_was_header:
-                to_remove.append(idx)
+    #         if previous_was_header:
+    #             to_remove.append(idx)
 
-            previous_was_header = True
+    #         previous_was_header = True
 
-        # Remove from behind
-        for idx in reversed(to_remove):
-            self.takeTopLevelItem(idx)
+    #     # Remove from behind
+    #     for idx in reversed(to_remove):
+    #         self.takeTopLevelItem(idx)
 
-    def _create_header_entry(self, text, end_date):
-        # Don't create if it still exists.
-        for item in self._iter_header_items():
-            if item.snapshot_id.date == end_date:
-                return False
-
-        item = HeaderEntry(text, snapshots.SID(end_date, self.parent.config))
-        self.addTopLevelItem(item)
+    def _create_header_entry(self, label, start_date, end_date):
+        self.addTopLevelItem(
+            HeaderEntry(label, snapshots.SID(end_date, self.parent.config))
+        )
+        self._header_data.append((label, start_date, end_date))
 
         return True
 
@@ -402,7 +398,9 @@ class HeaderEntry(_TimeLineItemBase):  # pylint: disable=too-few-public-methods
         """
         super().__init__(
             timestamp=timestamp,
-            tooltip=None,
+            # DEBUG
+            tooltip=f'DEBUG - {start.strftime("%c")} to {end.strftime("%c")}',
+            # tooltip=None,
             label=label
         )
 
