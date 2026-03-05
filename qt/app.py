@@ -1337,7 +1337,7 @@ class MainWindow(QMainWindow):
 
     def updateTimeLine(self, refreshSnapshotsList=True):
         """Initiate update of the timeline content"""
-        self.timeline.clear_and_rebuild_header()
+        self.timeline.clear_and_reset()
 
         if refreshSnapshotsList:
             self.snapshotsList = []

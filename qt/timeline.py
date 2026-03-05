@@ -62,19 +62,20 @@ def _calculate_timeline_periods(today: date = date.today()
     result.append((_('Yesterday'), yesterday_min, yesterday_max))
 
     # This week, but not yesterday or today
-    this_week_min = start_of_day(today - timedelta(now.weekday()))
+    this_week_min = start_of_day(today - timedelta(today.weekday()))
     this_week_max = end_of_day(yesterday_min - timedelta(days=1))
     # Add only, if not overlapping with Yesterday
     if this_week_max > this_week_min:
         result.append((_('This week'), this_week_min, this_week_max))
 
     # Last week
-    last_week_min = start_of_day(now - timedelta(now.weekday() + 7))
+    last_week_min = start_of_day(today - timedelta(today.weekday() + 7))
     last_week_max = end_of_day(last_week_min + timedelta(days=6))
     result.append((_('Last week'), last_week_min, last_week_max))
 
     # This month
-    if now.month == last_week_min.month and now.month == this_week_min.month:
+    if (today.month == last_week_min.month
+            and today.month == this_week_min.month):
         this_month_min = start_of_day(today.replace(day=1))
         this_month_max = end_of_day(last_week_min - timedelta(days=1))
         result.append((_('This month'), this_month_min, this_month_max))
@@ -156,7 +157,7 @@ class TimeLine(QTreeWidget):
             #         with self.event_backup_item_selected.keep_silent():
             super().clear()
             self._header_data = []
-            self._default_header_data = self._calculate_timtline_periods()
+            self._default_header_data = _calculate_timeline_periods()
             self._specific_month_boundary = self._default_header_data[-1][1]
 
             # "Now"
@@ -202,10 +203,10 @@ class TimeLine(QTreeWidget):
             return
 
         # Use a default header?
-        if backup_timestamp >= self._sepcific_month_boundary:
+        if backup_timestamp >= self._specific_month_boundary:
             for label, start, end in self._default_header_data:
                 if start <= backup_timestamp <= end:
-                    self._create_header(label, start, end)
+                    self._create_header_entry(label, start, end)
                     return
 
             logger.critical(
@@ -218,18 +219,13 @@ class TimeLine(QTreeWidget):
 
         # Calculate start and end of backup months
         start = backup_timestamp.date().replace(day=1)
-        end = first_day.replace(day=monthrange(first_day.year, first_day.month)[1])
+        end = start.replace(day=monthrange(start.year, start.month)[1])
 
         label = start.strftime('%B' if start.year == date.year else '%B, %Y')
         label = label.capitalize()
 
-        first_day = start_of_day(first_day)
-        last_day = end_of_day(last_day)
+        self._create_header_entry(label, start_of_day(start), end_of_day(end))
 
-        self._header_data.append((label, first_day, last_day))
-
-        item = HeaderEntry(label=label, timestamp=last_day)
-        self.addTopLevelItem(item)
 
     # def _remove_consecutive_header_entries(self):
     #     """Remove header items without backup entries."""
@@ -252,11 +248,16 @@ class TimeLine(QTreeWidget):
     #     for idx in reversed(to_remove):
     #         self.takeTopLevelItem(idx)
 
-    def _create_header_entry(self, label, start_date, end_date):
-        self.addTopLevelItem(
-            HeaderEntry(label, snapshots.SID(end_date, self.parent.config))
+    def _create_header_entry(self, label, start, end):
+        item = HeaderEntry(label, end)
+        self.addTopLevelItem(item)
+        self._header_data.append((label, start, end))
+
+        # DEBUG
+        item.setToolTip(
+            0,
+            f'DEBUG - {start.strftime("%c")} to {end.strftime("%c")}'
         )
-        self._header_data.append((label, start_date, end_date))
 
         return True
 
@@ -398,9 +399,7 @@ class HeaderEntry(_TimeLineItemBase):  # pylint: disable=too-few-public-methods
         """
         super().__init__(
             timestamp=timestamp,
-            # DEBUG
-            tooltip=f'DEBUG - {start.strftime("%c")} to {end.strftime("%c")}',
-            # tooltip=None,
+            tooltip=None,
             label=label
         )
 
