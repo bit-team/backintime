@@ -16,12 +16,11 @@
 """
 import os
 import pathlib
-from PyQt6.QtWidgets import (
-                             QAbstractItemView,
+from typing import Optional
+from PyQt6.QtWidgets import (QAbstractItemView,
                              QTreeWidget,
                              QTreeWidgetItem,
-                             QWidget
-                             )
+                             QWidget)
 from PyQt6.QtGui import QFont, QIcon, QPalette
 from PyQt6.QtCore import Qt
 import bitbase
@@ -55,10 +54,14 @@ class PlacesWidget(QTreeWidget):
         self.header().setSortIndicatorShown(True)
         self.header().setSectionHidden(1, True)
 
-        self.header().sortIndicatorChanged.connect(self.do_update)
+        self.header().sortIndicatorChanged.connect(
+            self._on_sort_indicator_changed)
 
         # previous and new item given as arguments
         self.currentItemChanged.connect(self._slot_changed)
+
+    def _on_sort_indicator_changed(self, _column: int):
+        self.do_update()
 
     def set_profile_operations(self, pop: ProfileOperations) -> None:
         """Connect an `ProfileOperations` instance and register
@@ -74,14 +77,20 @@ class PlacesWidget(QTreeWidget):
 
     def on_now_selected(self):
         """Event handler if 'Now' entry in timeline was selected"""
-        self.do_update()
+        self.do_update(now_selected=True)
 
     def on_backup_changed(self, _sid):
         """Event handler if a backup entry in timeline was selected"""
-        self.do_update()
+        self.do_update(now_selected=False)
 
-    def do_update(self, _col: int = None, _order: Qt.SortOrder = None) -> None:
+    def do_update(self, now_selected: Optional[bool] = None) -> None:
         """Update the places view"""
+        # print(f'places.do_update({now_selected=})')
+
+        # Workaround
+        if now_selected is None:
+            now_selected = self.parent.is_now_selected()
+
         self.clear()
 
         # name, path, icon
@@ -95,22 +104,31 @@ class PlacesWidget(QTreeWidget):
             str(fp_home),
             'user-home')
 
+        backup_id = self.parent.selected_backup_id()
+
         # "Now" or a specific snapshot selected?
-        if self.parent.sid.isRoot:
+        if now_selected or backup_id is None:
             # Use snapshots profiles list of include files and folders
             include_entries = self.config.include()
 
         else:
-            # Determine folders from the snapshot itself
+            # Dev note (2026-03): I wonder why this is needed. Isn't the
+            # profile config stored within each backup. Why not parse
+            # that config file instead of scanning the real filesystem?
+
+            # formaly known as self.sid
+            backup_id = self.parent.selected_backup_id()
+
+            # Determine directories from the backup itself
             base = os.path.expanduser('~')
-            if not os.path.isdir(self.parent.sid.pathBackup(base)):
+            if not os.path.isdir(backup_id.pathBackup(base)):
                 # Folder not mounted. We can skip for the next updatePlaces()
                 return
 
             folders = [
                 i.name
                 for i
-                in os.scandir(self.parent.sid.pathBackup(base))
+                in os.scandir(backup_id.pathBackup(base))
                 if i.is_dir()
             ]
 

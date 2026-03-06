@@ -16,15 +16,13 @@
 from datetime import (datetime, date, timedelta)
 from calendar import monthrange
 from PyQt6.QtGui import QFont, QPalette
-from PyQt6.QtCore import (Qt,
-                          pyqtSlot,
-                          QSignalBlocker)
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QAbstractItemView,
                              QApplication,
                              QTreeWidget,
                              QTreeWidgetItem)
-import snapshots
 import qttools
+import logger  # workaround. shouldn't be neccessary
 from event import Event
 from qttools_path import register_backintime_path
 register_backintime_path('common')
@@ -32,14 +30,16 @@ register_backintime_path('common')
 try:
     _('Warning')
 except NameError:
-    _ = lambda s: s
+    _ = lambda s: s  # noqa: E731
 
 
 def start_of_day(day: date) -> datetime:
     return datetime.combine(day, datetime.min.time())
 
+
 def end_of_day(day: date) -> datetime:
     return datetime.combine(day, datetime.max.time())
+
 
 def _calculate_timeline_periods(today: date = date.today()
                                 ) -> list[tuple[str, datetime, datetime]]:
@@ -142,7 +142,7 @@ class TimeLine(QTreeWidget):
             self.event_now_item_selected.notify()
             return
 
-        self.event_backup_item_selected.notify(self.current_backup_descriptor)
+        self.event_backup_item_selected.notify(self.selected_backup_descriptor)
 
     def clear_and_reset(self):
         # blocker = QSignalBlocker(self)
@@ -169,8 +169,8 @@ class TimeLine(QTreeWidget):
                             last_checked: str,
                             label: str):
         item = BackupEntry(
-            backup_descriptor=descriptor,
-            backup_timestamp=timestamp,
+            descriptor=descriptor,
+            timestamp=timestamp,
             last_checked=last_checked,
             label=label
         )
@@ -210,7 +210,6 @@ class TimeLine(QTreeWidget):
                 f'{backup_timestamp=} in {self._default_header_data=}'
             )
 
-
         # Create an extra months header
 
         # Calculate start and end of backup months
@@ -221,28 +220,6 @@ class TimeLine(QTreeWidget):
         label = label.capitalize()
 
         self._create_header_entry(label, start_of_day(start), end_of_day(end))
-
-
-    # def _remove_consecutive_header_entries(self):
-    #     """Remove header items without backup entries."""
-    #     previous_was_header = False
-    #     to_remove = []
-
-    #     for idx in range(self.topLevelItemCount()):
-    #         item = self.topLevelItem(idx)
-
-    #         if not isinstance(item, HeaderEntry):
-    #             previous_was_header = False
-    #             continue
-
-    #         if previous_was_header:
-    #             to_remove.append(idx)
-
-    #         previous_was_header = True
-
-    #     # Remove from behind
-    #     for idx in reversed(to_remove):
-    #         self.takeTopLevelItem(idx)
 
     def _create_header_entry(self, label, start, end):
         item = HeaderEntry(label, end)
@@ -275,47 +252,38 @@ class TimeLine(QTreeWidget):
         model_index = self.currentIndex()
         return model_index.row() == 0
 
-    def current_backup_descriptor(self) -> str:
+    def selected_backup_descriptor(self) -> str:
         if self.is_now_selected():
             return None
 
         item = self.currentItem()
 
-        return item.backup_descriptor if item else None
+        return item.descriptor if item else None
 
-    def current_backup_label(self) -> str:
+    def selected_backup_label(self) -> str:
         if self.is_now_selected():
             return None
 
         item = self.currentItem()
 
-        return item.backup_label if item else None
+        return item.label if item else None
 
-    def current_snapshot_id(self):
-        return self.current_backup_descriptor()
-
-    def set_current_snapshot_id(self, sid):
-        """Select entry related to the snapshot ID."""
-        for item in self._iter_items():
-
-            if item.snapshot_id == sid:
+    def select_by_descriptor(self, backup_descriptor: str):
+        """Select backup entry related to the descriptor."""
+        for item in self.iter_backup_items():
+            if item.descriptor == backup_descriptor:
                 self._set_current_item(item)
                 break
 
     def _set_current_item(self, item, *args, **kwargs):
         self.setCurrentItem(item, *args, **kwargs)
-
-        # if self.parent.sid != item.snapshot_id:
-        #     self.parent.sid = item.snapshot_id
-            # self.update_files_view.emit(2)
-        #    self.event_selection_changed.notify()
         self.event_selection_changed.notify()
 
     def _iter_items(self):
         for index in range(self.topLevelItemCount()):
             yield self.topLevelItem(index)
 
-    def iter_snapshot_items(self):
+    def iter_backup_items(self):
         """Iterate over all items."""
         for item in self._iter_items():
             if isinstance(item, BackupEntry):
@@ -351,26 +319,29 @@ class BackupEntry(_TimeLineItemBase):
     """Backup entry widget used in TimeLine."""
 
     def __init__(self,
-                 backup_descriptor: str,
-                 backup_timestamp: datetime,
+                 descriptor: str,
+                 timestamp: datetime,
                  last_checked: str,
                  label: str):
 
         tooltip = _('Last check {time}').format(time=last_checked)
 
         super().__init__(
-            timestamp=backup_timestamp,
+            timestamp=timestamp,
             tooltip=tooltip,
             label=label
         )
 
-        self._backup_descriptor = backup_descriptor
-        self._backup_label = label
+        self._descriptor = descriptor
 
     @property
-    def backup_descriptor(self) -> str:
+    def descriptor(self) -> str:
         """Descriptor (sid) of the related backup."""
-        return self._backup_descriptor
+        return self._descriptor
+
+    @property
+    def label(self) -> str:
+        return self.text(0)
 
 
 class NowEntry(_TimeLineItemBase):

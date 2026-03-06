@@ -8,7 +8,7 @@
 """Tests about timeline widget."""
 # pylint: disable=wrong-import-position,wrong-import-order
 import unittest
-from datetime import datetime, date
+from datetime import date
 from qttools_path import register_backintime_path
 register_backintime_path('common')
 import timeline  # noqa: E402
@@ -29,6 +29,7 @@ def _datetime_to_str(result):
 
 class Periods(unittest.TestCase):
     """StateData instance is a singleton."""
+    # pylint: disable=protected-access,missing-function-docstring
 
     def test_simple_a(self):
         """Simple situations without edge cases"""

@@ -214,7 +214,7 @@ class MainWindow(QMainWindow):
 
         self.snapshotsList = []
         # ???
-        self.sid = snapshots.RootSnapshot(self.config)
+        # self.sid = snapshots.RootSnapshot(self.config)
 
         # ???
         self.path = self.config.profileStrValue('qt.last_path', '/')
@@ -255,7 +255,7 @@ class MainWindow(QMainWindow):
         ])
         self.timeline.event_backup_item_selected.register([
             self._on_backup_selected,
-            # self.on_backup_changed,
+            self.places.on_backup_changed
         ])
 
         self.forceWaitLockCounter = 0
@@ -266,11 +266,15 @@ class MainWindow(QMainWindow):
 
         self._handle_user_messages()
 
-    def get_selected_backup_descriptor(self) -> snapshots.SID:
-        """Return the identiy of the current selected backup in the timeline.
-        A replacement for self.sid
+    def selected_backup_id(self) -> snapshots.SID | None:
+        """Return the identiy of the backup that is currently selected in the
+        timeline widget.
         """
-        return self.timeline.current_backup_descriptor()
+        backup_descriptor = self.timeline.selected_backup_descriptor()
+        if not backup_descriptor:
+            return None
+
+        return snapshots.SID(date=backup_descriptor, cfg=self.config)
 
     def _setup_timers(self):
         raise_application = QTimer(self)
@@ -1340,6 +1344,10 @@ class MainWindow(QMainWindow):
         self.act_remove_snapshot.setEnabled(enable)
         self.act_snapshot_logview.setEnabled(enable)
 
+    def is_now_selected(self) -> bool:
+        """Workaround"""
+        return self.timeline.is_now_selected()
+
     def _on_now_selected(self):
         self._enable_snapshot_actions(False)
         # self.sid = self.timeline.get_now_sid()
@@ -1348,7 +1356,7 @@ class MainWindow(QMainWindow):
 
     def _on_backup_selected(self, sid):
         self._enable_snapshot_actions(True)
-        self.sid = sid
+        # self.sid = sid
         self.updateFilesView(2)
 
     def _rebuild_timeline_without_refresh(self):
@@ -1445,35 +1453,45 @@ class MainWindow(QMainWindow):
 
     def _open_path(self, rel_path: str):
         rel_path = os.path.join(self.path, rel_path)
-        full_path = self.sid.pathBackup(rel_path)
 
-        # The class "GenericNonSnapshot" indicates that "Now" is selected
-        # in the snapshots timeline widget.
-        if (os.path.exists(full_path)
-            and (isinstance(self.sid, snapshots.GenericNonSnapshot)  # "Now"
-                 or self.sid.isExistingPathInsideSnapshotFolder(rel_path))):
+        if self.timeline.is_now_selected():
+            raise NotImplementedError('Check it out')
 
-            if os.path.isdir(full_path):
-                self.path = rel_path
-                self.path_history.append(rel_path)
-                self.updateFilesView(0)
+        backup_id = self.selected_backup_id()
 
-                return
+        if not backup_id:
+            raise RuntimeError(
+                'Should happen. No backup_id means that "Now" is selected. '
+                'There should not be something else.'
+            )
 
-            # prevent backup data from being accidentally overwritten
-            # by create a temporary local copy and only open that one
-            if not isinstance(self.sid, snapshots.RootSnapshot):
-                full_path = self._create_temporary_copy(full_path, self.sid)
+        full_path = backup_id.pathBackup(rel_path)
 
-            file_url = QUrl('file://' + full_path)
-            QDesktopServices.openUrl(file_url)
+        if (not backup_id.isExistingPathInsideSnapshotFolder(rel_path)
+                and not os.path.exists(full_path)):
+            return
+
+        if os.path.isdir(full_path):
+            self.path = rel_path
+            self.path_history.append(rel_path)
+            self.updateFilesView(0)
+
+            return
+
+        # prevent backup data from being accidentally overwritten
+        # by create a temporary local copy and only open that one
+        if not self.timeline.is_now_selected():
+            full_path = self._create_temporary_copy(full_path, backup_id)
+
+        file_url = QUrl('file://' + full_path)
+        QDesktopServices.openUrl(file_url)
 
     def _update_files_widget(self):
         if self.timeline.is_now_selected():
             text = _('Now')
 
         else:
-            name = self.timeline.current_backup_label()
+            name = self.timeline.selected_backup_label()
             # buhtz (2023-07)3 blanks at the end of that string as a
             # workaround to a visual issue where the last character was
             # cutoff. Not sure if this is DE and/or theme related.
@@ -1519,7 +1537,17 @@ class MainWindow(QMainWindow):
         self._update_files_widget()
 
         # update files view
-        full_path = self.sid.pathBackup(self.path)
+
+        backup_id = self.selected_backup_id()
+
+        if backup_id:
+            full_path = backup_id.pathBackup(self.path)
+        else:
+            # Dev note (2026-03, buhtz): Dirty WORKAROUND.
+            # RootSnapshot need to be deleted. Its features
+            # might go into ProfileOperations
+            root_now_sid = snapshots.RootSnapshot(self.config)
+            full_path = root_now_sid.pathBackup(self.path)
 
         # Dev note: Places (and timeline) should emit a select change event.
         # the handler in mainwindow than should decide about enable or disable
@@ -1920,7 +1948,7 @@ class MainWindow(QMainWindow):
                 return
 
         rd = RestoreDialog(self,
-                           self.sid,
+                           self.selected_backup_id(),
                            paths if len(paths) > 1 else paths[0],
                            path_restore_to,
                            **opt)
@@ -1928,7 +1956,7 @@ class MainWindow(QMainWindow):
         rd.exec()
 
     def _slot_restore_this(self):
-        if self.sid.isRoot:
+        if self.is_now_selected():
             return
 
         paths = self.filesView.get_selected_paths()
@@ -1954,7 +1982,7 @@ class MainWindow(QMainWindow):
 
         rd = RestoreDialog(
             parent=self,
-            sid=self.sid,
+            sid=self.selected_backup_id(),
             what=paths,
             **opt)
         rd.exec()
@@ -1968,7 +1996,7 @@ class MainWindow(QMainWindow):
         self._restore_to(paths)
 
     def _slot_restore_parent(self):
-        if self.sid.isRoot:
+        if self.is_now_selected():
             return
 
         confirm_dlg = ConfirmRestoreDialog(
@@ -1989,12 +2017,12 @@ class MainWindow(QMainWindow):
                     warnRoot=self.path == '/'):
                 return
 
-        rd = RestoreDialog(self, self.sid, self.path, **opt)
+        rd = RestoreDialog(self, self.selected_backup_id(), self.path, **opt)
         rd.exec()
 
     def _slot_restore_parent_to(self):
         """Restore parent folder (of current selected) to ..."""
-        if self.sid.isRoot:
+        if self.is_now_selected():
             return
 
         self._restore_to([self.path])
@@ -2023,10 +2051,15 @@ class MainWindow(QMainWindow):
         self._dir_history(self.path_history.next())
 
     def _dir_history(self, path):
-        full_path = self.sid.pathBackup(path)
+        backup_id = self.selected_backup_id()
+
+        if backup_id is None:
+            raise NotImplementedError('Now is selected!?')
+
+        full_path = backup_id.pathBackup(path)
 
         if (os.path.isdir(full_path)
-                and self.sid.isExistingPathInsideSnapshotFolder(path)):
+                and backup_id.isExistingPathInsideSnapshotFolder(path)):
             self.path = path
             self.updateFilesView(0)
 
@@ -2082,12 +2115,21 @@ class MainWindow(QMainWindow):
 
         with self.suspend_mouse_button_navigation():
             # TODO: self.sid or "Now"
-            dlg = snapshotsdialog.SnapshotsDialog(self, self.sid, path)
+            backup_id = self.selected_backup_id()
+            # WORKAROUND
+            if not backup_id:
+                backup_id = snapshots.RootSnapshot(self.config)
+            dlg = snapshotsdialog.SnapshotsDialog(
+                self,
+                backup_id,
+                path
+            )
 
             if dlg.exec() == QDialog.DialogCode.Accepted:
-
-                if dlg.sid != self.sid:
-                    self.timeline.set_current_snapshot_id(dlg.sid)
+                if dlg.sid != backup_id:
+                    self.timeline.select_by_descriptor(
+                        dlg.sid.get_descriptor()
+                    )
 
     def _slot_backup_name(self):
         item = self.timeline.currentItem()
