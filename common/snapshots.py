@@ -3240,9 +3240,8 @@ class RootSnapshot(GenericNonSnapshot):
         Returns:
             str:                full snapshot path
         """
-
-        # return self.path('backup', *path, **kwargs)
         current_mode = self.config.snapshotsMode(self.profileID)
+
         if 'ssh_encfs' in use_mode and current_mode == 'ssh_encfs':
             if path:
                 path = self.config.ENCODE.remote(os.path.join(*path))

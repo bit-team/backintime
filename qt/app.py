@@ -210,8 +210,6 @@ class MainWindow(QMainWindow):
         self.status_bar.set_status_message(_('Done'))
 
         self.snapshotsList = []
-        # ???
-        # self.sid = snapshots.RootSnapshot(self.config)
 
         # ???
         self.path = self.config.profileStrValue('qt.last_path', '/')
@@ -1347,34 +1345,33 @@ class MainWindow(QMainWindow):
 
     def _on_now_selected(self):
         self._enable_snapshot_actions(False)
-        # self.sid = self.timeline.get_now_sid()
-        # IDEE: sid should stay in the timeline and nowhere else
         self.updateFilesView(2)
 
     def _on_backup_selected(self, _sid):
         self._enable_snapshot_actions(True)
-        # self.sid = sid
         self.updateFilesView(2)
 
     def _rebuild_timeline_without_refresh(self):
         """Initiate recreation of the timeline content based on the existing
         list of backups/snapshots without refreshing the snapshot list via
         a thread."""
-        self.timeline.clear_and_reset()
+        with self.timeline.preserve_selection():
+            self.timeline.clear_and_reset()
 
-        for sid in self.snapshotsList:
-            self.timeline.create_backup_entry(
-                descriptor=sid.get_descriptor(),
-                timestamp=sid.get_timestamp(),
-                last_checked=sid.lastChecked,
-                label=sid.displayName
-            )
-        # ??? useless I think
-        self.timeline.checkSelection()
+            for sid in self.snapshotsList:
+                self.timeline.create_backup_entry(
+                    descriptor=sid.get_descriptor(),
+                    timestamp=sid.get_timestamp(),
+                    last_checked=sid.lastChecked,
+                    label=sid.displayName
+                )
 
     def rebuild_timeline(self):
         """Get a fresh list of backups/snapshots and initiate update of the
         timeline content with that list."""
+
+        previous_selection = self.selected_backup_descriptor()
+
         self.timeline.clear_and_reset()
 
         self.snapshotsList = []  # TODO: -> backup_list ???
@@ -1396,11 +1393,25 @@ class MainWindow(QMainWindow):
             backup_queue.put(None)  # Finished signal
 
         def _process_queue():
-            """Read backup data from the queue and add them to the timeline"""
-            while not backup_queue.empty():
-                entry = backup_queue.get()
+            """Read backup data from the queue and add them to the timeline.
+
+            The queue processing is finished when the sentinel value `None` is
+            received.
+            """
+            while True:
+                try:
+                    entry = backup_queue.get_nowait()
+                except queue.Empty:
+                    # Queue is empty (but not finished). Try again later.
+                    QTimer.singleShot(100, _process_queue)
+                    return
+
+                # Queue finished?
                 if entry is None:
-                    self.timeline.checkSelection()
+                    if previous_selection:
+                        self.timeline.select_by_descriptor(previous_selection)
+                    else:
+                        self.timeline.select_now()
                     return
 
                 self.timeline.create_backup_entry(
@@ -1415,7 +1426,6 @@ class MainWindow(QMainWindow):
 
         # Start updating the timeline widget with backups
         QTimer.singleShot(250, _process_queue)
-
 
     def _create_temporary_copy(self, full_path: str, sid=None):
         """Create a temporary local copy a file or directory.

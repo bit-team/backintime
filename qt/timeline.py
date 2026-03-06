@@ -15,8 +15,10 @@
 """
 from datetime import (datetime, date, timedelta)
 from calendar import monthrange
+from contextlib import contextmanager
+from functools import partial
 from PyQt6.QtGui import QFont, QPalette
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtWidgets import (QAbstractItemView,
                              QApplication,
                              QTreeWidget,
@@ -242,12 +244,31 @@ class TimeLine(QTreeWidget):
 
         return True
 
-    # pylint: disable-next=invalid-name
-    def checkSelection(self):  # noqa: N802
-        """Slot handling selection events."""
-        if self.currentItem() is None:
-            # Select the 'Now' item
-            self._set_current_item(self.topLevelItem(0))
+    @contextmanager
+    def preserve_selection(self):
+        """Context manager preserving the selection of the current selected
+        item. If no selection exists the 'Now' item will be selected.
+        """
+        previous_selection = self.selected_backup_descriptor()
+
+        try:
+            yield
+
+        finally:
+            if previous_selection:
+                # Select the backup
+                callback_func = partial(
+                    self.select_by_descriptor, previous_selection
+                )
+            else:
+                # "Now" if previously no backup was selected
+                callback_func = self.select_now
+
+            QTimer.singleShot(0, callback_func)
+
+    def select_now(self):
+        """Select the first item, which is the 'Now' entry"""
+        self._set_current_item(self.topLevelItem(0))
 
     def get_all_selected_backup_descriptors(self) -> list[str]:
         """A list of all selected backup descriptors"""
