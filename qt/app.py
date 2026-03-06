@@ -1462,14 +1462,14 @@ class MainWindow(QMainWindow):
         rel_path = os.path.join(self.path, rel_path)
 
         if self.timeline.is_now_selected():
-            raise NotImplementedError('Check it out')
+            raise NotImplementedError('Check it out. Report as bug.')
 
         backup_id = self.selected_backup_id()
 
         if not backup_id:
             raise RuntimeError(
-                'Should happen. No backup_id means that "Now" is selected. '
-                'There should not be something else.'
+                'Should not happen. No backup_id means that "Now" is '
+                'selected. There should not be something else.'
             )
 
         full_path = backup_id.pathBackup(rel_path)
@@ -2357,25 +2357,6 @@ class RemoveSnapshotThread(QThread):
             if renew_last_snapshot:
                 self.snapshots.createLastSnapshotSymlink(
                     snapshots.lastSnapshot(self.config))
-
-
-# class FillTimeLineThread(QThread):
-#     """
-#     add snapshot IDs to timeline in background
-#     """
-#     addSnapshot = pyqtSignal(snapshots.SID)
-
-#     def __init__(self, parent):
-#         self.parent = parent
-#         self.config = parent.config
-#         super(FillTimeLineThread, self).__init__(parent)
-
-#     def run(self):
-#         for sid in snapshots.iterSnapshots(self.config):
-#             self.addSnapshot.emit(sid)
-#             self.parent.snapshotsList.append(sid)
-
-#         self.parent.snapshotsList.sort()
 
 
 def _get_state_data_from_config(cfg: config.Config) -> StateData:
