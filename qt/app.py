@@ -183,9 +183,11 @@ class MainWindow(QMainWindow):
         self.stackFilesView = QStackedLayout(widget)
         self.secondSplitter.addWidget(widget)
 
-        # directory don't exist label
-        self._label_not_a_dir = self._label_dir_dont_exist()
-        self.stackFilesView.addWidget(self._label_not_a_dir)
+        # label: directory don't exist
+        self._label_not_a_now_dir, self._label_not_a_backup_dir \
+            = self._label_dir_dont_exist()
+        self.stackFilesView.addWidget(self._label_not_a_now_dir)
+        self.stackFilesView.addWidget(self._label_not_a_backup_dir)
 
         # files view
         sort_column, sort_order = state_data.files_view_sorting
@@ -927,18 +929,31 @@ class MainWindow(QMainWindow):
         toolbar.insertSeparator(self.act_settings)
         toolbar.insertSeparator(self.act_shutdown)
 
-    def _label_dir_dont_exist(self) -> QLabel:
-        label = QLabel('<strong>{}</strong>'.format(
-            _("This directory doesn't exist\n"
-              "in the current selected backup.")),
-            self)
+    def _label_dir_dont_exist(self) -> tuple[QLabel, QLabel]:
+        """The labels will replace the filesview if a directory, selected
+        in the places widget, does not exist in the backup (if selected) or
+        the current file system ("Now" is selected).
+        """
+        def _setup_label(label_text: str) -> QLabel:
+            label = QLabel(f'<strong>{label_text}</strong>', self)
+            label.setWordWrap(True)
 
-        label.setFrameShadow(QFrame.Shadow.Sunken)
-        label.setFrameShape(QFrame.Shape.Panel)
-        label.setAlignment(
-            Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+            label.setFrameShadow(QFrame.Shadow.Sunken)
+            label.setFrameShape(QFrame.Shape.Panel)
+            label.setAlignment(
+                Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
 
-        return label
+            return label
+
+        label_backup = _setup_label(_(
+            "This directory doesn't exist in the selected backup."
+        ))
+        label_now = _setup_label(_(
+            "This directory doesn't exist on the computer."
+        ))
+
+        return label_now, label_backup
+
 
     def _files_view_toolbar(self):
         """Create the filesview toolbar object, connect it to actions and
@@ -1510,18 +1525,20 @@ class MainWindow(QMainWindow):
         # the handler in mainwindow than should decide about enable or disable
         # all this other UI elements.
         if os.path.isdir(full_path):
+            enable_flag = True
             self.filesView.show_hidden(self.showHiddenFiles)
             self.filesView.set_root_path(full_path)
-            enable_flag = True
+            self.stackFilesView.setCurrentWidget(self.filesView)
         else:
             enable_flag = False
+            self.stackFilesView.setCurrentWidget(
+                self._label_not_a_now_dir if self.timeline.is_now_selected()
+                else self._label_not_a_backup_dir
+            )
 
         self.toolbar_filesview.setEnabled(enable_flag)
         self._enable_restore_ui_elements(enable_flag, self.path)
         self.act_snapshots_dialog.setEnabled(enable_flag)
-        self.stackFilesView.setCurrentWidget(
-            self.filesView if enable_flag else self._label_not_a_dir
-        )
 
         # show current path
         self.widget_current_path.setText(self.path)
