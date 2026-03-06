@@ -85,7 +85,6 @@ class PlacesWidget(QTreeWidget):
 
     def do_update(self, now_selected: Optional[bool] = None) -> None:
         """Update the places view"""
-        # print(f'places.do_update({now_selected=})')
 
         # Workaround
         if now_selected is None:
@@ -98,7 +97,7 @@ class PlacesWidget(QTreeWidget):
         self._add_place(_('File System'), '/', 'computer')
 
         fp_home = pathlib.Path.home()
-        self._add_place(
+        home_item = self._add_place(
             # Use full path in root mode ("/root") otherwise users name only
             str(fp_home) if bitbase.IS_IN_ROOT_MODE else fp_home.name,
             str(fp_home),
@@ -151,7 +150,11 @@ class PlacesWidget(QTreeWidget):
         for folder in include_folders:
             self._add_place(folder, folder, 'document-save')
 
-    def _add_place(self, name, path, icon):
+        # Select "home" if nothing is selected
+        if self.currentItem() is None:
+            self.setCurrentItem(home_item)
+
+    def _add_place(self, name, path, icon) -> QTreeWidgetItem:
         """
         Dev note (buhtz, 2024-01-14): Parts of that code are redundant with
         timeline.py::HeaderItem.__init__().

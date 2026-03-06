@@ -101,8 +101,8 @@ class TimeLine(QTreeWidget):
     # update_files_view = pyqtSignal(int)
 
     event_selection_changed = Event()
-    event_now_item_selected = Event()
-    event_backup_item_selected = Event()
+    event_now_selected = Event()
+    event_backup_selected = Event()
 
     def __init__(self, parent):
         super().__init__(parent)
@@ -142,10 +142,11 @@ class TimeLine(QTreeWidget):
         # print('_on_item_selection_changed()')
 
         if self.is_now_selected():
-            self.event_now_item_selected.notify()
+            self.event_now_selected.notify()
             return
 
-        self.event_backup_item_selected.notify(self.selected_backup_descriptor)
+        self.event_backup_selected.notify(
+            self.selected_backup_descriptor)
 
     def clear_and_reset(self):
         """Remove all entries, recalculate header data and add 'Now' entry"""

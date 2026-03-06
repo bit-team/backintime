@@ -246,11 +246,11 @@ class MainWindow(QMainWindow):
 
         # self.updateSnapshotActions()
 
-        self.timeline.event_now_item_selected.register([
+        self.timeline.event_now_selected.register([
             self._on_now_selected,
             self.places.on_now_selected,
         ])
-        self.timeline.event_backup_item_selected.register([
+        self.timeline.event_backup_selected.register([
             self._on_backup_selected,
             self.places.on_backup_changed
         ])
@@ -1532,8 +1532,6 @@ class MainWindow(QMainWindow):
                     break
 
         self._update_files_widget()
-
-        # update files view
 
         backup_id = self.selected_backup_id()
 
