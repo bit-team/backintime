@@ -262,7 +262,7 @@ class MainWindow(QMainWindow):
         self._handle_user_messages()
 
     def selected_backup_id(self) -> snapshots.SID | None:
-        """Return the identiy of the backup that is currently selected in the
+        """Return the identity of the backup that is currently selected in the
         timeline widget.
         """
         backup_descriptor = self.timeline.selected_backup_descriptor()

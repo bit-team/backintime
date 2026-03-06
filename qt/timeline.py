@@ -23,7 +23,7 @@ from PyQt6.QtWidgets import (QAbstractItemView,
                              QApplication,
                              QTreeWidget,
                              QTreeWidgetItem)
-import logger  # workaround. shouldn't be neccessary
+import logger  # workaround. shouldn't be necessary
 import qttools
 from event import Event
 from qttools_path import register_backintime_path
@@ -50,10 +50,12 @@ def _calculate_timeline_periods(today: date = date.today()
                                 ) -> list[tuple[str, datetime, datetime]]:
     """Calculate timestamps for the sub-headers.
 
-    Returns:
-        A list of tuples with label, start and end datetime of each periode.
-    """
+    The headers are Today, Yesterday, This Week, Last Week, This Month and
+    Last Month.
 
+    Returns:
+        A list of tuples with label, start and end datetime of each period.
+    """
     result = []
 
     # Today
@@ -139,10 +141,9 @@ class TimeLine(QTreeWidget):
         self.itemSelectionChanged.connect(self._on_item_selection_changed)
 
     def _on_item_selection_changed(self):
-        # Maybe remove
-        # self.event_selection_changed.notify()
-        # print('_on_item_selection_changed()')
-
+        """Selection event handler distinguishing between 'Now' and backup
+        entries.
+        """
         if self.is_now_selected():
             self.event_now_selected.notify()
             return
@@ -283,7 +284,7 @@ class TimeLine(QTreeWidget):
         """Return the backup descriptor of the current selected item.
 
         Return:
-            The descriptor (formaly known as 'sid') as a string.
+            The descriptor (formally known as 'sid') as a string.
         """
         if self.is_now_selected():
             return None
@@ -295,7 +296,7 @@ class TimeLine(QTreeWidget):
     def selected_backup_label(self) -> str:
         """Return the label used of the current selected item.
 
-        That is the backup descriptor plus a name string if definied
+        That is the backup descriptor plus a name string if defined
         by the user.
         """
         if self.is_now_selected():

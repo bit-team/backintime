@@ -2521,7 +2521,7 @@ class SID:  # -> "BackupID" will be its new name
 
     TODO dev note (2026-03 buhtz):
     The class is doing to much. Path management and helper methods should go
-    elsewhere. Keep it dump. At its core it is a bakcup meta data class
+    elsewhere. Keep it dump. At its core it is a backup meta data class
     encapsulate the meta data of one specific backup. BackupMetadata make sense
     as name but is a bit to long. Maybe BackupID as a compromise? "self.sid"
     will become "backup_descriptor", the identification string based on the

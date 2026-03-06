@@ -115,7 +115,7 @@ class PlacesWidget(QTreeWidget):
             # profile config stored within each backup. Why not parse
             # that config file instead of scanning the real filesystem?
 
-            # formaly known as self.sid
+            # formally known as self.sid
             backup_id = self.parent.selected_backup_id()
 
             # Determine directories from the backup itself
