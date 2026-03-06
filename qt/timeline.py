@@ -21,8 +21,8 @@ from PyQt6.QtWidgets import (QAbstractItemView,
                              QApplication,
                              QTreeWidget,
                              QTreeWidgetItem)
-import qttools
 import logger  # workaround. shouldn't be neccessary
+import qttools
 from event import Event
 from qttools_path import register_backintime_path
 register_backintime_path('common')
@@ -30,14 +30,17 @@ register_backintime_path('common')
 try:
     _('Warning')
 except NameError:
-    _ = lambda s: s  # noqa: E731
+    def _(txt):
+        return txt
 
 
 def start_of_day(day: date) -> datetime:
+    """Add 00:00 to a date object"""
     return datetime.combine(day, datetime.min.time())
 
 
 def end_of_day(day: date) -> datetime:
+    """Add 23:59 to a date object"""
     return datetime.combine(day, datetime.max.time())
 
 
@@ -145,9 +148,7 @@ class TimeLine(QTreeWidget):
         self.event_backup_item_selected.notify(self.selected_backup_descriptor)
 
     def clear_and_reset(self):
-        # blocker = QSignalBlocker(self)
-        # import traceback
-        # traceback.print_stack(limit=5)
+        """Remove all entries, recalculate header data and add 'Now' entry"""
 
         with qttools.block_paint_updates(self):
 
@@ -168,6 +169,10 @@ class TimeLine(QTreeWidget):
                             timestamp: datetime,
                             last_checked: str,
                             label: str):
+        """Create and add an item representing backup.
+
+        Also add a header if not already present.
+        """
         item = BackupEntry(
             descriptor=descriptor,
             timestamp=timestamp,
@@ -216,7 +221,9 @@ class TimeLine(QTreeWidget):
         start = backup_timestamp.date().replace(day=1)
         end = start.replace(day=monthrange(start.year, start.month)[1])
 
-        label = start.strftime('%B' if start.year == date.year else '%B, %Y')
+        label = start.strftime(
+            '%B' if start.year == date.today().year else '%B, %Y'
+        )
         label = label.capitalize()
 
         self._create_header_entry(label, start_of_day(start), end_of_day(end))
@@ -238,14 +245,12 @@ class TimeLine(QTreeWidget):
     def checkSelection(self):  # noqa: N802
         """Slot handling selection events."""
         if self.currentItem() is None:
-            self.select_root_item()
+            # Select the 'Now' item
+            self._set_current_item(self.topLevelItem(0))
 
-    def select_root_item(self):
-        self._set_current_item(self.topLevelItem(0))
-
-    def selected_snapshot_ids(self):
-        """Snapshot IDs of all selected entries."""
-        return [i.snapshot_id for i in self.selectedItems()]
+    def get_all_selected_backup_descriptors(self) -> list[str]:
+        """A list of all selected backup descriptors"""
+        return [item.descriptor for item in self.selectedItems()]
 
     def is_now_selected(self) -> bool:
         """If the 'Now' item, the first in the widget, is selected."""
@@ -253,6 +258,11 @@ class TimeLine(QTreeWidget):
         return model_index.row() == 0
 
     def selected_backup_descriptor(self) -> str:
+        """Return the backup descriptor of the current selected item.
+
+        Return:
+            The descriptor (formaly known as 'sid') as a string.
+        """
         if self.is_now_selected():
             return None
 
@@ -261,6 +271,11 @@ class TimeLine(QTreeWidget):
         return item.descriptor if item else None
 
     def selected_backup_label(self) -> str:
+        """Return the label used of the current selected item.
+
+        That is the backup descriptor plus a name string if definied
+        by the user.
+        """
         if self.is_now_selected():
             return None
 
@@ -295,6 +310,7 @@ class TimeLine(QTreeWidget):
                 yield item
 
 
+# pylint: disable-next=too-few-public-methods
 class _TimeLineItemBase(QTreeWidgetItem):
     """Backup entry widget used in TimeLine."""
 
@@ -341,9 +357,11 @@ class BackupEntry(_TimeLineItemBase):
 
     @property
     def label(self) -> str:
+        """Text label of the entry."""
         return self.text(0)
 
 
+# pylint: disable-next=too-few-public-methods
 class NowEntry(_TimeLineItemBase):
     """Now entry widget used in TimeLine."""
 

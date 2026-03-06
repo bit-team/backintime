@@ -51,8 +51,7 @@ from PyQt6.QtGui import (QAction,
                          QDesktopServices,
                          QIcon,
                          QShortcut)
-from PyQt6.QtWidgets import (
-                             QApplication,
+from PyQt6.QtWidgets import (QApplication,
                              QDialog,
                              QFrame,
                              QGroupBox,
@@ -67,10 +66,8 @@ from PyQt6.QtWidgets import (
                              QToolButton,
                              QVBoxLayout,
                              QWidget)
-from PyQt6.QtCore import (
-                          QPoint,
+from PyQt6.QtCore import (QPoint,
                           pyqtSignal,
-                          QSignalBlocker,
                           Qt,
                           QTimer,
                           QThread,
@@ -1354,7 +1351,7 @@ class MainWindow(QMainWindow):
         # IDEE: sid should stay in the timeline and nowhere else
         self.updateFilesView(2)
 
-    def _on_backup_selected(self, sid):
+    def _on_backup_selected(self, _sid):
         self._enable_snapshot_actions(True)
         # self.sid = sid
         self.updateFilesView(2)
@@ -1368,7 +1365,7 @@ class MainWindow(QMainWindow):
         for sid in self.snapshotsList:
             self.timeline.create_backup_entry(
                 descriptor=sid.get_descriptor(),
-                tiemstamp=sid.get_timestamp(),
+                timestamp=sid.get_timestamp(),
                 last_checked=sid.lastChecked,
                 label=sid.displayName
             )

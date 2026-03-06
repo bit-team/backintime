@@ -320,7 +320,11 @@ class SnapshotsDialog(QDialog):
         self.updateSnapshots()
 
     def updateToolbar(self):
-        sids = self.timeLine.selected_snapshot_ids()
+        sids = self.timeLine.get_all_selected_backup_descriptors()
+        sids = [
+            snapshots.SID(date=descriptor, cfg=self.config)
+            for descriptor in sids
+        ]
 
         if not sids:
             enable_restore = False
