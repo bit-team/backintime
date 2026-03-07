@@ -1370,7 +1370,7 @@ class MainWindow(QMainWindow):
         """Get a fresh list of backups/snapshots and initiate update of the
         timeline content with that list."""
 
-        previous_selection = self.selected_backup_descriptor()
+        previous_selection = self.timeline.selected_backup_descriptor()
 
         self.timeline.clear_and_reset()
 
@@ -1462,20 +1462,17 @@ class MainWindow(QMainWindow):
         rel_path = os.path.join(self.path, rel_path)
 
         if self.timeline.is_now_selected():
-            raise NotImplementedError('Check it out. Report as bug.')
+            full_path = rel_path
 
-        backup_id = self.selected_backup_id()
+        else:
+            backup_id = self.selected_backup_id()
 
-        if not backup_id:
-            raise RuntimeError(
-                'Should not happen. No backup_id means that "Now" is '
-                'selected. There should not be something else.'
-            )
+            if not backup_id.isExistingPathInsideSnapshotFolder(rel_path):
+                return
 
-        full_path = backup_id.pathBackup(rel_path)
+            full_path = backup_id.pathBackup(rel_path)
 
-        if (not backup_id.isExistingPathInsideSnapshotFolder(rel_path)
-                and not os.path.exists(full_path)):
+        if not os.path.exists(full_path):
             return
 
         if os.path.isdir(full_path):
