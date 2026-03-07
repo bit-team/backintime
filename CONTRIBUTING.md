@@ -45,8 +45,8 @@ reviewing the documentation and suggesting improvements.
   - [Build and install via `make` system
     (recommended)](#build-and-install-via-make-system-recommended)
 - [Testing](#testing)
-  - [SSH](#SSH)
-- [What happens after you opened a Pull Request (PR)?](#what-happens-after-you-opened-a-pull-request-PR)
+  - [SSH](#ssh)
+- [What happens after you opened a Pull Request (PR)?](#what-happens-after-you-opened-a-pull-request-pr)
 - [Instructions about translation](#instructions-about-translation)
   - [Terminology](#terminology)
   - [General recommendations for developers](#general-recommendations-for-developers)
@@ -55,7 +55,7 @@ reviewing the documentation and suggesting improvements.
   - [Treat other translators work with respect](#treat-other-translators-work-with-respect)
 - [Strategy Outline](#strategy-outline)
 - [Licensing of contributed material](#licensing-of-contributed-material)
-- [Quick technical guide](#quick-tecnical-guide)
+- [Quick technical guide](#quick-technical-guide)
 <!-- TOC end -->
 
 # Before you start
@@ -63,7 +63,8 @@ reviewing the documentation and suggesting improvements.
 - Remember that this project is maintained by volunteers in their free time –
   human beings just like you.
 - [You should be a user of this software](FAQ.md#can-i-contribute-without-using-the-software).
-- [Introduce yourself](FAQ.md#why-do-i-need-to-introduce-myself).
+- [Introduce yourself](FAQ.md#why-do-i-need-to-introduce-myself). An introduction will help to distinguish you from AI generated contributions. Otherwise the risk is high that your PR is closed.
+- Take the responsibility for your contribution. The [Generative AI policy](https://developer.joomla.org/generative-ai-policy.html) of the _Joomla_ project might give you deeper insights on that.
 - Check out the [FAQ entries about contributing to the project](FAQ.md#project--contributing--more).
 - And finally: Don't refuse to read this document carefully!
 
@@ -309,7 +310,7 @@ The following points are about creating translatable source strings.
 - Please provide a screenshot when introducing new translatable strings or
   modifying them. The picture will be used on the translation web-frontend to
   provide translators with more context.
-- [Consider Right-to-Left (RTL) and Bidiretional (BIDI) languages](#consider-right-to-left-rtl-and-bidiretional-bidi-languages).
+- [Consider Right-to-Left (RTL) and Bidiretional (BIDI) languages](#consider-right-to-left-rtl-and-bidirectional-bidi-languages).
 - [Be aware of shortcut indicators and possible duplicates](#be-aware-of-shortcut-indicators-and-possible-duplicates).
 - [Treat other translators work with respect](#treat-other-translators-work-with-respect).
     
@@ -553,4 +554,4 @@ or can be read from the local repository with
    See Microsoft GitHub's own documentation about
    [how to create a Pull Request based on your own fork](https://docs.github.com/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
 
-<sub>January 2026</sub>
+<sub>March 2026</sub>
