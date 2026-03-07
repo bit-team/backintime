@@ -155,6 +155,8 @@ class FilesView(QTreeView):
             )
 
     def set_root_path(self, path: str):
+        # self.selectionModel().clear()
+
         # model: path to read from
         model_index = self.model.setRootPath(path)
         proxy_model_index = self.proxy.mapFromSource(model_index)
@@ -217,6 +219,12 @@ class FilesView(QTreeView):
         for path in paths:
             src_idx = self.model.index(path)
             proxy_idx = self.proxy.mapFromSource(src_idx)
+
+            if not proxy_idx.isValid():
+                # Don't select if it isn't visible
+                print(f'dont select ::{path=}')
+                continue
+
             self.selectionModel().select(proxy_idx, flag)
 
     def show_hidden(self, show: bool):
@@ -224,7 +232,10 @@ class FilesView(QTreeView):
             self.proxy.show_hidden(show)
 
     def get_selected_paths(self) -> list[str]:
+        """All selected paths
 
+        Returns: Path list as strings
+        """
         selection = []
 
         for proxy_idx in self.selectionModel().selectedRows(0):
@@ -232,21 +243,26 @@ class FilesView(QTreeView):
             path = self.model.filePath(src_idx)
             selection.append(path)
 
-        # # ???
-        # if len(selection) == 0:
-        #     # Does it mean to return the current path instead of nothing?
-        #     raise RuntimeError(
-        #         'FilesView.multiFileSelected() nothing selected, not count')
-
-        #     # # nothing is selected
-        #     # idx = self.proxy.mapFromSource(
-        #     #     self.model.index(self.path, 0))
-
-        #     # selected_file = self.path if fullPath else ''
-
-        #     # yield (selected_file, idx)
-
         return selection
+
+    def get_current_path(self) -> str | None:
+        """Current selcted path.
+
+        Returns: The path as string.
+        """
+        proxy_idx = self.selectionModel().currentIndex()
+
+        if not proxy_idx.isValid():
+            return None
+
+        src_idx = self.proxy.mapToSource(proxy_idx)
+
+        # visible in proxy?
+        if self.proxy.mapFromSource(src_idx) != proxy_idx:
+            # no it is hidden
+            return None
+
+        return self.model.filePath(src_idx)
 
     def _slot_context_menu(self, point):
         self._context_menu.exec(self.mapToGlobal(point))

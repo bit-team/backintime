@@ -102,9 +102,8 @@ class TimeLine(QTreeWidget):
 
     The widget is placed on the right side of the main window.
     """
-    # update_files_view = pyqtSignal(int)
 
-    event_selection_changed = Event()
+    # event_selection_changed = Event()
     event_now_selected = Event()
     event_backup_selected = Event()
 
@@ -155,11 +154,6 @@ class TimeLine(QTreeWidget):
         """Remove all entries, recalculate header data and add 'Now' entry"""
 
         with qttools.block_paint_updates(self):
-
-            # # dirty signal hack
-            # with self.event_selection_changed.keep_silent():
-            #     with self.event_now_item_selected.keep_silent():
-            #         with self.event_backup_item_selected.keep_silent():
             super().clear()
             self._header_data = []
             self._default_header_data = _calculate_timeline_periods()
@@ -177,6 +171,9 @@ class TimeLine(QTreeWidget):
 
         Also add a header if not already present.
         """
+        print(f'\n{descriptor=}')
+        import traceback
+        traceback.print_stack()
         item = BackupEntry(
             descriptor=descriptor,
             timestamp=timestamp,
@@ -186,9 +183,6 @@ class TimeLine(QTreeWidget):
 
         self.addTopLevelItem(item)
         self._create_header_if_necessary(timestamp)
-
-        # Select the snapshot that was selected before
-        # use FileView.preserve_selection() TODO
 
     def _header_in_use(self, backup_timestamp: datetime) -> bool:
         """Check if the backup timestamp fit into an already existing
@@ -315,7 +309,7 @@ class TimeLine(QTreeWidget):
 
     def _set_current_item(self, item, *args, **kwargs):
         self.setCurrentItem(item, *args, **kwargs)
-        self.event_selection_changed.notify()
+        # self.event_selection_changed.notify()
 
     def _iter_items(self):
         for index in range(self.topLevelItemCount()):
@@ -344,7 +338,9 @@ class _TimeLineItemBase(QTreeWidgetItem):
         super().__init__()
 
         if tooltip:
-            self.setToolTip(0, tooltip)
+            # DEBUG
+            self.setToolTip(0, f'{type(self)} {tooltip}')
+            # self.setToolTip(0, tooltip)
 
         self.setText(0, label)
         self.setData(0, Qt.ItemDataRole.UserRole, timestamp)

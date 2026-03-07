@@ -103,6 +103,7 @@ class PlacesWidget(QTreeWidget):
             str(fp_home),
             'user-home')
 
+        # formally known as self.sid
         backup_id = self.parent.selected_backup_id()
 
         # "Now" or a specific snapshot selected?
@@ -114,9 +115,6 @@ class PlacesWidget(QTreeWidget):
             # Dev note (2026-03): I wonder why this is needed. Isn't the
             # profile config stored within each backup. Why not parse
             # that config file instead of scanning the real filesystem?
-
-            # formally known as self.sid
-            backup_id = self.parent.selected_backup_id()
 
             # Determine directories from the backup itself
             base = os.path.expanduser('~')

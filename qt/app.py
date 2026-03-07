@@ -139,9 +139,6 @@ class MainWindow(QMainWindow):
 
         # timeline (left widget)
         self.timeline = timeline.TimeLine(self)
-        self.timeline.event_selection_changed.register(
-            self._on_timeline_selection_changed
-        )
 
         # right widget
         self.filesWidget = QGroupBox(self)
@@ -241,8 +238,6 @@ class MainWindow(QMainWindow):
                           .connect(self.comboProfileChanged)
 
         self.filesView.setFocus()
-
-        # self.updateSnapshotActions()
 
         self.timeline.event_now_selected.register([
             self._on_now_selected,
@@ -953,7 +948,6 @@ class MainWindow(QMainWindow):
 
         return label_now, label_backup
 
-
     def _files_view_toolbar(self):
         """Create the filesview toolbar object, connect it to actions and
         return it for later use.
@@ -1504,9 +1498,6 @@ class MainWindow(QMainWindow):
 
         self.filesWidget.setTitle(text)
 
-    def _on_timeline_selection_changed(self):
-        self.updateFilesView(2)
-
     # @pyqtSlot(int)
     def updateFilesView(self,
                         changed_from,
@@ -1568,7 +1559,9 @@ class MainWindow(QMainWindow):
 
         self.toolbar_filesview.setEnabled(enable_flag)
         self._enable_restore_ui_elements(enable_flag, self.path)
-        self.act_snapshots_dialog.setEnabled(enable_flag)
+        self.act_snapshots_dialog.setEnabled(
+            False if self.is_now_selected() else enable_flag
+        )
 
         # show current path
         self.widget_current_path.setText(self.path)
@@ -1604,36 +1597,6 @@ class MainWindow(QMainWindow):
                 _('Restore {path}').format(path=path))
             self.act_restore_parent_to.setText(
                 _('Restore {path} to …').format(path=path))
-
-
-    def fileSelected(self, fullPath=False):
-        """Return path and index of the currently in Files View highlighted
-        (selected) file.
-
-        Args:
-            fullPath(bool): Resolve relative to a full path.
-
-        Returns:
-            (tuple): Path as a string and the index.
-        """
-        model_index = self.filesView.currentIndex()
-
-        if model_index.column() > 0:
-            model_index = model_index.sibling(model_index.row(), 0)
-
-        selected_file = str(self.filesView.proxy.data(model_index))
-
-        if selected_file == '/':
-            # nothing is selected
-            selected_file = ''
-            model_index = self.filesView.proxy.mapFromSource(
-                self.filesView.model.index(self.path, 0))
-
-        if fullPath:
-            # resolve to full path
-            selected_file = os.path.join(self.path, selected_file)
-
-        return (selected_file, model_index)
 
     @contextmanager
     def suspend_mouse_button_navigation(self):
@@ -2066,7 +2029,7 @@ class MainWindow(QMainWindow):
             self.updateFilesView(0)
 
     def _slot_files_view_open_current_item(self):
-        path, _idx = self.fileSelected()
+        path = self.filesView.get_current_path()
 
         if not path:
             return
@@ -2113,18 +2076,14 @@ class MainWindow(QMainWindow):
         self.shutdown.activate_shutdown = checked
 
     def _slot_snapshots_dialog(self):
-        path, _idx = self.fileSelected(fullPath = True)
+        #  path = self.filesView.get_current_path()
+        # print(f'slot_snapshots_dialog() :: {path=} {self.path=}')
 
         with self.suspend_mouse_button_navigation():
-            # TODO: self.sid or "Now"
-            backup_id = self.selected_backup_id()
-            # WORKAROUND
-            if not backup_id:
-                backup_id = snapshots.RootSnapshot(self.config)
             dlg = snapshotsdialog.SnapshotsDialog(
                 self,
-                backup_id,
-                path
+                self.selected_backup_id(),
+                self.path
             )
 
             if dlg.exec() == QDialog.DialogCode.Accepted:
