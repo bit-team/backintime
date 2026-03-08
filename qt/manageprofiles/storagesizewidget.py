@@ -7,14 +7,14 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Module with a widget combining a spinbox and a combobox."""
 from PyQt6.QtWidgets import QWidget
-from event import Event
 from storagesize import StorageSize, SizeUnit
+from event import Event
 from manageprofiles.spinboxunit import SpinBoxWithUnit
 
 
 class StorageSizeWidget(SpinBoxWithUnit):
-    """A combined widget for selected storage size values and their unit.
-    """
+    """A combined widget for selected storage size values and their unit."""
+
     def __init__(self,
                  parent: QWidget,
                  range_min_max: tuple[int, int],
