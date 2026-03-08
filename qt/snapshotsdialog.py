@@ -16,7 +16,7 @@ import os
 import subprocess
 import shlex
 
-from PyQt6.QtGui import QDesktopServices
+# from PyQt6.QtGui import QDesktopServices
 from PyQt6.QtWidgets import (QCheckBox,
                              QDialog,
                              QDialogButtonBox,
@@ -28,9 +28,7 @@ from PyQt6.QtWidgets import (QCheckBox,
                              QPushButton,
                              QToolBar,
                              QVBoxLayout)
-from PyQt6.QtCore import (Qt,
-                          QThread,
-                          QUrl)
+from PyQt6.QtCore import Qt, QThread
 
 from timeline import TimeLine
 from bitwidgets import SnapshotCombo
@@ -263,7 +261,8 @@ class SnapshotsDialog(QDialog):
         self.timeLineChanged()
 
     def addSnapshot(self, sid):
-        # to timeline
+        """Add backup (sid) in the timeine widget"""
+        # pylint: disable-next=duplicate-code
         self.timeline.create_backup_entry(
             descriptor=sid.get_descriptor(),
             timestamp=sid.get_timestamp(),

@@ -1352,6 +1352,7 @@ class MainWindow(QMainWindow):
         with self.timeline.preserve_selection():
             self.timeline.clear_and_reset()
 
+            # pylint: disable-next=duplicate-code
             for sid in self.snapshotsList:
                 self.timeline.create_backup_entry(
                     descriptor=sid.get_descriptor(),

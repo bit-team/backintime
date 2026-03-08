@@ -305,6 +305,7 @@ class TimeLine(QTreeWidget):
                 break
 
     def select_all_backup_entries(self):
+        """Highlight all backup entries."""
         self.clearSelection()
         for item in self.iter_backup_items():
             item.setSelected(True)
