@@ -670,6 +670,9 @@ def create_completeness_dict():
     # "en" is the source language
     result['en'] = 100
 
+    # Sort by language key
+    result = dict(sorted(result.items()))
+
     return result
 
 
