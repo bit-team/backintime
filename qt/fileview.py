@@ -246,7 +246,7 @@ class FilesView(QTreeView):
         return selection
 
     def get_current_path(self) -> str | None:
-        """Current selcted path.
+        """Current selected path.
 
         Returns: The path as string.
         """
