@@ -445,6 +445,10 @@ def update_from_weblate():
     cmd = [
         'git',
         'clone',
+        # git meta data, only for the first commit
+        '--depth',
+        '1',
+        # don't checkout anything
         '--no-checkout',
         WEBLATE_URL,
         tmp_dir
