@@ -22,8 +22,6 @@ arch:
  - amd64
 
 python:
-  - "3.11"
-  - "3.12"
   - "3.13"
   - "3.14"
  
@@ -48,8 +46,6 @@ before_install:
 
 jobs:
   exclude:
-    - python: "3.11"
-    - python: "3.12"
     - python: "3.13"
 
 install:
