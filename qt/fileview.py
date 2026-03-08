@@ -222,7 +222,6 @@ class FilesView(QTreeView):
 
             if not proxy_idx.isValid():
                 # Don't select if it isn't visible
-                print(f'dont select ::{path=}')
                 continue
 
             self.selectionModel().select(proxy_idx, flag)
