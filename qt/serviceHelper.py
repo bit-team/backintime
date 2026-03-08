@@ -69,9 +69,10 @@ import dbus
 import dbus.service
 import dbus.mainloop
 
+# WORKAROUND
 try:
     # pylint: disable-next=import-error,useless-suppression
-    import dbus.mainloop.pyqt6x
+    import dbus.mainloop.pyqt6
     # pylint: disable-next=import-error,useless-suppression
     from dbus.mainloop.pyqt6 import DBusQtMainLoop
 except (ModuleNotFoundError, ImportError) as exc:
