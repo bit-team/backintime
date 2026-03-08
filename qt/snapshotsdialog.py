@@ -279,9 +279,6 @@ class SnapshotsDialog(QDialog):
         self.comboDiff.check_selection()
 
     def updateSnapshots(self):
-        # print('X'*100)
-        # print(f'{self.snapshots=}')
-        # print(f'{self.snapshotsList=}')
         self.timeline.clear_and_reset()
         self.comboDiff.clear()
 
@@ -300,11 +297,8 @@ class SnapshotsDialog(QDialog):
             flag_deep_check=self.cbDeepCheck.isChecked(),
             list_equal_to=equal_to
         )
-        WEITER HIER: filter liefert ein "/" zurück. bullshit
 
-        print(f'{snapshotsFiltered=}')
         for sid in snapshotsFiltered:
-            print(f'{sid=}')
             self.addSnapshot(sid)
 
         self.updateToolbar()
@@ -387,30 +381,38 @@ class SnapshotsDialog(QDialog):
     def timeLineChanged(self):
         self.updateToolbar()
 
-    def _deprecated_timeLineExecute(self, _item, _column):
-        # Ctrl button pressed, indicates ongoing multiselection?
-        modifiers = self.qapp.keyboardModifiers()
-        if Qt.KeyboardModifier.ControlModifier in modifiers:
-            return
+    # def _deprecated_timeLineExecute(self, _item, _column):
+    #     # Ctrl button pressed, indicates ongoing multiselection?
+    #     modifiers = self.qapp.keyboardModifiers()
+    #     if Qt.KeyboardModifier.ControlModifier in modifiers:
+    #         return
 
-        sid = self.timeline.current_snapshot_id()
-        if not sid:
-            return
+    #     sid = self.timeline.current_snapshot_id()
+    #     if not sid:
+    #         return
 
-        full_path = sid.pathBackup(self.path)
-        if not os.path.exists(full_path):
-            return
+    #     full_path = sid.pathBackup(self.path)
+    #     if not os.path.exists(full_path):
+    #         return
 
-        # prevent backup data from being accidentally overwritten
-        # by create a temporary local copy and only open that one
-        if not isinstance(self.sid, snapshots.RootSnapshot):
-            full_path = self.parent._create_temporary_copy(full_path, sid)
+    #     # prevent backup data from being accidentally overwritten
+    #     # by create a temporary local copy and only open that one
+    #     if not isinstance(self.sid, snapshots.RootSnapshot):
+    #         full_path = self.parent._create_temporary_copy(full_path, sid)
 
-        QDesktopServices.openUrl(QUrl(full_path))
+    #     QDesktopServices.openUrl(QUrl(full_path))
 
     def btnDiffClicked(self):
-        sid1 = self.timeline.current_snapshot_id()
+        sid1 = None
+        if self.timeline.is_now_selected():
+            sid1 = snapshots.RootSnapshot(self.config)
+        else:
+            backup_descriptor = self.timeline.selected_backup_descriptor()
+            if backup_descriptor:
+                sid1 = snapshots.SID(backup_descriptor, self.config)
+
         sid2 = self.comboDiff.current_snapshot_id()
+
         if not sid1 or not sid2:
             return
 
@@ -501,13 +503,8 @@ class SnapshotsDialog(QDialog):
                     self.config.setExclude(exclude)
 
     def btnSelectAllClicked(self):
-        """
-        select all expect 'Now'
-        """
-        self.timeline.clearSelection()
-        for item in self.timeline.iter_snapshot_items():
-            if not isinstance(item.snapshot_id, snapshots.RootSnapshot):
-                item.setSelected(True)
+        """Select all backups but not 'Now'"""
+        self.timeline.select_all_backup_entries()
 
     def accept(self):
         sid = self.timeline.selected_backup_descriptor()

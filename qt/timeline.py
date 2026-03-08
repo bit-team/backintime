@@ -171,9 +171,6 @@ class TimeLine(QTreeWidget):
 
         Also add a header if not already present.
         """
-        print(f'\n{descriptor=}')
-        import traceback
-        traceback.print_stack()
         item = BackupEntry(
             descriptor=descriptor,
             timestamp=timestamp,
@@ -306,6 +303,11 @@ class TimeLine(QTreeWidget):
             if item.descriptor == backup_descriptor:
                 self._set_current_item(item)
                 break
+
+    def select_all_backup_entries(self):
+        self.clearSelection()
+        for item in self.iter_backup_items():
+            item.setSelected(True)
 
     def _set_current_item(self, item, *args, **kwargs):
         self.setCurrentItem(item, *args, **kwargs)

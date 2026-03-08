@@ -2132,6 +2132,10 @@ class Snapshots:
         ``base_path`` file is included and optional if the snapshot is unique
         or equal to ``list_equal_to``.
 
+        Dev note (buhtz, 2026-03): Purpose seems to be to get only these
+        backups which contain a specific path/file (the current selected in
+        fileview maybe).
+
         Args:
             base_sid (SID):         snapshot ID that contained the original
                                     file ``base_path``
@@ -2150,9 +2154,9 @@ class Snapshots:
         Returns:
             list:                   filtered list of :py:class:`SID` objects
         """
-        print(f'Snapshots.filter() :: {base_sid=} {base_path=} '
-              f'{snapshotsList=} {list_diff_only=} {flag_deep_check=} '
-              f'{list_equal_to=}')
+        # print(f'Snapshots.filter() :: {base_sid=} {base_path=} '
+        #       f'{snapshotsList=} {list_diff_only=} {flag_deep_check=} '
+        #       f'{list_equal_to=}')
 
         snapshotsFiltered = []
 
@@ -2160,7 +2164,14 @@ class Snapshots:
         if not os.path.lexists(base_full_path):
             return []
 
-        allSnapshotsList = [RootSnapshot(self.config)]
+        # Dev note (2026-03, buhtz): Keep in mind that "Now" will appear in
+        # each snapshots dialog because its timeline widget add it by
+        # default. But the related dir/file (base_path) might not be
+        # present anymore in "Now" but only in the backups.
+        # This will cause rare bugs. But we accepting this until refactoring.
+        # See https://github.com/bit-team/backintime/issues/2434
+        # allSnapshotsList = [RootSnapshot(self.config)]
+        allSnapshotsList = []
         allSnapshotsList.extend(snapshotsList)
 
         # links

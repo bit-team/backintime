@@ -2080,13 +2080,12 @@ class MainWindow(QMainWindow):
         # print(f'slot_snapshots_dialog() :: {path=} {self.path=}')
 
         with self.suspend_mouse_button_navigation():
-            dlg = snapshotsdialog.SnapshotsDialog(
-                self,
-                self.selected_backup_id(),
-                self.path
-            )
+            backup_id = self.selected_backup_id()
+            dlg = snapshotsdialog.SnapshotsDialog(self, backup_id, self.path)
 
             if dlg.exec() == QDialog.DialogCode.Accepted:
+                # ToDo: MainWindow (or its timeline) should describe to the
+                # dialogs event_backup_selected
                 if dlg.sid != backup_id:
                     self.timeline.select_by_descriptor(
                         dlg.sid.get_descriptor()
