@@ -14,9 +14,9 @@
 # been documented and could be lost.
 msgid ""
 msgstr ""
-"Project-Id-Version: Back In Time 1.6.1\n"
+"Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-02-10 15:49+0100\n"
+"POT-Creation-Date: 2026-03-08 12:51+0100\n"
 "PO-Revision-Date: 2025-06-09 11:28+0000\n"
 "Last-Translator: pablolucas890 <pablolucas890@noreply.codeberg.org>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.codeberg.org/projects/backintime/common/pt_BR/>\n"
@@ -39,7 +39,7 @@ msgstr ""
 "arquivo usando metadados SPDX, consulte {readme_link}."
 
 #: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:25
-#: qt/messagebox.py:99
+#: qt/messagebox.py:99 qt/timeline.py:33
 msgid "Warning"
 msgstr "Aviso"
 
@@ -237,7 +237,7 @@ msgstr "FALHOU"
 msgid "Restore permissions"
 msgstr "Restaurar permissões"
 
-#: common/snapshots.py:656 qt/app.py:240 qt/app.py:1195 qt/app.py:1211
+#: common/snapshots.py:656 qt/app.py:207 qt/app.py:1170 qt/app.py:1186
 #: qt/qtsystrayicon.py:118
 msgid "Done"
 msgstr "Concluído"
@@ -252,11 +252,11 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "Backup adiado devido ao uso de bateria"
 
-#: common/snapshots.py:931 qt/app.py:393
+#: common/snapshots.py:931 qt/app.py:377
 msgid "Can't find backup directory."
 msgstr "Não foi possível encontrar o diretório de backups."
 
-#: common/snapshots.py:935 qt/app.py:394
+#: common/snapshots.py:935 qt/app.py:378
 #, fuzzy
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Se estiver em uma unidade removível, por favor, insira-o."
@@ -366,7 +366,7 @@ msgstr "Tentando manter o mínimo de espaço livre"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Tentando manter no mínimo {perc} de inodes livres"
 
-#: common/snapshots.py:3211 qt/app.py:1482
+#: common/snapshots.py:3240 qt/app.py:1490 qt/timeline.py:397
 msgid "Now"
 msgstr "Agora"
 
@@ -494,64 +494,64 @@ msgstr ""
 msgid "File creation failed in this directory:"
 msgstr "A criação de arquivo falhou neste diretório:"
 
-#: qt/aboutdlg.py:51
+#: qt/aboutdlg.py:50
 msgid "About Back In Time"
 msgstr "Sobre o Back In Time"
 
-#: qt/aboutdlg.py:89
+#: qt/aboutdlg.py:88
 msgid "Copyright:"
 msgstr "Copyright:"
 
-#: qt/aboutdlg.py:93
+#: qt/aboutdlg.py:92
 msgid "Authors:"
 msgstr "Autores:"
 
-#: qt/aboutdlg.py:97
+#: qt/aboutdlg.py:96
 msgid "Translators:"
 msgstr "Tradutores:"
 
-#: qt/aboutdlg.py:100
+#: qt/aboutdlg.py:99
 msgid "translator-credits-placeholder"
 msgstr ""
 "Andre Desgualdo Pereira\n"
 "Scythemare\n"
 "Yuri Musachio <yuri.musachio@gmail.com>"
 
-#: qt/aboutdlg.py:107
+#: qt/aboutdlg.py:106
 msgid "Translator credits not available for current language."
 msgstr "Os créditos dos tradutores não disponíveis para a linguagem atual."
 
-#: qt/aboutdlg.py:116
+#: qt/aboutdlg.py:115
 msgid "this link"
 msgstr "este link"
 
-#: qt/aboutdlg.py:118
+#: qt/aboutdlg.py:117
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
 "Clique {thislink} para ver os créditos de tradutores para todos os idiomas."
 
-#: qt/aboutdlg.py:220 qt/app.py:578
+#: qt/aboutdlg.py:240 qt/app.py:562
 msgid "Project website"
 msgstr "Site do projeto"
 
-#: qt/aboutdlg.py:225 qt/app.py:560
+#: qt/aboutdlg.py:245 qt/app.py:544
 msgid "User manual"
 msgstr "Manual do usuário"
 
-#: qt/aboutdlg.py:227 qt/app.py:562
+#: qt/aboutdlg.py:247 qt/app.py:546
 #, fuzzy
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
 "Abrir o manual do usuário no navegador (local, se disponível, caso contrário"
 " online)"
 
-#: qt/aboutdlg.py:277
+#: qt/aboutdlg.py:297
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}Versão{BOLDEND}: {version}"
 
-#: qt/app.py:348
+#: qt/app.py:332
 #, fuzzy, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time because no configuration"
@@ -560,7 +560,7 @@ msgstr ""
 "{app_name} parece estar em execução pela primeira vez, pois nenhuma "
 "configuração foi encontrada."
 
-#: qt/app.py:353
+#: qt/app.py:337
 #, fuzzy
 msgid ""
 "Import an existing configuration from a backup location or another computer?"
@@ -568,192 +568,192 @@ msgstr ""
 "Importar uma configuração existente (de um diretório de destino de backup ou"
 " de outro computador)?"
 
-#: qt/app.py:395
+#: qt/app.py:379
 msgid "Then press OK."
 msgstr ""
 
-#: qt/app.py:499
+#: qt/app.py:483
 msgid "Create a backup"
 msgstr "Criar um backup"
 
-#: qt/app.py:501
+#: qt/app.py:485
 msgid "Use modification time & size for file change detection."
 msgstr ""
 "Usar horário de modificação e tamanho para detectar alterações nos arquivos."
 
-#: qt/app.py:504
+#: qt/app.py:488
 #, fuzzy
 msgid "Create a backup (checksum mode)"
 msgstr "Criar snapshot (modo checksum)"
 
-#: qt/app.py:506
+#: qt/app.py:490
 msgid "Use checksums for file change detection."
 msgstr "Usar checksums para detectar alterações nos arquivos."
 
-#: qt/app.py:508 qt/qtsystrayicon.py:125
+#: qt/app.py:492 qt/qtsystrayicon.py:125
 #, fuzzy
 msgid "Pause backup process"
 msgstr "Pausar o processo de snapshot"
 
-#: qt/app.py:512 qt/qtsystrayicon.py:130
+#: qt/app.py:496 qt/qtsystrayicon.py:130
 #, fuzzy
 msgid "Resume backup process"
 msgstr "Retomar o processo de snapshot"
 
-#: qt/app.py:516 qt/qtsystrayicon.py:135
+#: qt/app.py:500 qt/qtsystrayicon.py:135
 #, fuzzy
 msgid "Stop backup process"
 msgstr "Parar processo de snapshot"
 
-#: qt/app.py:520
+#: qt/app.py:504
 #, fuzzy
 msgid "Refresh backup list"
 msgstr "Atualizar lista de snapshots"
 
-#: qt/app.py:524
+#: qt/app.py:508
 msgid "Name backup"
 msgstr "Nomear o backup"
 
-#: qt/app.py:528
+#: qt/app.py:512
 #, fuzzy
 msgid "Remove backup"
 msgstr "Remover snapshot"
 
-#: qt/app.py:532
+#: qt/app.py:516
 #, fuzzy
 msgid "Open backup log"
 msgstr "Visualizar último log"
 
-#: qt/app.py:534
+#: qt/app.py:518
 #, fuzzy
 msgid "View log of the selected backup."
 msgstr "Pelo menos um diretório precisa ser selecionado para o backup."
 
-#: qt/app.py:536
+#: qt/app.py:520
 #, fuzzy
 msgid "Open last backup log"
 msgstr "Visualizar último log"
 
-#: qt/app.py:538
+#: qt/app.py:522
 msgid "View log of the latest backup."
 msgstr ""
 
-#: qt/app.py:540
+#: qt/app.py:524
 msgid "Manage profiles…"
 msgstr "Gerenciar perfis…"
 
-#: qt/app.py:544
+#: qt/app.py:528
 msgid "Edit user-callback"
 msgstr "Editar user-callback"
 
-#: qt/app.py:548
+#: qt/app.py:532
 msgid "Shutdown"
 msgstr "Desligar"
 
-#: qt/app.py:550
+#: qt/app.py:534
 #, fuzzy
 msgid "Shut down system after backup has finished."
 msgstr "Desligar o sistema após o snapshot ser finalizado."
 
-#: qt/app.py:552
+#: qt/app.py:536
 msgid "Setup language…"
 msgstr "Configurar idioma…"
 
-#: qt/app.py:556
+#: qt/app.py:540
 msgid "Exit"
 msgstr "Sair"
 
-#: qt/app.py:566
+#: qt/app.py:550
 msgid "man page: Back In Time"
 msgstr "Página do manual: Back In Time"
 
-#: qt/app.py:568
+#: qt/app.py:552
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "Exibe a página do manual sobre o Back In Time (backintime)"
 
-#: qt/app.py:571
+#: qt/app.py:555
 msgid "man page: Profiles config file"
 msgstr "Página do manual: Arquivo de configuração de perfis"
 
-#: qt/app.py:574
+#: qt/app.py:558
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 "Exibe a página do manual sobre o arquivo de configuração de perfis "
 "(backintime-config)"
 
-#: qt/app.py:581
+#: qt/app.py:565
 msgid "Open Back In Time website in browser"
 msgstr "Abrir o site do Back In Time no navegador"
 
-#: qt/app.py:583 qt/app.py:2301
+#: qt/app.py:567 qt/app.py:2243
 msgid "Changelog"
 msgstr "Registro de alterações"
 
-#: qt/app.py:586
+#: qt/app.py:570
 #, fuzzy
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr ""
 "Abrir o manual do usuário no navegador (local, se disponível, caso contrário"
 " online)"
 
-#: qt/app.py:589
+#: qt/app.py:573
 msgid "FAQ"
 msgstr "FAQ (Perguntas Frequentes)"
 
-#: qt/app.py:591
+#: qt/app.py:575
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "Abrir Perguntas Frequentes (FAQ) no navegador.\""
 
-#: qt/app.py:593
+#: qt/app.py:577
 msgid "Ask a question"
 msgstr "Fazer uma pergunta"
 
-#: qt/app.py:597
+#: qt/app.py:581
 msgid "Report a bug"
 msgstr "Reportar um bug"
 
-#: qt/app.py:600
+#: qt/app.py:584
 msgid "Translation"
 msgstr "Traduções"
 
-#: qt/app.py:602
+#: qt/app.py:586
 msgid "Shows the message about participation in translation again."
 msgstr "Exibe novamente a mensagem sobre participação na tradução."
 
-#: qt/app.py:606
+#: qt/app.py:590
 msgid "Encryption Transition (EncFS)"
 msgstr "Transição de Criptografia (EncFS)"
 
-#: qt/app.py:608
+#: qt/app.py:592
 msgid "Shows the message about EncFS removal again."
 msgstr "Exibe novamente a mensagem sobre a remoção do EncFS."
 
-#: qt/app.py:615
+#: qt/app.py:599
 msgid "About"
 msgstr "Sobre"
 
-#: qt/app.py:618 qt/restoredialog.py:46 qt/snapshotsdialog.py:184
-#: qt/snapshotsdialog.py:189
+#: qt/app.py:602 qt/restoredialog.py:46 qt/snapshotsdialog.py:182
+#: qt/snapshotsdialog.py:187
 msgid "Restore"
 msgstr "Restaurar"
 
-#: qt/app.py:620
+#: qt/app.py:604
 #, fuzzy
 msgid "Restore the selected files or directories to the original location."
 msgstr ""
 "Restaurar os arquivos ou diretórios selecionados para o destino original."
 
-#: qt/app.py:623 qt/app.py:1942 qt/snapshotsdialog.py:186
+#: qt/app.py:607 qt/app.py:1886 qt/snapshotsdialog.py:184
 msgid "Restore to …"
 msgstr "Restaurar para …"
 
-#: qt/app.py:625
+#: qt/app.py:609
 #, fuzzy
 msgid "Restore the selected files or directories to a new location."
 msgstr ""
 "Restaurar os arquivos ou diretórios selecionados para um novo destino."
 
-#: qt/app.py:631
+#: qt/app.py:615
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
@@ -762,7 +762,7 @@ msgstr ""
 "Restaurar o diretório exibido atualmente e todos os seus conteúdos para o "
 "destino original."
 
-#: qt/app.py:637
+#: qt/app.py:621
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
@@ -771,92 +771,90 @@ msgstr ""
 "Restaurar o diretório exibido atualmente e todos os seus conteúdos para um "
 "novo destino."
 
-#: qt/app.py:640
+#: qt/app.py:624
 msgid "Up"
 msgstr "Acima"
 
-#: qt/app.py:643
+#: qt/app.py:627
 msgid "Show hidden files"
 msgstr "Exibir arquivos ocultos"
 
-#: qt/app.py:646
+#: qt/app.py:630
 #, fuzzy
 msgid "Compare backups…"
 msgstr "Comparar snapshots…"
 
-#: qt/app.py:676 qt/app.py:1815
+#: qt/app.py:660 qt/app.py:1759
 msgid "Release Candidate"
 msgstr "Versão Candidata a Lançamento"
 
-#: qt/app.py:679
+#: qt/app.py:663
 msgid "Shows the message about this Release Candidate again."
 msgstr "Exibe a mensagem sobre esta versão candidata a lançamento novamente."
 
-#: qt/app.py:716
+#: qt/app.py:700
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:721
+#: qt/app.py:705
 msgid "&Backup"
 msgstr "&Backup"
 
-#: qt/app.py:733
+#: qt/app.py:717
 msgid "&Restore"
 msgstr "&Restaurar"
 
-#: qt/app.py:739
+#: qt/app.py:723
 msgid "&Help"
 msgstr "&Ajuda"
 
-#: qt/app.py:790
+#: qt/app.py:774
 msgid "Systray Icon"
 msgstr ""
 
-#: qt/app.py:796
+#: qt/app.py:780
 msgid "Automatic"
 msgstr ""
 
-#: qt/app.py:800
+#: qt/app.py:784
 msgid "Light icon"
 msgstr ""
 
-#: qt/app.py:801
+#: qt/app.py:785
 msgid "Dark icon"
 msgstr ""
 
-#: qt/app.py:824
+#: qt/app.py:808
 msgid "Icons only"
 msgstr "Apenas ícones"
 
-#: qt/app.py:827
+#: qt/app.py:811
 msgid "Text only"
 msgstr "Apenas texto"
 
-#: qt/app.py:830
+#: qt/app.py:814
 msgid "Text below icons"
 msgstr "Texto abaixo dos ícones"
 
-#: qt/app.py:833
+#: qt/app.py:817
 msgid "Text beside icon"
 msgstr "Texto ao lado do ícone"
 
-#: qt/app.py:944
-msgid ""
-"This directory doesn't exist\n"
-"in the current selected backup."
+#: qt/app.py:943
+#, fuzzy
+msgid "This directory doesn't exist in the selected backup."
 msgstr ""
 "Esse diretório não existe\n"
 "no backup atual selecionado."
 
-#: qt/app.py:1005
-msgid "Add to Include"
-msgstr "Adicione à Lista de Inclusão"
+#: qt/app.py:946
+#, fuzzy
+msgid "This directory doesn't exist on the computer."
+msgstr ""
+"Esse diretório não existe\n"
+"no backup atual selecionado."
 
-#: qt/app.py:1006
-msgid "Add to Exclude"
-msgstr "Adicione à Lista de Exclusão"
-
-#: qt/app.py:1020
+#: qt/app.py:995
 #, fuzzy
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
@@ -865,54 +863,54 @@ msgstr ""
 "Se você fechar esta janela, o Back In Time não será capaz de desligar seu "
 "sistema quando o snapshot for finalizado."
 
-#: qt/app.py:1023
+#: qt/app.py:998
 msgid "Close the window anyway?"
 msgstr "Fechar a janela mesmo assim?"
 
-#: qt/app.py:1214
+#: qt/app.py:1189
 msgid "Done, no backup needed"
 msgstr "Concluído, nenhum backup necessário"
 
-#: qt/app.py:1285
+#: qt/app.py:1260
 msgid "Working:"
 msgstr "Trabalhando:"
 
-#: qt/app.py:1292
+#: qt/app.py:1267
 msgid "Working"
 msgstr "Trabalhando"
 
-#: qt/app.py:1298 qt/messagebox.py:136
+#: qt/app.py:1273 qt/messagebox.py:136
 msgid "Error"
 msgstr "Erro"
 
-#: qt/app.py:1339 qt/qtsystrayicon.py:295
+#: qt/app.py:1314 qt/qtsystrayicon.py:295
 msgid "Sent:"
 msgstr "Enviado:"
 
-#: qt/app.py:1340 qt/qtsystrayicon.py:296
+#: qt/app.py:1315 qt/qtsystrayicon.py:296
 msgid "Speed:"
 msgstr "Velocidade:"
 
-#: qt/app.py:1341 qt/qtsystrayicon.py:297
+#: qt/app.py:1316 qt/qtsystrayicon.py:297
 msgid "ETA:"
 msgstr "ETA:"
 
-#: qt/app.py:1490
+#: qt/app.py:1498
 #, fuzzy
 msgid "Backup:"
 msgstr "Backups:"
 
-#: qt/app.py:1530
+#: qt/app.py:1598
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Restaurar {path}"
 
-#: qt/app.py:1532
+#: qt/app.py:1600
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Restaurar {path} para …"
 
-#: qt/app.py:1680
+#: qt/app.py:1624
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -929,47 +927,47 @@ msgstr ""
 "Pedimos desculpas pela interrupção, e esta mensagem não será exibida novamente. Este diálogo está disponível a qualquer momento pelo menu de ajuda.\n"
 "Sua equipe Back In Time"
 
-#: qt/app.py:1709
+#: qt/app.py:1653
 msgid "translation platform"
 msgstr "plataforma de tradução"
 
-#: qt/app.py:1714
+#: qt/app.py:1658
 msgid "Website"
 msgstr "através do site"
 
-#: qt/app.py:1728
+#: qt/app.py:1672
 msgid "Your translation"
 msgstr "Sua tradução"
 
-#: qt/app.py:1765
+#: qt/app.py:1709
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "No Fediverse do Mastodon: {link_and_label}."
 
-#: qt/app.py:1770
+#: qt/app.py:1714
 #, fuzzy, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "Lista de emails {link_and_label}."
 
-#: qt/app.py:1774
+#: qt/app.py:1718
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "Lista de emails {link_and_label}."
 
-#: qt/app.py:1778
+#: qt/app.py:1722
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} no site do projeto."
 
-#: qt/app.py:1781
+#: qt/app.py:1725
 msgid "Open an issue"
 msgstr "Abra uma demanda"
 
-#: qt/app.py:1782
+#: qt/app.py:1726
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Alternativamente, você pode usar outro canal de sua escolha."
 
-#: qt/app.py:1787
+#: qt/app.py:1731
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -990,30 +988,30 @@ msgstr ""
 "Obrigado pelo seu apoio e por nos ajudar a melhorar o Back In Time!\n"
 "Sua equipe do Back In Time"
 
-#: qt/app.py:1892
+#: qt/app.py:1836
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr ""
 
-#: qt/app.py:1897
+#: qt/app.py:1841
 #, fuzzy
 msgid "Proceed with the backup?"
 msgstr "Remover este backup?"
 
-#: qt/app.py:1922
+#: qt/app.py:1866
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr "Todos os arquivos mais recentes em {path} serão removidos. Continuar?"
 
-#: qt/app.py:1925
+#: qt/app.py:1869
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 "Todos os arquivos mais recentes no diretório original serão removidos. "
 "Continuar?"
 
-#: qt/app.py:1931
+#: qt/app.py:1875
 #, fuzzy, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -1022,18 +1020,18 @@ msgstr ""
 "{BOLD}Atenção{BOLDEND}: Deletar arquivos no sistema de arquivos raiz pode "
 "quebrar todo o seu sistema."
 
-#: qt/app.py:2167
+#: qt/app.py:2107
 #, fuzzy
 msgid "Backup name"
 msgstr "&Backup"
 
-#: qt/app.py:2198
+#: qt/app.py:2138
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "Remover este backup?"
 msgstr[1] "Remover estes backups?"
 
-#: qt/app.py:2261
+#: qt/app.py:2204
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "As configurações de idioma só têm efeito após reiniciar o Back in Time."
@@ -1136,6 +1134,38 @@ msgstr ""
 #, fuzzy
 msgid "Show/hide hidden files and directories (Ctrl+H)"
 msgstr "Incluir arquivos e diretórios"
+
+#: qt/fileview.py:204
+msgid "Add to Include"
+msgstr "Adicione à Lista de Inclusão"
+
+#: qt/fileview.py:205
+msgid "Add to Exclude"
+msgstr "Adicione à Lista de Exclusão"
+
+#: qt/fileview.py:292
+msgid "The selected item is already in the include list."
+msgid_plural "The selected items are already in the include list."
+msgstr[0] ""
+msgstr[1] ""
+
+#: qt/fileview.py:299
+msgid "The following item is already in the include list."
+msgid_plural "The following items are already in the include list."
+msgstr[0] ""
+msgstr[1] ""
+
+#: qt/fileview.py:313
+msgid "The selected item is already in the exclude list."
+msgid_plural "The selected items are already in the exclude list."
+msgstr[0] ""
+msgstr[1] ""
+
+#: qt/fileview.py:320
+msgid "The following item is already in the exclude list."
+msgid_plural "The following items are already in the exclude list."
+msgstr[0] ""
+msgstr[1] ""
 
 #: qt/languagedialog.py:36
 msgid "Setup language"
@@ -2351,19 +2381,19 @@ msgid ""
 "storage device connections."
 msgstr ""
 
-#: qt/placeswidget.py:49
+#: qt/placeswidget.py:51
 msgid "Shortcuts"
 msgstr "Atalhos"
 
-#: qt/placeswidget.py:63
+#: qt/placeswidget.py:96
 msgid "Places"
 msgstr ""
 
-#: qt/placeswidget.py:64
+#: qt/placeswidget.py:97
 msgid "File System"
 msgstr ""
 
-#: qt/placeswidget.py:106
+#: qt/placeswidget.py:146
 msgid "Backup directories"
 msgstr "Diretórios de backup"
 
@@ -2482,28 +2512,28 @@ msgid_plural "The system will shut down in {n} seconds."
 msgstr[0] "O sistema irá desligar em {n} segundo."
 msgstr[1] "O sistema irá desligar em {n} segundos."
 
-#: qt/snapshotsdialog.py:63
+#: qt/snapshotsdialog.py:61
 #, fuzzy
 msgid "Options about comparing backups"
 msgstr "Opções sobre comparação de snapshots"
 
-#: qt/snapshotsdialog.py:70
+#: qt/snapshotsdialog.py:68
 msgid "Command:"
 msgstr "Comando:"
 
-#: qt/snapshotsdialog.py:74
+#: qt/snapshotsdialog.py:72
 msgid "Parameters:"
 msgstr "Parâmetros:"
 
-#: qt/snapshotsdialog.py:79
+#: qt/snapshotsdialog.py:77
 msgid "Use %1 and %2 for path parameters"
 msgstr "Use %1 e %2 para os parâmetros de caminho"
 
-#: qt/snapshotsdialog.py:96
+#: qt/snapshotsdialog.py:94
 msgid "Please set a diff command or press Cancel."
 msgstr "Por favor, defina um comando diff ou pressione Cancelar."
 
-#: qt/snapshotsdialog.py:102
+#: qt/snapshotsdialog.py:100
 #, python-brace-format
 msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
@@ -2512,53 +2542,53 @@ msgstr ""
 "O comando \"{cmd}\" não pôde ser encontrado neste sistema. Por favor, tente "
 "outra coisa ou pressione Cancelar."
 
-#: qt/snapshotsdialog.py:110
+#: qt/snapshotsdialog.py:108
 #, python-brace-format
 msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr ""
 "Nenhum parâmetro definido para o comando diff. Usando o valor padrão "
 "\"{params}\"."
 
-#: qt/snapshotsdialog.py:141 qt/timeline.py:44
+#: qt/snapshotsdialog.py:139 qt/timeline.py:117
 #, fuzzy
 msgid "Backups"
 msgstr "&Backup"
 
-#: qt/snapshotsdialog.py:152
+#: qt/snapshotsdialog.py:150
 #, fuzzy
 msgid "Differing backups only"
 msgstr "Apenas snapshots diferentes"
 
-#: qt/snapshotsdialog.py:161
+#: qt/snapshotsdialog.py:159
 #, fuzzy
 msgid "List only backups that are equal to:"
 msgstr "Listar apenas snapshots iguais a:"
 
-#: qt/snapshotsdialog.py:173
+#: qt/snapshotsdialog.py:171
 msgid "Deep check (more accurate, but slow)"
 msgstr "Verificação profunda (mais preciso, mas lento)"
 
-#: qt/snapshotsdialog.py:194
+#: qt/snapshotsdialog.py:192
 msgid "Delete"
 msgstr "Excluir"
 
-#: qt/snapshotsdialog.py:199
+#: qt/snapshotsdialog.py:197
 msgid "Select All"
 msgstr "Selecionar Tudo"
 
-#: qt/snapshotsdialog.py:212
+#: qt/snapshotsdialog.py:217
 msgid "Compare"
 msgstr "Comparar"
 
-#: qt/snapshotsdialog.py:227
+#: qt/snapshotsdialog.py:232
 msgid "Go To"
 msgstr "Ir para"
 
-#: qt/snapshotsdialog.py:229
+#: qt/snapshotsdialog.py:234
 msgid "Options"
 msgstr "Opções"
 
-#: qt/snapshotsdialog.py:394
+#: qt/snapshotsdialog.py:424
 msgid ""
 "It is not possible to compare a backup to itself, as the comparison would be"
 " redundant."
@@ -2566,21 +2596,21 @@ msgstr ""
 "Não é possível comparar um backup consigo mesmo, pois a comparação seria "
 "redundante."
 
-#: qt/snapshotsdialog.py:440
+#: qt/snapshotsdialog.py:470
 #, python-brace-format
 msgid "Really delete {file_or_dir} in backup {backup_id}?"
 msgstr "Você realmente deseja apagar {file_or_dir} no backup {backup_id}?"
 
-#: qt/snapshotsdialog.py:445
+#: qt/snapshotsdialog.py:475
 #, python-brace-format
 msgid "Really delete {file_or_dir} in {count} backups?"
 msgstr "Você realmente deseja apagar {file_or_dir} em {count} backups?"
 
-#: qt/snapshotsdialog.py:448
+#: qt/snapshotsdialog.py:478
 msgid "WARNING: This cannot be revoked."
 msgstr "Aviso: Isto não pode ser revogado."
 
-#: qt/snapshotsdialog.py:465
+#: qt/snapshotsdialog.py:495
 #, fuzzy, python-brace-format
 msgid "Exclude {path} from future backups?"
 msgstr "Excluir {path} de snapshots futuros?"
@@ -2595,27 +2625,38 @@ msgid ""
 "Back In Time is currently running with root privileges (full system access)"
 msgstr ""
 
-#: qt/timeline.py:69
+#: qt/timeline.py:64
 msgid "Today"
 msgstr "Hoje"
 
-#: qt/timeline.py:77
+#: qt/timeline.py:69
 msgid "Yesterday"
 msgstr "Ontem"
 
-#: qt/timeline.py:87
+#: qt/timeline.py:76
 msgid "This week"
 msgstr "Esta semana"
 
-#: qt/timeline.py:95
+#: qt/timeline.py:81
 msgid "Last week"
 msgstr "Semana passada"
 
-#: qt/timeline.py:270
-msgid "This is NOT a backup but a live view of the local files."
-msgstr "Isto NÃO é um backup, mas uma visualização do seus arquivos locais."
+#: qt/timeline.py:88
+msgid "This month"
+msgstr ""
 
-#: qt/timeline.py:275
+#: qt/timeline.py:95
+msgid "Last month"
+msgstr ""
+
+#: qt/timeline.py:365
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Última verificação {time}"
+
+#: qt/timeline.py:394
+msgid "These are your files as they are right now. It is not a backup."
+msgstr ""
+
+#~ msgid "This is NOT a backup but a live view of the local files."
+#~ msgstr "Isto NÃO é um backup, mas uma visualização do seus arquivos locais."

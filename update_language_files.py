@@ -332,12 +332,13 @@ def update_desktop_files():
                     )
 
         for field, value in to_translate.items():
-            print(f'{field=} {value=}')
-
+            # print(f'{field=} {value=}')
             translations = _get_translation_for_desktop_string(value)
 
-            if field == 'Comment':
-                _check_value_length(translations, field)
+            # Dev note (2026-03): Still not sure but it seems the length
+            # restriction was a misunderstanding on my site.
+            # if field == 'Comment':
+            #     _check_value_length(translations, field)
 
             translations = [
                 f'{field}[{lang}]={translated}'
@@ -445,6 +446,10 @@ def update_from_weblate():
     cmd = [
         'git',
         'clone',
+        # git meta data, only for the first commit
+        '--depth',
+        '1',
+        # don't checkout anything
         '--no-checkout',
         WEBLATE_URL,
         tmp_dir
@@ -669,6 +674,9 @@ def create_completeness_dict():
 
     # "en" is the source language
     result['en'] = 100
+
+    # Sort by language key
+    result = dict(sorted(result.items()))
 
     return result
 
@@ -991,6 +999,9 @@ def _get_translation_for_desktop_string(value: str) -> dict[str, str]:
             continue
 
         translations[po_path.stem] = entry.msgstr
+
+    # sort by Key
+    translations = dict(sorted(translations.items()))
 
     return translations
 
