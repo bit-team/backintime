@@ -228,11 +228,11 @@ class TimeLine(QTreeWidget):
         self.addTopLevelItem(item)
         self._header_data.append((label, start, end))
 
-        # DEBUG
-        item.setToolTip(
-            0,
-            f'DEBUG - {start.strftime("%c")} to {end.strftime("%c")}'
-        )
+        # # DEBUG
+        # item.setToolTip(
+        #     0,
+        #     f'DEBUG - {start.strftime("%c")} to {end.strftime("%c")}'
+        # )
 
         return True
 
@@ -342,8 +342,8 @@ class _TimeLineItemBase(QTreeWidgetItem):
 
         if tooltip:
             # DEBUG
-            self.setToolTip(0, f'{type(self)} {tooltip}')
-            # self.setToolTip(0, tooltip)
+            # self.setToolTip(0, f'{type(self)} {tooltip}')
+            self.setToolTip(0, tooltip)
 
         self.setText(0, label)
         self.setData(0, Qt.ItemDataRole.UserRole, timestamp)
@@ -391,7 +391,9 @@ class NowEntry(_TimeLineItemBase):
         super().__init__(
             timestamp=datetime.max,
             tooltip=_(
-                'This is NOT a backup but a live view of the local files.'),
+                'These are your files as they are right now. '
+                'It is not a backup.'
+            ),
             label=_('Now')
         )
 
