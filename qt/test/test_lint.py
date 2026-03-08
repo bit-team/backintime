@@ -90,6 +90,7 @@ full_test_files = [_base_dir / fp for fp in (
     'test/test_lint.py',
     'test/test_profile_operations.py',
     'test/test_statedata.py',
+    'test/test_timeline.py',
     'textdlg.py',
     'timeline.py',
     'usermessagedialog.py',

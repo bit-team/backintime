@@ -44,6 +44,10 @@ class ProfileOperations:
 
         return duplicates, to_add
 
+    # def get_includes(self) -> list:
+    #     """Return the list of include entries."""
+    #     includes = self._config.include(profile_id=self._profile_id)
+
     def add_include(self, paths: list[str] | list[Path]) -> None:
         """Add entries to the include list.
 

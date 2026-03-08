@@ -18,6 +18,7 @@ if not os.getenv('DISPLAY', ''):
 import pathlib
 import json
 import threading
+import queue
 import shutil
 import textwrap
 import signal
@@ -50,8 +51,7 @@ from PyQt6.QtGui import (QAction,
                          QDesktopServices,
                          QIcon,
                          QShortcut)
-from PyQt6.QtWidgets import (
-                             QApplication,
+from PyQt6.QtWidgets import (QApplication,
                              QDialog,
                              QFrame,
                              QGroupBox,
@@ -66,8 +66,7 @@ from PyQt6.QtWidgets import (
                              QToolButton,
                              QVBoxLayout,
                              QWidget)
-from PyQt6.QtCore import (
-                          QPoint,
+from PyQt6.QtCore import (QPoint,
                           pyqtSignal,
                           Qt,
                           QTimer,
@@ -78,6 +77,7 @@ import logviewdialog
 import languagedialog
 import messagebox
 import version
+import timeline
 from confirmrestoredialog import ConfirmRestoreDialog
 from editusercallback import EditUserCallback
 from shutdownagent import ShutdownAgent
@@ -86,7 +86,6 @@ from restoredialog import RestoreDialog
 from restoreconfigdialog import RestoreConfigDialog
 from usermessagedialog import UserMessageDialog
 from aboutdlg import AboutDlg
-from timeline import TimeLine, SnapshotItem
 from bitwidgets import ProfileCombo
 from shutdowndlg import get_shutdown_confirmation
 from statusbar import StatusBar
@@ -139,10 +138,7 @@ class MainWindow(QMainWindow):
         self._create_main_toolbar()
 
         # timeline (left widget)
-        self.timeline = TimeLine(self)
-        self.timeline.event_selection_changed.register(
-            self._on_timeline_selection_changed
-        )
+        self.timeline = timeline.TimeLine(self)
 
         # right widget
         self.filesWidget = QGroupBox(self)
@@ -181,9 +177,11 @@ class MainWindow(QMainWindow):
         self.stackFilesView = QStackedLayout(widget)
         self.secondSplitter.addWidget(widget)
 
-        # directory don't exist label
-        self._label_not_a_dir = self._label_dir_dont_exist()
-        self.stackFilesView.addWidget(self._label_not_a_dir)
+        # label: directory don't exist
+        self._label_not_a_now_dir, self._label_not_a_backup_dir \
+            = self._label_dir_dont_exist()
+        self.stackFilesView.addWidget(self._label_not_a_now_dir)
+        self.stackFilesView.addWidget(self._label_not_a_backup_dir)
 
         # files view
         sort_column, sort_order = state_data.files_view_sorting
@@ -209,7 +207,6 @@ class MainWindow(QMainWindow):
         self.status_bar.set_status_message(_('Done'))
 
         self.snapshotsList = []
-        self.sid = snapshots.RootSnapshot(self.config)
 
         # ???
         self.path = self.config.profileStrValue('qt.last_path', '/')
@@ -242,15 +239,13 @@ class MainWindow(QMainWindow):
 
         self.filesView.setFocus()
 
-        # self.updateSnapshotActions()
-
-        self.timeline.event_now_item_selected.register([
+        self.timeline.event_now_selected.register([
             self._on_now_selected,
             self.places.on_now_selected,
         ])
-        self.timeline.event_backup_item_selected.register([
+        self.timeline.event_backup_selected.register([
             self._on_backup_selected,
-            # self.on_backup_changed,
+            self.places.on_backup_changed
         ])
 
         self.forceWaitLockCounter = 0
@@ -260,6 +255,16 @@ class MainWindow(QMainWindow):
             target=self.config.setup_automation, daemon=True).start()
 
         self._handle_user_messages()
+
+    def selected_backup_id(self) -> snapshots.SID | None:
+        """Return the identity of the backup that is currently selected in the
+        timeline widget.
+        """
+        backup_descriptor = self.timeline.selected_backup_descriptor()
+        if not backup_descriptor:
+            return None
+
+        return snapshots.SID(date=backup_descriptor, cfg=self.config)
 
     def _setup_timers(self):
         raise_application = QTimer(self)
@@ -918,18 +923,30 @@ class MainWindow(QMainWindow):
         toolbar.insertSeparator(self.act_settings)
         toolbar.insertSeparator(self.act_shutdown)
 
-    def _label_dir_dont_exist(self) -> QLabel:
-        label = QLabel('<strong>{}</strong>'.format(
-            _("This directory doesn't exist\n"
-              "in the current selected backup.")),
-            self)
+    def _label_dir_dont_exist(self) -> tuple[QLabel, QLabel]:
+        """The labels will replace the filesview if a directory, selected
+        in the places widget, does not exist in the backup (if selected) or
+        the current file system ("Now" is selected).
+        """
+        def _setup_label(label_text: str) -> QLabel:
+            label = QLabel(f'<strong>{label_text}</strong>', self)
+            label.setWordWrap(True)
 
-        label.setFrameShadow(QFrame.Shadow.Sunken)
-        label.setFrameShape(QFrame.Shape.Panel)
-        label.setAlignment(
-            Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+            label.setFrameShadow(QFrame.Shadow.Sunken)
+            label.setFrameShape(QFrame.Shape.Panel)
+            label.setAlignment(
+                Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
 
-        return label
+            return label
+
+        label_backup = _setup_label(_(
+            "This directory doesn't exist in the selected backup."
+        ))
+        label_now = _setup_label(_(
+            "This directory doesn't exist on the computer."
+        ))
+
+        return label_now, label_backup
 
     def _files_view_toolbar(self):
         """Create the filesview toolbar object, connect it to actions and
@@ -1046,7 +1063,7 @@ class MainWindow(QMainWindow):
         self.disableProfileChanged = False
 
     def updateProfile(self):
-        self.updateTimeLine()
+        self.rebuild_timeline()
         self.places.do_update()
         self._update_files_widget()
         self.updateFilesView(0)
@@ -1165,7 +1182,7 @@ class MainWindow(QMainWindow):
 
             if snapshotsList != self.snapshotsList:
                 self.snapshotsList = snapshotsList
-                self.updateTimeLine(False)
+                self._rebuild_timeline_without_refresh()
                 takeSnapshotMessage = (0, _('Done'))
             else:
                 if takeSnapshotMessage[0] == 0:
@@ -1316,35 +1333,94 @@ class MainWindow(QMainWindow):
         self.act_remove_snapshot.setEnabled(enable)
         self.act_snapshot_logview.setEnabled(enable)
 
+    def is_now_selected(self) -> bool:
+        """Workaround"""
+        return self.timeline.is_now_selected()
+
     def _on_now_selected(self):
         self._enable_snapshot_actions(False)
-        # Workaround
-        self.sid = self.timeline.get_now_sid()
-        # IDEE: sid should stay in the timeline and nowhere else
         self.updateFilesView(2)
 
-    def _on_backup_selected(self, sid):
+    def _on_backup_selected(self, _sid):
         self._enable_snapshot_actions(True)
-        self.sid = sid
         self.updateFilesView(2)
 
-    def updateTimeLine(self, refreshSnapshotsList=True):
-        """Initiate update of the timeline content"""
-        self.timeline.clear()
-        self.timeline.add_root(snapshots.RootSnapshot(self.config))
+    def _rebuild_timeline_without_refresh(self):
+        """Initiate recreation of the timeline content based on the existing
+        list of backups/snapshots without refreshing the snapshot list via
+        a thread."""
+        with self.timeline.preserve_selection():
+            self.timeline.clear_and_reset()
 
-        if refreshSnapshotsList:
-            self.snapshotsList = []
-            thread = FillTimeLineThread(self)
-            thread.addSnapshot.connect(self.timeline.addSnapshot)
-            # Select "Now" if previous backup item is goe
-            thread.finished.connect(self.timeline.checkSelection)
-            thread.start()
-
-        else:
+            # pylint: disable-next=duplicate-code
             for sid in self.snapshotsList:
-                self.timeline.addSnapshot(sid)
-            self.timeline.checkSelection()
+                self.timeline.create_backup_entry(
+                    descriptor=sid.get_descriptor(),
+                    timestamp=sid.get_timestamp(),
+                    last_checked=sid.lastChecked,
+                    label=sid.displayName
+                )
+
+    def rebuild_timeline(self):
+        """Get a fresh list of backups/snapshots and initiate update of the
+        timeline content with that list."""
+
+        previous_selection = self.timeline.selected_backup_descriptor()
+
+        self.timeline.clear_and_reset()
+
+        self.snapshotsList = []  # TODO: -> backup_list ???
+        backup_queue = queue.Queue()
+
+        def _worker():
+            """Proceed all backups and put their timline related information
+            into a thread-safe queue."""
+            for sid in snapshots.iterSnapshots(self.config):
+                self.snapshotsList.append(sid)
+                backup_queue.put(
+                    (
+                        sid.get_descriptor(),
+                        sid.get_timestamp(),
+                        sid.lastChecked,
+                        sid.displayName
+                    )
+                )
+            backup_queue.put(None)  # Finished signal
+
+        def _process_queue():
+            """Read backup data from the queue and add them to the timeline.
+
+            The queue processing is finished when the sentinel value `None` is
+            received.
+            """
+            while True:
+                try:
+                    entry = backup_queue.get_nowait()
+                except queue.Empty:
+                    # Queue is empty (but not finished). Try again later.
+                    QTimer.singleShot(100, _process_queue)
+                    return
+
+                # Queue finished?
+                if entry is None:
+                    if previous_selection:
+                        self.timeline.select_by_descriptor(previous_selection)
+                    else:
+                        self.timeline.select_now()
+                    return
+
+                self.timeline.create_backup_entry(
+                    descriptor=entry[0],
+                    timestamp=entry[1],
+                    last_checked=entry[2],
+                    label=entry[3]
+                )
+
+        # Start getting backups
+        threading.Thread(target=_worker, daemon=True).start()
+
+        # Start updating the timeline widget with backups
+        QTimer.singleShot(250, _process_queue)
 
     def _create_temporary_copy(self, full_path: str, sid=None):
         """Create a temporary local copy a file or directory.
@@ -1379,35 +1455,42 @@ class MainWindow(QMainWindow):
 
     def _open_path(self, rel_path: str):
         rel_path = os.path.join(self.path, rel_path)
-        full_path = self.sid.pathBackup(rel_path)
 
-        # The class "GenericNonSnapshot" indicates that "Now" is selected
-        # in the snapshots timeline widget.
-        if (os.path.exists(full_path)
-            and (isinstance(self.sid, snapshots.GenericNonSnapshot)  # "Now"
-                 or self.sid.isExistingPathInsideSnapshotFolder(rel_path))):
+        if self.timeline.is_now_selected():
+            full_path = rel_path
 
-            if os.path.isdir(full_path):
-                self.path = rel_path
-                self.path_history.append(rel_path)
-                self.updateFilesView(0)
+        else:
+            backup_id = self.selected_backup_id()
 
+            if not backup_id.isExistingPathInsideSnapshotFolder(rel_path):
                 return
 
-            # prevent backup data from being accidentally overwritten
-            # by create a temporary local copy and only open that one
-            if not isinstance(self.sid, snapshots.RootSnapshot):
-                full_path = self._create_temporary_copy(full_path, self.sid)
+            full_path = backup_id.pathBackup(rel_path)
 
-            file_url = QUrl('file://' + full_path)
-            QDesktopServices.openUrl(file_url)
+        if not os.path.exists(full_path):
+            return
+
+        if os.path.isdir(full_path):
+            self.path = rel_path
+            self.path_history.append(rel_path)
+            self.updateFilesView(0)
+
+            return
+
+        # prevent backup data from being accidentally overwritten
+        # by create a temporary local copy and only open that one
+        if not self.timeline.is_now_selected():
+            full_path = self._create_temporary_copy(full_path, backup_id)
+
+        file_url = QUrl('file://' + full_path)
+        QDesktopServices.openUrl(file_url)
 
     def _update_files_widget(self):
-        if self.sid.isRoot:
+        if self.timeline.is_now_selected():
             text = _('Now')
 
         else:
-            name = self.sid.displayName
+            name = self.timeline.selected_backup_label()
             # buhtz (2023-07)3 blanks at the end of that string as a
             # workaround to a visual issue where the last character was
             # cutoff. Not sure if this is DE and/or theme related.
@@ -1415,9 +1498,6 @@ class MainWindow(QMainWindow):
             text = '{} {}   '.format(_('Backup:'), name)
 
         self.filesWidget.setTitle(text)
-
-    def _on_timeline_selection_changed(self):
-        self.updateFilesView(2)
 
     # @pyqtSlot(int)
     def updateFilesView(self,
@@ -1452,24 +1532,36 @@ class MainWindow(QMainWindow):
 
         self._update_files_widget()
 
-        # update files view
-        full_path = self.sid.pathBackup(self.path)
+        backup_id = self.selected_backup_id()
+
+        if backup_id:
+            full_path = backup_id.pathBackup(self.path)
+        else:
+            # Dev note (2026-03, buhtz): Dirty WORKAROUND.
+            # RootSnapshot need to be deleted. Its features
+            # might go into ProfileOperations
+            root_now_sid = snapshots.RootSnapshot(self.config)
+            full_path = root_now_sid.pathBackup(self.path)
 
         # Dev note: Places (and timeline) should emit a select change event.
         # the handler in mainwindow than should decide about enable or disable
         # all this other UI elements.
         if os.path.isdir(full_path):
+            enable_flag = True
             self.filesView.show_hidden(self.showHiddenFiles)
             self.filesView.set_root_path(full_path)
-            enable_flag = True
+            self.stackFilesView.setCurrentWidget(self.filesView)
         else:
             enable_flag = False
+            self.stackFilesView.setCurrentWidget(
+                self._label_not_a_now_dir if self.timeline.is_now_selected()
+                else self._label_not_a_backup_dir
+            )
 
         self.toolbar_filesview.setEnabled(enable_flag)
         self._enable_restore_ui_elements(enable_flag, self.path)
-        self.act_snapshots_dialog.setEnabled(enable_flag)
-        self.stackFilesView.setCurrentWidget(
-            self.filesView if enable_flag else self._label_not_a_dir
+        self.act_snapshots_dialog.setEnabled(
+            False if self.is_now_selected() else enable_flag
         )
 
         # show current path
@@ -1506,36 +1598,6 @@ class MainWindow(QMainWindow):
                 _('Restore {path}').format(path=path))
             self.act_restore_parent_to.setText(
                 _('Restore {path} to …').format(path=path))
-
-
-    def fileSelected(self, fullPath=False):
-        """Return path and index of the currently in Files View highlighted
-        (selected) file.
-
-        Args:
-            fullPath(bool): Resolve relative to a full path.
-
-        Returns:
-            (tuple): Path as a string and the index.
-        """
-        model_index = self.filesView.currentIndex()
-
-        if model_index.column() > 0:
-            model_index = model_index.sibling(model_index.row(), 0)
-
-        selected_file = str(self.filesView.proxy.data(model_index))
-
-        if selected_file == '/':
-            # nothing is selected
-            selected_file = ''
-            model_index = self.filesView.proxy.mapFromSource(
-                self.filesView.model.index(self.path, 0))
-
-        if fullPath:
-            # resolve to full path
-            selected_file = os.path.join(self.path, selected_file)
-
-        return (selected_file, model_index)
 
     @contextmanager
     def suspend_mouse_button_navigation(self):
@@ -1852,7 +1914,7 @@ class MainWindow(QMainWindow):
                 return
 
         rd = RestoreDialog(self,
-                           self.sid,
+                           self.selected_backup_id(),
                            paths if len(paths) > 1 else paths[0],
                            path_restore_to,
                            **opt)
@@ -1860,7 +1922,7 @@ class MainWindow(QMainWindow):
         rd.exec()
 
     def _slot_restore_this(self):
-        if self.sid.isRoot:
+        if self.is_now_selected():
             return
 
         paths = self.filesView.get_selected_paths()
@@ -1886,7 +1948,7 @@ class MainWindow(QMainWindow):
 
         rd = RestoreDialog(
             parent=self,
-            sid=self.sid,
+            sid=self.selected_backup_id(),
             what=paths,
             **opt)
         rd.exec()
@@ -1900,7 +1962,7 @@ class MainWindow(QMainWindow):
         self._restore_to(paths)
 
     def _slot_restore_parent(self):
-        if self.sid.isRoot:
+        if self.is_now_selected():
             return
 
         confirm_dlg = ConfirmRestoreDialog(
@@ -1921,12 +1983,12 @@ class MainWindow(QMainWindow):
                     warnRoot=self.path == '/'):
                 return
 
-        rd = RestoreDialog(self, self.sid, self.path, **opt)
+        rd = RestoreDialog(self, self.selected_backup_id(), self.path, **opt)
         rd.exec()
 
     def _slot_restore_parent_to(self):
         """Restore parent folder (of current selected) to ..."""
-        if self.sid.isRoot:
+        if self.is_now_selected():
             return
 
         self._restore_to([self.path])
@@ -1955,15 +2017,20 @@ class MainWindow(QMainWindow):
         self._dir_history(self.path_history.next())
 
     def _dir_history(self, path):
-        full_path = self.sid.pathBackup(path)
+        backup_id = self.selected_backup_id()
+
+        if backup_id is None:
+            raise NotImplementedError('Now is selected!?')
+
+        full_path = backup_id.pathBackup(path)
 
         if (os.path.isdir(full_path)
-                and self.sid.isExistingPathInsideSnapshotFolder(path)):
+                and backup_id.isExistingPathInsideSnapshotFolder(path)):
             self.path = path
             self.updateFilesView(0)
 
     def _slot_files_view_open_current_item(self):
-        path, _idx = self.fileSelected()
+        path = self.filesView.get_current_path()
 
         if not path:
             return
@@ -1979,7 +2046,7 @@ class MainWindow(QMainWindow):
     # | some more Slots |
     # |-----------------|
     def _slot_timeline_refresh(self):
-        self.updateTimeLine()
+        self.rebuild_timeline()
         self.updateFilesView(2)
 
     def _slot_backup_open_last_log(self):
@@ -2010,15 +2077,20 @@ class MainWindow(QMainWindow):
         self.shutdown.activate_shutdown = checked
 
     def _slot_snapshots_dialog(self):
-        path, _idx = self.fileSelected(fullPath = True)
+        #  path = self.filesView.get_current_path()
+        # print(f'slot_snapshots_dialog() :: {path=} {self.path=}')
 
         with self.suspend_mouse_button_navigation():
-            dlg = snapshotsdialog.SnapshotsDialog(self, self.sid, path)
+            backup_id = self.selected_backup_id()
+            dlg = snapshotsdialog.SnapshotsDialog(self, backup_id, self.path)
 
             if dlg.exec() == QDialog.DialogCode.Accepted:
-
-                if dlg.sid != self.sid:
-                    self.timeline.set_current_snapshot_id(dlg.sid)
+                # ToDo: MainWindow (or its timeline) should describe to the
+                # dialogs event_backup_selected
+                if dlg.sid != backup_id:
+                    self.timeline.select_by_descriptor(
+                        dlg.sid.get_descriptor()
+                    )
 
     def _slot_backup_name(self):
         item = self.timeline.currentItem()
@@ -2083,7 +2155,7 @@ class MainWindow(QMainWindow):
                 self.timeline.select_root_item()
 
         thread = RemoveSnapshotThread(self, items)
-        thread.refreshSnapshotList.connect(self.updateTimeLine)
+        thread.refreshSnapshotList.connect(self.rebuild_timeline)
         thread.hideTimelineItem.connect(hideItem)
         thread.start()
 
@@ -2214,7 +2286,7 @@ class RemoveSnapshotThread(QThread):
     remove snapshots in background thread so GUI will not freeze
     """
     refreshSnapshotList = pyqtSignal()
-    hideTimelineItem = pyqtSignal(SnapshotItem)
+    hideTimelineItem = pyqtSignal(timeline.BackupEntry)
 
     def __init__(self, parent, items):
         self.config = parent.config
@@ -2241,25 +2313,6 @@ class RemoveSnapshotThread(QThread):
             if renew_last_snapshot:
                 self.snapshots.createLastSnapshotSymlink(
                     snapshots.lastSnapshot(self.config))
-
-
-class FillTimeLineThread(QThread):
-    """
-    add snapshot IDs to timeline in background
-    """
-    addSnapshot = pyqtSignal(snapshots.SID)
-
-    def __init__(self, parent):
-        self.parent = parent
-        self.config = parent.config
-        super(FillTimeLineThread, self).__init__(parent)
-
-    def run(self):
-        for sid in snapshots.iterSnapshots(self.config):
-            self.addSnapshot.emit(sid)
-            self.parent.snapshotsList.append(sid)
-
-        self.parent.snapshotsList.sort()
 
 
 def _get_state_data_from_config(cfg: config.Config) -> StateData:

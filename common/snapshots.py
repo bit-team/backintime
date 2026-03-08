@@ -2132,6 +2132,10 @@ class Snapshots:
         ``base_path`` file is included and optional if the snapshot is unique
         or equal to ``list_equal_to``.
 
+        Dev note (buhtz, 2026-03): Purpose seems to be to get only these
+        backups which contain a specific path/file (the current selected in
+        fileview maybe).
+
         Args:
             base_sid (SID):         snapshot ID that contained the original
                                     file ``base_path``
@@ -2150,13 +2154,24 @@ class Snapshots:
         Returns:
             list:                   filtered list of :py:class:`SID` objects
         """
+        # print(f'Snapshots.filter() :: {base_sid=} {base_path=} '
+        #       f'{snapshotsList=} {list_diff_only=} {flag_deep_check=} '
+        #       f'{list_equal_to=}')
+
         snapshotsFiltered = []
 
         base_full_path = base_sid.pathBackup(base_path)
         if not os.path.lexists(base_full_path):
             return []
 
-        allSnapshotsList = [RootSnapshot(self.config)]
+        # Dev note (2026-03, buhtz): Keep in mind that "Now" will appear in
+        # each snapshots dialog because its timeline widget add it by
+        # default. But the related dir/file (base_path) might not be
+        # present anymore in "Now" but only in the backups.
+        # This will cause rare bugs. But we accepting this until refactoring.
+        # See https://github.com/bit-team/backintime/issues/2434
+        # allSnapshotsList = [RootSnapshot(self.config)]
+        allSnapshotsList = []
         allSnapshotsList.extend(snapshotsList)
 
         # links
@@ -2499,7 +2514,7 @@ class FileInfoDict(dict):
         super(FileInfoDict, self).__setitem__(key, value)
 
 
-class SID:
+class SID:  # -> "BackupID" will be its new name
     """
     Snapshot ID object used to gather all information for a snapshot
 
@@ -2518,6 +2533,14 @@ class SID:
         TypeError:              if ``date`` is not :py:class:`str`,
                                 :py:class:`datetime.date` or
                                 :py:class:`datetime.datetime` type
+
+    TODO dev note (2026-03 buhtz):
+    The class is doing to much. Path management and helper methods should go
+    elsewhere. Keep it dump. At its core it is a backup meta data class
+    encapsulate the meta data of one specific backup. BackupMetadata make sense
+    as name but is a bit to long. Maybe BackupID as a compromise? "self.sid"
+    will become "backup_descriptor", the identification string based on the
+    timestamp of that backup.
     """
     __cValidSID = re.compile(r'^\d{8}-\d{6}(?:-\d{3})?$')
 
@@ -2562,6 +2585,12 @@ class SID:
         else:
             raise TypeError("'date' must be an instance of str, datetime.date "
                             f"or datetime.datetime but is '{date}'")
+
+    def get_descriptor(self):
+        return self.sid
+
+    def get_timestamp(self):
+        return self.date
 
     def __repr__(self):
         return self.sid
@@ -3227,6 +3256,7 @@ class RootSnapshot(GenericNonSnapshot):
             str:                full snapshot path
         """
         current_mode = self.config.snapshotsMode(self.profileID)
+
         if 'ssh_encfs' in use_mode and current_mode == 'ssh_encfs':
             if path:
                 path = self.config.ENCODE.remote(os.path.join(*path))

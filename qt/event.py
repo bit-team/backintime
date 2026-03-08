@@ -48,6 +48,7 @@ class Event:
     Inspired by discussion and code in
     https://stackoverflow.com/a/48339861/4865723
     """
+
     def __init__(self):
         self._callbacks = []
 
