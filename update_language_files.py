@@ -336,8 +336,10 @@ def update_desktop_files():
 
             translations = _get_translation_for_desktop_string(value)
 
-            if field == 'Comment':
-                _check_value_length(translations, field)
+            # Dev note (2026-03): Still not sure but it seems the lenght
+            # restriction was a misunderstanding on my site.
+            # if field == 'Comment':
+            #     _check_value_length(translations, field)
 
             translations = [
                 f'{field}[{lang}]={translated}'
