@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-03-08 12:32+0100\n"
+"POT-Creation-Date: 2026-03-08 12:51+0100\n"
 "PO-Revision-Date: 2025-04-11 12:32+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Norwegian Nynorsk <https://translate.codeberg.org/projects/backintime/common/nn/>\n"
@@ -361,7 +361,7 @@ msgstr "Prøver å oppretthalde minimum ledig plass"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Prøver å halde minimum {perc} ledige inodar"
 
-#: common/snapshots.py:3240 qt/app.py:1490 qt/timeline.py:395
+#: common/snapshots.py:3240 qt/app.py:1490 qt/timeline.py:397
 msgid "Now"
 msgstr "No"
 
@@ -2602,7 +2602,10 @@ msgid "Last check {time}"
 msgstr "Sist sjekka {time}"
 
 #: qt/timeline.py:394
-#, fuzzy
-msgid "This is NOT a backup but a live view of the local files."
+msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
-"Dette er IKKJE eit snapshot, det er ei notids visning av dine lokale filer"
+
+#, fuzzy
+#~ msgid "This is NOT a backup but a live view of the local files."
+#~ msgstr ""
+#~ "Dette er IKKJE eit snapshot, det er ei notids visning av dine lokale filer"

@@ -332,8 +332,7 @@ def update_desktop_files():
                     )
 
         for field, value in to_translate.items():
-            print(f'{field=} {value=}')
-
+            # print(f'{field=} {value=}')
             translations = _get_translation_for_desktop_string(value)
 
             # Dev note (2026-03): Still not sure but it seems the length
@@ -1000,6 +999,9 @@ def _get_translation_for_desktop_string(value: str) -> dict[str, str]:
             continue
 
         translations[po_path.stem] = entry.msgstr
+
+    # sort by Key
+    translations = dict(sorted(translations.items()))
 
     return translations
 
