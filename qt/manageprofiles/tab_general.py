@@ -213,7 +213,7 @@ class GeneralTab(QDialog):
         )
         vlayout.addWidget(self._cb_password_use_cache)
 
-        self._keyring_supported = tools.keyringSupported()
+        self._keyring_supported = tools.KEYRING_SUPPORTED
         self._cb_password_save.setEnabled(self._keyring_supported)
 
         # mode change
@@ -375,7 +375,6 @@ class GeneralTab(QDialog):
 
     def _store_local_gocryptfs_destination_path(self) -> bool:
         """Path and password related to local gocryptfs profile.
-
         """
 
         # save local_gocryptfs
@@ -418,6 +417,7 @@ class GeneralTab(QDialog):
         mode = self.get_active_snapshots_mode()
         self.config.setSnapshotsMode(mode)
 
+        # WTF!!!
         # passwords
         password_1 = self._txt_password1.text()
         password_2 = self._txt_password2.text()
@@ -430,6 +430,10 @@ class GeneralTab(QDialog):
         elif mode == 'ssh_encfs':
             mount_kwargs = {'ssh_password': password_1,
                             'encfs_password': password_2}
+
+        elif mode == 'ssh_gocryptfs':
+            mount_kwargs = {'ssh_password': password_1,
+                            'gocryptfs_password': password_2}
 
         self.config.setHostUserProfile(
             self._txt_host.text(),
@@ -448,7 +452,7 @@ class GeneralTab(QDialog):
         self.config.setSshSnapshotsPath(self._txt_ssh_path.text())
 
         # SSH key file
-        if mode in ('ssh', 'ssh_encfs'):
+        if 'ssh' in mode:
             key_file = self.key_selector.get_key()
             self.config.setSshPrivateKeyFile(str(key_file) if key_file else '')
 
@@ -521,10 +525,12 @@ class GeneralTab(QDialog):
         """
         # pylint: disable=too-many-return-statements
 
+        print('X'*100)  # DEBUG
         try:
             mode = self.config.snapshotsMode()
             if 'gocryptfs' in mode:
                 if not mnt.get_backend(mode).isConfigured():
+                    print('Y'*100)  # DEBUG
                     mnt.init_backend(mode=mode, **mount_kwargs)
 
         except MountException as ex:
@@ -532,6 +538,7 @@ class GeneralTab(QDialog):
 
             return False
 
+        print('A'*100)  # DEBUG
         try:
             # This will run several checks depending on the snapshots mode
             # used. Exceptions are raised if something goes wrong. On mode
@@ -835,7 +842,7 @@ class GeneralTab(QDialog):
                 active_mode in ('local', 'local_encfs', 'local_gocryptfs'))
 
             self._group_mode_ssh.setVisible(
-                active_mode in ('ssh', 'ssh_encfs'))
+                'ssh' in active_mode)
 
             self._wdg_schedule.allow_udev(
                 active_mode in ('local', 'local_encfs', 'local_gocryptfs'))

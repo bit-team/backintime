@@ -4,21 +4,25 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This file is part of the program "Back In time" which is released under GNU
+# This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import subprocess
 
-import logger
 from pathlib import Path
+import sshtools
+import logger
+import config
 from password_ipc import TempPasswordThread
 from mount import MountControl
 from exceptions import MountException
 
 
 class GocryptfsMount(MountControl):
-    """
+    """Mounts a local GoCryptFS encrypted directory.
+
+    After mounting the dir is accessible in plaintext (encrypted).
     """
 
     def __init__(self, *args, **kwargs):
@@ -89,9 +93,7 @@ class GocryptfsMount(MountControl):
                 )
 
     def init_backend(self):
-        """
-        init the cipher path
-        """
+        """init the cipher path"""
 
         self.checkFuse()  # gocryptfs binary available?
 
@@ -106,6 +108,9 @@ class GocryptfsMount(MountControl):
         env['ASKPASS_TEMP'] = thread.temp_file
 
         with thread.starter():
+            if not os.path.isdir(self.path):
+                os.makedirs(self.path, exist_ok=True)
+
             gocryptfs = [
                 self.mountproc,
                 '-extpass',
@@ -133,9 +138,9 @@ class GocryptfsMount(MountControl):
                 msg = _('Unable to init encrypted path "{command}"').format(
                     command=' '.join(gocryptfs)
                 )
-                raise MountException(
-                    f'{msg}:\n\n{output}\n\nReturn code: {proc.returncode}'
-                )
+                msg = f'{msg}:\n\n{output}\n\nReturn code: {proc.returncode}'
+                logger.critical(msg, self)
+                raise MountException(msg)
 
     def preMountCheck(self, first_run=False):
         """
@@ -168,3 +173,143 @@ class GocryptfsMount(MountControl):
         logger.debug(f'No gocryptfs config found. Missing {fp_conf}', self)
 
         return False
+
+
+class Gocryptfs_SSH(GocryptfsMount):
+    """
+    Mount encrypted remote path with sshfs and gocryptfs.
+
+    Flow:
+    1. sshfs mounts remote encrypted directory
+    2. gocryptfs mounts that directory as plaintext
+    rsync works on plaintext view.
+    """
+
+    def __init__(
+            self,
+            cfg=None,
+            profile_id=None,
+            mode=None,
+            parent=None,
+            *args,
+            **kwargs
+    ):
+        # DEBUG
+        print(f'Gocryptfs_SSH.__init__() :: {mode=} {parent=} '
+              f'{args=} {kwargs=}')
+
+        self.config = cfg or config.Config()
+        self.profile_id = profile_id or self.config.currentProfile()
+        self.mode = mode or self.config.snapshotsMode(self.profile_id)
+        self.parent = parent
+        self.args = args
+        self.kwargs = kwargs
+
+        self.ssh = sshtools.SSH(
+            *self.args,
+            symlink=False,
+            **self.splitKwargs('ssh')
+        )
+
+        super().__init__(
+            *self.args,
+            symlink=False,
+            **self.splitKwargs('gocryptfs')
+        )
+
+        # print('3'*100)  # DEBUG
+        # if not self.isConfigured():
+        #     print('4'*100)  # DEBUG
+        #     self.init_backend()
+        # print('5'*100)  # DEBUG
+
+    def mount(self, *args, **kwargs):
+        # SSH mount
+        self.ssh.mount(*args, **kwargs)
+
+        cipher_path = self.ssh.currentMountpoint
+        self.path = cipher_path
+
+        conf_fp = Path(cipher_path) / 'gocryptfs.conf'
+        if not conf_fp.exists():
+            if not any(Path(cipher_path).iterdir()):
+                self.init_backend()
+
+        # gocryptfs mount
+        gocrypt_kwargs = self.splitKwargs('gocryptfs')
+        gocrypt_kwargs['check'] = False
+
+        return super().mount(**gocrypt_kwargs)
+
+    def umount(self, *args, **kwargs):
+        # gocryptfs
+        super().umount(*args, **kwargs)
+
+        # SSH mount
+        self.ssh.umount(*args, **kwargs)
+
+    def preMountCheck(self, *args, **kwargs):
+        return (
+            self.ssh.preMountCheck(*args, **kwargs)
+            and super().preMountCheck(*args, **kwargs)
+        )
+
+    def isConfigured(self):
+        """Checks if cogryptfs.conf exists on the mounted SSH path"""
+        print("SSH MP:", self.ssh.currentMountpoint)
+        print("PATH:", self.path)
+        print("CHECK:", self.configFile())
+        print("EXISTS:", Path(self.configFile()).exists())
+        if self.ssh.currentMountpoint is None:
+            return False
+
+        self.path = self.ssh.currentMountpoint
+
+        return super().isConfigured()
+
+    def splitKwargs(self, mode: str) -> dict:
+        """Split kwargs into backend-specific kwargs.
+
+        Args:
+            mode: 'ssh' or 'gocryptfs'
+
+        Returns:
+            dict: Filtered and adapted arguments for one of the selected
+                backends.
+        """
+        d = self.kwargs.copy()
+
+        d['cfg'] = self.config
+        d['profile_id'] = self.profile_id
+        d['mode'] = self.mode
+        d['parent'] = self.parent
+
+        if mode == 'ssh':
+            if 'path' in d:
+                d.pop('path')
+            if 'ssh_path' in d:
+                d['path'] = d.pop('ssh_path')
+            d['password'] = d.pop(
+                'ssh_password',
+                self.config.password(
+                    parent=self.parent,
+                    profile_id=self.profile_id,
+                    mode=self.mode
+                )
+            )
+
+            return d
+
+        elif mode == 'gocryptfs':
+            d['path'] = self.ssh.currentMountpoint
+            d['password'] = d.pop(
+                'gocryptfs_password',
+                self.config.password(
+                    parent=self.parent,
+                    profile_id=self.profile_id,
+                    mode=self.mode,
+                    pw_id=2
+                )
+            )
+
+            return d
