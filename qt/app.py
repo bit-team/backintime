@@ -2139,20 +2139,24 @@ class MainWindow(QMainWindow):
                 'Remove these backups?',
                 len(items)
             ),
-            '\n'.join([item.snapshot_id.displayName for item in items]))
+            '\n'.join(self.timeline.get_all_selected_backup_labels())
+        )
 
-        answer = messagebox.question(text=question_msg,
-                                     widget_to_center_on=self)
+        answer = messagebox.question(
+            text=question_msg,
+            widget_to_center_on=self
+        )
 
         if not answer:
             return
 
-        for item in items:
+        self.timeline.select_now()
 
+        for item in items:
             item.setDisabled(True)
 
-            if item is self.timeline.currentItem():
-                self.timeline.select_root_item()
+            # if item is self.timeline.currentItem():
+            #     self.timeline.select_root_item()
 
         thread = RemoveSnapshotThread(self, items)
         thread.refreshSnapshotList.connect(self.rebuild_timeline)
@@ -2301,7 +2305,7 @@ class RemoveSnapshotThread(QThread):
         # inhibit suspend/hibernate during delete
         with InhibitSuspend(reason='deleting snapshots'):
 
-            for item, sid in [(x, x.snapshot_id) for x in self.items]:
+            for item, sid in [(x, snapshots.SID(x.descriptor, self.config)) for x in self.items]:
                 self.snapshots.remove(sid)
                 self.hideTimelineItem.emit(item)
                 if sid == last_snapshot:
