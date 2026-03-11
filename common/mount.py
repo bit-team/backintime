@@ -6,97 +6,6 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-"""The mount API.
-
-    The high-level mount API is :py:class:`Mount` and handles mount,
-    umount, remount and checks for *Back In Time*. The low-level mount API
-    is :py:class:`MountControl`. The latter can be used to create own
-    mounting services via subclassing it. See the following example.
-
-    Example:
-
-        See this template to create your own mounting service by inheriting
-        from :py:class:`MountControl`. All you need to do is:
-
-        - Add your settings in ``qt/settingsdialog.py``.
-        - Add settings in ``common/config.py``.
-        - Use the following template class ``MountDummy``, rename and modify
-          it to your needs.
-        - Please use ``self.currentMountpoint`` as your local mountpoint.
-        - Your class should inherit from :py:class:`mount.MountControl`.
-
-        As real usage example see the two classes :py:class:`sshtools.SSH` and
-        :py:class:`encfstools.EncFS_mount`.
-
-    This is the template: ::
-
-        class MountDummy(mount.MountControl):
-            def __init__(self, *args, **kwargs):
-                super(MountDummy, self).__init__(*args, **kwargs)
-
-                self.all_kwargs = {}
-
-                # First we need to map the settings.
-                # If <arg> is in kwargs (e.g. if this class is called with
-                # dummytools.Dummy(<arg> = <value>) this will map self.<arg> to
-                # kwargs[<arg>]; else self.<arg> = <default> from config
-                # e.g. self.setattrKwargs(<arg>, <default>, **kwargs)
-                self.setattrKwargs(
-                    'user', self.config.get_dummy_user(self.profile_id), **kwargs)
-                self.setattrKwargs(
-                    'host', self.config.get_dummy_host(self.profile_id), **kwargs)
-                self.setattrKwargs(
-                    'port', self.config.get_dummy_port(self.profile_id), **kwargs)
-                self.setattrKwargs(
-                    'password',
-                    self.config.password(self.parent, self.profile_id),
-                    store = False, **kwargs)
-
-                self.setDefaultArgs()
-
-                # If self.currentMountpoint is not the remote snapshot path
-                # you can specify a subfolder of self.currentMountpoint for
-                # the symlink
-                self.symlink_subfolder = None
-
-                self.mountproc = 'dummy'
-                self.log_command = '%s: %s@%s' % (self.mode, self.user, self.host)
-
-            def _mount(self):
-                # Mount the service
-                # Implement your mountprocess here.
-                pass
-
-            def _umount(self):
-                # Umount the service
-                # Implement your unmountprocess here.
-                pass
-
-            def preMountCheck(self, first_run = False):
-                # Check what ever conditions must be given for the mount to be
-                # done successful.
-                # Raise MountException('Error description') if service can not mount
-                # return True if everything is okay
-                # all pre|post_[u]mount_check can also be used to prepare
-                # things or clean up
-                return True
-
-            def postMountCheck(self):
-                # Check if mount was successful
-                # Raise MountException('Error description') if not
-                return True
-
-            def preUmountCheck(self):
-                # Check if service is safe to umount
-                # Raise MountException('Error description') if not
-                return True
-
-            def postUmountCheck(self):
-                # Check if umount successful
-                # Raise MountException('Error description') if not
-                return True
-
-"""
 import getpass
 import json
 import os
@@ -110,7 +19,83 @@ import password
 import tools
 from exceptions import HashCollision, MountException
 
+""" Dev note
+less attractive inheritance horror
+# Remote + GoCryptFS
+class SSH_GoCryptFSBackend(EncryptBackend, RemoteBackend):
+    def __init__(self, cfg, profile_id, **kwargs):
+        EncryptBackend.__init__(self, cfg, profile_id, backend_type='gocryptfs', **kwargs)
+        RemoteBackend.__init__(self, cfg, profile_id, **kwargs)
 
+more attractive compositing
+
+# Basiskomponenten
+class Backend:
+    # Lokal oder Remote mounten
+    def mount(self):
+        raise NotImplementedError
+
+    def umount(self):
+        raise NotImplementedError
+
+
+class LocalBackend(Backend):
+    pass
+
+
+class SSHBackend(Backend):
+    pass
+
+
+class Encryptor:
+    # Optional: Verschlüsselung auf Mount anwenden
+    def encrypt_mountpoint(self, mountpoint):
+        raise NotImplementedError
+
+    def decrypt_mountpoint(self, mountpoint):
+        raise NotImplementedError
+
+
+class NoEncryption(Encryptor):
+    pass
+
+
+class EncFS(Encryptor):
+    pass
+
+
+class GoCryptFS(Encryptor):
+    pass
+
+
+# Zusammensetzbarer Mount
+class Mount:
+    # Mount-Objekt, zusammengesetzt aus Backend + Encryptor.
+    # Kombiniert lokale/remote und Verschlüsselungs-Optionen.
+    def __init__(self, backend: Backend, encryptor: Encryptor):
+        self.backend = backend
+        self.encryptor = encryptor
+
+    def mount(self):
+        # pre-checks ...
+        self.backend.mount()
+        self.encryptor.encrypt_mountpoint(self.backend.mountpoint)
+
+    def umount(self):
+        self.encryptor.decrypt_mountpoint(self.backend.mountpoint)
+        self.backend.umount()
+
+
+# Beispiele für alle 6 Modi
+local_plain      = Mount(LocalBackend(), NoEncryption())
+ssh_plain        = Mount(SSHBackend(), NoEncryption())
+local_encfs      = Mount(LocalBackend(), EncFS())
+ssh_encfs        = Mount(SSHBackend(), EncFS())
+local_gocryptfs  = Mount(LocalBackend(), GoCryptFS())
+ssh_gocryptfs    = Mount(SSHBackend(), GoCryptFS())  # noch zu implementieren
+"""
+
+# Rename -> MountProvider
 class Mount:
     """
     This is the high-level mount API. This will handle mount, umount, remount
@@ -412,7 +397,7 @@ class Mount:
 
         return backend.init_backend()
 
-
+# Rename -> MountBackend
 class MountControl:
     """This is the low-level mount API. This should be subclassed by backends.
 
