@@ -1102,6 +1102,7 @@ class MainWindow(QMainWindow):
         else:
             self.places.set_sorting(sorting)
 
+        self.status_bar.set_disk_space_info(self.config.snapshotsPath())
         # # EncFS deprecation warning (see #1734)
         # current_mode = self.config.snapshotsMode(profile_id)
         # if current_mode in ('local_encfs', 'ssh_encfs'):
@@ -1217,6 +1218,8 @@ class MainWindow(QMainWindow):
             # function `shutdown` should just focus on shutting down a machine
             if self.shutdown.activate_shutdown and get_shutdown_confirmation():
                 self.shutdown.shutdown()
+
+            self.status_bar.set_disk_space_info(self.config.snapshotsPath())
 
         message = self._set_take_snapshot_message(
             message=takeSnapshotMessage,

@@ -11,6 +11,7 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """A module offering a status bar widget
 """
+import os
 from PyQt6.QtWidgets import (QFrame,
                              QHBoxLayout,
                              QLabel,
@@ -22,11 +23,11 @@ from PyQt6.QtWidgets import (QFrame,
                              )
 from PyQt6.QtCore import QEvent
 from PyQt6.QtGui import QPalette, QColor
-import os
 import bitbase
 import qttools
 
 _PROGRESS_BAR_WIDTH_FX = 10
+_UNIT_MULTIPLIER = 1024
 
 
 class StatusBar(QStatusBar):
@@ -146,17 +147,19 @@ class StatusBar(QStatusBar):
         try:
             statvfs = os.statvfs(path)
 
-            free = statvfs.f_frsize * (
-                statvfs.f_bfree if bitbase.IS_IN_ROOT_MODE else statvfs.f_bavail
-            )
+            free = statvfs.f_frsize
+            if bitbase.IS_IN_ROOT_MODE:
+                free *= statvfs.f_bfree
+            else:
+                free *= statvfs.f_bavail
 
-            for unit in ["B", "KB", "MB", "GB", "TB"]:
-                if free < 1024.0:
+            for unit in ['B', 'KB', 'MB', 'GB', 'TB']:
+                if free < _UNIT_MULTIPLIER:
                     break
-                free /= 1024.0
+                free /= _UNIT_MULTIPLIER
 
             formatted = f"{free:.1f} {unit}"
-            self._disk_space.setText(_("Free space: ") + formatted)
+            self._disk_space.setText(_('Free space: ') + formatted)
             self._disk_space.setVisible(True)
 
         except OSError:
