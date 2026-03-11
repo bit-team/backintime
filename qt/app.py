@@ -2155,9 +2155,6 @@ class MainWindow(QMainWindow):
         for item in items:
             item.setDisabled(True)
 
-            # if item is self.timeline.currentItem():
-            #     self.timeline.select_root_item()
-
         thread = RemoveSnapshotThread(self, items)
         thread.refreshSnapshotList.connect(self.rebuild_timeline)
         thread.hideTimelineItem.connect(hideItem)
