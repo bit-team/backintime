@@ -442,12 +442,12 @@ def open_url(url: str) -> None:
         )
 
     except (subprocess.CalledProcessError, FileNotFoundError) as exc:
-        logger.error(f'Problem while opening "{url}" in as user '
+        logger.error(f'Problem while opening "{url}" as user '
                      f'"{user_name}" while in root-mode. '
                      f'Error was: {exc}')
 
     except Exception as exc:  # pylint: disable=broad-exception-caught
-        logger.critical(f'Unknown problem while opening "{url}" in as user '
+        logger.critical(f'Unknown problem while opening "{url}" as user '
                         f'"{user_name}" while in root-mode. '
                         f'Error was: {exc}')
 
@@ -521,13 +521,15 @@ def open_man_page(manpage: str,
             stderr=subprocess.PIPE,
             text=True,
             env=env,
-            check=True
+            check=False
         )
         content = proc.stdout
 
         if not content:
             raise FileNotFoundError(
-                f'No content for man page "{manpage}". {proc.stderr=}')
+                f'No content for man page "{manpage}".\n'
+                f'Error: {proc.stderr.strip()} ({proc.returncode})'
+            )
 
     except FileNotFoundError as exc:
         messagebox.critical(None, str(exc))
@@ -692,6 +694,18 @@ def block_signals(widget: QWidget) -> None:
     """Context manager to temporary block Qt signals"""
     widget.blockSignals(True)
 
-    yield
+    try:
+        yield
+    finally:
+        widget.blockSignals(False)
 
-    widget.blockSignals(False)
+
+@contextmanager
+def block_paint_updates(widget: QWidget) -> None:
+    """Context manager to temporary block Qt paintng"""
+    widget.setUpdatesEnabled(False)
+
+    try:
+        yield
+    finally:
+        widget.setUpdatesEnabled(True)

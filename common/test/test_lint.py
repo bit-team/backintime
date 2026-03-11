@@ -48,7 +48,6 @@ full_test_files = [_base_dir / fp for fp in (
     # 'cliarguments.py',
     # 'clicommands.py',
     'daemon.py',
-    'event.py',
     'encode.py',
     # 'encfstools.py',
     # 'gocryptfstools.py',

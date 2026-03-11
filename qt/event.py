@@ -39,6 +39,7 @@ Example :
                 print('data was modified')
 """
 from contextlib import contextmanager
+from typing import Callable
 
 
 class Event:
@@ -47,6 +48,7 @@ class Event:
     Inspired by discussion and code in
     https://stackoverflow.com/a/48339861/4865723
     """
+
     def __init__(self):
         self._callbacks = []
 
@@ -58,9 +60,14 @@ class Event:
         for callback in self._callbacks:
             callback(*args, **kwargs)
 
-    def register(self, callback):
-        """Register an observer (callback function)."""
-        if callback not in self._callbacks:
+    def register(self, callback: Callable | list[Callable]):
+        """Register one or more observers (callback function)."""
+
+        if isinstance(callback, list):
+            for one in callback:
+                self.register(one)
+
+        elif callback not in self._callbacks:
             self._callbacks.append(callback)
 
         return callback

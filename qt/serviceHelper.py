@@ -68,10 +68,25 @@ except ImportError:
 import dbus
 import dbus.service
 import dbus.mainloop
-# pylint: disable-next=import-error,useless-suppression
-import dbus.mainloop.pyqt6
-# pylint: disable-next=import-error,useless-suppression
-from dbus.mainloop.pyqt6 import DBusQtMainLoop
+
+# WORKAROUND
+try:
+    # pylint: disable-next=import-error,useless-suppression
+    import dbus.mainloop.pyqt6
+    # pylint: disable-next=import-error,useless-suppression
+    from dbus.mainloop.pyqt6 import DBusQtMainLoop
+except (ModuleNotFoundError, ImportError) as exc:
+    msg = (
+        'Unable to import "dbus.mainloop.pyqt6". Original exception message: '
+        f'"{exc}". Try to install package "python3-dbus.mainloop.pyqt6".'
+    )
+    print(f'ERROR: {msg}')
+    import syslog
+    import sys
+    syslog.syslog(syslog.LOG_ERR, f'Back In Time: {msg}')
+    sys.exit(os.EX_OSERR)
+
+
 from PyQt6.QtCore import QCoreApplication
 
 UDEV_RULES_PATH = '/etc/udev/rules.d/99-backintime-%s.rules'

@@ -12,9 +12,9 @@
 # been documented and could be lost.
 msgid ""
 msgstr ""
-"Project-Id-Version: Back In Time 1.6.0\n"
+"Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-02-08 08:27+0100\n"
+"POT-Creation-Date: 2026-03-08 12:51+0100\n"
 "PO-Revision-Date: 2025-04-10 10:35+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Slovak <https://translate.codeberg.org/projects/backintime/common/sk/>\n"
@@ -36,7 +36,7 @@ msgid ""
 msgstr ""
 
 #: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:25
-#: qt/messagebox.py:99
+#: qt/messagebox.py:99 qt/timeline.py:33
 msgid "Warning"
 msgstr "Varovanie"
 
@@ -236,7 +236,7 @@ msgstr "ZLYHANIE"
 msgid "Restore permissions"
 msgstr "Obnoviť oprávnenia"
 
-#: common/snapshots.py:656 qt/app.py:240 qt/app.py:1195 qt/app.py:1211
+#: common/snapshots.py:656 qt/app.py:207 qt/app.py:1170 qt/app.py:1186
 #: qt/qtsystrayicon.py:118
 msgid "Done"
 msgstr "Hotovo"
@@ -251,12 +251,12 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "Zálohovanie odložené pri behu na batériu"
 
-#: common/snapshots.py:931 qt/app.py:393
+#: common/snapshots.py:931 qt/app.py:377
 #, fuzzy
 msgid "Can't find backup directory."
 msgstr "Nie je možné vytvoriť priečinok snímok."
 
-#: common/snapshots.py:935 qt/app.py:394
+#: common/snapshots.py:935 qt/app.py:378
 #, fuzzy
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Ak je na vymeniteľnom disku, pripojte ho, prosím."
@@ -368,7 +368,7 @@ msgstr "Pracujem na minimálnom voľnom mieste"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Pokúšam sa udržať minimálne {perc} voľných i-uzlov"
 
-#: common/snapshots.py:3211 qt/app.py:1482
+#: common/snapshots.py:3240 qt/app.py:1490 qt/timeline.py:397
 msgid "Now"
 msgstr "Teraz"
 
@@ -493,63 +493,63 @@ msgstr ""
 msgid "File creation failed in this directory:"
 msgstr "Vytvorenie súboru v tomto adresári zlyhalo:"
 
-#: qt/aboutdlg.py:51
+#: qt/aboutdlg.py:50
 #, fuzzy
 msgid "About Back In Time"
 msgstr "Back In &Time"
 
-#: qt/aboutdlg.py:89
+#: qt/aboutdlg.py:88
 msgid "Copyright:"
 msgstr ""
 
-#: qt/aboutdlg.py:93
+#: qt/aboutdlg.py:92
 #, fuzzy
 msgid "Authors:"
 msgstr "Autori"
 
-#: qt/aboutdlg.py:97
+#: qt/aboutdlg.py:96
 #, fuzzy
 msgid "Translators:"
 msgstr "Preklady"
 
-#: qt/aboutdlg.py:100
+#: qt/aboutdlg.py:99
 msgid "translator-credits-placeholder"
 msgstr "Tomáš Vadina <kyberdev@gmail.com>"
 
-#: qt/aboutdlg.py:107
+#: qt/aboutdlg.py:106
 msgid "Translator credits not available for current language."
 msgstr ""
 
-#: qt/aboutdlg.py:116
+#: qt/aboutdlg.py:115
 msgid "this link"
 msgstr ""
 
-#: qt/aboutdlg.py:118
+#: qt/aboutdlg.py:117
 #, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
 
-#: qt/aboutdlg.py:220 qt/app.py:578
+#: qt/aboutdlg.py:240 qt/app.py:562
 msgid "Project website"
 msgstr "Webová stránka projektu"
 
-#: qt/aboutdlg.py:225 qt/app.py:560
+#: qt/aboutdlg.py:245 qt/app.py:544
 msgid "User manual"
 msgstr "Používateľská príručka"
 
-#: qt/aboutdlg.py:227 qt/app.py:562
+#: qt/aboutdlg.py:247 qt/app.py:546
 #, fuzzy
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
 "Otvoriť používateľskú príručku v prehliadači (lokálne, ak je k dispozícii, "
 "inak online)"
 
-#: qt/aboutdlg.py:277
+#: qt/aboutdlg.py:297
 #, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr ""
 
-#: qt/app.py:348
+#: qt/app.py:332
 #, fuzzy, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time because no configuration"
@@ -558,7 +558,7 @@ msgstr ""
 "Zdá sa, že {app_name} sa spúšťa prvýkrát, pretože nebola nájdená žiadna "
 "konfigurácia."
 
-#: qt/app.py:353
+#: qt/app.py:337
 #, fuzzy
 msgid ""
 "Import an existing configuration from a backup location or another computer?"
@@ -566,188 +566,188 @@ msgstr ""
 "Importovať existujúcu konfiguráciu (z cieľového adresára zálohy alebo iného "
 "počítača)?"
 
-#: qt/app.py:395
+#: qt/app.py:379
 msgid "Then press OK."
 msgstr ""
 
-#: qt/app.py:499
+#: qt/app.py:483
 msgid "Create a backup"
 msgstr ""
 
-#: qt/app.py:501
+#: qt/app.py:485
 msgid "Use modification time & size for file change detection."
 msgstr "Použiť čas úpravy a veľkosť na detekciu zmien súborov."
 
-#: qt/app.py:504
+#: qt/app.py:488
 #, fuzzy
 msgid "Create a backup (checksum mode)"
 msgstr "Vytvoriť snímku (režim kontrolného súčtu)"
 
-#: qt/app.py:506
+#: qt/app.py:490
 msgid "Use checksums for file change detection."
 msgstr "Použiť kontrolný súčet pre zistenie zmien."
 
-#: qt/app.py:508 qt/qtsystrayicon.py:125
+#: qt/app.py:492 qt/qtsystrayicon.py:125
 #, fuzzy
 msgid "Pause backup process"
 msgstr "Pozastaviť proces snímky"
 
-#: qt/app.py:512 qt/qtsystrayicon.py:130
+#: qt/app.py:496 qt/qtsystrayicon.py:130
 #, fuzzy
 msgid "Resume backup process"
 msgstr "Obnoviť proces snímky"
 
-#: qt/app.py:516 qt/qtsystrayicon.py:135
+#: qt/app.py:500 qt/qtsystrayicon.py:135
 #, fuzzy
 msgid "Stop backup process"
 msgstr "Zastaviť proces snímky"
 
-#: qt/app.py:520
+#: qt/app.py:504
 #, fuzzy
 msgid "Refresh backup list"
 msgstr "Obnoviť zoznam snímok"
 
-#: qt/app.py:524
+#: qt/app.py:508
 msgid "Name backup"
 msgstr ""
 
-#: qt/app.py:528
+#: qt/app.py:512
 #, fuzzy
 msgid "Remove backup"
 msgstr "Odstrániť snímku"
 
-#: qt/app.py:532
+#: qt/app.py:516
 #, fuzzy
 msgid "Open backup log"
 msgstr "Zobraziť posledný log"
 
-#: qt/app.py:534
+#: qt/app.py:518
 #, fuzzy
 msgid "View log of the selected backup."
 msgstr "Pre zálohovanie musí byť vybraný aspoň jeden adresár."
 
-#: qt/app.py:536
+#: qt/app.py:520
 #, fuzzy
 msgid "Open last backup log"
 msgstr "Zobraziť posledný log"
 
-#: qt/app.py:538
+#: qt/app.py:522
 msgid "View log of the latest backup."
 msgstr ""
 
-#: qt/app.py:540
+#: qt/app.py:524
 msgid "Manage profiles…"
 msgstr "Hlavný profil…"
 
-#: qt/app.py:544
+#: qt/app.py:528
 msgid "Edit user-callback"
 msgstr "Upraviť užívateľskú spätnú väzbu"
 
-#: qt/app.py:548
+#: qt/app.py:532
 msgid "Shutdown"
 msgstr "Vypnúť"
 
-#: qt/app.py:550
+#: qt/app.py:534
 #, fuzzy
 msgid "Shut down system after backup has finished."
 msgstr "Vypnúť systém po dokončení snímky."
 
-#: qt/app.py:552
+#: qt/app.py:536
 msgid "Setup language…"
 msgstr "Nastaviť jazyk…"
 
-#: qt/app.py:556
+#: qt/app.py:540
 msgid "Exit"
 msgstr "Koniec"
 
-#: qt/app.py:566
+#: qt/app.py:550
 msgid "man page: Back In Time"
 msgstr "stránka manuálu: Back In Time"
 
-#: qt/app.py:568
+#: qt/app.py:552
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "Zobrazí stránku manuálu o Back In Time (backintime)"
 
-#: qt/app.py:571
+#: qt/app.py:555
 msgid "man page: Profiles config file"
 msgstr "stránka manuálu: Konfiguračný súbor profilov"
 
-#: qt/app.py:574
+#: qt/app.py:558
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 "Zobrazí stránku manuálu o konfiguračnom súbore profilov (backintime-config)"
 
-#: qt/app.py:581
+#: qt/app.py:565
 msgid "Open Back In Time website in browser"
 msgstr "Otvoriť webovú stránku aplikácie Back In Time v prehliadači"
 
-#: qt/app.py:583 qt/app.py:2301
+#: qt/app.py:567 qt/app.py:2243
 msgid "Changelog"
 msgstr "Zoznam zmien"
 
-#: qt/app.py:586
+#: qt/app.py:570
 #, fuzzy
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr ""
 "Otvoriť používateľskú príručku v prehliadači (lokálne, ak je k dispozícii, "
 "inak online)"
 
-#: qt/app.py:589
+#: qt/app.py:573
 msgid "FAQ"
 msgstr "Často kladené otázky (FAQ)"
 
-#: qt/app.py:591
+#: qt/app.py:575
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "Otvoriť často kladené otázky (FAQ) v prehliadači"
 
-#: qt/app.py:593
+#: qt/app.py:577
 msgid "Ask a question"
 msgstr "Položiť otázku"
 
-#: qt/app.py:597
+#: qt/app.py:581
 msgid "Report a bug"
 msgstr "Nahlásiť chybu"
 
-#: qt/app.py:600
+#: qt/app.py:584
 msgid "Translation"
 msgstr "Preklad"
 
-#: qt/app.py:602
+#: qt/app.py:586
 msgid "Shows the message about participation in translation again."
 msgstr "Znova zobraziť správu o účasti na preklade."
 
-#: qt/app.py:606
+#: qt/app.py:590
 msgid "Encryption Transition (EncFS)"
 msgstr "Prechod na šifrovanie (EncFS)"
 
-#: qt/app.py:608
+#: qt/app.py:592
 msgid "Shows the message about EncFS removal again."
 msgstr "Znova zobraziť správu o odstránení EncFS."
 
-#: qt/app.py:615
+#: qt/app.py:599
 msgid "About"
 msgstr "O programe"
 
-#: qt/app.py:618 qt/restoredialog.py:46 qt/snapshotsdialog.py:184
-#: qt/snapshotsdialog.py:189
+#: qt/app.py:602 qt/restoredialog.py:46 qt/snapshotsdialog.py:182
+#: qt/snapshotsdialog.py:187
 msgid "Restore"
 msgstr "Obnoviť"
 
-#: qt/app.py:620
+#: qt/app.py:604
 #, fuzzy
 msgid "Restore the selected files or directories to the original location."
 msgstr "Obnoviť vybrané súbory alebo adresáre do pôvodného cieľa."
 
-#: qt/app.py:623 qt/app.py:1942 qt/snapshotsdialog.py:186
+#: qt/app.py:607 qt/app.py:1886 qt/snapshotsdialog.py:184
 msgid "Restore to …"
 msgstr "Obnoviť …"
 
-#: qt/app.py:625
+#: qt/app.py:609
 #, fuzzy
 msgid "Restore the selected files or directories to a new location."
 msgstr "Obnoviť vybrané súbory alebo adresáre do nového cieľa."
 
-#: qt/app.py:631
+#: qt/app.py:615
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
@@ -755,100 +755,97 @@ msgid ""
 msgstr ""
 "Obnoviť aktuálne zobrazený adresár a celý jeho obsah do pôvodného cieľa."
 
-#: qt/app.py:637
+#: qt/app.py:621
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
 msgstr "Obnoviť aktuálne zobrazený adresár a celý jeho obsah do nového cieľa."
 
-#: qt/app.py:640
+#: qt/app.py:624
 msgid "Up"
 msgstr "Hore"
 
-#: qt/app.py:643
+#: qt/app.py:627
 msgid "Show hidden files"
 msgstr "Ukázať skryté súbory"
 
-#: qt/app.py:646
+#: qt/app.py:630
 #, fuzzy
 msgid "Compare backups…"
 msgstr "Urobiť snímku…"
 
-#: qt/app.py:676 qt/app.py:1815
+#: qt/app.py:660 qt/app.py:1759
 msgid "Release Candidate"
 msgstr "Kandidát na vydanie"
 
-#: qt/app.py:679
+#: qt/app.py:663
 msgid "Shows the message about this Release Candidate again."
 msgstr "Znova zobraziť správu o tomto kandidátovi na vydanie."
 
-#: qt/app.py:716
+#: qt/app.py:700
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:721
+#: qt/app.py:705
 msgid "&Backup"
 msgstr "&Záloha"
 
-#: qt/app.py:733
+#: qt/app.py:717
 msgid "&Restore"
 msgstr "&Obnoviť"
 
-#: qt/app.py:739
+#: qt/app.py:723
 msgid "&Help"
 msgstr "&Pomocník"
 
-#: qt/app.py:790
+#: qt/app.py:774
 msgid "Systray Icon"
 msgstr ""
 
-#: qt/app.py:796
+#: qt/app.py:780
 msgid "Automatic"
 msgstr ""
 
-#: qt/app.py:800
+#: qt/app.py:784
 msgid "Light icon"
 msgstr ""
 
-#: qt/app.py:801
+#: qt/app.py:785
 msgid "Dark icon"
 msgstr ""
 
-#: qt/app.py:824
+#: qt/app.py:808
 msgid "Icons only"
 msgstr "Iba ikony"
 
-#: qt/app.py:827
+#: qt/app.py:811
 msgid "Text only"
 msgstr "Iba text"
 
-#: qt/app.py:830
+#: qt/app.py:814
 msgid "Text below icons"
 msgstr "Text pod ikonami"
 
-#: qt/app.py:833
+#: qt/app.py:817
 msgid "Text beside icon"
 msgstr "Text vedľa ikony"
 
-#: qt/app.py:944
+#: qt/app.py:943
 #, fuzzy
-msgid ""
-"This directory doesn't exist\n"
-"in the current selected backup."
+msgid "This directory doesn't exist in the selected backup."
 msgstr ""
 "Tento adresár neexistuje\n"
 " v aktuálne vybranej snímke."
 
-#: qt/app.py:1005
-msgid "Add to Include"
-msgstr "Pridať do zahrnutých"
+#: qt/app.py:946
+#, fuzzy
+msgid "This directory doesn't exist on the computer."
+msgstr ""
+"Tento adresár neexistuje\n"
+" v aktuálne vybranej snímke."
 
-#: qt/app.py:1006
-msgid "Add to Exclude"
-msgstr "Pridať do vylúčených"
-
-#: qt/app.py:1020
+#: qt/app.py:995
 #, fuzzy
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
@@ -857,54 +854,54 @@ msgstr ""
 "Ak zatvoríte toto okno, Back In Time nebude môcť vypnúť váš systém po "
 "dokončení snímky."
 
-#: qt/app.py:1023
+#: qt/app.py:998
 msgid "Close the window anyway?"
 msgstr ""
 
-#: qt/app.py:1214
+#: qt/app.py:1189
 msgid "Done, no backup needed"
 msgstr "Hotovo, záloha nie je potrebná"
 
-#: qt/app.py:1285
+#: qt/app.py:1260
 msgid "Working:"
 msgstr "Pracujem:"
 
-#: qt/app.py:1292
+#: qt/app.py:1267
 msgid "Working"
 msgstr "Prebieha"
 
-#: qt/app.py:1298 qt/messagebox.py:136
+#: qt/app.py:1273 qt/messagebox.py:136
 msgid "Error"
 msgstr "Chyba"
 
-#: qt/app.py:1339 qt/qtsystrayicon.py:295
+#: qt/app.py:1314 qt/qtsystrayicon.py:295
 msgid "Sent:"
 msgstr "Odoslané:"
 
-#: qt/app.py:1340 qt/qtsystrayicon.py:296
+#: qt/app.py:1315 qt/qtsystrayicon.py:296
 msgid "Speed:"
 msgstr "Rýchlosť:"
 
-#: qt/app.py:1341 qt/qtsystrayicon.py:297
+#: qt/app.py:1316 qt/qtsystrayicon.py:297
 msgid "ETA:"
 msgstr "ETA:"
 
-#: qt/app.py:1490
+#: qt/app.py:1498
 #, fuzzy
 msgid "Backup:"
 msgstr "&Záloha"
 
-#: qt/app.py:1530
+#: qt/app.py:1598
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Obnoviť {path}"
 
-#: qt/app.py:1532
+#: qt/app.py:1600
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Obnoviť {path} …"
 
-#: qt/app.py:1680
+#: qt/app.py:1624
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -921,47 +918,47 @@ msgstr ""
 "Za vyrušenie sa ospravedlňujeme, táto správa sa už znovu nezobrazí. Toto dialógové okno nájdete kedykoľvek v menu Pomoc.\n"
 "Back In Time tím"
 
-#: qt/app.py:1709
+#: qt/app.py:1653
 msgid "translation platform"
 msgstr "prekladateľská platforma"
 
-#: qt/app.py:1714
+#: qt/app.py:1658
 msgid "Website"
 msgstr "Webová stránka"
 
-#: qt/app.py:1728
+#: qt/app.py:1672
 msgid "Your translation"
 msgstr "Váš preklad"
 
-#: qt/app.py:1765
+#: qt/app.py:1709
 #, fuzzy, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Na Fediverse na Mastodone: {link_and_label}"
 
-#: qt/app.py:1770
+#: qt/app.py:1714
 #, fuzzy, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "Poštová konferencia {link_and_label}"
 
-#: qt/app.py:1774
+#: qt/app.py:1718
 #, fuzzy, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "Poštová konferencia {link_and_label}"
 
-#: qt/app.py:1778
+#: qt/app.py:1722
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} na webovej stránke projektu."
 
-#: qt/app.py:1781
+#: qt/app.py:1725
 msgid "Open an issue"
 msgstr "Nahlásiť problém"
 
-#: qt/app.py:1782
+#: qt/app.py:1726
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Prípadne môžete použiť iný kanál podľa vlastného výberu."
 
-#: qt/app.py:1787
+#: qt/app.py:1731
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -982,27 +979,27 @@ msgstr ""
 "Ďakujeme vám za vašu podporu a za pomoc pri zlepšovaní aplikácie Back In Time!\n"
 "Váš tím aplikácie Back In Time"
 
-#: qt/app.py:1892
+#: qt/app.py:1836
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr ""
 
-#: qt/app.py:1897
+#: qt/app.py:1841
 msgid "Proceed with the backup?"
 msgstr ""
 
-#: qt/app.py:1922
+#: qt/app.py:1866
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr ""
 
-#: qt/app.py:1925
+#: qt/app.py:1869
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 
-#: qt/app.py:1931
+#: qt/app.py:1875
 #, fuzzy, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -1011,19 +1008,19 @@ msgstr ""
 "{BOLD}Upozornenie{BOLDEND}: Odstránenie súborov v koreňovom adresári "
 "súborového systému môže poškodiť celý váš systém."
 
-#: qt/app.py:2167
+#: qt/app.py:2107
 #, fuzzy
 msgid "Backup name"
 msgstr "&Záloha"
 
-#: qt/app.py:2198
+#: qt/app.py:2138
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: qt/app.py:2261
+#: qt/app.py:2204
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "Nastavenie jazyka sa zmení po reštartovaní aplikácie Back In Time."
 
@@ -1126,6 +1123,42 @@ msgstr ""
 #, fuzzy
 msgid "Show/hide hidden files and directories (Ctrl+H)"
 msgstr "Zahrňuje súbory a adresáre"
+
+#: qt/fileview.py:204
+msgid "Add to Include"
+msgstr "Pridať do zahrnutých"
+
+#: qt/fileview.py:205
+msgid "Add to Exclude"
+msgstr "Pridať do vylúčených"
+
+#: qt/fileview.py:292
+msgid "The selected item is already in the include list."
+msgid_plural "The selected items are already in the include list."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: qt/fileview.py:299
+msgid "The following item is already in the include list."
+msgid_plural "The following items are already in the include list."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: qt/fileview.py:313
+msgid "The selected item is already in the exclude list."
+msgid_plural "The selected items are already in the exclude list."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: qt/fileview.py:320
+msgid "The following item is already in the exclude list."
+msgid_plural "The following items are already in the exclude list."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: qt/languagedialog.py:36
 msgid "Setup language"
@@ -1610,42 +1643,42 @@ msgstr ""
 "Voliteľné hodiny môžu byť iba zoznam hodín oddelených čiarkami (napr. "
 "8,12,18,23) alebo */3 pre pravidelné zálohy každé 3 hodiny."
 
-#: qt/manageprofiles/sshkeyselector.py:63
+#: qt/manageprofiles/sshkeyselector.py:64
 msgid "<Select another file…>"
 msgstr ""
 
-#: qt/manageprofiles/sshkeyselector.py:64
+#: qt/manageprofiles/sshkeyselector.py:65
 #, fuzzy
 msgid "Choose an existing private key file from somewhere else."
 msgstr ""
 "Vyberte existujúci súbor privátneho kľúča (zvyčajne s názvom \"id_ed25519\" "
 "a v starších nastaveniach \"id_rsa\")."
 
-#: qt/manageprofiles/sshkeyselector.py:70
+#: qt/manageprofiles/sshkeyselector.py:71
 msgid "<Generate new key-pair…>"
 msgstr ""
 
-#: qt/manageprofiles/sshkeyselector.py:71
+#: qt/manageprofiles/sshkeyselector.py:72
 #, fuzzy
 msgid "Create a new SSH key without passphrase."
 msgstr "Nepodarilo sa vytvoriť nový SSH kľúč v {path}."
 
-#: qt/manageprofiles/sshkeyselector.py:91
+#: qt/manageprofiles/sshkeyselector.py:92
 #, fuzzy, python-brace-format
 msgid "Full path: {path}"
 msgstr "Úplná cesta k snímke:"
 
-#: qt/manageprofiles/sshkeyselector.py:185
+#: qt/manageprofiles/sshkeyselector.py:205
 #, fuzzy
 msgid "Private key:"
 msgstr "Privátny kľúč:"
 
-#: qt/manageprofiles/sshkeyselector.py:190
+#: qt/manageprofiles/sshkeyselector.py:210
 #, fuzzy
 msgid "Use system SSH configuration"
 msgstr "Importovať konfiguráciu"
 
-#: qt/manageprofiles/sshkeyselector.py:192
+#: qt/manageprofiles/sshkeyselector.py:212
 msgid ""
 "Leaves the key file unselected. SSH connections will rely on the system’s "
 "existing client configuration (e.g., ~/.ssh/config)."
@@ -2341,19 +2374,19 @@ msgid ""
 "storage device connections."
 msgstr ""
 
-#: qt/placeswidget.py:49
+#: qt/placeswidget.py:51
 msgid "Shortcuts"
 msgstr "Skratky"
 
-#: qt/placeswidget.py:63
+#: qt/placeswidget.py:96
 msgid "Places"
 msgstr ""
 
-#: qt/placeswidget.py:64
+#: qt/placeswidget.py:97
 msgid "File System"
 msgstr ""
 
-#: qt/placeswidget.py:106
+#: qt/placeswidget.py:146
 msgid "Backup directories"
 msgstr "Adresár záloh"
 
@@ -2473,28 +2506,28 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: qt/snapshotsdialog.py:63
+#: qt/snapshotsdialog.py:61
 #, fuzzy
 msgid "Options about comparing backups"
 msgstr "Možnosti porovnávania snímok"
 
-#: qt/snapshotsdialog.py:70
+#: qt/snapshotsdialog.py:68
 msgid "Command:"
 msgstr "Príkaz:"
 
-#: qt/snapshotsdialog.py:74
+#: qt/snapshotsdialog.py:72
 msgid "Parameters:"
 msgstr "Parametre:"
 
-#: qt/snapshotsdialog.py:79
+#: qt/snapshotsdialog.py:77
 msgid "Use %1 and %2 for path parameters"
 msgstr "Použiť %1 a %2 parametre cesty"
 
-#: qt/snapshotsdialog.py:96
+#: qt/snapshotsdialog.py:94
 msgid "Please set a diff command or press Cancel."
 msgstr "Prosím, nastavte príkaz diff alebo stlačte Zrušiť."
 
-#: qt/snapshotsdialog.py:102
+#: qt/snapshotsdialog.py:100
 #, python-brace-format
 msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
@@ -2503,73 +2536,73 @@ msgstr ""
 "Príkaz \"{cmd}\" sa v tomto systéme nenašiel. Skúste niečo iné alebo stlačte"
 " Zrušiť."
 
-#: qt/snapshotsdialog.py:110
+#: qt/snapshotsdialog.py:108
 #, python-brace-format
 msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr ""
 "Pre príkaz diff neboli nastavené žiadne parametre. Používa sa predvolená "
 "hodnota \"{params}\"."
 
-#: qt/snapshotsdialog.py:141 qt/timeline.py:44
+#: qt/snapshotsdialog.py:139 qt/timeline.py:117
 #, fuzzy
 msgid "Backups"
 msgstr "&Záloha"
 
-#: qt/snapshotsdialog.py:152
+#: qt/snapshotsdialog.py:150
 #, fuzzy
 msgid "Differing backups only"
 msgstr "Iba odlišné snímky"
 
-#: qt/snapshotsdialog.py:161
+#: qt/snapshotsdialog.py:159
 #, fuzzy
 msgid "List only backups that are equal to:"
 msgstr "Zoznam snímok, ktoré sú rovné:"
 
-#: qt/snapshotsdialog.py:173
+#: qt/snapshotsdialog.py:171
 msgid "Deep check (more accurate, but slow)"
 msgstr "Hĺbková kontrola (presnejšia, ale pomalšia)"
 
-#: qt/snapshotsdialog.py:194
+#: qt/snapshotsdialog.py:192
 msgid "Delete"
 msgstr "Vymazať"
 
-#: qt/snapshotsdialog.py:199
+#: qt/snapshotsdialog.py:197
 msgid "Select All"
 msgstr "Vybrať všetko"
 
-#: qt/snapshotsdialog.py:212
+#: qt/snapshotsdialog.py:217
 msgid "Compare"
 msgstr "Porovnať"
 
-#: qt/snapshotsdialog.py:227
+#: qt/snapshotsdialog.py:232
 msgid "Go To"
 msgstr "Ísť na"
 
-#: qt/snapshotsdialog.py:229
+#: qt/snapshotsdialog.py:234
 msgid "Options"
 msgstr "Možnosti"
 
-#: qt/snapshotsdialog.py:394
+#: qt/snapshotsdialog.py:424
 msgid ""
 "It is not possible to compare a backup to itself, as the comparison would be"
 " redundant."
 msgstr ""
 
-#: qt/snapshotsdialog.py:440
+#: qt/snapshotsdialog.py:470
 #, fuzzy, python-brace-format
 msgid "Really delete {file_or_dir} in backup {backup_id}?"
 msgstr "Naozaj chcete odstrániť {file} zo snímky {snapshot_id}?"
 
-#: qt/snapshotsdialog.py:445
+#: qt/snapshotsdialog.py:475
 #, fuzzy, python-brace-format
 msgid "Really delete {file_or_dir} in {count} backups?"
 msgstr "Naozaj chcete odstrániť {file} v {count} snímkach?"
 
-#: qt/snapshotsdialog.py:448
+#: qt/snapshotsdialog.py:478
 msgid "WARNING: This cannot be revoked."
 msgstr "UPOZORNENIE: Nie je možné odvolať."
 
-#: qt/snapshotsdialog.py:465
+#: qt/snapshotsdialog.py:495
 #, fuzzy, python-brace-format
 msgid "Exclude {path} from future backups?"
 msgstr "Vylúčiť {path} z budúcich snímok?"
@@ -2584,28 +2617,39 @@ msgid ""
 "Back In Time is currently running with root privileges (full system access)"
 msgstr ""
 
-#: qt/timeline.py:69
+#: qt/timeline.py:64
 msgid "Today"
 msgstr "Dnes"
 
-#: qt/timeline.py:77
+#: qt/timeline.py:69
 msgid "Yesterday"
 msgstr "Včera"
 
-#: qt/timeline.py:87
+#: qt/timeline.py:76
 msgid "This week"
 msgstr "Tento týždeň"
 
-#: qt/timeline.py:95
+#: qt/timeline.py:81
 msgid "Last week"
 msgstr "Minulý týždeň"
 
-#: qt/timeline.py:270
-#, fuzzy
-msgid "This is NOT a backup but a live view of the local files."
-msgstr "Toto NIE JE snímka, ale živý náhľad vašich lokálnych súborov"
+#: qt/timeline.py:88
+msgid "This month"
+msgstr ""
 
-#: qt/timeline.py:275
+#: qt/timeline.py:95
+msgid "Last month"
+msgstr ""
+
+#: qt/timeline.py:365
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Posledná kontrola {time}"
+
+#: qt/timeline.py:394
+msgid "These are your files as they are right now. It is not a backup."
+msgstr ""
+
+#, fuzzy
+#~ msgid "This is NOT a backup but a live view of the local files."
+#~ msgstr "Toto NIE JE snímka, ale živý náhľad vašich lokálnych súborov"

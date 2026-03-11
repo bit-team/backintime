@@ -1,4 +1,5 @@
-AI-generated content is strictly prohibited. Accounts submitting such material will be reported for abuse to Microsoft GitHub .
-
-Consider adding a CHANGELOG entry.
-Run "codespell" to check for typos.
+- The PR will be closed if you haven't introduced yourself as a first time contributor.
+- Read the CONTRIBUTING.md file carefully.
+- AI-generated content is strictly prohibited. Accounts submitting such material will be reported for abuse to Microsoft GitHub .
+- Provide a screenshot or screencast if you modified the GUI.
+- Consider adding a CHANGELOG entry. Run "codespell" to check for typos.
