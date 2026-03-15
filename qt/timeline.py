@@ -266,6 +266,10 @@ class TimeLine(QTreeWidget):
         """A list of all selected backup descriptors"""
         return [item.descriptor for item in self.selectedItems()]
 
+    def get_all_selected_backup_labels(self) -> list[str]:
+        """A list labels of all selected backups"""
+        return [item.label for item in self.selectedItems()]
+
     def is_now_selected(self) -> bool:
         """If the 'Now' item, the first in the widget, is selected."""
         model_index = self.currentIndex()
