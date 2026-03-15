@@ -11,9 +11,7 @@ import os
 import subprocess
 
 from pathlib import Path
-import sshtools
 import logger
-import config
 from password_ipc import TempPasswordThread
 from mount import MountControl
 from exceptions import MountException
@@ -173,4 +171,3 @@ class GocryptfsMount(MountControl):
         logger.debug(f'No gocryptfs config found. Missing {fp_conf}', self)
 
         return False
-
