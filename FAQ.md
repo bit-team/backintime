@@ -724,7 +724,7 @@ Description=Run backintime backup generation
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/nice -n19 /usr/bin/ionice -c2 -n7 /usr/bin/backintime backup-job
+ExecStart=/usr/bin/nice -n19 /usr/bin/ionice -c2 -n7 /usr/bin/backintime backup --background
 ```
 
 # Problems, Errors & Solutions
