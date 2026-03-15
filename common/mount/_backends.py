@@ -22,12 +22,16 @@ class Backend:
     TYPE = None
 
     def __init__(self, cfg):
-
         self.cfg = cfg
-        # self.profile_id = cfg.profile_id
-
-        self.hash_id = None
         self.currentMountpoint = None
+        self._fingerprint = None
+
+    @property
+    def fingerprint(self) -> str:
+        return self._fingerprint
+
+    def _set_fingerprint(self, mount_data: dict[str, str]):
+        fp = str(self.TYPE) + ': '
 
     def mount(self):
         raise NotImplementedError
