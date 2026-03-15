@@ -70,7 +70,7 @@ def collect_diagnostics():
         # 'distribution-package': str(distro_path),
         'started-from': str(Path(config.__file__).parent),
         'user-callback': cfg.takeSnapshotUserCallback(),
-        'keyring-supported': tools.keyringSupported()
+        'keyring-supported': tools.KEYRING_SUPPORTED
     })
 
     # Git repo

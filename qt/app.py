@@ -2302,7 +2302,10 @@ class RemoveSnapshotThread(QThread):
         # inhibit suspend/hibernate during delete
         with InhibitSuspend(reason='deleting snapshots'):
 
-            for item, sid in [(x, snapshots.SID(x.descriptor, self.config)) for x in self.items]:
+            for item, sid in [
+                    (x, snapshots.SID(x.descriptor, self.config))
+                    for x in self.items
+            ]:
                 self.snapshots.remove(sid)
                 self.hideTimelineItem.emit(item)
                 if sid == last_snapshot:

@@ -34,6 +34,8 @@ from bitbase import TimeUnit, BINARY_NAME_BASE
 from storagesize import StorageSize, SizeUnit
 import logger
 
+# See _check_if_keyring_is_supported()
+KEYRING_SUPPORTED = None
 
 # Try to import keyring
 is_keyring_available = False
@@ -55,7 +57,8 @@ except Exception as e:
     is_keyring_available = False
     # block subsequent 'import keyring' if it failed once before
     os.putenv('BIT_USE_KEYRING', 'false')
-    logger.warning(f"'import keyring' failed with: {repr(e)}")
+    logger.warning(f"tools.py:{os.getpid()=} :: 'import keyring' failed with: {repr(e)}")
+
 
 # getting dbus imports to work in Travis CI is a huge pain
 # use conditional dbus import
@@ -1519,14 +1522,13 @@ def envSave(f):
     env_file.save(f)
 
 
-def keyringSupported():
+def _check_if_keyring_is_supported():
     """
     Checks if a keyring (supported by BiT) is available
 
     Returns:
          bool: ``True`` if a supported keyring could be loaded
     """
-
     if not is_keyring_available:
         logger.debug('No keyring due to import error.')
         return False
@@ -1621,13 +1623,16 @@ def keyringSupported():
         logger.debug("Found appropriate keyring '{}'".format(displayName))
         return True
 
-    logger.debug(f"No appropriate keyring found. '{displayName}' can't be "
-                 "used with BackInTime.")
-    logger.debug("See https://github.com/bit-team/backintime on how to fix "
-                 "this by creating a keyring config file.")
+    logger.debug(
+        f"No appropriate keyring found. '{displayName}' can't be used with "
+        "BackInTime. See https://github.com/bit-team/backintime on how to "
+        "fix this by creating a keyring config file."
+    )
 
     return False
 
+
+KEYRING_SUPPORTED = _check_if_keyring_is_supported()
 
 def password(*args):
 

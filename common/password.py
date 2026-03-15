@@ -51,7 +51,7 @@ class Password_Cache(daemon.Daemon):
         self.dbUsr = {}
         self.fifo = password_ipc.FIFO(self.config.passwordCacheFifo())
 
-        self.keyringSupported = tools.keyringSupported()
+        self.keyringSupported = tools.KEYRING_SUPPORTED
 
     def run(self):
         """
@@ -192,7 +192,7 @@ class Password:
         self.fifo = password_ipc.FIFO(self.config.passwordCacheFifo())
         self.db = {}
 
-        self.keyringSupported = tools.keyringSupported()
+        self.keyringSupported = self.cache.keyringSupported
 
     def password(self,
                  parent,
