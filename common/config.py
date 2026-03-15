@@ -255,12 +255,6 @@ class Config(configfile.ConfigFileWithProfiles):
                         _('SSH private key'),
                         _('Encryption')
                     ),
-                    'ssh_gocryptfs': (
-                        gocryptfstools.Gocryptfs_SSH,
-                        _('SSH encrypted') + '  (via gocryptfs)',
-                        _('SSH private key'),
-                        _('Encryption')
-                    ),
         }
 
         # Deprecated: #2176

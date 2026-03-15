@@ -431,10 +431,6 @@ class GeneralTab(QDialog):
             mount_kwargs = {'ssh_password': password_1,
                             'encfs_password': password_2}
 
-        elif mode == 'ssh_gocryptfs':
-            mount_kwargs = {'ssh_password': password_1,
-                            'gocryptfs_password': password_2}
-
         self.config.setHostUserProfile(
             self._txt_host.text(),
             self._txt_user.text(),
@@ -525,12 +521,10 @@ class GeneralTab(QDialog):
         """
         # pylint: disable=too-many-return-statements
 
-        print('X'*100)  # DEBUG
         try:
             mode = self.config.snapshotsMode()
             if 'gocryptfs' in mode:
                 if not mnt.get_backend(mode).isConfigured():
-                    print('Y'*100)  # DEBUG
                     mnt.init_backend(mode=mode, **mount_kwargs)
 
         except MountException as ex:
@@ -538,7 +532,6 @@ class GeneralTab(QDialog):
 
             return False
 
-        print('A'*100)  # DEBUG
         try:
             # This will run several checks depending on the snapshots mode
             # used. Exceptions are raised if something goes wrong. On mode
