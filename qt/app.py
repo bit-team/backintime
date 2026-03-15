@@ -38,7 +38,8 @@ import config
 import logger
 import snapshots
 import guiapplicationinstance
-import mount
+import mountold
+from mount import MountFactory
 import progress
 import encfsmsgbox
 from inhibitsuspend import InhibitSuspend
@@ -108,6 +109,7 @@ class MainWindow(QMainWindow):
         self.snapshots = snapshots.Snapshots(config)
 
         self._profile_operations = None
+        self._reset_profile_operations()
 
         self.lastTakeSnapshotMessage = None
         self.tmpDirs = []
@@ -362,9 +364,10 @@ class MainWindow(QMainWindow):
 
     def _try_to_mount(self):
         try:
-            mnt = mount.Mount(cfg=self.config,
-                              profile_id=self.config.currentProfile(),
-                              parent=self)
+            # mnt = mount.Mount(cfg=self.config,
+            #                   profile_id=self.config.currentProfile(),
+            #                   parent=self)
+            mnt = self._profile_operations.get_mount_manager()
             hash_id = mnt.mount()
 
         except MountException as exc:
@@ -1029,8 +1032,8 @@ class MainWindow(QMainWindow):
 
         # umount
         try:
-            mnt = mount.Mount(cfg=self.config, parent=self)
-            mnt.umount(self.config.current_hash_id)
+            mnt = self._profile_operations.get_mount_manager()
+            mnt.umount()
 
         except MountException as ex:
             messagebox.critical(self, str(ex))
@@ -1062,6 +1065,12 @@ class MainWindow(QMainWindow):
 
         self.disableProfileChanged = False
 
+    def _reset_profile_operations(self):
+        self._profile_operations = ProfileOperations(
+            profile_id=self.config.currentProfile(),
+            config=self.config
+        )
+
     def updateProfile(self):
         self.rebuild_timeline()
         self.places.do_update()
@@ -1070,10 +1079,7 @@ class MainWindow(QMainWindow):
 
         profile_id = self.config.currentProfile()
 
-        self._profile_operations = ProfileOperations(
-            profile_id=profile_id,
-            config=self.config
-        )
+        self._reset_profile_operations()
         self.event_profile_changed.notify(self._profile_operations)
 
         state_data = StateData()

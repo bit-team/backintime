@@ -13,7 +13,7 @@ import subprocess
 from pathlib import Path
 import logger
 from password_ipc import TempPasswordThread
-from mount import MountControl
+from mountold import MountControl
 from exceptions import MountException
 
 

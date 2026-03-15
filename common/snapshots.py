@@ -871,7 +871,9 @@ class Snapshots:
             with InhibitSuspend():  # inhibit suspend mode while backup
                 # mount
                 try:
-                    hash_id = mount.Mount(cfg=self.config).mount()
+                    # hash_id = mount.Mount(cfg=self.config).mount()
+                    mount_manager = mount.MountFactory.create(self.config)
+                    hash_id = mount_manager.mount()
 
                 except MountException as ex:
                     logger.error(str(ex), self)
@@ -1053,8 +1055,9 @@ class Snapshots:
 
                         # unmount
                         try:
-                            mount.Mount(cfg=self.config) \
-                                .umount(self.config.current_hash_id)
+                            # mount.Mount(cfg=self.config) \
+                            #     .umount(self.config.current_hash_id)
+                            mount_manager.umount()
 
                         except MountException as ex:
                             logger.error(str(ex), self)

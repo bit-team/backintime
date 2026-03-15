@@ -21,7 +21,7 @@ import logger
 import tools
 import password
 import password_ipc
-from mount import MountControl
+from mountold import MountControl
 from exceptions import MountException, NoPubKeyLogin, KnownHost
 import bitbase
 import bcolors

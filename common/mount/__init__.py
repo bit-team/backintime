@@ -6,8 +6,8 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 from pathlib import Path
-from _backens import Backend, LocalBackend, SSHBackend
-from _encryptors import Encryptor, NoEncryption, GoCryptFS
+from ._backends import Backend, LocalBackend, SSHBackend
+from ._encryptors import Encryptor, NoEncryption, GoCryptFS
 
 
 class MountManager:
@@ -16,25 +16,20 @@ class MountManager:
         self.backend = backend
         self.encryptor = encryptor
         self.cfg = cfg
+        self._hash_id = None
 
     def mount(self):
-        hash_id = self.cfg.hash_id()
-
-        base = Path(self.cfg.mountpointBase())
-
-        mount_base = base / hash_id
-        mountpoint = mount_base / "mountpoint"
-
-        mountpoint.mkdir(parents=True, exist_ok=True)
-
-        self.backend.currentMountpoint = mountpoint
-
-        path = self.backend.mount()
+        self._hash_id = self.backend.mount()
 
         if self.encryptor.TYPE != Encryptor.Type.NONE:
-            path = self.encryptor.mount(path)
+            self._hash_id = self.encryptor.mount(self.backend)
 
-        return path
+        return self._hash_id
+
+    def umount(self):
+        if self.encryptor.TYPE != Encryptor.Type.NONE:
+            self._hash_id = self.encryptor.umount(self.backend)
+        self.backend.umount()
 
 
 class MountFactory:
@@ -51,8 +46,14 @@ class MountFactory:
 
     @classmethod
     def create(cls, cfg):
+        # backend = cls.BACKENDS[cfg.backend](cfg)
+        # encryptor = cls.ENCRYPT[cfg.encryption](cfg)
 
-        backend = cls.BACKENDS[cfg.backend](cfg)
-        encryptor = cls.ENCRYPT[cfg.encryption](cfg)
+        if cfg.snapshotsMode() == 'local':
+            return MountManager(
+                cls.BACKENDS[Backend.Type.LOCAL](cfg),
+                cls.ENCRYPT[Encryptor.Type.NONE](cfg),
+                cfg
+            )
 
-        return MountManager(backend, encryptor)
+        raise NotImplementedError(cfg.snapshotsMode())

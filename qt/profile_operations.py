@@ -14,6 +14,7 @@ soon. See PR #1850
 """
 from pathlib import Path
 from event import Event
+from mount import MountFactory
 
 
 class ProfileOperations:
@@ -23,6 +24,15 @@ class ProfileOperations:
     def __init__(self, profile_id, config):
         self._profile_id = profile_id
         self._config = config
+        self._mount_manager = None
+
+    def get_mount_manager(self):
+        if self._mount_manager:
+            return self._mount_manager
+
+        self._mount_manager = MountFactory.create(self._config)
+
+        return self.get_mount_manager()
 
     def _split_duplicates(self,
                           existing: list[str],

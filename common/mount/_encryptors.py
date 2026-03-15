@@ -16,6 +16,9 @@ class Encryptor:
 
     TYPE = None
 
+    def __init__(self, cfg):
+        self.cfg = cfg
+
 
 class NoEncryption(Encryptor):
     TYPE = Encryptor.Type.NONE
