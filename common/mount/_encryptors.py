@@ -23,6 +23,12 @@ class Encryptor:
 class NoEncryption(Encryptor):
     TYPE = Encryptor.Type.NONE
 
+    def mount(*args, **kwargs):
+        pass
+
+    def umount(*args, **kwargs):
+        pass
+
 
 class GoCryptFS(Encryptor):
     TYPE = Encryptor.Type.GOCRYPTFS

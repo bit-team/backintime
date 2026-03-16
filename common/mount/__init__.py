@@ -16,19 +16,17 @@ class MountManager:
         self.backend = backend
         self.encryptor = encryptor
         self.cfg = cfg
-        self._hash_id = None
+
+    @property
+    def fingerprint(self) -> str:
+        return hash((self.backend.fingerprint, self.encryptor.fingerprint))
 
     def mount(self):
-        self._hash_id = self.backend.mount()
-
-        if self.encryptor.TYPE != Encryptor.Type.NONE:
-            self._hash_id = self.encryptor.mount(self.backend)
-
-        return self._hash_id
+        self.backend.mount()
+        self.encryptor.mount(self.backend)
 
     def umount(self):
-        if self.encryptor.TYPE != Encryptor.Type.NONE:
-            self._hash_id = self.encryptor.umount(self.backend)
+        self.encryptor.umount(self.backend)
         self.backend.umount()
 
 
