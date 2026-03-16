@@ -1265,6 +1265,16 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setProfileBoolValue('snapshots.rsync_options.enabled', enabled, profile_id)
         self.setProfileStrValue('snapshots.rsync_options.value', value, profile_id)
 
+    # Advanced Rsync User Extensions
+
+    def dryRun(self, profile_id=None):
+        return self.profileBoolValue('snapshots.dry_run', False, profile_id)
+
+    def setDryRun(self, value, profile_id=None):
+        self.setProfileBoolValue('snapshots.dry_run', value, profile_id)
+
+
+
     def sshPrefixEnabled(self, profile_id = None):
         #?Add prefix to every command which run through SSH on remote host.
         return self.profileBoolValue('snapshots.ssh.prefix.enabled', False, profile_id)

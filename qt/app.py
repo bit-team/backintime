@@ -1175,6 +1175,10 @@ class MainWindow(QMainWindow):
 
         self._handle_fake_busy(fake_busy, paused)
 
+        if force_update and self.config.dryRun():
+            # Automatically show the dry-run simulation report to the user
+            self._slot_backup_open_last_log()
+
         if not self.act_take_snapshot.isEnabled():
             # TODO: check if there is a more elegant way than always get a
             # new snapshot list which is very expensive (time)
@@ -1186,7 +1190,10 @@ class MainWindow(QMainWindow):
                 takeSnapshotMessage = (0, _('Done'))
             else:
                 if takeSnapshotMessage[0] == 0:
-                    takeSnapshotMessage = (0, _('Done, no backup needed'))
+                    if self.config.dryRun():
+                        takeSnapshotMessage = (0, _('Dry run complete, no backup created'))
+                    else:
+                        takeSnapshotMessage = (0, _('Done, no backup needed'))
 
             # Check `activate_shutdown` here, instead of shutdownagent.py
             # function `shutdown` should just focus on shutting down a machine

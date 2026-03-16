@@ -241,6 +241,21 @@ class ExpertOptionsTab(QDialog):
         )
         tab_layout.addWidget(self._cb_preserve_xattr)
 
+        # Advanced Custom Rsync Flags UI Block
+        tab_layout.addWidget(HLineWidget())
+        tab_layout.addWidget(QLabel(_("Advanced Rsync Flags:")))
+        adv_grid = QGridLayout()
+        adv_grid.setColumnMinimumWidth(0, 20)
+        tab_layout.addLayout(adv_grid)
+
+
+
+        self._cb_dry_run = QCheckBox(_('Dry Run / Preview Mode'), self)
+        qttools.set_wrapped_tooltip(self._cb_dry_run, _("Uses 'rsync --dry-run'. Preview changes without writing data to the destination."))
+        adv_grid.addWidget(self._cb_dry_run, 1, 1)
+
+        tab_layout.addWidget(HLineWidget())
+
         self._wdg_copy_links = CopySymlinksWidget(self)
         tab_layout.addWidget(self._wdg_copy_links)
 
@@ -352,6 +367,7 @@ class ExpertOptionsTab(QDialog):
         self._spb_bwlimit.setValue(self.config.bwlimit())
         self._cb_preserve_acl.setChecked(self.config.preserveAcl())
         self._cb_preserve_xattr.setChecked(self.config.preserveXattr())
+        self._cb_dry_run.setChecked(self.config.dryRun())
 
         all_links = self.config.copyLinks()
         only_external = self.config.copyUnsafeLinks()
@@ -383,6 +399,7 @@ class ExpertOptionsTab(QDialog):
                                self._spb_bwlimit.value())
         self.config.setPreserveAcl(self._cb_preserve_acl.isChecked())
         self.config.setPreserveXattr(self._cb_preserve_xattr.isChecked())
+        self.config.setDryRun(self._cb_dry_run.isChecked())
 
         self.config.setCopyLinks(self._wdg_copy_links.all_links)
         self.config.setCopyUnsafeLinks(
