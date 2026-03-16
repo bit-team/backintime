@@ -1343,6 +1343,24 @@ def rsyncPrefix(config,
     if config.bwlimitEnabled():
         cmd.append('--bwlimit=%d' % config.bwlimit())
 
+    if config.preserveCrtimes() and "crtimes" in caps:
+        cmd.append('--crtimes')
+
+    if config.dryRun():
+        cmd.append('--dry-run')
+
+    if config.preserveOwner():
+        cmd.append('--owner')
+
+    if config.preserveGroup():
+        cmd.append('--group')
+
+    if config.sparse():
+        cmd.append('--sparse')
+
+    if config.numericIds():
+        cmd.append('--numeric-ids')
+
     if config.rsyncOptionsEnabled():
         cmd.extend(shlex.split(config.rsyncOptions()))
 

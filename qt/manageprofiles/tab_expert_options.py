@@ -241,6 +241,37 @@ class ExpertOptionsTab(QDialog):
         )
         tab_layout.addWidget(self._cb_preserve_xattr)
 
+        # Advanced Custom Rsync Flags UI Block
+        tab_layout.addWidget(HLineWidget())
+        tab_layout.addWidget(QLabel(_("Advanced Rsync Flags:")))
+        adv_grid = QGridLayout()
+        adv_grid.setColumnMinimumWidth(0, 20)
+        tab_layout.addLayout(adv_grid)
+
+        self._cb_preserve_crtimes = QCheckBox(_('Preserve Creation Time (crtimes)'), self)
+        qttools.set_wrapped_tooltip(self._cb_preserve_crtimes, _("Uses 'rsync --crtimes'. Preserves the creation time of files (if supported by system/rsync)."))
+        adv_grid.addWidget(self._cb_preserve_crtimes, 0, 1)
+
+
+
+        self._cb_preserve_owner = QCheckBox(_('Preserve Owner'), self)
+        qttools.set_wrapped_tooltip(self._cb_preserve_owner, _("Uses 'rsync --owner'. Maintain user ownership. Usually requires root."))
+        adv_grid.addWidget(self._cb_preserve_owner, 2, 1)
+
+        self._cb_preserve_group = QCheckBox(_('Preserve Group'), self)
+        qttools.set_wrapped_tooltip(self._cb_preserve_group, _("Uses 'rsync --group'. Maintain group ownership. Usually requires root."))
+        adv_grid.addWidget(self._cb_preserve_group, 3, 1)
+
+        self._cb_sparse = QCheckBox(_('Sparse Files'), self)
+        qttools.set_wrapped_tooltip(self._cb_sparse, _("Uses 'rsync --sparse'. Handle sparse files efficiently to save space."))
+        adv_grid.addWidget(self._cb_sparse, 4, 1)
+
+        self._cb_numeric_ids = QCheckBox(_('Numeric IDs'), self)
+        qttools.set_wrapped_tooltip(self._cb_numeric_ids, _("Uses 'rsync --numeric-ids'. Don't map uid/gid values by user/group name."))
+        adv_grid.addWidget(self._cb_numeric_ids, 5, 1)
+
+        tab_layout.addWidget(HLineWidget())
+
         self._wdg_copy_links = CopySymlinksWidget(self)
         tab_layout.addWidget(self._wdg_copy_links)
 
@@ -352,6 +383,12 @@ class ExpertOptionsTab(QDialog):
         self._spb_bwlimit.setValue(self.config.bwlimit())
         self._cb_preserve_acl.setChecked(self.config.preserveAcl())
         self._cb_preserve_xattr.setChecked(self.config.preserveXattr())
+        self._cb_preserve_crtimes.setChecked(self.config.preserveCrtimes())
+
+        self._cb_preserve_owner.setChecked(self.config.preserveOwner())
+        self._cb_preserve_group.setChecked(self.config.preserveGroup())
+        self._cb_sparse.setChecked(self.config.sparse())
+        self._cb_numeric_ids.setChecked(self.config.numericIds())
 
         all_links = self.config.copyLinks()
         only_external = self.config.copyUnsafeLinks()
@@ -383,6 +420,12 @@ class ExpertOptionsTab(QDialog):
                                self._spb_bwlimit.value())
         self.config.setPreserveAcl(self._cb_preserve_acl.isChecked())
         self.config.setPreserveXattr(self._cb_preserve_xattr.isChecked())
+        self.config.setPreserveCrtimes(self._cb_preserve_crtimes.isChecked())
+
+        self.config.setPreserveOwner(self._cb_preserve_owner.isChecked())
+        self.config.setPreserveGroup(self._cb_preserve_group.isChecked())
+        self.config.setSparse(self._cb_sparse.isChecked())
+        self.config.setNumericIds(self._cb_numeric_ids.isChecked())
 
         self.config.setCopyLinks(self._wdg_copy_links.all_links)
         self.config.setCopyUnsafeLinks(

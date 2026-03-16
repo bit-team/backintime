@@ -1265,6 +1265,39 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setProfileBoolValue('snapshots.rsync_options.enabled', enabled, profile_id)
         self.setProfileStrValue('snapshots.rsync_options.value', value, profile_id)
 
+    # Advanced Rsync User Extensions
+    def preserveCrtimes(self, profile_id=None):
+        return self.profileBoolValue('snapshots.preserve_crtimes', False, profile_id)
+
+    def setPreserveCrtimes(self, value, profile_id=None):
+        self.setProfileBoolValue('snapshots.preserve_crtimes', value, profile_id)
+
+    def preserveOwner(self, profile_id=None):
+        return self.profileBoolValue('snapshots.preserve_owner', False, profile_id)
+
+    def setPreserveOwner(self, value, profile_id=None):
+        self.setProfileBoolValue('snapshots.preserve_owner', value, profile_id)
+
+    def preserveGroup(self, profile_id=None):
+        return self.profileBoolValue('snapshots.preserve_group', False, profile_id)
+
+    def setPreserveGroup(self, value, profile_id=None):
+        self.setProfileBoolValue('snapshots.preserve_group', value, profile_id)
+
+
+
+    def sparse(self, profile_id=None):
+        return self.profileBoolValue('snapshots.sparse', False, profile_id)
+
+    def setSparse(self, value, profile_id=None):
+        self.setProfileBoolValue('snapshots.sparse', value, profile_id)
+
+    def numericIds(self, profile_id=None):
+        return self.profileBoolValue('snapshots.numeric_ids', False, profile_id)
+
+    def setNumericIds(self, value, profile_id=None):
+        self.setProfileBoolValue('snapshots.numeric_ids', value, profile_id)
+
     def sshPrefixEnabled(self, profile_id = None):
         #?Add prefix to every command which run through SSH on remote host.
         return self.profileBoolValue('snapshots.ssh.prefix.enabled', False, profile_id)
