@@ -8,14 +8,16 @@
 # General Public License v2 or any later version (GPL-2.0-or-later).
 # See LICENSES directory or go to <https://spdx.org/licenses/CC0-1.0.html>
 # and <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+# Inherit styling + display parameters to pkexec for root GUI
+COMMON_VARS="QT_QPA_PLATFORMTHEME=$QT_QPA_PLATFORMTHEME QT_STYLE_OVERRIDE=$QT_STYLE_OVERRIDE XDG_CURRENT_DESKTOP=$XDG_CURRENT_DESKTOP DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS XDG_DATA_DIRS=$XDG_DATA_DIRS GTK_THEME=$GTK_THEME"
+
 if [ "x$XDG_SESSION_TYPE" = "xwayland" ]; then
-    # PREFIX="env QT_QPA_PLATFORM=wayland-egl XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR"
-    # Empty prefix to use the default Qt platform plugin (normally xcb)
-    # to fix #836 and #1350
-    PREFIX=""
+    # To fix Wayland Root GUI execution natively, pass WAYLAND_DISPLAY and XDG_RUNTIME_DIR
+    # This prevents 'backintime-qt (root)' from crashing on Pop!_OS COSMIC and other modern Wayland composites
+    PREFIX="env WAYLAND_DISPLAY=$WAYLAND_DISPLAY XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR $COMMON_VARS"
 else
     # X11
-    PREFIX=""
+    PREFIX="env $COMMON_VARS"
 fi
 
 ERR_FILE=$(mktemp)
