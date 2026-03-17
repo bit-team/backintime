@@ -5,6 +5,7 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+import hashlib
 from pathlib import Path
 from ._backends import Backend, LocalBackend, SSHBackend
 from ._encryptors import Encryptor, NoEncryption, GoCryptFS
@@ -19,7 +20,11 @@ class MountManager:
 
     @property
     def fingerprint(self) -> str:
-        return hash((self.backend.fingerprint, self.encryptor.fingerprint))
+        data = '|'.join([
+            self.backend.get_fingerprint_base(),
+            self.encryptor.get_fingerprint_base()
+        ])
+        return hashlib.sha256(data.encode()).hexdigest()[:12]
 
     def mount(self):
         self.backend.mount()

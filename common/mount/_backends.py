@@ -24,14 +24,14 @@ class Backend:
     def __init__(self, cfg):
         self.cfg = cfg
         self.currentMountpoint = None
-        self._fingerprint = None
+    #     self._fingerprint = None
 
-    @property
-    def fingerprint(self) -> str:
-        return self._fingerprint
+    # @property
+    # def fingerprint(self) -> str:
+    #     return self._fingerprint
 
-    def _set_fingerprint(self, mount_data: dict[str, str]):
-        fp = str(self.TYPE) + ': '
+    def get_fingerprint_base(self) -> str:
+        raise NotImplementedError
 
     def mount(self):
         raise NotImplementedError
@@ -54,59 +54,70 @@ class LocalBackend(Backend):
         self.umount_info = self.mount_root / self.hash_id / "umount"
         self.current_kwargs = {"mode": self.TYPE}
 
+    def get_fingerprint_base(self) -> str:
+        return str(self.TYPE) + ': '
+
     def mount(self):
-        self._prepare_mount_structure()
-        self._acquire_mount_lock()
+        # Workaround
+        self.cfg.PLUGIN_MANAGER.load(cfg=self.cfg)
+        self.cfg.PLUGIN_MANAGER.mount(self.cfg.currentProfile())
 
-        # Prüfen ob schon gemountet
-        if self._is_mounted():
-            if not self._compare_umount_info():
-                raise HashCollision(f"Hash collision for {self.hash_id}")
-            logger.info(f"Mountpoint {self.mountpoint} already mounted")
-        else:
-            self._write_umount_info()
-            logger.info(f"Mounted {self.mountpoint}")
+        return None
+        # self._prepare_mount_structure()
+        # self._acquire_mount_lock()
 
-        return str(self.mountpoint)
+        # # Prüfen ob schon gemountet
+        # if self._is_mounted():
+        #     if not self._compare_umount_info():
+        #         raise HashCollision(f"Hash collision for {self.hash_id}")
+        #     logger.info(f"Mountpoint {self.mountpoint} already mounted")
+        # else:
+        #     self._write_umount_info()
+        #     logger.info(f"Mounted {self.mountpoint}")
+
+        # return str(self.mountpoint)
 
     def umount(self):
-        self._acquire_mount_lock()
-        if self.mountpoint.exists():
-            # bei lokal: nur symlink/lock entfernen
-            if self.lock_path.exists():
-                for f in self.lock_path.iterdir():
-                    f.unlink()
-            if self.umount_info.exists():
-                self.umount_info.unlink()
-        self._release_mount_lock()
-        logger.info(f"Unmounted {self.mountpoint}")
+        self.cfg.PLUGIN_MANAGER.load(cfg=self.cfg)
+        self.cfg.PLUGIN_MANAGER.unmount(self.cfg.currentProfile())
 
-    def _prepare_mount_structure(self):
-        self.mountpoint.mkdir(parents=True, exist_ok=True)
-        self.lock_path.mkdir(parents=True, exist_ok=True)
+        # self._acquire_mount_lock()
+        # if self.mountpoint.exists():
+        #     # bei lokal: nur symlink/lock entfernen
+        #     if self.lock_path.exists():
+        #         for f in self.lock_path.iterdir():
+        #             f.unlink()
+        #     if self.umount_info.exists():
+        #         self.umount_info.unlink()
+        # self._release_mount_lock()
+        # logger.info(f"Unmounted {self.mountpoint}")
 
-    def _acquire_mount_lock(self):
-        lock_file = self.lock_path / f"{self.pid}.lock"
-        lock_file.write_text(self.pid)
+    # def _prepare_mount_structure(self):
+    #     self.mountpoint.mkdir(parents=True, exist_ok=True)
+    #     self.lock_path.mkdir(parents=True, exist_ok=True)
 
-    def _release_mount_lock(self):
-        lock_file = self.lock_path / f"{self.pid}.lock"
-        if lock_file.exists():
-            lock_file.unlink()
+    # def _acquire_mount_lock(self):
+    #     lock_file = self.lock_path / f"{self.pid}.lock"
+    #     lock_file.write_text(self.pid)
 
-    def _is_mounted(self):
-        # lokal: nur prüfen, ob mountpoint existiert
-        return self.mountpoint.exists()
+    # def _release_mount_lock(self):
+    #     lock_file = self.lock_path / f"{self.pid}.lock"
+    #     if lock_file.exists():
+    #         lock_file.unlink()
 
-    def _write_umount_info(self):
-        data_string = json.dumps(self.current_kwargs)
-        self.umount_info.write_text(data_string)
+    # def _is_mounted(self):
+    #     # lokal: nur prüfen, ob mountpoint existiert
+    #     return self.mountpoint.exists()
 
-    def _compare_umount_info(self):
-        if not self.umount_info.exists():
-            return True
-        saved = json.loads(self.umount_info.read_text())
-        return saved == self.current_kwargs
+    # def _write_umount_info(self):
+    #     data_string = json.dumps(self.current_kwargs)
+    #     self.umount_info.write_text(data_string)
+
+    # def _compare_umount_info(self):
+    #     if not self.umount_info.exists():
+    #         return True
+    #     saved = json.loads(self.umount_info.read_text())
+    #     return saved == self.current_kwargs
 
 
 class SSHBackend(Backend):

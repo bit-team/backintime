@@ -19,9 +19,15 @@ class Encryptor:
     def __init__(self, cfg):
         self.cfg = cfg
 
+    def get_fingerprint_base(self) -> str:
+        raise NotImplementedError
+
 
 class NoEncryption(Encryptor):
     TYPE = Encryptor.Type.NONE
+
+    def get_fingerprint_base(self) -> str:
+        return str(self.TYPE) + ': '
 
     def mount(*args, **kwargs):
         pass
