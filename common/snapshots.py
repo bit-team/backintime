@@ -694,6 +694,9 @@ class Snapshots:
         if isinstance(sid, RootSnapshot):
             return
 
+        if sid.exists() is False:
+            return
+
         logger.info(f'Remove backup {sid}')
 
         # build the rsync command and it's arguments
@@ -1589,7 +1592,6 @@ class Snapshots:
             self.snapshotLog.flush()
             with open(self.snapshotLog.logFileName, 'rb') as logfile:
                 new_snapshot.setLog(logfile.read())
-
 
         except Exception as e:
             logger.debug('Failed to write takeSnapshot log %s into '
