@@ -21,8 +21,8 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ### Changed
  
-- **Rewritten from scratch**: Mount subsystem (backend and encryption). While
-  behavior is intended to remain unchanged, regressions cannot be fully ruled
+- **Rewritten from scratch**: Mount subsystem (backend and encryption).
+  Behavior is intended to remain unchanged; regressions cannot be fully ruled
   out.
 - **Breaking**: Minimal Python version 3.13 increased
 - Changelog migrated to Common Changelog standard
