@@ -19,13 +19,16 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ## [2.0.0] (Unreleased Development)
 
-## Changed
+### Changed
  
+- **Rewritten from scratch**: Mount subsystem (backend and encryption). While
+  behavior is intended to remain unchanged, regressions cannot be fully ruled
+  out.
 - **Breaking**: Minimal Python version 3.13 increased
 - Changelog migrated to Common Changelog standard
 - Build: Changelog shipped as HTML
 
-## Added
+### Added
 - Build dependency `pandoc` to convert markdown changelog into HTML
 
 ## [1.6.1] (2026-02-10)
