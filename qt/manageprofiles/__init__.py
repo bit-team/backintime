@@ -389,8 +389,8 @@ class SettingsDialog(QDialog):
         self.config.setCurrentProfile(self.original_current_profile)
 
         if result:
-            self.parent.remount(self.original_current_profile,
-                                self.original_current_profile)
+            # self.parent.remount(self.original_current_profile,
+            #                     self.original_current_profile)
             self.parent.updateProfiles()
 
         # store windows position and size

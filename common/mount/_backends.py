@@ -45,14 +45,14 @@ class LocalBackend(Backend):
 
     def __init__(self, cfg):
         self.cfg = cfg
-        self.profile_id = cfg.currentProfile()
-        self.hash_id = cfg.current_hash_id
-        self.pid = str(getpass.getuser())  # PID analog
-        self.mount_root = Path(cfg._LOCAL_MOUNT_ROOT)
-        self.mountpoint = self.mount_root / self.hash_id / "mountpoint"
-        self.lock_path = self.mount_root / self.hash_id / "locks"
-        self.umount_info = self.mount_root / self.hash_id / "umount"
-        self.current_kwargs = {"mode": self.TYPE}
+        # self.profile_id = cfg.currentProfile()
+        # self.hash_id = cfg.current_hash_id
+        # self.pid = str(getpass.getuser())  # PID analog
+        # self.mount_root = Path(cfg._LOCAL_MOUNT_ROOT)
+        # self.mountpoint = self.mount_root / self.hash_id / "mountpoint"
+        # self.lock_path = self.mount_root / self.hash_id / "locks"
+        # self.umount_info = self.mount_root / self.hash_id / "umount"
+        # self.current_kwargs = {"mode": self.TYPE}
 
     def get_fingerprint_base(self) -> str:
         return str(self.TYPE) + ': '

@@ -694,6 +694,8 @@ class Snapshots:
         if isinstance(sid, RootSnapshot):
             return
 
+        logger.info(f'Remove backup {sid}')
+
         # build the rsync command and it's arguments
         rsync = tools.rsyncRemove(self.config)
 
