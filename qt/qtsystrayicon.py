@@ -367,7 +367,7 @@ class QtSysTrayIcon:
         except Exception as exc:
             logger.error(
                 'Unexpected error while determining user name of '
-                f'current desktop session: {exc}'
+                f'current desktop session: {exc=}'
             )
             return None
 
