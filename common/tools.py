@@ -1116,12 +1116,14 @@ def is_Qt_working(systray_required=False):
     # Spawns a new process since it may crash with a SIGABRT and we
     # don't want to crash BiT if this happens...
 
+    logger.debug('tools::is_Qt_working()')
     path = os.path.join(as_backintime_path("common"), "qt_probing.py")
     cmd = [sys.executable, path]
     if logger.DEBUG:
         cmd.append('--debug')
 
     try:
+        logger.debug(f'Execute {cmd=}')
         with subprocess.Popen(cmd,
                               stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE,

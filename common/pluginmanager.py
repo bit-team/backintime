@@ -240,6 +240,7 @@ class PluginManager:
                     logger.debug(f'Not a plugin file: {f}', self)
                     continue
 
+                logger.debug(f'Try to load plugin from {f}', self)
                 self._load_plugin_from_file(f, snapshots)
 
 
@@ -249,18 +250,24 @@ class PluginManager:
             return
 
         try:
+            logger.debug('X'*100)
             module = __import__(file_name[: -3])
             module_dict = module.__dict__
 
+            logger.debug('A'*100)
             for key, value in list(module_dict.items()):
                 if key.startswith('__'):
                     continue
 
+                logger.debug(f'{key=} {value=}')
+                logger.debug(f'{type(value)=}')
                 if type(value) is type:
                     # A plugin must implement this class via inheritance
                     if issubclass(value, Plugin):
+                        logger.debug('B'*100)
                         plugin = value()
 
+                        logger.debug('C'*100)
                         if plugin.init(snapshots):
                             logger.debug(f'Add plugin {file_name}', self)
 
@@ -274,7 +281,7 @@ class PluginManager:
             self.loadedPlugins.append(file_name)
 
         except BaseException as exc:
-            logger.error(f'Failed to load plugin {file_name}: {exc=}', self)
+            logger.critical(f'Failed to load plugin {file_name}: {exc=}', self)
 
 
     def processBegin(self):
