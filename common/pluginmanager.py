@@ -271,13 +271,17 @@ class PluginManager:
                         if plugin.init(snapshots):
                             logger.debug(f'Add plugin {file_name}', self)
 
+                            logger.debug('D'*100)
                             if plugin.isGui():
                                 self.hasGuiPlugins = True
+                                logger.debug('E'*100)
                                 self.plugins.insert(0, plugin)
 
                             else:
+                                logger.debug('F'*100)
                                 self.plugins.append(plugin)
 
+            logger.debug('G'*100)
             self.loadedPlugins.append(file_name)
 
         except BaseException as exc:
