@@ -275,7 +275,6 @@ class PluginManager:
 
         except BaseException as exc:
             logger.error(f'Failed to load plugin {file_name}: {exc=}', self)
-            raise
 
 
     def processBegin(self):
