@@ -694,6 +694,11 @@ class Snapshots:
         if isinstance(sid, RootSnapshot):
             return
 
+        if sid.exists() is False:
+            return
+
+        logger.info(f'Remove backup {sid}')
+
         # build the rsync command and it's arguments
         rsync = tools.rsyncRemove(self.config)
 
@@ -871,7 +876,9 @@ class Snapshots:
             with InhibitSuspend():  # inhibit suspend mode while backup
                 # mount
                 try:
-                    hash_id = mount.Mount(cfg=self.config).mount()
+                    # hash_id = mount.Mount(cfg=self.config).mount()
+                    mount_manager = mount.MountFactory.create(self.config)
+                    hash_id = mount_manager.mount()
 
                 except MountException as ex:
                     logger.error(str(ex), self)
@@ -1053,8 +1060,9 @@ class Snapshots:
 
                         # unmount
                         try:
-                            mount.Mount(cfg=self.config) \
-                                .umount(self.config.current_hash_id)
+                            # mount.Mount(cfg=self.config) \
+                            #     .umount(self.config.current_hash_id)
+                            mount_manager.umount()
 
                         except MountException as ex:
                             logger.error(str(ex), self)
@@ -1584,7 +1592,6 @@ class Snapshots:
             self.snapshotLog.flush()
             with open(self.snapshotLog.logFileName, 'rb') as logfile:
                 new_snapshot.setLog(logfile.read())
-
 
         except Exception as e:
             logger.debug('Failed to write takeSnapshot log %s into '

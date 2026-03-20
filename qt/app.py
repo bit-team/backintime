@@ -38,7 +38,8 @@ import config
 import logger
 import snapshots
 import guiapplicationinstance
-import mount
+import mountold
+from mount import MountFactory
 import progress
 import encfsmsgbox
 from inhibitsuspend import InhibitSuspend
@@ -108,6 +109,7 @@ class MainWindow(QMainWindow):
         self.snapshots = snapshots.Snapshots(config)
 
         self._profile_operations = None
+        self._reset_profile_operations()
 
         self.lastTakeSnapshotMessage = None
         self.tmpDirs = []
@@ -362,16 +364,17 @@ class MainWindow(QMainWindow):
 
     def _try_to_mount(self):
         try:
-            mnt = mount.Mount(cfg=self.config,
-                              profile_id=self.config.currentProfile(),
-                              parent=self)
-            hash_id = mnt.mount()
+            # mnt = mount.Mount(cfg=self.config,
+            #                   profile_id=self.config.currentProfile(),
+            #                   parent=self)
+            mnt = self._profile_operations.get_mount_manager()
+            mnt.mount()
 
         except MountException as exc:
             messagebox.critical(self, str(exc))
 
-        else:
-            self.config.setCurrentHashId(hash_id)
+        # else:
+        #     self.config.setCurrentHashId(hash_id)
 
         if not self.config.canBackup(self.config.currentProfile()):
             msg = _("Can't find backup directory.") + '\n' \
@@ -1029,8 +1032,8 @@ class MainWindow(QMainWindow):
 
         # umount
         try:
-            mnt = mount.Mount(cfg=self.config, parent=self)
-            mnt.umount(self.config.current_hash_id)
+            mnt = self._profile_operations.get_mount_manager()
+            mnt.umount()
 
         except MountException as ex:
             messagebox.critical(self, str(ex))
@@ -1062,6 +1065,16 @@ class MainWindow(QMainWindow):
 
         self.disableProfileChanged = False
 
+    def _reset_profile_operations(self):
+        if self._profile_operations:
+            mount = self._profile_operations.get_mount_manager()
+            mount.umount()
+
+        self._profile_operations = ProfileOperations(
+            profile_id=self.config.currentProfile(),
+            config=self.config
+        )
+
     def updateProfile(self):
         self.rebuild_timeline()
         self.places.do_update()
@@ -1070,10 +1083,11 @@ class MainWindow(QMainWindow):
 
         profile_id = self.config.currentProfile()
 
-        self._profile_operations = ProfileOperations(
-            profile_id=profile_id,
-            config=self.config
-        )
+        self._reset_profile_operations()
+
+        mount = self._profile_operations.get_mount_manager()
+        mount.mount()
+
         self.event_profile_changed.notify(self._profile_operations)
 
         state_data = StateData()
@@ -1104,7 +1118,7 @@ class MainWindow(QMainWindow):
             old_profile_state = state_data.profile(old_profile_id)
             old_profile_state.places_sorting = self.places.get_sorting()
 
-            self.remount(profile_id, old_profile_id)
+            # self.remount(profile_id, old_profile_id)
             self.config.setCurrentProfile(profile_id)
 
             profile_state = state_data.profile(profile_id)
@@ -1127,18 +1141,18 @@ class MainWindow(QMainWindow):
 
             self.updateProfile()
 
-    def remount(self, new_profile_id, old_profile_id):
-        try:
-            mnt = mount.Mount(cfg=self.config,
-                              profile_id=old_profile_id,
-                              parent=self)
-            hash_id = mnt.remount(new_profile_id)
+    # def remount(self, new_profile_id, old_profile_id):
+    #     try:
+    #         mnt = mount.Mount(cfg=self.config,
+    #                           profile_id=old_profile_id,
+    #                           parent=self)
+    #         hash_id = mnt.remount(new_profile_id)
 
-        except MountException as ex:
-            messagebox.critical(self, str(ex))
+    #     except MountException as ex:
+    #         messagebox.critical(self, str(ex))
 
-        else:
-            self.config.setCurrentHashId(hash_id)
+    #     else:
+    #         self.config.setCurrentHashId(hash_id)
 
     def raiseApplication(self):
         raiseCmd = self.appInstance.raiseCommand()
