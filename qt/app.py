@@ -1191,9 +1191,10 @@ class MainWindow(QMainWindow):
             else:
                 if takeSnapshotMessage[0] == 0:
                     if self.config.dryRun():
-                        takeSnapshotMessage = (0, _('Dry run complete, no backup created'))
+                        msg = _('Dry run complete, no backup created')
                     else:
-                        takeSnapshotMessage = (0, _('Done, no backup needed'))
+                        msg = _('Done, no backup needed')
+                    takeSnapshotMessage = (0, msg)
 
             # Check `activate_shutdown` here, instead of shutdownagent.py
             # function `shutdown` should just focus on shutting down a machine
