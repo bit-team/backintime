@@ -4,21 +4,23 @@
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# This file is part of the program "Back In time" which is released under GNU
+# This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import subprocess
 
-import logger
 from pathlib import Path
+import logger
 from password_ipc import TempPasswordThread
 from mount import MountControl
 from exceptions import MountException
 
 
 class GocryptfsMount(MountControl):
-    """
+    """Mounts a local GoCryptFS encrypted directory.
+
+    After mounting the dir is accessible in plaintext (encrypted).
     """
 
     def __init__(self, *args, **kwargs):
@@ -89,9 +91,7 @@ class GocryptfsMount(MountControl):
                 )
 
     def init_backend(self):
-        """
-        init the cipher path
-        """
+        """init the cipher path"""
 
         self.checkFuse()  # gocryptfs binary available?
 
@@ -106,6 +106,9 @@ class GocryptfsMount(MountControl):
         env['ASKPASS_TEMP'] = thread.temp_file
 
         with thread.starter():
+            # if not os.path.isdir(self.path):
+            #     os.makedirs(self.path, exist_ok=True)
+
             gocryptfs = [
                 self.mountproc,
                 '-extpass',
@@ -133,9 +136,9 @@ class GocryptfsMount(MountControl):
                 msg = _('Unable to init encrypted path "{command}"').format(
                     command=' '.join(gocryptfs)
                 )
-                raise MountException(
-                    f'{msg}:\n\n{output}\n\nReturn code: {proc.returncode}'
-                )
+                msg = f'{msg}:\n\n{output}\n\nReturn code: {proc.returncode}'
+                logger.critical(msg, self)
+                raise MountException(msg)
 
     def preMountCheck(self, first_run=False):
         """

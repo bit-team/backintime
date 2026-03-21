@@ -99,17 +99,19 @@ try:
     if "--debug" in sys.argv:
         logger.DEBUG = True
 
-    logger.debug(f"{__file__} started... Call args: {str(sys.argv)}")
-    val = os.environ.get('XDG_SESSION_TYPE', '($XDG_SESSION_TYPE is not set)')
-    logger.debug(f'Display system: {val}')
-    val = os.environ.get('XDG_RUNTIME_DIR', '($XDG_RUNTIME_DIR is not set)')
-    logger.debug(f'XDG_RUNTIME_DIR={val}')
-    val = os.environ.get('XAUTHORITY', '($XAUTHORITY is not set)')
-    logger.debug(f'XAUTHORITY={val}')
-    val = os.environ.get('QT_QPA_PLATFORM', '($QT_QPA_PLATFORM is not set)')
-    logger.debug(f'QT_QPA_PLATFORM={val}')
+    logger.debug(f"{os.geteuid()=} :: {__file__} started with args {sys.argv}")
+    envs_to_check = (
+        'XDG_SESSION_TYPE',
+        'XDG_RUNTIME_DIR',
+        'XAUTHORITY',
+        'QT_QPA_PLATFORM',
+    )
+    vals = {
+        key: os.environ.get(key, f'(${key} is not set)')
+        for key in envs_to_check
+    }
+    logger.debug(f'{vals=}')
 
-    logger.debug(f'Current euid: {os.geteuid()}')
     # Jan 25, 2024 Not enabled but just documented here since this "fix" is a
     # hack (assumes hard-coded UID 1000 to be always correct). But it works in
     # 99 % of installations
