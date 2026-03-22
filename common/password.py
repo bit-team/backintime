@@ -274,11 +274,10 @@ class Password:
 
         self.cache.checkVersion()
         self.fifo.write(f'get_pw:{service_name}/{user_name}', timeout=5)
-        answer = self.fifo.read(timeout = 5)
+        answer = self.fifo.read(timeout=5)
         mode, pw = answer.split(':', 1)
 
         return None if mode == 'none' else pw
-
 
     def passwordFromUser(self,
                          parent,

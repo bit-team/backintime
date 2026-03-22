@@ -121,6 +121,7 @@ class Config(configfile.ConfigFileWithProfiles):
         self._MOUNT_ROOT = os.path.join(DATA_FOLDER, BIT_FOLDER, 'mnt')
 
         if data_path:
+            # Deprecated: --share-path was removed
             self.DATA_FOLDER_ROOT = data_path
             self._LOCAL_DATA_FOLDER = os.path.join(data_path, DATA_FOLDER, BIT_FOLDER)
             self._LOCAL_MOUNT_ROOT = os.path.join(data_path, self._MOUNT_ROOT)
