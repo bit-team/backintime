@@ -243,50 +243,38 @@ class PluginManager:
                 logger.debug(f'Try to load plugin from {f}', self)
                 self._load_plugin_from_file(f, snapshots)
 
-
     def _load_plugin_from_file(self, file_name: str, snapshots: list):
         if file_name in self.loadedPlugins:
             logger.debug(f'Plugin file still loaded: {file_name}', self)
             return
 
         try:
-            logger.debug('X'*100)
             module = __import__(file_name[: -3])
             module_dict = module.__dict__
 
-            logger.debug('A'*100)
             for key, value in list(module_dict.items()):
                 if key.startswith('__'):
                     continue
 
-                logger.debug(f'{key=} {value=}')
-                logger.debug(f'{type(value)=}')
                 if type(value) is type:
                     # A plugin must implement this class via inheritance
                     if issubclass(value, Plugin):
-                        logger.debug('B'*100)
                         plugin = value()
 
-                        logger.debug('C'*100)
                         if plugin.init(snapshots):
                             logger.debug(f'Add plugin {file_name}', self)
 
-                            logger.debug('D'*100)
                             if plugin.isGui():
                                 self.hasGuiPlugins = True
-                                logger.debug('E'*100)
                                 self.plugins.insert(0, plugin)
 
                             else:
-                                logger.debug('F'*100)
                                 self.plugins.append(plugin)
 
-            logger.debug('G'*100)
             self.loadedPlugins.append(file_name)
 
         except BaseException as exc:
             logger.critical(f'Failed to load plugin {file_name}: {exc=}', self)
-
 
     def processBegin(self):
         ret_val = True
