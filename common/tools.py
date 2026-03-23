@@ -1119,6 +1119,7 @@ def is_Qt_working(systray_required=False):
     logger.debug('tools::is_Qt_working()')
     path = os.path.join(as_backintime_path("common"), "qt_probing.py")
     cmd = [sys.executable, path]
+
     if logger.DEBUG:
         cmd.append('--debug')
 
@@ -1143,8 +1144,6 @@ def is_Qt_working(systray_required=False):
 
             rc = proc.returncode
 
-            return rc == 2 or (rc == 1 and systray_required is False)
-
     except FileNotFoundError:
         logger.error(f'Qt probing script not found: {cmd[0]}')
         raise
@@ -1160,10 +1159,28 @@ def is_Qt_working(systray_required=False):
         logger.debug('Qt probing '
                      f'STDOUT: "{outs}" '
                      f'STDERR: "{errs}"')
+        return False
+
+    except SystemExit as exc:
+        rc = exc.code
 
     except Exception as exc:
         logger.critical(f'Unknown Error: {exc}')
         raise
+
+    if rc == 2:
+        # Qt is "full" working
+        return True
+    elif rc == 1:
+        if systray_required:
+            # Qt works minimal but without (required) systray
+            return False
+        else:
+            # Systray doesn't matter. Qt itself works.
+            return True
+
+    logger.error(f'Unexpected return code {rc=}')
+    return False
 
 
 def powerStatusAvailable():
