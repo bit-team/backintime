@@ -38,7 +38,6 @@ import config
 import logger
 import snapshots
 import guiapplicationinstance
-import mountold
 from mount import MountFactory
 import progress
 import encfsmsgbox
