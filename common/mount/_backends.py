@@ -23,12 +23,6 @@ class Backend:
 
     def __init__(self, cfg):
         self.cfg = cfg
-        self.currentMountpoint = None
-    #     self._fingerprint = None
-
-    # @property
-    # def fingerprint(self) -> str:
-    #     return self._fingerprint
 
     def get_fingerprint_base(self) -> str:
         raise NotImplementedError
@@ -58,10 +52,6 @@ class LocalBackend(Backend):
         return str(self.TYPE) + ': '
 
     def mount(self):
-        # Workaround
-        self.cfg.PLUGIN_MANAGER.load(cfg=self.cfg)
-        self.cfg.PLUGIN_MANAGER.mount(self.cfg.currentProfile())
-
         return None
         # self._prepare_mount_structure()
         # self._acquire_mount_lock()
@@ -78,9 +68,7 @@ class LocalBackend(Backend):
         # return str(self.mountpoint)
 
     def umount(self):
-        self.cfg.PLUGIN_MANAGER.load(cfg=self.cfg)
-        self.cfg.PLUGIN_MANAGER.unmount(self.cfg.currentProfile())
-
+        pass
         # self._acquire_mount_lock()
         # if self.mountpoint.exists():
         #     # bei lokal: nur symlink/lock entfernen

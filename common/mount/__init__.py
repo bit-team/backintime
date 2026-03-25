@@ -26,6 +26,7 @@ class MountManager:
         self.cfg = cfg
         # Refactor: bitbase.XDG_DATA_DIR / 'backintime' / 'mnt'
         self._mount_root = Path(self.cfg._LOCAL_MOUNT_ROOT)
+        self._lock_mountpoint = None
 
     @property
     def fingerprint(self) -> str:
@@ -39,22 +40,26 @@ class MountManager:
         return self.encryptor.is_initialized(path)
 
     def _get_mounpoint_lock_path(self):
-        return self.mount_root / self.fingerprint / 'locks'
+        return self._mount_root / self.fingerprint / 'locks'
 
     def initialize(self):
         return self.encryptor.initialize()
 
     def mount(self):
+        # Workaround
+        self.cfg.PLUGIN_MANAGER.load(cfg=self.cfg)
+        self.cfg.PLUGIN_MANAGER.mount(self.cfg.currentProfile())
+
         with self._process_lock():
             self._acquire_mountpoint_lock()
-            try:
-                self.backend.mount()
-                self.encryptor.mount(self.backend)
-                # self._write_umount_info()
-            finally:
-                self._release_mountpoint_lock()
+            self.backend.mount()
+            self.encryptor.mount(self.backend)
+            # self._write_umount_info()
 
     def umount(self):
+        self.cfg.PLUGIN_MANAGER.load(cfg=self.cfg)
+        self.cfg.PLUGIN_MANAGER.unmount(self.cfg.currentProfile())
+
         try:
             if not self._mountpoint_locks_active():
                 self.encryptor.umount()
@@ -99,14 +104,18 @@ class MountManager:
         return active
 
     def _mountpoint_locks_active(self) -> bool:
-        """Check for active mountpoint locks excluding own lock"""
+        """Check for active mountpoint locks but excluding own lock"""
         active = False
-        for fp in self._locks_path.glob(f'*.{self.LOCK_SUFFIX}'):
+
+        for fp in self._mount_root.glob(f'*.{self.LOCK_SUFFIX}'):
+
             pid = int(fp.stem)
             if pid == os.getpid():
                 continue
+
             if tools.processAlive(pid):
                 active = True
+
         return active
 
     @contextmanager
@@ -116,18 +125,18 @@ class MountManager:
         Dev note (buhtz, 2026-03): Refactoring and use of flock.py
         """
         pid = os.getpid()
-        fp = self.mount_root / f'{pid}.{self.LOCK_SUFFIX}'
+        fp = self._mount_root / f'{pid}.{self.LOCK_SUFFIX}'
         count = 0
 
-        while self._process_locks_active(self.mount_root):
+        while self._process_locks_active(self._mount_root):
             count += 1
 
             if count >= timeout:
-                raise RuntimeError('Mountprocess lock timeout')
+                raise RuntimeError('Process lock - Timeout')
 
             sleep(1)
 
-        logger.debug(f'Acquire process lock {fp}', self)
+        logger.debug(f'Process lock - Acquire {fp}', self)
 
         # ??? Isn't touch enough?
         fp.write_text(str(pid))
@@ -136,7 +145,7 @@ class MountManager:
             yield
 
         finally:
-            logger.debug(f'Release process lock {fp}', self)
+            logger.debug(f'Process lock - Release {fp}', self)
             fp.unlink(missing_ok=True)
 
     def _acquire_mountpoint_lock(self):
@@ -147,21 +156,23 @@ class MountManager:
         # owner only 0o700 -rwx------
         fp.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
 
-        logger.debug(f'Acquire mount point lock {fp}', self)
+        logger.debug(f'Mount point lock - Acquire {fp}', self)
         fp.write_text(str(pid))
 
         self._lock_mountpoint = fp
 
     def _release_mountpoint_lock(self):
         """Long-term lock for a mountpoint, preventing unmount while in use."""
-        if not self._lock_mountpoint or self._lock_mountpoint.exists():
+        # import traceback
+        # traceback.print_stack(limit=4)
+        if self._lock_mountpoint is None or not self._lock_mountpoint.exists():
             logger.error(
-                f'Unexpected state. Mount point lock {self._lock_mountpoint} '
+                f'Mount point lock - Unexpected state. {self._lock_mountpoint} '
                 'does not exist.', self
             )
             return
 
-        logger.debug(f'Release mount point lock {self._lock_mountpoint}', self)
+        logger.debug(f'Mount point lock - Release {self._lock_mountpoint}', self)
         self._lock_mountpoint.unlink(missing_ok=True)
         self._lock_mountpoint = None
 
@@ -183,7 +194,7 @@ class MountFactory:
         # backend = cls.BACKENDS[cfg.backend](cfg)
         # encryptor = cls.ENCRYPT[cfg.encryption](cfg)
 
-        if cfg.snapshotsMode() == 'local':
+        if cfg.snapshotsMode() in ('local', 'local_gocryptfs'):
             return MountManager(
                 cls.BACKENDS[Backend.Type.LOCAL](cfg),
                 cls.ENCRYPT[Encryptor.Type.NONE](cfg),
