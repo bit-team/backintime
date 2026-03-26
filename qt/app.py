@@ -38,7 +38,7 @@ import config
 import logger
 import snapshots
 import guiapplicationinstance
-from mount import MountFactory
+from mount import MountFactory, MountError
 import progress
 import encfsmsgbox
 from inhibitsuspend import InhibitSuspend
@@ -1090,8 +1090,8 @@ class MainWindow(QMainWindow):
         mount = self._profile_operations.get_mount_manager()
         try:
             mount.mount()
-        except RuntimeError as exc:
-            messagebox.critical(self, str(exc))
+        except MountError as exc:
+            messagebox.critical(self, exc.as_msgbox_string())
 
         self.event_profile_changed.notify(self._profile_operations)
 

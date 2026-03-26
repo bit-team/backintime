@@ -12,6 +12,7 @@ import subprocess
 from enum import Enum, auto
 from pathlib import Path
 import logger
+import tools
 from password_ipc import TempPasswordThread
 from ._error import MountError
 
@@ -242,21 +243,19 @@ class GoCryptFS(Encryptor):
                 )
 
     def umount(self):
-        cmd = [
-            'fusermount',
-            '-u',
-            self.cipher_path
-        ]
+        if not tools.is_mounted(self.path):
+            logger.debug(f'Is not mounted. {self.path}', self)
+            return
 
         proc = subprocess.run(
-            cmd,
+            ['fusermount', '-u', self.path],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True
         )
 
         if proc.returncode:
-            msg = f'Unable to umount {self.plain_path}:\n{proc.stdout}'
+            msg = f'Unable to umount {self.path}:\n{proc.stdout}'
             logger.error(msg)
 
             raise MountError(msg)

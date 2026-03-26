@@ -30,3 +30,16 @@ class MountError(Exception):
             msg = f'{msg} {path}'
 
         super().__init__(msg)
+
+    def as_msgbox_string(self, newline = '\n') -> str:
+        """Full error as multiline string usable in a message box."""
+
+        msg = self.problem
+
+        if self.path:
+            msg = f'{msg}{newline}{self.path}'
+
+        if self.hint:
+            msg = f'{msg}{newline}{self.hint}'
+
+        return msg
