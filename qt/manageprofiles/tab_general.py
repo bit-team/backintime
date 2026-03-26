@@ -28,20 +28,19 @@ from config import Config
 import tools
 import logger
 import sshtools
-from exceptions import MountException, NoPubKeyLogin, KnownHost
-import mount
+from mount import MountError
 from bitbase import URL_ENCRYPT_TRANSITION, DIR_SSH_KEYS
 import version
 import schedule
 import qttools
 import messagebox
-# from statedata import StateData
 from manageprofiles import combobox
 from manageprofiles import schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
 from manageprofiles.sshkeyselector import SshKeySelector
 from bitwidgets import HLineWidget
 from filedialog import FileDialog
+from profile_operations import ProfileOperations
 
 
 class GeneralTab(QDialog):
@@ -53,6 +52,11 @@ class GeneralTab(QDialog):
         super().__init__(parent=parent)
 
         self._parent_dialog = parent
+
+        self._profile_operations = ProfileOperations(
+            profile_id=parent.config.currentProfile(),
+            config=parent.config
+        )
 
         tab_layout = QVBoxLayout(self)
 
@@ -361,7 +365,9 @@ class GeneralTab(QDialog):
 
         # local_gocryptfs
         if self.mode == 'local_gocryptfs':
-            self._edit_backup_path.setText(self.config.localGocryptfsPath())
+            self._edit_backup_path.setText(
+                self.config.localGocryptfsPath(self.config.currentProfile())
+            )
 
         self._load_passwords()
 
@@ -384,16 +390,18 @@ class GeneralTab(QDialog):
         # backup path
         path = self._edit_backup_path.text()
 
-        if path and Path(path).exists():
-            self.config.setLocalGocryptfsPath(path)
-
-        else:
+        if path is None:
             messagebox.warning(
                 _('The backup destination path cannot be empty.'),
                 _('Where to save backups'),
                 self
             )
             return False
+
+        if self._is_gocryptfs_path_empty(Path(path)):
+            return False
+
+        self.config.setLocalGocryptfsPath(path, self.config.currentProfile())
 
         # password
         password_1 = self._txt_password1.text()
@@ -474,11 +482,12 @@ class GeneralTab(QDialog):
         self.config.setPassword(password_1, mode=mode)
         self.config.setPassword(password_2, mode=mode, pw_id=2)
 
-        if mode != 'local':
-            mnt = mount.Mount(cfg=self.config, tmp_mount=True, parent=self)
-            hash_id = self._do_alot_pre_mount_checking(mnt, mount_kwargs)
 
-            if hash_id is False:
+        if mode != 'local':
+            # mnt = mount.Mount(cfg=self.config, tmp_mount=True, parent=self)
+            mnt = self._profile_operations.get_mount_manager()
+
+            if not self._do_alot_pre_mount_checking(mnt, mount_kwargs):
                 return False
 
         # snaphots_path
@@ -499,13 +508,12 @@ class GeneralTab(QDialog):
             return False
 
         # umount
-        if mode != 'local':
-            try:
-                mnt.umount(hash_id=hash_id)
-
-            except MountException as ex:
-                messagebox.critical(self, str(ex))
-                return False
+        try:
+            mnt.umount()
+        except mount.MountError as exc:
+            logger.errror(self, str(exc))
+            messagebox.critical(self, exc.to_msgbox_string())
+            return False
 
         return True
 
@@ -521,125 +529,102 @@ class GeneralTab(QDialog):
         """
         # pylint: disable=too-many-return-statements
 
-        try:
-            mode = self.config.snapshotsMode()
-            if 'gocryptfs' in mode:
-                if not mnt.get_backend(mode).isConfigured():
-                    mnt.init_backend(mode=mode, **mount_kwargs)
-
-        except MountException as ex:
-            messagebox.critical(self, str(ex))
-
-            return False
 
         try:
-            # This will run several checks depending on the snapshots mode
-            # used. Exceptions are raised if something goes wrong. On mode
-            # "local" nothing is checked.
-            mnt.preMountCheck(
-                mode=self.config.snapshotsMode(),
-                first_run=True,
-                **mount_kwargs)
+            if not mnt.is_initialized():
+                mnt.initialize()
+            mnt.validate()
+            mnt.mount()
 
-        except NoPubKeyLogin as ex:
-            logger.error(str(ex), self)
-
-            if not self.config.sshPrivateKeyFile_enabled():
-                # Configured without explicit SSH key file
-                messagebox.critical(self, str(ex))
-                return False
-
-            question = (
-                '<p>' + _('An error occurred while attempting to log in to '
-                          'the remote host. The following error message was '
-                          'returned:')
-                + '</p><p>' + str(ex) + '</p><p>'
-                + _('To enable password-less login, the public SSH key can be '
-                    'copied to the remote host.')
-                + '</p><p>'
-                + _('Proceed with copying the SSH key?')
-                + '</p>'
-            )
-
-            answer = messagebox.warning(text=question, as_question=True)
-
-            if not answer:
-                return False
-
-            rc_copy_id = sshtools.sshCopyId(
-                self.config.sshPrivateKeyFile() + '.pub',
-                self.config.sshUser(),
-                self.config.sshHost(),
-                port=str(self.config.sshPort()),
-                proxy_user=self.config.sshProxyUser(),
-                proxy_host=self.config.sshProxyHost(),
-                proxy_port=self.config.sshProxyPort(),
-                # This will open an extra input dialog to ask for the
-                # SSH password.
-                askPass=tools.which('backintime-askpass'),
-                cipher=self.config.sshCipher()
-            )
-
-            if not rc_copy_id:
-                messagebox.warning(_(
-                    'The public SSH key could not be copied. This may '
-                    'be due to a connection or permission issue.'
-                ))
-                return False
-
-            # --- DEV NOTE TODO ---
-            # Why this recursive call?
-            return self._parent_dialog.save_profile()
-
-        except KnownHost as ex:
-            logger.error(str(ex), self)
-            fingerprint, hashed_key, key_type = sshtools.sshHostKey(
-                host=self.config.sshHost(),
-                port=str(self.config.sshPort()))
-
-            if not fingerprint:
-                messagebox.critical(self, str(ex))
-                return False
-
-            msg = (
-                '<p>'
-                + _("The authenticity of host {host} can't be "
-                    "established.").format(host=self.config.sshHost())
-                + '</p><p>'
-                + _('{keytype} key fingerprint is:').format(keytype=key_type)
-                + '</p><p><code>'
-                + fingerprint
-                + '</code></p><p>'
-                + _('Please verify this fingerprint. Add it to the '
-                    '"known_hosts" file?')
-                + '</p>'
-            )
-
-            if messagebox.question(msg):
-                sshtools.writeKnownHostsFile(hashed_key)
-
-                # --- DEV NOTE TODO ---
-                # AGAIN: Why this recursive call?
-                return self.saveProfile()
-
+        except MountError as exc:
+            messagebox.critical(self, exc.as_msgbox_string())
             return False
 
-        except MountException as ex:
-            messagebox.critical(self, str(ex))
-            return False
+        return True
 
-        # okay, let's try to mount
-        try:
-            hash_id = mnt.mount(
-                mode=self.config.snapshotsMode(),
-                check=False,
-                **mount_kwargs)
+        # TODO
+        # except NoPubKeyLogin as ex:
+        #     logger.error(str(ex), self)
 
-        except MountException as ex:
-            messagebox.critical(self, str(ex))
-            return False
+        #     if not self.config.sshPrivateKeyFile_enabled():
+        #         # Configured without explicit SSH key file
+        #         messagebox.critical(self, str(ex))
+        #         return False
 
-        return hash_id
+        #     question = (
+        #         '<p>' + _('An error occurred while attempting to log in to '
+        #                   'the remote host. The following error message was '
+        #                   'returned:')
+        #         + '</p><p>' + str(ex) + '</p><p>'
+        #         + _('To enable password-less login, the public SSH key can be '
+        #             'copied to the remote host.')
+        #         + '</p><p>'
+        #         + _('Proceed with copying the SSH key?')
+        #         + '</p>'
+        #     )
+
+        #     answer = messagebox.warning(text=question, as_question=True)
+
+        #     if not answer:
+        #         return False
+
+        #     rc_copy_id = sshtools.sshCopyId(
+        #         self.config.sshPrivateKeyFile() + '.pub',
+        #         self.config.sshUser(),
+        #         self.config.sshHost(),
+        #         port=str(self.config.sshPort()),
+        #         proxy_user=self.config.sshProxyUser(),
+        #         proxy_host=self.config.sshProxyHost(),
+        #         proxy_port=self.config.sshProxyPort(),
+        #         # This will open an extra input dialog to ask for the
+        #         # SSH password.
+        #         askPass=tools.which('backintime-askpass'),
+        #         cipher=self.config.sshCipher()
+        #     )
+
+        #     if not rc_copy_id:
+        #         messagebox.warning(_(
+        #             'The public SSH key could not be copied. This may '
+        #             'be due to a connection or permission issue.'
+        #         ))
+        #         return False
+
+        #     # --- DEV NOTE TODO ---
+        #     # Why this recursive call?
+        #     return self._parent_dialog.save_profile()
+
+        # except KnownHost as ex:
+        #     logger.error(str(ex), self)
+        #     fingerprint, hashed_key, key_type = sshtools.sshHostKey(
+        #         host=self.config.sshHost(),
+        #         port=str(self.config.sshPort()))
+
+        #     if not fingerprint:
+        #         messagebox.critical(self, str(ex))
+        #         return False
+
+        #     msg = (
+        #         '<p>'
+        #         + _("The authenticity of host {host} can't be "
+        #             "established.").format(host=self.config.sshHost())
+        #         + '</p><p>'
+        #         + _('{keytype} key fingerprint is:').format(keytype=key_type)
+        #         + '</p><p><code>'
+        #         + fingerprint
+        #         + '</code></p><p>'
+        #         + _('Please verify this fingerprint. Add it to the '
+        #             '"known_hosts" file?')
+        #         + '</p>'
+        #     )
+
+        #     if messagebox.question(msg):
+        #         sshtools.writeKnownHostsFile(hashed_key)
+
+        #         # --- DEV NOTE TODO ---
+        #         # AGAIN: Why this recursive call?
+        #         return self.saveProfile()
+
+        #     return False
 
     def _snapshot_mode_combobox(self) -> combobox.BitComboBox:
         # Workaround until encryption transition (#1734) is finished.

@@ -1091,6 +1091,7 @@ class MainWindow(QMainWindow):
         try:
             mount.mount()
         except MountError as exc:
+            logger.error(str(exc))
             messagebox.critical(self, exc.as_msgbox_string())
 
         self.event_profile_changed.notify(self._profile_operations)

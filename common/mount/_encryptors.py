@@ -154,7 +154,7 @@ class GoCryptFS(Encryptor):
 
     def initialize(self):
         if self.password is None:
-            self.password = self.config.password()
+            self.password = self.cfg.password()
 
         # Dev note: See docstring in EncFS_mount._mount() for detailed
         # description about the password thing.
@@ -187,8 +187,8 @@ class GoCryptFS(Encryptor):
             output = proc.communicate()[0]
 
             if proc.returncode:
-                msg = _('Unable to initialize encryption. "{command}"').format(
-                    command=' '.join(cmd)
+                msg = _('Unable to initialize encryption via "{command}"').format(
+                    command=cmd
                 )
                 msg = f'{msg}:\n\n{output}\n\nReturn code: {proc.returncode}'
                 logger.critical(msg, self)
@@ -196,6 +196,10 @@ class GoCryptFS(Encryptor):
                 raise MountError(msg, path=self.cipher_path)
 
     def validate(self):
+        """Check if encryption setup is ready to get mounted.
+
+        Raises: MountError
+        """
         if not self.is_initialized():
             raise MountError(
                 _('Backup destination directory is not '
@@ -204,6 +208,10 @@ class GoCryptFS(Encryptor):
             )
 
     def mount(self):
+        """Mount
+
+        Raises: MountError
+        """
         if self.password is None:
             self.password = self.cfg.password()
 
@@ -243,6 +251,12 @@ class GoCryptFS(Encryptor):
                 )
 
     def umount(self):
+        """Release the mountpoint.
+
+        Nothing happens if not mounted.
+
+        Raises: MountError
+        """
         if not tools.is_mounted(self.path):
             logger.debug(f'Is not mounted. {self.path}', self)
             return

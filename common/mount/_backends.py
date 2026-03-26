@@ -30,15 +30,19 @@ class Backend:
         logger.debug(f'{self.mount_root=}', self)
 
     def get_fingerprint_base(self) -> str:
+        """String represnation of the backend config for later use in a hash"""
         raise NotImplementedError
 
     def validate(self):
+        """Everything correct setup"""
         raise NotImplementedError
 
     def mount(self):
+        """Mount the backend"""
         raise NotImplementedError
 
     def umount(self):
+        """Relase the backend mount"""
         raise NotImplementedError
 
 
@@ -55,6 +59,10 @@ class LocalBackend(Backend):
         return str(self.TYPE) + f': {self.path}'
 
     def validate(self):
+        """Check if ready to mount.
+
+        Raises: MountError
+        """
         if not self.path.exists():
             raise MountError(
                 _("Can't find backup destination directory."),

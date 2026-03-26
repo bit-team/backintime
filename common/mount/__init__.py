@@ -41,11 +41,19 @@ class MountManager:
     def mount_root(self) -> Path:
         return self.backend.mount_root
 
-    def is_initialized(self, path: Path) -> bool:
-        return self.encryptor.is_initialized(path)
+    def is_initialized(self) -> bool:
+        return self.encryptor.is_initialized()
 
     def initialize(self):
         return self.encryptor.initialize()
+
+    def validate(self):
+        """Check if backend and encryptor are ready.
+
+        Raises: MountError
+        """
+        self.backend.validate()
+        self.encryptor.validate()
 
     def mount(self):
         # Workaround
