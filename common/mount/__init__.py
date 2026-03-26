@@ -25,23 +25,21 @@ class MountManager:
         self.backend = backend
         self.encryptor = encryptor
         self.cfg = cfg
-        # Refactor: bitbase.XDG_DATA_DIR / 'backintime' / 'mnt'
-        self._mount_root = Path(self.cfg._LOCAL_MOUNT_ROOT)
         self._lock_mountpoint = None
 
         logger.debug(
             f'{self.backend=} {self.encryptor=} '
-            f'{self._mount_root=} {self.fingerprint=}',
+            f'{self.mount_root=}',
             self
         )
 
     @property
     def fingerprint(self) -> str:
-        data = '|'.join([
-            self.backend.get_fingerprint_base(),
-            self.encryptor.get_fingerprint_base()
-        ])
-        return hashlib.sha256(data.encode()).hexdigest()[:12]
+        return self.encryptor.fingerprint
+
+    @property
+    def mount_root(self) -> Path:
+        return self.backend.mount_root
 
     def is_initialized(self, path: Path) -> bool:
         return self.encryptor.is_initialized(path)
@@ -115,7 +113,7 @@ class MountManager:
         """Check for active mountpoint locks but excluding own lock"""
         active = False
 
-        for fp in self._mount_root.glob(f'*.{self.LOCK_SUFFIX}'):
+        for fp in self.mount_root.glob(f'*.{self.LOCK_SUFFIX}'):
 
             pid = int(fp.stem)
             if pid == os.getpid():
@@ -133,10 +131,10 @@ class MountManager:
         Dev note (buhtz, 2026-03): Refactoring and use of flock.py
         """
         pid = os.getpid()
-        fp = self._mount_root / f'{pid}.{self.LOCK_SUFFIX}'
+        fp = self.mount_root / f'{pid}.{self.LOCK_SUFFIX}'
         count = 0
 
-        while self._process_locks_active(self._mount_root):
+        while self._process_locks_active(self.mount_root):
             count += 1
 
             if count >= timeout:
@@ -145,7 +143,7 @@ class MountManager:
             sleep(1)
 
         logger.debug(
-            f'Process lock - Acquire {fp.relative_to(self._mount_root)}',
+            f'Process lock - Acquire {fp.relative_to(self.mount_root)}',
             self
         )
 
@@ -157,7 +155,7 @@ class MountManager:
 
         finally:
             logger.debug(
-                f'Process lock - Release {fp.relative_to(self._mount_root)}',
+                f'Process lock - Release {fp.relative_to(self.mount_root)}',
                 self
             )
             fp.unlink(missing_ok=True)
@@ -166,7 +164,7 @@ class MountManager:
         """Long-term lock for a mountpoint, preventing unmount while in use."""
         pid = os.getpid()
 
-        self._lock_mountpoint = self._mount_root / self.fingerprint \
+        self._lock_mountpoint = self.mount_root / self.fingerprint \
             / 'locks' / f'{pid}.{self.LOCK_SUFFIX}'
 
         # owner only 0o700 -rwx------
@@ -175,7 +173,7 @@ class MountManager:
 
         logger.debug(
             'Mount point lock - Acquire '
-            f'{self._lock_mountpoint.relative_to(self._mount_root)}',
+            f'{self._lock_mountpoint.relative_to(self.mount_root)}',
             self
         )
         self._lock_mountpoint.write_text(str(pid))
@@ -197,7 +195,7 @@ class MountManager:
 
         logger.debug(
             'Mount point lock - Release '
-            f'{self._lock_mountpoint.relative_to(self._mount_root)}',
+            f'{self._lock_mountpoint.relative_to(self.mount_root)}',
             self
         )
         self._lock_mountpoint.unlink(missing_ok=True)
@@ -228,11 +226,7 @@ class MountFactory:
         else:
             encryptor_type = Encryptor.Type.NONE
 
-        logger.debug(f'{backend_type=} {encryptor_type=}', cls)
-
         backend = cls.BACKENDS[backend_type](cfg)
         encryptor = cls.ENCRYPT[encryptor_type](cfg, backend)
 
         return MountManager(backend, encryptor, cfg)
-
-        raise NotImplementedError(cfg.snapshotsMode())

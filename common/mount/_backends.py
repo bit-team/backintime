@@ -24,6 +24,10 @@ class Backend:
 
     def __init__(self, cfg):
         self.cfg = cfg
+        # Refactor: bitbase.XDG_DATA_DIR / 'backintime' / 'mnt'
+        self.mount_root = Path(self.cfg._LOCAL_MOUNT_ROOT)
+
+        logger.debug(f'{self.mount_root=}', self)
 
     def get_fingerprint_base(self) -> str:
         raise NotImplementedError
@@ -42,21 +46,8 @@ class LocalBackend(Backend):
     TYPE = Backend.Type.LOCAL
 
     def __init__(self, cfg):
-        self.cfg = cfg
-        self.path = cfg.get_snapshots_path(profile_id=cfg.currentProfile())
-        # self.path = cfg.get_snapshots_mountpoint()
-
-        # Workaround
-        if isinstance(self.path, str):
-            self.path = Path(self.path)
-        # self.profile_id = cfg.currentProfile()
-        # self.hash_id = cfg.current_hash_id
-        # self.pid = str(getpass.getuser())  # PID analog
-        # self.mount_root = Path(cfg._LOCAL_MOUNT_ROOT)
-        # self.mountpoint = self.mount_root / self.hash_id / "mountpoint"
-        # self.lock_path = self.mount_root / self.hash_id / "locks"
-        # self.umount_info = self.mount_root / self.hash_id / "umount"
-        # self.current_kwargs = {"mode": self.TYPE}
+        super().__init__(cfg)
+        self.path = cfg.get_backup_destination_path(cfg.currentProfile())
 
         logger.debug(f'{self.path=}', self)
 

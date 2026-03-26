@@ -7,6 +7,7 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import json
+import hashlib
 import subprocess
 from enum import Enum, auto
 from pathlib import Path
@@ -29,6 +30,30 @@ class Encryptor:
 
     def get_fingerprint_base(self) -> str:
         raise NotImplementedError
+
+    @property
+    def fingerprint(self) -> str:
+        """Compute a unique mount fingerprint.
+
+        The fingerprint is a deterministic hex string and based on the
+        encryptors configuration parameters and the backend.  It serves as a
+        stable identifier for mountpoints, allowing mounts with identical
+        configurations to be recognized and potentially reused across
+        processes.
+
+        Returns:
+            A SHA256 hash cut to a 12-character hexadecimal string.
+
+        """
+        data = '|'.join([
+            self._backend.get_fingerprint_base(),
+            self.get_fingerprint_base()
+        ])
+        return hashlib.sha256(data.encode()).hexdigest()[:12]
+
+    @property
+    def mount_root(self) -> Path:
+        return self._backend.mount_root
 
     def is_initialized(self) -> bool:
         return True
@@ -63,13 +88,34 @@ class NoEncryption(Encryptor):
 
 
 class GoCryptFS(Encryptor):
+    """GoCryptFS for encrypted backups.
+
+    This encryptor manages mounting and unmounting of encrypted storage, and
+    therefor handles temporary decrypted view for user or backup operations.
+
+    Path mapping in this implementation with example:
+
+        Assuming `backend.path` points to ``/home/user/ziel``. That is the
+        the user-specified backup target. It is not human readable. The
+        directory contains encrypted data and gocryptfs.conf.
+
+        The parameter `encryptor.cipher_path` is identical to `backend.path`
+        and points to the same directory. GoCryptFS will use it for mounting.
+
+        The parameter `encryptor.path` is the mountpoint and decrypted view.
+        E.g., ``/home/user/.zieltmp``. Human-readable files are accessible
+        here during backup.
+    """
+
     TYPE = Encryptor.Type.GOCRYPTFS
 
     def __init__(self, cfg, backend):
         super().__init__(cfg, backend)
 
         # the decrypted (human readable) view of "plain_path"
-        self.path = self.cfg.localGocryptfsPath()
+        # mount_root + hash_id/fingerpint + 'mountpoint'
+        # e.g. `~/.local/share/backintime/mnt/<hash_id>/mountpoint`
+        self.path = self.mount_root / self.fingerprint / 'mountpoint'
 
         logger.debug(f'{self.path=} {self.cipher_path=}', self)
 
@@ -84,7 +130,7 @@ class GoCryptFS(Encryptor):
         return self._backend.path
 
     def get_fingerprint_base(self) -> str:
-        return str(self.TYPE) + f': {self.path} {self.cipher_path}'
+        return str(self.TYPE) + f': {self.cipher_path}'
 
     def is_initialized(self) -> bool:
         cfg_fp = self.cipher_path / 'gocryptfs.conf'
