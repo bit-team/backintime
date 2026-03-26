@@ -10,7 +10,8 @@ import logger
 import json
 from enum import Enum, auto
 from pathlib import Path
-from exceptions import HashCollision
+# from exceptions import HashCollision
+from ._error import MountError
 
 
 class Backend:
@@ -27,6 +28,9 @@ class Backend:
     def get_fingerprint_base(self) -> str:
         raise NotImplementedError
 
+    def validate(self):
+        raise NotImplementedError
+
     def mount(self):
         raise NotImplementedError
 
@@ -39,6 +43,12 @@ class LocalBackend(Backend):
 
     def __init__(self, cfg):
         self.cfg = cfg
+        self.path = cfg.get_snapshots_path(profile_id=cfg.currentProfile())
+        # self.path = cfg.get_snapshots_mountpoint()
+
+        # Workaround
+        if isinstance(self.path, str):
+            self.path = Path(self.path)
         # self.profile_id = cfg.currentProfile()
         # self.hash_id = cfg.current_hash_id
         # self.pid = str(getpass.getuser())  # PID analog
@@ -48,8 +58,19 @@ class LocalBackend(Backend):
         # self.umount_info = self.mount_root / self.hash_id / "umount"
         # self.current_kwargs = {"mode": self.TYPE}
 
+        logger.debug(f'{self.path=}', self)
+
     def get_fingerprint_base(self) -> str:
-        return str(self.TYPE) + ': '
+        return str(self.TYPE) + f': {self.path}'
+
+    def validate(self):
+        if not self.path.exists():
+            raise MountError(
+                _("Can't find backup destination directory."),
+                _('If it is on a removable drive, please plug it in.')
+                + ' ' + _('Then press OK.'),
+                self.path
+            )
 
     def mount(self):
         return None

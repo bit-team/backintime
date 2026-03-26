@@ -14,6 +14,7 @@ from time import sleep
 from pathlib import Path
 from ._backends import Backend, LocalBackend, SSHBackend
 from ._encryptors import Encryptor, NoEncryption, GoCryptFS
+from ._error import MountError
 
 
 class MountManager:
@@ -28,6 +29,12 @@ class MountManager:
         self._mount_root = Path(self.cfg._LOCAL_MOUNT_ROOT)
         self._lock_mountpoint = None
 
+        logger.debug(
+            f'{self.backend=} {self.encryptor=} '
+            f'{self._mount_root=} {self.fingerprint=}',
+            self
+        )
+
     @property
     def fingerprint(self) -> str:
         data = '|'.join([
@@ -39,9 +46,6 @@ class MountManager:
     def is_initialized(self, path: Path) -> bool:
         return self.encryptor.is_initialized(path)
 
-    def _get_mounpoint_lock_path(self):
-        return self._mount_root / self.fingerprint / 'locks'
-
     def initialize(self):
         return self.encryptor.initialize()
 
@@ -52,8 +56,12 @@ class MountManager:
 
         with self._process_lock():
             self._acquire_mountpoint_lock()
+
+            self.backend.validate()
             self.backend.mount()
-            self.encryptor.mount(self.backend)
+
+            self.encryptor.validate()
+            self.encryptor.mount()
             # self._write_umount_info()
 
     def umount(self):
@@ -136,7 +144,10 @@ class MountManager:
 
             sleep(1)
 
-        logger.debug(f'Process lock - Acquire {fp}', self)
+        logger.debug(
+            f'Process lock - Acquire {fp.relative_to(self._mount_root)}',
+            self
+        )
 
         # ??? Isn't touch enough?
         fp.write_text(str(pid))
@@ -145,34 +156,50 @@ class MountManager:
             yield
 
         finally:
-            logger.debug(f'Process lock - Release {fp}', self)
+            logger.debug(
+                f'Process lock - Release {fp.relative_to(self._mount_root)}',
+                self
+            )
             fp.unlink(missing_ok=True)
 
     def _acquire_mountpoint_lock(self):
         """Long-term lock for a mountpoint, preventing unmount while in use."""
         pid = os.getpid()
-        fp = self._get_mounpoint_lock_path() / f'{pid}.{self.LOCK_SUFFIX}'
+
+        self._lock_mountpoint = self._mount_root / self.fingerprint \
+            / 'locks' / f'{pid}.{self.LOCK_SUFFIX}'
 
         # owner only 0o700 -rwx------
-        fp.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+        self._lock_mountpoint.parent.mkdir(
+            mode=0o700, parents=True, exist_ok=True)
 
-        logger.debug(f'Mount point lock - Acquire {fp}', self)
-        fp.write_text(str(pid))
-
-        self._lock_mountpoint = fp
+        logger.debug(
+            'Mount point lock - Acquire '
+            f'{self._lock_mountpoint.relative_to(self._mount_root)}',
+            self
+        )
+        self._lock_mountpoint.write_text(str(pid))
 
     def _release_mountpoint_lock(self):
         """Long-term lock for a mountpoint, preventing unmount while in use."""
-        # import traceback
-        # traceback.print_stack(limit=4)
-        if self._lock_mountpoint is None or not self._lock_mountpoint.exists():
+        if self._lock_mountpoint is None:
+            # No mount beforehand
+            return
+
+        if not self._lock_mountpoint.exists():
+            import traceback
+            traceback.print_stack(limit=4)
             logger.error(
                 f'Mount point lock - Unexpected state. {self._lock_mountpoint} '
                 'does not exist.', self
             )
             return
 
-        logger.debug(f'Mount point lock - Release {self._lock_mountpoint}', self)
+        logger.debug(
+            'Mount point lock - Release '
+            f'{self._lock_mountpoint.relative_to(self._mount_root)}',
+            self
+        )
         self._lock_mountpoint.unlink(missing_ok=True)
         self._lock_mountpoint = None
 
@@ -191,14 +218,21 @@ class MountFactory:
 
     @classmethod
     def create(cls, cfg):
-        # backend = cls.BACKENDS[cfg.backend](cfg)
-        # encryptor = cls.ENCRYPT[cfg.encryption](cfg)
+        mode = cfg.snapshotsMode()
 
-        if cfg.snapshotsMode() in ('local', 'local_gocryptfs'):
-            return MountManager(
-                cls.BACKENDS[Backend.Type.LOCAL](cfg),
-                cls.ENCRYPT[Encryptor.Type.NONE](cfg),
-                cfg
-            )
+        if 'local' in mode:
+            backend_type = Backend.Type.LOCAL
+
+        if 'gocryptfs' in mode:
+            encryptor_type = Encryptor.Type.GOCRYPTFS
+        else:
+            encryptor_type = Encryptor.Type.NONE
+
+        logger.debug(f'{backend_type=} {encryptor_type=}', cls)
+
+        backend = cls.BACKENDS[backend_type](cfg)
+        encryptor = cls.ENCRYPT[encryptor_type](cfg, backend)
+
+        return MountManager(backend, encryptor, cfg)
 
         raise NotImplementedError(cfg.snapshotsMode())

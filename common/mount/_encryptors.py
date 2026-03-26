@@ -9,8 +9,10 @@ import os
 import json
 import subprocess
 from enum import Enum, auto
+from pathlib import Path
 import logger
 from password_ipc import TempPasswordThread
+from ._error import MountError
 
 
 class Encryptor:
@@ -21,8 +23,9 @@ class Encryptor:
 
     TYPE = None
 
-    def __init__(self, cfg):
+    def __init__(self, cfg, backend):
         self.cfg = cfg
+        self._backend = backend
 
     def get_fingerprint_base(self) -> str:
         raise NotImplementedError
@@ -33,12 +36,24 @@ class Encryptor:
     def initialize(self):
         raise NotImplementedError
 
+    def validate(self):
+        raise NotImplementedError
+
+    def mount(self):
+        raise NotImplementedError
+
+    def umount(self):
+        raise NotImplementedError
+
 
 class NoEncryption(Encryptor):
     TYPE = Encryptor.Type.NONE
 
     def get_fingerprint_base(self) -> str:
         return str(self.TYPE) + ': '
+
+    def validate(self):
+        pass
 
     def mount(*args, **kwargs):
         pass
@@ -51,19 +66,28 @@ class GoCryptFS(Encryptor):
     TYPE = Encryptor.Type.GOCRYPTFS
 
     def __init__(self, cfg, backend):
-        super().__init__(cfg)
+        super().__init__(cfg, backend)
 
+        # the decrypted (human readable) view of "plain_path"
         self.path = self.cfg.localGocryptfsPath()
-        self.plain_path = backend.path
 
-        logger.debug(
-            f'GoCryptFS.__init__() :: {self.path=} {self.plain_path=}', self
-        )
+        logger.debug(f'{self.path=} {self.cipher_path=}', self)
 
         self.password = None
 
+    @property
+    def cipher_path(self) -> Path:
+        """The encrypted path that will be the mount target.
+
+        Gogryptfs does mount that path and decrypt it while mounting.
+        """
+        return self._backend.path
+
+    def get_fingerprint_base(self) -> str:
+        return str(self.TYPE) + f': {self.path} {self.cipher_path}'
+
     def is_initialized(self) -> bool:
-        cfg_fp = self.path / 'gocryptfs.conf'
+        cfg_fp = self.cipher_path / 'gocryptfs.conf'
 
         if not cfg_fp.is_file():
             return False
@@ -99,7 +123,7 @@ class GoCryptFS(Encryptor):
 
             cmd.append('-init')
 
-            cmd.append(self.path)
+            cmd.append(self.cipher_path)
 
             logger.debug(
                 f'Call command to create gocryptfs config file: {cmd}',
@@ -116,17 +140,25 @@ class GoCryptFS(Encryptor):
             output = proc.communicate()[0]
 
             if proc.returncode:
-                msg = _('Unable to init encrypted path "{command}"').format(
+                msg = _('Unable to initialize encryption. "{command}"').format(
                     command=' '.join(cmd)
                 )
                 msg = f'{msg}:\n\n{output}\n\nReturn code: {proc.returncode}'
                 logger.critical(msg, self)
 
-                raise RuntimeError(msg)
+                raise MountError(msg, path=self.cipher_path)
+
+    def validate(self):
+        if not self.is_initialized():
+            raise MountError(
+                _('Backup destination directory is not '
+                  'prepared for encryption.'),
+                path=self.cipher_path
+            )
 
     def mount(self):
         if self.password is None:
-            self.password = self.config.password()
+            self.password = self.cfg.password()
 
         thread = TempPasswordThread(self.password)
         env = os.environ.copy()
@@ -141,8 +173,8 @@ class GoCryptFS(Encryptor):
             ]
 
             cmd += [
+                self.cipher_path,
                 self.path,
-                self.plain_path
             ]
 
             logger.debug(f'Call mount command: {cmd}', self)
@@ -159,15 +191,15 @@ class GoCryptFS(Encryptor):
                 msg = _('Unable to mount via "{command}"').format(
                     command=' '.join(cmd)
                 )
-                raise RuntimeError(
-                    f'{msg}:\n\n{output}\n\nReturn code: {proc.returncode}'
+                raise MountError(
+                    f'{msg}:\n\n{output}\n\nReturn code: {proc.returncode}',
                 )
 
     def umount(self):
         cmd = [
             'fusermount',
             '-u',
-            self.plain_path
+            self.cipher_path
         ]
 
         proc = subprocess.run(
@@ -178,7 +210,7 @@ class GoCryptFS(Encryptor):
         )
 
         if proc.returncode:
-            msg = f'Unable to unmount {self.plain_path}:\n{proc.stdout}'
+            msg = f'Unable to umount {self.plain_path}:\n{proc.stdout}'
             logger.error(msg)
 
-            raise RuntimeError(msg)
+            raise MountError(msg)

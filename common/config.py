@@ -382,6 +382,12 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def get_snapshots_mountpoint(self, profile_id=None, mode=None, tmp_mount=False):
         """Return the profiles snapshot path in form of a mount point."""
+
+        # # DEBUG
+        # import traceback
+        # traceback.print_stack(limit=12)
+        logger.debug(f'{profile_id=} {mode=} {tmp_mount=}', self)
+
         if profile_id is None:
             profile_id = self.currentProfile()
 
@@ -393,6 +399,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
         # else: ssh/local_encfs/ssh_encfs/local_gocryptfs
 
+        # ???
         symlink = f'{profile_id}_{os.getpid()}'
         if tmp_mount:
             symlink = f'tmp_{symlink}'

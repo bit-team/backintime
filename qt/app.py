@@ -231,7 +231,7 @@ class MainWindow(QMainWindow):
         if not self.config.isConfigured():
             return
 
-        self._try_to_mount()
+        # self._try_to_mount()
 
         # populate lists
         self.updateProfiles()
@@ -361,7 +361,8 @@ class MainWindow(QMainWindow):
 
         SettingsDialog(self).exec()
 
-    def _try_to_mount(self):
+    def _DEPRECATED_try_to_mount(self):
+        print('3'*40)
         try:
             # mnt = mount.Mount(cfg=self.config,
             #                   profile_id=self.config.currentProfile(),
@@ -369,14 +370,16 @@ class MainWindow(QMainWindow):
             mnt = self._profile_operations.get_mount_manager()
             mnt.mount()
 
-        except MountException as exc:
+        except (MountException, RuntimeError) as exc:
             messagebox.critical(self, str(exc))
 
         # else:
         #     self.config.setCurrentHashId(hash_id)
 
-        if not self.config.canBackup(self.config.currentProfile()):
-            msg = _("Can't find backup directory.") + '\n' \
+        if not self.config.canBackup():
+            path = self.config.snapshotsFullPath()
+            msg = _("Can't find backup destination directory.") + '\n' \
+                + path \
                 + _('If it is on a removable drive, please plug it in.') \
                 + ' ' + _('Then press OK.')
             messagebox.critical(self, msg)
@@ -1085,7 +1088,10 @@ class MainWindow(QMainWindow):
         self._reset_profile_operations()
 
         mount = self._profile_operations.get_mount_manager()
-        mount.mount()
+        try:
+            mount.mount()
+        except RuntimeError as exc:
+            messagebox.critical(self, str(exc))
 
         self.event_profile_changed.notify(self._profile_operations)
 
@@ -1113,7 +1119,9 @@ class MainWindow(QMainWindow):
 
         state_data = StateData()
 
+        print('1'*20)
         if profile_id != old_profile_id:
+            print('2'*20)
             old_profile_state = state_data.profile(old_profile_id)
             old_profile_state.places_sorting = self.places.get_sorting()
 
@@ -1138,20 +1146,10 @@ class MainWindow(QMainWindow):
                 self.path_history.reset(self.path)
                 self.widget_current_path.setText(self.path)
 
+            # self._try_to_mount()
+
             self.updateProfile()
 
-    # def remount(self, new_profile_id, old_profile_id):
-    #     try:
-    #         mnt = mount.Mount(cfg=self.config,
-    #                           profile_id=old_profile_id,
-    #                           parent=self)
-    #         hash_id = mnt.remount(new_profile_id)
-
-    #     except MountException as ex:
-    #         messagebox.critical(self, str(ex))
-
-    #     else:
-    #         self.config.setCurrentHashId(hash_id)
 
     def raiseApplication(self):
         raiseCmd = self.appInstance.raiseCommand()
@@ -1191,6 +1189,7 @@ class MainWindow(QMainWindow):
         if not self.act_take_snapshot.isEnabled():
             # TODO: check if there is a more elegant way than always get a
             # new snapshot list which is very expensive (time)
+            # See issue #2260 about redesign the IPC aspect of BIT
             snapshotsList = snapshots.listSnapshots(self.config)
 
             if snapshotsList != self.snapshotsList:
