@@ -187,7 +187,7 @@ class ParserAgent:
     def _create_reusable_parsers(self):
         self._create_common_parser()
         self._create_profile_parser()
-        self._create_snapshots_only_parser()  # deprecated
+        # self._create_snapshots_only_parser()  # deprecated
         self._create_rsync_only_parser()
 
     @property
@@ -295,19 +295,19 @@ class ParserAgent:
 
         self._reusable_parsers['profile'] = parser
 
-    def _create_snapshots_only_parser(self):
-        """Arguments used only by commands
-            - snapshots-path
-            - snapshots-list-path
-            - last-snapshot-path
-        """
-        parser = ArgumentParser(add_help=False)
-        parser.add_argument(
-            '--keep-mount',
-            action='store_true',
-            help="Don't unmount on exit.")
+    # def _create_snapshots_only_parser(self):
+    #     """Arguments used only by commands
+    #         - snapshots-path
+    #         - snapshots-list-path
+    #         - last-snapshot-path
+    #     """
+    #     parser = ArgumentParser(add_help=False)
+    #     parser.add_argument(
+    #         '--keep-mount',
+    #         action='store_true',
+    #         help="Don't unmount on exit.")
 
-        self._reusable_parsers['snapshots'] = parser
+    #     self._reusable_parsers['snapshots'] = parser
 
     def _create_rsync_only_parser(self):
         """Arguments used only by rsync related commands:
@@ -462,8 +462,8 @@ class ParserAgent:
         nargs = 0
         self._aliases.append((name, nargs))
         parser = self._command_subparsers.add_parser(
-            name,
-            parents=[self._reusable_parsers['snapshots']],
+            name
+            # parents=[self._reusable_parsers['snapshots']],
         )
 
         parser.set_defaults(func=self._cmd_func_dict[name])
@@ -678,7 +678,7 @@ class ParserAgent:
 
         parser = self._command_subparsers.add_parser(
             name,
-            parents=[self._reusable_parsers['snapshots']],
+            # parents=[self._reusable_parsers['snapshots']],
             help=None,
             description=desc)
 
@@ -694,7 +694,7 @@ class ParserAgent:
 
         parser = self._command_subparsers.add_parser(
             name,
-            parents=[self._reusable_parsers['snapshots']],
+            # parents=[self._reusable_parsers['snapshots']],
             help=None,
             description=desc)
 
@@ -708,7 +708,7 @@ class ParserAgent:
         desc = 'Show the path where snapshots are stored.'
         parser = self._command_subparsers.add_parser(
             name,
-            parents=[self._reusable_parsers['snapshots']],
+            # parents=[self._reusable_parsers['snapshots']],
             help=None,  # suppress help output
             description=desc)
         parser.set_defaults(func=self._cmd_func_dict[name])

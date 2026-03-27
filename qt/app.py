@@ -361,28 +361,28 @@ class MainWindow(QMainWindow):
 
         SettingsDialog(self).exec()
 
-    def _DEPRECATED_try_to_mount(self):
-        print('3'*40)
-        try:
-            # mnt = mount.Mount(cfg=self.config,
-            #                   profile_id=self.config.currentProfile(),
-            #                   parent=self)
-            mnt = self._profile_operations.get_mount_manager()
-            mnt.mount()
+    # def _DEPRECATED_try_to_mount(self):
+    #     print('3'*40)
+    #     try:
+    #         # mnt = mount.Mount(cfg=self.config,
+    #         #                   profile_id=self.config.currentProfile(),
+    #         #                   parent=self)
+    #         mnt = self._profile_operations.get_mount_manager()
+    #         mnt.mount()
 
-        except (MountException, RuntimeError) as exc:
-            messagebox.critical(self, str(exc))
+    #     except (MountException, RuntimeError) as exc:
+    #         messagebox.critical(self, str(exc))
 
-        # else:
-        #     self.config.setCurrentHashId(hash_id)
+    #     # else:
+    #     #     self.config.setCurrentHashId(hash_id)
 
-        if not self.config.canBackup():
-            path = self.config.snapshotsFullPath()
-            msg = _("Can't find backup destination directory.") + '\n' \
-                + path \
-                + _('If it is on a removable drive, please plug it in.') \
-                + ' ' + _('Then press OK.')
-            messagebox.critical(self, msg)
+    #     if not self.config.canBackup():
+    #         path = self.config.snapshotsFullPath()
+    #         msg = _("Can't find backup destination directory.") + '\n' \
+    #             + path \
+    #             + _('If it is on a removable drive, please plug it in.') \
+    #             + ' ' + _('Then press OK.')
+    #         messagebox.critical(self, msg)
 
     def _handle_user_messages(self):
         # Ignore if debug or release/testing candidate
@@ -1120,9 +1120,7 @@ class MainWindow(QMainWindow):
 
         state_data = StateData()
 
-        print('1'*20)
         if profile_id != old_profile_id:
-            print('2'*20)
             old_profile_state = state_data.profile(old_profile_id)
             old_profile_state.places_sorting = self.places.get_sorting()
 
@@ -1388,7 +1386,9 @@ class MainWindow(QMainWindow):
         def _worker():
             """Proceed all backups and put their timline related information
             into a thread-safe queue."""
-            for sid in snapshots.iterSnapshots(self.config):
+
+            mount_manager = self._profile_operations.get_mount_manager()
+            for sid in snapshots.iterSnapshots(self.config, mounted_path=mount_manager.path):
                 self.snapshotsList.append(sid)
                 backup_queue.put(
                     (
@@ -2306,30 +2306,38 @@ class RemoveSnapshotThread(QThread):
         self.config = parent.config
         self.snapshots = parent.snapshots
         self.items = items
-        super(RemoveSnapshotThread, self).__init__(parent)
+        self.mount_manager = MountFactory.create(self.config)
+        super().__init__(parent)
 
     def run(self):
-        last_snapshot = snapshots.lastSnapshot(self.config)
-        renew_last_snapshot = False
+        with self.mount_manager.mounted():
+            last_snapshot = snapshots.lastSnapshot(
+                self.config, mounted_path=self.mount_manager.path
+            )
+            renew_last_snapshot = False
 
-        # inhibit suspend/hibernate during delete
-        with InhibitSuspend(reason='deleting snapshots'):
+            # inhibit suspend/hibernate during delete
+            with InhibitSuspend(reason='deleting snapshots'):
 
-            for item, sid in [
-                    (x, snapshots.SID(x.descriptor, self.config))
-                    for x in self.items
-            ]:
-                self.snapshots.remove(sid)
-                self.hideTimelineItem.emit(item)
-                if sid == last_snapshot:
-                    renew_last_snapshot = True
+                for item, sid in [
+                        (x, snapshots.SID(x.descriptor, self.config))
+                        for x in self.items
+                ]:
+                    self.snapshots.remove(sid)
+                    self.hideTimelineItem.emit(item)
+                    if sid == last_snapshot:
+                        renew_last_snapshot = True
 
-            self.refreshSnapshotList.emit()
+                self.refreshSnapshotList.emit()
 
-            # set correct last snapshot again
-            if renew_last_snapshot:
-                self.snapshots.createLastSnapshotSymlink(
-                    snapshots.lastSnapshot(self.config))
+                # set correct last snapshot again
+                if renew_last_snapshot:
+                    self.snapshots.createLastSnapshotSymlink(
+                        snapshots.lastSnapshot(
+                            self.config,
+                            self.mount_manager.path
+                        )
+                    )
 
 
 def _get_state_data_from_config(cfg: config.Config) -> StateData:

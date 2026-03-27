@@ -33,6 +33,15 @@ class MountManager:
             self
         )
 
+    @contextmanager
+    def mounted(self):
+        """Mount on enter and umount on exit."""
+        self.mount()
+        try:
+            yield self
+        finally:
+            self.umount()
+
     @property
     def fingerprint(self) -> str:
         return self.encryptor.fingerprint
@@ -40,6 +49,10 @@ class MountManager:
     @property
     def mount_root(self) -> Path:
         return self.backend.mount_root
+
+    @property
+    def path(self) -> Path:
+        return self.encryptor.path
 
     def is_initialized(self) -> bool:
         return self.encryptor.is_initialized()

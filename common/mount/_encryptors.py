@@ -75,6 +75,10 @@ class Encryptor:
 class NoEncryption(Encryptor):
     TYPE = Encryptor.Type.NONE
 
+    def __init__(self, cfg, backend):
+        super().__init__(cfg, backend)
+        self.path = self._backend.path
+
     def get_fingerprint_base(self) -> str:
         return str(self.TYPE) + ': '
 
@@ -122,7 +126,6 @@ class GoCryptFS(Encryptor):
         logger.debug(f'{self.path=} {self.cipher_path=}', self)
 
         self.password = None
-
 
     @property
     def cipher_path(self) -> Path:

@@ -33,6 +33,9 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 ### Added
 - Build dependency `pandoc` to convert markdown changelog into HTML
 
+### Removed
+- Command line switch `--keep-mount`
+
 ## [1.6.1] (2026-02-10)
 
 ### Fixed

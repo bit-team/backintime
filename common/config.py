@@ -1469,24 +1469,6 @@ class Config(configfile.ConfigFileWithProfiles):
 
         return False
 
-    def canBackup(self, profile_id=None):
-        """Checks if snapshots_path exists.
-        """
-        if not self.isConfigured(profile_id):
-            return False
-
-        path = self.snapshotsFullPath(profile_id)
-
-        if not os.path.exists(path):
-            logger.warning(f'Snapshot path does not exists: {path}', self)
-            return False
-
-        if not os.path.isdir(path):
-            logger.warning(f'Snapshot path is not a directory: {path}', self)
-            return False
-
-        return True
-
     def backupScheduled(self, profile_id = None):
         """Check if the profile is supposed to be run this time.
 
