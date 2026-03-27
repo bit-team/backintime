@@ -672,10 +672,9 @@ def unmount(args):
 
     cfg = _get_config(args)
 
-    _mount(cfg)
-    _umount(cfg)
-
-    sys.exit(bitbase.RETURN_OK)
+    mount_manager = MountFactory.create(cfg)
+    with mount_manager.mounted():
+        sys.exit(bitbase.RETURN_OK)
 
 
 def _mount(cfg: config.Config):

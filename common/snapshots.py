@@ -2619,7 +2619,7 @@ class SID:  # -> "BackupID" will be its new name
         self.isRoot = False
         self._mounted_path = mounted_path
 
-        host, user, profile = self.config.hostUserProfile(profile_id)
+        host, user, profile = self.config.hostUserProfile(self.profileID)
         self._path = self._mounted_path / 'backintime' / host / user / profile
         self._path = str(self._path)
 
@@ -3453,7 +3453,7 @@ def get_backup_ids_and_paths(cfg: config.Config,
         iterSnapshots(
             cfg=cfg,
             includeNewSnapshot=include_new,
-            mounted_paths=mounted_paths
+            mounted_path=mounted_path
         ),
         reverse=not descending)
 
