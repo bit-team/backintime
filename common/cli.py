@@ -20,7 +20,7 @@ from typing import Optional
 from version import __version__
 
 
-def restore(cfg, snapshot_id=None, what=None, where=None, mount_manager, **kwargs):
+def restore(cfg, snapshot_id, what, where, mount_manager, **kwargs):
     if what is None:
         what = input('File to restore: ')
 
@@ -32,7 +32,12 @@ def restore(cfg, snapshot_id=None, what=None, where=None, mount_manager, **kwarg
     if where:
         where = os.path.abspath(os.path.expanduser(where))
 
-    snapshotsList = snapshots.listSnapshots(cfg, mounted_path=mount_manager.path)
+    snapshotsList = snapshots.listSnapshots(
+        cfg=cfg,
+        includeNewSnapshot=False,
+        reverse=True,
+        mounted_path=mount_manager.path
+    )
 
     sid = selectSnapshot(
         snapshotsList, cfg, snapshot_id, 'SnapshotID to restore')
@@ -41,9 +46,12 @@ def restore(cfg, snapshot_id=None, what=None, where=None, mount_manager, **kwarg
     RestoreDialog(cfg, sid, what, where, **kwargs).run()
 
 
-def remove(cfg, snapshot_ids=None, force=None, mount_manager):
+def remove(cfg, snapshot_ids, force, mount_manager):
     snapshotsList = snapshots.listSnapshots(
-        cfg, mounted_path=mount_manager.path
+        cfg=cfg,
+        includeNewSnapshot=False,
+        reverse=True,
+        mounted_path=mount_manager.path
     )
 
     if not snapshot_ids:

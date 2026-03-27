@@ -1459,7 +1459,12 @@ class Snapshots:
             return [False, True]
 
         prev_sid = None
-        snapshots = listSnapshots(self.config, mounted_path=self.mount_manager.path)
+        snapshots = listSnapshots(
+            cfg=self.config,
+            includeNewSnapshot=False,
+            reverse=True,
+            mounted_path=self.mount_manager.path
+        )
 
         if snapshots:
             prev_sid = snapshots[0]
@@ -1799,7 +1804,11 @@ class Snapshots:
         """
         # Latest/younges backup first, the oldest is last
         snapshots = listSnapshots(
-            self.config, reverse=True, mounted_path=self.mount_manager.path)
+            cfg=self.config,
+            includeNewSnapshot=False,
+            reverse=True,
+            mounted_path=self.mount_manager.path
+        )
         logger.debug(f'Considered: {snapshots}', self)
 
         if len(snapshots) <= 1:
@@ -2022,7 +2031,12 @@ class Snapshots:
 
         # All existing snapshots, ordered from old to new.
         # e.g. 2025-01-11 to 2025-01-19
-        snapshots = listSnapshots(self.config, reverse=False, mounted_path=self.mount_manager.path)
+        snapshots = listSnapshots(
+            cfg=self.config,
+            includeNewSnapshot=False,
+            reverse=False,
+            mounted_path=self.mount_manager.path
+        )
 
         if not snapshots:
             return
@@ -2085,7 +2099,12 @@ class Snapshots:
                 f'Keep min free disk space: {minFreeSpace}',
                 self)
 
-            snapshots = listSnapshots(self.config, reverse=False, mounted_path=self.mount_manager.path)
+            snapshots = listSnapshots(
+                cfg=self.config,
+                includeNewSnapshot=False,
+                reverse=False,
+                mounted_path=self.mount_manager.path
+            )
 
             while True:
                 if len(snapshots) <= 1:
@@ -2123,7 +2142,12 @@ class Snapshots:
                 "Keep min {perc}% free inodes".format(perc=minFreeInodes),
                 self)
 
-            snapshots = listSnapshots(self.config, reverse = False, mounted_path=self.mounted_manager.path)
+            snapshots = listSnapshots(
+                cfg=self.config,
+                includeNewSnapshot=False,
+                reverse = False,
+                mounted_path=self.mounted_manager.path
+            )
 
             while True:
                 if len(snapshots) <= 1:
@@ -3317,7 +3341,7 @@ class RootSnapshot(GenericNonSnapshot):
 
 
 def iterSnapshots(cfg: config.Config,
-                  includeNewSnapshot: bool = False,
+                  includeNewSnapshot: bool,
                   mounted_path: Path
                   ) -> Generator[SID, None, None]:
     """A generator to iterate over snapshots in current snapshot path.
@@ -3364,8 +3388,8 @@ def iterSnapshots(cfg: config.Config,
 
 
 def listSnapshots(cfg,
-                  includeNewSnapshot=False,
-                  reverse=True,
+                  includeNewSnapshot,  # =False,
+                  reverse,  # =True,
                   mounted_path: Path):
     """
     List of snapshots in current snapshot path.
@@ -3386,7 +3410,7 @@ def listSnapshots(cfg,
     return ret
 
 
-def lastSnapshot(cfg, mounted_path=mount_manager.path):
+def lastSnapshot(cfg, mounted_path):
     """
     Most recent snapshot.
 
@@ -3396,14 +3420,21 @@ def lastSnapshot(cfg, mounted_path=mount_manager.path):
     Returns:
         SID:                    most recent snapshot ID
     """
-    sids = listSnapshots(cfg, mounted_path=mounted_path)
+    sids = listSnapshots(
+        cfg=cfg,
+        includeNewSnapshot=False,
+        reverse=True,
+        mounted_path=mounted_path
+    )
+
     if sids:
         return sids[0]
 
 
 def get_backup_ids_and_paths(cfg: config.Config,
-                             descending: bool = True,
-                             include_new: bool = False
+                             descending: bool,
+                             include_new: bool,
+                             mounted_path: Path
                              ) -> list[tuple[str, Path]]:
     """
     Args:
@@ -3422,6 +3453,7 @@ def get_backup_ids_and_paths(cfg: config.Config,
         iterSnapshots(
             cfg=cfg,
             includeNewSnapshot=include_new,
+            mounted_paths=mounted_paths
         ),
         reverse=not descending)
 

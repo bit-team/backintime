@@ -369,7 +369,9 @@ def remove(args: argparse.Namespace):
         cli.remove(
             cfg=cfg,
             snapshot_ids=args.BACKUP_ID,
-            force=args.skip_confirmation)
+            force=args.skip_confirmation,
+            mount_manager=mount_manager
+        )
 
     sys.exit(bitbase.RETURN_OK)
 
@@ -408,14 +410,15 @@ def restore(args: argparse.Namespace):
 
     mount_manager = MountFactory.create(cfg)
     with mount_manager.mounted():
-        cli.restore(cfg,
-                    args.BACKUP_ID,
-                    args.WHAT,
-                    args.WHERE,
-                    mount_manager=mount_manager,
-                    delete=args.delete,
-                    backup=isbackup,
-                    only_new=args.only_new)
+        cli.restore(
+            cfg=cfg,
+            snapshot_id=args.BACKUP_ID,
+            what=args.WHAT,
+            where=args.WHERE,
+            mount_manager=mount_manager,
+            delete=args.delete,
+            backup=isbackup,
+            only_new=args.only_new)
 
     sys.exit(bitbase.RETURN_OK)
 
@@ -516,12 +519,18 @@ def _snapshots_list_base(args: argparse.Namespace, path_info: bool):
             data = [
                 sid.path() for sid
                 in snapshots.listSnapshots(
-                    cfg, reverse=False, mounted_path=mount_manager.path
+                    cfg=cfg,
+                    includeNewSnapshot=False,
+                    reverse=False,
+                    mounted_path=mount_manager.path
                 )
             ]
         else:
             data = list(snapshots.listSnapshots(
-                cfg, reverse=False, mounted_path=mount_manager.path
+                cfg=cfg,
+                includeNewSnapshot=False,
+                reverse=False,
+                mounted_path=mount_manager.path
             ))
 
     for sid_info in data:
@@ -576,7 +585,11 @@ def show_backups(args: argparse.Namespace):
     with mount_manager.mounted() as mnt:
         # raw data
         backups = snapshots.get_backup_ids_and_paths(
-            cfg=cfg, descending=True, include_new=False)
+            cfg=cfg,
+            descending=True,
+            include_new=False,
+            mounted_path=mount_manager.path
+        )
 
     if args.last:
         backups = backups[-1:]

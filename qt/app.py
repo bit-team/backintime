@@ -1189,7 +1189,13 @@ class MainWindow(QMainWindow):
             # TODO: check if there is a more elegant way than always get a
             # new snapshot list which is very expensive (time)
             # See issue #2260 about redesign the IPC aspect of BIT
-            snapshotsList = snapshots.listSnapshots(self.config)
+            mount_manager = self._profile_operations.get_mount_manager()
+            snapshotsList = snapshots.listSnapshots(
+                cfg=self.config,
+                includeNewSnapshot=False,
+                reverse=True,
+                mounted_path=mount_mangager.path
+            )
 
             if snapshotsList != self.snapshotsList:
                 self.snapshotsList = snapshotsList
@@ -1388,7 +1394,11 @@ class MainWindow(QMainWindow):
             into a thread-safe queue."""
 
             mount_manager = self._profile_operations.get_mount_manager()
-            for sid in snapshots.iterSnapshots(self.config, mounted_path=mount_manager.path):
+            for sid in snapshots.iterSnapshots(
+                    cfg=self.config,
+                    includeNewSnapshot=False,
+                    mounted_path=mount_manager.path
+            ):
                 self.snapshotsList.append(sid)
                 backup_queue.put(
                     (
