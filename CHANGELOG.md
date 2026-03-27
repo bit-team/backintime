@@ -24,6 +24,8 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - **Rewritten from scratch**: Mount subsystem (backend and encryption).
   Behavior is intended to remain unchanged; regressions cannot be fully ruled
   out.
+- Default mountpoint permissions changed from 700 to 711 (**TODO local-gocrypt PR**)
+  to avoid FUSE mount failures when accessing via different user contexts.
 - **Breaking**: Minimal Python version 3.13 increased
 - Changelog migrated to Common Changelog standard
 - Build: Changelog shipped as HTML

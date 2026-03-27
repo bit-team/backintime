@@ -119,9 +119,12 @@ class MountManager:
 
     def _mountpoint_locks_active(self) -> bool:
         """Check for active mountpoint locks but excluding own lock"""
+        if not self._lock_mountpoint:
+            return False
+
         active = False
 
-        for fp in self.mount_root.glob(f'*.{self.LOCK_SUFFIX}'):
+        for fp in self._lock_mountpoint.glob(f'*.{self.LOCK_SUFFIX}'):
 
             pid = int(fp.stem)
             if pid == os.getpid():
@@ -175,9 +178,32 @@ class MountManager:
         self._lock_mountpoint = self.mount_root / self.fingerprint \
             / 'locks' / f'{pid}.{self.LOCK_SUFFIX}'
 
-        # owner only 0o700 -rwx------
+        # full acces for owner (rwx), traversal (x) for others - 0o711
+        # Reason: Fusemount needs other processes to traverse the mountpoint
+        # directory to check or acquire locks, without granting them write
+        # access. Using 700 would block these operations.
         self._lock_mountpoint.parent.mkdir(
-            mode=0o700, parents=True, exist_ok=True)
+            mode=0o711, parents=True, exist_ok=True)
+
+        # # Ensure all parent directories up to `mount_root` have execute (x)
+        # # permission for group and others, allowing other processes
+        # # (e.g., fusemount workers) to traverse the hierarchy without
+        # # modifying existing owner permissions.
+        # for fp_dir in self._lock_mountpoint.parents:
+        #     st = fp_dir.stat()
+        #     current_mode = st.st_mode & 0o777
+        #     desired_mode = current_mode | 0o011  # x for group and others
+
+        #     if current_mode != desired_mode:
+        #         logger.debug(
+        #             'Correcting mount lock dir permissions: '
+        #             f'{oct(current_mode)} -> {oct(desired_mode)} "{fp_dir}"',
+        #             self
+        #         )
+        #         fp_dir.chmod(desired_mode)
+
+        #     if fp_dir == self.mount_root:
+        #         break
 
         logger.debug(
             'Mount point lock - Acquire '

@@ -602,17 +602,17 @@ def is_mounted(path: pathlib.Path) -> bool:
 
 def in_proc_self_mountinfo(path: pathlib.Path) -> bool:
     """Test if the path is in /proc/self/mountinfo"""
-    mountinfo = patlib.Path('/proc') / 'self' / 'mountinfo'
+    mountinfo = pathlib.Path('/proc') / 'self' / 'mountinfo'
 
     try:
-        rows = mountinfo.read_text('utf-8').split('\n')
+        all_rows = mountinfo.read_text('utf-8').split('\n')
     except OSError as exc:
         logger.critical(f'Unable to read from file "{mountinfo}". {exc}', self)
         return False
 
     return any(
         (lambda parts=row.split(): len(parts) > 4 and parts[4] == path)()
-        for row in c
+        for row in all_rows
     )
 
 

@@ -390,7 +390,7 @@ class Config(configfile.ConfigFileWithProfiles):
         # # DEBUG
         # import traceback
         # traceback.print_stack(limit=12)
-        logger.debug(f'{profile_id=} {mode=} {tmp_mount=}', self)
+        # logger.debug(f'{profile_id=} {mode=} {tmp_mount=}', self)
 
         if profile_id is None:
             profile_id = self.currentProfile()

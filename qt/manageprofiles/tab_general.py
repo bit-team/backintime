@@ -398,8 +398,8 @@ class GeneralTab(QDialog):
             )
             return False
 
-        if self._is_gocryptfs_path_empty(Path(path)):
-            return False
+        # if not self._is_gocryptfs_path_empty(Path(path)):
+        #     return False
 
         self.config.setLocalGocryptfsPath(path, self.config.currentProfile())
 
@@ -482,14 +482,16 @@ class GeneralTab(QDialog):
         self.config.setPassword(password_1, mode=mode)
         self.config.setPassword(password_2, mode=mode, pw_id=2)
 
-
         if mode != 'local':
             # mnt = mount.Mount(cfg=self.config, tmp_mount=True, parent=self)
             mnt = self._profile_operations.get_mount_manager()
 
+            print('A'*50)
             if not self._do_alot_pre_mount_checking(mnt, mount_kwargs):
+                print('B'*50)
                 return False
 
+        print('C'*50)
         # snaphots_path
         if mode == 'local':
             self.config.set_snapshots_path(self._edit_backup_path.text())

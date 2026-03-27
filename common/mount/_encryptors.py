@@ -117,10 +117,12 @@ class GoCryptFS(Encryptor):
         # mount_root + hash_id/fingerpint + 'mountpoint'
         # e.g. `~/.local/share/backintime/mnt/<hash_id>/mountpoint`
         self.path = self.mount_root / self.fingerprint / 'mountpoint'
+        self.path.mkdir(parents=True, exist_ok=True)
 
         logger.debug(f'{self.path=} {self.cipher_path=}', self)
 
         self.password = None
+
 
     @property
     def cipher_path(self) -> Path:
@@ -140,7 +142,7 @@ class GoCryptFS(Encryptor):
             return False
 
         try:
-            content = cfg_fp.read_text('r', encoding='utf-8')
+            content = cfg_fp.read_text('utf-8')
             json.loads(content)
 
         except Exception as exc:
@@ -207,11 +209,25 @@ class GoCryptFS(Encryptor):
                 path=self.cipher_path
             )
 
+        if not self.path.exists():
+            raise MountError(
+                'Mointpoint as decrypted view is missing.',
+                path=self.path
+            )
+
     def mount(self):
         """Mount
 
         Raises: MountError
         """
+        if tools.is_mounted(self.path):
+            logger.debug(
+                f'Mountpoint {self.path.relative_to(self.mount_root)} is '
+                'already mounted',
+                self
+            )
+            return
+
         if self.password is None:
             self.password = self.cfg.password()
 
@@ -244,7 +260,7 @@ class GoCryptFS(Encryptor):
 
             if proc.returncode:
                 msg = _('Unable to mount via "{command}"').format(
-                    command=' '.join(cmd)
+                    command=cmd
                 )
                 raise MountError(
                     f'{msg}:\n\n{output}\n\nReturn code: {proc.returncode}',
