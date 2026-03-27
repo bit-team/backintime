@@ -16,6 +16,7 @@ import bcolors
 import config
 import logger
 import bitbase
+from mount import MountFactory, MountError
 from typing import Optional
 from version import __version__
 
@@ -97,18 +98,23 @@ def checkConfig(cfg, crontab=True):
     cfg.setErrorHandler(errorHandler)
     mode = cfg.snapshotsMode()
 
+    mount_manager = MountFactory.create(cfg)
+
     if cfg.SNAPSHOT_MODES[mode][0] is not None:
         # preMountCheck
         test = 'Run mount tests'
         announceTest()
-        mnt = mount.Mount(cfg = cfg, tmp_mount = True)
 
+        # preMountCheck:
+        # - checkFuse(): checking for mount binary (gocrytpfs, encfs, ...)
+        # - etc pp
         try:
-            mnt.preMountCheck(mode = mode, first_run = True)
+            mount_manager.validate()
+            # mnt.preMountCheck(mode = mode, first_run = True)
 
-        except MountException as ex:
+        except MountError as exc:
             failed()
-            print(str(ex))
+            print(str(exc))
             return False
 
         okay()
@@ -118,21 +124,21 @@ def checkConfig(cfg, crontab=True):
         announceTest()
 
         try:
-            hash_id = mnt.mount(mode=mode, check=False)
+            mount_manager.mount()
 
-        except MountException as ex:
+        except MountError as exc:
             failed()
-            print(str(ex))
+            print(str(exc))
             return False
 
         okay()
 
     test = 'Check/prepare backup path'
     announceTest()
-    snapshots_mountpoint = cfg.get_snapshots_mountpoint(tmp_mount=True)
+    # snapshots_mountpoint = cfg.get_snapshots_mountpoint(tmp_mount=True)
 
     ret = tools.validate_and_prepare_snapshots_path(
-        path=snapshots_mountpoint,
+        path=mount_manager.path,
         host_user_profile=cfg.hostUserProfile(),
         mode=mode,
         copy_links=cfg.copyLinks(),
@@ -150,11 +156,11 @@ def checkConfig(cfg, crontab=True):
         announceTest()
 
         try:
-            mnt.umount(hash_id=hash_id)
+            mount_manager.umount()
 
-        except MountException as ex:
+        except MountError as exc:
             failed()
-            print(str(ex))
+            print(str(exc))
             return False
 
         okay()

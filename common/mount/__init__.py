@@ -63,6 +63,7 @@ class MountManager:
     def validate(self):
         """Check if backend and encryptor are ready.
 
+        TODO: Check for availability of binaries
         Raises: MountError
         """
         self.backend.validate()
