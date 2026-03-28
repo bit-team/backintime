@@ -1458,8 +1458,13 @@ class Snapshots:
 
                 return [False, True]
 
-        if not new_snapshot.saveToContinue and not new_snapshot.makeDirs():
-            return [False, True]
+        if not new_snapshot.saveToContinue:
+            try:
+                Path(new_snapshot.path()).mkdir(parents=True)
+            except OSError as exc:
+                logger.error(
+                    f'Cannot create {new_snapshot.path()=}. {exc=}', self)
+                return [False, True]
 
         prev_sid = None
         snapshots = listSnapshots(
@@ -2814,7 +2819,7 @@ class SID:  # -> "BackupID" will be its new name
         """
         return self.sid[0:15]
 
-    def path(self, *path, use_mode = []) -> str:
+    def path(self, *path, use_mode=[]) -> str:
         """
         Current path of this snapshot automatically altered for
         remote/encrypted version of this path
@@ -2875,20 +2880,22 @@ class SID:  # -> "BackupID" will be its new name
         Returns:
             bool:           ``True`` if successful
         """
-        import traceback
-        traceback.print_stack(limit=4)
-        print('X'*60)
-        print(f'makeDirs() :: {path=} {self=}')
+        logger.debug('DEPRECATED', self)
+
         if not os.path.isdir(self.config.snapshotsFullPath(self.profileID)):
             logger.error(
-                'Backup destination "{} doesn\'t exist. Unable to make dirs for snapshot ID {}'.format(
-                         self.config.snapshotsFullPath(self.profileID), self.sid),
-                         self)
+                'Backup destination "{}" doesn\'t exist. '
+                'Unable to make dirs for snapshot ID {}'.format(
+                    self.config.snapshotsFullPath(self.profileID),
+                    self.sid
+                ),
+                self
+            )
             return False
 
         path_backup = self.pathBackup(*path)
         result = tools.makeDirs(path_backup)
-        print(f'{path_backup=} {result=}')
+
         return result
 
     def exists(self):
