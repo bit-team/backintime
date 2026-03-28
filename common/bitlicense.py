@@ -58,7 +58,7 @@ def _determine_licenses_dir() -> str | None:
                 return fp
 
     # it might be a source repo
-    fp = Path.cwd().parent / 'LICENSES'
+    fp = Path(__file__).parent.parent / 'LICENSES'
     if fp.is_dir():
         return fp
 

@@ -91,14 +91,14 @@ def _license_info() -> tuple[str, str]:
         result = (
             f'Unable to extract license info from {__file__}',
             result[1])
-        logger.error(result[0])
+        logger.warning(result[0])
 
     if not result[1]:
         result = (
             result[0],
             'Unable to extract licenses from LICENSES '
             f'directory "{bitlicense.DIR_LICENSES}".')
-        logger.error(result[1])
+        logger.warning(result[1])
 
     return result
 
@@ -205,7 +205,11 @@ class ParserAgent:
             ],
             description=f'command-line interface (CLI) for {self.app_name}, '
                         'to create and manage incremental backups',
-            epilog=self._build_epilog(),
+            epilog=(
+                self._build_epilog()
+                if any(a in ('-h', '--help') for a in sys.argv[1:])
+                else None
+            ),
             # because of ASCII art in epilog
             formatter_class=argparse.RawTextHelpFormatter,
             allow_abbrev=False
