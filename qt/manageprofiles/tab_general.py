@@ -496,8 +496,9 @@ class GeneralTab(QDialog):
         snapshots_mountpoint = self.config.get_snapshots_mountpoint(
             tmp_mount=True)
 
+        mnt = self._profile_operations.get_mount_manager()
         success = tools.validate_and_prepare_snapshots_path(
-            path=snapshots_mountpoint,
+            path=mnt.path,
             host_user_profile=self.config.hostUserProfile(),
             mode=mode,
             copy_links=self.config.copyLinks(),
@@ -699,8 +700,15 @@ class GeneralTab(QDialog):
         self._edit_backup_path.setText(str(path))
 
     def _is_gocryptfs_path_empty(self, path: Path) -> bool:
-        # is not empty
-        if not any(path.iterdir()):
+
+        # items in 'path'
+        real = set(entry.relative_to(path) for entry in path.iterdir())
+
+        # gocryptfs config files
+        allow = {Path('gocryptfs.conf'), Path('gocryptfs.diriv')}
+
+        any_left = real - allow
+        if not any_left:
             return True
 
         messagebox.warning(
