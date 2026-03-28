@@ -234,8 +234,8 @@ class MountManager:
 
         if not self._lock_mountpoint.exists():
             import traceback
-            traceback.print_stack(limit=4)
-            logger.error(
+            traceback.print_stack(limit=5)
+            logger.warning(
                 f'Mount point lock - Unexpected state. {self._lock_mountpoint} '
                 'does not exist.', self
             )

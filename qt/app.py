@@ -265,7 +265,11 @@ class MainWindow(QMainWindow):
         if not backup_descriptor:
             return None
 
-        return snapshots.SID(date=backup_descriptor, cfg=self.config)
+        return snapshots.SID(
+            date=backup_descriptor,
+            cfg=self.config,
+            mounted_path=self._profile_operations.get_mount_manager().path
+        )
 
     def _setup_timers(self):
         raise_application = QTimer(self)
@@ -1185,6 +1189,8 @@ class MainWindow(QMainWindow):
 
         self._handle_fake_busy(fake_busy, paused)
 
+        mount_manager = self._profile_operations.get_mount_manager()
+
         if not self.act_take_snapshot.isEnabled():
             # TODO: check if there is a more elegant way than always get a
             # new snapshot list which is very expensive (time)
@@ -1194,7 +1200,7 @@ class MainWindow(QMainWindow):
                 cfg=self.config,
                 includeNewSnapshot=False,
                 reverse=True,
-                mounted_path=mount_mangager.path
+                mounted_path=mount_manager.path
             )
 
             if snapshotsList != self.snapshotsList:
@@ -2320,7 +2326,7 @@ class RemoveSnapshotThread(QThread):
         super().__init__(parent)
 
     def run(self):
-        with self.mount_manager.mounted():
+        with self.mount_manager.mounted() as mnt:
             last_snapshot = snapshots.lastSnapshot(
                 self.config, mounted_path=self.mount_manager.path
             )
@@ -2330,7 +2336,14 @@ class RemoveSnapshotThread(QThread):
             with InhibitSuspend(reason='deleting snapshots'):
 
                 for item, sid in [
-                        (x, snapshots.SID(x.descriptor, self.config))
+                        (
+                            x,
+                            snapshots.SID(
+                                date=x.descriptor,
+                                cfg=self.config,
+                                mounted_path=mnt.path
+                            )
+                        )
                         for x in self.items
                 ]:
                     self.snapshots.remove(sid)

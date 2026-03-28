@@ -2059,7 +2059,11 @@ class Snapshots:
                 0, _('Applying rules to remove old backups'))
 
             # The oldest backup to keep. Others older than this are removed.
-            oldSID = SID(self.config.removeOldSnapshotsDate(), self.config)
+            oldSID = SID(
+                date=self.config.removeOldSnapshotsDate(),
+                cfg=self.config,
+                mounted_path=self.mount_manager.path
+            )
             oldBackupId = oldSID.withoutTag
 
             logger.debug(f'Removing backups older than: {oldBackupId}', self)
