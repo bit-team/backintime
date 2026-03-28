@@ -611,7 +611,7 @@ def show_backups(args: argparse.Namespace):
     print(result)
 
     if not backups:
-        logger.error(f'No backups in profile "{cfg.profileName()}"')
+        logger.info(f'No backups in profile "{cfg.profileName()}"')
         sys.exit(bitbase.RETURN_ERR)
 
     sys.exit(bitbase.RETURN_OK)

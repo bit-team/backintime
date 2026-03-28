@@ -62,7 +62,7 @@ class Snapshots:
     """
     SNAPSHOT_VERSION = 3
 
-    def __init__(self, cfg = None):
+    def __init__(self, cfg=None):
         self.config = cfg
         if self.config is None:
             self.config = config.Config()
@@ -945,7 +945,7 @@ class Snapshots:
                 else:
                     # take snapshot process begin
                     self.setTakeSnapshotMessage(0, '…')
-                    self.snapshotLog.new(now)
+                    self.snapshotLog.new(now, self.mount_manager.path)
 
                     profile_id = self.config.currentProfile()
                     profile_name = self.config.profileName()
@@ -1026,7 +1026,10 @@ class Snapshots:
                                 )
 
                             except:  # TODO too broad exception
-                                new = NewSnapshot(cfg=self.config)
+                                new = NewSnapshot(
+                                    cfg=self.config,
+                                    mounted_path=self.mount_manager.path
+                                )
 
                                 if new.exists():
                                     new.saveToContinue = False
@@ -1391,7 +1394,7 @@ class Snapshots:
         """
         self.setTakeSnapshotMessage(0, '...')
 
-        new_snapshot = NewSnapshot(self.config)
+        new_snapshot = NewSnapshot(self.config, sid._mounted_path)
         encode = self.config.ENCODE
 
         # "return" values set during async rsync execution (as user data "by ref")
@@ -2613,15 +2616,24 @@ class SID:  # -> "BackupID" will be its new name
     FILEINFO = 'fileinfo.bz2'
     LOG = 'takesnapshot.log.bz2'
 
+    @staticmethod
+    def _construct_path_workaround(mounted, cfg) -> str:
+        """A dirty workaround. Will get back to it later.
+
+        buhtz, 2026-03
+        """
+        host, user, profile = cfg.hostUserProfile(cfg.currentProfile())
+        path = mounted / 'backintime' / host / user / profile
+        return str(path)
+
     def __init__(self, date, cfg, mounted_path):
         self.config = cfg
         self.profileID = cfg.currentProfile()
         self.isRoot = False
         self._mounted_path = mounted_path
 
-        host, user, profile = self.config.hostUserProfile(self.profileID)
-        self._path = self._mounted_path / 'backintime' / host / user / profile
-        self._path = str(self._path)
+        self._path = SID._construct_path_workaround(
+            self._mounted_path, self.config)
 
         if isinstance(date, datetime.datetime):
             self.sid = '-'.join((date.strftime('%Y%m%d-%H%M%S'),
@@ -2863,10 +2875,13 @@ class SID:  # -> "BackupID" will be its new name
         Returns:
             bool:           ``True`` if successful
         """
+        import traceback
+        traceback.print_stack(limit=4)
         print('X'*60)
-        print(f'{path=} {self=}')
+        print(f'makeDirs() :: {path=} {self=}')
         if not os.path.isdir(self.config.snapshotsFullPath(self.profileID)):
-            logger.error('Snapshots path {} doesn\'t exist. Unable to make dirs for snapshot ID {}'.format(
+            logger.error(
+                'Backup destination "{} doesn\'t exist. Unable to make dirs for snapshot ID {}'.format(
                          self.config.snapshotsFullPath(self.profileID), self.sid),
                          self)
             return False
@@ -3200,16 +3215,22 @@ class NewSnapshot(GenericNonSnapshot):
     NEWSNAPSHOT = bitbase.DIR_NAME_NEWSNAPSHOT
     SAVETOCONTINUE = bitbase.DIR_NAME_SAVETOCONTINUE
 
-    def __init__(self, cfg):
+    def __init__(self, cfg, mounted_path):
         self.config = cfg
         self.profileID = cfg.currentProfile()
         self.isRoot = False
+        self._mounted_path = mounted_path
 
         self.sid = self.NEWSNAPSHOT
         self.date = datetime.datetime(1, 1, 1)
 
         self.__le__ = self.__lt__
         self.__ge__ = self.__gt__
+
+        # WTF! super().__init__() not called.
+
+        self._path = SID._construct_path_workaround(
+            self._mounted_path, self.config)
 
     def __lt__(self, other):
         return False
@@ -3359,10 +3380,23 @@ def iterSnapshots(cfg: config.Config,
     # if not path.exists():
     #     return None
 
-    for item in mounted_path.iterdir():
+    # import traceback
+    # traceback.print_stack(limit=4)
+    # print(f'{mounted_path=}')
+
+    # Workaround
+    host, user, profile = cfg.hostUserProfile(cfg.currentProfile())
+    path = mounted_path / 'backintime' / host / user / profile
+
+    if not path.exists():
+        # Workaround. Usually this is not an error.
+        logger.critical(f'iterSnapshots() :: Path does not exist. {path=}')
+        return None
+
+    for item in path.iterdir():
 
         if item.name == bitbase.DIR_NAME_NEWSNAPSHOT:
-            sid = NewSnapshot(cfg)
+            sid = NewSnapshot(cfg, mounted_path)
 
             if includeNewSnapshot and sid.exists():
                 yield sid

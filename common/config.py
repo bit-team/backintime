@@ -424,7 +424,6 @@ class Config(configfile.ConfigFileWithProfiles):
 
         raise RuntimeError(f'Unknown mode "{mode}"')
 
-
     def snapshotsPath(self, profile_id=None, mode=None, tmp_mount=False):
         """Return the snapshot path (backup destination) as a mount point.
 
@@ -435,7 +434,7 @@ class Config(configfile.ConfigFileWithProfiles):
             mode=mode,
             tmp_mount=tmp_mount)
 
-    def snapshotsFullPath(self, profile_id = None):
+    def snapshotsFullPath(self, profile_id=None):
         """
         Returns the full path for the snapshots: .../backintime/machine/user/profile_id/
         """

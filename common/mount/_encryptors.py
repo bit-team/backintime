@@ -269,6 +269,10 @@ class GoCryptFS(Encryptor):
                     f'{msg}:\n\n{output}\n\nReturn code: {proc.returncode}',
                 )
 
+        logger.info(
+            'Mounted (and decrypted) encrypted directory '
+            f'"{self.cipher_path}" to "{self.path}"')
+
     def umount(self):
         """Release the mountpoint.
 
