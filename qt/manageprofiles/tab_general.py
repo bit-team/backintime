@@ -482,16 +482,13 @@ class GeneralTab(QDialog):
         self.config.setPassword(password_1, mode=mode)
         self.config.setPassword(password_2, mode=mode, pw_id=2)
 
+        mnt = self._profile_operations.get_mount_manager()
+
         if mode != 'local':
             # mnt = mount.Mount(cfg=self.config, tmp_mount=True, parent=self)
-            mnt = self._profile_operations.get_mount_manager()
-
-            print('A'*50)
             if not self._do_alot_pre_mount_checking(mnt, mount_kwargs):
-                print('B'*50)
                 return False
 
-        print('C'*50)
         # snaphots_path
         if mode == 'local':
             self.config.set_snapshots_path(self._edit_backup_path.text())
@@ -512,7 +509,7 @@ class GeneralTab(QDialog):
         # umount
         try:
             mnt.umount()
-        except mount.MountError as exc:
+        except MountError as exc:
             logger.errror(self, str(exc))
             messagebox.critical(self, exc.to_msgbox_string())
             return False
@@ -530,7 +527,6 @@ class GeneralTab(QDialog):
             bool: ``True`` if successful otherwise ``False``.
         """
         # pylint: disable=too-many-return-statements
-
 
         try:
             if not mnt.is_initialized():

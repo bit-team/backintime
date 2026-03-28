@@ -2622,13 +2622,13 @@ class SID:  # -> "BackupID" will be its new name
     LOG = 'takesnapshot.log.bz2'
 
     @staticmethod
-    def _construct_path_workaround(mounted, cfg) -> str:
+    def _construct_path_workaround(mounted, cfg, sid) -> str:
         """A dirty workaround. Will get back to it later.
 
         buhtz, 2026-03
         """
         host, user, profile = cfg.hostUserProfile(cfg.currentProfile())
-        path = mounted / 'backintime' / host / user / profile
+        path = mounted / 'backintime' / host / user / profile / sid
         return str(path)
 
     def __init__(self, date, cfg, mounted_path):
@@ -2636,9 +2636,6 @@ class SID:  # -> "BackupID" will be its new name
         self.profileID = cfg.currentProfile()
         self.isRoot = False
         self._mounted_path = mounted_path
-
-        self._path = SID._construct_path_workaround(
-            self._mounted_path, self.config)
 
         if isinstance(date, datetime.datetime):
             self.sid = '-'.join((date.strftime('%Y%m%d-%H%M%S'),
@@ -2670,6 +2667,9 @@ class SID:  # -> "BackupID" will be its new name
         else:
             raise TypeError("'date' must be an instance of str, datetime.date "
                             f"or datetime.datetime but is '{date}'")
+
+        self._path = SID._construct_path_workaround(
+            self._mounted_path, self.config, self.sid)
 
     def get_descriptor(self):
         return self.sid
@@ -2835,7 +2835,12 @@ class SID:  # -> "BackupID" will be its new name
         Returns:
             str:                full snapshot path
         """
-        return self._path
+        path_return = Path(self._path)
+
+        for p in path:
+            path_return = path_return / p
+
+        return str(path_return)
 
         path = [i.strip(os.sep) for i in path]
         current_mode = self.config.snapshotsMode(self.profileID)
@@ -3237,7 +3242,7 @@ class NewSnapshot(GenericNonSnapshot):
         # WTF! super().__init__() not called.
 
         self._path = SID._construct_path_workaround(
-            self._mounted_path, self.config)
+            self._mounted_path, self.config, self.sid)
 
     def __lt__(self, other):
         return False
