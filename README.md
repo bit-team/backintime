@@ -10,7 +10,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 [![Mailing list bit-dev@python.org](doc/maintain/_images/badge_bit-dev.svg)](https://mail.python.org/mailman3/lists/bit-dev.python.org/)
 [![Mastodon @backintime@fosstodon.org](doc/maintain/_images/badge_mastodon.svg)](https://fosstodon.org/@backintime)
 
-[![Build Status](https://app.travis-ci.com/bit-team/backintime.svg)](https://app.travis-ci.com/bit-team/backintime)
+[![Build Status](https://app.travis-ci.com/bit-team/backintime.svg?branch=dev)](https://app.travis-ci.com/bit-team/backintime)
 [![User manual Status](https://readthedocs.org/projects/backintime/badge/?version=latest)](https://backintime.readthedocs.io)
 [![Translation status](https://translate.codeberg.org/widget/backintime/common/svg-badge.svg)](https://translate.codeberg.org/engage/backintime)
 [![REUSE status](https://api.reuse.software/badge/github.com/bit-team/backintime)](https://api.reuse.software/info/github.com/bit-team/backintime)
