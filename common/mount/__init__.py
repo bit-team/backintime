@@ -168,7 +168,8 @@ class MountManager:
             sleep(1)
 
         logger.debug(
-            f'Process lock - Acquire {fp.relative_to(self.mount_root)}',
+            # f'Process lock - Acquire {fp.relative_to(self.mount_root)}',
+            f'Process lock - Acquire {fp}',
             self
         )
 
@@ -180,7 +181,8 @@ class MountManager:
 
         finally:
             logger.debug(
-                f'Process lock - Release {fp.relative_to(self.mount_root)}',
+                # f'Process lock - Release {fp.relative_to(self.mount_root)}',
+                f'Process lock - Release {fp}',
                 self
             )
             fp.unlink(missing_ok=True)
@@ -219,6 +221,7 @@ class MountManager:
         #     if fp_dir == self.mount_root:
         #         break
 
+        logger.debug(str(self._lock_mountpoint))
         logger.debug(
             'Mount point lock - Acquire '
             f'{self._lock_mountpoint.relative_to(self.mount_root)}',

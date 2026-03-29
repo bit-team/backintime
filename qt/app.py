@@ -1082,11 +1082,6 @@ class MainWindow(QMainWindow):
         )
 
     def updateProfile(self):
-        self.rebuild_timeline()
-        self.places.do_update()
-        self._update_files_widget()
-        self.updateFilesView(0)
-
         profile_id = self.config.currentProfile()
 
         self._reset_profile_operations()
@@ -1097,6 +1092,11 @@ class MainWindow(QMainWindow):
         except MountError as exc:
             logger.error(str(exc))
             messagebox.critical(self, exc.as_msgbox_string())
+
+        self.rebuild_timeline()
+        self.places.do_update()
+        self._update_files_widget()
+        self.updateFilesView(0)
 
         self.event_profile_changed.notify(self._profile_operations)
 
@@ -1400,20 +1400,21 @@ class MainWindow(QMainWindow):
             into a thread-safe queue."""
 
             mount_manager = self._profile_operations.get_mount_manager()
-            for sid in snapshots.iterSnapshots(
-                    cfg=self.config,
-                    includeNewSnapshot=False,
-                    mounted_path=mount_manager.path
-            ):
-                self.snapshotsList.append(sid)
-                backup_queue.put(
-                    (
-                        sid.get_descriptor(),
-                        sid.get_timestamp(),
-                        sid.lastChecked,
-                        sid.displayName
+            with mount_manager.mounted():
+                for sid in snapshots.iterSnapshots(
+                        cfg=self.config,
+                        includeNewSnapshot=False,
+                        mounted_path=mount_manager.path
+                ):
+                    self.snapshotsList.append(sid)
+                    backup_queue.put(
+                        (
+                            sid.get_descriptor(),
+                            sid.get_timestamp(),
+                            sid.lastChecked,
+                            sid.displayName
+                        )
                     )
-                )
             backup_queue.put(None)  # Finished signal
 
         def _process_queue():
