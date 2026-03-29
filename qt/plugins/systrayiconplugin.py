@@ -108,7 +108,7 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
             logger.critical(f'Undefined situation: {exc}', self)
 
         else:
-            logger.info('Systray icon sub process started.')
+            logger.info('Systray started')
 
     # def processEnd(self):
     #     """Dev note(2025-07, buhtz): Method makes no sense to me anymore.

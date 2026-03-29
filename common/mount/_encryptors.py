@@ -224,10 +224,9 @@ class GoCryptFS(Encryptor):
         Raises: MountError
         """
         if tools.is_mounted(self.path):
-            logger.debug(
-                f'Mountpoint {self.path.relative_to(self.mount_root)} is '
-                'already mounted',
-                self
+            logger.info(
+                'Encrypted directory already mounted '
+                f'(source: "{self.cipher_path}" -> target: "{self.path}")'
             )
             return
 
@@ -270,8 +269,8 @@ class GoCryptFS(Encryptor):
                 )
 
         logger.info(
-            'Mounted (and decrypted) encrypted directory '
-            f'"{self.cipher_path}" to "{self.path}"')
+            'Encrypted directory mounted '
+            f'(source: "{self.cipher_path}" -> target: "{self.path}")')
 
     def umount(self):
         """Release the mountpoint.
@@ -296,3 +295,8 @@ class GoCryptFS(Encryptor):
             logger.error(msg)
 
             raise MountError(msg)
+
+        logger.info(
+            'Encrypted directory unmounted '
+            f'(source: "{self.cipher_path}" -> target: "{self.path}")'
+        )

@@ -951,9 +951,9 @@ class Snapshots:
                     profile_name = self.config.profileName()
                     user_name = logger.USER
 
-                    logger.info(f'Creating backup. Profile: '
-                                f'{profile_name}({profile_id})'
-                                f' User: {user_name}',
+                    logger.info(f'Backup started (profile: '
+                                f'{profile_name}({profile_id}), '
+                                f'user: {user_name}',
                                 self)
 
                     if not self._can_backup(profile_id):
@@ -1218,7 +1218,6 @@ class Snapshots:
         Args:
             sid (SID):  snapshot in which the config should be stored
         """
-        logger.info('Saving config file', self)
         self.setTakeSnapshotMessage(0, _('Saving config file…'))
 
         with open(self.config._LOCAL_CONFIG_PATH, 'rb') as src:
@@ -1260,6 +1259,8 @@ class Snapshots:
                         f' command was {cmd}. Also see the previous '
                         'WARNING message for a more details.', parent=self)
 
+        logger.info('Configuration saved', self)
+
     def _backup_info_file(self, sid):
         """
         Save infos about the snapshot into the 'info' file. The result is
@@ -1299,7 +1300,6 @@ class Snapshots:
         Returns:
             int: Return code of rsync.
         """
-        logger.info('Saving permissions', self)
         self.setTakeSnapshotMessage(0, _('Saving permissions…'))
 
         fileInfoDict = FileInfoDict()
@@ -1337,6 +1337,8 @@ class Snapshots:
             rc = proc.run()
 
         sid.fileInfo = fileInfoDict
+
+        logger.info('Permissions saved', self)
 
         return rc
 
@@ -2399,6 +2401,9 @@ class Snapshots:
 
         symlink = self.config.lastSnapshotSymlink()
 
+        symlink = Path(sid.path()).parent / bitbase.DIR_NAME_LAST_SNAPSHOT
+        symlink = str(symlink)
+
         try:
             if os.path.islink(symlink):
                 if os.path.basename(os.path.realpath(symlink)) == sid.sid:
@@ -2415,8 +2420,9 @@ class Snapshots:
 
             return True
 
-        except Exception as exc:
-            logger.error(f'Failed to create symlink {symlink}: {exc}', self)
+        except OSError as exc:
+            logger.error(f'Failed to create symlink {symlink} for '
+                         f'{sid=} {sid.path()=}: {exc}', self)
 
             return False
 
