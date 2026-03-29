@@ -50,7 +50,7 @@ import password
 import pluginmanager
 import schedule
 from storagesize import StorageSize, SizeUnit
-from exceptions import PermissionDeniedByPolicy
+from exceptions import PermissionDeniedByPolicy, Timeout
 
 
 class Config(configfile.ConfigFileWithProfiles):
@@ -1532,6 +1532,15 @@ class Config(configfile.ConfigFileWithProfiles):
         except PermissionDeniedByPolicy as err:
             logger.error(str(err), self)
             self.notifyError(str(err))
+            return False
+
+        except Timeout:
+            msg = _(
+                'Timed out while waiting for the authentication dialog. '
+                'Please try again.'
+            )
+            logger.error(msg, self)
+            self.notifyError(msg)
             return False
 
     def _setup_schedule_based_automation(self):
