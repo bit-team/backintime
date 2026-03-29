@@ -490,11 +490,11 @@ class MainWindow(QMainWindow):
                 _('Use checksums for file change detection.')),
             'act_pause_take_snapshot': (
                 icon.PAUSE, _('Pause backup process'),
-                lambda: os.kill(self.snapshots.pid(), signal.SIGSTOP), None,
+                lambda: self._signal_snapshot_process(signal.SIGSTOP), None,
                 None),
             'act_resume_take_snapshot': (
                 icon.RESUME, _('Resume backup process'),
-                lambda: os.kill(self.snapshots.pid(), signal.SIGCONT), None,
+                lambda: self._signal_snapshot_process(signal.SIGCONT), None,
                 None),
             'act_stop_take_snapshot': (
                 icon.STOP, _('Stop backup process'),
@@ -1848,12 +1848,29 @@ class MainWindow(QMainWindow):
         backintime.takeSnapshotAsync(self.config, checksum=checksum)
         self._update_backup_status(True)
 
+    def _signal_snapshot_process(self, sig: signal.Signals) -> bool:
+        pid = self.snapshots.pid()
+
+        if not tools.processAlive(pid):
+            self._update_backup_status(True)
+            return False
+
+        try:
+            os.kill(pid, sig)
+        except ProcessLookupError:
+            logger.debug(f'Ignoring signal {sig} for vanished snapshot process {pid}.')
+            self._update_backup_status(True)
+            return False
+
+        return True
+
     def _slot_backup_stop(self):
-        os.kill(self.snapshots.pid(), signal.SIGKILL)
+        if self._signal_snapshot_process(signal.SIGKILL):
+            self.snapshots.setTakeSnapshotMessage(0, 'Backup terminated')
+
         self.act_stop_take_snapshot.setEnabled(False)
         self.act_pause_take_snapshot.setEnabled(False)
         self.act_resume_take_snapshot.setEnabled(False)
-        self.snapshots.setTakeSnapshotMessage(0, 'Backup terminated')
 
     # |---------|
     # | Restore |
