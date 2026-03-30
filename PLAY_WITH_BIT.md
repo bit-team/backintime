@@ -68,6 +68,7 @@ naturally explore relevant workflows without strict instructions.
   - **SSH** (test keys with and without passphrase, cached, in keyring)
   - With and without **encryption**
 - Consider testing _Back In Time_ in its **root-mode**, too.
+- It would help the situation if you are a regular user of _Back In Time_.
 
 ---
 
