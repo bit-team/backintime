@@ -1858,7 +1858,8 @@ class MainWindow(QMainWindow):
         try:
             os.kill(pid, sig)
         except ProcessLookupError:
-            logger.debug(f'Ignoring signal {sig} for vanished snapshot process {pid}.')
+            logger.debug(
+                f'Ignoring signal {sig} for vanished snapshot process {pid}.')
             self._update_backup_status(True)
             return False
 
