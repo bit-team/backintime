@@ -296,9 +296,9 @@ class GoCryptFS(Encryptor):
 
             raise MountError(msg)
 
-        # DEBUG
-        import traceback
-        traceback.print_stack(limit=6)
+        # # DEBUG
+        # import traceback
+        # traceback.print_stack(limit=6)
 
         logger.info(
             'Encrypted directory unmounted '

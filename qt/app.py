@@ -2349,7 +2349,7 @@ class RemoveSnapshotThread(QThread):
                         snapshots.SID(
                             date=x.descriptor,
                             cfg=self.config,
-                            mounted_path=mnt.path
+                            mounted_path=self.mount_manager.path
                         )
                     )
                     for x in self.items
