@@ -572,7 +572,7 @@ class ConfigFileWithProfiles(ConfigFile):
             profile_id = str(profile_id)
 
         if self.current_profile_id == profile_id:
-            return
+            return True
 
         profiles = self.profiles()
 

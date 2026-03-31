@@ -38,6 +38,7 @@ import snapshots
 import progress
 import logviewdialog
 import encfstools
+import config
 from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QProgressBar, QWidget
 from PyQt6.QtGui import QIcon, QRegion
@@ -64,18 +65,18 @@ class QtSysTrayIcon:
     ICON_PART_A = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"'
     ICON_PART_B = '>\n' + ICON_PATH_ONLY + '\n</svg>'
 
-    def __init__(self):
+    def __init__(self, config_path=None, profile_id=None):
 
-        self.snapshots = snapshots.Snapshots()
-        self.config = self.snapshots.config
+        self.config = config.Config(config_path)
+        self.snapshots = snapshots.Snapshots(cfg=self.config)
         self.decode = None
 
         self._current_user = pwd.getpwuid(os.getuid()).pw_name
 
-        if len(sys.argv) > 1:
-            if not self.config.setCurrentProfile(sys.argv[1]):
+        if profile_id:
+            if not self.config.setCurrentProfile(profile_id):
                 logger.warning(
-                    f'Failed to change Profile_ID {sys.argv[1]}', self)
+                    f'Failed to change Profile_ID {profile_id}', self)
 
         self.qapp = qttools.create_qapplication(self.config.APP_NAME)
         translator = qttools.initiate_translator(self.config.language())
@@ -521,8 +522,24 @@ if __name__ == '__main__':
     if '--debug' in sys.argv:
         logger.DEBUG = True
 
+    config_path = None
+    try:
+        for val in sys.argv[2:]:
+            if val.startswith('--config='):
+                config_path = val.replace('--config=', '')
+    except IndexError:
+        pass
+
+    profile_id = None
+    try:
+        if sys.argv[1].isdigit():
+            profile_id = sys.argv[1]
+    except IndexError:
+        pass
+
     logger.debug(
         f'Systray icon process (PID: {os.getpid()} User: {logger.USER}) '
-        f'called with {sys.argv}')
+        f'called with {sys.argv} using {config_path=} and {profile_id=}'
+    )
 
-    QtSysTrayIcon().run()
+    QtSysTrayIcon(config_path=config_path, profile_id=profile_id).run()

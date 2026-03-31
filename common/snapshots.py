@@ -42,7 +42,7 @@ from inhibitsuspend import InhibitSuspend
 from applicationinstance import ApplicationInstance
 from exceptions import MountException
 from uniquenessset import UniquenessSet
-from mount import MountFactory
+from mount import MountFactory, MountError
 
 
 class Snapshots:
@@ -2021,7 +2021,10 @@ class Snapshots:
             dest_path = self.config.snapshotsFullPath()
             ssh_cmd = None
 
-        return tools.free_space(dest_path, ssh_cmd)
+        return tools.free_space(
+            self.mount_manager.path,
+            ssh_cmd
+        )
 
     def freeSpace(self, now):
         """Remove old backups based on several rules (if enabled).

@@ -1190,7 +1190,7 @@ class MainWindow(QMainWindow):
         self._handle_fake_busy(fake_busy, paused)
 
         mount_manager = self._profile_operations.get_mount_manager()
-        mount_manager.mount()
+        # mount_manager.mount()
 
         if not self.act_take_snapshot.isEnabled():
             # TODO: check if there is a more elegant way than always get a
@@ -1398,6 +1398,10 @@ class MainWindow(QMainWindow):
 
         mount_manager = self._profile_operations.get_mount_manager()
 
+        if not tools.is_mounted(mount_manager.path):
+            import traceback
+            traceback.print_stack(limit=4)
+
         def _worker():
             """Proceed all backups and put their timline related information
             into a thread-safe queue."""
@@ -1438,7 +1442,7 @@ class MainWindow(QMainWindow):
                         self.timeline.select_by_descriptor(previous_selection)
                     else:
                         self.timeline.select_now()
-                    mount_manager.umount()
+                    # mount_manager.umount()
                     return
 
                 self.timeline.create_backup_entry(
@@ -1448,7 +1452,7 @@ class MainWindow(QMainWindow):
                     label=entry[3]
                 )
 
-        mount_manager.mount()
+        # mount_manager.mount()
 
         # Start getting backups
         threading.Thread(target=_worker, daemon=True).start()
@@ -2331,41 +2335,40 @@ class RemoveSnapshotThread(QThread):
         super().__init__(parent)
 
     def run(self):
-        with self.mount_manager.mounted() as mnt:
-            last_snapshot = snapshots.lastSnapshot(
-                self.config, mounted_path=self.mount_manager.path
-            )
-            renew_last_snapshot = False
+        last_snapshot = snapshots.lastSnapshot(
+            self.config, mounted_path=self.mount_manager.path
+        )
+        renew_last_snapshot = False
 
-            # inhibit suspend/hibernate during delete
-            with InhibitSuspend(reason='deleting snapshots'):
+        # inhibit suspend/hibernate during delete
+        with InhibitSuspend(reason='deleting snapshots'):
 
-                for item, sid in [
-                        (
-                            x,
-                            snapshots.SID(
-                                date=x.descriptor,
-                                cfg=self.config,
-                                mounted_path=mnt.path
-                            )
-                        )
-                        for x in self.items
-                ]:
-                    self.snapshots.remove(sid)
-                    self.hideTimelineItem.emit(item)
-                    if sid == last_snapshot:
-                        renew_last_snapshot = True
-
-                self.refreshSnapshotList.emit()
-
-                # set correct last snapshot again
-                if renew_last_snapshot:
-                    self.snapshots.createLastSnapshotSymlink(
-                        snapshots.lastSnapshot(
-                            self.config,
-                            self.mount_manager.path
+            for item, sid in [
+                    (
+                        x,
+                        snapshots.SID(
+                            date=x.descriptor,
+                            cfg=self.config,
+                            mounted_path=mnt.path
                         )
                     )
+                    for x in self.items
+            ]:
+                self.snapshots.remove(sid)
+                self.hideTimelineItem.emit(item)
+                if sid == last_snapshot:
+                    renew_last_snapshot = True
+
+            self.refreshSnapshotList.emit()
+
+            # set correct last snapshot again
+            if renew_last_snapshot:
+                self.snapshots.createLastSnapshotSymlink(
+                    snapshots.lastSnapshot(
+                        self.config,
+                        self.mount_manager.path
+                    )
+                )
 
 
 def _get_state_data_from_config(cfg: config.Config) -> StateData:

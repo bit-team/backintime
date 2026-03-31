@@ -93,9 +93,10 @@ class MountManager:
                 self.encryptor.umount()
                 self.backend.umount()
             else:
-                logger.debug(
-                    'Skipping unmount, because mountpoint in use by other '
-                    'processes.', self
+                logger.info(
+                    f'{os.getpid()=} Skipping unmount, because mountpoint "{self.path}" in '
+                    'use by other processes.',
+                    self
                 )
         finally:
             self._release_mountpoint_lock()
@@ -126,26 +127,40 @@ class MountManager:
                 active = True
                 continue
 
-            logger.debug(f'Remove stale lock {fp}', self)
+            logger.info(f'{os.getpid()=} Remove stale lock {fp}', self)
             fp.unlink()
 
         return active
 
     def _mountpoint_locks_active(self) -> bool:
-        """Check for active mountpoint locks but excluding own lock"""
+        """Check for active mountpoint locks but excluding own lock.
+
+        Also return `False` if no own lock exists.
+        """
         if not self._lock_mountpoint:
             return False
 
         active = False
 
-        for fp in self._lock_mountpoint.glob(f'*.{self.LOCK_SUFFIX}'):
+        for fp in self._lock_mountpoint.parent.glob(f'*.{self.LOCK_SUFFIX}'):
 
             pid = int(fp.stem)
+
+            # Ignore own lock
             if pid == os.getpid():
                 continue
 
             if tools.processAlive(pid):
+                # foreign lock is active
                 active = True
+                continue
+
+            # foreign lock is dead
+            logger.info(
+                f'{os.getpid()=} Remove stale mountpoint lock {fp}',
+                self
+            )
+            fp.unlink(missing_ok=True)
 
         return active
 
@@ -167,9 +182,9 @@ class MountManager:
 
             sleep(1)
 
-        logger.debug(
+        logger.info(
             # f'Process lock - Acquire {fp.relative_to(self.mount_root)}',
-            f'Process lock - Acquire {fp}',
+            f'{os.getpid()=} Process lock - Acquire {fp}',
             self
         )
 
@@ -180,9 +195,9 @@ class MountManager:
             yield
 
         finally:
-            logger.debug(
+            logger.info(
                 # f'Process lock - Release {fp.relative_to(self.mount_root)}',
-                f'Process lock - Release {fp}',
+                f'{os.getpid()=} Process lock - Release {fp}',
                 self
             )
             fp.unlink(missing_ok=True)
@@ -221,9 +236,8 @@ class MountManager:
         #     if fp_dir == self.mount_root:
         #         break
 
-        logger.debug(str(self._lock_mountpoint))
-        logger.debug(
-            'Mount point lock - Acquire '
+        logger.info(
+            f'{os.getpid()=} Mount point lock - Acquire '
             f'{self._lock_mountpoint.relative_to(self.mount_root)}',
             self
         )
@@ -244,8 +258,8 @@ class MountManager:
             )
             return
 
-        logger.debug(
-            'Mount point lock - Release '
+        logger.info(
+            f'{os.getpid()=} Mount point lock - Release '
             f'{self._lock_mountpoint.relative_to(self.mount_root)}',
             self
         )
@@ -277,7 +291,11 @@ class MountFactory:
         else:
             encryptor_type = Encryptor.Type.NONE
 
-        backend = cls.BACKENDS[backend_type](cfg)
-        encryptor = cls.ENCRYPT[encryptor_type](cfg, backend)
+        try:
+            backend = cls.BACKENDS[backend_type](cfg)
+            encryptor = cls.ENCRYPT[encryptor_type](cfg, backend)
+        except Exception as exc:
+            print(f'{mode=}')  # DEBUG
+            raise exc
 
         return MountManager(backend, encryptor, cfg)

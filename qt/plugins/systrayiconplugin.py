@@ -87,13 +87,13 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
     def processBegin(self):  # noqa: N802
         """Start the process."""
         try:
-            logger.debug('Trying to start systray icon sub process...')
             path = os.path.join(
                 tools.as_backintime_path('qt'), 'qtsystrayicon.py')
             cmd = [
                 sys.executable,
                 path,
-                self.snapshots.config.currentProfile()
+                self.snapshots.config.currentProfile(),
+                f'--config={self.snapshots.config._LOCAL_CONFIG_PATH}'
             ]
 
             if logger.DEBUG:
@@ -101,6 +101,7 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
                 cmd.append('--debug')
 
             # pylint: disable-next=consider-using-with
+            logger.debug(f'Start systray icon sub process via {cmd=}...')
             self.process = subprocess.Popen(cmd)
 
         # pylint: disable-next=broad-exception-caught
