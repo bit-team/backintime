@@ -123,7 +123,7 @@ class GoCryptFS(Encryptor):
         self.path = self.mount_root / self.fingerprint / 'mountpoint'
         self.path.mkdir(parents=True, exist_ok=True)
 
-        logger.debug(f'{self.path=} {self.cipher_path=}', self)
+        # logger.debug(f'{self.path=} {self.cipher_path=}', self)
 
         self.password = None
 
@@ -149,7 +149,7 @@ class GoCryptFS(Encryptor):
             json.loads(content)
 
         except Exception as exc:
-            logger.debug(
+            logger.warning(
                 'Unexpected problem while reading gocryptfs '
                 f'config file. {exc=}'
             )

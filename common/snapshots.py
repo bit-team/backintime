@@ -42,7 +42,7 @@ from inhibitsuspend import InhibitSuspend
 from applicationinstance import ApplicationInstance
 from exceptions import MountException
 from uniquenessset import UniquenessSet
-from mount import MountFactory, MountError
+from mount import MountManager, MountError
 
 
 class Snapshots:
@@ -94,7 +94,7 @@ class Snapshots:
         self.lastBusyCheck = datetime.datetime(1, 1, 1)
         self.restorePermissionFailed = False
 
-        self.mount_manager = MountFactory.create(self.config)
+        self.mount_manager = MountManager.create(self.config)
 
     # TODO: make own class for takeSnapshotMessage
     def clearTakeSnapshotMessage(self):

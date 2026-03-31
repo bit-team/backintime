@@ -38,7 +38,7 @@ import config
 import logger
 import snapshots
 import guiapplicationinstance
-from mount import MountFactory, MountError
+from mount import MountManager, MountError
 import progress
 import encfsmsgbox
 from inhibitsuspend import InhibitSuspend
@@ -2331,7 +2331,7 @@ class RemoveSnapshotThread(QThread):
         self.config = parent.config
         self.snapshots = parent.snapshots
         self.items = items
-        self.mount_manager = MountFactory.create(self.config)
+        self.mount_manager = MountManager.create(self.config)
         super().__init__(parent)
 
     def run(self):

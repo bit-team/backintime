@@ -12,14 +12,48 @@ import logger
 from contextlib import contextmanager
 from time import sleep
 from pathlib import Path
+from singleton import Singleton
 from ._backends import Backend, LocalBackend, SSHBackend
 from ._encryptors import Encryptor, NoEncryption, GoCryptFS
 from ._error import MountError
 
 
+LOCK_SUFFIX = 'lock'
+
+_BACKENDS = {
+    Backend.Type.LOCAL: LocalBackend,
+    Backend.Type.SSH: SSHBackend,
+}
+
+_ENCRYPT = {
+    Encryptor.Type.NONE: NoEncryption,
+    Encryptor.Type.GOCRYPTFS: GoCryptFS,
+}
+
+
 class MountManager:
 
-    LOCK_SUFFIX = 'lock'
+    @classmethod
+    def create(cls, cfg):
+        mode = cfg.snapshotsMode()
+
+        if 'local' in mode:
+            backend_type = Backend.Type.LOCAL
+
+        if 'gocryptfs' in mode:
+            encryptor_type = Encryptor.Type.GOCRYPTFS
+        else:
+            encryptor_type = Encryptor.Type.NONE
+
+        try:
+            backend = _BACKENDS[backend_type](cfg)
+            encryptor = _ENCRYPT[encryptor_type](cfg, backend)
+        except Exception as exc:
+            print(f'{mode=}')  # DEBUG
+            raise exc
+
+        return MountManager(backend, encryptor, cfg)
+
 
     def __init__(self, backend, encryptor, cfg):
         self.backend = backend
@@ -115,7 +149,7 @@ class MountManager:
         """
         active = False
 
-        for fp in path.glob(f'*.{self.LOCK_SUFFIX}'):
+        for fp in path.glob(f'*.{LOCK_SUFFIX}'):
 
             pid = int(fp.stem)
 
@@ -142,7 +176,7 @@ class MountManager:
 
         active = False
 
-        for fp in self._lock_mountpoint.parent.glob(f'*.{self.LOCK_SUFFIX}'):
+        for fp in self._lock_mountpoint.parent.glob(f'*.{LOCK_SUFFIX}'):
 
             pid = int(fp.stem)
 
@@ -151,6 +185,10 @@ class MountManager:
                 continue
 
             if tools.processAlive(pid):
+                logger.info(
+                    f'{os.getpid()=} Foreign mountpoint lock alive: {fp}',
+                    self
+                )
                 # foreign lock is active
                 active = True
                 continue
@@ -171,7 +209,7 @@ class MountManager:
         Dev note (buhtz, 2026-03): Refactoring and use of flock.py
         """
         pid = os.getpid()
-        fp = self.mount_root / f'{pid}.{self.LOCK_SUFFIX}'
+        fp = self.mount_root / f'{pid}.{LOCK_SUFFIX}'
         count = 0
 
         while self._process_locks_active(self.mount_root):
@@ -207,7 +245,7 @@ class MountManager:
         pid = os.getpid()
 
         self._lock_mountpoint = self.mount_root / self.fingerprint \
-            / 'locks' / f'{pid}.{self.LOCK_SUFFIX}'
+            / 'locks' / f'{pid}.{LOCK_SUFFIX}'
 
         # full acces for owner (rwx), traversal (x) for others - 0o711
         # Reason: Fusemount needs other processes to traverse the mountpoint
@@ -267,35 +305,35 @@ class MountManager:
         self._lock_mountpoint = None
 
 
-class MountFactory:
+# class MountFactory:
 
-    BACKENDS = {
-        Backend.Type.LOCAL: LocalBackend,
-        Backend.Type.SSH: SSHBackend,
-    }
+#     BACKENDS = {
+#         Backend.Type.LOCAL: LocalBackend,
+#         Backend.Type.SSH: SSHBackend,
+#     }
 
-    ENCRYPT = {
-        Encryptor.Type.NONE: NoEncryption,
-        Encryptor.Type.GOCRYPTFS: GoCryptFS,
-    }
+#     ENCRYPT = {
+#         Encryptor.Type.NONE: NoEncryption,
+#         Encryptor.Type.GOCRYPTFS: GoCryptFS,
+#     }
 
-    @classmethod
-    def create(cls, cfg):
-        mode = cfg.snapshotsMode()
+#     @classmethod
+#     def create(cls, cfg):
+#         mode = cfg.snapshotsMode()
 
-        if 'local' in mode:
-            backend_type = Backend.Type.LOCAL
+#         if 'local' in mode:
+#             backend_type = Backend.Type.LOCAL
 
-        if 'gocryptfs' in mode:
-            encryptor_type = Encryptor.Type.GOCRYPTFS
-        else:
-            encryptor_type = Encryptor.Type.NONE
+#         if 'gocryptfs' in mode:
+#             encryptor_type = Encryptor.Type.GOCRYPTFS
+#         else:
+#             encryptor_type = Encryptor.Type.NONE
 
-        try:
-            backend = cls.BACKENDS[backend_type](cfg)
-            encryptor = cls.ENCRYPT[encryptor_type](cfg, backend)
-        except Exception as exc:
-            print(f'{mode=}')  # DEBUG
-            raise exc
+#         try:
+#             backend = cls.BACKENDS[backend_type](cfg)
+#             encryptor = cls.ENCRYPT[encryptor_type](cfg, backend)
+#         except Exception as exc:
+#             print(f'{mode=}')  # DEBUG
+#             raise exc
 
-        return MountManager(backend, encryptor, cfg)
+#         return MountManager(backend, encryptor, cfg)

@@ -28,7 +28,7 @@ import encfstools
 import cli
 import config
 import bitbase
-from mount import MountFactory
+from mount import MountManager
 from exceptions import MountException
 from applicationinstance import ApplicationInstance
 from shutdownagent import ShutdownAgent
@@ -264,7 +264,7 @@ def _last_snapshot_base(args: argparse.Namespace, path_info: bool):
     force_stdout = cli.set_quiet(args)
     cfg = _get_config(args)
 
-    mount_manager = MountFactory.create(cfg)
+    mount_manager = MountManager.create(cfg)
     with mount_manager.mounted():
         sid = snapshots.lastSnapshot(cfg, mounted_path=mount_manager.path)
 
@@ -364,7 +364,7 @@ def remove(args: argparse.Namespace):
 
     cfg = _get_config(args)
 
-    mount_manager = MountFactory.create(cfg)
+    mount_manager = MountManager.create(cfg)
     with mount_manager.mounted():
         cli.remove(
             cfg=cfg,
@@ -408,7 +408,7 @@ def restore(args: argparse.Namespace):
     else:
         isbackup = args.local_backup
 
-    mount_manager = MountFactory.create(cfg)
+    mount_manager = MountManager.create(cfg)
     with mount_manager.mounted():
         cli.restore(
             cfg=cfg,
@@ -507,7 +507,7 @@ def _snapshots_list_base(args: argparse.Namespace, path_info: bool):
     force_stdout = cli.set_quiet(args)
     cfg = _get_config(args)
 
-    mount_manager = MountFactory.create(cfg)
+    mount_manager = MountManager.create(cfg)
     with mount_manager.mounted():
 
         if path_info:
@@ -580,7 +580,7 @@ def show_backups(args: argparse.Namespace):
     """
 
     cfg = _get_config(args)
-    mount_manager = MountFactory.create(cfg)
+    mount_manager = MountManager.create(cfg)
 
     with mount_manager.mounted() as mnt:
         # raw data
@@ -672,7 +672,7 @@ def unmount(args):
 
     cfg = _get_config(args)
 
-    mount_manager = MountFactory.create(cfg)
+    mount_manager = MountManager.create(cfg)
     with mount_manager.mounted():
         sys.exit(bitbase.RETURN_OK)
 

@@ -14,7 +14,7 @@ soon. See PR #1850
 """
 from pathlib import Path
 from event import Event
-from mount import MountFactory
+from mount import MountManager
 
 
 class ProfileOperations:
@@ -30,7 +30,7 @@ class ProfileOperations:
         if self._mount_manager:
             return self._mount_manager
 
-        self._mount_manager = MountFactory.create(self._config)
+        self._mount_manager = MountManager.create(self._config)
 
         return self.get_mount_manager()
 

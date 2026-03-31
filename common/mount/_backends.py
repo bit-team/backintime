@@ -27,7 +27,7 @@ class Backend:
         # Refactor: bitbase.XDG_DATA_DIR / 'backintime' / 'mnt'
         self.mount_root = Path(self.cfg._LOCAL_MOUNT_ROOT)
 
-        logger.debug(f'{self.mount_root=}', self)
+        # logger.debug(f'{self.mount_root=}', self)
 
     def get_fingerprint_base(self) -> str:
         """String represnation of the backend config for later use in a hash"""
@@ -53,7 +53,7 @@ class LocalBackend(Backend):
         super().__init__(cfg)
         self.path = cfg.get_backup_destination_path(cfg.currentProfile())
 
-        logger.debug(f'{self.path=}', self)
+        # logger.debug(f'{self.path=}', self)
 
     def get_fingerprint_base(self) -> str:
         return str(self.TYPE) + f': {self.path}'

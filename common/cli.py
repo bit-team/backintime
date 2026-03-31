@@ -16,7 +16,7 @@ import bcolors
 import config
 import logger
 import bitbase
-from mount import MountFactory, MountError
+from mount import MountManager, MountError
 from typing import Optional
 from version import __version__
 
@@ -98,7 +98,7 @@ def checkConfig(cfg, crontab=True):
     cfg.setErrorHandler(errorHandler)
     mode = cfg.snapshotsMode()
 
-    mount_manager = MountFactory.create(cfg)
+    mount_manager = MountManager.create(cfg)
 
     if cfg.SNAPSHOT_MODES[mode][0] is not None:
         # preMountCheck
