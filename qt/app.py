@@ -1190,6 +1190,7 @@ class MainWindow(QMainWindow):
         self._handle_fake_busy(fake_busy, paused)
 
         mount_manager = self._profile_operations.get_mount_manager()
+        mount_manager.mount()
 
         if not self.act_take_snapshot.isEnabled():
             # TODO: check if there is a more elegant way than always get a
@@ -1395,26 +1396,26 @@ class MainWindow(QMainWindow):
         self.snapshotsList = []  # TODO: -> backup_list ???
         backup_queue = queue.Queue()
 
+        mount_manager = self._profile_operations.get_mount_manager()
+
         def _worker():
             """Proceed all backups and put their timline related information
             into a thread-safe queue."""
 
-            mount_manager = self._profile_operations.get_mount_manager()
-            with mount_manager.mounted():
-                for sid in snapshots.iterSnapshots(
-                        cfg=self.config,
-                        includeNewSnapshot=False,
-                        mounted_path=mount_manager.path
-                ):
-                    self.snapshotsList.append(sid)
-                    backup_queue.put(
-                        (
-                            sid.get_descriptor(),
-                            sid.get_timestamp(),
-                            sid.lastChecked,
-                            sid.displayName
-                        )
+            for sid in snapshots.iterSnapshots(
+                    cfg=self.config,
+                    includeNewSnapshot=False,
+                    mounted_path=mount_manager.path
+            ):
+                self.snapshotsList.append(sid)
+                backup_queue.put(
+                    (
+                        sid.get_descriptor(),
+                        sid.get_timestamp(),
+                        sid.lastChecked,
+                        sid.displayName
                     )
+                )
             backup_queue.put(None)  # Finished signal
 
         def _process_queue():
@@ -1437,6 +1438,7 @@ class MainWindow(QMainWindow):
                         self.timeline.select_by_descriptor(previous_selection)
                     else:
                         self.timeline.select_now()
+                    mount_manager.umount()
                     return
 
                 self.timeline.create_backup_entry(
@@ -1445,6 +1447,8 @@ class MainWindow(QMainWindow):
                     last_checked=entry[2],
                     label=entry[3]
                 )
+
+        mount_manager.mount()
 
         # Start getting backups
         threading.Thread(target=_worker, daemon=True).start()
