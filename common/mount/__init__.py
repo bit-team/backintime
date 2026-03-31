@@ -6,16 +6,14 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
-import hashlib
 import tools
 import logger
 from contextlib import contextmanager
 from time import sleep
 from pathlib import Path
-from singleton import Singleton
 from ._backends import Backend, LocalBackend, SSHBackend
 from ._encryptors import Encryptor, NoEncryption, GoCryptFS
-from ._error import MountError
+from ._error import MountError  # noqa: F401
 
 
 LOCK_SUFFIX = 'lock'
@@ -53,7 +51,6 @@ class MountManager:
             raise exc
 
         return MountManager(backend, encryptor, cfg)
-
 
     def __init__(self, backend, encryptor, cfg):
         self.backend = backend
@@ -128,7 +125,8 @@ class MountManager:
                 self.backend.umount()
             else:
                 logger.info(
-                    f'{os.getpid()=} Skipping unmount, because mountpoint "{self.path}" in '
+                    f'{os.getpid()=} Skipping unmount, because '
+                    f'mountpoint "{self.path}" in '
                     'use by other processes.',
                     self
                 )
@@ -288,10 +286,13 @@ class MountManager:
             return
 
         if not self._lock_mountpoint.exists():
-            import traceback
+            # DEBUG
+            import traceback  # noqa: PLC0415
             traceback.print_stack(limit=5)
+
             logger.warning(
-                f'Mount point lock - Unexpected state. {self._lock_mountpoint} '
+                'Mount point lock - Unexpected state. '
+                f'{self._lock_mountpoint} '
                 'does not exist.', self
             )
             return

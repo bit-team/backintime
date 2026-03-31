@@ -5,6 +5,7 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""Encryption subsystem related to mounting"""
 import os
 import json
 import hashlib
@@ -18,6 +19,7 @@ from ._error import MountError
 
 
 class Encryptor:
+    """Base class for encryption"""
 
     class Type(Enum):
         NONE = auto()
@@ -30,6 +32,7 @@ class Encryptor:
         self._backend = backend
 
     def get_fingerprint_base(self) -> str:
+        """See ``Backend.get_fingerprint_base()``"""
         raise NotImplementedError
 
     @property
@@ -54,6 +57,7 @@ class Encryptor:
 
     @property
     def mount_root(self) -> Path:
+        """See ``Backend.mount_root``"""
         return self._backend.mount_root
 
     def is_initialized(self) -> bool:
@@ -73,6 +77,7 @@ class Encryptor:
 
 
 class NoEncryption(Encryptor):
+    """No encryption"""
     TYPE = Encryptor.Type.NONE
 
     def __init__(self, cfg, backend):
@@ -192,7 +197,8 @@ class GoCryptFS(Encryptor):
             output = proc.communicate()[0]
 
             if proc.returncode:
-                msg = _('Unable to initialize encryption via "{command}"').format(
+                msg = _(
+                    'Unable to initialize encryption via "{command}"').format(
                     command=cmd
                 )
                 msg = f'{msg}:\n\n{output}\n\nReturn code: {proc.returncode}'
@@ -287,7 +293,8 @@ class GoCryptFS(Encryptor):
             ['fusermount', '-u', self.path],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
-            text=True
+            text=True,
+            check=False
         )
 
         if proc.returncode:

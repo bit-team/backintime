@@ -5,9 +5,6 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-import getpass
-import logger
-import json
 from enum import Enum, auto
 from pathlib import Path
 # from exceptions import HashCollision
@@ -30,7 +27,8 @@ class Backend:
         # logger.debug(f'{self.mount_root=}', self)
 
     def get_fingerprint_base(self) -> str:
-        """String represnation of the backend config for later use in a hash"""
+        """String represenation of the backend config for later use in a hash
+        """
         raise NotImplementedError
 
     def validate(self):
