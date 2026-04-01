@@ -265,6 +265,8 @@ class MainWindow(QMainWindow):
         if not backup_descriptor:
             return None
 
+        mounted_path=self._profile_operations.get_mount_manager().path
+        # print(f'------ {mounted_path=}')
         return snapshots.SID(
             date=backup_descriptor,
             cfg=self.config,

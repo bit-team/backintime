@@ -105,6 +105,7 @@ class PlacesWidget(QTreeWidget):
 
         # formally known as self.sid
         backup_id = self.parent.selected_backup_id()
+        print(f'====== {backup_id=}')
 
         # "Now" or a specific snapshot selected?
         if now_selected or backup_id is None:
@@ -116,24 +117,30 @@ class PlacesWidget(QTreeWidget):
             # profile config stored within each backup. Why not parse
             # that config file instead of scanning the real filesystem?
 
+            # Workaround
+            backup_path = pathlib.Path(backup_id.path()) / 'backup' \
+                / str(pathlib.Path.home())[1:]
+
+            print(f'====== {backup_path=}')
+
             # Determine directories from the backup itself
             base = os.path.expanduser('~')
-            if not os.path.isdir(backup_id.pathBackup(base)):
+            if not backup_path.exists():
                 # Folder not mounted. We can skip for the next updatePlaces()
                 return
 
             folders = [
-                i.name
-                for i
-                in os.scandir(backup_id.pathBackup(base))
-                if i.is_dir()
+                fp.name for fp in backup_path.iterdir() if fp.is_dir()
             ]
+            # print(f'{folders=}')  # DEBUG
 
             include_entries = [(os.path.join(base, f), 0) for f in folders]
+            # print(f'{include_entries=}')  # DEBUG
 
         # Use folders only (if 2nd tuple entry is 0)
         only_folders = filter(lambda entry: entry[1] == 0, include_entries)
         include_folders = [item[0] for item in only_folders]
+        # print(f'{include_folders=}')  # DEBUG
 
         if not include_folders:
             return
