@@ -54,7 +54,7 @@ class LocalBackend(Backend):
         super().__init__(cfg)
         self.path = cfg.get_backup_destination_path(cfg.currentProfile())
 
-        logger.critical(f'{self=} {self.path=}')
+        # logger.critical(f'{self=} {self.path=}')
 
     def get_fingerprint_base(self) -> str:
         """See ``Backend.get_fingerprint_base()``"""
