@@ -20,6 +20,7 @@ import subprocess
 import signal
 import textwrap
 import functools
+from argparse import ArgumentParser
 from typing import Callable
 # TODO Is this really required? If the client is not configured for X11
 #      it may use Wayland or something else...

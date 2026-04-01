@@ -86,24 +86,32 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
 
     def processBegin(self):  # noqa: N802
         """Start the process."""
+        path = os.path.join(
+            tools.as_backintime_path('qt'), 'qtsystrayicon.py')
+        cmd = [
+            sys.executable,
+            path,
+            self.snapshots.config.currentProfile(),
+            '--config',
+            self.snapshots.config._LOCAL_CONFIG_PATH
+        ]
+
+        if logger.DEBUG:
+            # HACK to propagate DEBUG logging level to sub process
+            cmd.append('--debug')
+
         try:
-            path = os.path.join(
-                tools.as_backintime_path('qt'), 'qtsystrayicon.py')
-            cmd = [
-                sys.executable,
-                path,
-                self.snapshots.config.currentProfile(),
-                '--config',
-                self.snapshots.config._LOCAL_CONFIG_PATH
-            ]
-
-            if logger.DEBUG:
-                # HACK to propagate DEBUG logging level to sub process
-                cmd.append('--debug')
-
             # pylint: disable-next=consider-using-with
             logger.debug(f'Start systray icon sub process via {cmd=}...')
-            self.process = subprocess.Popen(cmd)
+            result = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                check=True  # löst CalledProcessError aus, wenn exit != 0
+            )
+
+        except subprocess.CalledProcessError as exc:
+            logger.critical(f'Systray crashed: {exc.returncode}\n{exc.stderr}')
 
         # pylint: disable-next=broad-exception-caught
         except Exception as exc:
@@ -111,19 +119,3 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
 
         else:
             logger.info('Systray started')
-
-    # def processEnd(self):
-    #     """Dev note(2025-07, buhtz): Method makes no sense to me anymore.
-    #     Remove it soon.
-    #     """
-    #     if self.process is not None:
-    #         try:
-    #             # The "qtsystrayicon.py" app does terminate itself
-    #             # once the snapshot has been taken so there is no need
-    #             # to do anything here to stop it or clean-up anything.
-    #             # self.process.terminate()
-    #             return
-
-    #         # ???
-    #         except:
-    #             pass
