@@ -429,8 +429,6 @@ def validate_and_prepare_snapshots_path(
 
     Returns: Success (`True`) or failure (`False`).
     """
-    logger.critical(f'{path=} {host_user_profile=} {mode=}')  # DEBUG
-
     path = pathlib.Path(path)
 
     if not path.is_dir():
@@ -444,7 +442,10 @@ def validate_and_prepare_snapshots_path(
 
     # create full_path
     try:
-        logger.critical(f'Try to make {full_path=}')
+        logger.debug(
+            f'Try to create full backup destination path "{full_path}"',
+            self
+        )
         full_path.mkdir(mode=0o777, parents=True, exist_ok=True)
 
     except PermissionError:
