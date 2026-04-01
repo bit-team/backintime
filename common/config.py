@@ -452,10 +452,6 @@ class Config(configfile.ConfigFileWithProfiles):
 
         self.setProfileStrValue('snapshots.path', value, profile_id)
 
-    # def is_mode_encrypted(self, profile_id=None):
-    #     mode = self.snapshotsMode(profile_id)
-    #     return mode in ('local_encfs', 'ssh_encfs')
-
     def snapshotsMode(self, profile_id=None):
         #? Use mode (or backend) for this snapshot. Look at 'man backintime'
         #? section 'Modes'.;local|local_encfs|ssh|ssh_encfs|local_gocryptfs

@@ -41,6 +41,7 @@ from manageprofiles.sshkeyselector import SshKeySelector
 from bitwidgets import HLineWidget
 from filedialog import FileDialog
 from profile_operations import ProfileOperations
+from mount import MountManager
 
 
 class GeneralTab(QDialog):
@@ -53,10 +54,10 @@ class GeneralTab(QDialog):
 
         self._parent_dialog = parent
 
-        self._profile_operations = ProfileOperations(
-            profile_id=parent.config.currentProfile(),
-            config=parent.config
-        )
+        # self._profile_operations = ProfileOperations(
+        #     profile_id=parent.config.currentProfile(),
+        #     config=parent.config
+        # )
 
         tab_layout = QVBoxLayout(self)
 
@@ -482,27 +483,32 @@ class GeneralTab(QDialog):
         self.config.setPassword(password_1, mode=mode)
         self.config.setPassword(password_2, mode=mode, pw_id=2)
 
-        mnt = self._profile_operations.get_mount_manager()
-
         if mode != 'local':
             # mnt = mount.Mount(cfg=self.config, tmp_mount=True, parent=self)
+            mnt = MountManager.create(self.config)
             if not self._do_alot_pre_mount_checking(mnt, mount_kwargs):
                 return False
 
-        # snaphots_path
         if mode == 'local':
             self.config.set_snapshots_path(self._edit_backup_path.text())
 
-        snapshots_mountpoint = self.config.get_snapshots_mountpoint(
-            tmp_mount=True)
+        # snapshots_mountpoint = self.config.get_snapshots_mountpoint(
+        #     tmp_mount=True)
 
-        mnt = self._profile_operations.get_mount_manager()
+        # Attention! The mount manager instance need to be fresh at this point
+        # because the config was changed.
+        # Current problem with the Manage profile dialog is that there is to
+        # much mounting stuff involved.
+        mnt = MountManager.create(self.config)
+
         success = tools.validate_and_prepare_snapshots_path(
             path=mnt.path,
             host_user_profile=self.config.hostUserProfile(),
             mode=mode,
             copy_links=self.config.copyLinks(),
             error_handler=self.config.notifyError)
+
+        logger.critical(f'validate_and_prepare_snapshots_path() returned {success=}')  # DEBUG
 
         if success is False:
             return False
@@ -671,7 +677,7 @@ class GeneralTab(QDialog):
             show_hidden=True,
             allow_multiselection=False,
             dirs_only=True,
-            start_dir=old_path)
+            start_dir=Path.home() if old_path == Path('.') else old_path)
         path = dlg.result()
 
         # nothing selected (Cancel)

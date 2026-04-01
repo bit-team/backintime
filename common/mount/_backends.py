@@ -9,6 +9,7 @@
 from enum import Enum, auto
 from pathlib import Path
 from ._error import MountError
+import logger
 
 
 class Backend:
@@ -26,7 +27,7 @@ class Backend:
         # Refactor: bitbase.XDG_DATA_DIR / 'backintime' / 'mnt'
         self.mount_root = Path(self.cfg._LOCAL_MOUNT_ROOT)
 
-        # logger.debug(f'{self.mount_root=}', self)
+        # logger.critical(f'{self=} {self.mount_root=}', self)
 
     def get_fingerprint_base(self) -> str:
         """Return backend-specific string for fingerprint calculation."""
@@ -53,7 +54,7 @@ class LocalBackend(Backend):
         super().__init__(cfg)
         self.path = cfg.get_backup_destination_path(cfg.currentProfile())
 
-        # logger.debug(f'{self.path=}', self)
+        logger.critical(f'{self=} {self.path=}')
 
     def get_fingerprint_base(self) -> str:
         """See ``Backend.get_fingerprint_base()``"""

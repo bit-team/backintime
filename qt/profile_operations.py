@@ -27,6 +27,8 @@ class ProfileOperations:
         self._mount_manager = None
 
     def get_mount_manager(self):
+        # This method is not a good idea. The mount manager may operate with a
+        # configuration has changed without notice.
         if self._mount_manager:
             return self._mount_manager
 

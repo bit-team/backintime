@@ -89,6 +89,7 @@ class NoEncryption(Encryptor):
     def __init__(self, cfg, backend):
         super().__init__(cfg, backend)
         self.path = self._backend.path
+        # logger.critical(f'{self=} {self.path=}')
 
     def get_fingerprint_base(self) -> str:
         return str(self.TYPE) + ': '
