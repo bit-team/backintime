@@ -518,28 +518,39 @@ if __name__ == '__main__':
 
     logger.openlog('SYSTRAY')
 
-    # HACK: Minimal arg parsing to enable debug-level logging
-    if '--debug' in sys.argv:
-        logger.DEBUG = True
+    argparser = ArgumentParser()
+    argparser.add_argument(
+        'profile_id',
+        type=int
+    )
+    argparser.add_argument(
+        '-d', '--debug', action='store_true', default=False
+    )
+    argparser.add_argument(
+        '--config',
+        metavar='PATH',
+        type=str,
+        action='store'
+    )
 
-    config_path = None
-    try:
-        for val in sys.argv[2:]:
-            if val.startswith('--config='):
-                config_path = val.replace('--config=', '')
-    except IndexError:
-        pass
+    args = argparser.parse_args()
 
-    profile_id = None
-    try:
-        if sys.argv[1].isdigit():
-            profile_id = sys.argv[1]
-    except IndexError:
-        pass
+    logger.DEBUG = args.debug
+
+    if args.config:
+        config_path = args.config
+    else:
+        config_path = None
+
+    if args.profile_id:
+        profile_id = args.profile_id
+    else:
+        profile_id = None
 
     logger.debug(
         f'Systray icon process (PID: {os.getpid()} User: {logger.USER}) '
-        f'called with {sys.argv} using {config_path=} and {profile_id=}'
+        f'called with {sys.argv} {args=} using '
+        f'{config_path=} and {profile_id=}'
     )
 
     QtSysTrayIcon(config_path=config_path, profile_id=profile_id).run()

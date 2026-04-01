@@ -6,14 +6,17 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
+import subprocess
 import tools
 import logger
+import bitbase
 from contextlib import contextmanager
 from time import sleep
 from pathlib import Path
 from ._backends import Backend, LocalBackend, SSHBackend
 from ._encryptors import Encryptor, NoEncryption, GoCryptFS
 from ._error import MountError  # noqa: F401
+from password import Password_Cache
 
 
 LOCK_SUFFIX = 'lock'
@@ -63,6 +66,39 @@ class MountManager:
             f'{self.mount_root=}',
             self
         )
+
+        self._ensure_password_cache()
+
+    def _ensure_password_cache(self):
+        if not self.cfg.passwordUseCache():
+            return
+
+        cache = Password_Cache(self.cfg)
+
+        if cache.status():
+            # Still running
+            logger.debug('Password cache already running')
+            return
+
+        cmd = [
+            tools.which(bitbase.BINARY_NAME_CLI),
+            'pw-cache',
+            'start'
+        ]
+        logger.debug(f'Call command: {cmd}')
+        proc = subprocess.Popen(
+            cmd,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+
+        if proc.returncode:
+            logger.error(
+                f'Failed to "{action}" pw-cache: {proc.returncode}',
+                self
+            )
+        else:
+            logger.debug('Password cache started')
 
     @contextmanager
     def mounted(self):

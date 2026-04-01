@@ -93,7 +93,8 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
                 sys.executable,
                 path,
                 self.snapshots.config.currentProfile(),
-                f'--config={self.snapshots.config._LOCAL_CONFIG_PATH}'
+                '--config',
+                self.snapshots.config._LOCAL_CONFIG_PATH
             ]
 
             if logger.DEBUG:

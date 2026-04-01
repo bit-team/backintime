@@ -237,7 +237,12 @@ class GoCryptFS(Encryptor):
             return
 
         if self.password is None:
-            self.password = self.cfg.password()
+            self.password = self.cfg.password(
+                parent=None,
+                profile_id=self.cfg.currentProfile()
+            )
+                # self.parent, self.profile_id, self.mode)
+
 
         thread = TempPasswordThread(self.password)
         env = os.environ.copy()
