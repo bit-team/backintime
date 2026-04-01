@@ -5,15 +5,17 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""Backends for the mounting subsystem"""
 from enum import Enum, auto
 from pathlib import Path
-# from exceptions import HashCollision
 from ._error import MountError
 
 
 class Backend:
+    """Base class for mount backends"""
 
     class Type(Enum):
+        """Supported backend types"""
         LOCAL = auto()
         SSH = auto()
 
@@ -27,8 +29,7 @@ class Backend:
         # logger.debug(f'{self.mount_root=}', self)
 
     def get_fingerprint_base(self) -> str:
-        """String represenation of the backend config for later use in a hash
-        """
+        """Return backend-specific string for fingerprint calculation."""
         raise NotImplementedError
 
     def validate(self):
@@ -40,11 +41,12 @@ class Backend:
         raise NotImplementedError
 
     def umount(self):
-        """Relase the backend mount"""
+        """Release the backend mount"""
         raise NotImplementedError
 
 
 class LocalBackend(Backend):
+    """No-mounting backend"""
     TYPE = Backend.Type.LOCAL
 
     def __init__(self, cfg):
@@ -54,6 +56,7 @@ class LocalBackend(Backend):
         # logger.debug(f'{self.path=}', self)
 
     def get_fingerprint_base(self) -> str:
+        """See ``Backend.get_fingerprint_base()``"""
         return str(self.TYPE) + f': {self.path}'
 
     def validate(self):
@@ -70,61 +73,11 @@ class LocalBackend(Backend):
             )
 
     def mount(self):
-        return None
-        # self._prepare_mount_structure()
-        # self._acquire_mount_lock()
-
-        # # Prüfen ob schon gemountet
-        # if self._is_mounted():
-        #     if not self._compare_umount_info():
-        #         raise HashCollision(f"Hash collision for {self.hash_id}")
-        #     logger.info(f"Mountpoint {self.mountpoint} already mounted")
-        # else:
-        #     self._write_umount_info()
-        #     logger.info(f"Mounted {self.mountpoint}")
-
-        # return str(self.mountpoint)
+        """See ``Backend.mount()``"""
 
     def umount(self):
-        pass
-        # self._acquire_mount_lock()
-        # if self.mountpoint.exists():
-        #     # bei lokal: nur symlink/lock entfernen
-        #     if self.lock_path.exists():
-        #         for f in self.lock_path.iterdir():
-        #             f.unlink()
-        #     if self.umount_info.exists():
-        #         self.umount_info.unlink()
-        # self._release_mount_lock()
-        # logger.info(f"Unmounted {self.mountpoint}")
-
-    # def _prepare_mount_structure(self):
-    #     self.mountpoint.mkdir(parents=True, exist_ok=True)
-    #     self.lock_path.mkdir(parents=True, exist_ok=True)
-
-    # def _acquire_mount_lock(self):
-    #     lock_file = self.lock_path / f"{self.pid}.lock"
-    #     lock_file.write_text(self.pid)
-
-    # def _release_mount_lock(self):
-    #     lock_file = self.lock_path / f"{self.pid}.lock"
-    #     if lock_file.exists():
-    #         lock_file.unlink()
-
-    # def _is_mounted(self):
-    #     # lokal: nur prüfen, ob mountpoint existiert
-    #     return self.mountpoint.exists()
-
-    # def _write_umount_info(self):
-    #     data_string = json.dumps(self.current_kwargs)
-    #     self.umount_info.write_text(data_string)
-
-    # def _compare_umount_info(self):
-    #     if not self.umount_info.exists():
-    #         return True
-    #     saved = json.loads(self.umount_info.read_text())
-    #     return saved == self.current_kwargs
+        """See ``Backend.umount()``"""
 
 
-class SSHBackend(Backend):
-    TYPE = Backend.Type.SSH
+# class SSHBackend(Backend):
+#     TYPE = Backend.Type.SSH

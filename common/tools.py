@@ -607,7 +607,7 @@ def in_proc_self_mountinfo(path: pathlib.Path) -> bool:
     try:
         all_rows = mountinfo.read_text('utf-8').split('\n')
     except OSError as exc:
-        logger.critical(f'Unable to read from file "{mountinfo}". {exc}', self)
+        logger.critical(f'Unable to read from file "{mountinfo}". {exc}')
         return False
 
     return any(

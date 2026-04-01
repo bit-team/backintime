@@ -128,7 +128,7 @@ class ParserAgent:
             'show': clicommands.show_backups,
             'unmount': clicommands.unmount,
             # Deprecated commands (#2124)
-            'decode': clicommands.decode,
+            # 'decode': clicommands.decode,
             'backup-job': clicommands.backup_job,
             'smart-remove': clicommands.smart_remove,
             'remove-and-do-not-ask-again':
@@ -418,33 +418,6 @@ class ParserAgent:
             help='Do not install crontab entries.')
 
         parser.set_defaults(func=self._cmd_func_dict[name])
-        self.parsers[name] = parser
-
-    def _create_cmd_decode(self):
-        name = 'decode'
-        nargs = '*'
-        self._aliases.append((name, nargs))
-
-        parser = self._command_subparsers.add_parser(
-            name,
-            parents=[
-                self._reusable_parsers['profile'],
-                self._reusable_parsers['common'],
-            ],
-            help='decode paths in encrypted profiles',
-            description="Decode paths with 'encfsctl decode'."
-        )
-
-        parser.set_defaults(func=self._cmd_func_dict[name])
-
-        parser.add_argument(
-            'PATH',
-            type=str,
-            action='store',
-            nargs='*',
-            help='Decode PATH. If no PATH is specified on command line '
-                 'a list of filenames will be read from stdin.')
-
         self.parsers[name] = parser
 
     def _create_cmd_last_snapshot(self):
@@ -801,7 +774,7 @@ class ParserAgent:
         self._create_cmd_shutdown()
         self._create_cmd_benchmark_ciphier()
         self._create_cmd_check_config()
-        self._create_cmd_decode()
+        # self._create_cmd_decode()
         self._create_cmd_pw_cache()
         self._create_cmd_last_snapshot()
         self._create_cmd_last_snapshot_path()
@@ -843,7 +816,7 @@ def print_usage_without_deprecations(parser):
         'backup-job',
         'smart-remove',
         'remove-and-do-not-ask-again',
-        'decode',
+        # 'decode',
     ]
 
     def _remove_cmds_from_cmd_list(line: str):

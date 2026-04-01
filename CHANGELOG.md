@@ -35,6 +35,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ### Removed
 - Command line switch `--keep-mount`
+- CLI Command `decode` because of EncFS removal ahead
 
 ## [1.6.1] (2026-02-10)
 

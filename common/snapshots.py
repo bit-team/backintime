@@ -2013,12 +2013,12 @@ class Snapshots:
         # Prepare getting free space value
         if self.config.snapshotsMode() in ('ssh', 'ssh_encfs'):
             # ...on remote host
-            dest_path = self.config.sshSnapshotsFullPath()
+            # dest_path = self.config.sshSnapshotsFullPath()
             ssh_cmd = self.config.sshCommand(
                 [], nice=False, ionice=False)
         else:
             # ...on local machine
-            dest_path = self.config.snapshotsFullPath()
+            # dest_path = self.config.snapshotsFullPath()
             ssh_cmd = None
 
         return tools.free_space(
@@ -2163,7 +2163,7 @@ class Snapshots:
                 cfg=self.config,
                 includeNewSnapshot=False,
                 reverse = False,
-                mounted_path=self.mounted_manager.path
+                mounted_path=self.mount_manager.path
             )
 
             while True:
@@ -2855,20 +2855,20 @@ class SID:  # -> "BackupID" will be its new name
 
         return str(path_return)
 
-        path = [i.strip(os.sep) for i in path]
-        current_mode = self.config.snapshotsMode(self.profileID)
+        # path = [i.strip(os.sep) for i in path]
+        # current_mode = self.config.snapshotsMode(self.profileID)
 
-        if 'ssh' in use_mode and current_mode == 'ssh':
-            return os.path.join(self.config.sshSnapshotsFullPath(self.profileID),
-                                self.sid, *path)
+        # if 'ssh' in use_mode and current_mode == 'ssh':
+        #     return os.path.join(self.config.sshSnapshotsFullPath(self.profileID),
+        #                         self.sid, *path)
 
-        if 'ssh_encfs' in use_mode and current_mode == 'ssh_encfs':
-            ret = os.path.join(self.config.sshSnapshotsFullPath(self.profileID),
-                               self.sid, *path)
-            return self.config.ENCODE.remote(ret)
+        # if 'ssh_encfs' in use_mode and current_mode == 'ssh_encfs':
+        #     ret = os.path.join(self.config.sshSnapshotsFullPath(self.profileID),
+        #                        self.sid, *path)
+        #     return self.config.ENCODE.remote(ret)
 
-        return os.path.join(self.config.snapshotsFullPath(self.profileID),
-                            self.sid, *path)
+        # return os.path.join(self.config.snapshotsFullPath(self.profileID),
+        #                     self.sid, *path)
 
     def pathBackup(self, *path, **kwargs):
         """

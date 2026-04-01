@@ -5,25 +5,37 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""Mount subsystem for Back In Time.
+
+This module provides the core abstractions and utilities for handling
+filesystem mounts, including encryption.
+
+Responsibilities:
+- Managing mount lifecycle (mount, unmount, validation, initialization)
+- Coordinating backend-specific mount operations (e.g., local, SSH)
+- Supporting encryption strategies via encryptors (e.g., gocrytpfs)
+- Providing a unified fingerprint mechanism for mount identification and
+  mountpoint reference counting.
+"""
 import os
 import subprocess
-import tools
-import logger
-import bitbase
 from contextlib import contextmanager
 from time import sleep
 from pathlib import Path
-from ._backends import Backend, LocalBackend, SSHBackend
+import tools
+import logger
+import bitbase
+from password import Password_Cache
+from ._backends import Backend, LocalBackend  # , SSHBackend
 from ._encryptors import Encryptor, NoEncryption, GoCryptFS
 from ._error import MountError  # noqa: F401
-from password import Password_Cache
 
 
 LOCK_SUFFIX = 'lock'
 
 _BACKENDS = {
     Backend.Type.LOCAL: LocalBackend,
-    Backend.Type.SSH: SSHBackend,
+    # Backend.Type.SSH: SSHBackend,
 }
 
 _ENCRYPT = {
@@ -33,13 +45,23 @@ _ENCRYPT = {
 
 
 class MountManager:
+    """Orchestrates and manages filesystem mounts.
 
+    The manager is responsible for coordinating mount operations across
+    different backends and encryptors. It provides the interface for
+    initializing, validating, mounting, and unmounting filesystems. It
+    maintaines maintaining mount state, fingerprints, and error handling.
+
+    Use the factory method ``MountManager.create()`` to get an instance.
+    """
     @classmethod
     def create(cls, cfg):
+        """Factory method to get a MountManager based on the current
+        configuration and profile
+        """
         mode = cfg.snapshotsMode()
 
-        if 'local' in mode:
-            backend_type = Backend.Type.LOCAL
+        backend_type = Backend.Type.LOCAL if 'local' in mode else None
 
         if 'gocryptfs' in mode:
             encryptor_type = Encryptor.Type.GOCRYPTFS
@@ -56,6 +78,7 @@ class MountManager:
         return MountManager(backend, encryptor, cfg)
 
     def __init__(self, backend, encryptor, cfg):
+        """Don't directly instantiate. Use ``MountManager.create()`` instead."""
         self.backend = backend
         self.encryptor = encryptor
         self.cfg = cfg
@@ -70,6 +93,7 @@ class MountManager:
         self._ensure_password_cache()
 
     def _ensure_password_cache(self):
+        """Start the password cache process if isn't already"""
         if not self.cfg.passwordUseCache():
             return
 
@@ -86,19 +110,19 @@ class MountManager:
             'start'
         ]
         logger.debug(f'Call command: {cmd}')
-        proc = subprocess.Popen(
+        with subprocess.Popen(
             cmd,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL
-        )
-
-        if proc.returncode:
-            logger.error(
-                f'Failed to "{action}" pw-cache: {proc.returncode}',
-                self
-            )
-        else:
-            logger.debug('Password cache started')
+        ) as proc:
+            if proc.returncode:
+                logger.error(
+                    'Password cache start failed with return '
+                    f'code {proc.returncode}',
+                    self
+                )
+            else:
+                logger.debug('Password cache started')
 
     @contextmanager
     def mounted(self):
@@ -111,20 +135,44 @@ class MountManager:
 
     @property
     def fingerprint(self) -> str:
+        """A fingerprint unique to the combined configuration of backend and
+        encryptor.
+
+        That fingerprint is unique to the configuration but independent from
+        the instance used. Every backintime instance with the identical mount
+        setup and configuratino should return an identical fingerprint.
+
+        In combination with mountpoint lock mechanic, this is used to reuse
+        existing mount points and prevent umount on mountpoints that are still
+        in use by other processes.
+        """
         return self.encryptor.fingerprint
 
     @property
     def mount_root(self) -> Path:
+        """The root directory containing mount points and lock files.
+
+        See ``Backend.__init__()`` for details.
+        """
         return self.backend.mount_root
 
     @property
     def path(self) -> Path:
+        """The path to work with after backend and encryptor is mounted."""
         return self.encryptor.path
 
     def is_initialized(self) -> bool:
+        """Check if the encryptor is initialized.
+
+        The backend is not relevant at this point.
+        """
         return self.encryptor.is_initialized()
 
     def initialize(self):
+        """Initialize encryptor.
+
+        The backend is not relevant at this point.
+        """
         return self.encryptor.initialize()
 
     def validate(self):
@@ -137,6 +185,7 @@ class MountManager:
         self.encryptor.validate()
 
     def mount(self):
+        """Initiate mount in backend and encryptor"""
         # Workaround
         self.cfg.PLUGIN_MANAGER.load(cfg=self.cfg)
         self.cfg.PLUGIN_MANAGER.mount(self.cfg.currentProfile())
@@ -152,6 +201,7 @@ class MountManager:
             # self._write_umount_info()
 
     def umount(self):
+        """Release encryptor and backend mounts"""
         self.cfg.PLUGIN_MANAGER.load(cfg=self.cfg)
         self.cfg.PLUGIN_MANAGER.unmount(self.cfg.currentProfile())
 
@@ -281,7 +331,7 @@ class MountManager:
         self._lock_mountpoint = self.mount_root / self.fingerprint \
             / 'locks' / f'{pid}.{LOCK_SUFFIX}'
 
-        # full acces for owner (rwx), traversal (x) for others - 0o711
+        # full access for owner (rwx), traversal (x) for others - 0o711
         # Reason: Fusemount needs other processes to traverse the mountpoint
         # directory to check or acquire locks, without granting them write
         # access. Using 700 would block these operations.
@@ -323,6 +373,7 @@ class MountManager:
 
         if not self._lock_mountpoint.exists():
             # DEBUG
+            # pylint: disable-next=import-outside-toplevel
             import traceback  # noqa: PLC0415
             traceback.print_stack(limit=5)
 

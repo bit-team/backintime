@@ -41,7 +41,12 @@ def restore(cfg, snapshot_id, what, where, mount_manager, **kwargs):
     )
 
     sid = selectSnapshot(
-        snapshotsList, cfg, snapshot_id, 'SnapshotID to restore')
+        snapshotsList,
+        cfg,
+        snapshot_id,
+        'SnapshotID to restore',
+        mount_manager.path
+    )
     print('')
 
     RestoreDialog(cfg, sid, what, where, **kwargs).run()
@@ -59,7 +64,13 @@ def remove(cfg, snapshot_ids, force, mount_manager):
         snapshot_ids = (None,)
 
     sids = [
-        selectSnapshot(snapshotsList, cfg, sid, 'SnapshotID to remove')
+        selectSnapshot(
+            snapshotsList,
+            cfg,
+            sid,
+            'SnapshotID to remove',
+            mount_manager.path
+        )
         for sid in snapshot_ids
     ]
 
@@ -79,9 +90,6 @@ def remove(cfg, snapshot_ids, force, mount_manager):
 
 
 def checkConfig(cfg, crontab=True):
-    import mount
-    from exceptions import MountException
-
     def announceTest():
         print()
         print(frame(test))
@@ -190,7 +198,12 @@ def checkConfig(cfg, crontab=True):
     return True
 
 
-def selectSnapshot(snapshotsList, cfg, snapshot_id=None, msg='SnapshotID'):
+def selectSnapshot(snapshotsList,
+                   cfg,
+                   snapshot_id=None,
+                   msg='SnapshotID',
+                   mounted_path=None
+                   ):
     """
     check if given snapshot is valid. If not print a list of all
     snapshots and ask to choose one
@@ -200,7 +213,10 @@ def selectSnapshot(snapshotsList, cfg, snapshot_id=None, msg='SnapshotID'):
     if not snapshot_id is None:
 
         try:
-            sid = snapshots.SID(snapshot_id, cfg)
+            sid = snapshots.SID(
+                date=snapshot_id,
+                cfg=cfg,
+                mounted_path=mounted_path)
 
             if sid in snapshotsList:
                 return sid

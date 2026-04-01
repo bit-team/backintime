@@ -24,12 +24,11 @@ import logger
 import snapshots
 import sshtools
 import password
-import encfstools
+# import encfstools
 import cli
 import config
 import bitbase
 from mount import MountManager
-from exceptions import MountException
 from applicationinstance import ApplicationInstance
 from shutdownagent import ShutdownAgent
 
@@ -205,51 +204,6 @@ def check_config(args: argparse.Namespace):
     # else
     print(f'{msg} has errors.', file=force_stdout)
     sys.exit(bitbase.RETURN_ERR)
-
-
-def decode(args: argparse.Namespace):
-    """Decoding paths given paths with 'encfsctl'.
-
-    Will listen on stdin if no path was given.
-
-    Args:
-        args: Previously parsed arguments
-
-    Raises:
-        SystemExit: 0
-    """
-    show_deprecation_message('decode')
-    force_stdout = cli.set_quiet(args)
-    cfg = _get_config(args)
-
-    if cfg.snapshotsMode() not in ('local_encfs', 'ssh_encfs'):
-        logger.error(f"Profile '{cfg.profileName()}' is not encrypted.")
-        sys.exit(bitbase.RETURN_ERR)
-
-    _mount(cfg)
-    decoder = encfstools.Decode(cfg)
-
-    if not args.PATH:
-
-        while True:
-
-            try:
-                path = input()
-            except EOFError:
-                break
-
-            if not path:
-                break
-
-            print(decoder.path(path), file=force_stdout)
-
-    else:
-        print('\n'.join(decoder.list(args.PATH)), file=force_stdout)
-
-    decoder.close()
-    _umount(cfg)
-
-    sys.exit(bitbase.RETURN_OK)
 
 
 def _last_snapshot_base(args: argparse.Namespace, path_info: bool):
@@ -486,8 +440,8 @@ def snapshots_path(args: argparse.Namespace):
     force_stdout = cli.set_quiet(args)
     cfg = _get_config(args)
 
-    if args.keep_mount:
-        _mount(cfg)
+    # if args.keep_mount:
+    #     _mount(cfg)
 
     msg = '{}' if args.quiet else 'SnapshotsPath: {}'
     print(msg.format(cfg.snapshotsFullPath()), file=force_stdout)
@@ -582,7 +536,7 @@ def show_backups(args: argparse.Namespace):
     cfg = _get_config(args)
     mount_manager = MountManager.create(cfg)
 
-    with mount_manager.mounted() as mnt:
+    with mount_manager.mounted():
         # raw data
         backups = snapshots.get_backup_ids_and_paths(
             cfg=cfg,
@@ -634,6 +588,7 @@ def prune(args: argparse.Namespace):
     cli.set_quiet(args)
     cli.print_header()
     cfg = _get_config(args)
+
     sn = snapshots.Snapshots(cfg)
 
     enabled, \
@@ -642,21 +597,20 @@ def prune(args: argparse.Namespace):
         keep_one_per_week, \
         keep_one_per_month = cfg.smartRemove()
 
-    if enabled:
-        _mount(cfg)
+    if not enabled:
+        logger.error('Remove & Retention is not configured.')
+        sys.exit(bitbase.RETURN_NO_CFG)
+
+    mount_manager = MountManager.create(cfg)
+    with mount_manager.mounted():
         del_snapshots = sn.smartRemoveList(datetime.today(),
-                                           keep_all,
-                                           keep_one_per_day,
-                                           keep_one_per_week,
-                                           keep_one_per_month)
+                                            keep_all,
+                                            keep_one_per_day,
+                                            keep_one_per_week,
+                                            keep_one_per_month)
         logger.info(f'{len(del_snapshots)} backups are marked for removal.')
         sn.smartRemove(del_snapshots, log=logger.info)
-        _umount(cfg)
         sys.exit(bitbase.RETURN_OK)
-
-    # else
-    logger.error('Remove & Retention is not configured.')
-    sys.exit(bitbase.RETURN_NO_CFG)
 
 
 def unmount(args):
@@ -675,33 +629,3 @@ def unmount(args):
     mount_manager = MountManager.create(cfg)
     with mount_manager.mounted():
         sys.exit(bitbase.RETURN_OK)
-
-
-def _mount(cfg: config.Config):
-    """Mount external filesystems of current selected profile.
-
-    Args:
-        cfg: Config to identify the current profile.
-    """
-    try:
-        hash_id = mount.Mount(cfg=cfg).mount()
-
-    except MountException as ex:
-        logger.error(str(ex))
-        sys.exit(bitbase.RETURN_ERR)
-
-    else:
-        cfg.setCurrentHashId(hash_id)
-
-
-def _umount(cfg: config.Config):
-    """Unmount external filesystems of current selected profile.
-
-    Args:
-        cfg: Config to identify the current profile.
-    """
-    try:
-        mount.Mount(cfg=cfg).umount(cfg.current_hash_id)
-
-    except MountException as ex:
-        logger.error(str(ex))

@@ -511,7 +511,7 @@ class GeneralTab(QDialog):
         try:
             mnt.umount()
         except MountError as exc:
-            logger.errror(self, str(exc))
+            logger.error(self, str(exc))
             messagebox.critical(self, exc.to_msgbox_string())
             return False
 
