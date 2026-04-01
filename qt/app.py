@@ -365,29 +365,6 @@ class MainWindow(QMainWindow):
 
         SettingsDialog(self).exec()
 
-    # def _DEPRECATED_try_to_mount(self):
-    #     print('3'*40)
-    #     try:
-    #         # mnt = mount.Mount(cfg=self.config,
-    #         #                   profile_id=self.config.currentProfile(),
-    #         #                   parent=self)
-    #         mnt = self._profile_operations.get_mount_manager()
-    #         mnt.mount()
-
-    #     except (MountException, RuntimeError) as exc:
-    #         messagebox.critical(self, str(exc))
-
-    #     # else:
-    #     #     self.config.setCurrentHashId(hash_id)
-
-    #     if not self.config.canBackup():
-    #         path = self.config.snapshotsFullPath()
-    #         msg = _("Can't find backup destination directory.") + '\n' \
-    #             + path \
-    #             + _('If it is on a removable drive, please plug it in.') \
-    #             + ' ' + _('Then press OK.')
-    #         messagebox.critical(self, msg)
-
     def _handle_user_messages(self):
         # Ignore if debug or release/testing candidate
         if version.IS_RELEASE_CANDIDATE or logger.DEBUG:
@@ -1398,9 +1375,10 @@ class MainWindow(QMainWindow):
 
         mount_manager = self._profile_operations.get_mount_manager()
 
-        if not tools.is_mounted(mount_manager.path):
-            import traceback
-            traceback.print_stack(limit=4)
+        # DEBUG
+        # if not tools.is_mounted(mount_manager.mount_root):
+        #     import traceback
+        #     traceback.print_stack(limit=4)
 
         def _worker():
             """Proceed all backups and put their timline related information

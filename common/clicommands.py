@@ -121,7 +121,6 @@ def _do_backup(args: argparse.Namespace, force: bool):
     Raises:
         SystemExit:     0 if successful, 1 if not
     """
-
     cli.set_quiet(args)
     cli.print_header()
     cfg = _get_config(args)

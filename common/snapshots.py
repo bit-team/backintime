@@ -825,6 +825,7 @@ class Snapshots:
             bool: ``True`` if there was an error.
 
         """
+
         ret_val, ret_error = False, True
         sleep = True
 
@@ -898,27 +899,19 @@ class Snapshots:
         # workaround (#1751) that should be removed/refactored after
         # this method ("backup()") is refactored.
         with flock.GlobalFlock(disable=not self.config.globalFlock()):
-            # logger.info('Lock', self)
             now = datetime.datetime.today()
 
             with InhibitSuspend():  # inhibit suspend mode while backup
-                # mount
                 try:
-                    # hash_id = mount.Mount(cfg=self.config).mount()
                     self.mount_manager.mount()
 
-                except MountException as ex:
-                    logger.error(str(ex), self)
+                except MountError as exc:
+                    logger.error(str(exc), self)
                     instance.exitApplication()
-                    # logger.info('Unlock', self)
                     time.sleep(2)
 
                     return True
 
-                # else:
-                #     self.config.setCurrentHashId(hash_id)
-
-                # Free space check
                 if self.config.warnFreeSpaceEnabled():
                     real = self.get_free_space_at_destination()
 
@@ -932,6 +925,7 @@ class Snapshots:
                             logger.warning(msg)
                             self.setTakeSnapshotMessage(1, msg)
 
+                # Free space check
                 # Include/Exclude entry check
                 self.warn_about_include_entries_missing_in_source()
                 include_folders = self.config.include()

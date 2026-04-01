@@ -103,19 +103,32 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
         try:
             # pylint: disable-next=consider-using-with
             logger.debug(f'Start systray icon sub process via {cmd=}...')
-            result = subprocess.run(
+            self.process = subprocess.Popen(
                 cmd,
-                capture_output=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 text=True,
-                check=True  # löst CalledProcessError aus, wenn exit != 0
             )
 
-        except subprocess.CalledProcessError as exc:
-            logger.critical(f'Systray crashed: {exc.returncode}\n{exc.stderr}')
+            # Workaround, until #1370 and #2260 is solved
+            rc = self.process.wait(timeout=2)
+
+            # Something bad happend because we have a return code
+            stderr = self.process.stderr.read()
+            logger.critical(
+                f'Systray exited unexpected and immediately with {rc=} '
+                f'and {stderr=}'
+            )
+            self.process = None
+            return False
+
+        except subprocess.TimeoutExpired:
+            # Timeout because process is still running. Fine!
+            logger.info('Systray started and running')
+            return True
 
         # pylint: disable-next=broad-exception-caught
         except Exception as exc:
-            logger.critical(f'Undefined situation: {exc}', self)
-
-        else:
-            logger.info('Systray started')
+            logger.critical(f'Faild to start systray: {exc}')
+            self.process = None
+            return False
