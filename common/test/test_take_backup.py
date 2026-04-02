@@ -206,7 +206,7 @@ class Take(generic.SnapshotsTestCase):
     def test_error(self, sleep):
         with generic.mockPermissions(os.path.join(self.include.name, 'test')):
             now = datetime.today()
-            sid1 = snapshots.SID(now, self.cfg)
+            sid1 = snapshots.SID(now, self.cfg, '/')
 
             self.assertListEqual(
                 [True, True],
