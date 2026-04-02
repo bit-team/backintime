@@ -299,20 +299,6 @@ class ParserAgent:
 
         self._reusable_parsers['profile'] = parser
 
-    # def _create_snapshots_only_parser(self):
-    #     """Arguments used only by commands
-    #         - snapshots-path
-    #         - snapshots-list-path
-    #         - last-snapshot-path
-    #     """
-    #     parser = ArgumentParser(add_help=False)
-    #     parser.add_argument(
-    #         '--keep-mount',
-    #         action='store_true',
-    #         help="Don't unmount on exit.")
-
-    #     self._reusable_parsers['snapshots'] = parser
-
     def _create_rsync_only_parser(self):
         """Arguments used only by rsync related commands:
             - backup

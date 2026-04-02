@@ -231,8 +231,6 @@ class MainWindow(QMainWindow):
         if not self.config.isConfigured():
             return
 
-        # self._try_to_mount()
-
         # populate lists
         self.updateProfiles()
         self.comboProfiles.currentIndexChanged \
@@ -266,7 +264,7 @@ class MainWindow(QMainWindow):
             return None
 
         mounted_path=self._profile_operations.get_mount_manager().path
-        # print(f'------ {mounted_path=}')
+
         return snapshots.SID(
             date=backup_descriptor,
             cfg=self.config,
@@ -1128,8 +1126,6 @@ class MainWindow(QMainWindow):
                 self.path_history.reset(self.path)
                 self.widget_current_path.setText(self.path)
 
-            # self._try_to_mount()
-
             self.updateProfile()
 
 
@@ -1431,8 +1427,6 @@ class MainWindow(QMainWindow):
                     last_checked=entry[2],
                     label=entry[3]
                 )
-
-        # mount_manager.mount()
 
         # Start getting backups
         threading.Thread(target=_worker, daemon=True).start()

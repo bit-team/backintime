@@ -105,7 +105,6 @@ class PlacesWidget(QTreeWidget):
 
         # formally known as self.sid
         backup_id = self.parent.selected_backup_id()
-        print(f'====== {backup_id=}')
 
         # "Now" or a specific snapshot selected?
         if now_selected or backup_id is None:
@@ -120,8 +119,6 @@ class PlacesWidget(QTreeWidget):
             # Workaround
             backup_path = pathlib.Path(backup_id.path()) / 'backup' \
                 / str(pathlib.Path.home())[1:]
-
-            print(f'====== {backup_path=}')
 
             # Determine directories from the backup itself
             base = os.path.expanduser('~')

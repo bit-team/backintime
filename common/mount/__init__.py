@@ -338,26 +338,6 @@ class MountManager:
         self._lock_mountpoint.parent.mkdir(
             mode=0o711, parents=True, exist_ok=True)
 
-        # # Ensure all parent directories up to `mount_root` have execute (x)
-        # # permission for group and others, allowing other processes
-        # # (e.g., fusemount workers) to traverse the hierarchy without
-        # # modifying existing owner permissions.
-        # for fp_dir in self._lock_mountpoint.parents:
-        #     st = fp_dir.stat()
-        #     current_mode = st.st_mode & 0o777
-        #     desired_mode = current_mode | 0o011  # x for group and others
-
-        #     if current_mode != desired_mode:
-        #         logger.debug(
-        #             'Correcting mount lock dir permissions: '
-        #             f'{oct(current_mode)} -> {oct(desired_mode)} "{fp_dir}"',
-        #             self
-        #         )
-        #         fp_dir.chmod(desired_mode)
-
-        #     if fp_dir == self.mount_root:
-        #         break
-
         logger.info(
             f'{os.getpid()=} Mount point lock - Acquire '
             f'{self._lock_mountpoint.relative_to(self.mount_root)}',
@@ -391,37 +371,3 @@ class MountManager:
         )
         self._lock_mountpoint.unlink(missing_ok=True)
         self._lock_mountpoint = None
-
-
-# class MountFactory:
-
-#     BACKENDS = {
-#         Backend.Type.LOCAL: LocalBackend,
-#         Backend.Type.SSH: SSHBackend,
-#     }
-
-#     ENCRYPT = {
-#         Encryptor.Type.NONE: NoEncryption,
-#         Encryptor.Type.GOCRYPTFS: GoCryptFS,
-#     }
-
-#     @classmethod
-#     def create(cls, cfg):
-#         mode = cfg.snapshotsMode()
-
-#         if 'local' in mode:
-#             backend_type = Backend.Type.LOCAL
-
-#         if 'gocryptfs' in mode:
-#             encryptor_type = Encryptor.Type.GOCRYPTFS
-#         else:
-#             encryptor_type = Encryptor.Type.NONE
-
-#         try:
-#             backend = cls.BACKENDS[backend_type](cfg)
-#             encryptor = cls.ENCRYPT[encryptor_type](cfg, backend)
-#         except Exception as exc:
-#             print(f'{mode=}')  # DEBUG
-#             raise exc
-
-#         return MountManager(backend, encryptor, cfg)

@@ -54,11 +54,6 @@ class GeneralTab(QDialog):
 
         self._parent_dialog = parent
 
-        # self._profile_operations = ProfileOperations(
-        #     profile_id=parent.config.currentProfile(),
-        #     config=parent.config
-        # )
-
         tab_layout = QVBoxLayout(self)
 
         # Snapshot mode
