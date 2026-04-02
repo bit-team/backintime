@@ -206,7 +206,7 @@ class Take(generic.SnapshotsTestCase):
     def test_error(self, sleep):
         with generic.mockPermissions(os.path.join(self.include.name, 'test')):
             now = datetime.today()
-            sid1 = snapshots.SID(now, self.cfg)
+            sid1 = snapshots.SID(now, self.cfg, '/')
 
             self.assertListEqual(
                 [True, True],
@@ -289,33 +289,3 @@ class Take(generic.SnapshotsTestCase):
                 [False, True],
                 self.sn.takeSnapshot(sid1, now, [(self.include.name, 0),])
             )
-
-
-@unittest.skipIf(not generic.LOCAL_SSH, generic.SKIP_SSH_TEST_MESSAGE)
-class TakeSSH(generic.SSHSnapshotTestCase, Take):
-    def setUp(self):
-        super().setUp()
-        self.include = TemporaryDirectory()
-        generic.create_test_files(self.include.name)
-
-        # mount
-        self.cfg.setCurrentHashId(mount.Mount(cfg = self.cfg).mount())
-
-    def tearDown(self):
-        # unmount
-        mount.Mount(cfg = self.cfg).umount(self.cfg.current_hash_id)
-        super().tearDown()
-
-        self.include.cleanup()
-
-    def remount(self):
-        mount.Mount(cfg = self.cfg).umount(self.cfg.current_hash_id)
-        mount.Mount(cfg = self.cfg).mount()
-
-    def getInode(self, sid):
-        return os.stat(os.path.join(
-            self.snapshotPath,
-            sid.sid,
-            'backup',
-            self.include.name[1:],
-            'test')).st_ino

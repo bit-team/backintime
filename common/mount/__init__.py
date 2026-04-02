@@ -5,58 +5,371 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-import hashlib
+"""Mount subsystem for Back In Time.
+
+This module provides the core abstractions and utilities for handling
+filesystem mounts, including encryption.
+
+Responsibilities:
+- Managing mount lifecycle (mount, unmount, validation, initialization)
+- Coordinating backend-specific mount operations (e.g., local, SSH)
+- Supporting encryption strategies via encryptors (e.g., gocrytpfs)
+- Providing a unified fingerprint mechanism for mount identification and
+  mountpoint reference counting.
+"""
+import os
+import subprocess
+from contextlib import contextmanager
+from time import sleep
 from pathlib import Path
-from ._backends import Backend, LocalBackend, SSHBackend
+import tools
+import logger
+import bitbase
+from password import Password_Cache
+from ._backends import Backend, LocalBackend  # , SSHBackend
 from ._encryptors import Encryptor, NoEncryption, GoCryptFS
+from ._error import MountError  # noqa: F401
+
+
+LOCK_SUFFIX = 'lock'
+
+_BACKENDS = {
+    Backend.Type.LOCAL: LocalBackend,
+    # Backend.Type.SSH: SSHBackend,
+}
+
+_ENCRYPT = {
+    Encryptor.Type.NONE: NoEncryption,
+    Encryptor.Type.GOCRYPTFS: GoCryptFS,
+}
 
 
 class MountManager:
+    """Orchestrates and manages filesystem mounts.
+
+    The manager is responsible for coordinating mount operations across
+    different backends and encryptors. It provides the interface for
+    initializing, validating, mounting, and unmounting filesystems. It
+    maintaines maintaining mount state, fingerprints, and error handling.
+
+    Use the factory method ``MountManager.create()`` to get an instance.
+    """
+    @classmethod
+    def create(cls, cfg):
+        """Factory method to get a MountManager based on the current
+        configuration and profile
+        """
+        mode = cfg.snapshotsMode()
+
+        backend_type = Backend.Type.LOCAL if 'local' in mode else None
+
+        if 'gocryptfs' in mode:
+            encryptor_type = Encryptor.Type.GOCRYPTFS
+        else:
+            encryptor_type = Encryptor.Type.NONE
+
+        try:
+            backend = _BACKENDS[backend_type](cfg)
+            encryptor = _ENCRYPT[encryptor_type](cfg, backend)
+        except Exception as exc:
+            print(f'{mode=}')  # DEBUG
+            raise exc
+
+        return MountManager(backend, encryptor, cfg)
 
     def __init__(self, backend, encryptor, cfg):
+        """Don't directly instantiate. Use ``MountManager.create()``
+        instead.
+        """
         self.backend = backend
         self.encryptor = encryptor
         self.cfg = cfg
+        self._lock_mountpoint = None
+
+        logger.debug(
+            f'{self.backend=} {self.encryptor=} '
+            f'{self.mount_root=}',
+            self
+        )
+
+        self._ensure_password_cache()
+
+    def _ensure_password_cache(self):
+        """Start the password cache process if isn't already"""
+        if not self.cfg.passwordUseCache():
+            return
+
+        cache = Password_Cache(self.cfg)
+
+        if cache.status():
+            # Still running
+            logger.debug('Password cache already running')
+            return
+
+        cmd = [
+            tools.which(bitbase.BINARY_NAME_CLI),
+            'pw-cache',
+            'start'
+        ]
+        logger.debug(f'Call command: {cmd}')
+        with subprocess.Popen(
+            cmd,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        ) as proc:
+            if proc.returncode:
+                logger.error(
+                    'Password cache start failed with return '
+                    f'code {proc.returncode}',
+                    self
+                )
+            else:
+                logger.debug('Password cache started')
+
+    @contextmanager
+    def mounted(self):
+        """Mount on enter and umount on exit."""
+        self.mount()
+        try:
+            yield self
+        finally:
+            self.umount()
 
     @property
     def fingerprint(self) -> str:
-        data = '|'.join([
-            self.backend.get_fingerprint_base(),
-            self.encryptor.get_fingerprint_base()
-        ])
-        return hashlib.sha256(data.encode()).hexdigest()[:12]
+        """A fingerprint unique to the combined configuration of backend and
+        encryptor.
+
+        That fingerprint is unique to the configuration but independent from
+        the instance used. Every backintime instance with the identical mount
+        setup and configuratino should return an identical fingerprint.
+
+        In combination with mountpoint lock mechanic, this is used to reuse
+        existing mount points and prevent umount on mountpoints that are still
+        in use by other processes.
+        """
+        return self.encryptor.fingerprint
+
+    @property
+    def mount_root(self) -> Path:
+        """The root directory containing mount points and lock files.
+
+        See ``Backend.__init__()`` for details.
+        """
+        return self.backend.mount_root
+
+    @property
+    def path(self) -> Path:
+        """The path to work with after backend and encryptor is mounted."""
+        return self.encryptor.path
+
+    def is_initialized(self) -> bool:
+        """Check if the encryptor is initialized.
+
+        The backend is not relevant at this point.
+        """
+        return self.encryptor.is_initialized()
+
+    def initialize(self):
+        """Initialize encryptor.
+
+        The backend is not relevant at this point.
+        """
+        return self.encryptor.initialize()
+
+    def validate(self):
+        """Check if backend and encryptor are ready.
+
+        TODO: Check for availability of binaries
+        Raises: MountError
+        """
+        self.backend.validate()
+        self.encryptor.validate()
 
     def mount(self):
-        self.backend.mount()
-        self.encryptor.mount(self.backend)
+        """Initiate mount in backend and encryptor"""
+        # Workaround
+        self.cfg.PLUGIN_MANAGER.load(cfg=self.cfg)
+        self.cfg.PLUGIN_MANAGER.mount(self.cfg.currentProfile())
+
+        with self._process_lock():
+            self._acquire_mountpoint_lock()
+
+            self.backend.validate()
+            self.backend.mount()
+
+            self.encryptor.validate()
+            self.encryptor.mount()
+            # self._write_umount_info()
 
     def umount(self):
-        self.encryptor.umount(self.backend)
-        self.backend.umount()
+        """Release encryptor and backend mounts"""
+        self.cfg.PLUGIN_MANAGER.load(cfg=self.cfg)
+        self.cfg.PLUGIN_MANAGER.unmount(self.cfg.currentProfile())
 
+        try:
+            if not self._mountpoint_locks_active():
+                self.encryptor.umount()
+                self.backend.umount()
+            else:
+                logger.info(
+                    f'{os.getpid()=} Skipping unmount, because '
+                    f'mountpoint "{self.path}" in '
+                    'use by other processes.',
+                    self
+                )
+        finally:
+            self._release_mountpoint_lock()
 
-class MountFactory:
+    def _process_locks_active(self, path: Path) -> bool:
+        """Check existence of active and foreign locks and clean stale ones.
 
-    BACKENDS = {
-        Backend.Type.LOCAL: LocalBackend,
-        Backend.Type.SSH: SSHBackend,
-    }
+        The lock owning process is specified by the PID contained in the
+        filename of the lock file used. Lock files of the current process are
+        ignored and ``False`` is returned.
+        If a lock exist but its process not the lock is removed and
+        ``False`` returned.
 
-    ENCRYPT = {
-        Encryptor.Type.NONE: NoEncryption,
-        Encryptor.Type.GOCRYPTFS: GoCryptFS,
-    }
+        Returns:
+            ``True`` if there are active locks in ``path``.
+        """
+        active = False
 
-    @classmethod
-    def create(cls, cfg):
-        # backend = cls.BACKENDS[cfg.backend](cfg)
-        # encryptor = cls.ENCRYPT[cfg.encryption](cfg)
+        for fp in path.glob(f'*.{LOCK_SUFFIX}'):
 
-        if cfg.snapshotsMode() == 'local':
-            return MountManager(
-                cls.BACKENDS[Backend.Type.LOCAL](cfg),
-                cls.ENCRYPT[Encryptor.Type.NONE](cfg),
-                cfg
+            pid = int(fp.stem)
+
+            if pid == os.getpid():
+                # Ignore process's own lock files.
+                continue
+
+            if tools.processAlive(pid):
+                active = True
+                continue
+
+            logger.info(f'{os.getpid()=} Remove stale lock {fp}', self)
+            fp.unlink()
+
+        return active
+
+    def _mountpoint_locks_active(self) -> bool:
+        """Check for active mountpoint locks but excluding own lock.
+
+        Also return `False` if no own lock exists.
+        """
+        if not self._lock_mountpoint:
+            return False
+
+        active = False
+
+        for fp in self._lock_mountpoint.parent.glob(f'*.{LOCK_SUFFIX}'):
+
+            pid = int(fp.stem)
+
+            # Ignore own lock
+            if pid == os.getpid():
+                continue
+
+            if tools.processAlive(pid):
+                logger.info(
+                    f'{os.getpid()=} Foreign mountpoint lock alive: {fp}',
+                    self
+                )
+                # foreign lock is active
+                active = True
+                continue
+
+            # foreign lock is dead
+            logger.info(
+                f'{os.getpid()=} Remove stale mountpoint lock {fp}',
+                self
             )
+            fp.unlink(missing_ok=True)
 
-        raise NotImplementedError(cfg.snapshotsMode())
+        return active
+
+    @contextmanager
+    def _process_lock(self, timeout: int = 60):
+        """Short-term lock to prevent concurrent mount modifications.
+
+        Dev note (buhtz, 2026-03): Refactoring and use of flock.py
+        """
+        pid = os.getpid()
+        fp = self.mount_root / f'{pid}.{LOCK_SUFFIX}'
+        count = 0
+
+        while self._process_locks_active(self.mount_root):
+            count += 1
+
+            if count >= timeout:
+                raise RuntimeError('Process lock - Timeout')
+
+            sleep(1)
+
+        logger.info(
+            # f'Process lock - Acquire {fp.relative_to(self.mount_root)}',
+            f'{os.getpid()=} Process lock - Acquire {fp}',
+            self
+        )
+
+        # ??? Isn't touch enough?
+        fp.write_text(str(pid))
+
+        try:
+            yield
+
+        finally:
+            logger.info(
+                # f'Process lock - Release {fp.relative_to(self.mount_root)}',
+                f'{os.getpid()=} Process lock - Release {fp}',
+                self
+            )
+            fp.unlink(missing_ok=True)
+
+    def _acquire_mountpoint_lock(self):
+        """Long-term lock for a mountpoint, preventing unmount while in use."""
+        pid = os.getpid()
+
+        self._lock_mountpoint = self.mount_root / self.fingerprint \
+            / 'locks' / f'{pid}.{LOCK_SUFFIX}'
+
+        # full access for owner (rwx), traversal (x) for others - 0o711
+        # Reason: Fusemount needs other processes to traverse the mountpoint
+        # directory to check or acquire locks, without granting them write
+        # access. Using 700 would block these operations.
+        self._lock_mountpoint.parent.mkdir(
+            mode=0o711, parents=True, exist_ok=True)
+
+        logger.info(
+            f'{os.getpid()=} Mount point lock - Acquire '
+            f'{self._lock_mountpoint.relative_to(self.mount_root)}',
+            self
+        )
+        self._lock_mountpoint.write_text(str(pid))
+
+    def _release_mountpoint_lock(self):
+        """Long-term lock for a mountpoint, preventing unmount while in use."""
+        if self._lock_mountpoint is None:
+            # No mount beforehand
+            return
+
+        if not self._lock_mountpoint.exists():
+            # DEBUG
+            # pylint: disable-next=import-outside-toplevel
+            import traceback  # noqa: PLC0415
+            traceback.print_stack(limit=5)
+
+            logger.warning(
+                'Mount point lock - Unexpected state. '
+                f'{self._lock_mountpoint} '
+                'does not exist.', self
+            )
+            return
+
+        logger.info(
+            f'{os.getpid()=} Mount point lock - Release '
+            f'{self._lock_mountpoint.relative_to(self.mount_root)}',
+            self
+        )
+        self._lock_mountpoint.unlink(missing_ok=True)
+        self._lock_mountpoint = None

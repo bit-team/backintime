@@ -215,7 +215,11 @@ class LogViewDialog(QDialog):  # pylint: disable=too-many-instance-attributes
 
         self._combo_backups.clear()
 
-        for sid in snapshots.iterSnapshots(self.config):
+        for sid in snapshots.iterSnapshots(
+                cfg=self.config,
+                includeNewSnapshot=False,
+                mounted_path=self.sid._mounted_path
+        ):
             self._combo_backups.add_snapshot_id(sid)
 
             if sid == self.sid:

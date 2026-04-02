@@ -24,12 +24,11 @@ import logger
 import snapshots
 import sshtools
 import password
-import encfstools
+# import encfstools
 import cli
 import config
 import bitbase
-import mount
-from exceptions import MountException
+from mount import MountManager
 from applicationinstance import ApplicationInstance
 from shutdownagent import ShutdownAgent
 
@@ -122,7 +121,6 @@ def _do_backup(args: argparse.Namespace, force: bool):
     Raises:
         SystemExit:     0 if successful, 1 if not
     """
-
     cli.set_quiet(args)
     cli.print_header()
     cfg = _get_config(args)
@@ -207,51 +205,6 @@ def check_config(args: argparse.Namespace):
     sys.exit(bitbase.RETURN_ERR)
 
 
-def decode(args: argparse.Namespace):
-    """Decoding paths given paths with 'encfsctl'.
-
-    Will listen on stdin if no path was given.
-
-    Args:
-        args: Previously parsed arguments
-
-    Raises:
-        SystemExit: 0
-    """
-    show_deprecation_message('decode')
-    force_stdout = cli.set_quiet(args)
-    cfg = _get_config(args)
-
-    if cfg.snapshotsMode() not in ('local_encfs', 'ssh_encfs'):
-        logger.error(f"Profile '{cfg.profileName()}' is not encrypted.")
-        sys.exit(bitbase.RETURN_ERR)
-
-    _mount(cfg)
-    decoder = encfstools.Decode(cfg)
-
-    if not args.PATH:
-
-        while True:
-
-            try:
-                path = input()
-            except EOFError:
-                break
-
-            if not path:
-                break
-
-            print(decoder.path(path), file=force_stdout)
-
-    else:
-        print('\n'.join(decoder.list(args.PATH)), file=force_stdout)
-
-    decoder.close()
-    _umount(cfg)
-
-    sys.exit(bitbase.RETURN_OK)
-
-
 def _last_snapshot_base(args: argparse.Namespace, path_info: bool):
     """Print info about the very last (youngest) snapshot in current profile.
 
@@ -263,22 +216,21 @@ def _last_snapshot_base(args: argparse.Namespace, path_info: bool):
     """
     force_stdout = cli.set_quiet(args)
     cfg = _get_config(args)
-    _mount(cfg)
-    sid = snapshots.lastSnapshot(cfg)
 
-    if sid:
-        # Path or ID
-        label = 'SnapshotPath' if path_info else 'SnapshotID'
-        data = sid.path() if path_info else sid
+    mount_manager = MountManager.create(cfg)
+    with mount_manager.mounted():
+        sid = snapshots.lastSnapshot(cfg, mounted_path=mount_manager.path)
 
-        msg = f'{data}' if args.quiet else f'{label}: {data}'
-        print(msg, file=force_stdout)
+        if sid:
+            # Path or ID
+            label = 'SnapshotPath' if path_info else 'SnapshotID'
+            data = sid.path() if path_info else sid
 
-    else:
-        logger.error(f"There are no snapshots in '{cfg.profileName()}'")
+            msg = f'{data}' if args.quiet else f'{label}: {data}'
+            print(msg, file=force_stdout)
 
-    if not getattr(args, 'keep_mount', None):
-        _umount(cfg)
+        else:
+            logger.error(f"There are no snapshots in '{cfg.profileName()}'")
 
     sys.exit(bitbase.RETURN_OK)
 
@@ -364,14 +316,15 @@ def remove(args: argparse.Namespace):
     cli.print_header()
 
     cfg = _get_config(args)
-    _mount(cfg)
 
-    cli.remove(
-        cfg=cfg,
-        snapshot_ids=args.BACKUP_ID,
-        force=args.skip_confirmation)
-
-    _umount(cfg)
+    mount_manager = MountManager.create(cfg)
+    with mount_manager.mounted():
+        cli.remove(
+            cfg=cfg,
+            snapshot_ids=args.BACKUP_ID,
+            force=args.skip_confirmation,
+            mount_manager=mount_manager
+        )
 
     sys.exit(bitbase.RETURN_OK)
 
@@ -402,22 +355,23 @@ def restore(args: argparse.Namespace):
     cli.set_quiet(args)
     cli.print_header()
     cfg = _get_config(args)
-    _mount(cfg)
 
     if cfg.backupOnRestore() and not args.no_local_backup:
         isbackup = True
     else:
         isbackup = args.local_backup
 
-    cli.restore(cfg,
-                args.BACKUP_ID,
-                args.WHAT,
-                args.WHERE,
-                delete=args.delete,
-                backup=isbackup,
-                only_new=args.only_new)
-
-    _umount(cfg)
+    mount_manager = MountManager.create(cfg)
+    with mount_manager.mounted():
+        cli.restore(
+            cfg=cfg,
+            snapshot_id=args.BACKUP_ID,
+            what=args.WHAT,
+            where=args.WHERE,
+            mount_manager=mount_manager,
+            delete=args.delete,
+            backup=isbackup,
+            only_new=args.only_new)
 
     sys.exit(bitbase.RETURN_OK)
 
@@ -485,8 +439,8 @@ def snapshots_path(args: argparse.Namespace):
     force_stdout = cli.set_quiet(args)
     cfg = _get_config(args)
 
-    if args.keep_mount:
-        _mount(cfg)
+    # if args.keep_mount:
+    #     _mount(cfg)
 
     msg = '{}' if args.quiet else 'SnapshotsPath: {}'
     print(msg.format(cfg.snapshotsFullPath()), file=force_stdout)
@@ -505,28 +459,38 @@ def _snapshots_list_base(args: argparse.Namespace, path_info: bool):
     """
     force_stdout = cli.set_quiet(args)
     cfg = _get_config(args)
-    _mount(cfg)
 
-    if path_info:
-        msg = '{}' if args.quiet else 'SnapshotPath: {}'
-    else:
-        msg = '{}' if args.quiet else 'SnapshotID: {}'
+    mount_manager = MountManager.create(cfg)
+    with mount_manager.mounted():
 
-    # Use snapshots.listSnapshots instead of iterSnapshots because of sorting
-    if path_info:
-        data = [
-            sid.path() for sid in snapshots.listSnapshots(cfg, reverse=False)]
-    else:
-        data = list(snapshots.listSnapshots(cfg, reverse=False))
+        if path_info:
+            msg = '{}' if args.quiet else 'SnapshotPath: {}'
+        else:
+            msg = '{}' if args.quiet else 'SnapshotID: {}'
+
+        if path_info:
+            data = [
+                sid.path() for sid
+                in snapshots.listSnapshots(
+                    cfg=cfg,
+                    includeNewSnapshot=False,
+                    reverse=False,
+                    mounted_path=mount_manager.path
+                )
+            ]
+        else:
+            data = list(snapshots.listSnapshots(
+                cfg=cfg,
+                includeNewSnapshot=False,
+                reverse=False,
+                mounted_path=mount_manager.path
+            ))
 
     for sid_info in data:
         print(msg.format(sid_info), file=force_stdout)
 
     if not data:
         logger.error(f"There are no snapshots in '{cfg.profileName()}'")
-
-    if not args.keep_mount:
-        _umount(cfg)
 
     sys.exit(bitbase.RETURN_OK)
 
@@ -569,11 +533,16 @@ def show_backups(args: argparse.Namespace):
     """
 
     cfg = _get_config(args)
-    _mount(cfg)
+    mount_manager = MountManager.create(cfg)
 
-    # raw data
-    backups = snapshots.get_backup_ids_and_paths(
-        cfg=cfg, descending=True, include_new=False)
+    with mount_manager.mounted():
+        # raw data
+        backups = snapshots.get_backup_ids_and_paths(
+            cfg=cfg,
+            descending=True,
+            include_new=False,
+            mounted_path=mount_manager.path
+        )
 
     if args.last:
         backups = backups[-1:]
@@ -593,10 +562,9 @@ def show_backups(args: argparse.Namespace):
     )
 
     print(result)
-    _umount(cfg)
 
     if not backups:
-        logger.error(f'No backups in profile "{cfg.profileName()}"')
+        logger.info(f'No backups in profile "{cfg.profileName()}"')
         sys.exit(bitbase.RETURN_ERR)
 
     sys.exit(bitbase.RETURN_OK)
@@ -619,6 +587,7 @@ def prune(args: argparse.Namespace):
     cli.set_quiet(args)
     cli.print_header()
     cfg = _get_config(args)
+
     sn = snapshots.Snapshots(cfg)
 
     enabled, \
@@ -627,21 +596,20 @@ def prune(args: argparse.Namespace):
         keep_one_per_week, \
         keep_one_per_month = cfg.smartRemove()
 
-    if enabled:
-        _mount(cfg)
+    if not enabled:
+        logger.error('Remove & Retention is not configured.')
+        sys.exit(bitbase.RETURN_NO_CFG)
+
+    mount_manager = MountManager.create(cfg)
+    with mount_manager.mounted():
         del_snapshots = sn.smartRemoveList(datetime.today(),
-                                           keep_all,
-                                           keep_one_per_day,
-                                           keep_one_per_week,
-                                           keep_one_per_month)
+                                            keep_all,
+                                            keep_one_per_day,
+                                            keep_one_per_week,
+                                            keep_one_per_month)
         logger.info(f'{len(del_snapshots)} backups are marked for removal.')
         sn.smartRemove(del_snapshots, log=logger.info)
-        _umount(cfg)
         sys.exit(bitbase.RETURN_OK)
-
-    # else
-    logger.error('Remove & Retention is not configured.')
-    sys.exit(bitbase.RETURN_NO_CFG)
 
 
 def unmount(args):
@@ -657,37 +625,6 @@ def unmount(args):
 
     cfg = _get_config(args)
 
-    _mount(cfg)
-    _umount(cfg)
-
-    sys.exit(bitbase.RETURN_OK)
-
-
-def _mount(cfg: config.Config):
-    """Mount external filesystems of current selected profile.
-
-    Args:
-        cfg: Config to identify the current profile.
-    """
-    try:
-        hash_id = mount.Mount(cfg=cfg).mount()
-
-    except MountException as ex:
-        logger.error(str(ex))
-        sys.exit(bitbase.RETURN_ERR)
-
-    else:
-        cfg.setCurrentHashId(hash_id)
-
-
-def _umount(cfg: config.Config):
-    """Unmount external filesystems of current selected profile.
-
-    Args:
-        cfg: Config to identify the current profile.
-    """
-    try:
-        mount.Mount(cfg=cfg).umount(cfg.current_hash_id)
-
-    except MountException as ex:
-        logger.error(str(ex))
+    mount_manager = MountManager.create(cfg)
+    with mount_manager.mounted():
+        sys.exit(bitbase.RETURN_OK)

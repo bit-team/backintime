@@ -199,13 +199,9 @@ class RestoreConfigDialog(QDialog):
             (QLabel): The label
         """
 
-        sample_path = os.path.join(
-            'backintime',
-            config.host(),
-            getpass.getuser(), '1',
-            SID(datetime.datetime.now(), config).sid
-        )
-        sample_path = f'</ br><code>{sample_path}</code>'
+        sample_path = Path.home() / 'backintime' / config.host() \
+            / getpass.getuser() / '1' / '20250203-172341-123'
+        sample_path = f'</ br><code>{str(sample_path)}</code>'
 
         text_a = _(
             'Select the backup directory from which the configuration '

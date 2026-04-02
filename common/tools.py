@@ -139,6 +139,24 @@ def as_backintime_path(*path: str) -> str:
     return str(result)
 
 
+def register_backintime_path(*path: str):
+    """
+    Add BackInTime path ``path`` to :py:data:`sys.path` so subsequent imports
+    can discover them.
+
+    Args:
+        *path (str):    paths that should be joined to 'backintime'
+
+    Note:
+        Duplicate in :py:func:`qt/qttools.py` because modules in qt folder
+        would need this to actually import :py:mod:`tools`.
+    """
+    path = as_backintime_path(*path)
+
+    if path not in sys.path:
+        sys.path.insert(0, path)
+
+
 # |---------------------------------------------------|
 # | Internationalization (i18n) & localization (L10n) |
 # |---------------------------------------------------|
@@ -424,6 +442,9 @@ def validate_and_prepare_snapshots_path(
 
     # create full_path
     try:
+        logger.debug(
+            f'Try to create full backup destination path "{full_path}"'
+        )
         full_path.mkdir(mode=0o777, parents=True, exist_ok=True)
 
     except PermissionError:
@@ -568,6 +589,36 @@ def nested_dict_update(org: dict, update: dict) -> dict:
 # |-------------------|
 
 
+def is_mounted(path: pathlib.Path) -> bool:
+    """Checks the path is a mounted mountpoint."""
+
+    absolute = path.resolve()
+
+    if not absolute.exists():
+        return False
+
+    if absolute.is_mount():
+        return True
+
+    return in_proc_self_mountinfo(absolute)
+
+
+def in_proc_self_mountinfo(path: pathlib.Path) -> bool:
+    """Test if the path is in /proc/self/mountinfo"""
+    mountinfo = pathlib.Path('/proc') / 'self' / 'mountinfo'
+
+    try:
+        all_rows = mountinfo.read_text('utf-8').split('\n')
+    except OSError as exc:
+        logger.critical(f'Unable to read from file "{mountinfo}". {exc}')
+        return False
+
+    return any(
+        (lambda parts=row.split(): len(parts) > 4 and parts[4] == path)()
+        for row in all_rows
+    )
+
+
 def free_space(path: pathlib.Path, ssh_command: list[str] = None
                ) -> StorageSize | None:
     """Get free space as StorageSize on (remote) filesystem containing
@@ -646,25 +697,6 @@ def _free_space_ssh(path: pathlib.Path, ssh_command: list[str]) -> int | None:
 # |------------------------------------|
 # | Miscellaneous, not categorized yet |
 # |------------------------------------|
-
-
-def register_backintime_path(*path: str):
-    """
-    Add BackInTime path ``path`` to :py:data:`sys.path` so subsequent imports
-    can discover them.
-
-    Args:
-        *path (str):    paths that should be joined to 'backintime'
-
-    Note:
-        Duplicate in :py:func:`qt/qttools.py` because modules in qt folder
-        would need this to actually import :py:mod:`tools`.
-    """
-    path = as_backintime_path(*path)
-
-    if path not in sys.path:
-        sys.path.insert(0, path)
-
 
 def runningFromSource():
     """Check if BackInTime is running from source (without installing).

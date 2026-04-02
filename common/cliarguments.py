@@ -91,14 +91,14 @@ def _license_info() -> tuple[str, str]:
         result = (
             f'Unable to extract license info from {__file__}',
             result[1])
-        logger.error(result[0])
+        logger.warning(result[0])
 
     if not result[1]:
         result = (
             result[0],
             'Unable to extract licenses from LICENSES '
             f'directory "{bitlicense.DIR_LICENSES}".')
-        logger.error(result[1])
+        logger.warning(result[1])
 
     return result
 
@@ -128,7 +128,7 @@ class ParserAgent:
             'show': clicommands.show_backups,
             'unmount': clicommands.unmount,
             # Deprecated commands (#2124)
-            'decode': clicommands.decode,
+            # 'decode': clicommands.decode,
             'backup-job': clicommands.backup_job,
             'smart-remove': clicommands.smart_remove,
             'remove-and-do-not-ask-again':
@@ -187,7 +187,7 @@ class ParserAgent:
     def _create_reusable_parsers(self):
         self._create_common_parser()
         self._create_profile_parser()
-        self._create_snapshots_only_parser()  # deprecated
+        # self._create_snapshots_only_parser()  # deprecated
         self._create_rsync_only_parser()
 
     @property
@@ -205,7 +205,11 @@ class ParserAgent:
             ],
             description=f'command-line interface (CLI) for {self.app_name}, '
                         'to create and manage incremental backups',
-            epilog=self._build_epilog(),
+            epilog=(
+                self._build_epilog()
+                if any(a in ('-h', '--help') for a in sys.argv[1:])
+                else None
+            ),
             # because of ASCII art in epilog
             formatter_class=argparse.RawTextHelpFormatter,
             allow_abbrev=False
@@ -294,20 +298,6 @@ class ParserAgent:
             help=argparse.SUPPRESS)
 
         self._reusable_parsers['profile'] = parser
-
-    def _create_snapshots_only_parser(self):
-        """Arguments used only by commands
-            - snapshots-path
-            - snapshots-list-path
-            - last-snapshot-path
-        """
-        parser = ArgumentParser(add_help=False)
-        parser.add_argument(
-            '--keep-mount',
-            action='store_true',
-            help="Don't unmount on exit.")
-
-        self._reusable_parsers['snapshots'] = parser
 
     def _create_rsync_only_parser(self):
         """Arguments used only by rsync related commands:
@@ -416,33 +406,6 @@ class ParserAgent:
         parser.set_defaults(func=self._cmd_func_dict[name])
         self.parsers[name] = parser
 
-    def _create_cmd_decode(self):
-        name = 'decode'
-        nargs = '*'
-        self._aliases.append((name, nargs))
-
-        parser = self._command_subparsers.add_parser(
-            name,
-            parents=[
-                self._reusable_parsers['profile'],
-                self._reusable_parsers['common'],
-            ],
-            help='decode paths in encrypted profiles',
-            description="Decode paths with 'encfsctl decode'."
-        )
-
-        parser.set_defaults(func=self._cmd_func_dict[name])
-
-        parser.add_argument(
-            'PATH',
-            type=str,
-            action='store',
-            nargs='*',
-            help='Decode PATH. If no PATH is specified on command line '
-                 'a list of filenames will be read from stdin.')
-
-        self.parsers[name] = parser
-
     def _create_cmd_last_snapshot(self):
         name = 'last-snapshot'
         nargs = 0
@@ -462,8 +425,8 @@ class ParserAgent:
         nargs = 0
         self._aliases.append((name, nargs))
         parser = self._command_subparsers.add_parser(
-            name,
-            parents=[self._reusable_parsers['snapshots']],
+            name
+            # parents=[self._reusable_parsers['snapshots']],
         )
 
         parser.set_defaults(func=self._cmd_func_dict[name])
@@ -678,7 +641,7 @@ class ParserAgent:
 
         parser = self._command_subparsers.add_parser(
             name,
-            parents=[self._reusable_parsers['snapshots']],
+            # parents=[self._reusable_parsers['snapshots']],
             help=None,
             description=desc)
 
@@ -694,7 +657,7 @@ class ParserAgent:
 
         parser = self._command_subparsers.add_parser(
             name,
-            parents=[self._reusable_parsers['snapshots']],
+            # parents=[self._reusable_parsers['snapshots']],
             help=None,
             description=desc)
 
@@ -708,7 +671,7 @@ class ParserAgent:
         desc = 'Show the path where snapshots are stored.'
         parser = self._command_subparsers.add_parser(
             name,
-            parents=[self._reusable_parsers['snapshots']],
+            # parents=[self._reusable_parsers['snapshots']],
             help=None,  # suppress help output
             description=desc)
         parser.set_defaults(func=self._cmd_func_dict[name])
@@ -797,7 +760,7 @@ class ParserAgent:
         self._create_cmd_shutdown()
         self._create_cmd_benchmark_ciphier()
         self._create_cmd_check_config()
-        self._create_cmd_decode()
+        # self._create_cmd_decode()
         self._create_cmd_pw_cache()
         self._create_cmd_last_snapshot()
         self._create_cmd_last_snapshot_path()
@@ -839,7 +802,7 @@ def print_usage_without_deprecations(parser):
         'backup-job',
         'smart-remove',
         'remove-and-do-not-ask-again',
-        'decode',
+        # 'decode',
     ]
 
     def _remove_cmds_from_cmd_list(line: str):

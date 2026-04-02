@@ -234,7 +234,7 @@ class SnapshotLog:
                 # Why???
                 yield line
 
-    def new(self, date):
+    def new(self, date, mounted_path):
         """
         Create a new log file or - if the last new_snapshot can be continued -
         add a note to the current log.
@@ -242,7 +242,7 @@ class SnapshotLog:
         Args:
             date (datetime.datetime):   current date
         """
-        if snapshots.NewSnapshot(self.config).saveToContinue:
+        if snapshots.NewSnapshot(self.config, mounted_path).saveToContinue:
             msg = "Last backup did not complete but can be resumed.\n\n"
             msg += "======== Continue backup (profile %s): %s ========\n"
 

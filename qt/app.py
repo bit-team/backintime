@@ -38,8 +38,7 @@ import config
 import logger
 import snapshots
 import guiapplicationinstance
-import mountold
-from mount import MountFactory
+from mount import MountManager, MountError
 import progress
 import encfsmsgbox
 from inhibitsuspend import InhibitSuspend
@@ -232,8 +231,6 @@ class MainWindow(QMainWindow):
         if not self.config.isConfigured():
             return
 
-        self._try_to_mount()
-
         # populate lists
         self.updateProfiles()
         self.comboProfiles.currentIndexChanged \
@@ -266,7 +263,13 @@ class MainWindow(QMainWindow):
         if not backup_descriptor:
             return None
 
-        return snapshots.SID(date=backup_descriptor, cfg=self.config)
+        mounted_path=self._profile_operations.get_mount_manager().path
+
+        return snapshots.SID(
+            date=backup_descriptor,
+            cfg=self.config,
+            mounted_path=self._profile_operations.get_mount_manager().path
+        )
 
     def _setup_timers(self):
         raise_application = QTimer(self)
@@ -361,26 +364,6 @@ class MainWindow(QMainWindow):
                 self.config._unsaved_profiles.append('1')
 
         SettingsDialog(self).exec()
-
-    def _try_to_mount(self):
-        try:
-            # mnt = mount.Mount(cfg=self.config,
-            #                   profile_id=self.config.currentProfile(),
-            #                   parent=self)
-            mnt = self._profile_operations.get_mount_manager()
-            mnt.mount()
-
-        except MountException as exc:
-            messagebox.critical(self, str(exc))
-
-        # else:
-        #     self.config.setCurrentHashId(hash_id)
-
-        if not self.config.canBackup(self.config.currentProfile()):
-            msg = _("Can't find backup directory.") + '\n' \
-                + _('If it is on a removable drive, please plug it in.') \
-                + ' ' + _('Then press OK.')
-            messagebox.critical(self, msg)
 
     def _handle_user_messages(self):
         # Ignore if debug or release/testing candidate
@@ -1076,17 +1059,21 @@ class MainWindow(QMainWindow):
         )
 
     def updateProfile(self):
-        self.rebuild_timeline()
-        self.places.do_update()
-        self._update_files_widget()
-        self.updateFilesView(0)
-
         profile_id = self.config.currentProfile()
 
         self._reset_profile_operations()
 
         mount = self._profile_operations.get_mount_manager()
-        mount.mount()
+        try:
+            mount.mount()
+        except MountError as exc:
+            logger.error(str(exc))
+            messagebox.critical(self, exc.as_msgbox_string())
+
+        self.rebuild_timeline()
+        self.places.do_update()
+        self._update_files_widget()
+        self.updateFilesView(0)
 
         self.event_profile_changed.notify(self._profile_operations)
 
@@ -1141,18 +1128,6 @@ class MainWindow(QMainWindow):
 
             self.updateProfile()
 
-    # def remount(self, new_profile_id, old_profile_id):
-    #     try:
-    #         mnt = mount.Mount(cfg=self.config,
-    #                           profile_id=old_profile_id,
-    #                           parent=self)
-    #         hash_id = mnt.remount(new_profile_id)
-
-    #     except MountException as ex:
-    #         messagebox.critical(self, str(ex))
-
-    #     else:
-    #         self.config.setCurrentHashId(hash_id)
 
     def raiseApplication(self):
         raiseCmd = self.appInstance.raiseCommand()
@@ -1189,10 +1164,20 @@ class MainWindow(QMainWindow):
 
         self._handle_fake_busy(fake_busy, paused)
 
+        mount_manager = self._profile_operations.get_mount_manager()
+        # mount_manager.mount()
+
         if not self.act_take_snapshot.isEnabled():
             # TODO: check if there is a more elegant way than always get a
             # new snapshot list which is very expensive (time)
-            snapshotsList = snapshots.listSnapshots(self.config)
+            # See issue #2260 about redesign the IPC aspect of BIT
+            mount_manager = self._profile_operations.get_mount_manager()
+            snapshotsList = snapshots.listSnapshots(
+                cfg=self.config,
+                includeNewSnapshot=False,
+                reverse=True,
+                mounted_path=mount_manager.path
+            )
 
             if snapshotsList != self.snapshotsList:
                 self.snapshotsList = snapshotsList
@@ -1386,10 +1371,22 @@ class MainWindow(QMainWindow):
         self.snapshotsList = []  # TODO: -> backup_list ???
         backup_queue = queue.Queue()
 
+        mount_manager = self._profile_operations.get_mount_manager()
+
+        # DEBUG
+        # if not tools.is_mounted(mount_manager.mount_root):
+        #     import traceback
+        #     traceback.print_stack(limit=4)
+
         def _worker():
             """Proceed all backups and put their timline related information
             into a thread-safe queue."""
-            for sid in snapshots.iterSnapshots(self.config):
+
+            for sid in snapshots.iterSnapshots(
+                    cfg=self.config,
+                    includeNewSnapshot=False,
+                    mounted_path=mount_manager.path
+            ):
                 self.snapshotsList.append(sid)
                 backup_queue.put(
                     (
@@ -1421,6 +1418,7 @@ class MainWindow(QMainWindow):
                         self.timeline.select_by_descriptor(previous_selection)
                     else:
                         self.timeline.select_now()
+                    # mount_manager.umount()
                     return
 
                 self.timeline.create_backup_entry(
@@ -2307,17 +2305,27 @@ class RemoveSnapshotThread(QThread):
         self.config = parent.config
         self.snapshots = parent.snapshots
         self.items = items
-        super(RemoveSnapshotThread, self).__init__(parent)
+        self.mount_manager = MountManager.create(self.config)
+        super().__init__(parent)
 
     def run(self):
-        last_snapshot = snapshots.lastSnapshot(self.config)
+        last_snapshot = snapshots.lastSnapshot(
+            self.config, mounted_path=self.mount_manager.path
+        )
         renew_last_snapshot = False
 
         # inhibit suspend/hibernate during delete
         with InhibitSuspend(reason='deleting snapshots'):
 
             for item, sid in [
-                    (x, snapshots.SID(x.descriptor, self.config))
+                    (
+                        x,
+                        snapshots.SID(
+                            date=x.descriptor,
+                            cfg=self.config,
+                            mounted_path=self.mount_manager.path
+                        )
+                    )
                     for x in self.items
             ]:
                 self.snapshots.remove(sid)
@@ -2330,7 +2338,11 @@ class RemoveSnapshotThread(QThread):
             # set correct last snapshot again
             if renew_last_snapshot:
                 self.snapshots.createLastSnapshotSymlink(
-                    snapshots.lastSnapshot(self.config))
+                    snapshots.lastSnapshot(
+                        self.config,
+                        self.mount_manager.path
+                    )
+                )
 
 
 def _get_state_data_from_config(cfg: config.Config) -> StateData:

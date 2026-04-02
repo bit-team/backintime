@@ -28,6 +28,7 @@ import socket
 import random
 import getpass
 import shlex
+from pathlib import Path
 # Workaround: Mostly relevant on TravisCI but not exclusively.
 # While unittesting and without regular invocation of BIT the GNU gettext
 # class-based API isn't setup yet.
@@ -121,6 +122,7 @@ class Config(configfile.ConfigFileWithProfiles):
         self._MOUNT_ROOT = os.path.join(DATA_FOLDER, BIT_FOLDER, 'mnt')
 
         if data_path:
+            # Deprecated: --share-path was removed
             self.DATA_FOLDER_ROOT = data_path
             self._LOCAL_DATA_FOLDER = os.path.join(data_path, DATA_FOLDER, BIT_FOLDER)
             self._LOCAL_MOUNT_ROOT = os.path.join(data_path, self._MOUNT_ROOT)
@@ -380,7 +382,16 @@ class Config(configfile.ConfigFileWithProfiles):
         return socket.gethostname()
 
     def get_snapshots_mountpoint(self, profile_id=None, mode=None, tmp_mount=False):
-        """Return the profiles snapshot path in form of a mount point."""
+        """Return the profiles snapshot path in form of a mount point.
+
+        Dev note (buhtz, 2026-03): Might become useless.
+        """
+
+        # # DEBUG
+        # import traceback
+        # traceback.print_stack(limit=12)
+        # logger.debug(f'{profile_id=} {mode=} {tmp_mount=}', self)
+
         if profile_id is None:
             profile_id = self.currentProfile()
 
@@ -392,11 +403,26 @@ class Config(configfile.ConfigFileWithProfiles):
 
         # else: ssh/local_encfs/ssh_encfs/local_gocryptfs
 
+        # ???
         symlink = f'{profile_id}_{os.getpid()}'
         if tmp_mount:
             symlink = f'tmp_{symlink}'
 
         return os.path.join(self._LOCAL_MOUNT_ROOT, symlink)
+
+    def get_backup_destination_path(self, profile_id) -> Path:
+        """Return the path depending on the backe mode of the profile.
+        """
+
+        mode = self.snapshotsMode(profile_id)
+
+        if mode == 'local':
+            return Path(self.get_snapshots_path(profile_id))
+
+        if mode == 'local_gocryptfs':
+            return Path(self.localGocryptfsPath(profile_id))
+
+        raise RuntimeError(f'Unknown mode "{mode}"')
 
     def snapshotsPath(self, profile_id=None, mode=None, tmp_mount=False):
         """Return the snapshot path (backup destination) as a mount point.
@@ -408,7 +434,7 @@ class Config(configfile.ConfigFileWithProfiles):
             mode=mode,
             tmp_mount=tmp_mount)
 
-    def snapshotsFullPath(self, profile_id = None):
+    def snapshotsFullPath(self, profile_id=None):
         """
         Returns the full path for the snapshots: .../backintime/machine/user/profile_id/
         """
@@ -425,10 +451,6 @@ class Config(configfile.ConfigFileWithProfiles):
             profile_id = self.currentProfile()
 
         self.setProfileStrValue('snapshots.path', value, profile_id)
-
-    # def is_mode_encrypted(self, profile_id=None):
-    #     mode = self.snapshotsMode(profile_id)
-    #     return mode in ('local_encfs', 'ssh_encfs')
 
     def snapshotsMode(self, profile_id=None):
         #? Use mode (or backend) for this snapshot. Look at 'man backintime'
@@ -731,11 +753,11 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setProfileStrValue('snapshots.local_encfs.path', value, profile_id)
 
     # gocryptfs
-    def localGocryptfsPath(self, profile_id = None):
+    def localGocryptfsPath(self, profile_id):
         #?Where to save snapshots in mode 'local_gocryptfs'.;absolute path
         return self.profileStrValue('snapshots.local_gocryptfs.path', '', profile_id)
 
-    def setLocalGocryptfsPath(self, value, profile_id = None):
+    def setLocalGocryptfsPath(self, value, profile_id):
         self.setProfileStrValue('snapshots.local_gocryptfs.path', value, profile_id)
 
     def passwordSave(self, profile_id = None, mode = None):
@@ -1441,24 +1463,6 @@ class Config(configfile.ConfigFileWithProfiles):
                      f'are "{bool(includes)}".', self)
 
         return False
-
-    def canBackup(self, profile_id=None):
-        """Checks if snapshots_path exists.
-        """
-        if not self.isConfigured(profile_id):
-            return False
-
-        path = self.snapshotsFullPath(profile_id)
-
-        if not os.path.exists(path):
-            logger.warning(f'Snapshot path does not exists: {path}', self)
-            return False
-
-        if not os.path.isdir(path):
-            logger.warning(f'Snapshot path is not a directory: {path}', self)
-            return False
-
-        return True
 
     def backupScheduled(self, profile_id = None):
         """Check if the profile is supposed to be run this time.

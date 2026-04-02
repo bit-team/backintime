@@ -571,6 +571,9 @@ class ConfigFileWithProfiles(ConfigFile):
         if isinstance(profile_id, int):
             profile_id = str(profile_id)
 
+        if self.current_profile_id == profile_id:
+            return True
+
         profiles = self.profiles()
 
         for i in profiles:
@@ -581,8 +584,8 @@ class ConfigFileWithProfiles(ConfigFile):
 
                 self.current_profile_id = profile_id
                 logger.changeProfile(profile_id, profile_name)
-                logger.debug(
-                    f'Change current profile to {profile_name}({profile_id})',
+                logger.info(
+                    f'Profile switched: {profile_name}({profile_id})',
                     self)
 
                 return True

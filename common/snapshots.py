@@ -32,7 +32,6 @@ import logger
 import tools
 import encfstools
 import encode
-import mount
 import progress
 import snapshotlog
 import flock
@@ -43,6 +42,7 @@ from inhibitsuspend import InhibitSuspend
 from applicationinstance import ApplicationInstance
 from exceptions import MountException
 from uniquenessset import UniquenessSet
+from mount import MountManager, MountError
 
 
 class Snapshots:
@@ -62,7 +62,7 @@ class Snapshots:
     """
     SNAPSHOT_VERSION = 3
 
-    def __init__(self, cfg = None):
+    def __init__(self, cfg=None):
         self.config = cfg
         if self.config is None:
             self.config = config.Config()
@@ -93,6 +93,8 @@ class Snapshots:
 
         self.lastBusyCheck = datetime.datetime(1, 1, 1)
         self.restorePermissionFailed = False
+
+        self.mount_manager = MountManager.create(self.config)
 
     # TODO: make own class for takeSnapshotMessage
     def clearTakeSnapshotMessage(self):
@@ -779,6 +781,32 @@ class Snapshots:
                                  include_entries)
         return list(missing_entries)
 
+    def _can_backup(self, profile_id=None):
+        """Checks if snapshots_path exists.
+
+        Dev note (2026-03, buhtz): Refactor or remove soon.
+        """
+        if not profile_id:
+            profile_id = self.config.currentProfile()
+
+        # silly
+        if not self.config.isConfigured(profile_id):
+            return False
+
+        # IMHO the mount manager handles this part well enough
+
+        # path = self.snapshotsFullPath(profile_id)
+
+        # if not os.path.exists(path):
+        #     logger.warning(f'Snapshot path does not exists: {path}', self)
+        #     return False
+
+        # if not os.path.isdir(path):
+        #     logger.warning(f'Snapshot path is not a directory: {path}', self)
+        #     return False
+
+        return True
+
     # TODO Refactor: This functions is extremely difficult to understand.
     def backup(self, force=False):
         """Wrapper for :py:func:`takeSnapshot` which will prepare and clean up
@@ -797,6 +825,7 @@ class Snapshots:
             bool: ``True`` if there was an error.
 
         """
+
         ret_val, ret_error = False, True
         sleep = True
 
@@ -870,28 +899,19 @@ class Snapshots:
         # workaround (#1751) that should be removed/refactored after
         # this method ("backup()") is refactored.
         with flock.GlobalFlock(disable=not self.config.globalFlock()):
-            # logger.info('Lock', self)
             now = datetime.datetime.today()
 
             with InhibitSuspend():  # inhibit suspend mode while backup
-                # mount
                 try:
-                    # hash_id = mount.Mount(cfg=self.config).mount()
-                    mount_manager = mount.MountFactory.create(self.config)
-                    hash_id = mount_manager.mount()
+                    self.mount_manager.mount()
 
-                except MountException as ex:
-                    logger.error(str(ex), self)
+                except MountError as exc:
+                    logger.error(str(exc), self)
                     instance.exitApplication()
-                    # logger.info('Unlock', self)
                     time.sleep(2)
 
                     return True
 
-                else:
-                    self.config.setCurrentHashId(hash_id)
-
-                # Free space check
                 if self.config.warnFreeSpaceEnabled():
                     real = self.get_free_space_at_destination()
 
@@ -905,6 +925,7 @@ class Snapshots:
                             logger.warning(msg)
                             self.setTakeSnapshotMessage(1, msg)
 
+                # Free space check
                 # Include/Exclude entry check
                 self.warn_about_include_entries_missing_in_source()
                 include_folders = self.config.include()
@@ -918,22 +939,23 @@ class Snapshots:
                 else:
                     # take snapshot process begin
                     self.setTakeSnapshotMessage(0, '…')
-                    self.snapshotLog.new(now)
+                    self.snapshotLog.new(now, self.mount_manager.path)
 
                     profile_id = self.config.currentProfile()
                     profile_name = self.config.profileName()
                     user_name = logger.USER
 
-                    logger.info(f'Creating backup. Profile: '
-                                f'{profile_name}({profile_id})'
-                                f' User: {user_name}',
+                    logger.info(f'Backup started (profile: '
+                                f'{profile_name}({profile_id}), '
+                                f'user: {user_name}',
                                 self)
 
-                    if not self.config.canBackup(profile_id):
+                    if not self._can_backup(profile_id):
 
                         if (self.config.PLUGIN_MANAGER.hasGuiPlugins
                                 and self.config.notify()):
 
+                            # IMHO useless?
                             message = (
                                 _("Can't find backup directory.")
                                 + '\n'
@@ -960,10 +982,10 @@ class Snapshots:
 
                             time.sleep(1)
 
-                            if self.config.canBackup():
+                            if self._can_backup():
                                 break
 
-                    if not self.config.canBackup(profile_id):
+                    if not self._can_backup(profile_id):
                         logger.error(
                             'Backup directory not accessible. Tries stopped.',
                             self
@@ -974,7 +996,7 @@ class Snapshots:
 
                     else:
                         ret_error = False
-                        sid = SID(now, self.config)
+                        sid = SID(now, self.config, self.mount_manager.path)
 
                         if sid.exists():
                             logger.warning(
@@ -992,10 +1014,16 @@ class Snapshots:
                                 # and ret_error to has_error for clearer
                                 # code
                                 ret_val, ret_error = self.takeSnapshot(
-                                    sid, now, include_folders)
+                                    sid,
+                                    now,
+                                    include_folders
+                                )
 
                             except:  # TODO too broad exception
-                                new = NewSnapshot(cfg=self.config)
+                                new = NewSnapshot(
+                                    cfg=self.config,
+                                    mounted_path=self.mount_manager.path
+                                )
 
                                 if new.exists():
                                     new.saveToContinue = False
@@ -1062,10 +1090,10 @@ class Snapshots:
                         try:
                             # mount.Mount(cfg=self.config) \
                             #     .umount(self.config.current_hash_id)
-                            mount_manager.umount()
+                            self.mount_manager.umount()
 
-                        except MountException as ex:
-                            logger.error(str(ex), self)
+                        except MountError as exc:
+                            logger.error(str(exc), self)
 
                         if not ret_error:
                             self.clearTakeSnapshotMessage()
@@ -1184,7 +1212,6 @@ class Snapshots:
         Args:
             sid (SID):  snapshot in which the config should be stored
         """
-        logger.info('Saving config file', self)
         self.setTakeSnapshotMessage(0, _('Saving config file…'))
 
         with open(self.config._LOCAL_CONFIG_PATH, 'rb') as src:
@@ -1226,6 +1253,8 @@ class Snapshots:
                         f' command was {cmd}. Also see the previous '
                         'WARNING message for a more details.', parent=self)
 
+        logger.info('Configuration saved', self)
+
     def _backup_info_file(self, sid):
         """
         Save infos about the snapshot into the 'info' file. The result is
@@ -1265,7 +1294,6 @@ class Snapshots:
         Returns:
             int: Return code of rsync.
         """
-        logger.info('Saving permissions', self)
         self.setTakeSnapshotMessage(0, _('Saving permissions…'))
 
         fileInfoDict = FileInfoDict()
@@ -1303,6 +1331,8 @@ class Snapshots:
             rc = proc.run()
 
         sid.fileInfo = fileInfoDict
+
+        logger.info('Permissions saved', self)
 
         return rc
 
@@ -1360,7 +1390,7 @@ class Snapshots:
         """
         self.setTakeSnapshotMessage(0, '...')
 
-        new_snapshot = NewSnapshot(self.config)
+        new_snapshot = NewSnapshot(self.config, sid._mounted_path)
         encode = self.config.ENCODE
 
         # "return" values set during async rsync execution (as user data "by ref")
@@ -1424,11 +1454,21 @@ class Snapshots:
 
                 return [False, True]
 
-        if not new_snapshot.saveToContinue and not new_snapshot.makeDirs():
-            return [False, True]
+        if not new_snapshot.saveToContinue:
+            try:
+                Path(new_snapshot.path()).mkdir(parents=True)
+            except OSError as exc:
+                logger.error(
+                    f'Cannot create {new_snapshot.path()=}. {exc=}', self)
+                return [False, True]
 
         prev_sid = None
-        snapshots = listSnapshots(self.config)
+        snapshots = listSnapshots(
+            cfg=self.config,
+            includeNewSnapshot=False,
+            reverse=True,
+            mounted_path=self.mount_manager.path
+        )
 
         if snapshots:
             prev_sid = snapshots[0]
@@ -1767,7 +1807,12 @@ class Snapshots:
 
         """
         # Latest/younges backup first, the oldest is last
-        snapshots = listSnapshots(self.config, reverse=True)
+        snapshots = listSnapshots(
+            cfg=self.config,
+            includeNewSnapshot=False,
+            reverse=True,
+            mounted_path=self.mount_manager.path
+        )
         logger.debug(f'Considered: {snapshots}', self)
 
         if len(snapshots) <= 1:
@@ -1962,15 +2007,18 @@ class Snapshots:
         # Prepare getting free space value
         if self.config.snapshotsMode() in ('ssh', 'ssh_encfs'):
             # ...on remote host
-            dest_path = self.config.sshSnapshotsFullPath()
+            # dest_path = self.config.sshSnapshotsFullPath()
             ssh_cmd = self.config.sshCommand(
                 [], nice=False, ionice=False)
         else:
             # ...on local machine
-            dest_path = self.config.snapshotsFullPath()
+            # dest_path = self.config.snapshotsFullPath()
             ssh_cmd = None
 
-        return tools.free_space(dest_path, ssh_cmd)
+        return tools.free_space(
+            self.mount_manager.path,
+            ssh_cmd
+        )
 
     def freeSpace(self, now):
         """Remove old backups based on several rules (if enabled).
@@ -1990,7 +2038,12 @@ class Snapshots:
 
         # All existing snapshots, ordered from old to new.
         # e.g. 2025-01-11 to 2025-01-19
-        snapshots = listSnapshots(self.config, reverse=False)
+        snapshots = listSnapshots(
+            cfg=self.config,
+            includeNewSnapshot=False,
+            reverse=False,
+            mounted_path=self.mount_manager.path
+        )
 
         if not snapshots:
             return
@@ -2005,7 +2058,11 @@ class Snapshots:
                 0, _('Applying rules to remove old backups'))
 
             # The oldest backup to keep. Others older than this are removed.
-            oldSID = SID(self.config.removeOldSnapshotsDate(), self.config)
+            oldSID = SID(
+                date=self.config.removeOldSnapshotsDate(),
+                cfg=self.config,
+                mounted_path=self.mount_manager.path
+            )
             oldBackupId = oldSID.withoutTag
 
             logger.debug(f'Removing backups older than: {oldBackupId}', self)
@@ -2053,7 +2110,12 @@ class Snapshots:
                 f'Keep min free disk space: {minFreeSpace}',
                 self)
 
-            snapshots = listSnapshots(self.config, reverse=False)
+            snapshots = listSnapshots(
+                cfg=self.config,
+                includeNewSnapshot=False,
+                reverse=False,
+                mounted_path=self.mount_manager.path
+            )
 
             while True:
                 if len(snapshots) <= 1:
@@ -2091,7 +2153,12 @@ class Snapshots:
                 "Keep min {perc}% free inodes".format(perc=minFreeInodes),
                 self)
 
-            snapshots = listSnapshots(self.config, reverse = False)
+            snapshots = listSnapshots(
+                cfg=self.config,
+                includeNewSnapshot=False,
+                reverse = False,
+                mounted_path=self.mount_manager.path
+            )
 
             while True:
                 if len(snapshots) <= 1:
@@ -2331,6 +2398,9 @@ class Snapshots:
 
         symlink = self.config.lastSnapshotSymlink()
 
+        symlink = Path(sid.path()).parent / bitbase.DIR_NAME_LAST_SNAPSHOT
+        symlink = str(symlink)
+
         try:
             if os.path.islink(symlink):
                 if os.path.basename(os.path.realpath(symlink)) == sid.sid:
@@ -2347,8 +2417,9 @@ class Snapshots:
 
             return True
 
-        except Exception as exc:
-            logger.error(f'Failed to create symlink {symlink}: {exc}', self)
+        except OSError as exc:
+            logger.error(f'Failed to create symlink {symlink} for '
+                         f'{sid=} {sid.path()=}: {exc}', self)
 
             return False
 
@@ -2557,10 +2628,21 @@ class SID:  # -> "BackupID" will be its new name
     FILEINFO = 'fileinfo.bz2'
     LOG = 'takesnapshot.log.bz2'
 
-    def __init__(self, date, cfg):
+    @staticmethod
+    def _construct_path_workaround(mounted, cfg, sid) -> str:
+        """A dirty workaround. Will get back to it later.
+
+        buhtz, 2026-03
+        """
+        host, user, profile = cfg.hostUserProfile(cfg.currentProfile())
+        path = mounted / 'backintime' / host / user / profile / sid
+        return str(path)
+
+    def __init__(self, date, cfg, mounted_path):
         self.config = cfg
         self.profileID = cfg.currentProfile()
         self.isRoot = False
+        self._mounted_path = mounted_path
 
         if isinstance(date, datetime.datetime):
             self.sid = '-'.join((date.strftime('%Y%m%d-%H%M%S'),
@@ -2592,6 +2674,9 @@ class SID:  # -> "BackupID" will be its new name
         else:
             raise TypeError("'date' must be an instance of str, datetime.date "
                             f"or datetime.datetime but is '{date}'")
+
+        self._path = SID._construct_path_workaround(
+            self._mounted_path, self.config, self.sid)
 
     def get_descriptor(self):
         return self.sid
@@ -2741,7 +2826,7 @@ class SID:  # -> "BackupID" will be its new name
         """
         return self.sid[0:15]
 
-    def path(self, *path, use_mode = []) -> str:
+    def path(self, *path, use_mode=[]) -> str:
         """
         Current path of this snapshot automatically altered for
         remote/encrypted version of this path
@@ -2757,20 +2842,27 @@ class SID:  # -> "BackupID" will be its new name
         Returns:
             str:                full snapshot path
         """
-        path = [i.strip(os.sep) for i in path]
-        current_mode = self.config.snapshotsMode(self.profileID)
+        path_return = Path(self._path)
 
-        if 'ssh' in use_mode and current_mode == 'ssh':
-            return os.path.join(self.config.sshSnapshotsFullPath(self.profileID),
-                                self.sid, *path)
+        for p in path:
+            path_return = path_return / p
 
-        if 'ssh_encfs' in use_mode and current_mode == 'ssh_encfs':
-            ret = os.path.join(self.config.sshSnapshotsFullPath(self.profileID),
-                               self.sid, *path)
-            return self.config.ENCODE.remote(ret)
+        return str(path_return)
 
-        return os.path.join(self.config.snapshotsFullPath(self.profileID),
-                            self.sid, *path)
+        # path = [i.strip(os.sep) for i in path]
+        # current_mode = self.config.snapshotsMode(self.profileID)
+
+        # if 'ssh' in use_mode and current_mode == 'ssh':
+        #     return os.path.join(self.config.sshSnapshotsFullPath(self.profileID),
+        #                         self.sid, *path)
+
+        # if 'ssh_encfs' in use_mode and current_mode == 'ssh_encfs':
+        #     ret = os.path.join(self.config.sshSnapshotsFullPath(self.profileID),
+        #                        self.sid, *path)
+        #     return self.config.ENCODE.remote(ret)
+
+        # return os.path.join(self.config.snapshotsFullPath(self.profileID),
+        #                     self.sid, *path)
 
     def pathBackup(self, *path, **kwargs):
         """
@@ -2800,13 +2892,23 @@ class SID:  # -> "BackupID" will be its new name
         Returns:
             bool:           ``True`` if successful
         """
+        logger.debug('DEPRECATED', self)
+
         if not os.path.isdir(self.config.snapshotsFullPath(self.profileID)):
-            logger.error('Snapshots path {} doesn\'t exist. Unable to make dirs for snapshot ID {}'.format(
-                         self.config.snapshotsFullPath(self.profileID), self.sid),
-                         self)
+            logger.error(
+                'Backup destination "{}" doesn\'t exist. '
+                'Unable to make dirs for snapshot ID {}'.format(
+                    self.config.snapshotsFullPath(self.profileID),
+                    self.sid
+                ),
+                self
+            )
             return False
 
-        return tools.makeDirs(self.pathBackup(*path))
+        path_backup = self.pathBackup(*path)
+        result = tools.makeDirs(path_backup)
+
+        return result
 
     def exists(self):
         """
@@ -3132,16 +3234,22 @@ class NewSnapshot(GenericNonSnapshot):
     NEWSNAPSHOT = bitbase.DIR_NAME_NEWSNAPSHOT
     SAVETOCONTINUE = bitbase.DIR_NAME_SAVETOCONTINUE
 
-    def __init__(self, cfg):
+    def __init__(self, cfg, mounted_path):
         self.config = cfg
         self.profileID = cfg.currentProfile()
         self.isRoot = False
+        self._mounted_path = mounted_path
 
         self.sid = self.NEWSNAPSHOT
         self.date = datetime.datetime(1, 1, 1)
 
         self.__le__ = self.__lt__
         self.__ge__ = self.__gt__
+
+        # WTF! super().__init__() not called.
+
+        self._path = SID._construct_path_workaround(
+            self._mounted_path, self.config, self.sid)
 
     def __lt__(self, other):
         return False
@@ -3272,7 +3380,9 @@ class RootSnapshot(GenericNonSnapshot):
             return os.path.join(os.sep, *path)
 
 
-def iterSnapshots(cfg: config.Config, includeNewSnapshot: bool = False
+def iterSnapshots(cfg: config.Config,
+                  includeNewSnapshot: bool,
+                  mounted_path: Path
                   ) -> Generator[SID, None, None]:
     """A generator to iterate over snapshots in current snapshot path.
 
@@ -3284,15 +3394,28 @@ def iterSnapshots(cfg: config.Config, includeNewSnapshot: bool = False
     Yields:
         SID: Snapshot IDs
     """
-    path = Path(cfg.snapshotsFullPath())
+    # path = Path(cfg.snapshotsFullPath())
+
+    # if not path.exists():
+    #     return None
+
+    # Workaround
+    host, user, profile = cfg.hostUserProfile(cfg.currentProfile())
+    path = mounted_path / 'backintime' / host / user / profile
 
     if not path.exists():
+        import traceback
+        traceback.print_stack(limit=4)
+        # Workaround. Usually this is not an error.
+        logger.critical(
+            f'iterSnapshots() :: Path does not exist. {path=} {mounted_path=}'
+        )
         return None
 
     for item in path.iterdir():
 
         if item.name == bitbase.DIR_NAME_NEWSNAPSHOT:
-            sid = NewSnapshot(cfg)
+            sid = NewSnapshot(cfg, mounted_path)
 
             if includeNewSnapshot and sid.exists():
                 yield sid
@@ -3304,7 +3427,7 @@ def iterSnapshots(cfg: config.Config, includeNewSnapshot: bool = False
             continue
 
         try:
-            sid = SID(item.name, cfg)
+            sid = SID(item.name, cfg, mounted_path)
 
             if sid.exists():
                 yield sid
@@ -3317,7 +3440,10 @@ def iterSnapshots(cfg: config.Config, includeNewSnapshot: bool = False
             logger.warning(f'"{item.name}" is not a snapshot ID. {exc=}')
 
 
-def listSnapshots(cfg, includeNewSnapshot=False, reverse=True):
+def listSnapshots(cfg,
+                  includeNewSnapshot,  # =False,
+                  reverse,  # =True,
+                  mounted_path: Path):
     """
     List of snapshots in current snapshot path.
 
@@ -3331,13 +3457,13 @@ def listSnapshots(cfg, includeNewSnapshot=False, reverse=True):
     Returns:
         list: List of :py:class:`SID` objects.
     """
-    ret = list(iterSnapshots(cfg, includeNewSnapshot))
+    ret = list(iterSnapshots(cfg, includeNewSnapshot, mounted_path))
     ret.sort(reverse=reverse)
 
     return ret
 
 
-def lastSnapshot(cfg):
+def lastSnapshot(cfg, mounted_path):
     """
     Most recent snapshot.
 
@@ -3347,14 +3473,21 @@ def lastSnapshot(cfg):
     Returns:
         SID:                    most recent snapshot ID
     """
-    sids = listSnapshots(cfg)
+    sids = listSnapshots(
+        cfg=cfg,
+        includeNewSnapshot=False,
+        reverse=True,
+        mounted_path=mounted_path
+    )
+
     if sids:
         return sids[0]
 
 
 def get_backup_ids_and_paths(cfg: config.Config,
-                             descending: bool = True,
-                             include_new: bool = False
+                             descending: bool,
+                             include_new: bool,
+                             mounted_path: Path
                              ) -> list[tuple[str, Path]]:
     """
     Args:
@@ -3370,7 +3503,11 @@ def get_backup_ids_and_paths(cfg: config.Config,
     result = []
 
     all_sids = sorted(
-        iterSnapshots(cfg=cfg, includeNewSnapshot=include_new),
+        iterSnapshots(
+            cfg=cfg,
+            includeNewSnapshot=include_new,
+            mounted_path=mounted_path
+        ),
         reverse=not descending)
 
     result = [(str(sid), Path(sid.path())) for sid in all_sids]

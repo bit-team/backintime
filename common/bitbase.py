@@ -60,6 +60,11 @@ URL_USER_MANUAL = 'https://backintime.readthedocs.io'
 # | Directories & files |
 # |---------------------|
 
+XDG_DATA_HOME = Path(os.environ.get(
+    'XDG_DATA_HOME',
+    os.environ.get('HOME') + '/.local/share'
+))
+
 FILENAME_CONFIG = 'config'
 
 _DIR_DOC_PATH_BASE = Path('/') / 'usr' / 'share' / 'doc'

@@ -16,11 +16,12 @@ import bcolors
 import config
 import logger
 import bitbase
+from mount import MountManager, MountError
 from typing import Optional
 from version import __version__
 
 
-def restore(cfg, snapshot_id=None, what=None, where=None, **kwargs):
+def restore(cfg, snapshot_id, what, where, mount_manager, **kwargs):
     if what is None:
         what = input('File to restore: ')
 
@@ -32,23 +33,44 @@ def restore(cfg, snapshot_id=None, what=None, where=None, **kwargs):
     if where:
         where = os.path.abspath(os.path.expanduser(where))
 
-    snapshotsList = snapshots.listSnapshots(cfg)
+    snapshotsList = snapshots.listSnapshots(
+        cfg=cfg,
+        includeNewSnapshot=False,
+        reverse=True,
+        mounted_path=mount_manager.path
+    )
 
     sid = selectSnapshot(
-        snapshotsList, cfg, snapshot_id, 'SnapshotID to restore')
+        snapshotsList,
+        cfg,
+        snapshot_id,
+        'SnapshotID to restore',
+        mount_manager.path
+    )
     print('')
 
     RestoreDialog(cfg, sid, what, where, **kwargs).run()
 
 
-def remove(cfg, snapshot_ids=None, force=None):
-    snapshotsList = snapshots.listSnapshots(cfg)
+def remove(cfg, snapshot_ids, force, mount_manager):
+    snapshotsList = snapshots.listSnapshots(
+        cfg=cfg,
+        includeNewSnapshot=False,
+        reverse=True,
+        mounted_path=mount_manager.path
+    )
 
     if not snapshot_ids:
         snapshot_ids = (None,)
 
     sids = [
-        selectSnapshot(snapshotsList, cfg, sid, 'SnapshotID to remove')
+        selectSnapshot(
+            snapshotsList,
+            cfg,
+            sid,
+            'SnapshotID to remove',
+            mount_manager.path
+        )
         for sid in snapshot_ids
     ]
 
@@ -68,9 +90,6 @@ def remove(cfg, snapshot_ids=None, force=None):
 
 
 def checkConfig(cfg, crontab=True):
-    import mount
-    from exceptions import MountException
-
     def announceTest():
         print()
         print(frame(test))
@@ -87,18 +106,23 @@ def checkConfig(cfg, crontab=True):
     cfg.setErrorHandler(errorHandler)
     mode = cfg.snapshotsMode()
 
+    mount_manager = MountManager.create(cfg)
+
     if cfg.SNAPSHOT_MODES[mode][0] is not None:
         # preMountCheck
         test = 'Run mount tests'
         announceTest()
-        mnt = mount.Mount(cfg = cfg, tmp_mount = True)
 
+        # preMountCheck:
+        # - checkFuse(): checking for mount binary (gocrytpfs, encfs, ...)
+        # - etc pp
         try:
-            mnt.preMountCheck(mode = mode, first_run = True)
+            mount_manager.validate()
+            # mnt.preMountCheck(mode = mode, first_run = True)
 
-        except MountException as ex:
+        except MountError as exc:
             failed()
-            print(str(ex))
+            print(str(exc))
             return False
 
         okay()
@@ -108,21 +132,21 @@ def checkConfig(cfg, crontab=True):
         announceTest()
 
         try:
-            hash_id = mnt.mount(mode=mode, check=False)
+            mount_manager.mount()
 
-        except MountException as ex:
+        except MountError as exc:
             failed()
-            print(str(ex))
+            print(str(exc))
             return False
 
         okay()
 
     test = 'Check/prepare backup path'
     announceTest()
-    snapshots_mountpoint = cfg.get_snapshots_mountpoint(tmp_mount=True)
+    # snapshots_mountpoint = cfg.get_snapshots_mountpoint(tmp_mount=True)
 
     ret = tools.validate_and_prepare_snapshots_path(
-        path=snapshots_mountpoint,
+        path=mount_manager.path,
         host_user_profile=cfg.hostUserProfile(),
         mode=mode,
         copy_links=cfg.copyLinks(),
@@ -140,11 +164,11 @@ def checkConfig(cfg, crontab=True):
         announceTest()
 
         try:
-            mnt.umount(hash_id=hash_id)
+            mount_manager.umount()
 
-        except MountException as ex:
+        except MountError as exc:
             failed()
-            print(str(ex))
+            print(str(exc))
             return False
 
         okay()
@@ -174,7 +198,12 @@ def checkConfig(cfg, crontab=True):
     return True
 
 
-def selectSnapshot(snapshotsList, cfg, snapshot_id=None, msg='SnapshotID'):
+def selectSnapshot(snapshotsList,
+                   cfg,
+                   snapshot_id=None,
+                   msg='SnapshotID',
+                   mounted_path=None
+                   ):
     """
     check if given snapshot is valid. If not print a list of all
     snapshots and ask to choose one
@@ -184,7 +213,10 @@ def selectSnapshot(snapshotsList, cfg, snapshot_id=None, msg='SnapshotID'):
     if not snapshot_id is None:
 
         try:
-            sid = snapshots.SID(snapshot_id, cfg)
+            sid = snapshots.SID(
+                date=snapshot_id,
+                cfg=cfg,
+                mounted_path=mounted_path)
 
             if sid in snapshotsList:
                 return sid

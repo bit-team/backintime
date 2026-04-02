@@ -9,14 +9,6 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 -->
 # Changelog
 [![Common Changelog](https://common-changelog.org/badge.svg)](https://common-changelog.org)
-<!-- Template
-## Unreleased
-### Changed
-### Added
-### Removed
-### Fixed
--->
-
 ## [2.0.0] (Unreleased Development)
 
 ### Changed
@@ -24,12 +16,18 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - **Rewritten from scratch**: Mount subsystem (backend and encryption).
   Behavior is intended to remain unchanged; regressions cannot be fully ruled
   out.
+- Default mountpoint permissions changed from 700 to 711 ([PR#2451](https://github.com/bit-team/backintime/pull/2451))
+  to avoid FUSE mount failures when accessing via different user contexts.
 - **Breaking**: Minimal Python version 3.13 increased
 - Changelog migrated to Common Changelog standard
 - Build: Changelog shipped as HTML
 
 ### Added
 - Build dependency `pandoc` to convert markdown changelog into HTML
+
+### Removed
+- Command line switch `--keep-mount`
+- CLI Command `decode` because of EncFS removal ([#1734](https://github.com/bit-team/backintime/issues/1734))
 
 ## [1.6.1] (2026-02-10)
 
@@ -1609,6 +1607,14 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 ### Uncategorized
 
 - This is the first release.
+
+<!-- Template
+## Unreleased
+### Changed
+### Added
+### Removed
+### Fixed
+-->
 
 [2.0.0]: https://github.com/bit-team/backintime/releases/tag/v2.0.0
 [1.6.2]: https://github.com/bit-team/backintime/releases/tag/v1.6.2
