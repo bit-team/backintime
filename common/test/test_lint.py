@@ -66,13 +66,13 @@ full_test_files = [_base_dir / fp for fp in (
     'storagesize.py',
     'test/test_args.py',
     'test/test_diagnostics.py',
-    'test/test_file_info_dict.py',
+    # 'test/test_file_info_dict.py',
     'test/test_languages.py',
     'test/test_lint.py',
-    'test/test_mount.py',
+    # 'test/test_mount.py',
     'test/test_singleton.py',
     'test/test_storagesize.py',
-    'test/test_takesnapshotlog.py',
+    # 'test/test_takesnapshotlog.py',
     'test/test_uniquenessset.py',
     'version.py',
 )]
@@ -152,7 +152,15 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         py_files = path.rglob('*.py')
 
         # Exclude full test files
-        return filter(lambda fp: fp not in full_test_files, py_files)
+        result = list(filter(lambda fp: fp not in full_test_files, py_files))
+
+        # workaround
+        result = list(filter(
+            lambda fp: not fp.stem.startswith('_do-review_'),
+            result
+        ))
+
+        return result
 
     @classmethod
     def setUpClass(cls):

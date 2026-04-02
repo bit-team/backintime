@@ -8,8 +8,8 @@
 """Backends for the mounting subsystem"""
 from enum import Enum, auto
 from pathlib import Path
+# import logger
 from ._error import MountError
-import logger
 
 
 class Backend:

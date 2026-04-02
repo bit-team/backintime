@@ -78,7 +78,9 @@ class MountManager:
         return MountManager(backend, encryptor, cfg)
 
     def __init__(self, backend, encryptor, cfg):
-        """Don't directly instantiate. Use ``MountManager.create()`` instead."""
+        """Don't directly instantiate. Use ``MountManager.create()``
+        instead.
+        """
         self.backend = backend
         self.encryptor = encryptor
         self.cfg = cfg

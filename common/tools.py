@@ -443,8 +443,7 @@ def validate_and_prepare_snapshots_path(
     # create full_path
     try:
         logger.debug(
-            f'Try to create full backup destination path "{full_path}"',
-            self
+            f'Try to create full backup destination path "{full_path}"'
         )
         full_path.mkdir(mode=0o777, parents=True, exist_ok=True)
 
