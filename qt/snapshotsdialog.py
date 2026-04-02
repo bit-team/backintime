@@ -409,10 +409,9 @@ class SnapshotsDialog(QDialog):
         if not sid1 or not sid2:
             return
 
-        path1 = sid1.pathBackup(self.path)
-        path2 = sid2.pathBackup(self.path)
+        path1 = sid1.path() # sid1.pathBackup(self.path)
+        path2 = sid2.path() # sid2.pathBackup(self.path)
 
-        # check if the 2 paths are different
         if path1 == path2:
             messagebox.critical(
                 self, _('It is not possible to compare a backup to '
