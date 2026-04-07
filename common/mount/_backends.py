@@ -119,22 +119,21 @@ class SSHBackend(Backend):
             port=cfg.get_ssh_port(),
             identity_file=cfg.get_ssh_identity_file()
         )
-        self.path = cfg.get_backup_destination_path(cfg.currentProfile())
+        # self.path = cfg.get_backup_destination_path(cfg.currentProfile())
+        self.path = self.mount_root / self.fingerprint / 'mountpoint'
 
     def get_fingerprint_base(self) -> str:
-        return str(self.TYPE) + ': ' + self.host.fingerprint()
+        return f'{self.TYPE}: {self.host}'
 
     def validate(self):
+        # TODO
         if not self.host.host:
             raise MountError('SSH host not configured')
-        # Optional: Port/Identity check
-        # Prüfen, ob Pfad erreichbar
+
         if not self.path:
             raise MountError('SSH destination path not set')
 
     def mount(self):
-        # Prüfen ob schon mounted (z.B. via tools.is_mounted)
-        # SSH-FS mount via sshfs
         mount_point = self.mount_root / self.get_fingerprint_base() / 'mountpoint'
         mount_point.mkdir(parents=True, exist_ok=True)
         if tools.is_mounted(mount_point):
