@@ -65,7 +65,11 @@ naturally explore relevant workflows without strict instructions.
 - Always start from the **terminal** to catch silent errors or warnings.
 - Create backup profiles in all available flavors:
   - **Local**
-  - **SSH** (test keys with and without passphrase, cached, in keyring)
+  - **SSH**
+    - different types of keys or just no key-file (systems SSH config)
+    - keys with and without passphrase
+    - cached password or password in keyring
+    - Use an SSH proxy
   - With and without **encryption**
 - Consider testing _Back In Time_ in its **root-mode**, too.
 - It would help the situation if you are a regular user of _Back In Time_.
