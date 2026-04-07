@@ -61,7 +61,12 @@ class MountManager:
         """
         mode = cfg.snapshotsMode()
 
-        backend_type = Backend.Type.LOCAL if 'local' in mode else None
+        if 'local' in mode:
+            backend_type = Backend.Type.LOCAL
+        elif 'ssh' in mode:
+            backend_type = Backend.Type.SSH
+        else:
+            backend_type = None
 
         if 'gocryptfs' in mode:
             encryptor_type = Encryptor.Type.GOCRYPTFS

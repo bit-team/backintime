@@ -6,6 +6,7 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Backends for the mounting subsystem"""
+from typing import __future__
 from enum import Enum, auto
 from pathlib import Path
 # import logger
@@ -80,5 +81,76 @@ class LocalBackend(Backend):
         """See ``Backend.umount()``"""
 
 
-# class SSHBackend(Backend):
-#     TYPE = Backend.Type.SSH
+class SSHHost:
+    """SSH connection parameters."""
+
+    DEFAULT_PORT = 22
+
+    def __init__(
+            self,
+            host: str,
+            user: str = None,
+            port: int = SSHHost.DEFAULT_PORT,
+            identity_file: str = None,
+            proxy: Optional[SSHHost]
+    ):
+        self.host = host
+        self.user = user
+        self.port = port
+        self.identity_file = identity_file
+        self.proxy = proxy
+
+    def __str__(self) -> str:
+        """Return unique string for mount fingerprint"""
+        return f'{self.user}@{self.host}:{self.port} -> {self.proxy}'
+
+
+class SSHBackend(Backend):
+    """SSH mounting backend"""
+    TYPE = Backend.Type.SSH
+
+    def __init__(self, cfg):
+        super().__init__(cfg)
+
+        # TODO: Proxy
+        self.host = SSHHost(
+            host=cfg.get_ssh_host(),
+            user=cfg.get_ssh_user(),
+            port=cfg.get_ssh_port(),
+            identity_file=cfg.get_ssh_identity_file()
+        )
+        self.path = cfg.get_backup_destination_path(cfg.currentProfile())
+
+    def get_fingerprint_base(self) -> str:
+        return str(self.TYPE) + ': ' + self.host.fingerprint()
+
+    def validate(self):
+        if not self.host.host:
+            raise MountError('SSH host not configured')
+        # Optional: Port/Identity check
+        # Prüfen, ob Pfad erreichbar
+        if not self.path:
+            raise MountError('SSH destination path not set')
+
+    def mount(self):
+        # Prüfen ob schon mounted (z.B. via tools.is_mounted)
+        # SSH-FS mount via sshfs
+        mount_point = self.mount_root / self.get_fingerprint_base() / 'mountpoint'
+        mount_point.mkdir(parents=True, exist_ok=True)
+        if tools.is_mounted(mount_point):
+            return
+
+        cmd = ['sshfs']
+        if self.host.identity_file:
+            cmd += ['-o', f'IdentityFile={self.host.identity_file}']
+        cmd += [
+            f'{self.host.user}@{self.host.host}:{self.path}',
+            str(mount_point)
+        ]
+        subprocess.run(cmd, check=True)
+
+        self.path = mount_point
+
+    def umount(self):
+        if tools.is_mounted(self.path):
+            subprocess.run(['fusermount', '-u', str(self.path)], check=False)
