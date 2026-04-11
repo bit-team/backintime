@@ -52,7 +52,7 @@ naturally explore relevant workflows without strict instructions.
   dependencies](CONTRIBUTING.md#build--install).
 - Use a **fresh virtual machine or clean system** without a previous _Back In
   Time_ installation. If you test on your productive machine, the minimal
-  recommendation is using the `--config=` option to seperate the test
+  recommendation is using the `--config=` option to separate the test
   configuration from the regular one.
 - Test on different GNU/Linux distributions:
   - Major lines: Debian, Arch Linux (or derivatives)
