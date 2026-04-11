@@ -6,10 +6,12 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Backends for the mounting subsystem"""
-from typing import __future__
+from __future__ import annotations
 from enum import Enum, auto
 from pathlib import Path
+from typing import Optional
 # import logger
+import bitbase
 from ._error import MountError
 
 
@@ -27,8 +29,17 @@ class Backend:
         self.cfg = cfg
         # Refactor: bitbase.XDG_DATA_DIR / 'backintime' / 'mnt'
         self.mount_root = Path(self.cfg._LOCAL_MOUNT_ROOT)
+        self._fingerprint = None
 
         # logger.critical(f'{self=} {self.mount_root=}', self)
+
+    @property
+    def fingerprint(self) -> str:
+        return self._fingerprint
+
+    def set_fingerprint(self, fingerprint: str):
+        """See `MountManager.fingerprint`"""
+        self._fingerprint = fingerprint
 
     def get_fingerprint_base(self) -> str:
         """Return backend-specific string for fingerprint calculation."""
@@ -84,15 +95,15 @@ class LocalBackend(Backend):
 class SSHHost:
     """SSH connection parameters."""
 
-    DEFAULT_PORT = 22
+    DEFAULT_PORT = bitbase.DEFAULT_SSH_PORT
 
     def __init__(
             self,
             host: str,
             user: str = None,
-            port: int = SSHHost.DEFAULT_PORT,
+            port: int = DEFAULT_PORT,
             identity_file: str = None,
-            proxy: Optional[SSHHost]
+            proxy: Optional[SSHHost] = None,
     ):
         self.host = host
         self.user = user

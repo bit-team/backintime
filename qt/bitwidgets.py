@@ -29,6 +29,7 @@ from PyQt6.QtWidgets import (QCheckBox,
                              QToolTip,
                              QWidget)
 import qttools
+import bitbase
 
 
 class SortedComboBox(QComboBox):
@@ -43,6 +44,16 @@ class SortedComboBox(QComboBox):
         self.set_ascending_order()
         self.set_role(Qt.ItemDataRole.DisplayRole)
 
+        self.currentIndexChanged.connect(self._update_tooltip)
+        self._update_tooltip()
+
+    def _update_tooltip(self):
+        tooltip = self.itemData(
+            self.currentIndex(),
+            Qt.ItemDataRole.ToolTipRole
+        )
+        self.setToolTip(tooltip or '')
+
     def set_ascending_order(self, ascending: bool = True) -> None:
         """Set the sort order."""
         self.sort_order = {
@@ -53,7 +64,7 @@ class SortedComboBox(QComboBox):
         """Set item data role."""
         self.sort_role = role
 
-    def add_item(self, text, user_data=None):
+    def add_item(self, text, user_data=None, tooltip=None):
         """
         QComboBox doesn't support sorting
         so this little hack is used to insert
@@ -74,6 +85,13 @@ class SortedComboBox(QComboBox):
         idx = the_list.index(sort_obj)
 
         self.insertItem(idx, text, user_data)
+
+        if tooltip:
+            self.setItemData(
+                idx,
+                tooltip,
+                Qt.ItemDataRole.ToolTipRole
+            )
 
     def check_selection(self):
         """Dev note: Not sure what it is doing or why this is needed."""
@@ -115,7 +133,13 @@ class ProfileCombo(SortedComboBox):
     def add_profile_id(self, profile_id):
         """Add item using the profiles name."""
         name = self._config.profileName(profile_id)
-        self.add_item(name, profile_id)
+
+        if bitbase.IS_IN_DEBUG_MODE:
+            tooltip = 'DEBUG: ' + self._config.snapshotsMode(profile_id)
+        else:
+            tooltip = None
+
+        self.add_item(text=name, user_data=profile_id, tooltip=tooltip)
 
     def current_profile_id(self):
         """Return the current selected profile id."""

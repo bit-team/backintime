@@ -38,23 +38,7 @@ class Encryptor:
 
     @property
     def fingerprint(self) -> str:
-        """Compute a unique mount fingerprint.
-
-        The fingerprint is a deterministic hex string and based on the
-        encryptors configuration parameters and the backend.  It serves as a
-        stable identifier for mountpoints, allowing mounts with identical
-        configurations to be recognized and potentially reused across
-        processes.
-
-        Returns:
-            A SHA256 hash cut to a 12-character hexadecimal string.
-
-        """
-        data = '|'.join([
-            self._backend.get_fingerprint_base(),
-            self.get_fingerprint_base()
-        ])
-        return hashlib.sha256(data.encode()).hexdigest()[:12]
+        return self._backend.fingerprint
 
     @property
     def mount_root(self) -> Path:

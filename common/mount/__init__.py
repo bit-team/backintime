@@ -19,6 +19,7 @@ Responsibilities:
 """
 import os
 import subprocess
+import hashlib
 from contextlib import contextmanager
 from time import sleep
 from pathlib import Path
@@ -80,7 +81,9 @@ class MountManager:
             print(f'{mode=}')  # DEBUG
             raise exc
 
-        return MountManager(backend, encryptor, cfg)
+        manager = MountManager(backend, encryptor, cfg)
+
+        return manager
 
     def __init__(self, backend, encryptor, cfg):
         """Don't directly instantiate. Use ``MountManager.create()``
@@ -97,7 +100,26 @@ class MountManager:
             self
         )
 
+        self.backend.set_fingerprint(self._compute_fingerprint())
+
         self._ensure_password_cache()
+
+    def _compute_fingerprint(self) -> str:
+        """Compute a unique mount fingerprint.
+
+        The fingerprint is a deterministic hex string and based on the
+        encryptors configuration parameters and the backend.
+
+        Returns:
+            A SHA256 hash cut to a 12-character hexadecimal string.
+
+        """
+        data = '|'.join([
+            self.backend.get_fingerprint_base(),
+            self.encryptor.get_fingerprint_base()
+        ])
+
+        return hashlib.sha256(data.encode()).hexdigest()[:12]
 
     def _ensure_password_cache(self):
         """Start the password cache process if isn't already"""
@@ -149,9 +171,12 @@ class MountManager:
         the instance used. Every backintime instance with the identical mount
         setup and configuratino should return an identical fingerprint.
 
-        In combination with mountpoint lock mechanic, this is used to reuse
-        existing mount points and prevent umount on mountpoints that are still
-        in use by other processes.
+        In combination with mountpoint lock mechanic, it serves as a stable
+        identifier for mountpoints, allowing mounts with identical
+        configurations to be recognized and potentially reused across
+        processes.
+
+        See also `MountManager._compute_fingerprint()` for more details.
         """
         return self.encryptor.fingerprint
 
