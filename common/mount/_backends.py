@@ -29,9 +29,9 @@ class Backend:
         self.cfg = cfg
         # Refactor: bitbase.XDG_DATA_DIR / 'backintime' / 'mnt'
         self.mount_root = Path(self.cfg._LOCAL_MOUNT_ROOT)
-        self._fingerprint = None
-
         # logger.critical(f'{self=} {self.mount_root=}', self)
+
+        self._fingerprint = None
 
     @property
     def fingerprint(self) -> str:

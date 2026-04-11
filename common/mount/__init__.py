@@ -100,9 +100,10 @@ class MountManager:
             self
         )
 
-        self.backend.set_fingerprint(self._compute_fingerprint())
-
         self._ensure_password_cache()
+
+        self.backend.set_fingerprint(self._compute_fingerprint())
+        self.encryptor.setup()
 
     def _compute_fingerprint(self) -> str:
         """Compute a unique mount fingerprint.

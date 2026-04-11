@@ -32,6 +32,9 @@ class Encryptor:
         self.cfg = cfg
         self._backend = backend
 
+    def setup(self):
+        raise NotImplementedError
+
     def get_fingerprint_base(self) -> str:
         """Return encryptor-specific string for fingerprint calculation."""
         raise NotImplementedError
@@ -72,8 +75,10 @@ class NoEncryption(Encryptor):
 
     def __init__(self, cfg, backend):
         super().__init__(cfg, backend)
+        self.path = None
+
+    def setup(self):
         self.path = self._backend.path
-        # logger.critical(f'{self=} {self.path=}')
 
     def get_fingerprint_base(self) -> str:
         return str(self.TYPE) + ': '
@@ -119,12 +124,12 @@ class GoCryptFS(Encryptor):
         # the decrypted (human readable) view of "plain_path"
         # mount_root + hash_id/fingerprint + 'mountpoint'
         # e.g. `~/.local/share/backintime/mnt/<hash_id>/mountpoint`
+        self.path = None
+        self.password = None
+
+    def setup(self):
         self.path = self.mount_root / self.fingerprint / 'mountpoint'
         self.path.mkdir(parents=True, exist_ok=True)
-
-        # logger.debug(f'{self.path=} {self.cipher_path=}', self)
-
-        self.password = None
 
     @property
     def cipher_path(self) -> Path:
