@@ -16,6 +16,54 @@ Responsibilities:
 - Supporting encryption strategies via encryptors (e.g., gocrytpfs)
 - Providing a unified fingerprint mechanism for mount identification and
   mountpoint reference counting.
+
+Mountpoint layout and rules for all profile types.
+
+Base directory:
+    ~/.local/share/backintime/mnt/<fp>/
+
+Where:
+    <fp> = fingerprint derived from the full mount setup configuration,
+           including backend (local or SSH) AND optional encryptor.
+
+Profiles:
+
+    local (unencrypted):
+        Backend mount:
+            <fp>/mountpoint
+        rsync works on:
+            <fp>/mountpoint
+
+    local_gocryptfs (encrypted):
+        Backend mount:
+            <fp>/mountpoint
+        Encryptor:
+            overlays directly on <fp>/mountpoint
+        rsync works on:
+            <fp>/mountpoint
+
+    ssh (unencrypted):
+        Backend mount (sshfs):
+            <fp>/mountpoint
+        rsync works on:
+            <fp>/mountpoint
+
+    ssh_gocryptfs (encrypted over SSH):
+        Backend mount (sshfs):
+            <fp>/ssh
+        Encryptor (gocryptfs):
+            mounted on top of SSH mount at <fp>/mountpoint
+        rsync works on:
+            <fp>/mountpoint
+
+Rules:
+  - The directory "mountpoint" is always the final working directory for rsync.
+  - The encryptor (if present) is always mounted on top of the backend.
+  - Only the ssh_gocryptfs profile introduces an additional intermediate
+    mount directory ("ssh").
+  - Lock files belong to the final mountpoint directory.
+  - The fingerprint (<fp>) is derived from the COMPLETE setup to avoid
+    collisions between different encryptor configurations on the same backend.
 """
 import os
 import subprocess
@@ -27,7 +75,7 @@ import tools
 import logger
 import bitbase
 from password import Password_Cache
-from ._backends import Backend, LocalBackend  # , SSHBackend
+from ._backends import Backend, LocalBackend, SSHBackend, SSHHost
 from ._encryptors import Encryptor, NoEncryption, GoCryptFS
 from ._error import MountError  # noqa: F401
 
@@ -36,7 +84,7 @@ LOCK_SUFFIX = 'lock'
 
 _BACKENDS = {
     Backend.Type.LOCAL: LocalBackend,
-    # Backend.Type.SSH: SSHBackend,
+    Backend.Type.SSH: SSHBackend,
 }
 
 _ENCRYPT = {
@@ -119,6 +167,7 @@ class MountManager:
             self.backend.get_fingerprint_base(),
             self.encryptor.get_fingerprint_base()
         ])
+        print(f'{data=}')
 
         return hashlib.sha256(data.encode()).hexdigest()[:12]
 

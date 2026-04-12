@@ -10,6 +10,7 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Module offering a dialog to view log files.
 """
+from pathlib import Path
 from PyQt6.QtWidgets import (QCheckBox,
                              QComboBox,
                              QDialog,
@@ -60,7 +61,8 @@ class LogViewDialog(QDialog):  # pylint: disable=too-many-instance-attributes
         import icon  # noqa: PLC0415
         self.setWindowIcon(icon.VIEW_SNAPSHOT_LOG)
         self.setWindowTitle(
-            _('Last Log View') if sid is None else _('Backup Log View'))
+            _('Last Log View') if sid is None else _('Backup Log View')
+        )
 
         main_layout = QVBoxLayout(self)
 

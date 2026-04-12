@@ -2067,19 +2067,23 @@ class MainWindow(QMainWindow):
             logviewdialog.LogViewDialog(self).show()
 
     def _slot_backup_open_log(self):
-        item = self.timeline.currentItem()
-        if item is None:
+        if self.timeline.is_now_selected():
             return
 
-        sid = item.snapshot_id
-        if sid.isRoot:
+        descriptor = self.timeline.selected_backup_descriptor()
+        if descriptor is None:
             return
 
         with self.suspend_mouse_button_navigation():
+            # Workaround
+            mount_manager = MountManager.create(self.config)
+            sid = snapshots.SID(descriptor, self.config, mount_manager.path)
+
             dlg = logviewdialog.LogViewDialog(self, sid)
-            dlg.show()
+            dlg.exec()
+
             if sid != dlg.sid:
-                self.timeline.set_current_snapshot_id(dlg.sid)
+                self.timeline.select_by_descriptor(dlg.sid)
 
     def _slot_manage_profiles(self):
         with self.suspend_mouse_button_navigation():

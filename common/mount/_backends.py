@@ -10,8 +10,12 @@ from __future__ import annotations
 from enum import Enum, auto
 from pathlib import Path
 from typing import Optional
-# import logger
+import os
+import ipaddress
+import subprocess
 import bitbase
+import logger
+import tools
 from ._error import MountError
 
 
@@ -32,6 +36,7 @@ class Backend:
         # logger.critical(f'{self=} {self.mount_root=}', self)
 
         self._fingerprint = None
+        self.path = None
 
     @property
     def fingerprint(self) -> str:
@@ -102,18 +107,64 @@ class SSHHost:
             host: str,
             user: str = None,
             port: int = DEFAULT_PORT,
-            identity_file: str = None,
+            priv_key_file: str = None,
             proxy: Optional[SSHHost] = None,
+            path: str = './',
     ):
-        self.host = host
+        self.host = self.ensure_ipv6_brackets(host)
         self.user = user
         self.port = port
-        self.identity_file = identity_file
+        self.priv_key_file = priv_key_file
         self.proxy = proxy
+        self.path = path
+
+    @staticmethod
+    def ensure_ipv6_brackets(address: str) -> str:
+        """Escape IP addresses with square brackets ``[]`` if they are IPv6.
+
+        IPv6 addresses contain ``:``, which conflicts with separators used in
+        contexts like SSH/URLs (e.g. host:port). Wrapping IPv6 in ``[]`` ensures
+        unambiguous parsing.
+
+        If it is an IPv4 address or a hostname (lettersonly) nothing is changed.
+
+        Args:
+            address (str): IP-Address to escape if needed.
+
+        Returns:
+            str: The address, escaped if it is IPv6.
+        """
+
+        try:
+            ip = ipaddress.ip_address(address)
+
+        except ValueError:
+            # invalid IP, e.g. a hostname
+            return address
+
+        if ip.version == 6:
+            return f'[{address}]'
+
+        return address
+
+    @property
+    def user_host(self) -> str:
+        return f'{self.user}@{self.host}'
+
+    @property
+    def user_host_path(self) -> str:
+        return f'{self.user_host}:{self.path}'
+
+    @property
+    def user_host_port(self) -> str:
+        return f'{self.user_host}:{self.port}'
 
     def __str__(self) -> str:
         """Return unique string for mount fingerprint"""
-        return f'{self.user}@{self.host}:{self.port} -> {self.proxy}'
+        return (
+            f'{self.user_host_port};{self.path};{self.priv_key_file} '
+            f'-> {self.proxy}'
+        )
 
 
 class SSHBackend(Backend):
@@ -124,12 +175,20 @@ class SSHBackend(Backend):
         super().__init__(cfg)
 
         # TODO: Proxy
+        # TODO: nice, ionice, nocache
         self.host = SSHHost(
-            host=cfg.get_ssh_host(),
-            user=cfg.get_ssh_user(),
-            port=cfg.get_ssh_port(),
-            identity_file=cfg.get_ssh_identity_file()
+            host=cfg.sshHost(),
+            user=cfg.sshUser(),
+            port=cfg.sshPort(),
+            priv_key_file=cfg.sshPrivateKeyFile(),
+            path=cfg.sshSnapshotsPath()
         )
+        # self.path = cfg.get_backup_destination_path(cfg.currentProfile())
+
+    def set_fingerprint(self, fingerprint: str):
+        """See `MountManager.fingerprint`"""
+        super().set_fingerprint(fingerprint)
+
         # self.path = cfg.get_backup_destination_path(cfg.currentProfile())
         self.path = self.mount_root / self.fingerprint / 'mountpoint'
 
@@ -145,21 +204,77 @@ class SSHBackend(Backend):
             raise MountError('SSH destination path not set')
 
     def mount(self):
-        mount_point = self.mount_root / self.get_fingerprint_base() / 'mountpoint'
-        mount_point.mkdir(parents=True, exist_ok=True)
-        if tools.is_mounted(mount_point):
+        if tools.is_mounted(self.path):
+            logger.info('SSH directory already mounted')
             return
 
-        cmd = ['sshfs']
-        if self.host.identity_file:
-            cmd += ['-o', f'IdentityFile={self.host.identity_file}']
-        cmd += [
-            f'{self.host.user}@{self.host.host}:{self.path}',
-            str(mount_point)
-        ]
-        subprocess.run(cmd, check=True)
+        self.path.mkdir(parents=True, exist_ok=True)
 
-        self.path = mount_point
+        cmd = [
+            'sshfs',
+            # keep connection alive
+            '-o', 'ServerAliveInterval=240',
+            # disable ssh banner
+            '-o', 'LogLevel=Error',
+        ]
+
+        # key file
+        if self.host.priv_key_file:
+            cmd.extend(['-o', f'IdentityFile={self.host.priv_key_file}'])
+
+        # port
+        cmd.extend(['-p', f'{self.host.port}'])
+
+        cmd.extend([
+            '-o', 'idmap=user',
+            '-o', 'cache_dir_timeout=2',
+            '-o', 'cache_stat_timeout=2'
+        ])
+
+        cmd.extend([
+            self.host.user_host_path,
+            self.path  # mountpoint
+        ])
+
+        # bugfix: sshfs doesn't mount if locale in LC_ALL is not available on
+        # remote host
+        # LANG or other environment variable are no problem.
+        env = os.environ.copy()
+        if 'LC_ALL' in list(env.keys()):
+            env['LC_ALL'] = 'C'
+
+        # SSH Proxy (aka Jump host)
+        if self.host.proxy:
+            cmd.extend([
+                '-o',
+                'ssh_command=ssh -J '
+                f'{self.host.proxy.user_host_port}'
+            ])
+
+        logger.debug(f'Call mount command: {cmd}', self)
+        proc = subprocess.Popen(
+            cmd,
+            env=env,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.PIPE,
+            universal_newlines=True
+        )
+
+        err = proc.communicate()[1]
+
+        if proc.returncode != 0:
+            msg = _(
+                'Unable to mount via "{command}"'
+            ).format(command=cmd)
+            msg = f'{msg}:\n\n{err}\n\n'
+            msg = f'{msg}Return code: {proc.returncode}'
+            logger.critical(msg)
+            raise MountError(msg)
+
+        logger.info(
+            'Remote directory mounted '
+            f'(source: {self.host.user_host_port} "{self.host.path}" '
+            f'-> target: "{self.path}")')
 
     def umount(self):
         if tools.is_mounted(self.path):
