@@ -44,15 +44,16 @@ Profiles:
 
     ssh (unencrypted):
         Backend mount (sshfs):
-            <fp>/mountpoint
+            <fp>/ssh
         rsync works on:
-            <fp>/mountpoint
+            <fp>/ssh   -> then mapped logically as final mountpoint
 
     ssh_gocryptfs (encrypted over SSH):
         Backend mount (sshfs):
             <fp>/ssh
         Encryptor (gocryptfs):
-            mounted on top of SSH mount at <fp>/mountpoint
+            mounts:
+                <fp>/ssh -> <fp>/mountpoint
         rsync works on:
             <fp>/mountpoint
 
@@ -75,7 +76,7 @@ import tools
 import logger
 import bitbase
 from password import Password_Cache
-from ._backends import Backend, LocalBackend, SSHBackend, SSHHost
+from ._backends import Backend, LocalBackend, SSHBackend, SSHHost  # noqa: f401
 from ._encryptors import Encryptor, NoEncryption, GoCryptFS
 from ._error import MountError  # noqa: F401
 
