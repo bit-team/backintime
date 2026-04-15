@@ -13,7 +13,20 @@ from typing import Optional
 class MountError(Exception):
     """Raised for failures in the mount subsystem.
 
-    It is intentionally kept generic to avoid multiple custom exceptions.
+    Design decissions:
+
+        1. The class is intentionally kept generic to avoid a hierarchy of
+           specialized mount-related exception types.
+
+    Second design decission:
+
+        Log message is untranslated and UI message is translated. Against
+        principels of clean architecture both messages are defined at the
+        point of raising the exception. The intention is to avoid any runtime
+        mapping layer or translation indirection. This is a deliberate
+        design choice to keep the system simple, avoid error-code mapping
+        tables and ensure that log output and user-facing messages can evolve
+        independently while remaining close together in the code.
     """
     def __init__(
             self,

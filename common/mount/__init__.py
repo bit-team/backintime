@@ -168,7 +168,7 @@ class MountManager:
             self.backend.get_fingerprint_base(),
             self.encryptor.get_fingerprint_base()
         ])
-        print(f'{data=}')
+        logger.debug(f'fingerprint: {data=}', self)
 
         return hashlib.sha256(data.encode()).hexdigest()[:12]
 
