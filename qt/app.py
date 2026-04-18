@@ -490,11 +490,11 @@ class MainWindow(QMainWindow):
                 _('Use checksums for file change detection.')),
             'act_pause_take_snapshot': (
                 icon.PAUSE, _('Pause backup process'),
-                lambda: os.kill(self.snapshots.pid(), signal.SIGSTOP), None,
+                lambda: self._safe_signal(signal.SIGSTOP), None,
                 None),
             'act_resume_take_snapshot': (
                 icon.RESUME, _('Resume backup process'),
-                lambda: os.kill(self.snapshots.pid(), signal.SIGCONT), None,
+                lambda: self._safe_signal(signal.SIGCONT), None,
                 None),
             'act_stop_take_snapshot': (
                 icon.STOP, _('Stop backup process'),
@@ -1848,8 +1848,15 @@ class MainWindow(QMainWindow):
         backintime.takeSnapshotAsync(self.config, checksum=checksum)
         self._update_backup_status(True)
 
+    def _safe_signal(self, sig):
+        """Send a signal to the snapshot process, ignoring if it has already exited."""
+        try:
+            os.kill(self.snapshots.pid(), sig)
+        except ProcessLookupError:
+            pass
+
     def _slot_backup_stop(self):
-        os.kill(self.snapshots.pid(), signal.SIGKILL)
+        self._safe_signal(signal.SIGKILL)
         self.act_stop_take_snapshot.setEnabled(False)
         self.act_pause_take_snapshot.setEnabled(False)
         self.act_resume_take_snapshot.setEnabled(False)
