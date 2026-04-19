@@ -94,11 +94,15 @@ def _license_info() -> tuple[str, str]:
         logger.error(result[0])
 
     if not result[1]:
-        result = (
-            result[0],
-            'Unable to extract licenses from LICENSES '
-            f'directory "{bitlicense.DIR_LICENSES}".')
-        logger.error(result[1])
+        if bitlicense.DIR_LICENSES:
+            result = (
+                result[0],
+                'Unable to extract licenses from LICENSES '
+                f'directory "{bitlicense.DIR_LICENSES}".')
+            logger.error(result[1])
+        else:
+            # LICENSES directory not found on disk, use fallback
+            result = (result[0], None)
 
     return result
 
