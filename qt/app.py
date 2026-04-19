@@ -1068,7 +1068,7 @@ class MainWindow(QMainWindow):
             mount.mount()
         except MountError as exc:
             logger.error(str(exc))
-            messagebox.critical(self, exc.as_msgbox_string())
+            messagebox.critical(self, exc.gui_msg)
 
         self.rebuild_timeline()
         self.places.do_update()
