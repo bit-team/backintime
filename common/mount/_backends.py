@@ -84,12 +84,16 @@ class LocalBackend(Backend):
         Raises: MountError
         """
         if not self.path.exists():
-            raise MountError(
-                _("Can't find backup destination directory."),
-                _('If it is on a removable drive, please plug it in.')
-                + ' ' + _('Then press OK.'),
-                self.path
+            gui_msg = (
+                _("Can't find backup destination directory.")
+                + f'\n{self.path}'
+                + '\n\n'
+                + _('If it is on a removable drive, please plug it in.')
+                + ' ' + _('Then press OK.')
             )
+            log_msg = f"Can't find backup destination directory. {self.path}"
+
+            raise MountError(log_msg, gui_msg)
 
     def mount(self):
         """See ``Backend.mount()``"""
@@ -225,10 +229,12 @@ class SSHBackend(Backend):
             ):
                 return
 
-        except OSError as e:
-            raise MountError(
-                f'SSH host unreachable: {target.host}:{target.port}'
-            ) from e
+        except OSError as exc:
+            log_msg = f'SSH host unreachable: {target.host}:{target.port}'
+            gui_msg = _('SSH host unreachable: {host}').format(
+                host=f'{target.host}:{target.port}'
+            )
+            raise MountError(log_msg, gui_msg) from exc
 
     def _check_host_auth(self):
         logger.debug('Check SSH login', self)
@@ -254,7 +260,6 @@ class SSHBackend(Backend):
             '-o', 'ConnectTimeout=5',
         ])
 
-
         # port
         cmd.extend(['-p', str(self.host.port)])
 
@@ -262,7 +267,6 @@ class SSHBackend(Backend):
             self.host.user_host,
             'exit'
         ])
-
 
         logger.debug(f'Call SSH auth check command: {cmd}', self)
         proc = subprocess.run(
@@ -273,20 +277,32 @@ class SSHBackend(Backend):
         )
 
         if proc.returncode != 0:
-            msg = (
-                'Password-less SSH authentication failed for '
-                f'{self.host}:\nError: {proc.stderr}\nCommand: {cmd}'
+            log_msg = (
+                'Passwordless SSH authentication failed for '
+                f'{self.host} | Error: {proc.stderr} | Command: {cmd}'
             )
-            logger.error(msg.replace('\n', ' '))
-            raise MountError(msg)
+            logger.error(log_msg)
+            gui_msg = _(
+                'Passwordless SSH authentication failed for {host}'
+            ).format(host=self.host)
+            gui_msg = gui_msg + '\n\n'
+            gui_msg = gui_msg + _('Error: {err}').format(proc.stderr) + '\n'
+            gui_msg = gui_msg + _('Command: {cmd}').format(cmd)
+            raise MountError(log_msg, gui_msg)
 
     def validate(self):
         # TODO
         if not self.host.host:
-            raise MountError('SSH host not configured')
+            raise MountError(
+                'SSH host not configured',
+                _('SSH host not configured')
+            )
 
         if not self.path:
-            raise MountError('SSH destination path not set')
+            raise MountError(
+                'SSH destination path not set',
+                _('SSH destination path not set')
+            )
 
         if self.cfg.sshCheckPingHost():
             self._check_host_reachable()
@@ -353,13 +369,18 @@ class SSHBackend(Backend):
         err = proc.communicate()[1]
 
         if proc.returncode != 0:
-            msg = _(
-                'Unable to mount via "{command}"'
-            ).format(command=cmd)
-            msg = f'{msg}:\n\n{err}\n\n'
-            msg = f'{msg}Return code: {proc.returncode}'
-            logger.critical(msg)
-            raise MountError(msg)
+            log_msg = f'Mount failed via "{cmd}"'
+            log_msg = f'{log_msg} | {err} | Return code: {proc.returncode}'
+            logger.critical(log_msg)
+
+            gui_msg = (
+                _('Mount failed via "{command}"').format(command=cmd)
+                + '\n'
+                + _('Return code: {rc}').format(rc=proc.returncode)
+                + _('Original error: {err}').format(err)
+            )
+
+            raise MountError(log_msg, gui_msg)
 
         logger.info(
             'Remote directory mounted '

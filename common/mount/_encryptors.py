@@ -8,7 +8,6 @@
 """Encryption subsystem related to mounting"""
 import os
 import json
-import hashlib
 import subprocess
 from enum import Enum, auto
 from pathlib import Path
@@ -199,13 +198,21 @@ class GoCryptFS(Encryptor):
                 output = proc.communicate()[0]
 
                 if proc.returncode:
-                    msg = _(
-                        'Unable to initialize encryption via "{command}"'
-                    ).format(command=cmd)
-                    msg = f'{msg}:\n\n{output}\n\n'
-                    msg = f'{msg}Return code: {proc.returncode}'
-                    logger.critical(msg, self)
-                    raise MountError(msg, path=self.cipher_path)
+                    log_msg = f'Unable to initialize encryption via "{cmd}"'
+                    log_msg = f'{log_msg} | {output} '
+                    log_msg = f'{log_msg} | Return code: {proc.returncode}'
+                    logger.critical(log_msg)
+
+                    gui_msg = (
+                        _(
+                            'Unable to initialize encryption via "{command}"'
+                        ).format(command=cmd)
+                        + '\n'
+                        + _('Return code: {rc}').format(rc=proc.returncode)
+                        + _('Original error: {err}').format(err=output)
+                    )
+
+                    raise MountError(log_msg, gui_msg)
 
     def validate(self):
         """Check if encryption setup is ready to get mounted.
@@ -213,17 +220,21 @@ class GoCryptFS(Encryptor):
         Raises: MountError
         """
         if not self.is_initialized():
-            raise MountError(
-                _('Backup destination directory is not '
-                  'prepared for encryption.'),
-                path=self.cipher_path
-            )
+            log_msg = 'Backup destination not prepared for ' \
+                f'encryption: {self.cipher_path}'
+            gui_msg = _(
+                'Backup destination directory is not prepared for encryption. '
+                'Path: {path}'
+            ).format(path=self.cipher_path)
+
+            raise MountError(log_msg, gui_msg)
 
         if not self.path.exists():
-            raise MountError(
-                'Mointpoint as decrypted view is missing.',
-                path=self.path
-            )
+            log_msg = f'Mointpoint (as decrypted view) missing: {self.path}'
+            gui_msg = _(
+                'Mointpoint as decrypted view is missing. Path: {path}'
+            ).format(path=self.path)
+            raise MountError(log_msg, gui_msg)
 
     def mount(self):
         """Mount
@@ -270,14 +281,19 @@ class GoCryptFS(Encryptor):
             ) as proc:
                 output = proc.communicate()[0]
 
-                if proc.returncode:
-                    msg = _(
-                        'Unable to mount via "{command}"'
-                    ).format(command=cmd)
-                    msg = f'{msg}:\n\n{output}\n\n'
-                    msg = f'{msg}Return code: {proc.returncode}'
-                    logger.critical(msg)
-                    raise MountError(msg)
+                if proc.returncode != 0:
+                    log_msg = f'Mount failed via "{cmd}"'
+                    log_msg = f'{log_msg} | {output}'
+                    log_msg = f'{log_msg} | Return code: {proc.returncode}'
+                    logger.critical(log_msg)
+
+                    gui_msg = (
+                        _('Mount failed via "{command}"').format(command=cmd)
+                        + '\n'
+                        + _('Return code: {rc}').format(rc=proc.returncode)
+                        + _('Original error: {err}').format(err=output)
+                    )
+                    raise MountError(log_msg, gui_msg)
 
         logger.info(
             'Encrypted directory mounted '
@@ -302,15 +318,16 @@ class GoCryptFS(Encryptor):
             check=False
         )
 
-        if proc.returncode:
-            msg = f'Unable to umount {self.path}:\n{proc.stdout}'
-            logger.error(msg)
-
-            raise MountError(msg)
-
-        # # DEBUG
-        # import traceback
-        # traceback.print_stack(limit=6)
+        if proc.returncode != 0:
+            log_msg = f'Unmount failed. | {proc.stdout} | {proc.returncode}'
+            logger.error(log_msg)
+            gui_msg = (
+                _('Unmount failed')
+                + '\n'
+                + _('Return code: {rc}').format(rc=proc.returncode)
+                + _('Original error: {err}').format(err=proc.stdout)
+            )
+            raise MountError(log_msg, gui_msg)
 
         logger.info(
             'Encrypted directory unmounted '

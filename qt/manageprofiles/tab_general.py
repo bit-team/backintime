@@ -513,7 +513,7 @@ class GeneralTab(QDialog):
             mnt.umount()
         except MountError as exc:
             logger.error(self, str(exc))
-            messagebox.critical(self, exc.to_msgbox_string())
+            messagebox.critical(self, exc.gui_msg)
             return False
 
         return True
@@ -537,7 +537,7 @@ class GeneralTab(QDialog):
             mnt.mount()
 
         except MountError as exc:
-            messagebox.critical(self, exc.as_msgbox_string())
+            messagebox.critical(self, exc.gui_msg)
             return False
 
         return True
