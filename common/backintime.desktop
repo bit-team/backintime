@@ -9,9 +9,19 @@
 # and <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 [Desktop Entry]
 Version=1.5
-Name=Back In Time Password Cache
 Exec=/bin/sh -c "backintime pw-cache start 2>&1 >/dev/null"
-Comment=Cache passwords for non-interactive Back In Time cronjobs
 Icon=gtk-save
 Terminal=NO
 Type=Application
+
+Name=Back In Time Password Cache
+Name[pt_BR]=Senhas das Tarefas do Back In Time
+
+GenericName=Password manager
+GenericName[pt_BR]=Gerenciador de Senhas
+
+Comment=Cache passwords for non-interactive Back In Time cronjobs
+Comment[pt_BR]=O ‘Back In Time Password Cache’ permite armazenar no ‘cache’ as senhas que são utilizadas nas tarefas do ‘Cron’ que não são interativas ao Back In Time
+
+Keywords=passwords;cache;cronjobs;
+Keywords[pt_BR]=gerenciador;gestor;gerenciar;senhas;cache;agendador;tarefas;cron;
