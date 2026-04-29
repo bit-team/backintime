@@ -10,8 +10,6 @@
 [Desktop Entry]
 # Version of the Desktop Entry Specification
 Version=1.5
-Name=Back In Time (root)
-GenericName=Versioned Backups (root)
 Exec=/usr/bin/backintime-qt_polkit %f
 Icon=backintime
 Terminal=false
@@ -19,7 +17,16 @@ Type=Application
 StartupNotify=true
 # See Desktop Menu Specification
 Categories=Utility;System;Archiving;Qt;
+
+Name=Back In Time (root)
+Name[pt_BR]=Cópia de Segurança de Arquivos Back In Time como Administrador
+
+GenericName=Versioned Backups (root)
+GenericName[pt_BR]=Cópias de segurança versionadas como root
+
 # Limit comments to 80 chars (Not in Desktop Entry Spec but Debian Lintian)   80th char --> |
 Comment=User-friendly GUI for versioned backups that reduces disk usage (root mode)
-Keywords=backup;incremental;automatic;restore;rsync;
+Comment[pt_BR]=O ‘Back In Time’ significa em idioma português ‘De Volta ao Passado’ ou ‘Voltar no Tempo’, trata-se de um programa que permite realizar cópias de segurança (backups) dos arquivos e das pastas com versões (ou versionadas) que reduzem a utilização do espaço no dispositivo de armazenamento (disco rígido, dispositivo de estado sólido ou SSD, etc.), possui uma interface gráfica intuitiva e configurável, além de uma versão de linha de comando, possibilita a realização de cópias de segurança incrementais, os arquivos modificados são transferidos enquanto que os arquivos inalterados são vinculados (ou ligados) à nova pasta utilizando o recurso de ligação física do ‘rsync’, a restauração dos arquivos e das pastas é simples podendo ser realizada por meio do gerenciador de arquivos ou por meio da linha de comando ou pelo próprio Back In Time
 
+Keywords=backup;incremental;automatic;restore;rsync;
+Keywords[pt_BR]=cópia de segurança;backup;incremental;automático;automatizar;automatização;restauração;rsync;root;administrador;arquivos;pastas;versões;versionadas;modificados;modificações;restauração;restaurar;
