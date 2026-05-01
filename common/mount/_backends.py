@@ -158,7 +158,10 @@ class SSHHost:
 
     @property
     def user_host(self) -> str:
-        return f'{self.user}@{self.host}'
+        if self.user:
+            return f'{self.user}@{self.host}'
+        else:
+            return self.host
 
     @property
     def user_host_path(self) -> str:

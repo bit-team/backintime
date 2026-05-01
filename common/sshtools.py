@@ -840,11 +840,13 @@ class SSH(MountControl):
 
             return self.checkRemoteCommands(retry=True)
 
+        # prepareing Check A & B
         remote_tmp_dir_1 = os.path.join(self.path, 'tmp_%s' % self.randomId())
         remote_tmp_dir_2 = os.path.join(self.path, 'tmp_%s' % self.randomId())
 
         with tempfile.TemporaryDirectory() as tmp:
 
+            # Check A - rsync simple file
             tmp_file = os.path.join(tmp, 'a')
 
             with open(tmp_file, mode='wt', encoding='utf-8') as handle:
@@ -859,7 +861,7 @@ class SSH(MountControl):
                 tools.escapeIPv6Address(self.host),
                 remote_tmp_dir_1))
 
-            # check remote rsync hard-link support
+            # Check B - rsync hard-link support
             rsync2 = tools.rsyncPrefix(
                 self.config, no_perms=False, progress=False)
             rsync2.append(
@@ -870,6 +872,7 @@ class SSH(MountControl):
                 tools.escapeIPv6Address(self.host),
                 remote_tmp_dir_2))
 
+            # Execute A and B
             for cmd in (rsync1, rsync2):
                 logger.debug('Check rsync command: %s' % cmd, self)
 
@@ -890,6 +893,8 @@ class SSH(MountControl):
                             command=cmd,
                             err=err)
                     )
+
+        # Check C - several sub shell test
 
         # check cp chmod find and rm
         head = 'tmp1="%s"; tmp2="%s"; ' % (remote_tmp_dir_1, remote_tmp_dir_2)
@@ -953,6 +958,7 @@ class SSH(MountControl):
         err = ''
         returncode = 0
 
+        # Execute C checks
         for cmd in tools.splitCommands(tail,
                                        head=head,
                                        maxLength=maxLength-additionalChars):
@@ -1027,6 +1033,7 @@ class SSH(MountControl):
                 .format(host=self.host)
             raise MountException(f'{msg}: "{err}"')
 
+        # Check D? - compare inodes
         inodes = []
 
         for tmp in (remote_tmp_dir_1, remote_tmp_dir_2):
