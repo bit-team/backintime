@@ -10,6 +10,9 @@ from __future__ import annotations
 from enum import Enum, auto
 from pathlib import Path
 from typing import Optional
+import atexit
+import signal
+import shutil
 import os
 import socket
 import ipaddress
@@ -17,6 +20,7 @@ import subprocess
 import bitbase
 import logger
 import tools
+import sshtools
 from ._error import MountError
 
 
@@ -50,6 +54,11 @@ class Backend:
     def get_fingerprint_base(self) -> str:
         """Return backend-specific string for fingerprint calculation."""
         raise NotImplementedError
+
+    def prepare(self):
+        """Prepare the state for backend operations.
+        """
+        pass
 
     def validate(self):
         """Everything correct setup"""

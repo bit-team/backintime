@@ -1235,8 +1235,34 @@ def sshCopyId(
     return not proc.returncode
 
 
-def sshKeyFingerprint(path):
+def ssh_key_fingerprint(path: str) -> str:
+    """Return SHA256 fingerprint of an SSH private key.
+
+    Uses ssh-keygen canonical output.
     """
+
+    if not path or not os.path.exists(path):
+        return None
+
+    proc = subprocess.run(
+        ['ssh-keygen', '-E', 'sha256', '-lf', path],
+        capture_output=True,
+        text=True
+    )
+
+    if proc.returncode != 0:
+        raise RuntimeError(proc.stderr)
+
+    # format:
+    # 256 SHA256:abc... comment (type)
+    parts = proc.stdout.strip().split()
+
+    return parts[1]  # SHA256:...
+
+
+def sshKeyFingerprint(path):
+    """DEPRECATED. Use ssh_key_fingerprint() instead.
+
     Get the hex fingerprint from a given ssh key.
 
     Args:

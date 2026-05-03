@@ -276,6 +276,7 @@ class MountManager:
         with self._process_lock():
             self._acquire_mountpoint_lock()
 
+            self.backend.prepare()
             self.backend.validate()
             self.backend.mount()
 
