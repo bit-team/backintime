@@ -126,15 +126,15 @@ class SSHConfigCheck:
             )
 
     def run(self):
+        # --- Ensure local prerequisites ---
         self._check_sshfs_usable()
-
         self._check_known_hosts()
-
         self._ensure_ssh_agent_running()
         self._ensure_private_key_loaded()
 
         # checkRemoteFolder()  -> evtl. in validate()
 
+        # --- Check remote capabilities ---
         try:
             if self.config.sshCheckCommands():
                 self._check_rsync_basic()
@@ -147,6 +147,8 @@ class SSHConfigCheck:
                 except Exception as exc:
                     logger.debug(f'Cleanup failed: {cmd=} {exc=}', self)
                     pass
+
+        self._ensure_remote_directory()
 
     def _ensure_ssh_agent_running(self):
         """Ensure that an ssh-agent process is running and available in the
@@ -427,4 +429,22 @@ class SSHConfigCheck:
             )
             self._check_tool(
                 ['flock', '--exclusive', 'smr.lock', '--command', 'true']
+            )
+
+    def _ensure_remote_directory(self):
+        """Ensure that the remote backup directory exists and is usable.
+
+        If the directory does not exist it will be created.
+
+        Raises:
+            RuntimeError: if the path is unusable as backup destination.
+        """
+        path = self.ssh_host.path
+
+        # Create if missing
+        rc, _, err = self._ssh(['mkdir', '--parents', path])
+
+        if rc != 0:
+            raise RuntimeError(
+                f'Could not create remote directory "{path}": {err}'
             )

@@ -302,6 +302,43 @@ class SSHBackend(Backend):
             gui_msg = gui_msg + _('Command: {cmd}').format(cmd)
             raise MountError(log_msg, gui_msg)
 
+    def _check_remote_directory_access(self):
+        """Check if the remote backup directory is usable.
+
+        Checks:
+            - path exists
+            - path is a directory
+            - path is writable
+            - path is executable/searchable
+
+        Raises:
+            MountError: if one requirement is not fulfilled.
+        """
+        path = self.host.path
+
+        checks = [
+            (
+                ['test', '-d', path],
+                f'Remote path is not a directory or does not exist: "{path}"'
+            ),
+            (
+                ['test', '-w', path],
+                f'Remote path is not writable: "{path}"'
+            ),
+            (
+                ['test', '-x', path],
+                f'Remote path is not accessible/searchable: "{path}"'
+            )
+        ]
+
+        for cmd, log_msg in checks:
+            rc, _, err = self._ssh(cmd)
+
+            if rc != 0 and err:
+                log_msg = f'{log_msg} ({err.strip()})'
+
+                raise MountError(log_msg)
+
     def validate(self):
         # TODO
         if not self.host.host:
@@ -320,6 +357,8 @@ class SSHBackend(Backend):
             self._check_host_reachable()
 
         self._check_host_auth()
+
+        self._check_remote_directory_access()
 
     def mount(self):
         if tools.is_mounted(self.path):
