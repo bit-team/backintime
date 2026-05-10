@@ -19,6 +19,8 @@ import os
 import tempfile
 import subprocess
 import shutil
+import atexit
+import signal
 from typing import Optional
 from pathlib import Path
 import logger
@@ -38,7 +40,7 @@ class SSHSetupError(ApplicationError):
             log_msg: str,
             gui_msg: Optional[str] = None
     ):
-        super().__init__(log_msg=self.log_msg, gui_msg=gui_msg)
+        super().__init__(log_msg=log_msg, gui_msg=gui_msg)
 
 
 class SSHSetupValidator:
@@ -130,7 +132,7 @@ class SSHSetupValidator:
 
         Raise: RuntimeError if the tool is missing
         """
-        rc, _, err = self._ssh(tool_cmd)
+        rc, _out, err = self._ssh(tool_cmd)
 
         if rc != 0:
             raise SSHSetupError(
@@ -284,7 +286,7 @@ class SSHSetupValidator:
             raise SSHSetupError(
                 f'Adding SSH key failed ({cmd=}): "{err}"',
                 _('Faild to add SSH key.') + '\n\n'
-                + _('Details:') + f'\n{err}'
+                + _('Details:') + f'\n{err.strip()}\n{cmd}'
             )
 
     def _provide_ssh_password_env(self) -> dict:
@@ -292,8 +294,8 @@ class SSHSetupValidator:
 
         env['SSH_ASKPASS'] = 'backintime-askpass'
         env['SSH_ASKPASS_REQUIRE'] = 'force'
-        env['ASKPASS_PROFILE_ID'] = self.profile_id
-        env['ASKPASS_MODE'] = self.mode
+        env['ASKPASS_PROFILE_ID'] = self.cfg.currentProfile()
+        env['ASKPASS_MODE'] = self.cfg.snapshotsMode()
 
         return env
 
@@ -321,7 +323,7 @@ class SSHSetupValidator:
             raise SSHSetupError(
                 f'sshfs not usable: {proc.stderr}',
                 _('Unexpected response from sshfs.') + '\n\n'
-                + _('Detaisl:') + f'\n{err}'
+                + _('Details:') + f'\n{err.strip()}'
             )
 
     def _check_known_hosts(self):
@@ -345,9 +347,10 @@ class SSHSetupValidator:
 
         raise SSHSetupError(
             f'{self.ssh_host.host} is not a known hosts',
-            _('The SSH Host "{host}" is not trusted yet.') + '\n'
-            + _('Please connect to the host manually once to confirm its'
-                'fingerprint.')
+            _('The SSH host "{host}" is not trusted yet.').format(
+                host=self.ssh_host.host)
+            + '\n\n' + _('Please connect to the host manually once to '
+                         'confirm its fingerprint.')
         )
 
     def _check_rsync_basic(self):
@@ -375,7 +378,7 @@ class SSHSetupValidator:
                 stderr=subprocess.PIPE,
                 text=True
             )
-            _, err = proc.communicate()
+            _out, err = proc.communicate()
 
         # cleanup
         self._cleanup_commands.append(
@@ -384,9 +387,9 @@ class SSHSetupValidator:
 
         if proc.returncode != 0:
             raise SSHSetupError(
-                f'rsync basic failed: {err}',
+                f'rsync basic failed: {err.strip()}',
                 _('Could not write files to the remote host using rsync.')
-                + '\n\n' + _('Details:') + f'\n{err}'
+                + '\n\n' + _('Details:') + f'\n{err.strip()}'
             )
 
     def _check_rsync_hardlinks(self):
@@ -396,8 +399,11 @@ class SSHSetupValidator:
             local_fp.write_text('foo', encoding='utf-8')
 
             remote_base = self.ssh_host.user_host_path
+            locale_base = self.ssh_host.path
             remote_1 = remote_base + '/bit_check_1'
             remote_2 = remote_base + '/bit_check_2'
+            locale_1 = locale_base + '/bit_check_1'
+            locale_2 = locale_base + '/bit_check_2'
 
             self._cleanup_commands.append(
                 ['rm', '--recursive', '--force', remote_1]
@@ -431,13 +437,13 @@ class SSHSetupValidator:
                     stderr=subprocess.PIPE,
                     text=True
                 )
-                _, err = proc.communicate()
+                _out, err = proc.communicate()
 
                 if proc.returncode != 0:
                     raise SSHSetupError(
-                        f'rsync hardlink test failed: {err}',
+                        f'rsync hardlink test failed: {err.strip()}',
                         _('Could not verify rsync hardlink support.') + '\n\n'
-                        + _('Details:') + f'\n{err}'
+                        + _('Details:') + f'\n{err.strip()}'
                     )
 
             def _remote_stat_inode(path: str) -> int:
@@ -457,12 +463,20 @@ class SSHSetupValidator:
                 return int(out.strip())
 
             # inode check via ssh
-            inode_1 = _remote_stat_inode(f'{remote_1}/a')
-            inode_2 = _remote_stat_inode(f'{remote_2}/a')
+            try:
+                inode_1 = _remote_stat_inode(f'{locale_1}/a')
+                inode_2 = _remote_stat_inode(f'{locale_2}/a')
+            except RuntimeError as exc:
+                raise SSHSetupError(
+                    f'Unexpected error while receiving inodes: {exc}',
+                    _('Unexpected error while verifying rsync hardlink '
+                      'support.') + '\n\n' + _('Details:') + f'\n{exc}'
+                )
+
             if inode_1 != inode_2:
                 raise SSHSetupError(
                     'No hardlinks support on remote file system',
-                    _('The remote file system does nto support hardlinks.')
+                    _('The remote file system does not support hardlinks.')
                 )
 
     def _check_remote_tools(self):
@@ -480,7 +494,7 @@ class SSHSetupValidator:
         if self.cfg.nocacheOnRemote():
             self._check_tool(['nocache', 'true'])
 
-        if self.cfg.setSmartRemoveRunRemoteInBackground():
+        if self.cfg.smartRemoveRunRemoteInBackground():
             self._check_tool(['screen', '-d', '-m', 'bash', '-c', 'true'])
             self._cleanup_commands.append(
                 ['rm', '--recursive', '--force', 'smr.lock']
@@ -500,7 +514,7 @@ class SSHSetupValidator:
         path = self.ssh_host.path
 
         # Create if missing
-        rc, _, err = self._ssh(['mkdir', '--parents', path])
+        rc, _out, err = self._ssh(['mkdir', '--parents', path])
 
         if rc != 0:
             raise SSHSetupError(

@@ -10,9 +10,6 @@ from __future__ import annotations
 from enum import Enum, auto
 from pathlib import Path
 from typing import Optional
-import atexit
-import signal
-import shutil
 import os
 import socket
 import ipaddress
@@ -20,7 +17,6 @@ import subprocess
 import bitbase
 import logger
 import tools
-import sshtools
 from ._error import MountError
 
 

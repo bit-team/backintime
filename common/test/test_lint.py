@@ -62,6 +62,7 @@ full_test_files = [_base_dir / fp for fp in (
     'shutdownagent.py',
     'singleton.py',
     'snapshotlog.py',
+    'sshsetupvalidator.py',
     'ssh_max_arg.py',
     'storagesize.py',
     'test/test_args.py',

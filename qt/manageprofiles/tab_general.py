@@ -40,9 +40,8 @@ from manageprofiles.sshproxywidget import SshProxyWidget
 from manageprofiles.sshkeyselector import SshKeySelector
 from bitwidgets import HLineWidget
 from filedialog import FileDialog
-from profile_operations import ProfileOperations
 from mount import MountManager
-from sshconfigcheck import SSHSetupValidator, SSHSetupError
+from sshsetupvalidator import SSHSetupValidator, SSHSetupError
 
 
 class GeneralTab(QDialog):
