@@ -126,14 +126,14 @@ def question(text, title=None, widget_to_center_on=None) -> bool:
     return answer == QMessageBox.StandardButton.Yes
 
 
-def critical(parent, msg):
+def critical(parent, msg: str, title: str = None):
     """Shows an error message box.
 
     Qt itseld does not distinguish between error and critical messages.
     """
     return QMessageBox.critical(
         parent,
-        _('Error'),
+        title if title else ('Error'),
         msg,
         buttons=QMessageBox.StandardButton.Ok,
         defaultButton=QMessageBox.StandardButton.Ok)

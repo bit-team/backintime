@@ -298,9 +298,39 @@ class SSHBackend(Backend):
                 'Passwordless SSH authentication failed for {host}'
             ).format(host=self.host)
             gui_msg = gui_msg + '\n\n'
-            gui_msg = gui_msg + _('Error: {err}').format(proc.stderr) + '\n'
-            gui_msg = gui_msg + _('Command: {cmd}').format(cmd)
+            gui_msg = gui_msg + _('Error: {err}').format(err=proc.stderr)
+            gui_msg = gui_msg + '\n'
+            gui_msg = gui_msg + _('Command: {cmd}').format(cmd=cmd)
+
             raise MountError(log_msg, gui_msg)
+
+    def _ssh_command(self, remote_cmd: list[str]) -> tuple:
+        ssh = ['ssh']
+
+        # specifying key file here allows to override for potentially
+        # conflicting .ssh/config key entry
+        if self.host.priv_key_file:
+            ssh += ['-o', f'IdentityFile={self.host.priv_key_file}']
+
+        # Proxy (aka Jump host)
+        if self.host.proxy:
+            ssh += ['-J', self.host.proxy.user_host_port]
+
+        # remote port
+        ssh += ['-p', str(self.host.port)]
+
+        # user@host
+        ssh.append(self.host.user_host)
+
+        proc = subprocess.Popen(
+            ssh + remote_cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
+        out, err = proc.communicate()
+
+        return proc.returncode, out, err
 
     def _check_remote_directory_access(self):
         """Check if the remote backup directory is usable.
@@ -332,7 +362,7 @@ class SSHBackend(Backend):
         ]
 
         for cmd, log_msg in checks:
-            rc, _, err = self._ssh(cmd)
+            rc, _, err = self._ssh_command(cmd)
 
             if rc != 0 and err:
                 log_msg = f'{log_msg} ({err.strip()})'

@@ -69,16 +69,17 @@ Rules:
 import os
 import subprocess
 import hashlib
+from typing import Optional
 from contextlib import contextmanager
 from time import sleep
 from pathlib import Path
 import tools
 import logger
 import bitbase
+from exceptions import ApplicationError
 from password import Password_Cache
 from ._backends import Backend, LocalBackend, SSHBackend, SSHHost  # noqa: f401
 from ._encryptors import Encryptor, NoEncryption, GoCryptFS
-from ._error import MountError  # noqa: F401
 
 
 LOCK_SUFFIX = 'lock'
@@ -455,3 +456,17 @@ class MountManager:
         )
         self._lock_mountpoint.unlink(missing_ok=True)
         self._lock_mountpoint = None
+
+
+class MountError(ApplicationError):
+    """Raised for failures in the mount subsystem.
+
+    Design decissions: The class is intentionally kept generic to avoid a
+       hierarchy of specialized mount-related exception types.
+    """
+    def __init__(
+            self,
+            log_msg: str,
+            gui_msg: Optional[str] = None
+    ):
+        super().__init__(log_msg=self.log_msg, gui_msg=gui_msg)

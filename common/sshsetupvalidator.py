@@ -19,30 +19,40 @@ import os
 import tempfile
 import subprocess
 import shutil
+from typing import Optional
 from pathlib import Path
 import logger
 import sshtools
 from mount import MountManager
-from config import Config
+from exceptions import ApplicationError
 
 
-class SSHConfigCheck:
+class SSHSetupError(ApplicationError):
+    """Raised for failures while the SSH setup validaton.
+
+    Design decissions: The class is intentionally kept generic to avoid a
+       hierarchy of specialized mount-related exception types.
+    """
+    def __init__(
+            self,
+            log_msg: str,
+            gui_msg: Optional[str] = None
+    ):
+        super().__init__(log_msg=self.log_msg, gui_msg=gui_msg)
+
+
+class SSHSetupValidator:
     """An existing SSH mount is used to check if it is prepared for being a
     backup destination.
 
     This checks are executed on new profile creation and profile modifications.
     """
 
-    def __init__(self,
-                 mount_manager: MountManager,
-                 config: Config):
+    def __init__(self, mount_manager: MountManager):
         self.mnt = mount_manager
-
         # The SSH backends current config, will be used for the tests.
         self.ssh_host = mount_manager.backend.host
-
-        self.cfg = config
-
+        self.cfg = self.mnt.cfg
         self._cleanup_commands = []
 
     def _build_ssh_command(self) -> list[str]:
@@ -102,8 +112,11 @@ class SSHConfigCheck:
         return ssh
 
     def _ssh(self, cmd: list[str]) -> tuple[int, str, str]:
+        cmd = self._build_ssh_command() + cmd
+        logger.info(f'Calling {cmd}...', self)
+
         proc = subprocess.Popen(
-            self._build_ssh_command() + cmd,
+            cmd,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True
@@ -120,9 +133,11 @@ class SSHConfigCheck:
         rc, _, err = self._ssh(tool_cmd)
 
         if rc != 0:
-            raise RuntimeError(
+            raise SSHSetupError(
                 f'"{tool_cmd[0]}" not available on remote host. '
-                f'Command: {tool_cmd} Error: "{err}"'
+                f'Command: {tool_cmd} Error: "{err}"',
+                _('"{tool}" is not installed on the remote host.').format(
+                    tool=tool_cmd[0])
             )
 
     def run(self):
@@ -132,23 +147,22 @@ class SSHConfigCheck:
         self._ensure_ssh_agent_running()
         self._ensure_private_key_loaded()
 
-        # checkRemoteFolder()  -> evtl. in validate()
+        self._ensure_remote_directory()
 
         # --- Check remote capabilities ---
         try:
-            if self.config.sshCheckCommands():
+            if self.cfg.sshCheckCommands():
                 self._check_rsync_basic()
                 self._check_rsync_hardlinks()
                 self._check_remote_tools()
+
         finally:
             for cmd in self._cleanup_commands:
                 try:
                     self._ssh(cmd)
                 except Exception as exc:
-                    logger.debug(f'Cleanup failed: {cmd=} {exc=}', self)
+                    logger.error(f'Cleanup failed: {cmd=} {exc=}', self)
                     pass
-
-        self._ensure_remote_directory()
 
     def _ensure_ssh_agent_running(self):
         """Ensure that an ssh-agent process is running and available in the
@@ -178,7 +192,10 @@ class SSHConfigCheck:
 
         ssh_agent = shutil.which('ssh-agent')
         if not ssh_agent:
-            raise RuntimeError('ssh-agent not found')
+            raise SSHSetupError(
+                'ssh-agent not found',
+                _('ssh-agent is not installed')
+            )
 
         proc = subprocess.Popen(
             [ssh_agent],
@@ -190,7 +207,11 @@ class SSHConfigCheck:
         out, err = proc.communicate()
 
         if proc.returncode:
-            raise RuntimeError(f'ssh-agent failed: {err}')
+            raise SSHSetupError(
+                f'ssh-agent failed: {err}',
+                _('Unexpected response from ssh-agent.') + '\n\n'
+                + _('Details:') + f'\n{err}'
+            )
 
         sock_path = None
         agent_pid = None
@@ -205,7 +226,11 @@ class SSHConfigCheck:
                 agent_pid = _extract_var('SSH_AGENT_PID', line)
 
         if not sock_path or not agent_pid:
-            raise RuntimeError(f"Unexpected ssh-agent output: {out}")
+            raise SSHSetupError(
+                f'Unexpected ssh-agent output: {out}',
+                _('Unexpected output from ssh-agent.') + '\n\n'
+                + _('Output:') + f'\n{out}'
+            )
 
         os.environ['SSH_AUTH_SOCK'] = sock_path
         os.environ['SSH_AGENT_PID'] = agent_pid
@@ -229,7 +254,10 @@ class SSHConfigCheck:
         self._add_key_to_agent(key_file)
 
         if not self._is_key_loaded(fingerprint):
-            raise RuntimeError('key not loaded into ssh-agent')
+            raise SSHSetupError(
+                'SSH key not loaded into ssh-agent',
+                _('The SSH key is not loaded into ssh-agent.')
+            )
 
     def _is_key_loaded(self, key_fingerprint: str) -> bool:
         proc = subprocess.run(
@@ -242,15 +270,22 @@ class SSHConfigCheck:
         return key_fingerprint in proc.stdout
 
     def _add_key_to_agent(self, key_file: str) -> None:
+        cmd = ['ssh-add', key_file]
         proc = subprocess.run(
-            ['ssh-add', key_file],
+            cmd,
             capture_output=True,
             text=True,
             env=self._provide_ssh_password_env()
         )
 
+        err = proc.stderr
+
         if proc.returncode != 0:
-            raise RuntimeError(proc.stderr)
+            raise SSHSetupError(
+                f'Adding SSH key failed ({cmd=}): "{err}"',
+                _('Faild to add SSH key.') + '\n\n'
+                + _('Details:') + f'\n{err}'
+            )
 
     def _provide_ssh_password_env(self) -> dict:
         env = os.environ.copy()
@@ -268,7 +303,10 @@ class SSHConfigCheck:
         path = shutil.which('sshfs')
 
         if path is None:
-            raise RuntimeError('sshfs not found')
+            raise SSHSetupError(
+                'sshfs not found',
+                _('sshfs is not installed')
+            )
 
         proc = subprocess.run(
             [path, '--version'],
@@ -277,8 +315,14 @@ class SSHConfigCheck:
             text=True
         )
 
+        err = proc.stderr
+
         if proc.returncode != 0:
-            raise RuntimeError(f'sshfs not usable: {proc.stderr}')
+            raise SSHSetupError(
+                f'sshfs not usable: {proc.stderr}',
+                _('Unexpected response from sshfs.') + '\n\n'
+                + _('Detaisl:') + f'\n{err}'
+            )
 
     def _check_known_hosts(self):
         """Check if host is present in known_hosts file."""
@@ -299,7 +343,12 @@ class SSHConfigCheck:
             if proc.returncode == 0:
                 return
 
-        raise RuntimeError(f'{self.ssh_host.host} is not a known hosts')
+        raise SSHSetupError(
+            f'{self.ssh_host.host} is not a known hosts',
+            _('The SSH Host "{host}" is not trusted yet.') + '\n'
+            + _('Please connect to the host manually once to confirm its'
+                'fingerprint.')
+        )
 
     def _check_rsync_basic(self):
         """Checks if it is possible to write a file via rsync to the SSH
@@ -334,7 +383,11 @@ class SSHConfigCheck:
         )
 
         if proc.returncode != 0:
-            raise RuntimeError(f'rsync basic failed: {err}')
+            raise SSHSetupError(
+                f'rsync basic failed: {err}',
+                _('Could not write files to the remote host using rsync.')
+                + '\n\n' + _('Details:') + f'\n{err}'
+            )
 
     def _check_rsync_hardlinks(self):
         """Checks if rsync creates real hardlinks on remote file system."""
@@ -381,7 +434,11 @@ class SSHConfigCheck:
                 _, err = proc.communicate()
 
                 if proc.returncode != 0:
-                    raise RuntimeError(f'rsync hardlink test failed: {err}')
+                    raise SSHSetupError(
+                        f'rsync hardlink test failed: {err}',
+                        _('Could not verify rsync hardlink support.') + '\n\n'
+                        + _('Details:') + f'\n{err}'
+                    )
 
             def _remote_stat_inode(path: str) -> int:
                 cmd = self._build_ssh_command()
@@ -403,8 +460,9 @@ class SSHConfigCheck:
             inode_1 = _remote_stat_inode(f'{remote_1}/a')
             inode_2 = _remote_stat_inode(f'{remote_2}/a')
             if inode_1 != inode_2:
-                raise RuntimeError(
-                    'Remote file system does not support hardlinks'
+                raise SSHSetupError(
+                    'No hardlinks support on remote file system',
+                    _('The remote file system does nto support hardlinks.')
                 )
 
     def _check_remote_tools(self):
@@ -445,6 +503,8 @@ class SSHConfigCheck:
         rc, _, err = self._ssh(['mkdir', '--parents', path])
 
         if rc != 0:
-            raise RuntimeError(
-                f'Could not create remote directory "{path}": {err}'
+            raise SSHSetupError(
+                f'Create remote directory failed ("{path}"): {err}',
+                _('Could not create remote backup directory: {path}').format(
+                    path=path) + '\n\n' + _('Details:') + f'\n{err}'
             )
