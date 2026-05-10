@@ -13,7 +13,6 @@ from test import generic
 import json
 import version
 import bitbase
-from pathlib import Path
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
@@ -253,32 +252,24 @@ under certain conditions; type `backintime --license' for details.
         self.assertEqual(diagnostics["backintime"]["version"],
                          version.__version__)
 
-    def test_stat_after_successful_backup(self):
+    def test_show_with_usage(self):
         snapshot_root = '/tmp/snapshots/backintime/test-host/test-user/1'
 
         subprocess.getoutput(f'rm -rf {snapshot_root}')
         os.makedirs(os.path.join(snapshot_root, '20260101-010000-001', 'backup'))
         os.makedirs(os.path.join(snapshot_root, '20260315-083000-002', 'backup'))
-        os.makedirs(os.path.join(snapshot_root, '20260510-120000-003', 'backup'))
-        Path(os.path.join(snapshot_root,
-                         '20260315-083000-002', 'failed')).touch()
 
         proc = subprocess.Popen(["./backintime",
                                  "--config", "test/config",
-                                 "stat"],
+                                 "show", "--usage"],
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE)
         output, error = proc.communicate()
         output_str = output.decode()
 
         self.assertEqual(proc.returncode, 0,
-                         f'stat failed. stderr: {error.decode()}')
+                         f'show --usage failed. stderr: {error.decode()}')
 
-        self.assertIn('Profile:', output_str)
-        self.assertIn('Total backups:', output_str)
-        self.assertIn('Oldest:', output_str)
-        self.assertIn('Newest:', output_str)
-        self.assertIn('With errors:', output_str)
         self.assertIn('Total disk usage:', output_str)
-        self.assertIn('Last backup:', output_str)
-        self.assertIn('(success)', output_str)
+        self.assertIn('20260101-010000-001', output_str)
+        self.assertIn('20260315-083000-002', output_str)

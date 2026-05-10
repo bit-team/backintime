@@ -233,8 +233,8 @@ class RestoreCommand(unittest.TestCase):
             )
 
 
-class StatCommand(unittest.TestCase):
-    """Tests about arguments related to the 'stat' command."""
+class ShowCommand(unittest.TestCase):
+    """Tests about arguments related to the 'show' command."""
 
     def setUp(self):
         super().setUp()
@@ -243,38 +243,19 @@ class StatCommand(unittest.TestCase):
             bin_name=bitbase.BINARY_NAME_CLI)
 
     def test_simple(self):
-        sut = cliarguments.parse_arguments(['stat'], self.parser_agent)
-        self.assertEqual(sut.command, 'stat')
-        self.assertIs(sut.func, clicommands.stat)
+        sut = cliarguments.parse_arguments(['show'], self.parser_agent)
+        self.assertEqual(sut.command, 'show')
+        self.assertIs(sut.func, clicommands.show_backups)
 
-    def test_profile(self):
-        for argv in shuffle_args('stat', ('--profile', 'foo')):
-            sut = cliarguments.parse_arguments(argv, self.parser_agent)
-            self.assertEqual(sut.command, 'stat')
-            self.assertEqual(sut.profile, 'foo')
-
-    def test_profile_id(self):
+    def test_usage(self):
         sut = cliarguments.parse_arguments(
-            ['stat', '--profile', '2'], self.parser_agent)
+            ['show', '--usage'], self.parser_agent)
+        self.assertEqual(sut.command, 'show')
+        self.assertTrue(sut.usage)
 
-        self.assertEqual(sut.command, 'stat')
-        self.assertEqual(sut.profile, '2')
-        self.assertTrue(sut.profile.isdigit())
-
-    def test_quiet(self):
-        args = cliarguments.parse_arguments(
-            ['stat', '--quiet'], self.parser_agent)
-
-        self.assertEqual(args.command, 'stat')
-        self.assertEqual(args.quiet, True)
-
-    def test_multible_args(self):
-        for argv in shuffle_args('--quiet',
-                                 'stat',
-                                 ('--profile', 'foo'),
-                                 ('--config', 'bar')):
-            sut = cliarguments.parse_arguments(argv, self.parser_agent)
-            self.assertEqual(sut.command, 'stat')
-            self.assertEqual(sut.profile, 'foo')
-            self.assertEqual(sut.quiet, True)
-            self.assertEqual(sut.config, 'bar')
+    def test_usage_last(self):
+        sut = cliarguments.parse_arguments(
+            ['show', '--usage', '--last'], self.parser_agent)
+        self.assertEqual(sut.command, 'show')
+        self.assertTrue(sut.usage)
+        self.assertTrue(sut.last)

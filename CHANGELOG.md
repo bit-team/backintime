@@ -27,6 +27,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ## Added
 - Build dependency `pandoc` to convert markdown changelog into HTML
+- CLI: New '--usage' option added to the 'show' subcommand to display the total physical disk usage of all backups in a profile
 
 ## Fixed
 - Prevent Back In Time crash when a plugin fails ([#2447](https://github.com/bit-team/backintime/issues/2447))
