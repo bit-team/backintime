@@ -32,6 +32,7 @@ import mount
 from exceptions import MountException
 from applicationinstance import ApplicationInstance
 from shutdownagent import ShutdownAgent
+from storagesize import StorageSize, SizeUnit
 
 
 def _deprecation_msg(cmd_flag: str, replacement: str) -> str:
@@ -678,6 +679,87 @@ def _mount(cfg: config.Config):
 
     else:
         cfg.setCurrentHashId(hash_id)
+
+
+def _du_local(path: str) -> int:
+    import subprocess
+    try:
+        result = subprocess.run(
+            ['du', '-sb', path],
+            capture_output=True, text=True, check=True
+        )
+        return int(result.stdout.split()[0])
+    except (subprocess.CalledProcessError, ValueError, IndexError):
+        logger.warning(f'Failed to calculate disk usage for {path}')
+        return 0
+
+
+def _du_remote(cfg, sid) -> int:
+    import subprocess
+    remote_snapshots_path = cfg.sshSnapshotsFullPath()
+    ssh_cmd = cfg.sshCommand(
+        cmd=['du', '-sb', f'{remote_snapshots_path}/{sid.sid}'],
+        nice=False, ionice=False
+    )
+    try:
+        result = subprocess.run(
+            ssh_cmd, capture_output=True, text=True, check=True
+        )
+        return int(result.stdout.split()[0])
+    except (subprocess.CalledProcessError, ValueError, IndexError):
+        logger.warning(f'Failed to calculate remote disk usage for {sid.sid}')
+        return 0
+
+
+def stat(args: argparse.Namespace):
+    force_stdout = cli.set_quiet(args)
+    cfg = _get_config(args)
+    _mount(cfg)
+
+    sids = snapshots.listSnapshots(cfg, reverse=True)
+    total = len(sids)
+
+    if total == 0:
+        logger.error(f'No backups in profile "{cfg.profileName()}"')
+        _umount(cfg)
+        sys.exit(bitbase.RETURN_ERR)
+
+    oldest = sids[-1]
+    newest = sids[0]
+
+    error_count = sum(1 for sid in sids if sid.failed)
+
+    total_size = StorageSize(0, SizeUnit.B)
+    mode = cfg.snapshotsMode()
+
+    for sid in sids:
+        if mode in ('ssh', 'ssh_encfs'):
+            size_bytes = _du_remote(cfg, sid)
+        else:
+            size_bytes = _du_local(sid.path())
+        total_size += StorageSize(size_bytes, SizeUnit.B)
+
+    if total_size >= StorageSize(1, SizeUnit.GIB):
+        total_size.unit = SizeUnit.GIB
+    elif total_size >= StorageSize(1, SizeUnit.MIB):
+        total_size.unit = SizeUnit.MIB
+
+    last = newest
+    last_status = 'failed' if last.failed else 'success'
+
+    lines = [
+        f'Profile: {cfg.profileName()}',
+        f'  Total backups:    {total}',
+        f'  Oldest:           {oldest.displayID}',
+        f'  Newest:           {newest.displayID}',
+        f'  With errors:      {error_count}',
+        f'  Total disk usage: {total_size}',
+        f'  Last backup:      {last.displayID} ({last_status})',
+    ]
+
+    print('\n'.join(lines), file=force_stdout)
+    _umount(cfg)
+    sys.exit(bitbase.RETURN_OK)
 
 
 def _umount(cfg: config.Config):

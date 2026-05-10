@@ -126,6 +126,7 @@ class ParserAgent:
             'shutdown': clicommands.shutdown,
             'prune': clicommands.prune,
             'show': clicommands.show_backups,
+            'stat': clicommands.stat,
             'unmount': clicommands.unmount,
             # Deprecated commands (#2124)
             'decode': clicommands.decode,
@@ -745,6 +746,21 @@ class ParserAgent:
 
         self.parsers[name] = parser
 
+    def _create_cmd_stat(self):
+        name = 'stat'
+        parser = self._command_subparsers.add_parser(
+            name,
+            parents=[
+                self._reusable_parsers['profile'],
+                self._reusable_parsers['common'],
+            ],
+            help='show backup statistics for a profile',
+            description='Show backup statistics for selected profile: '
+                        'total backups, oldest/newest, errors, disk usage.'
+        )
+        parser.set_defaults(func=self._cmd_func_dict[name])
+        self.parsers[name] = parser
+
     def _create_cmd_unmount(self):
         name = 'unmount'
         nargs = 0
@@ -788,6 +804,7 @@ class ParserAgent:
         self._create_cmd_backup()
         self._create_cmd_backup_job()
         self._create_cmd_show()
+        self._create_cmd_stat()
         self._create_cmd_restore()
         self._create_cmd_remove()
         self._create_cmd_remove_and_donot_ask_again()

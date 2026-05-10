@@ -231,3 +231,50 @@ class RestoreCommand(unittest.TestCase):
                 ('restore', '--local-backup', '--no-local-backup'),
                 self.parser_agent
             )
+
+
+class StatCommand(unittest.TestCase):
+    """Tests about arguments related to the 'stat' command."""
+
+    def setUp(self):
+        super().setUp()
+        self.parser_agent = cliarguments.ParserAgent(
+            app_name=bitbase.APP_NAME,
+            bin_name=bitbase.BINARY_NAME_CLI)
+
+    def test_simple(self):
+        sut = cliarguments.parse_arguments(['stat'], self.parser_agent)
+        self.assertEqual(sut.command, 'stat')
+        self.assertIs(sut.func, clicommands.stat)
+
+    def test_profile(self):
+        for argv in shuffle_args('stat', ('--profile', 'foo')):
+            sut = cliarguments.parse_arguments(argv, self.parser_agent)
+            self.assertEqual(sut.command, 'stat')
+            self.assertEqual(sut.profile, 'foo')
+
+    def test_profile_id(self):
+        sut = cliarguments.parse_arguments(
+            ['stat', '--profile', '2'], self.parser_agent)
+
+        self.assertEqual(sut.command, 'stat')
+        self.assertEqual(sut.profile, '2')
+        self.assertTrue(sut.profile.isdigit())
+
+    def test_quiet(self):
+        args = cliarguments.parse_arguments(
+            ['stat', '--quiet'], self.parser_agent)
+
+        self.assertEqual(args.command, 'stat')
+        self.assertEqual(args.quiet, True)
+
+    def test_multible_args(self):
+        for argv in shuffle_args('--quiet',
+                                 'stat',
+                                 ('--profile', 'foo'),
+                                 ('--config', 'bar')):
+            sut = cliarguments.parse_arguments(argv, self.parser_agent)
+            self.assertEqual(sut.command, 'stat')
+            self.assertEqual(sut.profile, 'foo')
+            self.assertEqual(sut.quiet, True)
+            self.assertEqual(sut.config, 'bar')
