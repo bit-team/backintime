@@ -33,6 +33,7 @@ import mount
 from exceptions import MountException
 from applicationinstance import ApplicationInstance
 from shutdownagent import ShutdownAgent
+from storagesize import StorageSize, SizeUnit
 
 
 def _deprecation_msg(cmd_flag: str, replacement: str) -> str:
@@ -581,12 +582,12 @@ def show_backups(args: argparse.Namespace):
         _umount(cfg)
         sys.exit(bitbase.RETURN_ERR)
 
+    if args.last:
+        backups = backups[-1:]
+
     if args.usage:
         size_bytes = _compute_total_usage(cfg, backups)
         print(_format_usage(size_bytes))
-
-    if args.last:
-        backups = backups[-1:]
 
     if args.path:
         # Path
@@ -695,13 +696,27 @@ def _du_local_total(paths: list) -> int:
         )
         total_line = result.stdout.strip().split('\n')[-1]
         return int(total_line.split()[0])
-    except (subprocess.CalledProcessError, ValueError, IndexError):
-        return 0
+    except subprocess.CalledProcessError as err:
+        logger.error(
+            f'Failed to compute local disk usage: {err.stderr.strip()}')
+        return -1
+    except (ValueError, IndexError):
+        logger.error('Failed to parse disk usage output')
+        return -1
 
 
 def _du_remote_total(cfg, backups) -> int:
-    remote_base = cfg.sshSnapshotsFullPath()
-    remote_paths = [f'{remote_base}/{sid}' for sid, _ in backups]
+    mode = cfg.snapshotsMode()
+    remote_paths = []
+
+    for sid_str, _ in backups:
+        sid_obj = snapshots.SID(sid_str, cfg)
+        if mode == 'ssh_encfs':
+            remote_path = sid_obj.path(use_mode=['ssh_encfs'])
+        else:
+            remote_path = sid_obj.path(use_mode=['ssh'])
+        remote_paths.append(remote_path)
+
     ssh_cmd = cfg.sshCommand(
         cmd=['du', '-sbc'] + remote_paths,
         nice=False, ionice=False
@@ -712,27 +727,39 @@ def _du_remote_total(cfg, backups) -> int:
         )
         total_line = result.stdout.strip().split('\n')[-1]
         return int(total_line.split()[0])
-    except (subprocess.CalledProcessError, ValueError, IndexError):
-        return 0
+    except subprocess.CalledProcessError as err:
+        logger.error(
+            f'Failed to compute remote disk usage: {err.stderr.strip()}')
+        return -1
+    except (ValueError, IndexError):
+        logger.error('Failed to parse remote disk usage output')
+        return -1
 
 
 def _compute_total_usage(cfg, backups):
     mode = cfg.snapshotsMode()
     if mode in ('ssh', 'ssh_encfs'):
         return _du_remote_total(cfg, backups)
-    else:
-        return _du_local_total([p for _, p in backups])
+    return _du_local_total([p for _, p in backups])
 
 
 def _format_usage(size_bytes: int) -> str:
-    if size_bytes >= 1073741824:
-        value = size_bytes / 1073741824
+    if size_bytes < 0:
+        return 'Total disk usage: ERROR (could not determine size)'
+
+    size = StorageSize(size_bytes)
+
+    if size >= StorageSize(1, SizeUnit.GIB):
+        value = size.value(SizeUnit.GIB, decimal_places=1)
         return f'Total disk usage: {value:.1f} GiB'
-    elif size_bytes >= 1048576:
-        value = size_bytes / 1048576
+    elif size >= StorageSize(1, SizeUnit.MIB):
+        value = size.value(SizeUnit.MIB, decimal_places=1)
         return f'Total disk usage: {value:.1f} MiB'
+    elif size_bytes >= 1024:
+        value = size_bytes / 1024
+        return f'Total disk usage: {value:.1f} KiB'
     else:
-        return f'Total disk usage: {size_bytes:,} Byte'
+        return f'Total disk usage: {size_bytes} Byte'
 
 
 def _umount(cfg: config.Config):
