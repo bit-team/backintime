@@ -187,6 +187,13 @@ class SSHHost:
 class SSHBackend(Backend):
     """SSH mounting backend"""
     TYPE = Backend.Type.SSH
+    ERR_MSG_CONTEXT = (
+        _('Back In Time could not connect to the '
+          'remote backup location.')
+        + '\n\n'
+        + _('Reason:')
+        + '\n'
+    )
 
     def __init__(self, cfg):
         super().__init__(cfg)
@@ -224,8 +231,6 @@ class SSHBackend(Backend):
     def _check_host_reachable(self, timeout: float = 2.0):
         target = self.host.proxy if self.host.proxy else self.host
 
-        logger.debug(f'Check ping host "{target}"', self)
-
         try:
             with socket.create_connection(
                 (
@@ -239,14 +244,11 @@ class SSHBackend(Backend):
 
         except OSError as exc:
             log_msg = f'SSH host unreachable: {target.host}:{target.port}'
-            gui_msg = _('SSH host unreachable: {host}').format(
-                host=f'{target.host}:{target.port}'
-            )
-            raise MountError(log_msg, gui_msg) from exc
+            gui_msg = _('Could not reach the SSH host:') \
+                + f'\n{target.host}:{target.port}'
+            raise MountError(log_msg, f'{self.ERR_MSG_CONTEXT}{gui_msg}') from exc
 
     def _check_host_auth(self):
-        logger.debug('Check SSH login', self)
-
         cmd = ['ssh']
 
         if self.host.priv_key_file:
@@ -285,20 +287,19 @@ class SSHBackend(Backend):
         )
 
         if proc.returncode != 0:
+            err = proc.stderr.strip()
             log_msg = (
                 'Passwordless SSH authentication failed for '
-                f'{self.host} | Error: {proc.stderr} | Command: {cmd}'
+                f'{self.host} | Error: {err} | Command: {cmd}'
             )
             logger.error(log_msg)
-            gui_msg = _(
-                'Passwordless SSH authentication failed for {host}'
-            ).format(host=self.host)
-            gui_msg = gui_msg + '\n\n'
-            gui_msg = gui_msg + _('Error: {err}').format(err=proc.stderr)
-            gui_msg = gui_msg + '\n'
-            gui_msg = gui_msg + _('Command: {cmd}').format(cmd=cmd)
-
-            raise MountError(log_msg, gui_msg)
+            gui_msg = (
+                _('SSH authentication failed for:')
+                + f'\n{self.host}\n\n'
+                + _('Details:')
+                + f'\n{err}'
+            )
+            raise MountError(log_msg, f'{self.ERR_MSG_CONTEXT}{gui_msg}')
 
     def _ssh_command(self, remote_cmd: list[str]) -> tuple:
         ssh = ['ssh']
@@ -345,38 +346,47 @@ class SSHBackend(Backend):
         checks = [
             (
                 ['test', '-d', path],
-                f'Remote path is not a directory or does not exist: "{path}"'
+                'Remote path is not a directory or does not exist"',
+                _('The remote backup directory does not exist or is not '
+                'a directory.') + '\n\n' + _('Path:') + f'\n{path}'
             ),
             (
                 ['test', '-w', path],
-                f'Remote path is not writable: "{path}"'
+                'Remote path is not writable',
+                _('The remote backup directory is not writable.')
             ),
             (
                 ['test', '-x', path],
-                f'Remote path is not accessible/searchable: "{path}"'
+                'Remote path is not accessible/searchable',
+                _('The remote backup directory cannot be accessed.')
             )
         ]
 
-        for cmd, log_msg in checks:
+        for cmd, log_msg, gui_msg in checks:
             rc, _, err = self._ssh_command(cmd)
 
             if rc != 0 and err:
-                log_msg = f'{log_msg} ({err.strip()})'
+                err = err.strip()
+                log_msg = f'{log_msg}: "{path}" ({err})'
 
-                raise MountError(log_msg)
+                raise MountError(
+                    f'{log_msg}: "{path}" ({err})',
+                    self.ERR_MSG_CONTEXT + gui_msg + '\n\n'
+                    + _('Path:') + f'\n{path}'
+                )
 
     def validate(self):
         # TODO
         if not self.host.host:
             raise MountError(
                 'SSH host not configured',
-                _('SSH host not configured')
+                self.ERR_MSG_CONTEXT + _('No SSH host configured.')
             )
 
         if not self.path:
             raise MountError(
                 'SSH destination path not set',
-                _('SSH destination path not set')
+                self.ERR_MSG_CONTEXT + _('No estination backup directory configured.')
             )
 
         if self.cfg.sshCheckPingHost():
@@ -446,18 +456,21 @@ class SSHBackend(Backend):
         err = proc.communicate()[1]
 
         if proc.returncode != 0:
-            log_msg = f'Mount failed via "{cmd}"'
-            log_msg = f'{log_msg} | {err} | Return code: {proc.returncode}'
+            err = err.strip()
+            log_msg = (
+                f'Mount failed via "{cmd}"'
+                + f' | Error: {err}'
+                + f' | Return code: {proc.returncode}'
+            )
             logger.critical(log_msg)
 
             gui_msg = (
-                _('Mount failed via "{command}"').format(command=cmd)
-                + '\n'
-                + _('Return code: {rc}').format(rc=proc.returncode)
-                + _('Original error: {err}').format(err)
+                _('Could not mount the remote backup location.')
+                + '\n\n'
+                + _('Details:')
+                + '\n{err}'
             )
-
-            raise MountError(log_msg, gui_msg)
+            raise MountError(log_msg, self.ERR_MSG_CONTEXT + gui_msg)
 
         logger.info(
             'Remote directory mounted '
