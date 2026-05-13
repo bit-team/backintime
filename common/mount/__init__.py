@@ -126,6 +126,7 @@ class MountManager:
         try:
             backend = _BACKENDS[backend_type](cfg)
             encryptor = _ENCRYPT[encryptor_type](cfg, backend)
+
         except Exception as exc:
             print(f'{mode=}')  # DEBUG
             raise exc

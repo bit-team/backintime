@@ -5,6 +5,7 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+# pylint: disable=duplicate-code
 """Backends for the mounting subsystem"""
 from __future__ import annotations
 from enum import Enum, auto
@@ -39,6 +40,7 @@ class Backend:
 
     @property
     def fingerprint(self) -> str:
+        """See `MountManager.fingerprint`"""
         return self._fingerprint
 
     def set_fingerprint(self, fingerprint: str):
@@ -243,12 +245,12 @@ class SSHBackend(Backend):
         remote_cmd = ssh + remote_cmd
 
         logger.debug(f'Calling {remote_cmd}...')
-        proc = subprocess.Popen(
+        proc = subprocess.Popen(  # pylint: disable=consider-using-with
             remote_cmd,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True
-        )  # pylint: disable=consider-using-with
+        )
         out, err = proc.communicate()
 
         return proc.returncode, out, err
@@ -371,13 +373,13 @@ class SSHBackend(Backend):
             ])
 
         logger.debug(f'Calling mount command: {cmd}')
-        proc = subprocess.Popen(
+        proc = subprocess.Popen(  # pylint: disable=consider-using-with
             cmd,
             env=env,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.PIPE,
             universal_newlines=True
-        )  # pylint: disable=consider-using-with
+        )
 
         err = proc.communicate()[1]
 

@@ -5,6 +5,7 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+# pylint: disable=duplicate-code
 """SSH setup checks.
 
 The code is based on `sshtools.py:SSH.preMountCheck()`. These checks are now
@@ -44,7 +45,7 @@ class SSHSetupError(ApplicationError):
         super().__init__(log_msg=log_msg, gui_msg=gui_msg)
 
 
-class SSHSetupValidator:
+class SSHSetupValidator:  # pylint: disable=too-few-public-methods
     """An existing SSH mount is used to check if it is prepared for being a
     backup destination.
 
@@ -99,12 +100,13 @@ class SSHSetupValidator:
         cmd = self._build_ssh_command() + cmd
         logger.info(f'Calling {cmd}...', self)
 
+        # pylint: disable-next=consider-using-with
         proc = subprocess.Popen(
             cmd,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True
-        )  # pylint: disable=consider-using-with
+        )
         out, err = proc.communicate()
 
         return proc.returncode, out, err
@@ -125,6 +127,7 @@ class SSHSetupValidator:
             )
 
     def run(self):
+        """Entry point for all setup validation checks"""
         self._check_tcp_connectivity()
 
         # --- Ensure local prerequisites ---
@@ -146,9 +149,8 @@ class SSHSetupValidator:
             for cmd in self._cleanup_commands:
                 try:
                     self._ssh(cmd)
-                except Exception as exc:
+                except (subprocess.SubprocessError, OSError) as exc:
                     logger.error(f'Cleanup failed: {cmd=} {exc=}', self)
-                    pass
 
     def _check_tcp_connectivity(self):
         """Check if configured SSH endpoints are reachable via TCP.
@@ -158,6 +160,7 @@ class SSHSetupValidator:
         Raises:
             SSHSetupError: If an endpoint is unreachable.
         """
+        # pylint: disable-next=duplicate-code
         hosts = []
 
         # Proxy first if present
@@ -219,7 +222,7 @@ class SSHSetupValidator:
                 _('ssh-agent is not installed')
             )
 
-        proc = subprocess.Popen(
+        proc = subprocess.Popen(  # pylint: disable=consider-using-with
             [ssh_agent],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -238,14 +241,11 @@ class SSHSetupValidator:
         sock_path = None
         agent_pid = None
 
-        def _extract_var(var: str, line: str) -> str:
-            return line.split('=', 1)[1].split(';', 1)[0].strip()
-
-        for line in out.splitlines():
+        for line in [line.strip() for line in out.split(';')]:
             if 'SSH_AUTH_SOCK=' in line:
-                sock_path = _extract_var('SSH_AUTH_SOCK', line)
+                sock_path = line.split('=', 1)[1]
             elif 'SSH_AGENT_PID=' in line:
-                agent_pid = _extract_var('SSH_AGENT_PID', line)
+                agent_pid = line.split('=', 1)[1]
 
         if not sock_path or not agent_pid:
             raise SSHSetupError(
@@ -263,7 +263,7 @@ class SSHSetupValidator:
             signal.SIGKILL
         )
 
-    def _ensure_private_key_loaded(self, force: bool = False):
+    def _ensure_private_key_loaded(self):
         key_file = self.ssh_host.priv_key_file
         if not key_file:
             return
@@ -396,7 +396,7 @@ class SSHSetupValidator:
 
             logger.info(f'Calling {cmd}...', self)
 
-            proc = subprocess.Popen(
+            proc = subprocess.Popen(  # pylint: disable=consider-using-with
                 cmd,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
@@ -416,7 +416,7 @@ class SSHSetupValidator:
                 + '\n\n' + _('Details:') + f'\n{err.strip()}'
             )
 
-    def _check_rsync_hardlinks(self):
+    def _check_rsync_hardlinks(self):  # pylint: disable=too-many-locals
         """Checks if rsync creates real hardlinks on remote file system."""
         with tempfile.TemporaryDirectory() as tmp:
             local_fp = Path(tmp) / 'a'
@@ -455,7 +455,7 @@ class SSHSetupValidator:
 
             for cmd in (cmd1, cmd2):
                 logger.info(f'Calling {cmd}...', self)
-                proc = subprocess.Popen(
+                proc = subprocess.Popen(  # pylint: disable=consider-using-with
                     cmd,
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE,
@@ -474,7 +474,8 @@ class SSHSetupValidator:
                 cmd = self._build_ssh_command()
                 cmd.extend(['stat', '--format', '%i', path])
                 logger.info(f'Calling {cmd}...', self)
-                proc = subprocess.Popen(
+
+                proc = subprocess.Popen(  # pylint: disable=consider-using-with
                     cmd,
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE,
@@ -490,12 +491,13 @@ class SSHSetupValidator:
             try:
                 inode_1 = _remote_stat_inode(f'{locale_1}/a')
                 inode_2 = _remote_stat_inode(f'{locale_2}/a')
+
             except RuntimeError as exc:
                 raise SSHSetupError(
                     f'Unexpected error while receiving inodes: {exc}',
                     _('Unexpected error while verifying rsync hardlink '
                       'support.') + '\n\n' + _('Details:') + f'\n{exc}'
-                )
+                ) from exc
 
             if inode_1 != inode_2:
                 raise SSHSetupError(

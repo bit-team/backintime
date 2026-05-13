@@ -80,8 +80,8 @@ class SSHHost:
         """User and host as one string."""
         if self.user:
             return f'{self.user}@{self.host}'
-        else:
-            return self.host
+
+        return self.host
 
     @property
     def user_host_path(self) -> str:

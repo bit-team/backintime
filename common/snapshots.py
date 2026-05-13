@@ -40,7 +40,6 @@ from storagesize import StorageSize
 from typing import Generator
 from inhibitsuspend import InhibitSuspend
 from applicationinstance import ApplicationInstance
-from exceptions import MountException
 from uniquenessset import UniquenessSet
 from mount import MountManager, MountError
 

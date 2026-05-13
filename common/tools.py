@@ -24,7 +24,6 @@ import errno
 import locale
 import gettext
 import hashlib
-import ipaddress
 import shutil
 from datetime import datetime, timedelta
 from collections.abc import MutableMapping

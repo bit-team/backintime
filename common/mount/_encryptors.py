@@ -39,9 +39,10 @@ class Encryptor:
         """Return encryptor-specific string for fingerprint calculation."""
         raise NotImplementedError
 
-    # @property
-    # def fingerprint(self) -> str:
-    #     return self._backend.fingerprint
+    @property
+    def fingerprint(self) -> str:
+        """See `MountManager.fingerprint`"""
+        return self._backend.fingerprint
 
     @property
     def mount_root(self) -> Path:
