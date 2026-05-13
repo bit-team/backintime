@@ -68,13 +68,7 @@ class SSHSetupValidator:
         Returns:
             list:               ssh command with chosen arguments
         """
-        # Refactor: Use of assert is discouraged in productive code.
-        # Raise Exceptions instead.
         ssh = ['ssh']
-
-        # # Taken from `Config.sshDefaultArgs()`
-        # ssh += ['-o', 'ServerAliveInterval=240']  # keep connection alive
-        # ssh += ['-o', 'LogLevel=Error']  # disable ssh banner
 
         # specifying key file here allows to override for potentially
         # conflicting .ssh/config key entry
@@ -88,26 +82,13 @@ class SSHSetupValidator:
         # remote port
         ssh += ['-p', str(self.ssh_host.port)]
 
-        # # custom arguments
-        # if custom_args:
-        #     ssh += custom_args
-
         # user@host
         ssh.append(self.ssh_host.user_host)
 
-        # # quote the command running on remote host
-        # if quote and cmd:
-        #     ssh.append("'")
-
-        # # run 'ionice' on remote host
-        # if self.cfg.ioniceOnRemote():
-        #     ssh += ['ionice', '-c2', '-n7']
-
-        # # run 'nice' on remote host
-        # if self.niceOnRemote():
-        #     ssh += ['nice', '-n19']
-
-        # TODO
+        # Dev note (2026-05, buhtz):
+        # Keep this comment as an reminder. To my understanding the SSH remote
+        # prefix commands are not relevant while SSH setup validation step.
+        # But I am not sure.
         # # run prefix on remote host
         # if prefix and cmd and self.sshPrefixEnabled(profile_id):
         #     ssh += self.sshPrefixCmd(profile_id, cmd_type=type(cmd))
@@ -123,7 +104,7 @@ class SSHSetupValidator:
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True
-        )
+        )  # pylint: disable=consider-using-with
         out, err = proc.communicate()
 
         return proc.returncode, out, err
@@ -204,7 +185,6 @@ class SSHSetupValidator:
                 ).format(host_port=hp)
 
             raise SSHSetupError(log_msg, gui_msg)
-
 
     def _ensure_ssh_agent_running(self):
         """Ensure that an ssh-agent process is running and available in the
@@ -306,7 +286,8 @@ class SSHSetupValidator:
             ['ssh-add', '-l', '-E', 'sha256'],
             capture_output=True,
             text=True,
-            env=os.environ.copy()
+            env=os.environ.copy(),
+            check=False
         )
 
         return key_fingerprint in proc.stdout
@@ -317,7 +298,8 @@ class SSHSetupValidator:
             cmd,
             capture_output=True,
             text=True,
-            env=self._provide_ssh_password_env()
+            env=self._provide_ssh_password_env(),
+            check=False
         )
 
         err = proc.stderr
@@ -354,7 +336,8 @@ class SSHSetupValidator:
             [path, '--version'],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            text=True
+            text=True,
+            check=False
         )
 
         err = proc.stderr
@@ -379,7 +362,8 @@ class SSHSetupValidator:
                 ['ssh-keygen', '-F', host],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
-                text=True
+                text=True,
+                check=False
             )
 
             if proc.returncode == 0:

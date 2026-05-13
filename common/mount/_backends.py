@@ -9,10 +9,8 @@
 from __future__ import annotations
 from enum import Enum, auto
 from pathlib import Path
-from typing import Optional
 import os
 import subprocess
-import bitbase
 import logger
 import tools
 import sshcore
@@ -50,11 +48,6 @@ class Backend:
     def get_fingerprint_base(self) -> str:
         """Return backend-specific string for fingerprint calculation."""
         raise NotImplementedError
-
-    def prepare(self):
-        """Prepare the state for backend operations.
-        """
-        pass
 
     def validate(self):
         """Everything correct setup"""
@@ -131,7 +124,7 @@ class SSHBackend(Backend):
         else:
             proxy = None
 
-        # TODO: nice, ionice, nocache
+        # final host
         self.host = SSHHost(
             host=cfg.sshHost(),
             user=cfg.sshUser(),
@@ -209,7 +202,8 @@ class SSHBackend(Backend):
             cmd,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.PIPE,
-            universal_newlines=True
+            universal_newlines=True,
+            check=False
         )
 
         if proc.returncode != 0:
@@ -254,7 +248,7 @@ class SSHBackend(Backend):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True
-        )
+        )  # pylint: disable=consider-using-with
         out, err = proc.communicate()
 
         return proc.returncode, out, err
@@ -306,7 +300,7 @@ class SSHBackend(Backend):
                 )
 
     def validate(self):
-        # TODO
+        """See ``Backend.validate()``"""
         if not self.host.host:
             raise MountError(
                 'SSH host not configured',
@@ -316,7 +310,8 @@ class SSHBackend(Backend):
         if not self.path:
             raise MountError(
                 'SSH destination path not set',
-                self.ERR_MSG_CONTEXT + _('No destination backup directory configured.')
+                self.ERR_MSG_CONTEXT
+                + _('No destination backup directory configured.')
             )
 
         if self.cfg.sshCheckPingHost():  # See issue #2482
@@ -327,6 +322,7 @@ class SSHBackend(Backend):
         self._check_remote_directory_access()
 
     def mount(self):
+        """See ``Backend.mount()``"""
         if tools.is_mounted(self.path):
             logger.info('SSH directory already mounted')
             return
@@ -381,7 +377,7 @@ class SSHBackend(Backend):
             stdout=subprocess.DEVNULL,
             stderr=subprocess.PIPE,
             universal_newlines=True
-        )
+        )  # pylint: disable=consider-using-with
 
         err = proc.communicate()[1]
 

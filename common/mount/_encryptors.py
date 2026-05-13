@@ -32,15 +32,16 @@ class Encryptor:
         self._backend = backend
 
     def setup(self):
+        """Called by the mount manager after setting up the backend."""
         raise NotImplementedError
 
     def get_fingerprint_base(self) -> str:
         """Return encryptor-specific string for fingerprint calculation."""
         raise NotImplementedError
 
-    @property
-    def fingerprint(self) -> str:
-        return self._backend.fingerprint
+    # @property
+    # def fingerprint(self) -> str:
+    #     return self._backend.fingerprint
 
     @property
     def mount_root(self) -> Path:
@@ -77,6 +78,7 @@ class NoEncryption(Encryptor):
         self.path = None
 
     def setup(self):
+        """See ``Encryptor.setup()``"""
         self.path = self._backend.path
 
     def get_fingerprint_base(self) -> str:
@@ -127,6 +129,7 @@ class GoCryptFS(Encryptor):
         self.password = None
 
     def setup(self):
+        """See ``Encryptor.setup()``"""
         self.path = self.mount_root / self.fingerprint / 'mountpoint'
         self.path.mkdir(parents=True, exist_ok=True)
 

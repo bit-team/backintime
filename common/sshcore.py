@@ -24,7 +24,8 @@ class SSHHost:
 
     DEFAULT_PORT = bitbase.DEFAULT_SSH_PORT
 
-    def __init__(
+    # pylint: disable-next=too-many-arguments,too-many-positional-arguments
+    def __init__(  # noqa: PLR0913
             self,
             host: str,
             user: str = None,
@@ -45,10 +46,11 @@ class SSHHost:
         """Escape IP addresses with square brackets ``[]`` if they are IPv6.
 
         IPv6 addresses contain ``:``, which conflicts with separators used in
-        contexts like SSH/URLs (e.g. host:port). Wrapping IPv6 in ``[]`` ensures
-        unambiguous parsing.
+        contexts like SSH/URLs (e.g. host:port). Wrapping IPv6 in ``[]``
+        ensures unambiguous parsing.
 
-        If it is an IPv4 address or a hostname (lettersonly) nothing is changed.
+        If it is an IPv4 address or a hostname (lettersonly) nothing is
+        changed.
 
         Args:
             address (str): IP-Address to escape if needed.
@@ -68,13 +70,14 @@ class SSHHost:
             # invalid IP, e.g. a hostname
             return address
 
-        if ip.version == 6:
+        if ip.version == 6:  # noqa: PLR2004
             return f'[{address}]'
 
         return address
 
     @property
     def user_host(self) -> str:
+        """User and host as one string."""
         if self.user:
             return f'{self.user}@{self.host}'
         else:
@@ -82,10 +85,12 @@ class SSHHost:
 
     @property
     def user_host_path(self) -> str:
+        """User, host and the path in one string"""
         return f'{self.user_host}:{self.path}'
 
     @property
     def user_host_port(self) -> str:
+        """User, host and port in one string"""
         return f'{self.user_host}:{self.port}'
 
     def __str__(self) -> str:
@@ -96,7 +101,6 @@ class SSHHost:
             result = f'{result} -> {self.proxy}'
 
         return result
-
 
 
 def can_connect_tcp(host: SSHHost, timeout: float = 2.0) -> bool:

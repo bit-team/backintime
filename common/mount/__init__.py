@@ -76,7 +76,7 @@ import tools
 import logger
 import bitbase
 from password import Password_Cache
-from ._backends import Backend, LocalBackend, SSHBackend, SSHHost  # noqa: f401
+from ._backends import Backend, LocalBackend, SSHBackend, SSHHost  # noqa: F401
 from ._encryptors import Encryptor, NoEncryption, GoCryptFS
 from ._error import MountError  # noqa: F401
 
@@ -455,4 +455,3 @@ class MountManager:
         )
         self._lock_mountpoint.unlink(missing_ok=True)
         self._lock_mountpoint = None
-
