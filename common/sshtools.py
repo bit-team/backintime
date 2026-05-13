@@ -6,6 +6,9 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""The module is a messy collection of ssh related stuff. It will be refactored
+and reintegrated into other modules. One of its ancestors is sshcore.py.
+"""
 import os
 import subprocess
 import string

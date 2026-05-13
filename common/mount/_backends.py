@@ -11,12 +11,12 @@ from enum import Enum, auto
 from pathlib import Path
 from typing import Optional
 import os
-import socket
-import ipaddress
 import subprocess
 import bitbase
 import logger
 import tools
+import sshcore
+from sshcore import SSHHost
 from ._error import MountError
 
 
@@ -107,83 +107,6 @@ class LocalBackend(Backend):
         """See ``Backend.umount()``"""
 
 
-class SSHHost:
-    """SSH connection parameters."""
-
-    DEFAULT_PORT = bitbase.DEFAULT_SSH_PORT
-
-    def __init__(
-            self,
-            host: str,
-            user: str = None,
-            port: int = DEFAULT_PORT,
-            priv_key_file: str = None,
-            proxy: Optional[SSHHost] = None,
-            path: str = './',
-    ):
-        self.host = self.ensure_ipv6_brackets(host)
-        self.user = user
-        self.port = port
-        self.priv_key_file = priv_key_file
-        self.proxy = proxy
-        self.path = path
-
-    @staticmethod
-    def ensure_ipv6_brackets(address: str) -> str:
-        """Escape IP addresses with square brackets ``[]`` if they are IPv6.
-
-        IPv6 addresses contain ``:``, which conflicts with separators used in
-        contexts like SSH/URLs (e.g. host:port). Wrapping IPv6 in ``[]`` ensures
-        unambiguous parsing.
-
-        If it is an IPv4 address or a hostname (lettersonly) nothing is changed.
-
-        Args:
-            address (str): IP-Address to escape if needed.
-
-        Returns:
-            str: The address, escaped if it is IPv6.
-
-        Dev note (buhtz, 2026-04): The host shouldn't to this escaping. It
-        becomes relevant only when the shell command is constructed. Move it
-        their if #1966 is solved.
-        """
-
-        try:
-            ip = ipaddress.ip_address(address)
-
-        except ValueError:
-            # invalid IP, e.g. a hostname
-            return address
-
-        if ip.version == 6:
-            return f'[{address}]'
-
-        return address
-
-    @property
-    def user_host(self) -> str:
-        if self.user:
-            return f'{self.user}@{self.host}'
-        else:
-            return self.host
-
-    @property
-    def user_host_path(self) -> str:
-        return f'{self.user_host}:{self.path}'
-
-    @property
-    def user_host_port(self) -> str:
-        return f'{self.user_host}:{self.port}'
-
-    def __str__(self) -> str:
-        """Return unique string for mount fingerprint"""
-        return (
-            f'{self.user_host_port};{self.path};{self.priv_key_file} '
-            f'-> {self.proxy}'
-        )
-
-
 class SSHBackend(Backend):
     """SSH mounting backend"""
     TYPE = Backend.Type.SSH
@@ -228,25 +151,28 @@ class SSHBackend(Backend):
     def get_fingerprint_base(self) -> str:
         return f'{self.TYPE}: {self.host}'
 
-    def _check_host_reachable(self, timeout: float = 2.0):
-        target = self.host.proxy if self.host.proxy else self.host
+    def _check_tcp_connectivity(self):
+        # effective SSH entry point
+        is_proxy = self.host.proxy is not None
+        target = self.host.proxy if is_proxy else self.host
 
-        try:
-            with socket.create_connection(
-                (
-                    # See SSHHost.ensure_ipv6_brackets() about that strip()
-                    target.host.strip('[]'),
-                    target.port
-                ),
-                timeout=timeout
-            ):
-                return
+        if not sshcore.can_connect_tcp(target):
+            hp = f'{target.host}:{target.port}'
 
-        except OSError as exc:
-            log_msg = f'SSH host unreachable: {target.host}:{target.port}'
-            gui_msg = _('Could not reach the SSH host:') \
-                + f'\n{target.host}:{target.port}'
-            raise MountError(log_msg, f'{self.ERR_MSG_CONTEXT}{gui_msg}') from exc
+            if is_proxy:
+                log_msg = f'SSH proxy endpoint unreachable: {hp}'
+                gui_msg = _(
+                    'Could not reach the SSH proxy host "{host_port}".'
+                ).format(host_port=hp)
+            else:
+                log_msg = f'SSH endpoint unreachable: {hp}'
+                gui_msg = _(
+                    'Could not reach the SSH host "{host_port}".'
+                ).format(host_port=hp)
+
+            gui_msg = f'{self.ERR_MSG_CONTEXT}{gui_msg}'
+
+            raise MountError(log_msg, gui_msg)
 
     def _check_host_auth(self):
         cmd = ['ssh']
@@ -319,8 +245,12 @@ class SSHBackend(Backend):
         # user@host
         ssh.append(self.host.user_host)
 
+        # Finalize
+        remote_cmd = ssh + remote_cmd
+
+        logger.debug(f'Calling {remote_cmd}...')
         proc = subprocess.Popen(
-            ssh + remote_cmd,
+            remote_cmd,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True
@@ -348,7 +278,7 @@ class SSHBackend(Backend):
                 ['test', '-d', path],
                 'Remote path is not a directory or does not exist"',
                 _('The remote backup directory does not exist or is not '
-                'a directory.') + '\n\n' + _('Path:') + f'\n{path}'
+                  'a directory.')
             ),
             (
                 ['test', '-w', path],
@@ -363,7 +293,7 @@ class SSHBackend(Backend):
         ]
 
         for cmd, log_msg, gui_msg in checks:
-            rc, _, err = self._ssh_command(cmd)
+            rc, _out, err = self._ssh_command(cmd)
 
             if rc != 0 and err:
                 err = err.strip()
@@ -386,11 +316,11 @@ class SSHBackend(Backend):
         if not self.path:
             raise MountError(
                 'SSH destination path not set',
-                self.ERR_MSG_CONTEXT + _('No estination backup directory configured.')
+                self.ERR_MSG_CONTEXT + _('No destination backup directory configured.')
             )
 
-        if self.cfg.sshCheckPingHost():
-            self._check_host_reachable()
+        if self.cfg.sshCheckPingHost():  # See issue #2482
+            self._check_tcp_connectivity()
 
         self._check_host_auth()
 
@@ -444,7 +374,7 @@ class SSHBackend(Backend):
                 f'{self.host.proxy.user_host_port}'
             ])
 
-        logger.debug(f'Call mount command: {cmd}', self)
+        logger.debug(f'Calling mount command: {cmd}')
         proc = subprocess.Popen(
             cmd,
             env=env,
@@ -465,12 +395,13 @@ class SSHBackend(Backend):
             logger.critical(log_msg)
 
             gui_msg = (
-                _('Could not mount the remote backup location.')
+                self.ERR_MSG_CONTEXT
+                + _('Could not mount the remote backup location.')
                 + '\n\n'
                 + _('Details:')
-                + '\n{err}'
+                + f'\n{err}'
             )
-            raise MountError(log_msg, self.ERR_MSG_CONTEXT + gui_msg)
+            raise MountError(log_msg, gui_msg)
 
         logger.info(
             'Remote directory mounted '
@@ -479,4 +410,6 @@ class SSHBackend(Backend):
 
     def umount(self):
         if tools.is_mounted(self.path):
-            subprocess.run(['fusermount', '-u', str(self.path)], check=False)
+            cmd = ['fusermount', '-u', str(self.path)]
+            logger.debug(f'Calling {cmd=}...')
+            subprocess.run(cmd, check=False)

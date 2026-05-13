@@ -24,6 +24,7 @@ import signal
 from typing import Optional
 from pathlib import Path
 import logger
+import sshcore
 import sshtools
 from mount import MountManager
 from exceptions import ApplicationError
@@ -143,6 +144,8 @@ class SSHSetupValidator:
             )
 
     def run(self):
+        self._check_tcp_connectivity()
+
         # --- Ensure local prerequisites ---
         self._check_sshfs_usable()
         self._check_known_hosts()
@@ -153,7 +156,7 @@ class SSHSetupValidator:
 
         # --- Check remote capabilities ---
         try:
-            if self.cfg.sshCheckCommands():
+            if self.cfg.sshCheckCommands():  # See issue #2482
                 self._check_rsync_basic()
                 self._check_rsync_hardlinks()
                 self._check_remote_tools()
@@ -165,6 +168,43 @@ class SSHSetupValidator:
                 except Exception as exc:
                     logger.error(f'Cleanup failed: {cmd=} {exc=}', self)
                     pass
+
+    def _check_tcp_connectivity(self):
+        """Check if configured SSH endpoints are reachable via TCP.
+
+        Proxy (jump host) and target host are checked.
+
+        Raises:
+            SSHSetupError: If an endpoint is unreachable.
+        """
+        hosts = []
+
+        # Proxy first if present
+        if self.ssh_host.proxy:
+            hosts.append((self.ssh_host.proxy, True))
+
+        # Final host
+        hosts.append((self.ssh_host, False))
+
+        for host, is_proxy in hosts:
+            if sshcore.can_connect_tcp(host):
+                continue
+
+            hp = f'{host.host}:{host.port}'
+
+            if is_proxy:
+                log_msg = f'SSH proxy endpoint unreachable: {hp}'
+                gui_msg = _(
+                    'Could not reach the SSH proxy host "{host_port}".'
+                ).format(host_port=hp)
+            else:
+                log_msg = f'SSH endpoint unreachable: {hp}'
+                gui_msg = _(
+                    'Could not reach the SSH host "{host_port}".'
+                ).format(host_port=hp)
+
+            raise SSHSetupError(log_msg, gui_msg)
+
 
     def _ensure_ssh_agent_running(self):
         """Ensure that an ssh-agent process is running and available in the
