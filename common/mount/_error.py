@@ -13,7 +13,7 @@ from exceptions import ApplicationError
 class MountError(ApplicationError):
     """Raised for failures in the mount subsystem.
 
-    Design decissions: The class is intentionally kept generic to avoid a
+    Design decisions: The class is intentionally kept generic to avoid a
        hierarchy of specialized mount-related exception types.
     """
     def __init__(

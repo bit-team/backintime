@@ -10,7 +10,7 @@
 The code is based on `sshtools.py:SSH.preMountCheck()`. These checks are now
 distinguished between two types of checks.
 Checks running on every mount operation now handled in the new mount subsystem
-via `Backend.validate()`. Checks that run only when setup or modifiy a profile
+via `Backend.validate()`. Checks that run only when setup or modify a profile
 are done here.
 
 Feel free to move this code somewhere else.
@@ -31,9 +31,9 @@ from exceptions import ApplicationError
 
 
 class SSHSetupError(ApplicationError):
-    """Raised for failures while the SSH setup validaton.
+    """Raised for failures while the SSH setup validation.
 
-    Design decissions: The class is intentionally kept generic to avoid a
+    Design decisions: The class is intentionally kept generic to avoid a
        hierarchy of specialized mount-related exception types.
     """
     def __init__(
@@ -129,7 +129,7 @@ class SSHSetupValidator:
         return proc.returncode, out, err
 
     def _check_tool(self, tool_cmd: list[str]):
-        """Checks if the named tool is avaiable at the remote machine.
+        """Checks if the named tool is available at the remote machine.
 
         Raise: RuntimeError if the tool is missing
         """
