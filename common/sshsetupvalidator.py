@@ -87,7 +87,7 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
         ssh.append(self.ssh_host.user_host)
 
         # Dev note (2026-05, buhtz):
-        # Keep this comment as an reminder. To my understanding the SSH remote
+        # Keep this comment as a reminder. To my understanding the SSH remote
         # prefix commands are not relevant while SSH setup validation step.
         # But I am not sure.
         # # run prefix on remote host
