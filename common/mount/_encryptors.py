@@ -246,10 +246,6 @@ class GoCryptFS(Encryptor):
 
         Raises: MountError
         """
-        print("MOUNTPOINT CONTENT:")
-        for p in self.path.iterdir():
-            print(p)
-
         if tools.is_mounted(self.path):
             logger.info(
                 'Encrypted directory already mounted '
