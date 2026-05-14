@@ -842,7 +842,11 @@ class GeneralTab(QDialog):
             if 'gocryptfs' in self.mode:
                 path = self._edit_backup_path.text()
                 # dir exists and is not empty
-                if path and any(Path(path).iterdir()):
+                try:
+                    if path and any(Path(path).iterdir()):
+                        self._edit_backup_path.setText('')
+                except FileNotFoundError as exc:
+                    logger.error(exc)
                     self._edit_backup_path.setText('')
 
             # Don't offer deprecated modes (#1734)

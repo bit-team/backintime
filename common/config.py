@@ -45,8 +45,8 @@ import configfile
 import encode
 import logger
 import sshtools
-import encfstools
-import gocryptfstools
+# import encfstools
+# import gocryptfstools
 import password
 import pluginmanager
 import schedule
@@ -236,27 +236,44 @@ class Config(configfile.ConfigFileWithProfiles):
                     #     need_2_pw|lbl_pw_2
                     # ),
                     'local': (
-                        None, _('Local'), False, False),
+                        None,
+                        _('Local'),
+                        False,
+                        False
+                    ),
                     'local_gocryptfs': (
-                        gocryptfstools.GocryptfsMount,
+                        None,  # gocryptfstools.GocryptfsMount,
                         _('Local encrypted') + ' (via gocryptfs)',
                         _('Encryption'),
                         False
                     ),
                     'ssh': (
-                        sshtools.SSH, _('SSH'), _('SSH private key'), False),
+                        None,  # sshtools.SSH,
+                        _('SSH'),
+                        _('SSH private key'),
+                        False
+                    ),
+                    'ssh_gocryptfs': (
+                        None,
+                        _('SSH encrypted') + ' (via gocryptfs)',
+                        _('SSH private key'),
+                        _('Encryption')
+                    ),
+                    # DEPRECATED
                     'local_encfs': (
-                        encfstools.EncFS_mount,
+                        None,  # encfstools.EncFS_mount,
                         'DEPRECATED - Local encrypted (via EncFS)',
                         _('Encryption'),
                         False
                     ),
+                    # DEPRECATED
                     'ssh_encfs': (
-                        encfstools.EncFS_SSH,
+                        None,  # encfstools.EncFS_SSH,
                         'DEPRECATED - SSH encrypted (via EncFS)',
                         _('SSH private key'),
                         _('Encryption')
                     ),
+
         }
 
         # Deprecated: #2176
