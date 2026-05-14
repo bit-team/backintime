@@ -86,8 +86,7 @@ class LocalBackend(Backend):
         if not self.path.exists():
             gui_msg = (
                 _("Can't find backup destination directory.")
-                + f'\n{self.path}'
-                + '\n\n'
+                + f'\n{self.path}\n\n'
                 + _('If it is on a removable drive, please plug it in.')
                 + ' ' + _('Then press OK.')
             )
@@ -103,14 +102,12 @@ class LocalBackend(Backend):
 
 
 class SSHBackend(Backend):
-    """SSH mounting backend"""
+    """SSH mount backend"""
     TYPE = Backend.Type.SSH
     ERR_MSG_CONTEXT = (
         _('Back In Time could not connect to the '
           'remote backup location.')
-        + '\n\n'
-        + _('Reason:')
-        + '\n'
+        + '\n\n' + _('Reason:') + '\n'
     )
 
     def __init__(self, cfg):
@@ -140,7 +137,6 @@ class SSHBackend(Backend):
         """See `MountManager.fingerprint`"""
         super().set_fingerprint(fingerprint)
 
-        # self.path = cfg.get_backup_destination_path(cfg.currentProfile())
         self.path = self.mount_root / self.fingerprint / 'ssh'
 
     def get_fingerprint_base(self) -> str:
