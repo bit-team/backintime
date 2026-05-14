@@ -8,7 +8,6 @@
 """Encryption subsystem related to mounting"""
 import os
 import json
-import hashlib
 import subprocess
 from enum import Enum, auto
 from pathlib import Path
@@ -32,29 +31,18 @@ class Encryptor:
         self.cfg = cfg
         self._backend = backend
 
+    def setup(self):
+        """Called by the mount manager after setting up the backend."""
+        raise NotImplementedError
+
     def get_fingerprint_base(self) -> str:
         """Return encryptor-specific string for fingerprint calculation."""
         raise NotImplementedError
 
     @property
     def fingerprint(self) -> str:
-        """Compute a unique mount fingerprint.
-
-        The fingerprint is a deterministic hex string and based on the
-        encryptors configuration parameters and the backend.  It serves as a
-        stable identifier for mountpoints, allowing mounts with identical
-        configurations to be recognized and potentially reused across
-        processes.
-
-        Returns:
-            A SHA256 hash cut to a 12-character hexadecimal string.
-
-        """
-        data = '|'.join([
-            self._backend.get_fingerprint_base(),
-            self.get_fingerprint_base()
-        ])
-        return hashlib.sha256(data.encode()).hexdigest()[:12]
+        """See `MountManager.fingerprint`"""
+        return self._backend.fingerprint
 
     @property
     def mount_root(self) -> Path:
@@ -88,8 +76,11 @@ class NoEncryption(Encryptor):
 
     def __init__(self, cfg, backend):
         super().__init__(cfg, backend)
+        self.path = None
+
+    def setup(self):
+        """See ``Encryptor.setup()``"""
         self.path = self._backend.path
-        # logger.critical(f'{self=} {self.path=}')
 
     def get_fingerprint_base(self) -> str:
         return str(self.TYPE) + ': '
@@ -123,8 +114,8 @@ class GoCryptFS(Encryptor):
         and points to the same directory. GoCryptFS will use it for mounting.
 
         The parameter `encryptor.path` is the mountpoint and decrypted view.
-        E.g., ``/home/user/.zieltmp``. Human-readable files are accessible
-        here during backup.
+        E.g., ``~/.local/share/backintime/mnt/<fp>/mountpoint/``.
+        Human-readable files are accessible here during backup.
     """
 
     TYPE = Encryptor.Type.GOCRYPTFS
@@ -135,12 +126,14 @@ class GoCryptFS(Encryptor):
         # the decrypted (human readable) view of "plain_path"
         # mount_root + hash_id/fingerprint + 'mountpoint'
         # e.g. `~/.local/share/backintime/mnt/<hash_id>/mountpoint`
+        self.path = None
+        self.password = None
+
+    def setup(self):
+        """See ``Encryptor.setup()``"""
         self.path = self.mount_root / self.fingerprint / 'mountpoint'
         self.path.mkdir(parents=True, exist_ok=True)
-
-        # logger.debug(f'{self.path=} {self.cipher_path=}', self)
-
-        self.password = None
+        logger.debug(f'mkdir() {self.path=}')
 
     @property
     def cipher_path(self) -> Path:
@@ -210,13 +203,21 @@ class GoCryptFS(Encryptor):
                 output = proc.communicate()[0]
 
                 if proc.returncode:
-                    msg = _(
-                        'Unable to initialize encryption via "{command}"'
-                    ).format(command=cmd)
-                    msg = f'{msg}:\n\n{output}\n\n'
-                    msg = f'{msg}Return code: {proc.returncode}'
-                    logger.critical(msg, self)
-                    raise MountError(msg, path=self.cipher_path)
+                    log_msg = f'Unable to initialize encryption via "{cmd}"'
+                    log_msg = f'{log_msg} | {output} '
+                    log_msg = f'{log_msg} | Return code: {proc.returncode}'
+                    logger.critical(log_msg)
+
+                    gui_msg = (
+                        _(
+                            'Unable to initialize encryption via "{command}"'
+                        ).format(command=cmd)
+                        + '\n'
+                        + _('Return code: {rc}').format(rc=proc.returncode)
+                        + _('Original error: {err}').format(err=output)
+                    )
+
+                    raise MountError(log_msg, gui_msg)
 
     def validate(self):
         """Check if encryption setup is ready to get mounted.
@@ -224,17 +225,21 @@ class GoCryptFS(Encryptor):
         Raises: MountError
         """
         if not self.is_initialized():
-            raise MountError(
-                _('Backup destination directory is not '
-                  'prepared for encryption.'),
-                path=self.cipher_path
-            )
+            log_msg = 'Backup destination not prepared for ' \
+                f'encryption: {self.cipher_path}'
+            gui_msg = _(
+                'Backup destination directory is not prepared for encryption. '
+                'Path: {path}'
+            ).format(path=self.cipher_path)
+
+            raise MountError(log_msg, gui_msg)
 
         if not self.path.exists():
-            raise MountError(
-                'Mointpoint as decrypted view is missing.',
-                path=self.path
-            )
+            log_msg = f'Mointpoint (as decrypted view) missing: {self.path}'
+            gui_msg = _(
+                'Mointpoint as decrypted view is missing. Path: {path}'
+            ).format(path=self.path)
+            raise MountError(log_msg, gui_msg)
 
     def mount(self):
         """Mount
@@ -281,14 +286,20 @@ class GoCryptFS(Encryptor):
             ) as proc:
                 output = proc.communicate()[0]
 
-                if proc.returncode:
-                    msg = _(
-                        'Unable to mount via "{command}"'
-                    ).format(command=cmd)
-                    msg = f'{msg}:\n\n{output}\n\n'
-                    msg = f'{msg}Return code: {proc.returncode}'
-                    logger.critical(msg)
-                    raise MountError(msg)
+                if proc.returncode != 0:
+                    log_msg = f'Mount failed via "{cmd}"'
+                    log_msg = f'{log_msg} | {output}'
+                    log_msg = f'{log_msg} | Return code: {proc.returncode}'
+                    logger.critical(log_msg)
+
+                    gui_msg = (
+                        _('Mount failed with return code {rc}.').format(
+                            rc=proc.returncode
+                        ) + '\n\n'
+                        + _('Error:') + f'\n{output}'
+                        + _('Command:') + f'\n{cmd}'
+                    )
+                    raise MountError(log_msg, gui_msg)
 
         logger.info(
             'Encrypted directory mounted '
@@ -313,15 +324,16 @@ class GoCryptFS(Encryptor):
             check=False
         )
 
-        if proc.returncode:
-            msg = f'Unable to umount {self.path}:\n{proc.stdout}'
-            logger.error(msg)
-
-            raise MountError(msg)
-
-        # # DEBUG
-        # import traceback
-        # traceback.print_stack(limit=6)
+        if proc.returncode != 0:
+            log_msg = f'Unmount failed. | {proc.stdout} | {proc.returncode}'
+            logger.error(log_msg)
+            gui_msg = (
+                _('Unmount failed')
+                + '\n'
+                + _('Return code: {rc}').format(rc=proc.returncode)
+                + _('Original error: {err}').format(err=proc.stdout)
+            )
+            raise MountError(log_msg, gui_msg)
 
         logger.info(
             'Encrypted directory unmounted '

@@ -40,8 +40,8 @@ from manageprofiles.sshproxywidget import SshProxyWidget
 from manageprofiles.sshkeyselector import SshKeySelector
 from bitwidgets import HLineWidget
 from filedialog import FileDialog
-from profile_operations import ProfileOperations
 from mount import MountManager
+from sshsetupvalidator import SSHSetupValidator, SSHSetupError
 
 
 class GeneralTab(QDialog):
@@ -478,23 +478,29 @@ class GeneralTab(QDialog):
         self.config.setPassword(password_1, mode=mode)
         self.config.setPassword(password_2, mode=mode, pw_id=2)
 
-        if mode != 'local':
-            # mnt = mount.Mount(cfg=self.config, tmp_mount=True, parent=self)
+        if 'ssh' in mode:
             mnt = MountManager.create(self.config)
-            if not self._do_alot_pre_mount_checking(mnt, mount_kwargs):
+            ssh_check = SSHSetupValidator(mnt)
+            try:
+                ssh_check.run()
+            except SSHSetupError as exc:
+                logger.error(exc)
+                msg = _(
+                    'Back In Time could not validate the SSH configuration.'
+                ) + '\n\n' + _('Reason:') + '\n' + exc.gui_msg
+                messagebox.critical(self, msg, _('SSH profile setup failed'))
+
                 return False
 
         if mode == 'local':
             self.config.set_snapshots_path(self._edit_backup_path.text())
-
-        # snapshots_mountpoint = self.config.get_snapshots_mountpoint(
-        #     tmp_mount=True)
 
         # Attention! The mount manager instance need to be fresh at this point
         # because the config was changed.
         # Current problem with the Manage profile dialog is that there is to
         # much mounting stuff involved.
         mnt = MountManager.create(self.config)
+        mnt.mount()
 
         success = tools.validate_and_prepare_snapshots_path(
             path=mnt.path,
@@ -513,7 +519,7 @@ class GeneralTab(QDialog):
             mnt.umount()
         except MountError as exc:
             logger.error(self, str(exc))
-            messagebox.critical(self, exc.to_msgbox_string())
+            messagebox.critical(self, exc.gui_msg)
             return False
 
         return True
@@ -537,7 +543,7 @@ class GeneralTab(QDialog):
             mnt.mount()
 
         except MountError as exc:
-            messagebox.critical(self, exc.as_msgbox_string())
+            messagebox.critical(self, exc.gui_msg)
             return False
 
         return True

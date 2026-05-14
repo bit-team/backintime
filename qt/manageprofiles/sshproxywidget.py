@@ -45,6 +45,7 @@ class SshProxyWidget(QWidget):
         vlayout.setContentsMargins(0, 0, 0, 0)
 
         self._checkbox = QCheckBox(_('SSH Proxy'), self)
+        self._checkbox.setChecked(True if host else False)
         vlayout.addWidget(self._checkbox)
         self._checkbox.stateChanged.connect(self._slot_checkbox_changed)
 

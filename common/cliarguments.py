@@ -918,6 +918,7 @@ def parse_arguments(args: Namespace,
 
     try:
         logger.DEBUG = args.debug
+        bitbase.IS_IN_DEBUG_MODE = args.debug
     except AttributeError:
         pass
 

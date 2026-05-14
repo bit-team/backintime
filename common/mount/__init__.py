@@ -16,9 +16,57 @@ Responsibilities:
 - Supporting encryption strategies via encryptors (e.g., gocrytpfs)
 - Providing a unified fingerprint mechanism for mount identification and
   mountpoint reference counting.
+
+Mountpoint layout and rules for all profile types.
+
+Base directory:
+    ~/.local/share/backintime/mnt/<fp>/
+
+Where:
+    <fp> = fingerprint derived from the full mount setup configuration,
+           including backend (local or SSH) AND optional encryptor.
+
+Profiles:
+    Users backup destination path: ~/MyBackups
+
+    local (unencrypted):
+        No mount logic.
+        rsync works on:
+            ~/MyBackups
+
+    local_gocryptfs (encrypted):
+        Backend mount:
+            ~/MyBackups
+        Encryptor:
+            Mounts backend path to <fp>/mountpoint
+        rsync works on:
+            <fp>/mountpoint
+
+    ssh (unencrypted):
+        Backend mount (sshfs):
+            Mounts user@localhost:/home/user/MyBackups' to <fp>/ssh
+        rsync works on:
+            <fp>/ssh
+
+    ssh_gocryptfs (encrypted over SSH):
+        Backend mount (sshfs):
+            Mounts user@localhost:/home/user/MyBackups' to <fp>/ssh
+        Encryptor (gocryptfs):
+            Mounts <fp>/ssh to <fp>/mountpoint
+        rsync works on:
+            <fp>/mountpoint
+
+Rules:
+  - The encryptor (if present) is always mounted on top of the backend.
+  - Only the ssh_gocryptfs profile introduces an additional intermediate
+    mount directory ("ssh").
+  - Lock files belong to the final mountpoint directory.
+  - The fingerprint (<fp>) is derived from the COMPLETE setup to avoid
+    collisions between different encryptor configurations on the same backend.
 """
 import os
 import subprocess
+import hashlib
 from contextlib import contextmanager
 from time import sleep
 from pathlib import Path
@@ -26,7 +74,7 @@ import tools
 import logger
 import bitbase
 from password import Password_Cache
-from ._backends import Backend, LocalBackend  # , SSHBackend
+from ._backends import Backend, LocalBackend, SSHBackend, SSHHost  # noqa: F401
 from ._encryptors import Encryptor, NoEncryption, GoCryptFS
 from ._error import MountError  # noqa: F401
 
@@ -35,7 +83,7 @@ LOCK_SUFFIX = 'lock'
 
 _BACKENDS = {
     Backend.Type.LOCAL: LocalBackend,
-    # Backend.Type.SSH: SSHBackend,
+    Backend.Type.SSH: SSHBackend,
 }
 
 _ENCRYPT = {
@@ -61,7 +109,12 @@ class MountManager:
         """
         mode = cfg.snapshotsMode()
 
-        backend_type = Backend.Type.LOCAL if 'local' in mode else None
+        if 'local' in mode:
+            backend_type = Backend.Type.LOCAL
+        elif 'ssh' in mode:
+            backend_type = Backend.Type.SSH
+        else:
+            backend_type = None
 
         if 'gocryptfs' in mode:
             encryptor_type = Encryptor.Type.GOCRYPTFS
@@ -71,11 +124,14 @@ class MountManager:
         try:
             backend = _BACKENDS[backend_type](cfg)
             encryptor = _ENCRYPT[encryptor_type](cfg, backend)
+
         except Exception as exc:
             print(f'{mode=}')  # DEBUG
             raise exc
 
-        return MountManager(backend, encryptor, cfg)
+        manager = MountManager(backend, encryptor, cfg)
+
+        return manager
 
     def __init__(self, backend, encryptor, cfg):
         """Don't directly instantiate. Use ``MountManager.create()``
@@ -93,6 +149,27 @@ class MountManager:
         )
 
         self._ensure_password_cache()
+
+        self.backend.set_fingerprint(self._compute_fingerprint())
+        self.encryptor.setup()
+
+    def _compute_fingerprint(self) -> str:
+        """Compute a unique mount fingerprint.
+
+        The fingerprint is a deterministic hex string and based on the
+        encryptors configuration parameters and the backend.
+
+        Returns:
+            A SHA256 hash cut to a 12-character hexadecimal string.
+
+        """
+        data = '|'.join([
+            self.backend.get_fingerprint_base(),
+            self.encryptor.get_fingerprint_base()
+        ])
+        logger.debug(f'fingerprint: {data=}', self)
+
+        return hashlib.sha256(data.encode()).hexdigest()[:12]
 
     def _ensure_password_cache(self):
         """Start the password cache process if isn't already"""
@@ -144,9 +221,12 @@ class MountManager:
         the instance used. Every backintime instance with the identical mount
         setup and configuratino should return an identical fingerprint.
 
-        In combination with mountpoint lock mechanic, this is used to reuse
-        existing mount points and prevent umount on mountpoints that are still
-        in use by other processes.
+        In combination with mountpoint lock mechanic, it serves as a stable
+        identifier for mountpoints, allowing mounts with identical
+        configurations to be recognized and potentially reused across
+        processes.
+
+        See also `MountManager._compute_fingerprint()` for more details.
         """
         return self.encryptor.fingerprint
 
@@ -175,7 +255,7 @@ class MountManager:
 
         The backend is not relevant at this point.
         """
-        return self.encryptor.initialize()
+        self.encryptor.initialize()
 
     def validate(self):
         """Check if backend and encryptor are ready.
@@ -186,6 +266,17 @@ class MountManager:
         self.backend.validate()
         self.encryptor.validate()
 
+    def _requires_mountpoint_lock(self) -> bool:
+        """Whether runtime mountpoint locking is required."""
+
+        if self.backend.TYPE is Backend.Type.SSH:
+            return True
+
+        if self.encryptor.TYPE is Encryptor.Type.GOCRYPTFS:
+            return True
+
+        return False
+
     def mount(self):
         """Initiate mount in backend and encryptor"""
         # Workaround
@@ -193,14 +284,16 @@ class MountManager:
         self.cfg.PLUGIN_MANAGER.mount(self.cfg.currentProfile())
 
         with self._process_lock():
-            self._acquire_mountpoint_lock()
+            if self._requires_mountpoint_lock():
+                self._acquire_mountpoint_lock()
 
             self.backend.validate()
             self.backend.mount()
 
+            if not self.encryptor.is_initialized():
+                self.encryptor.initialize()
             self.encryptor.validate()
             self.encryptor.mount()
-            # self._write_umount_info()
 
     def umount(self):
         """Release encryptor and backend mounts"""
@@ -219,7 +312,8 @@ class MountManager:
                     self
                 )
         finally:
-            self._release_mountpoint_lock()
+            if self._requires_mountpoint_lock():
+                self._release_mountpoint_lock()
 
     def _process_locks_active(self, path: Path) -> bool:
         """Check existence of active and foreign locks and clean stale ones.
@@ -247,7 +341,7 @@ class MountManager:
                 active = True
                 continue
 
-            logger.info(f'{os.getpid()=} Remove stale lock {fp}', self)
+            logger.debug(f'{os.getpid()=} Remove stale lock {fp}', self)
             fp.unlink()
 
         return active
@@ -271,7 +365,7 @@ class MountManager:
                 continue
 
             if tools.processAlive(pid):
-                logger.info(
+                logger.debug(
                     f'{os.getpid()=} Foreign mountpoint lock alive: {fp}',
                     self
                 )
@@ -280,7 +374,7 @@ class MountManager:
                 continue
 
             # foreign lock is dead
-            logger.info(
+            logger.debug(
                 f'{os.getpid()=} Remove stale mountpoint lock {fp}',
                 self
             )
@@ -306,8 +400,7 @@ class MountManager:
 
             sleep(1)
 
-        logger.info(
-            # f'Process lock - Acquire {fp.relative_to(self.mount_root)}',
+        logger.debug(
             f'{os.getpid()=} Process lock - Acquire {fp}',
             self
         )
@@ -319,8 +412,7 @@ class MountManager:
             yield
 
         finally:
-            logger.info(
-                # f'Process lock - Release {fp.relative_to(self.mount_root)}',
+            logger.debug(
                 f'{os.getpid()=} Process lock - Release {fp}',
                 self
             )
@@ -340,7 +432,7 @@ class MountManager:
         self._lock_mountpoint.parent.mkdir(
             mode=0o711, parents=True, exist_ok=True)
 
-        logger.info(
+        logger.debug(
             f'{os.getpid()=} Mount point lock - Acquire '
             f'{self._lock_mountpoint.relative_to(self.mount_root)}',
             self
@@ -366,7 +458,7 @@ class MountManager:
             )
             return
 
-        logger.info(
+        logger.debug(
             f'{os.getpid()=} Mount point lock - Release '
             f'{self._lock_mountpoint.relative_to(self.mount_root)}',
             self

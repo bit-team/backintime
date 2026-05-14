@@ -24,7 +24,6 @@ import errno
 import locale
 import gettext
 import hashlib
-import ipaddress
 import shutil
 from datetime import datetime, timedelta
 from collections.abc import MutableMapping
@@ -2050,26 +2049,9 @@ def splitCommands(cmds, head='', tail='', maxLength=0):
 
 
 def escapeIPv6Address(address):
-    """Escape IP addresses with square brackets ``[]`` if they are IPv6.
-
-    If it is an IPv4 address or a hostname (lettersonly) nothing is changed.
-
-    Args:
-        address (str): IP-Address to escape if needed.
-
-    Returns:
-        str: The address, escaped if it is IPv6.
-    """
-    try:
-        ip = ipaddress.ip_address(address)
-    except ValueError:
-        # invalid IP, e.g. a hostname
-        return address
-
-    if ip.version == 6:
-        return f'[{address}]'
-
-    return address
+    # WORKAROUND
+    from mount import SSHHost
+    return SSHHost.ensure_ipv6_brackets(address)
 
 
 def xdg_open(uri: str) -> bool:

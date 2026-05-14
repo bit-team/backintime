@@ -113,7 +113,7 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
             # Workaround, until #1370 and #2260 is solved
             rc = self.process.wait(timeout=2)
 
-            # Something bad happend because we have a return code
+            # Something bad happened because we have a return code
             stderr = self.process.stderr.read()
             logger.critical(
                 f'Systray exited unexpected and immediately with {rc=} '
