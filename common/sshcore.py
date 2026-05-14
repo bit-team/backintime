@@ -14,7 +14,9 @@ Dev note (2026-05, buhtz): This module is the ancestor of sshtools.py.
 from __future__ import annotations
 import socket
 import ipaddress
+import subprocess
 from typing import Optional
+from pathlib import Path
 import bitbase
 import logger
 
@@ -133,3 +135,28 @@ def can_connect_tcp(host: SSHHost, timeout: float = 2.0) -> bool:
         logger.debug(f'Unreachable host "{host}" ({exc})')
 
         return False
+
+
+def ssh_key_fingerprint(path: Path) -> str:
+    """Return SHA256 fingerprint of an SSH private key.
+
+    Uses ssh-keygen canonical output.
+    """
+
+    if not path.exists():
+        return None
+
+    proc = subprocess.run(
+        ['ssh-keygen', '-E', 'sha256', '-lf', path],
+        capture_output=True,
+        text=True
+    )
+
+    if proc.returncode != 0:
+        raise RuntimeError(proc.stderr)
+
+    # format:
+    # 256 SHA256:abc... comment (type)
+    parts = proc.stdout.strip().split()
+
+    return parts[1]  # SHA256:...

@@ -26,7 +26,6 @@ from typing import Optional
 from pathlib import Path
 import logger
 import sshcore
-import sshtools
 from mount import MountManager
 from exceptions import ApplicationError
 
@@ -268,7 +267,7 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
         if not key_file:
             return
 
-        fingerprint = sshtools.ssh_key_fingerprint(key_file)
+        fingerprint = sshcore.ssh_key_fingerprint(key_file)
 
         if self._is_key_loaded(fingerprint):
             return
