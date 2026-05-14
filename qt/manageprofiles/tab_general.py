@@ -500,6 +500,7 @@ class GeneralTab(QDialog):
         # Current problem with the Manage profile dialog is that there is to
         # much mounting stuff involved.
         mnt = MountManager.create(self.config)
+        mnt.mount()
 
         success = tools.validate_and_prepare_snapshots_path(
             path=mnt.path,

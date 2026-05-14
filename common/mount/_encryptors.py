@@ -114,8 +114,8 @@ class GoCryptFS(Encryptor):
         and points to the same directory. GoCryptFS will use it for mounting.
 
         The parameter `encryptor.path` is the mountpoint and decrypted view.
-        E.g., ``/home/user/.zieltmp``. Human-readable files are accessible
-        here during backup.
+        E.g., ``~/.local/share/backintime/mnt/<fp>/mountpoint/``.
+        Human-readable files are accessible here during backup.
     """
 
     TYPE = Encryptor.Type.GOCRYPTFS
@@ -133,6 +133,7 @@ class GoCryptFS(Encryptor):
         """See ``Encryptor.setup()``"""
         self.path = self.mount_root / self.fingerprint / 'mountpoint'
         self.path.mkdir(parents=True, exist_ok=True)
+        logger.debug(f'mkdir() {self.path=}')
 
     @property
     def cipher_path(self) -> Path:
@@ -245,6 +246,10 @@ class GoCryptFS(Encryptor):
 
         Raises: MountError
         """
+        print("MOUNTPOINT CONTENT:")
+        for p in self.path.iterdir():
+            print(p)
+
         if tools.is_mounted(self.path):
             logger.info(
                 'Encrypted directory already mounted '
@@ -292,10 +297,11 @@ class GoCryptFS(Encryptor):
                     logger.critical(log_msg)
 
                     gui_msg = (
-                        _('Mount failed via "{command}"').format(command=cmd)
-                        + '\n'
-                        + _('Return code: {rc}').format(rc=proc.returncode)
-                        + _('Original error: {err}').format(err=output)
+                        _('Mount failed with return code {rc}.').format(
+                            rc=proc.returncode
+                        ) + '\n\n'
+                        + _('Error:') + f'\n{output}'
+                        + _('Command:') + f'\n{cmd}'
                     )
                     raise MountError(log_msg, gui_msg)
 

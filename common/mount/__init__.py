@@ -27,38 +27,36 @@ Where:
            including backend (local or SSH) AND optional encryptor.
 
 Profiles:
+    Users backup destination path: ~/MyBackups
 
     local (unencrypted):
-        Backend mount:
-            <fp>/mountpoint
+        No mount logic.
         rsync works on:
-            <fp>/mountpoint
+            ~/MyBackups
 
     local_gocryptfs (encrypted):
         Backend mount:
-            <fp>/mountpoint
+            ~/MyBackups
         Encryptor:
-            overlays directly on <fp>/mountpoint
+            Mounts backend path to <fp>/mountpoint
         rsync works on:
             <fp>/mountpoint
 
     ssh (unencrypted):
         Backend mount (sshfs):
-            <fp>/ssh
+            Mounts user@localhost:/home/user/MyBackups' to <fp>/ssh
         rsync works on:
-            <fp>/ssh   -> then mapped logically as final mountpoint
+            <fp>/ssh
 
     ssh_gocryptfs (encrypted over SSH):
         Backend mount (sshfs):
-            <fp>/ssh
+            Mounts user@localhost:/home/user/MyBackups' to <fp>/ssh
         Encryptor (gocryptfs):
-            mounts:
-                <fp>/ssh -> <fp>/mountpoint
+            Mounts <fp>/ssh to <fp>/mountpoint
         rsync works on:
             <fp>/mountpoint
 
 Rules:
-  - The directory "mountpoint" is always the final working directory for rsync.
   - The encryptor (if present) is always mounted on top of the backend.
   - Only the ssh_gocryptfs profile introduces an additional intermediate
     mount directory ("ssh").
@@ -257,7 +255,7 @@ class MountManager:
 
         The backend is not relevant at this point.
         """
-        return self.encryptor.initialize()
+        self.encryptor.initialize()
 
     def validate(self):
         """Check if backend and encryptor are ready.
@@ -268,6 +266,17 @@ class MountManager:
         self.backend.validate()
         self.encryptor.validate()
 
+    def _requires_mountpoint_lock(self) -> bool:
+        """Whether runtime mountpoint locking is required."""
+
+        if self.backend.TYPE is Backend.Type.SSH:
+            return True
+
+        if self.encryptor.TYPE is Encryptor.Type.GOCRYPTFS:
+            return True
+
+        return False
+
     def mount(self):
         """Initiate mount in backend and encryptor"""
         # Workaround
@@ -275,15 +284,16 @@ class MountManager:
         self.cfg.PLUGIN_MANAGER.mount(self.cfg.currentProfile())
 
         with self._process_lock():
-            self._acquire_mountpoint_lock()
+            if self._requires_mountpoint_lock():
+                self._acquire_mountpoint_lock()
 
-            self.backend.prepare()
             self.backend.validate()
             self.backend.mount()
 
+            if not self.encryptor.is_initialized():
+                self.encryptor.initialize()
             self.encryptor.validate()
             self.encryptor.mount()
-            # self._write_umount_info()
 
     def umount(self):
         """Release encryptor and backend mounts"""
@@ -302,7 +312,8 @@ class MountManager:
                     self
                 )
         finally:
-            self._release_mountpoint_lock()
+            if self._requires_mountpoint_lock():
+                self._release_mountpoint_lock()
 
     def _process_locks_active(self, path: Path) -> bool:
         """Check existence of active and foreign locks and clean stale ones.
@@ -330,7 +341,7 @@ class MountManager:
                 active = True
                 continue
 
-            logger.info(f'{os.getpid()=} Remove stale lock {fp}', self)
+            logger.debug(f'{os.getpid()=} Remove stale lock {fp}', self)
             fp.unlink()
 
         return active
@@ -354,7 +365,7 @@ class MountManager:
                 continue
 
             if tools.processAlive(pid):
-                logger.info(
+                logger.debug(
                     f'{os.getpid()=} Foreign mountpoint lock alive: {fp}',
                     self
                 )
@@ -363,7 +374,7 @@ class MountManager:
                 continue
 
             # foreign lock is dead
-            logger.info(
+            logger.debug(
                 f'{os.getpid()=} Remove stale mountpoint lock {fp}',
                 self
             )
@@ -389,8 +400,7 @@ class MountManager:
 
             sleep(1)
 
-        logger.info(
-            # f'Process lock - Acquire {fp.relative_to(self.mount_root)}',
+        logger.debug(
             f'{os.getpid()=} Process lock - Acquire {fp}',
             self
         )
@@ -402,8 +412,7 @@ class MountManager:
             yield
 
         finally:
-            logger.info(
-                # f'Process lock - Release {fp.relative_to(self.mount_root)}',
+            logger.debug(
                 f'{os.getpid()=} Process lock - Release {fp}',
                 self
             )
@@ -423,7 +432,7 @@ class MountManager:
         self._lock_mountpoint.parent.mkdir(
             mode=0o711, parents=True, exist_ok=True)
 
-        logger.info(
+        logger.debug(
             f'{os.getpid()=} Mount point lock - Acquire '
             f'{self._lock_mountpoint.relative_to(self.mount_root)}',
             self
@@ -449,7 +458,7 @@ class MountManager:
             )
             return
 
-        logger.info(
+        logger.debug(
             f'{os.getpid()=} Mount point lock - Release '
             f'{self._lock_mountpoint.relative_to(self.mount_root)}',
             self

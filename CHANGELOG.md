@@ -15,7 +15,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
  
 - **Rewritten from scratch**: Mount subsystem (backend and encryption).
   Behavior is intended to remain unchanged; regressions cannot be fully ruled
-  out.
+  out. ([PR#2449](https://github.com/bit-team/backintime/pull/2449))
 - Default mountpoint permissions changed from 700 to 711 ([PR#2451](https://github.com/bit-team/backintime/pull/2451))
   to avoid FUSE mount failures when accessing via different user contexts.
 - **Breaking**: Minimal Python version 3.13 increased

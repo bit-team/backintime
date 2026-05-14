@@ -385,7 +385,8 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
             local_fp = Path(tmp) / 'a'
             local_fp.write_text('foo', encoding='utf-8')
 
-            remote_tmp = self.ssh_host.user_host_path + '/bit_check_tmp'
+            tmp_dir = '/bit_check_tmp'
+            remote_tmp = self.ssh_host.user_host_path + tmp_dir
 
             cmd = [
                 'rsync',
@@ -406,7 +407,7 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
 
         # cleanup
         self._cleanup_commands.append(
-            ['rm', '--recursive', '--force', remote_tmp]
+            ['rm', '--recursive', '--force', self.ssh_host.path + tmp_dir]
         )
 
         if proc.returncode != 0:
@@ -430,10 +431,10 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
             locale_2 = locale_base + '/bit_check_2'
 
             self._cleanup_commands.append(
-                ['rm', '--recursive', '--force', remote_1]
+                ['rm', '--recursive', '--force', locale_1]
             )
             self._cleanup_commands.append(
-                ['rm', '--recursive', '--force', remote_2]
+                ['rm', '--recursive', '--force', locale_2]
             )
 
             # First upload

@@ -141,7 +141,7 @@ class SSHBackend(Backend):
         super().set_fingerprint(fingerprint)
 
         # self.path = cfg.get_backup_destination_path(cfg.currentProfile())
-        self.path = self.mount_root / self.fingerprint / 'mountpoint'
+        self.path = self.mount_root / self.fingerprint / 'ssh'
 
     def get_fingerprint_base(self) -> str:
         return f'{self.TYPE}: {self.host}'
