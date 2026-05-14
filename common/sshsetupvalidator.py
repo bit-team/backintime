@@ -267,7 +267,7 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
         if not key_file:
             return
 
-        fingerprint = sshcore.ssh_key_fingerprint(key_file)
+        fingerprint = sshcore.ssh_key_fingerprint(Path(key_file))
 
         if self._is_key_loaded(fingerprint):
             return

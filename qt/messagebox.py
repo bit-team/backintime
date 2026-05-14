@@ -133,7 +133,7 @@ def critical(parent, msg: str, title: str = None):
     """
     return QMessageBox.critical(
         parent,
-        title if title else ('Error'),
+        title if title else _('Error'),
         msg,
         buttons=QMessageBox.StandardButton.Ok,
         defaultButton=QMessageBox.StandardButton.Ok)
