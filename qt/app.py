@@ -339,8 +339,8 @@ class MainWindow(QMainWindow):
         )
 
         answer = messagebox.question(text=message,
-                                     custom_yes='Import',
-                                     custom_no='Create')
+                                     custom_yes=_('Import'),
+                                     custom_no=_('Create'))
 
         mark_main_profile_unsaved = False if answer else True
 
