@@ -104,7 +104,11 @@ def warning(text: str,
     return answer == QMessageBox.StandardButton.Yes
 
 
-def question(text, title=None, widget_to_center_on=None) -> bool:
+def question(text: str,
+             title: str = None,
+             widget_to_center_on=None,
+             custom_yes: str = None,
+             custom_no: str = None) -> bool:
     """Show a modal question message box.
 
     The message box is centered on the primary screen if
@@ -114,16 +118,29 @@ def question(text, title=None, widget_to_center_on=None) -> bool:
         text(str): The question central to the dialog.
         title(str): Title of the message box dialog (default: 'Question').
         widget_to_center_on(QWidget): Center the message box on that widget.
+        custom_yes: Custom text to replace the default 'yes' check box.
+        custom_no: Custom text to replace the default 'no' check box.
 
     Return:
         bool: ``True`` if the answer was "Yes", otherwise ``False``.
     """
-    answer = QMessageBox.question(
-        widget_to_center_on,
-        title if title else _('Question'),
-        text)
+    question_box = QMessageBox(widget_to_center_on)
+    question_box.setWindowTitle(title if title else _('Question'))
+    question_box.setText(text)
+    question_box.setIcon(QMessageBox.Icon.Question)
 
-    return answer == QMessageBox.StandardButton.Yes
+    if custom_yes:
+        yes_button = question_box.addButton(custom_yes,
+                                            QMessageBox.ButtonRole.YesRole)
+    else:
+        yes_button = question_box.addButton(QMessageBox.StandardButton.Yes)
+    if custom_no:
+        question_box.addButton(custom_no, QMessageBox.ButtonRole.NoRole)
+    else:
+        question_box.addButton(QMessageBox.StandardButton.No)
+
+    question_box.exec()
+    return question_box.clickedButton() == yes_button
 
 
 def critical(parent, msg):

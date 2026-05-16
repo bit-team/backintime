@@ -338,7 +338,9 @@ class MainWindow(QMainWindow):
             'or another computer?'
         )
 
-        answer = messagebox.question(text=message)
+        answer = messagebox.question(text=message,
+                                     custom_yes='Import',
+                                     custom_no='Create')
 
         mark_main_profile_unsaved = False if answer else True
 
