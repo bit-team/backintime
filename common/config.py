@@ -821,6 +821,31 @@ class Config(configfile.ConfigFileWithProfiles):
         return self.pw.password(
             parent, profile_id, mode, pw_id, only_from_keyring)
 
+    def get_encryption_password(self):
+        """Dirty workaround, because the meaning of password1 and password2
+        depends on the mode used and differs.
+        """
+        mode = self.snapshotsMode()
+
+        if 'gocryptfs' not in mode:
+            raise RuntimeError(f'The {mode} does not provide encryption')
+
+        # get the password container
+        if self.pw is None:
+            self.pw = password.Password(self)
+
+        # local encryption
+        if mode == 'local_gocryptfs':
+            return self.pw.password(
+                parent=None,
+                profile_id=self.currentProfile(),
+                mode=mode,
+                pw_id=1,
+                only_from_keyring=False
+            )
+
+
+
     def setPassword(self, password_value, profile_id=None, mode=None, pw_id=1):
         if self.pw is None:
             self.pw = password.Password(self)

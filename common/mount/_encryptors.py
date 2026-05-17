@@ -168,6 +168,11 @@ class GoCryptFS(Encryptor):
 
     def initialize(self):
         """See ``Encryptor.initialized()``"""
+
+        # DEBUG
+        for p in self.cipher_path.iterdir():
+            logger.critical(f'{p=}')
+
         if self.password is None:
             self.password = self.cfg.password()
 

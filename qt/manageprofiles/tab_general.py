@@ -492,6 +492,30 @@ class GeneralTab(QDialog):
 
                 return False
 
+        # Dev note (2026-05, buhtz): Gocryptfs needs an empty dir to get
+        # initialized. Here this is check. Important is that this check
+        # happens after the SSH checks.
+        # For local encrypted profiles a similar check is used. Not here,
+        # but in _slot_snapshots_path_clicked().
+        # This is a pragmatic workaround/solution and might be restructured
+        # later.
+        if mode == 'ssh_gocryptfs':
+            mnt = MountManager.create(self.config)
+
+            try:
+                # Mount SSH only, without gocryptfs
+                mnt.backend.mount()
+
+                if not self._is_gocryptfs_path_empty(mnt.backend.path):
+                    mnt.backend.umount()
+                    return False
+
+                mnt.backend.umount()
+
+            except MountError as exc:
+                messagebox.critical(self, exc.gui_msg)
+                return False
+
         if mode == 'local':
             self.config.set_snapshots_path(self._edit_backup_path.text())
 
@@ -509,7 +533,10 @@ class GeneralTab(QDialog):
             copy_links=self.config.copyLinks(),
             error_handler=self.config.notifyError)
 
-        logger.critical(f'validate_and_prepare_snapshots_path() returned {success=}')  # DEBUG
+        # DEBUG
+        logger.critical(
+            f'validate_and_prepare_snapshots_path() returned {success=}'
+        )
 
         if success is False:
             return False
@@ -670,6 +697,9 @@ class GeneralTab(QDialog):
         return qttools.create_warning_label(txt, icon_scale_factor=3)
 
     def _slot_snapshots_path_clicked(self):
+        """The dir button beside backup destination path was clicked.
+        Note: This button exists only on local profiles.
+        """
         old_path = Path(self._edit_backup_path.text())
 
         dlg = FileDialog(
