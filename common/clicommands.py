@@ -22,9 +22,7 @@ import tools
 tools.initiate_translation(None)
 import logger
 import snapshots
-import sshtools
 import password
-# import encfstools
 import cli
 import config
 import bitbase
@@ -55,7 +53,6 @@ def show_deprecation_message(cmd_flag: str):
 
     # 'None' means no replacement planned.
     replacement = {
-        'benchmark-cipher': None,
         'snapshots-path': None,
         'snapshots-list': 'Use "show" instead.',
         'snapshots-list-path': 'Use "show --path" instead.',
@@ -67,7 +64,6 @@ def show_deprecation_message(cmd_flag: str):
             'Use "remove --skip-confirmation" instead.',
         '--profile-id': 'Use "--profile" instead.',
         '--share-path': None,
-        'decode': None,
     }[cmd_flag]
 
     msg = _deprecation_msg(cmd_flag, replacement)
@@ -146,35 +142,6 @@ def backup_job(args: argparse.Namespace):
     show_deprecation_message('backup-job')
     args.background = True
     backup(args)
-
-
-def benchmark_cipher(args: argparse.Namespace):
-    """
-    Command for transferring a file with scp to remote host with all
-    available ciphers and print its speed and time.
-
-    Args:
-        args: Previously parsed arguments.
-
-    Raises:
-        SystemExit: 0
-    """
-    show_deprecation_message('benchmark-cipher')
-
-    cli.set_quiet(args)
-    cli.print_header()
-
-    cfg = _get_config(args)
-
-    if cfg.snapshotsMode() in ('ssh', 'ssh_encfs'):
-        ssh = sshtools.SSH(cfg)
-        ssh.benchmarkCipher(args.FILE_SIZE)
-        sys.exit(bitbase.RETURN_OK)
-
-    # else
-    logger.error(
-        f"SSH is not configured for profile '{cfg.profileName()}'!")
-    sys.exit(bitbase.RETURN_ERR)
 
 
 def check_config(args: argparse.Namespace):

@@ -149,7 +149,8 @@ def ssh_key_fingerprint(path: Path) -> str:
     proc = subprocess.run(
         ['ssh-keygen', '-E', 'sha256', '-lf', path],
         capture_output=True,
-        text=True
+        text=True,
+        check=False
     )
 
     if proc.returncode != 0:

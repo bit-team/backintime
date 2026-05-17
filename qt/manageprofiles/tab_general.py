@@ -506,7 +506,9 @@ class GeneralTab(QDialog):
                 # Mount SSH only, without gocryptfs
                 mnt.backend.mount()
 
-                if not self._is_gocryptfs_path_empty(mnt.backend.path):
+                if not self._is_empty_or_initialized_gocryptfs(
+                        mnt.backend.path):
+
                     mnt.backend.umount()
                     return False
 
@@ -722,7 +724,7 @@ class GeneralTab(QDialog):
         # gocryptfs destination need to be empty
         if 'gocryptfs' in self.mode:
             # is not empty
-            if not self._is_gocryptfs_path_empty(path):
+            if not self._is_empty_or_initialized_gocryptfs(path):
                 return
 
         # Really change?
@@ -736,23 +738,22 @@ class GeneralTab(QDialog):
         # Set the path
         self._edit_backup_path.setText(str(path))
 
-    def _is_gocryptfs_path_empty(self, path: Path) -> bool:
+    def _is_empty_or_initialized_gocryptfs(self, path: Path) -> bool:
+        # Existing initialized repository
+        if (path / 'gocryptfs.conf').is_file():
+            return True
 
-        # items in 'path'
-        real = set(entry.relative_to(path) for entry in path.iterdir())
-
-        # gocryptfs config files
-        allow = {Path('gocryptfs.conf'), Path('gocryptfs.diriv')}
-
-        any_left = real - allow
-        if not any_left:
+        # Empty directory
+        if not any(path.iterdir()):
             return True
 
         messagebox.warning(
             '<p>'
-            + _('The selected backup destination is not empty.')
+            + _('The selected backup destination cannot be used for '
+                'encryption.')
             + '<p></p>'
-            + _('It must be empty to use encryption.')
+            + _('It must either be empty or already initialized for '
+                'gocryptfs.')
             + '</p>',
             widget_to_center_on=self
         )

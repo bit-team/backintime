@@ -133,8 +133,6 @@ class ParserAgent:
             'smart-remove': clicommands.smart_remove,
             'remove-and-do-not-ask-again':
                 clicommands.remove_and_donot_ask_again,
-            # See #2120
-            'benchmark-cipher': clicommands.benchmark_cipher,
             # See #2130 for this five commands
             'snapshots-path': clicommands.snapshots_path,
             'last-snapshot': clicommands.last_snapshot,
@@ -363,28 +361,6 @@ class ParserAgent:
 
         parser.set_defaults(func=self._cmd_func_dict[name])
         self.parsers[name] = parser
-
-    def _create_cmd_benchmark_ciphier(self):
-        name = 'benchmark-cipher'
-        nargs = '?'
-        self._aliases.append((name, nargs))
-        desc = 'Show a benchmark of all ciphers for ssh transfer.'
-
-        parser = self._command_subparsers.add_parser(
-            name,
-            help=None,  # suppress help output
-            description=desc)
-
-        parser.set_defaults(func=self._cmd_func_dict[name])
-        self.parsers[name] = parser
-
-        parser.add_argument(
-            'FILE_SIZE',
-            type=int,
-            action='store',
-            default=40,
-            nargs='?',
-            help='File size used for benchmark.')
 
     def _create_cmd_check_config(self):
         name = 'check-config'
@@ -758,7 +734,6 @@ class ParserAgent:
         self._create_cmd_smart_remove()
         self._create_cmd_unmount()
         self._create_cmd_shutdown()
-        self._create_cmd_benchmark_ciphier()
         self._create_cmd_check_config()
         # self._create_cmd_decode()
         self._create_cmd_pw_cache()
@@ -789,11 +764,8 @@ def print_usage_without_deprecations(parser):
 
     """
     text = parser.format_help().splitlines()
-    # for idx, t in enumerate(text):
-    #     print(f'{idx=} {t=}')
 
     deprecated_cmds = [
-        'benchmark-cipher',
         'snapshots-path',
         'last-snapshot',
         'last-snapshot-path',
@@ -802,7 +774,6 @@ def print_usage_without_deprecations(parser):
         'backup-job',
         'smart-remove',
         'remove-and-do-not-ask-again',
-        # 'decode',
     ]
 
     def _remove_cmds_from_cmd_list(line: str):

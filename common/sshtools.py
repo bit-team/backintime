@@ -12,24 +12,11 @@ See Issue #2484.
 """
 import os
 import subprocess
-import string
-import random
-import tempfile
-import socket
 import re
-import atexit
-import signal
 from pathlib import Path
-from time import sleep
 import logger
 import tools
-import password
-import password_ipc
-from mountold import MountControl
-from exceptions import MountException, NoPubKeyLogin, KnownHost
 import bitbase
-import bcolors
-import version
 
 
 # class SSH(MountControl):
@@ -580,62 +567,6 @@ import version
 #                     host=self.host)
 
 #                 raise MountException(f'{msg}:\n{err}')
-
-#     def benchmarkCipher(self, size=40):
-#         """
-#         Rudimental benchmark to compare transfer speed of all available
-#         ciphers.
-
-#         Args:
-#             size (int):     size of the testfile in MiB
-#         """
-
-#         temp = tempfile.mkstemp()[1]
-
-#         print('create random data file')
-
-#         subprocess.call([
-#             'dd',
-#             'if=/dev/urandom',
-#             'of=%s' % temp,
-#             'bs=1M',
-#             'count=%s' % size
-#         ])
-
-#         keys = list(self.config.SSH_CIPHERS.keys())
-#         keys.sort()
-
-#         for cipher in keys:
-
-#             if cipher == 'default':
-#                 continue
-
-#             print('%s%s:%s' % (bcolors.BOLD, cipher, bcolors.ENDC))
-
-#             for _ in range(2):
-#                 # scp uses -P instead of -p for port
-#                 subprocess.call([
-#                     'scp',
-#                     '-P',
-#                     str(self.port),
-#                     '-c',
-#                     cipher,
-#                     temp,
-#                     self.user_host_path
-#                 ])
-
-#         ssh = self.config.sshCommand(
-#             cmd=['rm', os.path.join(self.path, os.path.basename(temp))],
-#             custom_args=['-p', str(self.port), self.user_host],
-#             port=False,
-#             cipher=False,
-#             user_host=False,
-#             nice=False,
-#             ionice=False,
-#             profile_id=self.profile_id)
-
-#         subprocess.call(ssh)
-#         os.remove(temp)
 
 #     def checkKnownHosts(self):
 #         """Check if the remote host is in current users ``known_hosts`` file.
@@ -1239,58 +1170,58 @@ def sshCopyId(
     return not proc.returncode
 
 
-# DEV NOTE:
-def sshHostKey(host, port='22'):
-    """
-    Get the remote host key from ``host``.
+# DEV NOTE: re-activate later
+# def sshHostKey(host, port='22'):
+#     """
+#     Get the remote host key from ``host``.
 
-    Args:
-        host (str): host name or IP address
-        port (str): port number of remote ssh-server
+#     Args:
+#         host (str): host name or IP address
+#         port (str): port number of remote ssh-server
 
-    Returns:
-        tuple:      three item tuple with (fingerprint, hashed host key,
-                    key type)
-    """
+#     Returns:
+#         tuple:      three item tuple with (fingerprint, hashed host key,
+#                     key type)
+#     """
 
-    for t in ('ecdsa', 'rsa'):
-        cmd = ['ssh-keyscan', '-t', t, '-p', port, host]
-        proc = subprocess.Popen(cmd,
-                                stdout=subprocess.PIPE,
-                                stderr=subprocess.DEVNULL)
+#     for t in ('ecdsa', 'rsa'):
+#         cmd = ['ssh-keyscan', '-t', t, '-p', port, host]
+#         proc = subprocess.Popen(cmd,
+#                                 stdout=subprocess.PIPE,
+#                                 stderr=subprocess.DEVNULL)
 
-        result = proc.communicate()
-        hostKey = result[0].strip()
+#         result = proc.communicate()
+#         hostKey = result[0].strip()
 
-        if hostKey:
-            break
+#         if hostKey:
+#             break
 
-    if hostKey:
+#     if hostKey:
 
-        logger.debug('Found {} key for host "{}"'.format(t.upper(), host))
+#         logger.debug('Found {} key for host "{}"'.format(t.upper(), host))
 
-        with tempfile.TemporaryDirectory() as tmp:
+#         with tempfile.TemporaryDirectory() as tmp:
 
-            keyFile = os.path.join(tmp, 'key')
+#             keyFile = os.path.join(tmp, 'key')
 
-            with open(keyFile, 'wb') as f:
-                f.write(hostKey + b'\n')
+#             with open(keyFile, 'wb') as f:
+#                 f.write(hostKey + b'\n')
 
-            hostKeyFingerprint = sshKeyFingerprint(keyFile)
+#             hostKeyFingerprint = sshKeyFingerprint(keyFile)
 
-            cmd = ['ssh-keygen', '-H', '-f', keyFile]
+#             cmd = ['ssh-keygen', '-H', '-f', keyFile]
 
-            proc = subprocess.Popen(cmd,
-                                    stdout=subprocess.DEVNULL,
-                                    stderr=subprocess.DEVNULL)
-            proc.communicate()
+#             proc = subprocess.Popen(cmd,
+#                                     stdout=subprocess.DEVNULL,
+#                                     stderr=subprocess.DEVNULL)
+#             proc.communicate()
 
-            with open(keyFile, mode='rt', encoding='utf-8') as handle:
-                hostKeyHash = handle.read().strip()
+#             with open(keyFile, mode='rt', encoding='utf-8') as handle:
+#                 hostKeyHash = handle.read().strip()
 
-        return (hostKeyFingerprint, hostKeyHash, t.upper())
+#         return (hostKeyFingerprint, hostKeyHash, t.upper())
 
-    return (None, None, None)
+#     return (None, None, None)
 
 
 def determine_default_ssh_key_filename() -> str | None:

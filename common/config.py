@@ -44,9 +44,6 @@ import tools
 import configfile
 import encode
 import logger
-import sshtools
-# import encfstools
-# import gocryptfstools
 import password
 import pluginmanager
 import schedule
@@ -828,7 +825,7 @@ class Config(configfile.ConfigFileWithProfiles):
         mode = self.snapshotsMode()
 
         if 'gocryptfs' not in mode:
-            raise RuntimeError(f'The {mode} does not provide encryption')
+            raise RuntimeError(f'{mode} has no encryption password')
 
         # get the password container
         if self.pw is None:
@@ -836,15 +833,19 @@ class Config(configfile.ConfigFileWithProfiles):
 
         # local encryption
         if mode == 'local_gocryptfs':
-            return self.pw.password(
-                parent=None,
-                profile_id=self.currentProfile(),
-                mode=mode,
-                pw_id=1,
-                only_from_keyring=False
-            )
+            pw_id = 1
+        elif mode == 'ssh_gocryptfs':
+            pw_id = 2
+        else:
+            raise RuntimeError(f'Unexpected situation. {mode=}')
 
-
+        return self.pw.password(
+            parent=None,
+            profile_id=self.currentProfile(),
+            mode=mode,
+            pw_id=pw_id,
+            only_from_keyring=False
+        )
 
     def setPassword(self, password_value, profile_id=None, mode=None, pw_id=1):
         if self.pw is None:

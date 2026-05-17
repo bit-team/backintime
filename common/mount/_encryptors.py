@@ -166,15 +166,39 @@ class GoCryptFS(Encryptor):
 
         return True
 
+    def _ensure_password(self):
+        """Make sure that a password is known to the encryptor."""
+        if self.password:
+            return
+
+        self.password = self.cfg.get_encryption_password()
+
+    def _ensure_cipher_dir_empty_for_init(self):
+        try:
+            next(self.cipher_path.iterdir())
+        except StopIteration:
+            # it is empty
+            return
+
+        log_msg = (
+            f'gocryptfs init blocked: cipherdir not empty: {self.cipher_path}'
+        )
+
+        gui_msg = (
+            _('Cannot initialize encryption because the backup '
+              'destination is not empty.')
+            + '\n\n'
+            + _('Remove existing files or choose an empty directory.')
+        )
+
+        raise MountError(log_msg, gui_msg)
+
     def initialize(self):
         """See ``Encryptor.initialized()``"""
 
-        # DEBUG
-        for p in self.cipher_path.iterdir():
-            logger.critical(f'{p=}')
+        self._ensure_cipher_dir_empty_for_init()
 
-        if self.password is None:
-            self.password = self.cfg.password()
+        self._ensure_password()
 
         # Dev note: See docstring in EncFS_mount._mount() for detailed
         # description about the password thing.
@@ -206,6 +230,7 @@ class GoCryptFS(Encryptor):
             ) as proc:
 
                 output = proc.communicate()[0]
+                output = output.strip()
 
                 if proc.returncode:
                     log_msg = f'Unable to initialize encryption via "{cmd}"'
@@ -214,12 +239,9 @@ class GoCryptFS(Encryptor):
                     logger.critical(log_msg)
 
                     gui_msg = (
-                        _(
-                            'Unable to initialize encryption via "{command}"'
-                        ).format(command=cmd)
-                        + '\n'
-                        + _('Return code: {rc}').format(rc=proc.returncode)
-                        + _('Original error: {err}').format(err=output)
+                        _('Unable to initialize encryption.')
+                        + '\n\n' + _('Details:')
+                        + f'\nrc: {proc.returncode}\n{output}\n{cmd}'
                     )
 
                     raise MountError(log_msg, gui_msg)
@@ -258,11 +280,7 @@ class GoCryptFS(Encryptor):
             )
             return
 
-        if self.password is None:
-            self.password = self.cfg.password(
-                parent=None,
-                profile_id=self.cfg.currentProfile()
-            )
+        self._ensure_password()
 
         thread = TempPasswordThread(self.password)
         env = os.environ.copy()
