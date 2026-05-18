@@ -60,6 +60,7 @@ from PyQt6.QtWidgets import (QApplication,
                              QLineEdit,
                              QMainWindow,
                              QMenu,
+                             QMessageBox,
                              QStackedLayout,
                              QSplitter,
                              QToolBar,
@@ -334,11 +335,20 @@ class MainWindow(QMainWindow):
         ).format(app_name=self.config.APP_NAME)
         message = f'{message}\n\n'
         message = message + _(
-            'Import an existing configuration from a backup location '
-            'or another computer?'
+            'Would you like to create a new configuration or import an '
+            'existing configuration from a backup?'
         )
-
-        answer = messagebox.question(text=message)
+       
+        import_prompt = QMessageBox(None)
+        import_prompt.setWindowTitle(_('Question'))
+        import_prompt.setText(message)
+        import_prompt.setIcon(QMessageBox.Icon.Question)
+        yes_button = import_prompt.addButton(_('Import'),
+                                             QMessageBox.ButtonRole.YesRole)
+        import_prompt.addButton(_('Create'),
+                                QMessageBox.ButtonRole.NoRole)
+        import_prompt.exec()
+        answer = import_prompt.clickedButton() == yes_button
 
         mark_main_profile_unsaved = False if answer else True
 
