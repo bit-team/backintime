@@ -374,10 +374,9 @@ def print_header():
     )
 
 
-def _warn_about_cipher(cfg: config.Config) -> None:
-    """See issue #2176. Cipher options is not used anymore by BIT.
-    Therefore, users having it in config need to be warned about it.
-    """
+def detect_cipher_settings(cfg: config.Config) -> tuple[str, str, str]:
+    """See issue #2176."""
+    result = []
     cipher_keys = list(filter(
         lambda key: 'cipher' in key, cfg.dict.keys()
     ))
@@ -391,11 +390,21 @@ def _warn_about_cipher(cfg: config.Config) -> None:
             name = 'Main profile'
         else:
             name = cfg.dict[f'{key.split('.')[0]}.name']
+
+        result.append((f'"{name}" ({pid})', val, key))
+
+    return result
+
+
+def _warn_about_cipher(cfg: config.Config) -> None:
+    """See issue #2176. Cipher options is not used anymore by BIT.
+    Therefore, users having it in config need to be warned about it.
+    """
+    for name, val, _key in detect_cipher_settings(cfg):
         logger.critical(
-            f'Oboslete cipher setting "{val}" deteted in profile "{name}" '
-            f'({pid}). Cipher support was removed from Back In Time. Check '
-            'the backup profile and also remove this setting from the config '
-            'file.'
+            f'Oboslete cipher setting "{val}" deteted in profile {name}. '
+            f'Cipher support was removed from Back In Time. Check the backup '
+            'profile and also remove this setting from the config file.'
         )
 
 
