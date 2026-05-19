@@ -338,7 +338,7 @@ class MainWindow(QMainWindow):
             'Would you like to create a new configuration or import an '
             'existing configuration from a backup?'
         )
-       
+
         import_prompt = QMessageBox(None)
         import_prompt.setWindowTitle(_('Question'))
         import_prompt.setText(message)
