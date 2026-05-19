@@ -1054,7 +1054,6 @@ def sshCopyIdCommand(
     proxy_user=None,
     proxy_host=None,
     proxy_port='22',
-    cipher=None
 ):
     """
     Generate a ssh-copy-id command to copy the given public ssh-key to a
@@ -1068,7 +1067,6 @@ def sshCopyIdCommand(
         proxy_user (str):     proxy host user
         proxy_host (str):     proxy host
         proxy_port (str):     proxy host port
-        cipher (str):   cipher used for ssh
 
     Returns:
         list: The ssh-copy-id command as a list.
@@ -1088,10 +1086,6 @@ def sshCopyIdCommand(
         # port
         '-p', str(port),
     ]
-
-    # cipher
-    if cipher and cipher != 'default':
-        cmd.extend(['-o', 'Ciphers={}'.format(cipher)])
 
     # proxy
     if proxy_host:
@@ -1114,7 +1108,6 @@ def sshCopyId(
     proxy_host=None,
     proxy_port=None,
     askPass='backintime-askpass',
-    cipher=None
 ):
     """
     Copy SSH public key ``pubkey`` to remote ``host``.
@@ -1125,7 +1118,6 @@ def sshCopyId(
         host (str):     remote host
         port (str):     ssh port on remote host
         askPass (str):  program used to pipe password into ssh
-        cipher (str):   cipher used for ssh
 
     Returns:
         bool:           True if successful
@@ -1138,7 +1130,6 @@ def sshCopyId(
         proxy_user,
         proxy_host,
         proxy_port,
-        cipher
     )
 
     env = os.environ.copy()

@@ -185,7 +185,6 @@ printf "build:\ttranslate compress\n" >> ${MAKEFILE}
 printf "clean:\n" >> ${MAKEFILE}
 printf "\trm -f po/*.mo\n" >> ${MAKEFILE}
 printf "\trm -f ../doc/manpages/*.gz\n" >> ${MAKEFILE}
-printf "\trm -f config-example-*.gz\n" >> ${MAKEFILE}
 printf "\trm -rf doc-dev/_build/*\n" >> ${MAKEFILE}
 printf "\n" >> ${MAKEFILE}
 
@@ -221,10 +220,7 @@ addInstallDir                        "/share/doc/backintime-common/LICENSES"
 addInstallFiles "../LICENSES/*"      "/share/doc/backintime-common/LICENSES"
 addNewline
 
-addComment "config and user-callback examples"
-addInstallDir                            "/share/doc/backintime-common/examples"
-addInstallFile "config-example-local.gz" "/share/doc/backintime-common/examples"
-addInstallFile "config-example-ssh.gz"   "/share/doc/backintime-common/examples"
+addComment "user-callback examples"
 addInstallDir                            "/share/doc/backintime-common/user-callback-examples"
 addInstallFiles "../doc/user-callback-examples/user-callback.*"   "/share/doc/backintime-common/user-callback-examples"
 addUninstallDir                          "/share/doc/backintime-common"
@@ -271,10 +267,6 @@ printf "\t@echo \"Compressed backintime-config.5 into backintime-config.5.gz\"\n
 printf "\n\t# Changelog\n" >> ${MAKEFILE}
 printf "\t@pandoc ./../CHANGELOG.md --standalone --from markdown --to html --metadata title=\"Back In Time - CHANGELOG\" --output ./../CHANGELOG.html\n" >> ${MAKEFILE}
 printf "\t@echo \"Converted CHANGELOG.md to CHANGELOG.html\"\n" >> ${MAKEFILE}
-
-printf "\n\t# Config-examples\n" >> ${MAKEFILE}
-printf "\tgzip -n --best -c config-example-local > config-example-local.gz\n" >> ${MAKEFILE}
-printf "\tgzip -n --best -c config-example-ssh > config-example-ssh.gz\n\n" >> ${MAKEFILE}
 
 # translate
 printf "translate:\t$mos\n\n" >> ${MAKEFILE}
