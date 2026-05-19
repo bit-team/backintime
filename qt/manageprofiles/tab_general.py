@@ -492,6 +492,32 @@ class GeneralTab(QDialog):
 
                 return False
 
+        # Dev note (2026-05, buhtz): Gocryptfs needs an empty dir to get
+        # initialized. Here this is check. Important is that this check
+        # happens after the SSH checks.
+        # For local encrypted profiles a similar check is used. Not here,
+        # but in _slot_snapshots_path_clicked().
+        # This is a pragmatic workaround/solution and might be restructured
+        # later.
+        if mode == 'ssh_gocryptfs':
+            mnt = MountManager.create(self.config)
+
+            try:
+                # Mount SSH only, without gocryptfs
+                mnt.backend.mount()
+
+                if not self._is_empty_or_initialized_gocryptfs(
+                        mnt.backend.path):
+
+                    mnt.backend.umount()
+                    return False
+
+                mnt.backend.umount()
+
+            except MountError as exc:
+                messagebox.critical(self, exc.gui_msg)
+                return False
+
         if mode == 'local':
             self.config.set_snapshots_path(self._edit_backup_path.text())
 
@@ -509,7 +535,10 @@ class GeneralTab(QDialog):
             copy_links=self.config.copyLinks(),
             error_handler=self.config.notifyError)
 
-        logger.critical(f'validate_and_prepare_snapshots_path() returned {success=}')  # DEBUG
+        # DEBUG
+        logger.critical(
+            f'validate_and_prepare_snapshots_path() returned {success=}'
+        )
 
         if success is False:
             return False
@@ -670,6 +699,9 @@ class GeneralTab(QDialog):
         return qttools.create_warning_label(txt, icon_scale_factor=3)
 
     def _slot_snapshots_path_clicked(self):
+        """The dir button beside backup destination path was clicked.
+        Note: This button exists only on local profiles.
+        """
         old_path = Path(self._edit_backup_path.text())
 
         dlg = FileDialog(
@@ -692,7 +724,7 @@ class GeneralTab(QDialog):
         # gocryptfs destination need to be empty
         if 'gocryptfs' in self.mode:
             # is not empty
-            if not self._is_gocryptfs_path_empty(path):
+            if not self._is_empty_or_initialized_gocryptfs(path):
                 return
 
         # Really change?
@@ -706,23 +738,22 @@ class GeneralTab(QDialog):
         # Set the path
         self._edit_backup_path.setText(str(path))
 
-    def _is_gocryptfs_path_empty(self, path: Path) -> bool:
+    def _is_empty_or_initialized_gocryptfs(self, path: Path) -> bool:
+        # Existing initialized repository
+        if (path / 'gocryptfs.conf').is_file():
+            return True
 
-        # items in 'path'
-        real = set(entry.relative_to(path) for entry in path.iterdir())
-
-        # gocryptfs config files
-        allow = {Path('gocryptfs.conf'), Path('gocryptfs.diriv')}
-
-        any_left = real - allow
-        if not any_left:
+        # Empty directory
+        if not any(path.iterdir()):
             return True
 
         messagebox.warning(
             '<p>'
-            + _('The selected backup destination is not empty.')
+            + _('The selected backup destination cannot be used for '
+                'encryption.')
             + '<p></p>'
-            + _('It must be empty to use encryption.')
+            + _('It must either be empty or already initialized for '
+                'gocryptfs.')
             + '</p>',
             widget_to_center_on=self
         )
@@ -842,7 +873,11 @@ class GeneralTab(QDialog):
             if 'gocryptfs' in self.mode:
                 path = self._edit_backup_path.text()
                 # dir exists and is not empty
-                if path and any(Path(path).iterdir()):
+                try:
+                    if path and any(Path(path).iterdir()):
+                        self._edit_backup_path.setText('')
+                except FileNotFoundError as exc:
+                    logger.error(exc)
                     self._edit_backup_path.setText('')
 
             # Don't offer deprecated modes (#1734)

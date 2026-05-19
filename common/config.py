@@ -44,9 +44,6 @@ import tools
 import configfile
 import encode
 import logger
-import sshtools
-import encfstools
-import gocryptfstools
 import password
 import pluginmanager
 import schedule
@@ -236,27 +233,44 @@ class Config(configfile.ConfigFileWithProfiles):
                     #     need_2_pw|lbl_pw_2
                     # ),
                     'local': (
-                        None, _('Local'), False, False),
+                        None,
+                        _('Local'),
+                        False,
+                        False
+                    ),
                     'local_gocryptfs': (
-                        gocryptfstools.GocryptfsMount,
+                        None,  # gocryptfstools.GocryptfsMount,
                         _('Local encrypted') + ' (via gocryptfs)',
                         _('Encryption'),
                         False
                     ),
                     'ssh': (
-                        sshtools.SSH, _('SSH'), _('SSH private key'), False),
+                        None,  # sshtools.SSH,
+                        _('SSH'),
+                        _('SSH private key'),
+                        False
+                    ),
+                    'ssh_gocryptfs': (
+                        None,
+                        _('SSH encrypted') + ' (via gocryptfs)',
+                        _('SSH private key'),
+                        _('Encryption')
+                    ),
+                    # DEPRECATED
                     'local_encfs': (
-                        encfstools.EncFS_mount,
+                        None,  # encfstools.EncFS_mount,
                         'DEPRECATED - Local encrypted (via EncFS)',
                         _('Encryption'),
                         False
                     ),
+                    # DEPRECATED
                     'ssh_encfs': (
-                        encfstools.EncFS_SSH,
+                        None,  # encfstools.EncFS_SSH,
                         'DEPRECATED - SSH encrypted (via EncFS)',
                         _('SSH private key'),
                         _('Encryption')
                     ),
+
         }
 
         # Deprecated: #2176
@@ -803,6 +817,35 @@ class Config(configfile.ConfigFileWithProfiles):
 
         return self.pw.password(
             parent, profile_id, mode, pw_id, only_from_keyring)
+
+    def get_encryption_password(self):
+        """Dirty workaround, because the meaning of password1 and password2
+        depends on the mode used and differs.
+        """
+        mode = self.snapshotsMode()
+
+        if 'gocryptfs' not in mode:
+            raise RuntimeError(f'{mode} has no encryption password')
+
+        # get the password container
+        if self.pw is None:
+            self.pw = password.Password(self)
+
+        # local encryption
+        if mode == 'local_gocryptfs':
+            pw_id = 1
+        elif mode == 'ssh_gocryptfs':
+            pw_id = 2
+        else:
+            raise RuntimeError(f'Unexpected situation. {mode=}')
+
+        return self.pw.password(
+            parent=None,
+            profile_id=self.currentProfile(),
+            mode=mode,
+            pw_id=pw_id,
+            only_from_keyring=False
+        )
 
     def setPassword(self, password_value, profile_id=None, mode=None, pw_id=1):
         if self.pw is None:

@@ -28,6 +28,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 ### Removed
 - Command line switch `--keep-mount`
 - CLI Command `decode` because of EncFS removal ([#1734](https://github.com/bit-team/backintime/issues/1734))
+- CLI Command `benchmark-cipher`
 
 ## Fixed
 - Prevent Back In Time crash when a plugin fails ([#2447](https://github.com/bit-team/backintime/issues/2447))
