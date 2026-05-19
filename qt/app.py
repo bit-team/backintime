@@ -335,8 +335,8 @@ class MainWindow(QMainWindow):
         ).format(app_name=self.config.APP_NAME)
         message = f'{message}\n\n'
         message = message + _(
-            'Would you like to create a new configuration or import an '
-            'existing configuration from a backup?'
+            'Create a new configuration or import an existing '
+            'configuration from a backup?'
         )
 
         import_prompt = QMessageBox(None)
