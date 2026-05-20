@@ -433,7 +433,9 @@ def _backup_and_remove_encfs_config(cfg: config.Config) -> bool:
 
     # do backup
     config_fp = Path(cfg._LOCAL_CONFIG_PATH)
-    config_fp_backup = config_fp.parent / bitbase.FILENAME_ENCFS_BACKUP_CONFIG
+    config_fp_backup = config_fp.with_suffix(
+        bitbase.ENCFS_BACKUP_CONFIG_SUFFIX
+    )
     shutil.copyfile(config_fp, config_fp_backup)
 
     # remove profiles

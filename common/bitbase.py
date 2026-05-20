@@ -67,7 +67,7 @@ XDG_DATA_HOME = Path(os.environ.get(
 
 FILENAME_CONFIG = 'config'
 # See issue #1743
-FILENAME_ENCFS_BACKUP_CONFIG = f'{FILENAME_CONFIG}.EncFS.backup'
+ENCFS_BACKUP_CONFIG_SUFFIX = '.encfs.backup'
 
 _DIR_DOC_PATH_BASE = Path('/') / 'usr' / 'share' / 'doc'
 
