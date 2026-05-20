@@ -439,9 +439,12 @@ def _backup_and_remove_encfs_config(cfg: config.Config) -> bool:
     shutil.copyfile(config_fp, config_fp_backup)
 
     # remove profiles
-    for pid in encfs_pids:
-        cfg.removeProfile(pid)
-    cfg.save()
+    if len(encfs_pids) == len(cfg.profiles()):
+        config_fp.unlink()
+    else:
+        for pid in encfs_pids:
+            cfg.removeProfile(pid)
+        cfg.save()
 
     logger.critical(
         f'A backup of the current config file was created: {config_fp} -> '
