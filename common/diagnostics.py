@@ -164,12 +164,6 @@ def collect_diagnostics():
     result['external-programs']['sshfs'] \
         = _get_extern_versions(['sshfs', '-V'], r'SSHFS version (.*)\n')
 
-    # EncFS
-    # Using "[Vv]" in the pattern because encfs does translate its output.
-    # e.g. In German it is "Version" in English "version".
-    result['external-programs']['encfs'] \
-        = _get_extern_versions(['encfs'], r'Build: encfs [Vv]ersion (.*)\n')
-
     # Shell
     SHELL_ERR_MSG = '($SHELL not exists)'
     shell = os.environ.get('SHELL', SHELL_ERR_MSG)

@@ -132,7 +132,6 @@ distribution.
   - `python3-dbus`
   - `python3-packaging`
   -  Recommended
-     - `encfs`
      - `gocryptfs`
 
 * Runtime dependencies for the GUI

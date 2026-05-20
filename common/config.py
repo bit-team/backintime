@@ -217,14 +217,6 @@ class Config(configfile.ConfigFileWithProfiles):
         # Workaround
         self.default_profile_name = _('Main profile')
 
-        # ToDo Those hidden labels exist to speed up their translation.
-        # See: https://github.com/bit-team/backintime/issues/
-        # 1735#issuecomment-2197646518
-        _HIDDEN_NEW_MODE_LABELS = (
-            _('Local (EncFS encrypted)'),
-            _('SSH (EncFS encrypted)')
-        )
-
         self.SNAPSHOT_MODES = {
                     # mode: (
                     #     <mounttools>,
@@ -256,21 +248,6 @@ class Config(configfile.ConfigFileWithProfiles):
                         _('SSH private key'),
                         _('Encryption')
                     ),
-                    # DEPRECATED
-                    'local_encfs': (
-                        None,  # encfstools.EncFS_mount,
-                        'DEPRECATED - Local encrypted (via EncFS)',
-                        _('Encryption'),
-                        False
-                    ),
-                    # DEPRECATED
-                    'ssh_encfs': (
-                        None,  # encfstools.EncFS_SSH,
-                        'DEPRECATED - SSH encrypted (via EncFS)',
-                        _('SSH private key'),
-                        _('Encryption')
-                    ),
-
         }
 
     def save(self):
@@ -398,8 +375,6 @@ class Config(configfile.ConfigFileWithProfiles):
         if mode == 'local':
             return self.get_snapshots_path(profile_id)
 
-        # else: ssh/local_encfs/ssh_encfs/local_gocryptfs
-
         # ???
         symlink = f'{profile_id}_{os.getpid()}'
         if tmp_mount:
@@ -451,7 +426,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def snapshotsMode(self, profile_id=None):
         #? Use mode (or backend) for this snapshot. Look at 'man backintime'
-        #? section 'Modes'.;local|local_encfs|ssh|ssh_encfs|local_gocryptfs
+        #? section 'Modes'.;local|ssh|ssh_gocryptfs|local_gocryptfs
         return self.profileStrValue('snapshots.mode', 'local', profile_id)
 
     def setSnapshotsMode(self, value, profile_id = None):
@@ -507,7 +482,7 @@ class Config(configfile.ConfigFileWithProfiles):
         return True
 
     def sshHost(self, profile_id = None):
-        #?Remote host used for mode 'ssh' and 'ssh_encfs'.;IP or domain address
+        #?Remote host used for mode 'ssh' and 'ssh_gocryptfs'.;IP or domain address
         return self.profileStrValue('snapshots.ssh.host', '', profile_id)
 
     def setSshHost(self, value, profile_id = None):
@@ -702,14 +677,6 @@ class Config(configfile.ConfigFileWithProfiles):
         logger.debug(f'SSH command: {ssh}', self)
 
         return ssh
-
-    # EncFS
-    def localEncfsPath(self, profile_id = None):
-        #?Where to save snapshots in mode 'local_encfs'.;absolute path
-        return self.profileStrValue('snapshots.local_encfs.path', '', profile_id)
-
-    def setLocalEncfsPath(self, value, profile_id = None):
-        self.setProfileStrValue('snapshots.local_encfs.path', value, profile_id)
 
     # gocryptfs
     def localGocryptfsPath(self, profile_id):
@@ -1431,9 +1398,6 @@ class Config(configfile.ConfigFileWithProfiles):
     def lastSnapshotSymlink(self, profile_id = None):
         return os.path.join(self.snapshotsFullPath(profile_id), bitbase.DIR_NAME_LAST_SNAPSHOT)
 
-    def encfsconfigBackupFolder(self, profile_id = None):
-        return os.path.join(self._LOCAL_DATA_FOLDER, 'encfsconfig_backup_%s' % self.fileId(profile_id))
-
     def isConfigured(self, profile_id=None) -> bool:
         """Checks if the program is configured.
 
@@ -1497,8 +1461,6 @@ class Config(configfile.ConfigFileWithProfiles):
                 dest_path = self.snapshotsFullPath(pid)
             elif backup_mode == 'local_gocryptfs':
                 dest_path = self.localGocryptfsPath(pid)
-            elif backup_mode == 'local_encfs':
-                dest_path = self.localEncfsPath(pid)
             else:
                 logger.error(
                     f"Udev scheduling doesn't work with mode {backup_mode}",
