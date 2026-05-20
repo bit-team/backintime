@@ -273,23 +273,6 @@ class Config(configfile.ConfigFileWithProfiles):
 
         }
 
-        # Deprecated: #2176
-        self.SSH_CIPHERS = {
-            'default': 'Default',
-            'aes128-ctr': 'AES128-CTR',
-            'aes192-ctr': 'AES192-CTR',
-            'aes256-ctr': 'AES256-CTR',
-            'arcfour256': 'ARCFOUR256',
-            'arcfour128': 'ARCFOUR128',
-            'aes128-cbc': 'AES128-CBC',
-            '3des-cbc': '3DES-CBC',
-            'blowfish-cbc': 'Blowfish-CBC',
-            'cast128-cbc': 'Cast128-CBC',
-            'aes192-cbc': 'AES192-CBC',
-            'aes256-cbc': 'AES256-CBC',
-            'arcfour': 'ARCFOUR'
-        }
-
     def save(self):
         self._unsaved_profiles = []
         self.setIntValue('config.version', self.CONFIG_VERSION)
@@ -537,33 +520,12 @@ class Config(configfile.ConfigFileWithProfiles):
     def setSshPort(self, value, profile_id = None):
         self.setProfileIntValue('snapshots.ssh.port', value, profile_id)
 
-    def sshCipher(self, profile_id = None):
-        #?Cipher that is used for encrypting the SSH tunnel. Depending on the
-        #?environment (network bandwidth, cpu and hdd performance) a different
-        #?cipher might be faster.;default | aes192-cbc | aes256-cbc | aes128-ctr |
-        #? aes192-ctr | aes256-ctr | arcfour | arcfour256 | arcfour128 | aes128-cbc |
-        #? 3des-cbc | blowfish-cbc | cast128-cbc
-        return self.profileStrValue('snapshots.ssh.cipher', 'default', profile_id)
-
-    def setSshCipher(self, value, profile_id = None):
-        self.setProfileStrValue('snapshots.ssh.cipher', value, profile_id)
-
     def sshUser(self, profile_id = None):
         #?Remote SSH user;;local users name
         return self.profileStrValue('snapshots.ssh.user', getpass.getuser(), profile_id)
 
     def setSshUser(self, value, profile_id = None):
         self.setProfileStrValue('snapshots.ssh.user', value, profile_id)
-
-    def sshHostUserPortPathCipher(self, profile_id = None):
-        host = self.sshHost(profile_id)
-        port = self.sshPort(profile_id)
-        user = self.sshUser(profile_id)
-        path = self.sshSnapshotsPath(profile_id)
-        cipher = self.sshCipher(profile_id)
-        if not path:
-            path = './'
-        return (host, port, user, path, cipher)
 
     def sshPrivateKeyFile(self, profile_id=None) -> None | bool | str:
         """The field can have three states:
@@ -660,7 +622,7 @@ class Config(configfile.ConfigFileWithProfiles):
                    cmd=None,
                    custom_args=None,
                    port=True,
-                   cipher=True,
+                   cipher=True,  # not functional anymore. #2491
                    user_host=True,
                    ionice=True,
                    nice=True,
@@ -704,23 +666,6 @@ class Config(configfile.ConfigFileWithProfiles):
         # remote port
         if port:
             ssh += ['-p', str(self.sshPort(profile_id))]
-
-        # cipher used to transfer data
-        c = self.sshCipher(profile_id)
-        if c != 'default':
-            # Using cipher is deprecated (#2143) and will be removed (#2176)
-            # in foreseen future.
-            logger.critical(
-                'Using a configured cipher in Back In Time is deprecated. '
-                f'Configured cipher: "{c}". Behavior will be removed in a '
-                'future release. Configure the cipher using the SSH client '
-                'config file instead. First remove key "profile<N>.snapshots'
-                '.ssh.cipher=" from Back In Time\'s config file '
-                '("~/.config/backintime/config").'
-            )
-
-            if cipher:
-                ssh += ['-o', f'Ciphers={c}']
 
         # custom arguments
         if custom_args:

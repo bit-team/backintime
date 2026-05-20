@@ -35,6 +35,7 @@ import qttools
 import backintime
 import bitbase
 import config
+import cli
 import logger
 import snapshots
 import guiapplicationinstance
@@ -372,12 +373,14 @@ class MainWindow(QMainWindow):
 
         state_data = StateData()
 
-        # SSH Cipher deprecation
-        if state_data.msg_cipher_deprecation is False:
-            cipher_profiles = self._cipher_using_profiles()
-            if cipher_profiles:
-                self._open_ssh_cipher_deprecation_dialog(cipher_profiles)
-                state_data.msg_cipher_deprecation = True
+        # SSH Cipher removal
+        cipher = cli.detect_cipher_settings(self.config)
+        if cipher:
+            self._open_ssh_cipher_remove_dialog(
+                [entry[0] for entry in cipher]
+            )
+        for _name, _val, key in cipher:
+            del self.config.dict[key]
 
         # Issue: https://github.com/bit-team/backintime/issues/2080
         lang_planed_for_removal = [
@@ -576,11 +579,6 @@ class MainWindow(QMainWindow):
                 _('Encryption Transition (EncFS)'),
                 self._slot_help_encryption, None,
                 _('Shows the message about EncFS removal again.')),
-            'act_help_cipher': (
-                icon.ENCRYPT,
-                'SSH Cipher deprecation',
-                self._slot_help_cipher_deprecation, None,
-                'Shows the message about deprecation of SSH cipher again.'),
             'act_help_about': (
                 icon.ABOUT, _('About'),
                 self._slot_help_about, None, None),
@@ -717,7 +715,6 @@ class MainWindow(QMainWindow):
                 self.act_help_bugreport,
                 self.act_help_translation,
                 self.act_help_encryption,
-                self.act_help_cipher,
                 self.act_help_about,
             )
         }
@@ -1794,24 +1791,19 @@ class MainWindow(QMainWindow):
 
         return ssh_cipher_profiles
 
-    def _open_ssh_cipher_deprecation_dialog(self, ssh_cipher_profiles):
-        """SSH cipher deprecation warning (#2143, #2176)"""
+    def _open_ssh_cipher_remove_dialog(self, ssh_cipher_profiles):
+        """SSH cipher removed (#2176)"""
 
         def _complete_text(profiles: list[str]) -> str:
             txt = (
-                'The following backup profiles are using an explicitly '
-                'configured SSH cipher.',
+                'SSH Cipher are not supported anymore!',
+                'Explicitly configured SSH cipher setting detected in the '
+                'following backup profiles:',
                 '{profiles}',
-                'Setting a cipher directly within Back In Time <strong>is '
-                'deprecated and will be removed</strong> in future versions.',
+                'The setting will be removed <strong>immediatly</strong>.',
                 'Recommended action:',
                 'Please configure the preferred cipher in the SSH client'
-                'config file (e.g. ~/.ssh/config) instead.'
-                ' First remove the config key '
-                '"profile<N>.snapshots.ssh.cipher=" from Back In Time '
-                'config file ("~/.config/backintime/config")',
-                'This message will not be shown again automatically, but is '
-                'available at any time via the Help menu.',
+                'config file (e.g. ~/.ssh/config) instead.',
                 'Your Back In Time Team'
             )
             txt = '\n'.join(txt)
@@ -1829,7 +1821,7 @@ class MainWindow(QMainWindow):
 
         dlg = UserMessageDialog(
             parent=self,
-            title='SSH Cipher is deprecated',
+            title='Removing SSH cipher setting',
             full_label=_complete_text(ssh_cipher_profiles))
         dlg.exec()
 
@@ -2288,9 +2280,6 @@ class MainWindow(QMainWindow):
 
     def _slot_help_release_candidate(self):
         self._open_release_candidate_dialog()
-
-    def _slot_help_cipher_deprecation(self):
-        self._open_ssh_cipher_deprecation_dialog(self._cipher_using_profiles())
 
     def _slot_help_encryption(self):
         dlg = encfsmsgbox.EncfsExistsWarning(['(not determined)'])

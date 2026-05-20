@@ -374,6 +374,40 @@ def print_header():
     )
 
 
+def detect_cipher_settings(cfg: config.Config) -> tuple[str, str, str]:
+    """See issue #2176."""
+    result = []
+    cipher_keys = list(filter(
+        lambda key: 'cipher' in key, cfg.dict.keys()
+    ))
+    for key in cipher_keys:
+        val = cfg.dict[key]
+        if val.lower() == 'default':
+            continue
+
+        pid = key.split('.')[0].replace('profile', '')
+        if pid == '1':
+            name = 'Main profile'
+        else:
+            name = cfg.dict[f'{key.split('.')[0]}.name']
+
+        result.append((f'"{name}" ({pid})', val, key))
+
+    return result
+
+
+def _warn_about_cipher(cfg: config.Config) -> None:
+    """See issue #2176. Cipher options is not used anymore by BIT.
+    Therefore, users having it in config need to be warned about it.
+    """
+    for name, val, _key in detect_cipher_settings(cfg):
+        logger.critical(
+            f'Oboslete cipher setting "{val}" deteted in profile {name}. '
+            f'Cipher support was removed from Back In Time. Check the backup '
+            'profile and also remove this setting from the config file.'
+        )
+
+
 def get_config_and_select_profile(
         config_path: str,
         data_path: str,
@@ -399,6 +433,8 @@ def get_config_and_select_profile(
     cfg = config.Config(
         config_path=config_path,
         data_path=data_path)
+
+    _warn_about_cipher(cfg)
 
     if profile:
         if profile.isdigit():
