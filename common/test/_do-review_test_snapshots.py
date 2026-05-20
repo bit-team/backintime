@@ -20,7 +20,6 @@ from unittest.mock import patch
 from tempfile import TemporaryDirectory
 from test import generic
 from test.constants import CURRENTUSER, CURRENTGROUP, CURRENTGID, CURRENTUID
-
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import logger
 import config

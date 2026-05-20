@@ -19,6 +19,13 @@ About the current state of this test module:
     Because the productive code is in an untestable state and needs refactoring
     or totally rewrite. This is on the projects todo list. See meta issue
     #1945.
+
+Dev note (2026-05, buhtz): Under review because with introducing the mount
+manager the pyfakefs does not work anymore. The mount manager is using
+shell calls, which is of course not supported by pyfakefs. Need to think about
+it in more details: Helpfull would be the new config management class. But also
+the putting throw the mount manager need to be re-designed. Isolate one issue
+and try to solve it.
 """
 import os
 import sys
@@ -32,6 +39,7 @@ import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import config  # noqa: E402,RUF100
 import snapshots  # noqa: E402,RUF100
+from mount import MountManager
 
 
 def dt2sidstr(d: Union[date, datetime], t: time = None, tag: int = 123):
@@ -67,7 +75,8 @@ def sid2str(sid):
 
 def create_SIDs(start_date: Union[date, datetime, list[date]],
                 days: int,
-                cfg: config.Config):
+                cfg: config.Config,
+                mount_manager: MountManager):
     sids = []
 
     if isinstance(start_date, list):
@@ -76,7 +85,7 @@ def create_SIDs(start_date: Union[date, datetime, list[date]],
         the_dates = [start_date + timedelta(days=x) for x in range(days)]
 
     for d in the_dates:
-        sids.append(snapshots.SID(dt2sidstr(d), cfg))
+        sids.append(snapshots.SID(dt2sidstr(d), cfg, mount_manager.path))
 
     return sorted(sids, reverse=True)
 
@@ -134,8 +143,13 @@ class KeepFirst(pyfakefs_ut.TestCase):
     def test_one_but_set(self):
         """Return value is always a set with always only one element."""
         # One SID for each of 20 days beginning with 5th March 2022 07:42:31
+        mnt = MountManager.create(self.cfg)
         sids = create_SIDs(
-            datetime(2020, 3, 5, 7, 42, 31), 700, self.cfg)
+            datetime(2020, 3, 5, 7, 42, 31),
+            700,
+            self.cfg,
+            mnt
+        )
 
         sut = self.sn.smartRemoveKeepFirst(
             sids, date(2021, 8, 5), datetime.now().date())
@@ -145,8 +159,9 @@ class KeepFirst(pyfakefs_ut.TestCase):
 
     def test_simple_one(self):
         """First element in a range of SIDs"""
+        mnt = MountManager.create(self.cfg)
         sids = create_SIDs(
-            datetime(2022, 3, 5, 7, 42, 31), 20, self.cfg)
+            datetime(2022, 3, 5, 7, 42, 31), 20, self.cfg, mnt)
 
         sut = self.sn.smartRemoveKeepFirst(
             sids, date(2022, 3, 5), datetime.now().date())
@@ -157,13 +172,16 @@ class KeepFirst(pyfakefs_ut.TestCase):
 
     def test_min_included_max_not(self):
         """Minimum date is included in range, but max date not"""
+        mnt = MountManager.create(self.cfg)
         sids = create_SIDs(
             [
                 datetime(2022, 3, 5),
                 datetime(2022, 3, 3),
             ],
             None,
-            self.cfg)
+            self.cfg,
+            mnt
+        )
 
         sut = self.sn.smartRemoveKeepFirst(
             snapshots=sids,
@@ -182,6 +200,7 @@ class KeepFirst(pyfakefs_ut.TestCase):
         """Hit first in the list and ignoring its date ordering.
 
         The list of snapshots is not ordered anywhere."""
+        mnt = MountManager.create(self.cfg)
         sids = []
         # April, 2016...
         for timestamp_string in ['20160424-215134-123',  # …24th
@@ -195,7 +214,7 @@ class KeepFirst(pyfakefs_ut.TestCase):
                                  # in the list. So it won't be hit.
                                  '20160421-013218-123',  # …21th
                                  '20160410-134327-123']:  # …10th
-            sids.append(snapshots.SID(timestamp_string, self.cfg))
+            sids.append(snapshots.SID(timestamp_string, self.cfg, mnt))
 
         sut = self.sn.smartRemoveKeepFirst(sids,
                                             date(2016, 4, 20),
@@ -205,6 +224,7 @@ class KeepFirst(pyfakefs_ut.TestCase):
 
     def test_keep_first_range_outside(self):
         """No SID inside the specified range"""
+        mnt = MountManager.create(self.cfg)
         sids = []
         # April, 2016...
         for timestamp_string in ['20160424-215134-123',  # …24th
@@ -213,7 +233,7 @@ class KeepFirst(pyfakefs_ut.TestCase):
                                  '20160422-010324-123',  # …22th
                                  '20160421-013218-123',  # …21th
                                  '20160410-134327-123']:  # …10th
-            sids.append(snapshots.SID(timestamp_string, self.cfg))
+            sids.append(snapshots.SID(timestamp_string, self.cfg, mnt))
 
         # Between 11th and 18th April
         sut = self.sn.smartRemoveKeepFirst(sids,
@@ -226,8 +246,9 @@ class KeepFirst(pyfakefs_ut.TestCase):
     @mock.patch.object(snapshots.SID, 'failed', new_callable=lambda: True)
     def test_all_invalid(self, _mock_failed):
         """All SIDS invalid (not healthy)"""
+        mnt = MountManager.create(self.cfg)
         sids = create_SIDs(
-            datetime(2022, 3, 5, 7, 42, 31), 20, self.cfg)
+            datetime(2022, 3, 5, 7, 42, 31), 20, self.cfg, mnt)
 
         # By default healthy/invalid status is irrelevant
         sut = self.sn.smartRemoveKeepFirst(
@@ -243,6 +264,7 @@ class KeepFirst(pyfakefs_ut.TestCase):
     @mock.patch.object(snapshots.SID, 'failed', new_callable=mock.PropertyMock)
     def test_ignore_unhealthy(self, mock_failed):
         # The second call to failed-property returns True
+        mnt = MountManager.create(self.cfg)
         mock_failed.side_effect = [False, True, False, False, False, False]
         sids = []
         for timestamp_string in ['20160424-215134-123',
@@ -253,7 +275,11 @@ class KeepFirst(pyfakefs_ut.TestCase):
                                  '20160422-010324-123',
                                  '20160421-013218-123',
                                  '20160410-134327-123']:
-            sids.append(snapshots.SID(timestamp_string, self.cfg))
+            sids.append(snapshots.SID(
+                timestamp_string,
+                self.cfg,
+                mnt
+            ))
 
         # keep the first healthy snapshot
         sut = self.sn.smartRemoveKeepFirst(sids,
@@ -331,6 +357,7 @@ class KeepAllForLast(pyfakefs_ut.TestCase):
         Here the current (just running incomplete) day is contained in the
         calculation.
         """
+        mnt = MountManager.create(self.cfg)
         sids = create_SIDs([
             datetime(2025, 4, 17, 22, 0),
             datetime(2025, 4, 17, 18, 1),
@@ -343,7 +370,9 @@ class KeepAllForLast(pyfakefs_ut.TestCase):
             datetime(2025, 4, 14, 9, 0),
             ],
             None,
-            self.cfg)
+            self.cfg,
+            mnt
+        )
 
         sut = self._org(
             snapshots=sids,
@@ -360,7 +389,8 @@ class KeepAllForLast(pyfakefs_ut.TestCase):
         """Simple"""
         # 10th to 25th
 
-        sids = create_SIDs(datetime(2024, 2, 10), 15, self.cfg)
+        mnt = MountManager.create(self.cfg)
+        sids = create_SIDs(datetime(2024, 2, 10), 15, self.cfg, mnt)
 
         # keep...
         sut = self.sn.smartRemoveKeepAll(
@@ -457,6 +487,7 @@ class KeepOneForLastNDays(pyfakefs_ut.TestCase):
         return sorted(keep, reverse=True)
 
     def test_doc_example(self):
+        mnt = MountManager.create(self.cfg)
         sids = create_SIDs([
             datetime(2025, 4, 17, 22, 0),
             datetime(2025, 4, 17, 4, 0),
@@ -471,7 +502,9 @@ class KeepOneForLastNDays(pyfakefs_ut.TestCase):
             datetime(2025, 4, 11, 9, 0),
             ],
             None,
-            self.cfg)
+            self.cfg,
+            mnt
+        )
 
         sut = self._org(
             now=date(2025, 4, 17),
@@ -568,6 +601,7 @@ class KeepOneForLastNWeeks(pyfakefs_ut.TestCase):
 
     def test_doc_example(self):
         """Example used in manual"""
+        mnt = MountManager.create(self.cfg)
         sids = create_SIDs(
             [
                 # 5 Weeks, each 3 days
@@ -588,7 +622,8 @@ class KeepOneForLastNWeeks(pyfakefs_ut.TestCase):
                 datetime(2025, 3, 18, 14, 0)
             ],
             None,
-            self.cfg
+            self.cfg,
+            mnt
         )
 
         sut = self._org(
@@ -679,6 +714,7 @@ class KeepOneForLastNMonths(pyfakefs_ut.TestCase):
         return sorted(keep, reverse=True)
 
     def test_doc_example(self):
+        mnt = MountManager.create(self.cfg)
         sids = create_SIDs(
             [
                 # 10 months period
@@ -696,7 +732,8 @@ class KeepOneForLastNMonths(pyfakefs_ut.TestCase):
                 date(2024, 11, 14),
             ],
             None,
-            self.cfg
+            self.cfg,
+            mnt
         )
         now = sids[0].date.date() + timedelta(days=5)
 
@@ -719,6 +756,7 @@ class KeepOneForLastNMonths(pyfakefs_ut.TestCase):
 
     def test_leap_year(self):
         """Year 2024 the february has a 29th day."""
+        mnt = MountManager.create(self.cfg)
         sids = create_SIDs(
             [
                 date(2025, 8, 18),
@@ -727,7 +765,8 @@ class KeepOneForLastNMonths(pyfakefs_ut.TestCase):
                 date(2024, 2, 9),
             ],
             None,
-            self.cfg
+            self.cfg,
+            mnt
         )
         now = sids[0].date.date() + timedelta(days=5)
 
@@ -823,6 +862,7 @@ class KeepOnePerYearForAllYears(pyfakefs_ut.TestCase):
         return sorted(keep, reverse=True)
 
     def test_doc_example(self):
+        mnt = MountManager.create(self.cfg)
         now = date(2024, 12, 16)
         sids = create_SIDs(
             [
@@ -837,7 +877,8 @@ class KeepOnePerYearForAllYears(pyfakefs_ut.TestCase):
                 date(2020, 4, 13),
             ],
             None,
-            self.cfg
+            self.cfg,
+            mnt
         )
 
         sut = self._org(
