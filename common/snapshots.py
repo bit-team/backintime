@@ -30,7 +30,6 @@ import config
 import configfile
 import logger
 import tools
-import encfstools
 import encode
 import progress
 import snapshotlog
@@ -1297,10 +1296,7 @@ class Snapshots:
 
         fileInfoDict = FileInfoDict()
 
-        if self.config.snapshotsMode() == 'ssh_encfs':
-            decode = encfstools.Decode(self.config, False)
-        else:
-            decode = encode.Bounce()
+        decode = encode.Bounce()
 
         # backup permissions of /
         # bugfix for https://github.com/bit-team/backintime/issues/708
@@ -3135,7 +3131,7 @@ class SID:  # -> "BackupID" will be its new name
     # TODO use @property decorator? IMHO not because it is not
     # a "getter" but processes data
     # TODO Should have an action name like "loadLogFile"
-    def log(self, mode: int = None, decode: encfstools.Decode = None
+    def log(self, mode: int = None, decode = None
             ) -> Generator[str, None, None]:
         """
         Load log from "takesnapshot.log.bz2"

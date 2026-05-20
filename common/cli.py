@@ -9,6 +9,8 @@
 import os
 import sys
 import atexit
+import shutil
+from pathlib import Path
 import tools
 import daemon
 import snapshots
@@ -407,6 +409,44 @@ def _warn_about_cipher(cfg: config.Config) -> None:
             'profile and also remove this setting from the config file.'
         )
 
+def _backup_and_remove_encfs_config(cfg: config.Config) -> bool:
+    """EncFS encryption feature was removed from Back In Time (#1734).
+    This function detects existing EncFS profiles. If detected a backup is
+    created of the complete config file and the EncFS profiles removed after.
+    """
+    encfs_pids = []
+    names = ''
+
+    for pid in cfg.profiles():
+        if 'encfs' in cfg.snapshotsMode(profile_id=pid).lower():
+            name = cfg.profileName(profile_id=pid)
+            logger.critical(
+                f'Profile "{name}" ({pid}) uses obsolete EncFS encryption. '
+                'EncFS support was removed from Back In Time.'
+            )
+            encfs_pids.append(pid)
+            names += f', "{name}" ({pid})'
+
+    # no further action needed
+    if not encfs_pids:
+        return False
+
+    # do backup
+    config_fp = Path(cfg._LOCAL_CONFIG_PATH)
+    config_fp_backup = config_fp.parent / bitbase.FILENAME_ENCFS_BACKUP_CONFIG
+    shutil.copyfile(config_fp, config_fp_backup)
+
+    # remove profiles
+    for pid in encfs_pids:
+        cfg.removeProfile(pid)
+    cfg.save()
+
+    logger.critical(
+        f'A backup of the current config file was created: {config_fp} -> '
+        f'{config_fp_backup}. All detected EncFS profiles were removed '
+        f'from the active configuration. Profiles affected: {names[2:]}'
+    )
+
 
 def get_config_and_select_profile(
         config_path: str,
@@ -430,10 +470,15 @@ def get_config_and_select_profile(
         profile. 2 if ``check`` is ``True`` and config is not configured
 
     """
-    cfg = config.Config(
-        config_path=config_path,
-        data_path=data_path)
+    cfg = config.Config(config_path=config_path, data_path=data_path)
 
+    # detect and remove encfs profiles
+    if _backup_and_remove_encfs_config(cfg):
+        # re-read again
+        cfg = config.Config(config_path=config_path, data_path=data_path)
+
+    # Just warn about cipher settings if present.
+    # Removal happen only in the GUI.
     _warn_about_cipher(cfg)
 
     if profile:

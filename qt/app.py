@@ -379,6 +379,7 @@ class MainWindow(QMainWindow):
             self._open_ssh_cipher_remove_dialog(
                 [entry[0] for entry in cipher]
             )
+        # remove the cipher keys from config
         for _name, _val, key in cipher:
             del self.config.dict[key]
 

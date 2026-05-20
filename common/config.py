@@ -132,7 +132,9 @@ class Config(configfile.ConfigFileWithProfiles):
         tools.makeDirs(self._LOCAL_DATA_FOLDER)
         tools.makeDirs(self._LOCAL_MOUNT_ROOT)
 
-        self._DEFAULT_CONFIG_PATH = os.path.join(self._LOCAL_CONFIG_FOLDER, 'config')
+        self._DEFAULT_CONFIG_PATH = os.path.join(
+            self._LOCAL_CONFIG_FOLDER, bitbase.FILENAME_CONFIG
+        )
 
         if config_path is None:
             self._LOCAL_CONFIG_PATH = self._DEFAULT_CONFIG_PATH

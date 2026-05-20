@@ -38,7 +38,6 @@ tools.initiate_translation(None)
 import snapshots
 import progress
 import logviewdialog
-import encfstools
 import config
 from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QProgressBar, QWidget
@@ -138,20 +137,6 @@ class QtSysTrayIcon:
         self.btnStop.triggered.connect(self.onBtnStop)
         self.btnStop.setVisible(self._trust_desktop)
         self.contextMenu.addSeparator()
-
-        # Dev note (2025-12, buhtz): I wondered why this decode checkbox is
-        # visible only in ssh_encfs mode but not in local_encfs. Still not
-        # sure but I think the reason is that in ssh_encfs there is no
-        # "double-mounting": First SSH and then EncFS. In consequence this
-        # decode button is a workaround. Explicit decoding in local_encfs
-        # is not necessary because this happens via encfs-mounting. This
-        # step is missing when using ssh_encfs.
-        self.btnDecode = self.contextMenu.addAction(
-            icon.VIEW_SNAPSHOT_LOG, _('decode paths'))
-        self.btnDecode.setCheckable(True)
-        self.btnDecode.setVisible(
-            self.config.snapshotsMode() == 'ssh_encfs' and self._trust_desktop)
-        self.btnDecode.toggled.connect(self.onBtnDecode)
 
         self.openLog = self.contextMenu.addAction(
             icon.VIEW_LAST_LOG, _('View Last Log'))
@@ -325,20 +310,8 @@ class QtSysTrayIcon:
 
     @trust_required
     def onOpenLog(self, *_args, **_kwargs):
-        dlg = logviewdialog.LogViewDialog(
-            parent=self,
-            decode=self.btnDecode.isChecked())
+        dlg = logviewdialog.LogViewDialog(parent=self, decode=False)
         dlg.exec()
-
-    @trust_required
-    def onBtnDecode(self, checked, *_args, **_kwargs):
-        if checked:
-            self.decode = encfstools.Decode(self.config)
-            self.last_message = None
-            self.updateInfo()
-            return
-
-        self.decode = None
 
     @trust_required
     def onBtnStop(self, *_args, **_kwargs):
