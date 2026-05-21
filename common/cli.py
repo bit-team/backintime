@@ -451,8 +451,6 @@ def _backup_and_remove_encfs_config(cfg: config.Config) -> bool:
     # If main profil was reset and it is the only profile left,
     # delete the whole config file.
     if '1' in encfs_pids and len(cfg.profiles()) == 1:
-        print('UNLINK')
-        cfg.removeProfile(temp_pid)
         config_fp.unlink()
     else:
         cfg.removeProfile(temp_pid)
@@ -463,6 +461,8 @@ def _backup_and_remove_encfs_config(cfg: config.Config) -> bool:
         f'{config_fp_backup}. All detected EncFS profiles were removed '
         f'from the active configuration. Profiles affected: {names}'
     )
+
+    return True
 
 
 def get_config_and_select_profile(
