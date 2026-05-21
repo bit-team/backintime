@@ -448,19 +448,22 @@ def _backup_and_remove_encfs_config(cfg: config.Config) -> bool:
         #     first_pid = cfg.addProfile(cfg.default_profile_name)
         #     logger.critical(f'Reset Hauptprofil. {first_pid=}')
 
+    logger.critical(f'XXXX {cfg.profiles()=}')
     # If main profil was reset and it is the only profile left,
     # delete the whole config file.
     if '1' in encfs_pids and len(cfg.profiles()) == 1:
+        logger.critical(f'UNLINK')
         config_fp.unlink()
     else:
         cfg.removeProfile(temp_pid)
         cfg.save()
+    logger.critical(f'XXXX {cfg.profiles()=}')
 
 
     logger.critical(
         f'A backup of the current config file was created: {config_fp} -> '
         f'{config_fp_backup}. All detected EncFS profiles were removed '
-        f'from the active configuration. Profiles affected: {names[2:]}'
+        f'from the active configuration. Profiles affected: {names}'
     )
 
 
