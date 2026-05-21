@@ -409,6 +409,7 @@ def _warn_about_cipher(cfg: config.Config) -> None:
             'profile and also remove this setting from the config file.'
         )
 
+
 def _backup_and_remove_encfs_config(cfg: config.Config) -> bool:
     """EncFS encryption feature was removed from Back In Time (#1734).
     This function detects existing EncFS profiles. If detected a backup is
@@ -440,8 +441,13 @@ def _backup_and_remove_encfs_config(cfg: config.Config) -> bool:
 
     # remove profiles, but remember that BIT will refuse to remove the
     # last standing profil
+    temp_pid = cfg.addProfile('tmp-f8f58e16-ff2eeb4da37d-remove-me')
     for pid in encfs_pids:
         cfg.removeProfile(pid)
+        if pid == '1':
+            first_pid = cfg.addProfile(cfg.default_profile_name)
+            logger.critical(f'Reset Hauptprofil. {first_pid=}')
+    fvg.removeProfile(temp_pid)
     cfg.save()
 
     logger.critical(
