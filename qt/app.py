@@ -104,6 +104,7 @@ class MainWindow(QMainWindow):
         QMainWindow.__init__(self)
 
         self.config = config
+        logger.critical(f'{self.config.currentProfile()=}')  # dEBUG
         self.appInstance = appInstance
         self.qapp = qapp
         self.snapshots = snapshots.Snapshots(config)
@@ -1033,7 +1034,6 @@ class MainWindow(QMainWindow):
         event.accept()
 
     def updateProfiles(self):
-        logger.critical(f'{self.config.currentProfile()=}')  # dEBUG
         if self.disableProfileChanged:
             return
 
