@@ -371,7 +371,30 @@ class MainWindow(QMainWindow):
 
         SettingsDialog(self).exec()
 
+    def _message_about_encfs_config_backup(self):
+        config_fp_backup = Path(self.config._LOCAL_CONFIG_PATH).with_suffix(
+            bitbase.ENCFS_BACKUP_CONFIG_SUFFIX
+        )
+
+        if not config_fp_backup.exists():
+            return
+
+        msg = (
+            'All EncFS-based backup profiles were removed from the active '
+            'configuration because EncFS is no longer supported by Back In '
+            'Time.\n\n'
+            'A backup of the previous configuration containing the removed '
+            f'profiles was created at "{path}".\n\n'
+            'Back In Time now uses gocryptfs for encrypted backup profiles. '
+            'Automatic migration from EncFS to gocryptfs is not feasable '
+            'and affected profiles must be recreated manually.'
+        )
+
+        WEITER
+
     def _handle_user_messages(self):
+        _message_about_encfs_config_backup()
+
         # Ignore if debug or release/testing candidate
         if version.IS_RELEASE_CANDIDATE or logger.DEBUG:
             return
