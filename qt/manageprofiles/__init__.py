@@ -269,7 +269,7 @@ class SettingsDialog(QDialog):
         else:
             self._btn_edit_profile.setEnabled(True)
             self._btn_remove_profile.setEnabled(True)
-        self._btn_add_profile.setEnabled(self.config.isConfigured('1'))
+        # self._btn_add_profile.setEnabled(self.config.isConfigured('1'))
 
         profile_state = StateData().profile(self.config.currentProfile())
 
