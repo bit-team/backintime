@@ -230,8 +230,8 @@ class MainWindow(QMainWindow):
 
         self._import_config_from_backup()
 
-        if not self.config.isConfigured():
-            return
+        # if not self.config.isConfigured():
+        #     return
 
         # populate lists
         self.updateProfiles()
