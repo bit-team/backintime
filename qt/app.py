@@ -1045,7 +1045,7 @@ class MainWindow(QMainWindow):
             self.config, self.comboProfiles, self.config.currentProfile())
         profiles = self.config.profilesSortedByName()
 
-        self.comboProfilesAction.setVisible(len(profiles) > 1)
+        # self.comboProfilesAction.setVisible(len(profiles) > 1)
 
         self.updateProfile()
 
