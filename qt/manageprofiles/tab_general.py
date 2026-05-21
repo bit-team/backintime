@@ -787,7 +787,7 @@ class GeneralTab(QDialog):
         messagebox.critical(self, msg)
 
     def _slot_full_path_changed(self, _text: Any):
-        if 'ssh' in self.mode:
+        if self.mode and 'ssh' in self.mode:
             path = self._txt_ssh_path.text()
 
         else:

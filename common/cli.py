@@ -453,7 +453,7 @@ def _backup_and_remove_encfs_config(cfg: config.Config) -> bool:
 
     # If main profil was reset and it is the only profile left,
     # delete the whole config file.
-    if '1' is in encfs_pids and len(cfg.profiles()) == 1:
+    if '1' in encfs_pids and len(cfg.profiles()) == 1:
         config_fp.unlink()
 
     logger.critical(
