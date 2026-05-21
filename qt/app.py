@@ -1033,6 +1033,7 @@ class MainWindow(QMainWindow):
         event.accept()
 
     def updateProfiles(self):
+        logger.critical(f'{self.config.currentProfile()=}')  # dEBUG
         if self.disableProfileChanged:
             return
 
