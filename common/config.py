@@ -263,8 +263,11 @@ class Config(configfile.ConfigFileWithProfiles):
     def is_current_profile_unsaved(self) -> bool:
         return self.is_profile_unsaved(self.currentProfile())
 
-    def checkConfig(self):
-        profiles = self.profiles()
+    def checkConfig(self, profile_id = None):
+        if profile_id:
+            profiles = [profile_id]
+        else:
+            profiles = self.profiles()
 
         for profile_id in profiles:
             profile_name = self.profileName(profile_id)

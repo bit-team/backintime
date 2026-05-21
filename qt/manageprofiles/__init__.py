@@ -339,7 +339,7 @@ class SettingsDialog(QDialog):
         if not self.save_profile():
             return False
 
-        if not self.config.checkConfig():
+        if not self.config.checkConfig(self.config.currentProfile()):
             return False
 
         # This will raise exceptions in case of errors
