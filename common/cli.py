@@ -497,6 +497,7 @@ def get_config_and_select_profile(
     # Removal happen only in the GUI.
     _warn_about_cipher(cfg)
 
+    # explicite profile?
     if profile:
         if profile.isdigit():
             if not cfg.setCurrentProfile(int(profile)):
@@ -506,6 +507,10 @@ def get_config_and_select_profile(
             if not cfg.setCurrentProfileByName(profile):
                 logger.error(f'Profile not found: {profile}')
                 sys.exit(bitbase.RETURN_ERR)
+
+    else:
+        # Use the first available profile as default
+        cfg.setCurrentProfile(cfg.profiles()[0])
 
     if check and not cfg.isConfigured():
         logger.error(f'{cfg.APP_NAME} is not configured!')
