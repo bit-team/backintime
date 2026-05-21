@@ -2534,9 +2534,17 @@ if __name__ == '__main__':
 
     mainWindow = MainWindow(cfg, appInstance, qapp)
 
-    if cfg.isConfigured():
+    # if cfg.isConfigured():
+    config_fp = pathlib.Path(cfg._LOCAL_CONFIG_PATH)
+    if config_fp.exists():
         mainWindow.show()
         qapp.exec()
+    else:
+        messagebox.critical(
+            None,
+            f'Unexpected situation. Config file {config_fp} does not exists. '
+            'Please contact the support.'
+        )
 
     mainWindow.qapp.removeEventFilter(mainWindow._mouse_button_event_filter)
 
