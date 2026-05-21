@@ -447,7 +447,7 @@ def _backup_and_remove_encfs_config(cfg: config.Config) -> bool:
         if pid == '1':
             first_pid = cfg.addProfile(cfg.default_profile_name)
             logger.critical(f'Reset Hauptprofil. {first_pid=}')
-    fvg.removeProfile(temp_pid)
+    cfg.removeProfile(temp_pid)
     cfg.save()
 
     logger.critical(
