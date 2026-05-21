@@ -68,11 +68,6 @@ class GeneralTab(QDialog):
         hlayout.addWidget(self._combo_modes, 1)
         vlayout.addLayout(hlayout)
 
-        # EncFS deprecation (#1734, #1735)
-        self._lbl_encfs_warning = self._create_label_encfs_deprecation()
-        tab_layout.addWidget(self._lbl_encfs_warning)
-        tab_layout.addWidget(HLineWidget())
-
         # Where to save snapshots
         group_box = QGroupBox(self)
         self._group_mode_local = group_box
@@ -163,9 +158,9 @@ class GeneralTab(QDialog):
         )
         vlayout.addWidget(self._wdg_ssh_proxy)
 
-        # encfs
-        self._group_mode_local_encfs = self._group_mode_local
-        self._group_mode_ssh_encfs = self._group_mode_ssh
+        # # encfs
+        # self._group_mode_local_encfs = self._group_mode_local
+        # self._group_mode_ssh_encfs = self._group_mode_ssh
 
         # gocryptfs
         self._group_mode_local_gocrypt = self._group_mode_local
@@ -180,12 +175,12 @@ class GeneralTab(QDialog):
 
         grid = QGridLayout()
 
-        # Used for SSH passphrase & Encfs password
+        # Used for SSH passphrase & Gocryptfs password
         self._lbl_password1 = QLabel(_('Password'), self)
         self._txt_password1 = QLineEdit(self)
         self._txt_password1.setEchoMode(QLineEdit.EchoMode.Password)
 
-        # Used for Encfs password in "ssh encrypted" mode *rofl*
+        # Used for gocryptfs password in "ssh encrypted" mode *rofl*
         self._lbl_password2 = QLabel(_('Password'), self)
         self._txt_password2 = QLineEdit(self)
         self._txt_password2.setEchoMode(QLineEdit.EchoMode.Password)
@@ -324,10 +319,6 @@ class GeneralTab(QDialog):
         backup_mode = self.config.snapshotsMode()
         self._combo_modes.select_by_data(backup_mode)
 
-        # If the profile us an deprecated backup mode (#1734)
-        if 'encfs' in backup_mode:
-            self._combo_modes.unhide_by_data(backup_mode)
-
         # local
         self._edit_backup_path.setText(
             self.config.snapshotsPath(mode='local'))
@@ -354,10 +345,6 @@ class GeneralTab(QDialog):
                 pass
 
         self.key_selector.set_key(Path(val) if val else val)
-
-        # local_encfs
-        if self.mode == 'local_encfs':
-            self._edit_backup_path.setText(self.config.localEncfsPath())
 
         # local_gocryptfs
         if self.mode == 'local_gocryptfs':
@@ -426,14 +413,14 @@ class GeneralTab(QDialog):
         password_1 = self._txt_password1.text()
         password_2 = self._txt_password2.text()
 
-        mount_kwargs = {}
+        # mount_kwargs = {}
 
-        if mode in ('ssh', 'local_encfs'):
-            mount_kwargs = {'password': password_1}
+        # if mode in ('ssh', 'local_encfs'):
+        #     mount_kwargs = {'password': password_1}
 
-        elif mode == 'ssh_encfs':
-            mount_kwargs = {'ssh_password': password_1,
-                            'encfs_password': password_2}
+        # elif mode == 'ssh_encfs':
+        #     mount_kwargs = {'ssh_password': password_1,
+        #                     'encfs_password': password_2}
 
         self.config.setHostUserProfile(
             self._txt_host.text(),
@@ -456,8 +443,8 @@ class GeneralTab(QDialog):
             key_file = self.key_selector.get_key()
             self.config.setSshPrivateKeyFile(str(key_file) if key_file else '')
 
-        # save local_encfs
-        self.config.setLocalEncfsPath(self._edit_backup_path.text())
+        # # save local_encfs
+        # self.config.setLocalEncfsPath(self._edit_backup_path.text())
 
         # _gocryptfs: path & password
         if self._store_local_gocryptfs_destination_path() is False:
@@ -553,29 +540,29 @@ class GeneralTab(QDialog):
 
         return True
 
-    def _do_alot_pre_mount_checking(self, mnt, mount_kwargs):  # noqa: PLR0911
-        """Initiate several checks related to mounting and similar tasks.
+    # def _do_alot_pre_mount_checking(self, mnt, mount_kwargs):  # noqa: PLR0911
+    #     """Initiate several checks related to mounting and similar tasks.
 
-        Depending on the backup mode used different checks are initiated.
+    #     Depending on the backup mode used different checks are initiated.
 
-        Dev note (buhtz, 2024-09): The code is parked and ready to refactoring.
+    #     Dev note (buhtz, 2024-09): The code is parked and ready to refactoring.
 
-        Returns:
-            bool: ``True`` if successful otherwise ``False``.
-        """
-        # pylint: disable=too-many-return-statements
+    #     Returns:
+    #         bool: ``True`` if successful otherwise ``False``.
+    #     """
+    #     # pylint: disable=too-many-return-statements
 
-        try:
-            if not mnt.is_initialized():
-                mnt.initialize()
-            mnt.validate()
-            mnt.mount()
+    #     try:
+    #         if not mnt.is_initialized():
+    #             mnt.initialize()
+    #         mnt.validate()
+    #         mnt.mount()
 
-        except MountError as exc:
-            messagebox.critical(self, exc.gui_msg)
-            return False
+    #     except MountError as exc:
+    #         messagebox.critical(self, exc.gui_msg)
+    #         return False
 
-        return True
+    #     return True
 
         # TODO
         # except NoPubKeyLogin as ex:
@@ -675,28 +662,6 @@ class GeneralTab(QDialog):
             snapshot_modes[key] = self.config.SNAPSHOT_MODES[key][1]
 
         return combobox.BitComboBox(self, snapshot_modes)
-
-    def _create_label_encfs_deprecation(self):
-        # encfs deprecation warning (see #1734, #1735)
-
-        whitepaper = f'<a href="{URL_ENCRYPT_TRANSITION}">'
-        whitepaper = whitepaper + 'whitepaper' + '</a>'
-
-        txt = [
-            '<strong>Encrypted profiles using EncFS are no longer '
-            'supported.</strong>',
-            'New EncFS backup profiles can not be created anymore. '
-            'Existing EncFS profiles are still displayed and '
-            'supported for now, but EncFS support will be <strong>'
-            'completely removed</strong> in a future release '
-            '(expected around 2027).',
-            'EncFS is considered insecure and is no longer actively '
-            'maintained. For more information, see this '
-            f'{whitepaper}.'
-        ]
-        txt = '<p>' + '</p><p>'.join(txt) + '</p>'
-
-        return qttools.create_warning_label(txt, icon_scale_factor=3)
 
     def _slot_snapshots_path_clicked(self):
         """The dir button beside backup destination path was clicked.
@@ -822,7 +787,7 @@ class GeneralTab(QDialog):
         messagebox.critical(self, msg)
 
     def _slot_full_path_changed(self, _text: Any):
-        if self.mode in ('ssh', 'ssh_encfs'):
+        if 'ssh' in self.mode:
             path = self._txt_ssh_path.text()
 
         else:
@@ -860,14 +825,9 @@ class GeneralTab(QDialog):
 
             self.mode = active_mode
 
-            self._group_mode_local.setVisible(
-                active_mode in ('local', 'local_encfs', 'local_gocryptfs'))
-
-            self._group_mode_ssh.setVisible(
-                'ssh' in active_mode)
-
-            self._wdg_schedule.allow_udev(
-                active_mode in ('local', 'local_encfs', 'local_gocryptfs'))
+            self._group_mode_local.setVisible('local' in active_mode)
+            self._group_mode_ssh.setVisible('ssh' in active_mode)
+            self._wdg_schedule.allow_udev('local' in active_mode)
 
             # gocryptfs destination need to be empty
             if 'gocryptfs' in self.mode:
@@ -879,11 +839,6 @@ class GeneralTab(QDialog):
                 except FileNotFoundError as exc:
                     logger.error(exc)
                     self._edit_backup_path.setText('')
-
-            # Don't offer deprecated modes (#1734)
-            modes_to_hide = {'local_encfs', 'ssh_encfs'} - {active_mode}
-            for hide in modes_to_hide:
-                self._combo_modes.hide_by_data(hide)
 
         # A mode using password fields?
         if self.config.modeNeedPassword(active_mode):
@@ -908,19 +863,3 @@ class GeneralTab(QDialog):
         else:
             self._group_password1.hide()
 
-        # EncFS deprecation warnings (see #1734)
-        if active_mode in ('local_encfs', 'ssh_encfs'):
-            self._lbl_encfs_warning.show()
-
-            # # Workaround to avoid showing the warning messagebox just when
-            # # opening the manage profiles dialog.
-            # if self._parent_dialog.isVisible():
-            #     # Show the profile specific warning dialog only once per
-            #     # profile.
-            #     if profile_state.msg_encfs < ENCFS_MSG_STAGE:
-            #         profile_state.msg_encfs = ENCFS_MSG_STAGE
-            #         dlg = encfsmsgbox.EncfsCreateWarning(self)
-            #         dlg.exec()
-
-        else:
-            self._lbl_encfs_warning.hide()

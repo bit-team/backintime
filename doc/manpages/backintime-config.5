@@ -351,15 +351,6 @@ Run rsync on local machine with 'nocache'. This will prevent files from being ca
 Default: false
 .RE
 
-.IP "\fIprofile<N>.snapshots.local_encfs.path\fR" 6
-.RS
-Type: str       Allowed Values: absolute path
-.br
-Where to save snapshots in mode 'local_encfs'.
-.PP
-Default: ''
-.RE
-
 .IP "\fIprofile<N>.snapshots.log_level\fR" 6
 .RS
 Type: int       Allowed Values: 1-3
@@ -424,7 +415,7 @@ Default: 1
 
 .IP "\fIprofile<N>.snapshots.mode\fR" 6
 .RS
-Type: str       Allowed Values: local|local_encfs|ssh|ssh_encfs
+Type: str       Allowed Values: local|local_gocryptfs|ssh|ssh_gocryptfs
 .br
  Use mode (or backend) for this snapshot. Look at 'man backintime'  section 'Modes'.
 .PP
@@ -664,7 +655,7 @@ Default: true
 .RS
 Type: str       Allowed Values: IP or domain address
 .br
-Remote host used for mode 'ssh' and 'ssh_encfs'.
+Remote host used for mode 'ssh' and 'ssh_gocryptfs.
 .PP
 Default: ''
 .RE
