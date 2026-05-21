@@ -331,7 +331,11 @@ class MainWindow(QMainWindow):
             self._open_release_candidate_dialog()
 
     def _import_config_from_backup(self):
-        if self.config.isConfigured():
+        # if self.config.isConfigured():
+        #     return
+
+        config_fp = pathlib.Path(self.config._LOCAL_CONFIG_PATH)
+        if config_fp.exists():
             return
 
         message = _(

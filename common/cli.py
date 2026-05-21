@@ -444,17 +444,18 @@ def _backup_and_remove_encfs_config(cfg: config.Config) -> bool:
     temp_pid = cfg.addProfile('tmp-f8f58e16-ff2eeb4da37d-remove-me')
     for pid in encfs_pids:
         cfg.removeProfile(pid)
-        if pid == '1':
-            first_pid = cfg.addProfile(cfg.default_profile_name)
-            logger.critical(f'Reset Hauptprofil. {first_pid=}')
-    cfg.removeProfile(temp_pid)
-
-    cfg.save()
+        # if pid == '1':
+        #     first_pid = cfg.addProfile(cfg.default_profile_name)
+        #     logger.critical(f'Reset Hauptprofil. {first_pid=}')
 
     # If main profil was reset and it is the only profile left,
     # delete the whole config file.
     if '1' in encfs_pids and len(cfg.profiles()) == 1:
         config_fp.unlink()
+    else:
+        cfg.removeProfile(temp_pid)
+        cfg.save()
+
 
     logger.critical(
         f'A backup of the current config file was created: {config_fp} -> '
