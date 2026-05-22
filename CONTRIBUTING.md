@@ -122,7 +122,7 @@ the packages provided by the official repository of your GNU/Linux
 distribution.
 
 | Dependency | CLI | GUI* | Build* | Optional | Desc |
-|-:|:-:|:-:|:-:|:-:|:-|
+|:-|:-:|:-:|:-:|:-:|:-|
 | `python3` (>=3.13) |🗹|||| |
 | `rsync` |🗹|||| |
 | `cron-daemon` |🗹||||
