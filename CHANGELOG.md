@@ -24,11 +24,13 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Build: Changelog shipped as HTML
 
 ### Added
-- Build dependency `pandoc` to convert markdown changelog into HTML
+- Dependency(build): `pandoc` to convert markdown changelog into HTML
+- Dependency(runtime-cli): `gocryptfs`
 
 ### Removed
 - **Breaking**: EncFS support including existing EncFS profiles
   ([PR#2492](https://github.com/bit-team/backintime/pull/2492))
+- Dependency: `encfs`
 - Command line switch `--keep-mount`
 - CLI Command `decode` because of EncFS removal ([#1734](https://github.com/bit-team/backintime/issues/1734))
 - CLI Command `benchmark-cipher` ([#2120](https://github.com/bit-team/backintime/issues/2120))
