@@ -115,12 +115,8 @@ def checkConfig(cfg, crontab=True):
         test = 'Run mount tests'
         announceTest()
 
-        # preMountCheck:
-        # - checkFuse(): checking for mount binary (gocrytpfs, encfs, ...)
-        # - etc pp
         try:
             mount_manager.validate()
-            # mnt.preMountCheck(mode = mode, first_run = True)
 
         except MountError as exc:
             failed()

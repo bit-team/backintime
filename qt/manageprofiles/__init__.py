@@ -360,9 +360,9 @@ class SettingsDialog(QDialog):
         self._tab_exclude.mode = active_mode
         self._tab_exclude.update_exclude_items()
         self._tab_exclude.lbl_ssh_encfs_exclude_warning.setVisible(
-            active_mode == 'ssh_encfs')
+            active_mode == 'ssh_gocryptfs')
 
-        enabled = active_mode in ('ssh', 'ssh_encfs')
+        enabled = active_mode in ('ssh', 'ssh_gocryptfs')
         self._tab_retention.update_items_state(enabled)
         self._tab_expert_options.update_items_state(enabled)
 
