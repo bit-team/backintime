@@ -186,7 +186,7 @@ class SnapshotLog:
 
     def get(self,
             mode: int = None,
-            decode = None,
+            decode=None,
             skipLines: int = 0  # pylint: disable=invalid-name # noqa: N803
             ) -> Iterator[str]:
 

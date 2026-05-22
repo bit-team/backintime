@@ -10,8 +10,6 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import subprocess
-import pathlib
-from datetime import datetime
 import tools
 # Workaround for situations where startApp() is not invoked.
 # E.g. when using --diagnostics and other argparse.Action
