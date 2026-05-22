@@ -1717,7 +1717,7 @@ def decodeOctalEscape(s):
     return re.sub(r'\\(\d{3})', repl, s)
 
 
-def mountArgs(path: str) -> list | None:
+def _get_mtab_mount_args(path: str) -> list | None:
     """
     Get all /etc/mtab args for the filesystem of ``path`` as a list.
     Example::
@@ -1763,7 +1763,7 @@ def device(path):
     Returns:
         str:        device
     """
-    args = mountArgs(path)
+    args = _get_mtab_mount_args(path)
 
     if args:
         return args[0]
@@ -1781,7 +1781,7 @@ def filesystem(path: str) -> str | None:
     Returns:
         str:        filesystem
     """
-    args = mountArgs(path)
+    args = _get_mtab_mount_args(path)
 
     if args and len(args) >= 3:
         return args[2]

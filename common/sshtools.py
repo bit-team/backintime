@@ -13,6 +13,7 @@ See Issue #2484.
 import os
 import subprocess
 import re
+import tempfile
 from pathlib import Path
 import logger
 import tools
