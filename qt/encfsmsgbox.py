@@ -63,7 +63,7 @@ class EncfsFinalRemoval(_EncfsWarningBase):
             f'<br><verbatim>{path}</verbatim></p>'
             '<p>Back In Time now uses <strong>gocryptfs</strong> for '
             'encrypted backup profiles. Automatic migration from EncFS to '
-            'gocryptfs is not feasable and the removed profiles must be '
+            'gocryptfs is not feasible and the removed profiles must be '
             'recreated manually.</p>'
             '<p>For more <strong>information</strong> and '
             '<strong>support</strong>, see this '

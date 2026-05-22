@@ -1807,7 +1807,7 @@ class MainWindow(QMainWindow):
                 'Explicitly configured SSH cipher setting detected in the '
                 'following backup profiles:',
                 '{profiles}',
-                'The setting will be removed <strong>immediatly</strong>.',
+                'The setting will be removed <strong>immediately</strong>.',
                 'Recommended action:',
                 'Please configure the preferred cipher in the SSH client'
                 'config file (e.g. ~/.ssh/config) instead.',

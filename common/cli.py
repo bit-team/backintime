@@ -400,7 +400,7 @@ def _warn_about_cipher(cfg: config.Config) -> None:
     """
     for name, val, _key in detect_cipher_settings(cfg):
         logger.critical(
-            f'Oboslete cipher setting "{val}" deteted in profile {name}. '
+            f'Oboslete cipher setting "{val}" detected in profile {name}. '
             f'Cipher support was removed from Back In Time. Check the backup '
             'profile and also remove this setting from the config file.'
         )
@@ -494,7 +494,7 @@ def get_config_and_select_profile(
     # Removal happen only in the GUI.
     _warn_about_cipher(cfg)
 
-    # explicite profile?
+    # explicit profile?
     if profile:
         if profile.isdigit():
             if not cfg.setCurrentProfile(int(profile)):

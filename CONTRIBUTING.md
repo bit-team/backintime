@@ -121,7 +121,7 @@ corresponding packages. Even if some packages are available from PyPi stick to
 the packages provided by the official repository of your GNU/Linux
 distribution.
 
-| Dependency | CLI | GUI* | Build* | Optional | Desc |
+| Dependency | CLI | GUI* | Build* | Optional | Hints |
 |:-|:-:|:-:|:-:|:-:|:-|
 | `python3` (>=3.13) |🗹|||| |
 | `rsync` |🗹|||| |
@@ -158,63 +158,6 @@ distribution.
 | `pandoc`|||🗹|🗹| Convert changelog into HTML|
 
 \* _GUI and Build layer always depend on CLI dependencies._
-
-
-* Runtime dependencies for the CLI
-
-  - `python3` (>= 3.13)
-  - `rsync`
-  - `cron-daemon`
-  - `openssh-client`
-  - `sshfs`
-  - `python3-keyring`
-  - `python3-dbus`
-  - `python3-packaging`
-  -  Recommended
-     - `gocryptfs`
-
-* Runtime dependencies for the GUI
-
-  - `x11-utils`
-  - `python3-pyqt6` (Do not use the version from _PyPi_ via `pip`)
-  - `python3-dbus.mainloop.pyqt6` (not available from _PyPi_ via `pip`)
-  - `python3-pyqt6.qtsvg`
-  - `pkexec`
-  - `bash` (Used by root mode starter script `qt/backintime-qt_polkit`)
-  - `polkitd`
-  - `qttranslations6-l10n` or alternative package name `qt6-translations-l10n`
-  - `qtwayland6` (if Wayland is used as display server instead of X11) or
-    alternative package name `qt6-wayland`
-  - Recommended
-      - For SSH key storage **one** of these packages
-        - `python3-secretstorage`
-        - `python3-keyring-kwallet`
-        - `python3-gnomekeyring`
-      - For diff-like comparing files between backups **one** of these
-        packages
-        - `kompare`
-        - or `meld`
-
-* Build and testing dependencies
-  - All CLI runtime dependencies including the recommended
-  - All GUI runtime dependencies including the recommended
-  - `build-essential`
-  - `gzip`
-  - `gettext`
-  - `python3-pyfakefs` (>= 5.7)
-  - `asciidoctor`
-  - Optional but recommended:
-    - `pylint` (>= 4.0.0)
-    - `flake8`
-    - `ruff` (>= 0.15.0)
-    - `codespell`
-    - `reuse` (>= 4.0.0)
-
-* Dependencies to build documentation
-  - All runtime, build, testing dependencies including the recommended
-  - `mkdocs` to build HTML user manual
-  - `mkdocs-material`
-  - `pandoc` to convert changelog from Markdown into HTML
 
 ## Build and install via `make` system (recommended)
 

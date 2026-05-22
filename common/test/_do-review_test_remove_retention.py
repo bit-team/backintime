@@ -23,7 +23,7 @@ About the current state of this test module:
 Dev note (2026-05, buhtz): Under review because with introducing the mount
 manager the pyfakefs does not work anymore. The mount manager is using
 shell calls, which is of course not supported by pyfakefs. Need to think about
-it in more details: Helpfull would be the new config management class. But also
+it in more details: Helpful would be the new config management class. But also
 the putting throw the mount manager need to be re-designed. Isolate one issue
 and try to solve it.
 """
