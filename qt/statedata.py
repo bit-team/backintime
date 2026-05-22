@@ -62,19 +62,6 @@ class StateData(dict, metaclass=singleton.Singleton):
             self._profile_id = profile_id
 
         @property
-        def msg_encfs(self) -> int:
-            """Stage of EncFS deprecation warning shown as last."""
-            try:
-                return self._state['message']['encfs'][self._profile_id]
-            except KeyError:
-                self.msg_encfs = 0
-                return self.msg_encfs
-
-        @msg_encfs.setter
-        def msg_encfs(self, val: int) -> None:
-            self._state['message']['encfs'][self._profile_id] = val
-
-        @property
         def last_path(self) -> Path:
             """Last path used in the GUI.
 

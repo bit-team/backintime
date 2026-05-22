@@ -3399,12 +3399,13 @@ def iterSnapshots(cfg: config.Config,
     path = mounted_path / 'backintime' / host / user / profile
 
     if not path.exists():
-        import traceback
-        traceback.print_stack(limit=4)
-        # Workaround. Usually this is not an error.
-        logger.critical(
-            f'iterSnapshots() :: Path does not exist. {path=} {mounted_path=}'
-        )
+        # DEBUG
+        # import traceback
+        # traceback.print_stack(limit=4)
+        # # Workaround. Usually this is not an error.
+        # logger.critical(
+        #     f'iterSnapshots() :: Path does not exist. {path=} {mounted_path=}'
+        # )
         return None
 
     for item in path.iterdir():

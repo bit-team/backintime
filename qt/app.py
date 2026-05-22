@@ -104,7 +104,6 @@ class MainWindow(QMainWindow):
         QMainWindow.__init__(self)
 
         self.config = config
-        logger.critical(f'{self.config.currentProfile()=}')  # dEBUG
         self.appInstance = appInstance
         self.qapp = qapp
         self.snapshots = snapshots.Snapshots(config)
@@ -372,28 +371,22 @@ class MainWindow(QMainWindow):
         SettingsDialog(self).exec()
 
     def _message_about_encfs_config_backup(self):
-        config_fp_backup = Path(self.config._LOCAL_CONFIG_PATH).with_suffix(
-            bitbase.ENCFS_BACKUP_CONFIG_SUFFIX
-        )
+        # e.g. '~/.config/backintime/config.encfs.backup'
+        config_fp_backup = pathlib.Path(
+            self.config._LOCAL_CONFIG_PATH
+        ).with_suffix(bitbase.ENCFS_BACKUP_CONFIG_SUFFIX)
 
         if not config_fp_backup.exists():
             return
 
-        msg = (
-            'All EncFS-based backup profiles were removed from the active '
-            'configuration because EncFS is no longer supported by Back In '
-            'Time.\n\n'
-            'A backup of the previous configuration containing the removed '
-            f'profiles was created at "{path}".\n\n'
-            'Back In Time now uses gocryptfs for encrypted backup profiles. '
-            'Automatic migration from EncFS to gocryptfs is not feasable '
-            'and affected profiles must be recreated manually.'
-        )
-
-        WEITER
+        state_data = StateData()
+        if state_data.msg_encfs_global < bitbase.ENCFS_MSG_STAGE:
+            state_data.msg_encfs_global = bitbase.ENCFS_MSG_STAGE
+            dlg = encfsmsgbox.EncfsFinalRemoval(config_fp_backup)
+            dlg.exec()
 
     def _handle_user_messages(self):
-        _message_about_encfs_config_backup()
+        self._message_about_encfs_config_backup()
 
         # Ignore if debug or release/testing candidate
         if version.IS_RELEASE_CANDIDATE or logger.DEBUG:
@@ -441,23 +434,6 @@ class MainWindow(QMainWindow):
         # countdown a dialog with a text about contributing to translating
         # BIT is presented to the users.
         state_data.decrement_manual_starts_countdown()
-
-        # If the encfs-deprecation warning in its latest stage was not shown
-        # yet.
-        if state_data.msg_encfs_global < bitbase.ENCFS_MSG_STAGE:
-            # Are there profiles using EncFS?
-            encfs_profiles = []
-
-            for pid in self.config.profiles():
-                if 'encfs' in self.config.snapshotsMode(pid):
-                    encfs_profiles.append(
-                        f'{self.config.profileName(pid)} ({pid})')
-
-            # EncFS deprecation warning (#1734, #1735)
-            if encfs_profiles:
-                state_data.msg_encfs_global = bitbase.ENCFS_MSG_STAGE
-                dlg = encfsmsgbox.EncfsExistsWarning(encfs_profiles)
-                dlg.exec()
 
     @property
     def showHiddenFiles(self):
@@ -605,9 +581,11 @@ class MainWindow(QMainWindow):
                   'in translation again.')),
             'act_help_encryption': (
                 icon.ENCRYPT,
-                _('Encryption Transition (EncFS)'),
+                'About encryption transition',
                 self._slot_help_encryption, None,
-                _('Shows the message about EncFS removal again.')),
+                'Shows support articel about EncFS removal and '
+                'gocryptfs replacement.'
+            ),
             'act_help_about': (
                 icon.ABOUT, _('About'),
                 self._slot_help_about, None, None),
@@ -2298,6 +2276,9 @@ class MainWindow(QMainWindow):
     def _slot_help_faq(self):
         qttools.open_url(bitbase.URL_FAQ)
 
+    def _slot_help_encryption(self):
+        qttools.open_url(bitbase.URL_ENCRYPT_TRANSITION)
+
     def _slot_help_ask_question(self):
         qttools.open_url(bitbase.URL_ISSUES)
 
@@ -2309,10 +2290,6 @@ class MainWindow(QMainWindow):
 
     def _slot_help_release_candidate(self):
         self._open_release_candidate_dialog()
-
-    def _slot_help_encryption(self):
-        dlg = encfsmsgbox.EncfsExistsWarning(['(not determined)'])
-        dlg.exec()
 
     def _slot_edit_user_callback(self):
         fp = pathlib.Path(self.config.takeSnapshotUserCallback())

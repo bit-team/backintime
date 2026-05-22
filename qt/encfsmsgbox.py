@@ -19,11 +19,16 @@ class _EncfsWarningBase(QMessageBox):
     """
     # pylint: disable=too-few-public-methods
 
-    def __init__(self, text, informative_text, button_label=None):
+    def __init__(self,
+                 text,
+                 informative_text,
+                 button_label=None,
+                 title=_('Warning'),
+                 icon=QMessageBox.Icon.Warning):
         super().__init__()
 
-        self.setWindowTitle(_('Warning'))
-        self.setIcon(QMessageBox.Icon.Warning)
+        self.setWindowTitle(title)
+        self.setIcon(icon)
         self.setText(text)
         self.setInformativeText(informative_text)
 
@@ -39,63 +44,36 @@ class _EncfsWarningBase(QMessageBox):
             ok_button.setText(button_label)
 
 
-# class EncfsCreateWarning(_EncfsWarningBase):
-#     """Warning box when using EncFS encrypting while creating a new profile
-#     or modify an existing one.
-#     """
-#     # pylint: disable=too-few-public-methods
-
-#     def __init__(self, parent):
-#         text = _('EncFS profile creation will be removed in the next minor '
-#                  'release (1.7), scheduled for 2026.')
-#         text = text + ' ' + _('It is not recommended to use that '
-#                               'mode for a profile furthermore.')
-#         whitepaper = f'<a href="{URL_ENCRYPT_TRANSITION}">' \
-#             + _('whitepaper') + '</a>'
-
-#         informative_text = _('Support for EncFS is being discontinued due '
-#                              'to security vulnerabilities.')
-#         informative_text = informative_text + ' ' + _(
-#             'For more details, including potential alternatives, please '
-#             'refer to this {whitepaper}.').format(
-#                 whitepaper=whitepaper)
-
-#         super().__init__(parent, text, informative_text)
-
-
-class EncfsExistsWarning(_EncfsWarningBase):
-    """Warning box when encrypted profiles exists.
-    """
+class EncfsFinalRemoval(_EncfsWarningBase):
+    """Info box about the final removal of EncFS"""
     # pylint: disable=too-few-public-methods
 
-    def __init__(self, profiles):
-
-        whitepaper = f'<a href="{URL_ENCRYPT_TRANSITION}">' \
-            + 'whitepaper' + '</a>'
+    def __init__(self, path):
 
         text = (
-            '<p><span style="color: red;"><strong>Encrypted profiles using '
-            'EncFS are no longer supported.</strong></span></p>'
-            '<p>EncFS is considered insecure and receives no further '
-            'updates.</p>'
-            '<p>Creation of new EncFS backup profiles is not possible. '
-            'Existing EncFS profiles are still displayed and supported for '
-            'now, but EncFS support will be <strong>completely removed'
-            '</strong> in a future release (expected around 2027).</p>'
-            f'For more information, see the {whitepaper}. This dialog is '
-            'available at any time via the help menu.'
+            '<p>All EncFS-based backup profiles were '
+            'removed from the active '
+            'configuration because <strong><span style="color: red;">EncFS is no '
+            'longer supported</span></strong> by Back In Time.</p>'
         )
 
-        profiles = '<ul>' \
-            + ''.join(f'<li>{profile}</li>' for profile in profiles) \
-            + '</ul>'
-
-        info_paragraphs = (
-            'The following profile(s) use encryption with EncFS:',
-            profiles,
+        informative_text = (
+            '<p>A <strong>backup</strong> of the previous configuration '
+            'containing the removed profiles was created at:'
+            f'<br><verbatim>{path}</verbatim></p>'
+            '<p>Back In Time now uses <strong>gocryptfs</strong> for '
+            'encrypted backup profiles. Automatic migration from EncFS to '
+            'gocryptfs is not feasable and the removed profiles must be '
+            'recreated manually.</p>'
+            '<p>For more <strong>information</strong> and '
+            '<strong>support</strong>, see this '
+            f'<a href="{URL_ENCRYPT_TRANSITION}">support article</a>.</p>'
         )
 
-        informative_text = ''.join(
-            [f'<p>{par}</p>' for par in info_paragraphs])
-
-        super().__init__(text, informative_text, 'Got it')
+        super().__init__(
+            text=text,
+            informative_text=informative_text,
+            button_label='Got it',
+            title='EncFS Profiles Removed',
+            icon=QMessageBox.Icon.Critical
+        )
