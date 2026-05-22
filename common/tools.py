@@ -509,7 +509,7 @@ def is_filesystem_valid(full_path, msg_path, mode, copy_links):
                     copyLinks=_('Copy links (dereference symbolic links)'),
                     expertOptions=_('Expert Options'))
 
-    elif fs == 'fuse.sshfs' and mode not in ('ssh', 'ssh_encfs'):
+    elif fs == 'fuse.sshfs' and 'ssh' not in mode:
         msg = _(
             "Destination filesystem for {path} is a share mounted via sshfs. "
             "Sshfs doesn't support hard-links. "
@@ -1291,7 +1291,7 @@ def rsyncCaps() -> list[str]:
 
 def rsyncPrefix(config,
                 no_perms: bool = True,
-                use_mode: list[str] = ['ssh', 'ssh_encfs'],
+                use_mode: list[str] = ['ssh', 'ssh_gocryptfs'],
                 progress: bool = True) -> list[str]:
     """
     Get rsync command and all args for creating a new snapshot. Args are
@@ -1381,7 +1381,7 @@ def rsyncPrefix(config,
     return cmd
 
 
-def rsyncSshArgs(config, use_mode=['ssh', 'ssh_encfs']):
+def rsyncSshArgs(config, use_mode=['ssh', 'ssh_gocryptfs']):
     """
     Get SSH args for rsync based on current profile in ``config``.
 
@@ -1398,7 +1398,7 @@ def rsyncSshArgs(config, use_mode=['ssh', 'ssh_encfs']):
 
     mode = config.snapshotsMode()
 
-    if mode in ['ssh', 'ssh_encfs'] and mode in use_mode:
+    if mode in ['ssh', 'ssh_gocryptfs'] and mode in use_mode:
         ssh = config.sshCommand(user_host=False,
                                 ionice=False,
                                 nice=False)
@@ -1434,7 +1434,7 @@ def rsyncRemove(config, run_local=True):
     Args:
         config (config.Config): current config
         run_local (bool):       if True and current mode is ``ssh``
-                                or ``ssh_encfs`` this will add SSH options
+                                or ``ssh_gocryptfs`` this will add SSH options
 
     Returns:
         list:                   rsync command with all args

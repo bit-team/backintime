@@ -23,7 +23,6 @@ from PyQt6.QtWidgets import (QCheckBox,
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import QFileSystemWatcher
 import snapshots
-import encfstools
 import snapshotlog
 import tools
 import qttools
@@ -101,18 +100,11 @@ class LogViewDialog(QDialog):  # pylint: disable=too-many-instance-attributes
         main_layout.addWidget(
             QLabel(_('[E] Error, [I] Information, [C] Change')))
 
-        # decode path
-        self._checkbox_decode = QCheckBox(_('decode paths'), self)
-        self._checkbox_decode.stateChanged.connect(self._slot_decode_changed)
-        self._checkbox_decode.setChecked(decode)
-        main_layout.addWidget(self._checkbox_decode)
-
         btn_box = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)
         main_layout.addWidget(btn_box)
         btn_box.rejected.connect(self.close)
 
         self._update_backups()
-        self._update_decode()
         self._update_profiles()
 
         self.watcher = self._create_watcher()
@@ -163,18 +155,6 @@ class LogViewDialog(QDialog):  # pylint: disable=too-many-instance-attributes
 
         return watcher
 
-    def _slot_decode_changed(self):
-        if self._checkbox_decode.isChecked():
-            if not self._decoder:
-                self._decoder = encfstools.Decode(self.config)
-
-        else:
-            if self._decoder is not None:
-                self._decoder.close()
-            self._decoder = None
-
-        self._update_log()
-
     def _slot_profile_changed(self, _idx):
         if not self._enable_update:
             return
@@ -183,7 +163,6 @@ class LogViewDialog(QDialog):  # pylint: disable=too-many-instance-attributes
         self._main_window.comboProfiles.set_current_profile_id(pid)
         self._main_window.comboProfileChanged(None)
 
-        self._update_decode()
         self._update_log()
 
     def _slot_backups_changed(self, _idx):
@@ -226,14 +205,6 @@ class LogViewDialog(QDialog):  # pylint: disable=too-many-instance-attributes
 
             if sid == self.sid:
                 self._combo_backups.set_current_snapshot_id(sid)
-
-    def _update_decode(self):
-        if self.config.snapshotsMode() == 'ssh_encfs':
-            self._checkbox_decode.show()
-            return
-
-        self._checkbox_decode.hide()
-        self._checkbox_decode.setChecked(False)
 
     def _update_log(self, watched_path: str = None):
         """

@@ -14,7 +14,6 @@ from collections.abc import Iterator
 import logger
 import snapshots
 import tools
-import encfstools
 
 
 class LogFilter:  # pylint: disable=too-few-public-methods
@@ -187,7 +186,7 @@ class SnapshotLog:
 
     def get(self,
             mode: int = None,
-            decode: encfstools.Decode = None,
+            decode=None,
             skipLines: int = 0  # pylint: disable=invalid-name # noqa: N803
             ) -> Iterator[str]:
 

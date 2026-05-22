@@ -522,7 +522,14 @@ class ConfigFileWithProfiles(ConfigFile):
         Returns:
             list: List with strings of profile IDs as strings.
         """
-        return self.strValue(key='profiles', default='1').split(':')
+        result =  self.strValue(key='profiles', default='1').split(':')
+
+        # Workaround: If "1" is present make sure it will be the first
+        if '1' in result:
+            result.remove('1')
+            result = ['1'] + result
+
+        return result
 
     def profilesSortedByName(self):
         """

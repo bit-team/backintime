@@ -82,7 +82,7 @@ pull request being accepted.
   - Enclose translatable strings like this: `_('Translate me')`. Find more
     details in our
     [localization docu](doc/maintain/2_localization.md#instructions-for-the-translation-process).
-- For docstrings follow [Google Style Guide](https://sphinxcontrib-napoleon.readthedocs.org/en/latest/example_google.html) 
+- For docstrings follow [Google Style Guide](https://sphinxcontrib-napoleon.readthedocs.org/en/latest/example_google.html)
   (see our own [HOWTO about doc generation](doc/maintain/1_doc_howto.md)).
 - Avoid the use of automatic formatters like `black` but mention the use of
   them when opening a pull request.
@@ -121,62 +121,43 @@ corresponding packages. Even if some packages are available from PyPi stick to
 the packages provided by the official repository of your GNU/Linux
 distribution.
 
-* Runtime dependencies for the CLI
+| Dependency | CLI | GUI* | Build* | Optional | Hints |
+|:-|:-:|:-:|:-:|:-:|:-|
+| `python3` (>=3.13) |🗹|||| |
+| `rsync` |🗹|||| |
+| `cron-daemon` |🗹||||
+| `openssh-client` |🗹||||
+| `sshfs` |🗹||||
+| `python3-keyring` |🗹||||
+| `python3-dbus` |🗹||||
+| `python3-packaging` |🗹||||
+| `gocryptfs` |🗹||||
+| `x11-utils` | |🗹|| |
+| `python3-pyqt6` | |🗹|| |Do not use the PyPi version via pip |
+| `python3-dbus.mainloop.pyqt6` | |🗹|| |Not available via PyPi pip |
+| `python3-pyqt6.qtsvg` | |🗹||| Qt SVG support for GUI rendering |
+| `pkexec` | |🗹||| Polkit privilege escalation helper |
+| `bash` | |🗹||| Used by root mode starter script qt/backintime-qt_polkit |
+| `polkit` | |🗹||| Authorization framework for privilege handling |
+| `qttranslations6-l10n` | |🗹||| Alternate package name qt6-translations-l10n |
+| `qtwayland6` | |🗹||| Required if Wayland is used instead of X11 (alt qt6-wayland) |
+| `python3-secretstorage`<br>or `python3-keyring-kwallet`<br>or `python3-gnomekeyring` ||🗹||🗹|SSH key storage|
+| `kompare`<br> or `meld` ||🗹||🗹|diff-like comparison of backups|
+| `build-essential`|||🗹|| |
+| `gzip`|||🗹|| |
+| `gettext`|||🗹|| |
+| `python3-pyfakefs` (>=5.7)|||🗹|| |
+| `asciidoctor`|||🗹|| |
+| `pylint` (>=4.0.0)|||🗹|🗹| Test suite |
+| `flake8`|||🗹|🗹| Test suite |
+| `ruff` (>=0.15.0)|||🗹|🗹| Test suite |
+| `codespell`|||🗹|🗹| Test suite |
+| `reuse` (>=4.0.0)|||🗹|🗹| Test suite |
+| `mkdocs`|||🗹|🗹| HTML user manual|
+| `mkdocs-material`|||🗹|🗹| |
+| `pandoc`|||🗹|🗹| Convert changelog into HTML|
 
-  - `python3` (>= 3.13)
-  - `rsync`
-  - `cron-daemon`
-  - `openssh-client`
-  - `sshfs`
-  - `python3-keyring`
-  - `python3-dbus`
-  - `python3-packaging`
-  -  Recommended
-     - `encfs`
-     - `gocryptfs`
-
-* Runtime dependencies for the GUI
-
-  - `x11-utils`
-  - `python3-pyqt6` (Do not use the version from _PyPi_ via `pip`)
-  - `python3-dbus.mainloop.pyqt6` (not available from _PyPi_ via `pip`)
-  - `python3-pyqt6.qtsvg`
-  - `pkexec`
-  - `bash` (Used by root mode starter script `qt/backintime-qt_polkit`)
-  - `polkitd`
-  - `qttranslations6-l10n` or alternative package name `qt6-translations-l10n`
-  - `qtwayland6` (if Wayland is used as display server instead of X11) or
-    alternative package name `qt6-wayland`
-  - Recommended
-      - For SSH key storage **one** of these packages
-        - `python3-secretstorage`
-        - `python3-keyring-kwallet`
-        - `python3-gnomekeyring`
-      - For diff-like comparing files between backups **one** of these
-        packages
-        - `kompare`
-        - or `meld`
-
-* Build and testing dependencies
-  - All CLI runtime dependencies including the recommended
-  - All GUI runtime dependencies including the recommended
-  - `build-essential`
-  - `gzip`
-  - `gettext`
-  - `python3-pyfakefs` (>= 5.7)
-  - `asciidoctor`
-  - Optional but recommended:
-    - `pylint` (>= 4.0.0)
-    - `flake8`
-    - `ruff` (>= 0.15.0)
-    - `codespell`
-    - `reuse` (>= 4.0.0)
- 
-* Dependencies to build documentation
-  - All runtime, build, testing dependencies including the recommended
-  - `mkdocs` to build HTML user manual
-  - `mkdocs-material`
-  - `pandoc` to convert changelog from Markdown into HTML
+\* _GUI and Build layer always depend on CLI dependencies._
 
 ## Build and install via `make` system (recommended)
 
@@ -268,7 +249,7 @@ Depending on the topic or impact of the PR, the maintainer may decide
 that an approval from a second maintainer is needed. This may result in
 additional waiting time. Please remain patient. In such cases, the PR will be
 labeled
-[PR: Waiting for review](https://github.com/bit-team/backintime/labels/PR%3A%20Waiting%20for%20review). 
+[PR: Waiting for review](https://github.com/bit-team/backintime/labels/PR%3A%20Waiting%20for%20review).
 
 If no second approval is necessary, the PR is labeled
 [PR: Merge after creative-break](https://github.com/bit-team/backintime/labels/PR%3A%20Merge%20after%20creative-break)
@@ -280,7 +261,7 @@ the chance to review and potentially veto the pull request.
 
 ## Terminology
 - The translators, as native speakers, are the maintainers of the translation
-  in their language and have the final decision. All following points are 
+  in their language and have the final decision. All following points are
   strong recommendations, but not written in stone. Language maintainers are
   free to overule them for good reasons.
 - "Directory" or "Folder"? We prefer "Directory". In our opinion, it is a
@@ -293,7 +274,7 @@ the chance to review and potentially veto the pull request.
   technical or nerdy terminology.
 - Some points of the following
   [General recommendations for developers](#general-recommendations-for-develoeprs)
-  are also relevant for translators. 
+  are also relevant for translators.
 
 ## General recommendations for developers
 The following points are about creating translatable source strings.
@@ -313,7 +294,7 @@ The following points are about creating translatable source strings.
 - [Consider Right-to-Left (RTL) and Bidiretional (BIDI) languages](#consider-right-to-left-rtl-and-bidirectional-bidi-languages).
 - [Be aware of shortcut indicators and possible duplicates](#be-aware-of-shortcut-indicators-and-possible-duplicates).
 - [Treat other translators work with respect](#treat-other-translators-work-with-respect).
-    
+
 ```python
 # Avoid escape characters for string delimiters
 problematic = _('Hello \'World\'')

@@ -79,7 +79,7 @@ itself.
 Several backup profile modes are supported. The simplest is the **Local**
 profile, which creates backups of items on the local machine and stores them on
 the same machine. Additionally, **Local Encrypted** profiles encrypt the backups
-using EncFS. To store backups on a remote machine, the **SSH** profile can be
+using gocryptfs. To store backups on a remote machine, the **SSH** profile can be
 used. These backups can also be encrypted using the **SSH Encrypted** profile.
 
 Regarding **encrypted** profiles, please take a look at _A NOTE ON SECURITY_.

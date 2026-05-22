@@ -132,7 +132,9 @@ class Config(configfile.ConfigFileWithProfiles):
         tools.makeDirs(self._LOCAL_DATA_FOLDER)
         tools.makeDirs(self._LOCAL_MOUNT_ROOT)
 
-        self._DEFAULT_CONFIG_PATH = os.path.join(self._LOCAL_CONFIG_FOLDER, 'config')
+        self._DEFAULT_CONFIG_PATH = os.path.join(
+            self._LOCAL_CONFIG_FOLDER, bitbase.FILENAME_CONFIG
+        )
 
         if config_path is None:
             self._LOCAL_CONFIG_PATH = self._DEFAULT_CONFIG_PATH
@@ -217,14 +219,6 @@ class Config(configfile.ConfigFileWithProfiles):
         # Workaround
         self.default_profile_name = _('Main profile')
 
-        # ToDo Those hidden labels exist to speed up their translation.
-        # See: https://github.com/bit-team/backintime/issues/
-        # 1735#issuecomment-2197646518
-        _HIDDEN_NEW_MODE_LABELS = (
-            _('Local (EncFS encrypted)'),
-            _('SSH (EncFS encrypted)')
-        )
-
         self.SNAPSHOT_MODES = {
                     # mode: (
                     #     <mounttools>,
@@ -256,21 +250,6 @@ class Config(configfile.ConfigFileWithProfiles):
                         _('SSH private key'),
                         _('Encryption')
                     ),
-                    # DEPRECATED
-                    'local_encfs': (
-                        None,  # encfstools.EncFS_mount,
-                        'DEPRECATED - Local encrypted (via EncFS)',
-                        _('Encryption'),
-                        False
-                    ),
-                    # DEPRECATED
-                    'ssh_encfs': (
-                        None,  # encfstools.EncFS_SSH,
-                        'DEPRECATED - SSH encrypted (via EncFS)',
-                        _('SSH private key'),
-                        _('Encryption')
-                    ),
-
         }
 
     def save(self):
@@ -284,8 +263,11 @@ class Config(configfile.ConfigFileWithProfiles):
     def is_current_profile_unsaved(self) -> bool:
         return self.is_profile_unsaved(self.currentProfile())
 
-    def checkConfig(self):
-        profiles = self.profiles()
+    def checkConfig(self, profile_id = None):
+        if profile_id:
+            profiles = [profile_id]
+        else:
+            profiles = self.profiles()
 
         for profile_id in profiles:
             profile_name = self.profileName(profile_id)
@@ -398,8 +380,6 @@ class Config(configfile.ConfigFileWithProfiles):
         if mode == 'local':
             return self.get_snapshots_path(profile_id)
 
-        # else: ssh/local_encfs/ssh_encfs/local_gocryptfs
-
         # ???
         symlink = f'{profile_id}_{os.getpid()}'
         if tmp_mount:
@@ -451,7 +431,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def snapshotsMode(self, profile_id=None):
         #? Use mode (or backend) for this snapshot. Look at 'man backintime'
-        #? section 'Modes'.;local|local_encfs|ssh|ssh_encfs|local_gocryptfs
+        #? section 'Modes'.;local|ssh|ssh_gocryptfs|local_gocryptfs
         return self.profileStrValue('snapshots.mode', 'local', profile_id)
 
     def setSnapshotsMode(self, value, profile_id = None):
@@ -507,7 +487,7 @@ class Config(configfile.ConfigFileWithProfiles):
         return True
 
     def sshHost(self, profile_id = None):
-        #?Remote host used for mode 'ssh' and 'ssh_encfs'.;IP or domain address
+        #?Remote host used for mode 'ssh' and 'ssh_gocryptfs'.;IP or domain address
         return self.profileStrValue('snapshots.ssh.host', '', profile_id)
 
     def setSshHost(self, value, profile_id = None):
@@ -702,14 +682,6 @@ class Config(configfile.ConfigFileWithProfiles):
         logger.debug(f'SSH command: {ssh}', self)
 
         return ssh
-
-    # EncFS
-    def localEncfsPath(self, profile_id = None):
-        #?Where to save snapshots in mode 'local_encfs'.;absolute path
-        return self.profileStrValue('snapshots.local_encfs.path', '', profile_id)
-
-    def setLocalEncfsPath(self, value, profile_id = None):
-        self.setProfileStrValue('snapshots.local_encfs.path', value, profile_id)
 
     # gocryptfs
     def localGocryptfsPath(self, profile_id):
@@ -1431,18 +1403,21 @@ class Config(configfile.ConfigFileWithProfiles):
     def lastSnapshotSymlink(self, profile_id = None):
         return os.path.join(self.snapshotsFullPath(profile_id), bitbase.DIR_NAME_LAST_SNAPSHOT)
 
-    def encfsconfigBackupFolder(self, profile_id = None):
-        return os.path.join(self._LOCAL_DATA_FOLDER, 'encfsconfig_backup_%s' % self.fileId(profile_id))
-
     def isConfigured(self, profile_id=None) -> bool:
         """Checks if the program is configured.
 
         It is assumed as configured if a snapshot path (backup destination) is
         and include files/directories (backup source) are given.
         """
+        # print(f'isConfigured() {profile_id=} {self.currentProfile()=}')
+        if not profile_id:
+            profile_id = self.profiles()[0]
+            # print(f' first is {profile_id=}')
+
         path = self.snapshotsPath(profile_id)
         includes = self.include(profile_id)
 
+        # print(f'{path=} {includes=}')
         if bool(path and includes):
             return True
 
@@ -1497,8 +1472,6 @@ class Config(configfile.ConfigFileWithProfiles):
                 dest_path = self.snapshotsFullPath(pid)
             elif backup_mode == 'local_gocryptfs':
                 dest_path = self.localGocryptfsPath(pid)
-            elif backup_mode == 'local_encfs':
-                dest_path = self.localEncfsPath(pid)
             else:
                 logger.error(
                     f"Udev scheduling doesn't work with mode {backup_mode}",

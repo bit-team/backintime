@@ -229,8 +229,8 @@ class MainWindow(QMainWindow):
 
         self._import_config_from_backup()
 
-        if not self.config.isConfigured():
-            return
+        # if not self.config.isConfigured():
+        #     return
 
         # populate lists
         self.updateProfiles()
@@ -331,7 +331,11 @@ class MainWindow(QMainWindow):
             self._open_release_candidate_dialog()
 
     def _import_config_from_backup(self):
-        if self.config.isConfigured():
+        # if self.config.isConfigured():
+        #     return
+
+        config_fp = pathlib.Path(self.config._LOCAL_CONFIG_PATH)
+        if config_fp.exists():
             return
 
         message = _(
@@ -366,7 +370,24 @@ class MainWindow(QMainWindow):
 
         SettingsDialog(self).exec()
 
+    def _message_about_encfs_config_backup(self):
+        # e.g. '~/.config/backintime/config.encfs.backup'
+        config_fp_backup = pathlib.Path(
+            self.config._LOCAL_CONFIG_PATH
+        ).with_suffix(bitbase.ENCFS_BACKUP_CONFIG_SUFFIX)
+
+        if not config_fp_backup.exists():
+            return
+
+        state_data = StateData()
+        if state_data.msg_encfs_global < bitbase.ENCFS_MSG_STAGE:
+            state_data.msg_encfs_global = bitbase.ENCFS_MSG_STAGE
+            dlg = encfsmsgbox.EncfsFinalRemoval(config_fp_backup)
+            dlg.exec()
+
     def _handle_user_messages(self):
+        self._message_about_encfs_config_backup()
+
         # Ignore if debug or release/testing candidate
         if version.IS_RELEASE_CANDIDATE or logger.DEBUG:
             return
@@ -379,6 +400,7 @@ class MainWindow(QMainWindow):
             self._open_ssh_cipher_remove_dialog(
                 [entry[0] for entry in cipher]
             )
+        # remove the cipher keys from config
         for _name, _val, key in cipher:
             del self.config.dict[key]
 
@@ -412,23 +434,6 @@ class MainWindow(QMainWindow):
         # countdown a dialog with a text about contributing to translating
         # BIT is presented to the users.
         state_data.decrement_manual_starts_countdown()
-
-        # If the encfs-deprecation warning in its latest stage was not shown
-        # yet.
-        if state_data.msg_encfs_global < bitbase.ENCFS_MSG_STAGE:
-            # Are there profiles using EncFS?
-            encfs_profiles = []
-
-            for pid in self.config.profiles():
-                if 'encfs' in self.config.snapshotsMode(pid):
-                    encfs_profiles.append(
-                        f'{self.config.profileName(pid)} ({pid})')
-
-            # EncFS deprecation warning (#1734, #1735)
-            if encfs_profiles:
-                state_data.msg_encfs_global = bitbase.ENCFS_MSG_STAGE
-                dlg = encfsmsgbox.EncfsExistsWarning(encfs_profiles)
-                dlg.exec()
 
     @property
     def showHiddenFiles(self):
@@ -576,9 +581,11 @@ class MainWindow(QMainWindow):
                   'in translation again.')),
             'act_help_encryption': (
                 icon.ENCRYPT,
-                _('Encryption Transition (EncFS)'),
+                'About encryption transition',
                 self._slot_help_encryption, None,
-                _('Shows the message about EncFS removal again.')),
+                'Shows support article about EncFS removal and '
+                'gocryptfs replacement.'
+            ),
             'act_help_about': (
                 icon.ABOUT, _('About'),
                 self._slot_help_about, None, None),
@@ -1039,7 +1046,7 @@ class MainWindow(QMainWindow):
             self.config, self.comboProfiles, self.config.currentProfile())
         profiles = self.config.profilesSortedByName()
 
-        self.comboProfilesAction.setVisible(len(profiles) > 1)
+        # self.comboProfilesAction.setVisible(len(profiles) > 1)
 
         self.updateProfile()
 
@@ -1800,7 +1807,7 @@ class MainWindow(QMainWindow):
                 'Explicitly configured SSH cipher setting detected in the '
                 'following backup profiles:',
                 '{profiles}',
-                'The setting will be removed <strong>immediatly</strong>.',
+                'The setting will be removed <strong>immediately</strong>.',
                 'Recommended action:',
                 'Please configure the preferred cipher in the SSH client'
                 'config file (e.g. ~/.ssh/config) instead.',
@@ -2105,12 +2112,10 @@ class MainWindow(QMainWindow):
                     )
 
     def _slot_backup_name(self):
-        item = self.timeline.currentItem()
-        if item is None:
-            return
+        sid = self.selected_backup_id()
 
-        sid = item.snapshot_id
-        if sid.isRoot:
+        if not sid:
+            # "Now" or none selected
             return
 
         name = sid.name
@@ -2125,7 +2130,8 @@ class MainWindow(QMainWindow):
             return
 
         sid.name = new_name
-        item.update_text()
+        item = self.timeline.get_backup_item(sid.get_descriptor())
+        item.label = sid.displayName
 
     def _slot_backup_remove(self):
         def hideItem(item):
@@ -2269,6 +2275,9 @@ class MainWindow(QMainWindow):
     def _slot_help_faq(self):
         qttools.open_url(bitbase.URL_FAQ)
 
+    def _slot_help_encryption(self):
+        qttools.open_url(bitbase.URL_ENCRYPT_TRANSITION)
+
     def _slot_help_ask_question(self):
         qttools.open_url(bitbase.URL_ISSUES)
 
@@ -2280,10 +2289,6 @@ class MainWindow(QMainWindow):
 
     def _slot_help_release_candidate(self):
         self._open_release_candidate_dialog()
-
-    def _slot_help_encryption(self):
-        dlg = encfsmsgbox.EncfsExistsWarning(['(not determined)'])
-        dlg.exec()
 
     def _slot_edit_user_callback(self):
         fp = pathlib.Path(self.config.takeSnapshotUserCallback())
@@ -2529,9 +2534,17 @@ if __name__ == '__main__':
 
     mainWindow = MainWindow(cfg, appInstance, qapp)
 
-    if cfg.isConfigured():
+    # if cfg.isConfigured():
+    config_fp = pathlib.Path(cfg._LOCAL_CONFIG_PATH)
+    if config_fp.exists():
         mainWindow.show()
         qapp.exec()
+    else:
+        messagebox.critical(
+            None,
+            f'Unexpected situation. Config file {config_fp} does not exists. '
+            'Please contact the support.'
+        )
 
     mainWindow.qapp.removeEventFilter(mainWindow._mouse_button_event_filter)
 
