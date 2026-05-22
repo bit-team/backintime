@@ -16,8 +16,9 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - **Rewritten from scratch**: Mount subsystem (backend and encryption).
   Behavior is intended to remain unchanged; regressions cannot be fully ruled
   out. ([PR#2449](https://github.com/bit-team/backintime/pull/2449))
-- Default mountpoint permissions changed from 700 to 711 ([PR#2451](https://github.com/bit-team/backintime/pull/2451))
-  to avoid FUSE mount failures when accessing via different user contexts.
+- Default mountpoint permissions changed from 700 to 711
+  ([PR#2451](https://github.com/bit-team/backintime/pull/2451)) to avoid
+  FUSE mount failures when accessing via different user contexts.
 - **Breaking**: Minimal Python version 3.13 increased
 - Changelog migrated to Common Changelog standard
 - Build: Changelog shipped as HTML
@@ -26,6 +27,8 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Build dependency `pandoc` to convert markdown changelog into HTML
 
 ### Removed
+- **Breaking**: EncFS support including existing EncFS profiles
+  ([PR#2492](https://github.com/bit-team/backintime/pull/2492))
 - Command line switch `--keep-mount`
 - CLI Command `decode` because of EncFS removal ([#1734](https://github.com/bit-team/backintime/issues/1734))
 - CLI Command `benchmark-cipher` ([#2120](https://github.com/bit-team/backintime/issues/2120))
@@ -33,7 +36,8 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Config examples
 
 ## Fixed
-- Prevent Back In Time crash when a plugin fails ([#2447](https://github.com/bit-team/backintime/issues/2447))
+- Prevent Back In Time crash in case a plugin fails
+  ([#2447](https://github.com/bit-team/backintime/issues/2447))
 
 ## [1.6.1] (2026-02-10)
 

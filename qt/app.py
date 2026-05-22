@@ -583,7 +583,7 @@ class MainWindow(QMainWindow):
                 icon.ENCRYPT,
                 'About encryption transition',
                 self._slot_help_encryption, None,
-                'Shows support articel about EncFS removal and '
+                'Shows support article about EncFS removal and '
                 'gocryptfs replacement.'
             ),
             'act_help_about': (
@@ -2112,12 +2112,10 @@ class MainWindow(QMainWindow):
                     )
 
     def _slot_backup_name(self):
-        item = self.timeline.currentItem()
-        if item is None:
-            return
+        sid = self.selected_backup_id()
 
-        sid = item.snapshot_id
-        if sid.isRoot:
+        if not sid:
+            # "Now" or none selected
             return
 
         name = sid.name
@@ -2132,7 +2130,8 @@ class MainWindow(QMainWindow):
             return
 
         sid.name = new_name
-        item.update_text()
+        item = self.timeline.get_backup_item(sid.get_descriptor())
+        item.label = sid.displayName
 
     def _slot_backup_remove(self):
         def hideItem(item):
