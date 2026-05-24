@@ -16,17 +16,17 @@ Starting with version `2.0.0` [EncFS] was **removed** and replaced with
 [gocryptfs]. See [meta issue #1734](https://github.com/bit-team/backintime/issues/1734)
 for technical details.
 
- * [Rational](#rational)
+ * [Rationale](#rationale)
  * [The transition process](#the-transition-process)
  * [FAQ - Frequently Asked Questions](#faq--frequently-asked-questions)
-   * [How to migrate an EncFS backup profile to an gocryptfs backup profile?](#how-to-migrate-an-encfs-backup-profile-to-an-gocryptfs-backup-profile)
+   * [How to migrate an EncFS backup profile to a gocryptfs backup profile?](#how-to-migrate-an-encfs-backup-profile-to-a-gocryptfs-backup-profile)
  * [About EncFS security issues](#about-encfs-security-issues)
  * [Further readings and resources](#further-readings-and-resources)
 
-## Rational
+## Rationale
 Removing [EncFS] was necessary because it has [known security
 issues](#about-encfs-security-issues) (since 2014) and the upstream project is
-not active anymore. To keep _Back In Time_ secure and maintenable there was no
+not active anymore. To keep _Back In Time_ secure and maintainable there was no
 alternative to remove it.
 
 ## The transition process
@@ -37,10 +37,9 @@ year 2023. The plan was designed for a longer transition period, beginning in
 2029 with the release of Debian 14.
 
 However, the timeline changed and the upstream release introducing these
-changes happend earlier with [version
-2.0.0](https://github.com/bit-team/backintime/releases/tag/v2.0.0) This version
-will also likely become part of [Debian GNU/Linux](https://www.debian.org/)
-14 around 2027.
+changes arrived earlier than expected with version [2.0.0]. This
+version will also likely be included in [Debian
+GNU/Linux](https://www.debian.org/) 14 around 2027.
 
 The main reason is that integrating gocryptfs as a replacement for EncFS turned
 out to be extremely difficult due to _Back In Time_’s historically grown and
@@ -48,25 +47,25 @@ hard-to-maintain codebase. As a result, the already planned restructuring and
 refactoring of the mount subsystem and related components had to be brought
 forward. Removing EncFS support became necessary as part of that work. The
 creation of new EncFS profiles [was
-disabled](https://github.com/bit-team/backintime/issues/2315) in [version
-1.6.1](https://github.com/bit-team/backintime/releases/tag/v1.6.1) early 2026.
-At this time there was no full gocryptfs support implemented.
+disabled](https://github.com/bit-team/backintime/issues/2315) in version
+[1.6.1] early 2026.  At this time there was no full gocryptfs support
+implemented.
 
 ## FAQ - Frequently Asked Questions
 ### How to migrate an EncFS backup profile to an gocryptfs backup profile?
 
-Within _Back In Time_ itself it is not possible to migrate an EncFS profile
-to an gocryptfs profile. It is also not possible to transform an existing
-profile regardingly.
+Within _Back In Time_ itself it is not possible to migrate an EncFS profile to
+a gocryptfs profile. Existing EncFS profiles also cannot be converted into
+gocryptfs profiles.
 
-A new gocryptfs encrytped profile need to be created.  See [this
+A new gocryptfs encrypted profile need to be created.  See [this
 issue](https://github.com/bit-team/backintime/issues/2495) and [this discussion
 on the mailing
 list](https://mail.python.org/archives/list/bit-dev@python.org/message/ZYA6YRSCBIVLQTGR2VMNOQQIBA522AWI/)
 about technical details.
 
 > [!NOTE]
-> :wink: If you are successfull, it would help a lot if you could contribute
+> :wink: If you are successful, it would help a lot if you could contribute
 > a tutorial like documentation to the project.
 
 ## About EncFS security issues
@@ -88,8 +87,12 @@ about technical details.
   started much further
   (e.g. [#1248](https://github.com/bit-team/backintime/issues/1248)).
 - Our [mailing list](https://mail.python.org/mailman3/lists/bit-dev.python.org).
+- Our [mailing list]
 - [EncFS]
 - [gocryptfs]
 
 [EncFS]: https://github.com/vgough/encfs
 [gocryptfs]: https://github.com/rfjakob/gocryptfs
+[1.6.1]: https://github.com/bit-team/backintime/releases/tag/v1.6.1
+[2.0.0]: https://github.com/bit-team/backintime/releases/tag/v2.0.0
+[mailing list]: https://mail.python.org/mailman3/lists/bit-dev.python.org
