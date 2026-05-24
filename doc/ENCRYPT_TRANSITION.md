@@ -25,8 +25,8 @@ details.
  * [Further readings and resources](#further-readings-and-resources)
 
 ## Rationale
-Removing [EncFS] was necessary because it has [known security
-issues](#about-encfs-security-issues) (since 2014) and the upstream project is
+Removing [EncFS] was necessary because it has [security issues known since
+2014](#about-encfs-security-issues). Additionally the the upstream project is
 not active anymore. To keep _Back In Time_ secure and maintainable there was no
 alternative to remove it.
 
