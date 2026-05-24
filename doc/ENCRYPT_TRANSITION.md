@@ -48,11 +48,11 @@ refactoring of the mount subsystem and related components had to be brought
 forward. Removing EncFS support became necessary as part of that work. The
 creation of new EncFS profiles [was
 disabled](https://github.com/bit-team/backintime/issues/2315) in version
-[1.6.1] early 2026.  At this time there was no full gocryptfs support
-implemented.
+[1.6.1] early 2026. It must be noted, that at this time there was no full
+gocryptfs support implemented.
 
 ## FAQ - Frequently Asked Questions
-### How to migrate an EncFS backup profile to an gocryptfs backup profile?
+### How to migrate an EncFS backup profile to a gocryptfs backup profile?
 
 Within _Back In Time_ itself it is not possible to migrate an EncFS profile to
 a gocryptfs profile. Existing EncFS profiles also cannot be converted into
