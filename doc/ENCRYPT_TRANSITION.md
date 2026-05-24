@@ -37,9 +37,8 @@ year 2023. The plan was designed for a longer transition period, beginning in
 2029 with the release of Debian 14.
 
 However, the timeline changed and the upstream release introducing these
-changes arrived earlier than expected with version [2.0.0]. This
-version will also likely be included in [Debian
-GNU/Linux](https://www.debian.org/) 14 around 2027.
+changes arrived earlier than expected with version [2.0.0]. This version will
+also likely be included in [Debian GNU/Linux] 14 around 2027.
 
 The main reason is that integrating gocryptfs as a replacement for EncFS turned
 out to be extremely difficult due to _Back In Time_’s historically grown and
@@ -96,3 +95,4 @@ about technical details.
 [1.6.1]: https://github.com/bit-team/backintime/releases/tag/v1.6.1
 [2.0.0]: https://github.com/bit-team/backintime/releases/tag/v2.0.0
 [mailing list]: https://mail.python.org/mailman3/lists/bit-dev.python.org
+[Debian GNU/Linux]: https://www.debian.org/
