@@ -17,8 +17,9 @@ Starting with version `2.0.0` [EncFS] was **removed** and replaced with
 for technical details.
 
  * [Rational](#rational)
- * [Planned steps of the transition process](#planned-steps-of-the-transition-process)
- * [How to migrate an EncFS backup profile to an gocryptfs backup profile?](#how-to-migrate-an-encfs-backup-profile-to-an-gocryptfs-backup-profile)
+ * [The transition process](#the-transition-process)
+ * [FAQ - Frequently Asked Questions](#faq--frequently-asked-questions)
+   * [How to migrate an EncFS backup profile to an gocryptfs backup profile?](#how-to-migrate-an-encfs-backup-profile-to-an-gocryptfs-backup-profile)
  * [About EncFS security issues](#about-encfs-security-issues)
  * [Further readings and resources](#further-readings-and-resources)
 

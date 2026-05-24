@@ -96,7 +96,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 Please see this extra document about the [transition of the encryption
 feature](doc/ENCRYPT_TRANSITION.md). In there you will also find a
-[FAQ](doc/ENCRYPT_TRANSITION.md#faq--frequently-asked-questions).
+[FAQ](doc/ENCRYPT_TRANSITION.md#faq---frequently-asked-questions).
 
 ## Does _Back in Time_ support full system backups?
 
