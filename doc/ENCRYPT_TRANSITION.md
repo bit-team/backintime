@@ -9,51 +9,40 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 -->
 
 # Transition of the encryption feature in _Back In Time_
-<sub>Last update: January 2026</sub>
+<sub>Last update: June 2026</sub>
 
-This document outlines the current status of the encryption feature in _Back In
-Time_. Support for encrypted backup profiles is undergoing significant
-changes.
+This document outlines the status of the encryption feature in _Back In Time_.
+Starting with version `2.0.0` [EncFS] was **removed** and replaced with
+[gocryptfs]. See [meta issue #1734](https://github.com/bit-team/backintime/issues/1734)
+for technical details.
 
- * [Short summary](#short-summary)
  * [Rational](#rational)
- * [Alternatives to EncFS](#alternatives-to-encfs)
  * [Planned steps of the transition process](#planned-steps-of-the-transition-process)
  * [How to migrate an EncFS backup profile to an gocryptfs backup profile?](#how-to-migrate-an-encfs-backup-profile-to-an-gocryptfs-backup-profile)
  * [About EncFS security issues](#about-encfs-security-issues)
  * [Further readings and resources](#further-readings-and-resources)
 
-## Short summary
-- To realize encrypted backups in _Back In Time_, EncFS was/is used.
-- **Dropping support** for EncFS backup profiles started with _Back In Time_
-  version 1.6.0 and is performed in several stages, with sufficient warnings
-  and lead time.
-- Final **removal** will happen **around the year 2029** at the code level.
-- EncFS has known security issues, is no longer maintained and therefore does
-  not receive updates.
-- The plan is to replace [EncFS] with [gocryptfs].
-  Implementing gocryptfs support does not align with the EncFS removal time
-  schedule, due to limited resources in the project team. See
-  [meta issue #1734](https://github.com/bit-team/backintime/issues/1734) about
-  the current progress.
-
 ## Rational
+Removing [EncFS] was necessary because it has [known security
+issues](#about-encfs-security-issues) and the upstream project is not active
+anymore. To keep _Back In Time_ secure and maintenable there was no alternative
+to remove it.
 
-Removing [EncFS] is necessary because it has
-[known security issues](#about-encfs-security-issues),
-the upstream project is not active anymore. To keep _Back In Time_ secure and
-maintenable there is no alternative to remove it.  The necessity to remove
-EncFS exists regardless of whether an alternative for this library is
-implemented or not.
+## The transition process
+The original plan was designed for a longer transition period, beginning in
+2024 with prominent user warnings and ending around 2027 upstream or around
+2029 with the release of Debian 14.
 
-## Alternatives to EncFS
+However, the timeline changed and the upstream release introducing these
+changes happend earlier with version 2.0.0 (released late 2026 or early 2027).
+This version will also likely become part of Debian 14 around 2027.
 
-The [EncFS] maintainer himself [recommends to
-switch](https://github.com/vgough/encfs?tab=readme-ov-file#status) to
-[gocryptfs]. So we are going this path. See
-[#1734](https://github.com/bit-team/backintime/issues/1734) for details.
-
-## Planned steps of the transition process
+The main reason is that integrating gocryptfs as a replacement for EncFS
+turned out to be extremely difficulut due to Back In Time’s historically
+grown and hard-to-maintain codebase. As a result, the already planned
+restructuring and refactoring of the mount subsystem and related components
+had to be brought forward. Removing EncFS support became necessary as part of
+that work.
 
 The transition is a process *not fixed* in all details and planned to take
 until the *year 2029 or 2030*. The project will try to adapt to users needs and
