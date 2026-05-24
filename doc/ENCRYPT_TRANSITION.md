@@ -12,7 +12,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 <sub>Last update: June 2026</sub>
 
 This document outlines the status of the encryption feature in _Back In Time_.
-Starting with version `2.0.0` [EncFS] was **removed** and replaced with
+Starting with version [2.0.0] [EncFS] was **removed** and replaced with
 [gocryptfs]. See [meta issue #1734](https://github.com/bit-team/backintime/issues/1734)
 for technical details.
 
