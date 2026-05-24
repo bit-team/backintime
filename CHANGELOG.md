@@ -20,7 +20,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
   ([PR#2451](https://github.com/bit-team/backintime/pull/2451)) to avoid
   FUSE mount failures when accessing via different user contexts.
 - **Breaking**: Minimal Python version 3.13 increased
-- Changelog migrated to Common Changelog standard
+- Changelog migrated to _Common Changelog_ standard
 - Build: Changelog shipped as HTML
 
 ### Added
@@ -38,8 +38,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Config examples
 
 ## Fixed
-- Prevent Back In Time crash in case a plugin fails
-  ([#2447](https://github.com/bit-team/backintime/issues/2447))
+- Prevent crash in case a plugin fails ([#2447](https://github.com/bit-team/backintime/issues/2447))
 
 ## [1.6.1] (2026-02-10)
 
