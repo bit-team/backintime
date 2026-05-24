@@ -24,58 +24,49 @@ for technical details.
 
 ## Rational
 Removing [EncFS] was necessary because it has [known security
-issues](#about-encfs-security-issues) and the upstream project is not active
-anymore. To keep _Back In Time_ secure and maintenable there was no alternative
-to remove it.
+issues](#about-encfs-security-issues) (since 2014) and the upstream project is
+not active anymore. To keep _Back In Time_ secure and maintenable there was no
+alternative to remove it.
 
 ## The transition process
-The original plan was designed for a longer transition period, beginning in
+Replacing EncFS in _Back In Time_ was [first
+discussed](https://github.com/bit-team/backintime/issues/1248) in the
+year 2023. The plan was designed for a longer transition period, beginning in
 2024 with prominent user warnings and ending around 2027 upstream or around
 2029 with the release of Debian 14.
 
 However, the timeline changed and the upstream release introducing these
-changes happend earlier with version 2.0.0 (released late 2026 or early 2027).
-This version will also likely become part of Debian 14 around 2027.
+changes happend earlier with [version
+2.0.0](https://github.com/bit-team/backintime/releases/tag/v2.0.0) This version
+will also likely become part of [Debian GNU/Linux](https://www.debian.org/)
+14 around 2027.
 
-The main reason is that integrating gocryptfs as a replacement for EncFS
-turned out to be extremely difficulut due to Back In Time’s historically
-grown and hard-to-maintain codebase. As a result, the already planned
-restructuring and refactoring of the mount subsystem and related components
-had to be brought forward. Removing EncFS support became necessary as part of
-that work.
+The main reason is that integrating gocryptfs as a replacement for EncFS turned
+out to be extremely difficult due to _Back In Time_’s historically grown and
+hard-to-maintain codebase. As a result, the already planned restructuring and
+refactoring of the mount subsystem and related components had to be brought
+forward. Removing EncFS support became necessary as part of that work. The
+creation of new EncFS profiles [was
+disabled](https://github.com/bit-team/backintime/issues/2315) in [version
+1.6.1](https://github.com/bit-team/backintime/releases/tag/v1.6.1) early 2026.
+At this time there was no full gocryptfs support implemented.
 
-The transition is a process *not fixed* in all details and planned to take
-until the *year 2029 or 2030*. The project will try to adapt to users needs and
-other extern issues. Therefore the plan is not written in stone.
-The transition is scheduled around the release cycles of
-[Debian GNU/Linux](https://www.debian.org/). It has very long release cycles
-and is the base for most of the distributions out there.
-This is a short overview of the plan. See
-[#1734](https://github.com/bit-team/backintime/issues/1734) for a more accurate
-and up-to-date plan.
+## FAQ - Frequently Asked Questions
+### How to migrate an EncFS backup profile to an gocryptfs backup profile?
 
-1. Year 2024: Clear and strong warning about the planned removing of EncFS in
-   version 1.5.*.
-2. Year 2025 after Debian 13 released: Creation of new EncFS profiles is
-   disabled ([#2356](https://github.com/bit-team/backintime/issues/2315))
-   starting with _Back In Time_ version 1.6.0. This become relevant for "Debian
-   stable" users when Debian 14 will be released (round about year 2027/28).
-   - Version 1.6.0 will have support for _local_ backup profiles using
-     _gocryptfs_.
-   - There is a high chance that _gocrypt_ support for _SSH_ profiles can be
-     implemented in this 1.6.*.
-3. Year 2027/2028 after Debian 14 released: Final removal of EncFS in upstream
-   _Back In Time_. This will affect rolling release GNU/Linux distributions
-   (e.g. Arch) and upcoming Ubuntu releases.
-4. Year 2029/30 with Debian 15 release: Transformation then has reached Debian
-   stable.
+Within _Back In Time_ itself it is not possible to migrate an EncFS profile
+to an gocryptfs profile. It is also not possible to transform an existing
+profile regardingly.
 
+A new gocryptfs encrytped profile need to be created.  See [this
+issue](https://github.com/bit-team/backintime/issues/2495) and [this discussion
+on the mailing
+list](https://mail.python.org/archives/list/bit-dev@python.org/message/ZYA6YRSCBIVLQTGR2VMNOQQIBA522AWI/)
+about technical details.
 
-## How to migrate an EncFS backup profile to an gocryptfs backup profile?
-
-...will follow...
-
-See [this discussion on the mailing list](https://mail.python.org/archives/list/bit-dev@python.org/message/ZYA6YRSCBIVLQTGR2VMNOQQIBA522AWI/).
+> [!NOTE]
+> :wink: If you are successfull, it would help a lot if you could contribute
+> a tutorial like documentation to the project.
 
 ## About EncFS security issues
 

@@ -15,6 +15,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 <!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
 
 - [General](#general)
+   * [What happend to encrypted profiles and EncFS?](#what-happend-to-encrypted-profiles-and-encfS]
    * [Does _Back in Time_ support full system backups?](#does-back-in-time-support-full-system-backups)
    * [Does _Back in Time_ support backups on cloud storage like OneDrive or Google Drive?](#does-back-in-time-support-backups-on-cloud-storage-like-onedrive-or-google-drive)
    * [Where is the log file?](#where-is-the-log-file)
@@ -90,6 +91,12 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 <!-- TOC end -->
 
 # General
+
+## What happend to encrypted profiles and EncFS?
+
+Please see this extra document about the [transition of the encryption
+feature](doc/ENCRYPT_TRANSITION.md). In there you will also find a
+[FAQ](doc/ENCRYPT_TRANSITION.md#faq--frequently-asked-questions).
 
 ## Does _Back in Time_ support full system backups?
 
