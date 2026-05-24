@@ -43,8 +43,8 @@ creating a new backup.
 ### Local encrypted
 
 Store encrypted backups on local drives or volumes. 
-**Back In Time** use's `encfs` with standard configuration to encrypt all
-data. Please [be aware of security implications](manage-profiles.md#local-encrypted).
+**Back In Time** use's `gocryptfs` with standard configuration to encrypt all
+data.
 
 ### SSH
 
@@ -58,16 +58,7 @@ So called password-less login need to be configured on the remote machine.
 
 ### SSH encrypted
 
-Store encrypted backups on remote hosts using SSH. **Back In Time** uses `encfs
---reverse` to mount the root filesystem `/`. Rsync will sync this encrypted
-view of `/` to a remote host over SSH. All encoding will be done on the local
-machine. So the password will never be exposed to the remote host. Please [be
-aware of security implications](manage-profiles.md#local-encrypted).
-
-Because all data is transferred encrypted, the log output shows encrypted
-filenames, too. Use the _decode_ option, available via context menu, in the
-[Log View](log.md) dialog window. This feature decrypts the paths
-automatically.
+Store encrypted backups on remote hosts using SSH. **Back In Time** uses `gocryptfs`
 
 In the [Main Windows Files View](main_window.md#files-view) all directories and
 files shown decoded, so there is no need for explicit decoding.

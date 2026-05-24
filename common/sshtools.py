@@ -13,7 +13,6 @@ See Issue #2484.
 import os
 import subprocess
 import re
-import tempfile
 from pathlib import Path
 import logger
 import tools
@@ -180,57 +179,57 @@ def sshCopyId(
     return not proc.returncode
 
 
-def _maybe_REACTIVTE_LATER_sshHostKey(host, port='22'):
-    """
-    Get the remote host key from ``host``.
+# def _maybe_REACTIVTE_LATER_sshHostKey(host, port='22'):
+#     """
+#     Get the remote host key from ``host``.
 
-    Args:
-        host (str): host name or IP address
-        port (str): port number of remote ssh-server
+#     Args:
+#         host (str): host name or IP address
+#         port (str): port number of remote ssh-server
 
-    Returns:
-        tuple:      three item tuple with (fingerprint, hashed host key,
-                    key type)
-    """
+#     Returns:
+#         tuple:      three item tuple with (fingerprint, hashed host key,
+#                     key type)
+#     """
 
-    for t in ('ecdsa', 'rsa'):
-        cmd = ['ssh-keyscan', '-t', t, '-p', port, host]
-        proc = subprocess.Popen(cmd,
-                                stdout=subprocess.PIPE,
-                                stderr=subprocess.DEVNULL)
+#     for t in ('ecdsa', 'rsa'):
+#         cmd = ['ssh-keyscan', '-t', t, '-p', port, host]
+#         proc = subprocess.Popen(cmd,
+#                                 stdout=subprocess.PIPE,
+#                                 stderr=subprocess.DEVNULL)
 
-        result = proc.communicate()
-        hostKey = result[0].strip()
+#         result = proc.communicate()
+#         hostKey = result[0].strip()
 
-        if hostKey:
-            break
+#         if hostKey:
+#             break
 
-    if hostKey:
+#     if hostKey:
 
-        logger.debug('Found {} key for host "{}"'.format(t.upper(), host))
+#         logger.debug('Found {} key for host "{}"'.format(t.upper(), host))
 
-        with tempfile.TemporaryDirectory() as tmp:
+#         with tempfile.TemporaryDirectory() as tmp:
 
-            keyFile = os.path.join(tmp, 'key')
+#             keyFile = os.path.join(tmp, 'key')
 
-            with open(keyFile, 'wb') as f:
-                f.write(hostKey + b'\n')
+#             with open(keyFile, 'wb') as f:
+#                 f.write(hostKey + b'\n')
 
-            hostKeyFingerprint = sshKeyFingerprint(keyFile)
+#             hostKeyFingerprint = sshKeyFingerprint(keyFile)
 
-            cmd = ['ssh-keygen', '-H', '-f', keyFile]
+#             cmd = ['ssh-keygen', '-H', '-f', keyFile]
 
-            proc = subprocess.Popen(cmd,
-                                    stdout=subprocess.DEVNULL,
-                                    stderr=subprocess.DEVNULL)
-            proc.communicate()
+#             proc = subprocess.Popen(cmd,
+#                                     stdout=subprocess.DEVNULL,
+#                                     stderr=subprocess.DEVNULL)
+#             proc.communicate()
 
-            with open(keyFile, mode='rt', encoding='utf-8') as handle:
-                hostKeyHash = handle.read().strip()
+#             with open(keyFile, mode='rt', encoding='utf-8') as handle:
+#                 hostKeyHash = handle.read().strip()
 
-        return (hostKeyFingerprint, hostKeyHash, t.upper())
+#         return (hostKeyFingerprint, hostKeyHash, t.upper())
 
-    return (None, None, None)
+#     return (None, None, None)
 
 
 def determine_default_ssh_key_filename() -> str | None:

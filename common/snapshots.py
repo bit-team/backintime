@@ -713,7 +713,7 @@ class Snapshots:
             # MyProfile/20221005-000003-880"
             rsync.append(
                 self.rsyncRemotePath(
-                    sid.path(use_mode=['ssh', 'ssh_encfs']),
+                    sid.path(use_mode=['ssh', 'ssh_gocryptfs']),
                     # No quoting because of new argument protection of rsync.
                     quote=''
                 )
@@ -1217,40 +1217,6 @@ class Snapshots:
             with open(sid.path('config'), 'wb') as dst1:
                 dst1.write(src.read())
 
-            if self.config.snapshotsMode() == 'local_encfs':
-                src.seek(0)
-
-                dst2_path = os.path.join(
-                        self.config.localEncfsPath(),
-                        'config'
-                )
-                with open(dst2_path, 'wb') as dst2:
-                    dst2.write(src.read())
-
-            elif self.config.snapshotsMode() == 'ssh_encfs':
-                cmd = tools.rsyncPrefix(self.config, no_perms=False)
-                cmd.append(self.config._LOCAL_CONFIG_PATH)
-                remote_path = self.rsyncRemotePath(
-                        self.config.sshSnapshotsPath(),
-                        # no quoting because of rsync modern argument
-                        # protection (argument -s)
-                        quote=''
-                )
-                cmd.append(remote_path)
-
-                proc = tools.Execute(cmd, parent=self)
-                rc = proc.run()
-
-                # WORKAROUND
-                # tools.Execute only create warnings if 'cmd' fails.
-                # But we need a real ERROR here.
-                if rc != 0:
-                    logger.error(
-                        f'Backing up the config in "{self.config.snapshotsMode()}"'
-                        f' mode failed! The return code was {rc} and the'
-                        f' command was {cmd}. Also see the previous '
-                        'WARNING message for a more details.', parent=self)
-
         logger.info('Configuration saved', self)
 
     def _backup_info_file(self, sid):
@@ -1307,7 +1273,7 @@ class Snapshots:
         rsync.append(
             self.rsyncRemotePath(
                 path=sid.pathBackup(
-                    use_mode=['ssh', 'ssh_encfs']
+                    use_mode=['ssh', 'ssh_gocryptfs']
                 ),
                 quote=''
             ) + os.sep
@@ -1338,7 +1304,7 @@ class Snapshots:
         Args:
             line(bytes):        output from rsync command
             user_data (tuple):  two item tuple of (:py:class:`FileInfoDict`,
-                                :py:class:`encfstools.Decode`)
+                                :py:class:`Decode`)
         """
         fileInfoDict, decode = user_data
         self.collectPermission(fileInfoDict, b'/' + decode.path(line).rstrip(b'/'))
@@ -1503,7 +1469,7 @@ class Snapshots:
 
         # No quoting (quote='') because of new argument protection of rsync.
         cmd.append(self.rsyncRemotePath(
-            new_snapshot.pathBackup(use_mode=['ssh', 'ssh_encfs']),
+            new_snapshot.pathBackup(use_mode=['ssh', 'ssh_gocryptfs']),
             quote=''))
 
         self.setTakeSnapshotMessage(0, _('Creating backup'))
@@ -1899,7 +1865,7 @@ class Snapshots:
         """
         Remove multiple snapshots either with
         :py:func:`Snapshots.remove` or in background on the remote host
-        if mode is `ssh` or `ssh_encfs` and smart-remove in background is
+        if mode is `ssh` or `ssh_gocryptfs` and smart-remove in background is
         activated.
 
         Args:
@@ -1912,13 +1878,13 @@ class Snapshots:
         if not log:
             log = lambda x: self.setTakeSnapshotMessage(0, x)
 
-        if self.config.snapshotsMode() in ['ssh', 'ssh_encfs'] and self.config.smartRemoveRunRemoteInBackground():
+        if self.config.snapshotsMode() in ['ssh', 'ssh_gocryptfs'] and self.config.smartRemoveRunRemoteInBackground():
             logger.info('[smart remove] remove snapshots in background: %s'
                         % del_snapshots, self)
 
             lckFile = os.path.normpath(
                 os.path.join(
-                    del_snapshots[0].path(use_mode=['ssh', 'ssh_encfs']),
+                    del_snapshots[0].path(use_mode=['ssh', 'ssh_gocryptfs']),
                     os.pardir,
                     'smartremove.lck'
                 )
@@ -1955,11 +1921,11 @@ class Snapshots:
             cmds = []
 
             for sid in del_snapshots:
-                remote = self.rsyncRemotePath(sid.path(use_mode = ['ssh', 'ssh_encfs']), use_mode = [], quote = '\\\"')
+                remote = self.rsyncRemotePath(sid.path(use_mode = ['ssh', 'ssh_gocryptfs']), use_mode = [], quote = '\\\"')
                 rsync = ' '.join(tools.rsyncRemove(self.config, run_local = False))
                 rsync += ' \\\"\\$TMP/\\\" {}; '.format(remote)
 
-                s = 'test -e \\\"%s\\\" && (' %sid.path(use_mode = ['ssh', 'ssh_encfs'])
+                s = 'test -e \\\"%s\\\" && (' %sid.path(use_mode = ['ssh', 'ssh_gocryptfs'])
 
                 if logger.DEBUG:
                     s += 'logger -t \\\"backintime smart-remove [$BASHPID]\\\" '
@@ -1967,7 +1933,7 @@ class Snapshots:
                     s += 'sleep 1; ' #add one second delay because otherwise you might not see serialized process with small snapshots
 
                 s += rsync
-                s += 'rmdir \\\"%s\\\"; ' %sid.path(use_mode = ['ssh', 'ssh_encfs'])
+                s += 'rmdir \\\"%s\\\"; ' %sid.path(use_mode = ['ssh', 'ssh_gocryptfs'])
 
                 if logger.DEBUG:
                     s += 'logger -t \\\"backintime smart-remove [$BASHPID]\\\" '
@@ -2000,7 +1966,7 @@ class Snapshots:
             A StorageSize object holding the value or `None` in case of errors.
         """
         # Prepare getting free space value
-        if self.config.snapshotsMode() in ('ssh', 'ssh_encfs'):
+        if self.config.snapshotsMode() in ('ssh', 'ssh_gocryptfs'):
             # ...on remote host
             # dest_path = self.config.sshSnapshotsFullPath()
             ssh_cmd = self.config.sshCommand(
@@ -2307,7 +2273,10 @@ class Snapshots:
 
         return snapshotsFiltered
 
-    def rsyncRemotePath(self, path, use_mode = ['ssh', 'ssh_encfs'], quote = '"'):
+    def rsyncRemotePath(self,
+                        path,
+                        use_mode=['ssh', 'ssh_gocryptfs'],
+                        quote='"'):
         """
         Format the destination string for rsync depending on which profile is
         used.
@@ -2328,7 +2297,7 @@ class Snapshots:
         """
         mode = self.config.snapshotsMode()
 
-        if mode in ['ssh', 'ssh_encfs'] and mode in use_mode:
+        if 'ssh' in mode and mode in use_mode:
             user = self.config.sshUser()
             host = tools.escapeIPv6Address(self.config.sshHost())
 
@@ -2505,7 +2474,6 @@ class Snapshots:
         # ...after the exclude items
         after = []
 
-        # Except for EncFS profiles this does nothing
         encode = self.config.ENCODE
 
         if includeFolders is None:
@@ -2844,21 +2812,6 @@ class SID:  # -> "BackupID" will be its new name
 
         return str(path_return)
 
-        # path = [i.strip(os.sep) for i in path]
-        # current_mode = self.config.snapshotsMode(self.profileID)
-
-        # if 'ssh' in use_mode and current_mode == 'ssh':
-        #     return os.path.join(self.config.sshSnapshotsFullPath(self.profileID),
-        #                         self.sid, *path)
-
-        # if 'ssh_encfs' in use_mode and current_mode == 'ssh_encfs':
-        #     ret = os.path.join(self.config.sshSnapshotsFullPath(self.profileID),
-        #                        self.sid, *path)
-        #     return self.config.ENCODE.remote(ret)
-
-        # return os.path.join(self.config.snapshotsFullPath(self.profileID),
-        #                     self.sid, *path)
-
     def pathBackup(self, *path, **kwargs):
         """
         'backup' folder inside snapshots path
@@ -3139,7 +3092,7 @@ class SID:  # -> "BackupID" will be its new name
         Args:
             mode (int):                 Mode used for filtering. Take a look at
                                         :py:class:`snapshotlog.LogFilter`
-            decode (encfstools.Decode): instance used for decoding lines or ``None``
+            decode (Decode): instance used for decoding lines or ``None``
 
         Yields:
             str:                        filtered and decoded log lines
@@ -3349,7 +3302,7 @@ class RootSnapshot(GenericNonSnapshot):
         """
         return _('Now')
 
-    def path(self, *path, use_mode = []):
+    def path(self, *path, use_mode=[]):
         """
         Current path of this snapshot automatically altered for
         remote/encrypted version of this path
@@ -3365,14 +3318,9 @@ class RootSnapshot(GenericNonSnapshot):
         Returns:
             str:                full snapshot path
         """
-        current_mode = self.config.snapshotsMode(self.profileID)
+        # current_mode = self.config.snapshotsMode(self.profileID)
 
-        if 'ssh_encfs' in use_mode and current_mode == 'ssh_encfs':
-            if path:
-                path = self.config.ENCODE.remote(os.path.join(*path))
-            return os.path.join(self.config.ENCODE.chroot, path)
-        else:
-            return os.path.join(os.sep, *path)
+        return os.path.join(os.sep, *path)
 
 
 def iterSnapshots(cfg: config.Config,
