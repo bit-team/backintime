@@ -1070,11 +1070,19 @@ class MainWindow(QMainWindow):
         mount = self._profile_operations.get_mount_manager()
         try:
             mount.mount()
+
         except MountError as exc:
             logger.error(str(exc))
             messagebox.critical(
                 self,
                 exc.gui_msg,
+                _('Backup destination unavailable')
+            )
+
+        except FileNotFoundError as exc:
+            messagebox.critical(
+                self,
+                str(exc),
                 _('Backup destination unavailable')
             )
 
