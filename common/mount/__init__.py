@@ -283,6 +283,11 @@ class MountManager:
         self.cfg.PLUGIN_MANAGER.load(cfg=self.cfg)
         self.cfg.PLUGIN_MANAGER.mount(self.cfg.currentProfile())
 
+        # Dev note (buhtz, 2026-05): The validate- and initialize-methods need
+        # a redesign, because I often run into problems and starting
+        # workarounds. I am not sure about a solution. I need to think about a
+        # better concept.
+
         with self._process_lock():
             if self._requires_mountpoint_lock():
                 self._acquire_mountpoint_lock()

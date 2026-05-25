@@ -522,10 +522,10 @@ class GeneralTab(QDialog):
             copy_links=self.config.copyLinks(),
             error_handler=self.config.notifyError)
 
-        # DEBUG
-        logger.critical(
-            f'validate_and_prepare_snapshots_path() returned {success=}'
-        )
+        # # DEBUG
+        # logger.critical(
+        #     f'validate_and_prepare_snapshots_path() returned {success=}'
+        # )
 
         if success is False:
             return False
