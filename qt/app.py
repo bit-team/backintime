@@ -346,7 +346,7 @@ class MainWindow(QMainWindow):
         btn_create = import_prompt.addButton(_('Create'),
                                 QMessageBox.ButtonRole.ActionRole)
         btn_import = import_prompt.addButton(_('Import'),
-                                             QMessageBox.ButtonRole.ActionRole)
+                                QMessageBox.ButtonRole.ActionRole)
 
         import_prompt.setDefaultButton(btn_create)
         import_prompt.exec()
