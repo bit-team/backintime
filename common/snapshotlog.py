@@ -28,8 +28,7 @@ class LogFilter:  # pylint: disable=too-few-public-methods
             :py:data:`CHANGES`,
             :py:data:`INFORMATION` or
             :py:data:`ERROR_AND_CHANGES`
-        decode (encfstools.Decode): instance used for decoding lines
-            or ``None``
+        decode (Decode): instance used for decoding lines or ``None``
     """
 
     # Dev note: Better use an enumeration
@@ -194,7 +193,7 @@ class SnapshotLog:
 
         Args:
             mode: Mode used for filtering. See `snapshotlog.LogFilter`
-            decode (encfstools.Decode): Instance used for decoding lines.
+            decode (Decode): Instance used for decoding lines.
             skipLines: Number of lines to skip before yielding. This is used
                 to append only new lines to LogView.
 

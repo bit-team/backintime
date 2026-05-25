@@ -78,11 +78,10 @@ itself.
 === Modes
 Several backup profile modes are supported. The simplest is the **Local**
 profile, which creates backups of items on the local machine and stores them on
-the same machine. Additionally, **Local Encrypted** profiles encrypt the backups
-using gocryptfs. To store backups on a remote machine, the **SSH** profile can be
-used. These backups can also be encrypted using the **SSH Encrypted** profile.
-
-Regarding **encrypted** profiles, please take a look at _A NOTE ON SECURITY_.
+the same machine. Additionally, **Local Encrypted** profiles encrypt the
+backups using gocryptfs. To store backups on a remote machine, the **SSH**
+profile can be used. These backups can also be encrypted using the **SSH
+Encrypted** profile.
 
 == GLOBAL OPTIONS
 *-h*, *--help* :: Display a short help.
@@ -155,23 +154,6 @@ setup for scheduled profiles.
 Control the Password Cache for non-interactive cronjobs.
 
 *[start|stop|restart|reload|status]* :: Commands can be send to the daemon.
-
-== A NOTE ON SECURITY AND ENCFS
-Because of security issues with EncFS it is planned to remove it from *Back In
-Time*. To continue the support of encrypted backups it is the goal to replace
-it with an alternative if possible. See this document for details and the
-current state of the transition process.
-
- https://github.com/bit-team/backintime/doc/ENCRYPT_TRANSITION.md
-
-The security issues are mentioned in a security audit from 2014 and not fixed
-until today. The EnCFS project is not maintained anymore and his former
-maintainer recommend to switch to GoCryptFS. See the following links for
-further readings:
-
-* EncFS Security Audit (updated blog post): https://defuse.ca/audits/encfs.htm
-* EncFS Security Audit (original mailing list entry): https://sourceforge.net/p/encfs/mailman/message/31849549
-* Back In Time Issue #1734 about transition of the encryption feature: https://github.com/bit-team/backintime/issues/1734
 
 == SEE ALSO
 *backintime-qt*(1), *backintime-config*(5), *backintime-askpass*(1)

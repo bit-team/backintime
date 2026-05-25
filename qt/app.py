@@ -1070,11 +1070,19 @@ class MainWindow(QMainWindow):
         mount = self._profile_operations.get_mount_manager()
         try:
             mount.mount()
+
         except MountError as exc:
             logger.error(str(exc))
             messagebox.critical(
                 self,
                 exc.gui_msg,
+                _('Backup destination unavailable')
+            )
+
+        except FileNotFoundError as exc:
+            messagebox.critical(
+                self,
+                str(exc),
                 _('Backup destination unavailable')
             )
 
@@ -2543,7 +2551,7 @@ if __name__ == '__main__':
         messagebox.critical(
             None,
             f'Unexpected situation. Config file {config_fp} does not exists. '
-            'Please contact the support.'
+            'Please contact the support or try to start Back In Time again.'
         )
 
     mainWindow.qapp.removeEventFilter(mainWindow._mouse_button_event_filter)

@@ -193,8 +193,28 @@ class GoCryptFS(Encryptor):
 
         raise MountError(log_msg, gui_msg)
 
+    def _ensure_runtime(self):
+        """Raise error if gocryptfs is not available.
+
+        This is a workaround.
+        """
+        tool = 'gocryptfs'
+        if tools.which(tool):
+            return
+
+        log_msg = f'Dependency "{tool}" not found'
+
+        gui_msg = _(
+            'Required tool "{tool}" is not installed or not available.'
+        ).format(tool=tool) + '\n\n' \
+        + _('Please install it and try again.')
+
+        raise MountError(log_msg, gui_msg)
+
     def initialize(self):
         """See ``Encryptor.initialized()``"""
+
+        self._ensure_runtime()
 
         self._ensure_cipher_dir_empty_for_init()
 

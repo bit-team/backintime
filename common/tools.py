@@ -862,35 +862,39 @@ def checkCommand(cmd: str) -> bool:
     return which(cmd) is not None
 
 
-def which(cmd):
-    """Get the fullpath of executable command ``cmd``.
+def which(cmd: str) -> str | None:
+    """Return the absolute path of executable command ``cmd``.
 
-    Works like command-line 'which' command.
+    Similar to the command-line utility ``which`` or Python's
+    ``shutil.which()``, but with behavior specific to Back In Time.
 
-    Dev note by buhtz (2024-04): Give false-negative results in fake
-    filesystems. Quit often use in the whole code base. But not sure why
-    can we replace it with "which" from shell?
+    When executed directly from source tree (development mode), the local
+    ``common/`` directory is added to the search path. This allows helper
+    executables like ``backintime-askpass`` to be found without requiring
+    installation into the system ``PATH``.
+
+    This behavior is required for development, testing, and source-tree
+    execution and therefore should not be replaced by a direct call to
+    ``shutil.which()`` or the shell command ``which`` without preserving
+    the modified search path logic. Until #1575 is solved.
 
     Args:
-        cmd (str): The command.
+        cmd: Name of the executable command.
 
     Returns:
-        str: Fullpath of command ``cmd`` or ``None`` if command is not
-             available.
+        Absolute path of the executable if found, otherwise ``None``.
     """
     pathenv = os.getenv('PATH', '')
-    path = pathenv.split(':')
+    paths = pathenv.split(os.pathsep)
     common = as_backintime_path('common')
 
-    if runningFromSource() and common not in path:
-        path.insert(0, common)
+    if runningFromSource() and common not in paths:
+        paths.insert(0, common)
 
-    for directory in path:
-        fullpath = os.path.join(directory, cmd)
+    result = shutil.which(cmd, path=os.pathsep.join(paths))
 
-        if os.path.isfile(fullpath) and os.access(fullpath, os.X_OK):
-            fullpath = str(pathlib.Path(fullpath).resolve())
-            return fullpath
+    if result:
+        return str(pathlib.Path(result).resolve())
 
     return None
 
