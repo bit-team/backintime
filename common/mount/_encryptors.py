@@ -198,15 +198,15 @@ class GoCryptFS(Encryptor):
 
         This is a workaround.
         """
-        if tools.which('gocryptfs'):
+        tool = 'gocryptfs'
+        if tools.which(tool):
             return
 
-        log_msg = 'Dependency 'gocryptfs' not found'
+        log_msg = f'Dependency "{tool}" not found'
 
         gui_msg = _(
             'Required tool "{tool}" is not installed or not available.'
-        ).format(tool='gocryptfs')
-        + '\n\n'
+        ).format(tool=tool) + '\n\n' \
         + _('Please install it and try again.')
 
         raise MountError(log_msg, gui_msg)
