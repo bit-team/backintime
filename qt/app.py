@@ -343,16 +343,17 @@ class MainWindow(QMainWindow):
         import_prompt.setWindowTitle(_('Question'))
         import_prompt.setText(message)
         import_prompt.setIcon(QMessageBox.Icon.Question)
-        yes_button = import_prompt.addButton(_('Import'),
-                                             QMessageBox.ButtonRole.YesRole)
-        import_prompt.addButton(_('Create'),
-                                QMessageBox.ButtonRole.NoRole)
+        btn_create = import_prompt.addButton(_('Create'),
+                                QMessageBox.ButtonRole.ActionRole)
+        btn_import = import_prompt.addButton(_('Import'),
+                                             QMessageBox.ButtonRole.ActionRole)
+
+        import_prompt.setDefaultButton(btn_create)
         import_prompt.exec()
-        answer = import_prompt.clickedButton() == yes_button
+        answer = import_prompt.clickedButton()
 
-        mark_main_profile_unsaved = False if answer else True
-
-        if answer:
+        mark_main_profile_unsaved = not answer == btn_import
+        if answer == btn_import:
             rc = RestoreConfigDialog(self.config).exec()
             if rc == QDialog.DialogCode.Rejected:
                 mark_main_profile_unsaved = True
