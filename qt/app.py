@@ -2543,7 +2543,7 @@ if __name__ == '__main__':
         messagebox.critical(
             None,
             f'Unexpected situation. Config file {config_fp} does not exists. '
-            'Please contact the support.'
+            'Please contact the support or try to start Back In Time again.'
         )
 
     mainWindow.qapp.removeEventFilter(mainWindow._mouse_button_event_filter)

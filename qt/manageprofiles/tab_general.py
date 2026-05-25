@@ -515,9 +515,12 @@ class GeneralTab(QDialog):
         try:
             mnt = MountManager.create(self.config)
             mnt.mount()
+
         except MountError as exc:
             logger.error(self, str(exc))
-            messagebox.critical(self, exc.gui_msg)
+            messagebox.critical(
+                self, exc.gui_msg, _('Profile setup failed')
+            )
             return False
 
         success = tools.validate_and_prepare_snapshots_path(
