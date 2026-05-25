@@ -198,6 +198,8 @@ addUninstallDir          "/share/backintime/common/__pycache__"
 addUninstallFile "*.pyc" "/share/backintime/common/__pycache__"
 addInstallDir            "/share/backintime/common"
 addInstallFiles "*.py"   "/share/backintime/common"
+addInstallDir                  "/share/backintime/common/mount"
+addInstallFiles "mount/*.py"   "/share/backintime/common/mount"
 addNewline
 
 addComment "plugins"

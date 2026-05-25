@@ -139,7 +139,7 @@ distribution.
 | `pkexec` | |🗹||| Polkit privilege escalation helper |
 | `bash` | |🗹||| Used by root mode starter script qt/backintime-qt_polkit |
 | `polkit` | |🗹||| Authorization framework for privilege handling |
-| `qttranslations6-l10n` | |🗹||| Alternate package name qt6-translations-l10n |
+| `qt6-translations-l10n` | |🗹||| |
 | `qtwayland6` | |🗹||| Required if Wayland is used instead of X11 (alt qt6-wayland) |
 | `python3-secretstorage`<br>or `python3-keyring-kwallet`<br>or `python3-gnomekeyring` ||🗹||🗹|SSH key storage|
 | `kompare`<br> or `meld` ||🗹||🗹|diff-like comparison of backups|
