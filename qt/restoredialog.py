@@ -9,6 +9,7 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Module offering RestoreDialog"""
+import time
 from pathlib import Path
 from PyQt6.QtGui import QDesktopServices
 from PyQt6.QtWidgets import (QDialog,
@@ -106,6 +107,23 @@ class RestoreDialog(QDialog):
     def _slot_thread_finished(self):
         self._btn_close.setEnabled(True)
 
+    def closeEvent(self, event):
+        """
+        intercept close event to prevent cancelling restoration early
+        this provides protection against upper corner x as well as
+        alt-f4 key presses
+        """
+        # Check if close button is enabled to avoid using new variable
+        # Could add a boolean to __init__ for easier readability
+        if not self._btn_close.isEnabled():
+            messagebox.critical(
+                self,
+                _("A critical process is currently running. Window "
+                  "cannot be closed until restoration is finished.")
+            )
+            event.ignore()
+        else:
+            event.accept()
 
 class RestoreThread(QThread):
     """

@@ -30,6 +30,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ## Fixed
 - Prevent Back In Time crash when a plugin fails ([#2447](https://github.com/bit-team/backintime/issues/2447))
+- Prevent user from exiting the restore window while running causing backintime to freeze. (Dominic Maluski, @maluskid, [#2503](https://github.com/bit-team/backintime/issues/2503))
 
 ## [1.6.1] (2026-02-10)
 
