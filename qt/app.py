@@ -352,7 +352,7 @@ class MainWindow(QMainWindow):
         import_prompt.exec()
         answer = import_prompt.clickedButton()
 
-        mark_main_profile_unsaved = not answer == btn_import
+        mark_main_profile_unsaved = answer is btn_create
         if answer == btn_import:
             rc = RestoreConfigDialog(self.config).exec()
             if rc == QDialog.DialogCode.Rejected:
