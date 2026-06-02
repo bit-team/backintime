@@ -106,7 +106,7 @@ class RestoreDialog(QDialog):
     def _slot_thread_finished(self):
         self._btn_close.setEnabled(True)
 
-    def closeEvent(self, event):
+    def closeEvent(self, event):  # noqa: N802
         """
         intercept close event to prevent cancelling restoration early
         this provides protection against upper corner x as well as
@@ -123,6 +123,7 @@ class RestoreDialog(QDialog):
             event.ignore()
         else:
             event.accept()
+
 
 class RestoreThread(QThread):
     """
