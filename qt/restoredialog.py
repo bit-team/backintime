@@ -108,7 +108,7 @@ class RestoreDialog(QDialog):
 
     def closeEvent(self, event):  # noqa: N802
         """
-        intercept close event to prevent cancelling restoration early
+        intercept close event to prevent canceling restoration early
         this provides protection against upper corner x as well as
         alt-f4 key presses
         """
