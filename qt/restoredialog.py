@@ -9,7 +9,6 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Module offering RestoreDialog"""
-import time
 from pathlib import Path
 from PyQt6.QtGui import QDesktopServices
 from PyQt6.QtWidgets import (QDialog,
