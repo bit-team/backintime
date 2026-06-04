@@ -60,7 +60,7 @@ class General(unittest.TestCase):
 
         # 2nd level "external-programs"
         minimal_keys = [
-            'rsync', 'shell', 'RSYNC_OLD_ARGS', 'RSYNC_PROTECT_ARGS']
+            'rsync', 'shell', 'RSYNC_OLD_ARGS', 'RSYNC_PROTECT_ARGS', 'coreutils']
         for key in minimal_keys:
             self.assertIn(key, result['external-programs'], key)
 
