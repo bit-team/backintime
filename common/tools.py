@@ -1534,7 +1534,7 @@ def envSave(f):
     for key in ('GNOME_KEYRING_CONTROL', 'DBUS_SESSION_BUS_ADDRESS',
                 'DBUS_SESSION_BUS_PID', 'DBUS_SESSION_BUS_WINDOWID',
                 'DISPLAY', 'XAUTHORITY', 'GNOME_DESKTOP_SESSION_ID',
-                'KDE_FULL_SESSION'):
+                'KDE_FULL_SESSION', 'SSH_AUTH_SOCK'):
         if key in env:
             env_file.setStrValue(key, env[key])
 
