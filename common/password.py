@@ -58,6 +58,7 @@ class Password_Cache(daemon.Daemon):
         wait for password request on FIFO and answer with password
         from self.db through FIFO.
         """
+        logger.debug('Start password cache...')
         info = configfile.ConfigFile()
         info.setIntValue('version', self.PW_CACHE_VERSION)
         info.save(self.config.passwordCacheInfo())
@@ -74,7 +75,6 @@ class Password_Cache(daemon.Daemon):
         self.fifo.create()
         atexit.register(self.fifo.delfifo)
         signal.signal(signal.SIGHUP, self.reloadHandler)
-        logger.debug('Start loop', self)
 
         while True:
             try:
@@ -205,6 +205,9 @@ class Password:
         Based on profile settings return password from keyring,
         Password_Cache or by asking User.
         """
+        # DEBUG
+        # logger.debug(f'{parent=} {profile_id=} {mode=}')
+
         if not self.config.modeNeedPassword(mode, pw_id):
             return ''
 
@@ -223,6 +226,7 @@ class Password:
         if (self.config.passwordUseCache(profile_id)
                 and not only_from_keyring
                 and not refresh):
+            # logger.debug('passwordUseCache')
             # From cache
             password = self.passwordFromCache(service_name, user_name)
 
@@ -232,6 +236,7 @@ class Password:
                 return password
 
         if self.config.passwordSave(profile_id) and not refresh:
+            # logger.debug('passwordSave')
             # From keyring
             password = self.passwordFromKeyring(service_name, user_name)
 
@@ -241,6 +246,7 @@ class Password:
                 return password
 
         if refresh or not only_from_keyring:
+            # logger.debug('passwordFromUser')
             # Ask user and write to cache
             password = self.passwordFromUser(parent, profile_id, mode, pw_id)
 
@@ -269,16 +275,16 @@ class Password:
         """
         get password from Password_Cache
         """
+        # logger.debug(f'{service_name=} {user_name=} {self.cache.status()=}')
         if not self.cache.status():
             return None
 
         self.cache.checkVersion()
         self.fifo.write(f'get_pw:{service_name}/{user_name}', timeout=5)
-        answer = self.fifo.read(timeout = 5)
+        answer = self.fifo.read(timeout=5)
         mode, pw = answer.split(':', 1)
 
         return None if mode == 'none' else pw
-
 
     def passwordFromUser(self,
                          parent,
@@ -374,6 +380,9 @@ class Password:
         return tools.setPassword(service_name, user_name, password)
 
     def setPasswordCache(self, service_name, user_name, password):
+        # logger.debug(
+        #     f'{service_name=} {user_name=} {password=} {self.cache.status()=}'
+        # )
         if self.cache.status():
             self.cache.checkVersion()
             self.fifo.write(

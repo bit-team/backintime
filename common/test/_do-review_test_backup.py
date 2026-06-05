@@ -18,10 +18,9 @@ import snapshots
 import tools
 import logger
 import bitbase
+import mount
 from applicationinstance import ApplicationInstance
 from pluginmanager import PluginManager
-from mount import Mount
-from exceptions import MountException
 
 
 @patch('time.sleep')  # speed up unittest

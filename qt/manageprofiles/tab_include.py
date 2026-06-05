@@ -36,6 +36,7 @@ class IncludeTab(QWidget):
         self._parent_dialog = parent
         self.icon = parent.icon
         self.config = parent.config
+        self._include_start_dir = Path.home()
 
         layout = QVBoxLayout(self)
 
@@ -199,7 +200,8 @@ class IncludeTab(QWidget):
                          title=_('Include directories'),
                          show_hidden=True,
                          allow_multiselection=True,
-                         dirs_only=True)
+                         dirs_only=True,
+                         start_dir=self._include_start_dir)
 
         for path in dlg.result():
 
