@@ -86,42 +86,50 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
 
     def processBegin(self):  # noqa: N802
         """Start the process."""
+        path = os.path.join(
+            tools.as_backintime_path('qt'), 'qtsystrayicon.py')
+        cmd = [
+            sys.executable,
+            path,
+            self.snapshots.config.currentProfile(),
+            '--config',
+            # pylint: disable-next=protected-access
+            self.snapshots.config._LOCAL_CONFIG_PATH
+        ]
+
+        if logger.DEBUG:
+            # HACK to propagate DEBUG logging level to sub process
+            cmd.append('--debug')
+
         try:
-            logger.debug('Trying to start systray icon sub process...')
-            path = os.path.join(
-                tools.as_backintime_path('qt'), 'qtsystrayicon.py')
-            cmd = [
-                sys.executable,
-                path,
-                self.snapshots.config.currentProfile()
-            ]
-
-            if logger.DEBUG:
-                # HACK to propagate DEBUG logging level to sub process
-                cmd.append('--debug')
-
+            logger.debug(f'Start systray icon sub process via {cmd=}...')
             # pylint: disable-next=consider-using-with
-            self.process = subprocess.Popen(cmd)
+            self.process = subprocess.Popen(
+                cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
+
+            # Workaround, until #1370 and #2260 is solved
+            rc = self.process.wait(timeout=2)
+
+            # Something bad happened because we have a return code
+            stderr = self.process.stderr.read()
+            logger.critical(
+                f'Systray exited unexpected and immediately with {rc=} '
+                f'and {stderr=}'
+            )
+            self.process = None
+            return False
+
+        except subprocess.TimeoutExpired:
+            # Timeout because process is still running. Fine!
+            logger.info('Systray started and running')
+            return True
 
         # pylint: disable-next=broad-exception-caught
         except Exception as exc:
-            logger.critical(f'Undefined situation: {exc}', self)
-
-        else:
-            logger.info('Systray icon sub process started.')
-
-    # def processEnd(self):
-    #     """Dev note(2025-07, buhtz): Method makes no sense to me anymore.
-    #     Remove it soon.
-    #     """
-    #     if self.process is not None:
-    #         try:
-    #             # The "qtsystrayicon.py" app does terminate itself
-    #             # once the snapshot has been taken so there is no need
-    #             # to do anything here to stop it or clean-up anything.
-    #             # self.process.terminate()
-    #             return
-
-    #         # ???
-    #         except:
-    #             pass
+            logger.critical(f'Faild to start systray: {exc}')
+            self.process = None
+            return False

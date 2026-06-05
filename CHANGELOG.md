@@ -9,28 +9,39 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 -->
 # Changelog
 [![Common Changelog](https://common-changelog.org/badge.svg)](https://common-changelog.org)
-<!-- Template
-## Unreleased
-### Changed
-### Added
-### Removed
-### Fixed
--->
-
 ## [2.0.0] (Unreleased Development)
 
 ### Changed
  
+- **Rewritten from scratch**: Mount subsystem (backend and encryption).
+  Behavior is intended to remain unchanged; regressions cannot be fully ruled
+  out. ([PR#2449](https://github.com/bit-team/backintime/pull/2449))
+- Default mountpoint permissions changed from 700 to 711
+  ([PR#2451](https://github.com/bit-team/backintime/pull/2451)) to avoid
+  FUSE mount failures when accessing via different user contexts.
 - **Breaking**: Minimal Python version 3.13 increased
-- Changelog migrated to Common Changelog standard
+- Changelog migrated to _Common Changelog_ standard
 - Build: Changelog shipped as HTML
 - Improved import config dialog on first start (Dominic Maluski, @maluskid, [#2483](https://github.com/bit-team/backintime/issues/2483))
 
 ### Added
-- Build dependency `pandoc` to convert markdown changelog into HTML
+- Gocryptfs for SSH encrypted profiles
+  ([PR#2486](https://github.com/bit-team/backintime/pull/2486))
+- Dependency(build): `pandoc` to convert markdown changelog into HTML
+- Dependency(runtime-cli): `gocryptfs`
 
-### Fixed
-- Prevent Back In Time crash when a plugin fails ([#2447](https://github.com/bit-team/backintime/issues/2447))
+### Removed
+- **Breaking**: EncFS support including existing EncFS profiles
+  ([PR#2492](https://github.com/bit-team/backintime/pull/2492))
+- Dependency: `encfs`
+- Command line switch `--keep-mount`
+- CLI Command `decode` because of EncFS removal ([#1734](https://github.com/bit-team/backintime/issues/1734))
+- CLI Command `benchmark-cipher` ([#2120](https://github.com/bit-team/backintime/issues/2120))
+- SSH Cipher ([#2176](https://github.com/bit-team/backintime/issues/2176))
+- Config examples
+
+## Fixed
+- Prevent crash in case a plugin fails ([#2447](https://github.com/bit-team/backintime/issues/2447))
 
 ## [1.6.1] (2026-02-10)
 
@@ -1610,6 +1621,14 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 ### Uncategorized
 
 - This is the first release.
+
+<!-- Template
+## Unreleased
+### Changed
+### Added
+### Removed
+### Fixed
+-->
 
 [2.0.0]: https://github.com/bit-team/backintime/releases/tag/v2.0.0
 [1.6.2]: https://github.com/bit-team/backintime/releases/tag/v1.6.2
