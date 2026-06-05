@@ -10,9 +10,7 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Module offering a dialog to view log files.
 """
-from pathlib import Path
-from PyQt6.QtWidgets import (QCheckBox,
-                             QComboBox,
+from PyQt6.QtWidgets import (QComboBox,
                              QDialog,
                              QDialogButtonBox,
                              QHBoxLayout,
@@ -36,8 +34,7 @@ class LogViewDialog(QDialog):  # pylint: disable=too-many-instance-attributes
 
     def __init__(self,
                  parent: QWidget | qtsystrayicon.QtSysTrayIcon = None,
-                 sid: snapshots.SID = None,
-                 decode: bool = False):
+                 sid: snapshots.SID = None):
         """
         Args:
             parent: Parent widget.
@@ -199,6 +196,7 @@ class LogViewDialog(QDialog):  # pylint: disable=too-many-instance-attributes
         for sid in snapshots.iterSnapshots(
                 cfg=self.config,
                 includeNewSnapshot=False,
+                # pylint: disable-next=protected-access
                 mounted_path=self.sid._mounted_path
         ):
             self._combo_backups.add_snapshot_id(sid)

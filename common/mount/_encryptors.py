@@ -206,8 +206,7 @@ class GoCryptFS(Encryptor):
 
         gui_msg = _(
             'Required tool "{tool}" is not installed or not available.'
-        ).format(tool=tool) + '\n\n' \
-        + _('Please install it and try again.')
+        ).format(tool=tool) + '\n\n' + _('Please install it and try again.')
 
         raise MountError(log_msg, gui_msg)
 

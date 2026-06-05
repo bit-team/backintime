@@ -19,6 +19,7 @@ class _EncfsWarningBase(QMessageBox):
     """
     # pylint: disable=too-few-public-methods
 
+    # pylint: disable-next=too-many-arguments,too-many-positional-arguments
     def __init__(self,
                  text,
                  informative_text,
@@ -53,8 +54,8 @@ class EncfsFinalRemoval(_EncfsWarningBase):
         text = (
             '<p>All EncFS-based backup profiles were '
             'removed from the active '
-            'configuration because <strong><span style="color: red;">EncFS is no '
-            'longer supported</span></strong> by Back In Time.</p>'
+            'configuration because <strong><span style="color: red;">EncFS is '
+            'no longer supported</span></strong> by Back In Time.</p>'
         )
 
         informative_text = (

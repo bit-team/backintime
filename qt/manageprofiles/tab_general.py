@@ -11,6 +11,7 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Module about the General tab"""
+# pylint: disable=wrong-import-order
 import os
 from pathlib import Path
 from typing import Any
@@ -28,19 +29,16 @@ from config import Config
 import tools
 import logger
 import sshtools
-from mount import MountError
-from bitbase import URL_ENCRYPT_TRANSITION, DIR_SSH_KEYS
+from bitbase import DIR_SSH_KEYS
 import version
 import schedule
 import qttools
 import messagebox
-from manageprofiles import combobox
-from manageprofiles import schedulewidget
+from manageprofiles import combobox, schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
 from manageprofiles.sshkeyselector import SshKeySelector
-from bitwidgets import HLineWidget
 from filedialog import FileDialog
-from mount import MountManager
+from mount import MountManager, MountError
 from sshsetupvalidator import SSHSetupValidator, SSHSetupError
 
 
@@ -399,7 +397,8 @@ class GeneralTab(QDialog):
 
         return True
 
-    def store_values(self) -> bool:
+    # pylint: disable-next=too-many-return-statements, too-many-statements
+    def store_values(self) -> bool:  # noqa: PLR0915, PLR0911
         """Store the tab's values into the config instance.
 
         Returns:
@@ -548,12 +547,13 @@ class GeneralTab(QDialog):
 
         return True
 
-    # def _do_alot_pre_mount_checking(self, mnt, mount_kwargs):  # noqa: PLR0911
+    # def _do_alot_pre_mount_checking(self, mnt, mount_kwargs):
     #     """Initiate several checks related to mounting and similar tasks.
 
     #     Depending on the backup mode used different checks are initiated.
 
-    #     Dev note (buhtz, 2024-09): The code is parked and ready to refactoring.
+    #     Dev note (buhtz, 2024-09): The code is parked and ready to
+    #     refactoring.
 
     #     Returns:
     #         bool: ``True`` if successful otherwise ``False``.
@@ -572,7 +572,6 @@ class GeneralTab(QDialog):
 
     #     return True
 
-        # TODO
         # except NoPubKeyLogin as ex:
         #     logger.error(str(ex), self)
 
@@ -586,8 +585,8 @@ class GeneralTab(QDialog):
         #                   'the remote host. The following error message was '
         #                   'returned:')
         #         + '</p><p>' + str(ex) + '</p><p>'
-        #         + _('To enable password-less login, the public SSH key can be '
-        #             'copied to the remote host.')
+        #         + _('To enable password-less login, the public SSH key can '
+        #             'be copied to the remote host.')
         #         + '</p><p>'
         #         + _('Proceed with copying the SSH key?')
         #         + '</p>'
@@ -870,4 +869,3 @@ class GeneralTab(QDialog):
 
         else:
             self._group_password1.hide()
-

@@ -264,7 +264,7 @@ class MainWindow(QMainWindow):
         if not backup_descriptor:
             return None
 
-        mounted_path=self._profile_operations.get_mount_manager().path
+        # mounted_path=self._profile_operations.get_mount_manager().path
 
         return snapshots.SID(
             date=backup_descriptor,
@@ -1044,7 +1044,7 @@ class MainWindow(QMainWindow):
 
         qttools.update_combo_profiles(
             self.config, self.comboProfiles, self.config.currentProfile())
-        profiles = self.config.profilesSortedByName()
+        # profiles = self.config.profilesSortedByName()
 
         # self.comboProfilesAction.setVisible(len(profiles) > 1)
 

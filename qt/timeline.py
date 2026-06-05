@@ -396,7 +396,6 @@ class BackupEntry(_TimeLineItemBase):
         self.setText(0, label)
 
 
-
 # pylint: disable-next=too-few-public-methods
 class NowEntry(_TimeLineItemBase):
     """Now entry widget used in TimeLine."""

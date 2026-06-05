@@ -12,8 +12,6 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """A dialog to identify and import old Back In Time configs.
 """
-import os
-import datetime
 import getpass
 import threading
 import subprocess
@@ -23,7 +21,6 @@ from queue import Queue
 import logger
 import bitbase
 from config import Config
-from snapshots import SID
 from PyQt6.QtGui import (QBrush,
                          QColor,
                          QFont,

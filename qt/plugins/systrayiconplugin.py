@@ -93,6 +93,7 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
             path,
             self.snapshots.config.currentProfile(),
             '--config',
+            # pylint: disable-next=protected-access
             self.snapshots.config._LOCAL_CONFIG_PATH
         ]
 
@@ -101,8 +102,8 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
             cmd.append('--debug')
 
         try:
-            # pylint: disable-next=consider-using-with
             logger.debug(f'Start systray icon sub process via {cmd=}...')
+            # pylint: disable-next=consider-using-with
             self.process = subprocess.Popen(
                 cmd,
                 stdout=subprocess.PIPE,

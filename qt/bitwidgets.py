@@ -28,8 +28,8 @@ from PyQt6.QtWidgets import (QCheckBox,
                              QSizePolicy,
                              QToolTip,
                              QWidget)
-import qttools
 import bitbase
+import qttools
 
 
 class SortedComboBox(QComboBox):

@@ -310,7 +310,7 @@ class QtSysTrayIcon:
 
     @trust_required
     def onOpenLog(self, *_args, **_kwargs):
-        dlg = logviewdialog.LogViewDialog(parent=self, decode=False)
+        dlg = logviewdialog.LogViewDialog(parent=self)
         dlg.exec()
 
     @trust_required
