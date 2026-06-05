@@ -2043,7 +2043,10 @@ class MainWindow(QMainWindow):
         backup_id = self.selected_backup_id()
 
         if backup_id is None:
-            raise NotImplementedError('Now is selected!?')
+            # Directory history navigation is snapshot-based. When "Now" is
+            # selected there is no backup context to resolve the stored path
+            # against, so mouse back/forward should simply do nothing.
+            return
 
         full_path = backup_id.pathBackup(path)
 
