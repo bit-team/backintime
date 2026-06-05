@@ -24,6 +24,8 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Build: Changelog shipped as HTML
 
 ### Added
+- Gocryptfs for SSH encrypted profiles
+  ([PR#2486](https://github.com/bit-team/backintime/pull/2486))
 - Dependency(build): `pandoc` to convert markdown changelog into HTML
 - Dependency(runtime-cli): `gocryptfs`
 
