@@ -522,7 +522,14 @@ class ConfigFileWithProfiles(ConfigFile):
         Returns:
             list: List with strings of profile IDs as strings.
         """
-        return self.strValue(key='profiles', default='1').split(':')
+        result =  self.strValue(key='profiles', default='1').split(':')
+
+        # Workaround: If "1" is present make sure it will be the first
+        if '1' in result:
+            result.remove('1')
+            result = ['1'] + result
+
+        return result
 
     def profilesSortedByName(self):
         """
@@ -571,6 +578,9 @@ class ConfigFileWithProfiles(ConfigFile):
         if isinstance(profile_id, int):
             profile_id = str(profile_id)
 
+        if self.current_profile_id == profile_id:
+            return True
+
         profiles = self.profiles()
 
         for i in profiles:
@@ -581,8 +591,8 @@ class ConfigFileWithProfiles(ConfigFile):
 
                 self.current_profile_id = profile_id
                 logger.changeProfile(profile_id, profile_name)
-                logger.debug(
-                    f'Change current profile to {profile_name}({profile_id})',
+                logger.info(
+                    f'Profile switched: {profile_name}({profile_id})',
                     self)
 
                 return True

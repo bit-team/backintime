@@ -33,8 +33,9 @@ More background info in [CONTRIBUTING](CONTRIBUTING.md) and
 
 ## Maintenance status
 
-The project is in active development since the [new team](#the-team) joined in
-summer 2022. Development is done voluntarily in spare time so things need to be
+The project is in active development since the [current team](#the-team) joined
+in summer 2022, continuing the work of the previous maintainer, Germar.
+Development is done voluntarily in spare time so things need to be
 prioritized. Stick with us, we all ♥️ _Back In Time_. 😁
 
 Current focus is on fixing
@@ -144,4 +145,4 @@ workflow and strategy.
 Please read [`LICENSES.md`](LICENSES.md).
 
 ---
-<sub>February 2026</sub>
+<sub>July 2026</sub>

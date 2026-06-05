@@ -10,8 +10,6 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import subprocess
-import pathlib
-from datetime import datetime
 import tools
 # Workaround for situations where startApp() is not invoked.
 # E.g. when using --diagnostics and other argparse.Action
@@ -70,48 +68,6 @@ def takeSnapshotAsync(cfg, checksum=False):
     subprocess.Popen(cmd, env=env)
 
 
-def encfs_deprecation_warning():
-    """Warn about encfs deprecation in syslog.
-
-    See Issue #1734 for details. This function is a workraound and will be
-    removed if #1734 is closed.
-    """
-
-    # Don't warn if EncFS isn't installed
-    if not tools.checkCommand('encfs'):
-        return
-
-    # Timestamp file
-    xdg_state = os.environ.get('XDG_STATE_HOME', None)
-    if xdg_state:
-        xdg_state = pathlib.Path(xdg_state)
-    else:
-        xdg_state = pathlib.Path.home() / '.local' / 'state'
-    fp = xdg_state / 'backintime.encfs-warning.timestamp'
-
-    if fp.exists():
-        # Calculate age of that file
-        delta = datetime.now() - datetime.fromtimestamp(fp.stat().st_mtime)
-
-        # Don't warn if to young
-        if delta.days < 30:
-            return
-
-    else:
-        # ensure existence
-        fp.parent.mkdir(parents=True, exist_ok=True)
-
-    logger.error(
-        'EncFS encrypted profiles are no longer supported in Back In Time. '
-        'Existing profiles can be used. New ones can not be created. EncFS '
-        'support will be completely removed in a future release (expected '
-        f'around 2027). For details read: {bitbase.URL_ENCRYPT_TRANSITION}'
-    )
-
-    # refresh timestamp
-    fp.touch()
-
-
 def startApp(bin_name: str) -> config.Config | None:
     """
     Start the requested command or return config.
@@ -156,8 +112,6 @@ def startApp(bin_name: str) -> config.Config | None:
             "It looks like you're using 'sudo' to start "
             f"{config.Config.APP_NAME}. This will cause some trouble. "
             f"Please use either 'sudo -i {bin_name}' or 'pkexec {bin_name}'.")
-
-    encfs_deprecation_warning()
 
     # Call commands
     if 'func' in dir(args):
