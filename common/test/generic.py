@@ -288,7 +288,7 @@ class SnapshotsWithSidTestCase(SnapshotsTestCase):
         super(SnapshotsWithSidTestCase, self).setUp()
 
         # A snapthos "data object"
-        self.sid = snapshots.SID('20151219-010324-123', self.cfg)
+        self.sid = snapshots.SID('20151219-010324-123', self.cfg, '/')
 
         # Create test files and folders
         # e.g. /tmp/tmp9rstvbsx/backintime/test-host/test-user/1/
@@ -379,7 +379,7 @@ class SSHSnapshotsWithSidTestCase(SSHSnapshotTestCase):
         """
         super(SSHSnapshotsWithSidTestCase, self).setUp()
 
-        self.sid = snapshots.SID('20151219-010324-123', self.cfg)
+        self.sid = snapshots.SID('20151219-010324-123', self.cfg, '/')
 
         self.remoteSIDBackupPath = os.path.join(
             self.snapshotPath, self.sid.sid, 'backup')

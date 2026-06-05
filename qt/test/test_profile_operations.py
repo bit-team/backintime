@@ -7,13 +7,18 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 # pylint: disable=C0115, C0116
 """Tests about ProfileOperations class"""
+# pylint: disable=wrong-import-position
 import unittest
 from unittest.mock import Mock
-from profile_operations import ProfileOperations
+# Workaround: gettext isn't initialized
+import builtins
+builtins._ = lambda txt: txt
+from profile_operations import ProfileOperations  # noqa: E402
 
 
 class AddInclude(unittest.TestCase):
     def test_no_duplicates(self):
+        """Add dir and file"""
         mock_config = Mock()
         mock_config.include.return_value = [('A', 0), ('B', 1)]
 
@@ -30,6 +35,7 @@ class AddInclude(unittest.TestCase):
         )
 
     def test_with_duplicates(self):
+        """Add still existing dir/file"""
         mock_config = Mock()
         mock_config.include.return_value = [('A', 0), ('B', 1)]
 

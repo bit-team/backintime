@@ -35,10 +35,11 @@ import qttools
 import backintime
 import bitbase
 import config
+import cli
 import logger
 import snapshots
 import guiapplicationinstance
-import mount
+from mount import MountManager, MountError
 import progress
 import encfsmsgbox
 from inhibitsuspend import InhibitSuspend
@@ -108,6 +109,7 @@ class MainWindow(QMainWindow):
         self.snapshots = snapshots.Snapshots(config)
 
         self._profile_operations = None
+        self._reset_profile_operations()
 
         self.lastTakeSnapshotMessage = None
         self.tmpDirs = []
@@ -227,10 +229,8 @@ class MainWindow(QMainWindow):
 
         self._import_config_from_backup()
 
-        if not self.config.isConfigured():
-            return
-
-        self._try_to_mount()
+        # if not self.config.isConfigured():
+        #     return
 
         # populate lists
         self.updateProfiles()
@@ -264,7 +264,13 @@ class MainWindow(QMainWindow):
         if not backup_descriptor:
             return None
 
-        return snapshots.SID(date=backup_descriptor, cfg=self.config)
+        # mounted_path=self._profile_operations.get_mount_manager().path
+
+        return snapshots.SID(
+            date=backup_descriptor,
+            cfg=self.config,
+            mounted_path=self._profile_operations.get_mount_manager().path
+        )
 
     def _setup_timers(self):
         raise_application = QTimer(self)
@@ -325,7 +331,11 @@ class MainWindow(QMainWindow):
             self._open_release_candidate_dialog()
 
     def _import_config_from_backup(self):
-        if self.config.isConfigured():
+        # if self.config.isConfigured():
+        #     return
+
+        config_fp = pathlib.Path(self.config._LOCAL_CONFIG_PATH)
+        if config_fp.exists():
             return
 
         message = _(
@@ -360,38 +370,39 @@ class MainWindow(QMainWindow):
 
         SettingsDialog(self).exec()
 
-    def _try_to_mount(self):
-        try:
-            mnt = mount.Mount(cfg=self.config,
-                              profile_id=self.config.currentProfile(),
-                              parent=self)
-            hash_id = mnt.mount()
+    def _message_about_encfs_config_backup(self):
+        # e.g. '~/.config/backintime/config.encfs.backup'
+        config_fp_backup = pathlib.Path(
+            self.config._LOCAL_CONFIG_PATH
+        ).with_suffix(bitbase.ENCFS_BACKUP_CONFIG_SUFFIX)
 
-        except MountException as exc:
-            messagebox.critical(self, str(exc))
+        if not config_fp_backup.exists():
+            return
 
-        else:
-            self.config.setCurrentHashId(hash_id)
-
-        if not self.config.canBackup(self.config.currentProfile()):
-            msg = _("Can't find backup directory.") + '\n' \
-                + _('If it is on a removable drive, please plug it in.') \
-                + ' ' + _('Then press OK.')
-            messagebox.critical(self, msg)
+        state_data = StateData()
+        if state_data.msg_encfs_global < bitbase.ENCFS_MSG_STAGE:
+            state_data.msg_encfs_global = bitbase.ENCFS_MSG_STAGE
+            dlg = encfsmsgbox.EncfsFinalRemoval(config_fp_backup)
+            dlg.exec()
 
     def _handle_user_messages(self):
+        self._message_about_encfs_config_backup()
+
         # Ignore if debug or release/testing candidate
         if version.IS_RELEASE_CANDIDATE or logger.DEBUG:
             return
 
         state_data = StateData()
 
-        # SSH Cipher deprecation
-        if state_data.msg_cipher_deprecation is False:
-            cipher_profiles = self._cipher_using_profiles()
-            if cipher_profiles:
-                self._open_ssh_cipher_deprecation_dialog(cipher_profiles)
-                state_data.msg_cipher_deprecation = True
+        # SSH Cipher removal
+        cipher = cli.detect_cipher_settings(self.config)
+        if cipher:
+            self._open_ssh_cipher_remove_dialog(
+                [entry[0] for entry in cipher]
+            )
+        # remove the cipher keys from config
+        for _name, _val, key in cipher:
+            del self.config.dict[key]
 
         # Issue: https://github.com/bit-team/backintime/issues/2080
         lang_planed_for_removal = [
@@ -423,23 +434,6 @@ class MainWindow(QMainWindow):
         # countdown a dialog with a text about contributing to translating
         # BIT is presented to the users.
         state_data.decrement_manual_starts_countdown()
-
-        # If the encfs-deprecation warning in its latest stage was not shown
-        # yet.
-        if state_data.msg_encfs_global < bitbase.ENCFS_MSG_STAGE:
-            # Are there profiles using EncFS?
-            encfs_profiles = []
-
-            for pid in self.config.profiles():
-                if 'encfs' in self.config.snapshotsMode(pid):
-                    encfs_profiles.append(
-                        f'{self.config.profileName(pid)} ({pid})')
-
-            # EncFS deprecation warning (#1734, #1735)
-            if encfs_profiles:
-                state_data.msg_encfs_global = bitbase.ENCFS_MSG_STAGE
-                dlg = encfsmsgbox.EncfsExistsWarning(encfs_profiles)
-                dlg.exec()
 
     @property
     def showHiddenFiles(self):
@@ -587,14 +581,11 @@ class MainWindow(QMainWindow):
                   'in translation again.')),
             'act_help_encryption': (
                 icon.ENCRYPT,
-                _('Encryption Transition (EncFS)'),
+                'About encryption transition',
                 self._slot_help_encryption, None,
-                _('Shows the message about EncFS removal again.')),
-            'act_help_cipher': (
-                icon.ENCRYPT,
-                'SSH Cipher deprecation',
-                self._slot_help_cipher_deprecation, None,
-                'Shows the message about deprecation of SSH cipher again.'),
+                'Shows support article about EncFS removal and '
+                'gocryptfs replacement.'
+            ),
             'act_help_about': (
                 icon.ABOUT, _('About'),
                 self._slot_help_about, None, None),
@@ -731,7 +722,6 @@ class MainWindow(QMainWindow):
                 self.act_help_bugreport,
                 self.act_help_translation,
                 self.act_help_encryption,
-                self.act_help_cipher,
                 self.act_help_about,
             )
         }
@@ -1029,8 +1019,8 @@ class MainWindow(QMainWindow):
 
         # umount
         try:
-            mnt = mount.Mount(cfg=self.config, parent=self)
-            mnt.umount(self.config.current_hash_id)
+            mnt = self._profile_operations.get_mount_manager()
+            mnt.umount()
 
         except MountException as ex:
             messagebox.critical(self, str(ex))
@@ -1054,26 +1044,53 @@ class MainWindow(QMainWindow):
 
         qttools.update_combo_profiles(
             self.config, self.comboProfiles, self.config.currentProfile())
-        profiles = self.config.profilesSortedByName()
+        # profiles = self.config.profilesSortedByName()
 
-        self.comboProfilesAction.setVisible(len(profiles) > 1)
+        # self.comboProfilesAction.setVisible(len(profiles) > 1)
 
         self.updateProfile()
 
         self.disableProfileChanged = False
 
+    def _reset_profile_operations(self):
+        if self._profile_operations:
+            mount = self._profile_operations.get_mount_manager()
+            mount.umount()
+
+        self._profile_operations = ProfileOperations(
+            profile_id=self.config.currentProfile(),
+            config=self.config
+        )
+
     def updateProfile(self):
+        profile_id = self.config.currentProfile()
+
+        self._reset_profile_operations()
+
+        mount = self._profile_operations.get_mount_manager()
+        try:
+            mount.mount()
+
+        except MountError as exc:
+            logger.error(str(exc))
+            messagebox.critical(
+                self,
+                exc.gui_msg,
+                _('Backup destination unavailable')
+            )
+
+        except FileNotFoundError as exc:
+            messagebox.critical(
+                self,
+                str(exc),
+                _('Backup destination unavailable')
+            )
+
         self.rebuild_timeline()
         self.places.do_update()
         self._update_files_widget()
         self.updateFilesView(0)
 
-        profile_id = self.config.currentProfile()
-
-        self._profile_operations = ProfileOperations(
-            profile_id=profile_id,
-            config=self.config
-        )
         self.event_profile_changed.notify(self._profile_operations)
 
         state_data = StateData()
@@ -1104,7 +1121,7 @@ class MainWindow(QMainWindow):
             old_profile_state = state_data.profile(old_profile_id)
             old_profile_state.places_sorting = self.places.get_sorting()
 
-            self.remount(profile_id, old_profile_id)
+            # self.remount(profile_id, old_profile_id)
             self.config.setCurrentProfile(profile_id)
 
             profile_state = state_data.profile(profile_id)
@@ -1127,18 +1144,6 @@ class MainWindow(QMainWindow):
 
             self.updateProfile()
 
-    def remount(self, new_profile_id, old_profile_id):
-        try:
-            mnt = mount.Mount(cfg=self.config,
-                              profile_id=old_profile_id,
-                              parent=self)
-            hash_id = mnt.remount(new_profile_id)
-
-        except MountException as ex:
-            messagebox.critical(self, str(ex))
-
-        else:
-            self.config.setCurrentHashId(hash_id)
 
     def raiseApplication(self):
         raiseCmd = self.appInstance.raiseCommand()
@@ -1175,10 +1180,20 @@ class MainWindow(QMainWindow):
 
         self._handle_fake_busy(fake_busy, paused)
 
+        mount_manager = self._profile_operations.get_mount_manager()
+        # mount_manager.mount()
+
         if not self.act_take_snapshot.isEnabled():
             # TODO: check if there is a more elegant way than always get a
             # new snapshot list which is very expensive (time)
-            snapshotsList = snapshots.listSnapshots(self.config)
+            # See issue #2260 about redesign the IPC aspect of BIT
+            mount_manager = self._profile_operations.get_mount_manager()
+            snapshotsList = snapshots.listSnapshots(
+                cfg=self.config,
+                includeNewSnapshot=False,
+                reverse=True,
+                mounted_path=mount_manager.path
+            )
 
             if snapshotsList != self.snapshotsList:
                 self.snapshotsList = snapshotsList
@@ -1372,10 +1387,22 @@ class MainWindow(QMainWindow):
         self.snapshotsList = []  # TODO: -> backup_list ???
         backup_queue = queue.Queue()
 
+        mount_manager = self._profile_operations.get_mount_manager()
+
+        # DEBUG
+        # if not tools.is_mounted(mount_manager.mount_root):
+        #     import traceback
+        #     traceback.print_stack(limit=4)
+
         def _worker():
             """Proceed all backups and put their timline related information
             into a thread-safe queue."""
-            for sid in snapshots.iterSnapshots(self.config):
+
+            for sid in snapshots.iterSnapshots(
+                    cfg=self.config,
+                    includeNewSnapshot=False,
+                    mounted_path=mount_manager.path
+            ):
                 self.snapshotsList.append(sid)
                 backup_queue.put(
                     (
@@ -1407,6 +1434,7 @@ class MainWindow(QMainWindow):
                         self.timeline.select_by_descriptor(previous_selection)
                     else:
                         self.timeline.select_now()
+                    # mount_manager.umount()
                     return
 
                 self.timeline.create_backup_entry(
@@ -1778,24 +1806,19 @@ class MainWindow(QMainWindow):
 
         return ssh_cipher_profiles
 
-    def _open_ssh_cipher_deprecation_dialog(self, ssh_cipher_profiles):
-        """SSH cipher deprecation warning (#2143, #2176)"""
+    def _open_ssh_cipher_remove_dialog(self, ssh_cipher_profiles):
+        """SSH cipher removed (#2176)"""
 
         def _complete_text(profiles: list[str]) -> str:
             txt = (
-                'The following backup profiles are using an explicitly '
-                'configured SSH cipher.',
+                'SSH Cipher are not supported anymore!',
+                'Explicitly configured SSH cipher setting detected in the '
+                'following backup profiles:',
                 '{profiles}',
-                'Setting a cipher directly within Back In Time <strong>is '
-                'deprecated and will be removed</strong> in future versions.',
+                'The setting will be removed <strong>immediately</strong>.',
                 'Recommended action:',
                 'Please configure the preferred cipher in the SSH client'
-                'config file (e.g. ~/.ssh/config) instead.'
-                ' First remove the config key '
-                '"profile<N>.snapshots.ssh.cipher=" from Back In Time '
-                'config file ("~/.config/backintime/config")',
-                'This message will not be shown again automatically, but is '
-                'available at any time via the Help menu.',
+                'config file (e.g. ~/.ssh/config) instead.',
                 'Your Back In Time Team'
             )
             txt = '\n'.join(txt)
@@ -1813,7 +1836,7 @@ class MainWindow(QMainWindow):
 
         dlg = UserMessageDialog(
             parent=self,
-            title='SSH Cipher is deprecated',
+            title='Removing SSH cipher setting',
             full_label=_complete_text(ssh_cipher_profiles))
         dlg.exec()
 
@@ -2038,7 +2061,10 @@ class MainWindow(QMainWindow):
         backup_id = self.selected_backup_id()
 
         if backup_id is None:
-            raise NotImplementedError('Now is selected!?')
+            # Directory history navigation is snapshot-based. When "Now" is
+            # selected there is no backup context to resolve the stored path
+            # against, so mouse back/forward should simply do nothing.
+            return
 
         full_path = backup_id.pathBackup(path)
 
@@ -2073,19 +2099,23 @@ class MainWindow(QMainWindow):
             logviewdialog.LogViewDialog(self).show()
 
     def _slot_backup_open_log(self):
-        item = self.timeline.currentItem()
-        if item is None:
+        if self.timeline.is_now_selected():
             return
 
-        sid = item.snapshot_id
-        if sid.isRoot:
+        descriptor = self.timeline.selected_backup_descriptor()
+        if descriptor is None:
             return
 
         with self.suspend_mouse_button_navigation():
+            # Workaround
+            mount_manager = MountManager.create(self.config)
+            sid = snapshots.SID(descriptor, self.config, mount_manager.path)
+
             dlg = logviewdialog.LogViewDialog(self, sid)
-            dlg.show()
+            dlg.exec()
+
             if sid != dlg.sid:
-                self.timeline.set_current_snapshot_id(dlg.sid)
+                self.timeline.select_by_descriptor(dlg.sid)
 
     def _slot_manage_profiles(self):
         with self.suspend_mouse_button_navigation():
@@ -2111,12 +2141,10 @@ class MainWindow(QMainWindow):
                     )
 
     def _slot_backup_name(self):
-        item = self.timeline.currentItem()
-        if item is None:
-            return
+        sid = self.selected_backup_id()
 
-        sid = item.snapshot_id
-        if sid.isRoot:
+        if not sid:
+            # "Now" or none selected
             return
 
         name = sid.name
@@ -2131,7 +2159,8 @@ class MainWindow(QMainWindow):
             return
 
         sid.name = new_name
-        item.update_text()
+        item = self.timeline.get_backup_item(sid.get_descriptor())
+        item.label = sid.displayName
 
     def _slot_backup_remove(self):
         def hideItem(item):
@@ -2275,6 +2304,9 @@ class MainWindow(QMainWindow):
     def _slot_help_faq(self):
         qttools.open_url(bitbase.URL_FAQ)
 
+    def _slot_help_encryption(self):
+        qttools.open_url(bitbase.URL_ENCRYPT_TRANSITION)
+
     def _slot_help_ask_question(self):
         qttools.open_url(bitbase.URL_ISSUES)
 
@@ -2286,13 +2318,6 @@ class MainWindow(QMainWindow):
 
     def _slot_help_release_candidate(self):
         self._open_release_candidate_dialog()
-
-    def _slot_help_cipher_deprecation(self):
-        self._open_ssh_cipher_deprecation_dialog(self._cipher_using_profiles())
-
-    def _slot_help_encryption(self):
-        dlg = encfsmsgbox.EncfsExistsWarning(['(not determined)'])
-        dlg.exec()
 
     def _slot_edit_user_callback(self):
         fp = pathlib.Path(self.config.takeSnapshotUserCallback())
@@ -2311,17 +2336,27 @@ class RemoveSnapshotThread(QThread):
         self.config = parent.config
         self.snapshots = parent.snapshots
         self.items = items
-        super(RemoveSnapshotThread, self).__init__(parent)
+        self.mount_manager = MountManager.create(self.config)
+        super().__init__(parent)
 
     def run(self):
-        last_snapshot = snapshots.lastSnapshot(self.config)
+        last_snapshot = snapshots.lastSnapshot(
+            self.config, mounted_path=self.mount_manager.path
+        )
         renew_last_snapshot = False
 
         # inhibit suspend/hibernate during delete
         with InhibitSuspend(reason='deleting snapshots'):
 
             for item, sid in [
-                    (x, snapshots.SID(x.descriptor, self.config))
+                    (
+                        x,
+                        snapshots.SID(
+                            date=x.descriptor,
+                            cfg=self.config,
+                            mounted_path=self.mount_manager.path
+                        )
+                    )
                     for x in self.items
             ]:
                 self.snapshots.remove(sid)
@@ -2334,7 +2369,11 @@ class RemoveSnapshotThread(QThread):
             # set correct last snapshot again
             if renew_last_snapshot:
                 self.snapshots.createLastSnapshotSymlink(
-                    snapshots.lastSnapshot(self.config))
+                    snapshots.lastSnapshot(
+                        self.config,
+                        self.mount_manager.path
+                    )
+                )
 
 
 def _get_state_data_from_config(cfg: config.Config) -> StateData:
@@ -2524,9 +2563,17 @@ if __name__ == '__main__':
 
     mainWindow = MainWindow(cfg, appInstance, qapp)
 
-    if cfg.isConfigured():
+    # if cfg.isConfigured():
+    config_fp = pathlib.Path(cfg._LOCAL_CONFIG_PATH)
+    if config_fp.exists():
         mainWindow.show()
         qapp.exec()
+    else:
+        messagebox.critical(
+            None,
+            f'Unexpected situation. Config file {config_fp} does not exists. '
+            'Please contact the support or try to start Back In Time again.'
+        )
 
     mainWindow.qapp.removeEventFilter(mainWindow._mouse_button_event_filter)
 

@@ -14,7 +14,6 @@ from collections.abc import Iterator
 import logger
 import snapshots
 import tools
-import encfstools
 
 
 class LogFilter:  # pylint: disable=too-few-public-methods
@@ -29,8 +28,7 @@ class LogFilter:  # pylint: disable=too-few-public-methods
             :py:data:`CHANGES`,
             :py:data:`INFORMATION` or
             :py:data:`ERROR_AND_CHANGES`
-        decode (encfstools.Decode): instance used for decoding lines
-            or ``None``
+        decode (Decode): instance used for decoding lines or ``None``
     """
 
     # Dev note: Better use an enumeration
@@ -187,7 +185,7 @@ class SnapshotLog:
 
     def get(self,
             mode: int = None,
-            decode: encfstools.Decode = None,
+            decode=None,
             skipLines: int = 0  # pylint: disable=invalid-name # noqa: N803
             ) -> Iterator[str]:
 
@@ -195,7 +193,7 @@ class SnapshotLog:
 
         Args:
             mode: Mode used for filtering. See `snapshotlog.LogFilter`
-            decode (encfstools.Decode): Instance used for decoding lines.
+            decode (Decode): Instance used for decoding lines.
             skipLines: Number of lines to skip before yielding. This is used
                 to append only new lines to LogView.
 
@@ -234,7 +232,7 @@ class SnapshotLog:
                 # Why???
                 yield line
 
-    def new(self, date):
+    def new(self, date, mounted_path):
         """
         Create a new log file or - if the last new_snapshot can be continued -
         add a note to the current log.
@@ -242,7 +240,7 @@ class SnapshotLog:
         Args:
             date (datetime.datetime):   current date
         """
-        if snapshots.NewSnapshot(self.config).saveToContinue:
+        if snapshots.NewSnapshot(self.config, mounted_path).saveToContinue:
             msg = "Last backup did not complete but can be resumed.\n\n"
             msg += "======== Continue backup (profile %s): %s ========\n"
 
