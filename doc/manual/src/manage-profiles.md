@@ -39,25 +39,15 @@ Backups will be placed inside the `<PROFILE>/` directory.
 
 ### Local Encrypted
 
-[Local Encrypted](#local-encrypted) works like [Local](#local) but the
-backups will be stored encrypted with `EncFs`. The encrypted folder will be
+[Local Encrypted](#local-encrypted) works like [Local](#local) but the backups
+will be stored encrypted with `gocryptfs`. The encrypted directory will be
 created automatically inside the selected folder.
-
-!!! Danger
-
-    A recent security audit revealed several possible attack vectors for `EncFs`.
-
-    From [https://defuse.ca/audits/encfs.htm](https://defuse.ca/audits/encfs.htm):
-
-    > EncFS is probably safe as long as the adversary only gets one copy of the ciphertext and nothing more. EncFS is not safe if the adversary has the opportunity to see two or more backups of the ciphertext at different times. EncFS attempts to protect files from malicious modification, but there are serious problems with this feature.
-
-This might be a problem with Back In Time backups.
 
 ![Manage profiles - General](_images/light/settings_general_local_encrypted.png#only-light)
 ![Manage profiles - General](_images/dark/settings_general_local_encrypted.png#only-dark)
 
-Enter the password for `EncFs` in `Encryption`. The password can be stored in
-users keyring. The keyring is unlocked with the users password during
+Enter the password for `gocryptfs` in `Encryption`. The password can be stored
+in users keyring. The keyring is unlocked with the users password during
 login. When running a scheduled backup-job while the user is not logged in the
 keyring is not available. For this case, the password can be cached in memory
 by Back in Time.
@@ -117,24 +107,9 @@ this case, the password can be cached in memory by Back in Time.
 ### SSH Encrypted
 
 SSH Encrypted](#ssh-encrypted) will work like [SSH](#ssh) but the backups
-will be stored encrypted using `encfs --reverse`. Back in Time will mount an
-encrypted view of the local root file-system (`/`) and sync it with `rsync` to
-the remote host. As [Back in Time will backup the encrypted files, all logs and
-status messages will show cypher text.
-
-!!! Danger
-
-    A recent security audit revealed several possible attack vectors for `EncFs`.
-
-    From [https://defuse.ca/audits/encfs.htm](https://defuse.ca/audits/encfs.htm):
-
-    > EncFS is probably safe as long as the adversary only gets one copy of
-    > the ciphertext and nothing more. EncFS is not safe if the adversary has
-    > the opportunity to see two or more backups of the ciphertext at
-    > different times. EncFS attempts to protect files from malicious
-    > modification, but there are serious problems with this feature.
-
-This might be a problem with *Back In Time* backups.
+will be stored encrypted using `gocryptfs`. Back in Time will mount an
+encrypted view of the file-system and sync it with `rsync` to
+the remote host.
 
 ![Settings - General](_images/light/settings_general_ssh_encrypted.png#only-light)
 ![Settings - General](_images/dark/settings_general_ssh_encrypted.png#only-dark)

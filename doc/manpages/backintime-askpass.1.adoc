@@ -25,10 +25,10 @@ backintime-askpass - Helper tool for *Back In Time*
 
 == DESCRIPTION
 
-This utility is a helper tool used to provide passwords to ssh, sshfs, and
-encfs via standard input. Configuration options are read from environment
-variables. It is not intended for direct end-user interaction and is primarily
-used by *backintime* (1).
+This utility is a helper tool used to provide passwords to the remote backends
+(ssh, sshfs) and encryptor layer (e.g. gocryptfs) via standard input.
+Configuration options are read from environment variables. It is not intended
+for direct end-user interaction and is primarily used by *backintime* (1).
 
 For more information about *Back In Time*, see *backintime* (1).
 

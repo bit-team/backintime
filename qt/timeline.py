@@ -13,10 +13,12 @@
 # File was split from "qt/qttools.py".
 """Time line widget.
 """
+from __future__ import annotations
 from datetime import (datetime, date, timedelta)
 from calendar import monthrange
 from contextlib import contextmanager
 from functools import partial
+from typing import Optional
 from PyQt6.QtGui import QFont, QPalette
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtWidgets import (QAbstractItemView,
@@ -303,16 +305,21 @@ class TimeLine(QTreeWidget):
 
     def select_by_descriptor(self, backup_descriptor: str):
         """Select backup entry related to the descriptor."""
-        for item in self.iter_backup_items():
-            if item.descriptor == backup_descriptor:
-                self._set_current_item(item)
-                break
+        self._set_current_item(self.get_backup_item(backup_descriptor))
 
     def select_all_backup_entries(self):
         """Highlight all backup entries."""
         self.clearSelection()
         for item in self.iter_backup_items():
             item.setSelected(True)
+
+    def get_backup_item(self, descriptor: str) -> Optional[BackupEntry]:
+        """Return the related backup item"""
+        for item in self.iter_backup_items():
+            if item.descriptor == descriptor:
+                return item
+
+        return None
 
     def _set_current_item(self, item, *args, **kwargs):
         self.setCurrentItem(item, *args, **kwargs)
@@ -345,8 +352,6 @@ class _TimeLineItemBase(QTreeWidgetItem):
         super().__init__()
 
         if tooltip:
-            # DEBUG
-            # self.setToolTip(0, f'{type(self)} {tooltip}')
             self.setToolTip(0, tooltip)
 
         self.setText(0, label)
@@ -385,6 +390,10 @@ class BackupEntry(_TimeLineItemBase):
     def label(self) -> str:
         """Text label of the entry."""
         return self.text(0)
+
+    @label.setter
+    def label(self, label: str) -> None:
+        self.setText(0, label)
 
 
 # pylint: disable-next=too-few-public-methods

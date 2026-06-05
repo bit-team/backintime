@@ -28,6 +28,7 @@ import socket
 import random
 import getpass
 import shlex
+from pathlib import Path
 # Workaround: Mostly relevant on TravisCI but not exclusively.
 # While unittesting and without regular invocation of BIT the GNU gettext
 # class-based API isn't setup yet.
@@ -43,9 +44,6 @@ import tools
 import configfile
 import encode
 import logger
-import sshtools
-import encfstools
-import gocryptfstools
 import password
 import pluginmanager
 import schedule
@@ -121,6 +119,7 @@ class Config(configfile.ConfigFileWithProfiles):
         self._MOUNT_ROOT = os.path.join(DATA_FOLDER, BIT_FOLDER, 'mnt')
 
         if data_path:
+            # Deprecated: --share-path was removed
             self.DATA_FOLDER_ROOT = data_path
             self._LOCAL_DATA_FOLDER = os.path.join(data_path, DATA_FOLDER, BIT_FOLDER)
             self._LOCAL_MOUNT_ROOT = os.path.join(data_path, self._MOUNT_ROOT)
@@ -133,7 +132,9 @@ class Config(configfile.ConfigFileWithProfiles):
         tools.makeDirs(self._LOCAL_DATA_FOLDER)
         tools.makeDirs(self._LOCAL_MOUNT_ROOT)
 
-        self._DEFAULT_CONFIG_PATH = os.path.join(self._LOCAL_CONFIG_FOLDER, 'config')
+        self._DEFAULT_CONFIG_PATH = os.path.join(
+            self._LOCAL_CONFIG_FOLDER, bitbase.FILENAME_CONFIG
+        )
 
         if config_path is None:
             self._LOCAL_CONFIG_PATH = self._DEFAULT_CONFIG_PATH
@@ -218,14 +219,6 @@ class Config(configfile.ConfigFileWithProfiles):
         # Workaround
         self.default_profile_name = _('Main profile')
 
-        # ToDo Those hidden labels exist to speed up their translation.
-        # See: https://github.com/bit-team/backintime/issues/
-        # 1735#issuecomment-2197646518
-        _HIDDEN_NEW_MODE_LABELS = (
-            _('Local (EncFS encrypted)'),
-            _('SSH (EncFS encrypted)')
-        )
-
         self.SNAPSHOT_MODES = {
                     # mode: (
                     #     <mounttools>,
@@ -234,44 +227,29 @@ class Config(configfile.ConfigFileWithProfiles):
                     #     need_2_pw|lbl_pw_2
                     # ),
                     'local': (
-                        None, _('Local'), False, False),
+                        None,
+                        _('Local'),
+                        False,
+                        False
+                    ),
                     'local_gocryptfs': (
-                        gocryptfstools.GocryptfsMount,
+                        None,  # gocryptfstools.GocryptfsMount,
                         _('Local encrypted') + ' (via gocryptfs)',
                         _('Encryption'),
                         False
                     ),
                     'ssh': (
-                        sshtools.SSH, _('SSH'), _('SSH private key'), False),
-                    'local_encfs': (
-                        encfstools.EncFS_mount,
-                        'DEPRECATED - Local encrypted (via EncFS)',
-                        _('Encryption'),
+                        None,  # sshtools.SSH,
+                        _('SSH'),
+                        _('SSH private key'),
                         False
                     ),
-                    'ssh_encfs': (
-                        encfstools.EncFS_SSH,
-                        'DEPRECATED - SSH encrypted (via EncFS)',
+                    'ssh_gocryptfs': (
+                        None,
+                        _('SSH encrypted') + ' (via gocryptfs)',
                         _('SSH private key'),
                         _('Encryption')
                     ),
-        }
-
-        # Deprecated: #2176
-        self.SSH_CIPHERS = {
-            'default': 'Default',
-            'aes128-ctr': 'AES128-CTR',
-            'aes192-ctr': 'AES192-CTR',
-            'aes256-ctr': 'AES256-CTR',
-            'arcfour256': 'ARCFOUR256',
-            'arcfour128': 'ARCFOUR128',
-            'aes128-cbc': 'AES128-CBC',
-            '3des-cbc': '3DES-CBC',
-            'blowfish-cbc': 'Blowfish-CBC',
-            'cast128-cbc': 'Cast128-CBC',
-            'aes192-cbc': 'AES192-CBC',
-            'aes256-cbc': 'AES256-CBC',
-            'arcfour': 'ARCFOUR'
         }
 
     def save(self):
@@ -285,8 +263,11 @@ class Config(configfile.ConfigFileWithProfiles):
     def is_current_profile_unsaved(self) -> bool:
         return self.is_profile_unsaved(self.currentProfile())
 
-    def checkConfig(self):
-        profiles = self.profiles()
+    def checkConfig(self, profile_id = None):
+        if profile_id:
+            profiles = [profile_id]
+        else:
+            profiles = self.profiles()
 
         for profile_id in profiles:
             profile_name = self.profileName(profile_id)
@@ -380,7 +361,16 @@ class Config(configfile.ConfigFileWithProfiles):
         return socket.gethostname()
 
     def get_snapshots_mountpoint(self, profile_id=None, mode=None, tmp_mount=False):
-        """Return the profiles snapshot path in form of a mount point."""
+        """Return the profiles snapshot path in form of a mount point.
+
+        Dev note (buhtz, 2026-03): Might become useless.
+        """
+
+        # # DEBUG
+        # import traceback
+        # traceback.print_stack(limit=12)
+        # logger.debug(f'{profile_id=} {mode=} {tmp_mount=}', self)
+
         if profile_id is None:
             profile_id = self.currentProfile()
 
@@ -390,13 +380,26 @@ class Config(configfile.ConfigFileWithProfiles):
         if mode == 'local':
             return self.get_snapshots_path(profile_id)
 
-        # else: ssh/local_encfs/ssh_encfs/local_gocryptfs
-
+        # ???
         symlink = f'{profile_id}_{os.getpid()}'
         if tmp_mount:
             symlink = f'tmp_{symlink}'
 
         return os.path.join(self._LOCAL_MOUNT_ROOT, symlink)
+
+    def get_backup_destination_path(self, profile_id) -> Path:
+        """Return the path depending on the backe mode of the profile.
+        """
+
+        mode = self.snapshotsMode(profile_id)
+
+        if mode == 'local':
+            return Path(self.get_snapshots_path(profile_id))
+
+        if mode == 'local_gocryptfs':
+            return Path(self.localGocryptfsPath(profile_id))
+
+        raise RuntimeError(f'Unknown mode "{mode}"')
 
     def snapshotsPath(self, profile_id=None, mode=None, tmp_mount=False):
         """Return the snapshot path (backup destination) as a mount point.
@@ -408,7 +411,7 @@ class Config(configfile.ConfigFileWithProfiles):
             mode=mode,
             tmp_mount=tmp_mount)
 
-    def snapshotsFullPath(self, profile_id = None):
+    def snapshotsFullPath(self, profile_id=None):
         """
         Returns the full path for the snapshots: .../backintime/machine/user/profile_id/
         """
@@ -426,13 +429,9 @@ class Config(configfile.ConfigFileWithProfiles):
 
         self.setProfileStrValue('snapshots.path', value, profile_id)
 
-    # def is_mode_encrypted(self, profile_id=None):
-    #     mode = self.snapshotsMode(profile_id)
-    #     return mode in ('local_encfs', 'ssh_encfs')
-
     def snapshotsMode(self, profile_id=None):
         #? Use mode (or backend) for this snapshot. Look at 'man backintime'
-        #? section 'Modes'.;local|local_encfs|ssh|ssh_encfs|local_gocryptfs
+        #? section 'Modes'.;local|ssh|ssh_gocryptfs|local_gocryptfs
         return self.profileStrValue('snapshots.mode', 'local', profile_id)
 
     def setSnapshotsMode(self, value, profile_id = None):
@@ -488,7 +487,7 @@ class Config(configfile.ConfigFileWithProfiles):
         return True
 
     def sshHost(self, profile_id = None):
-        #?Remote host used for mode 'ssh' and 'ssh_encfs'.;IP or domain address
+        #?Remote host used for mode 'ssh' and 'ssh_gocryptfs'.;IP or domain address
         return self.profileStrValue('snapshots.ssh.host', '', profile_id)
 
     def setSshHost(self, value, profile_id = None):
@@ -501,33 +500,12 @@ class Config(configfile.ConfigFileWithProfiles):
     def setSshPort(self, value, profile_id = None):
         self.setProfileIntValue('snapshots.ssh.port', value, profile_id)
 
-    def sshCipher(self, profile_id = None):
-        #?Cipher that is used for encrypting the SSH tunnel. Depending on the
-        #?environment (network bandwidth, cpu and hdd performance) a different
-        #?cipher might be faster.;default | aes192-cbc | aes256-cbc | aes128-ctr |
-        #? aes192-ctr | aes256-ctr | arcfour | arcfour256 | arcfour128 | aes128-cbc |
-        #? 3des-cbc | blowfish-cbc | cast128-cbc
-        return self.profileStrValue('snapshots.ssh.cipher', 'default', profile_id)
-
-    def setSshCipher(self, value, profile_id = None):
-        self.setProfileStrValue('snapshots.ssh.cipher', value, profile_id)
-
     def sshUser(self, profile_id = None):
         #?Remote SSH user;;local users name
         return self.profileStrValue('snapshots.ssh.user', getpass.getuser(), profile_id)
 
     def setSshUser(self, value, profile_id = None):
         self.setProfileStrValue('snapshots.ssh.user', value, profile_id)
-
-    def sshHostUserPortPathCipher(self, profile_id = None):
-        host = self.sshHost(profile_id)
-        port = self.sshPort(profile_id)
-        user = self.sshUser(profile_id)
-        path = self.sshSnapshotsPath(profile_id)
-        cipher = self.sshCipher(profile_id)
-        if not path:
-            path = './'
-        return (host, port, user, path, cipher)
 
     def sshPrivateKeyFile(self, profile_id=None) -> None | bool | str:
         """The field can have three states:
@@ -624,7 +602,7 @@ class Config(configfile.ConfigFileWithProfiles):
                    cmd=None,
                    custom_args=None,
                    port=True,
-                   cipher=True,
+                   cipher=True,  # not functional anymore. #2491
                    user_host=True,
                    ionice=True,
                    nice=True,
@@ -669,23 +647,6 @@ class Config(configfile.ConfigFileWithProfiles):
         if port:
             ssh += ['-p', str(self.sshPort(profile_id))]
 
-        # cipher used to transfer data
-        c = self.sshCipher(profile_id)
-        if c != 'default':
-            # Using cipher is deprecated (#2143) and will be removed (#2176)
-            # in foreseen future.
-            logger.critical(
-                'Using a configured cipher in Back In Time is deprecated. '
-                f'Configured cipher: "{c}". Behavior will be removed in a '
-                'future release. Configure the cipher using the SSH client '
-                'config file instead. First remove key "profile<N>.snapshots'
-                '.ssh.cipher=" from Back In Time\'s config file '
-                '("~/.config/backintime/config").'
-            )
-
-            if cipher:
-                ssh += ['-o', f'Ciphers={c}']
-
         # custom arguments
         if custom_args:
             ssh += custom_args
@@ -722,20 +683,12 @@ class Config(configfile.ConfigFileWithProfiles):
 
         return ssh
 
-    # EncFS
-    def localEncfsPath(self, profile_id = None):
-        #?Where to save snapshots in mode 'local_encfs'.;absolute path
-        return self.profileStrValue('snapshots.local_encfs.path', '', profile_id)
-
-    def setLocalEncfsPath(self, value, profile_id = None):
-        self.setProfileStrValue('snapshots.local_encfs.path', value, profile_id)
-
     # gocryptfs
-    def localGocryptfsPath(self, profile_id = None):
+    def localGocryptfsPath(self, profile_id):
         #?Where to save snapshots in mode 'local_gocryptfs'.;absolute path
         return self.profileStrValue('snapshots.local_gocryptfs.path', '', profile_id)
 
-    def setLocalGocryptfsPath(self, value, profile_id = None):
+    def setLocalGocryptfsPath(self, value, profile_id):
         self.setProfileStrValue('snapshots.local_gocryptfs.path', value, profile_id)
 
     def passwordSave(self, profile_id = None, mode = None):
@@ -781,6 +734,35 @@ class Config(configfile.ConfigFileWithProfiles):
 
         return self.pw.password(
             parent, profile_id, mode, pw_id, only_from_keyring)
+
+    def get_encryption_password(self):
+        """Dirty workaround, because the meaning of password1 and password2
+        depends on the mode used and differs.
+        """
+        mode = self.snapshotsMode()
+
+        if 'gocryptfs' not in mode:
+            raise RuntimeError(f'{mode} has no encryption password')
+
+        # get the password container
+        if self.pw is None:
+            self.pw = password.Password(self)
+
+        # local encryption
+        if mode == 'local_gocryptfs':
+            pw_id = 1
+        elif mode == 'ssh_gocryptfs':
+            pw_id = 2
+        else:
+            raise RuntimeError(f'Unexpected situation. {mode=}')
+
+        return self.pw.password(
+            parent=None,
+            profile_id=self.currentProfile(),
+            mode=mode,
+            pw_id=pw_id,
+            only_from_keyring=False
+        )
 
     def setPassword(self, password_value, profile_id=None, mode=None, pw_id=1):
         if self.pw is None:
@@ -1421,18 +1403,21 @@ class Config(configfile.ConfigFileWithProfiles):
     def lastSnapshotSymlink(self, profile_id = None):
         return os.path.join(self.snapshotsFullPath(profile_id), bitbase.DIR_NAME_LAST_SNAPSHOT)
 
-    def encfsconfigBackupFolder(self, profile_id = None):
-        return os.path.join(self._LOCAL_DATA_FOLDER, 'encfsconfig_backup_%s' % self.fileId(profile_id))
-
     def isConfigured(self, profile_id=None) -> bool:
         """Checks if the program is configured.
 
         It is assumed as configured if a snapshot path (backup destination) is
         and include files/directories (backup source) are given.
         """
+        # print(f'isConfigured() {profile_id=} {self.currentProfile()=}')
+        if not profile_id:
+            profile_id = self.profiles()[0]
+            # print(f' first is {profile_id=}')
+
         path = self.snapshotsPath(profile_id)
         includes = self.include(profile_id)
 
+        # print(f'{path=} {includes=}')
         if bool(path and includes):
             return True
 
@@ -1441,24 +1426,6 @@ class Config(configfile.ConfigFileWithProfiles):
                      f'are "{bool(includes)}".', self)
 
         return False
-
-    def canBackup(self, profile_id=None):
-        """Checks if snapshots_path exists.
-        """
-        if not self.isConfigured(profile_id):
-            return False
-
-        path = self.snapshotsFullPath(profile_id)
-
-        if not os.path.exists(path):
-            logger.warning(f'Snapshot path does not exists: {path}', self)
-            return False
-
-        if not os.path.isdir(path):
-            logger.warning(f'Snapshot path is not a directory: {path}', self)
-            return False
-
-        return True
 
     def backupScheduled(self, profile_id = None):
         """Check if the profile is supposed to be run this time.
@@ -1505,8 +1472,6 @@ class Config(configfile.ConfigFileWithProfiles):
                 dest_path = self.snapshotsFullPath(pid)
             elif backup_mode == 'local_gocryptfs':
                 dest_path = self.localGocryptfsPath(pid)
-            elif backup_mode == 'local_encfs':
-                dest_path = self.localEncfsPath(pid)
             else:
                 logger.error(
                     f"Udev scheduling doesn't work with mode {backup_mode}",

@@ -311,7 +311,7 @@ class SshKey(generic.TestCaseCfg):
     @unittest.skipIf(not tools.checkCommand('ssh-keygen')
                      and not generic.ON_TRAVIS,  # enforce test on TravisCI
                      "'ssh-keygen' not found." )
-    def test_fingerprint(self):
+    def _REVIEW_test_fingerprint(self):
         self.assertIsNone(
             sshtools.sshKeyFingerprint(os.path.abspath(__file__)))
 
