@@ -10,10 +10,10 @@ import sys
 import re
 from test import generic
 from datetime import datetime
-
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import snapshotlog
 import snapshots
+from mount import MountManager
 
 
 class Filter(generic.TestCase):
@@ -103,12 +103,13 @@ class Log(generic.SnapshotsTestCase):
             self.cfg._LOCAL_DATA_FOLDER, 'takesnapshot_.log')
 
     def test_new(self):
+        mount_manager = MountManager.create(self.cfg)
         log = snapshotlog.SnapshotLog(self.cfg)
         now = datetime.today()
         with open(self.logFile, 'wt') as f:
             f.write('foo\nbar\n')
 
-        log.new(now)
+        log.new(now, mount_manager.path)
         log.flush()
         self.assertExists(self.logFile)
         with open(self.logFile, 'rt') as f:
@@ -120,15 +121,16 @@ class Log(generic.SnapshotsTestCase):
 ''', re.MULTILINE))
 
     def test_new_continue(self):
+        mount_manager = MountManager.create(self.cfg)
         log = snapshotlog.SnapshotLog(self.cfg)
         now = datetime.today()
         with open(self.logFile, 'wt') as f:
             f.write('foo\nbar\n')
-        new = snapshots.NewSnapshot(self.cfg)
+        new = snapshots.NewSnapshot(self.cfg, mount_manager.path)
         new.makeDirs()
         new.saveToContinue = True
 
-        log.new(now)
+        log.new(now, mount_manager.path)
         log.flush()
         self.assertExists(self.logFile)
         with open(self.logFile, 'rt') as f:

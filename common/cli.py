@@ -9,6 +9,8 @@
 import os
 import sys
 import atexit
+import shutil
+from pathlib import Path
 import tools
 import daemon
 import snapshots
@@ -16,11 +18,12 @@ import bcolors
 import config
 import logger
 import bitbase
+from mount import MountManager, MountError
 from typing import Optional
 from version import __version__
 
 
-def restore(cfg, snapshot_id=None, what=None, where=None, **kwargs):
+def restore(cfg, snapshot_id, what, where, mount_manager, **kwargs):
     if what is None:
         what = input('File to restore: ')
 
@@ -32,23 +35,44 @@ def restore(cfg, snapshot_id=None, what=None, where=None, **kwargs):
     if where:
         where = os.path.abspath(os.path.expanduser(where))
 
-    snapshotsList = snapshots.listSnapshots(cfg)
+    snapshotsList = snapshots.listSnapshots(
+        cfg=cfg,
+        includeNewSnapshot=False,
+        reverse=True,
+        mounted_path=mount_manager.path
+    )
 
     sid = selectSnapshot(
-        snapshotsList, cfg, snapshot_id, 'SnapshotID to restore')
+        snapshotsList,
+        cfg,
+        snapshot_id,
+        'SnapshotID to restore',
+        mount_manager.path
+    )
     print('')
 
     RestoreDialog(cfg, sid, what, where, **kwargs).run()
 
 
-def remove(cfg, snapshot_ids=None, force=None):
-    snapshotsList = snapshots.listSnapshots(cfg)
+def remove(cfg, snapshot_ids, force, mount_manager):
+    snapshotsList = snapshots.listSnapshots(
+        cfg=cfg,
+        includeNewSnapshot=False,
+        reverse=True,
+        mounted_path=mount_manager.path
+    )
 
     if not snapshot_ids:
         snapshot_ids = (None,)
 
     sids = [
-        selectSnapshot(snapshotsList, cfg, sid, 'SnapshotID to remove')
+        selectSnapshot(
+            snapshotsList,
+            cfg,
+            sid,
+            'SnapshotID to remove',
+            mount_manager.path
+        )
         for sid in snapshot_ids
     ]
 
@@ -68,9 +92,6 @@ def remove(cfg, snapshot_ids=None, force=None):
 
 
 def checkConfig(cfg, crontab=True):
-    import mount
-    from exceptions import MountException
-
     def announceTest():
         print()
         print(frame(test))
@@ -87,18 +108,19 @@ def checkConfig(cfg, crontab=True):
     cfg.setErrorHandler(errorHandler)
     mode = cfg.snapshotsMode()
 
+    mount_manager = MountManager.create(cfg)
+
     if cfg.SNAPSHOT_MODES[mode][0] is not None:
         # preMountCheck
         test = 'Run mount tests'
         announceTest()
-        mnt = mount.Mount(cfg = cfg, tmp_mount = True)
 
         try:
-            mnt.preMountCheck(mode = mode, first_run = True)
+            mount_manager.validate()
 
-        except MountException as ex:
+        except MountError as exc:
             failed()
-            print(str(ex))
+            print(str(exc))
             return False
 
         okay()
@@ -108,21 +130,21 @@ def checkConfig(cfg, crontab=True):
         announceTest()
 
         try:
-            hash_id = mnt.mount(mode=mode, check=False)
+            mount_manager.mount()
 
-        except MountException as ex:
+        except MountError as exc:
             failed()
-            print(str(ex))
+            print(str(exc))
             return False
 
         okay()
 
     test = 'Check/prepare backup path'
     announceTest()
-    snapshots_mountpoint = cfg.get_snapshots_mountpoint(tmp_mount=True)
+    # snapshots_mountpoint = cfg.get_snapshots_mountpoint(tmp_mount=True)
 
     ret = tools.validate_and_prepare_snapshots_path(
-        path=snapshots_mountpoint,
+        path=mount_manager.path,
         host_user_profile=cfg.hostUserProfile(),
         mode=mode,
         copy_links=cfg.copyLinks(),
@@ -140,11 +162,11 @@ def checkConfig(cfg, crontab=True):
         announceTest()
 
         try:
-            mnt.umount(hash_id=hash_id)
+            mount_manager.umount()
 
-        except MountException as ex:
+        except MountError as exc:
             failed()
-            print(str(ex))
+            print(str(exc))
             return False
 
         okay()
@@ -174,7 +196,12 @@ def checkConfig(cfg, crontab=True):
     return True
 
 
-def selectSnapshot(snapshotsList, cfg, snapshot_id=None, msg='SnapshotID'):
+def selectSnapshot(snapshotsList,
+                   cfg,
+                   snapshot_id=None,
+                   msg='SnapshotID',
+                   mounted_path=None
+                   ):
     """
     check if given snapshot is valid. If not print a list of all
     snapshots and ask to choose one
@@ -184,7 +211,10 @@ def selectSnapshot(snapshotsList, cfg, snapshot_id=None, msg='SnapshotID'):
     if not snapshot_id is None:
 
         try:
-            sid = snapshots.SID(snapshot_id, cfg)
+            sid = snapshots.SID(
+                date=snapshot_id,
+                cfg=cfg,
+                mounted_path=mounted_path)
 
             if sid in snapshotsList:
                 return sid
@@ -342,6 +372,95 @@ def print_header():
     )
 
 
+def detect_cipher_settings(cfg: config.Config) -> tuple[str, str, str]:
+    """See issue #2176."""
+    result = []
+    cipher_keys = list(filter(
+        lambda key: 'cipher' in key, cfg.dict.keys()
+    ))
+    for key in cipher_keys:
+        val = cfg.dict[key]
+        if val.lower() == 'default':
+            continue
+
+        pid = key.split('.')[0].replace('profile', '')
+        if pid == '1':
+            name = 'Main profile'
+        else:
+            name = cfg.dict[f'{key.split('.')[0]}.name']
+
+        result.append((f'"{name}" ({pid})', val, key))
+
+    return result
+
+
+def _warn_about_cipher(cfg: config.Config) -> None:
+    """See issue #2176. Cipher options is not used anymore by BIT.
+    Therefore, users having it in config need to be warned about it.
+    """
+    for name, val, _key in detect_cipher_settings(cfg):
+        logger.critical(
+            f'Oboslete cipher setting "{val}" detected in profile {name}. '
+            f'Cipher support was removed from Back In Time. Check the backup '
+            'profile and also remove this setting from the config file.'
+        )
+
+
+def _backup_and_remove_encfs_config(cfg: config.Config) -> bool:
+    """EncFS encryption feature was removed from Back In Time (#1734).
+    This function detects existing EncFS profiles. If detected a backup is
+    created of the complete config file and the EncFS profiles removed after.
+    """
+    encfs_pids = []
+    names = ''
+
+    for pid in cfg.profiles():
+        if 'encfs' in cfg.snapshotsMode(profile_id=pid).lower():
+            name = cfg.profileName(profile_id=pid)
+            logger.critical(
+                f'Profile "{name}" ({pid}) uses obsolete EncFS encryption. '
+                'EncFS support was removed from Back In Time.'
+            )
+            encfs_pids.append(pid)
+            names += f', "{name}" ({pid})'
+
+    # no further action needed
+    if not encfs_pids:
+        return False
+
+    # do backup
+    config_fp = Path(cfg._LOCAL_CONFIG_PATH)
+    config_fp_backup = config_fp.with_suffix(
+        bitbase.ENCFS_BACKUP_CONFIG_SUFFIX
+    )
+    shutil.copyfile(config_fp, config_fp_backup)
+
+    # remove profiles, but remember that BIT will refuse to remove the
+    # last standing profil
+    temp_pid = cfg.addProfile('tmp-f8f58e16-ff2eeb4da37d-remove-me')
+    for pid in encfs_pids:
+        cfg.removeProfile(pid)
+        # if pid == '1':
+        #     first_pid = cfg.addProfile(cfg.default_profile_name)
+        #     logger.critical(f'Reset Hauptprofil. {first_pid=}')
+
+    # If main profil was reset and it is the only profile left,
+    # delete the whole config file.
+    if '1' in encfs_pids and len(cfg.profiles()) == 1:
+        config_fp.unlink()
+    else:
+        cfg.removeProfile(temp_pid)
+        cfg.save()
+
+    logger.critical(
+        f'A backup of the current config file was created: {config_fp} -> '
+        f'{config_fp_backup}. All detected EncFS profiles were removed '
+        f'from the active configuration. Profiles affected: {names}'
+    )
+
+    return True
+
+
 def get_config_and_select_profile(
         config_path: str,
         data_path: str,
@@ -364,10 +483,18 @@ def get_config_and_select_profile(
         profile. 2 if ``check`` is ``True`` and config is not configured
 
     """
-    cfg = config.Config(
-        config_path=config_path,
-        data_path=data_path)
+    cfg = config.Config(config_path=config_path, data_path=data_path)
 
+    # detect and remove encfs profiles
+    if _backup_and_remove_encfs_config(cfg):
+        # re-read again
+        cfg = config.Config(config_path=config_path, data_path=data_path)
+
+    # Just warn about cipher settings if present.
+    # Removal happen only in the GUI.
+    _warn_about_cipher(cfg)
+
+    # explicit profile?
     if profile:
         if profile.isdigit():
             if not cfg.setCurrentProfile(int(profile)):
@@ -377,6 +504,10 @@ def get_config_and_select_profile(
             if not cfg.setCurrentProfileByName(profile):
                 logger.error(f'Profile not found: {profile}')
                 sys.exit(bitbase.RETURN_ERR)
+
+    else:
+        # Use the first available profile as default
+        cfg.setCurrentProfile(cfg.profiles()[0])
 
     if check and not cfg.isConfigured():
         logger.error(f'{cfg.APP_NAME} is not configured!')
