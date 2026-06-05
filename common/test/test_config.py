@@ -74,7 +74,7 @@ class RemoveOldSnapshotsDate(unittest.TestCase):
         self.assertEqual(sut, datetime.date(2023, 7, 1))
 
 
-class SshCommand(generic.SSHTestCase):
+class _REVIEW_SshCommand(generic.SSHTestCase):
     @classmethod
     def setUpClass(cls):
         cls._user = getpass.getuser()

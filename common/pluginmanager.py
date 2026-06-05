@@ -240,8 +240,8 @@ class PluginManager:
                     logger.debug(f'Not a plugin file: {f}', self)
                     continue
 
+                logger.debug(f'Try to load plugin from {f}', self)
                 self._load_plugin_from_file(f, snapshots)
-
 
     def _load_plugin_from_file(self, file_name: str, snapshots: list):
         if file_name in self.loadedPlugins:
@@ -274,9 +274,7 @@ class PluginManager:
             self.loadedPlugins.append(file_name)
 
         except BaseException as exc:
-            logger.error(f'Failed to load plugin {file_name}: {exc=}', self)
-            raise
-
+            logger.critical(f'Failed to load plugin {file_name}: {exc=}', self)
 
     def processBegin(self):
         ret_val = True

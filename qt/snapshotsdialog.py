@@ -37,6 +37,7 @@ import restoredialog
 import messagebox
 import snapshots
 import logger
+import mount
 from inhibitsuspend import InhibitSuspend
 
 DIFF_PARAMS = '%1 %2'
@@ -338,27 +339,15 @@ class SnapshotsDialog(QDialog):
         self.updateSnapshots()
 
     def updateToolbar(self):
-        sids = self.timeline.get_all_selected_backup_descriptors()
-        sids = [
-            snapshots.SID(date=descriptor, cfg=self.config)
-            for descriptor in sids
-        ]
-
-        if not sids:
+        if self.timeline.is_now_selected():
             enable_restore = False
             enable_delete = False
 
-        elif len(sids) == 1:
-            enable_restore = not sids[0].isRoot
-            enable_delete = not sids[0].isRoot
-
         else:
-            enable_restore = False
-            enable_delete = True
+            sids = self.timeline.get_all_selected_backup_descriptors()
 
-            for sid in sids:
-                if sid.isRoot:
-                    enable_delete = False
+            enable_restore = False
+            enable_delete = True if sids else False
 
         self.btnRestore.setEnabled(enable_restore)
         self.btnDelete.setEnabled(enable_delete)
@@ -402,23 +391,27 @@ class SnapshotsDialog(QDialog):
     #     QDesktopServices.openUrl(QUrl(full_path))
 
     def btnDiffClicked(self):
+        mount_manager = mount.MountManager.create(self.config)
         sid1 = None
         if self.timeline.is_now_selected():
             sid1 = snapshots.RootSnapshot(self.config)
         else:
             backup_descriptor = self.timeline.selected_backup_descriptor()
             if backup_descriptor:
-                sid1 = snapshots.SID(backup_descriptor, self.config)
+                sid1 = snapshots.SID(
+                    date=backup_descriptor,
+                    cfg=self.config,
+                    mounted_path=mount_manager.path
+                )
 
         sid2 = self.comboDiff.current_snapshot_id()
 
         if not sid1 or not sid2:
             return
 
-        path1 = sid1.pathBackup(self.path)
-        path2 = sid2.pathBackup(self.path)
+        path1 = sid1.path() # sid1.pathBackup(self.path)
+        path2 = sid2.path() # sid2.pathBackup(self.path)
 
-        # check if the 2 paths are different
         if path1 == path2:
             messagebox.critical(
                 self, _('It is not possible to compare a backup to '
@@ -507,8 +500,9 @@ class SnapshotsDialog(QDialog):
 
     def accept(self):
         sid = self.timeline.selected_backup_descriptor()
+        mount_manager = mount.MountManager.create(self.config)
         if sid:
-            self.sid = snapshots.SID(sid, self.config)
+            self.sid = snapshots.SID(sid, self.config, mount_manager.path)
         super(SnapshotsDialog, self).accept()
 
 

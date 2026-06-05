@@ -24,7 +24,6 @@ import errno
 import locale
 import gettext
 import hashlib
-import ipaddress
 import shutil
 from datetime import datetime, timedelta
 from collections.abc import MutableMapping
@@ -137,6 +136,24 @@ def as_backintime_path(*path: str) -> str:
     result = result.resolve()
 
     return str(result)
+
+
+def register_backintime_path(*path: str):
+    """
+    Add BackInTime path ``path`` to :py:data:`sys.path` so subsequent imports
+    can discover them.
+
+    Args:
+        *path (str):    paths that should be joined to 'backintime'
+
+    Note:
+        Duplicate in :py:func:`qt/qttools.py` because modules in qt folder
+        would need this to actually import :py:mod:`tools`.
+    """
+    path = as_backintime_path(*path)
+
+    if path not in sys.path:
+        sys.path.insert(0, path)
 
 
 # |---------------------------------------------------|
@@ -424,6 +441,9 @@ def validate_and_prepare_snapshots_path(
 
     # create full_path
     try:
+        logger.debug(
+            f'Try to create full backup destination path "{full_path}"'
+        )
         full_path.mkdir(mode=0o777, parents=True, exist_ok=True)
 
     except PermissionError:
@@ -489,7 +509,7 @@ def is_filesystem_valid(full_path, msg_path, mode, copy_links):
                     copyLinks=_('Copy links (dereference symbolic links)'),
                     expertOptions=_('Expert Options'))
 
-    elif fs == 'fuse.sshfs' and mode not in ('ssh', 'ssh_encfs'):
+    elif fs == 'fuse.sshfs' and 'ssh' not in mode:
         msg = _(
             "Destination filesystem for {path} is a share mounted via sshfs. "
             "Sshfs doesn't support hard-links. "
@@ -566,6 +586,36 @@ def nested_dict_update(org: dict, update: dict) -> dict:
 # |-------------------|
 # | File system stuff |
 # |-------------------|
+
+
+def is_mounted(path: pathlib.Path) -> bool:
+    """Checks the path is a mounted mountpoint."""
+
+    absolute = path.resolve()
+
+    if not absolute.exists():
+        return False
+
+    if absolute.is_mount():
+        return True
+
+    return in_proc_self_mountinfo(absolute)
+
+
+def in_proc_self_mountinfo(path: pathlib.Path) -> bool:
+    """Test if the path is in /proc/self/mountinfo"""
+    mountinfo = pathlib.Path('/proc') / 'self' / 'mountinfo'
+
+    try:
+        all_rows = mountinfo.read_text('utf-8').split('\n')
+    except OSError as exc:
+        logger.critical(f'Unable to read from file "{mountinfo}". {exc}')
+        return False
+
+    return any(
+        (lambda parts=row.split(): len(parts) > 4 and parts[4] == path)()
+        for row in all_rows
+    )
 
 
 def free_space(path: pathlib.Path, ssh_command: list[str] = None
@@ -646,25 +696,6 @@ def _free_space_ssh(path: pathlib.Path, ssh_command: list[str]) -> int | None:
 # |------------------------------------|
 # | Miscellaneous, not categorized yet |
 # |------------------------------------|
-
-
-def register_backintime_path(*path: str):
-    """
-    Add BackInTime path ``path`` to :py:data:`sys.path` so subsequent imports
-    can discover them.
-
-    Args:
-        *path (str):    paths that should be joined to 'backintime'
-
-    Note:
-        Duplicate in :py:func:`qt/qttools.py` because modules in qt folder
-        would need this to actually import :py:mod:`tools`.
-    """
-    path = as_backintime_path(*path)
-
-    if path not in sys.path:
-        sys.path.insert(0, path)
-
 
 def runningFromSource():
     """Check if BackInTime is running from source (without installing).
@@ -831,35 +862,39 @@ def checkCommand(cmd: str) -> bool:
     return which(cmd) is not None
 
 
-def which(cmd):
-    """Get the fullpath of executable command ``cmd``.
+def which(cmd: str) -> str | None:
+    """Return the absolute path of executable command ``cmd``.
 
-    Works like command-line 'which' command.
+    Similar to the command-line utility ``which`` or Python's
+    ``shutil.which()``, but with behavior specific to Back In Time.
 
-    Dev note by buhtz (2024-04): Give false-negative results in fake
-    filesystems. Quit often use in the whole code base. But not sure why
-    can we replace it with "which" from shell?
+    When executed directly from source tree (development mode), the local
+    ``common/`` directory is added to the search path. This allows helper
+    executables like ``backintime-askpass`` to be found without requiring
+    installation into the system ``PATH``.
+
+    This behavior is required for development, testing, and source-tree
+    execution and therefore should not be replaced by a direct call to
+    ``shutil.which()`` or the shell command ``which`` without preserving
+    the modified search path logic. Until #1575 is solved.
 
     Args:
-        cmd (str): The command.
+        cmd: Name of the executable command.
 
     Returns:
-        str: Fullpath of command ``cmd`` or ``None`` if command is not
-             available.
+        Absolute path of the executable if found, otherwise ``None``.
     """
     pathenv = os.getenv('PATH', '')
-    path = pathenv.split(':')
+    paths = pathenv.split(os.pathsep)
     common = as_backintime_path('common')
 
-    if runningFromSource() and common not in path:
-        path.insert(0, common)
+    if runningFromSource() and common not in paths:
+        paths.insert(0, common)
 
-    for directory in path:
-        fullpath = os.path.join(directory, cmd)
+    result = shutil.which(cmd, path=os.pathsep.join(paths))
 
-        if os.path.isfile(fullpath) and os.access(fullpath, os.X_OK):
-            fullpath = str(pathlib.Path(fullpath).resolve())
-            return fullpath
+    if result:
+        return str(pathlib.Path(result).resolve())
 
     return None
 
@@ -1116,12 +1151,15 @@ def is_Qt_working(systray_required=False):
     # Spawns a new process since it may crash with a SIGABRT and we
     # don't want to crash BiT if this happens...
 
+    logger.debug('tools::is_Qt_working()')
     path = os.path.join(as_backintime_path("common"), "qt_probing.py")
     cmd = [sys.executable, path]
+
     if logger.DEBUG:
         cmd.append('--debug')
 
     try:
+        logger.debug(f'Execute {cmd=}')
         with subprocess.Popen(cmd,
                               stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE,
@@ -1141,8 +1179,6 @@ def is_Qt_working(systray_required=False):
 
             rc = proc.returncode
 
-            return rc == 2 or (rc == 1 and systray_required is False)
-
     except FileNotFoundError:
         logger.error(f'Qt probing script not found: {cmd[0]}')
         raise
@@ -1158,10 +1194,28 @@ def is_Qt_working(systray_required=False):
         logger.debug('Qt probing '
                      f'STDOUT: "{outs}" '
                      f'STDERR: "{errs}"')
+        return False
+
+    except SystemExit as exc:
+        rc = exc.code
 
     except Exception as exc:
         logger.critical(f'Unknown Error: {exc}')
         raise
+
+    if rc == 2:
+        # Qt is "full" working
+        return True
+    elif rc == 1:
+        if systray_required:
+            # Qt works minimal but without (required) systray
+            return False
+        else:
+            # Systray doesn't matter. Qt itself works.
+            return True
+
+    logger.error(f'Unexpected return code {rc=}')
+    return False
 
 
 def powerStatusAvailable():
@@ -1260,7 +1314,7 @@ def rsyncCaps() -> list[str]:
 
 def rsyncPrefix(config,
                 no_perms: bool = True,
-                use_mode: list[str] = ['ssh', 'ssh_encfs'],
+                use_mode: list[str] = ['ssh', 'ssh_gocryptfs'],
                 progress: bool = True) -> list[str]:
     """
     Get rsync command and all args for creating a new snapshot. Args are
@@ -1350,7 +1404,7 @@ def rsyncPrefix(config,
     return cmd
 
 
-def rsyncSshArgs(config, use_mode=['ssh', 'ssh_encfs']):
+def rsyncSshArgs(config, use_mode=['ssh', 'ssh_gocryptfs']):
     """
     Get SSH args for rsync based on current profile in ``config``.
 
@@ -1367,7 +1421,7 @@ def rsyncSshArgs(config, use_mode=['ssh', 'ssh_encfs']):
 
     mode = config.snapshotsMode()
 
-    if mode in ['ssh', 'ssh_encfs'] and mode in use_mode:
+    if mode in ['ssh', 'ssh_gocryptfs'] and mode in use_mode:
         ssh = config.sshCommand(user_host=False,
                                 ionice=False,
                                 nice=False)
@@ -1403,7 +1457,7 @@ def rsyncRemove(config, run_local=True):
     Args:
         config (config.Config): current config
         run_local (bool):       if True and current mode is ``ssh``
-                                or ``ssh_encfs`` this will add SSH options
+                                or ``ssh_gocryptfs`` this will add SSH options
 
     Returns:
         list:                   rsync command with all args
@@ -1686,7 +1740,7 @@ def decodeOctalEscape(s):
     return re.sub(r'\\(\d{3})', repl, s)
 
 
-def mountArgs(path: str) -> list | None:
+def _get_mtab_mount_args(path: str) -> list | None:
     """
     Get all /etc/mtab args for the filesystem of ``path`` as a list.
     Example::
@@ -1732,7 +1786,7 @@ def device(path):
     Returns:
         str:        device
     """
-    args = mountArgs(path)
+    args = _get_mtab_mount_args(path)
 
     if args:
         return args[0]
@@ -1750,7 +1804,7 @@ def filesystem(path: str) -> str | None:
     Returns:
         str:        filesystem
     """
-    args = mountArgs(path)
+    args = _get_mtab_mount_args(path)
 
     if args and len(args) >= 3:
         return args[2]
@@ -2018,26 +2072,9 @@ def splitCommands(cmds, head='', tail='', maxLength=0):
 
 
 def escapeIPv6Address(address):
-    """Escape IP addresses with square brackets ``[]`` if they are IPv6.
-
-    If it is an IPv4 address or a hostname (lettersonly) nothing is changed.
-
-    Args:
-        address (str): IP-Address to escape if needed.
-
-    Returns:
-        str: The address, escaped if it is IPv6.
-    """
-    try:
-        ip = ipaddress.ip_address(address)
-    except ValueError:
-        # invalid IP, e.g. a hostname
-        return address
-
-    if ip.version == 6:
-        return f'[{address}]'
-
-    return address
+    # WORKAROUND
+    from mount import SSHHost
+    return SSHHost.ensure_ipv6_brackets(address)
 
 
 def xdg_open(uri: str) -> bool:

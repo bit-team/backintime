@@ -12,8 +12,13 @@ This module contains the application logic independent from the GUI layer.
 Dev note (buhtz, 2026-02): Copeling to the config module will be refactored
 soon. See PR #1850
 """
+# pylint: disable=wrong-import-order,wrong-import-position
 from pathlib import Path
 from event import Event
+# We need to import common/mount/
+import qttools_path
+qttools_path.register_backintime_path('common')
+from mount import MountManager  # noqa: E402
 
 
 class ProfileOperations:
@@ -23,6 +28,18 @@ class ProfileOperations:
     def __init__(self, profile_id, config):
         self._profile_id = profile_id
         self._config = config
+        self._mount_manager = None
+
+    def get_mount_manager(self):
+        """Dev note (buhtz, 2026-05): This method is not a good idea. The mount
+        manager may operate with a configuration has changed without notice.
+        """
+        if self._mount_manager:
+            return self._mount_manager
+
+        self._mount_manager = MountManager.create(self._config)
+
+        return self.get_mount_manager()
 
     def _split_duplicates(self,
                           existing: list[str],

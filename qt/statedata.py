@@ -62,19 +62,6 @@ class StateData(dict, metaclass=singleton.Singleton):
             self._profile_id = profile_id
 
         @property
-        def msg_encfs(self) -> int:
-            """Stage of EncFS deprecation warning shown as last."""
-            try:
-                return self._state['message']['encfs'][self._profile_id]
-            except KeyError:
-                self.msg_encfs = 0
-                return self.msg_encfs
-
-        @msg_encfs.setter
-        def msg_encfs(self, val: int) -> None:
-            self._state['message']['encfs'][self._profile_id] = val
-
-        @property
         def last_path(self) -> Path:
             """Last path used in the GUI.
 
@@ -244,19 +231,6 @@ class StateData(dict, metaclass=singleton.Singleton):
     @msg_language_remove.setter
     def msg_language_remove(self, val: bool) -> None:
         self['message']['language_remove'] = val
-
-    @property
-    def msg_cipher_deprecation(self) -> bool:
-        """Cipher deprecation message shown."""
-        try:
-            return self['message']['cipher_deprecation']
-        except KeyError:
-            self.msg_cipher_deprecation = False
-            return self.msg_cipher_deprecation
-
-    @msg_cipher_deprecation.setter
-    def msg_cipher_deprecation(self, val: bool) -> None:
-        self['message']['cipher_deprecation'] = val
 
     @property
     def msg_encfs_global(self) -> int:

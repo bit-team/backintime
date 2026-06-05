@@ -353,6 +353,7 @@ def custom_sort_order(header, loop, new_column, new_order):
     header.model().sort(new_column, new_order)
     return loop
 
+
 # |---------------------|
 # | Misc / Uncatgorized |
 # |---------------------|

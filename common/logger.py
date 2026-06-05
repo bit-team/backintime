@@ -33,6 +33,15 @@ _level_names = {
 syslog_id_suffix = '<unknown>'
 
 
+_level_colors = {
+    syslog.LOG_INFO: bcolors.OKGREEN,
+    syslog.LOG_WARNING: bcolors.WARNING,
+    syslog.LOG_ERR: bcolors.FAIL,
+    syslog.LOG_CRIT: bcolors.CRITICAL,
+    syslog.LOG_DEBUG: bcolors.OKBLUE
+}
+
+
 def openlog(suffix: str):
     """Initialize the BIT logger system using syslog.
 
@@ -53,8 +62,8 @@ def closelog():
     syslog.closelog()
 
 
-def _do_syslog(message: str, level: int) -> str:
-    syslog.syslog(level, '{}: {}{}{}'.format(
+def _do_syslog(message: str, level: int):
+    syslog.syslog(level, '{:8}: {}{}{}'.format(
         _level_names[level],
         f'{USER} ' if DEBUG else '',
         SYSLOG_MESSAGE_PREFIX,
@@ -62,12 +71,20 @@ def _do_syslog(message: str, level: int) -> str:
     ))
 
 
+def _do_stderr(message: str, level: int):
+    print(
+        f'{_level_colors[level]}{_level_names[level]:8}{bcolors.ENDC}'
+        f'{message}',
+        file=sys.stderr
+    )
+
+
 def critical(msg, parent=None, traceDepth=0):
     if DEBUG:
         msg = _debugHeader(parent, traceDepth) + ' ' + msg
 
-    print(f'{bcolors.CRITICAL}CRITICAL{bcolors.ENDC}: {msg}', file=sys.stderr)
-
+    msg = f' {msg}'
+    _do_stderr(msg, syslog.LOG_CRIT)
     _do_syslog(msg, syslog.LOG_CRIT)
 
 
@@ -75,8 +92,7 @@ def error(msg, parent=None, traceDepth=0):
     if DEBUG:
         msg = _debugHeader(parent, traceDepth) + ' ' + msg
 
-    print(f'{bcolors.FAIL}ERROR{bcolors.ENDC}: {msg}', file=sys.stderr)
-
+    _do_stderr(msg, syslog.LOG_ERR)
     _do_syslog(msg, syslog.LOG_ERR)
 
 
@@ -84,8 +100,7 @@ def warning(msg, parent=None, traceDepth=0):
     if DEBUG:
         msg = _debugHeader(parent, traceDepth) + ' ' + msg
 
-    print(f'{bcolors.WARNING}WARNING{bcolors.ENDC}: {msg}', file=sys.stderr)
-
+    _do_stderr(msg, syslog.LOG_WARNING)
     _do_syslog(msg, syslog.LOG_WARNING)
 
 
@@ -93,8 +108,7 @@ def info(msg, parent=None, traceDepth=0):
     if DEBUG:
         msg = _debugHeader(parent, traceDepth) + ' ' + msg
 
-    print(f'{bcolors.OKGREEN}INFO{bcolors.ENDC}: {msg}', file=sys.stderr)
-
+    _do_stderr(msg, syslog.LOG_INFO)
     _do_syslog(msg, syslog.LOG_INFO)
 
 
@@ -104,8 +118,7 @@ def debug(msg, parent=None, traceDepth=0):
 
     msg = _debugHeader(parent, traceDepth) + ' ' + msg
 
-    print(f'{bcolors.OKBLUE}DEBUG{bcolors.ENDC}: {msg}', file=sys.stderr)
-
+    _do_stderr(msg, syslog.LOG_DEBUG)
     _do_syslog(msg, syslog.LOG_DEBUG)
 
 
