@@ -321,21 +321,6 @@ class CheckCommand(unittest.TestCase):
             self.assertTrue(tools.checkCommand(sut))
 
 
-class MountArgs(unittest.TestCase):
-    def test_root_fs(self):
-        sut = tools.mountArgs('/')
-        self.assertIsInstance(sut, list)
-        self.assertGreaterEqual(len(sut), 3)
-        self.assertEqual(sut[1], '/')
-
-    def test_proc(self):
-        sut = tools.mountArgs('/proc')
-        self.assertGreaterEqual(len(sut), 3)
-        self.assertEqual(sut[0], 'proc')
-        self.assertEqual(sut[1], '/proc')
-        self.assertEqual(sut[2], 'proc')
-
-
 class EncryptableWildcards(unittest.TestCase):
     def test_has(self):
         to_test = (

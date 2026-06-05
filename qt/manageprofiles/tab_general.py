@@ -11,6 +11,7 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Module about the General tab"""
+# pylint: disable=wrong-import-order
 import os
 from pathlib import Path
 from typing import Any
@@ -28,20 +29,17 @@ from config import Config
 import tools
 import logger
 import sshtools
-from exceptions import MountException, NoPubKeyLogin, KnownHost
-import mount
-from bitbase import URL_ENCRYPT_TRANSITION, DIR_SSH_KEYS
+from bitbase import DIR_SSH_KEYS
 import version
 import schedule
 import qttools
 import messagebox
-# from statedata import StateData
-from manageprofiles import combobox
-from manageprofiles import schedulewidget
+from manageprofiles import combobox, schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
 from manageprofiles.sshkeyselector import SshKeySelector
-from bitwidgets import HLineWidget
 from filedialog import FileDialog
+from mount import MountManager, MountError
+from sshsetupvalidator import SSHSetupValidator, SSHSetupError
 
 
 class GeneralTab(QDialog):
@@ -67,11 +65,6 @@ class GeneralTab(QDialog):
         hlayout.addWidget(QLabel(_('Mode:'), self))
         hlayout.addWidget(self._combo_modes, 1)
         vlayout.addLayout(hlayout)
-
-        # EncFS deprecation (#1734, #1735)
-        self._lbl_encfs_warning = self._create_label_encfs_deprecation()
-        tab_layout.addWidget(self._lbl_encfs_warning)
-        tab_layout.addWidget(HLineWidget())
 
         # Where to save snapshots
         group_box = QGroupBox(self)
@@ -163,9 +156,9 @@ class GeneralTab(QDialog):
         )
         vlayout.addWidget(self._wdg_ssh_proxy)
 
-        # encfs
-        self._group_mode_local_encfs = self._group_mode_local
-        self._group_mode_ssh_encfs = self._group_mode_ssh
+        # # encfs
+        # self._group_mode_local_encfs = self._group_mode_local
+        # self._group_mode_ssh_encfs = self._group_mode_ssh
 
         # gocryptfs
         self._group_mode_local_gocrypt = self._group_mode_local
@@ -180,12 +173,12 @@ class GeneralTab(QDialog):
 
         grid = QGridLayout()
 
-        # Used for SSH passphrase & Encfs password
+        # Used for SSH passphrase & Gocryptfs password
         self._lbl_password1 = QLabel(_('Password'), self)
         self._txt_password1 = QLineEdit(self)
         self._txt_password1.setEchoMode(QLineEdit.EchoMode.Password)
 
-        # Used for Encfs password in "ssh encrypted" mode *rofl*
+        # Used for gocryptfs password in "ssh encrypted" mode *rofl*
         self._lbl_password2 = QLabel(_('Password'), self)
         self._txt_password2 = QLineEdit(self)
         self._txt_password2.setEchoMode(QLineEdit.EchoMode.Password)
@@ -324,10 +317,6 @@ class GeneralTab(QDialog):
         backup_mode = self.config.snapshotsMode()
         self._combo_modes.select_by_data(backup_mode)
 
-        # If the profile us an deprecated backup mode (#1734)
-        if 'encfs' in backup_mode:
-            self._combo_modes.unhide_by_data(backup_mode)
-
         # local
         self._edit_backup_path.setText(
             self.config.snapshotsPath(mode='local'))
@@ -355,13 +344,11 @@ class GeneralTab(QDialog):
 
         self.key_selector.set_key(Path(val) if val else val)
 
-        # local_encfs
-        if self.mode == 'local_encfs':
-            self._edit_backup_path.setText(self.config.localEncfsPath())
-
         # local_gocryptfs
         if self.mode == 'local_gocryptfs':
-            self._edit_backup_path.setText(self.config.localGocryptfsPath())
+            self._edit_backup_path.setText(
+                self.config.localGocryptfsPath(self.config.currentProfile())
+            )
 
         self._load_passwords()
 
@@ -384,16 +371,18 @@ class GeneralTab(QDialog):
         # backup path
         path = self._edit_backup_path.text()
 
-        if path and Path(path).exists():
-            self.config.setLocalGocryptfsPath(path)
-
-        else:
+        if path is None:
             messagebox.warning(
                 _('The backup destination path cannot be empty.'),
                 _('Where to save backups'),
                 self
             )
             return False
+
+        # if not self._is_gocryptfs_path_empty(Path(path)):
+        #     return False
+
+        self.config.setLocalGocryptfsPath(path, self.config.currentProfile())
 
         # password
         password_1 = self._txt_password1.text()
@@ -408,7 +397,8 @@ class GeneralTab(QDialog):
 
         return True
 
-    def store_values(self) -> bool:
+    # pylint: disable-next=too-many-return-statements, too-many-statements
+    def store_values(self) -> bool:  # noqa: PLR0915, PLR0911
         """Store the tab's values into the config instance.
 
         Returns:
@@ -422,14 +412,14 @@ class GeneralTab(QDialog):
         password_1 = self._txt_password1.text()
         password_2 = self._txt_password2.text()
 
-        mount_kwargs = {}
+        # mount_kwargs = {}
 
-        if mode in ('ssh', 'local_encfs'):
-            mount_kwargs = {'password': password_1}
+        # if mode in ('ssh', 'local_encfs'):
+        #     mount_kwargs = {'password': password_1}
 
-        elif mode == 'ssh_encfs':
-            mount_kwargs = {'ssh_password': password_1,
-                            'encfs_password': password_2}
+        # elif mode == 'ssh_encfs':
+        #     mount_kwargs = {'ssh_password': password_1,
+        #                     'encfs_password': password_2}
 
         self.config.setHostUserProfile(
             self._txt_host.text(),
@@ -452,8 +442,8 @@ class GeneralTab(QDialog):
             key_file = self.key_selector.get_key()
             self.config.setSshPrivateKeyFile(str(key_file) if key_file else '')
 
-        # save local_encfs
-        self.config.setLocalEncfsPath(self._edit_backup_path.text())
+        # # save local_encfs
+        # self.config.setLocalEncfsPath(self._edit_backup_path.text())
 
         # _gocryptfs: path & password
         if self._store_local_gocryptfs_destination_path() is False:
@@ -474,172 +464,196 @@ class GeneralTab(QDialog):
         self.config.setPassword(password_1, mode=mode)
         self.config.setPassword(password_2, mode=mode, pw_id=2)
 
-        if mode != 'local':
-            mnt = mount.Mount(cfg=self.config, tmp_mount=True, parent=self)
-            hash_id = self._do_alot_pre_mount_checking(mnt, mount_kwargs)
+        if 'ssh' in mode:
+            mnt = MountManager.create(self.config)
+            ssh_check = SSHSetupValidator(mnt)
+            try:
+                ssh_check.run()
+            except SSHSetupError as exc:
+                logger.error(exc)
+                msg = _(
+                    'Back In Time could not validate the SSH configuration.'
+                ) + '\n\n' + _('Reason:') + '\n' + exc.gui_msg
+                messagebox.critical(self, msg, _('SSH profile setup failed'))
 
-            if hash_id is False:
                 return False
 
-        # snaphots_path
+        # Dev note (2026-05, buhtz): Gocryptfs needs an empty dir to get
+        # initialized. Here this is check. Important is that this check
+        # happens after the SSH checks.
+        # For local encrypted profiles a similar check is used. Not here,
+        # but in _slot_snapshots_path_clicked().
+        # This is a pragmatic workaround/solution and might be restructured
+        # later.
+        if mode == 'ssh_gocryptfs':
+            mnt = MountManager.create(self.config)
+
+            try:
+                # Mount SSH only, without gocryptfs
+                mnt.backend.mount()
+
+                if not self._is_empty_or_initialized_gocryptfs(
+                        mnt.backend.path):
+
+                    mnt.backend.umount()
+                    return False
+
+                mnt.backend.umount()
+
+            except MountError as exc:
+                messagebox.critical(self, exc.gui_msg)
+                return False
+
         if mode == 'local':
             self.config.set_snapshots_path(self._edit_backup_path.text())
 
-        snapshots_mountpoint = self.config.get_snapshots_mountpoint(
-            tmp_mount=True)
+        # Attention! The mount manager instance need to be fresh at this point
+        # because the config was changed.
+        # Current problem with the Manage profile dialog is that there is to
+        # much mounting stuff involved.
+        try:
+            mnt = MountManager.create(self.config)
+            mnt.mount()
+
+        except MountError as exc:
+            logger.error(self, str(exc))
+            messagebox.critical(
+                self, exc.gui_msg, _('Profile setup failed')
+            )
+            return False
 
         success = tools.validate_and_prepare_snapshots_path(
-            path=snapshots_mountpoint,
+            path=mnt.path,
             host_user_profile=self.config.hostUserProfile(),
             mode=mode,
             copy_links=self.config.copyLinks(),
             error_handler=self.config.notifyError)
 
+        # # DEBUG
+        # logger.critical(
+        #     f'validate_and_prepare_snapshots_path() returned {success=}'
+        # )
+
         if success is False:
             return False
 
         # umount
-        if mode != 'local':
-            try:
-                mnt.umount(hash_id=hash_id)
-
-            except MountException as ex:
-                messagebox.critical(self, str(ex))
-                return False
+        try:
+            mnt.umount()
+        except MountError as exc:
+            logger.error(self, str(exc))
+            messagebox.critical(self, exc.gui_msg)
+            return False
 
         return True
 
-    def _do_alot_pre_mount_checking(self, mnt, mount_kwargs):  # noqa: PLR0911
-        """Initiate several checks related to mounting and similar tasks.
+    # def _do_alot_pre_mount_checking(self, mnt, mount_kwargs):
+    #     """Initiate several checks related to mounting and similar tasks.
 
-        Depending on the backup mode used different checks are initiated.
+    #     Depending on the backup mode used different checks are initiated.
 
-        Dev note (buhtz, 2024-09): The code is parked and ready to refactoring.
+    #     Dev note (buhtz, 2024-09): The code is parked and ready to
+    #     refactoring.
 
-        Returns:
-            bool: ``True`` if successful otherwise ``False``.
-        """
-        # pylint: disable=too-many-return-statements
+    #     Returns:
+    #         bool: ``True`` if successful otherwise ``False``.
+    #     """
+    #     # pylint: disable=too-many-return-statements
 
-        try:
-            mode = self.config.snapshotsMode()
-            if 'gocryptfs' in mode:
-                if not mnt.get_backend(mode).isConfigured():
-                    mnt.init_backend(mode=mode, **mount_kwargs)
+    #     try:
+    #         if not mnt.is_initialized():
+    #             mnt.initialize()
+    #         mnt.validate()
+    #         mnt.mount()
 
-        except MountException as ex:
-            messagebox.critical(self, str(ex))
+    #     except MountError as exc:
+    #         messagebox.critical(self, exc.gui_msg)
+    #         return False
 
-            return False
+    #     return True
 
-        try:
-            # This will run several checks depending on the snapshots mode
-            # used. Exceptions are raised if something goes wrong. On mode
-            # "local" nothing is checked.
-            mnt.preMountCheck(
-                mode=self.config.snapshotsMode(),
-                first_run=True,
-                **mount_kwargs)
+        # except NoPubKeyLogin as ex:
+        #     logger.error(str(ex), self)
 
-        except NoPubKeyLogin as ex:
-            logger.error(str(ex), self)
+        #     if not self.config.sshPrivateKeyFile_enabled():
+        #         # Configured without explicit SSH key file
+        #         messagebox.critical(self, str(ex))
+        #         return False
 
-            if not self.config.sshPrivateKeyFile_enabled():
-                # Configured without explicit SSH key file
-                messagebox.critical(self, str(ex))
-                return False
+        #     question = (
+        #         '<p>' + _('An error occurred while attempting to log in to '
+        #                   'the remote host. The following error message was '
+        #                   'returned:')
+        #         + '</p><p>' + str(ex) + '</p><p>'
+        #         + _('To enable password-less login, the public SSH key can '
+        #             'be copied to the remote host.')
+        #         + '</p><p>'
+        #         + _('Proceed with copying the SSH key?')
+        #         + '</p>'
+        #     )
 
-            question = (
-                '<p>' + _('An error occurred while attempting to log in to '
-                          'the remote host. The following error message was '
-                          'returned:')
-                + '</p><p>' + str(ex) + '</p><p>'
-                + _('To enable password-less login, the public SSH key can be '
-                    'copied to the remote host.')
-                + '</p><p>'
-                + _('Proceed with copying the SSH key?')
-                + '</p>'
-            )
+        #     answer = messagebox.warning(text=question, as_question=True)
 
-            answer = messagebox.warning(text=question, as_question=True)
+        #     if not answer:
+        #         return False
 
-            if not answer:
-                return False
+        #     rc_copy_id = sshtools.sshCopyId(
+        #         self.config.sshPrivateKeyFile() + '.pub',
+        #         self.config.sshUser(),
+        #         self.config.sshHost(),
+        #         port=str(self.config.sshPort()),
+        #         proxy_user=self.config.sshProxyUser(),
+        #         proxy_host=self.config.sshProxyHost(),
+        #         proxy_port=self.config.sshProxyPort(),
+        #         # This will open an extra input dialog to ask for the
+        #         # SSH password.
+        #         askPass=tools.which('backintime-askpass'),
+        #         cipher=self.config.sshCipher()
+        #     )
 
-            rc_copy_id = sshtools.sshCopyId(
-                self.config.sshPrivateKeyFile() + '.pub',
-                self.config.sshUser(),
-                self.config.sshHost(),
-                port=str(self.config.sshPort()),
-                proxy_user=self.config.sshProxyUser(),
-                proxy_host=self.config.sshProxyHost(),
-                proxy_port=self.config.sshProxyPort(),
-                # This will open an extra input dialog to ask for the
-                # SSH password.
-                askPass=tools.which('backintime-askpass'),
-                cipher=self.config.sshCipher()
-            )
+        #     if not rc_copy_id:
+        #         messagebox.warning(_(
+        #             'The public SSH key could not be copied. This may '
+        #             'be due to a connection or permission issue.'
+        #         ))
+        #         return False
 
-            if not rc_copy_id:
-                messagebox.warning(_(
-                    'The public SSH key could not be copied. This may '
-                    'be due to a connection or permission issue.'
-                ))
-                return False
+        #     # --- DEV NOTE TODO ---
+        #     # Why this recursive call?
+        #     return self._parent_dialog.save_profile()
 
-            # --- DEV NOTE TODO ---
-            # Why this recursive call?
-            return self._parent_dialog.save_profile()
+        # except KnownHost as ex:
+        #     logger.error(str(ex), self)
+        #     fingerprint, hashed_key, key_type = sshtools.sshHostKey(
+        #         host=self.config.sshHost(),
+        #         port=str(self.config.sshPort()))
 
-        except KnownHost as ex:
-            logger.error(str(ex), self)
-            fingerprint, hashed_key, key_type = sshtools.sshHostKey(
-                host=self.config.sshHost(),
-                port=str(self.config.sshPort()))
+        #     if not fingerprint:
+        #         messagebox.critical(self, str(ex))
+        #         return False
 
-            if not fingerprint:
-                messagebox.critical(self, str(ex))
-                return False
+        #     msg = (
+        #         '<p>'
+        #         + _("The authenticity of host {host} can't be "
+        #             "established.").format(host=self.config.sshHost())
+        #         + '</p><p>'
+        #         + _('{keytype} key fingerprint is:').format(keytype=key_type)
+        #         + '</p><p><code>'
+        #         + fingerprint
+        #         + '</code></p><p>'
+        #         + _('Please verify this fingerprint. Add it to the '
+        #             '"known_hosts" file?')
+        #         + '</p>'
+        #     )
 
-            msg = (
-                '<p>'
-                + _("The authenticity of host {host} can't be "
-                    "established.").format(host=self.config.sshHost())
-                + '</p><p>'
-                + _('{keytype} key fingerprint is:').format(keytype=key_type)
-                + '</p><p><code>'
-                + fingerprint
-                + '</code></p><p>'
-                + _('Please verify this fingerprint. Add it to the '
-                    '"known_hosts" file?')
-                + '</p>'
-            )
+        #     if messagebox.question(msg):
+        #         sshtools.writeKnownHostsFile(hashed_key)
 
-            if messagebox.question(msg):
-                sshtools.writeKnownHostsFile(hashed_key)
+        #         # --- DEV NOTE TODO ---
+        #         # AGAIN: Why this recursive call?
+        #         return self.saveProfile()
 
-                # --- DEV NOTE TODO ---
-                # AGAIN: Why this recursive call?
-                return self.saveProfile()
-
-            return False
-
-        except MountException as ex:
-            messagebox.critical(self, str(ex))
-            return False
-
-        # okay, let's try to mount
-        try:
-            hash_id = mnt.mount(
-                mode=self.config.snapshotsMode(),
-                check=False,
-                **mount_kwargs)
-
-        except MountException as ex:
-            messagebox.critical(self, str(ex))
-            return False
-
-        return hash_id
+        #     return False
 
     def _snapshot_mode_combobox(self) -> combobox.BitComboBox:
         # Workaround until encryption transition (#1734) is finished.
@@ -656,29 +670,10 @@ class GeneralTab(QDialog):
 
         return combobox.BitComboBox(self, snapshot_modes)
 
-    def _create_label_encfs_deprecation(self):
-        # encfs deprecation warning (see #1734, #1735)
-
-        whitepaper = f'<a href="{URL_ENCRYPT_TRANSITION}">'
-        whitepaper = whitepaper + 'whitepaper' + '</a>'
-
-        txt = [
-            '<strong>Encrypted profiles using EncFS are no longer '
-            'supported.</strong>',
-            'New EncFS backup profiles can not be created anymore. '
-            'Existing EncFS profiles are still displayed and '
-            'supported for now, but EncFS support will be <strong>'
-            'completely removed</strong> in a future release '
-            '(expected around 2027).',
-            'EncFS is considered insecure and is no longer actively '
-            'maintained. For more information, see this '
-            f'{whitepaper}.'
-        ]
-        txt = '<p>' + '</p><p>'.join(txt) + '</p>'
-
-        return qttools.create_warning_label(txt, icon_scale_factor=3)
-
     def _slot_snapshots_path_clicked(self):
+        """The dir button beside backup destination path was clicked.
+        Note: This button exists only on local profiles.
+        """
         old_path = Path(self._edit_backup_path.text())
 
         dlg = FileDialog(
@@ -687,7 +682,7 @@ class GeneralTab(QDialog):
             show_hidden=True,
             allow_multiselection=False,
             dirs_only=True,
-            start_dir=old_path)
+            start_dir=Path.home() if old_path == Path('.') else old_path)
         path = dlg.result()
 
         # nothing selected (Cancel)
@@ -701,7 +696,7 @@ class GeneralTab(QDialog):
         # gocryptfs destination need to be empty
         if 'gocryptfs' in self.mode:
             # is not empty
-            if not self._is_gocryptfs_path_empty(path):
+            if not self._is_empty_or_initialized_gocryptfs(path):
                 return
 
         # Really change?
@@ -715,16 +710,22 @@ class GeneralTab(QDialog):
         # Set the path
         self._edit_backup_path.setText(str(path))
 
-    def _is_gocryptfs_path_empty(self, path: Path) -> bool:
-        # is not empty
+    def _is_empty_or_initialized_gocryptfs(self, path: Path) -> bool:
+        # Existing initialized repository
+        if (path / 'gocryptfs.conf').is_file():
+            return True
+
+        # Empty directory
         if not any(path.iterdir()):
             return True
 
         messagebox.warning(
             '<p>'
-            + _('The selected backup destination is not empty.')
+            + _('The selected backup destination cannot be used for '
+                'encryption.')
             + '<p></p>'
-            + _('It must be empty to use encryption.')
+            + _('It must either be empty or already initialized for '
+                'gocryptfs.')
             + '</p>',
             widget_to_center_on=self
         )
@@ -793,7 +794,7 @@ class GeneralTab(QDialog):
         messagebox.critical(self, msg)
 
     def _slot_full_path_changed(self, _text: Any):
-        if self.mode in ('ssh', 'ssh_encfs'):
+        if self.mode and 'ssh' in self.mode:
             path = self._txt_ssh_path.text()
 
         else:
@@ -831,26 +832,20 @@ class GeneralTab(QDialog):
 
             self.mode = active_mode
 
-            self._group_mode_local.setVisible(
-                active_mode in ('local', 'local_encfs', 'local_gocryptfs'))
-
-            self._group_mode_ssh.setVisible(
-                'ssh' in active_mode)
-
-            self._wdg_schedule.allow_udev(
-                active_mode in ('local', 'local_encfs', 'local_gocryptfs'))
+            self._group_mode_local.setVisible('local' in active_mode)
+            self._group_mode_ssh.setVisible('ssh' in active_mode)
+            self._wdg_schedule.allow_udev('local' in active_mode)
 
             # gocryptfs destination need to be empty
             if 'gocryptfs' in self.mode:
                 path = self._edit_backup_path.text()
                 # dir exists and is not empty
-                if path and any(Path(path).iterdir()):
+                try:
+                    if path and any(Path(path).iterdir()):
+                        self._edit_backup_path.setText('')
+                except FileNotFoundError as exc:
+                    logger.error(exc)
                     self._edit_backup_path.setText('')
-
-            # Don't offer deprecated modes (#1734)
-            modes_to_hide = {'local_encfs', 'ssh_encfs'} - {active_mode}
-            for hide in modes_to_hide:
-                self._combo_modes.hide_by_data(hide)
 
         # A mode using password fields?
         if self.config.modeNeedPassword(active_mode):
@@ -874,20 +869,3 @@ class GeneralTab(QDialog):
 
         else:
             self._group_password1.hide()
-
-        # EncFS deprecation warnings (see #1734)
-        if active_mode in ('local_encfs', 'ssh_encfs'):
-            self._lbl_encfs_warning.show()
-
-            # # Workaround to avoid showing the warning messagebox just when
-            # # opening the manage profiles dialog.
-            # if self._parent_dialog.isVisible():
-            #     # Show the profile specific warning dialog only once per
-            #     # profile.
-            #     if profile_state.msg_encfs < ENCFS_MSG_STAGE:
-            #         profile_state.msg_encfs = ENCFS_MSG_STAGE
-            #         dlg = encfsmsgbox.EncfsCreateWarning(self)
-            #         dlg.exec()
-
-        else:
-            self._lbl_encfs_warning.hide()
