@@ -59,10 +59,11 @@ time. The project continues to benefit from an active and engaged community
 that provides advice, expertise, and contributions, ensuring it thrives and
 evolves.
 
-The project was
-[reactivated in 2022](https://github.com/bit-team/backintime/issues/1232))
-and thanks in large part to @emtiu and @aryoda, who helped relaunch and
-shape its direction. See [HISTORY](HISTORY.md) for more details.
+The project was [reactivated in
+2022](https://github.com/bit-team/backintime/issues/1232) and thanks in large
+part to Michael Büker ([@emtiu](https://github.com/emtiu)) and Jürgen
+([@aryoda](https://github.com/aryoda)), who helped relaunch and shape its
+direction. See [HISTORY](HISTORY.md) for more details.
 
 # Index
 

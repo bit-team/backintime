@@ -203,18 +203,19 @@ After the PR is merged:
       https://derlin.github.io/bitdowntoc/ to generate a TOC and copy the
       changed parts into the `README.md`.
 
-- Build, install and [test (again!)](#manual-testing---recommendations)
+- Build, install and [test (again!)](https://github.com/bit-team/backintime/blob/dev/PLAY_WITH_BIT.md).
   the prepared release candidate.
 
 - Run [`codespell`](https://pypi.org/project/codespell) in the repositories
   root folder to check for common spelling errors.
 
-- Do a [manual smoke and UAT ("user acceptance test")](#manual-testing---recommendations)
+- Do a
+  [manual smoke and UAT ("user acceptance test")](https://github.com/bit-team/backintime/blob/dev/PLAY_WITH_BIT.md)
   of the GUI. Create snapshot profiles in all (four) available flavors. Create
   snapshots. Restore snapshots. Delete snapshots.
   
 - Did you really perform the previous
-  [test](#manual-testing---recommendations)? Don't dodge the question! :D
+  [test](https://github.com/bit-team/backintime/blob/dev/PLAY_WITH_BIT.md)? Don't dodge the question! :D
 
 - If you find bugs:
 
@@ -332,40 +333,6 @@ After the PR is merged:
   - inform about unexpected (open) problems (if any)
 
 - (Out of scope here): Update the Github milestones and the assigned issues
-
-
-## Manual testing - Recommendations
-Automatic tests won't cover all scenarios and possible problems. There is a high
-need to run _Back In Time_ and perform several actions to make sure it works as
-expected. The following list suggests several actions and scenarios.
-
-- If available, prefer installing from the source tarball over the git
-  repository.
-- Use a fresh and clean virtual machine without a previous version of _Back In
-  Time_ installed.
-- GNU/Linux distribution: Both major lines _Debian GNU/Linux_ and _Arch Linux_
-  or distros based on them. Additionally use a none-systemd distro like _Devuan
-  GNU/Linux_.
-- Run _Back In Time_ and perform the following actions as user and as root.
-  - Always start from terminal to catch silent errors and warnings.
-  - Create backup profils in all available flavors (Local, SSH, each with and
-    without encryption).
-    * Keep the variants of that flavors in mind and test them: SSH key with and
-      without passphrase, cached, in keyring, ...
-  - Take backup.
-  - Restore backup.
-  - Delete backup.
-  - Schedule backups using
-    - regular cron (e.g. _Every 5 minutes_)
-    - anacron-like cron (_Repeatedly (anacran)_)
-    - driven by USB-event using udev (_When drive gets connected (udev)_).
-  - GUI Tests
-    - Open and all available dialogs, check how they look and if BIT might
-      crash.
-    - Additionally use `qt6ct` and repeat the tests.
-    - Try some fancy desktop environments (Mate, Budgie, …)
-    - As the cherry on top of the ice cream, check the translation of the GUI
-      in your native language(s).
 
 ## Other noteworthy things
 
