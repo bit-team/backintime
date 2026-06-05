@@ -1203,7 +1203,7 @@ def sshCopyId(
     env['SSH_ASKPASS'] = askPass
     env['ASKPASS_MODE'] = 'USER'
     env['ASKPASS_PROMPT'] = '{}\n{}:'.format(
-        _('Copy public ssh-key "{pubkey}" to remote host "{host}".').format(
+        _('Copy public SSH key "{pubkey}" to remote host "{host}".').format(
             pubkey=pubkey, host=host),
         _('Please enter a password for "{user}".').format(user=user)
     )

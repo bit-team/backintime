@@ -302,7 +302,7 @@ class RestoreConfigDialog(QDialog):
             self._config_to_restore = cfg
 
         else:
-            self._lbl_found.setText(_('No config found in this directory'))
+            self._lbl_found.setText(_('No config found in this directory.'))
             self._lbl_found.setPalette(self._color_red)
             self._wdg_profiles.hide()
             self._config_to_restore = None
