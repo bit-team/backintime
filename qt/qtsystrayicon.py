@@ -20,6 +20,7 @@ import subprocess
 import signal
 import textwrap
 import functools
+from argparse import ArgumentParser
 from typing import Callable
 # TODO Is this really required? If the client is not configured for X11
 #      it may use Wayland or something else...
@@ -37,7 +38,7 @@ tools.initiate_translation(None)
 import snapshots
 import progress
 import logviewdialog
-import encfstools
+import config
 from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QProgressBar, QWidget
 from PyQt6.QtGui import QIcon, QRegion
@@ -64,18 +65,18 @@ class QtSysTrayIcon:
     ICON_PART_A = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"'
     ICON_PART_B = '>\n' + ICON_PATH_ONLY + '\n</svg>'
 
-    def __init__(self):
+    def __init__(self, config_path=None, profile_id=None):
 
-        self.snapshots = snapshots.Snapshots()
-        self.config = self.snapshots.config
+        self.config = config.Config(config_path)
+        self.snapshots = snapshots.Snapshots(cfg=self.config)
         self.decode = None
 
         self._current_user = pwd.getpwuid(os.getuid()).pw_name
 
-        if len(sys.argv) > 1:
-            if not self.config.setCurrentProfile(sys.argv[1]):
+        if profile_id:
+            if not self.config.setCurrentProfile(profile_id):
                 logger.warning(
-                    f'Failed to change Profile_ID {sys.argv[1]}', self)
+                    f'Failed to change Profile_ID {profile_id}', self)
 
         self.qapp = qttools.create_qapplication(self.config.APP_NAME)
         translator = qttools.initiate_translator(self.config.language())
@@ -136,20 +137,6 @@ class QtSysTrayIcon:
         self.btnStop.triggered.connect(self.onBtnStop)
         self.btnStop.setVisible(self._trust_desktop)
         self.contextMenu.addSeparator()
-
-        # Dev note (2025-12, buhtz): I wondered why this decode checkbox is
-        # visible only in ssh_encfs mode but not in local_encfs. Still not
-        # sure but I think the reason is that in ssh_encfs there is no
-        # "double-mounting": First SSH and then EncFS. In consequence this
-        # decode button is a workaround. Explicit decoding in local_encfs
-        # is not necessary because this happens via encfs-mounting. This
-        # step is missing when using ssh_encfs.
-        self.btnDecode = self.contextMenu.addAction(
-            icon.VIEW_SNAPSHOT_LOG, _('decode paths'))
-        self.btnDecode.setCheckable(True)
-        self.btnDecode.setVisible(
-            self.config.snapshotsMode() == 'ssh_encfs' and self._trust_desktop)
-        self.btnDecode.toggled.connect(self.onBtnDecode)
 
         self.openLog = self.contextMenu.addAction(
             icon.VIEW_LAST_LOG, _('View Last Log'))
@@ -323,20 +310,8 @@ class QtSysTrayIcon:
 
     @trust_required
     def onOpenLog(self, *_args, **_kwargs):
-        dlg = logviewdialog.LogViewDialog(
-            parent=self,
-            decode=self.btnDecode.isChecked())
+        dlg = logviewdialog.LogViewDialog(parent=self)
         dlg.exec()
-
-    @trust_required
-    def onBtnDecode(self, checked, *_args, **_kwargs):
-        if checked:
-            self.decode = encfstools.Decode(self.config)
-            self.last_message = None
-            self.updateInfo()
-            return
-
-        self.decode = None
 
     @trust_required
     def onBtnStop(self, *_args, **_kwargs):
@@ -367,7 +342,7 @@ class QtSysTrayIcon:
         except Exception as exc:
             logger.error(
                 'Unexpected error while determining user name of '
-                f'current desktop session: {exc}'
+                f'current desktop session: {exc=}'
             )
             return None
 
@@ -517,12 +492,39 @@ if __name__ == '__main__':
 
     logger.openlog('SYSTRAY')
 
-    # HACK: Minimal arg parsing to enable debug-level logging
-    if '--debug' in sys.argv:
-        logger.DEBUG = True
+    argparser = ArgumentParser()
+    argparser.add_argument(
+        'profile_id',
+        type=int
+    )
+    argparser.add_argument(
+        '-d', '--debug', action='store_true', default=False
+    )
+    argparser.add_argument(
+        '--config',
+        metavar='PATH',
+        type=str,
+        action='store'
+    )
+
+    args = argparser.parse_args()
+
+    logger.DEBUG = args.debug
+
+    if args.config:
+        config_path = args.config
+    else:
+        config_path = None
+
+    if args.profile_id:
+        profile_id = args.profile_id
+    else:
+        profile_id = None
 
     logger.debug(
         f'Systray icon process (PID: {os.getpid()} User: {logger.USER}) '
-        f'called with {sys.argv}')
+        f'called with {sys.argv} {args=} using '
+        f'{config_path=} and {profile_id=}'
+    )
 
-    QtSysTrayIcon().run()
+    QtSysTrayIcon(config_path=config_path, profile_id=profile_id).run()
