@@ -15,17 +15,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-03-08 12:51+0100\n"
-"PO-Revision-Date: 2026-02-02 11:33+0000\n"
-"Last-Translator: gnutechie <gnutechie@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-04-10 19:57+0000\n"
+"Last-Translator: constantinosd <constantinosd@noreply.codeberg.org>\n"
 "Language-Team: Greek <https://translate.codeberg.org/projects/backintime/common/el/>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -167,7 +167,7 @@ msgid "The last profile cannot be removed."
 msgstr "Το τελευταίο προφίλ δεν μπορεί να αφαιρεθεί."
 
 #: common/encfstools.py:129 common/gocryptfstools.py:84
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unable to mount \"{command}\""
 msgstr "Αδυναμία προσάρτησης '{command}'"
 
@@ -575,12 +575,11 @@ msgstr ""
 "παραμετροποίηση."
 
 #: qt/app.py:337
-#, fuzzy
 msgid ""
 "Import an existing configuration from a backup location or another computer?"
 msgstr ""
-"Εισαγωγή υπάρχουσας παραμετροποίησης (από κατάλογο ανάκτησης ή από άλλο "
-"υπολογιστή);"
+"Εισαγωγή υπάρχουσας παραμετροποίησης από κατάλογο ανάκτησης ή από άλλο "
+"υπολογιστή;"
 
 #: qt/app.py:379
 msgid "Then press OK."
@@ -811,15 +810,15 @@ msgstr ""
 
 #: qt/app.py:780
 msgid "Automatic"
-msgstr ""
+msgstr "Αυτόματα"
 
 #: qt/app.py:784
 msgid "Light icon"
-msgstr ""
+msgstr "Φωτεινό εικονίδιο"
 
 #: qt/app.py:785
 msgid "Dark icon"
-msgstr ""
+msgstr "Σκοτεινό εικονίδιο"
 
 #: qt/app.py:808
 msgid "Icons only"
@@ -838,18 +837,12 @@ msgid "Text beside icon"
 msgstr "Κείμενο δίπλα στο εικονίδιο"
 
 #: qt/app.py:943
-#, fuzzy
 msgid "This directory doesn't exist in the selected backup."
-msgstr ""
-"Αυτός ο κατάλογος δεν υπάρχει\n"
-"στο τρέχον επιλεγμένο αντίγραφο ασφαλείας."
+msgstr "Αυτός ο κατάλογος δεν υπάρχει στο επιλεγμένο αντίγραφο ασφαλείας."
 
 #: qt/app.py:946
-#, fuzzy
 msgid "This directory doesn't exist on the computer."
-msgstr ""
-"Αυτός ο κατάλογος δεν υπάρχει\n"
-"στο τρέχον επιλεγμένο αντίγραφο ασφαλείας."
+msgstr "Αυτός ο κατάλογος δεν υπάρχει στον ηλεκτρονικό υπολογιστή."
 
 #: qt/app.py:995
 msgid ""
@@ -1148,26 +1141,26 @@ msgstr "Προσθήκη στα Αποκλειόμενα"
 #: qt/fileview.py:292
 msgid "The selected item is already in the include list."
 msgid_plural "The selected items are already in the include list."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Το επιλεγμένο στοιχείο συμπεριλαμβάνεται ήδη στην λίστα."
+msgstr[1] "Τα επιλεγμένα στοιχεία συμπεριλαμβάνονται ήδη στη λίστα."
 
 #: qt/fileview.py:299
 msgid "The following item is already in the include list."
 msgid_plural "The following items are already in the include list."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Το επιλεγμένο στοιχείο συμπεριλαμβάνεται ήδη στην λίστα."
+msgstr[1] "Τα επιλεγμένα στοιχεία συμπεριλαμβάνονται ήδη στην λίστα."
 
 #: qt/fileview.py:313
 msgid "The selected item is already in the exclude list."
 msgid_plural "The selected items are already in the exclude list."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Το επιλεγμένο στοιχείο βρίσκεται ήδη στην αποκλεισμένη λίστα."
+msgstr[1] "Τα επιλεγμένα στοιχεία βρίσκονται ήδη στην αποκλεισμένη λίστα."
 
 #: qt/fileview.py:320
 msgid "The following item is already in the exclude list."
 msgid_plural "The following items are already in the exclude list."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Το επιλεγμένο στοιχείο βρίσκεται ήδη στην αποκλεισμένη λίστα."
+msgstr[1] "Τα επιλεγμένα στοιχεία βρίσκονται ήδη στην αποκλεισμένη λίστα."
 
 #: qt/languagedialog.py:36
 msgid "Setup language"
@@ -1366,7 +1359,7 @@ msgstr ""
 
 #: qt/manageprofiles/excludesuggestions.py:37
 msgid "Microsoft Office temporary files"
-msgstr ""
+msgstr "Microsoft Office προσωρινά αρχεία"
 
 #: qt/manageprofiles/excludesuggestions.py:40
 msgid "LibreOffice & other OpenDocument Editors lock files"
@@ -2650,11 +2643,11 @@ msgstr "Προηγούμενη εβδομάδα"
 
 #: qt/timeline.py:88
 msgid "This month"
-msgstr ""
+msgstr "Αυτό τον μήνα"
 
 #: qt/timeline.py:95
 msgid "Last month"
-msgstr ""
+msgstr "Προηγούμενο μήνα"
 
 #: qt/timeline.py:365
 #, python-brace-format

@@ -13,10 +13,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-03-08 12:51+0100\n"
-"PO-Revision-Date: 2026-02-08 06:18+0000\n"
-"Last-Translator: AndrewG <andrewg@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-03-10 14:29+0000\n"
+"Last-Translator: andronikfa <andronikfa@noreply.codeberg.org>\n"
 "Language-Team: Russian <https://translate.codeberg.org/projects/backintime/common/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -817,18 +817,12 @@ msgid "Text beside icon"
 msgstr "Текст рядом со значками"
 
 #: qt/app.py:943
-#, fuzzy
 msgid "This directory doesn't exist in the selected backup."
-msgstr ""
-"Этой папки не существует\n"
-"в выбранной резервной копии."
+msgstr "В выбранной резервной копии этой папки нет."
 
 #: qt/app.py:946
-#, fuzzy
 msgid "This directory doesn't exist on the computer."
-msgstr ""
-"Этой папки не существует\n"
-"в выбранной резервной копии."
+msgstr "Этой папки на компьютере нет."
 
 #: qt/app.py:995
 msgid ""
@@ -1119,32 +1113,30 @@ msgstr "Добавить в исключения"
 #: qt/fileview.py:292
 msgid "The selected item is already in the include list."
 msgid_plural "The selected items are already in the include list."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Выбранный файл уже включен в список."
+msgstr[1] "Выбранные файлы уже включены в список."
+msgstr[2] "Выбранные файлы уже включены в список."
 
 #: qt/fileview.py:299
 msgid "The following item is already in the include list."
 msgid_plural "The following items are already in the include list."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Выбранный файл уже в списке исключенных."
+msgstr[1] "Выбранные файлы уже в списке исключенных."
+msgstr[2] "Выбранные файлы уже в списке исключенных."
 
 #: qt/fileview.py:313
-#, fuzzy
 msgid "The selected item is already in the exclude list."
 msgid_plural "The selected items are already in the exclude list."
-msgstr[0] "Добавить в список исключений часто используемых элементы."
-msgstr[1] "Добавить в список исключений часто используемых элементы."
-msgstr[2] "Добавить в список исключений часто используемых элементы."
+msgstr[0] "Выбранный файл уже в списке исключенных."
+msgstr[1] "Выбранные файлы уже в списке исключенных."
+msgstr[2] "Выбранные файлы уже в списке исключенных."
 
 #: qt/fileview.py:320
-#, fuzzy
 msgid "The following item is already in the exclude list."
 msgid_plural "The following items are already in the exclude list."
-msgstr[0] "Добавить в список исключений часто используемых элементы."
-msgstr[1] "Добавить в список исключений часто используемых элементы."
-msgstr[2] "Добавить в список исключений часто используемых элементы."
+msgstr[0] "Выбранный файл уже в списке исключенных."
+msgstr[1] "Выбранные файлы уже в списке исключенных."
+msgstr[2] "Выбранные файлы уже в списке исключенных."
 
 #: qt/languagedialog.py:36
 msgid "Setup language"
@@ -2588,11 +2580,11 @@ msgstr "На прошлой неделе"
 
 #: qt/timeline.py:88
 msgid "This month"
-msgstr ""
+msgstr "Этот месяц"
 
 #: qt/timeline.py:95
 msgid "Last month"
-msgstr ""
+msgstr "Прошлый месяц"
 
 #: qt/timeline.py:365
 #, python-brace-format
@@ -2601,7 +2593,7 @@ msgstr "Последняя проверка {time}"
 
 #: qt/timeline.py:394
 msgid "These are your files as they are right now. It is not a backup."
-msgstr ""
+msgstr "Это ваши файлы как есть сейчас. Это не резервная копия."
 
 #~ msgid "This is NOT a backup but a live view of the local files."
 #~ msgstr "Это НЕ снимок, а живой вид ваших локальных файлов."
