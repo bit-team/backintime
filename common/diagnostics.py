@@ -180,6 +180,11 @@ def collect_diagnostics():
         result['external-programs']['shell-version'] \
             = shell_version.split('\n')[0]
 
+    # Coreutils
+    ls_version = _get_extern_versions(['ls', '--version'])
+    if ls_version:
+        result['external-programs']['coreutils'] = ls_version.split('\n')[0]
+
     result = _replace_username_paths(
         result=result,
         username=pwd.getpwuid(os.getuid()).pw_name
