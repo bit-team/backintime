@@ -759,7 +759,7 @@ deprecated and will be removed.
 
 User have the [option to
 contact](https://github.com/bit-team/backintime#contact--social) the project
-and give objections against this decission. Please do so if you have good
+and give objections against this decision. Please do so if you have good
 reason to disable these options.
 
 To disable the critical errors the config file need to be edited manually. The
