@@ -45,7 +45,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?](#if-i-edit-my-crontab-and-add-additional-entries-will-that-be-a-problem-for-bit-as-long-as-i-dont-touch-its-entries-what-does-it-look-for-in-the-crontab-to-find-its-own-entries)
    * [Can I use a systemd timer instead of cron?](#can-i-use-a-systemd-timer-instead-of-cron)
 - [Problems, Errors & Solutions](#problems-errors--solutions)
-   * [Critical errors about "`snapshots.ssh_check_commands` or `snapshots.ssh.check_ping` not set to default..."]()
+   * [Critical errors about "`snapshots.ssh_check_commands` or `snapshots.ssh.check_ping` not set to default..."](#critical-errors-about-snapshotsssh_check_commands-or-snapshotssshcheck_ping-not-set-to-default)
    * [OverflowError: Value 1702441408 out of range for UInt32](#overflowerror-value-1702441408-out-of-range-for-uint32)
    * [`SettingsDialog` object has no attribute `cbCopyUnsafeLinks`](#settingsDialog-object-has-no-attribute-cbcopyunsafelinks)
    * [WARNING: A backup is already running](#warning-a-backup-is-already-running)
@@ -758,7 +758,7 @@ There seems to be no good reason to disable these options. Regarding issue
 deprecated and will be removed.
 
 User have the [option to
-contact](https://github.com/bit-team/backintime#contact--social] the project
+contact](https://github.com/bit-team/backintime#contact--social) the project
 and give objections against this decission. Please do so if you have good
 reason to disable these options.
 
