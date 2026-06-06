@@ -364,7 +364,8 @@ class ExpertOptionsTab(QDialog):
         self._cb_ssh_prefix.setChecked(self.config.sshPrefixEnabled())
         self._txt_ssh_prefix.setText(self.config.sshPrefix())
         # self._cb_ssh_ping.setChecked(self.config.sshCheckPingHost())
-        # self._cb_ssh_check_commands.setChecked(self.config.sshCheckCommands())
+        # self._cb_ssh_check_commands.setChecked(
+        #    self.config.sshCheckCommands())
 
     def store_values(self):
         """Store values from GUI into the config"""
