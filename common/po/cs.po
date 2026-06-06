@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-03-08 12:51+0100\n"
-"PO-Revision-Date: 2026-02-20 20:29+0000\n"
+"PO-Revision-Date: 2026-05-12 13:58+0000\n"
 "Last-Translator: p-bo <p-bo@noreply.codeberg.org>\n"
 "Language-Team: Czech <https://translate.codeberg.org/projects/backintime/common/cs/>\n"
 "Language: cs\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 5.17.1\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -818,18 +818,12 @@ msgid "Text beside icon"
 msgstr "Text vedle ikon"
 
 #: qt/app.py:943
-#, fuzzy
 msgid "This directory doesn't exist in the selected backup."
-msgstr ""
-"Tato složka v nyní označené\n"
-"záloze neexistuje."
+msgstr "Tato složka v nyní označené záloze neexistuje."
 
 #: qt/app.py:946
-#, fuzzy
 msgid "This directory doesn't exist on the computer."
-msgstr ""
-"Tato složka v nyní označené\n"
-"záloze neexistuje."
+msgstr "Tato složka na počítači neexistuje."
 
 #: qt/app.py:995
 msgid ""
@@ -1118,38 +1112,30 @@ msgstr "Přidat do seznamu vynechaných"
 #: qt/fileview.py:292
 msgid "The selected item is already in the include list."
 msgid_plural "The selected items are already in the include list."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Označená položka už se nachází v seznamu zahrnutých."
+msgstr[1] "Označené položky už se nacházejí v seznamu zahrnutých."
+msgstr[2] "Označené položky už se nacházejí v seznamu zahrnutých."
 
 #: qt/fileview.py:299
 msgid "The following item is already in the include list."
 msgid_plural "The following items are already in the include list."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Následující položka už se nachází v seznamu zahrnutých."
+msgstr[1] "Následující položky už se nacházejí v seznamu zahrnutých."
+msgstr[2] "Následující položky už se nacházejí v seznamu zahrnutých."
 
 #: qt/fileview.py:313
-#, fuzzy
 msgid "The selected item is already in the exclude list."
 msgid_plural "The selected items are already in the exclude list."
-msgstr[0] ""
-"Vyberte z běžně používaných položek pro přidání do seznamu vynechávaných."
-msgstr[1] ""
-"Vyberte z běžně používaných položek pro přidání do seznamu vynechávaných."
-msgstr[2] ""
-"Vyberte z běžně používaných položek pro přidání do seznamu vynechávaných."
+msgstr[0] "Označená položka už se nachází v seznamu vynechávaných."
+msgstr[1] "Označené položky už se nacházejí v seznamu vynechávaných."
+msgstr[2] "Označené položky už se nacházejí v seznamu vynechávaných."
 
 #: qt/fileview.py:320
-#, fuzzy
 msgid "The following item is already in the exclude list."
 msgid_plural "The following items are already in the exclude list."
-msgstr[0] ""
-"Vyberte z běžně používaných položek pro přidání do seznamu vynechávaných."
-msgstr[1] ""
-"Vyberte z běžně používaných položek pro přidání do seznamu vynechávaných."
-msgstr[2] ""
-"Vyberte z běžně používaných položek pro přidání do seznamu vynechávaných."
+msgstr[0] "Následující položka už se nachází v seznamu vynechávaných."
+msgstr[1] "Následující položky už se nacházejí v seznamu vynechávaných."
+msgstr[2] "Následující položky už se nacházejí v seznamu vynechávaných."
 
 #: qt/languagedialog.py:36
 msgid "Setup language"
@@ -2605,11 +2591,11 @@ msgstr "Minulý týden"
 
 #: qt/timeline.py:88
 msgid "This month"
-msgstr ""
+msgstr "Tento měsíc"
 
 #: qt/timeline.py:95
 msgid "Last month"
-msgstr ""
+msgstr "Minulý měsíc"
 
 #: qt/timeline.py:365
 #, python-brace-format
@@ -2618,7 +2604,7 @@ msgstr "Minulá kontrola {time}"
 
 #: qt/timeline.py:394
 msgid "These are your files as they are right now. It is not a backup."
-msgstr ""
+msgstr "Toto jsou soubory tak, jaké jsou nyní. Nejedná se o zálohu."
 
 #~ msgid "This is NOT a backup but a live view of the local files."
 #~ msgstr ""

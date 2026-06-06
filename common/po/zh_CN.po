@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-03-08 12:51+0100\n"
-"PO-Revision-Date: 2026-01-27 08:10+0000\n"
+"PO-Revision-Date: 2026-03-10 14:29+0000\n"
 "Last-Translator: Outbreak2096 <outbreak2096@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -767,18 +767,12 @@ msgid "Text beside icon"
 msgstr "图标旁边的文本"
 
 #: qt/app.py:943
-#, fuzzy
 msgid "This directory doesn't exist in the selected backup."
-msgstr ""
-"当前所选备份中\n"
-"不存在此目录。"
+msgstr "所选备份中不存在此目录。"
 
 #: qt/app.py:946
-#, fuzzy
 msgid "This directory doesn't exist on the computer."
-msgstr ""
-"当前所选备份中\n"
-"不存在此目录。"
+msgstr "计算机上不存在此目录。"
 
 #: qt/app.py:995
 msgid ""
@@ -1032,7 +1026,7 @@ msgstr "显示/隐藏隐藏文件和目录（Ctrl+H）"
 
 #: qt/fileview.py:204
 msgid "Add to Include"
-msgstr "添加到包括"
+msgstr "添加到包含"
 
 #: qt/fileview.py:205
 msgid "Add to Exclude"
@@ -1041,24 +1035,22 @@ msgstr "添加到排除"
 #: qt/fileview.py:292
 msgid "The selected item is already in the include list."
 msgid_plural "The selected items are already in the include list."
-msgstr[0] ""
+msgstr[0] "所选项目已在包含列表中。"
 
 #: qt/fileview.py:299
 msgid "The following item is already in the include list."
 msgid_plural "The following items are already in the include list."
-msgstr[0] ""
+msgstr[0] "以下项目已在包含列表中。"
 
 #: qt/fileview.py:313
-#, fuzzy
 msgid "The selected item is already in the exclude list."
 msgid_plural "The selected items are already in the exclude list."
-msgstr[0] "从常用项目中选择添加到排除列表中。"
+msgstr[0] "所选项目已在排除列表中。"
 
 #: qt/fileview.py:320
-#, fuzzy
 msgid "The following item is already in the exclude list."
 msgid_plural "The following items are already in the exclude list."
-msgstr[0] "从常用项目中选择添加到排除列表中。"
+msgstr[0] "以下项目已在排除列表中。"
 
 #: qt/languagedialog.py:36
 msgid "Setup language"
@@ -1153,7 +1145,7 @@ msgstr "常规(&G)"
 
 #: qt/manageprofiles/__init__.py:116
 msgid "&Include"
-msgstr "包括(&I)"
+msgstr "包含(&I)"
 
 #: qt/manageprofiles/__init__.py:120
 msgid "&Exclude"
@@ -1926,26 +1918,26 @@ msgstr "无法在 {path} 创建新 SSH 密钥。"
 
 #: qt/manageprofiles/tab_include.py:48
 msgid "Include files and directories"
-msgstr "包括文件和目录"
+msgstr "包含文件和目录"
 
 #: qt/manageprofiles/tab_include.py:168
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until it is"
 " included, too."
-msgstr "“{path}”是符号链接，链接的目标也要包括在内才会备份。"
+msgstr "“{path}”是符号链接，链接的目标也要包含在内才会备份。"
 
 #: qt/manageprofiles/tab_include.py:172
 msgid "Include the symlink's target instead?"
-msgstr "是否改为包括符号链接目标？"
+msgstr "是否改为包含符号链接的目标？"
 
 #: qt/manageprofiles/tab_include.py:180
 msgid "Include files"
-msgstr "包括文件"
+msgstr "包含文件"
 
 #: qt/manageprofiles/tab_include.py:199
 msgid "Include directories"
-msgstr "包括目录"
+msgstr "包含目录"
 
 #: qt/manageprofiles/tab_options.py:39
 msgid "Enable notifications"
@@ -2405,11 +2397,11 @@ msgstr "上周"
 
 #: qt/timeline.py:88
 msgid "This month"
-msgstr ""
+msgstr "本月"
 
 #: qt/timeline.py:95
 msgid "Last month"
-msgstr ""
+msgstr "上月"
 
 #: qt/timeline.py:365
 #, python-brace-format
@@ -2418,7 +2410,7 @@ msgstr "上次检查 {time}"
 
 #: qt/timeline.py:394
 msgid "These are your files as they are right now. It is not a backup."
-msgstr ""
+msgstr "这些是您当前的文件，并非备份。"
 
 #~ msgid "This is NOT a backup but a live view of the local files."
 #~ msgstr "这不是备份，而是本地文件的实时视图。"

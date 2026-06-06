@@ -15,17 +15,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-03-08 12:51+0100\n"
-"PO-Revision-Date: 2026-02-02 11:33+0000\n"
-"Last-Translator: Voodoo_Pablo <voodoo_pablo@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-04-09 10:27+0000\n"
+"Last-Translator: emmapeel <emmapeel@noreply.codeberg.org>\n"
 "Language-Team: Catalan <https://translate.codeberg.org/projects/backintime/common/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -1079,14 +1079,13 @@ msgstr ""
 " la següent comanda:"
 
 #: qt/confirmrestoredialog.py:94
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Only restore elements which do not exist or are newer than those in "
 "destination. Using \"{rsync_example}\" option."
 msgstr ""
-"Restaura només els fitxers que no existeixen o\n"
-"són més nous que els de destí.\n"
-"S'utilitza l'opció «rsync --update»."
+"Restaura només els fitxers que no existeixen o són més nous que els de "
+"destí. S'utilitza l'opció «{rsync_example}»."
 
 #: qt/confirmrestoredialog.py:133
 msgid "Remove newer elements in original directory."
@@ -1692,9 +1691,9 @@ msgid "Create a new SSH key without passphrase."
 msgstr "No s'ha pogut crear una clau SSH nova a {path}."
 
 #: qt/manageprofiles/sshkeyselector.py:92
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Full path: {path}"
-msgstr "Camí complet de la còpia:"
+msgstr "Camí complet: {path}"
 
 #: qt/manageprofiles/sshkeyselector.py:205
 #, fuzzy
@@ -2242,14 +2241,14 @@ msgid "user manual"
 msgstr "manual d'ús"
 
 #: qt/manageprofiles/tab_remove_retention.py:208
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual_link} for details and examples."
 msgstr ""
 "Les regles següents es processen de dalt a baix. Les regles posteriors "
 "anul·len les anteriors i no estan restringides per elles. Consulteu el "
-"{manual} per obtenir detalls i exemples."
+"{manual_link} per obtenir detalls i exemples."
 
 #: qt/manageprofiles/tab_remove_retention.py:223
 msgid "Open user manual in browser."
@@ -2627,9 +2626,9 @@ msgstr ""
 "comparació seria redundant."
 
 #: qt/snapshotsdialog.py:470
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Really delete {file_or_dir} in backup {backup_id}?"
-msgstr "Realment voleu suprimir {file} a la instantània {snapshot_id}?"
+msgstr "Realment voleu suprimir {file_or_dir} a la instantània {backup_id}?"
 
 #: qt/snapshotsdialog.py:475
 #, python-brace-format
