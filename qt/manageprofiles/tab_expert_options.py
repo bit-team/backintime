@@ -305,21 +305,22 @@ class ExpertOptionsTab(QDialog):
         sub_grid.addWidget(self._txt_ssh_prefix, 1, 1)
         tab_layout.addLayout(sub_grid)
 
-        self._cb_ssh_ping = QCheckBox(_('Check if remote host is online'))
-        qttools.set_wrapped_tooltip(
-            self._cb_ssh_ping,
-            _('Warning: If disabled and the remote host is not available, '
-              'this could lead to some weird errors.')
-        )
-        self._cb_ssh_check_commands = QCheckBox(
-            _('Check if remote host supports all necessary commands.'))
-        qttools.set_wrapped_tooltip(
-            self._cb_ssh_check_commands,
-            _('Warning: If disabled and the remote host does not support all '
-              'necessary commands, this could lead to some weird errors.')
-        )
-        tab_layout.addWidget(self._cb_ssh_ping)
-        tab_layout.addWidget(self._cb_ssh_check_commands)
+        # Deprecated: #2482
+        # self._cb_ssh_ping = QCheckBox(_('Check if remote host is online'))
+        # qttools.set_wrapped_tooltip(
+        #     self._cb_ssh_ping,
+        #     _('Warning: If disabled and the remote host is not available, '
+        #       'this could lead to some weird errors.')
+        # )
+        # self._cb_ssh_check_commands = QCheckBox(
+        #     _('Check if remote host supports all necessary commands.'))
+        # qttools.set_wrapped_tooltip(
+        #     self._cb_ssh_check_commands,
+        #     _('Warning: If disabled and the remote host does not support all'
+        #       ' necessary commands, this could lead to some weird errors.')
+        # )
+        # tab_layout.addWidget(self._cb_ssh_ping)
+        # tab_layout.addWidget(self._cb_ssh_check_commands)
 
         tab_layout.addStretch()
 
@@ -362,8 +363,8 @@ class ExpertOptionsTab(QDialog):
         self._txt_rsync_options.setText(self.config.rsyncOptions())
         self._cb_ssh_prefix.setChecked(self.config.sshPrefixEnabled())
         self._txt_ssh_prefix.setText(self.config.sshPrefix())
-        self._cb_ssh_ping.setChecked(self.config.sshCheckPingHost())
-        self._cb_ssh_check_commands.setChecked(self.config.sshCheckCommands())
+        # self._cb_ssh_ping.setChecked(self.config.sshCheckPingHost())
+        # self._cb_ssh_check_commands.setChecked(self.config.sshCheckCommands())
 
     def store_values(self):
         """Store values from GUI into the config"""
@@ -393,9 +394,9 @@ class ExpertOptionsTab(QDialog):
                                     self._txt_rsync_options.text())
         self.config.setSshPrefix(self._cb_ssh_prefix.isChecked(),
                                  self._txt_ssh_prefix.text())
-        self.config.setSshCheckPingHost(self._cb_ssh_ping.isChecked())
-        self.config.setSshCheckCommands(
-            self._cb_ssh_check_commands.isChecked())
+        # self.config.setSshCheckPingHost(self._cb_ssh_ping.isChecked())
+        # self.config.setSshCheckCommands(
+        #     self._cb_ssh_check_commands.isChecked())
 
     def update_items_state(self, enabled: bool):
         """Update state of widgets based on changed profile mode."""
@@ -404,8 +405,8 @@ class ExpertOptionsTab(QDialog):
         self._cb_nocache_on_remote.setEnabled(enabled)
         self._cb_ssh_prefix.setVisible(enabled)
         self._txt_ssh_prefix.setVisible(enabled)
-        self._cb_ssh_ping.setVisible(enabled)
-        self._cb_ssh_check_commands.setVisible(enabled)
+        # self._cb_ssh_ping.setVisible(enabled)
+        # self._cb_ssh_check_commands.setVisible(enabled)
 
     def _slot_rsync_options_editing_finished(self):
         """When editing the rsync options is finished warn and remove
