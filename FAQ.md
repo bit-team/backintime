@@ -45,6 +45,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?](#if-i-edit-my-crontab-and-add-additional-entries-will-that-be-a-problem-for-bit-as-long-as-i-dont-touch-its-entries-what-does-it-look-for-in-the-crontab-to-find-its-own-entries)
    * [Can I use a systemd timer instead of cron?](#can-i-use-a-systemd-timer-instead-of-cron)
 - [Problems, Errors & Solutions](#problems-errors--solutions)
+   * [Critical errors about "`snapshots.ssh_check_commands` or `snapshots.ssh.check_ping` not set to default..."]()
    * [OverflowError: Value 1702441408 out of range for UInt32](#overflowerror-value-1702441408-out-of-range-for-uint32)
    * [`SettingsDialog` object has no attribute `cbCopyUnsafeLinks`](#settingsDialog-object-has-no-attribute-cbcopyunsafelinks)
    * [WARNING: A backup is already running](#warning-a-backup-is-already-running)
@@ -735,6 +736,44 @@ ExecStart=/usr/bin/nice -n19 /usr/bin/ionice -c2 -n7 /usr/bin/backintime backup 
 ```
 
 # Problems, Errors & Solutions
+## Critical errors about "`snapshots.ssh_check_commands` or `snapshots.ssh.check_ping` not set to default..."
+_Back In Time_ might displays critical errors like this in the terminal, syslog or GUI:
+
+```
+CRITICAL DEPRECATED setting "profile1.snapshots.ssh.check_commands" not set
+to default "true" detected in profile "Main profile" (1). Please contact 
+the project and describe your use case and why you need this setting be disabled.
+
+CRITICAL DEPRECATED setting "profile1.snapshots.ssh.check_ping" not set ...
+```
+
+For SSH profiles the _Expert Options_ tab in the _Manage profiles_ dialog
+provides these two options, which are enabled by default:
+
+ - Check if remote host is online
+ - Check if remote host supports all necessary commands
+ 
+There seems to be no good reason to disable these options. Regarding issue
+[#2482](https://github.com/bit-team/backintime/issues/2482) these options are
+deprecated and will be removed.
+
+User have the [option to
+contact](https://github.com/bit-team/backintime#contact--social] the project
+and give objections against this decission. Please do so if you have good
+reason to disable these options.
+
+To disable the critical errors the config file need to be edited manually. The
+files location is usually at `~/.config/backintime/config`. After creating a
+backup of that file, open it in a text editor of your choice. Find lines like
+this:
+
+```ini
+profile1.snapshots.ssh.check_commands=false
+profile1.snapshots.ssh.check_ping=false
+```
+
+Set the value from `false` to `true` (lower case!).
+
 ## OverflowError: Value 1702441408 out of range for UInt32
 The _Back In Time_ GUI crashes and this exception appears in its terminal
 output. Known to happen on restoring (#2084) and removing (#2192) of backups.
