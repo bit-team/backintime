@@ -24,11 +24,9 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Build: Changelog shipped as HTML
 - Improved import config dialog on first start (Dominic Maluski, @maluskid, [#2483](https://github.com/bit-team/backintime/issues/2483))
 - Deprecate and warn about disabled SSH remote check (Expert Options)
-  [#2482](https://github.com/bit-team/backintime/issues/2482)). These options
-  are removed from the GUI and users given a clear error about it if one of
-  these are disabled (non-default):
-   - Check if remote host is online
-   - Check if remote host supports all necessary commands
+  if one of these two options is (non-default) disabled: "Check if remote host
+  is online", "Check if remote host supports all necessary commands"
+  ([#2482](https://github.com/bit-team/backintime/issues/2482)).
 
 ### Added
 - Gocryptfs for SSH encrypted profiles
@@ -47,6 +45,11 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Config examples
 - Languages Faroese, Croatian, Vietnames and Norwegian (Nynorsk)
   ([#2080](https://github.com/bit-team/backintime/issues/2080))
+- Expert Options: Check if remote host is online
+  ([#2482](https://github.com/bit-team/backintime/issues/2482)).
+- Expert Options: Check if remote host supports all necessary commands
+  ([#2482](https://github.com/bit-team/backintime/issues/2482)).
+
 
 ## Fixed
 - Prevent crash in case a plugin fails ([#2447](https://github.com/bit-team/backintime/issues/2447))
