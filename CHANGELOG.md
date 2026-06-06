@@ -23,6 +23,8 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Changelog migrated to _Common Changelog_ standard
 - Build: Changelog shipped as HTML
 - Improved import config dialog on first start (Dominic Maluski, @maluskid, [#2483](https://github.com/bit-team/backintime/issues/2483))
+- Clear up license and copyright situation of `qt/serviceHelper.py`
+  ([#1986](https://github.com/bit-team/backintime/issues/1986))
 
 ### Added
 - Gocryptfs for SSH encrypted profiles
