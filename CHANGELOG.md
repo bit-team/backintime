@@ -22,6 +22,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - **Breaking**: Minimal Python version 3.13 increased
 - Changelog migrated to _Common Changelog_ standard
 - Build: Changelog shipped as HTML
+- Improved import config dialog on first start (Dominic Maluski, @maluskid, [#2483](https://github.com/bit-team/backintime/issues/2483))
 
 ### Added
 - Gocryptfs for SSH encrypted profiles
@@ -43,9 +44,6 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ## Fixed
 - Prevent crash in case a plugin fails ([#2447](https://github.com/bit-team/backintime/issues/2447))
-
-## Fixed
-- Prevent Back In Time crash when a plugin fails ([#2447](https://github.com/bit-team/backintime/issues/2447))
 
 ## [1.6.1] (2026-02-10)
 
