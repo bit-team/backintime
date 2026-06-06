@@ -418,7 +418,7 @@ def _warn_about_remote_host_check(cfg: config.Config) -> None:
 
 
 def detect_remote_host_check_settings(cfg: config.Config) -> tuple[str, str, str]:
-    """See issue #282."""
+    """See issue #2482."""
     result = []
 
     cipher_keys = sorted(filter(
