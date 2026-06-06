@@ -13,10 +13,12 @@
 # File was split from "qt/qttools.py".
 """Time line widget.
 """
+from __future__ import annotations
 from datetime import (datetime, date, timedelta)
 from calendar import monthrange
 from contextlib import contextmanager
 from functools import partial
+from typing import Optional
 from PyQt6.QtGui import QFont, QPalette
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtWidgets import (QAbstractItemView,
@@ -228,11 +230,11 @@ class TimeLine(QTreeWidget):
         self.addTopLevelItem(item)
         self._header_data.append((label, start, end))
 
-        # DEBUG
-        item.setToolTip(
-            0,
-            f'DEBUG - {start.strftime("%c")} to {end.strftime("%c")}'
-        )
+        # # DEBUG
+        # item.setToolTip(
+        #     0,
+        #     f'DEBUG - {start.strftime("%c")} to {end.strftime("%c")}'
+        # )
 
         return True
 
@@ -265,6 +267,10 @@ class TimeLine(QTreeWidget):
     def get_all_selected_backup_descriptors(self) -> list[str]:
         """A list of all selected backup descriptors"""
         return [item.descriptor for item in self.selectedItems()]
+
+    def get_all_selected_backup_labels(self) -> list[str]:
+        """A list labels of all selected backups"""
+        return [item.label for item in self.selectedItems()]
 
     def is_now_selected(self) -> bool:
         """If the 'Now' item, the first in the widget, is selected."""
@@ -299,16 +305,21 @@ class TimeLine(QTreeWidget):
 
     def select_by_descriptor(self, backup_descriptor: str):
         """Select backup entry related to the descriptor."""
-        for item in self.iter_backup_items():
-            if item.descriptor == backup_descriptor:
-                self._set_current_item(item)
-                break
+        self._set_current_item(self.get_backup_item(backup_descriptor))
 
     def select_all_backup_entries(self):
         """Highlight all backup entries."""
         self.clearSelection()
         for item in self.iter_backup_items():
             item.setSelected(True)
+
+    def get_backup_item(self, descriptor: str) -> Optional[BackupEntry]:
+        """Return the related backup item"""
+        for item in self.iter_backup_items():
+            if item.descriptor == descriptor:
+                return item
+
+        return None
 
     def _set_current_item(self, item, *args, **kwargs):
         self.setCurrentItem(item, *args, **kwargs)
@@ -341,9 +352,7 @@ class _TimeLineItemBase(QTreeWidgetItem):
         super().__init__()
 
         if tooltip:
-            # DEBUG
-            self.setToolTip(0, f'{type(self)} {tooltip}')
-            # self.setToolTip(0, tooltip)
+            self.setToolTip(0, tooltip)
 
         self.setText(0, label)
         self.setData(0, Qt.ItemDataRole.UserRole, timestamp)
@@ -382,6 +391,10 @@ class BackupEntry(_TimeLineItemBase):
         """Text label of the entry."""
         return self.text(0)
 
+    @label.setter
+    def label(self, label: str) -> None:
+        self.setText(0, label)
+
 
 # pylint: disable-next=too-few-public-methods
 class NowEntry(_TimeLineItemBase):
@@ -391,7 +404,9 @@ class NowEntry(_TimeLineItemBase):
         super().__init__(
             timestamp=datetime.max,
             tooltip=_(
-                'This is NOT a backup but a live view of the local files.'),
+                'These are your files as they are right now. '
+                'It is not a backup.'
+            ),
             label=_('Now')
         )
 

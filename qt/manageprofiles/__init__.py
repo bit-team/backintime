@@ -269,7 +269,7 @@ class SettingsDialog(QDialog):
         else:
             self._btn_edit_profile.setEnabled(True)
             self._btn_remove_profile.setEnabled(True)
-        self._btn_add_profile.setEnabled(self.config.isConfigured('1'))
+        # self._btn_add_profile.setEnabled(self.config.isConfigured('1'))
 
         profile_state = StateData().profile(self.config.currentProfile())
 
@@ -339,7 +339,7 @@ class SettingsDialog(QDialog):
         if not self.save_profile():
             return False
 
-        if not self.config.checkConfig():
+        if not self.config.checkConfig(self.config.currentProfile()):
             return False
 
         # This will raise exceptions in case of errors
@@ -360,9 +360,9 @@ class SettingsDialog(QDialog):
         self._tab_exclude.mode = active_mode
         self._tab_exclude.update_exclude_items()
         self._tab_exclude.lbl_ssh_encfs_exclude_warning.setVisible(
-            active_mode == 'ssh_encfs')
+            active_mode == 'ssh_gocryptfs')
 
-        enabled = active_mode in ('ssh', 'ssh_encfs')
+        enabled = active_mode in ('ssh', 'ssh_gocryptfs')
         self._tab_retention.update_items_state(enabled)
         self._tab_expert_options.update_items_state(enabled)
 
@@ -389,8 +389,8 @@ class SettingsDialog(QDialog):
         self.config.setCurrentProfile(self.original_current_profile)
 
         if result:
-            self.parent.remount(self.original_current_profile,
-                                self.original_current_profile)
+            # self.parent.remount(self.original_current_profile,
+            #                     self.original_current_profile)
             self.parent.updateProfiles()
 
         # store windows position and size

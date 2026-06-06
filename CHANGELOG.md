@@ -9,22 +9,41 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 -->
 # Changelog
 [![Common Changelog](https://common-changelog.org/badge.svg)](https://common-changelog.org)
-<!-- Template
-## Unreleased
+## [2.0.0] (Unreleased Development)
+
 ### Changed
-### Added
-### Removed
-### Fixed
--->
-
-## 1.6.2 (Unreleased Development)
-
-## Changed
-- Changelog migrated to Common Changelog standard
+ 
+- **Rewritten from scratch**: Mount subsystem (backend and encryption).
+  Behavior is intended to remain unchanged; regressions cannot be fully ruled
+  out. ([PR#2449](https://github.com/bit-team/backintime/pull/2449))
+- Default mountpoint permissions changed from 700 to 711
+  ([PR#2451](https://github.com/bit-team/backintime/pull/2451)) to avoid
+  FUSE mount failures when accessing via different user contexts.
+- **Breaking**: Minimal Python version 3.13 increased
+- Changelog migrated to _Common Changelog_ standard
 - Build: Changelog shipped as HTML
+- Improved import config dialog on first start (Dominic Maluski, @maluskid, [#2483](https://github.com/bit-team/backintime/issues/2483))
 
-## Added
-- Build dependency `pandoc` to convert markdown changelog into HTML
+### Added
+- Gocryptfs for SSH encrypted profiles
+  ([PR#2486](https://github.com/bit-team/backintime/pull/2486))
+- Dependency(build): `pandoc` to convert markdown changelog into HTML
+- Dependency(runtime-cli): `gocryptfs`
+
+### Removed
+- **Breaking**: EncFS support including existing EncFS profiles
+  ([PR#2492](https://github.com/bit-team/backintime/pull/2492))
+- Dependency: `encfs`
+- Command line switch `--keep-mount`
+- CLI Command `decode` because of EncFS removal ([#1734](https://github.com/bit-team/backintime/issues/1734))
+- CLI Command `benchmark-cipher` ([#2120](https://github.com/bit-team/backintime/issues/2120))
+- SSH Cipher ([#2176](https://github.com/bit-team/backintime/issues/2176))
+- Config examples
+- Languages Faroese, Croatian, Vietnames and Norwegian (Nynorsk)
+  ([#2080](https://github.com/bit-team/backintime/issues/2080))
+
+## Fixed
+- Prevent crash in case a plugin fails ([#2447](https://github.com/bit-team/backintime/issues/2447))
 
 ## [1.6.1] (2026-02-10)
 
@@ -170,12 +189,8 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 - Doc: User manual (build with MkDocs) ([#1838](https://github.com/bit-team/backintime/issues/1838)) (Kosta Vukicevic [@stcksmsh](https://github.com/stcksmsh))
 - Doc: User-callback topic in user manual ([#1659](https://github.com/bit-team/backintime/issues/1659))
-- Breaking Change: Minimal Python version 3.9 required ([#1731](https://github.com/bit-team/backintime/issues/1731))
-- Breaking Change: Auto migration of config version 4 or lower not longer supported ([#1857](https://github.com/bit-team/backintime/issues/1857))
 - Refactor!: Remove unused config field "user_callback.no_logging" ([#1887](https://github.com/bit-team/backintime/issues/1887))
 - Refactor!: Remove eCryptFS check for home folder ([#1855](https://github.com/bit-team/backintime/issues/1855))
-- Dependency: Remove libnotify-bin (notify-send) ([#1156](https://github.com/bit-team/backintime/issues/1156))
-- Dependency: PyFakeFS minimal version 5.6 ([#1911](https://github.com/bit-team/backintime/issues/1911))
 - Build: Replace "pycodestyle" linter with "flake8" ([#1839](https://github.com/bit-team/backintime/issues/1839))
 
 ### Added
@@ -194,6 +209,10 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ### Changed
 
+- **Breaking**: Minimal Python version 3.9 required ([#1731](https://github.com/bit-team/backintime/issues/1731))
+- **Breaking**: Auto migration of config version 4 or lower not longer supported ([#1857](https://github.com/bit-team/backintime/issues/1857))
+- Dependency: Remove libnotify-bin (notify-send) ([#1156](https://github.com/bit-team/backintime/issues/1156))
+- Dependency: PyFakeFS minimal version 5.6 ([#1911](https://github.com/bit-team/backintime/issues/1911))
 - General tab and its Schedule section
 - Own module for Manage Profiles dialog and separate Generals tab code ([#1865](https://github.com/bit-team/backintime/issues/1865))
 - Remove class OrderedSet
@@ -1605,6 +1624,15 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 - This is the first release.
 
+<!-- Template
+## Unreleased
+### Changed
+### Added
+### Removed
+### Fixed
+-->
+
+[2.0.0]: https://github.com/bit-team/backintime/releases/tag/v2.0.0
 [1.6.2]: https://github.com/bit-team/backintime/releases/tag/v1.6.2
 [1.6.1]: https://github.com/bit-team/backintime/releases/tag/v1.6.1
 [1.6.0]: https://github.com/bit-team/backintime/releases/tag/v1.6.0

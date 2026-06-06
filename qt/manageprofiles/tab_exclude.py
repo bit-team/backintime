@@ -58,12 +58,13 @@ class ExcludeTab(QWidget):
 
         layout = QVBoxLayout(self)
 
+        # See #2497
         self.lbl_ssh_encfs_exclude_warning = QLabel(_(
             "{BOLD}Info{ENDBOLD}: "
             "In 'SSH encrypted' mode, only single or double asterisks are "
             "functional (e.g. {example2}). Other types of wildcards and "
             "patterns will be ignored (e.g. {example1}). Filenames are "
-            "unpredictable in this mode due to encryption by EncFS.").format(
+            "unpredictable in this mode.").format(
                 BOLD='<strong>',
                 ENDBOLD='</strong>',
                 example1="<code>'foo*'</code>, "
@@ -385,6 +386,7 @@ class ExcludeTab(QWidget):
             item = self.list_exclude.topLevelItem(index)
             self._format_exclude_item(item)
 
+    # See #2497
     def _format_exclude_item_encfs_invalid(self, item):
         """Modify visual appearance of an item in the exclude list widget to
         express that the item is invalid.

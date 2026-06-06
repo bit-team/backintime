@@ -71,7 +71,14 @@ URL_USER_MANUAL = 'https://backintime.readthedocs.io'
 # | Directories & files |
 # |---------------------|
 
+XDG_DATA_HOME = Path(os.environ.get(
+    'XDG_DATA_HOME',
+    os.environ.get('HOME') + '/.local/share'
+))
+
 FILENAME_CONFIG = 'config'
+# See issue #1743
+ENCFS_BACKUP_CONFIG_SUFFIX = '.encfs.backup'
 
 _DIR_DOC_PATH_BASE = Path('/') / 'usr' / 'share' / 'doc'
 
@@ -179,9 +186,13 @@ HOURLY_BACKUPS = (
 # Indicator if BIT is running in root mode
 IS_IN_ROOT_MODE = os.geteuid() == 0
 
+IS_IN_DEBUG_MODE = False
+
 # About transition of encryption feature and the removal of EncFS (see #1734).
 # The warnings and deprecation messages are gradually increased in intensity
 # and clarity. This constant is the currently desired stage of intensity. The
 # last shown intensity is stored in the state data file. If they don't fit, the
 # message is displayed.
-ENCFS_MSG_STAGE = 3
+ENCFS_MSG_STAGE = 42  # FINAL!
+
+DEFAULT_SSH_PORT = 22

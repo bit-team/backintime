@@ -156,7 +156,7 @@ class ShutdownAgent:
 
         # try each desktop environment
         for de, dbus_props in self.DBUS_SHUTDOWN.items():
-            logger.debug(f'Try to receive shutdown proxy using "{de}".')
+            # logger.debug(f'Try to receive shutdown proxy using "{de}".')
 
             try:
                 if dbus_props['bus'] == 'sessionbus':
@@ -170,6 +170,8 @@ class ShutdownAgent:
                 proxy = interface.get_dbus_method(
                     dbus_props['method'],
                     dbus_props['interface'])
+
+                logger.debug(f'Received shutdown proxy via "{de}"')
 
                 return (proxy, dbus_props['arguments'])
 

@@ -9,6 +9,7 @@
 """This helper script does manage transferring translations to and from the
 translation platform (currently Weblate).
 """
+import importlib
 import sys
 import datetime
 import re
@@ -16,10 +17,11 @@ import tempfile
 import string
 import shutil
 import json
+import common.languages as languages
+import common.version as version
 from pathlib import Path
 from subprocess import run, check_output
 from lxml import etree
-from common import languages, version
 
 try:
     import polib
@@ -332,12 +334,13 @@ def update_desktop_files():
                     )
 
         for field, value in to_translate.items():
-            print(f'{field=} {value=}')
-
+            # print(f'{field=} {value=}')
             translations = _get_translation_for_desktop_string(value)
 
-            if field == 'Comment':
-                _check_value_length(translations, field)
+            # Dev note (2026-03): Still not sure but it seems the length
+            # restriction was a misunderstanding on my site.
+            # if field == 'Comment':
+            #     _check_value_length(translations, field)
 
             translations = [
                 f'{field}[{lang}]={translated}'
@@ -445,6 +448,10 @@ def update_from_weblate():
     cmd = [
         'git',
         'clone',
+        # git meta data, only for the first commit
+        '--depth',
+        '1',
+        # don't checkout anything
         '--no-checkout',
         WEBLATE_URL,
         tmp_dir
@@ -670,6 +677,9 @@ def create_completeness_dict():
     # "en" is the source language
     result['en'] = 100
 
+    # Sort by language key
+    result = dict(sorted(result.items()))
+
     return result
 
 
@@ -715,6 +725,10 @@ def create_languages_py_file():
         handle.write('\n')
 
     print(f'Result written to {LANGUAGE_NAMES_PY}.')
+
+    # reload the languages
+    importlib.reload(languages)
+
 
     # Completeness statistics (English is excluded)
     compl = list(compl_dict.values())
@@ -992,6 +1006,9 @@ def _get_translation_for_desktop_string(value: str) -> dict[str, str]:
 
         translations[po_path.stem] = entry.msgstr
 
+    # sort by Key
+    translations = dict(sorted(translations.items()))
+
     return translations
 
 
@@ -1013,8 +1030,8 @@ if __name__ == '__main__':
     # into the repository.
     if 'weblate' in sys.argv:
         update_from_weblate()
-        check_syntax_of_po_files()
         create_languages_py_file()
+        check_syntax_of_po_files()
         print(FIN_MSG)
         sys.exit()
 

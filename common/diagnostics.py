@@ -70,7 +70,7 @@ def collect_diagnostics():
         # 'distribution-package': str(distro_path),
         'started-from': str(Path(config.__file__).parent),
         'user-callback': cfg.takeSnapshotUserCallback(),
-        'keyring-supported': tools.keyringSupported()
+        'keyring-supported': tools.KEYRING_SUPPORTED
     })
 
     # Git repo
@@ -164,11 +164,11 @@ def collect_diagnostics():
     result['external-programs']['sshfs'] \
         = _get_extern_versions(['sshfs', '-V'], r'SSHFS version (.*)\n')
 
-    # EncFS
+    # gocryptfs
     # Using "[Vv]" in the pattern because encfs does translate its output.
     # e.g. In German it is "Version" in English "version".
-    result['external-programs']['encfs'] \
-        = _get_extern_versions(['encfs'], r'Build: encfs [Vv]ersion (.*)\n')
+    result['external-programs']['gocryptfs'] \
+        = _get_extern_versions(['gocryptfs', '-version'])
 
     # Shell
     SHELL_ERR_MSG = '($SHELL not exists)'

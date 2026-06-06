@@ -22,8 +22,6 @@ arch:
  - amd64
 
 python:
-  - "3.11"
-  - "3.12"
   - "3.13"
   - "3.14"
  
@@ -43,13 +41,11 @@ before_install:
   - sudo apt-get -qq update
   # install screen, and util-linux (provides flock) for test_sshtools
   - sudo apt-get install -y sshfs screen util-linux libdbus-1-dev
-  - sudo apt-get install -y ruby rubygems asciidoctor encfs gocryptfs pandoc
+  - sudo apt-get install -y ruby rubygems asciidoctor gocryptfs pandoc
   - sudo gem install asciidoctor
 
 jobs:
   exclude:
-    - python: "3.11"
-    - python: "3.12"
     - python: "3.13"
 
 install:

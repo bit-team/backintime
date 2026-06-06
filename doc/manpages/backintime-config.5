@@ -304,16 +304,7 @@ How many units to wait between new snapshots with anacron? Only valid for \fIpro
 
 .RE
 
-.IP "\fIprofile<N>.schedule.repeatedly.unit\fR" 6
-.RS
-Type: int       Allowed Values: 10|20|30|40
-.br
-Units to wait between new snapshots with anacron. 10 = hours 20 = days 30 = weeks 40 = months Only valid for \fIprofile<N>.schedule.mode\fR = 25|27;
-.PP
-
-.RE
-
-.IP "\fIprofile<N>.snapshots.remove_old_snapshots.enabled\fR" 6
+.IP "\fIprofile<N>.snapshots.log_level\fR" 6
 .RS
 Type: bool      Allowed Values: true|false
 .br
@@ -360,7 +351,7 @@ Keep at least value + unit free space.
 
 .IP "\fIprofile<N>.snapshots.min_free_space.unit\fR" 6
 .RS
-Type: StorageSizeUnitAllowed Values: 10|20
+Type: str       Allowed Values: local|local_gocryptfs|ssh|ssh_gocryptfs
 .br
 10 = MB 20 = GB
 .PP
@@ -590,13 +581,11 @@ Type: bool      Allowed Values: true|false
 Preserve extended attributes (xattr).
 .PP
 
-.RE
-
-.IP "\fIprofile<N>.snapshots.copy_unsafe_links\fR" 6
+.IP "\fIprofile<N>.snapshots.ssh.host\fR" 6
 .RS
 Type: bool      Allowed Values: true|false
 .br
-This tells rsync to copy the referent of symbolic links that point outside the copied tree. Absolute symlinks are also treated like ordinary files.
+Remote host used for mode 'ssh' and 'ssh_gocryptfs.
 .PP
 
 .RE

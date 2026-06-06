@@ -10,7 +10,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 [![Mailing list bit-dev@python.org](doc/maintain/_images/badge_bit-dev.svg)](https://mail.python.org/mailman3/lists/bit-dev.python.org/)
 [![Mastodon @backintime@fosstodon.org](doc/maintain/_images/badge_mastodon.svg)](https://fosstodon.org/@backintime)
 
-[![Build Status](https://app.travis-ci.com/bit-team/backintime.svg)](https://app.travis-ci.com/bit-team/backintime)
+[![Build Status](https://app.travis-ci.com/bit-team/backintime.svg?branch=dev)](https://app.travis-ci.com/bit-team/backintime)
 [![User manual Status](https://readthedocs.org/projects/backintime/badge/?version=latest)](https://backintime.readthedocs.io)
 [![Translation status](https://translate.codeberg.org/widget/backintime/common/svg-badge.svg)](https://translate.codeberg.org/engage/backintime)
 [![REUSE status](https://api.reuse.software/badge/github.com/bit-team/backintime)](https://api.reuse.software/info/github.com/bit-team/backintime)
@@ -33,8 +33,9 @@ More background info in [CONTRIBUTING](CONTRIBUTING.md) and
 
 ## Maintenance status
 
-The project is in active development since the [new team](#the-team) joined in
-summer 2022. Development is done voluntarily in spare time so things need to be
+The project is in active development since the [current team](#the-team) joined
+in summer 2022, continuing the work of the previous maintainer, Germar.
+Development is done voluntarily in spare time so things need to be
 prioritized. Stick with us, we all ♥️ _Back In Time_. 😁
 
 Current focus is on fixing
@@ -58,10 +59,11 @@ time. The project continues to benefit from an active and engaged community
 that provides advice, expertise, and contributions, ensuring it thrives and
 evolves.
 
-The project was
-[reactivated in 2022](https://github.com/bit-team/backintime/issues/1232))
-and thanks in large part to @emtiu and @aryoda, who helped relaunch and
-shape its direction. See [HISTORY](HISTORY.md) for more details.
+The project was [reactivated in
+2022](https://github.com/bit-team/backintime/issues/1232) and thanks in large
+part to Michael Büker ([@emtiu](https://github.com/emtiu)) and Jürgen
+([@aryoda](https://github.com/aryoda)), who helped relaunch and shape its
+direction. See [HISTORY](HISTORY.md) for more details.
 
 # Index
 
@@ -144,4 +146,4 @@ workflow and strategy.
 Please read [`LICENSES.md`](LICENSES.md).
 
 ---
-<sub>February 2026</sub>
+<sub>July 2026</sub>
