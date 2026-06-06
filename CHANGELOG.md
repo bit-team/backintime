@@ -23,7 +23,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Changelog migrated to _Common Changelog_ standard
 - Build: Changelog shipped as HTML
 - Improved import config dialog on first start (Dominic Maluski, @maluskid, [#2483](https://github.com/bit-team/backintime/issues/2483))
-- Deprecate and warn about disabled SSH remote check (Expert Options)
+- Expert Options: Deprecate and warn about disabled SSH remote checks
   if one of these two options is (non-default) disabled: "Check if remote host
   is online", "Check if remote host supports all necessary commands"
   ([#2482](https://github.com/bit-team/backintime/issues/2482)).
