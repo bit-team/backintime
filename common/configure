@@ -185,7 +185,6 @@ printf "build:\ttranslate compress\n" >> ${MAKEFILE}
 printf "clean:\n" >> ${MAKEFILE}
 printf "\trm -f po/*.mo\n" >> ${MAKEFILE}
 printf "\trm -f ../doc/manpages/*.gz\n" >> ${MAKEFILE}
-printf "\trm -rf doc-dev/_build/*\n" >> ${MAKEFILE}
 printf "\n" >> ${MAKEFILE}
 
 # Create install and uninstall target
