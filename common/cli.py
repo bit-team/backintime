@@ -406,6 +406,47 @@ def _warn_about_cipher(cfg: config.Config) -> None:
         )
 
 
+def _warn_about_remote_host_check(cfg: config.Config) -> None:
+    """See issue #2482. Those settings are deprecated.
+    """
+    for name, key in detect_remote_host_check_settings(cfg):
+        logger.critical(
+            f'DEPRECATED setting "{key}" not set to default "true" detected '
+            f'in profile {name}. Please contact the project and describe '
+            'your use case and why you need this setting be disabled.'
+        )
+
+
+def detect_remote_host_check_settings(cfg: config.Config) -> tuple[str, str, str]:
+    """See issue #2482."""
+    result = []
+
+    cipher_keys = sorted(filter(
+        lambda key: 'snapshots.ssh.check_' in key, cfg.dict.keys()
+    ))
+
+    for key in cipher_keys:
+        # ignore default (true)
+        if cfg.dict[key].lower() == 'true':
+            continue
+
+        pid = key.split('.')[0].replace('profile', '')
+
+        # SSH mode ?
+        if 'ssh' not in cfg.dict[f'profile{pid}.snapshots.mode']:
+            # irrelevant not SSH
+            continue
+
+        if pid == '1':
+            name = 'Main profile'
+        else:
+            name = cfg.dict[f'{key.split('.')[0]}.name']
+
+        result.append((f'"{name}" ({pid})', key))
+
+    return result
+
+
 def _backup_and_remove_encfs_config(cfg: config.Config) -> bool:
     """EncFS encryption feature was removed from Back In Time (#1734).
     This function detects existing EncFS profiles. If detected a backup is
@@ -491,8 +532,10 @@ def get_config_and_select_profile(
         cfg = config.Config(config_path=config_path, data_path=data_path)
 
     # Just warn about cipher settings if present.
-    # Removal happen only in the GUI.
     _warn_about_cipher(cfg)
+
+    # Warn about deprecated remote host check settings (#2482)
+    _warn_about_remote_host_check(cfg)
 
     # explicit profile?
     if profile:
