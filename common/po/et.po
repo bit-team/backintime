@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-03-08 12:51+0100\n"
-"PO-Revision-Date: 2026-01-27 08:10+0000\n"
+"PO-Revision-Date: 2026-03-13 14:29+0000\n"
 "Last-Translator: Priit Jõerüüt <jrtcdbrg@noreply.codeberg.org>\n"
 "Language-Team: Estonian <https://translate.codeberg.org/projects/backintime/common/et/>\n"
 "Language: et\n"
@@ -815,18 +815,12 @@ msgid "Text beside icon"
 msgstr "Tekst ikoonide kõrval"
 
 #: qt/app.py:943
-#, fuzzy
 msgid "This directory doesn't exist in the selected backup."
-msgstr ""
-"Seda kausta pole praegu\n"
-"valitud varukoopias olemas."
+msgstr "Seda kausta pole praegu valitud varukoopias olemas."
 
 #: qt/app.py:946
-#, fuzzy
 msgid "This directory doesn't exist on the computer."
-msgstr ""
-"Seda kausta pole praegu\n"
-"valitud varukoopias olemas."
+msgstr "Seda kausta pole selles arvutis olemas."
 
 #: qt/app.py:995
 msgid ""
@@ -1121,28 +1115,26 @@ msgstr "Lisa välistatavaks"
 #: qt/fileview.py:292
 msgid "The selected item is already in the include list."
 msgid_plural "The selected items are already in the include list."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Valitud objekt on kaasamisloendis juba olemas."
+msgstr[1] "Valitud objektid on kaasamisloendis juba olemas."
 
 #: qt/fileview.py:299
 msgid "The following item is already in the include list."
 msgid_plural "The following items are already in the include list."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Järgnev objekt on kaasamisloendis juba olemas."
+msgstr[1] "Järgnevad objektid on kaasamisloendis juba olemas."
 
 #: qt/fileview.py:313
-#, fuzzy
 msgid "The selected item is already in the exclude list."
 msgid_plural "The selected items are already in the exclude list."
-msgstr[0] "Vali näiteid tüüpilisest välistusloendist."
-msgstr[1] "Vali näiteid tüüpilisest välistusloendist."
+msgstr[0] "Valitud objekt on välistusloendis juba olemas."
+msgstr[1] "Valitud objektid on välistusloendis juba olemas."
 
 #: qt/fileview.py:320
-#, fuzzy
 msgid "The following item is already in the exclude list."
 msgid_plural "The following items are already in the exclude list."
-msgstr[0] "Vali näiteid tüüpilisest välistusloendist."
-msgstr[1] "Vali näiteid tüüpilisest välistusloendist."
+msgstr[0] "Järgnev objekt on välistusloendis juba olemas."
+msgstr[1] "Järgnevad objektid on välistusloendis juba olemas."
 
 #: qt/languagedialog.py:36
 msgid "Setup language"
@@ -2594,11 +2586,11 @@ msgstr "Eelmisel nädalal"
 
 #: qt/timeline.py:88
 msgid "This month"
-msgstr ""
+msgstr "Sel kuul"
 
 #: qt/timeline.py:95
 msgid "Last month"
-msgstr ""
+msgstr "Eelmisel kuul"
 
 #: qt/timeline.py:365
 #, python-brace-format
@@ -2608,6 +2600,8 @@ msgstr "Viimati kontrollitud {time}"
 #: qt/timeline.py:394
 msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
+"Need on sinu failid sellisena, nagu nad hetkel leiduvad. Tegemist pole "
+"varukoopiaga."
 
 #~ msgid "This is NOT a backup but a live view of the local files."
 #~ msgstr ""

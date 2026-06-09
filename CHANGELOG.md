@@ -22,6 +22,11 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - **Breaking**: Minimal Python version 3.13 increased
 - Changelog migrated to _Common Changelog_ standard
 - Build: Changelog shipped as HTML
+- GUI: Improved import config dialog on first start (Dominic Maluski, @maluskid, [#2483](https://github.com/bit-team/backintime/issues/2483))
+- Expert Options: Deprecate and warn about disabled SSH remote checks
+  if one of these two options is (non-default) disabled: "Check if remote host
+  is online", "Check if remote host supports all necessary commands"
+  ([#2482](https://github.com/bit-team/backintime/issues/2482))
 
 ### Added
 - Gocryptfs for SSH encrypted profiles
@@ -38,12 +43,16 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - CLI Command `benchmark-cipher` ([#2120](https://github.com/bit-team/backintime/issues/2120))
 - SSH Cipher ([#2176](https://github.com/bit-team/backintime/issues/2176))
 - Config examples
+- Languages Faroese, Croatian, Vietnames and Norwegian (Nynorsk)
+  ([#2080](https://github.com/bit-team/backintime/issues/2080))
+- GUI Expert Options: Check if remote host is online
+  ([#2482](https://github.com/bit-team/backintime/issues/2482)).
+- GUI Expert Options: Check if remote host supports all necessary commands
+  ([#2482](https://github.com/bit-team/backintime/issues/2482)).
+
 
 ## Fixed
 - Prevent crash in case a plugin fails ([#2447](https://github.com/bit-team/backintime/issues/2447))
-
-## Fixed
-- Prevent Back In Time crash when a plugin fails ([#2447](https://github.com/bit-team/backintime/issues/2447))
 
 ## [1.6.1] (2026-02-10)
 

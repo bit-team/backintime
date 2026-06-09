@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-03-08 12:51+0100\n"
-"PO-Revision-Date: 2026-02-01 07:36+0000\n"
+"PO-Revision-Date: 2026-03-27 10:57+0000\n"
 "Last-Translator: SomeTr <sometr@noreply.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -807,18 +807,12 @@ msgid "Text beside icon"
 msgstr "Текст поряд із значками"
 
 #: qt/app.py:943
-#, fuzzy
 msgid "This directory doesn't exist in the selected backup."
-msgstr ""
-"Такого каталогу немає\n"
-"у вибраній резервній копії."
+msgstr "Такого каталогу немає у вибраній резервній копії."
 
 #: qt/app.py:946
-#, fuzzy
 msgid "This directory doesn't exist on the computer."
-msgstr ""
-"Такого каталогу немає\n"
-"у вибраній резервній копії."
+msgstr "Такого каталогу не існує на цьому комп’ютері."
 
 #: qt/app.py:995
 msgid ""
@@ -885,7 +879,7 @@ msgid ""
 "We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team"
 msgstr ""
-"Вітаємо\n"
+"Вітаємо,\n"
 "Ви вже кілька разів користувалися Back In Time українською мовою.\n"
 "Переклад встановленої версії Back In Time на українську завершено на {perc}. Незалежно від Вашого рівня технічних знань, Ви може зробити свій внесок у переклад і, таким чином, у розвиток Back In Time.\n"
 "Якщо бажаєте зробити внесок, відвідайте {translation_platform_url}. Додаткову допомогу та відповіді на запитання можна отримати на сайті проєкту {back_in_time_project_website}.\n"
@@ -1109,32 +1103,30 @@ msgstr "Виключити"
 #: qt/fileview.py:292
 msgid "The selected item is already in the include list."
 msgid_plural "The selected items are already in the include list."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Вибраний елемент уже є у списку включення."
+msgstr[1] "Вибрані елементи вже є у списку включення."
+msgstr[2] "Вибрані елементи вже є у списку включення."
 
 #: qt/fileview.py:299
 msgid "The following item is already in the include list."
 msgid_plural "The following items are already in the include list."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Цей елемент уже є у списку включення."
+msgstr[1] "Ці елементи вже є у списку включення."
+msgstr[2] "Ці елементи вже є у списку включення."
 
 #: qt/fileview.py:313
-#, fuzzy
 msgid "The selected item is already in the exclude list."
 msgid_plural "The selected items are already in the exclude list."
-msgstr[0] "Додайте до списку виключень часто використовувані елементи."
-msgstr[1] "Додайте до списку виключень часто використовувані елементи."
-msgstr[2] "Додайте до списку виключень часто використовувані елементи."
+msgstr[0] "Вибраний елемент уже є у списку виключень."
+msgstr[1] "Вибрані елементи вже є у списку виключень."
+msgstr[2] "Вибрані елементи вже є у списку виключень."
 
 #: qt/fileview.py:320
-#, fuzzy
 msgid "The following item is already in the exclude list."
 msgid_plural "The following items are already in the exclude list."
-msgstr[0] "Додайте до списку виключень часто використовувані елементи."
-msgstr[1] "Додайте до списку виключень часто використовувані елементи."
-msgstr[2] "Додайте до списку виключень часто використовувані елементи."
+msgstr[0] "Цей елемент уже є у списку виключень."
+msgstr[1] "Ці елементи вже є у списку виключень."
+msgstr[2] "Ці елементи вже є у списку виключень."
 
 #: qt/languagedialog.py:36
 msgid "Setup language"
@@ -2565,15 +2557,15 @@ msgstr "Цього тижня"
 
 #: qt/timeline.py:81
 msgid "Last week"
-msgstr "Попереднього тижня"
+msgstr "Минулого тижня"
 
 #: qt/timeline.py:88
 msgid "This month"
-msgstr ""
+msgstr "Цього місяця"
 
 #: qt/timeline.py:95
 msgid "Last month"
-msgstr ""
+msgstr "Минулого місяця"
 
 #: qt/timeline.py:365
 #, python-brace-format
@@ -2582,7 +2574,7 @@ msgstr "Остання перевірка {time}"
 
 #: qt/timeline.py:394
 msgid "These are your files as they are right now. It is not a backup."
-msgstr ""
+msgstr "Це Ваші файли в їхньому поточному стані. Це не резервна копія."
 
 #~ msgid "This is NOT a backup but a live view of the local files."
 #~ msgstr "Це НЕ резервна копія, а Ваші файли на комп’ютері."

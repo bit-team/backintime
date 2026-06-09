@@ -61,6 +61,7 @@ from PyQt6.QtWidgets import (QApplication,
                              QLineEdit,
                              QMainWindow,
                              QMenu,
+                             QMessageBox,
                              QStackedLayout,
                              QSplitter,
                              QToolBar,
@@ -344,15 +345,25 @@ class MainWindow(QMainWindow):
         ).format(app_name=self.config.APP_NAME)
         message = f'{message}\n\n'
         message = message + _(
-            'Import an existing configuration from a backup location '
-            'or another computer?'
+            'Create a new configuration or import an existing '
+            'configuration from a backup?'
         )
 
-        answer = messagebox.question(text=message)
+        import_prompt = QMessageBox(None)
+        import_prompt.setWindowTitle(_('Question'))
+        import_prompt.setText(message)
+        import_prompt.setIcon(QMessageBox.Icon.Question)
+        btn_create = import_prompt.addButton(_('Create'),
+                                QMessageBox.ButtonRole.ActionRole)
+        btn_import = import_prompt.addButton(_('Import'),
+                                QMessageBox.ButtonRole.ActionRole)
 
-        mark_main_profile_unsaved = False if answer else True
+        import_prompt.setDefaultButton(btn_create)
+        import_prompt.exec()
+        answer = import_prompt.clickedButton()
 
-        if answer:
+        mark_main_profile_unsaved = answer is btn_create
+        if answer == btn_import:
             rc = RestoreConfigDialog(self.config).exec()
             if rc == QDialog.DialogCode.Rejected:
                 mark_main_profile_unsaved = True
@@ -394,7 +405,7 @@ class MainWindow(QMainWindow):
 
         state_data = StateData()
 
-        # SSH Cipher removal
+        # SSH Cipher removal (#2176)
         cipher = cli.detect_cipher_settings(self.config)
         if cipher:
             self._open_ssh_cipher_remove_dialog(
@@ -403,6 +414,13 @@ class MainWindow(QMainWindow):
         # remove the cipher keys from config
         for _name, _val, key in cipher:
             del self.config.dict[key]
+
+        # SSH Remote host checks deprecation (#2482)
+        check_settings = cli.detect_remote_host_check_settings(self.config)
+        if check_settings:
+            self._open_remote_host_check_deprecation_dialog(
+                [entry[0] for entry in check_settings]
+            )
 
         # Issue: https://github.com/bit-team/backintime/issues/2080
         lang_planed_for_removal = [
@@ -1842,6 +1860,42 @@ class MainWindow(QMainWindow):
             parent=self,
             title='Removing SSH cipher setting',
             full_label=_complete_text(ssh_cipher_profiles))
+        dlg.exec()
+
+    def _open_remote_host_check_deprecation_dialog(self, profiles):
+        """SSH check remote host deprecation (#2482)"""
+
+        def _complete_text(profiles) -> str:
+            txt = (
+                'Some of the profiles <strong>disabled</strong> one or two '
+                'of these settings:',
+                '<ul>'
+                '<li>' + _('Check if remote host is online') + '</li>'
+                '<li>' + _('Check if remote host supports all '
+                         'necessary commands.') + '</li></ul>',
+                'Those might not be supported anymore in the near future. '
+                'Please contact the project and describe your needs.',
+                'The affected backup profiles are:',
+                '{profiles}',
+            )
+            txt = '\n'.join(txt)
+
+            # Wrap paragraphs in <p> tags.
+            result = ''
+            for t in txt.split('\n'):
+                result = f'{result}<p>{t}</p>'
+
+            profiles = '<ul>' \
+                + ''.join(f'<li>{profile}</li>' for profile in set(profiles)) \
+                + '</ul>'
+
+            return result.format(profiles=profiles)
+
+        dlg = UserMessageDialog(
+            parent=self,
+            title='Deprecation of SSH Check Remote Host settings',
+            full_label=_complete_text(profiles)
+        )
         dlg.exec()
 
     # |---------------|

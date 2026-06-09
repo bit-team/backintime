@@ -9,6 +9,7 @@
 """This helper script does manage transferring translations to and from the
 translation platform (currently Weblate).
 """
+import importlib
 import sys
 import datetime
 import re
@@ -16,10 +17,11 @@ import tempfile
 import string
 import shutil
 import json
+import common.languages as languages
+import common.version as version
 from pathlib import Path
 from subprocess import run, check_output
 from lxml import etree
-from common import languages, version
 
 try:
     import polib
@@ -724,6 +726,10 @@ def create_languages_py_file():
 
     print(f'Result written to {LANGUAGE_NAMES_PY}.')
 
+    # reload the languages
+    importlib.reload(languages)
+
+
     # Completeness statistics (English is excluded)
     compl = list(compl_dict.values())
     compl.remove(100)  # exclude English
@@ -1024,8 +1030,8 @@ if __name__ == '__main__':
     # into the repository.
     if 'weblate' in sys.argv:
         update_from_weblate()
-        check_syntax_of_po_files()
         create_languages_py_file()
+        check_syntax_of_po_files()
         print(FIN_MSG)
         sys.exit()
 

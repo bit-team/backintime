@@ -15,28 +15,28 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-03-08 12:51+0100\n"
-"PO-Revision-Date: 2025-06-09 11:28+0000\n"
-"Last-Translator: pablolucas890 <pablolucas890@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-05-02 14:57+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.codeberg.org/projects/backintime/common/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.11.4\n"
+"X-Generator: Weblate 5.17\n"
 
 #: common/bitlicense.py:43
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "All licenses used in this project are located in the {dir_link} directory. "
 "To extract per-file license and copyright information using SPDX metadata, "
 "refer to {readme_link}."
 msgstr ""
-"Todas as licenças usadas neste projeto estão localizadas no diretório "
-"{dir_link}. Para extrair informações de licença e direitos autorais por "
-"arquivo usando metadados SPDX, consulte {readme_link}."
+"Todas as licenças utilizadas neste projeto estão localizadas no diretório "
+"{dir_link}. Para extrair as informações da licença e dos direitos autorais "
+"por arquivo utilize os metadados SPDX ou consulte {readme_link}."
 
 #: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:25
 #: qt/messagebox.py:99 qt/timeline.py:33
@@ -48,12 +48,14 @@ msgid "Main profile"
 msgstr "Perfil principal"
 
 #: common/config.py:225
+#, fuzzy
 msgid "Local (EncFS encrypted)"
-msgstr "Local (criptografado com EncFS)"
+msgstr "Local (criptografado com o EncFS)"
 
 #: common/config.py:226
+#, fuzzy
 msgid "SSH (EncFS encrypted)"
-msgstr "SSH (criptografado com EncFS)"
+msgstr "SSH (criptografado com o EncFS)"
 
 #: common/config.py:237
 msgid "Local"
@@ -74,22 +76,27 @@ msgstr "SSH"
 
 #: common/config.py:245 common/config.py:255
 #: qt/manageprofiles/tab_general.py:744
+#, fuzzy
 msgid "SSH private key"
-msgstr "Chave privada SSH"
+msgstr "Chave privada do SSH"
 
 #: common/config.py:300 common/config.py:312 common/config.py:330
 #: common/config.py:344 common/config.py:365
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Profile: \"{name}\""
-msgstr "Perfil: \"{name}\""
+msgstr "Perfil: ‘{name}’"
 
 #: common/config.py:301
+#, fuzzy
 msgid "Backup directory is not valid."
-msgstr "Diretório de backup inválido."
+msgstr "O diretório para a realizar a cópia de segurança não é válido."
 
 #: common/config.py:313
+#, fuzzy
 msgid "At least one directory must be selected for backup."
-msgstr "Pelo menos um diretório precisa ser selecionado para o backup."
+msgstr ""
+"Pelo menos um diretório precisa ser selecionado para realizar a cópia de "
+"segurança."
 
 #: common/config.py:331 common/config.py:346
 #, python-brace-format
@@ -97,37 +104,46 @@ msgid "Directory: {path}"
 msgstr "Diretório: {path}"
 
 #: common/config.py:332 common/config.py:347
+#, fuzzy
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
 msgstr ""
-"Este diretório não pode ser incluído no backup pois faz parte do próprio "
-"destino do backup."
+"Este diretório não pode ser incluído para realizar a cópia de segurança, "
+"porque faz parte do próprio destino da cópia de segurança."
 
 #: common/config.py:366
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal the threshold for \"Warn if free disk"
 " space falls below\" ({val_two})."
 msgstr ""
+"O valor para ‘Remover a cópia de segurança mais antiga se o espaço livre for"
+" menor que’ {val_one} tem que ser menor ou igual ao limite para ‘Notificar "
+"se o espaço livre em disco estiver abaixo de’ {val_two}."
 
 #: common/config.py:371
+#, fuzzy
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr ""
+"Por favor, ajuste as configurações para que o valor do limite da remoção da "
+"cópia de segurança não seja superior ao valor do limite da notificação."
 
 #: common/config.py:1515
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
-msgstr "Agendamento udev não funciona com o modo {mode}"
+msgstr "O agendamento do ‘udev’ não funciona com o modo ‘{mode}’"
 
 #: common/config.py:1569
+#, fuzzy
 msgid "Failed to write new crontab."
-msgstr "Falha ao escrever um novo crontab."
+msgstr "Ocorreu uma falha ao escrever um novo ‘crontab’."
 
 #: common/config.py:1577
+#, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -135,24 +151,27 @@ msgid ""
 "cron\", or consult the support channels of the currently used GNU/Linux "
 "distribution for assistance."
 msgstr ""
-"Cron não está em execução, embora o comando crontab esteja disponível. Os "
-"backups agendados não serão executados. O cron pode estar instalado, mas não"
-" habilitado. Tente os dois comandos \"systemctl enable cron\" e \"systemctl "
-"start cron\", ou consulte os canais de suporte da distribuição GNU/Linux "
-"usada atualmente para assistência."
+"O agendador de tarefas ‘Cron’ não está em execução, embora o comando "
+"‘crontab’ esteja disponível as cópias de segurança que estão agendadas não "
+"serão executadas. O ‘cron’ pode estar instalado, mas não está ativado. Tente"
+" executar os dois comandos ‘systemctl enable cron’ e ‘systemctl start cron’,"
+" ou consulte os canais de suporte da distribuição GNU/Linux que você está "
+"utilizando para obter ajuda e suporte técnico."
 
 #: common/configfile.py:101
+#, fuzzy
 msgid "Failed to save config"
-msgstr "Falha ao salvar a configuração"
+msgstr "Ocorreu uma falha ao salvar as configurações"
 
 #: common/configfile.py:137
+#, fuzzy
 msgid "Failed to load config"
-msgstr "Falha ao carregar a configuração"
+msgstr "Ocorreu uma falha ao carregar as configurações"
 
 #: common/configfile.py:679 common/configfile.py:779
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Profile \"{name}\" already exists."
-msgstr "O perfil \"{name}\" já existe."
+msgstr "O perfil ‘{name}’ já existe."
 
 #: common/configfile.py:725
 msgid "The last profile cannot be removed."
@@ -161,15 +180,17 @@ msgstr "O último perfil não pode ser removido."
 #: common/encfstools.py:129 common/gocryptfstools.py:84
 #, fuzzy, python-brace-format
 msgid "Unable to mount \"{command}\""
-msgstr "Não foi possível montar '{command}'"
+msgstr "Não foi possível montar o ‘{command}’"
 
 #: common/encfstools.py:190
+#, fuzzy
 msgid "Configuration for the encrypted directory not found."
-msgstr "Configuração para o diretório criptografado não encontrada."
+msgstr "As configuração do diretório criptografado não foram encontradas."
 
 #: common/encfstools.py:197
+#, fuzzy
 msgid "Create a new encrypted directory?"
-msgstr "Criar um novo diretório criptografado?"
+msgstr "Você quer criar um novo diretório criptografado?"
 
 #: common/encfstools.py:204
 msgid "Cancel"
@@ -178,329 +199,381 @@ msgstr "Cancelar"
 #: common/encfstools.py:209
 #, fuzzy
 msgid "Please re-enter the EncFS password to confirm."
-msgstr "Por favor, digite a senha para \"{user}\"."
+msgstr "Por favor, insira novamente a senha do ‘EncFS’ para confirmar."
 
 #: common/encfstools.py:215
 #, fuzzy
 msgid "The EncFS passwords do not match."
-msgstr "A senha não corresponde."
+msgstr "As senhas do ‘EncFS’ não correspondem."
 
 #: common/encfstools.py:659 common/snapshots.py:1128
+#, fuzzy
 msgid "Take snapshot"
-msgstr "Criar snapshot"
+msgstr "Criar uma cópia (snapshot)"
 
 #: common/gocryptfstools.py:133
 #, fuzzy, python-brace-format
 msgid "Unable to init encrypted path \"{command}\""
-msgstr "Não foi possível montar '{command}'"
+msgstr "Não foi possível inicializar o caminho criptografado ‘{command}’"
 
 #: common/mount.py:663
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Unable to unmount {mountprocess} from {mountpoint}."
-msgstr "Incapaz de desmontar {mountprocess} de {mountpoint}."
+msgstr "Não foi possível desmontar o ‘{mountprocess}’ do ‘{mountpoint}’."
 
 #: common/mount.py:750
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
 msgstr ""
-"{command} não encontrado. Por favor, instale-o (ex. via \"{installcommand}\""
+"O comando ‘{command}’ não foi encontrado. Por favor instale o programa, por "
+"exemplo, com o comando ‘{installcommand}’"
 
 #: common/mount.py:774
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Mountpoint {mntpoint} not empty."
-msgstr "Ponto de montagem {mntpoint} não está vazio."
+msgstr "O ponto de montagem ‘{mntpoint}’ não está vazio."
 
 #: common/password.py:306
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
-msgstr "Digite a senha para o perfil {mode} \"{profile}\":"
+msgstr "Digite a senha do ‘{mode}’ para o perfil ‘{profile}’:"
 
 #: common/schedule.py:238
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
 "'{dbus_interface}' wasn't available."
 msgstr ""
-"Não foi possível instalar a regra Udev para o perfil {profile_id}. O serviço"
-" DBus '{dbus_interface}' não estava disponível."
+"Não foi possível instalar a regra do ‘udev’ para o perfil ‘{profile_id}’. O "
+"serviço do DBus ‘{dbus_interface}’ não estava disponível."
 
 #: common/schedule.py:251
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Couldn't find UUID for {path}"
-msgstr "Não foi possível encontrar o UUID para {path}"
+msgstr "Não foi possível encontrar o UUID para o caminho ‘{path}’"
 
 #: common/snapshots.py:378 common/snapshots.py:656
+#, fuzzy
 msgid "FAILED"
-msgstr "FALHOU"
+msgstr "Ocorreu uma Falha"
 
 #: common/snapshots.py:579 common/snapshots.py:652
+#, fuzzy
 msgid "Restore permissions"
-msgstr "Restaurar permissões"
+msgstr "Restaurar as permissões"
 
 #: common/snapshots.py:656 qt/app.py:207 qt/app.py:1170 qt/app.py:1186
 #: qt/qtsystrayicon.py:118
+#, fuzzy
 msgid "Done"
-msgstr "Concluído"
+msgstr "Foi concluído com sucesso"
 
 #: common/snapshots.py:749
+#, fuzzy
 msgid ""
 "The following entries from the include list have no corresponding file or "
 "directory in the backup source:"
 msgstr ""
+"As seguintes entradas da lista de inclusão não possuem o arquivo ou o "
+"diretório correspondente na origem da cópia de segurança:"
 
 #: common/snapshots.py:812
+#, fuzzy
 msgid "Deferring backup while on battery"
-msgstr "Backup adiado devido ao uso de bateria"
+msgstr ""
+"Adiar a criação da cópia de segurança enquanto estiver utilizando a bateria "
+"do equipamento"
 
 #: common/snapshots.py:931 qt/app.py:377
+#, fuzzy
 msgid "Can't find backup directory."
-msgstr "Não foi possível encontrar o diretório de backups."
+msgstr "Não foi possível encontrar o diretório da cópia de segurança."
 
 #: common/snapshots.py:935 qt/app.py:378
 #, fuzzy
 msgid "If it is on a removable drive, please plug it in."
-msgstr "Se estiver em uma unidade removível, por favor, insira-o."
+msgstr "Se você estiver em um dispositivo removível, por favor, conecte-o."
 
 #: common/snapshots.py:938
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
-msgstr[0] "Aguardando {n} segundo."
-msgstr[1] "Aguardando {n} segundos."
+msgstr[0] "Aguardando por {n} segundo."
+msgstr[1] "Aguardando por {n} segundos."
 
 #: common/snapshots.py:1005
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
-msgstr "Falha ao criar o backup {snapshot_id}."
+msgstr "Ocorreu uma falha ao criar a cópia de segurança ‘{snapshot_id}’."
 
 #: common/snapshots.py:1037
+#, fuzzy
 msgid "Please be patient. Finalizing…"
-msgstr "Por favor, aguarde. Finalizando…"
+msgstr "Por favor, aguarde. O processo está sendo finalizado."
 
 #: common/snapshots.py:1163
+#, fuzzy
 msgid "Can't create directory."
-msgstr "Não é possível criar a pasta."
+msgstr "Não foi possível criar a pasta."
 
 #: common/snapshots.py:1180
+#, fuzzy
 msgid "Saving config file…"
-msgstr "Salvando o arquivo de configuração…"
+msgstr "Salvando o arquivo de configurações…"
 
 #: common/snapshots.py:1261
 msgid "Saving permissions…"
 msgstr "Salvando as permissões…"
 
 #: common/snapshots.py:1377
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr ""
-"Foi encontrado o backup incompleto {snapshot_id} que pode ser continuado."
+"Foi encontrada a cópia de segurança ‘{snapshot_id}’ que não está completa e "
+"que pode ser completada."
 
 #: common/snapshots.py:1401
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
-msgstr "Removendo o diretório {snapshot_id} incompleto da última execução"
+msgstr ""
+"Removendo o diretório ‘{snapshot_id}’ que não foi completado deste a última "
+"execução"
 
 #: common/snapshots.py:1412
+#, fuzzy
 msgid "Can't remove directory"
-msgstr "Não é possível remover o diretório"
+msgstr "Não foi possível remover o diretório"
 
 #: common/snapshots.py:1466
+#, fuzzy
 msgid "Creating backup"
-msgstr "Criando backup"
+msgstr "Criando a cópia de segurança"
 
 #: common/snapshots.py:1517
+#, fuzzy
 msgid "Success"
-msgstr "Sucesso"
+msgstr "O processo ocorreu com sucesso"
 
 #: common/snapshots.py:1520
+#, fuzzy
 msgid "Partial transfer due to error"
-msgstr "Transferência parcial devido a um erro"
+msgstr "Ocorreu uma transferência parcial devido a um erro"
 
 #: common/snapshots.py:1521
+#, fuzzy
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
-"Transferência parcial devido a arquivos de origem ausentes (consulte 'man "
-"rsync')"
+"A transferência parcial ocorreu devido ao desaparecimento dos arquivos da "
+"origem. Por favor, consulte a ajuda com o comando ‘man rsync’ no Emulador de"
+" Terminal"
 
 #: common/snapshots.py:1525
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
-msgstr "O 'rsync' terminou com o código de saída {exit_code}"
+msgstr "O ‘rsync’ terminou com o código de saída ‘{exit_code}’"
 
 #: common/snapshots.py:1538
+#, fuzzy
 msgid "See 'man rsync' for more details"
-msgstr "Veja 'man rsync' para mais detalhes"
+msgstr ""
+"Por favor, consulte a ajuda com o comando ‘man rsync’ no Emulador de "
+"Terminal para obter mais informações"
 
 #: common/snapshots.py:1545
+#, fuzzy
 msgid ""
 "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
 msgstr ""
-"Códigos de saída negativos do rsync são números de sinal, veja 'kill -l' e "
-"'man kill'"
+"Os códigos dos números de saída estão com o sinal negativo no ‘rsync’. Por "
+"favor, consulte a ajuda com o comando ‘kill -l’ e o ‘man kill’ no Emulador "
+"de Terminal para obter mais informações"
 
 #: common/snapshots.py:1566
+#, fuzzy
 msgid "Nothing changed, no new backup necessary"
-msgstr "Nada mudou, nenhum novo backup é necessário"
+msgstr ""
+"Não ocorreu nenhuma alteração, por tanto, nenhuma nova cópia de segurança é "
+"necessária"
 
 #: common/snapshots.py:1611
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
-msgstr "Não foi possível renomear {new_path} para {path}."
+msgstr "Não foi possível renomear de ‘{new_path}’ para ‘{path}’."
 
 #: common/snapshots.py:1998
 #, fuzzy
 msgid "Applying rules to remove old backups"
-msgstr "Aplicar regras para remover os backups antigos"
+msgstr "Aplicando as regras para remover as cópias de segurança antigas"
 
 #: common/snapshots.py:2031
 #, fuzzy
 msgid "Applying retention policy"
-msgstr "Aplicar política de retenção"
+msgstr "Aplicando a política de retenção"
 
 #: common/snapshots.py:2041
 msgid "Trying to keep min free space"
 msgstr "Tentando manter o mínimo de espaço livre"
 
 #: common/snapshots.py:2079
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
-msgstr "Tentando manter no mínimo {perc} de inodes livres"
+msgstr ""
+"Tentando manter no mínimo de ‘{perc}’ de ‘inodes’ (ou nós de índice das "
+"estruturas dos dados) livres"
 
 #: common/snapshots.py:3240 qt/app.py:1490 qt/timeline.py:397
+#, fuzzy
 msgid "Now"
-msgstr "Agora"
+msgstr "Neste momento"
 
 #: common/sshtools.py:233
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Unable to mount {sshfs}"
-msgstr "Não foi possível montar {sshfs}"
+msgstr "Não foi possível montar o ‘{sshfs}’"
 
 #: common/sshtools.py:306
+#, fuzzy
 msgid "ssh-agent not found. Please ensure it is installed."
 msgstr ""
-"ssh-agent não encontrado. Por favor, certifique-se de que está instalado."
+"O agente do SSH (ssh-agent) não foi encontrado no sistema operacional. Por "
+"favor, certifique-se de que esteja instalado."
 
 #: common/sshtools.py:489
+#, fuzzy
 msgid ""
 "Could not unlock ssh private key. Wrong password or password not available "
 "for cron."
 msgstr ""
-"Não é possível desbloquear a chave privada ssh. A senha está errada ou não "
-"está disponível para o cron."
+"Não foi possível desbloquear a chave privada do SSH. A senha está errada ou "
+"a senha não está disponível para o agendador de tarefas ‘Cron’."
 
 #: common/sshtools.py:721
 msgid "Remote path exists but is not a directory."
 msgstr "O caminho remoto existe, mas não é um diretório."
 
 #: common/sshtools.py:726
+#, fuzzy
 msgid "Remote path is not writable."
-msgstr "O caminho remoto não é gravável."
+msgstr "O caminho remoto não permite a escrita ou gravação de dados."
 
 #: common/sshtools.py:731
 msgid "Remote path is not executable."
 msgstr "O caminho remoto não é executável."
 
 #: common/sshtools.py:736
+#, fuzzy
 msgid "Couldn't create remote path."
-msgstr "Não é possível criar o caminho remoto."
+msgstr "Não foi possível criar o caminho remoto."
 
 #: common/sshtools.py:1022
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Remote host {host} doesn't support {command}"
-msgstr "O host remoto {host} não suporta {command}"
+msgstr "O hospedeiro remoto ‘{host}’ não suporta o comando ‘{command}’"
 
 #: common/sshtools.py:1026
 #, fuzzy, python-brace-format
 msgid "Checking commands on host {host} returned unknown error"
-msgstr "Verificação dos comandos no host {host} retornou um erro desconhecido"
+msgstr ""
+"A verificação dos comandos no hospedeiro ‘{host}’ retornou um erro que não é"
+" conhecido"
 
 #: common/sshtools.py:1044
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Remote host {host} doesn't support hardlinks"
-msgstr "O host remoto {host} não suporta hardlinks"
+msgstr ""
+"O hospedeiro remoto ‘{host}’ não suporta as ligações rígidas (hardlinks)"
 
 #: common/sshtools.py:1206
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
-msgstr "Copiar chave ssh pública \"{pubkey}\" para o host remoto \"{host}\"."
+msgstr ""
+"Copiar a chave pública do SSH ‘{pubkey}’ para o hospedeiro remoto ‘{host}’."
 
 #: common/sshtools.py:1208
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Please enter a password for \"{user}\"."
-msgstr "Por favor, digite a senha para \"{user}\"."
+msgstr "Por favor, digite a senha para o usuário ‘{user}’."
 
 #: common/tools.py:382
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
-"O sistema de arquivos de destino para '{path}' está formatado com NTFS, que "
-"possui incompatibilidades conhecidas com sistemas de arquivos estilo Unix."
+"O sistema de arquivos do destino para o caminho ‘{path}’ está formatado com "
+"NTFS, que possui incompatibilidades conhecidas com o sistemas de arquivos do"
+" tipo Unix."
 
 #: common/tools.py:414
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "{path} is not a valid directory."
-msgstr "{path} não é um diretório válido."
+msgstr "O caminho ‘{path}’ não é um diretório válido."
 
 #: common/tools.py:428
+#, fuzzy
 msgid "Creation of following directory failed:"
-msgstr "A criação do seguinte diretório falhou:"
+msgstr "Ocorreu uma falha na criação do diretório:"
 
 #: common/tools.py:430 common/tools.py:527
+#, fuzzy
 msgid "Write access may be restricted."
-msgstr "O acesso de escrita pode estar restrito."
+msgstr "O acesso da escrita ou da gravação pode estar restrito."
 
 #: common/tools.py:471
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native GNU/Linux filesystem."
 msgstr ""
-"O sistema de arquivos de destino para '{path}' está formatado com FAT, que "
-"não suporta hard-links. Por favor, utilize um sistema de arquivos nativo do "
-"GNU/Linux."
+"O sistema de arquivos do destino para o caminho ‘{path}’ está formatado com "
+"FAT, que não suporta as ligações rígidas (hard-links). Por favor, utilize um"
+" sistema de arquivos que seja nativo do GNU/Linux."
 
 #: common/tools.py:482
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
 "sure the remote SMB server supports symlinks or activate \"{copyLinks}\" in "
 "\"{expertOptions}\"."
 msgstr ""
-"O sistema de arquivos de destino para '{path}' é um compartilhamento montado"
-" via SMB. Por favor, tenha certeza que o servidor SMB remoto suporta links "
-"simbólicos ou ative a opção '{copyLinks}' em '{expertOptions}'."
+"O sistema de arquivos do destino para o caminho ‘{path}’ é um "
+"compartilhamento que está montado via SMB. Por favor, tenha certeza de que o"
+" servidor SMB remoto suporta as ligações simbólicas (symlinks) ou ative a "
+"opção ‘{copyLinks}’ em ‘{expertOptions}’."
 
 #: common/tools.py:486
+#, fuzzy
 msgid "Copy links (dereference symbolic links)"
-msgstr "Copiar links (desreferenciar links simbólicos)"
+msgstr "Copiar as ligações (desreferenciar as ligações simbólicas)"
 
 #: common/tools.py:487
 msgid "Expert Options"
 msgstr "Opções avançadas"
 
 #: common/tools.py:491
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
 "doesn't support hard-links. Please use mode \"SSH\" instead."
 msgstr ""
-"O sistema de arquivos de destino para '{path}' é um compartilhamento via "
-"sshfs. O sshfs não suporta hard-links. Por favor, utilize o modo \"SSH\" em "
-"vez disso."
+"O sistema de arquivos do destino para o caminho ‘{path}’ é um "
+"compartilhamento que está montado via SSHFS. O SSHFS não suporta as ligações"
+" rígidas (hard-links). Por favor, utilize o modo SSH no lugar do SSHFS."
 
 #: common/tools.py:525
+#, fuzzy
 msgid "File creation failed in this directory:"
-msgstr "A criação de arquivo falhou neste diretório:"
+msgstr "Ocorreu uma falha ao criar o arquivo no diretório:"
 
 #: qt/aboutdlg.py:50
+#, fuzzy
 msgid "About Back In Time"
 msgstr "Sobre o Back In Time"
 
 #: qt/aboutdlg.py:88
+#, fuzzy
 msgid "Copyright:"
-msgstr "Copyright:"
+msgstr "Direitos autorais:"
 
 #: qt/aboutdlg.py:92
 msgid "Authors:"
@@ -511,29 +584,37 @@ msgid "Translators:"
 msgstr "Tradutores:"
 
 #: qt/aboutdlg.py:99
+#, fuzzy
 msgid "translator-credits-placeholder"
 msgstr ""
 "Andre Desgualdo Pereira\n"
+"marcelocripe <marcelocripe@gmail.com>\n"
 "Scythemare\n"
 "Yuri Musachio <yuri.musachio@gmail.com>"
 
 #: qt/aboutdlg.py:106
+#, fuzzy
 msgid "Translator credits not available for current language."
-msgstr "Os créditos dos tradutores não disponíveis para a linguagem atual."
+msgstr ""
+"Os créditos dos tradutores voluntários não estão disponíveis para o idioma "
+"atual."
 
 #: qt/aboutdlg.py:115
+#, fuzzy
 msgid "this link"
-msgstr "este link"
+msgstr "aqui"
 
 #: qt/aboutdlg.py:117
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
-"Clique {thislink} para ver os créditos de tradutores para todos os idiomas."
+"Clique ‘{thislink}’ para exibir os créditos dos tradutores voluntários de "
+"todos os idiomas."
 
 #: qt/aboutdlg.py:240 qt/app.py:562
+#, fuzzy
 msgid "Project website"
-msgstr "Site do projeto"
+msgstr "Página do projeto"
 
 #: qt/aboutdlg.py:245 qt/app.py:544
 msgid "User manual"
@@ -543,13 +624,13 @@ msgstr "Manual do usuário"
 #, fuzzy
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
-"Abrir o manual do usuário no navegador (local, se disponível, caso contrário"
-" online)"
+"Abrir o manual do usuário local no navegador de internet, se estiver "
+"disponível, caso contrário acesse a versão da internet"
 
 #: qt/aboutdlg.py:297
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "{BOLD}Version{BOLDEND}: {version}"
-msgstr "{BOLD}Versão{BOLDEND}: {version}"
+msgstr "{BOLD} Versão {BOLDEND}: {version}"
 
 #: qt/app.py:332
 #, fuzzy, python-brace-format
@@ -557,94 +638,106 @@ msgid ""
 "{app_name} appears to be running for the first time because no configuration"
 " is found."
 msgstr ""
-"{app_name} parece estar em execução pela primeira vez, pois nenhuma "
-"configuração foi encontrada."
+"O programa ‘{app_name}’ parece que foi executado pela primeira vez, porque "
+"nenhuma configuração foi encontrada."
 
 #: qt/app.py:337
 #, fuzzy
 msgid ""
 "Import an existing configuration from a backup location or another computer?"
 msgstr ""
-"Importar uma configuração existente (de um diretório de destino de backup ou"
-" de outro computador)?"
+"Você quer importar uma configuração existente a partir de um diretório do "
+"destino da cópia de segurança ou de um outro computador?"
 
 #: qt/app.py:379
+#, fuzzy
 msgid "Then press OK."
-msgstr ""
+msgstr "Em seguida, clique ou pressione em cima do botão ‘OK’."
 
 #: qt/app.py:483
+#, fuzzy
 msgid "Create a backup"
-msgstr "Criar um backup"
+msgstr "Criar uma cópia de segurança"
 
 #: qt/app.py:485
+#, fuzzy
 msgid "Use modification time & size for file change detection."
 msgstr ""
-"Usar horário de modificação e tamanho para detectar alterações nos arquivos."
+"Utilizar o horário da modificação e do tamanho para detectar as alterações "
+"nos arquivos."
 
 #: qt/app.py:488
 #, fuzzy
 msgid "Create a backup (checksum mode)"
-msgstr "Criar snapshot (modo checksum)"
+msgstr "Criar uma cópia de segurança (modo de verificação)"
 
 #: qt/app.py:490
+#, fuzzy
 msgid "Use checksums for file change detection."
-msgstr "Usar checksums para detectar alterações nos arquivos."
+msgstr ""
+"Utilizar as verificação de integridade (checksums) para detectar as "
+"alterações nos arquivos."
 
 #: qt/app.py:492 qt/qtsystrayicon.py:125
 #, fuzzy
 msgid "Pause backup process"
-msgstr "Pausar o processo de snapshot"
+msgstr "Pausar o processo de criação da cópia de segurança"
 
 #: qt/app.py:496 qt/qtsystrayicon.py:130
 #, fuzzy
 msgid "Resume backup process"
-msgstr "Retomar o processo de snapshot"
+msgstr "Retomar o processo de criação da cópia de segurança"
 
 #: qt/app.py:500 qt/qtsystrayicon.py:135
 #, fuzzy
 msgid "Stop backup process"
-msgstr "Parar processo de snapshot"
+msgstr "Parar o processo de criação da cópia de segurança"
 
 #: qt/app.py:504
 #, fuzzy
 msgid "Refresh backup list"
-msgstr "Atualizar lista de snapshots"
+msgstr "Recarregar a lista das cópias de segurança"
 
 #: qt/app.py:508
+#, fuzzy
 msgid "Name backup"
-msgstr "Nomear o backup"
+msgstr "Nome da cópia de segurança"
 
 #: qt/app.py:512
 #, fuzzy
 msgid "Remove backup"
-msgstr "Remover snapshot"
+msgstr "Remover a cópia de segurança"
 
 #: qt/app.py:516
 #, fuzzy
 msgid "Open backup log"
-msgstr "Visualizar último log"
+msgstr "Abrir o registro das alterações da cópia de segurança"
 
 #: qt/app.py:518
 #, fuzzy
 msgid "View log of the selected backup."
-msgstr "Pelo menos um diretório precisa ser selecionado para o backup."
+msgstr ""
+"Exibir o registro das alterações da cópia de segurança que foi selecionada."
 
 #: qt/app.py:520
 #, fuzzy
 msgid "Open last backup log"
-msgstr "Visualizar último log"
+msgstr "Abrir o último registro das alterações da cópia de segurança"
 
 #: qt/app.py:522
+#, fuzzy
 msgid "View log of the latest backup."
-msgstr ""
+msgstr "Exibir o último registro das alterações da cópia de segurança."
 
 #: qt/app.py:524
+#, fuzzy
 msgid "Manage profiles…"
-msgstr "Gerenciar perfis…"
+msgstr "Gerenciar os perfis…"
 
 #: qt/app.py:528
+#, fuzzy
 msgid "Edit user-callback"
-msgstr "Editar user-callback"
+msgstr "Editar o ‘user-callback’"
 
 #: qt/app.py:532
 msgid "Shutdown"
@@ -653,80 +746,96 @@ msgstr "Desligar"
 #: qt/app.py:534
 #, fuzzy
 msgid "Shut down system after backup has finished."
-msgstr "Desligar o sistema após o snapshot ser finalizado."
+msgstr ""
+"Desligar o sistema operacional após a conclusão da cópia de segurança."
 
 #: qt/app.py:536
+#, fuzzy
 msgid "Setup language…"
-msgstr "Configurar idioma…"
+msgstr "Configurar o idioma…"
 
 #: qt/app.py:540
 msgid "Exit"
 msgstr "Sair"
 
 #: qt/app.py:550
+#, fuzzy
 msgid "man page: Back In Time"
-msgstr "Página do manual: Back In Time"
+msgstr "Página do manual do Back In Time (De Volta ao Passado)"
 
 #: qt/app.py:552
+#, fuzzy
 msgid "Displays man page about Back In Time (backintime)"
-msgstr "Exibe a página do manual sobre o Back In Time (backintime)"
+msgstr "Exibir a página do manual sobre o Back In Time (De Volta ao Passado)"
 
 #: qt/app.py:555
+#, fuzzy
 msgid "man page: Profiles config file"
-msgstr "Página do manual: Arquivo de configuração de perfis"
+msgstr "Página do manual sobre o arquivo de configurações dos perfis"
 
 #: qt/app.py:558
+#, fuzzy
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
-"Exibe a página do manual sobre o arquivo de configuração de perfis "
+"Exibi a página do manual sobre o arquivo de configurações dos perfis "
 "(backintime-config)"
 
 #: qt/app.py:565
+#, fuzzy
 msgid "Open Back In Time website in browser"
-msgstr "Abrir o site do Back In Time no navegador"
+msgstr ""
+"Abrir a página do Back In Time (De Volta ao Passado) no navegador de "
+"internet"
 
 #: qt/app.py:567 qt/app.py:2243
+#, fuzzy
 msgid "Changelog"
-msgstr "Registro de alterações"
+msgstr "Registro das alterações"
 
 #: qt/app.py:570
 #, fuzzy
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr ""
-"Abrir o manual do usuário no navegador (local, se disponível, caso contrário"
-" online)"
+"Abrir o registro das alterações local, se estiver disponível, caso contrário"
+" acesse pelo navegador de internet"
 
 #: qt/app.py:573
+#, fuzzy
 msgid "FAQ"
-msgstr "FAQ (Perguntas Frequentes)"
+msgstr "Perguntas frequentes"
 
 #: qt/app.py:575
+#, fuzzy
 msgid "Open Frequently Asked Questions (FAQ) in browser"
-msgstr "Abrir Perguntas Frequentes (FAQ) no navegador.\""
+msgstr "Abrir as perguntas frequentes (FAQ) no navegador de internet"
 
 #: qt/app.py:577
 msgid "Ask a question"
 msgstr "Fazer uma pergunta"
 
 #: qt/app.py:581
+#, fuzzy
 msgid "Report a bug"
-msgstr "Reportar um bug"
+msgstr "Reportar um problema ou uma falha"
 
 #: qt/app.py:584
 msgid "Translation"
 msgstr "Traduções"
 
 #: qt/app.py:586
+#, fuzzy
 msgid "Shows the message about participation in translation again."
-msgstr "Exibe novamente a mensagem sobre participação na tradução."
+msgstr "Exibir novamente a mensagem sobre os tradutores voluntários."
 
 #: qt/app.py:590
+#, fuzzy
 msgid "Encryption Transition (EncFS)"
-msgstr "Transição de Criptografia (EncFS)"
+msgstr "Transição da Criptografia (EncFS)"
 
 #: qt/app.py:592
+#, fuzzy
 msgid "Shows the message about EncFS removal again."
-msgstr "Exibe novamente a mensagem sobre a remoção do EncFS."
+msgstr "Exibir novamente a mensagem sobre a remoção do EncFS."
 
 #: qt/app.py:599
 msgid "About"
@@ -741,7 +850,8 @@ msgstr "Restaurar"
 #, fuzzy
 msgid "Restore the selected files or directories to the original location."
 msgstr ""
-"Restaurar os arquivos ou diretórios selecionados para o destino original."
+"Restaurar os arquivos ou os diretórios que foram selecionados para o destino"
+" original."
 
 #: qt/app.py:607 qt/app.py:1886 qt/snapshotsdialog.py:184
 msgid "Restore to …"
@@ -751,7 +861,8 @@ msgstr "Restaurar para …"
 #, fuzzy
 msgid "Restore the selected files or directories to a new location."
 msgstr ""
-"Restaurar os arquivos ou diretórios selecionados para um novo destino."
+"Restaurar os arquivos ou os diretórios que foram selecionados para um novo "
+"destino."
 
 #: qt/app.py:615
 #, fuzzy
@@ -759,8 +870,8 @@ msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
 msgstr ""
-"Restaurar o diretório exibido atualmente e todos os seus conteúdos para o "
-"destino original."
+"Restaurar o diretório que foi exibido e todo o seu conteúdo para o destino "
+"original."
 
 #: qt/app.py:621
 #, fuzzy
@@ -768,37 +879,42 @@ msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
 msgstr ""
-"Restaurar o diretório exibido atualmente e todos os seus conteúdos para um "
-"novo destino."
+"Restaurar o diretório que foi exibido e todo o seu conteúdo para um novo "
+"destino."
 
 #: qt/app.py:624
+#, fuzzy
 msgid "Up"
-msgstr "Acima"
+msgstr "Subir"
 
 #: qt/app.py:627
+#, fuzzy
 msgid "Show hidden files"
-msgstr "Exibir arquivos ocultos"
+msgstr "Exibir os arquivos ocultos"
 
 #: qt/app.py:630
 #, fuzzy
 msgid "Compare backups…"
-msgstr "Comparar snapshots…"
+msgstr "Comparar as cópias de segurança…"
 
 #: qt/app.py:660 qt/app.py:1759
+#, fuzzy
 msgid "Release Candidate"
-msgstr "Versão Candidata a Lançamento"
+msgstr "Versão candidata para lançamento"
 
 #: qt/app.py:663
+#, fuzzy
 msgid "Shows the message about this Release Candidate again."
-msgstr "Exibe a mensagem sobre esta versão candidata a lançamento novamente."
+msgstr "Exibir novamente a mensagem sobre a versão candidata para lançamento."
 
 #: qt/app.py:700
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
 #: qt/app.py:705
+#, fuzzy
 msgid "&Backup"
-msgstr "&Backup"
+msgstr "&Cópia de Segurança"
 
 #: qt/app.py:717
 msgid "&Restore"
@@ -809,28 +925,34 @@ msgid "&Help"
 msgstr "&Ajuda"
 
 #: qt/app.py:774
+#, fuzzy
 msgid "Systray Icon"
-msgstr ""
+msgstr "Ícone da bandeja do sistema"
 
 #: qt/app.py:780
+#, fuzzy
 msgid "Automatic"
-msgstr ""
+msgstr "Automático"
 
 #: qt/app.py:784
+#, fuzzy
 msgid "Light icon"
-msgstr ""
+msgstr "Ícones claros"
 
 #: qt/app.py:785
+#, fuzzy
 msgid "Dark icon"
-msgstr ""
+msgstr "Ícones escuros"
 
 #: qt/app.py:808
+#, fuzzy
 msgid "Icons only"
-msgstr "Apenas ícones"
+msgstr "Somente os ícones"
 
 #: qt/app.py:811
+#, fuzzy
 msgid "Text only"
-msgstr "Apenas texto"
+msgstr "Somente o texto"
 
 #: qt/app.py:814
 msgid "Text below icons"
@@ -843,16 +965,12 @@ msgstr "Texto ao lado do ícone"
 #: qt/app.py:943
 #, fuzzy
 msgid "This directory doesn't exist in the selected backup."
-msgstr ""
-"Esse diretório não existe\n"
-"no backup atual selecionado."
+msgstr "Este diretório não existe na cópia de segurança que foi selecionada."
 
 #: qt/app.py:946
 #, fuzzy
 msgid "This directory doesn't exist on the computer."
-msgstr ""
-"Esse diretório não existe\n"
-"no backup atual selecionado."
+msgstr "Este diretório não existe no computador."
 
 #: qt/app.py:995
 #, fuzzy
@@ -860,18 +978,22 @@ msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
 msgstr ""
-"Se você fechar esta janela, o Back In Time não será capaz de desligar seu "
-"sistema quando o snapshot for finalizado."
+"Se você fechar esta janela, o Back In Time (De Volta ao Passado) não será "
+"capaz de desligar o seu sistema operacional quando a cópia de segurança for "
+"finalizada."
 
 #: qt/app.py:998
+#, fuzzy
 msgid "Close the window anyway?"
-msgstr "Fechar a janela mesmo assim?"
+msgstr "Você quer fechar a janela mesmo assim?"
 
 #: qt/app.py:1189
+#, fuzzy
 msgid "Done, no backup needed"
-msgstr "Concluído, nenhum backup necessário"
+msgstr "Foi concluído com sucesso, nenhuma cópia de segurança é necessária"
 
 #: qt/app.py:1260
+#, fuzzy
 msgid "Working:"
 msgstr "Trabalhando:"
 
@@ -880,8 +1002,9 @@ msgid "Working"
 msgstr "Trabalhando"
 
 #: qt/app.py:1273 qt/messagebox.py:136
+#, fuzzy
 msgid "Error"
-msgstr "Erro"
+msgstr "Ocorreu um erro"
 
 #: qt/app.py:1314 qt/qtsystrayicon.py:295
 msgid "Sent:"
@@ -898,20 +1021,20 @@ msgstr "ETA:"
 #: qt/app.py:1498
 #, fuzzy
 msgid "Backup:"
-msgstr "Backups:"
+msgstr "Cópia de segurança:"
 
 #: qt/app.py:1598
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Restore {path}"
-msgstr "Restaurar {path}"
+msgstr "Restaurar o caminho {path}"
 
 #: qt/app.py:1600
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Restore {path} to …"
-msgstr "Restaurar {path} para …"
+msgstr "Restaurar o caminho {path} para …"
 
 #: qt/app.py:1624
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "Hello\n"
 "You have used Back In Time in the {language} language a few times by now.\n"
@@ -920,55 +1043,59 @@ msgid ""
 "We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team"
 msgstr ""
-"Olá\n"
-"Você tem usado o Back In Time no idioma {language} algumas vezes até agora.\n"
-"A tradução da sua versão instalada do Back In Time para o {language} está {perc} completa. Independentemente do seu nível de conhecimento técnico, você pode contribuir para a tradução e, para o Back In Time em si.\n"
-"Por favor, visite a {translation_platform_url} se desejar contribuir. Para assistência adicional e dúvidas, por favor acesse o projeto do {back_in_time_project_website}.\n"
-"Pedimos desculpas pela interrupção, e esta mensagem não será exibida novamente. Este diálogo está disponível a qualquer momento pelo menu de ajuda.\n"
-"Sua equipe Back In Time"
+"Olá.\n"
+"Você tem utilizado o Back In Time (De Volta ao Passado) no idioma ‘{language}’ algumas vezes até agora.\n"
+"A tradução da versão que está instalada do Back In Time para o idioma ‘{language}’ está ‘{perc}’ concluída. Independentemente do seu nível de conhecimento técnico, você pode contribuir com a tradução do programa e, consequentemente, para o próprio Back In Time.\n"
+"Por favor, visite a página da ‘{translation_platform_url}’ se você quiser contribuir de alguma maneira. Para obter ajuda e suporte técnico, por favor, acesse a ‘{back_in_time_project_website}’.\n"
+"Pedimos desculpas pela interrupção, saiba que esta mensagem não será exibida novamente. Esta caixa diálogo está disponível a qualquer momento no menu da ajuda.\n"
+"A equipe de desenvolvedores do Back In Time"
 
 #: qt/app.py:1653
 msgid "translation platform"
 msgstr "plataforma de tradução"
 
 #: qt/app.py:1658
+#, fuzzy
 msgid "Website"
-msgstr "através do site"
+msgstr "página do projeto do Back In Time (De Volta ao Passado)"
 
 #: qt/app.py:1672
+#, fuzzy
 msgid "Your translation"
-msgstr "Sua tradução"
+msgstr "Seja um tradutor voluntário do seu idioma"
 
 #: qt/app.py:1709
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
-msgstr "No Fediverse do Mastodon: {link_and_label}."
+msgstr "Na rede Fediverse do Mastodon no endereço {link_and_label}."
 
 #: qt/app.py:1714
 #, fuzzy, python-brace-format
 msgid "Email to {link_and_label}."
-msgstr "Lista de emails {link_and_label}."
+msgstr "Endereço de e-mail {link_and_label}."
 
 #: qt/app.py:1718
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Mailing list {link_and_label}."
-msgstr "Lista de emails {link_and_label}."
+msgstr "Lista de discussão no endereço {link_and_label}."
 
 #: qt/app.py:1722
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "{link_and_label} on the project website."
-msgstr "{link_and_label} no site do projeto."
+msgstr "{link_and_label} na página do projeto."
 
 #: qt/app.py:1725
+#, fuzzy
 msgid "Open an issue"
-msgstr "Abra uma demanda"
+msgstr "Informar um problema ou uma falha"
 
 #: qt/app.py:1726
+#, fuzzy
 msgid "Alternatively, you can use another channel of your choice."
-msgstr "Alternativamente, você pode usar outro canal de sua escolha."
+msgstr "Você pode utilizar um outro meio de comunicação de sua preferência."
 
 #: qt/app.py:1731
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
 "No user data or telemetry is collected. However, the Back In Time team is very interested in knowing if the Release Candidate is being used and if it is worth continuing to provide such pre-release versions.\n"
@@ -979,37 +1106,42 @@ msgid ""
 "Thank you for your support and for helping us improve Back In Time!\n"
 "Your Back In Time Team"
 msgstr ""
-"Esta versão do Back In Time é um Candidato de Lançamento e é destinada principalmente para testes de estabilidade em preparação para o próximo lançamento oficial.\n"
-"Nenhum dado do usuário ou telemetria é coletado. No entanto, a equipe do Back In Time está muito interessada em saber se o Candidato de Lançamento está sendo utilizado e se vale a pena continuar a fornecer essas versões de pré-lançamento.\n"
-"Portanto, a equipe solicita gentilmente um breve feedback sobre se você testou esta versão, mesmo que não tenha encontrado nenhum problema. Mesmo um teste rápido de alguns minutos nos ajudaria muito.\n"
+"Esta versão do Back In Time (De Volta ao Passado) é um candidato a lançamento e é destinada principalmente para testes de estabilidade em preparação para o próximo lançamento oficial.\n"
+"Nenhum dado do usuário ou telemetria é coletado. No entanto, a equipe do Back In Time está muito interessada em saber se o programa que é candidato a lançamento está sendo utilizado e se vale a pena continuar fornecendo estas versões de pré-lançamento.\n"
+"Portanto, a equipe solicita gentilmente o seu breve relato sobre como que esta versão se comportou em seus testes, mesmo que não tenha encontrado nenhum tipo de problema ou falha. Mesmo que tenha sido um teste rápido de alguns minutos nos ajudaria muito.\n"
 "As seguintes opções de contato estão disponíveis:\n"
 "{contact_list}\n"
-"Nesta versão, esta mensagem não será exibida novamente, mas pode ser acessada a qualquer momento pelo menu de ajuda.\n"
-"Obrigado pelo seu apoio e por nos ajudar a melhorar o Back In Time!\n"
-"Sua equipe do Back In Time"
+"Nesta versão, esta mensagem não será exibida novamente, mas pode ser acessada a qualquer momento por meio do menu da ajuda.\n"
+"Agradecemos pelo seu apoio e por nos ajudar a melhorar o Back In Time!\n"
+"A equipe de desenvolvedores do Back In Time"
 
 #: qt/app.py:1836
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr ""
+"Apenas ‘{free}’ de espaço livre está disponível no destino, que está abaixo "
+"do limite que foi configurado de ‘{threshold}’."
 
 #: qt/app.py:1841
 #, fuzzy
 msgid "Proceed with the backup?"
-msgstr "Remover este backup?"
+msgstr "Você quer continuar com esta cópia de segurança?"
 
 #: qt/app.py:1866
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
-msgstr "Todos os arquivos mais recentes em {path} serão removidos. Continuar?"
+msgstr ""
+"Todos os arquivos mais recentes que estão no caminho ‘{path}’ serão "
+"removidos. Você quer continuar?"
 
 #: qt/app.py:1869
+#, fuzzy
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
-"Todos os arquivos mais recentes no diretório original serão removidos. "
-"Continuar?"
+"Todos os arquivos mais recentes no diretório original serão removidos. Você "
+"quer continuar?"
 
 #: qt/app.py:1875
 #, fuzzy, python-brace-format
@@ -1017,46 +1149,77 @@ msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "the entire system."
 msgstr ""
-"{BOLD}Atenção{BOLDEND}: Deletar arquivos no sistema de arquivos raiz pode "
-"quebrar todo o seu sistema."
+"{BOLD}Atenção{BOLDEND}: Excluir os arquivos do sistema de arquivos como "
+"administrador pode danificar todo o seu sistema operacional."
 
 #: qt/app.py:2107
 #, fuzzy
 msgid "Backup name"
-msgstr "&Backup"
+msgstr "Nome do arquivo da cópia de segurança"
 
 #: qt/app.py:2138
+#, fuzzy
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
-msgstr[0] "Remover este backup?"
-msgstr[1] "Remover estes backups?"
+msgstr[0] "Remover esta cópia de segurança?"
+msgstr[1] "Remover estas cópias de segurança?"
 
 #: qt/app.py:2204
+#, fuzzy
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
-"As configurações de idioma só têm efeito após reiniciar o Back in Time."
+"As configurações do idioma serão aplicadas após reiniciar o programa Back in"
+" Time."
 
 #: qt/backintime-qt-root.desktop:14
+#, fuzzy
 msgid "Versioned Backups (root)"
-msgstr ""
+msgstr "Cópias de segurança versionadas (como administrador)"
 
 #: qt/backintime-qt-root.desktop:23
+#, fuzzy
 msgid ""
 "User-friendly GUI for versioned backups that reduces disk usage (root mode)"
 msgstr ""
+"O ‘Back In Time’ significa em idioma português ‘De Volta ao Passado’ ou "
+"‘Voltar no Tempo’, trata-se de um programa que permite realizar cópias de "
+"segurança (backups) dos arquivos e das pastas com versões (ou versionadas) "
+"que reduzem a utilização do espaço no dispositivo de armazenamento (disco "
+"rígido, dispositivo de estado sólido ou SSD, etc.), possui uma interface "
+"gráfica intuitiva e configurável, além de uma versão de linha de comando, "
+"possibilita a realização de cópias de segurança incrementais, os arquivos "
+"modificados são transferidos enquanto que os arquivos inalterados são "
+"vinculados (ou ligados) à nova pasta utilizando o recurso de ligação física "
+"do ‘rsync’, a restauração dos arquivos e das pastas é simples podendo ser "
+"realizada por meio do gerenciador de arquivos ou por meio da linha de "
+"comando ou pelo próprio Back In Time"
 
 #: qt/backintime-qt.desktop:14
 #, fuzzy
 msgid "Versioned Backups"
-msgstr "Manter os snapshots nomeados."
+msgstr "Cópias de segurança versionadas"
 
 #: qt/backintime-qt.desktop:23
+#, fuzzy
 msgid "User-friendly GUI for versioned backups that reduces disk usage"
 msgstr ""
+"O ‘Back In Time’ significa em idioma português ‘De Volta ao Passado’ ou "
+"‘Voltar no Tempo’, trata-se de um programa que permite realizar cópias de "
+"segurança (backups) dos arquivos e das pastas com versões (ou versionadas) "
+"que reduzem a utilização do espaço no dispositivo de armazenamento (disco "
+"rígido, dispositivo de estado sólido ou SSD, etc.), possui uma interface "
+"gráfica intuitiva e configurável, além de uma versão de linha de comando, "
+"possibilita a realização de cópias de segurança incrementais, os arquivos "
+"modificados são transferidos enquanto que os arquivos inalterados são "
+"vinculados (ou ligados) à nova pasta utilizando o recurso de ligação física "
+"do ‘rsync’, a restauração dos arquivos e das pastas é simples podendo ser "
+"realizada por meio do gerenciador de arquivos ou por meio da linha de "
+"comando ou pelo próprio Back In Time"
 
 #: qt/confirmrestoredialog.py:35 qt/messagebox.py:123
+#, fuzzy
 msgid "Question"
-msgstr "Pergunta"
+msgstr "O Back In Time pergunta a você"
 
 #: qt/confirmrestoredialog.py:76
 #, fuzzy, python-brace-format
@@ -1064,8 +1227,8 @@ msgid ""
 "Create backup copies with trailing {suffix} before overwriting or removing "
 "local elements."
 msgstr ""
-"Criar cópias de backup com o sufixo {suffix}\n"
-"antes de sobrescrever ou remover elementos locais."
+"Criar as cópias de segurança com o sufixo ‘{suffix}’ antes de sobrescrever "
+"ou remover o conteúdo local."
 
 #: qt/confirmrestoredialog.py:81 qt/manageprofiles/tab_options.py:69
 #, fuzzy, python-brace-format
@@ -1073,9 +1236,9 @@ msgid ""
 "Before restoring, newer versions of files will be renamed with the appended "
 "{suffix}. These files can be removed with the following command:"
 msgstr ""
-"Versões mais recentes dos arquivos serão renomeadas com o sufixo {suffix} "
-"antes da restauração. Se não precisar mais deles, poderá removê-los com o "
-"seguinte comando:"
+"As versões mais recentes dos arquivos serão renomeados com o sufixo "
+"‘{suffix}’ antes da restauração. Se você não precisar mais destes arquivos, "
+"poderá removê-los com o comando abaixo no Emulador de Terminal:"
 
 #: qt/confirmrestoredialog.py:94
 #, fuzzy, python-brace-format
@@ -1083,13 +1246,13 @@ msgid ""
 "Only restore elements which do not exist or are newer than those in "
 "destination. Using \"{rsync_example}\" option."
 msgstr ""
-"Restaure apenas elementos que não existem ou\n"
-"que são mais recentes do que os do destino.\n"
-"Usando a opção \"rsync --update\"."
+"Restaurar apenas o conteúdo que não existem ou que são mais recentes do que "
+"o conteúdo do destino. Utilize a opção ‘{rsync_example}’."
 
 #: qt/confirmrestoredialog.py:133
+#, fuzzy
 msgid "Remove newer elements in original directory."
-msgstr "Remover os elementos mais recentes do diretório original."
+msgstr "Remover o conteúdo mais recentes do diretório original."
 
 #: qt/confirmrestoredialog.py:135
 #, fuzzy
@@ -1099,77 +1262,86 @@ msgid ""
 "because this will delete files and directories which were excluded during "
 "the creation of the backup."
 msgstr ""
-"Restaure os arquivos ou diretórios selecionados para o destino original e "
-"exclua os arquivos ou diretórios que não estão no snapshot. Tenha extrema "
-"cautela, pois isso excluirá arquivos e diretórios que foram omitidos durante"
-" a criação do snapshot."
+"Restaurar os arquivos ou os diretórios que foram selecionados para o destino"
+" original e excluir os arquivos ou diretórios que não estão na cópia de "
+"segurança. Tenha muito cuidado, porque esta ação irá excluir os arquivos e "
+"os diretórios que foram omitidos durante a criação da cópia de segurança."
 
 #: qt/confirmrestoredialog.py:147
 #, fuzzy
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
-msgstr[0] "Você realmente deseja restaurar este elemento no novo diretório?"
-msgstr[1] "Você realmente deseja restaurar estes elementos no novo diretório?"
+msgstr[0] "Você realmente quer restaurar este conteúdo no novo diretório?"
+msgstr[1] "Você realmente quer restaurar estes conteúdos no novo diretório?"
 
 #: qt/confirmrestoredialog.py:157
 #, fuzzy
 msgid "Really restore this element?"
 msgid_plural "Really restore these elements?"
-msgstr[0] "Você realmente deseja restaurar este elemento?"
-msgstr[1] "Você realmente deseja restaurar estes elementos?"
+msgstr[0] "Você realmente quer restaurar este conteúdo?"
+msgstr[1] "Você realmente quer restaurar estes conteúdos?"
 
 #: qt/editusercallback.py:43
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "User-callback: \"{filename}\""
-msgstr ""
+msgstr "Retorno da chamada do usuário: ‘{filename}’"
 
 #: qt/editusercallback.py:105
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "The user-callback script must include a shebang on the first line (e.g. "
 "{example})."
 msgstr ""
+"A instrução do retorno da chamada do usuário tem que incluir um ‘shebang’ na"
+" primeira linha, por exemplo, ‘{example}’."
 
 #: qt/filedialog.py:87
 #, fuzzy
 msgid "Show/hide hidden files and directories (Ctrl+H)"
-msgstr "Incluir arquivos e diretórios"
+msgstr "Exibir ou ocultar os arquivos e os diretórios ocultos (Ctrl+H)"
 
 #: qt/fileview.py:204
+#, fuzzy
 msgid "Add to Include"
-msgstr "Adicione à Lista de Inclusão"
+msgstr "Adicionar na lista de inclusão"
 
 #: qt/fileview.py:205
+#, fuzzy
 msgid "Add to Exclude"
-msgstr "Adicione à Lista de Exclusão"
+msgstr "Adicionar na lista de exclusão"
 
 #: qt/fileview.py:292
+#, fuzzy
 msgid "The selected item is already in the include list."
 msgid_plural "The selected items are already in the include list."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "O item que foi selecionado já está na lista de inclusão."
+msgstr[1] "Os itens que foram selecionados já estão na lista de inclusão."
 
 #: qt/fileview.py:299
+#, fuzzy
 msgid "The following item is already in the include list."
 msgid_plural "The following items are already in the include list."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "O seguinte item já está na lista de inclusão."
+msgstr[1] "Os seguintes itens já estão na lista de inclusão."
 
 #: qt/fileview.py:313
+#, fuzzy
 msgid "The selected item is already in the exclude list."
 msgid_plural "The selected items are already in the exclude list."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "O item que foi selecionado já está na lista de exclusão."
+msgstr[1] "Os itens que foram selecionados já estão na lista de exclusão."
 
 #: qt/fileview.py:320
+#, fuzzy
 msgid "The following item is already in the exclude list."
 msgid_plural "The following items are already in the exclude list."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "O seguinte item já está na lista de exclusão."
+msgstr[1] "Os seguintes itens já estão na lista de exclusão."
 
 #: qt/languagedialog.py:36
+#, fuzzy
 msgid "Setup language"
-msgstr "Configurar idioma"
+msgstr "Configurar o idioma"
 
 #: qt/languagedialog.py:120
 #, python-brace-format
@@ -1177,22 +1349,24 @@ msgid "Translated: {percent}"
 msgstr "Traduzido: {percent}"
 
 #: qt/languagedialog.py:132
+#, fuzzy
 msgid "System default"
-msgstr "Padrão do sistema"
+msgstr "Padrão do sistema operacional"
 
 #: qt/languagedialog.py:142
 #, fuzzy
 msgid "Use operating system's language."
-msgstr "Use o idioma do sistema operacional."
+msgstr "Utilizar o idioma que estiver configurado no sistema operacional."
 
 #: qt/logviewdialog.py:63
 #, fuzzy
 msgid "Backup Log View"
-msgstr "Visualização do Último Log"
+msgstr "Exibir o registro das alterações da cópia de segurança"
 
 #: qt/logviewdialog.py:63
+#, fuzzy
 msgid "Last Log View"
-msgstr "Visualização do Último Log"
+msgstr "Exibir o último registro das alterações"
 
 #: qt/logviewdialog.py:71 qt/manageprofiles/__init__.py:72
 #: qt/manageprofiles/tab_general.py:250 qt/restoreconfigdialog.py:343
@@ -1200,25 +1374,29 @@ msgid "Profile:"
 msgstr "Perfil:"
 
 #: qt/logviewdialog.py:86
+#, fuzzy
 msgid "Backups:"
-msgstr "Backups:"
+msgstr "Cópias de segurança:"
 
 #: qt/logviewdialog.py:93
 msgid "Filter:"
 msgstr "Filtrar:"
 
 #: qt/logviewdialog.py:100
+#, fuzzy
 msgid "[E] Error, [I] Information, [C] Change"
-msgstr "[E] Erro, [I] Informação, [C] Alteração"
+msgstr "[E] Erros, [I] Informações, [C] Alterações"
 
 #: qt/logviewdialog.py:103 qt/qtsystrayicon.py:148
+#, fuzzy
 msgid "decode paths"
-msgstr "decodificar caminhos"
+msgstr "decodificar os caminhos"
 
 #: qt/logviewdialog.py:122 qt/manageprofiles/copylinkswidget.py:56
 #: qt/manageprofiles/tab_options.py:188
+#, fuzzy
 msgid "All"
-msgstr "Tudo"
+msgstr "Todos"
 
 #: qt/logviewdialog.py:128 qt/logviewdialog.py:132
 #: qt/manageprofiles/tab_options.py:187
@@ -1237,12 +1415,14 @@ msgstr[0] "Informação"
 msgstr[1] "Informações"
 
 #: qt/logviewdialog.py:135
+#, fuzzy
 msgid "rsync transfer failures (experimental)"
-msgstr "Falhas na transferência do rsync (experimental)"
+msgstr "Ocorreu uma falha na transferência do ‘rsync’ (experimental)"
 
 #: qt/manageprofiles/__init__.py:64
+#, fuzzy
 msgid "Manage profiles"
-msgstr "Gerenciar perfis"
+msgstr "Gerenciar os perfis"
 
 #: qt/manageprofiles/__init__.py:83
 msgid "Edit"
@@ -1278,224 +1458,285 @@ msgid "&Options"
 msgstr "&Opções"
 
 #: qt/manageprofiles/__init__.py:143
+#, fuzzy
 msgid "E&xpert Options"
-msgstr "O&pções Avançadas"
+msgstr "O&pções avançadas"
 
 #: qt/manageprofiles/__init__.py:151
+#, fuzzy
 msgid "Restore Config"
-msgstr "Restaurar Configuração"
+msgstr "Restaurar as configurações"
 
 #: qt/manageprofiles/__init__.py:182
 msgid "New profile"
 msgstr "Novo perfil"
 
 #: qt/manageprofiles/__init__.py:199
+#, fuzzy
 msgid "Rename profile"
-msgstr "Renomear perfil"
+msgstr "Renomear o perfil"
 
 #: qt/manageprofiles/__init__.py:215
 #, fuzzy, python-brace-format
 msgid "Delete the profile \"{name}\"?"
-msgstr "Você tem certeza que deseja excluir o perfil \"{name}\" ?"
+msgstr "Você tem certeza de que quer excluir o perfil ‘{name}’?"
 
 #: qt/manageprofiles/copylinkswidget.py:38
+#, fuzzy
 msgid "Copy symbolic links as files"
-msgstr ""
+msgstr "Copiar as ligações simbólicas como se fossem arquivos"
 
 #: qt/manageprofiles/copylinkswidget.py:43
+#, fuzzy
 msgid ""
 "Copy symbolic links as real files or directories in the backup. Select "
 "whether all links or only those pointing outside the source are copied."
 msgstr ""
+"Copiar as ligações simbólicas como se fossem arquivos ou diretórios reais na"
+" cópia de segurança. Se você quer copiar todas as ligações simbólicas ou "
+"apenas aquelas que apontam para fora da origem selecione cada um deles."
 
 #: qt/manageprofiles/copylinkswidget.py:46
+#, fuzzy
 msgid "This option may increase backup size."
-msgstr ""
+msgstr "Esta opção permite aumentar o tamanho da cópia de segurança."
 
 #: qt/manageprofiles/copylinkswidget.py:47
+#, fuzzy
 msgid "Disabled by default."
-msgstr ""
+msgstr "Desativado por padrão."
 
 #: qt/manageprofiles/copylinkswidget.py:60
+#, fuzzy
 msgid ""
 "All symbolic links are replaced with real files or directories they point "
 "to. This increases backup size and may store the same files multiple times."
 msgstr ""
+"Todos as ligações simbólicas são substituídas pelos arquivos ou diretórios "
+"reais para os quais apontam. Esta opção aumenta o tamanho da cópia de "
+"segurança e pode armazenar os mesmos arquivos várias vezes."
 
 #: qt/manageprofiles/copylinkswidget.py:63
+#, fuzzy
 msgid "Uses 'rsync --copy-links'."
-msgstr ""
+msgstr "Utilizar o ‘rsync --copy-links’."
 
 #: qt/manageprofiles/copylinkswidget.py:68
+#, fuzzy
 msgid "Only external"
-msgstr ""
+msgstr "Somente os externos"
 
 #: qt/manageprofiles/copylinkswidget.py:72
+#, fuzzy
 msgid ""
 "Only links pointing outside the backup source are copied as files. This "
 "increases backup size and may store the same files multiple times."
 msgstr ""
+"Somente as ligações que apontam para fora da origem da cópia de segurança "
+"são copiados como arquivos. Esta opção aumenta o tamanho da cópia de "
+"segurança e pode armazenar os mesmos arquivos várias vezes."
 
 #: qt/manageprofiles/copylinkswidget.py:75
+#, fuzzy
 msgid "Uses 'rsync --copy-unsafe-links'."
-msgstr ""
+msgstr "Utilizar o ‘rsync --copy-unsafe-links’."
 
 #: qt/manageprofiles/excludesuggestions.py:33
+#, fuzzy
 msgid "Editor & Office temporary files"
-msgstr ""
+msgstr "Os arquivos temporários do Editor e do Office"
 
 #: qt/manageprofiles/excludesuggestions.py:34
 #, fuzzy
 msgid "Emacs backup files"
-msgstr "Pausar o processo de snapshot"
+msgstr "Os arquivos da cópia de segurança do editor de texto Emacs"
 
 #: qt/manageprofiles/excludesuggestions.py:35
 #, fuzzy
 msgid "Emacs autosave files"
-msgstr "Excluir arquivo"
+msgstr "Os arquivos salvos automaticamente pelo editor de texto Emacs"
 
 #: qt/manageprofiles/excludesuggestions.py:36
+#, fuzzy
 msgid "Vim swap files"
-msgstr ""
+msgstr "Os arquivos de trocas do editor de texto Vim"
 
 #: qt/manageprofiles/excludesuggestions.py:37
+#, fuzzy
 msgid "Microsoft Office temporary files"
-msgstr ""
+msgstr "Os arquivos temporários do Office da Microsoft"
 
 #: qt/manageprofiles/excludesuggestions.py:40
+#, fuzzy
 msgid "LibreOffice & other OpenDocument Editors lock files"
 msgstr ""
+"Bloquear os arquivos do LibreOffice e dos outros editores do formato "
+"OpenDocument"
 
 #: qt/manageprofiles/excludesuggestions.py:44
+#, fuzzy
 msgid "Thumbnails & Temporary Pictures"
-msgstr ""
+msgstr "As miniaturas e as imagens temporárias"
 
 #: qt/manageprofiles/excludesuggestions.py:47
+#, fuzzy
 msgid "Thumbnail cache on GNU/Linux and other unixoid OS'es"
 msgstr ""
+"O ‘cache’ contendo as miniaturas no GNU/Linux e dos outros sistemas "
+"operacionais Unix"
 
 #: qt/manageprofiles/excludesuggestions.py:50
+#, fuzzy
 msgid "Thumbnail database on Windows"
-msgstr ""
+msgstr "O banco de dados das miniaturas do Windows"
 
 #: qt/manageprofiles/excludesuggestions.py:51
+#, fuzzy
 msgid "Metadata directory on MacOS"
-msgstr ""
+msgstr "O diretório de metadados do MacOS"
 
 #: qt/manageprofiles/excludesuggestions.py:53
+#, fuzzy
 msgid "Application-specific locks"
-msgstr ""
+msgstr "Os bloqueios específicos para cada programa"
 
 #: qt/manageprofiles/excludesuggestions.py:56
+#, fuzzy
 msgid "Discord application lock file"
-msgstr ""
+msgstr "Os arquivos de bloqueio do programa Discord"
 
 #: qt/manageprofiles/excludesuggestions.py:57
+#, fuzzy
 msgid "Discord session lock file"
-msgstr ""
+msgstr "Os arquivos de bloqueio da sessão do programa Discord"
 
 #: qt/manageprofiles/excludesuggestions.py:60
+#, fuzzy
 msgid "Mozilla Firefox & Thunderbird lock file"
 msgstr ""
+"Os arquivos de bloqueio do navegador de internet Mozilla Firefox e do "
+"cliente de e-mail Thunderbird"
 
 #: qt/manageprofiles/excludesuggestions.py:62
 #, fuzzy
 msgid "Caches & Temporary directories"
-msgstr "Diretórios de backup"
+msgstr "Os ‘caches’ e os diretórios temporários"
 
 #: qt/manageprofiles/excludesuggestions.py:63
+#, fuzzy
 msgid "User application cache"
-msgstr ""
+msgstr "O ‘cache’ do programa do usuário"
 
 #: qt/manageprofiles/excludesuggestions.py:64
 #: qt/manageprofiles/excludesuggestions.py:67
 #, fuzzy
 msgid "System temporary directory"
-msgstr "Não é possível remover o diretório"
+msgstr "O diretório temporário do sistema operacional"
 
 #: qt/manageprofiles/excludesuggestions.py:72
+#, fuzzy
 msgid "Package cache for Debian(-based) GNU/Linux distributions"
 msgstr ""
+"O ‘cache’ dos pacotes das distribuições GNU/Linux que são baseadas no Debian"
 
 #: qt/manageprofiles/excludesuggestions.py:77
+#, fuzzy
 msgid "Flatpak app and runtime repository"
-msgstr ""
+msgstr "O repositório dos programas Flatpak com tempo de execução"
 
 #: qt/manageprofiles/excludesuggestions.py:81
 #, fuzzy
 msgid "System runtime directories"
-msgstr "Exibir arquivos ocultos"
+msgstr "Os diretórios de tempo de execução do sistema operacional"
 
 #: qt/manageprofiles/excludesuggestions.py:84
+#, fuzzy
 msgid "Kernel and process information"
-msgstr ""
+msgstr "As informações sobre o kernel ou núcleo e sobre o processo"
 
 #: qt/manageprofiles/excludesuggestions.py:89
+#, fuzzy
 msgid "Device and other hardware information (sysfs interface)"
 msgstr ""
+"As informações sobre o dispositivo e outros componentes do equipamento (a "
+"interface do ‘sysfs’)"
 
 #: qt/manageprofiles/excludesuggestions.py:92
+#, fuzzy
 msgid "Device nodes"
-msgstr ""
+msgstr "Os nós (nodes) dos dispositivos"
 
 #: qt/manageprofiles/excludesuggestions.py:93
+#, fuzzy
 msgid "Runtime system files"
-msgstr ""
+msgstr "Os arquivos do sistema operacional de tempo de execução"
 
 #: qt/manageprofiles/excludesuggestions.py:95
+#, fuzzy
 msgid "Other non-persistent"
-msgstr ""
+msgstr "Os outros arquivos que não são persistentes"
 
 #: qt/manageprofiles/excludesuggestions.py:98
+#, fuzzy
 msgid "List of currently mounted filesystems"
-msgstr ""
+msgstr "Os sistemas de arquivos que estão montados neste momento"
 
 #: qt/manageprofiles/excludesuggestions.py:101
+#, fuzzy
 msgid "System swap file (virtual memory)"
-msgstr ""
+msgstr "Os arquivos de troca do sistema operacional (memória virtual)"
 
 #: qt/manageprofiles/excludesuggestions.py:102
+#, fuzzy
 msgid "GNOME virtual file system mount point"
-msgstr ""
+msgstr "O ponto de montagem do sistema de arquivos virtual do GNOME"
 
 #: qt/manageprofiles/excludesuggestions.py:103
+#, fuzzy
 msgid "Recovered filesystem objects"
-msgstr ""
+msgstr "Os objetos recuperados do sistema de arquivos"
 
 #: qt/manageprofiles/excludesuggestions.py:105
+#, fuzzy
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Diversos"
 
 #: qt/manageprofiles/excludesuggestions.py:108
+#, fuzzy
 msgid "Metadata directory on Microsoft Windows"
-msgstr ""
+msgstr "O diretório dos metadados do Windows da Microsoft"
 
 #: qt/manageprofiles/excludesuggestions.py:111
+#, fuzzy
 msgid "User recycle bin"
-msgstr ""
+msgstr "O conteúdo da lixeira do usuário"
 
 #: qt/manageprofiles/excludesuggestions.py:112
 #, fuzzy
 msgid "System backup files"
-msgstr "Parar processo de snapshot"
+msgstr "Os arquivos da cópia de segurança do sistema operacional"
 
 #: qt/manageprofiles/excludesuggestions.py:139
 #, fuzzy
 msgid "Exclude Suggestions"
-msgstr "Excluir diretório"
+msgstr "Excluir as sugestões"
 
 #: qt/manageprofiles/excludesuggestions.py:144
+#, fuzzy
 msgid "Select commonly used items to add to backup exclusions."
 msgstr ""
+"Selecione os itens que não são utilizados com frequência para adicionar às "
+"exclusões da cópia de segurança."
 
 #: qt/manageprofiles/excludesuggestions.py:157
 #, fuzzy
 msgid "Default"
-msgstr "padrão"
+msgstr "Padrão"
 
 #: qt/manageprofiles/excludesuggestions.py:158
+#, fuzzy
 msgid "Reset to predefined selection"
-msgstr ""
+msgstr "Redefinir as seleções para o padrão"
 
 #: qt/manageprofiles/schedulewidget.py:38
 msgid "Schedule"
@@ -1506,20 +1747,23 @@ msgid "Day:"
 msgstr "Dia:"
 
 #: qt/manageprofiles/schedulewidget.py:69
+#, fuzzy
 msgid "Weekday:"
-msgstr "Dia da Semana:"
+msgstr "Dia da semana:"
 
 #: qt/manageprofiles/schedulewidget.py:74
+#, fuzzy
 msgid "Time:"
-msgstr "Tempo:"
+msgstr "Horário:"
 
 #: qt/manageprofiles/schedulewidget.py:79
 msgid "Hours:"
 msgstr "Horas:"
 
 #: qt/manageprofiles/schedulewidget.py:87
+#, fuzzy
 msgid "after the hour"
-msgstr "depois da hora"
+msgstr "após a hora"
 
 #: qt/manageprofiles/schedulewidget.py:89
 msgid "Minutes:"
@@ -1531,44 +1775,53 @@ msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " A sudo password prompt will appear."
 msgstr ""
-"Executar o Back In Time assim que o dispositivo for conectado (apenas uma "
-"vez a cada X dias). Você será solicitado a fornecer sua senha sudo."
+"Executar o Back In Time (De Volta ao Passado) assim que o dispositivo for "
+"conectado (apenas uma vez a cada uma certa quantidade de dias). Você será "
+"solicitado a fornecer a senha do ‘sudo’ (administrador)."
 
 #: qt/manageprofiles/schedulewidget.py:98
+#, fuzzy
 msgid ""
 "Run Back In Time repeatedly. This is useful if the computer is not running "
 "regularly."
 msgstr ""
-"Executar o Back In Time repetidamente. Isto é útil se o computador não é "
-"executado regularmente."
+"Executar o Back In Time (De Volta ao Passado) repetidamente. Esta opção é "
+"útil se o computador não é utilizado regularmente."
 
 #: qt/manageprofiles/schedulewidget.py:110
 msgid "Every:"
 msgstr "Todo:"
 
 #: qt/manageprofiles/schedulewidget.py:114
+#, fuzzy
 msgid "Enable logging of debug messages"
-msgstr "Habilitar registro de mensagens de depuração"
+msgstr "Ativar o registro das mensagens de depuração"
 
 #: qt/manageprofiles/schedulewidget.py:118
+#, fuzzy
 msgid "Writes debug-level messages into the system log via \"--debug\"."
-msgstr "Grava mensagens de nível de depuração no log do sistema via \"--debug\"."
+msgstr ""
+"Gravar as mensagens do nível da depuração no registro das alterações do "
+"sistema operacional por meio do comando ‘--debug’."
 
 #: qt/manageprofiles/schedulewidget.py:120
+#, fuzzy
 msgid ""
 "Caution: Only use this temporarily for diagnostics, as it generates a large "
 "amount of output."
 msgstr ""
-"Cuidado: Use-o apenas temporariamente para diagnóstico por gerar um excesso "
-"de resultados."
+"Tenha muito cuidado, utilize esta ferramenta apenas temporariamente para "
+"fins de diagnóstico, porque gera uma grande quantidade de dados."
 
 #: qt/manageprofiles/schedulewidget.py:145
+#, fuzzy
 msgid "Disabled"
-msgstr "Desabilitado"
+msgstr "Desativado"
 
 #: qt/manageprofiles/schedulewidget.py:146
+#, fuzzy
 msgid "At every boot/reboot"
-msgstr "Em cada início/reinício"
+msgstr "Em cada inicialização ou reinicialização"
 
 #: qt/manageprofiles/schedulewidget.py:148
 #: qt/manageprofiles/schedulewidget.py:150
@@ -1591,32 +1844,37 @@ msgstr[0] "A cada hora"
 msgstr[1] "A cada {n} horas"
 
 #: qt/manageprofiles/schedulewidget.py:163
+#, fuzzy
 msgid "Custom hours"
-msgstr "Horas personalizadas"
+msgstr "Horário personalizado"
 
 #: qt/manageprofiles/schedulewidget.py:164
+#, fuzzy
 msgid "Every day"
-msgstr "Todo dia"
+msgstr "Todos os dias"
 
 #: qt/manageprofiles/schedulewidget.py:165
 msgid "Repeatedly (anacron)"
 msgstr "Repetidamente (anacron)"
 
 #: qt/manageprofiles/schedulewidget.py:166
+#, fuzzy
 msgid "When drive gets connected (udev)"
-msgstr "Quando o drive for conectado (udev)"
+msgstr "Quando o dispositivo for conectado (udev)"
 
 #: qt/manageprofiles/schedulewidget.py:167
 msgid "Every week"
 msgstr "Toda semana"
 
 #: qt/manageprofiles/schedulewidget.py:168
+#, fuzzy
 msgid "Every month"
-msgstr "Todo mês"
+msgstr "Todos os meses"
 
 #: qt/manageprofiles/schedulewidget.py:169
+#, fuzzy
 msgid "Every year"
-msgstr "Todo ano"
+msgstr "Todos os anos"
 
 #: qt/manageprofiles/schedulewidget.py:228
 msgid "Hour(s)"
@@ -1637,62 +1895,70 @@ msgid "Month(s)"
 msgstr "Mês(es)"
 
 #: qt/manageprofiles/schedulewidget.py:326
+#, fuzzy
 msgid ""
 "Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours."
 msgstr ""
-"Horas personalizadas podem ser apenas uma lista de horários separados por "
-"vírgula (ex. 8,12,18,23) ou */3 para backups periódicos a cada 3 horas."
+"O horário personalizado podem ser uma lista de horários separados por "
+"vírgula. Por exemplo, ‘8,12,18,23’, ou ainda pode ser ‘*/3’ para realizar "
+"cópias de segurança periódicas a cada 3 horas."
 
 #: qt/manageprofiles/sshkeyselector.py:64
+#, fuzzy
 msgid "<Select another file…>"
-msgstr ""
+msgstr "<Selecionar um outro arquivo…>"
 
 #: qt/manageprofiles/sshkeyselector.py:65
 #, fuzzy
 msgid "Choose an existing private key file from somewhere else."
-msgstr ""
-"Escolha um arquivo de chave privada existente (normalmente chamado de "
-"\"id_ed25519\" e em configurações antigas \"id_rsa\")."
+msgstr "Esta opção permite escolher um arquivo de chave privada existente."
 
 #: qt/manageprofiles/sshkeyselector.py:71
+#, fuzzy
 msgid "<Generate new key-pair…>"
-msgstr ""
+msgstr "<Gerar um novo par de chaves…>"
 
 #: qt/manageprofiles/sshkeyselector.py:72
 #, fuzzy
 msgid "Create a new SSH key without passphrase."
-msgstr "Falha em criar nova chave SSH em {path}."
+msgstr "Esta opção permite criar uma nova chave do SSH sem senha."
 
 #: qt/manageprofiles/sshkeyselector.py:92
 #, fuzzy, python-brace-format
 msgid "Full path: {path}"
-msgstr "Caminho completo do snapshot:"
+msgstr "Caminho completo: {path}"
 
 #: qt/manageprofiles/sshkeyselector.py:205
 #, fuzzy
 msgid "Private key:"
-msgstr "Chave Privada:"
+msgstr "Chave privada:"
 
 #: qt/manageprofiles/sshkeyselector.py:210
 #, fuzzy
 msgid "Use system SSH configuration"
-msgstr "Configuração de importação"
+msgstr "Utilizar as configurações do SSH do sistema operacional"
 
 #: qt/manageprofiles/sshkeyselector.py:212
+#, fuzzy
 msgid ""
 "Leaves the key file unselected. SSH connections will rely on the system’s "
 "existing client configuration (e.g., ~/.ssh/config)."
 msgstr ""
+"Esta opção permite manter o arquivo da chave desmarcada. As conexões do SSH "
+"dependerão das configurações do cliente existente no sistema operacional. "
+"Por exemplo, ‘~/.ssh/config’ ou ‘/home/nome do seu usuario/.ssh/config’."
 
 #: qt/manageprofiles/sshproxywidget.py:47
+#, fuzzy
 msgid "SSH Proxy"
-msgstr "Proxy SSH"
+msgstr "Proxy do SSH"
 
 #: qt/manageprofiles/sshproxywidget.py:54 qt/manageprofiles/tab_general.py:117
 #: qt/manageprofiles/tab_general.py:238
+#, fuzzy
 msgid "Host:"
-msgstr "Host:"
+msgstr "Hospedeiro:"
 
 #: qt/manageprofiles/sshproxywidget.py:58 qt/manageprofiles/tab_general.py:122
 msgid "Port:"
@@ -1704,64 +1970,70 @@ msgid "User:"
 msgstr "Usuário:"
 
 #: qt/manageprofiles/sshproxywidget.py:71
+#, fuzzy
 msgid ""
 "Connect to the target host via this proxy (also known as a jump host). See "
 "\"-J\" in the \"ssh\" command documentation or \"ProxyJump\" in "
 "\"ssh_config\" man page for details."
 msgstr ""
-"Conecte ao host de destino por meio desse proxy (também conhecido como um "
-"host de salto) Veja \"-J\" na documentação do comando \"ssh\" ou "
-"\"ProxyJump\" na página \"ssh_config\" no manual para detalhes."
+"Conectar-se ao hospedeiro de destino por meio deste ‘proxy’ (também é "
+"conhecido como um ‘hospedeiro de salto’ ou ‘jump host’). Obtenha mais "
+"informações na documentação do comando ‘ssh’ ou ‘ProxyJump’ com o ‘-J’ na "
+"página do ‘ssh_config’."
 
 #: qt/manageprofiles/tab_exclude.py:62
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
 "asterisks are functional (e.g. {example2}). Other types of wildcards and "
 "patterns will be ignored (e.g. {example1}). Filenames are unpredictable in "
 "this mode due to encryption by EncFS."
 msgstr ""
-"{BOLD}Info{ENDBOLD}: No modo 'SSH encrypted' (ssh criptografado), apenas um "
-"asterisco ou dois asteriscos são funcionais (p.ex {example2}). Outros tipos "
-"de wildcards e padrões serão ignorados (p.ex {example1}). Nome de arquivos "
-"são imprevisíveis nesse modo graças à encriptação por EncFS."
+"{BOLD}Informações{ENDBOLD}: No modo ‘SSH encrypted’ (SSH criptografado ou "
+"encriptado), apenas um asterisco ou dois asteriscos são funcionais, por "
+"exemplo, ‘{example2}’. Os outros tipos de curingas (wildcards) e padrões "
+"serão ignorados, por exemplo, {example1}. Os nome dos arquivos são "
+"imprevisíveis neste modo devido à criptografia por ‘EncFS’."
 
 #: qt/manageprofiles/tab_exclude.py:85
+#, fuzzy
 msgid "Exclude patterns, files or directories"
-msgstr "Excluir modelos, arquivos ou diretórios"
+msgstr "Excluir os padrões, arquivos ou diretórios"
 
 #: qt/manageprofiles/tab_exclude.py:102
 #, fuzzy
 msgid "Add pattern"
-msgstr "Excluir padrão"
+msgstr "Adicionar o padrão"
 
 #: qt/manageprofiles/tab_exclude.py:107 qt/manageprofiles/tab_include.py:68
 #, fuzzy
 msgid "Add files"
-msgstr "Adicionar arquivo"
+msgstr "Adicionar os arquivos"
 
 #: qt/manageprofiles/tab_exclude.py:112 qt/manageprofiles/tab_include.py:73
 #, fuzzy
 msgid "Add directories"
-msgstr "Adicionar diretório"
+msgstr "Adicionar os diretórios"
 
 #: qt/manageprofiles/tab_exclude.py:118
 #, fuzzy
 msgid "Suggestions"
-msgstr "Pergunta"
+msgstr "Sugestões"
 
 #: qt/manageprofiles/tab_exclude.py:120
+#, fuzzy
 msgid "Select from common used items to add to exclude list."
-msgstr ""
+msgstr "Selecionar os itens de uso comum para adicionar à lista de exclusão."
 
 #: qt/manageprofiles/tab_exclude.py:134
+#, fuzzy
 msgid "Exclude files bigger than:"
-msgstr "Excluir arquivos maiores que:"
+msgstr "Excluir os arquivos que são maiores do que:"
 
 #: qt/manageprofiles/tab_exclude.py:138
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
-msgstr "Exclua arquivos maiores que o valor em {size_unit}."
+msgstr "Excluir os arquivos que são maiores do que o valor ‘{size_unit}’."
 
 #: qt/manageprofiles/tab_exclude.py:140
 #, fuzzy
@@ -1771,182 +2043,216 @@ msgid ""
 "Consequently, large files that have already been backed up will remain in "
 "backups even if they are modified."
 msgstr ""
-"Com o 'modo rsync completo' desativado, isso afetará apenas os novos "
-"arquivos, pois para o rsync, esta é uma opção de transferência, não uma "
-"opção de exclusão. Portanto, arquivos grandes dos quais foi feito backup "
-"anteriormente persistirão nos snapshots, mesmo que tenham sido modificados."
+"Com o ‘modo rsync completo’ desativado, esta configuração afetará apenas os "
+"novos arquivos, porque para o ‘rsync’ a trata como uma opção de "
+"transferência em vez de uma regra de exclusão. Portanto, os arquivos grandes"
+" dos quais foram feitos copias anteriormente, permanecerão nas cópia de "
+"segurança, mesmo que tenham sido modificados."
 
 #: qt/manageprofiles/tab_exclude.py:265
+#, fuzzy
 msgid "Exclude pattern"
-msgstr "Excluir padrão"
+msgstr "Excluir o padrão"
 
 #: qt/manageprofiles/tab_exclude.py:267
 #, fuzzy
 msgid "Enter an exclude pattern:"
-msgstr "Excluir padrão"
+msgstr "Insira um padrão de exclusão:"
 
 #: qt/manageprofiles/tab_exclude.py:272
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "For help, see the rsync man page section {link}."
 msgstr ""
+"Para obter ajuda, consulte a seção ‘{link}’ na página do manual do ‘rsync’."
 
 #: qt/manageprofiles/tab_exclude.py:275
+#, fuzzy
 msgid "Open rsync man page"
-msgstr ""
+msgstr "Abrir a página do manual do ‘rsync’"
 
 #: qt/manageprofiles/tab_exclude.py:303
 #, fuzzy
 msgid "Exclude files"
-msgstr "Excluir arquivo"
+msgstr "Excluir os arquivos"
 
 #: qt/manageprofiles/tab_exclude.py:316
 #, fuzzy
 msgid "Exclude directories"
-msgstr "Excluir diretório"
+msgstr "Excluir os diretórios"
 
 #: qt/manageprofiles/tab_exclude.py:401
+#, fuzzy
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
-"Desativado porque este padrão não funciona no modo 'SSH criptografado'."
+"Esta opção está desativada porque este padrão não funciona no modo "
+"criptografado do SSH (SSH encrypted)."
 
 #: qt/manageprofiles/tab_expert_options.py:45
+#, fuzzy
 msgid ""
 "These options are for advanced configurations. Modify only if fully aware of"
 " their implications."
 msgstr ""
-"Estas opções são para configurações avançadas. Modifique-as somente se "
-"estiver totalmente ciente de suas implicações."
+"Estas opções são para as configurações avançadas. Modifique-as somente se "
+"estiver totalmente ciente das suas implicações e suas consequências."
 
 #: qt/manageprofiles/tab_expert_options.py:54
 #: qt/manageprofiles/tab_expert_options.py:74
 #: qt/manageprofiles/tab_expert_options.py:99
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
-msgstr "Executar 'rsync' com '{cmd}':"
+msgstr "Executar o ‘rsync’ com o ‘{cmd}’:"
 
 #: qt/manageprofiles/tab_expert_options.py:61
 #: qt/manageprofiles/tab_expert_options.py:80
+#, fuzzy
 msgid "as cron job"
-msgstr "como uma tarefa cron"
+msgstr "como uma tarefa do ‘Cron’"
 
 #: qt/manageprofiles/tab_expert_options.py:67
 #: qt/manageprofiles/tab_expert_options.py:92
 #: qt/manageprofiles/tab_expert_options.py:123
+#, fuzzy
 msgid "on remote host"
-msgstr "no host remoto"
+msgstr "no hospedeiro remoto"
 
 #: qt/manageprofiles/tab_expert_options.py:86
 #, fuzzy
 msgid "when taking a manual backup"
-msgstr "quando for criar um snapshot manual"
+msgstr "ao fazer uma cópia de segurança manual"
 
 #: qt/manageprofiles/tab_expert_options.py:110
+#, fuzzy
 msgid "Please install 'nocache' to enable this option."
-msgstr "Por favor, instale 'nocache' para habilitar esta opção."
+msgstr ""
+"Por favor, instale pacote ‘nocache’ (serve para minimizar o impacto dos "
+"programas no ‘cache’ do sistema de arquivos) para ativar esta opção."
 
 #: qt/manageprofiles/tab_expert_options.py:116
 msgid "on local machine"
 msgstr "na máquina local"
 
 #: qt/manageprofiles/tab_expert_options.py:130
+#, fuzzy
 msgid "Redirect stdout to /dev/null in cronjobs."
-msgstr "Redirecionar o stdout para /dev/null nas tarefas cron."
+msgstr ""
+"Redirecionar a saída padrão (stdout) para o ‘/dev/null’ nas tarefas do "
+"‘Cron’."
 
 #: qt/manageprofiles/tab_expert_options.py:136
+#, fuzzy
 msgid ""
 "Cron will automatically send an email with attached output of cronjobs if an"
 " MTA is installed."
 msgstr ""
-"O Cron enviará automaticamente um e-mail com a saída anexada dos cronjobs se"
-" um MTA estiver instalado."
+"O agendador de tarefas ‘Cron’ enviará automaticamente um e-mail com o "
+"resultado das tarefas do ‘cronjobs’ anexado se um MTA estiver instalado."
 
 #: qt/manageprofiles/tab_expert_options.py:142
+#, fuzzy
 msgid "Redirect stderr to /dev/null in cronjobs."
-msgstr "Redirecionar o stderr para /dev/null nas tarefas cron."
+msgstr ""
+"Redirecionar a saída de erro padrão (stderr) para ‘/dev/null’ nas tarefas do"
+" ‘Cron’."
 
 #: qt/manageprofiles/tab_expert_options.py:148
+#, fuzzy
 msgid ""
 "Cron will automatically send an email with attached errors of cronjobs if an"
 " MTA is installed."
 msgstr ""
-"O Cron enviará automaticamente um e-mail com erros anexados de cronjobs se "
-"um MTA estiver instalado."
+"O agendador de tarefas ‘Cron’ enviará automaticamente um e-mail com o "
+"resultado dos erros do ‘cronjobs’ anexado se um MTA estiver instalado."
 
 #: qt/manageprofiles/tab_expert_options.py:158
+#, fuzzy
 msgid "KB/sec"
-msgstr "KB/seg"
+msgstr "KB/s"
 
 #: qt/manageprofiles/tab_expert_options.py:163
+#, fuzzy
 msgid "Limit rsync bandwidth usage:"
-msgstr "Limite o uso da largura de banda rsync:"
+msgstr "Definir o limite da utilização da largura de banda do ‘rsync’ em"
 
 #: qt/manageprofiles/tab_expert_options.py:204
+#, fuzzy
 msgid "Preserve ACL"
-msgstr "Preservar ACL"
+msgstr "Preservar o ACL"
 
 #: qt/manageprofiles/tab_expert_options.py:222
+#, fuzzy
 msgid "Preserve extended attributes (xattr)"
-msgstr "Preservar atributos extendidos (xattr)"
+msgstr "Preservar os atributos estendidos (xattr)"
 
 #: qt/manageprofiles/tab_expert_options.py:249
 msgid "Restrict to one file system"
 msgstr "Restringir a um sistema de arquivos"
 
 #: qt/manageprofiles/tab_expert_options.py:267
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Options must be quoted e.g. {example}."
-msgstr "As opções devem estar entre aspas, por exemplo: {example}."
+msgstr "As opções tem que estar entre aspas, por exemplo: {example}."
 
 #: qt/manageprofiles/tab_expert_options.py:276
+#, fuzzy
 msgid "Paste additional options to rsync"
-msgstr "Colar opções adicionais para o rsync"
+msgstr "Colar as opções adicionais no ‘rsync’"
 
 #: qt/manageprofiles/tab_expert_options.py:286
+#, fuzzy
 msgid "Prefix to run before every command on remote host."
-msgstr "Prefixo para ser executado antes de cada comando no host remoto."
+msgstr ""
+"Prefixo para ser executado antes de cada comando no hospedeiro remoto."
 
 #: qt/manageprofiles/tab_expert_options.py:287
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
 "add a prefix for rsync use \"{example_value}\" with {rsync_options_value}."
 msgstr ""
-"As variáveis precisam ser escapadas com \\$FOO. Isso não afeta o rsync. "
-"Portanto, para adicionar um prefixo para rsync, use \"{example_value}\" com "
-"{rsync_options_value}."
+"As variáveis precisam ser escapadas com ‘\\$FOO’. Esta opção não afeta o "
+"‘rsync’. Portanto, para adicionar um prefixo para o ‘rsync’, utilize o "
+"‘{example_value}’ com o ‘{rsync_options_value}’."
 
 #: qt/manageprofiles/tab_expert_options.py:293
 msgid "default"
 msgstr "padrão"
 
 #: qt/manageprofiles/tab_expert_options.py:298
+#, fuzzy
 msgid "Add prefix to SSH commands"
-msgstr "Adicionar prefixo aos comandos SSH"
+msgstr "Adicionar o prefixo aos comandos do SSH"
 
 #: qt/manageprofiles/tab_expert_options.py:308
+#, fuzzy
 msgid "Check if remote host is online"
-msgstr "Verificar se host remoto está online"
+msgstr "Verificar se o hospedeiro remoto está on-line"
 
 #: qt/manageprofiles/tab_expert_options.py:311
+#, fuzzy
 msgid ""
 "Warning: If disabled and the remote host is not available, this could lead "
 "to some weird errors."
 msgstr ""
-"Aviso: Se o host remoto estiver desabilitado e não disponível , isso pode "
-"levar a alguns erros estranhos."
+"Aviso: Se o hospedeiro remoto estiver desativado ou não estiver disponível "
+"poderá causar erros inesperados."
 
 #: qt/manageprofiles/tab_expert_options.py:315
+#, fuzzy
 msgid "Check if remote host supports all necessary commands."
-msgstr "Verifique se o host remoto suporta todos os comandos necessários."
+msgstr ""
+"Verificar se o hospedeiro remoto suporta todos os comandos que são "
+"necessários."
 
 #: qt/manageprofiles/tab_expert_options.py:318
+#, fuzzy
 msgid ""
 "Warning: If disabled and the remote host does not support all necessary "
 "commands, this could lead to some weird errors."
 msgstr ""
-"Aviso: Se o host remoto estiver desabilitado e não suportar todos os "
-"comandos necessários, isso pode levar a erros esquisitos."
+"Aviso: Se o hospedeiro remoto estiver desativado e não suportar todos os "
+"comandos que são necessários para funcionar poderá causar erros inesperados."
 
 #: qt/manageprofiles/tab_expert_options.py:332
 msgid "(default: {})"
@@ -1968,7 +2274,7 @@ msgstr "Modo:"
 #: qt/manageprofiles/tab_general.py:686
 #, fuzzy
 msgid "Where to save backups"
-msgstr "Onde salvar os snapshots"
+msgstr "A pasta onde serão armazenadas as cópia de segurança"
 
 #: qt/manageprofiles/tab_general.py:105
 msgid "SSH Settings"
@@ -1981,7 +2287,7 @@ msgstr "Caminho:"
 #: qt/manageprofiles/tab_general.py:139
 #, fuzzy
 msgid "Key file:"
-msgstr "Novo perfil"
+msgstr "Arquivo da chave:"
 
 #: qt/manageprofiles/tab_general.py:176 qt/manageprofiles/tab_general.py:184
 #: qt/manageprofiles/tab_general.py:189
@@ -1989,14 +2295,17 @@ msgid "Password"
 msgstr "Senha"
 
 #: qt/manageprofiles/tab_general.py:206
+#, fuzzy
 msgid "Save Password to Keyring"
-msgstr "Salvar a Senha no Chaveiro"
+msgstr "Salvar senha no chaveiro"
 
 #: qt/manageprofiles/tab_general.py:210
+#, fuzzy
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
-"Armazenar a Senha para o Cron (Problema de segurança: o root poderá ler a "
-"senha)"
+"Armazenar a senha do agendador de tarefas ‘Cron’ no ‘cache’ (Existe um "
+"problema de segurança, porque o usuário root ou administrador poderá "
+"visualizar a senha)"
 
 #: qt/manageprofiles/tab_general.py:226
 msgid "Advanced"
@@ -2005,143 +2314,175 @@ msgstr "Avançado"
 #: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:803
 #, fuzzy
 msgid "Full backup path:"
-msgstr "Caminho completo do snapshot:"
+msgstr "Caminho completo da cópia de segurança:"
 
 #: qt/manageprofiles/tab_general.py:264
+#, fuzzy
 msgid ""
 "Scheduling is disabled because no cron installation was found. Please "
 "install cron to enable scheduled backups."
 msgstr ""
+"O agendamento das tarefas está desativado porque nenhuma instalação do "
+"‘Cron’ foi encontrada no sistema operacional. Instale o ‘Cron’ para ativar o"
+" agendamento das cópias de segurança."
 
 #: qt/manageprofiles/tab_general.py:393
+#, fuzzy
 msgid "The backup destination path cannot be empty."
 msgstr ""
+"O caminho do destino da cópia de segurança não pode estar vazio ou em "
+"branco."
 
 #: qt/manageprofiles/tab_general.py:404
 #, fuzzy
 msgid "The encryption password cannot be empty."
-msgstr "A senha não corresponde."
+msgstr ""
+"A senha da criptografia ou encriptação não pode estar vazia ou em branco."
 
 #: qt/manageprofiles/tab_general.py:553
+#, fuzzy
 msgid ""
 "An error occurred while attempting to log in to the remote host. The "
 "following error message was returned:"
 msgstr ""
+"Ocorreu um erro ao tentar fazer a autenticação no hospedeiro remoto. A "
+"seguinte mensagem de erro foi retornada:"
 
 #: qt/manageprofiles/tab_general.py:557
+#, fuzzy
 msgid ""
 "To enable password-less login, the public SSH key can be copied to the "
 "remote host."
 msgstr ""
+"Para ativar a autenticação automática (sem a senha), a chave pública do SSH "
+"pode ser copiada para o hospedeiro remoto."
 
 #: qt/manageprofiles/tab_general.py:560
 #, fuzzy
 msgid "Proceed with copying the SSH key?"
-msgstr "Remover este backup?"
+msgstr "Você continuar com a cópia da chave do SSH?"
 
 #: qt/manageprofiles/tab_general.py:585
+#, fuzzy
 msgid ""
 "The public SSH key could not be copied. This may be due to a connection or "
 "permission issue."
 msgstr ""
+"Não foi possível copiar a chave pública do SSH, devido a um possível "
+"problema na conexão ou com as permissões."
 
 #: qt/manageprofiles/tab_general.py:606
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "The authenticity of host {host} can't be established."
-msgstr "A autenticidade do host {host} não pôde ser estabelecida."
+msgstr "A autenticidade do hospedeiro ‘{host}’ não pôde ser estabelecida."
 
 #: qt/manageprofiles/tab_general.py:609
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "{keytype} key fingerprint is:"
-msgstr "{keytype} chave de impressão digital é:"
+msgstr "A impressão digital da chave ‘{keytype}’ é:"
 
 #: qt/manageprofiles/tab_general.py:613
 #, fuzzy
 msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
 msgstr ""
-"Por favor verifique essa impressão digital. Você gostaria de adicioná-la no "
-"seu arquivo 'known_hosts' (hosts conhecidos)?"
+"Por favor, verifique esta impressão digital. Você quer adicioná-la no seu "
+"arquivo ‘known_hosts’ (hospedeiros conhecidos)?"
 
 #: qt/manageprofiles/tab_general.py:709
 #, fuzzy
 msgid "Really change the backup directory?"
-msgstr "Criar um novo diretório criptografado?"
+msgstr "Você realmente quer alterar o diretório da cópia de segurança?"
 
 #: qt/manageprofiles/tab_general.py:725
+#, fuzzy
 msgid "The selected backup destination is not empty."
 msgstr ""
+"O destino da cópia de segurança que foi selecionado não está vazio ou em "
+"branco."
 
 #: qt/manageprofiles/tab_general.py:727
+#, fuzzy
 msgid "It must be empty to use encryption."
-msgstr ""
+msgstr "Para utilizar a criptografia, o campo deve estar vazio ou em branco."
 
 #: qt/manageprofiles/tab_general.py:756
 #, fuzzy
 msgid "Invalid file: Not a private SSH key"
-msgstr "Chave privada SSH"
+msgstr "O arquivo não é válido, porque não é uma chave privada do SSH"
 
 #: qt/manageprofiles/tab_general.py:757
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
+"O arquivo que foi selecionado no caminho ‘{path}’ é uma chave pública do "
+"SSH. Por favor, escolha o arquivo da chave privada correspondente que não "
+"tenha a extensão ‘.pub’."
 
 #: qt/manageprofiles/tab_general.py:781
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
+"O arquivo ‘{path}’ já existe. Não foi possível criar uma nova chave do SSH "
+"com este nome."
 
 #: qt/manageprofiles/tab_general.py:791
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Failed to create new SSH key in {path}."
-msgstr "Falha em criar nova chave SSH em {path}."
+msgstr "Ocorreu uma falha ao criar uma nova chave do SSH no caminho ‘{path}’."
 
 #: qt/manageprofiles/tab_include.py:48
+#, fuzzy
 msgid "Include files and directories"
-msgstr "Incluir arquivos e diretórios"
+msgstr "Incluir os arquivos e os diretórios"
 
 #: qt/manageprofiles/tab_include.py:168
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until it is"
 " included, too."
 msgstr ""
-"\"{path}\" é um link simbólico. O destino vinculado não será copiado até que"
-" também seja incluído."
+"O caminho ‘{path}’ é de uma ligação simbólica. O destino vinculado não será "
+"copiado até que também seja incluído."
 
 #: qt/manageprofiles/tab_include.py:172
+#, fuzzy
 msgid "Include the symlink's target instead?"
-msgstr "Incluir o alvo do link simbólico?"
+msgstr "Incluir o destino da ligação simbólica?"
 
 #: qt/manageprofiles/tab_include.py:180
 #, fuzzy
 msgid "Include files"
-msgstr "Incluir arquivo"
+msgstr "Incluir os arquivos"
 
 #: qt/manageprofiles/tab_include.py:199
 #, fuzzy
 msgid "Include directories"
-msgstr "Incluir diretório"
+msgstr "Incluir os diretórios"
 
 #: qt/manageprofiles/tab_options.py:39
+#, fuzzy
 msgid "Enable notifications"
-msgstr "Habilitar notificações"
+msgstr "Ativar as notificações"
 
 #: qt/manageprofiles/tab_options.py:43
 #, fuzzy
 msgid "Disable backups when on battery"
-msgstr "Desativar snapshot quando estiver na bateria"
+msgstr ""
+"Desativar a cópia de segurança quando estiver utilizando a bateria do "
+"equipamento"
 
 #: qt/manageprofiles/tab_options.py:49
+#, fuzzy
 msgid "Power status not available from system"
-msgstr "Status de energia não disponível no sistema"
+msgstr "O sistema operacional não disponibiliza o estado de energia"
 
 #: qt/manageprofiles/tab_options.py:52
 #, fuzzy
 msgid "Run only one backup at a time"
-msgstr "Executar apenas um snapshot por vez"
+msgstr "Executar apenas uma cópia de segurança por vez"
 
 #: qt/manageprofiles/tab_options.py:56
 #, fuzzy
@@ -2150,57 +2491,75 @@ msgid ""
 " a global setting, meaning it will affect all profiles for this user. "
 "However, it must also be activated for all other users."
 msgstr ""
-"Outros snapshots serão bloqueados até que o snapshot atual seja concluído. "
-"Esta é uma opção global. Portanto, isso afetará todos os perfis deste "
-"usuário. Mas também precisa ativar isso para todos os outros usuários."
+"As outras cópias de segurança serão bloqueadas até que a cópia de segurança "
+"atual seja concluída. Esta é uma opção global, portanto, significa que "
+"afetará todos os perfis deste usuário. Mas também precisa ser ativada para "
+"todos os outros usuários."
 
 #: qt/manageprofiles/tab_options.py:63
+#, fuzzy
 msgid "Backup replaced files on restore"
-msgstr "Backup de arquivos substituídos na restauração"
+msgstr "A cópia de segurança substituiu os arquivos na restauração"
 
 #: qt/manageprofiles/tab_options.py:78
 #, fuzzy
 msgid "Continue on errors (keep incomplete backups)"
-msgstr "Continuar em caso de erros (manter snapshots incompletos)"
+msgstr ""
+"Continuar mesmo se ocorrer algum tipo de erro e manter as cópias de "
+"segurança que não estiverem completas"
 
 #: qt/manageprofiles/tab_options.py:82
+#, fuzzy
 msgid "Use checksum to detect changes"
-msgstr "Usar checksum para detectar alterações"
+msgstr ""
+"Utilizar a verificação da integridade (checksum) dos arquivos para detectar "
+"as alterações"
 
 #: qt/manageprofiles/tab_options.py:86
 #, fuzzy
 msgid "Create a new backup whether there were changes or not."
 msgstr ""
-"Criar um novo snapshot independentemente de existir ou não alterações."
+"Criar uma nova cópia de segurança, independentemente de terem ocorrido "
+"alterações ou não."
 
 #: qt/manageprofiles/tab_options.py:95
+#, fuzzy
 msgid "Warn if the free disk space falls below"
-msgstr ""
+msgstr "Notificar se o espaço livre no disco ficar abaixo de"
 
 #: qt/manageprofiles/tab_options.py:101
+#, fuzzy
 msgid ""
 "Shows a warning when free space on the backup destination disk is less than "
 "the specified value."
 msgstr ""
+"Exibir uma notificação quando o espaço livre no disco de destino da cópia de"
+" segurança for menor do que o valor especificado."
 
 #: qt/manageprofiles/tab_options.py:103
+#, fuzzy
 msgid ""
 "If the Remove & Retention policy is enabled and old backups are removed "
 "based on available free space, this value cannot be lower than the value set"
 " in the policy."
 msgstr ""
+"Se a política da remoção e da retenção estiver ativada e as cópias de "
+"segurança antigas forem removidas com base no espaço livre disponível, este "
+"valor não poderá ser inferior ao valor que foi definido na política."
 
 #: qt/manageprofiles/tab_options.py:122
+#, fuzzy
 msgid "Log Level:"
-msgstr "Nível de Log:"
+msgstr "Nível do registro das alterações:"
 
 #: qt/manageprofiles/tab_options.py:185
 msgid "None"
 msgstr "Nenhum"
 
 #: qt/manageprofiles/tab_remove_retention.py:206
+#, fuzzy
 msgid "user manual"
-msgstr "manual de usuário"
+msgstr "manual do usuário"
 
 #: qt/manageprofiles/tab_remove_retention.py:208
 #, fuzzy, python-brace-format
@@ -2208,33 +2567,37 @@ msgid ""
 "The following rules are processed from top to bottom. Later rules override "
 "earlier ones. See the {manual_link} for details and examples."
 msgstr ""
-"As seguintes regras são processadas de cima para baixo. Regras posteriores "
-"substituem as anteriores e não são restringidas por elas. Consulte o "
-"{manual} para mais detalhes e exemplos."
+"As seguintes regras são processadas de cima para baixo. As regras "
+"posteriores substituem as anteriores e não são restringidas por elas. Por "
+"favor, consulte o {manual_link} para obter mais informações e exemplos de "
+"como utilizar."
 
 #: qt/manageprofiles/tab_remove_retention.py:223
+#, fuzzy
 msgid "Open user manual in browser."
-msgstr "Abrir o manual de usuário no navegador."
+msgstr "Abrir o manual do usuário no navegador de internet."
 
 #: qt/manageprofiles/tab_remove_retention.py:237
 #, fuzzy
 msgid "Keep the most recent backup."
-msgstr "Manter o snapshot mais recente."
+msgstr "Manter a cópia de segurança mais recente."
 
 #: qt/manageprofiles/tab_remove_retention.py:241
 #, fuzzy
 msgid "The most up-to-date backup is kept under all circumstances."
 msgstr ""
-"O último ou mais recente snapshot é mantido sob todas as circunstancias."
+"A última cópia de segurança ou a mais recente é mantida sob todas as "
+"circunstancias."
 
 #: qt/manageprofiles/tab_remove_retention.py:243
+#, fuzzy
 msgid "That behavior cannot be changed."
-msgstr "Esse comportamento não pode ser mudado."
+msgstr "Este comportamento não pode ser alterado."
 
 #: qt/manageprofiles/tab_remove_retention.py:255
 #, fuzzy
 msgid "Keep named backups."
-msgstr "Manter os snapshots nomeados."
+msgstr "Manter as cópia de segurança nomeadas."
 
 #: qt/manageprofiles/tab_remove_retention.py:258
 #, fuzzy
@@ -2242,8 +2605,9 @@ msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
 msgstr ""
-"Os snapshots que receberam um nome, além do carimbo de data e hora usual, "
-"serão retidos sob todas as circunstancias e não serão removidos."
+"As cópias de segurança que receberam um nome, além do registro da data e da "
+"hora usual, serão mantidos sob todas as circunstancias e não serão "
+"removidos."
 
 #: qt/manageprofiles/tab_remove_retention.py:273
 msgid "Year(s)"
@@ -2252,29 +2616,33 @@ msgstr "Ano(s)"
 #: qt/manageprofiles/tab_remove_retention.py:278
 #, fuzzy
 msgid "Remove backups older than"
-msgstr "Remover snapshots mais antigos que"
+msgstr "Remover as cópia de segurança mais antigas que"
 
 #: qt/manageprofiles/tab_remove_retention.py:284
+#, fuzzy
 msgid "Full days. Current day is ignored."
-msgstr "Dias completos. o dia atual é ignorado."
+msgstr "Os dias completos e o dia atual será ignorado."
 
 #: qt/manageprofiles/tab_remove_retention.py:286
+#, fuzzy
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
-"Semanas do calendário com Segunda como primeiro dia. A semana atual é "
-"ignorada."
+"Os dias da semana do calendário começam com a segunda-feira e a semana atual"
+" será ignorada."
 
 #: qt/manageprofiles/tab_remove_retention.py:289
+#, fuzzy
 msgid "12 months periods. Current month is ignored."
-msgstr "Períodos de 12 meses. O mês atual é ignorado."
+msgstr "Os períodos de 12 meses e o mês atual será ignorado."
 
 #: qt/manageprofiles/tab_remove_retention.py:305
 msgid "Retention policy"
 msgstr "Política de retenção"
 
 #: qt/manageprofiles/tab_remove_retention.py:310
+#, fuzzy
 msgid "Run in background on remote host."
-msgstr "Executar em segundo plano no host remoto."
+msgstr "Executar em segundo plano no hospedeiro remoto."
 
 #: qt/manageprofiles/tab_remove_retention.py:313
 #, fuzzy
@@ -2283,14 +2651,16 @@ msgid ""
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
 "and available on that remote machine."
 msgstr ""
-"O procedimento de remoção inteligente será executado diretamente na máquina "
-"remota, não localmente. Os comandos \"bash\", \"screen\", e \"flock\" devem "
-"estar instalados e disponíveis na máquina remota."
+"A política de retenção será executada diretamente na máquina remota e não na"
+" máquina local. Os comandos do ‘bash’, ‘screen’ e ‘flock’ devem estar "
+"instalados e disponíveis na máquina remota."
 
 #: qt/manageprofiles/tab_remove_retention.py:317
+#, fuzzy
 msgid "If selected, Back In Time will first test the remote machine."
 msgstr ""
-"Se selecionado, o Back In Time irá primeiramente testar a máquina remota."
+"Se esta opção for selecionada, o Back In Time (De Volta ao Passado) irá "
+"primeiramente testar a máquina remota."
 
 #: qt/manageprofiles/tab_remove_retention.py:321
 msgid "The days are counted starting from today."
@@ -2299,7 +2669,7 @@ msgstr "Os dias são contados a partir de hoje."
 #: qt/manageprofiles/tab_remove_retention.py:322
 #, fuzzy
 msgid "Keep all backups for the last"
-msgstr "Manter todos os snapshots pelos últimos"
+msgstr "Manter todas as cópias de segurança da versão mais recente"
 
 #: qt/manageprofiles/tab_remove_retention.py:327
 #: qt/manageprofiles/tab_remove_retention.py:339
@@ -2309,20 +2679,22 @@ msgstr "dia(s)."
 #: qt/manageprofiles/tab_remove_retention.py:334
 #, fuzzy
 msgid "Keep the last backup for each day for the last"
-msgstr "Manter o último snapshot de cada dia dos últimos"
+msgstr "Manter a última cópia de segurança de cada dia da versão mais recente"
 
 #: qt/manageprofiles/tab_remove_retention.py:344
+#, fuzzy
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
 msgstr ""
-"As semanas são contadas a partir da semana atual. Uma semana começa na "
-"Segunda."
+"As semanas são contadas a partir da semana atual, onde a semana começa na "
+"segunda-feira."
 
 #: qt/manageprofiles/tab_remove_retention.py:347
 #, fuzzy
 msgid "Keep the last backup for each week for the last"
-msgstr "Manter o último snapshot de cada semana das últimas"
+msgstr ""
+"Manter a última cópia de segurança de cada semana da versão mais recente"
 
 #: qt/manageprofiles/tab_remove_retention.py:352
 msgid "week(s)."
@@ -2337,7 +2709,7 @@ msgstr ""
 #: qt/manageprofiles/tab_remove_retention.py:360
 #, fuzzy
 msgid "Keep the last backup for each month for the last"
-msgstr "Manter o último snapshot de cada mês dos últimos"
+msgstr "Manter a última cópia de segurança de cada mês da versão mais recente"
 
 #: qt/manageprofiles/tab_remove_retention.py:365
 msgid "month(s)."
@@ -2352,86 +2724,103 @@ msgstr ""
 #: qt/manageprofiles/tab_remove_retention.py:372
 #, fuzzy
 msgid "Keep the last backup for each year for"
-msgstr "Manter o último snapshot de cada ano dos últimos"
+msgstr "Manter a última cópia de segurança de cada ano para"
 
 #: qt/manageprofiles/tab_remove_retention.py:374
 msgid "all years."
 msgstr "todos os anos."
 
 #: qt/manageprofiles/tab_remove_retention.py:389
+#, fuzzy
 msgid "… the free space is less than"
-msgstr "... o espaço livre é menor que"
+msgstr "... o espaço livre é menor do que"
 
 #: qt/manageprofiles/tab_remove_retention.py:394
+#, fuzzy
 msgid "… the free inodes are less than"
-msgstr "... os inodes livres são menores que"
+msgstr ""
+"... os ‘inodes’ (ou nós de índice das estruturas dos dados) livres são "
+"menores do que"
 
 #: qt/manageprofiles/tab_remove_retention.py:403
 #, fuzzy
 msgid "Remove oldest backup if …"
-msgstr "Remover snapshots antigos se …"
+msgstr "Remover as cópias de segurança antigas se…"
 
 #: qt/net.launchpad.backintime.policy:21
+#, fuzzy
 msgid "Authentication is required to run Back In Time as root."
 msgstr ""
+"É necessário autenticar como usuário ‘root’ ou administrador para executar o"
+" Back In Time (De Volta ao Passado)."
 
 #: qt/net.launchpad.backintime.policy:33 qt/net.launchpad.backintime.policy:43
+#, fuzzy
 msgid ""
 "Authentication is required to change backup schedules triggered by external "
 "storage device connections."
 msgstr ""
+"É necessário autenticar-se para alterar os agendamentos da realização das "
+"cópias de segurança que são acionadas por meio das conexões dos dispositivos"
+" de armazenamento externos."
 
 #: qt/placeswidget.py:51
 msgid "Shortcuts"
 msgstr "Atalhos"
 
 #: qt/placeswidget.py:96
+#, fuzzy
 msgid "Places"
-msgstr ""
+msgstr "Locais"
 
 #: qt/placeswidget.py:97
+#, fuzzy
 msgid "File System"
-msgstr ""
+msgstr "Sistema de arquivos"
 
 #: qt/placeswidget.py:146
+#, fuzzy
 msgid "Backup directories"
-msgstr "Diretórios de backup"
+msgstr "Diretórios da cópia de segurança"
 
 #: qt/qtsystrayicon.py:109
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Profile: {profile_name}"
-msgstr "Perfil: \"{profile_name}\""
+msgstr "Perfil: ‘{profile_name}’"
 
 #: qt/qtsystrayicon.py:112
 #, fuzzy, python-brace-format
 msgid "Profile: {profile_name} (by user \"{desktop_user}\")"
-msgstr "Perfil: \"{profile_name}\""
+msgstr "Profile ‘{profile_name}’ do usuário ‘{desktop_user}’"
 
 #: qt/qtsystrayicon.py:155
+#, fuzzy
 msgid "View Last Log"
-msgstr "Visualizar Último Log"
+msgstr "Visualizar a última alteração do registro"
 
 #: qt/qtsystrayicon.py:161
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Start {appname}"
-msgstr "Inicializar {appname}"
+msgstr "Iniciar o {appname} (De Volta ao Passado)"
 
 #: qt/qtsystrayicon.py:253
 msgid "Working…"
 msgstr "Trabalhando…"
 
 #: qt/qttools.py:503
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "man page: {man_page_name}"
-msgstr ""
+msgstr "Página do manual: {man_page_name} (De Volta ao Passado)"
 
 #: qt/restoreconfigdialog.py:74
+#, fuzzy
 msgid "Import configuration"
-msgstr "Configuração de importação"
+msgstr "Configurações da importação"
 
 #: qt/restoreconfigdialog.py:105
+#, fuzzy
 msgid "No directory selected"
-msgstr ""
+msgstr "Nenhum diretório foi selecionado"
 
 #: qt/restoreconfigdialog.py:134
 msgid "Import"
@@ -2440,7 +2829,7 @@ msgstr "Importar"
 #: qt/restoreconfigdialog.py:154 qt/restoreconfigdialog.py:234
 #, fuzzy
 msgid "Searching…"
-msgstr "Trabalhando…"
+msgstr "Pesquisando…"
 
 #: qt/restoreconfigdialog.py:211
 #, fuzzy, python-brace-format
@@ -2448,43 +2837,48 @@ msgid ""
 "Select the backup directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
-"Selecione o diretório de snapshot do qual o arquivo de configuração deve ser"
-" importado. O caminho pode ser semelhante a: {samplePath}"
+"Selecionar o diretório da cópia de segurança do qual o arquivo de "
+"configurações deve ser importado. O caminho pode ser semelhante a: "
+"‘{samplePath}’"
 
 #: qt/restoreconfigdialog.py:216
+#, fuzzy
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
 msgstr ""
-"Se o diretório estiver localizado em uma unidade externa ou remota, ela "
-"deverá ser montada manualmente antes."
+"Se o diretório estiver localizado em um dispositivo externo ou em um "
+"equipamento remoto, ele deverá ser montado manualmente antes de continuar."
 
 #: qt/restoreconfigdialog.py:237
+#, fuzzy
 msgid "Scan again"
-msgstr ""
+msgstr "Pesquisar novamente"
 
 #: qt/restoreconfigdialog.py:256
 #, fuzzy
 msgid "Show hidden directories"
-msgstr "Exibir arquivos ocultos"
+msgstr "Exibir os diretórios ocultos"
 
 #: qt/restoreconfigdialog.py:258
 #, fuzzy
 msgid "Show/hide hidden directories (Ctrl+H)"
-msgstr "Incluir arquivos e diretórios"
+msgstr "Exibir ou ocultar os diretórios ocultos (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:305
 #, fuzzy
 msgid "No config found in this directory"
-msgstr "A criação de arquivo falhou neste diretório:"
+msgstr "Nenhum arquivo de configurações foi encontrado neste diretório"
 
 #: qt/restoreconfigdialog.py:366
+#, fuzzy
 msgid "Search complete."
-msgstr ""
+msgstr "A pesquisa foi concluída com sucesso."
 
 #: qt/restoredialog.py:58
+#, fuzzy
 msgid "Show full Log"
-msgstr "Mostrar Log Completo"
+msgstr "Exibir todo o registro das alterações"
 
 #: qt/shutdowndlg.py:28
 msgid "Countdown to Shutdown"
@@ -2493,29 +2887,30 @@ msgstr "Contagem regressiva para o desligamento"
 #: qt/shutdowndlg.py:29
 #, fuzzy
 msgid "The backup has finished."
-msgstr "Desligar o sistema após o snapshot ser finalizado."
+msgstr ""
+"Desligar o sistema operacional após o cópia de segurança ser finalizada."
 
 #: qt/shutdowndlg.py:36
 #, fuzzy
 msgid "Cancel Shutdown"
-msgstr "Desligar"
+msgstr "Cancelar o desligamento"
 
 #: qt/shutdowndlg.py:37
 #, fuzzy
 msgid "Shutdown Now"
-msgstr "Desligar"
+msgstr "Desligar agora"
 
 #: qt/shutdowndlg.py:69
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "The system will shut down in {n} second."
 msgid_plural "The system will shut down in {n} seconds."
-msgstr[0] "O sistema irá desligar em {n} segundo."
-msgstr[1] "O sistema irá desligar em {n} segundos."
+msgstr[0] "O sistema operacional irá desligar em {n} segundo."
+msgstr[1] "O sistema operacional irá desligar em {n} segundos."
 
 #: qt/snapshotsdialog.py:61
 #, fuzzy
 msgid "Options about comparing backups"
-msgstr "Opções sobre comparação de snapshots"
+msgstr "Opções de comparação das cópias de segurança"
 
 #: qt/snapshotsdialog.py:68
 msgid "Command:"
@@ -2526,55 +2921,60 @@ msgid "Parameters:"
 msgstr "Parâmetros:"
 
 #: qt/snapshotsdialog.py:77
+#, fuzzy
 msgid "Use %1 and %2 for path parameters"
-msgstr "Use %1 e %2 para os parâmetros de caminho"
+msgstr "Utilize ‘%1’ e ‘%2’ para os parâmetros do caminho"
 
 #: qt/snapshotsdialog.py:94
+#, fuzzy
 msgid "Please set a diff command or press Cancel."
-msgstr "Por favor, defina um comando diff ou pressione Cancelar."
+msgstr ""
+"Por favor, defina um comando de diferenciação ou clique no botão ‘Cancelar’."
 
 #: qt/snapshotsdialog.py:100
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
 "else or press Cancel."
 msgstr ""
-"O comando \"{cmd}\" não pôde ser encontrado neste sistema. Por favor, tente "
-"outra coisa ou pressione Cancelar."
+"O comando ‘{cmd}’ não foi encontrado neste sistema operacional. Por favor, "
+"tente outro comando ou clique no botão ‘Cancelar’."
 
 #: qt/snapshotsdialog.py:108
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr ""
-"Nenhum parâmetro definido para o comando diff. Usando o valor padrão "
-"\"{params}\"."
+"Nenhum parâmetro foi definido para o comando da diferenciação. Será "
+"utilizado o valor padrão ‘{params}’ para o parâmetro."
 
 #: qt/snapshotsdialog.py:139 qt/timeline.py:117
 #, fuzzy
 msgid "Backups"
-msgstr "&Backup"
+msgstr "&Cópias de segurança"
 
 #: qt/snapshotsdialog.py:150
 #, fuzzy
 msgid "Differing backups only"
-msgstr "Apenas snapshots diferentes"
+msgstr "Apenas as cópias de segurança diferentes"
 
 #: qt/snapshotsdialog.py:159
 #, fuzzy
 msgid "List only backups that are equal to:"
-msgstr "Listar apenas snapshots iguais a:"
+msgstr "Listar apenas as cópias de segurança que sejam iguais a:"
 
 #: qt/snapshotsdialog.py:171
+#, fuzzy
 msgid "Deep check (more accurate, but slow)"
-msgstr "Verificação profunda (mais preciso, mas lento)"
+msgstr "Realizar a verificação detalhada (é mais precisa, mas é lenta)"
 
 #: qt/snapshotsdialog.py:192
 msgid "Delete"
 msgstr "Excluir"
 
 #: qt/snapshotsdialog.py:197
+#, fuzzy
 msgid "Select All"
-msgstr "Selecionar Tudo"
+msgstr "Selecionar tudo"
 
 #: qt/snapshotsdialog.py:217
 msgid "Compare"
@@ -2589,41 +2989,50 @@ msgid "Options"
 msgstr "Opções"
 
 #: qt/snapshotsdialog.py:424
+#, fuzzy
 msgid ""
 "It is not possible to compare a backup to itself, as the comparison would be"
 " redundant."
 msgstr ""
-"Não é possível comparar um backup consigo mesmo, pois a comparação seria "
-"redundante."
+"Não foi possível comparar uma cópia de segurança consigo mesma, porque a "
+"comparação seria redundante."
 
 #: qt/snapshotsdialog.py:470
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Really delete {file_or_dir} in backup {backup_id}?"
-msgstr "Você realmente deseja apagar {file_or_dir} no backup {backup_id}?"
+msgstr ""
+"Você realmente quer excluir o ‘{file_or_dir}’ da cópia de segurança "
+"‘{backup_id}’?"
 
 #: qt/snapshotsdialog.py:475
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Really delete {file_or_dir} in {count} backups?"
-msgstr "Você realmente deseja apagar {file_or_dir} em {count} backups?"
+msgstr ""
+"Você realmente quer excluir o ‘{file_or_dir}’ das {count} cópias de "
+"segurança?"
 
 #: qt/snapshotsdialog.py:478
+#, fuzzy
 msgid "WARNING: This cannot be revoked."
-msgstr "Aviso: Isto não pode ser revogado."
+msgstr "Atenção! Esta ação não poderá ser revogada."
 
 #: qt/snapshotsdialog.py:495
 #, fuzzy, python-brace-format
 msgid "Exclude {path} from future backups?"
-msgstr "Excluir {path} de snapshots futuros?"
+msgstr "Excluir o caminho ‘{path}’ das cópias de segurança futuras?"
 
 #: qt/statusbar.py:85
 #, fuzzy
 msgid "Root mode"
-msgstr "Raiz"
+msgstr "Modo root"
 
 #: qt/statusbar.py:87
+#, fuzzy
 msgid ""
 "Back In Time is currently running with root privileges (full system access)"
 msgstr ""
+"O Back In Time (De Volta ao Passado) está sendo executado com as permissões "
+"de ‘root’ ou administrador e possui acesso total ao sistema operacional"
 
 #: qt/timeline.py:64
 msgid "Today"
@@ -2642,21 +3051,26 @@ msgid "Last week"
 msgstr "Semana passada"
 
 #: qt/timeline.py:88
+#, fuzzy
 msgid "This month"
-msgstr ""
+msgstr "Este mês"
 
 #: qt/timeline.py:95
+#, fuzzy
 msgid "Last month"
-msgstr ""
+msgstr "Mês passado"
 
 #: qt/timeline.py:365
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Last check {time}"
-msgstr "Última verificação {time}"
+msgstr "A última verificação ocorreu no dia {time}"
 
 #: qt/timeline.py:394
+#, fuzzy
 msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
+"Estes são os seus arquivos exatamente como estão agora e não é uma cópia de "
+"segurança."
 
 #~ msgid "This is NOT a backup but a live view of the local files."
 #~ msgstr "Isto NÃO é um backup, mas uma visualização do seus arquivos locais."

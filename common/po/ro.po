@@ -14,9 +14,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-03-08 12:51+0100\n"
-"PO-Revision-Date: 2026-02-05 17:33+0000\n"
+"PO-Revision-Date: 2026-03-09 12:29+0000\n"
 "Last-Translator: Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>\n"
 "Language-Team: Romanian <https://translate.codeberg.org/projects/backintime/common/ro/>\n"
 "Language: ro\n"
@@ -831,18 +831,12 @@ msgid "Text beside icon"
 msgstr "Text lângă pictograme"
 
 #: qt/app.py:943
-#, fuzzy
 msgid "This directory doesn't exist in the selected backup."
-msgstr ""
-"Acest director nu există\n"
-"în copia de rezervă selectată în prezent."
+msgstr "Acest director nu există în copia de rezervă selectată."
 
 #: qt/app.py:946
-#, fuzzy
 msgid "This directory doesn't exist on the computer."
-msgstr ""
-"Acest director nu există\n"
-"în copia de rezervă selectată în prezent."
+msgstr "Acest director nu există în calculator."
 
 #: qt/app.py:995
 msgid ""
@@ -1137,44 +1131,30 @@ msgstr "Adaugă la excluderi"
 #: qt/fileview.py:292
 msgid "The selected item is already in the include list."
 msgid_plural "The selected items are already in the include list."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Elementul selectat se află deja în lista de includere."
+msgstr[1] "Elementele selectate se află deja în lista de includere."
+msgstr[2] "Elementele selectate se află deja în lista de includere."
 
 #: qt/fileview.py:299
 msgid "The following item is already in the include list."
 msgid_plural "The following items are already in the include list."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Următorul element se află deja în lista de includere."
+msgstr[1] "Următoarele elemente se află deja în lista de includere."
+msgstr[2] "Următoarele elemente se află deja în lista de includere."
 
 #: qt/fileview.py:313
-#, fuzzy
 msgid "The selected item is already in the exclude list."
 msgid_plural "The selected items are already in the exclude list."
-msgstr[0] ""
-"Selectați din elementele utilizate frecvent pentru a le adăuga la lista de "
-"excluderi."
-msgstr[1] ""
-"Selectați din elementele utilizate frecvent pentru a le adăuga la lista de "
-"excluderi."
-msgstr[2] ""
-"Selectați din elementele utilizate frecvent pentru a le adăuga la lista de "
-"excluderi."
+msgstr[0] "Elementul selectat se află deja în lista de excludere."
+msgstr[1] "Elementele selectate se află deja în lista de excludere."
+msgstr[2] "Elementele selectate se află deja în lista de excludere."
 
 #: qt/fileview.py:320
-#, fuzzy
 msgid "The following item is already in the exclude list."
 msgid_plural "The following items are already in the exclude list."
-msgstr[0] ""
-"Selectați din elementele utilizate frecvent pentru a le adăuga la lista de "
-"excluderi."
-msgstr[1] ""
-"Selectați din elementele utilizate frecvent pentru a le adăuga la lista de "
-"excluderi."
-msgstr[2] ""
-"Selectați din elementele utilizate frecvent pentru a le adăuga la lista de "
-"excluderi."
+msgstr[0] "Următorul element se află deja în lista de excludere."
+msgstr[1] "Următoarele elemente se află deja în lista de excludere."
+msgstr[2] "Următoarele elemente se află deja în lista de excludere."
 
 #: qt/languagedialog.py:36
 msgid "Setup language"
@@ -2640,11 +2620,11 @@ msgstr "Săptămâna trecută"
 
 #: qt/timeline.py:88
 msgid "This month"
-msgstr ""
+msgstr "Luna aceasta"
 
 #: qt/timeline.py:95
 msgid "Last month"
-msgstr ""
+msgstr "Luna trecută"
 
 #: qt/timeline.py:365
 #, python-brace-format
@@ -2654,6 +2634,8 @@ msgstr "Ultima verificare: {time}"
 #: qt/timeline.py:394
 msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
+"Acestea sunt fișierele tale așa cum sunt în acest moment. Nu este o copie de"
+" rezervă."
 
 #~ msgid "This is NOT a backup but a live view of the local files."
 #~ msgstr ""

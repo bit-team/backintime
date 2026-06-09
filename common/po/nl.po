@@ -12,9 +12,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-03-08 12:51+0100\n"
-"PO-Revision-Date: 2026-02-05 17:33+0000\n"
+"PO-Revision-Date: 2026-03-11 08:07+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Dutch <https://translate.codeberg.org/projects/backintime/common/nl/>\n"
 "Language: nl\n"
@@ -761,7 +761,7 @@ msgstr "Back-ups vergelijken…"
 
 #: qt/app.py:660 qt/app.py:1759
 msgid "Release Candidate"
-msgstr "Release Candidate"
+msgstr "Release Kandidaat"
 
 #: qt/app.py:663
 msgid "Shows the message about this Release Candidate again."
@@ -816,18 +816,12 @@ msgid "Text beside icon"
 msgstr "Tekst naast de iconen"
 
 #: qt/app.py:943
-#, fuzzy
 msgid "This directory doesn't exist in the selected backup."
-msgstr ""
-"Deze map bestaat niet\n"
-"in de momenteel geselecteerde back-up."
+msgstr "Deze map bestaat niet in de momenteel geselecteerde back-up."
 
 #: qt/app.py:946
-#, fuzzy
 msgid "This directory doesn't exist on the computer."
-msgstr ""
-"Deze map bestaat niet\n"
-"in de momenteel geselecteerde back-up."
+msgstr "Deze map bestaat niet op de computer."
 
 #: qt/app.py:995
 msgid ""
@@ -1018,8 +1012,8 @@ msgstr "Versie-beheerde back-ups (root)"
 msgid ""
 "User-friendly GUI for versioned backups that reduces disk usage (root mode)"
 msgstr ""
-"Gebruiksvriendelijke GUI voor versie-beheerde back-ups die het schijfgebruik"
-" vermindert (root mode)"
+"Gebruiksvriendelijke GUI voor versie-beheerde back-ups met minder "
+"schijfgebruik (root mode)"
 
 #: qt/backintime-qt.desktop:14
 msgid "Versioned Backups"
@@ -1028,8 +1022,8 @@ msgstr "Versie-beheerde Back-ups"
 #: qt/backintime-qt.desktop:23
 msgid "User-friendly GUI for versioned backups that reduces disk usage"
 msgstr ""
-"Gebruiksvriendelijke GUI voor versie-beheerde back-ups die het schijfgebruik"
-" vermindert"
+"Gebruiksvriendelijke GUI voor versie-beheerde back-ups met minder "
+"schijfgebruik"
 
 #: qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -1122,36 +1116,31 @@ msgstr "Toevoegen aan Uitsluiten"
 #: qt/fileview.py:292
 msgid "The selected item is already in the include list."
 msgid_plural "The selected items are already in the include list."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Het geselecteerde item is reeds opgenomen in de inclusief lijst."
+msgstr[1] "De geselecteerde items zijn reeds opgenomen in de inclusief lijst."
 
 #: qt/fileview.py:299
 msgid "The following item is already in the include list."
 msgid_plural "The following items are already in the include list."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Het volgende item is reeds opgenomen in de opgenomen lijst."
+msgstr[1] "De geselecteerde items zijn reeds opgenomen in de opgenomen lijst."
 
 #: qt/fileview.py:313
-#, fuzzy
 msgid "The selected item is already in the exclude list."
 msgid_plural "The selected items are already in the exclude list."
-msgstr[0] ""
-"Selecteer uit veelgebruikte items om toe te voegen aan de uitsluitingslijst."
+msgstr[0] "Het geselecteerde item bevindt zich reeds in de uitsluitingslijst."
 msgstr[1] ""
-"Selecteer uit veelgebruikte items om toe te voegen aan de uitsluitingslijst."
+"De geselecteerde items bevinden zich reeds in de uitsluitingslijst."
 
 #: qt/fileview.py:320
-#, fuzzy
 msgid "The following item is already in the exclude list."
 msgid_plural "The following items are already in the exclude list."
-msgstr[0] ""
-"Selecteer uit veelgebruikte items om toe te voegen aan de uitsluitingslijst."
-msgstr[1] ""
-"Selecteer uit veelgebruikte items om toe te voegen aan de uitsluitingslijst."
+msgstr[0] "Het volgende item bevindt zich reeds in de uitsluitingslijst."
+msgstr[1] "De volgende items bevinden zich reeds in de uitsluitingslijst."
 
 #: qt/languagedialog.py:36
 msgid "Setup language"
-msgstr "Taal instellen"
+msgstr "Taal van de Setup"
 
 #: qt/languagedialog.py:120
 #, python-brace-format
@@ -2595,11 +2584,11 @@ msgstr "Vorige week"
 
 #: qt/timeline.py:88
 msgid "This month"
-msgstr ""
+msgstr "Deze maand"
 
 #: qt/timeline.py:95
 msgid "Last month"
-msgstr ""
+msgstr "Vorige maand"
 
 #: qt/timeline.py:365
 #, python-brace-format
@@ -2608,7 +2597,7 @@ msgstr "Laatste controle {time}"
 
 #: qt/timeline.py:394
 msgid "These are your files as they are right now. It is not a backup."
-msgstr ""
+msgstr "Dit zijn uw bestanden in hun huidige toestand. Het is geen backup."
 
 #~ msgid "This is NOT a backup but a live view of the local files."
 #~ msgstr ""

@@ -23,7 +23,6 @@ for _Back In Time_ (BIT), how they are maintained, structured and build.
 <!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
 - [Overview](#overview)
 - [Build & view user manual (MkDocs)](#build--view-user-manual-mkdocs)
-- [Build & view source code documentation (Sphinx)](#build--view-source-code-documentation-sphinx)
 - [Tips & Examples](#tips-and-examples)
 <!-- TOC end -->
 
@@ -35,12 +34,7 @@ The project distinguish between three types of documentation:
    [backintime.readthedocs.io](http://backintime.readthedocs.io) and is
    generated using [MkDocs](https://www.mkdocs.org) based on simple
    [Markdown](https://en.wikipedia.org/wiki/Markdown) files.
-2. The **Source Code documentation** is located at 
-   [backintime-dev.readthedocs.io](http://backintime-dev.readthedocs.io) and
-   generated from the Python source files using
-   [Sphinx](https://www.sphinx-doc.org) (migration to
-   [PyDoctor](https://pydoctor.readthedocs.io) is planned).
-3. The **Maintenance and Developer documentation** is a bunch of Markdown
+2. The **Maintenance and Developer documentation** is a bunch of Markdown
    files, like the one you are reading currently.
 
 
@@ -77,10 +71,6 @@ $ mkdocs build
 # Open result in default browser
 $ xdg-open html/index.html
 ```
-
-# Build & view source code documentation (Sphinx)
-
-See [Using Sphinx to write and build documentation](1b_doc_sphinx_howto.md).
 
 # Tips and Examples
 - [Markdown](#markdown)
@@ -122,4 +112,4 @@ See [Using Sphinx to write and build documentation](1b_doc_sphinx_howto.md).
 > [!CAUTION]
 > Negative potential consequences of an action.
 
-<sub>September 2024</sub>
+<sub>June 2026</sub>
