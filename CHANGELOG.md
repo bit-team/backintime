@@ -27,6 +27,9 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
   if one of these two options is (non-default) disabled: "Check if remote host
   is online", "Check if remote host supports all necessary commands"
   ([#2482](https://github.com/bit-team/backintime/issues/2482))
+- Clear up license and copyright situation of `qt/serviceHelper.py`
+  ([#1986](https://github.com/bit-team/backintime/issues/1986))
+
 
 ### Added
 - Gocryptfs for SSH encrypted profiles
