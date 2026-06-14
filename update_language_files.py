@@ -134,6 +134,24 @@ def update_po_template():
 
     _add_spdx_header_to_po_template()
 
+    _add_reuse_ignore_statements(TEMPLATE_PO)
+
+
+def _add_reuse_ignore_statements(fp: Path):
+    """The file content is encloused between REUSE ignore statemtents to
+    exclude that content from scanning by the reuse-tool linter.
+    """
+
+    content = fp.read_text(encoding='utf-8').splitlines()
+
+    for idx, line in enumerate(content):
+        if not line.startswith('#'):
+            content.insert(idx, '# REUSE-IgnoreStart')
+            content.append('# REUSE-IgnoreEnd')
+            break
+
+    fp.write_text('\n'.join(content), encoding='utf-8')
+
 
 def _add_spdx_header_to_po_template():
     print(f'Add SPDX Header to PO template file "{TEMPLATE_PO}" …')
@@ -284,6 +302,8 @@ def update_po_language_files(remove_obsolete_entries: bool = False):
             run(cmd, check=True)
 
         _set_header(po_path, spdx_base)
+
+        _add_reuse_ignore_statements(po_path)
 
 
 def update_desktop_files():
@@ -672,7 +692,7 @@ def create_completeness_dict():
 
         result[po_path.stem] = pof.percent_translated()
 
-        pof.save()
+        # pof.save()
 
     # "en" is the source language
     result['en'] = 100
@@ -728,7 +748,6 @@ def create_languages_py_file():
 
     # reload the languages
     importlib.reload(languages)
-
 
     # Completeness statistics (English is excluded)
     compl = list(compl_dict.values())
