@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-06-14 15:13+0200\n"
+"POT-Creation-Date: 2026-06-16 20:33+0200\n"
 "PO-Revision-Date: 2026-02-08 06:18+0000\n"
 "Last-Translator: urbalazs <urbalazs@noreply.codeberg.org>\n"
 "Language-Team: Hungarian <https://translate.codeberg.org/projects/backintime/common/hu/>\n"
@@ -38,62 +38,62 @@ msgstr ""
 " szerzői jogi információk kinyeréséhez olvassa el a tájékoztatót: "
 "{readme_link}."
 
-#: common/config.py:38 common/tools.py:89 qt/encfsmsgbox.py:27
+#: common/config.py:37 common/tools.py:89 qt/encfsmsgbox.py:27
 #: qt/messagebox.py:99 qt/timeline.py:35
 msgid "Warning"
 msgstr "Figyelmeztetés"
 
-#: common/config.py:107 common/config.py:220
+#: common/config.py:107 common/config.py:160
 msgid "Main profile"
 msgstr "Fő profil"
 
-#: common/config.py:231
+#: common/config.py:171
 msgid "Local"
 msgstr "Helyi"
 
-#: common/config.py:237
+#: common/config.py:177
 msgid "Local encrypted"
 msgstr "Helyi titkosított"
 
-#: common/config.py:238 common/config.py:251
+#: common/config.py:178 common/config.py:191
 #: qt/manageprofiles/tab_general.py:393
 msgid "Encryption"
 msgstr "Titkosítás"
 
-#: common/config.py:243
+#: common/config.py:183
 msgid "SSH"
 msgstr "SSH"
 
-#: common/config.py:244 common/config.py:250
+#: common/config.py:184 common/config.py:190
 #: qt/manageprofiles/tab_general.py:745
 msgid "SSH private key"
 msgstr "SSH személyes kulcs"
 
-#: common/config.py:249
+#: common/config.py:189
 #, fuzzy
 msgid "SSH encrypted"
 msgstr "SSH (EncFS-sel titkosított)"
 
-#: common/config.py:281 common/config.py:293 common/config.py:311
-#: common/config.py:325 common/config.py:346
+#: common/config.py:221 common/config.py:233 common/config.py:251
+#: common/config.py:265 common/config.py:286
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: „{name}”"
 
-#: common/config.py:282
+#: common/config.py:222
 msgid "Backup directory is not valid."
 msgstr "A biztonsági mentés könyvtára nem érvényes."
 
-#: common/config.py:294
+#: common/config.py:234
 msgid "At least one directory must be selected for backup."
 msgstr "Legalább egy könyvtárat ki kell választani a biztonsági mentéshez."
 
-#: common/config.py:312 common/config.py:327
+#: common/config.py:252 common/config.py:267
 #, python-brace-format
 msgid "Directory: {path}"
 msgstr "Könyvtár: {path}"
 
-#: common/config.py:313 common/config.py:328
+#: common/config.py:253 common/config.py:268
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
@@ -101,7 +101,7 @@ msgstr ""
 "Ez a könyvtár nem szerepelhet a biztonsági mentésben, mivel magának a "
 "biztonsági mentési célnak a része."
 
-#: common/config.py:347
+#: common/config.py:287
 #, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
@@ -113,7 +113,7 @@ msgstr ""
 "„Figyelmeztetés, ha a szabad lemezterület ez alá csökken” küszöbszintjével "
 "({val_two})."
 
-#: common/config.py:352
+#: common/config.py:292
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
@@ -121,16 +121,16 @@ msgstr ""
 "Állítsa be a beállításokat úgy, hogy a biztonsági mentés eltávolítási "
 "korlátja ne legyen magasabb a figyelmeztetési korlátnál."
 
-#: common/config.py:1480
+#: common/config.py:1420
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Az udev ütemezése nem működik a(z) {mode} móddal"
 
-#: common/config.py:1534
+#: common/config.py:1474
 msgid "Failed to write new crontab."
 msgstr "Nem sikerült az új crontab írása."
 
-#: common/config.py:1542
+#: common/config.py:1482
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -152,21 +152,21 @@ msgstr "Nem sikerült elmenteni a beállításokat"
 msgid "Failed to load config"
 msgstr "Nem sikerült betölteni a beállításokat"
 
-#: common/configfile.py:689 common/configfile.py:789
+#: common/configfile.py:654 common/configfile.py:754
 #, python-brace-format
 msgid "Profile \"{name}\" already exists."
 msgstr "A(z) „{name}” profil már létezik."
 
-#: common/configfile.py:735
+#: common/configfile.py:700
 msgid "The last profile cannot be removed."
 msgstr "Az utolsó profilt nem lehet eltávolítani."
 
-#: common/mount/_backends.py:88
+#: common/mount/_backends.py:88 common/snapshots.py:957
 #, fuzzy
 msgid "Can't find backup destination directory."
 msgstr "Nem található a biztonsági mentés könyvtára."
 
-#: common/mount/_backends.py:90 common/snapshots.py:962
+#: common/mount/_backends.py:90 common/snapshots.py:961
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Ha cserélhető meghajtón van, akkor helyezze be."
 
@@ -271,7 +271,7 @@ msgstr ""
 
 #: common/mount/_encryptors.py:286
 #, python-brace-format
-msgid "Mointpoint as decrypted view is missing. Path: {path}"
+msgid "Mountpoint as decrypted view is missing. Path: {path}"
 msgstr ""
 
 #: common/mount/_encryptors.py:338
@@ -329,7 +329,7 @@ msgstr "SIKERTELEN"
 msgid "Restore permissions"
 msgstr "Jogosultságok helyreállítása"
 
-#: common/snapshots.py:656 qt/app.py:210 qt/app.py:1193 qt/app.py:1219
+#: common/snapshots.py:656 qt/app.py:210 qt/app.py:1203 qt/app.py:1229
 #: qt/qtsystrayicon.py:119
 msgid "Done"
 msgstr "Kész"
@@ -346,10 +346,6 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "Biztonsági mentés elhalasztása akkumulátorról való működésnél"
 
-#: common/snapshots.py:958
-msgid "Can't find backup directory."
-msgstr "Nem található a biztonsági mentés könyvtára."
-
 #: common/snapshots.py:965
 #, python-brace-format
 msgid "Waiting {n} second."
@@ -357,107 +353,106 @@ msgid_plural "Waiting {n} seconds."
 msgstr[0] "{n} másodperc várakozás."
 msgstr[1] "{n} másodperc várakozás."
 
-#: common/snapshots.py:1038
+#: common/snapshots.py:1039
 #, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Nem sikerült létrehozni a(z) {snapshot_id} biztonsági mentést."
 
-#: common/snapshots.py:1070
+#: common/snapshots.py:1071
 msgid "Please be patient. Finalizing…"
 msgstr "Legyen türelemmel. Véglegesítés…"
 
-#: common/snapshots.py:1162
+#: common/snapshots.py:1163
 msgid "Take snapshot"
 msgstr "Pillanatkép készítése"
 
-#: common/snapshots.py:1197
+#: common/snapshots.py:1198
 msgid "Can't create directory."
 msgstr "Nem lehet létrehozni a könyvtárat."
 
-#: common/snapshots.py:1213
+#: common/snapshots.py:1214
 msgid "Saving config file…"
 msgstr "Beállítófájl mentése…"
 
-#: common/snapshots.py:1261
+#: common/snapshots.py:1262
 msgid "Saving permissions…"
 msgstr "Jogosultságok mentése…"
 
-#: common/snapshots.py:1376
+#: common/snapshots.py:1377
 #, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr ""
 "Található egy befejezetlen {snapshot_id} biztonsági mentés, amely "
 "folytatható."
 
-#: common/snapshots.py:1400
+#: common/snapshots.py:1401
 #, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr ""
 "A befejezetlen {snapshot_id} könyvtár eltávolítása a legutóbbi futtatásból"
 
-#: common/snapshots.py:1411
+#: common/snapshots.py:1412
 msgid "Can't remove directory"
 msgstr "Nem lehet eltávolítani a könyvtárat"
 
-#: common/snapshots.py:1475
+#: common/snapshots.py:1476
 msgid "Creating backup"
 msgstr "Biztonsági mentés létrehozása"
 
-#: common/snapshots.py:1526
+#: common/snapshots.py:1527
 msgid "Success"
 msgstr "Sikeres"
 
-#: common/snapshots.py:1529
+#: common/snapshots.py:1530
 msgid "Partial transfer due to error"
 msgstr "Részleges átvitel egy hiba miatt"
 
-#: common/snapshots.py:1530
+#: common/snapshots.py:1531
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "Részleges átvitel az eltűnt forrásfájlok miatt (lásd: „man rsync”)"
 
-#: common/snapshots.py:1534
+#: common/snapshots.py:1535
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "Az „rsync” a(z) {exit_code} számú hibakóddal fejeződött be"
 
-#: common/snapshots.py:1547
+#: common/snapshots.py:1548
 msgid "See 'man rsync' for more details"
 msgstr "Nézze meg a „man rsync” kézikönyvet a további részletekért"
 
-#: common/snapshots.py:1554
+#: common/snapshots.py:1555
 msgid ""
-"Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
+"Negative exit codes indicate termination by a signal. The number corresponds"
+" to the signal (see 'kill -l')."
 msgstr ""
-"A negatív rsync kilépési kódok szignálszámok, nézze meg a „kill -l” és a "
-"„man kill” parancsokat"
 
-#: common/snapshots.py:1575
+#: common/snapshots.py:1578
 msgid "Nothing changed, no new backup necessary"
 msgstr "Semmi sem változott, nincs szükség új biztonsági mentésre"
 
-#: common/snapshots.py:1619
+#: common/snapshots.py:1622
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "Nem lehet átnevezni a(z) {new_path} útvonalat erre: {path}."
 
-#: common/snapshots.py:2019
+#: common/snapshots.py:2022
 msgid "Applying rules to remove old backups"
 msgstr "Szabályok alkalmazása a régi biztonsági mentések eltávolításához"
 
-#: common/snapshots.py:2056
+#: common/snapshots.py:2059
 msgid "Applying retention policy"
 msgstr "Megtartási irányelv alkalmazása"
 
-#: common/snapshots.py:2066
+#: common/snapshots.py:2069
 msgid "Trying to keep min free space"
 msgstr "Kísérlet a legkisebb szabad hely megtartására"
 
-#: common/snapshots.py:2109
+#: common/snapshots.py:2112
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Kísérlet legalább {perc} szabad inode megtartására"
 
-#: common/snapshots.py:3303 qt/app.py:1536 qt/timeline.py:410
+#: common/snapshots.py:3306 qt/app.py:1546 qt/timeline.py:410
 msgid "Now"
 msgstr "Most"
 
@@ -490,7 +485,7 @@ msgstr ""
 
 #: common/sshsetupvalidator.py:309
 #, fuzzy
-msgid "Faild to add SSH key."
+msgid "Failed to add SSH key."
 msgstr "Nem sikerült létrehozni új SSH-kulcsot a(z) {path} mappában."
 
 #: common/sshsetupvalidator.py:331
@@ -643,15 +638,15 @@ msgstr "ezt a hivatkozást"
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr "Kövesse {thislink} az összes nyelv fordítói névsorának lekéréséhez."
 
-#: qt/aboutdlg.py:240 qt/app.py:574
+#: qt/aboutdlg.py:240 qt/app.py:584
 msgid "Project website"
 msgstr "Projekt webhelye"
 
-#: qt/aboutdlg.py:245 qt/app.py:556
+#: qt/aboutdlg.py:245 qt/app.py:566
 msgid "User manual"
 msgstr "Felhasználói kézikönyv"
 
-#: qt/aboutdlg.py:247 qt/app.py:558
+#: qt/aboutdlg.py:247 qt/app.py:568
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
 "Felhasználói kézikönyv megnyitása a böngészőben (helyileg, ha elérhető, "
@@ -692,165 +687,165 @@ msgstr ""
 msgid "Import"
 msgstr "Importálás"
 
-#: qt/app.py:495
+#: qt/app.py:505
 msgid "Create a backup"
 msgstr "Biztonsági mentés létrehozása"
 
-#: qt/app.py:497
+#: qt/app.py:507
 msgid "Use modification time & size for file change detection."
 msgstr ""
 "A módosítás ideje és a méret használata a fájlváltoztatások felismeréséhez."
 
-#: qt/app.py:500
+#: qt/app.py:510
 msgid "Create a backup (checksum mode)"
 msgstr "Biztonsági mentés létrehozása (ellenőrzőösszeg mód)"
 
-#: qt/app.py:502
+#: qt/app.py:512
 msgid "Use checksums for file change detection."
 msgstr "Ellenőrzőösszegek használata a fájlváltoztatások felismeréséhez."
 
-#: qt/app.py:504 qt/qtsystrayicon.py:126
+#: qt/app.py:514 qt/qtsystrayicon.py:126
 msgid "Pause backup process"
 msgstr "Biztonsági mentési folyamat szüneteltetése"
 
-#: qt/app.py:508 qt/qtsystrayicon.py:131
+#: qt/app.py:518 qt/qtsystrayicon.py:131
 msgid "Resume backup process"
 msgstr "Biztonsági mentési folyamat folytatása"
 
-#: qt/app.py:512 qt/qtsystrayicon.py:136
+#: qt/app.py:522 qt/qtsystrayicon.py:136
 msgid "Stop backup process"
 msgstr "Biztonsági mentési folyamat leállítása"
 
-#: qt/app.py:516
+#: qt/app.py:526
 msgid "Refresh backup list"
 msgstr "Biztonsági mentési lista frissítése"
 
-#: qt/app.py:520
+#: qt/app.py:530
 msgid "Name backup"
 msgstr "Biztonsági mentés elnevezése"
 
-#: qt/app.py:524
+#: qt/app.py:534
 msgid "Remove backup"
 msgstr "Biztonsági mentés eltávolítása"
 
-#: qt/app.py:528
+#: qt/app.py:538
 msgid "Open backup log"
 msgstr "Biztonsági mentési napló megnyitása"
 
-#: qt/app.py:530
+#: qt/app.py:540
 msgid "View log of the selected backup."
 msgstr "A kiválasztott biztonsági mentés naplójának megtekintése."
 
-#: qt/app.py:532
+#: qt/app.py:542
 msgid "Open last backup log"
 msgstr "Utolsó biztonság mentési napló megnyitása"
 
-#: qt/app.py:534
+#: qt/app.py:544
 msgid "View log of the latest backup."
 msgstr "Az utolsó biztonsági mentés naplójának megtekintése."
 
-#: qt/app.py:536
+#: qt/app.py:546
 msgid "Manage profiles…"
 msgstr "Profilok kezelése…"
 
-#: qt/app.py:540
+#: qt/app.py:550
 msgid "Edit user-callback"
 msgstr "Felhasználó-visszahívás szerkesztése"
 
-#: qt/app.py:544
+#: qt/app.py:554
 msgid "Shutdown"
 msgstr "Leállítás"
 
-#: qt/app.py:546
+#: qt/app.py:556
 msgid "Shut down system after backup has finished."
 msgstr "A rendszer leállítása a biztonsági mentés befejezése után."
 
-#: qt/app.py:548
+#: qt/app.py:558
 msgid "Setup language…"
 msgstr "Nyelv beállítása…"
 
-#: qt/app.py:552
+#: qt/app.py:562
 msgid "Exit"
 msgstr "Kilépés"
 
-#: qt/app.py:562
+#: qt/app.py:572
 msgid "man page: Back In Time"
 msgstr "kézikönyvoldal: Back In Time"
 
-#: qt/app.py:564
+#: qt/app.py:574
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "Megjeleníti a Back In Time (backintime) kézikönyvoldalát"
 
-#: qt/app.py:567
+#: qt/app.py:577
 msgid "man page: Profiles config file"
 msgstr "kézikönyvoldal: Profilok beállítófájlja"
 
-#: qt/app.py:570
+#: qt/app.py:580
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 "Megjeleníti a profilok beállítófájljával kapcsolatos kézikönyvoldalt "
 "(backintime-config)"
 
-#: qt/app.py:577
+#: qt/app.py:587
 msgid "Open Back In Time website in browser"
 msgstr "A Back In Time webhelyének megnyitása a böngészőben"
 
-#: qt/app.py:579 qt/app.py:2327
+#: qt/app.py:589 qt/app.py:2337
 msgid "Changelog"
 msgstr "Változásnapló"
 
-#: qt/app.py:582
+#: qt/app.py:592
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr ""
 "Változásnapló megnyitása (helyileg, ha elérhető, egyébként az internetről)"
 
-#: qt/app.py:585
+#: qt/app.py:595
 msgid "FAQ"
 msgstr "GYIK"
 
-#: qt/app.py:587
+#: qt/app.py:597
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "Gyakran ismételt kérdések (GYIK) megnyitása a böngészőben"
 
-#: qt/app.py:589
+#: qt/app.py:599
 msgid "Ask a question"
 msgstr "Kérdés feltevése"
 
-#: qt/app.py:593
+#: qt/app.py:603
 msgid "Report a bug"
 msgstr "Hiba jelentése"
 
-#: qt/app.py:596
+#: qt/app.py:606
 msgid "Translation"
 msgstr "Fordítás"
 
-#: qt/app.py:598
+#: qt/app.py:608
 msgid "Shows the message about participation in translation again."
 msgstr ""
 "Ismét megjeleníti a fordításban való részvétellel kapcsolatos üzenetet."
 
-#: qt/app.py:608
+#: qt/app.py:618
 msgid "About"
 msgstr "Névjegy"
 
-#: qt/app.py:611 qt/restoredialog.py:46 qt/snapshotsdialog.py:183
+#: qt/app.py:621 qt/restoredialog.py:46 qt/snapshotsdialog.py:183
 #: qt/snapshotsdialog.py:188
 msgid "Restore"
 msgstr "Helyreállítás"
 
-#: qt/app.py:613
+#: qt/app.py:623
 msgid "Restore the selected files or directories to the original location."
 msgstr "A kijelölt fájlok vagy könyvtárak helyreállítása az eredeti helyre."
 
-#: qt/app.py:616 qt/app.py:1963 qt/snapshotsdialog.py:185
+#: qt/app.py:626 qt/app.py:1973 qt/snapshotsdialog.py:185
 msgid "Restore to …"
 msgstr "Helyreállítás ide…"
 
-#: qt/app.py:618
+#: qt/app.py:628
 msgid "Restore the selected files or directories to a new location."
 msgstr "A kijelölt fájlok vagy könyvtárak helyreállítása új helyre."
 
-#: qt/app.py:624
+#: qt/app.py:634
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
@@ -858,7 +853,7 @@ msgstr ""
 "A jelenleg megjelenített könyvtár és annak teljes tartalmának helyreállítása"
 " az eredeti helyre."
 
-#: qt/app.py:630
+#: qt/app.py:640
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
@@ -866,89 +861,89 @@ msgstr ""
 "A jelenleg megjelenített könyvtár és annak teljes tartalmának helyreállítása"
 " új helyre."
 
-#: qt/app.py:633
+#: qt/app.py:643
 msgid "Up"
 msgstr "Fel"
 
-#: qt/app.py:636
+#: qt/app.py:646
 msgid "Show hidden files"
 msgstr "Rejtett fájlok megjelenítése"
 
-#: qt/app.py:639
+#: qt/app.py:649
 msgid "Compare backups…"
 msgstr "Biztonsági mentések összehasonlítása…"
 
-#: qt/app.py:669 qt/app.py:1805
+#: qt/app.py:679 qt/app.py:1815
 msgid "Release Candidate"
 msgstr "Kiadásra jelölt"
 
-#: qt/app.py:672
+#: qt/app.py:682
 msgid "Shows the message about this Release Candidate again."
 msgstr "Ismét megjeleníti az ezzel a kiadásra jelölttel kapcsolatos üzenetet."
 
-#: qt/app.py:709
+#: qt/app.py:719
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:714
+#: qt/app.py:724
 msgid "&Backup"
 msgstr "&Biztonsági mentés"
 
-#: qt/app.py:726
+#: qt/app.py:736
 msgid "&Restore"
 msgstr "&Helyreállítás"
 
-#: qt/app.py:732
+#: qt/app.py:742
 msgid "&Help"
 msgstr "&Súgó"
 
-#: qt/app.py:782
+#: qt/app.py:792
 msgid "Systray Icon"
 msgstr "Rendszertálca ikon"
 
-#: qt/app.py:788
+#: qt/app.py:798
 msgid "Automatic"
 msgstr "Automatikus"
 
-#: qt/app.py:792
+#: qt/app.py:802
 msgid "Light icon"
 msgstr "Világos ikon"
 
-#: qt/app.py:793
+#: qt/app.py:803
 msgid "Dark icon"
 msgstr "Sötét ikon"
 
-#: qt/app.py:816
+#: qt/app.py:826
 msgid "Icons only"
 msgstr "Csak ikonok"
 
-#: qt/app.py:819
+#: qt/app.py:829
 msgid "Text only"
 msgstr "Csak szöveg"
 
-#: qt/app.py:822
+#: qt/app.py:832
 msgid "Text below icons"
 msgstr "Szöveg az ikonok alatt"
 
-#: qt/app.py:825
+#: qt/app.py:835
 msgid "Text beside icon"
 msgstr "Szöveg az ikon mellett"
 
-#: qt/app.py:951
+#: qt/app.py:961
 #, fuzzy
 msgid "This directory doesn't exist in the selected backup."
 msgstr ""
 "Ez a könyvtár nem létezik a jelenleg\n"
 "kiválasztott biztonsági mentésben."
 
-#: qt/app.py:954
+#: qt/app.py:964
 #, fuzzy
 msgid "This directory doesn't exist on the computer."
 msgstr ""
 "Ez a könyvtár nem létezik a jelenleg\n"
 "kiválasztott biztonsági mentésben."
 
-#: qt/app.py:1003
+#: qt/app.py:1013
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
@@ -956,57 +951,57 @@ msgstr ""
 "Ha ezt az ablak bezárásra kerül, akkor a Back In Time nem lesz képes "
 "leállítani a rendszert a biztonsági mentés befejezése után."
 
-#: qt/app.py:1006
+#: qt/app.py:1016
 msgid "Close the window anyway?"
 msgstr "Mindenképp bezárja az ablakot?"
 
-#: qt/app.py:1097 qt/app.py:1104
+#: qt/app.py:1107 qt/app.py:1114
 msgid "Backup destination unavailable"
 msgstr ""
 
-#: qt/app.py:1222
+#: qt/app.py:1232
 msgid "Done, no backup needed"
 msgstr "Kész, nincs szükség biztonsági mentésre"
 
-#: qt/app.py:1293
+#: qt/app.py:1303
 msgid "Working:"
 msgstr "Munkavégzés:"
 
-#: qt/app.py:1300
+#: qt/app.py:1310
 msgid "Working"
 msgstr "Munkavégzés"
 
-#: qt/app.py:1306 qt/messagebox.py:136
+#: qt/app.py:1316 qt/messagebox.py:136
 msgid "Error"
 msgstr "Hiba"
 
-#: qt/app.py:1347 qt/qtsystrayicon.py:282
+#: qt/app.py:1357 qt/qtsystrayicon.py:282
 msgid "Sent:"
 msgstr "Elküldve:"
 
-#: qt/app.py:1348 qt/qtsystrayicon.py:283
+#: qt/app.py:1358 qt/qtsystrayicon.py:283
 msgid "Speed:"
 msgstr "Sebesség:"
 
-#: qt/app.py:1349 qt/qtsystrayicon.py:284
+#: qt/app.py:1359 qt/qtsystrayicon.py:284
 msgid "ETA:"
 msgstr "Becsült hátralévő idő:"
 
-#: qt/app.py:1544
+#: qt/app.py:1554
 msgid "Backup:"
 msgstr "Biztonsági mentés:"
 
-#: qt/app.py:1644
+#: qt/app.py:1654
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "{path} helyreállítása"
 
-#: qt/app.py:1646
+#: qt/app.py:1656
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "{path} helyreállítása ide…"
 
-#: qt/app.py:1670
+#: qt/app.py:1680
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -1023,48 +1018,48 @@ msgstr ""
 "Elnézést kérünk a zavarásért. Ez az üzenet nem fog többé megjelenni. Ez a párbeszédablak később is bármikor elérhető a súgó menüben.\n"
 "A Back In Time csapata"
 
-#: qt/app.py:1699
+#: qt/app.py:1709
 msgid "translation platform"
 msgstr "fordítási platform"
 
-#: qt/app.py:1704
+#: qt/app.py:1714
 msgid "Website"
 msgstr "Webhely"
 
-#: qt/app.py:1718
+#: qt/app.py:1728
 msgid "Your translation"
 msgstr "Az Ön fordítása"
 
-#: qt/app.py:1755
+#: qt/app.py:1765
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "A mastodoni födiverzumban: {link_and_label}."
 
-#: qt/app.py:1760
+#: qt/app.py:1770
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "E-mail küldése: {link_and_label}."
 
-#: qt/app.py:1764
+#: qt/app.py:1774
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "Levelezőlista: {link_and_label}."
 
-#: qt/app.py:1768
+#: qt/app.py:1778
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} a projekt webhelyén."
 
-#: qt/app.py:1771
+#: qt/app.py:1781
 msgid "Open an issue"
 msgstr "Nyisson hibajegyet"
 
-#: qt/app.py:1772
+#: qt/app.py:1782
 msgid "Alternatively, you can use another channel of your choice."
 msgstr ""
 "Alternatívaként egy másik, Ön által választott csatornát is használhat."
 
-#: qt/app.py:1777
+#: qt/app.py:1787
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -1085,17 +1080,17 @@ msgstr ""
 "Köszönjük a támogatását és azt, hogy segít nekünk a Back In Time fejlesztésében!\n"
 "Az Ön Back In Time csapata"
 
-#: qt/app.py:1869
+#: qt/app.py:1879
 msgid "Check if remote host is online"
 msgstr "Annak ellenőrzése, hogy a távoli kiszolgáló elérhető-e"
 
-#: qt/app.py:1870
+#: qt/app.py:1880
 msgid "Check if remote host supports all necessary commands."
 msgstr ""
 "Annak ellenőrzése, hogy a távoli kiszolgáló támogatja-e az összes szükséges "
 "parancsot."
 
-#: qt/app.py:1913
+#: qt/app.py:1923
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
@@ -1104,22 +1099,22 @@ msgstr ""
 "Csak {free} szabad terület érhető el a célon, amely a beállított {threshold}"
 " küszöbszint alatt van."
 
-#: qt/app.py:1918
+#: qt/app.py:1928
 msgid "Proceed with the backup?"
 msgstr "Folytatja a biztonsági mentést?"
 
-#: qt/app.py:1943
+#: qt/app.py:1953
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr ""
 "A(z) {path} útvonalon lévő összes újabb fájl el lesz távolítva. Folytatja?"
 
-#: qt/app.py:1946
+#: qt/app.py:1956
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 "Az eredeti könyvtárban lévő összes újabb fájl el lesz távolítva. Folytatja?"
 
-#: qt/app.py:1952
+#: qt/app.py:1962
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -1128,17 +1123,17 @@ msgstr ""
 "{BOLD}Figyelmeztetés:{BOLDEND} a fájlrendszer gyökerében lévő fájlok törlése"
 " tönkreteheti az egész rendszert."
 
-#: qt/app.py:2189
+#: qt/app.py:2199
 msgid "Backup name"
 msgstr "Biztonsági mentés neve"
 
-#: qt/app.py:2221
+#: qt/app.py:2231
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "Eltávolítja ezt a biztonsági mentést?"
 msgstr[1] "Eltávolítja ezeket a biztonsági mentéseket?"
 
-#: qt/app.py:2288
+#: qt/app.py:2298
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "A nyelvi beállítások csak a Back In Time újraindítása után lépnek érvénybe."
@@ -2689,132 +2684,4 @@ msgstr "Utolsó ellenőrzés {time}"
 #: qt/timeline.py:407
 msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
-
-#~ msgid ""
-#~ "An error occurred while attempting to log in to the remote host. The "
-#~ "following error message was returned:"
-#~ msgstr ""
-#~ "Hiba történt a távoli kiszolgálóra való bejelentkezés kísérlete során. A "
-#~ "következő hibaüzenet került visszaadásra:"
-
-#~ msgid "Cancel"
-#~ msgstr "Mégse"
-
-#, python-brace-format
-#~ msgid "Checking commands on host {host} returned unknown error"
-#~ msgstr ""
-#~ "A parancsok ellenőrzése a(z) {host} kiszolgálón ismeretlen hibát adott "
-#~ "vissza"
-
-#~ msgid "Configuration for the encrypted directory not found."
-#~ msgstr "A titkosított könyvtár beállítása nem található."
-
-#~ msgid ""
-#~ "Could not unlock ssh private key. Wrong password or password not available "
-#~ "for cron."
-#~ msgstr ""
-#~ "Nem sikerült feloldani az SSH személyes kulcsát. Hibás a jelszó vagy a "
-#~ "jelszó nem érhető el a cron számára."
-
-#~ msgid "Create a new encrypted directory?"
-#~ msgstr "Létrehoz egy új titkosított könyvtárat?"
-
-#~ msgid "Encryption Transition (EncFS)"
-#~ msgstr "Titkosítási átmenet (EncFS)"
-
-#~ msgid "It must be empty to use encryption."
-#~ msgstr "Üresnek kell lennie a titkosítás használatához."
-
-#~ msgid "Local (EncFS encrypted)"
-#~ msgstr "Helyi (EncFS-sel titkosított)"
-
-#, python-brace-format
-#~ msgid "Mountpoint {mntpoint} not empty."
-#~ msgstr "A(z) {mntpoint} csatolási pont nem üres."
-
-#~ msgid "Please re-enter the EncFS password to confirm."
-#~ msgstr "Adja meg újra az EncFS jelszót a megerősítéshez."
-
-#~ msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
-#~ msgstr "Ellenőrizze ezt az ujjlenyomatot! Hozzáadja a „known_hosts” fájlhoz?"
-
-#~ msgid "Proceed with copying the SSH key?"
-#~ msgstr "Folytatja az SSH-kulcs másolásával?"
-
-#, python-brace-format
-#~ msgid "Remote host {host} doesn't support {command}"
-#~ msgstr "A(z) {host} távoli kiszolgáló nem támogatja a(z) {command} parancsot"
-
-#~ msgid "Remote path is not executable."
-#~ msgstr "A távoli útvonal nem futtatható."
-
-#~ msgid "Remote path is not writable."
-#~ msgstr "A távoli útvonal nem írható."
-
-#~ msgid "Shows the message about EncFS removal again."
-#~ msgstr "Ismét megjeleníti az EncFS eltávolításával kapcsolatos üzenetet."
-
-#~ msgid "The EncFS passwords do not match."
-#~ msgstr "Az EncFS jelszavak nem egyeznek."
-
-#, python-brace-format
-#~ msgid "The authenticity of host {host} can't be established."
-#~ msgstr "A(z) {host} kiszolgáló hitelességét nem lehet megállapítani."
-
-#~ msgid ""
-#~ "The public SSH key could not be copied. This may be due to a connection or "
-#~ "permission issue."
-#~ msgstr ""
-#~ "A nyilvános SSH-kulcsot nem sikerült átmásolni. Ez kapcsolati vagy "
-#~ "jogosultsági probléma miatt lehet."
-
-#~ msgid "This is NOT a backup but a live view of the local files."
-#~ msgstr "Ez NEM biztonsági mentés, hanem a helyi fájlok élő nézete."
-
-#~ msgid ""
-#~ "To enable password-less login, the public SSH key can be copied to the "
-#~ "remote host."
-#~ msgstr ""
-#~ "A jelszó nélküli bejelentkezés engedélyezéséhez a nyilvános SSH-kulcs "
-#~ "átmásolható a távoli kiszolgálóra."
-
-#, python-brace-format
-#~ msgid "Unable to mount \"{command}\""
-#~ msgstr "Nem lehet csatolni a(z) „{command}” parancsot"
-
-#, python-brace-format
-#~ msgid "Unable to mount {sshfs}"
-#~ msgstr "Nem lehet csatolni: {sshfs}"
-
-#, python-brace-format
-#~ msgid "Unable to unmount {mountprocess} from {mountpoint}."
-#~ msgstr ""
-#~ "Nem lehet leválasztani a(z) {mountprocess} folyamatot a(z) {mountpoint} "
-#~ "csatolási pontról."
-
-#~ msgid ""
-#~ "Warning: If disabled and the remote host does not support all necessary "
-#~ "commands, this could lead to some weird errors."
-#~ msgstr ""
-#~ "Figyelmeztetés: ha le van tiltva és a távoli kiszolgáló nem támogatja az "
-#~ "összes szükséges parancsot, akkor ez néhány furcsa hibához vezethet."
-
-#~ msgid ""
-#~ "Warning: If disabled and the remote host is not available, this could lead "
-#~ "to some weird errors."
-#~ msgstr ""
-#~ "Figyelmeztetés: ha le van tiltva és a távoli kiszolgáló nem érhető el, akkor"
-#~ " ez néhány furcsa hibához vezethet."
-
-#~ msgid "decode paths"
-#~ msgstr "útvonalak visszafejtése"
-
-#, python-brace-format
-#~ msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
-#~ msgstr ""
-#~ "A(z) {command} nem található. Telepítse (például ezzel: „{installcommand}”)"
-
-#, python-brace-format
-#~ msgid "{keytype} key fingerprint is:"
-#~ msgstr "A(z) {keytype}-kulcs ujjlenyomata:"
 # REUSE-IgnoreEnd

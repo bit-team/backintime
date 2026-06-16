@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-06-14 15:13+0200\n"
+"POT-Creation-Date: 2026-06-16 20:33+0200\n"
 "PO-Revision-Date: 2026-04-10 19:57+0000\n"
 "Last-Translator: constantinosd <constantinosd@noreply.codeberg.org>\n"
 "Language-Team: Greek <https://translate.codeberg.org/projects/backintime/common/el/>\n"
@@ -40,62 +40,62 @@ msgstr ""
 "πνευματικών δικαιωμάτων ανά αρχείο χρησιμοποιώντας μεταδεδομένα SPDX, "
 "ανατρέξτε στο {readme_link}."
 
-#: common/config.py:38 common/tools.py:89 qt/encfsmsgbox.py:27
+#: common/config.py:37 common/tools.py:89 qt/encfsmsgbox.py:27
 #: qt/messagebox.py:99 qt/timeline.py:35
 msgid "Warning"
 msgstr "Προειδοποίηση"
 
-#: common/config.py:107 common/config.py:220
+#: common/config.py:107 common/config.py:160
 msgid "Main profile"
 msgstr "Κύριο Προφίλ"
 
-#: common/config.py:231
+#: common/config.py:171
 msgid "Local"
 msgstr "Τοπικό"
 
-#: common/config.py:237
+#: common/config.py:177
 msgid "Local encrypted"
 msgstr "Τοπικά κρυπτογραφημένο"
 
-#: common/config.py:238 common/config.py:251
+#: common/config.py:178 common/config.py:191
 #: qt/manageprofiles/tab_general.py:393
 msgid "Encryption"
 msgstr "Κρυπτογράφηση"
 
-#: common/config.py:243
+#: common/config.py:183
 msgid "SSH"
 msgstr "SSH"
 
-#: common/config.py:244 common/config.py:250
+#: common/config.py:184 common/config.py:190
 #: qt/manageprofiles/tab_general.py:745
 msgid "SSH private key"
 msgstr "Ιδιωτικό κλειδί SSH"
 
-#: common/config.py:249
+#: common/config.py:189
 #, fuzzy
 msgid "SSH encrypted"
 msgstr "SSH (EncFS κρυπτογραφημένο)"
 
-#: common/config.py:281 common/config.py:293 common/config.py:311
-#: common/config.py:325 common/config.py:346
+#: common/config.py:221 common/config.py:233 common/config.py:251
+#: common/config.py:265 common/config.py:286
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Προφίλ: \"{name}\""
 
-#: common/config.py:282
+#: common/config.py:222
 msgid "Backup directory is not valid."
 msgstr "Ο κατάλογος αντιγράφων ασφαλείας δεν είναι έγκυρος."
 
-#: common/config.py:294
+#: common/config.py:234
 msgid "At least one directory must be selected for backup."
 msgstr "Πρέπει να επιλεχτεί τουλάχιστον ένας φάκελος για αντίγραφα ασφαλείας."
 
-#: common/config.py:312 common/config.py:327
+#: common/config.py:252 common/config.py:267
 #, python-brace-format
 msgid "Directory: {path}"
 msgstr "Κατάλογος: {path}"
 
-#: common/config.py:313 common/config.py:328
+#: common/config.py:253 common/config.py:268
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
@@ -103,7 +103,7 @@ msgstr ""
 "Αυτός ο κατάλογος δεν μπορεί να συμπεριληφθεί στο αντίγραφο ασφαλείας, καθώς"
 " αποτελεί μέρος του ίδιου του προορισμού δημιουργίας αντιγράφων ασφαλείας."
 
-#: common/config.py:347
+#: common/config.py:287
 #, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
@@ -115,7 +115,7 @@ msgstr ""
 "μικρότερη ή ίση με το όριο για την επιλογή \"Προειδοποίηση εάν ο ελεύθερος "
 "χώρος στο δίσκο πέσει κάτω από\" ({val_two})."
 
-#: common/config.py:352
+#: common/config.py:292
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
@@ -123,16 +123,16 @@ msgstr ""
 "Παρακαλώ προσαρμόστε τις ρυθμίσεις έτσι ώστε το όριο κατάργησης αντιγράφων "
 "ασφαλείας να μην είναι υψηλότερο από το όριο προειδοποίησης."
 
-#: common/config.py:1480
+#: common/config.py:1420
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Ο χρονοπρογραμματισμός με Udev δεν δουλεύει με τη λειτουργία {mode}"
 
-#: common/config.py:1534
+#: common/config.py:1474
 msgid "Failed to write new crontab."
 msgstr "Αποτυχία εγγραφής νέου crontab."
 
-#: common/config.py:1542
+#: common/config.py:1482
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -155,21 +155,21 @@ msgstr "Αποτυχία αποθήκευσης της παραμετροποί�
 msgid "Failed to load config"
 msgstr "Αποτυχία φόρτωσης της παραμετροποίησης"
 
-#: common/configfile.py:689 common/configfile.py:789
+#: common/configfile.py:654 common/configfile.py:754
 #, python-brace-format
 msgid "Profile \"{name}\" already exists."
 msgstr "Το προφίλ \"{name}\" υπάρχει ήδη."
 
-#: common/configfile.py:735
+#: common/configfile.py:700
 msgid "The last profile cannot be removed."
 msgstr "Το τελευταίο προφίλ δεν μπορεί να αφαιρεθεί."
 
-#: common/mount/_backends.py:88
+#: common/mount/_backends.py:88 common/snapshots.py:957
 #, fuzzy
 msgid "Can't find backup destination directory."
 msgstr "Δεν είναι δυνατή η εύρεση του καταλόγου αντιγράφων ασφαλείας.."
 
-#: common/mount/_backends.py:90 common/snapshots.py:962
+#: common/mount/_backends.py:90 common/snapshots.py:961
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Εάν βρίσκεται σε αφαιρούμενη μονάδα δίσκου, συνδέστε την."
 
@@ -274,7 +274,7 @@ msgstr ""
 
 #: common/mount/_encryptors.py:286
 #, python-brace-format
-msgid "Mointpoint as decrypted view is missing. Path: {path}"
+msgid "Mountpoint as decrypted view is missing. Path: {path}"
 msgstr ""
 
 #: common/mount/_encryptors.py:338
@@ -332,7 +332,7 @@ msgstr "ΑΠΟΤΥΧΙΑ"
 msgid "Restore permissions"
 msgstr "Επαναφορά δικαιωμάτων"
 
-#: common/snapshots.py:656 qt/app.py:210 qt/app.py:1193 qt/app.py:1219
+#: common/snapshots.py:656 qt/app.py:210 qt/app.py:1203 qt/app.py:1229
 #: qt/qtsystrayicon.py:119
 msgid "Done"
 msgstr "Ολοκληρώθηκε"
@@ -349,10 +349,6 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "Αναβολή του backup όσο το σύστημα βρίσκεται σε μπαταρία"
 
-#: common/snapshots.py:958
-msgid "Can't find backup directory."
-msgstr "Δεν είναι δυνατή η εύρεση του καταλόγου αντιγράφων ασφαλείας.."
-
 #: common/snapshots.py:965
 #, python-brace-format
 msgid "Waiting {n} second."
@@ -360,109 +356,108 @@ msgid_plural "Waiting {n} seconds."
 msgstr[0] "Αναμονή {n} δευτερόλεπτο."
 msgstr[1] "Αναμονή {n} δευτερόλεπτα."
 
-#: common/snapshots.py:1038
+#: common/snapshots.py:1039
 #, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Αποτυχία δημηιουργίας αντιγράφου ασφαλείας {snapshot_id}."
 
-#: common/snapshots.py:1070
+#: common/snapshots.py:1071
 msgid "Please be patient. Finalizing…"
 msgstr "Παρακαλώ να είστε υπομονετικοί. Οριστικοποίηση…"
 
-#: common/snapshots.py:1162
+#: common/snapshots.py:1163
 msgid "Take snapshot"
 msgstr "Λήψη στιγμιότυπου"
 
-#: common/snapshots.py:1197
+#: common/snapshots.py:1198
 msgid "Can't create directory."
 msgstr "Δεν είναι δυνατή η δημιουργία καταλόγου."
 
-#: common/snapshots.py:1213
+#: common/snapshots.py:1214
 msgid "Saving config file…"
 msgstr "Αποθήκευση αρχείου ρυθμίσεων…"
 
-#: common/snapshots.py:1261
+#: common/snapshots.py:1262
 msgid "Saving permissions…"
 msgstr "Αποθήκευση δικαιωμάτων…"
 
-#: common/snapshots.py:1376
+#: common/snapshots.py:1377
 #, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr ""
 "Βρέθηκε ένα μη ολοκληρωμένο αντίγραφο ασφαλείας {snapshot_id} του οποίου η "
 "δημιουργία μπορεί να συνεχιστεί."
 
-#: common/snapshots.py:1400
+#: common/snapshots.py:1401
 #, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr ""
 "Αφαίρεση του ελλιπούς καταλόγου {snapshot_id} από την τελευταία εκτέλεση"
 
-#: common/snapshots.py:1411
+#: common/snapshots.py:1412
 msgid "Can't remove directory"
 msgstr "Αδυναμία αφαίρεσης καταλόγου"
 
-#: common/snapshots.py:1475
+#: common/snapshots.py:1476
 msgid "Creating backup"
 msgstr "Δημιουργία αντιγράφων ασφαλείας"
 
-#: common/snapshots.py:1526
+#: common/snapshots.py:1527
 msgid "Success"
 msgstr "Επιτυχία"
 
-#: common/snapshots.py:1529
+#: common/snapshots.py:1530
 msgid "Partial transfer due to error"
 msgstr "Μερική μεταφορά λόγω σφάλματος"
 
-#: common/snapshots.py:1530
+#: common/snapshots.py:1531
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "Μερική μεταφορά λόγω εξαφανισμένων αρχείων πηγής (δείτε 'man rsync')"
 
-#: common/snapshots.py:1534
+#: common/snapshots.py:1535
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "Η διεργασία 'rsync' τελείωσε με κωδικό {exit_code}"
 
-#: common/snapshots.py:1547
+#: common/snapshots.py:1548
 msgid "See 'man rsync' for more details"
 msgstr "Δείτε το 'man rsync' για περισσότερες λεπτομέρειες"
 
-#: common/snapshots.py:1554
+#: common/snapshots.py:1555
 msgid ""
-"Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
+"Negative exit codes indicate termination by a signal. The number corresponds"
+" to the signal (see 'kill -l')."
 msgstr ""
-"Οι αρνητικοί αριθμοί ως κωδικοί εξόδου του rsync είναι αριθμοί σήματος, "
-"δείτε 'kill -l' και 'man kill'"
 
-#: common/snapshots.py:1575
+#: common/snapshots.py:1578
 msgid "Nothing changed, no new backup necessary"
 msgstr "Δεν άλλαξε τίποτα, δεν χρειάζεται νέο αντίγραφο ασφαλείας"
 
-#: common/snapshots.py:1619
+#: common/snapshots.py:1622
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "Αδυναμία μετονομασίας {new_path} σε {path}."
 
-#: common/snapshots.py:2019
+#: common/snapshots.py:2022
 msgid "Applying rules to remove old backups"
 msgstr "Εφαρμογή κανόνων για την κατάργηση παλιών αντιγράφων ασφαλείας"
 
-#: common/snapshots.py:2056
+#: common/snapshots.py:2059
 msgid "Applying retention policy"
 msgstr "Εφαρμόστε πολιτική διατήρησης"
 
-#: common/snapshots.py:2066
+#: common/snapshots.py:2069
 msgid "Trying to keep min free space"
 msgstr "Προσπάθεια διατήρησης ελάχιστου ελεύθερου χώρου"
 
-#: common/snapshots.py:2109
+#: common/snapshots.py:2112
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr ""
 "Προσπαάθεια διατήρησης ελάχιστου ποσοστού {perc} ελεύθερων συστημάτων "
 "αρχείου (inodes)"
 
-#: common/snapshots.py:3303 qt/app.py:1536 qt/timeline.py:410
+#: common/snapshots.py:3306 qt/app.py:1546 qt/timeline.py:410
 msgid "Now"
 msgstr "Τώρα"
 
@@ -495,7 +490,7 @@ msgstr ""
 
 #: common/sshsetupvalidator.py:309
 #, fuzzy
-msgid "Faild to add SSH key."
+msgid "Failed to add SSH key."
 msgstr "Αποτυχία δημιουργίας νέου κλειδιού SSH στο {path}."
 
 #: common/sshsetupvalidator.py:331
@@ -654,15 +649,15 @@ msgstr ""
 "Ακολουθήστε {thislink} για να λάβετε έπαινους μεταφραστή για όλες τις "
 "γλώσσες."
 
-#: qt/aboutdlg.py:240 qt/app.py:574
+#: qt/aboutdlg.py:240 qt/app.py:584
 msgid "Project website"
 msgstr "Ιστοσελίδα του έργου"
 
-#: qt/aboutdlg.py:245 qt/app.py:556
+#: qt/aboutdlg.py:245 qt/app.py:566
 msgid "User manual"
 msgstr "Εγχειρίδιο χρήστη"
 
-#: qt/aboutdlg.py:247 qt/app.py:558
+#: qt/aboutdlg.py:247 qt/app.py:568
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
 "Ανοίξτε το εγχειρίδιο χρήστη στο πρόγραμμα περιήγησης (τοπικά εάν είναι "
@@ -703,166 +698,166 @@ msgstr ""
 msgid "Import"
 msgstr "Εισαγωγή"
 
-#: qt/app.py:495
+#: qt/app.py:505
 msgid "Create a backup"
 msgstr "Δημιουργήστε ένα αντίγραφο ασφαλείας"
 
-#: qt/app.py:497
+#: qt/app.py:507
 msgid "Use modification time & size for file change detection."
 msgstr "Χρήση ώρας τροποποίησης και μεγέθους, για ανίχνευση αλλαγής αρχείου."
 
-#: qt/app.py:500
+#: qt/app.py:510
 msgid "Create a backup (checksum mode)"
 msgstr "Δημιουργία αντιγράφου ασφαλείας (λειτουργία ελέγχου αθροίσματος)"
 
-#: qt/app.py:502
+#: qt/app.py:512
 msgid "Use checksums for file change detection."
 msgstr "Χρήση των checksum για ανίχνευση αλλαγών αρχείου."
 
-#: qt/app.py:504 qt/qtsystrayicon.py:126
+#: qt/app.py:514 qt/qtsystrayicon.py:126
 msgid "Pause backup process"
 msgstr "Παύση της διαδικασίας δημιουργίας αντιγράφων ασφαλείας"
 
-#: qt/app.py:508 qt/qtsystrayicon.py:131
+#: qt/app.py:518 qt/qtsystrayicon.py:131
 msgid "Resume backup process"
 msgstr "Συνέχιση της διαδικασίας δημιουργίας αντιγράφων ασφαλείας"
 
-#: qt/app.py:512 qt/qtsystrayicon.py:136
+#: qt/app.py:522 qt/qtsystrayicon.py:136
 msgid "Stop backup process"
 msgstr "Διακοπή της διαδικασίας δημιουργίας αντιγράφων ασφαλείας"
 
-#: qt/app.py:516
+#: qt/app.py:526
 msgid "Refresh backup list"
 msgstr "Ανανέωση λίστας αντιγράφων ασφαλείας"
 
-#: qt/app.py:520
+#: qt/app.py:530
 msgid "Name backup"
 msgstr "Όνομα αντίγραφου ασφαλείας"
 
-#: qt/app.py:524
+#: qt/app.py:534
 msgid "Remove backup"
 msgstr "Κατάργηση αντιγράφου ασφαλείας"
 
-#: qt/app.py:528
+#: qt/app.py:538
 msgid "Open backup log"
 msgstr "Άνοιγμα αρχείου καταγραφής αντιγράφων ασφαλείας"
 
-#: qt/app.py:530
+#: qt/app.py:540
 msgid "View log of the selected backup."
 msgstr "Προβολή αρχείου καταγραφής του επιλεγμένου αντιγράφου ασφαλείας."
 
-#: qt/app.py:532
+#: qt/app.py:542
 msgid "Open last backup log"
 msgstr "Άνοιγμα αρχείου καταγραφής τελευταίου αντιγράφου ασφαλείας"
 
-#: qt/app.py:534
+#: qt/app.py:544
 msgid "View log of the latest backup."
 msgstr "Δείτε το αρχείο καταγραφής του τελευταίου αντιγράφου ασφαλείας."
 
-#: qt/app.py:536
+#: qt/app.py:546
 msgid "Manage profiles…"
 msgstr "Διαχείριση προφιλ…"
 
-#: qt/app.py:540
+#: qt/app.py:550
 msgid "Edit user-callback"
 msgstr "Επεξεργασία επανάκλησης χρήστη"
 
-#: qt/app.py:544
+#: qt/app.py:554
 msgid "Shutdown"
 msgstr "Τερματισμός"
 
-#: qt/app.py:546
+#: qt/app.py:556
 msgid "Shut down system after backup has finished."
 msgstr ""
 "Τερματίστε τη λειτουργία του συστήματος μετά την ολοκλήρωση της δημιουργίας "
 "αντιγράφων ασφαλείας."
 
-#: qt/app.py:548
+#: qt/app.py:558
 msgid "Setup language…"
 msgstr "Καθορισμός γλώσσας…"
 
-#: qt/app.py:552
+#: qt/app.py:562
 msgid "Exit"
 msgstr "Έξοδος"
 
-#: qt/app.py:562
+#: qt/app.py:572
 msgid "man page: Back In Time"
 msgstr "man page: Back In Time"
 
-#: qt/app.py:564
+#: qt/app.py:574
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "Εμφανίζει τη σελίδα χρήστη σχετικά με το Back In Time (backintime)"
 
-#: qt/app.py:567
+#: qt/app.py:577
 msgid "man page: Profiles config file"
 msgstr "man page: Αρχείο διαμόρφωσης προφίλ"
 
-#: qt/app.py:570
+#: qt/app.py:580
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 "Εμφανίζει τη σελίδα χρήστη σχετικά με το αρχείο διαμόρφωσης προφίλ "
 "(backintime-config)"
 
-#: qt/app.py:577
+#: qt/app.py:587
 msgid "Open Back In Time website in browser"
 msgstr "Ανοίξτε τον ιστότοπο Back In Time στο πρόγραμμα περιήγησης"
 
-#: qt/app.py:579 qt/app.py:2327
+#: qt/app.py:589 qt/app.py:2337
 msgid "Changelog"
 msgstr "Αρχείο αλλαγών"
 
-#: qt/app.py:582
+#: qt/app.py:592
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr ""
 "Ανοίξτε το εγχειρίδιο χρήστη στο πρόγραμμα περιήγησης (τοπικά εάν είναι "
 "διαθέσιμο, διαφορετικά στο διαδίκτυο)"
 
-#: qt/app.py:585
+#: qt/app.py:595
 msgid "FAQ"
 msgstr "Συχνές Ερωτήσεις"
 
-#: qt/app.py:587
+#: qt/app.py:597
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "Ανοίξτε τις Συχνές Ερωτήσεις (FAQ) στο πρόγραμμα περιήγησης"
 
-#: qt/app.py:589
+#: qt/app.py:599
 msgid "Ask a question"
 msgstr "Κάνε μια ερώτηση"
 
-#: qt/app.py:593
+#: qt/app.py:603
 msgid "Report a bug"
 msgstr "Αναφορά προβλήματος"
 
-#: qt/app.py:596
+#: qt/app.py:606
 msgid "Translation"
 msgstr "Μετάφραση"
 
-#: qt/app.py:598
+#: qt/app.py:608
 msgid "Shows the message about participation in translation again."
 msgstr "Εμφανίζει ξανά το μήνυμα σχετικά με τη συμμετοχή στη μετάφραση."
 
-#: qt/app.py:608
+#: qt/app.py:618
 msgid "About"
 msgstr "Σχετικά"
 
-#: qt/app.py:611 qt/restoredialog.py:46 qt/snapshotsdialog.py:183
+#: qt/app.py:621 qt/restoredialog.py:46 qt/snapshotsdialog.py:183
 #: qt/snapshotsdialog.py:188
 msgid "Restore"
 msgstr "Επαναφορά"
 
-#: qt/app.py:613
+#: qt/app.py:623
 msgid "Restore the selected files or directories to the original location."
 msgstr "Επανέφερε τα επιλεγμένα αρχεία ή φακέλους στον αρχικό τους προορισμό."
 
-#: qt/app.py:616 qt/app.py:1963 qt/snapshotsdialog.py:185
+#: qt/app.py:626 qt/app.py:1973 qt/snapshotsdialog.py:185
 msgid "Restore to …"
 msgstr "Επαναφορά στο…"
 
-#: qt/app.py:618
+#: qt/app.py:628
 msgid "Restore the selected files or directories to a new location."
 msgstr "Επανέφερε τα επιλεγμένα αρχεία ή φακέλους σε ένα νέο προορισμό."
 
-#: qt/app.py:624
+#: qt/app.py:634
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
@@ -870,7 +865,7 @@ msgstr ""
 "Επαναφορά του τρέχοντος εμφανιζόμενου φακέλου και όλων των περιεχομένων του,"
 " στον αρχικό προορισμό."
 
-#: qt/app.py:630
+#: qt/app.py:640
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
@@ -878,83 +873,83 @@ msgstr ""
 "Επανέφερε τον τρέχοντα εμφανιζόμενο φάκελο και όλα τα περιεχόμενα του σε ένα"
 " νέο προορισμό."
 
-#: qt/app.py:633
+#: qt/app.py:643
 msgid "Up"
 msgstr "Επάνω"
 
-#: qt/app.py:636
+#: qt/app.py:646
 msgid "Show hidden files"
 msgstr "Προβολή κρυφών αρχείων"
 
-#: qt/app.py:639
+#: qt/app.py:649
 msgid "Compare backups…"
 msgstr "Σύγκριση αντιγράφων ασφαλείας…"
 
-#: qt/app.py:669 qt/app.py:1805
+#: qt/app.py:679 qt/app.py:1815
 msgid "Release Candidate"
 msgstr "Απελευθέρωση υποψηφίου"
 
-#: qt/app.py:672
+#: qt/app.py:682
 msgid "Shows the message about this Release Candidate again."
 msgstr "Εμφανίζει ξανά το μήνυμα για αυτόν τον υποψήφιο έκδοσης."
 
-#: qt/app.py:709
+#: qt/app.py:719
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:714
+#: qt/app.py:724
 msgid "&Backup"
 msgstr "&Backup"
 
-#: qt/app.py:726
+#: qt/app.py:736
 msgid "&Restore"
 msgstr "&Eπαναφορά"
 
-#: qt/app.py:732
+#: qt/app.py:742
 msgid "&Help"
 msgstr "&Βοήθεια"
 
-#: qt/app.py:782
+#: qt/app.py:792
 msgid "Systray Icon"
 msgstr ""
 
-#: qt/app.py:788
+#: qt/app.py:798
 msgid "Automatic"
 msgstr "Αυτόματα"
 
-#: qt/app.py:792
+#: qt/app.py:802
 msgid "Light icon"
 msgstr "Φωτεινό εικονίδιο"
 
-#: qt/app.py:793
+#: qt/app.py:803
 msgid "Dark icon"
 msgstr "Σκοτεινό εικονίδιο"
 
-#: qt/app.py:816
+#: qt/app.py:826
 msgid "Icons only"
 msgstr "Μόνο εικονίδια"
 
-#: qt/app.py:819
+#: qt/app.py:829
 msgid "Text only"
 msgstr "Κείμενο μόνο"
 
-#: qt/app.py:822
+#: qt/app.py:832
 msgid "Text below icons"
 msgstr "Κείμενο κάτω από τα εικονίδια"
 
-#: qt/app.py:825
+#: qt/app.py:835
 msgid "Text beside icon"
 msgstr "Κείμενο δίπλα στο εικονίδιο"
 
-#: qt/app.py:951
+#: qt/app.py:961
 msgid "This directory doesn't exist in the selected backup."
 msgstr "Αυτός ο κατάλογος δεν υπάρχει στο επιλεγμένο αντίγραφο ασφαλείας."
 
-#: qt/app.py:954
+#: qt/app.py:964
 msgid "This directory doesn't exist on the computer."
 msgstr "Αυτός ο κατάλογος δεν υπάρχει στον ηλεκτρονικό υπολογιστή."
 
-#: qt/app.py:1003
+#: qt/app.py:1013
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
@@ -963,57 +958,57 @@ msgstr ""
 "τερματίσει τη λειτουργία του συστήματός σας όταν ολοκληρωθεί η δημιουργία "
 "αντιγράφων ασφαλείας."
 
-#: qt/app.py:1006
+#: qt/app.py:1016
 msgid "Close the window anyway?"
 msgstr "Να κλείσω το παράθυρο ούτως ή άλλως;"
 
-#: qt/app.py:1097 qt/app.py:1104
+#: qt/app.py:1107 qt/app.py:1114
 msgid "Backup destination unavailable"
 msgstr ""
 
-#: qt/app.py:1222
+#: qt/app.py:1232
 msgid "Done, no backup needed"
 msgstr "Ολοκληρώθηκε, δεν χρειάζεται backup"
 
-#: qt/app.py:1293
+#: qt/app.py:1303
 msgid "Working:"
 msgstr "Εργασία:"
 
-#: qt/app.py:1300
+#: qt/app.py:1310
 msgid "Working"
 msgstr "Εργασία"
 
-#: qt/app.py:1306 qt/messagebox.py:136
+#: qt/app.py:1316 qt/messagebox.py:136
 msgid "Error"
 msgstr "Σφάλμα"
 
-#: qt/app.py:1347 qt/qtsystrayicon.py:282
+#: qt/app.py:1357 qt/qtsystrayicon.py:282
 msgid "Sent:"
 msgstr "Απεσταλμένα:"
 
-#: qt/app.py:1348 qt/qtsystrayicon.py:283
+#: qt/app.py:1358 qt/qtsystrayicon.py:283
 msgid "Speed:"
 msgstr "Ταχύτητα:"
 
-#: qt/app.py:1349 qt/qtsystrayicon.py:284
+#: qt/app.py:1359 qt/qtsystrayicon.py:284
 msgid "ETA:"
 msgstr "ΕΧΑ:"
 
-#: qt/app.py:1544
+#: qt/app.py:1554
 msgid "Backup:"
 msgstr "Αντίγραφα ασφαλείας:"
 
-#: qt/app.py:1644
+#: qt/app.py:1654
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Επαναφορά {path}"
 
-#: qt/app.py:1646
+#: qt/app.py:1656
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Επαναφορά {path} στο…"
 
-#: qt/app.py:1670
+#: qt/app.py:1680
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -1030,49 +1025,49 @@ msgstr ""
 "Μας συγχωρείς για την διακοπή, και αυτό το μήνυμα δεν θα εμφανιστεί ξανά. Αυτή η ενημέρωση είναι διαθέσιμη οπότε θελήσεις μέσα απο το μενού help.\n"
 "H ομάδα του Back In Time"
 
-#: qt/app.py:1699
+#: qt/app.py:1709
 msgid "translation platform"
 msgstr "πλατφόρμα μετάφρασης"
 
-#: qt/app.py:1704
+#: qt/app.py:1714
 msgid "Website"
 msgstr "Ιστοσελίδα"
 
-#: qt/app.py:1718
+#: qt/app.py:1728
 msgid "Your translation"
 msgstr "Η μετάφρασή σου"
 
-#: qt/app.py:1755
+#: qt/app.py:1765
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Στο Fediverse στο Mastodon: {link_and_label}."
 
-#: qt/app.py:1760
+#: qt/app.py:1770
 #, fuzzy, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "Λίστα αλληλογραφίας {link_and_label}."
 
-#: qt/app.py:1764
+#: qt/app.py:1774
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "Λίστα αλληλογραφίας {link_and_label}."
 
-#: qt/app.py:1768
+#: qt/app.py:1778
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} στην ιστοσελίδα του έργου."
 
-#: qt/app.py:1771
+#: qt/app.py:1781
 msgid "Open an issue"
 msgstr "Άνοιξε ένα ζήτημα"
 
-#: qt/app.py:1772
+#: qt/app.py:1782
 msgid "Alternatively, you can use another channel of your choice."
 msgstr ""
 "Εναλλακτικά, μπορείς να χρησιμοποιήσεις εναλλακτικό κανάλι επικοινωνίας της "
 "επιλογής σου."
 
-#: qt/app.py:1777
+#: qt/app.py:1787
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -1093,17 +1088,17 @@ msgstr ""
 "Σας ευχαριστούμε για την υποστήριξη και για την βοήθεια να εξελίξουμε το Back In Time!\n"
 "Η δική σου ομάδα του Back In Time"
 
-#: qt/app.py:1869
+#: qt/app.py:1879
 msgid "Check if remote host is online"
 msgstr "Ελέγξτε εάν ο απομακρυσμένος κεντρικός υπολογιστής είναι συνδεδεμένος"
 
-#: qt/app.py:1870
+#: qt/app.py:1880
 msgid "Check if remote host supports all necessary commands."
 msgstr ""
 "Ελέγξτε εάν ο απομακρυσμένος κεντρικός υπολογιστής υποστηρίζει όλες τις "
 "απαραίτητες εντολές."
 
-#: qt/app.py:1913
+#: qt/app.py:1923
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
@@ -1112,23 +1107,23 @@ msgstr ""
 "Μόνο {free} ελεύθερος χώρος διαθέσιμος στον προορισμό, ο οποίος είναι κάτω "
 "από το διαμορφωμένο όριο {threshold}."
 
-#: qt/app.py:1918
+#: qt/app.py:1928
 msgid "Proceed with the backup?"
 msgstr "Συνέχεια με τη δημιουργία αντιγράφων ασφαλείας;"
 
-#: qt/app.py:1943
+#: qt/app.py:1953
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr ""
 "Όλα τα νεότερα αρχεία στη {path} θα καταργηθούν. Θέλετε να συνεχίσετε;"
 
-#: qt/app.py:1946
+#: qt/app.py:1956
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 "Όλα τα νεότερα αρχεία στον αρχικό κατάλογο θα καταργηθούν. Θέλετε να "
 "συνεχίσετε;"
 
-#: qt/app.py:1952
+#: qt/app.py:1962
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -1137,17 +1132,17 @@ msgstr ""
 "{BOLD}Προειδοποίηση{BOLDEND}: Η διαγραφή αρχείων στη ρίζα του συστήματος "
 "αρχείων θα μπορούσε να προκαλέσει βλάβη σε ολόκληρο το σύστημα."
 
-#: qt/app.py:2189
+#: qt/app.py:2199
 msgid "Backup name"
 msgstr "Όνομα αντιγράφου ασφαλείας"
 
-#: qt/app.py:2221
+#: qt/app.py:2231
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "Κατάργηση αυτού του αντιγράφου ασφαλείας;"
 msgstr[1] "Να καταργηθούν αυτά τα αντίγραφα ασφαλείας;"
 
-#: qt/app.py:2288
+#: qt/app.py:2298
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "Η επιλογή γλώσσας ενεργοποιείται έπειτα από επανεκκίνηση του Back In Time."
@@ -2702,139 +2697,4 @@ msgstr "Τελευταίος έλεγχος {time}"
 #: qt/timeline.py:407
 msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
-
-#~ msgid ""
-#~ "An error occurred while attempting to log in to the remote host. The "
-#~ "following error message was returned:"
-#~ msgstr ""
-#~ "Παρουσιάστηκε σφάλμα κατά την προσπάθεια σύνδεσης στον απομακρυσμένο "
-#~ "υπολογιστή. Επιστράφηκε το ακόλουθο μήνυμα σφάλματος:"
-
-#~ msgid "Cancel"
-#~ msgstr "Ακύρωση"
-
-#, python-brace-format
-#~ msgid "Checking commands on host {host} returned unknown error"
-#~ msgstr ""
-#~ "Οι εντολές ελέγχου στον διακομιστή {host} επέστρεψαν ένα άγνωστο σφάλμα"
-
-#~ msgid "Configuration for the encrypted directory not found."
-#~ msgstr "Η παραμετροποίηση για κρυπτογραφημένο φάκελο δεν βρέθηκε."
-
-#~ msgid ""
-#~ "Could not unlock ssh private key. Wrong password or password not available "
-#~ "for cron."
-#~ msgstr ""
-#~ "Δεν ήταν δυνατό το ξεκλείδωμα του ιδιωτικού κλειδιού SSH. Λάθος κωδικός ή "
-#~ "δεν υπάρχει διαθέσιμος κωδικός για cron."
-
-#~ msgid "Create a new encrypted directory?"
-#~ msgstr "Δημιουργία νέου κρυπτογραφημένου φακέλου;"
-
-#~ msgid "Encryption Transition (EncFS)"
-#~ msgstr "Μετάβαση κρυπτογράφησης (EncFS)"
-
-#~ msgid "It must be empty to use encryption."
-#~ msgstr "Πρέπει να είναι άδειο για να χρησιμοποιηθεί κρυπτογράφηση."
-
-#~ msgid "Local (EncFS encrypted)"
-#~ msgstr "Τοπικό (EncFS κρυπτογραφημένο)"
-
-#, python-brace-format
-#~ msgid "Mountpoint {mntpoint} not empty."
-#~ msgstr "Το σημείο προσάρτησης {mntpoint} δεν είναι κενό."
-
-#~ msgid "Please re-enter the EncFS password to confirm."
-#~ msgstr "Παρακαλώ εισάγετε ξανά τον κωδικό πρόσβασης EncFS για επιβεβαίωση."
-
-#~ msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
-#~ msgstr ""
-#~ "Επαληθεύστε αυτό το δακτυλικό αποτύπωμα. Θέλετε να το προσθέσετε στο αρχείο "
-#~ "'known_hosts';"
-
-#~ msgid "Proceed with copying the SSH key?"
-#~ msgstr "Να γίνει αντιγραφή του κλειδιού SSH;"
-
-#, python-brace-format
-#~ msgid "Remote host {host} doesn't support {command}"
-#~ msgstr ""
-#~ "Ο απομακρυσμένος διακομιστής {host} δεν υποστηρίζει την εντολή {command}"
-
-#~ msgid "Remote path is not executable."
-#~ msgstr "Η απομακρυσμένη διαδρομή δεν είναι εκτελέσιμη."
-
-#~ msgid "Remote path is not writable."
-#~ msgstr "Η απομακρυσμένη διαδρομή δεν είναι εγγράψιμη."
-
-#~ msgid "Shows the message about EncFS removal again."
-#~ msgstr "Εμφανίζει ξανά το μήνυμα σχετικά με την αφαίρεση του EncFS."
-
-#~ msgid "The EncFS passwords do not match."
-#~ msgstr "Οι κωδικοί πρόσβασης του EncFS δεν ταιριάζουν."
-
-#, python-brace-format
-#~ msgid "The authenticity of host {host} can't be established."
-#~ msgstr ""
-#~ "Η αυθεντικότητα του απομακρυσμένου υπολογιστή {host} δεν μπορεί να "
-#~ "εξακριβωθεί."
-
-#~ msgid ""
-#~ "The public SSH key could not be copied. This may be due to a connection or "
-#~ "permission issue."
-#~ msgstr ""
-#~ "Το δημόσιο κλειδί SSH δεν ήταν δυνατό να αντιγραφεί. Αυτό μπορεί να "
-#~ "οφείλεται σε πρόβλημα σύνδεσης ή δικαιωμάτων."
-
-#~ msgid "This is NOT a backup but a live view of the local files."
-#~ msgstr ""
-#~ "Αυτό ΔΕΝ είναι αντίγραφο ασφαλείας, αλλά μια ζωντανή προβολή των τοπικών "
-#~ "αρχείων."
-
-#~ msgid ""
-#~ "To enable password-less login, the public SSH key can be copied to the "
-#~ "remote host."
-#~ msgstr ""
-#~ "Για να ενεργοποιηθεί η σύνδεση χωρίς κωδικό, το δημόσιο κλειδί SSH μπορεί να"
-#~ " αντιγραφεί στον απομακρυσμένο υπολογιστή."
-
-#, python-brace-format
-#~ msgid "Unable to mount \"{command}\""
-#~ msgstr "Αδυναμία προσάρτησης '{command}'"
-
-#, python-brace-format
-#~ msgid "Unable to mount {sshfs}"
-#~ msgstr "Αδυναμία προσάρτησης {sshfs}"
-
-#, python-brace-format
-#~ msgid "Unable to unmount {mountprocess} from {mountpoint}."
-#~ msgstr "Αδυναμία αποπροσάρτησης {mountprocess} από το {mountpoint}."
-
-#~ msgid ""
-#~ "Warning: If disabled and the remote host does not support all necessary "
-#~ "commands, this could lead to some weird errors."
-#~ msgstr ""
-#~ "Προειδοποίηση: Εάν είναι απενεργοποιημένο και ο απομακρυσμένος κεντρικός "
-#~ "υπολογιστής δεν υποστηρίζει όλες τις απαραίτητες εντολές, αυτό θα μπορούσε "
-#~ "να οδηγήσει σε κάποια περίεργα σφάλματα."
-
-#~ msgid ""
-#~ "Warning: If disabled and the remote host is not available, this could lead "
-#~ "to some weird errors."
-#~ msgstr ""
-#~ "Προειδοποίηση: Εάν είναι απενεργοποιημένο και ο απομακρυσμένος κεντρικός "
-#~ "υπολογιστής δεν είναι διαθέσιμος, αυτό θα μπορούσε να οδηγήσει σε κάποια "
-#~ "περίεργα σφάλματα."
-
-#~ msgid "decode paths"
-#~ msgstr "αποκωδικοποίηση μονοπατιών"
-
-#, python-brace-format
-#~ msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
-#~ msgstr ""
-#~ "Δεν βρέθηκε το {command}. Παρακαλώ εγκαταστήστε το (π.χ. μέσω "
-#~ "\"{installcommand}\")"
-
-#, python-brace-format
-#~ msgid "{keytype} key fingerprint is:"
-#~ msgstr "Το αποτύπωμα κλειδιου {keytype} είναι:"
 # REUSE-IgnoreEnd

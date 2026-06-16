@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-06-14 15:13+0200\n"
+"POT-Creation-Date: 2026-06-16 20:33+0200\n"
 "PO-Revision-Date: 2026-05-02 14:57+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.codeberg.org/projects/backintime/common/pt_BR/>\n"
@@ -40,67 +40,67 @@ msgstr ""
 "{dir_link}. Para extrair as informações da licença e dos direitos autorais "
 "por arquivo utilize os metadados SPDX ou consulte {readme_link}."
 
-#: common/config.py:38 common/tools.py:89 qt/encfsmsgbox.py:27
+#: common/config.py:37 common/tools.py:89 qt/encfsmsgbox.py:27
 #: qt/messagebox.py:99 qt/timeline.py:35
 msgid "Warning"
 msgstr "Aviso"
 
-#: common/config.py:107 common/config.py:220
+#: common/config.py:107 common/config.py:160
 msgid "Main profile"
 msgstr "Perfil principal"
 
-#: common/config.py:231
+#: common/config.py:171
 msgid "Local"
 msgstr "Local"
 
-#: common/config.py:237
+#: common/config.py:177
 msgid "Local encrypted"
 msgstr "Criptografia local"
 
-#: common/config.py:238 common/config.py:251
+#: common/config.py:178 common/config.py:191
 #: qt/manageprofiles/tab_general.py:393
 msgid "Encryption"
 msgstr "Criptografia"
 
-#: common/config.py:243
+#: common/config.py:183
 msgid "SSH"
 msgstr "SSH"
 
-#: common/config.py:244 common/config.py:250
+#: common/config.py:184 common/config.py:190
 #: qt/manageprofiles/tab_general.py:745
 #, fuzzy
 msgid "SSH private key"
 msgstr "Chave privada do SSH"
 
-#: common/config.py:249
+#: common/config.py:189
 #, fuzzy
 msgid "SSH encrypted"
 msgstr "SSH (criptografado com o EncFS)"
 
-#: common/config.py:281 common/config.py:293 common/config.py:311
-#: common/config.py:325 common/config.py:346
+#: common/config.py:221 common/config.py:233 common/config.py:251
+#: common/config.py:265 common/config.py:286
 #, fuzzy, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Perfil: ‘{name}’"
 
-#: common/config.py:282
+#: common/config.py:222
 #, fuzzy
 msgid "Backup directory is not valid."
 msgstr "O diretório para a realizar a cópia de segurança não é válido."
 
-#: common/config.py:294
+#: common/config.py:234
 #, fuzzy
 msgid "At least one directory must be selected for backup."
 msgstr ""
 "Pelo menos um diretório precisa ser selecionado para realizar a cópia de "
 "segurança."
 
-#: common/config.py:312 common/config.py:327
+#: common/config.py:252 common/config.py:267
 #, python-brace-format
 msgid "Directory: {path}"
 msgstr "Diretório: {path}"
 
-#: common/config.py:313 common/config.py:328
+#: common/config.py:253 common/config.py:268
 #, fuzzy
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
@@ -109,7 +109,7 @@ msgstr ""
 "Este diretório não pode ser incluído para realizar a cópia de segurança, "
 "porque faz parte do próprio destino da cópia de segurança."
 
-#: common/config.py:347
+#: common/config.py:287
 #, fuzzy, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
@@ -120,7 +120,7 @@ msgstr ""
 " menor que’ {val_one} tem que ser menor ou igual ao limite para ‘Notificar "
 "se o espaço livre em disco estiver abaixo de’ {val_two}."
 
-#: common/config.py:352
+#: common/config.py:292
 #, fuzzy
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
@@ -129,17 +129,17 @@ msgstr ""
 "Por favor, ajuste as configurações para que o valor do limite da remoção da "
 "cópia de segurança não seja superior ao valor do limite da notificação."
 
-#: common/config.py:1480
+#: common/config.py:1420
 #, fuzzy, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "O agendamento do ‘udev’ não funciona com o modo ‘{mode}’"
 
-#: common/config.py:1534
+#: common/config.py:1474
 #, fuzzy
 msgid "Failed to write new crontab."
 msgstr "Ocorreu uma falha ao escrever um novo ‘crontab’."
 
-#: common/config.py:1542
+#: common/config.py:1482
 #, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
@@ -165,21 +165,21 @@ msgstr "Ocorreu uma falha ao salvar as configurações"
 msgid "Failed to load config"
 msgstr "Ocorreu uma falha ao carregar as configurações"
 
-#: common/configfile.py:689 common/configfile.py:789
+#: common/configfile.py:654 common/configfile.py:754
 #, fuzzy, python-brace-format
 msgid "Profile \"{name}\" already exists."
 msgstr "O perfil ‘{name}’ já existe."
 
-#: common/configfile.py:735
+#: common/configfile.py:700
 msgid "The last profile cannot be removed."
 msgstr "O último perfil não pode ser removido."
 
-#: common/mount/_backends.py:88
+#: common/mount/_backends.py:88 common/snapshots.py:957
 #, fuzzy
 msgid "Can't find backup destination directory."
 msgstr "Não foi possível encontrar o diretório da cópia de segurança."
 
-#: common/mount/_backends.py:90 common/snapshots.py:962
+#: common/mount/_backends.py:90 common/snapshots.py:961
 #, fuzzy
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Se você estiver em um dispositivo removível, por favor, conecte-o."
@@ -292,7 +292,7 @@ msgstr ""
 
 #: common/mount/_encryptors.py:286
 #, python-brace-format
-msgid "Mointpoint as decrypted view is missing. Path: {path}"
+msgid "Mountpoint as decrypted view is missing. Path: {path}"
 msgstr ""
 
 #: common/mount/_encryptors.py:338
@@ -352,7 +352,7 @@ msgstr "Ocorreu uma Falha"
 msgid "Restore permissions"
 msgstr "Restaurar as permissões"
 
-#: common/snapshots.py:656 qt/app.py:210 qt/app.py:1193 qt/app.py:1219
+#: common/snapshots.py:656 qt/app.py:210 qt/app.py:1203 qt/app.py:1229
 #: qt/qtsystrayicon.py:119
 #, fuzzy
 msgid "Done"
@@ -374,11 +374,6 @@ msgstr ""
 "Adiar a criação da cópia de segurança enquanto estiver utilizando a bateria "
 "do equipamento"
 
-#: common/snapshots.py:958
-#, fuzzy
-msgid "Can't find backup directory."
-msgstr "Não foi possível encontrar o diretório da cópia de segurança."
-
 #: common/snapshots.py:965
 #, fuzzy, python-brace-format
 msgid "Waiting {n} second."
@@ -386,70 +381,70 @@ msgid_plural "Waiting {n} seconds."
 msgstr[0] "Aguardando por {n} segundo."
 msgstr[1] "Aguardando por {n} segundos."
 
-#: common/snapshots.py:1038
+#: common/snapshots.py:1039
 #, fuzzy, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Ocorreu uma falha ao criar a cópia de segurança ‘{snapshot_id}’."
 
-#: common/snapshots.py:1070
+#: common/snapshots.py:1071
 #, fuzzy
 msgid "Please be patient. Finalizing…"
 msgstr "Por favor, aguarde. O processo está sendo finalizado."
 
-#: common/snapshots.py:1162
+#: common/snapshots.py:1163
 #, fuzzy
 msgid "Take snapshot"
 msgstr "Criar uma cópia (snapshot)"
 
-#: common/snapshots.py:1197
+#: common/snapshots.py:1198
 #, fuzzy
 msgid "Can't create directory."
 msgstr "Não foi possível criar a pasta."
 
-#: common/snapshots.py:1213
+#: common/snapshots.py:1214
 #, fuzzy
 msgid "Saving config file…"
 msgstr "Salvando o arquivo de configurações…"
 
-#: common/snapshots.py:1261
+#: common/snapshots.py:1262
 msgid "Saving permissions…"
 msgstr "Salvando as permissões…"
 
-#: common/snapshots.py:1376
+#: common/snapshots.py:1377
 #, fuzzy, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr ""
 "Foi encontrada a cópia de segurança ‘{snapshot_id}’ que não está completa e "
 "que pode ser completada."
 
-#: common/snapshots.py:1400
+#: common/snapshots.py:1401
 #, fuzzy, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr ""
 "Removendo o diretório ‘{snapshot_id}’ que não foi completado deste a última "
 "execução"
 
-#: common/snapshots.py:1411
+#: common/snapshots.py:1412
 #, fuzzy
 msgid "Can't remove directory"
 msgstr "Não foi possível remover o diretório"
 
-#: common/snapshots.py:1475
+#: common/snapshots.py:1476
 #, fuzzy
 msgid "Creating backup"
 msgstr "Criando a cópia de segurança"
 
-#: common/snapshots.py:1526
+#: common/snapshots.py:1527
 #, fuzzy
 msgid "Success"
 msgstr "O processo ocorreu com sucesso"
 
-#: common/snapshots.py:1529
+#: common/snapshots.py:1530
 #, fuzzy
 msgid "Partial transfer due to error"
 msgstr "Ocorreu uma transferência parcial devido a um erro"
 
-#: common/snapshots.py:1530
+#: common/snapshots.py:1531
 #, fuzzy
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
@@ -457,61 +452,58 @@ msgstr ""
 "origem. Por favor, consulte a ajuda com o comando ‘man rsync’ no Emulador de"
 " Terminal"
 
-#: common/snapshots.py:1534
+#: common/snapshots.py:1535
 #, fuzzy, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "O ‘rsync’ terminou com o código de saída ‘{exit_code}’"
 
-#: common/snapshots.py:1547
+#: common/snapshots.py:1548
 #, fuzzy
 msgid "See 'man rsync' for more details"
 msgstr ""
 "Por favor, consulte a ajuda com o comando ‘man rsync’ no Emulador de "
 "Terminal para obter mais informações"
 
-#: common/snapshots.py:1554
-#, fuzzy
+#: common/snapshots.py:1555
 msgid ""
-"Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
+"Negative exit codes indicate termination by a signal. The number corresponds"
+" to the signal (see 'kill -l')."
 msgstr ""
-"Os códigos dos números de saída estão com o sinal negativo no ‘rsync’. Por "
-"favor, consulte a ajuda com o comando ‘kill -l’ e o ‘man kill’ no Emulador "
-"de Terminal para obter mais informações"
 
-#: common/snapshots.py:1575
+#: common/snapshots.py:1578
 #, fuzzy
 msgid "Nothing changed, no new backup necessary"
 msgstr ""
 "Não ocorreu nenhuma alteração, por tanto, nenhuma nova cópia de segurança é "
 "necessária"
 
-#: common/snapshots.py:1619
+#: common/snapshots.py:1622
 #, fuzzy, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "Não foi possível renomear de ‘{new_path}’ para ‘{path}’."
 
-#: common/snapshots.py:2019
+#: common/snapshots.py:2022
 #, fuzzy
 msgid "Applying rules to remove old backups"
 msgstr "Aplicando as regras para remover as cópias de segurança antigas"
 
-#: common/snapshots.py:2056
+#: common/snapshots.py:2059
 #, fuzzy
 msgid "Applying retention policy"
 msgstr "Aplicando a política de retenção"
 
-#: common/snapshots.py:2066
+#: common/snapshots.py:2069
 msgid "Trying to keep min free space"
 msgstr "Tentando manter o mínimo de espaço livre"
 
-#: common/snapshots.py:2109
+#: common/snapshots.py:2112
 #, fuzzy, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr ""
 "Tentando manter no mínimo de ‘{perc}’ de ‘inodes’ (ou nós de índice das "
 "estruturas dos dados) livres"
 
-#: common/snapshots.py:3303 qt/app.py:1536 qt/timeline.py:410
+#: common/snapshots.py:3306 qt/app.py:1546 qt/timeline.py:410
 #, fuzzy
 msgid "Now"
 msgstr "Neste momento"
@@ -546,7 +538,7 @@ msgstr ""
 
 #: common/sshsetupvalidator.py:309
 #, fuzzy
-msgid "Faild to add SSH key."
+msgid "Failed to add SSH key."
 msgstr "Ocorreu uma falha ao criar uma nova chave do SSH no caminho ‘{path}’."
 
 #: common/sshsetupvalidator.py:331
@@ -717,16 +709,16 @@ msgstr ""
 "Clique ‘{thislink}’ para exibir os créditos dos tradutores voluntários de "
 "todos os idiomas."
 
-#: qt/aboutdlg.py:240 qt/app.py:574
+#: qt/aboutdlg.py:240 qt/app.py:584
 #, fuzzy
 msgid "Project website"
 msgstr "Página do projeto"
 
-#: qt/aboutdlg.py:245 qt/app.py:556
+#: qt/aboutdlg.py:245 qt/app.py:566
 msgid "User manual"
 msgstr "Manual do usuário"
 
-#: qt/aboutdlg.py:247 qt/app.py:558
+#: qt/aboutdlg.py:247 qt/app.py:568
 #, fuzzy
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
@@ -769,207 +761,207 @@ msgstr ""
 msgid "Import"
 msgstr "Importar"
 
-#: qt/app.py:495
+#: qt/app.py:505
 #, fuzzy
 msgid "Create a backup"
 msgstr "Criar uma cópia de segurança"
 
-#: qt/app.py:497
+#: qt/app.py:507
 #, fuzzy
 msgid "Use modification time & size for file change detection."
 msgstr ""
 "Utilizar o horário da modificação e do tamanho para detectar as alterações "
 "nos arquivos."
 
-#: qt/app.py:500
+#: qt/app.py:510
 #, fuzzy
 msgid "Create a backup (checksum mode)"
 msgstr "Criar uma cópia de segurança (modo de verificação)"
 
-#: qt/app.py:502
+#: qt/app.py:512
 #, fuzzy
 msgid "Use checksums for file change detection."
 msgstr ""
 "Utilizar as verificação de integridade (checksums) para detectar as "
 "alterações nos arquivos."
 
-#: qt/app.py:504 qt/qtsystrayicon.py:126
+#: qt/app.py:514 qt/qtsystrayicon.py:126
 #, fuzzy
 msgid "Pause backup process"
 msgstr "Pausar o processo de criação da cópia de segurança"
 
-#: qt/app.py:508 qt/qtsystrayicon.py:131
+#: qt/app.py:518 qt/qtsystrayicon.py:131
 #, fuzzy
 msgid "Resume backup process"
 msgstr "Retomar o processo de criação da cópia de segurança"
 
-#: qt/app.py:512 qt/qtsystrayicon.py:136
+#: qt/app.py:522 qt/qtsystrayicon.py:136
 #, fuzzy
 msgid "Stop backup process"
 msgstr "Parar o processo de criação da cópia de segurança"
 
-#: qt/app.py:516
+#: qt/app.py:526
 #, fuzzy
 msgid "Refresh backup list"
 msgstr "Recarregar a lista das cópias de segurança"
 
-#: qt/app.py:520
+#: qt/app.py:530
 #, fuzzy
 msgid "Name backup"
 msgstr "Nome da cópia de segurança"
 
-#: qt/app.py:524
+#: qt/app.py:534
 #, fuzzy
 msgid "Remove backup"
 msgstr "Remover a cópia de segurança"
 
-#: qt/app.py:528
+#: qt/app.py:538
 #, fuzzy
 msgid "Open backup log"
 msgstr "Abrir o registro das alterações da cópia de segurança"
 
-#: qt/app.py:530
+#: qt/app.py:540
 #, fuzzy
 msgid "View log of the selected backup."
 msgstr ""
 "Exibir o registro das alterações da cópia de segurança que foi selecionada."
 
-#: qt/app.py:532
+#: qt/app.py:542
 #, fuzzy
 msgid "Open last backup log"
 msgstr "Abrir o último registro das alterações da cópia de segurança"
 
-#: qt/app.py:534
+#: qt/app.py:544
 #, fuzzy
 msgid "View log of the latest backup."
 msgstr "Exibir o último registro das alterações da cópia de segurança."
 
-#: qt/app.py:536
+#: qt/app.py:546
 #, fuzzy
 msgid "Manage profiles…"
 msgstr "Gerenciar os perfis…"
 
-#: qt/app.py:540
+#: qt/app.py:550
 #, fuzzy
 msgid "Edit user-callback"
 msgstr "Editar o ‘user-callback’"
 
-#: qt/app.py:544
+#: qt/app.py:554
 msgid "Shutdown"
 msgstr "Desligar"
 
-#: qt/app.py:546
+#: qt/app.py:556
 #, fuzzy
 msgid "Shut down system after backup has finished."
 msgstr ""
 "Desligar o sistema operacional após a conclusão da cópia de segurança."
 
-#: qt/app.py:548
+#: qt/app.py:558
 #, fuzzy
 msgid "Setup language…"
 msgstr "Configurar o idioma…"
 
-#: qt/app.py:552
+#: qt/app.py:562
 msgid "Exit"
 msgstr "Sair"
 
-#: qt/app.py:562
+#: qt/app.py:572
 #, fuzzy
 msgid "man page: Back In Time"
 msgstr "Página do manual do Back In Time (De Volta ao Passado)"
 
-#: qt/app.py:564
+#: qt/app.py:574
 #, fuzzy
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "Exibir a página do manual sobre o Back In Time (De Volta ao Passado)"
 
-#: qt/app.py:567
+#: qt/app.py:577
 #, fuzzy
 msgid "man page: Profiles config file"
 msgstr "Página do manual sobre o arquivo de configurações dos perfis"
 
-#: qt/app.py:570
+#: qt/app.py:580
 #, fuzzy
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 "Exibi a página do manual sobre o arquivo de configurações dos perfis "
 "(backintime-config)"
 
-#: qt/app.py:577
+#: qt/app.py:587
 #, fuzzy
 msgid "Open Back In Time website in browser"
 msgstr ""
 "Abrir a página do Back In Time (De Volta ao Passado) no navegador de "
 "internet"
 
-#: qt/app.py:579 qt/app.py:2327
+#: qt/app.py:589 qt/app.py:2337
 #, fuzzy
 msgid "Changelog"
 msgstr "Registro das alterações"
 
-#: qt/app.py:582
+#: qt/app.py:592
 #, fuzzy
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr ""
 "Abrir o registro das alterações local, se estiver disponível, caso contrário"
 " acesse pelo navegador de internet"
 
-#: qt/app.py:585
+#: qt/app.py:595
 #, fuzzy
 msgid "FAQ"
 msgstr "Perguntas frequentes"
 
-#: qt/app.py:587
+#: qt/app.py:597
 #, fuzzy
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "Abrir as perguntas frequentes (FAQ) no navegador de internet"
 
-#: qt/app.py:589
+#: qt/app.py:599
 msgid "Ask a question"
 msgstr "Fazer uma pergunta"
 
-#: qt/app.py:593
+#: qt/app.py:603
 #, fuzzy
 msgid "Report a bug"
 msgstr "Reportar um problema ou uma falha"
 
-#: qt/app.py:596
+#: qt/app.py:606
 msgid "Translation"
 msgstr "Traduções"
 
-#: qt/app.py:598
+#: qt/app.py:608
 #, fuzzy
 msgid "Shows the message about participation in translation again."
 msgstr "Exibir novamente a mensagem sobre os tradutores voluntários."
 
-#: qt/app.py:608
+#: qt/app.py:618
 msgid "About"
 msgstr "Sobre"
 
-#: qt/app.py:611 qt/restoredialog.py:46 qt/snapshotsdialog.py:183
+#: qt/app.py:621 qt/restoredialog.py:46 qt/snapshotsdialog.py:183
 #: qt/snapshotsdialog.py:188
 msgid "Restore"
 msgstr "Restaurar"
 
-#: qt/app.py:613
+#: qt/app.py:623
 #, fuzzy
 msgid "Restore the selected files or directories to the original location."
 msgstr ""
 "Restaurar os arquivos ou os diretórios que foram selecionados para o destino"
 " original."
 
-#: qt/app.py:616 qt/app.py:1963 qt/snapshotsdialog.py:185
+#: qt/app.py:626 qt/app.py:1973 qt/snapshotsdialog.py:185
 msgid "Restore to …"
 msgstr "Restaurar para …"
 
-#: qt/app.py:618
+#: qt/app.py:628
 #, fuzzy
 msgid "Restore the selected files or directories to a new location."
 msgstr ""
 "Restaurar os arquivos ou os diretórios que foram selecionados para um novo "
 "destino."
 
-#: qt/app.py:624
+#: qt/app.py:634
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
@@ -978,7 +970,7 @@ msgstr ""
 "Restaurar o diretório que foi exibido e todo o seu conteúdo para o destino "
 "original."
 
-#: qt/app.py:630
+#: qt/app.py:640
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
@@ -987,97 +979,97 @@ msgstr ""
 "Restaurar o diretório que foi exibido e todo o seu conteúdo para um novo "
 "destino."
 
-#: qt/app.py:633
+#: qt/app.py:643
 #, fuzzy
 msgid "Up"
 msgstr "Subir"
 
-#: qt/app.py:636
+#: qt/app.py:646
 #, fuzzy
 msgid "Show hidden files"
 msgstr "Exibir os arquivos ocultos"
 
-#: qt/app.py:639
+#: qt/app.py:649
 #, fuzzy
 msgid "Compare backups…"
 msgstr "Comparar as cópias de segurança…"
 
-#: qt/app.py:669 qt/app.py:1805
+#: qt/app.py:679 qt/app.py:1815
 #, fuzzy
 msgid "Release Candidate"
 msgstr "Versão candidata para lançamento"
 
-#: qt/app.py:672
+#: qt/app.py:682
 #, fuzzy
 msgid "Shows the message about this Release Candidate again."
 msgstr "Exibir novamente a mensagem sobre a versão candidata para lançamento."
 
-#: qt/app.py:709
+#: qt/app.py:719
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:714
+#: qt/app.py:724
 #, fuzzy
 msgid "&Backup"
 msgstr "&Cópia de Segurança"
 
-#: qt/app.py:726
+#: qt/app.py:736
 msgid "&Restore"
 msgstr "&Restaurar"
 
-#: qt/app.py:732
+#: qt/app.py:742
 msgid "&Help"
 msgstr "&Ajuda"
 
-#: qt/app.py:782
+#: qt/app.py:792
 #, fuzzy
 msgid "Systray Icon"
 msgstr "Ícone da bandeja do sistema"
 
-#: qt/app.py:788
+#: qt/app.py:798
 #, fuzzy
 msgid "Automatic"
 msgstr "Automático"
 
-#: qt/app.py:792
+#: qt/app.py:802
 #, fuzzy
 msgid "Light icon"
 msgstr "Ícones claros"
 
-#: qt/app.py:793
+#: qt/app.py:803
 #, fuzzy
 msgid "Dark icon"
 msgstr "Ícones escuros"
 
-#: qt/app.py:816
+#: qt/app.py:826
 #, fuzzy
 msgid "Icons only"
 msgstr "Somente os ícones"
 
-#: qt/app.py:819
+#: qt/app.py:829
 #, fuzzy
 msgid "Text only"
 msgstr "Somente o texto"
 
-#: qt/app.py:822
+#: qt/app.py:832
 msgid "Text below icons"
 msgstr "Texto abaixo dos ícones"
 
-#: qt/app.py:825
+#: qt/app.py:835
 msgid "Text beside icon"
 msgstr "Texto ao lado do ícone"
 
-#: qt/app.py:951
+#: qt/app.py:961
 #, fuzzy
 msgid "This directory doesn't exist in the selected backup."
 msgstr "Este diretório não existe na cópia de segurança que foi selecionada."
 
-#: qt/app.py:954
+#: qt/app.py:964
 #, fuzzy
 msgid "This directory doesn't exist on the computer."
 msgstr "Este diretório não existe no computador."
 
-#: qt/app.py:1003
+#: qt/app.py:1013
 #, fuzzy
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
@@ -1087,62 +1079,62 @@ msgstr ""
 "capaz de desligar o seu sistema operacional quando a cópia de segurança for "
 "finalizada."
 
-#: qt/app.py:1006
+#: qt/app.py:1016
 #, fuzzy
 msgid "Close the window anyway?"
 msgstr "Você quer fechar a janela mesmo assim?"
 
-#: qt/app.py:1097 qt/app.py:1104
+#: qt/app.py:1107 qt/app.py:1114
 msgid "Backup destination unavailable"
 msgstr ""
 
-#: qt/app.py:1222
+#: qt/app.py:1232
 #, fuzzy
 msgid "Done, no backup needed"
 msgstr "Foi concluído com sucesso, nenhuma cópia de segurança é necessária"
 
-#: qt/app.py:1293
+#: qt/app.py:1303
 #, fuzzy
 msgid "Working:"
 msgstr "Trabalhando:"
 
-#: qt/app.py:1300
+#: qt/app.py:1310
 msgid "Working"
 msgstr "Trabalhando"
 
-#: qt/app.py:1306 qt/messagebox.py:136
+#: qt/app.py:1316 qt/messagebox.py:136
 #, fuzzy
 msgid "Error"
 msgstr "Ocorreu um erro"
 
-#: qt/app.py:1347 qt/qtsystrayicon.py:282
+#: qt/app.py:1357 qt/qtsystrayicon.py:282
 msgid "Sent:"
 msgstr "Enviado:"
 
-#: qt/app.py:1348 qt/qtsystrayicon.py:283
+#: qt/app.py:1358 qt/qtsystrayicon.py:283
 msgid "Speed:"
 msgstr "Velocidade:"
 
-#: qt/app.py:1349 qt/qtsystrayicon.py:284
+#: qt/app.py:1359 qt/qtsystrayicon.py:284
 msgid "ETA:"
 msgstr "ETA:"
 
-#: qt/app.py:1544
+#: qt/app.py:1554
 #, fuzzy
 msgid "Backup:"
 msgstr "Cópia de segurança:"
 
-#: qt/app.py:1644
+#: qt/app.py:1654
 #, fuzzy, python-brace-format
 msgid "Restore {path}"
 msgstr "Restaurar o caminho {path}"
 
-#: qt/app.py:1646
+#: qt/app.py:1656
 #, fuzzy, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Restaurar o caminho {path} para …"
 
-#: qt/app.py:1670
+#: qt/app.py:1680
 #, fuzzy, python-brace-format
 msgid ""
 "Hello\n"
@@ -1159,51 +1151,51 @@ msgstr ""
 "Pedimos desculpas pela interrupção, saiba que esta mensagem não será exibida novamente. Esta caixa diálogo está disponível a qualquer momento no menu da ajuda.\n"
 "A equipe de desenvolvedores do Back In Time"
 
-#: qt/app.py:1699
+#: qt/app.py:1709
 msgid "translation platform"
 msgstr "plataforma de tradução"
 
-#: qt/app.py:1704
+#: qt/app.py:1714
 #, fuzzy
 msgid "Website"
 msgstr "página do projeto do Back In Time (De Volta ao Passado)"
 
-#: qt/app.py:1718
+#: qt/app.py:1728
 #, fuzzy
 msgid "Your translation"
 msgstr "Seja um tradutor voluntário do seu idioma"
 
-#: qt/app.py:1755
+#: qt/app.py:1765
 #, fuzzy, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Na rede Fediverse do Mastodon no endereço {link_and_label}."
 
-#: qt/app.py:1760
+#: qt/app.py:1770
 #, fuzzy, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "Endereço de e-mail {link_and_label}."
 
-#: qt/app.py:1764
+#: qt/app.py:1774
 #, fuzzy, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "Lista de discussão no endereço {link_and_label}."
 
-#: qt/app.py:1768
+#: qt/app.py:1778
 #, fuzzy, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} na página do projeto."
 
-#: qt/app.py:1771
+#: qt/app.py:1781
 #, fuzzy
 msgid "Open an issue"
 msgstr "Informar um problema ou uma falha"
 
-#: qt/app.py:1772
+#: qt/app.py:1782
 #, fuzzy
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Você pode utilizar um outro meio de comunicação de sua preferência."
 
-#: qt/app.py:1777
+#: qt/app.py:1787
 #, fuzzy, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -1224,19 +1216,19 @@ msgstr ""
 "Agradecemos pelo seu apoio e por nos ajudar a melhorar o Back In Time!\n"
 "A equipe de desenvolvedores do Back In Time"
 
-#: qt/app.py:1869
+#: qt/app.py:1879
 #, fuzzy
 msgid "Check if remote host is online"
 msgstr "Verificar se o hospedeiro remoto está on-line"
 
-#: qt/app.py:1870
+#: qt/app.py:1880
 #, fuzzy
 msgid "Check if remote host supports all necessary commands."
 msgstr ""
 "Verificar se o hospedeiro remoto suporta todos os comandos que são "
 "necessários."
 
-#: qt/app.py:1913
+#: qt/app.py:1923
 #, fuzzy, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
@@ -1245,26 +1237,26 @@ msgstr ""
 "Apenas ‘{free}’ de espaço livre está disponível no destino, que está abaixo "
 "do limite que foi configurado de ‘{threshold}’."
 
-#: qt/app.py:1918
+#: qt/app.py:1928
 #, fuzzy
 msgid "Proceed with the backup?"
 msgstr "Você quer continuar com esta cópia de segurança?"
 
-#: qt/app.py:1943
+#: qt/app.py:1953
 #, fuzzy, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr ""
 "Todos os arquivos mais recentes que estão no caminho ‘{path}’ serão "
 "removidos. Você quer continuar?"
 
-#: qt/app.py:1946
+#: qt/app.py:1956
 #, fuzzy
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 "Todos os arquivos mais recentes no diretório original serão removidos. Você "
 "quer continuar?"
 
-#: qt/app.py:1952
+#: qt/app.py:1962
 #, fuzzy, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -1273,19 +1265,19 @@ msgstr ""
 "{BOLD}Atenção{BOLDEND}: Excluir os arquivos do sistema de arquivos como "
 "administrador pode danificar todo o seu sistema operacional."
 
-#: qt/app.py:2189
+#: qt/app.py:2199
 #, fuzzy
 msgid "Backup name"
 msgstr "Nome do arquivo da cópia de segurança"
 
-#: qt/app.py:2221
+#: qt/app.py:2231
 #, fuzzy
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "Remover esta cópia de segurança?"
 msgstr[1] "Remover estas cópias de segurança?"
 
-#: qt/app.py:2288
+#: qt/app.py:2298
 #, fuzzy
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
@@ -3103,151 +3095,4 @@ msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
 "Estes são os seus arquivos exatamente como estão agora e não é uma cópia de "
 "segurança."
-
-#, fuzzy
-#~ msgid ""
-#~ "An error occurred while attempting to log in to the remote host. The "
-#~ "following error message was returned:"
-#~ msgstr ""
-#~ "Ocorreu um erro ao tentar fazer a autenticação no hospedeiro remoto. A "
-#~ "seguinte mensagem de erro foi retornada:"
-
-#~ msgid "Cancel"
-#~ msgstr "Cancelar"
-
-#, fuzzy, python-brace-format
-#~ msgid "Checking commands on host {host} returned unknown error"
-#~ msgstr ""
-#~ "A verificação dos comandos no hospedeiro ‘{host}’ retornou um erro que não é"
-#~ " conhecido"
-
-#, fuzzy
-#~ msgid "Configuration for the encrypted directory not found."
-#~ msgstr "As configuração do diretório criptografado não foram encontradas."
-
-#, fuzzy
-#~ msgid ""
-#~ "Could not unlock ssh private key. Wrong password or password not available "
-#~ "for cron."
-#~ msgstr ""
-#~ "Não foi possível desbloquear a chave privada do SSH. A senha está errada ou "
-#~ "a senha não está disponível para o agendador de tarefas ‘Cron’."
-
-#, fuzzy
-#~ msgid "Create a new encrypted directory?"
-#~ msgstr "Você quer criar um novo diretório criptografado?"
-
-#, fuzzy
-#~ msgid "Encryption Transition (EncFS)"
-#~ msgstr "Transição da Criptografia (EncFS)"
-
-#, fuzzy
-#~ msgid "It must be empty to use encryption."
-#~ msgstr "Para utilizar a criptografia, o campo deve estar vazio ou em branco."
-
-#, fuzzy
-#~ msgid "Local (EncFS encrypted)"
-#~ msgstr "Local (criptografado com o EncFS)"
-
-#, fuzzy, python-brace-format
-#~ msgid "Mountpoint {mntpoint} not empty."
-#~ msgstr "O ponto de montagem ‘{mntpoint}’ não está vazio."
-
-#, fuzzy
-#~ msgid "Please re-enter the EncFS password to confirm."
-#~ msgstr "Por favor, insira novamente a senha do ‘EncFS’ para confirmar."
-
-#, fuzzy
-#~ msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
-#~ msgstr ""
-#~ "Por favor, verifique esta impressão digital. Você quer adicioná-la no seu "
-#~ "arquivo ‘known_hosts’ (hospedeiros conhecidos)?"
-
-#, fuzzy
-#~ msgid "Proceed with copying the SSH key?"
-#~ msgstr "Você continuar com a cópia da chave do SSH?"
-
-#, fuzzy, python-brace-format
-#~ msgid "Remote host {host} doesn't support {command}"
-#~ msgstr "O hospedeiro remoto ‘{host}’ não suporta o comando ‘{command}’"
-
-#~ msgid "Remote path is not executable."
-#~ msgstr "O caminho remoto não é executável."
-
-#, fuzzy
-#~ msgid "Remote path is not writable."
-#~ msgstr "O caminho remoto não permite a escrita ou gravação de dados."
-
-#, fuzzy
-#~ msgid "Shows the message about EncFS removal again."
-#~ msgstr "Exibir novamente a mensagem sobre a remoção do EncFS."
-
-#, fuzzy
-#~ msgid "The EncFS passwords do not match."
-#~ msgstr "As senhas do ‘EncFS’ não correspondem."
-
-#, fuzzy, python-brace-format
-#~ msgid "The authenticity of host {host} can't be established."
-#~ msgstr "A autenticidade do hospedeiro ‘{host}’ não pôde ser estabelecida."
-
-#, fuzzy
-#~ msgid ""
-#~ "The public SSH key could not be copied. This may be due to a connection or "
-#~ "permission issue."
-#~ msgstr ""
-#~ "Não foi possível copiar a chave pública do SSH, devido a um possível "
-#~ "problema na conexão ou com as permissões."
-
-#~ msgid "This is NOT a backup but a live view of the local files."
-#~ msgstr "Isto NÃO é um backup, mas uma visualização do seus arquivos locais."
-
-#, fuzzy
-#~ msgid ""
-#~ "To enable password-less login, the public SSH key can be copied to the "
-#~ "remote host."
-#~ msgstr ""
-#~ "Para ativar a autenticação automática (sem a senha), a chave pública do SSH "
-#~ "pode ser copiada para o hospedeiro remoto."
-
-#, fuzzy, python-brace-format
-#~ msgid "Unable to mount \"{command}\""
-#~ msgstr "Não foi possível montar o ‘{command}’"
-
-#, fuzzy, python-brace-format
-#~ msgid "Unable to mount {sshfs}"
-#~ msgstr "Não foi possível montar o ‘{sshfs}’"
-
-#, fuzzy, python-brace-format
-#~ msgid "Unable to unmount {mountprocess} from {mountpoint}."
-#~ msgstr "Não foi possível desmontar o ‘{mountprocess}’ do ‘{mountpoint}’."
-
-#, fuzzy
-#~ msgid ""
-#~ "Warning: If disabled and the remote host does not support all necessary "
-#~ "commands, this could lead to some weird errors."
-#~ msgstr ""
-#~ "Aviso: Se o hospedeiro remoto estiver desativado e não suportar todos os "
-#~ "comandos que são necessários para funcionar poderá causar erros inesperados."
-
-#, fuzzy
-#~ msgid ""
-#~ "Warning: If disabled and the remote host is not available, this could lead "
-#~ "to some weird errors."
-#~ msgstr ""
-#~ "Aviso: Se o hospedeiro remoto estiver desativado ou não estiver disponível "
-#~ "poderá causar erros inesperados."
-
-#, fuzzy
-#~ msgid "decode paths"
-#~ msgstr "decodificar os caminhos"
-
-#, fuzzy, python-brace-format
-#~ msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
-#~ msgstr ""
-#~ "O comando ‘{command}’ não foi encontrado. Por favor instale o programa, por "
-#~ "exemplo, com o comando ‘{installcommand}’"
-
-#, fuzzy, python-brace-format
-#~ msgid "{keytype} key fingerprint is:"
-#~ msgstr "A impressão digital da chave ‘{keytype}’ é:"
 # REUSE-IgnoreEnd
