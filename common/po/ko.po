@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-06-14 15:13+0200\n"
+"POT-Creation-Date: 2026-06-16 20:33+0200\n"
 "PO-Revision-Date: 2025-03-10 15:41+0000\n"
 "Last-Translator: darkcircle <darkcircle@noreply.codeberg.org>\n"
 "Language-Team: Korean <https://translate.codeberg.org/projects/backintime/common/ko/>\n"
@@ -33,69 +33,69 @@ msgid ""
 "refer to {readme_link}."
 msgstr ""
 
-#: common/config.py:38 common/tools.py:89 qt/encfsmsgbox.py:27
+#: common/config.py:37 common/tools.py:89 qt/encfsmsgbox.py:27
 #: qt/messagebox.py:99 qt/timeline.py:35
 msgid "Warning"
 msgstr "경고"
 
-#: common/config.py:107 common/config.py:220
+#: common/config.py:107 common/config.py:160
 msgid "Main profile"
 msgstr "메인 프로파일"
 
-#: common/config.py:231
+#: common/config.py:171
 msgid "Local"
 msgstr "로컬"
 
-#: common/config.py:237
+#: common/config.py:177
 msgid "Local encrypted"
 msgstr "로컬 암호화"
 
-#: common/config.py:238 common/config.py:251
+#: common/config.py:178 common/config.py:191
 #: qt/manageprofiles/tab_general.py:393
 msgid "Encryption"
 msgstr "암호화"
 
-#: common/config.py:243
+#: common/config.py:183
 msgid "SSH"
 msgstr "SSH"
 
-#: common/config.py:244 common/config.py:250
+#: common/config.py:184 common/config.py:190
 #: qt/manageprofiles/tab_general.py:745
 msgid "SSH private key"
 msgstr "SSH 개인 키"
 
-#: common/config.py:249
+#: common/config.py:189
 #, fuzzy
 msgid "SSH encrypted"
 msgstr "SSH (EncFS 암호화)"
 
-#: common/config.py:281 common/config.py:293 common/config.py:311
-#: common/config.py:325 common/config.py:346
+#: common/config.py:221 common/config.py:233 common/config.py:251
+#: common/config.py:265 common/config.py:286
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "프로필: \"{name}\""
 
-#: common/config.py:282
+#: common/config.py:222
 #, fuzzy
 msgid "Backup directory is not valid."
 msgstr "스냅샷 폴더가 올바르지 않습니다."
 
-#: common/config.py:294
+#: common/config.py:234
 msgid "At least one directory must be selected for backup."
 msgstr "백업을 위해서는 적어도 하나의 디렉토리가 선택되어야 합니다."
 
-#: common/config.py:312 common/config.py:327
+#: common/config.py:252 common/config.py:267
 #, python-brace-format
 msgid "Directory: {path}"
 msgstr "디렉터리: {path}"
 
-#: common/config.py:313 common/config.py:328
+#: common/config.py:253 common/config.py:268
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
 msgstr "이 디렉터리는 백업 저장소 자체의 일부이므로 백업 대상에 넣어둘 수 없습니다."
 
-#: common/config.py:347
+#: common/config.py:287
 #, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
@@ -103,22 +103,22 @@ msgid ""
 " space falls below\" ({val_two})."
 msgstr ""
 
-#: common/config.py:352
+#: common/config.py:292
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr ""
 
-#: common/config.py:1480
+#: common/config.py:1420
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "udev 일정이 {mode} 모드로 동작하지 않습니다"
 
-#: common/config.py:1534
+#: common/config.py:1474
 msgid "Failed to write new crontab."
 msgstr "새로운 크론탭 작성에 실패했습니다."
 
-#: common/config.py:1542
+#: common/config.py:1482
 #, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
@@ -139,21 +139,21 @@ msgstr "설정 저장에 실패했습니다"
 msgid "Failed to load config"
 msgstr "설정 불러오기에 실패했습니다"
 
-#: common/configfile.py:689 common/configfile.py:789
+#: common/configfile.py:654 common/configfile.py:754
 #, python-brace-format
 msgid "Profile \"{name}\" already exists."
 msgstr "\"{name}\" 프로필이 이미 있습니다."
 
-#: common/configfile.py:735
+#: common/configfile.py:700
 msgid "The last profile cannot be removed."
 msgstr "마지막 프로필은 제거할 수 없습니다."
 
-#: common/mount/_backends.py:88
+#: common/mount/_backends.py:88 common/snapshots.py:957
 #, fuzzy
 msgid "Can't find backup destination directory."
 msgstr "스냅샷 디렉터리를 찾을 수 없습니다."
 
-#: common/mount/_backends.py:90 common/snapshots.py:962
+#: common/mount/_backends.py:90 common/snapshots.py:961
 #, fuzzy
 msgid "If it is on a removable drive, please plug it in."
 msgstr "이동식 드라이브에 있다면 우선 연결하십시오."
@@ -258,7 +258,7 @@ msgstr ""
 
 #: common/mount/_encryptors.py:286
 #, python-brace-format
-msgid "Mointpoint as decrypted view is missing. Path: {path}"
+msgid "Mountpoint as decrypted view is missing. Path: {path}"
 msgstr ""
 
 #: common/mount/_encryptors.py:338
@@ -316,7 +316,7 @@ msgstr "실패"
 msgid "Restore permissions"
 msgstr "권한 복원"
 
-#: common/snapshots.py:656 qt/app.py:210 qt/app.py:1193 qt/app.py:1219
+#: common/snapshots.py:656 qt/app.py:210 qt/app.py:1203 qt/app.py:1229
 #: qt/qtsystrayicon.py:119
 msgid "Done"
 msgstr "완료"
@@ -331,116 +331,112 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "배터리를 사용하는 동안 백업 연기"
 
-#: common/snapshots.py:958
-#, fuzzy
-msgid "Can't find backup directory."
-msgstr "스냅샷 디렉터리를 찾을 수 없습니다."
-
 #: common/snapshots.py:965
 #, fuzzy, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
 msgstr[0] "%s초 기다립니다."
 
-#: common/snapshots.py:1038
+#: common/snapshots.py:1039
 #, fuzzy, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "{snapshot_id} 스냅샷을 생성하지 못했습니다."
 
-#: common/snapshots.py:1070
+#: common/snapshots.py:1071
 msgid "Please be patient. Finalizing…"
 msgstr "잠시만 기다려주세요. 마무리 중…"
 
-#: common/snapshots.py:1162
+#: common/snapshots.py:1163
 msgid "Take snapshot"
 msgstr "스냅샷 생성하기"
 
-#: common/snapshots.py:1197
+#: common/snapshots.py:1198
 msgid "Can't create directory."
 msgstr "디렉터리를 만들 수 없습니다."
 
-#: common/snapshots.py:1213
+#: common/snapshots.py:1214
 msgid "Saving config file…"
 msgstr "구성 파일 저장 중…"
 
-#: common/snapshots.py:1261
+#: common/snapshots.py:1262
 msgid "Saving permissions…"
 msgstr "권한 저장 중…"
 
-#: common/snapshots.py:1376
+#: common/snapshots.py:1377
 #, fuzzy, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr "계속할 수 있는 남은 {snapshot_id} 스냅샷을 찾았습니다."
 
-#: common/snapshots.py:1400
+#: common/snapshots.py:1401
 #, fuzzy, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr "마지막 실행에서 남은 {snapshot_id} 디렉터리 제거 중"
 
-#: common/snapshots.py:1411
+#: common/snapshots.py:1412
 msgid "Can't remove directory"
 msgstr "디렉터리를 제거할 수 없습니다"
 
-#: common/snapshots.py:1475
+#: common/snapshots.py:1476
 msgid "Creating backup"
 msgstr ""
 
-#: common/snapshots.py:1526
+#: common/snapshots.py:1527
 msgid "Success"
 msgstr "성공"
 
-#: common/snapshots.py:1529
+#: common/snapshots.py:1530
 msgid "Partial transfer due to error"
 msgstr "오류 때문에 일부만 전송했습니다"
 
-#: common/snapshots.py:1530
+#: common/snapshots.py:1531
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "사라진 소스 파일로 인한 부분 전송('man rsync' 참조)"
 
-#: common/snapshots.py:1534
+#: common/snapshots.py:1535
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync'가 종료 코드 {exit_code}로 종료되었습니다"
 
-#: common/snapshots.py:1547
+#: common/snapshots.py:1548
 msgid "See 'man rsync' for more details"
 msgstr "자세한 내용은 'man rsync'를 참조하세요"
 
-#: common/snapshots.py:1554
+#: common/snapshots.py:1555
 msgid ""
-"Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
-msgstr "rsync 음수 종료 코드는 시그널 번호입니다. 'kill -l' 및 'man kill'을 참조하세요"
+"Negative exit codes indicate termination by a signal. The number corresponds"
+" to the signal (see 'kill -l')."
+msgstr ""
 
-#: common/snapshots.py:1575
+#: common/snapshots.py:1578
 #, fuzzy
 msgid "Nothing changed, no new backup necessary"
 msgstr "아무것도 변경되지 않았으며 새 스냅샷이 필요하지 않습니다"
 
-#: common/snapshots.py:1619
+#: common/snapshots.py:1622
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "{new_path} 경로 이름을 {path} 경로 이름으로 바꿀 수 없습니다."
 
-#: common/snapshots.py:2019
+#: common/snapshots.py:2022
 #, fuzzy
 msgid "Applying rules to remove old backups"
 msgstr "오래된 스냅샷을 제거할 규칙 적용"
 
-#: common/snapshots.py:2056
+#: common/snapshots.py:2059
 #, fuzzy
 msgid "Applying retention policy"
 msgstr "보호 정책 적용 중"
 
-#: common/snapshots.py:2066
+#: common/snapshots.py:2069
 msgid "Trying to keep min free space"
 msgstr "최소 여유 공간을 유지하려고 합니다"
 
-#: common/snapshots.py:2109
+#: common/snapshots.py:2112
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "최소 {perc}개의 사용 가능한 아이노드를 유지하려고 합니다"
 
-#: common/snapshots.py:3303 qt/app.py:1536 qt/timeline.py:410
+#: common/snapshots.py:3306 qt/app.py:1546 qt/timeline.py:410
 msgid "Now"
 msgstr "현재"
 
@@ -472,7 +468,7 @@ msgstr ""
 
 #: common/sshsetupvalidator.py:309
 #, fuzzy
-msgid "Faild to add SSH key."
+msgid "Failed to add SSH key."
 msgstr "{path}에 새 SSH 키 생성 실패."
 
 #: common/sshsetupvalidator.py:331
@@ -620,15 +616,15 @@ msgstr ""
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
 
-#: qt/aboutdlg.py:240 qt/app.py:574
+#: qt/aboutdlg.py:240 qt/app.py:584
 msgid "Project website"
 msgstr "프로젝트 사이트"
 
-#: qt/aboutdlg.py:245 qt/app.py:556
+#: qt/aboutdlg.py:245 qt/app.py:566
 msgid "User manual"
 msgstr "사용자 메뉴얼"
 
-#: qt/aboutdlg.py:247 qt/app.py:558
+#: qt/aboutdlg.py:247 qt/app.py:568
 #, fuzzy
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr "사용자 메뉴얼을 브라우저에서 열기(로컬이 안되면 온라인으로)"
@@ -664,328 +660,328 @@ msgstr ""
 msgid "Import"
 msgstr "가져오기"
 
-#: qt/app.py:495
+#: qt/app.py:505
 msgid "Create a backup"
 msgstr ""
 
-#: qt/app.py:497
+#: qt/app.py:507
 msgid "Use modification time & size for file change detection."
 msgstr "파일 변경 감지를 위해 수정 시간 및 크기를 사용합니다."
 
-#: qt/app.py:500
+#: qt/app.py:510
 #, fuzzy
 msgid "Create a backup (checksum mode)"
 msgstr "체크섬을 포함한 스냅샷 생성하기"
 
-#: qt/app.py:502
+#: qt/app.py:512
 msgid "Use checksums for file change detection."
 msgstr "파일 변경 감지에 체크섬을 사용합니다."
 
-#: qt/app.py:504 qt/qtsystrayicon.py:126
+#: qt/app.py:514 qt/qtsystrayicon.py:126
 #, fuzzy
 msgid "Pause backup process"
 msgstr "스냅샷 생성 일시 중지"
 
-#: qt/app.py:508 qt/qtsystrayicon.py:131
+#: qt/app.py:518 qt/qtsystrayicon.py:131
 #, fuzzy
 msgid "Resume backup process"
 msgstr "스냅샷 생성 재시작"
 
-#: qt/app.py:512 qt/qtsystrayicon.py:136
+#: qt/app.py:522 qt/qtsystrayicon.py:136
 #, fuzzy
 msgid "Stop backup process"
 msgstr "스냅샷 생성 중지"
 
-#: qt/app.py:516
+#: qt/app.py:526
 #, fuzzy
 msgid "Refresh backup list"
 msgstr "스냅샷 목록 새로 고침"
 
-#: qt/app.py:520
+#: qt/app.py:530
 msgid "Name backup"
 msgstr ""
 
-#: qt/app.py:524
+#: qt/app.py:534
 #, fuzzy
 msgid "Remove backup"
 msgstr "스냅샷 제거"
 
-#: qt/app.py:528
+#: qt/app.py:538
 #, fuzzy
 msgid "Open backup log"
 msgstr "마지막 로그 보기"
 
-#: qt/app.py:530
+#: qt/app.py:540
 #, fuzzy
 msgid "View log of the selected backup."
 msgstr "백업을 위해서는 적어도 하나의 디렉토리가 선택되어야 합니다."
 
-#: qt/app.py:532
+#: qt/app.py:542
 #, fuzzy
 msgid "Open last backup log"
 msgstr "마지막 로그 보기"
 
-#: qt/app.py:534
+#: qt/app.py:544
 msgid "View log of the latest backup."
 msgstr ""
 
-#: qt/app.py:536
+#: qt/app.py:546
 msgid "Manage profiles…"
 msgstr "프로필 관리…"
 
-#: qt/app.py:540
+#: qt/app.py:550
 msgid "Edit user-callback"
 msgstr "user-callback 편집"
 
-#: qt/app.py:544
+#: qt/app.py:554
 msgid "Shutdown"
 msgstr "끄기"
 
-#: qt/app.py:546
+#: qt/app.py:556
 #, fuzzy
 msgid "Shut down system after backup has finished."
 msgstr "스냅샷이 끝난 후 시스템 종료하기."
 
-#: qt/app.py:548
+#: qt/app.py:558
 msgid "Setup language…"
 msgstr "언어 설정…"
 
-#: qt/app.py:552
+#: qt/app.py:562
 msgid "Exit"
 msgstr "끝내기"
 
-#: qt/app.py:562
+#: qt/app.py:572
 msgid "man page: Back In Time"
 msgstr "맨 페이지: Back In Time"
 
-#: qt/app.py:564
+#: qt/app.py:574
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "Back In Time (backintime) 맨 페이지를 표시합니다"
 
-#: qt/app.py:567
+#: qt/app.py:577
 msgid "man page: Profiles config file"
 msgstr "맨 페이지: 프로필 설정 파일"
 
-#: qt/app.py:570
+#: qt/app.py:580
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr "프로파일 설정(backintime-config)에 대한 man 페이지 열기"
 
-#: qt/app.py:577
+#: qt/app.py:587
 msgid "Open Back In Time website in browser"
 msgstr "브라우저에서 Back In Time 웹사이트 열기"
 
-#: qt/app.py:579 qt/app.py:2327
+#: qt/app.py:589 qt/app.py:2337
 msgid "Changelog"
 msgstr "변경 내역"
 
-#: qt/app.py:582
+#: qt/app.py:592
 #, fuzzy
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr "사용자 메뉴얼을 브라우저에서 열기(로컬이 안되면 온라인으로)"
 
-#: qt/app.py:585
+#: qt/app.py:595
 msgid "FAQ"
 msgstr "자주 묻는 질문"
 
-#: qt/app.py:587
+#: qt/app.py:597
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "브라우저에서 자주 묻는 질문들 (FAQ) 열기"
 
-#: qt/app.py:589
+#: qt/app.py:599
 msgid "Ask a question"
 msgstr "질문하기"
 
-#: qt/app.py:593
+#: qt/app.py:603
 msgid "Report a bug"
 msgstr "버그 신고"
 
-#: qt/app.py:596
+#: qt/app.py:606
 msgid "Translation"
 msgstr "번역"
 
-#: qt/app.py:598
+#: qt/app.py:608
 msgid "Shows the message about participation in translation again."
 msgstr "번역 참여에 대한 메세지를 다시 보기."
 
-#: qt/app.py:608
+#: qt/app.py:618
 msgid "About"
 msgstr "정보"
 
-#: qt/app.py:611 qt/restoredialog.py:46 qt/snapshotsdialog.py:183
+#: qt/app.py:621 qt/restoredialog.py:46 qt/snapshotsdialog.py:183
 #: qt/snapshotsdialog.py:188
 msgid "Restore"
 msgstr "복원"
 
-#: qt/app.py:613
+#: qt/app.py:623
 #, fuzzy
 msgid "Restore the selected files or directories to the original location."
 msgstr "선택한 파일이나 디렉터리를 원래 대상으로 복원합니다."
 
-#: qt/app.py:616 qt/app.py:1963 qt/snapshotsdialog.py:185
+#: qt/app.py:626 qt/app.py:1973 qt/snapshotsdialog.py:185
 msgid "Restore to …"
 msgstr "다음 위치에 복원 …"
 
-#: qt/app.py:618
+#: qt/app.py:628
 #, fuzzy
 msgid "Restore the selected files or directories to a new location."
 msgstr "선택한 파일 또는 디렉터리를 새로운 대상으로 복원합니다."
 
-#: qt/app.py:624
+#: qt/app.py:634
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
 msgstr "현재 표시한 디렉터리와 해당 디렉터리의 모든 내용을 원래 대상으로 복원합니다."
 
-#: qt/app.py:630
+#: qt/app.py:640
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
 msgstr "현재 나타난 디렉터리와 해당 디렉터리의 모든 내용을 새 대상으로 복원합니다."
 
-#: qt/app.py:633
+#: qt/app.py:643
 msgid "Up"
 msgstr "위로"
 
-#: qt/app.py:636
+#: qt/app.py:646
 msgid "Show hidden files"
 msgstr "숨겨진 파일 표시"
 
-#: qt/app.py:639
+#: qt/app.py:649
 #, fuzzy
 msgid "Compare backups…"
 msgstr "스냅샷 비교…"
 
-#: qt/app.py:669 qt/app.py:1805
+#: qt/app.py:679 qt/app.py:1815
 msgid "Release Candidate"
 msgstr "배포 후보"
 
-#: qt/app.py:672
+#: qt/app.py:682
 msgid "Shows the message about this Release Candidate again."
 msgstr "배포 후보에 대한 메시지 다시 보기."
 
-#: qt/app.py:709
+#: qt/app.py:719
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:714
+#: qt/app.py:724
 msgid "&Backup"
 msgstr "백업"
 
-#: qt/app.py:726
+#: qt/app.py:736
 msgid "&Restore"
 msgstr "복원"
 
-#: qt/app.py:732
+#: qt/app.py:742
 msgid "&Help"
 msgstr "도움말"
 
-#: qt/app.py:782
+#: qt/app.py:792
 msgid "Systray Icon"
 msgstr ""
 
-#: qt/app.py:788
+#: qt/app.py:798
 msgid "Automatic"
 msgstr ""
 
-#: qt/app.py:792
+#: qt/app.py:802
 msgid "Light icon"
 msgstr ""
 
-#: qt/app.py:793
+#: qt/app.py:803
 msgid "Dark icon"
 msgstr ""
 
-#: qt/app.py:816
+#: qt/app.py:826
 msgid "Icons only"
 msgstr "아이콘만"
 
-#: qt/app.py:819
+#: qt/app.py:829
 msgid "Text only"
 msgstr "글자만"
 
-#: qt/app.py:822
+#: qt/app.py:832
 msgid "Text below icons"
 msgstr "아이콘 밑 글자"
 
-#: qt/app.py:825
+#: qt/app.py:835
 msgid "Text beside icon"
 msgstr "아이콘 옆 글자"
 
-#: qt/app.py:951
+#: qt/app.py:961
 #, fuzzy
 msgid "This directory doesn't exist in the selected backup."
 msgstr ""
 "현재 선택한 스냅샷에\n"
 "이 디렉터리가 없습니다."
 
-#: qt/app.py:954
+#: qt/app.py:964
 #, fuzzy
 msgid "This directory doesn't exist on the computer."
 msgstr ""
 "현재 선택한 스냅샷에\n"
 "이 디렉터리가 없습니다."
 
-#: qt/app.py:1003
+#: qt/app.py:1013
 #, fuzzy
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
 msgstr "이 창을 닫으면 스냅샷을 마쳤을 때 Back In Time에서 시스템을 끌 수 없습니다."
 
-#: qt/app.py:1006
+#: qt/app.py:1016
 msgid "Close the window anyway?"
 msgstr ""
 
-#: qt/app.py:1097 qt/app.py:1104
+#: qt/app.py:1107 qt/app.py:1114
 msgid "Backup destination unavailable"
 msgstr ""
 
-#: qt/app.py:1222
+#: qt/app.py:1232
 msgid "Done, no backup needed"
 msgstr "완료했습니다. 백업이 필요하지 않습니다"
 
-#: qt/app.py:1293
+#: qt/app.py:1303
 msgid "Working:"
 msgstr "진행 중:"
 
-#: qt/app.py:1300
+#: qt/app.py:1310
 msgid "Working"
 msgstr "진행 중"
 
-#: qt/app.py:1306 qt/messagebox.py:136
+#: qt/app.py:1316 qt/messagebox.py:136
 msgid "Error"
 msgstr "오류"
 
-#: qt/app.py:1347 qt/qtsystrayicon.py:282
+#: qt/app.py:1357 qt/qtsystrayicon.py:282
 msgid "Sent:"
 msgstr "전송:"
 
-#: qt/app.py:1348 qt/qtsystrayicon.py:283
+#: qt/app.py:1358 qt/qtsystrayicon.py:283
 msgid "Speed:"
 msgstr "속도:"
 
-#: qt/app.py:1349 qt/qtsystrayicon.py:284
+#: qt/app.py:1359 qt/qtsystrayicon.py:284
 msgid "ETA:"
 msgstr "남은시간:"
 
-#: qt/app.py:1544
+#: qt/app.py:1554
 #, fuzzy
 msgid "Backup:"
 msgstr "백업"
 
-#: qt/app.py:1644
+#: qt/app.py:1654
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "{path} 복원"
 
-#: qt/app.py:1646
+#: qt/app.py:1656
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "{path}를 다음 위치에 복원 …"
 
-#: qt/app.py:1670
+#: qt/app.py:1680
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -1002,47 +998,47 @@ msgstr ""
 "불편을 끼쳐드려 죄송하며 이 메시지는 다시 표시되지 않습니다. 이 대화 상자는 도움말 메뉴를 통해 언제든지 살펴보실 수 있습니다.\n"
 "여러분의 Back In Time 팀"
 
-#: qt/app.py:1699
+#: qt/app.py:1709
 msgid "translation platform"
 msgstr "번역 플랫폼"
 
-#: qt/app.py:1704
+#: qt/app.py:1714
 msgid "Website"
 msgstr "웹사이트"
 
-#: qt/app.py:1718
+#: qt/app.py:1728
 msgid "Your translation"
 msgstr "귀하의 번역"
 
-#: qt/app.py:1755
+#: qt/app.py:1765
 #, fuzzy, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Mastodon에서 보기: {link_and_label}"
 
-#: qt/app.py:1760
+#: qt/app.py:1770
 #, fuzzy, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "{link_and_label} 메일링 리스트"
 
-#: qt/app.py:1764
+#: qt/app.py:1774
 #, fuzzy, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "{link_and_label} 메일링 리스트"
 
-#: qt/app.py:1768
+#: qt/app.py:1778
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "프로젝트 웹사이트의 {link_and_label}."
 
-#: qt/app.py:1771
+#: qt/app.py:1781
 msgid "Open an issue"
 msgstr "문제 보고 열기"
 
-#: qt/app.py:1772
+#: qt/app.py:1782
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "대신, 다른 채널을 활용하여 연락할 수 있습니다."
 
-#: qt/app.py:1777
+#: qt/app.py:1787
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -1063,52 +1059,52 @@ msgstr ""
 "Back In Time 개선을 지원해주시는 여러분께 감사합니다!\n"
 "여러분의 Back In Time 팀"
 
-#: qt/app.py:1869
+#: qt/app.py:1879
 msgid "Check if remote host is online"
 msgstr "원격 호스트가 접근 가능한지 확인"
 
-#: qt/app.py:1870
+#: qt/app.py:1880
 msgid "Check if remote host supports all necessary commands."
 msgstr "원격 호스트에서 필요한 모든 명령을 지원하는지 확인합니다."
 
-#: qt/app.py:1913
+#: qt/app.py:1923
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr ""
 
-#: qt/app.py:1918
+#: qt/app.py:1928
 msgid "Proceed with the backup?"
 msgstr ""
 
-#: qt/app.py:1943
+#: qt/app.py:1953
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr ""
 
-#: qt/app.py:1946
+#: qt/app.py:1956
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 
-#: qt/app.py:1952
+#: qt/app.py:1962
 #, fuzzy, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "the entire system."
 msgstr "{BOLD}경고{BOLDEND}: 파일 시스템 루트에서 파일을 삭제하면 전체 시스템이 망가질 수 있습니다."
 
-#: qt/app.py:2189
+#: qt/app.py:2199
 #, fuzzy
 msgid "Backup name"
 msgstr "백업"
 
-#: qt/app.py:2221
+#: qt/app.py:2231
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] ""
 
-#: qt/app.py:2288
+#: qt/app.py:2298
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "언어 설정은 Back In Time을 다시 시작한 후에만 적용됩니다."
 
@@ -2605,6 +2601,10 @@ msgstr "마지막 확인 시간 {time}"
 msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
 
+#, fuzzy
+#~ msgid "Can't find backup directory."
+#~ msgstr "스냅샷 디렉터리를 찾을 수 없습니다."
+
 #~ msgid "Cancel"
 #~ msgstr "취소"
 
@@ -2632,6 +2632,10 @@ msgstr ""
 #, python-brace-format
 #~ msgid "Mountpoint {mntpoint} not empty."
 #~ msgstr "{mntpoint} 마운트 지점이 비어 있지 않습니다."
+
+#~ msgid ""
+#~ "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
+#~ msgstr "rsync 음수 종료 코드는 시그널 번호입니다. 'kill -l' 및 'man kill'을 참조하세요"
 
 #, fuzzy
 #~ msgid "Please re-enter the EncFS password to confirm."

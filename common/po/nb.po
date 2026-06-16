@@ -15,12 +15,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
-"POT-Creation-Date: 2026-06-14 15:13+0200\n"
+"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"POT-Creation-Date: 2026-06-16 20:33+0200\n"
 "PO-Revision-Date: 2026-06-16 17:43+0000\n"
 "Last-Translator: pere <pere@noreply.codeberg.org>\n"
-"Language-Team: Norwegian Bokmål <https://translate.codeberg.org/projects/"
-"backintime/common/nb_NO/>\n"
+"Language-Team: Norwegian Bokmål <https://translate.codeberg.org/projects/backintime/common/nb_NO/>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,61 +38,61 @@ msgstr ""
 "å hente ut lisens- og opphavsrettsinformasjon per fil ved hjelp av SPDX-"
 "metadata, se {readme_link}."
 
-#: common/config.py:38 common/tools.py:89 qt/encfsmsgbox.py:27
+#: common/config.py:37 common/tools.py:89 qt/encfsmsgbox.py:27
 #: qt/messagebox.py:99 qt/timeline.py:35
 msgid "Warning"
 msgstr "Advarsel"
 
-#: common/config.py:107 common/config.py:220
+#: common/config.py:107 common/config.py:160
 msgid "Main profile"
 msgstr "Hovedprofil"
 
-#: common/config.py:231
+#: common/config.py:171
 msgid "Local"
 msgstr "Lokal"
 
-#: common/config.py:237
+#: common/config.py:177
 msgid "Local encrypted"
 msgstr "kryptert lokalt"
 
-#: common/config.py:238 common/config.py:251
+#: common/config.py:178 common/config.py:191
 #: qt/manageprofiles/tab_general.py:393
 msgid "Encryption"
 msgstr "Kryptering"
 
-#: common/config.py:243
+#: common/config.py:183
 msgid "SSH"
 msgstr "SSH"
 
-#: common/config.py:244 common/config.py:250
+#: common/config.py:184 common/config.py:190
 #: qt/manageprofiles/tab_general.py:745
 msgid "SSH private key"
 msgstr "privat SSH-nøkkel"
 
-#: common/config.py:249
+#: common/config.py:189
 msgid "SSH encrypted"
 msgstr "SSH-kryptert"
 
-#: common/config.py:281 common/config.py:293 common/config.py:311
-#: common/config.py:325 common/config.py:346
+#: common/config.py:221 common/config.py:233 common/config.py:251
+#: common/config.py:265 common/config.py:286
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: «{name}»"
 
-#: common/config.py:282
+#: common/config.py:222
 msgid "Backup directory is not valid."
 msgstr "Mappen for sikkerhetskopi er ugyldig."
 
-#: common/config.py:294
+#: common/config.py:234
 msgid "At least one directory must be selected for backup."
 msgstr "Minst én mappe må velges for sikkerhetskopiering."
 
-#: common/config.py:312 common/config.py:327
+#: common/config.py:252 common/config.py:267
 #, python-brace-format
 msgid "Directory: {path}"
 msgstr "Mappe: {path}"
 
-#: common/config.py:313 common/config.py:328
+#: common/config.py:253 common/config.py:268
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
@@ -101,7 +100,7 @@ msgstr ""
 "Denne mappen kan ikke inkluderes i sikkerhetskopien, da den er en del av "
 "sikkerhetskopimålet."
 
-#: common/config.py:347
+#: common/config.py:287
 #, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
@@ -109,22 +108,22 @@ msgid ""
 " space falls below\" ({val_two})."
 msgstr ""
 
-#: common/config.py:352
+#: common/config.py:292
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr ""
 
-#: common/config.py:1480
+#: common/config.py:1420
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Udev-planen fungerer ikke med modusen {mode}"
 
-#: common/config.py:1534
+#: common/config.py:1474
 msgid "Failed to write new crontab."
 msgstr "Klarte ikke å skrive ny crontab."
 
-#: common/config.py:1542
+#: common/config.py:1482
 #, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
@@ -146,21 +145,21 @@ msgstr "Kunne ikke lagre konfigurasjon"
 msgid "Failed to load config"
 msgstr "Kunne ikke laste konfigurasjon"
 
-#: common/configfile.py:689 common/configfile.py:789
+#: common/configfile.py:654 common/configfile.py:754
 #, python-brace-format
 msgid "Profile \"{name}\" already exists."
 msgstr "Profil «{name}» finnes allerede."
 
-#: common/configfile.py:735
+#: common/configfile.py:700
 msgid "The last profile cannot be removed."
 msgstr "Den siste profilen kan ikke fjernes."
 
-#: common/mount/_backends.py:88
+#: common/mount/_backends.py:88 common/snapshots.py:957
 #, fuzzy
 msgid "Can't find backup destination directory."
 msgstr "Kan ikke finne mappe for øyeblikksbilder."
 
-#: common/mount/_backends.py:90 common/snapshots.py:962
+#: common/mount/_backends.py:90 common/snapshots.py:961
 #, fuzzy
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Hvis den er på en ekstern disk, må du koble den til."
@@ -265,7 +264,7 @@ msgstr ""
 
 #: common/mount/_encryptors.py:286
 #, python-brace-format
-msgid "Mointpoint as decrypted view is missing. Path: {path}"
+msgid "Mountpoint as decrypted view is missing. Path: {path}"
 msgstr ""
 
 #: common/mount/_encryptors.py:338
@@ -323,7 +322,7 @@ msgstr "FEILET"
 msgid "Restore permissions"
 msgstr "Gjenopprett tillatelser"
 
-#: common/snapshots.py:656 qt/app.py:210 qt/app.py:1193 qt/app.py:1219
+#: common/snapshots.py:656 qt/app.py:210 qt/app.py:1203 qt/app.py:1229
 #: qt/qtsystrayicon.py:119
 msgid "Done"
 msgstr "Ferdig"
@@ -340,11 +339,6 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "Batteridrift utsetter backup"
 
-#: common/snapshots.py:958
-#, fuzzy
-msgid "Can't find backup directory."
-msgstr "Kan ikke finne mappe for øyeblikksbilder."
-
 #: common/snapshots.py:965
 #, python-brace-format
 msgid "Waiting {n} second."
@@ -352,106 +346,107 @@ msgid_plural "Waiting {n} seconds."
 msgstr[0] "Venter {n} sekund."
 msgstr[1] "Venter {n} sekunder."
 
-#: common/snapshots.py:1038
+#: common/snapshots.py:1039
 #, fuzzy, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Klarte ikke å ta øyeblikksbilde {snapshot_id}."
 
-#: common/snapshots.py:1070
+#: common/snapshots.py:1071
 msgid "Please be patient. Finalizing…"
 msgstr "Vær tålmodig. Fullfører…"
 
-#: common/snapshots.py:1162
+#: common/snapshots.py:1163
 msgid "Take snapshot"
 msgstr "Ta øyeblikksbilde"
 
-#: common/snapshots.py:1197
+#: common/snapshots.py:1198
 msgid "Can't create directory."
 msgstr "Kan ikke opprette mappe."
 
-#: common/snapshots.py:1213
+#: common/snapshots.py:1214
 msgid "Saving config file…"
 msgstr "Lagrer konfigurasjonsfil…"
 
-#: common/snapshots.py:1261
+#: common/snapshots.py:1262
 msgid "Saving permissions…"
 msgstr "Lagrer tillatelser…"
 
-#: common/snapshots.py:1376
+#: common/snapshots.py:1377
 #, fuzzy, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr "Fant et påbegynt øyeblikksbilde {snapshot_id} som kan fortsettes."
 
-#: common/snapshots.py:1400
+#: common/snapshots.py:1401
 #, fuzzy, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr "Fjerner påbegynt {snapshot_id} fra forrige kjøring"
 
-#: common/snapshots.py:1411
+#: common/snapshots.py:1412
 msgid "Can't remove directory"
 msgstr "Mappen kan ikke fjernes"
 
-#: common/snapshots.py:1475
+#: common/snapshots.py:1476
 msgid "Creating backup"
 msgstr "Oppretter sikkerhetskopi"
 
-#: common/snapshots.py:1526
+#: common/snapshots.py:1527
 msgid "Success"
 msgstr "Suksess"
 
-#: common/snapshots.py:1529
+#: common/snapshots.py:1530
 msgid "Partial transfer due to error"
 msgstr "Delvis overføring på grunn av feil"
 
-#: common/snapshots.py:1530
+#: common/snapshots.py:1531
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Ufullstendig overføring grunnet forsvunnede kildefiler (se «man rsync»)"
 
-#: common/snapshots.py:1534
+#: common/snapshots.py:1535
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "«rsync» avsluttet med kode {exit_code}"
 
-#: common/snapshots.py:1547
+#: common/snapshots.py:1548
 msgid "See 'man rsync' for more details"
 msgstr "Se «man rsync» for flere detaljer"
 
-#: common/snapshots.py:1554
+#: common/snapshots.py:1555
 msgid ""
-"Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
-msgstr "Negative rsync-returkoder er signalnumre. Se «kill -l» og «man kill»"
+"Negative exit codes indicate termination by a signal. The number corresponds"
+" to the signal (see 'kill -l')."
+msgstr ""
 
-#: common/snapshots.py:1575
+#: common/snapshots.py:1578
 #, fuzzy
 msgid "Nothing changed, no new backup necessary"
 msgstr "Ingenting er endret, så et nytt øyeblikksbilde er ikke nødvendig"
 
-#: common/snapshots.py:1619
+#: common/snapshots.py:1622
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "Kan ikke endre navn fra {new_path} til {path}."
 
-#: common/snapshots.py:2019
+#: common/snapshots.py:2022
 #, fuzzy
 msgid "Applying rules to remove old backups"
 msgstr "Bruk regler for å fjerne gamle øyeblikksbilder"
 
-#: common/snapshots.py:2056
+#: common/snapshots.py:2059
 #, fuzzy
 msgid "Applying retention policy"
 msgstr "Bruk oppbevaringsregel"
 
-#: common/snapshots.py:2066
+#: common/snapshots.py:2069
 msgid "Trying to keep min free space"
 msgstr "Forsøk å bevare min ledig plass"
 
-#: common/snapshots.py:2109
+#: common/snapshots.py:2112
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Forsøker å bevare minst {perc} ledige inoder"
 
-#: common/snapshots.py:3303 qt/app.py:1536 qt/timeline.py:410
+#: common/snapshots.py:3306 qt/app.py:1546 qt/timeline.py:410
 msgid "Now"
 msgstr "Nå"
 
@@ -483,7 +478,7 @@ msgstr ""
 
 #: common/sshsetupvalidator.py:309
 #, fuzzy
-msgid "Faild to add SSH key."
+msgid "Failed to add SSH key."
 msgstr "Mislyktes å lage ny SSH-nøkkel i {path}."
 
 #: common/sshsetupvalidator.py:331
@@ -635,15 +630,15 @@ msgstr "denne lenken"
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr "Følg {thislink} for å se informasjon om oversettere for alle språk."
 
-#: qt/aboutdlg.py:240 qt/app.py:574
+#: qt/aboutdlg.py:240 qt/app.py:584
 msgid "Project website"
 msgstr "Prosjektets nettside"
 
-#: qt/aboutdlg.py:245 qt/app.py:556
+#: qt/aboutdlg.py:245 qt/app.py:566
 msgid "User manual"
 msgstr "Brukerhåndbok"
 
-#: qt/aboutdlg.py:247 qt/app.py:558
+#: qt/aboutdlg.py:247 qt/app.py:568
 #, fuzzy
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
@@ -685,175 +680,175 @@ msgstr ""
 msgid "Import"
 msgstr "Importer"
 
-#: qt/app.py:495
+#: qt/app.py:505
 msgid "Create a backup"
 msgstr "Opprett en sikkerhetskopi"
 
-#: qt/app.py:497
+#: qt/app.py:507
 msgid "Use modification time & size for file change detection."
 msgstr "Bruk endringstid og størrelse for å spore fil-endringer."
 
-#: qt/app.py:500
+#: qt/app.py:510
 #, fuzzy
 msgid "Create a backup (checksum mode)"
 msgstr "Ta et øyeblikksbilde (sjekksum-modus)"
 
-#: qt/app.py:502
+#: qt/app.py:512
 msgid "Use checksums for file change detection."
 msgstr "Bruk sjekksummer for å spore filendringer."
 
-#: qt/app.py:504 qt/qtsystrayicon.py:126
+#: qt/app.py:514 qt/qtsystrayicon.py:126
 #, fuzzy
 msgid "Pause backup process"
 msgstr "Sett øyeblikksbilde-prosessen på pause"
 
-#: qt/app.py:508 qt/qtsystrayicon.py:131
+#: qt/app.py:518 qt/qtsystrayicon.py:131
 #, fuzzy
 msgid "Resume backup process"
 msgstr "Fortsett øyeblikksbilde-prosessen"
 
-#: qt/app.py:512 qt/qtsystrayicon.py:136
+#: qt/app.py:522 qt/qtsystrayicon.py:136
 #, fuzzy
 msgid "Stop backup process"
 msgstr "Stopp øyeblikksbilde-prosessen"
 
-#: qt/app.py:516
+#: qt/app.py:526
 #, fuzzy
 msgid "Refresh backup list"
 msgstr "Oppdaterer listen over øyeblikksbilder"
 
-#: qt/app.py:520
+#: qt/app.py:530
 msgid "Name backup"
 msgstr "Tittel for sikkerhetskopi"
 
-#: qt/app.py:524
+#: qt/app.py:534
 #, fuzzy
 msgid "Remove backup"
 msgstr "Fjern øyeblikksbilde"
 
-#: qt/app.py:528
+#: qt/app.py:538
 #, fuzzy
 msgid "Open backup log"
 msgstr "Vis siste logg"
 
-#: qt/app.py:530
+#: qt/app.py:540
 #, fuzzy
 msgid "View log of the selected backup."
 msgstr "Minst én mappe må velges for sikkerhetskopiering."
 
-#: qt/app.py:532
+#: qt/app.py:542
 #, fuzzy
 msgid "Open last backup log"
 msgstr "Vis siste logg"
 
-#: qt/app.py:534
+#: qt/app.py:544
 msgid "View log of the latest backup."
 msgstr "Vis logg for den seneste sikkerhetskopieringen."
 
-#: qt/app.py:536
+#: qt/app.py:546
 msgid "Manage profiles…"
 msgstr "Administrer profiler…"
 
-#: qt/app.py:540
+#: qt/app.py:550
 msgid "Edit user-callback"
 msgstr "Endre user-callback"
 
-#: qt/app.py:544
+#: qt/app.py:554
 msgid "Shutdown"
 msgstr "Skru av"
 
-#: qt/app.py:546
+#: qt/app.py:556
 #, fuzzy
 msgid "Shut down system after backup has finished."
 msgstr "Skrur av systemet etter at øyeblikksbildet er ferdig."
 
-#: qt/app.py:548
+#: qt/app.py:558
 msgid "Setup language…"
 msgstr "Velg språk…"
 
-#: qt/app.py:552
+#: qt/app.py:562
 msgid "Exit"
 msgstr "Avslutt"
 
-#: qt/app.py:562
+#: qt/app.py:572
 msgid "man page: Back In Time"
 msgstr "man-side: Back In Time"
 
-#: qt/app.py:564
+#: qt/app.py:574
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "Viser man-siden for Back In Time (backintime)"
 
-#: qt/app.py:567
+#: qt/app.py:577
 msgid "man page: Profiles config file"
 msgstr "man-side: Konfigurasjonsfil for profiler"
 
-#: qt/app.py:570
+#: qt/app.py:580
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr "Viser man-siden for profilers konfigurasjonsfil (backintime-config)"
 
-#: qt/app.py:577
+#: qt/app.py:587
 msgid "Open Back In Time website in browser"
 msgstr "Åpne Back In Time-nettstedet i nettleseren"
 
-#: qt/app.py:579 qt/app.py:2327
+#: qt/app.py:589 qt/app.py:2337
 msgid "Changelog"
 msgstr "Endringslogg"
 
-#: qt/app.py:582
+#: qt/app.py:592
 #, fuzzy
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr ""
 "Åpne brukerhåndboken i nettleseren (lokalt hvis tilgjengelig, ellers på "
 "nettet)"
 
-#: qt/app.py:585
+#: qt/app.py:595
 msgid "FAQ"
 msgstr "Ofte stilte spørsmål"
 
-#: qt/app.py:587
+#: qt/app.py:597
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "Åpne ofte stilte spørsmål (OSS) i nettleseren"
 
-#: qt/app.py:589
+#: qt/app.py:599
 msgid "Ask a question"
 msgstr "Still et spørsmål"
 
-#: qt/app.py:593
+#: qt/app.py:603
 msgid "Report a bug"
 msgstr "Rapporter en feil"
 
-#: qt/app.py:596
+#: qt/app.py:606
 msgid "Translation"
 msgstr "Oversettelse"
 
-#: qt/app.py:598
+#: qt/app.py:608
 msgid "Shows the message about participation in translation again."
 msgstr "Viser meldingen om deltakelse i oversettelsen igjen."
 
-#: qt/app.py:608
+#: qt/app.py:618
 msgid "About"
 msgstr "Om"
 
-#: qt/app.py:611 qt/restoredialog.py:46 qt/snapshotsdialog.py:183
+#: qt/app.py:621 qt/restoredialog.py:46 qt/snapshotsdialog.py:183
 #: qt/snapshotsdialog.py:188
 msgid "Restore"
 msgstr "Gjennopprett"
 
-#: qt/app.py:613
+#: qt/app.py:623
 #, fuzzy
 msgid "Restore the selected files or directories to the original location."
 msgstr "Gjenopprett de valgte filene og mappene til det opprinnelige stedet."
 
-#: qt/app.py:616 qt/app.py:1963 qt/snapshotsdialog.py:185
+#: qt/app.py:626 qt/app.py:1973 qt/snapshotsdialog.py:185
 msgid "Restore to …"
 msgstr "Gjennopprett til …"
 
-#: qt/app.py:618
+#: qt/app.py:628
 #, fuzzy
 msgid "Restore the selected files or directories to a new location."
 msgstr "Gjenopprett de valgte filene og mappene til et nytt sted."
 
-#: qt/app.py:624
+#: qt/app.py:634
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
@@ -862,97 +857,97 @@ msgstr ""
 "Gjenopprett den viste mappen og alt dens innhold til det opprinnelige "
 "stedet."
 
-#: qt/app.py:630
+#: qt/app.py:640
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
 msgstr "Gjenopprett den viste mappen og alt dens innhold til et nytt sted."
 
-#: qt/app.py:633
+#: qt/app.py:643
 msgid "Up"
 msgstr "Opp"
 
-#: qt/app.py:636
+#: qt/app.py:646
 msgid "Show hidden files"
 msgstr "Vis skjulte filer"
 
-#: qt/app.py:639
+#: qt/app.py:649
 #, fuzzy
 msgid "Compare backups…"
 msgstr "Sammenlign øyeblikksbilder…"
 
-#: qt/app.py:669 qt/app.py:1805
+#: qt/app.py:679 qt/app.py:1815
 msgid "Release Candidate"
 msgstr "Utgivelseskandidat"
 
-#: qt/app.py:672
+#: qt/app.py:682
 msgid "Shows the message about this Release Candidate again."
 msgstr "Viser meldingen om denne utgivelseskandidaten igjen."
 
-#: qt/app.py:709
+#: qt/app.py:719
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:714
+#: qt/app.py:724
 msgid "&Backup"
 msgstr "&Sikkerhetskopi"
 
-#: qt/app.py:726
+#: qt/app.py:736
 msgid "&Restore"
 msgstr "&Gjennopprett"
 
-#: qt/app.py:732
+#: qt/app.py:742
 msgid "&Help"
 msgstr "&Hjelp"
 
-#: qt/app.py:782
+#: qt/app.py:792
 msgid "Systray Icon"
 msgstr ""
 
-#: qt/app.py:788
+#: qt/app.py:798
 msgid "Automatic"
 msgstr ""
 
-#: qt/app.py:792
+#: qt/app.py:802
 msgid "Light icon"
 msgstr ""
 
-#: qt/app.py:793
+#: qt/app.py:803
 msgid "Dark icon"
 msgstr ""
 
-#: qt/app.py:816
+#: qt/app.py:826
 msgid "Icons only"
 msgstr "Kun ikoner"
 
-#: qt/app.py:819
+#: qt/app.py:829
 msgid "Text only"
 msgstr "Kun tekst"
 
-#: qt/app.py:822
+#: qt/app.py:832
 msgid "Text below icons"
 msgstr "Tekst under ikonene"
 
-#: qt/app.py:825
+#: qt/app.py:835
 msgid "Text beside icon"
 msgstr "Tekst ved siden av ikonet"
 
-#: qt/app.py:951
+#: qt/app.py:961
 #, fuzzy
 msgid "This directory doesn't exist in the selected backup."
 msgstr ""
 "Mappen finnes ikke\n"
 "i det valgte øyeblikksbildet."
 
-#: qt/app.py:954
+#: qt/app.py:964
 #, fuzzy
 msgid "This directory doesn't exist on the computer."
 msgstr ""
 "Mappen finnes ikke\n"
 "i det valgte øyeblikksbildet."
 
-#: qt/app.py:1003
+#: qt/app.py:1013
 #, fuzzy
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
@@ -961,58 +956,58 @@ msgstr ""
 "Hvis du lukker dette vinduet vil ikke Back In Time være i stand til å skru "
 "av systemet når øyeblikksbildet er ferdig."
 
-#: qt/app.py:1006
+#: qt/app.py:1016
 msgid "Close the window anyway?"
 msgstr "Lukk vinduet likevel?"
 
-#: qt/app.py:1097 qt/app.py:1104
+#: qt/app.py:1107 qt/app.py:1114
 msgid "Backup destination unavailable"
 msgstr ""
 
-#: qt/app.py:1222
+#: qt/app.py:1232
 msgid "Done, no backup needed"
 msgstr "Ferdig, sikkerhetskopiering trengs ikke"
 
-#: qt/app.py:1293
+#: qt/app.py:1303
 msgid "Working:"
 msgstr "Arbeider:"
 
-#: qt/app.py:1300
+#: qt/app.py:1310
 msgid "Working"
 msgstr "Arbeider"
 
-#: qt/app.py:1306 qt/messagebox.py:136
+#: qt/app.py:1316 qt/messagebox.py:136
 msgid "Error"
 msgstr "Feil"
 
-#: qt/app.py:1347 qt/qtsystrayicon.py:282
+#: qt/app.py:1357 qt/qtsystrayicon.py:282
 msgid "Sent:"
 msgstr "Sendt:"
 
-#: qt/app.py:1348 qt/qtsystrayicon.py:283
+#: qt/app.py:1358 qt/qtsystrayicon.py:283
 msgid "Speed:"
 msgstr "Hastighet:"
 
-#: qt/app.py:1349 qt/qtsystrayicon.py:284
+#: qt/app.py:1359 qt/qtsystrayicon.py:284
 msgid "ETA:"
 msgstr "Estimert tid:"
 
-#: qt/app.py:1544
+#: qt/app.py:1554
 #, fuzzy
 msgid "Backup:"
 msgstr "Sikkerhetskopier:"
 
-#: qt/app.py:1644
+#: qt/app.py:1654
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Gjenopprett {path}"
 
-#: qt/app.py:1646
+#: qt/app.py:1656
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Gjennopprett {path} til …"
 
-#: qt/app.py:1670
+#: qt/app.py:1680
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -1029,47 +1024,47 @@ msgstr ""
 "Vi beklager forstyrrelsen, og denne meldingen vil ikke vises igjen. Denne dialogen er tilgjengelig når som helst via hjelpemenyen.\n"
 "Hilsen Back In Time-laget ditt"
 
-#: qt/app.py:1699
+#: qt/app.py:1709
 msgid "translation platform"
 msgstr "oversettelses-plattform"
 
-#: qt/app.py:1704
+#: qt/app.py:1714
 msgid "Website"
 msgstr "Nettside"
 
-#: qt/app.py:1718
+#: qt/app.py:1728
 msgid "Your translation"
 msgstr "Din oversettelse"
 
-#: qt/app.py:1755
+#: qt/app.py:1765
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "I Fediverse på Mastodon: {link_and_label}."
 
-#: qt/app.py:1760
+#: qt/app.py:1770
 #, fuzzy, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "E-postliste {link_and_label}."
 
-#: qt/app.py:1764
+#: qt/app.py:1774
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "E-postliste {link_and_label}."
 
-#: qt/app.py:1768
+#: qt/app.py:1778
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} på prosjektets nettside."
 
-#: qt/app.py:1771
+#: qt/app.py:1781
 msgid "Open an issue"
 msgstr "Åpne en sak"
 
-#: qt/app.py:1772
+#: qt/app.py:1782
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Alternativt kan du bruke en annen kanal etter eget valg."
 
-#: qt/app.py:1777
+#: qt/app.py:1787
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -1090,15 +1085,15 @@ msgstr ""
 "Takk for din støtte og for at du hjelper oss med å forbedre Back In Time!\n"
 "Hilsen Back In Time‑laget ditt"
 
-#: qt/app.py:1869
+#: qt/app.py:1879
 msgid "Check if remote host is online"
 msgstr "Kontroller at den eksterne verten er tilgjengelig"
 
-#: qt/app.py:1870
+#: qt/app.py:1880
 msgid "Check if remote host supports all necessary commands."
 msgstr "Kontroller at den eksterne verten støtter alle nødvendige kommandoer."
 
-#: qt/app.py:1913
+#: qt/app.py:1923
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
@@ -1107,22 +1102,22 @@ msgstr ""
 "Det er kun {free} ledig plass tilgjengelig på målet, som er under den "
 "konfigurererte terskelen på {threshold}."
 
-#: qt/app.py:1918
+#: qt/app.py:1928
 msgid "Proceed with the backup?"
 msgstr "Fortsett med sikkerhetskopieringen?"
 
-#: qt/app.py:1943
+#: qt/app.py:1953
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr "Alle nyere filer i {path} vil bli slettet. Ønsker du å fortsette?"
 
-#: qt/app.py:1946
+#: qt/app.py:1956
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 "Alle nyere filer i den oprinnelige mappen vil bli slettet. Ønsker du å "
 "fortsette?"
 
-#: qt/app.py:1952
+#: qt/app.py:1962
 #, fuzzy, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -1131,18 +1126,18 @@ msgstr ""
 "{BOLD}ADVARSEL{BOLDEND}: Å slette filer i filsystemets root kan ødelegge "
 "hele systemet ditt."
 
-#: qt/app.py:2189
+#: qt/app.py:2199
 #, fuzzy
 msgid "Backup name"
 msgstr "&Sikkerhetskopi"
 
-#: qt/app.py:2221
+#: qt/app.py:2231
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "Slett denne sikkerhetskopien?"
 msgstr[1] "Slett disse sikkerhetskopiene?"
 
-#: qt/app.py:2288
+#: qt/app.py:2298
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "Språkinnstillingene trer først i kraft etter en omstart av Back In Time."
@@ -2704,6 +2699,10 @@ msgstr "Sist sjekket {time}"
 msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
 
+#, fuzzy
+#~ msgid "Can't find backup directory."
+#~ msgstr "Kan ikke finne mappe for øyeblikksbilder."
+
 #~ msgid "Cancel"
 #~ msgstr "Avbryt"
 
@@ -2733,6 +2732,10 @@ msgstr ""
 #, python-brace-format
 #~ msgid "Mountpoint {mntpoint} not empty."
 #~ msgstr "Monteringspunket {mntpoint} er ikke tomt."
+
+#~ msgid ""
+#~ "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
+#~ msgstr "Negative rsync-returkoder er signalnumre. Se «kill -l» og «man kill»"
 
 #, fuzzy
 #~ msgid "Please re-enter the EncFS password to confirm."
@@ -2811,5 +2814,4 @@ msgstr ""
 #, python-brace-format
 #~ msgid "{keytype} key fingerprint is:"
 #~ msgstr "Fingeravtrykket til {keytype}-nøkkelen er:"
-
 # REUSE-IgnoreEnd

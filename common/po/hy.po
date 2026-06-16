@@ -14,12 +14,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
-"POT-Creation-Date: 2026-06-14 15:13+0200\n"
+"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"POT-Creation-Date: 2026-06-16 20:33+0200\n"
 "PO-Revision-Date: 2026-06-15 20:08+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
-"Language-Team: Armenian <https://translate.codeberg.org/projects/backintime/"
-"common/hy/>\n"
+"Language-Team: Armenian <https://translate.codeberg.org/projects/backintime/common/hy/>\n"
 "Language: hy\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,62 +38,62 @@ msgstr ""
 "հեղինակային իրավունքի վերաբերյալ տեղեկություններ ստանալու համար տե՛ս "
 "{readme_link}։"
 
-#: common/config.py:38 common/tools.py:89 qt/encfsmsgbox.py:27
+#: common/config.py:37 common/tools.py:89 qt/encfsmsgbox.py:27
 #: qt/messagebox.py:99 qt/timeline.py:35
 msgid "Warning"
 msgstr "Զգուշացում"
 
-#: common/config.py:107 common/config.py:220
+#: common/config.py:107 common/config.py:160
 msgid "Main profile"
 msgstr "Հիմնական պրոֆիլ"
 
-#: common/config.py:231
+#: common/config.py:171
 msgid "Local"
 msgstr "Տեղային"
 
-#: common/config.py:237
+#: common/config.py:177
 msgid "Local encrypted"
 msgstr "Լոկալ ծածկագրված"
 
-#: common/config.py:238 common/config.py:251
+#: common/config.py:178 common/config.py:191
 #: qt/manageprofiles/tab_general.py:393
 msgid "Encryption"
 msgstr "Ծածկագրում"
 
-#: common/config.py:243
+#: common/config.py:183
 msgid "SSH"
 msgstr "SSH"
 
-#: common/config.py:244 common/config.py:250
+#: common/config.py:184 common/config.py:190
 #: qt/manageprofiles/tab_general.py:745
 msgid "SSH private key"
 msgstr "SSH մասնավոր բանալի"
 
-#: common/config.py:249
+#: common/config.py:189
 #, fuzzy
 msgid "SSH encrypted"
 msgstr "SSH (EncFS ծածկագրված)"
 
-#: common/config.py:281 common/config.py:293 common/config.py:311
-#: common/config.py:325 common/config.py:346
+#: common/config.py:221 common/config.py:233 common/config.py:251
+#: common/config.py:265 common/config.py:286
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Պրոֆիլ: «{name}»"
 
-#: common/config.py:282
+#: common/config.py:222
 msgid "Backup directory is not valid."
 msgstr "Պահուստային թղթապանակը վավեր չէ."
 
-#: common/config.py:294
+#: common/config.py:234
 msgid "At least one directory must be selected for backup."
 msgstr "Պահուստավորման համար պետք է ընտրել առնվազն մեկ թղթապանակ."
 
-#: common/config.py:312 common/config.py:327
+#: common/config.py:252 common/config.py:267
 #, python-brace-format
 msgid "Directory: {path}"
 msgstr "Թղթապանակ: {path}"
 
-#: common/config.py:313 common/config.py:328
+#: common/config.py:253 common/config.py:268
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
@@ -102,7 +101,7 @@ msgstr ""
 "Այս թղթապանակը չի կարող ներառվել պահուստավորման մեջ, քանի որ այն հենց "
 "պահուստավորման նպատակակետի մի մասն է:"
 
-#: common/config.py:347
+#: common/config.py:287
 #, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
@@ -113,7 +112,7 @@ msgstr ""
 " պետք է լինի փոքր կամ հավասար «Զգուշացնել, եթե սկավառակի ազատ տարածքը նվազի»"
 " ({val_two}) շեմից:"
 
-#: common/config.py:352
+#: common/config.py:292
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
@@ -121,16 +120,16 @@ msgstr ""
 "Խնդրում ենք կարգավորել այնպես, որ պահուստների հեռացման սահմանաչափը բարձր "
 "չլինի զգուշացման սահմանաչափից:"
 
-#: common/config.py:1480
+#: common/config.py:1420
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Udev ժամանակացույցը չի աշխատում {mode} ռեժիմում"
 
-#: common/config.py:1534
+#: common/config.py:1474
 msgid "Failed to write new crontab."
 msgstr "Չհաջողվեց գրել նոր crontab-ը:"
 
-#: common/config.py:1542
+#: common/config.py:1482
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -152,21 +151,21 @@ msgstr "Չհաջողվեց պահպանել կարգավորումները"
 msgid "Failed to load config"
 msgstr "Չհաջողվեց ներբեռնել կարգավորումները"
 
-#: common/configfile.py:689 common/configfile.py:789
+#: common/configfile.py:654 common/configfile.py:754
 #, python-brace-format
 msgid "Profile \"{name}\" already exists."
 msgstr "«{name}» պրոֆիլն արդեն գոյություն ունի:"
 
-#: common/configfile.py:735
+#: common/configfile.py:700
 msgid "The last profile cannot be removed."
 msgstr "Վերջին պրոֆիլը հնարավոր չէ հեռացնել:"
 
-#: common/mount/_backends.py:88
+#: common/mount/_backends.py:88 common/snapshots.py:957
 #, fuzzy
 msgid "Can't find backup destination directory."
 msgstr "Չհաջողվեց գտնել պահուստային թղթապանակը:"
 
-#: common/mount/_backends.py:90 common/snapshots.py:962
+#: common/mount/_backends.py:90 common/snapshots.py:961
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Եթե այն շարժական կրիչի վրա է, խնդրում ենք միացնել այն:"
 
@@ -268,7 +267,7 @@ msgstr ""
 
 #: common/mount/_encryptors.py:286
 #, python-brace-format
-msgid "Mointpoint as decrypted view is missing. Path: {path}"
+msgid "Mountpoint as decrypted view is missing. Path: {path}"
 msgstr ""
 
 #: common/mount/_encryptors.py:338
@@ -326,7 +325,7 @@ msgstr "ՁԱԽՈՂՎԵՑ"
 msgid "Restore permissions"
 msgstr "Վերականգնել թույլտվությունները"
 
-#: common/snapshots.py:656 qt/app.py:210 qt/app.py:1193 qt/app.py:1219
+#: common/snapshots.py:656 qt/app.py:210 qt/app.py:1203 qt/app.py:1229
 #: qt/qtsystrayicon.py:119
 msgid "Done"
 msgstr "Կատարված է"
@@ -343,10 +342,6 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "Պահուստավորման հետաձգում մարտկոցով աշխատելու ժամանակ"
 
-#: common/snapshots.py:958
-msgid "Can't find backup directory."
-msgstr "Չհաջողվեց գտնել պահուստային թղթապանակը:"
-
 #: common/snapshots.py:965
 #, python-brace-format
 msgid "Waiting {n} second."
@@ -354,106 +349,105 @@ msgid_plural "Waiting {n} seconds."
 msgstr[0] "Սպասում ենք {n} վայրկյան:"
 msgstr[1] "Սպասում ենք {n} վայրկյան:"
 
-#: common/snapshots.py:1038
+#: common/snapshots.py:1039
 #, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Չհաջողվեց ստեղծել {snapshot_id} պահուստային պատճենը:"
 
-#: common/snapshots.py:1070
+#: common/snapshots.py:1071
 msgid "Please be patient. Finalizing…"
 msgstr "Խնդрում ենք սպասել: Ավարտվում է…"
 
-#: common/snapshots.py:1162
+#: common/snapshots.py:1163
 msgid "Take snapshot"
 msgstr "Ստեղծել պատկեր"
 
-#: common/snapshots.py:1197
+#: common/snapshots.py:1198
 msgid "Can't create directory."
 msgstr "Չհաջողվեց ստեղծել թղթապանակը:"
 
-#: common/snapshots.py:1213
+#: common/snapshots.py:1214
 msgid "Saving config file…"
 msgstr "Կարգավորումների ֆայլի պահպանում…"
 
-#: common/snapshots.py:1261
+#: common/snapshots.py:1262
 msgid "Saving permissions…"
 msgstr "Թույլտվությունների պահպանում…"
 
-#: common/snapshots.py:1376
+#: common/snapshots.py:1377
 #, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr "Գտնվել է անավարտ պահուստ {snapshot_id}, որը կարելի է շարունակել:"
 
-#: common/snapshots.py:1400
+#: common/snapshots.py:1401
 #, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr ""
 "Հեռացվում է վերջին գործարկումից մնացած անավարտ {snapshot_id} թղթապանակը"
 
-#: common/snapshots.py:1411
+#: common/snapshots.py:1412
 msgid "Can't remove directory"
 msgstr "Չհաջողվեց հեռացնել թղթապանակը"
 
-#: common/snapshots.py:1475
+#: common/snapshots.py:1476
 msgid "Creating backup"
 msgstr "Պահուստային պատճենի ստեղծում"
 
-#: common/snapshots.py:1526
+#: common/snapshots.py:1527
 msgid "Success"
 msgstr "հաջողություն"
 
-#: common/snapshots.py:1529
+#: common/snapshots.py:1530
 msgid "Partial transfer due to error"
 msgstr "Մասնակի փոխանցում սխալի պատճառով"
 
-#: common/snapshots.py:1530
+#: common/snapshots.py:1531
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Մասնակի փոխանցում՝ անհետացած աղբյուր ֆայլերի պատճառով (տե՛ս «man rsync»)"
 
-#: common/snapshots.py:1534
+#: common/snapshots.py:1535
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "«rsync»-ն ավարտվեց {exit_code} ելքային կոդով"
 
-#: common/snapshots.py:1547
+#: common/snapshots.py:1548
 msgid "See 'man rsync' for more details"
 msgstr "Մանրամասների համար տե՛ս «man rsync»"
 
-#: common/snapshots.py:1554
+#: common/snapshots.py:1555
 msgid ""
-"Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
+"Negative exit codes indicate termination by a signal. The number corresponds"
+" to the signal (see 'kill -l')."
 msgstr ""
-"rsync-ի բացասական ելքային կոդերը ազդանշանային համարներ են, տե՛ս «kill -l» և "
-"«man kill»"
 
-#: common/snapshots.py:1575
+#: common/snapshots.py:1578
 msgid "Nothing changed, no new backup necessary"
 msgstr "Ոչինչ չի փոխվել, նոր պահուստային պատճենի անհրաժեշտություն չկա"
 
-#: common/snapshots.py:1619
+#: common/snapshots.py:1622
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "Չհաջողվեց վերանվանել {new_path}-ը {path}-ի:"
 
-#: common/snapshots.py:2019
+#: common/snapshots.py:2022
 msgid "Applying rules to remove old backups"
 msgstr "Հնացած պահուստների հեռացման կանոնների կիրառում"
 
-#: common/snapshots.py:2056
+#: common/snapshots.py:2059
 msgid "Applying retention policy"
 msgstr "Պահպանման քաղաքականության կիրառում"
 
-#: common/snapshots.py:2066
+#: common/snapshots.py:2069
 msgid "Trying to keep min free space"
 msgstr "Փորձում ենք պահպանել ազատ տեղի նվազագույն քանակը"
 
-#: common/snapshots.py:2109
+#: common/snapshots.py:2112
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Փորձում ենք պահպանել նվազագույնը {perc} ազատ inode-ներ"
 
-#: common/snapshots.py:3303 qt/app.py:1536 qt/timeline.py:410
+#: common/snapshots.py:3306 qt/app.py:1546 qt/timeline.py:410
 msgid "Now"
 msgstr "Հիմա"
 
@@ -485,7 +479,7 @@ msgstr ""
 
 #: common/sshsetupvalidator.py:309
 #, fuzzy
-msgid "Faild to add SSH key."
+msgid "Failed to add SSH key."
 msgstr "Գաղտնաբառ՝"
 
 #: common/sshsetupvalidator.py:331
@@ -636,15 +630,15 @@ msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
 "Հետևեք {thislink}-ին՝ բոլոր լեզուների թարգմանիչների մասին տեղեկանալու համար:"
 
-#: qt/aboutdlg.py:240 qt/app.py:574
+#: qt/aboutdlg.py:240 qt/app.py:584
 msgid "Project website"
 msgstr "Նախագծի կայքը"
 
-#: qt/aboutdlg.py:245 qt/app.py:556
+#: qt/aboutdlg.py:245 qt/app.py:566
 msgid "User manual"
 msgstr "Օգտագործողի ձեռնարկ"
 
-#: qt/aboutdlg.py:247 qt/app.py:558
+#: qt/aboutdlg.py:247 qt/app.py:568
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr "Բացել ձեռնարկը բրաուզերում (տեղային կամ առցանց)"
 
@@ -683,256 +677,256 @@ msgstr ""
 msgid "Import"
 msgstr ""
 
-#: qt/app.py:495
+#: qt/app.py:505
 msgid "Create a backup"
 msgstr "Ստեղծել պահուստային պատճեն"
 
-#: qt/app.py:497
+#: qt/app.py:507
 msgid "Use modification time & size for file change detection."
 msgstr ""
 "Օգտագործել փոփոխման ժամանակը և չափը ֆայլերի փոփոխությունների հայտնաբերման "
 "համար:"
 
-#: qt/app.py:500
+#: qt/app.py:510
 msgid "Create a backup (checksum mode)"
 msgstr "Ստեղծել պահուստ (ստուգիչ գումարի ռեժիմով)"
 
-#: qt/app.py:502
+#: qt/app.py:512
 msgid "Use checksums for file change detection."
 msgstr ""
 "Օգտագործել ստուգիչ գումարները (checksum) ֆայլերի փոփոխությունների "
 "հայտնաբերման համար:"
 
-#: qt/app.py:504 qt/qtsystrayicon.py:126
+#: qt/app.py:514 qt/qtsystrayicon.py:126
 #, fuzzy
 msgid "Pause backup process"
 msgstr "Վերականգնել"
 
-#: qt/app.py:508 qt/qtsystrayicon.py:131
+#: qt/app.py:518 qt/qtsystrayicon.py:131
 msgid "Resume backup process"
 msgstr "Վերսկսել պահուստավորման գործընթացը"
 
-#: qt/app.py:512 qt/qtsystrayicon.py:136
+#: qt/app.py:522 qt/qtsystrayicon.py:136
 msgid "Stop backup process"
 msgstr "Դադարեցնել պահուստավորման գործընթացը"
 
-#: qt/app.py:516
+#: qt/app.py:526
 msgid "Refresh backup list"
 msgstr "Հատկություններ"
 
-#: qt/app.py:520
+#: qt/app.py:530
 msgid "Name backup"
 msgstr "Անվանել պահուստը"
 
-#: qt/app.py:524
+#: qt/app.py:534
 msgid "Remove backup"
 msgstr "Տարբերություններ"
 
-#: qt/app.py:528
+#: qt/app.py:538
 msgid "Open backup log"
 msgstr "Բացել պահուստավորման մատյանը"
 
-#: qt/app.py:530
+#: qt/app.py:540
 msgid "View log of the selected backup."
 msgstr "Դիտել ընտրված պահուստի մատյանը:"
 
-#: qt/app.py:532
+#: qt/app.py:542
 msgid "Open last backup log"
 msgstr "Օգնություն"
 
-#: qt/app.py:534
+#: qt/app.py:544
 msgid "View log of the latest backup."
 msgstr "Դիտել վերջին պահուստի մատյանը:"
 
-#: qt/app.py:536
+#: qt/app.py:546
 msgid "Manage profiles…"
 msgstr "Կառավարել պրոֆիլները…"
 
-#: qt/app.py:540
+#: qt/app.py:550
 msgid "Edit user-callback"
 msgstr "Խմբագրել օգտատիրոջ հետադարձ կանչը (callback)"
 
-#: qt/app.py:544
+#: qt/app.py:554
 msgid "Shutdown"
 msgstr "Կարգավորումներ"
 
-#: qt/app.py:546
+#: qt/app.py:556
 msgid "Shut down system after backup has finished."
 msgstr "Անջատել համակարգը պահուստավորման ավարտից հետո:"
 
-#: qt/app.py:548
+#: qt/app.py:558
 msgid "Setup language…"
 msgstr "Կարգավորել լեզուն…"
 
-#: qt/app.py:552
+#: qt/app.py:562
 msgid "Exit"
 msgstr "Ելք"
 
-#: qt/app.py:562
+#: qt/app.py:572
 msgid "man page: Back In Time"
 msgstr "man էջ. Back In Time"
 
-#: qt/app.py:564
+#: qt/app.py:574
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "Ցուցադրում է Back In Time-ի (backintime) man էջը"
 
-#: qt/app.py:567
+#: qt/app.py:577
 msgid "man page: Profiles config file"
 msgstr "man էջ. Պրոֆիլների կարգավորման ֆայլ"
 
-#: qt/app.py:570
+#: qt/app.py:580
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr "Ցուցադրում է պրոֆիլների կարգավորման ֆայլի (backintime-config) man էջը"
 
-#: qt/app.py:577
+#: qt/app.py:587
 msgid "Open Back In Time website in browser"
 msgstr "Բացել Back In Time-ի կայքը բրաուզերում"
 
-#: qt/app.py:579 qt/app.py:2327
+#: qt/app.py:589 qt/app.py:2337
 msgid "Changelog"
 msgstr "Փոփոխությունների մատյան"
 
-#: qt/app.py:582
+#: qt/app.py:592
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr "Բացել փոփոխությունների մատյանը (տեղային կամ համացանցից)"
 
-#: qt/app.py:585
+#: qt/app.py:595
 msgid "FAQ"
 msgstr "Մատյան"
 
-#: qt/app.py:587
+#: qt/app.py:597
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "Բացել հաճախ տրվող հարցերը (FAQ) բրաուզերում"
 
-#: qt/app.py:589
+#: qt/app.py:599
 msgid "Ask a question"
 msgstr "Տալ հարց"
 
-#: qt/app.py:593
+#: qt/app.py:603
 msgid "Report a bug"
 msgstr "Հայտնել սխալի մասին"
 
-#: qt/app.py:596
+#: qt/app.py:606
 msgid "Translation"
 msgstr "Թարգմանություն"
 
-#: qt/app.py:598
+#: qt/app.py:608
 msgid "Shows the message about participation in translation again."
 msgstr "Նորից ցուցադրել թարգմանությանը մասնակցելու մասին հաղորդագրությունը:"
 
-#: qt/app.py:608
+#: qt/app.py:618
 msgid "About"
 msgstr "Մասին"
 
-#: qt/app.py:611 qt/restoredialog.py:46 qt/snapshotsdialog.py:183
+#: qt/app.py:621 qt/restoredialog.py:46 qt/snapshotsdialog.py:183
 #: qt/snapshotsdialog.py:188
 #, fuzzy
 msgid "Restore"
 msgstr "Վերականգնել"
 
-#: qt/app.py:613
+#: qt/app.py:623
 msgid "Restore the selected files or directories to the original location."
 msgstr "Վերականգնել ընտրված ֆայլերը կամ թղթապանակները սկզբնական վայրում:"
 
-#: qt/app.py:616 qt/app.py:1963 qt/snapshotsdialog.py:185
+#: qt/app.py:626 qt/app.py:1973 qt/snapshotsdialog.py:185
 msgid "Restore to …"
 msgstr "Վերականգնել դեպի…"
 
-#: qt/app.py:618
+#: qt/app.py:628
 msgid "Restore the selected files or directories to a new location."
 msgstr "Վերականգնել ընտրված ֆայլերը կամ թղթապանակները նոր վայրում:"
 
-#: qt/app.py:624
+#: qt/app.py:634
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
 msgstr ""
 "Վերականգնել ընթացիկ թղթապանակը և դրա ողջ պարունակությունը սկզբնական վայրում:"
 
-#: qt/app.py:630
+#: qt/app.py:640
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
 msgstr ""
 "Վերականգնել ընթացիկ թղթապանակը և դրա ողջ պարունակությունը նոր վայրում:"
 
-#: qt/app.py:633
+#: qt/app.py:643
 msgid "Up"
 msgstr "Վերև"
 
-#: qt/app.py:636
+#: qt/app.py:646
 msgid "Show hidden files"
 msgstr "Ցուցադրել թաքնված ֆայլերը"
 
-#: qt/app.py:639
+#: qt/app.py:649
 msgid "Compare backups…"
 msgstr "Համեմատել պահուստները…"
 
-#: qt/app.py:669 qt/app.py:1805
+#: qt/app.py:679 qt/app.py:1815
 msgid "Release Candidate"
 msgstr "Թողարկման թեկնածու"
 
-#: qt/app.py:672
+#: qt/app.py:682
 msgid "Shows the message about this Release Candidate again."
 msgstr "Նորից ցուցադրել այս թողարկման թեկնածուի մասին հաղորդագրությունը:"
 
-#: qt/app.py:709
+#: qt/app.py:719
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:714
+#: qt/app.py:724
 msgid "&Backup"
 msgstr "&Պահուստավորում"
 
-#: qt/app.py:726
+#: qt/app.py:736
 msgid "&Restore"
 msgstr "&Վերականգնում"
 
-#: qt/app.py:732
+#: qt/app.py:742
 msgid "&Help"
 msgstr "&Օգնություն"
 
-#: qt/app.py:782
+#: qt/app.py:792
 msgid "Systray Icon"
 msgstr "Համակարգային սկուտեղի պատկերակ"
 
-#: qt/app.py:788
+#: qt/app.py:798
 msgid "Automatic"
 msgstr "Ինքնաշխատ"
 
-#: qt/app.py:792
+#: qt/app.py:802
 msgid "Light icon"
 msgstr "Բաց գույնի պատկերակ"
 
-#: qt/app.py:793
+#: qt/app.py:803
 msgid "Dark icon"
 msgstr "Մուգ գույնի պատկերակ"
 
-#: qt/app.py:816
+#: qt/app.py:826
 msgid "Icons only"
 msgstr "Միայն պատկերակներ"
 
-#: qt/app.py:819
+#: qt/app.py:829
 msgid "Text only"
 msgstr "Միայն տեքստ"
 
-#: qt/app.py:822
+#: qt/app.py:832
 msgid "Text below icons"
 msgstr "Տեքստը պատկերակների տակ"
 
-#: qt/app.py:825
+#: qt/app.py:835
 msgid "Text beside icon"
 msgstr "Տեքստը պատկերակի կողքին"
 
-#: qt/app.py:951
+#: qt/app.py:961
 msgid "This directory doesn't exist in the selected backup."
 msgstr "Այս թղթապանակը գոյություն չունի ընտրված պահուստում:"
 
-#: qt/app.py:954
+#: qt/app.py:964
 msgid "This directory doesn't exist on the computer."
 msgstr "Այս թղթապանակը գոյություն չունի համակարգչի վրա:"
 
-#: qt/app.py:1003
+#: qt/app.py:1013
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
@@ -940,61 +934,61 @@ msgstr ""
 "Եթե այս պատուհանը փակվի, Back In Time-ը չի կարողանա անջատել համակարգը "
 "պահուստավորման ավարտից հետո:"
 
-#: qt/app.py:1006
+#: qt/app.py:1016
 #, fuzzy
 msgid "Close the window anyway?"
 msgstr "Ամեն դեպքում փակե՞լ պատուհանը:"
 
-#: qt/app.py:1097 qt/app.py:1104
+#: qt/app.py:1107 qt/app.py:1114
 msgid "Backup destination unavailable"
 msgstr ""
 
-#: qt/app.py:1222
+#: qt/app.py:1232
 msgid "Done, no backup needed"
 msgstr "Կատարված է, պահուստավորման կարիք չկա"
 
-#: qt/app.py:1293
+#: qt/app.py:1303
 #, fuzzy
 msgid "Working:"
 msgstr "Աշխատում է."
 
-#: qt/app.py:1300
+#: qt/app.py:1310
 msgid "Working"
 msgstr "Աշխատանք"
 
-#: qt/app.py:1306 qt/messagebox.py:136
+#: qt/app.py:1316 qt/messagebox.py:136
 msgid "Error"
 msgstr "Սխալ"
 
-#: qt/app.py:1347 qt/qtsystrayicon.py:282
+#: qt/app.py:1357 qt/qtsystrayicon.py:282
 #, fuzzy
 msgid "Sent:"
 msgstr "Ուղարկված."
 
-#: qt/app.py:1348 qt/qtsystrayicon.py:283
+#: qt/app.py:1358 qt/qtsystrayicon.py:283
 msgid "Speed:"
 msgstr "Արագություն՝"
 
-#: qt/app.py:1349 qt/qtsystrayicon.py:284
+#: qt/app.py:1359 qt/qtsystrayicon.py:284
 msgid "ETA:"
 msgstr "Մնացած ժամանակը՝"
 
-#: qt/app.py:1544
+#: qt/app.py:1554
 #, fuzzy
 msgid "Backup:"
 msgstr "Պահուստ."
 
-#: qt/app.py:1644
+#: qt/app.py:1654
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Վերականգնել {path}-ը"
 
-#: qt/app.py:1646
+#: qt/app.py:1656
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Վերականգնել {path}-ը դեպի…"
 
-#: qt/app.py:1670
+#: qt/app.py:1680
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -1005,47 +999,47 @@ msgid ""
 "Your Back In Time Team"
 msgstr ""
 
-#: qt/app.py:1699
+#: qt/app.py:1709
 msgid "translation platform"
 msgstr ""
 
-#: qt/app.py:1704
+#: qt/app.py:1714
 msgid "Website"
 msgstr ""
 
-#: qt/app.py:1718
+#: qt/app.py:1728
 msgid "Your translation"
 msgstr ""
 
-#: qt/app.py:1755
+#: qt/app.py:1765
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr ""
 
-#: qt/app.py:1760
+#: qt/app.py:1770
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr ""
 
-#: qt/app.py:1764
+#: qt/app.py:1774
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr ""
 
-#: qt/app.py:1768
+#: qt/app.py:1778
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr ""
 
-#: qt/app.py:1771
+#: qt/app.py:1781
 msgid "Open an issue"
 msgstr ""
 
-#: qt/app.py:1772
+#: qt/app.py:1782
 msgid "Alternatively, you can use another channel of your choice."
 msgstr ""
 
-#: qt/app.py:1777
+#: qt/app.py:1787
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -1058,52 +1052,52 @@ msgid ""
 "Your Back In Time Team"
 msgstr ""
 
-#: qt/app.py:1869
+#: qt/app.py:1879
 msgid "Check if remote host is online"
 msgstr "Գործարկել միայն ցանցից սնվելիս"
 
-#: qt/app.py:1870
+#: qt/app.py:1880
 msgid "Check if remote host supports all necessary commands."
 msgstr ""
 
-#: qt/app.py:1913
+#: qt/app.py:1923
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr ""
 
-#: qt/app.py:1918
+#: qt/app.py:1928
 msgid "Proceed with the backup?"
 msgstr ""
 
-#: qt/app.py:1943
+#: qt/app.py:1953
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr ""
 
-#: qt/app.py:1946
+#: qt/app.py:1956
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 
-#: qt/app.py:1952
+#: qt/app.py:1962
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "the entire system."
 msgstr ""
 
-#: qt/app.py:2189
+#: qt/app.py:2199
 msgid "Backup name"
 msgstr "Պահուստի անունը"
 
-#: qt/app.py:2221
+#: qt/app.py:2231
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qt/app.py:2288
+#: qt/app.py:2298
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "Լեզվի կարգավորումները ուժի մեջ կմտնեն Back In Time-ը վերագործարկելուց հետո:"
@@ -2545,6 +2539,9 @@ msgstr ""
 msgid "These are your files as they are right now. It is not a backup."
 msgstr "Օգտատիրոջ մատյան"
 
+#~ msgid "Can't find backup directory."
+#~ msgstr "Չհաջողվեց գտնել պահուստային թղթապանակը:"
+
 #~ msgid "Cancel"
 #~ msgstr "Չեղարկել"
 
@@ -2574,6 +2571,12 @@ msgstr "Օգտատիրոջ մատյան"
 #, python-brace-format
 #~ msgid "Mountpoint {mntpoint} not empty."
 #~ msgstr "{mntpoint} մոնտաժման կետը դատարկ չէ:"
+
+#~ msgid ""
+#~ "Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
+#~ msgstr ""
+#~ "rsync-ի բացասական ելքային կոդերը ազդանշանային համարներ են, տե՛ս «kill -l» և "
+#~ "«man kill»"
 
 #~ msgid "Please re-enter the EncFS password to confirm."
 #~ msgstr "Խնդրում ենք նորից մուտքագրել EncFS գաղտնաբառը՝ հաստատելու համար:"
@@ -2619,5 +2622,4 @@ msgstr "Օգտատիրոջ մատյան"
 #~ msgstr ""
 #~ "{command}-ը չի գտնվել: Խնդրում ենք տեղադրել այն (օրինակ՝ "
 #~ "«{installcommand}»-ի միջոցով)"
-
 # REUSE-IgnoreEnd
