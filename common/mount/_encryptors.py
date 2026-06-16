@@ -281,9 +281,9 @@ class GoCryptFS(Encryptor):
             raise MountError(log_msg, gui_msg)
 
         if not self.path.exists():
-            log_msg = f'Mointpoint (as decrypted view) missing: {self.path}'
+            log_msg = f'Mountpoint (as decrypted view) missing: {self.path}'
             gui_msg = _(
-                'Mointpoint as decrypted view is missing. Path: {path}'
+                'Mountpoint as decrypted view is missing. Path: {path}'
             ).format(path=self.path)
             raise MountError(log_msg, gui_msg)
 
