@@ -1551,9 +1551,11 @@ class Snapshots:
             # HACK to fix #489 (params[0] and has_errors should be merged)
             params[0] = True
             self.setTakeSnapshotMessage(
-                1, rsync_exit_code_msg + ": "
-                   + _("Negative rsync exit codes are signal numbers, see "
-                       "'kill -l' and 'man kill'"))
+                1, rsync_exit_code_msg + ': '
+                   + _('Negative exit codes indicate termination by a '
+                       'signal. The number corresponds to the signal '
+                       "(see 'kill -l').")
+            )
 
         # params[0] -> error?
         if params[0]:
@@ -1571,7 +1573,7 @@ class Snapshots:
 
             self.remove(new_snapshot)
 
-            logger.info("Nothing changed, no new backup necessary", self)
+            logger.info('Nothing changed, no new backup necessary', self)
             self.snapshotLog.append(
                 '[I] ' + _('Nothing changed, no new backup necessary'), 3)
 
