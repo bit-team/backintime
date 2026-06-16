@@ -6,12 +6,10 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import sys
-import os
 import time
 import atexit
 import signal
 import config
-import configfile
 import tools
 import daemon
 import password_ipc
@@ -26,7 +24,6 @@ class Password_Cache(daemon.Daemon):
     logged in. Does not start if there is no password to cache
     (e.g. no profile allows to cache).
     """
-    PW_CACHE_VERSION = 3
 
     def __init__(self, cfg = None, *args, **kwargs):
         self.config = cfg
@@ -58,18 +55,17 @@ class Password_Cache(daemon.Daemon):
         wait for password request on FIFO and answer with password
         from self.db through FIFO.
         """
-        logger.debug('Start password cache...')
-        info = configfile.ConfigFile()
-        info.setIntValue('version', self.PW_CACHE_VERSION)
-        info.save(self.config.passwordCacheInfo())
-        os.chmod(self.config.passwordCacheInfo(), 0o600)
-
-        logger.debug('Keyring supported: %s' %self.keyringSupported, self)
+        logger.debug(
+            'Start password cache... '
+            f'Keyring supported: {self.keyringSupported}',
+            self
+        )
 
         tools.envSave(self.config.cronEnvFile())
 
         if not self.collectPasswords():
-            logger.debug('Nothing to cache. Quit.', self)
+            logger.debug(
+                'Quit password cache because nothing to cache.', self)
             sys.exit(0)
 
         self.fifo.create()
@@ -162,15 +158,6 @@ class Password_Cache(daemon.Daemon):
                                 = password
 
         return run_daemon
-
-    def checkVersion(self):
-        info = configfile.ConfigFile()
-        info.load(self.config.passwordCacheInfo())
-
-        if info.intValue('version') < self.PW_CACHE_VERSION:
-            return False
-
-        return True
 
     def cleanup_handler(self, signum, frame):
         self.fifo.delfifo()
@@ -279,7 +266,6 @@ class Password:
         if not self.cache.status():
             return None
 
-        self.cache.checkVersion()
         self.fifo.write(f'get_pw:{service_name}/{user_name}', timeout=5)
         answer = self.fifo.read(timeout=5)
         mode, pw = answer.split(':', 1)
@@ -384,6 +370,5 @@ class Password:
         #     f'{service_name=} {user_name=} {password=} {self.cache.status()=}'
         # )
         if self.cache.status():
-            self.cache.checkVersion()
             self.fifo.write(
                 f'set_pw:{service_name}/{user_name}:{password}', timeout=5)

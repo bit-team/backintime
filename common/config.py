@@ -1299,9 +1299,6 @@ class Config(configfile.ConfigFileWithProfiles):
     def passwordCacheFifo(self):
         return os.path.join(self.passwordCacheFolder(), "FIFO")
 
-    def passwordCacheInfo(self):
-        return os.path.join(self.passwordCacheFolder(), "info")
-
     def cronEnvFile(self):
         return os.path.join(self._LOCAL_DATA_FOLDER, "cron_env")
 
