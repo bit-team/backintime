@@ -306,7 +306,7 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
         if proc.returncode != 0:
             raise SSHSetupError(
                 f'Adding SSH key failed ({cmd=}): "{err}"',
-                _('Faild to add SSH key.') + '\n\n'
+                _('Failed to add SSH key.') + '\n\n'
                 + _('Details:') + f'\n{err.strip()}\n{cmd}'
             )
 
