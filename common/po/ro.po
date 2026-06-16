@@ -15,17 +15,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-06-14 15:13+0200\n"
-"PO-Revision-Date: 2026-03-09 12:29+0000\n"
+"PO-Revision-Date: 2026-06-16 07:01+0000\n"
 "Last-Translator: Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>\n"
-"Language-Team: Romanian <https://translate.codeberg.org/projects/backintime/common/ro/>\n"
+"Language-Team: Romanian <https://translate.codeberg.org/projects/backintime/"
+"common/ro/>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
-"X-Generator: Weblate 5.15.2\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -71,9 +73,8 @@ msgid "SSH private key"
 msgstr "Cheie privată SSH"
 
 #: common/config.py:249
-#, fuzzy
 msgid "SSH encrypted"
-msgstr "SSH (criptat EncFS)"
+msgstr "Criptat SSH"
 
 #: common/config.py:281 common/config.py:293 common/config.py:311
 #: common/config.py:325 common/config.py:346
@@ -162,9 +163,8 @@ msgid "The last profile cannot be removed."
 msgstr "Ultimul profil nu poate fi eliminat."
 
 #: common/mount/_backends.py:88
-#, fuzzy
 msgid "Can't find backup destination directory."
-msgstr "Nu s-a putut găsi directorul cu copii de rezervă."
+msgstr "Nu s-a putut găsi directorul de destinație."
 
 #: common/mount/_backends.py:90 common/snapshots.py:962
 msgid "If it is on a removable drive, please plug it in."
@@ -172,29 +172,31 @@ msgstr "Dacă acesta se află pe o unitate detașabilă, conectați-o."
 
 #: common/mount/_backends.py:91
 msgid "Then press OK."
-msgstr "Apoi apăsați Ok."
+msgstr "Apoi apăsați «Ok»."
 
 #: common/mount/_backends.py:108
 msgid "Back In Time could not connect to the remote backup location."
 msgstr ""
+"Back In Time nu a putut stabili conexiunea cu locația de copie de rezervă de "
+"la distanță."
 
 #: common/mount/_backends.py:110 qt/manageprofiles/tab_general.py:476
 msgid "Reason:"
-msgstr ""
+msgstr "Motivul:"
 
 #: common/mount/_backends.py:156 common/sshsetupvalidator.py:181
 #, python-brace-format
 msgid "Could not reach the SSH proxy host \"{host_port}\"."
-msgstr ""
+msgstr "Nu s-a putut stabili conexiunea cu gazda proxy SSH „{host_port}”."
 
 #: common/mount/_backends.py:161 common/sshsetupvalidator.py:186
 #, python-brace-format
 msgid "Could not reach the SSH host \"{host_port}\"."
-msgstr ""
+msgstr "Nu s-a putut stabili conexiunea cu gazda SSH „{host_port}”."
 
 #: common/mount/_backends.py:215
 msgid "SSH authentication failed for:"
-msgstr ""
+msgstr "Autentificarea SSH a eșuat pentru:"
 
 #: common/mount/_backends.py:217 common/mount/_backends.py:395
 #: common/mount/_encryptors.py:262 common/sshsetupvalidator.py:237
@@ -202,22 +204,21 @@ msgstr ""
 #: common/sshsetupvalidator.py:416 common/sshsetupvalidator.py:470
 #: common/sshsetupvalidator.py:499 common/sshsetupvalidator.py:549
 msgid "Details:"
-msgstr ""
+msgstr "Detalii:"
 
 #: common/mount/_backends.py:272
-#, fuzzy
 msgid "The remote backup directory does not exist or is not a directory."
-msgstr "Ruta de la distanță există dar nu este un director."
+msgstr ""
+"Directorul de copie de rezervă de la distanță nu există sau nu este un "
+"director."
 
 #: common/mount/_backends.py:278
-#, fuzzy
 msgid "The remote backup directory is not writable."
-msgstr "Directorul pentru copii de rezervă nu este valid!"
+msgstr "Directorul pentru copii de rezervă de la distanță nu este inscriptibil."
 
 #: common/mount/_backends.py:283
-#, fuzzy
 msgid "The remote backup directory cannot be accessed."
-msgstr "Ruta de destinație a copiei de rezervă nu poate fi goală."
+msgstr "Directorul pentru copii de rezervă de la distanță nu poate fi accesat."
 
 #: common/mount/_backends.py:297 qt/manageprofiles/tab_general.py:125
 msgid "Path:"
@@ -225,64 +226,62 @@ msgstr "Ruta:"
 
 #: common/mount/_backends.py:305
 msgid "No SSH host configured."
-msgstr ""
+msgstr "Nu este configurată nicio gazdă SSH."
 
 #: common/mount/_backends.py:312
-#, fuzzy
 msgid "No destination backup directory configured."
-msgstr "Nu s-a putut găsi directorul cu copii de rezervă."
+msgstr ""
+"Nu este configurat niciun director de destinație pentru copiile de rezervă."
 
 #: common/mount/_backends.py:393
-#, fuzzy
 msgid "Could not mount the remote backup location."
-msgstr "Nu s-a putut crea ruta de la distanță."
+msgstr "Nu s-a putut monta locația de copie de rezervă de la distanță."
 
 #: common/mount/_encryptors.py:188
-#, fuzzy
 msgid ""
 "Cannot initialize encryption because the backup destination is not empty."
-msgstr "Destinația de copie de rezervă selectată nu este goală."
+msgstr ""
+"Nu se poate inițializa criptarea deoarece destinația de copie de rezervă nu "
+"este goală."
 
 #: common/mount/_encryptors.py:191
-#, fuzzy
 msgid "Remove existing files or choose an empty directory."
-msgstr "Ruta de la distanță există dar nu este un director."
+msgstr "Eliminați fișierele existente sau alegeți un director gol."
 
 #: common/mount/_encryptors.py:208
 #, python-brace-format
 msgid "Required tool \"{tool}\" is not installed or not available."
-msgstr ""
+msgstr "Instrumentul necesar „{tool}” nu este instalat sau nu este disponibil."
 
 #: common/mount/_encryptors.py:209
-#, fuzzy
 msgid "Please install it and try again."
-msgstr "Instalați „nocache” pentru a activa această opțiune."
+msgstr "Instalați-l și încercați din nou."
 
 #: common/mount/_encryptors.py:261
-#, fuzzy
 msgid "Unable to initialize encryption."
-msgstr "Nu se poate inițializa ruta criptată «{command}»"
+msgstr "Nu se poate inițializa criptarea."
 
 #: common/mount/_encryptors.py:277
 #, python-brace-format
 msgid ""
 "Backup destination directory is not prepared for encryption. Path: {path}"
 msgstr ""
+"Directorul de destinație pentru copierea de rezervă nu este pregătit pentru "
+"criptare. Ruta: {path}"
 
 #: common/mount/_encryptors.py:286
 #, python-brace-format
 msgid "Mointpoint as decrypted view is missing. Path: {path}"
-msgstr ""
+msgstr "Lipsește punctul de montare ca vizualizare decriptată. Ruta: {path}"
 
 #: common/mount/_encryptors.py:338
 #, python-brace-format
 msgid "Mount failed with return code {rc}."
-msgstr ""
+msgstr "Montarea a eșuat cu codul de returnare {rc}."
 
 #: common/mount/_encryptors.py:341
-#, fuzzy
 msgid "Error:"
-msgstr "Eroare"
+msgstr "Eroare:"
 
 #: common/mount/_encryptors.py:342 qt/snapshotsdialog.py:69
 msgid "Command:"
@@ -290,17 +289,17 @@ msgstr "Comandă:"
 
 #: common/mount/_encryptors.py:373
 msgid "Unmount failed"
-msgstr ""
+msgstr "Demontarea a eșuat"
 
 #: common/mount/_encryptors.py:375
 #, python-brace-format
 msgid "Return code: {rc}"
-msgstr ""
+msgstr "Codul de returnare: {rc}"
 
 #: common/mount/_encryptors.py:376
 #, python-brace-format
 msgid "Original error: {err}"
-msgstr ""
+msgstr "Eroare inițială: {err}"
 
 #: common/password.py:312
 #, python-brace-format
@@ -467,78 +466,77 @@ msgstr "Acum"
 #: common/sshsetupvalidator.py:124
 #, python-brace-format
 msgid "\"{tool}\" is not installed on the remote host."
-msgstr ""
+msgstr "„{tool}” nu este instalat pe gazda la distanță."
 
 #: common/sshsetupvalidator.py:221
-#, fuzzy
 msgid "ssh-agent is not installed"
-msgstr "«ssh-agent» nu a fost găsit. Asigurați-vă că este instalat."
+msgstr "«ssh-agent» nu este instalat"
 
 #: common/sshsetupvalidator.py:236
 msgid "Unexpected response from ssh-agent."
-msgstr ""
+msgstr "Răspuns neașteptat de la «ssh-agent»."
 
 #: common/sshsetupvalidator.py:252
 msgid "Unexpected output from ssh-agent."
-msgstr ""
+msgstr "Rezultat neașteptat de la «ssh-agent»."
 
 #: common/sshsetupvalidator.py:253
 msgid "Output:"
-msgstr ""
+msgstr "Ieșire:"
 
 #: common/sshsetupvalidator.py:280
 msgid "The SSH key is not loaded into ssh-agent."
-msgstr ""
+msgstr "Cheia SSH nu este încărcată în «ssh-agent»."
 
 #: common/sshsetupvalidator.py:309
-#, fuzzy
 msgid "Faild to add SSH key."
-msgstr "Nu s-a putut crea o cheie SSH nouă în {path}."
+msgstr "Adăugarea cheii SSH a eșuat."
 
 #: common/sshsetupvalidator.py:331
 msgid "sshfs is not installed"
-msgstr ""
+msgstr "«sshfs» nu este instalat"
 
 #: common/sshsetupvalidator.py:347
 msgid "Unexpected response from sshfs."
-msgstr ""
+msgstr "Răspuns neașteptat de la «sshfs»."
 
 #: common/sshsetupvalidator.py:373
 #, python-brace-format
 msgid "The SSH host \"{host}\" is not trusted yet."
-msgstr ""
+msgstr "Gazda SSH „{host}” nu este încă de încredere."
 
 #: common/sshsetupvalidator.py:375
 msgid "Please connect to the host manually once to confirm its fingerprint."
 msgstr ""
+"Conectați-vă manual o dată la gazdă pentru a-i confirma amprenta digitală."
 
 #: common/sshsetupvalidator.py:415
 msgid "Could not write files to the remote host using rsync."
-msgstr ""
+msgstr "Nu s-au putut scrie fișierele pe gazda la distanță folosind «rsync»."
 
 #: common/sshsetupvalidator.py:469
 msgid "Could not verify rsync hardlink support."
-msgstr ""
+msgstr "Nu s-a putut verifica suportul pentru legături dure al «rsync»."
 
 #: common/sshsetupvalidator.py:498
 msgid "Unexpected error while verifying rsync hardlink support."
 msgstr ""
+"Eroare neașteptată când se verifica suportul pentru legături dure al «rsync»."
 
 #: common/sshsetupvalidator.py:505
-#, fuzzy
 msgid "The remote file system does not support hardlinks."
-msgstr "Gazda de la distanță {host} nu acceptă legăturile dure"
+msgstr "Sistemul de fișiere de la distanță nu acceptă legăturile dure."
 
 #: common/sshsetupvalidator.py:548
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not create remote backup directory: {path}"
-msgstr "Nu s-a putut crea ruta de la distanță."
+msgstr ""
+"Nu s-a putut crea directorul pentru copii de rezervă de la distanță: {path}"
 
 #: common/sshtools.py:157
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Copy public SSH key \"{pubkey}\" to remote host \"{host}\"."
-msgstr ""
-"Copiază cheia publică ssh „{pubkey}” la gazda de la distanță „{host}”."
+msgstr "Copiază cheia publică SSH „{pubkey}” la gazda de la distanță „{host}”."
 
 #: common/sshtools.py:159
 #, python-brace-format
@@ -676,13 +674,12 @@ msgstr ""
 "configurație."
 
 #: qt/app.py:348
-#, fuzzy
 msgid ""
 "Create a new configuration or import an existing configuration from a "
 "backup?"
 msgstr ""
-"Importați o configurație existentă dintr-o locație de copie de rezervă sau "
-"de pe un alt calculator?"
+"Creați o nouă configurație sau importați o configurație existentă dintr-o "
+"copie de rezervă?"
 
 #: qt/app.py:353 qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -690,7 +687,7 @@ msgstr "Întrebare"
 
 #: qt/app.py:356
 msgid "Create"
-msgstr ""
+msgstr "Creează"
 
 #: qt/app.py:358 qt/restoreconfigdialog.py:131
 msgid "Import"
@@ -963,7 +960,7 @@ msgstr "Închideți fereastra oricum?"
 
 #: qt/app.py:1097 qt/app.py:1104
 msgid "Backup destination unavailable"
-msgstr ""
+msgstr "Destinație pentru copiile de rezervă nedisponibilă"
 
 #: qt/app.py:1222
 msgid "Done, no backup needed"
@@ -1822,17 +1819,17 @@ msgstr ""
 " manual „ssh_config” pentru detalii."
 
 #: qt/manageprofiles/tab_exclude.py:63
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
 "asterisks are functional (e.g. {example2}). Other types of wildcards and "
 "patterns will be ignored (e.g. {example1}). Filenames are unpredictable in "
 "this mode."
 msgstr ""
-"{BOLD}Informații{ENDBOLD}: În modul „SSH criptat”, doar asteriscurile simple"
-" sau duble sunt funcționale (de exemplu {example2}). Alte tipuri de "
-"caractere joker și modele vor fi ignorate (de exemplu {example1}). Numele "
-"fișierelor sunt impredictibile în acest mod din cauza criptării cu EncFS."
+"{BOLD}Informații{ENDBOLD}: În modul „SSH criptat”, doar asteriscurile simple "
+"sau duble sunt funcționale (de exemplu {example2}). Alte tipuri de caractere "
+"joker și modele vor fi ignorate (de exemplu {example1}). Numele fișierelor "
+"sunt impredictibile în acest mod."
 
 #: qt/manageprofiles/tab_exclude.py:86
 msgid "Exclude patterns, files or directories"
@@ -2101,29 +2098,29 @@ msgstr "Parola de criptare nu poate fi goală."
 
 #: qt/manageprofiles/tab_general.py:475
 msgid "Back In Time could not validate the SSH configuration."
-msgstr ""
+msgstr "Back In Time nu a putut valida configurația SSH."
 
 #: qt/manageprofiles/tab_general.py:477
 msgid "SSH profile setup failed"
-msgstr ""
+msgstr "Configurarea profilului SSH a eșuat"
 
 #: qt/manageprofiles/tab_general.py:521
-#, fuzzy
 msgid "Profile setup failed"
-msgstr "Profil: {profile_name}"
+msgstr "Configurarea profilului a eșuat"
 
 #: qt/manageprofiles/tab_general.py:704
 msgid "Really change the backup directory?"
 msgstr "Doriți cu adevărat să schimbați directorul copiilor de rezervă?"
 
 #: qt/manageprofiles/tab_general.py:724
-#, fuzzy
 msgid "The selected backup destination cannot be used for encryption."
-msgstr "Destinația de copie de rezervă selectată nu este goală."
+msgstr ""
+"Destinația de copie de rezervă selectată nu poate fi utilizată pentru "
+"criptare."
 
 #: qt/manageprofiles/tab_general.py:727
 msgid "It must either be empty or already initialized for gocryptfs."
-msgstr ""
+msgstr "Acesta trebuie să fie, fie gol, fie deja inițializat pentru gocryptfs."
 
 #: qt/manageprofiles/tab_general.py:757
 msgid "Invalid file: Not a private SSH key"
@@ -2511,9 +2508,8 @@ msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Afișează/ascunde directoarele ascunse (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:298
-#, fuzzy
 msgid "No config found in this directory."
-msgstr "Nu s-a găsit niciun fișier de configurare în acest director"
+msgstr "Nu s-a găsit nicio configurație în acest director."
 
 #: qt/restoreconfigdialog.py:359
 msgid "Search complete."
@@ -2816,4 +2812,5 @@ msgstr ""
 #, python-brace-format
 #~ msgid "{keytype} key fingerprint is:"
 #~ msgstr "Amprenta cheii {keytype} este:"
+
 # REUSE-IgnoreEnd

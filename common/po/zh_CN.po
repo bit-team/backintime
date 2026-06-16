@@ -14,17 +14,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-06-14 15:13+0200\n"
-"PO-Revision-Date: 2026-03-10 14:29+0000\n"
+"PO-Revision-Date: 2026-06-15 09:24+0000\n"
 "Last-Translator: Outbreak2096 <outbreak2096@noreply.codeberg.org>\n"
-"Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
+"Language-Team: Chinese (Simplified Han script) <https://"
+"translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -33,7 +34,8 @@ msgid ""
 "To extract per-file license and copyright information using SPDX metadata, "
 "refer to {readme_link}."
 msgstr ""
-"本项目使用的所有许可证均位于 {dir_link} 目录中。如需使用 SPDX 元数据提取各文件的许可及版权信息，请参阅 {readme_link}。"
+"本项目使用的所有许可均位于 {dir_link} 目录中。如需使用 SPDX 元数据提取各文件"
+"的许可及版权信息，请参阅 {readme_link}。"
 
 #: common/config.py:38 common/tools.py:89 qt/encfsmsgbox.py:27
 #: qt/messagebox.py:99 qt/timeline.py:35
@@ -67,9 +69,8 @@ msgid "SSH private key"
 msgstr "SSH 私钥"
 
 #: common/config.py:249
-#, fuzzy
 msgid "SSH encrypted"
-msgstr "SSH（EncFS 加密）"
+msgstr "SSH 加密"
 
 #: common/config.py:281 common/config.py:293 common/config.py:311
 #: common/config.py:325 common/config.py:346
@@ -148,9 +149,8 @@ msgid "The last profile cannot be removed."
 msgstr "无法移除最后一个配置。"
 
 #: common/mount/_backends.py:88
-#, fuzzy
 msgid "Can't find backup destination directory."
-msgstr "找不到备份目录。"
+msgstr "找不到备份目标目录。"
 
 #: common/mount/_backends.py:90 common/snapshots.py:962
 msgid "If it is on a removable drive, please plug it in."
@@ -162,25 +162,25 @@ msgstr "然后按确定。"
 
 #: common/mount/_backends.py:108
 msgid "Back In Time could not connect to the remote backup location."
-msgstr ""
+msgstr "Back In Time 无法连接到远程备份位置。"
 
 #: common/mount/_backends.py:110 qt/manageprofiles/tab_general.py:476
 msgid "Reason:"
-msgstr ""
+msgstr "原因："
 
 #: common/mount/_backends.py:156 common/sshsetupvalidator.py:181
 #, python-brace-format
 msgid "Could not reach the SSH proxy host \"{host_port}\"."
-msgstr ""
+msgstr "无法访问 SSH 代理主机“{host_port}”。"
 
 #: common/mount/_backends.py:161 common/sshsetupvalidator.py:186
 #, python-brace-format
 msgid "Could not reach the SSH host \"{host_port}\"."
-msgstr ""
+msgstr "无法访问 SSH 主机“{host_port}”。"
 
 #: common/mount/_backends.py:215
 msgid "SSH authentication failed for:"
-msgstr ""
+msgstr "SSH 身份验证失败："
 
 #: common/mount/_backends.py:217 common/mount/_backends.py:395
 #: common/mount/_encryptors.py:262 common/sshsetupvalidator.py:237
@@ -188,22 +188,19 @@ msgstr ""
 #: common/sshsetupvalidator.py:416 common/sshsetupvalidator.py:470
 #: common/sshsetupvalidator.py:499 common/sshsetupvalidator.py:549
 msgid "Details:"
-msgstr ""
+msgstr "详情："
 
 #: common/mount/_backends.py:272
-#, fuzzy
 msgid "The remote backup directory does not exist or is not a directory."
-msgstr "远程路径存在但不是目录。"
+msgstr "远程备份目录不存在或不是目录。"
 
 #: common/mount/_backends.py:278
-#, fuzzy
 msgid "The remote backup directory is not writable."
-msgstr "备份目录无效。"
+msgstr "远程备份目录不可写。"
 
 #: common/mount/_backends.py:283
-#, fuzzy
 msgid "The remote backup directory cannot be accessed."
-msgstr "备份目标路径不能为空。"
+msgstr "无法访问远程备份目录。"
 
 #: common/mount/_backends.py:297 qt/manageprofiles/tab_general.py:125
 msgid "Path:"
@@ -211,64 +208,57 @@ msgstr "路径："
 
 #: common/mount/_backends.py:305
 msgid "No SSH host configured."
-msgstr ""
+msgstr "未配置 SSH 主机。"
 
 #: common/mount/_backends.py:312
-#, fuzzy
 msgid "No destination backup directory configured."
-msgstr "找不到备份目录。"
+msgstr "未配置备份目标目录。"
 
 #: common/mount/_backends.py:393
-#, fuzzy
 msgid "Could not mount the remote backup location."
-msgstr "无法创建远程路径。"
+msgstr "无法挂载远程备份位置。"
 
 #: common/mount/_encryptors.py:188
-#, fuzzy
 msgid ""
 "Cannot initialize encryption because the backup destination is not empty."
-msgstr "所选备份目标不为空。"
+msgstr "无法初始化加密，因为备份目标不为空。"
 
 #: common/mount/_encryptors.py:191
-#, fuzzy
 msgid "Remove existing files or choose an empty directory."
-msgstr "远程路径存在但不是目录。"
+msgstr "请移除现有文件或选择空目录。"
 
 #: common/mount/_encryptors.py:208
 #, python-brace-format
 msgid "Required tool \"{tool}\" is not installed or not available."
-msgstr ""
+msgstr "所需工具“{tool}”未安装或不可用。"
 
 #: common/mount/_encryptors.py:209
-#, fuzzy
 msgid "Please install it and try again."
-msgstr "请安装“nocache”以启用此选项。"
+msgstr "请安装该工具后重试。"
 
 #: common/mount/_encryptors.py:261
-#, fuzzy
 msgid "Unable to initialize encryption."
-msgstr "无法初始化加密路径“{command}”"
+msgstr "无法初始化加密。"
 
 #: common/mount/_encryptors.py:277
 #, python-brace-format
 msgid ""
 "Backup destination directory is not prepared for encryption. Path: {path}"
-msgstr ""
+msgstr "备份目标目录未针对加密做好准备。路径：{path}"
 
 #: common/mount/_encryptors.py:286
 #, python-brace-format
 msgid "Mointpoint as decrypted view is missing. Path: {path}"
-msgstr ""
+msgstr "作为解密视图的挂载点缺失。路径：{path}"
 
 #: common/mount/_encryptors.py:338
 #, python-brace-format
 msgid "Mount failed with return code {rc}."
-msgstr ""
+msgstr "挂载失败，返回码为 {rc}。"
 
 #: common/mount/_encryptors.py:341
-#, fuzzy
 msgid "Error:"
-msgstr "错误"
+msgstr "错误："
 
 #: common/mount/_encryptors.py:342 qt/snapshotsdialog.py:69
 msgid "Command:"
@@ -276,17 +266,17 @@ msgstr "命令："
 
 #: common/mount/_encryptors.py:373
 msgid "Unmount failed"
-msgstr ""
+msgstr "卸载失败"
 
 #: common/mount/_encryptors.py:375
 #, python-brace-format
 msgid "Return code: {rc}"
-msgstr ""
+msgstr "返回码：{rc}"
 
 #: common/mount/_encryptors.py:376
 #, python-brace-format
 msgid "Original error: {err}"
-msgstr ""
+msgstr "原始错误：{err}"
 
 #: common/password.py:312
 #, python-brace-format
@@ -440,75 +430,72 @@ msgstr "现在"
 #: common/sshsetupvalidator.py:124
 #, python-brace-format
 msgid "\"{tool}\" is not installed on the remote host."
-msgstr ""
+msgstr "远程主机上未安装“{tool}”。"
 
 #: common/sshsetupvalidator.py:221
-#, fuzzy
 msgid "ssh-agent is not installed"
-msgstr "未找到 ssh-agent。请确保已安装。"
+msgstr "未安装 ssh-agent"
 
 #: common/sshsetupvalidator.py:236
 msgid "Unexpected response from ssh-agent."
-msgstr ""
+msgstr "来自 ssh-agent 的意外响应。"
 
 #: common/sshsetupvalidator.py:252
 msgid "Unexpected output from ssh-agent."
-msgstr ""
+msgstr "来自 ssh-agent 的意外输出。"
 
 #: common/sshsetupvalidator.py:253
 msgid "Output:"
-msgstr ""
+msgstr "输出："
 
 #: common/sshsetupvalidator.py:280
 msgid "The SSH key is not loaded into ssh-agent."
-msgstr ""
+msgstr "SSH 密钥未加载到 ssh-agent 中。"
 
 #: common/sshsetupvalidator.py:309
-#, fuzzy
 msgid "Faild to add SSH key."
-msgstr "无法在 {path} 创建新 SSH 密钥。"
+msgstr "无法添加 SSH 密钥。"
 
 #: common/sshsetupvalidator.py:331
 msgid "sshfs is not installed"
-msgstr ""
+msgstr "未安装 sshfs"
 
 #: common/sshsetupvalidator.py:347
 msgid "Unexpected response from sshfs."
-msgstr ""
+msgstr "来自 sshfs 的意外响应。"
 
 #: common/sshsetupvalidator.py:373
 #, python-brace-format
 msgid "The SSH host \"{host}\" is not trusted yet."
-msgstr ""
+msgstr "尚未信任 SSH 主机“{host}”。"
 
 #: common/sshsetupvalidator.py:375
 msgid "Please connect to the host manually once to confirm its fingerprint."
-msgstr ""
+msgstr "请手动连接到主机一次以确认其指纹。"
 
 #: common/sshsetupvalidator.py:415
 msgid "Could not write files to the remote host using rsync."
-msgstr ""
+msgstr "无法使用 rsync 将文件写入远程主机。"
 
 #: common/sshsetupvalidator.py:469
 msgid "Could not verify rsync hardlink support."
-msgstr ""
+msgstr "无法验证 rsync 硬链接支持。"
 
 #: common/sshsetupvalidator.py:498
 msgid "Unexpected error while verifying rsync hardlink support."
-msgstr ""
+msgstr "在验证 rsync 硬链接支持时发生意外错误。"
 
 #: common/sshsetupvalidator.py:505
-#, fuzzy
 msgid "The remote file system does not support hardlinks."
-msgstr "远程主机 {host} 不支持硬链接"
+msgstr "远程文件系统不支持硬链接。"
 
 #: common/sshsetupvalidator.py:548
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not create remote backup directory: {path}"
-msgstr "无法创建远程路径。"
+msgstr "无法创建远程备份目录：{path}"
 
 #: common/sshtools.py:157
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Copy public SSH key \"{pubkey}\" to remote host \"{host}\"."
 msgstr "将 SSH 公钥“{pubkey}”复制到远程主机“{host}”。"
 
@@ -631,11 +618,10 @@ msgid ""
 msgstr "{app_name} 似乎是首次运行，因为未找到配置。"
 
 #: qt/app.py:348
-#, fuzzy
 msgid ""
 "Create a new configuration or import an existing configuration from a "
 "backup?"
-msgstr "是否从备份位置或其他计算机导入现有配置？"
+msgstr "创建新配置，还是从备份导入现有配置？"
 
 #: qt/app.py:353 qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -643,7 +629,7 @@ msgstr "问题"
 
 #: qt/app.py:356
 msgid "Create"
-msgstr ""
+msgstr "创建"
 
 #: qt/app.py:358 qt/restoreconfigdialog.py:131
 msgid "Import"
@@ -902,7 +888,7 @@ msgstr "仍要关闭窗口？"
 
 #: qt/app.py:1097 qt/app.py:1104
 msgid "Backup destination unavailable"
-msgstr ""
+msgstr "备份目标不可用"
 
 #: qt/app.py:1222
 msgid "Done, no backup needed"
@@ -1689,15 +1675,16 @@ msgstr ""
 "通过此代理（又称跳转主机）连接到目标主机。详情请参阅“ssh”命令文档中的“-J”或“ssh_config”手册页中的“ProxyJump”。"
 
 #: qt/manageprofiles/tab_exclude.py:63
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
 "asterisks are functional (e.g. {example2}). Other types of wildcards and "
 "patterns will be ignored (e.g. {example1}). Filenames are unpredictable in "
 "this mode."
 msgstr ""
-"{BOLD}信息{ENDBOLD}：在“SSH 加密”模式下，只有单星号或双星号有效（例如 {example2}）。其他类型的通配符和模式将被忽略（例如"
-" {example1}）。由于 EncFS 加密，此模式下文件名不可预测。"
+"{BOLD}信息{ENDBOLD}：在“SSH 加密”模式下，只有单星号或双星号有效（例如 "
+"{example2}）。其他类型的通配符和模式将被忽略（例如 {example1}）。在此模式下，"
+"文件名是不可预测的。"
 
 #: qt/manageprofiles/tab_exclude.py:86
 msgid "Exclude patterns, files or directories"
@@ -1944,29 +1931,27 @@ msgstr "加密密码不能为空。"
 
 #: qt/manageprofiles/tab_general.py:475
 msgid "Back In Time could not validate the SSH configuration."
-msgstr ""
+msgstr "Back In Time 无法验证 SSH 配置。"
 
 #: qt/manageprofiles/tab_general.py:477
 msgid "SSH profile setup failed"
-msgstr ""
+msgstr "SSH 配置设置失败"
 
 #: qt/manageprofiles/tab_general.py:521
-#, fuzzy
 msgid "Profile setup failed"
-msgstr "配置：{profile_name}"
+msgstr "配置设置失败"
 
 #: qt/manageprofiles/tab_general.py:704
 msgid "Really change the backup directory?"
 msgstr "是否确定要更改备份目录？"
 
 #: qt/manageprofiles/tab_general.py:724
-#, fuzzy
 msgid "The selected backup destination cannot be used for encryption."
-msgstr "所选备份目标不为空。"
+msgstr "所选备份目标无法用于加密。"
 
 #: qt/manageprofiles/tab_general.py:727
 msgid "It must either be empty or already initialized for gocryptfs."
-msgstr ""
+msgstr "它必须为空，或已为 gocryptfs 初始化。"
 
 #: qt/manageprofiles/tab_general.py:757
 msgid "Invalid file: Not a private SSH key"
@@ -2314,9 +2299,8 @@ msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "显示/隐藏隐藏目录（Ctrl+H）"
 
 #: qt/restoreconfigdialog.py:298
-#, fuzzy
 msgid "No config found in this directory."
-msgstr "此目录中未找到配置"
+msgstr "此目录中未找到配置。"
 
 #: qt/restoreconfigdialog.py:359
 msgid "Search complete."
@@ -2589,4 +2573,5 @@ msgstr "这些是您当前的文件，并非备份。"
 #, python-brace-format
 #~ msgid "{keytype} key fingerprint is:"
 #~ msgstr "{keytype} 密钥指纹为："
+
 # REUSE-IgnoreEnd

@@ -14,17 +14,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-06-14 15:13+0200\n"
-"PO-Revision-Date: 2026-03-27 10:57+0000\n"
+"PO-Revision-Date: 2026-06-15 20:08+0000\n"
 "Last-Translator: SomeTr <sometr@noreply.codeberg.org>\n"
-"Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
+"Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/"
+"common/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.16.2\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -69,9 +71,8 @@ msgid "SSH private key"
 msgstr "Приватний ключ SSH"
 
 #: common/config.py:249
-#, fuzzy
 msgid "SSH encrypted"
-msgstr "SSH (зашифрований EncFS)"
+msgstr "SSH (зашифрований)"
 
 #: common/config.py:281 common/config.py:293 common/config.py:311
 #: common/config.py:325 common/config.py:346
@@ -97,8 +98,8 @@ msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
 msgstr ""
-"Цей каталог неможливо включити в резервну копію, оскільки він є частиною "
-"місця призначення резервної копії."
+"Цей каталог неможливо включити в резервну копію, бо він є частиною цільового "
+"розташування резервної копії."
 
 #: common/config.py:347
 #, python-brace-format
@@ -160,9 +161,8 @@ msgid "The last profile cannot be removed."
 msgstr "Неможливо видалити останній профіль."
 
 #: common/mount/_backends.py:88
-#, fuzzy
 msgid "Can't find backup destination directory."
-msgstr "Не вдається знайти каталог резервних копій."
+msgstr "Не вдається знайти каталог для збереження резервної копії."
 
 #: common/mount/_backends.py:90 common/snapshots.py:962
 msgid "If it is on a removable drive, please plug it in."
@@ -175,24 +175,26 @@ msgstr "Потім натисніть OK."
 #: common/mount/_backends.py:108
 msgid "Back In Time could not connect to the remote backup location."
 msgstr ""
+"Програмі Back In Time не вдалося підключитися до віддаленого розташування "
+"резервних копій."
 
 #: common/mount/_backends.py:110 qt/manageprofiles/tab_general.py:476
 msgid "Reason:"
-msgstr ""
+msgstr "Причина:"
 
 #: common/mount/_backends.py:156 common/sshsetupvalidator.py:181
 #, python-brace-format
 msgid "Could not reach the SSH proxy host \"{host_port}\"."
-msgstr ""
+msgstr "Не вдалося встановити з’єднання з проксі-сервером SSH «{host_port}»."
 
 #: common/mount/_backends.py:161 common/sshsetupvalidator.py:186
 #, python-brace-format
 msgid "Could not reach the SSH host \"{host_port}\"."
-msgstr ""
+msgstr "Не вдалося встановити з’єднання із сервером SSH «{host_port}»."
 
 #: common/mount/_backends.py:215
 msgid "SSH authentication failed for:"
-msgstr ""
+msgstr "Помилка автентифікації за SSH для:"
 
 #: common/mount/_backends.py:217 common/mount/_backends.py:395
 #: common/mount/_encryptors.py:262 common/sshsetupvalidator.py:237
@@ -200,22 +202,19 @@ msgstr ""
 #: common/sshsetupvalidator.py:416 common/sshsetupvalidator.py:470
 #: common/sshsetupvalidator.py:499 common/sshsetupvalidator.py:549
 msgid "Details:"
-msgstr ""
+msgstr "Подробиці:"
 
 #: common/mount/_backends.py:272
-#, fuzzy
 msgid "The remote backup directory does not exist or is not a directory."
-msgstr "Віддалений шлях існує, але це не каталог."
+msgstr "Віддалений каталог резервних копій не існує або це не каталог."
 
 #: common/mount/_backends.py:278
-#, fuzzy
 msgid "The remote backup directory is not writable."
-msgstr "Каталог для резервних копій не є дійсним."
+msgstr "Віддалений каталог для резервних копій недоступний для запису."
 
 #: common/mount/_backends.py:283
-#, fuzzy
 msgid "The remote backup directory cannot be accessed."
-msgstr "Шлях до місця призначення резервної копії не може бути порожнім."
+msgstr "Неможливо отримати доступ до віддаленого каталогу резервних копій."
 
 #: common/mount/_backends.py:297 qt/manageprofiles/tab_general.py:125
 msgid "Path:"
@@ -223,64 +222,61 @@ msgstr "Шлях:"
 
 #: common/mount/_backends.py:305
 msgid "No SSH host configured."
-msgstr ""
+msgstr "Не налаштовано сервера SSH."
 
 #: common/mount/_backends.py:312
-#, fuzzy
 msgid "No destination backup directory configured."
-msgstr "Не вдається знайти каталог резервних копій."
+msgstr "Не налаштовано каталогу для збереження резервних копій."
 
 #: common/mount/_backends.py:393
-#, fuzzy
 msgid "Could not mount the remote backup location."
-msgstr "Не вдається створити віддалений шлях."
+msgstr "Не вдалося змонтувати віддалене розташування резервних копій."
 
 #: common/mount/_encryptors.py:188
-#, fuzzy
 msgid ""
 "Cannot initialize encryption because the backup destination is not empty."
-msgstr "Вибране місце призначення резервної копії не порожнє."
+msgstr ""
+"Неможливо ініціалізувати шифрування, оскільки цільове розташування резервної "
+"копії не порожнє."
 
 #: common/mount/_encryptors.py:191
-#, fuzzy
 msgid "Remove existing files or choose an empty directory."
-msgstr "Віддалений шлях існує, але це не каталог."
+msgstr "Видаліть наявні файли або виберіть порожній каталог."
 
 #: common/mount/_encryptors.py:208
 #, python-brace-format
 msgid "Required tool \"{tool}\" is not installed or not available."
-msgstr ""
+msgstr "Необхідний інструмент «{tool}» не встановлено або він недоступний."
 
 #: common/mount/_encryptors.py:209
-#, fuzzy
 msgid "Please install it and try again."
-msgstr "Встановіть «nocache», щоб увімкнути цей параметр."
+msgstr "Будь ласка, встановіть його та спробуйте ще раз."
 
 #: common/mount/_encryptors.py:261
-#, fuzzy
 msgid "Unable to initialize encryption."
-msgstr "Не вдається ініціалізувати зашифрований шлях «{command}»"
+msgstr "Не вдається ініціалізувати шифрування."
 
 #: common/mount/_encryptors.py:277
 #, python-brace-format
 msgid ""
 "Backup destination directory is not prepared for encryption. Path: {path}"
 msgstr ""
+"Каталог для збереження резервних копій не підготовлений для шифрування. "
+"Шлях: {path}"
 
 #: common/mount/_encryptors.py:286
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Mointpoint as decrypted view is missing. Path: {path}"
-msgstr ""
+msgstr "Відсутня точка монтування як розшифрований об’єкт. Шлях: {path}"
 
 #: common/mount/_encryptors.py:338
 #, python-brace-format
 msgid "Mount failed with return code {rc}."
-msgstr ""
+msgstr "Монтування не вдалося, код повернення {rc}."
 
 #: common/mount/_encryptors.py:341
-#, fuzzy
 msgid "Error:"
-msgstr "Помилка"
+msgstr "Помилка:"
 
 #: common/mount/_encryptors.py:342 qt/snapshotsdialog.py:69
 msgid "Command:"
@@ -288,17 +284,17 @@ msgstr "Команда:"
 
 #: common/mount/_encryptors.py:373
 msgid "Unmount failed"
-msgstr ""
+msgstr "Не вдалося розмонтувати"
 
 #: common/mount/_encryptors.py:375
 #, python-brace-format
 msgid "Return code: {rc}"
-msgstr ""
+msgstr "Код повернення: {rc}"
 
 #: common/mount/_encryptors.py:376
 #, python-brace-format
 msgid "Original error: {err}"
-msgstr ""
+msgstr "Початкова помилка: {err}"
 
 #: common/password.py:312
 #, python-brace-format
@@ -461,77 +457,76 @@ msgstr "Зараз"
 #: common/sshsetupvalidator.py:124
 #, python-brace-format
 msgid "\"{tool}\" is not installed on the remote host."
-msgstr ""
+msgstr "«{tool}» не встановлено на віддаленому сервері."
 
 #: common/sshsetupvalidator.py:221
-#, fuzzy
 msgid "ssh-agent is not installed"
-msgstr "ssh-agent не знайдено. Переконайтеся, що його встановлено."
+msgstr "ssh-agent не встановлено"
 
 #: common/sshsetupvalidator.py:236
 msgid "Unexpected response from ssh-agent."
-msgstr ""
+msgstr "Неочікувана відповідь від ssh-agent."
 
 #: common/sshsetupvalidator.py:252
 msgid "Unexpected output from ssh-agent."
-msgstr ""
+msgstr "Неочікуваний результат від ssh-agent."
 
 #: common/sshsetupvalidator.py:253
 msgid "Output:"
-msgstr ""
+msgstr "Результат:"
 
 #: common/sshsetupvalidator.py:280
 msgid "The SSH key is not loaded into ssh-agent."
-msgstr ""
+msgstr "Ключ SSH не завантажено в ssh-agent."
 
 #: common/sshsetupvalidator.py:309
-#, fuzzy
 msgid "Faild to add SSH key."
-msgstr "Не вдалося створити новий ключ SSH у {path}."
+msgstr "Не вдалося додати ключ SSH."
 
 #: common/sshsetupvalidator.py:331
 msgid "sshfs is not installed"
-msgstr ""
+msgstr "sshfs не встановлено"
 
 #: common/sshsetupvalidator.py:347
 msgid "Unexpected response from sshfs."
-msgstr ""
+msgstr "Неочікувана відповідь від sshfs."
 
 #: common/sshsetupvalidator.py:373
 #, python-brace-format
 msgid "The SSH host \"{host}\" is not trusted yet."
-msgstr ""
+msgstr "Сервер SSH «{host}» ще не є довіреним."
 
 #: common/sshsetupvalidator.py:375
 msgid "Please connect to the host manually once to confirm its fingerprint."
 msgstr ""
+"Підключіться до цього сервера вручну один раз, щоб підтвердити його відбиток."
 
 #: common/sshsetupvalidator.py:415
 msgid "Could not write files to the remote host using rsync."
-msgstr ""
+msgstr "Не вдалося записати файли на віддалений сервер за допомогою rsync."
 
 #: common/sshsetupvalidator.py:469
 msgid "Could not verify rsync hardlink support."
-msgstr ""
+msgstr "Не вдалося перевірити підтримку жорстких посилань rsync."
 
 #: common/sshsetupvalidator.py:498
 msgid "Unexpected error while verifying rsync hardlink support."
 msgstr ""
+"Непередбачена помилка під час перевірки підтримки жорстких посилань rsync."
 
 #: common/sshsetupvalidator.py:505
-#, fuzzy
 msgid "The remote file system does not support hardlinks."
-msgstr "Сервер {host} не підтримує жорсткі посилання"
+msgstr "Віддалена файлова система не підтримує жорсткі посилання."
 
 #: common/sshsetupvalidator.py:548
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not create remote backup directory: {path}"
-msgstr "Не вдається створити віддалений шлях."
+msgstr "Не вдалося створити віддалений каталог для резервних копій: {path}"
 
 #: common/sshtools.py:157
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Copy public SSH key \"{pubkey}\" to remote host \"{host}\"."
-msgstr "Копіювати публічний ключ SSH «{pubkey}» на сервер «{host}»."
+msgstr "Копіювати публічний ключ SSH «{pubkey}» на віддалений сервер «{host}»."
 
 #: common/sshtools.py:159
 #, python-brace-format
@@ -544,8 +539,8 @@ msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
-"Вказане розташування {path} відформатовано у NTFS, яка має відому "
-"несумісність з Unix-подібними файловими системами."
+"Цільову файлову систему для {path} відформатовано у NTFS, яка має відому "
+"несумісність із Unix-подібними файловими системами."
 
 #: common/tools.py:434
 #, python-brace-format
@@ -566,8 +561,8 @@ msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
 "support hard-links. Please use a native GNU/Linux filesystem."
 msgstr ""
-"Файлову систему призначення для {path} відформатовано у FAT, яка не "
-"підтримує жорсткі посилання. Використовуйте файлові системи для GNU/Linux."
+"Цільову файлову систему для {path} відформатовано у FAT, яка не підтримує "
+"жорсткі посилання. Використовуйте файлові системи для GNU/Linux."
 
 #: common/tools.py:505
 #, python-brace-format
@@ -576,7 +571,7 @@ msgid ""
 "sure the remote SMB server supports symlinks or activate \"{copyLinks}\" in "
 "\"{expertOptions}\"."
 msgstr ""
-"Файлова система призначення для {path} — змонтований спільний SMB-ресурс. "
+"Цільова файлова система для {path} — змонтований спільний SMB-ресурс. "
 "Переконайтеся, що віддалений SMB-сервер підтримує символьні посилання, або "
 "активуйте «{copyLinks}» в «{expertOptions}»."
 
@@ -594,9 +589,8 @@ msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
 "doesn't support hard-links. Please use mode \"SSH\" instead."
 msgstr ""
-"Файлова система призначення для {path} — змонтований спільний sshfs-ресурс. "
-"Sshfs не підтримує жорсткі посилання. Будь ласка, використовуйте режим "
-"«SSH»."
+"Цільова файлова система для {path} — змонтований спільний sshfs-ресурс. "
+"Sshfs не підтримує жорсткі посилання. Будь ласка, використовуйте режим «SSH»."
 
 #: common/tools.py:548
 msgid "File creation failed in this directory:"
@@ -662,13 +656,10 @@ msgstr ""
 "конфігурації."
 
 #: qt/app.py:348
-#, fuzzy
 msgid ""
 "Create a new configuration or import an existing configuration from a "
 "backup?"
-msgstr ""
-"Імпортувати існуючу конфігурацію з каталогу резервної копії або з іншого "
-"комп’ютера?"
+msgstr "Створити нову конфігурацію чи імпортувати існуючу з резервної копії?"
 
 #: qt/app.py:353 qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -676,11 +667,11 @@ msgstr "Питання"
 
 #: qt/app.py:356
 msgid "Create"
-msgstr ""
+msgstr "Створити"
 
 #: qt/app.py:358 qt/restoreconfigdialog.py:131
 msgid "Import"
-msgstr "Імпорт"
+msgstr "Імпортувати"
 
 #: qt/app.py:495
 msgid "Create a backup"
@@ -940,7 +931,7 @@ msgstr "Все одно закрити вікно?"
 
 #: qt/app.py:1097 qt/app.py:1104
 msgid "Backup destination unavailable"
-msgstr ""
+msgstr "Місце збереження резервних копій недоступне"
 
 #: qt/app.py:1222
 msgid "Done, no backup needed"
@@ -1077,8 +1068,8 @@ msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr ""
-"Призначення має лише {free} вільного місця, що нижче налаштованого порога в "
-"{threshold}."
+"Цільове розташування має лише {free} вільного місця, що нижче налаштованого "
+"порога в {threshold}."
 
 #: qt/app.py:1918
 msgid "Proceed with the backup?"
@@ -1161,7 +1152,7 @@ msgid ""
 "Only restore elements which do not exist or are newer than those in "
 "destination. Using \"{rsync_example}\" option."
 msgstr ""
-"Відновити лише елементи, які відсутні або новіші, ніж ті, що у вказаному "
+"Відновити лише елементи, які відсутні або новіші, ніж наявні у цільовому "
 "розташуванні. Використовується «{rsync_example}»."
 
 #: qt/confirmrestoredialog.py:133
@@ -1791,7 +1782,7 @@ msgstr ""
 "до команди «ssh» або розділ «ProxyJump» у посібнику «ssh_config»."
 
 #: qt/manageprofiles/tab_exclude.py:63
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
 "asterisks are functional (e.g. {example2}). Other types of wildcards and "
@@ -1801,7 +1792,7 @@ msgstr ""
 "{BOLD}Підказка{ENDBOLD}: в режимі «SSH зашифрований» можна використовувати "
 "лише одну або дві зірочки (напр., {example2}). Інші символи підстановки і "
 "шаблони ігноруються (напр., {example1}). Імена файлів у цьому режимі "
-"непередбачувані через шифрування EncFS."
+"непередбачувані."
 
 #: qt/manageprofiles/tab_exclude.py:86
 msgid "Exclude patterns, files or directories"
@@ -2050,7 +2041,7 @@ msgstr ""
 
 #: qt/manageprofiles/tab_general.py:376
 msgid "The backup destination path cannot be empty."
-msgstr "Шлях до місця призначення резервної копії не може бути порожнім."
+msgstr "Шлях до місця збереження резервних копій не може бути порожнім."
 
 #: qt/manageprofiles/tab_general.py:392
 msgid "The encryption password cannot be empty."
@@ -2058,29 +2049,29 @@ msgstr "Пароль шифрування не може бути порожні�
 
 #: qt/manageprofiles/tab_general.py:475
 msgid "Back In Time could not validate the SSH configuration."
-msgstr ""
+msgstr "Програмі Back In Time не вдалося перевірити конфігурацію SSH."
 
 #: qt/manageprofiles/tab_general.py:477
 msgid "SSH profile setup failed"
-msgstr ""
+msgstr "Не вдалося налаштувати профіль SSH"
 
 #: qt/manageprofiles/tab_general.py:521
-#, fuzzy
 msgid "Profile setup failed"
-msgstr "Профіль: {profile_name}"
+msgstr "Не вдалося налаштувати профіль"
 
 #: qt/manageprofiles/tab_general.py:704
 msgid "Really change the backup directory?"
 msgstr "Справді змінити каталог для резервних копій?"
 
 #: qt/manageprofiles/tab_general.py:724
-#, fuzzy
 msgid "The selected backup destination cannot be used for encryption."
-msgstr "Вибране місце призначення резервної копії не порожнє."
+msgstr ""
+"Вибране місце збереження резервних копій не можна використовувати для "
+"шифрування."
 
 #: qt/manageprofiles/tab_general.py:727
 msgid "It must either be empty or already initialized for gocryptfs."
-msgstr ""
+msgstr "Воно має бути порожнім або вже ініціалізованим для gocryptfs."
 
 #: qt/manageprofiles/tab_general.py:757
 msgid "Invalid file: Not a private SSH key"
@@ -2183,8 +2174,8 @@ msgid ""
 "Shows a warning when free space on the backup destination disk is less than "
 "the specified value."
 msgstr ""
-"Попереджає, коли вільного місця на диску призначення резервної копії менше "
-"за вказане значення."
+"Попереджає, коли вільного місця на диску для зберігання резервних копій "
+"менше за вказане значення."
 
 #: qt/manageprofiles/tab_options.py:103
 msgid ""
@@ -2215,7 +2206,7 @@ msgid ""
 "earlier ones. See the {manual_link} for details and examples."
 msgstr ""
 "Наведені нижче правила обробляються зверху вниз. Пізніші правила мають "
-"перевагу над попередніми. Подробиці та приклади див. в {manual_link}."
+"перевагу над попередніми. Подробиці та приклади див. у {manual_link}."
 
 #: qt/manageprofiles/tab_remove_retention.py:223
 msgid "Open user manual in browser."
@@ -2273,7 +2264,7 @@ msgstr "Політика збереження"
 
 #: qt/manageprofiles/tab_remove_retention.py:310
 msgid "Run in background on remote host."
-msgstr "Виконувати у фоні на сервері."
+msgstr "Виконувати у фоні на віддаленому сервері."
 
 #: qt/manageprofiles/tab_remove_retention.py:313
 msgid ""
@@ -2457,9 +2448,8 @@ msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Показати/сховати приховані каталоги (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:298
-#, fuzzy
 msgid "No config found in this directory."
-msgstr "Не знайдено конфігурації в цьому каталозі"
+msgstr "Не знайдено конфігурації в цьому каталозі."
 
 #: qt/restoreconfigdialog.py:359
 msgid "Search complete."
@@ -2753,4 +2743,5 @@ msgstr "Це Ваші файли в їхньому поточному стані
 #, python-brace-format
 #~ msgid "{keytype} key fingerprint is:"
 #~ msgstr "Відбиток ключа {keytype}:"
+
 # REUSE-IgnoreEnd

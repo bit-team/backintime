@@ -15,17 +15,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-06-14 15:13+0200\n"
-"PO-Revision-Date: 2026-03-09 12:29+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
-"Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
+"PO-Revision-Date: 2026-06-15 09:24+0000\n"
+"Last-Translator: Atalanttore <atalanttore@noreply.codeberg.org>\n"
+"Language-Team: German <https://translate.codeberg.org/projects/backintime/"
+"common/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -70,9 +71,8 @@ msgid "SSH private key"
 msgstr "Privater SSH-Schlüssel"
 
 #: common/config.py:249
-#, fuzzy
 msgid "SSH encrypted"
-msgstr "SSH (EncFS verschlüsselt)"
+msgstr "SSH (verschlüsselt)"
 
 #: common/config.py:281 common/config.py:293 common/config.py:311
 #: common/config.py:325 common/config.py:346
@@ -162,9 +162,8 @@ msgid "The last profile cannot be removed."
 msgstr "Das letzte Profil kann nicht entfernt werden."
 
 #: common/mount/_backends.py:88
-#, fuzzy
 msgid "Can't find backup destination directory."
-msgstr "Sicherungsverzeichnis kann nicht gefunden werden."
+msgstr "Sicherungszielverzeichnis kann nicht gefunden werden."
 
 #: common/mount/_backends.py:90 common/snapshots.py:962
 msgid "If it is on a removable drive, please plug it in."
@@ -182,7 +181,7 @@ msgstr ""
 
 #: common/mount/_backends.py:110 qt/manageprofiles/tab_general.py:476
 msgid "Reason:"
-msgstr ""
+msgstr "Grund:"
 
 #: common/mount/_backends.py:156 common/sshsetupvalidator.py:181
 #, python-brace-format
@@ -196,7 +195,7 @@ msgstr ""
 
 #: common/mount/_backends.py:215
 msgid "SSH authentication failed for:"
-msgstr ""
+msgstr "SSH-Authentifizierung fehlgeschlagen für:"
 
 #: common/mount/_backends.py:217 common/mount/_backends.py:395
 #: common/mount/_encryptors.py:262 common/sshsetupvalidator.py:237
@@ -204,7 +203,7 @@ msgstr ""
 #: common/sshsetupvalidator.py:416 common/sshsetupvalidator.py:470
 #: common/sshsetupvalidator.py:499 common/sshsetupvalidator.py:549
 msgid "Details:"
-msgstr ""
+msgstr "Details:"
 
 #: common/mount/_backends.py:272
 #, fuzzy
@@ -228,12 +227,11 @@ msgstr "Pfad:"
 
 #: common/mount/_backends.py:305
 msgid "No SSH host configured."
-msgstr ""
+msgstr "Kein SSH-Host konfiguriert."
 
 #: common/mount/_backends.py:312
-#, fuzzy
 msgid "No destination backup directory configured."
-msgstr "Sicherungsverzeichnis kann nicht gefunden werden."
+msgstr "Kein Sicherungszielverzeichnis konfiguriert."
 
 #: common/mount/_backends.py:393
 #, fuzzy
@@ -256,16 +254,15 @@ msgstr ""
 #, python-brace-format
 msgid "Required tool \"{tool}\" is not installed or not available."
 msgstr ""
+"Erforderliches Werkzeug »{tool}« ist nicht installiert oder nicht verfügbar."
 
 #: common/mount/_encryptors.py:209
-#, fuzzy
 msgid "Please install it and try again."
-msgstr "Bitte 'nocache' installieren, um diese Option freizuschalten."
+msgstr "Bitte installieren und erneut versuchen."
 
 #: common/mount/_encryptors.py:261
-#, fuzzy
 msgid "Unable to initialize encryption."
-msgstr "Der verschlüsselte Pfad „{command}“ konnte nicht initialisiert werden"
+msgstr "Die Verschlüsselung konnte nicht initialisiert werden."
 
 #: common/mount/_encryptors.py:277
 #, python-brace-format
@@ -284,9 +281,8 @@ msgid "Mount failed with return code {rc}."
 msgstr ""
 
 #: common/mount/_encryptors.py:341
-#, fuzzy
 msgid "Error:"
-msgstr "Fehler"
+msgstr "Fehler:"
 
 #: common/mount/_encryptors.py:342 qt/snapshotsdialog.py:69
 msgid "Command:"
@@ -294,17 +290,17 @@ msgstr "Befehl:"
 
 #: common/mount/_encryptors.py:373
 msgid "Unmount failed"
-msgstr ""
+msgstr "Aushängen fehlgeschlagen"
 
 #: common/mount/_encryptors.py:375
 #, python-brace-format
 msgid "Return code: {rc}"
-msgstr ""
+msgstr "Rückgabecode: {rc}"
 
 #: common/mount/_encryptors.py:376
 #, python-brace-format
 msgid "Original error: {err}"
-msgstr ""
+msgstr "Ursprünglicher Fehler: {err}"
 
 #: common/password.py:312
 #, python-brace-format
@@ -474,26 +470,24 @@ msgid "\"{tool}\" is not installed on the remote host."
 msgstr ""
 
 #: common/sshsetupvalidator.py:221
-#, fuzzy
 msgid "ssh-agent is not installed"
-msgstr ""
-"ssh-agent nicht gefunden. Bitte sicherstellen, dass er installiert ist."
+msgstr "ssh-agent ist nicht installiert"
 
 #: common/sshsetupvalidator.py:236
 msgid "Unexpected response from ssh-agent."
-msgstr ""
+msgstr "Unerwartete Antwort von ssh-agent."
 
 #: common/sshsetupvalidator.py:252
 msgid "Unexpected output from ssh-agent."
-msgstr ""
+msgstr "Unerwartete Ausgabe von ssh-agent."
 
 #: common/sshsetupvalidator.py:253
 msgid "Output:"
-msgstr ""
+msgstr "Ausgabe:"
 
 #: common/sshsetupvalidator.py:280
 msgid "The SSH key is not loaded into ssh-agent."
-msgstr ""
+msgstr "Der SSH-Schlüssel ist nicht im ssh-agent geladen."
 
 #: common/sshsetupvalidator.py:309
 #, fuzzy
@@ -2092,25 +2086,27 @@ msgstr ""
 
 #: qt/manageprofiles/tab_general.py:477
 msgid "SSH profile setup failed"
-msgstr ""
+msgstr "SSH-Profileinrichtung fehlgeschlagen"
 
 #: qt/manageprofiles/tab_general.py:521
-#, fuzzy
 msgid "Profile setup failed"
-msgstr "Profil: {profile_name}"
+msgstr "Profileinrichtung fehlgeschlagen"
 
 #: qt/manageprofiles/tab_general.py:704
 msgid "Really change the backup directory?"
 msgstr "Wirklich das Sicherungsverzeichnis ändern?"
 
 #: qt/manageprofiles/tab_general.py:724
-#, fuzzy
 msgid "The selected backup destination cannot be used for encryption."
-msgstr "Das ausgewählte Sicherungsziel ist nicht leer."
+msgstr ""
+"Das ausgewählte Sicherungsziel kann nicht für die Verschlüsselung verwendet "
+"werden."
 
 #: qt/manageprofiles/tab_general.py:727
 msgid "It must either be empty or already initialized for gocryptfs."
 msgstr ""
+"Er muss entweder leer sein oder bereits für gocryptfs initialisiert worden "
+"sein."
 
 #: qt/manageprofiles/tab_general.py:757
 msgid "Invalid file: Not a private SSH key"
@@ -2801,4 +2797,5 @@ msgstr "Dies sind die Dateien, so wie sie jetzt sind. Es ist keine Sicherung."
 #, python-brace-format
 #~ msgid "{keytype} key fingerprint is:"
 #~ msgstr "{keytype} Fingerabdruck des Schlüssels ist:"
+
 # REUSE-IgnoreEnd

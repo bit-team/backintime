@@ -14,17 +14,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-06-14 15:13+0200\n"
-"PO-Revision-Date: 2026-05-21 11:07+0000\n"
+"PO-Revision-Date: 2026-06-15 20:08+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
-"Language-Team: Armenian <https://translate.codeberg.org/projects/backintime/common/hy/>\n"
+"Language-Team: Armenian <https://translate.codeberg.org/projects/backintime/"
+"common/hy/>\n"
 "Language: hy\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.5\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -299,7 +300,7 @@ msgid "Original error: {err}"
 msgstr ""
 
 #: common/password.py:312
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "Մուտքագրեք գաղտնաբառը {mode} պրոֆիլի համար «{profile}»."
 
@@ -551,6 +552,7 @@ msgid "{path} is not a valid directory."
 msgstr "{path}-ը վավեր թղթապանակ չէ:"
 
 #: common/tools.py:451
+#, fuzzy
 msgid "Creation of following directory failed:"
 msgstr "Հետևյալ թղթապանակի ստեղծումը ձախողվեց."
 
@@ -596,6 +598,7 @@ msgstr ""
 " Sshfs-ը չի աջակցում կոշտ հղումներ: Փոխարենը օգտագործեք «SSH» ռեժիմը:"
 
 #: common/tools.py:548
+#, fuzzy
 msgid "File creation failed in this directory:"
 msgstr "Ֆայլի ստեղծումը ձախողվեց այս թղթապանակում."
 
@@ -701,6 +704,7 @@ msgstr ""
 "հայտնաբերման համար:"
 
 #: qt/app.py:504 qt/qtsystrayicon.py:126
+#, fuzzy
 msgid "Pause backup process"
 msgstr "Վերականգնել"
 
@@ -822,6 +826,7 @@ msgstr "Մասին"
 
 #: qt/app.py:611 qt/restoredialog.py:46 qt/snapshotsdialog.py:183
 #: qt/snapshotsdialog.py:188
+#, fuzzy
 msgid "Restore"
 msgstr "Վերականգնել"
 
@@ -936,6 +941,7 @@ msgstr ""
 "պահուստավորման ավարտից հետո:"
 
 #: qt/app.py:1006
+#, fuzzy
 msgid "Close the window anyway?"
 msgstr "Ամեն դեպքում փակե՞լ պատուհանը:"
 
@@ -948,6 +954,7 @@ msgid "Done, no backup needed"
 msgstr "Կատարված է, պահուստավորման կարիք չկա"
 
 #: qt/app.py:1293
+#, fuzzy
 msgid "Working:"
 msgstr "Աշխատում է."
 
@@ -960,6 +967,7 @@ msgid "Error"
 msgstr "Սխալ"
 
 #: qt/app.py:1347 qt/qtsystrayicon.py:282
+#, fuzzy
 msgid "Sent:"
 msgstr "Ուղարկված."
 
@@ -1303,6 +1311,7 @@ msgid "&Include"
 msgstr "Ավտո-հեռացում"
 
 #: qt/manageprofiles/__init__.py:120
+#, fuzzy
 msgid "&Exclude"
 msgstr "Ընտրանքներ"
 
@@ -1336,6 +1345,7 @@ msgid "Delete the profile \"{name}\"?"
 msgstr ""
 
 #: qt/manageprofiles/copylinkswidget.py:38
+#, fuzzy
 msgid "Copy symbolic links as files"
 msgstr "Ռեժիմ՝"
 
@@ -1463,26 +1473,32 @@ msgid "Kernel and process information"
 msgstr ""
 
 #: qt/manageprofiles/excludesuggestions.py:89
+#, fuzzy
 msgid "Device and other hardware information (sysfs interface)"
 msgstr "Ուղի՝"
 
 #: qt/manageprofiles/excludesuggestions.py:92
+#, fuzzy
 msgid "Device nodes"
 msgstr "Ընտրել…"
 
 #: qt/manageprofiles/excludesuggestions.py:93
+#, fuzzy
 msgid "Runtime system files"
 msgstr "Հոսթ՝"
 
 #: qt/manageprofiles/excludesuggestions.py:95
+#, fuzzy
 msgid "Other non-persistent"
 msgstr "Պորտ՝"
 
 #: qt/manageprofiles/excludesuggestions.py:98
+#, fuzzy
 msgid "List of currently mounted filesystems"
 msgstr "Օգտատեր՝"
 
 #: qt/manageprofiles/excludesuggestions.py:101
+#, fuzzy
 msgid "System swap file (virtual memory)"
 msgstr "Գաղտնաբառ՝"
 
@@ -1507,6 +1523,7 @@ msgid "User recycle bin"
 msgstr "Յուրաքանչյուր ժամ"
 
 #: qt/manageprofiles/excludesuggestions.py:112
+#, fuzzy
 msgid "System backup files"
 msgstr "Յուրաքանչյուր օր"
 
@@ -1515,6 +1532,7 @@ msgid "Exclude Suggestions"
 msgstr "Յուրաքանչյուր շաբաթ"
 
 #: qt/manageprofiles/excludesuggestions.py:144
+#, fuzzy
 msgid "Select commonly used items to add to backup exclusions."
 msgstr "Յուրաքանչյուր ամիս"
 
@@ -1617,6 +1635,7 @@ msgid "Custom hours"
 msgstr ""
 
 #: qt/manageprofiles/schedulewidget.py:164
+#, fuzzy
 msgid "Every day"
 msgstr "Յուրաքանչյուր օր"
 
@@ -1633,6 +1652,7 @@ msgid "Every week"
 msgstr "Յուրաքանչյուր շաբաթ"
 
 #: qt/manageprofiles/schedulewidget.py:168
+#, fuzzy
 msgid "Every month"
 msgstr "Յուրաքանչյուր ամիս"
 
@@ -1669,6 +1689,7 @@ msgid "<Select another file…>"
 msgstr ""
 
 #: qt/manageprofiles/sshkeyselector.py:65
+#, fuzzy
 msgid "Choose an existing private key file from somewhere else."
 msgstr "Ավելացնել ֆայլ"
 
@@ -1677,6 +1698,7 @@ msgid "<Generate new key-pair…>"
 msgstr "Ավելացնել թղթապանակ"
 
 #: qt/manageprofiles/sshkeyselector.py:72
+#, fuzzy
 msgid "Create a new SSH key without passphrase."
 msgstr "Հեռացնել"
 
@@ -1705,6 +1727,7 @@ msgstr ""
 
 #: qt/manageprofiles/sshproxywidget.py:55 qt/manageprofiles/tab_general.py:110
 #: qt/manageprofiles/tab_general.py:231
+#, fuzzy
 msgid "Host:"
 msgstr "Հոսթ՝"
 
@@ -1762,11 +1785,12 @@ msgid "Exclude files bigger than:"
 msgstr ""
 
 #: qt/manageprofiles/tab_exclude.py:139
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Խելացի հեռացում"
 
 #: qt/manageprofiles/tab_exclude.py:141
+#, fuzzy
 msgid ""
 "With 'Full rsync mode' disabled, this setting affects only newly created "
 "files, as rsync treats it as transfer option rather than an exclusion rule. "
@@ -1779,11 +1803,12 @@ msgid "Exclude pattern"
 msgstr "վերջին երկու օրվա համար"
 
 #: qt/manageprofiles/tab_exclude.py:268
+#, fuzzy
 msgid "Enter an exclude pattern:"
 msgstr "վերջին շաբաթվա համար"
 
 #: qt/manageprofiles/tab_exclude.py:273
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "For help, see the rsync man page section {link}."
 msgstr "վերջին ամսվա համար"
 
@@ -1910,7 +1935,7 @@ msgstr "Գործարկել միայն մարտկոցով աշխատելիս"
 
 #: qt/manageprofiles/tab_expert_options.py:333
 msgid "(default: {})"
-msgstr "Ծանուցել սխալների մասին"
+msgstr ""
 
 #: qt/manageprofiles/tab_expert_options.py:334
 msgid "disabled"
@@ -1969,6 +1994,7 @@ msgid "The backup destination path cannot be empty."
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:392
+#, fuzzy
 msgid "The encryption password cannot be empty."
 msgstr "Լրացուցիչ կարգավորումներ"
 
@@ -2014,7 +2040,7 @@ msgid ""
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:792
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Գաղտնաբառ՝"
 
@@ -2058,6 +2084,7 @@ msgid "Run only one backup at a time"
 msgstr ""
 
 #: qt/manageprofiles/tab_options.py:56
+#, fuzzy
 msgid ""
 "Other backups will be blocked until the current backup is completed. This is"
 " a global setting, meaning it will affect all profiles for this user. "
@@ -2085,12 +2112,14 @@ msgid "Warn if the free disk space falls below"
 msgstr ""
 
 #: qt/manageprofiles/tab_options.py:101
+#, fuzzy
 msgid ""
 "Shows a warning when free space on the backup destination disk is less than "
 "the specified value."
 msgstr "Ամսաթիվ"
 
 #: qt/manageprofiles/tab_options.py:103
+#, fuzzy
 msgid ""
 "If the Remove & Retention policy is enabled and old backups are removed "
 "based on available free space, this value cannot be lower than the value set"
@@ -2151,6 +2180,7 @@ msgid "Remove backups older than"
 msgstr ""
 
 #: qt/manageprofiles/tab_remove_retention.py:284
+#, fuzzy
 msgid "Full days. Current day is ignored."
 msgstr "Փակել"
 
@@ -2195,10 +2225,12 @@ msgid "day(s)."
 msgstr ""
 
 #: qt/manageprofiles/tab_remove_retention.py:334
+#, fuzzy
 msgid "Keep the last backup for each day for the last"
 msgstr "Դիտել պատկերները՝"
 
 #: qt/manageprofiles/tab_remove_retention.py:344
+#, fuzzy
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
@@ -2222,6 +2254,7 @@ msgid "Keep the last backup for each month for the last"
 msgstr ""
 
 #: qt/manageprofiles/tab_remove_retention.py:365
+#, fuzzy
 msgid "month(s)."
 msgstr "Համեմատություն"
 
@@ -2291,7 +2324,7 @@ msgid "View Last Log"
 msgstr ""
 
 #: qt/qtsystrayicon.py:148
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Start {appname}"
 msgstr "Ընտրված պատկեր՝"
 
@@ -2313,17 +2346,19 @@ msgid "No directory selected"
 msgstr ""
 
 #: qt/restoreconfigdialog.py:151 qt/restoreconfigdialog.py:227
+#, fuzzy
 msgid "Searching…"
 msgstr "Զտիչ"
 
 #: qt/restoreconfigdialog.py:204
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "Select the backup directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr "Կիրառել"
 
 #: qt/restoreconfigdialog.py:209
+#, fuzzy
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
@@ -2401,7 +2436,7 @@ msgid ""
 msgstr ""
 
 #: qt/snapshotsdialog.py:109
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr "Ֆայլեր"
 
@@ -2438,6 +2473,7 @@ msgid "Go To"
 msgstr ""
 
 #: qt/snapshotsdialog.py:235
+#, fuzzy
 msgid "Options"
 msgstr "Ընտրանքներ"
 
@@ -2462,7 +2498,7 @@ msgid "WARNING: This cannot be revoked."
 msgstr ""
 
 #: qt/snapshotsdialog.py:488
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Exclude {path} from future backups?"
 msgstr "Մատյանների դիտում"
 
@@ -2505,6 +2541,7 @@ msgid "Last check {time}"
 msgstr ""
 
 #: qt/timeline.py:407
+#, fuzzy
 msgid "These are your files as they are right now. It is not a backup."
 msgstr "Օգտատիրոջ մատյան"
 
@@ -2582,4 +2619,5 @@ msgstr "Օգտատիրոջ մատյան"
 #~ msgstr ""
 #~ "{command}-ը չի գտնվել: Խնդրում ենք տեղադրել այն (օրինակ՝ "
 #~ "«{installcommand}»-ի միջոցով)"
+
 # REUSE-IgnoreEnd
