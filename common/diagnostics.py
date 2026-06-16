@@ -63,10 +63,8 @@ def collect_diagnostics():
 
     result['backintime'].update({
         'latest-config-version': config.Config.CONFIG_VERSION,
-        'local-config-file': cfg._LOCAL_CONFIG_PATH,
-        'local-config-file-found': Path(cfg._LOCAL_CONFIG_PATH).exists(),
-        'global-config-file': cfg._GLOBAL_CONFIG_PATH,
-        'global-config-file-found': Path(cfg._GLOBAL_CONFIG_PATH).exists(),
+        'config-file': cfg._LOCAL_CONFIG_PATH,
+        'config-file-found': Path(cfg._LOCAL_CONFIG_PATH).exists(),
         # 'distribution-package': str(distro_path),
         'started-from': str(Path(config.__file__).parent),
         'user-callback': cfg.takeSnapshotUserCallback(),
