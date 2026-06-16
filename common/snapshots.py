@@ -953,18 +953,19 @@ class Snapshots:
                         if (self.config.PLUGIN_MANAGER.hasGuiPlugins
                                 and self.config.notify()):
 
-                            # IMHO useless?
                             message = (
-                                _("Can't find backup directory.")
+                                _("Can't find backup destination directory.")
                                 + '\n'
                                 + self.config.snapshotsFullPath(profile_id)
                                 + '\n'
                                 + _('If it is on a removable drive, '
                                     'please plug it in.')
                                 + '\n'
-                                + gettext.ngettext('Waiting {n} second.',
-                                                    'Waiting {n} seconds.',
-                                                    30).format(n=30)
+                                + gettext.ngettext(
+                                    'Waiting {n} second.',
+                                    'Waiting {n} seconds.',
+                                    30
+                                ).format(n=30)
                             )
 
                             self.setTakeSnapshotMessage(
