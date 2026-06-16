@@ -22,7 +22,6 @@ Development notes:
     parses this module for that.
 """
 import os
-import sys
 import datetime
 import socket
 import random
