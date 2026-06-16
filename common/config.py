@@ -144,61 +144,6 @@ class Config(configfile.ConfigFileWithProfiles):
         # Append local config file
         self.append(self._LOCAL_CONFIG_PATH)
 
-        # Get the version of the config file
-        # or assume the highest config version if it isn't set.
-        currentConfigVersion \
-            = self.intValue('config.version', self.CONFIG_VERSION)
-
-        if currentConfigVersion < self.CONFIG_VERSION:
-            if currentConfigVersion < 5:
-                logger.error(
-                    'The config file version is 4 or lower. This config was '
-                    'made with a version of Back In Time that is out dated. '
-                    'Because of that upgrading config to the current version '
-                    'is not possible. The latest Back In Time version '
-                    'supporting upgrade the config file was v1.5.2.',
-                    self)
-                sys.exit(2)
-
-            if currentConfigVersion < 6:
-                logger.info('Update to config version 6', self)
-                # remap some keys
-                for profile in self.profiles():
-                    # make a 'schedule' domain for everything relating schedules
-                    self.remapProfileKey('snapshots.automatic_backup_anacron_period',
-                                         'schedule.repeatedly.period',
-                                         profile)
-                    self.remapProfileKey('snapshots.automatic_backup_anacron_unit',
-                                         'schedule.repeatedly.unit',
-                                         profile)
-                    self.remapProfileKey('snapshots.automatic_backup_day',
-                                         'schedule.day',
-                                         profile)
-                    self.remapProfileKey('snapshots.automatic_backup_mode',
-                                         'schedule.mode',
-                                         profile)
-                    self.remapProfileKey('snapshots.automatic_backup_time',
-                                         'schedule.time',
-                                         profile)
-                    self.remapProfileKey('snapshots.automatic_backup_weekday',
-                                         'schedule.weekday',
-                                         profile)
-                    self.remapProfileKey('snapshots.custom_backup_time',
-                                         'schedule.custom_time',
-                                         profile)
-
-                    # we don't have 'full rsync mode' anymore
-                    self.remapProfileKey('snapshots.full_rsync.take_snapshot_regardless_of_changes',
-                                         'snapshots.take_snapshot_regardless_of_changes',
-                                         profile)
-                # remap 'qt4' keys
-                self.remapKeyRegex(r'qt4', 'qt')
-                # remove old gnome and kde keys
-                self.removeKeysStartsWith('gnome')
-                self.removeKeysStartsWith('kde')
-
-            self.save()
-
         self.current_hash_id = 'local'
         self.pw = None
         self.forceUseChecksum = False
