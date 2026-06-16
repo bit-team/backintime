@@ -178,3 +178,6 @@ IS_IN_DEBUG_MODE = False
 ENCFS_MSG_STAGE = 42  # FINAL!
 
 DEFAULT_SSH_PORT = 22
+
+# Used for warnings only. Not supported anymore. #2493
+GLOBAL_CONFIG_PATH = Path('/etc/backintime/config')

@@ -394,6 +394,20 @@ def detect_cipher_settings(cfg: config.Config) -> tuple[str, str, str]:
     return result
 
 
+def _warn_about_global_config():
+    """See issue #2493. Global config is not supported anymore.
+    """
+
+    if not bitbase.GLOBAL_CONFIG_PATH.exists():
+        return
+
+    logger.critical(
+        f'The global config file ({bitbase.GLOBAL_CONFIG_PATH}) is no longer '
+        'supported. Remove it. Back In Time only supports per-user '
+        'configuration files.'
+    )
+
+
 def _warn_about_cipher(cfg: config.Config) -> None:
     """See issue #2176. Cipher options is not used anymore by BIT.
     Therefore, users having it in config need to be warned about it.
@@ -524,6 +538,8 @@ def get_config_and_select_profile(
         profile. 2 if ``check`` is ``True`` and config is not configured
 
     """
+    _warn_about_global_config()
+
     cfg = config.Config(config_path=config_path, data_path=data_path)
 
     # detect and remove encfs profiles

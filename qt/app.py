@@ -399,9 +399,19 @@ class MainWindow(QMainWindow):
     def _handle_user_messages(self):
         self._message_about_encfs_config_backup()
 
-        # Ignore if debug or release/testing candidate
-        if version.IS_RELEASE_CANDIDATE or logger.DEBUG:
-            return
+        # # Ignore if debug or release/testing candidate
+        # if version.IS_RELEASE_CANDIDATE or logger.DEBUG:
+        #     return
+
+        # See issue #2493. Global config is not supported anymore.
+        if bitbase.GLOBAL_CONFIG_PATH.exists():
+            messagebox.critical(
+                self,
+                f'The global config file ({bitbase.GLOBAL_CONFIG_PATH}) is '
+                'no longer supported.\n\nRemove it.\n\nBack In Time only '
+                'supports per-user configuration files.',
+                'Global config file support dropped'
+            )
 
         state_data = StateData()
 

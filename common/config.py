@@ -54,6 +54,7 @@ from exceptions import PermissionDeniedByPolicy
 class Config(configfile.ConfigFileWithProfiles):
     APP_NAME = bitbase.APP_NAME
 
+    # Version was introduced with 72fc490 in Sept. 2016 by Germar
     CONFIG_VERSION = 6
     """Latest or highest possible version of Back in Time's config file."""
 
@@ -108,8 +109,6 @@ class Config(configfile.ConfigFileWithProfiles):
 
         self._unsaved_profiles = []
 
-        self._GLOBAL_CONFIG_PATH = '/etc/backintime/config'
-
         HOME_FOLDER = os.path.expanduser('~')
         DATA_FOLDER = '.local/share'
         CONFIG_FOLDER = '.config'
@@ -141,9 +140,6 @@ class Config(configfile.ConfigFileWithProfiles):
         else:
             self._LOCAL_CONFIG_PATH = os.path.abspath(config_path)
             self._LOCAL_CONFIG_FOLDER = os.path.dirname(self._LOCAL_CONFIG_PATH)
-
-        # Load global config file
-        self.load(self._GLOBAL_CONFIG_PATH)
 
         # Append local config file
         self.append(self._LOCAL_CONFIG_PATH)
