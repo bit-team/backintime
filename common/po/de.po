@@ -1,0 +1,2804 @@
+# SPDX-FileCopyrightText: © 2008 Back In Time Team <bit-dev@python.org>
+# SPDX-FileCopyrightText: © Michael Wiedmann <mw@miwie.in-berlin.de>
+# SPDX-FileCopyrightText: © 2022 Christian BUHTZ <c.buhtz@posteo.jp>
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+#
+# Strict and accurate recording of translators' names began around 2022. As
+# the project started in 2008, some earlier translators' names may not have
+# been documented and could be lost.
+# REUSE-IgnoreStart
+msgid ""
+msgstr ""
+"Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
+"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"POT-Creation-Date: 2026-06-14 15:13+0200\n"
+"PO-Revision-Date: 2026-03-09 12:29+0000\n"
+"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
+"Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.15.2\n"
+
+#: common/bitlicense.py:43
+#, python-brace-format
+msgid ""
+"All licenses used in this project are located in the {dir_link} directory. "
+"To extract per-file license and copyright information using SPDX metadata, "
+"refer to {readme_link}."
+msgstr ""
+"Alle in diesem Projekt verwendeten Lizenzen befinden sich im Verzeichnis "
+"{dir_link}. Um mit Hilfe von SPDX Metadaten Lizenz- und Copyright-"
+"Informationen je Datei zu extrahieren, siehe {readme_link}."
+
+#: common/config.py:38 common/tools.py:89 qt/encfsmsgbox.py:27
+#: qt/messagebox.py:99 qt/timeline.py:35
+msgid "Warning"
+msgstr "Warnung"
+
+#: common/config.py:107 common/config.py:220
+msgid "Main profile"
+msgstr "Hauptprofil"
+
+#: common/config.py:231
+msgid "Local"
+msgstr "Lokal"
+
+#: common/config.py:237
+msgid "Local encrypted"
+msgstr "Lokal verschlüsselt"
+
+#: common/config.py:238 common/config.py:251
+#: qt/manageprofiles/tab_general.py:393
+msgid "Encryption"
+msgstr "Verschlüsselung"
+
+#: common/config.py:243
+msgid "SSH"
+msgstr "SSH"
+
+#: common/config.py:244 common/config.py:250
+#: qt/manageprofiles/tab_general.py:745
+msgid "SSH private key"
+msgstr "Privater SSH-Schlüssel"
+
+#: common/config.py:249
+#, fuzzy
+msgid "SSH encrypted"
+msgstr "SSH (EncFS verschlüsselt)"
+
+#: common/config.py:281 common/config.py:293 common/config.py:311
+#: common/config.py:325 common/config.py:346
+#, python-brace-format
+msgid "Profile: \"{name}\""
+msgstr "Profil: »{name}«"
+
+#: common/config.py:282
+msgid "Backup directory is not valid."
+msgstr "Sicherungsverzeichnis ist nicht gültig."
+
+#: common/config.py:294
+msgid "At least one directory must be selected for backup."
+msgstr "Für die Sicherung muss mindestens ein Verzeichnis ausgewählt werden."
+
+#: common/config.py:312 common/config.py:327
+#, python-brace-format
+msgid "Directory: {path}"
+msgstr "Verzeichnis: {path}"
+
+#: common/config.py:313 common/config.py:328
+msgid ""
+"This directory cannot be included in the backup as it is part of the backup "
+"destination itself."
+msgstr ""
+"Dieses Verzeichnis kann nicht in die Sicherung aufgenommen werden, da es "
+"Teil des Sicherungsziels selbst ist."
+
+#: common/config.py:347
+#, python-brace-format
+msgid ""
+"The value for \"Remove oldest backup if the free space is less than\" "
+"({val_one}) must be less than or equal the threshold for \"Warn if free disk"
+" space falls below\" ({val_two})."
+msgstr ""
+"Der Wert für »Älteste Sicherung entfernen, wenn freier Platz weniger ist "
+"als« ({val_one}) muss kleiner oder gleich dem Schwellenwert für »Warne, wenn"
+" freier Speicherplatz weniger als« ({val_two}) sein."
+
+#: common/config.py:352
+msgid ""
+"Please adjust the settings so that the backup removal limit is not higher "
+"than the warning limit."
+msgstr ""
+"Bitte die Einstellungen anpassen, so dass der Grenzwert für das Entfernen "
+"von Sicherungen nicht größer ist als das Warnlimit."
+
+#: common/config.py:1480
+#, python-brace-format
+msgid "Udev schedule doesn't work with mode {mode}"
+msgstr "Udev-Zeitplan funktioniert nicht mit Modus {mode}"
+
+#: common/config.py:1534
+msgid "Failed to write new crontab."
+msgstr "Schreiben einer neuen crontab ist fehlgeschlagen."
+
+#: common/config.py:1542
+msgid ""
+"Cron is not running, even though the crontab command is available. Scheduled"
+" backup jobs will not run. Cron might be installed but not enabled. Try "
+"running the two commands \"systemctl enable cron\" and \"systemctl start "
+"cron\", or consult the support channels of the currently used GNU/Linux "
+"distribution for assistance."
+msgstr ""
+"Cron läuft nicht, obwohl der Befehl crontab verfügbar ist. Geplante "
+"Sicherungsaufgaben werden daher nicht ausgeführt. Cron ist möglicherweise "
+"installiert, aber nicht aktiviert. Möglichkerweise kann das Problem durch "
+"Ausführen der Befehle »systemctl enable cron« und »systemctl start cron« "
+"behoben werden. Falls das nicht hilft, sollten die Supportkanäle der "
+"verwendeten GNU/Linux-Distribution konsultiert werden."
+
+#: common/configfile.py:101
+msgid "Failed to save config"
+msgstr "Konfiguration konnte nicht gespeichert werden"
+
+#: common/configfile.py:137
+msgid "Failed to load config"
+msgstr "Konfiguration konnte nicht geladen werden"
+
+#: common/configfile.py:689 common/configfile.py:789
+#, python-brace-format
+msgid "Profile \"{name}\" already exists."
+msgstr "Profil »{name}« bereits vorhanden."
+
+#: common/configfile.py:735
+msgid "The last profile cannot be removed."
+msgstr "Das letzte Profil kann nicht entfernt werden."
+
+#: common/mount/_backends.py:88
+#, fuzzy
+msgid "Can't find backup destination directory."
+msgstr "Sicherungsverzeichnis kann nicht gefunden werden."
+
+#: common/mount/_backends.py:90 common/snapshots.py:962
+msgid "If it is on a removable drive, please plug it in."
+msgstr ""
+"Wenn es sich auf einem Wechseldatenträger befindet, diesen bitte "
+"anschließen."
+
+#: common/mount/_backends.py:91
+msgid "Then press OK."
+msgstr "Dann OK drücken."
+
+#: common/mount/_backends.py:108
+msgid "Back In Time could not connect to the remote backup location."
+msgstr ""
+
+#: common/mount/_backends.py:110 qt/manageprofiles/tab_general.py:476
+msgid "Reason:"
+msgstr ""
+
+#: common/mount/_backends.py:156 common/sshsetupvalidator.py:181
+#, python-brace-format
+msgid "Could not reach the SSH proxy host \"{host_port}\"."
+msgstr ""
+
+#: common/mount/_backends.py:161 common/sshsetupvalidator.py:186
+#, python-brace-format
+msgid "Could not reach the SSH host \"{host_port}\"."
+msgstr ""
+
+#: common/mount/_backends.py:215
+msgid "SSH authentication failed for:"
+msgstr ""
+
+#: common/mount/_backends.py:217 common/mount/_backends.py:395
+#: common/mount/_encryptors.py:262 common/sshsetupvalidator.py:237
+#: common/sshsetupvalidator.py:310 common/sshsetupvalidator.py:348
+#: common/sshsetupvalidator.py:416 common/sshsetupvalidator.py:470
+#: common/sshsetupvalidator.py:499 common/sshsetupvalidator.py:549
+msgid "Details:"
+msgstr ""
+
+#: common/mount/_backends.py:272
+#, fuzzy
+msgid "The remote backup directory does not exist or is not a directory."
+msgstr ""
+"Der Pfad existiert auf dem entfernten Rechner, ist jedoch kein Verzeichnis."
+
+#: common/mount/_backends.py:278
+#, fuzzy
+msgid "The remote backup directory is not writable."
+msgstr "Sicherungsverzeichnis ist nicht gültig."
+
+#: common/mount/_backends.py:283
+#, fuzzy
+msgid "The remote backup directory cannot be accessed."
+msgstr "Der Pfad für das Sicherungsziel darf nicht leer sein."
+
+#: common/mount/_backends.py:297 qt/manageprofiles/tab_general.py:125
+msgid "Path:"
+msgstr "Pfad:"
+
+#: common/mount/_backends.py:305
+msgid "No SSH host configured."
+msgstr ""
+
+#: common/mount/_backends.py:312
+#, fuzzy
+msgid "No destination backup directory configured."
+msgstr "Sicherungsverzeichnis kann nicht gefunden werden."
+
+#: common/mount/_backends.py:393
+#, fuzzy
+msgid "Could not mount the remote backup location."
+msgstr "Der Pfad auf dem entfernten Rechner konnte nicht erstellen werden."
+
+#: common/mount/_encryptors.py:188
+#, fuzzy
+msgid ""
+"Cannot initialize encryption because the backup destination is not empty."
+msgstr "Das ausgewählte Sicherungsziel ist nicht leer."
+
+#: common/mount/_encryptors.py:191
+#, fuzzy
+msgid "Remove existing files or choose an empty directory."
+msgstr ""
+"Der Pfad existiert auf dem entfernten Rechner, ist jedoch kein Verzeichnis."
+
+#: common/mount/_encryptors.py:208
+#, python-brace-format
+msgid "Required tool \"{tool}\" is not installed or not available."
+msgstr ""
+
+#: common/mount/_encryptors.py:209
+#, fuzzy
+msgid "Please install it and try again."
+msgstr "Bitte 'nocache' installieren, um diese Option freizuschalten."
+
+#: common/mount/_encryptors.py:261
+#, fuzzy
+msgid "Unable to initialize encryption."
+msgstr "Der verschlüsselte Pfad „{command}“ konnte nicht initialisiert werden"
+
+#: common/mount/_encryptors.py:277
+#, python-brace-format
+msgid ""
+"Backup destination directory is not prepared for encryption. Path: {path}"
+msgstr ""
+
+#: common/mount/_encryptors.py:286
+#, python-brace-format
+msgid "Mointpoint as decrypted view is missing. Path: {path}"
+msgstr ""
+
+#: common/mount/_encryptors.py:338
+#, python-brace-format
+msgid "Mount failed with return code {rc}."
+msgstr ""
+
+#: common/mount/_encryptors.py:341
+#, fuzzy
+msgid "Error:"
+msgstr "Fehler"
+
+#: common/mount/_encryptors.py:342 qt/snapshotsdialog.py:69
+msgid "Command:"
+msgstr "Befehl:"
+
+#: common/mount/_encryptors.py:373
+msgid "Unmount failed"
+msgstr ""
+
+#: common/mount/_encryptors.py:375
+#, python-brace-format
+msgid "Return code: {rc}"
+msgstr ""
+
+#: common/mount/_encryptors.py:376
+#, python-brace-format
+msgid "Original error: {err}"
+msgstr ""
+
+#: common/password.py:312
+#, python-brace-format
+msgid "Enter password for {mode} profile \"{profile}\":"
+msgstr "Passwort für {mode} Profil »{profile}« eingeben:"
+
+#: common/schedule.py:238
+#, python-brace-format
+msgid ""
+"Could not install Udev rule for profile {profile_id}. DBus Service "
+"'{dbus_interface}' wasn't available."
+msgstr ""
+"Udev-Regel für Profil {profile_id} konnte nicht erstellt werden. DBus-Dienst"
+" »{dbus_interface}« war nicht verfügbar."
+
+#: common/schedule.py:251
+#, python-brace-format
+msgid "Couldn't find UUID for {path}"
+msgstr "UUID für »{path}« konnte nicht gefunden werden"
+
+#: common/snapshots.py:378 common/snapshots.py:656
+msgid "FAILED"
+msgstr "FEHLGESCHLAGEN"
+
+#: common/snapshots.py:579 common/snapshots.py:652
+msgid "Restore permissions"
+msgstr "Berechtigungen wiederherstellen"
+
+#: common/snapshots.py:656 qt/app.py:210 qt/app.py:1193 qt/app.py:1219
+#: qt/qtsystrayicon.py:119
+msgid "Done"
+msgstr "Erledigt"
+
+#: common/snapshots.py:754
+msgid ""
+"The following entries from the include list have no corresponding file or "
+"directory in the backup source:"
+msgstr ""
+"Die folgenden Einträge der Einschluss-Liste haben keine entsprechende Datei "
+"oder kein entsprechendes Verzeichnis im Quellverzeichnis:"
+
+#: common/snapshots.py:844
+msgid "Deferring backup while on battery"
+msgstr "Zurückstellen der Sicherung bei Akkubetrieb"
+
+#: common/snapshots.py:958
+msgid "Can't find backup directory."
+msgstr "Sicherungsverzeichnis kann nicht gefunden werden."
+
+#: common/snapshots.py:965
+#, python-brace-format
+msgid "Waiting {n} second."
+msgid_plural "Waiting {n} seconds."
+msgstr[0] "Warte {n} Sekunde."
+msgstr[1] "Warte {n} Sekunden."
+
+#: common/snapshots.py:1038
+#, python-brace-format
+msgid "Failed to create backup {snapshot_id}."
+msgstr "Sicherung {snapshot_id} konnte nicht erstellt werden."
+
+#: common/snapshots.py:1070
+msgid "Please be patient. Finalizing…"
+msgstr "Bitte Geduld haben. Finalisierung …"
+
+#: common/snapshots.py:1162
+msgid "Take snapshot"
+msgstr "Schnappschuss anfertigen"
+
+#: common/snapshots.py:1197
+msgid "Can't create directory."
+msgstr "Verzeichnis kann nicht erstellt werden."
+
+#: common/snapshots.py:1213
+msgid "Saving config file…"
+msgstr "Konfigurationsdatei wird gespeichert …"
+
+#: common/snapshots.py:1261
+msgid "Saving permissions…"
+msgstr "Berechtigungen werden gespeichert …"
+
+#: common/snapshots.py:1376
+#, python-brace-format
+msgid "Found incomplete backup {snapshot_id} that can be continued."
+msgstr ""
+"Unvollständige Sicherung »{snapshot_id}« gefunden, die fortgesetzt werden "
+"kann."
+
+#: common/snapshots.py:1400
+#, python-brace-format
+msgid "Removing incomplete {snapshot_id} directory from last run"
+msgstr ""
+"Entfernen des unvollständigen Verzeichnisses {snapshot_id} aus letzter "
+"Ausführung"
+
+#: common/snapshots.py:1411
+msgid "Can't remove directory"
+msgstr "Verzeichnis kann nicht entfernt werden"
+
+#: common/snapshots.py:1475
+msgid "Creating backup"
+msgstr "Sicherung wird erstellt"
+
+#: common/snapshots.py:1526
+msgid "Success"
+msgstr "Erfolg"
+
+#: common/snapshots.py:1529
+msgid "Partial transfer due to error"
+msgstr "Teilweise Übertragung aufgrund eines Fehlers"
+
+#: common/snapshots.py:1530
+msgid "Partial transfer due to vanished source files (see 'man rsync')"
+msgstr ""
+"Teilweise Übertragung aufgrund verschwundener Quelldateien (siehe 'man "
+"rsync')"
+
+#: common/snapshots.py:1534
+#, python-brace-format
+msgid "'rsync' ended with exit code {exit_code}"
+msgstr "'rsync' beendet mit Exit-Code {exit_code}"
+
+#: common/snapshots.py:1547
+msgid "See 'man rsync' for more details"
+msgstr "Siehe 'man rsync' für mehr Details"
+
+#: common/snapshots.py:1554
+msgid ""
+"Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
+msgstr ""
+"Negative Rückgabewerte von rsync sind Signalnummern (siehe 'kill -l' und "
+"'man kill')"
+
+#: common/snapshots.py:1575
+msgid "Nothing changed, no new backup necessary"
+msgstr "Es hat sich nichts geändert, keine neue Sicherung erforderlich"
+
+#: common/snapshots.py:1619
+#, python-brace-format
+msgid "Unable to rename {new_path} to {path}."
+msgstr "Umbenennen von {new_path} in {path} fehlgeschlagen."
+
+#: common/snapshots.py:2019
+msgid "Applying rules to remove old backups"
+msgstr "Regeln, zum Entfernen alter Sicherungen werden angewendet"
+
+#: common/snapshots.py:2056
+msgid "Applying retention policy"
+msgstr "Aufbewahrungs-Richtlinien werden angewendet"
+
+#: common/snapshots.py:2066
+msgid "Trying to keep min free space"
+msgstr "Versuche das Minimum an freiem Speicher freizuhalten"
+
+#: common/snapshots.py:2109
+#, python-brace-format
+msgid "Trying to keep min {perc} free inodes"
+msgstr "Es wird versucht mindestens {perc} freie Inodes zu behalten"
+
+#: common/snapshots.py:3303 qt/app.py:1536 qt/timeline.py:410
+msgid "Now"
+msgstr "Jetzt"
+
+#: common/sshsetupvalidator.py:124
+#, python-brace-format
+msgid "\"{tool}\" is not installed on the remote host."
+msgstr ""
+
+#: common/sshsetupvalidator.py:221
+#, fuzzy
+msgid "ssh-agent is not installed"
+msgstr ""
+"ssh-agent nicht gefunden. Bitte sicherstellen, dass er installiert ist."
+
+#: common/sshsetupvalidator.py:236
+msgid "Unexpected response from ssh-agent."
+msgstr ""
+
+#: common/sshsetupvalidator.py:252
+msgid "Unexpected output from ssh-agent."
+msgstr ""
+
+#: common/sshsetupvalidator.py:253
+msgid "Output:"
+msgstr ""
+
+#: common/sshsetupvalidator.py:280
+msgid "The SSH key is not loaded into ssh-agent."
+msgstr ""
+
+#: common/sshsetupvalidator.py:309
+#, fuzzy
+msgid "Faild to add SSH key."
+msgstr "Neuer SSH-Schlüssel in {path} konnte nicht erstellt werden."
+
+#: common/sshsetupvalidator.py:331
+msgid "sshfs is not installed"
+msgstr ""
+
+#: common/sshsetupvalidator.py:347
+msgid "Unexpected response from sshfs."
+msgstr ""
+
+#: common/sshsetupvalidator.py:373
+#, python-brace-format
+msgid "The SSH host \"{host}\" is not trusted yet."
+msgstr ""
+
+#: common/sshsetupvalidator.py:375
+msgid "Please connect to the host manually once to confirm its fingerprint."
+msgstr ""
+
+#: common/sshsetupvalidator.py:415
+msgid "Could not write files to the remote host using rsync."
+msgstr ""
+
+#: common/sshsetupvalidator.py:469
+msgid "Could not verify rsync hardlink support."
+msgstr ""
+
+#: common/sshsetupvalidator.py:498
+msgid "Unexpected error while verifying rsync hardlink support."
+msgstr ""
+
+#: common/sshsetupvalidator.py:505
+#, fuzzy
+msgid "The remote file system does not support hardlinks."
+msgstr "Der entfernte Rechner {host} unterstützt keine Hardlinks"
+
+#: common/sshsetupvalidator.py:548
+#, fuzzy, python-brace-format
+msgid "Could not create remote backup directory: {path}"
+msgstr "Der Pfad auf dem entfernten Rechner konnte nicht erstellen werden."
+
+#: common/sshtools.py:157
+#, fuzzy, python-brace-format
+msgid "Copy public SSH key \"{pubkey}\" to remote host \"{host}\"."
+msgstr ""
+"Öffentlichen SSH-Schlüssel »{pubkey}« zum entfernten Rechner »{host}« "
+"kopieren."
+
+#: common/sshtools.py:159
+#, python-brace-format
+msgid "Please enter a password for \"{user}\"."
+msgstr "Bitte Passwort für »{user}« eingeben."
+
+#: common/tools.py:402
+#, python-brace-format
+msgid ""
+"The destination filesystem for {path} is formatted with NTFS, which has "
+"known incompatibilities with Unix-style filesystems."
+msgstr ""
+"Das Ziel-Dateisystem für {path} ist mit NTFS formatiert, das bekannte "
+"Inkompatibilitäten mit Unix-ähnlichen Dateisysteme aufweist."
+
+#: common/tools.py:434
+#, python-brace-format
+msgid "{path} is not a valid directory."
+msgstr "Der Pfad {path} ist kein gültiges Verzeichnis."
+
+#: common/tools.py:451
+msgid "Creation of following directory failed:"
+msgstr "Erstellung des folgenden Verzeichnisses fehlgeschlagen:"
+
+#: common/tools.py:453 common/tools.py:550
+msgid "Write access may be restricted."
+msgstr "Schreibzugriff kann eingeschränkt sein."
+
+#: common/tools.py:494
+#, python-brace-format
+msgid ""
+"Destination filesystem for {path} is formatted with FAT which doesn't "
+"support hard-links. Please use a native GNU/Linux filesystem."
+msgstr ""
+"Das Ziel-Dateisystem für {path} ist mit FAT formatiert, welches Hardlinks "
+"nicht unterstützt. Bitte ein natives GNU/Linux-Dateisystem verwenden."
+
+#: common/tools.py:505
+#, python-brace-format
+msgid ""
+"Destination filesystem for {path} is a share mounted via SMB. Please make "
+"sure the remote SMB server supports symlinks or activate \"{copyLinks}\" in "
+"\"{expertOptions}\"."
+msgstr ""
+"Das Ziel-Dateisystem für {path} ist eine über SMB einghängte Freigabe. Bitte"
+" sicherstellen, dass der entfernte SMB-Server Symlinks unterstützt oder "
+"»{copyLinks}« aktivieren in »{expertOptions}«."
+
+#: common/tools.py:509
+msgid "Copy links (dereference symbolic links)"
+msgstr "Verknüpfungen kopieren (symbolische Verknüpfungen zurückverfolgen)"
+
+#: common/tools.py:510
+msgid "Expert Options"
+msgstr "Experten-Einstellungen"
+
+#: common/tools.py:514
+#, python-brace-format
+msgid ""
+"Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
+"doesn't support hard-links. Please use mode \"SSH\" instead."
+msgstr ""
+"Das Ziel-Dateisystem für {path} ist eine über sshfs eingehängte Freigabe. "
+"Sshfs unterstützt keine Hardlinks. Bitte stattdessen den Modus »SSH« "
+"verwenden."
+
+#: common/tools.py:548
+msgid "File creation failed in this directory:"
+msgstr "Erzeugen einer Datei in diesem Verzeichnis fehlgeschlagen:"
+
+#: qt/aboutdlg.py:50
+msgid "About Back In Time"
+msgstr "Über Back In Time"
+
+#: qt/aboutdlg.py:88
+msgid "Copyright:"
+msgstr "Copyright:"
+
+#: qt/aboutdlg.py:92
+msgid "Authors:"
+msgstr "Autor:innen:"
+
+#: qt/aboutdlg.py:96
+msgid "Translators:"
+msgstr "Übersetzende:"
+
+#: qt/aboutdlg.py:99
+msgid "translator-credits-placeholder"
+msgstr ""
+"Michael Wiedmann <mw@miwie.in-berlin.de>\n"
+"2022 Christian BUHTZ <c.buhtz@posteo.jp>"
+
+#: qt/aboutdlg.py:106
+msgid "Translator credits not available for current language."
+msgstr "Übersetzerangaben für aktuelle Sprache nicht verfügbar."
+
+#: qt/aboutdlg.py:115
+msgid "this link"
+msgstr "diesem Link"
+
+#: qt/aboutdlg.py:117
+#, python-brace-format
+msgid "Follow {thislink} to get translator credits for all languages."
+msgstr "Folge {thislink} für die Nennungen der Übersetzenden aller Sprachen."
+
+#: qt/aboutdlg.py:240 qt/app.py:574
+msgid "Project website"
+msgstr "Projektwebsite"
+
+#: qt/aboutdlg.py:245 qt/app.py:556
+msgid "User manual"
+msgstr "Benutzerhandbuch"
+
+#: qt/aboutdlg.py:247 qt/app.py:558
+msgid "Open user manual in browser (local if available, otherwise online)"
+msgstr ""
+"Benutzerhandbuch im Browser öffnen (lokal, wenn verfügbar, andernfalls "
+"online)"
+
+#: qt/aboutdlg.py:297
+#, python-brace-format
+msgid "{BOLD}Version{BOLDEND}: {version}"
+msgstr "{BOLD}Version{BOLDEND}: {version}"
+
+#: qt/app.py:343
+#, python-brace-format
+msgid ""
+"{app_name} appears to be running for the first time because no configuration"
+" is found."
+msgstr ""
+"{app_name} wird offenbar zum ersten Mal ausgeführt, da keine Konfiguration "
+"gefunden wurde."
+
+#: qt/app.py:348
+#, fuzzy
+msgid ""
+"Create a new configuration or import an existing configuration from a "
+"backup?"
+msgstr ""
+"Eine vorhandene Konfiguration aus einem Sicherungsspeicherort oder einem "
+"anderen Computer importieren?"
+
+#: qt/app.py:353 qt/confirmrestoredialog.py:35 qt/messagebox.py:123
+msgid "Question"
+msgstr "Frage"
+
+#: qt/app.py:356
+msgid "Create"
+msgstr ""
+
+#: qt/app.py:358 qt/restoreconfigdialog.py:131
+msgid "Import"
+msgstr "Importieren"
+
+#: qt/app.py:495
+msgid "Create a backup"
+msgstr "Sicherung erstellen"
+
+#: qt/app.py:497
+msgid "Use modification time & size for file change detection."
+msgstr "Änderungszeit und -größe zur Erkennung von Dateiänderungen verwenden."
+
+#: qt/app.py:500
+msgid "Create a backup (checksum mode)"
+msgstr "Erstelle Sicherung (Prüfsummenmodus)"
+
+#: qt/app.py:502
+msgid "Use checksums for file change detection."
+msgstr "Prüfsummen zur Erkennung von Dateiänderungen verwenden."
+
+#: qt/app.py:504 qt/qtsystrayicon.py:126
+msgid "Pause backup process"
+msgstr "Sicherungsprozess pausieren"
+
+#: qt/app.py:508 qt/qtsystrayicon.py:131
+msgid "Resume backup process"
+msgstr "Sicherungsprozess fortsetzen"
+
+#: qt/app.py:512 qt/qtsystrayicon.py:136
+msgid "Stop backup process"
+msgstr "Sicherungsprozess stoppen"
+
+#: qt/app.py:516
+msgid "Refresh backup list"
+msgstr "Sicherungsliste auffrischen"
+
+#: qt/app.py:520
+msgid "Name backup"
+msgstr "Sicherung benennen"
+
+#: qt/app.py:524
+msgid "Remove backup"
+msgstr "Sicherung entfernen"
+
+#: qt/app.py:528
+msgid "Open backup log"
+msgstr "Sicherungsprotokoll öffnen"
+
+#: qt/app.py:530
+msgid "View log of the selected backup."
+msgstr "Protokoll der ausgewählten Sicherung ansehen."
+
+#: qt/app.py:532
+msgid "Open last backup log"
+msgstr "Letztes Sicherungsprotokoll öffnen"
+
+#: qt/app.py:534
+msgid "View log of the latest backup."
+msgstr "Protokoll der letzten Sicherung ansehen."
+
+#: qt/app.py:536
+msgid "Manage profiles…"
+msgstr "Profile verwalten …"
+
+#: qt/app.py:540
+msgid "Edit user-callback"
+msgstr "User-callback bearbeiten"
+
+#: qt/app.py:544
+msgid "Shutdown"
+msgstr "Herunterfahren"
+
+#: qt/app.py:546
+msgid "Shut down system after backup has finished."
+msgstr "System nach Abschluss der Sicherung herunterfahren."
+
+#: qt/app.py:548
+msgid "Setup language…"
+msgstr "Sprache einrichten …"
+
+#: qt/app.py:552
+msgid "Exit"
+msgstr "Beenden"
+
+#: qt/app.py:562
+msgid "man page: Back In Time"
+msgstr "Manpage: Back In Time"
+
+#: qt/app.py:564
+msgid "Displays man page about Back In Time (backintime)"
+msgstr "Zeigt Manpage über Back In Time (backintime)"
+
+#: qt/app.py:567
+msgid "man page: Profiles config file"
+msgstr "Manpage: Konfigurationsdatei für Profile"
+
+#: qt/app.py:570
+msgid "Displays man page about profiles config file (backintime-config)"
+msgstr ""
+"Zeigt Manpage zur Konfigurationsdatei für Profile an (backintime-config)"
+
+#: qt/app.py:577
+msgid "Open Back In Time website in browser"
+msgstr "Öffnet Website von Back In Time im Browser"
+
+#: qt/app.py:579 qt/app.py:2327
+msgid "Changelog"
+msgstr "Änderungsprotokoll"
+
+#: qt/app.py:582
+msgid "Open changelog (locally if available, otherwise from the web)"
+msgstr ""
+"Öffnet Änderungsprotokoll (Changelog) im Browser (lokal, wenn verfügbar, "
+"andernfalls aus dem Web)"
+
+#: qt/app.py:585
+msgid "FAQ"
+msgstr "Häufige Fragen (FAQ)"
+
+#: qt/app.py:587
+msgid "Open Frequently Asked Questions (FAQ) in browser"
+msgstr "Öffnet Häufig gestellte Fragen (FAQ) im Browser"
+
+#: qt/app.py:589
+msgid "Ask a question"
+msgstr "Eine Frage stellen"
+
+#: qt/app.py:593
+msgid "Report a bug"
+msgstr "Einen Fehler melden"
+
+#: qt/app.py:596
+msgid "Translation"
+msgstr "Übersetzung"
+
+#: qt/app.py:598
+msgid "Shows the message about participation in translation again."
+msgstr "Zeigt die Nachricht zur Teilnahme an der Übersetzung erneut."
+
+#: qt/app.py:608
+msgid "About"
+msgstr "Über"
+
+#: qt/app.py:611 qt/restoredialog.py:46 qt/snapshotsdialog.py:183
+#: qt/snapshotsdialog.py:188
+msgid "Restore"
+msgstr "Wiederherstellen"
+
+#: qt/app.py:613
+msgid "Restore the selected files or directories to the original location."
+msgstr ""
+"Ausgewählte Dateien oder Verzeichnisse am ursprünglichen Ort "
+"wiederherstellen."
+
+#: qt/app.py:616 qt/app.py:1963 qt/snapshotsdialog.py:185
+msgid "Restore to …"
+msgstr "Wiederherstellen nach …"
+
+#: qt/app.py:618
+msgid "Restore the selected files or directories to a new location."
+msgstr ""
+"Die ausgewählten Dateien oder Verzeichnisse an einem neuen Ort "
+"wiederherstellen."
+
+#: qt/app.py:624
+msgid ""
+"Restore the currently shown directory and all its contents to the original "
+"location."
+msgstr ""
+"Stellt das derzeit gezeigte Verzeichnis und dessen gesamten Inhalt am "
+"ursprünglichen Ort wieder her."
+
+#: qt/app.py:630
+msgid ""
+"Restore the currently shown directory and all its contents to a new "
+"location."
+msgstr ""
+"Das aktuell angezeigte Verzeichnis und seinen gesamten Inhalt an einem neuen"
+" Ort wiederherstellen."
+
+#: qt/app.py:633
+msgid "Up"
+msgstr "Hoch"
+
+#: qt/app.py:636
+msgid "Show hidden files"
+msgstr "Versteckte Dateien zeigen"
+
+#: qt/app.py:639
+msgid "Compare backups…"
+msgstr "Sicherungen vergleichen …"
+
+#: qt/app.py:669 qt/app.py:1805
+msgid "Release Candidate"
+msgstr "Release Candidate"
+
+#: qt/app.py:672
+msgid "Shows the message about this Release Candidate again."
+msgstr "Zeigt die Nachricht über diesen Release Candidate erneut."
+
+#: qt/app.py:709
+msgid "Back In &Time"
+msgstr "Back In &Time"
+
+#: qt/app.py:714
+msgid "&Backup"
+msgstr "&Sicherung"
+
+#: qt/app.py:726
+msgid "&Restore"
+msgstr "&Wiederherstellen"
+
+#: qt/app.py:732
+msgid "&Help"
+msgstr "&Hilfe"
+
+#: qt/app.py:782
+msgid "Systray Icon"
+msgstr "Benachrichtigungssymbol"
+
+#: qt/app.py:788
+msgid "Automatic"
+msgstr "Automatisch"
+
+#: qt/app.py:792
+msgid "Light icon"
+msgstr "Helles Symbol"
+
+#: qt/app.py:793
+msgid "Dark icon"
+msgstr "Dunkles Symbol"
+
+#: qt/app.py:816
+msgid "Icons only"
+msgstr "Nur Icons"
+
+#: qt/app.py:819
+msgid "Text only"
+msgstr "Nur Text"
+
+#: qt/app.py:822
+msgid "Text below icons"
+msgstr "Text unter Icons"
+
+#: qt/app.py:825
+msgid "Text beside icon"
+msgstr "Text neben Icons"
+
+#: qt/app.py:951
+msgid "This directory doesn't exist in the selected backup."
+msgstr ""
+"Dieses Verzeichnis ist in der aktuell ausgewählten Sicherung nicht "
+"vorhanden."
+
+#: qt/app.py:954
+msgid "This directory doesn't exist on the computer."
+msgstr "Dieses Verzeichnis existiert nicht auf dem Computer."
+
+#: qt/app.py:1003
+msgid ""
+"If this window is closed, Back In Time will not be able to shut down your "
+"system when the backup is finished."
+msgstr ""
+"Wenn dieses Fenster geschlossen ist, wird Back In Time nicht in der Lage "
+"sein, dass System nach Abschluss der Sicherung herunterzufahren."
+
+#: qt/app.py:1006
+msgid "Close the window anyway?"
+msgstr "Das Fenster dennoch schließen?"
+
+#: qt/app.py:1097 qt/app.py:1104
+msgid "Backup destination unavailable"
+msgstr ""
+
+#: qt/app.py:1222
+msgid "Done, no backup needed"
+msgstr "Erledigt, keine Sicherung notwendig"
+
+#: qt/app.py:1293
+msgid "Working:"
+msgstr "In Arbeit:"
+
+#: qt/app.py:1300
+msgid "Working"
+msgstr "In Arbeit"
+
+#: qt/app.py:1306 qt/messagebox.py:136
+msgid "Error"
+msgstr "Fehler"
+
+#: qt/app.py:1347 qt/qtsystrayicon.py:282
+msgid "Sent:"
+msgstr "Gesendet:"
+
+#: qt/app.py:1348 qt/qtsystrayicon.py:283
+msgid "Speed:"
+msgstr "Geschwindigkeit:"
+
+#: qt/app.py:1349 qt/qtsystrayicon.py:284
+msgid "ETA:"
+msgstr "ETA:"
+
+#: qt/app.py:1544
+msgid "Backup:"
+msgstr "Sicherung:"
+
+#: qt/app.py:1644
+#, python-brace-format
+msgid "Restore {path}"
+msgstr "{path} wiederherstellen"
+
+#: qt/app.py:1646
+#, python-brace-format
+msgid "Restore {path} to …"
+msgstr "{path} wiederherstellen nach …"
+
+#: qt/app.py:1670
+#, python-brace-format
+msgid ""
+"Hello\n"
+"You have used Back In Time in the {language} language a few times by now.\n"
+"The translation of your installed version of Back In Time into {language} is {perc} complete. Regardless of your level of technical expertise, you can contribute to the translation and thus Back In Time itself.\n"
+"Please visit the {translation_platform_url} if you wish to contribute. For further assistance and questions, please visit the {back_in_time_project_website}.\n"
+"We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
+"Your Back In Time Team"
+msgstr ""
+"Hallo\n"
+"Sie haben Back In Time in der Sprache {language} nun schon einige Male verwendet.\n"
+"Die Übersetzung Ihrer installierten Version von Back In Time in {language} ist zu {perc} vollständig. Unabhängig von Ihren technischen Kenntnissen können Sie zur Übersetzung und damit zu Back In Time selbst beitragen.\n"
+"Bitte besuchen Sie die {translation_platform_url}, wenn Sie dazu beitragen möchten. Für weitere Unterstützung und Fragen, besuchen Sie bitte die {back_in_time_project_website}.\n"
+"Wir entschuldigen uns für die Unterbrechung. Diese Nachricht wird nicht erneut gezeigt. Dieser Dialog ist jederzeit über das Hilfe-Menü verfügbar.\n"
+"Ihr Back In Time-Team"
+
+#: qt/app.py:1699
+msgid "translation platform"
+msgstr "Übersetzungsplattform"
+
+#: qt/app.py:1704
+msgid "Website"
+msgstr "Website"
+
+#: qt/app.py:1718
+msgid "Your translation"
+msgstr "Ihre Übersetzung"
+
+#: qt/app.py:1755
+#, python-brace-format
+msgid "In the Fediverse at Mastodon: {link_and_label}."
+msgstr "Im Fediverse auf Mastodon: {link_and_label}."
+
+#: qt/app.py:1760
+#, python-brace-format
+msgid "Email to {link_and_label}."
+msgstr "E-Mail an {link_and_label}."
+
+#: qt/app.py:1764
+#, python-brace-format
+msgid "Mailing list {link_and_label}."
+msgstr "Mailingliste {link_and_label}."
+
+#: qt/app.py:1768
+#, python-brace-format
+msgid "{link_and_label} on the project website."
+msgstr "{link_and_label} auf der Projekt-Website."
+
+#: qt/app.py:1771
+msgid "Open an issue"
+msgstr "Ein Ticket öffnen"
+
+#: qt/app.py:1772
+msgid "Alternatively, you can use another channel of your choice."
+msgstr "Alternativ können Sie einen anderen Kanal Ihrer Wahl verwenden."
+
+#: qt/app.py:1777
+#, python-brace-format
+msgid ""
+"This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
+"No user data or telemetry is collected. However, the Back In Time team is very interested in knowing if the Release Candidate is being used and if it is worth continuing to provide such pre-release versions.\n"
+"Therefore, the team kindly asks for a short feedback on whether you have tested this version, even if you didn’t encounter any issues. Even a quick test run of a few minutes would help us a lot.\n"
+"The following contact options are available:\n"
+"{contact_list}\n"
+"In this version, this message won't be shown again but can be accessed anytime through the help menu.\n"
+"Thank you for your support and for helping us improve Back In Time!\n"
+"Your Back In Time Team"
+msgstr ""
+"Diese Version von Back In Time ist ein Release Candidate und dient in erster Linie der Stabilitätsprüfung im Vorfeld der nächsten offiziellen Veröffentlichung.\n"
+"Benutzerdaten oder Telemetrie werden nicht gesammelt. Das Back In Time-Team ist jedoch sehr daran interessiert zu erfahren, ob der Release Candidate verwendet wird und ob es sich lohnt, weiterhin solche Vorabversionen anzubieten.\n"
+"Daher bittet das Team um ein kurzes Feedback, ob Sie diese Version getestet haben, auch wenn Sie keine Probleme feststellen konnten. Selbst ein kurzer Testlauf von nur wenigen Minuten würde uns sehr helfen.\n"
+"Die folgenden Kontaktmöglichkeiten stehen zur Verfügung:\n"
+"{contact_list}\n"
+"In dieser Version wird diese Nachricht nicht erneut gezeigt, kann aber jederzeit über das Hilfe-Menü aufgerufen werden.\n"
+"Vielen Dank für Ihre Unterstützung und dafür, dass Sie uns dabei helfen, Back In Time zu verbessern!\n"
+"Ihr Back In Time-Team"
+
+#: qt/app.py:1869
+msgid "Check if remote host is online"
+msgstr "Überprüfen, ob der entfernte Rechner online ist"
+
+#: qt/app.py:1870
+msgid "Check if remote host supports all necessary commands."
+msgstr ""
+"Prüfen, ob der entfernte Rechner alle erforderlichen Befehle unterstützt."
+
+#: qt/app.py:1913
+#, python-brace-format
+msgid ""
+"Only {free} free space available on the destination, which is below the "
+"configured threshold of {threshold}."
+msgstr ""
+"Am Ziel ist nur noch {free} Speicherplatz frei. Das liegt unter dem "
+"konfigurierten Schwellenwert von {threshold}."
+
+#: qt/app.py:1918
+msgid "Proceed with the backup?"
+msgstr "Mit der Sicherung fortfahren?"
+
+#: qt/app.py:1943
+#, python-brace-format
+msgid "All newer files in {path} will be removed. Proceed?"
+msgstr "Alle neuen Dateien in {path} werden entfernt. Fortfahren?"
+
+#: qt/app.py:1946
+msgid "All newer files in the original directory will be removed. Proceed?"
+msgstr ""
+"Alle neueren Dateien im ursprünglichen Verzeichnis werden entfernt. "
+"Fortfahren?"
+
+#: qt/app.py:1952
+#, python-brace-format
+msgid ""
+"{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
+"the entire system."
+msgstr ""
+"{BOLD}Warnung{BOLDEND}: Das Löschen von Dateien im Wurzelverzeichnis kann "
+"das komplette System zerstören."
+
+#: qt/app.py:2189
+msgid "Backup name"
+msgstr "Sicherungsname"
+
+#: qt/app.py:2221
+msgid "Remove this backup?"
+msgid_plural "Remove these backups?"
+msgstr[0] "Diese Sicherung entfernen?"
+msgstr[1] "Diese Sicherungen entfernen?"
+
+#: qt/app.py:2288
+msgid "The language settings take effect only after restarting Back In Time."
+msgstr ""
+"Die Spracheinstellungen werden erst wirksam, nachdem Back In Time neu "
+"gestartet wurde."
+
+#: qt/backintime-qt-root.desktop:14
+msgid "Versioned Backups (root)"
+msgstr "Versionierte Sicherungen (root)"
+
+#: qt/backintime-qt-root.desktop:23
+msgid ""
+"User-friendly GUI for versioned backups that reduces disk usage (root mode)"
+msgstr ""
+"Benutzerfreundliche GUI für versionierte Sicherungen mit reduziertem "
+"Speicherplatzbedarf (root-Modus)"
+
+#: qt/backintime-qt.desktop:14
+msgid "Versioned Backups"
+msgstr "Versionierte Sicherungen"
+
+#: qt/backintime-qt.desktop:23
+msgid "User-friendly GUI for versioned backups that reduces disk usage"
+msgstr "GUI für versionierte Sicherungen mit reduziertem Speicherplatzbedarf"
+
+#: qt/confirmrestoredialog.py:76
+#, python-brace-format
+msgid ""
+"Create backup copies with trailing {suffix} before overwriting or removing "
+"local elements."
+msgstr ""
+"Sicherungskopie mit angehängten {suffix} erstellen, bevor lokale Elemente "
+"überschrieben oder entfernt werden."
+
+#: qt/confirmrestoredialog.py:81 qt/manageprofiles/tab_options.py:69
+#, python-brace-format
+msgid ""
+"Before restoring, newer versions of files will be renamed with the appended "
+"{suffix}. These files can be removed with the following command:"
+msgstr ""
+"Neuere Dateiversionen werden vor dem Wiederherstellen mit einem angehängten "
+"{suffix} umbenannt. Diese Dateien können sie mit dem folgenden Befehl "
+"entfernt werden:"
+
+#: qt/confirmrestoredialog.py:94
+#, python-brace-format
+msgid ""
+"Only restore elements which do not exist or are newer than those in "
+"destination. Using \"{rsync_example}\" option."
+msgstr ""
+"Nur Elemente wiederherstellen, die nicht vorhanden oder neuer als jene im "
+"Zielort sind. Verwendet wird Option »{rsync_example}«."
+
+#: qt/confirmrestoredialog.py:133
+msgid "Remove newer elements in original directory."
+msgstr "Neuere Elemente im ursprünglichen Verzeichnis entfernen."
+
+#: qt/confirmrestoredialog.py:135
+msgid ""
+"Restore selected files or directories to the original destination and delete"
+" files or directories which are not in the backup. Be extremely careful "
+"because this will delete files and directories which were excluded during "
+"the creation of the backup."
+msgstr ""
+"Ausgewählte Dateien oder Verzeichnisse am ursprünglichen Zielort "
+"wiederherstellen und Dateien oder Verzeichnisse löschen, die nicht in der "
+"Sicherung enthalten sind. Seien Sie äußerst vorsichtig, da dadurch Dateien "
+"und Verzeichnisse gelöscht werden, die bei der Erstellung der Sicherung "
+"ausgeschlossen wurden."
+
+#: qt/confirmrestoredialog.py:147
+msgid "Really restore this element into the new directory?"
+msgid_plural "Really restore these elements into the new directory?"
+msgstr[0] "Dieses Element wirklich in dem neuen Verzeichnis wiederherstellen?"
+msgstr[1] "Diese Elemente wirklich in dem neuen Verzeichnis wiederherstellen?"
+
+#: qt/confirmrestoredialog.py:157
+msgid "Really restore this element?"
+msgid_plural "Really restore these elements?"
+msgstr[0] "Dieses Element wirklich wiederherstellen?"
+msgstr[1] "Diese Elemente wirklich wiederherstellen?"
+
+#: qt/editusercallback.py:43
+#, python-brace-format
+msgid "User-callback: \"{filename}\""
+msgstr "User-callback: »{filename}«"
+
+#: qt/editusercallback.py:105
+#, python-brace-format
+msgid ""
+"The user-callback script must include a shebang on the first line (e.g. "
+"{example})."
+msgstr ""
+"Das User-callback-Skript muss in der ersten Zeile einen Shebang enthalten "
+"(z. B. {example})."
+
+#: qt/filedialog.py:87
+msgid "Show/hide hidden files and directories (Ctrl+H)"
+msgstr "Versteckte Dateien und Verzeichnisse zeigen/ausblenden (Strg+H)"
+
+#: qt/fileview.py:204
+msgid "Add to Include"
+msgstr "Hinzufügen zum Einbeziehen"
+
+#: qt/fileview.py:205
+msgid "Add to Exclude"
+msgstr "Hinzufügen zum Ausschließen"
+
+#: qt/fileview.py:292
+msgid "The selected item is already in the include list."
+msgid_plural "The selected items are already in the include list."
+msgstr[0] ""
+msgstr[1] ""
+
+#: qt/fileview.py:299
+msgid "The following item is already in the include list."
+msgid_plural "The following items are already in the include list."
+msgstr[0] ""
+msgstr[1] ""
+
+#: qt/fileview.py:313
+msgid "The selected item is already in the exclude list."
+msgid_plural "The selected items are already in the exclude list."
+msgstr[0] ""
+msgstr[1] ""
+
+#: qt/fileview.py:320
+msgid "The following item is already in the exclude list."
+msgid_plural "The following items are already in the exclude list."
+msgstr[0] ""
+msgstr[1] ""
+
+#: qt/languagedialog.py:36
+msgid "Setup language"
+msgstr "Sprache einstellen"
+
+#: qt/languagedialog.py:120
+#, python-brace-format
+msgid "Translated: {percent}"
+msgstr "Übersetzt: {percent}"
+
+#: qt/languagedialog.py:132
+msgid "System default"
+msgstr "Standardeinstellung des Systems"
+
+#: qt/languagedialog.py:142
+msgid "Use operating system's language."
+msgstr "Sprache des Betriebssystems verwenden."
+
+#: qt/logviewdialog.py:60
+msgid "Backup Log View"
+msgstr "Sicherungsprotokoll-Ansicht"
+
+#: qt/logviewdialog.py:60
+msgid "Last Log View"
+msgstr "Ansicht letztes Protokoll"
+
+#: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:72
+#: qt/manageprofiles/tab_general.py:243 qt/restoreconfigdialog.py:336
+msgid "Profile:"
+msgstr "Profil:"
+
+#: qt/logviewdialog.py:84
+msgid "Backups:"
+msgstr "Sicherungen:"
+
+#: qt/logviewdialog.py:91
+msgid "Filter:"
+msgstr "Filter:"
+
+#: qt/logviewdialog.py:98
+msgid "[E] Error, [I] Information, [C] Change"
+msgstr "[E] Fehler, [I] Information, [C] Änderung"
+
+#: qt/logviewdialog.py:113 qt/manageprofiles/copylinkswidget.py:56
+#: qt/manageprofiles/tab_options.py:188
+msgid "All"
+msgstr "Alles"
+
+#: qt/logviewdialog.py:119 qt/logviewdialog.py:123
+#: qt/manageprofiles/tab_options.py:187
+msgid "Changes"
+msgstr "Änderungen"
+
+#: qt/logviewdialog.py:119 qt/logviewdialog.py:122
+#: qt/manageprofiles/tab_options.py:186 qt/manageprofiles/tab_options.py:187
+msgid "Errors"
+msgstr "Fehler"
+
+#: qt/logviewdialog.py:124 qt/messagebox.py:75
+msgid "Information"
+msgid_plural "Information"
+msgstr[0] "Information"
+msgstr[1] "Informationen"
+
+#: qt/logviewdialog.py:126
+msgid "rsync transfer failures (experimental)"
+msgstr "rsync Übertragungsfehler (experimentell)"
+
+#: qt/manageprofiles/__init__.py:64
+msgid "Manage profiles"
+msgstr "Profile verwalten"
+
+#: qt/manageprofiles/__init__.py:83
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: qt/manageprofiles/__init__.py:87
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: qt/manageprofiles/__init__.py:91 qt/manageprofiles/tab_exclude.py:126
+#: qt/manageprofiles/tab_include.py:80
+msgid "Remove"
+msgstr "Entfernen"
+
+#: qt/manageprofiles/__init__.py:112
+msgid "&General"
+msgstr "&Allgemein"
+
+#: qt/manageprofiles/__init__.py:116
+msgid "&Include"
+msgstr "&Einbeziehen"
+
+#: qt/manageprofiles/__init__.py:120
+msgid "&Exclude"
+msgstr "Aus&schließen"
+
+#: qt/manageprofiles/__init__.py:135
+msgid "&Remove & Retention"
+msgstr "&Löschen & Aufbewahren"
+
+#: qt/manageprofiles/__init__.py:139
+msgid "&Options"
+msgstr "&Optionen"
+
+#: qt/manageprofiles/__init__.py:143
+msgid "E&xpert Options"
+msgstr "E&xperten-Einstellungen"
+
+#: qt/manageprofiles/__init__.py:151
+msgid "Restore Config"
+msgstr "Konfiguration wiederherstellen"
+
+#: qt/manageprofiles/__init__.py:182
+msgid "New profile"
+msgstr "Neues Profil"
+
+#: qt/manageprofiles/__init__.py:199
+msgid "Rename profile"
+msgstr "Profil umbenennen"
+
+#: qt/manageprofiles/__init__.py:215
+#, python-brace-format
+msgid "Delete the profile \"{name}\"?"
+msgstr "Das Profil »{name}« löschen?"
+
+#: qt/manageprofiles/copylinkswidget.py:38
+msgid "Copy symbolic links as files"
+msgstr "Symbolische Links als Dateien kopieren"
+
+#: qt/manageprofiles/copylinkswidget.py:43
+msgid ""
+"Copy symbolic links as real files or directories in the backup. Select "
+"whether all links or only those pointing outside the source are copied."
+msgstr ""
+"Symbolische Links als echte Dateien oder Verzeichnisse in die Sicherung "
+"kopieren. Wählen Sie aus, ob alle Links oder nur diejenigen kopiert werden "
+"sollen, die außerhalb der Quelle liegen."
+
+#: qt/manageprofiles/copylinkswidget.py:46
+msgid "This option may increase backup size."
+msgstr "Diese Option kann die Größe der Sicherung erhöhen."
+
+#: qt/manageprofiles/copylinkswidget.py:47
+msgid "Disabled by default."
+msgstr "Standardmäßig deaktiviert."
+
+#: qt/manageprofiles/copylinkswidget.py:60
+msgid ""
+"All symbolic links are replaced with real files or directories they point "
+"to. This increases backup size and may store the same files multiple times."
+msgstr ""
+"Alle symbolischen Links werden durch die tatsächlichen Dateien oder "
+"Verzeichnisse ersetzt, auf die sie verweisen. Dies erhöht die Größe der "
+"Sicherung und kann dazu führen, dass dieselben Dateien mehrfach gespeichert "
+"werden."
+
+#: qt/manageprofiles/copylinkswidget.py:63
+msgid "Uses 'rsync --copy-links'."
+msgstr "Verwendet ‚rsync --copy-links‘."
+
+#: qt/manageprofiles/copylinkswidget.py:68
+msgid "Only external"
+msgstr "Nur extern"
+
+#: qt/manageprofiles/copylinkswidget.py:72
+msgid ""
+"Only links pointing outside the backup source are copied as files. This "
+"increases backup size and may store the same files multiple times."
+msgstr ""
+"Nur Links, die außerhalb der Sicherungsquelle liegen, werden als Dateien "
+"kopiert. Dies erhöht die Größe der Sicherung und kann dazu führen, dass "
+"dieselben Dateien mehrfach gespeichert werden."
+
+#: qt/manageprofiles/copylinkswidget.py:75
+msgid "Uses 'rsync --copy-unsafe-links'."
+msgstr "Verwendet ‚rsync --copy-unsafe-links‘."
+
+#: qt/manageprofiles/excludesuggestions.py:33
+msgid "Editor & Office temporary files"
+msgstr "Editor- und Office-Temporärdateien"
+
+#: qt/manageprofiles/excludesuggestions.py:34
+msgid "Emacs backup files"
+msgstr "Emacs-Sicherungsdateien"
+
+#: qt/manageprofiles/excludesuggestions.py:35
+msgid "Emacs autosave files"
+msgstr "Emacs-Autospeicherdateien"
+
+#: qt/manageprofiles/excludesuggestions.py:36
+msgid "Vim swap files"
+msgstr "Vim-Swap-Dateien"
+
+#: qt/manageprofiles/excludesuggestions.py:37
+msgid "Microsoft Office temporary files"
+msgstr "Temporäre Dateien von Microsoft Office"
+
+#: qt/manageprofiles/excludesuggestions.py:40
+msgid "LibreOffice & other OpenDocument Editors lock files"
+msgstr "Sperrdateien von LibreOffice und anderen OpenDocument-Editoren"
+
+#: qt/manageprofiles/excludesuggestions.py:44
+msgid "Thumbnails & Temporary Pictures"
+msgstr "Vorschaubilder und temporäre Bilder"
+
+#: qt/manageprofiles/excludesuggestions.py:47
+msgid "Thumbnail cache on GNU/Linux and other unixoid OS'es"
+msgstr "Cache für Vorschaubilder unter GNU/Linux anderen unixoiden Systemen"
+
+#: qt/manageprofiles/excludesuggestions.py:50
+msgid "Thumbnail database on Windows"
+msgstr "Vorschaubild-Datenbank unter Windows"
+
+#: qt/manageprofiles/excludesuggestions.py:51
+msgid "Metadata directory on MacOS"
+msgstr "Metadaten-Verzeichnis unter macOS"
+
+#: qt/manageprofiles/excludesuggestions.py:53
+msgid "Application-specific locks"
+msgstr "Anwendungsspezifische Sperrdateien"
+
+#: qt/manageprofiles/excludesuggestions.py:56
+msgid "Discord application lock file"
+msgstr "Discord Anwendungssperrdatei"
+
+#: qt/manageprofiles/excludesuggestions.py:57
+msgid "Discord session lock file"
+msgstr "Discord Sitzungssperrdatei"
+
+#: qt/manageprofiles/excludesuggestions.py:60
+msgid "Mozilla Firefox & Thunderbird lock file"
+msgstr "Mozilla Firefox und Thunderbird Sperrdatei"
+
+#: qt/manageprofiles/excludesuggestions.py:62
+msgid "Caches & Temporary directories"
+msgstr "Caches und temporäre Verzeichnisse"
+
+#: qt/manageprofiles/excludesuggestions.py:63
+msgid "User application cache"
+msgstr "Cache für Benutzeranwendungen"
+
+#: qt/manageprofiles/excludesuggestions.py:64
+#: qt/manageprofiles/excludesuggestions.py:67
+msgid "System temporary directory"
+msgstr "Temporäres Verzeichnis des Systems"
+
+#: qt/manageprofiles/excludesuggestions.py:72
+msgid "Package cache for Debian(-based) GNU/Linux distributions"
+msgstr "Paket-Cache für Debian-(basierte) GNU/Linux-Distributionen"
+
+#: qt/manageprofiles/excludesuggestions.py:77
+msgid "Flatpak app and runtime repository"
+msgstr "Flatpak-App und Laufzeit-Repository"
+
+#: qt/manageprofiles/excludesuggestions.py:81
+msgid "System runtime directories"
+msgstr "Runtime-Verzeichnis des Systems"
+
+#: qt/manageprofiles/excludesuggestions.py:84
+msgid "Kernel and process information"
+msgstr "Kernel- und Prozessinformationen"
+
+#: qt/manageprofiles/excludesuggestions.py:89
+msgid "Device and other hardware information (sysfs interface)"
+msgstr "Gräte- und Hardwareinformationen (sysfs-Schnittestelle)"
+
+#: qt/manageprofiles/excludesuggestions.py:92
+msgid "Device nodes"
+msgstr "Gerätedateien"
+
+#: qt/manageprofiles/excludesuggestions.py:93
+msgid "Runtime system files"
+msgstr "Runtime-Systemdateien"
+
+#: qt/manageprofiles/excludesuggestions.py:95
+msgid "Other non-persistent"
+msgstr "Weitere nicht-persistente Daten"
+
+#: qt/manageprofiles/excludesuggestions.py:98
+msgid "List of currently mounted filesystems"
+msgstr "Liste aktuell eigehängter Dateisysteme"
+
+#: qt/manageprofiles/excludesuggestions.py:101
+msgid "System swap file (virtual memory)"
+msgstr "Swap-Datei des Systems (virtueller Speicher)"
+
+#: qt/manageprofiles/excludesuggestions.py:102
+msgid "GNOME virtual file system mount point"
+msgstr "Einhängepunkt des GNOME Virtual File System"
+
+#: qt/manageprofiles/excludesuggestions.py:103
+msgid "Recovered filesystem objects"
+msgstr "Verwaiste und wiederhergestellte Dateisystemobjekte"
+
+#: qt/manageprofiles/excludesuggestions.py:105
+msgid "Miscellaneous"
+msgstr "Sonstiges"
+
+#: qt/manageprofiles/excludesuggestions.py:108
+msgid "Metadata directory on Microsoft Windows"
+msgstr "Metadaten-Verzeichnis unter Microsoft Windows"
+
+#: qt/manageprofiles/excludesuggestions.py:111
+msgid "User recycle bin"
+msgstr "Persönlicher Papierkorb"
+
+#: qt/manageprofiles/excludesuggestions.py:112
+msgid "System backup files"
+msgstr "Sicherungsdateien des Systems"
+
+#: qt/manageprofiles/excludesuggestions.py:139
+msgid "Exclude Suggestions"
+msgstr "Vorschläge für Ausschlüsse"
+
+#: qt/manageprofiles/excludesuggestions.py:144
+msgid "Select commonly used items to add to backup exclusions."
+msgstr "Wähle übliche Elemente aus, um sie von der Sicherung auszuschließen."
+
+#: qt/manageprofiles/excludesuggestions.py:157
+msgid "Default"
+msgstr "Standard"
+
+#: qt/manageprofiles/excludesuggestions.py:158
+msgid "Reset to predefined selection"
+msgstr "Zurücksetzen auf vordefinierte Auswahl"
+
+#: qt/manageprofiles/schedulewidget.py:38
+msgid "Schedule"
+msgstr "Zeitplan"
+
+#: qt/manageprofiles/schedulewidget.py:64
+msgid "Day:"
+msgstr "Tag:"
+
+#: qt/manageprofiles/schedulewidget.py:69
+msgid "Weekday:"
+msgstr "Wochentag:"
+
+#: qt/manageprofiles/schedulewidget.py:74
+msgid "Time:"
+msgstr "Uhrzeit:"
+
+#: qt/manageprofiles/schedulewidget.py:79
+msgid "Hours:"
+msgstr "Stunden:"
+
+#: qt/manageprofiles/schedulewidget.py:87
+msgid "after the hour"
+msgstr "nach der vollen Stunde"
+
+#: qt/manageprofiles/schedulewidget.py:89
+msgid "Minutes:"
+msgstr "Minuten:"
+
+#: qt/manageprofiles/schedulewidget.py:93
+msgid ""
+"Run Back In Time as soon as the drive is connected (only once every X days)."
+" A sudo password prompt will appear."
+msgstr ""
+"Sobald das Laufwerk angeschlossen wurde, »Back In Time« ausführen (nur "
+"einmal alle X Tage). Es wird eine sudo-Passwortabfrage erscheinen."
+
+#: qt/manageprofiles/schedulewidget.py:98
+msgid ""
+"Run Back In Time repeatedly. This is useful if the computer is not running "
+"regularly."
+msgstr ""
+"»Back In Time« wiederholt ausführen. Das ist nützlich, wenn der Computer "
+"nicht regelmäßig läuft."
+
+#: qt/manageprofiles/schedulewidget.py:110
+msgid "Every:"
+msgstr "Alle:"
+
+#: qt/manageprofiles/schedulewidget.py:114
+msgid "Enable logging of debug messages"
+msgstr "Protokollierung von Debug-Meldungen aktivieren"
+
+#: qt/manageprofiles/schedulewidget.py:118
+msgid "Writes debug-level messages into the system log via \"--debug\"."
+msgstr ""
+"Schreibt Debug-Nachrichten in das Systemprotokoll (nutzt »--debug« Option)."
+
+#: qt/manageprofiles/schedulewidget.py:120
+msgid ""
+"Caution: Only use this temporarily for diagnostics, as it generates a large "
+"amount of output."
+msgstr ""
+"Vorsicht: Nur vorübergehend zur Diagnose verwenden, da eine große Menge an "
+"Ausgabe generiert wird."
+
+#: qt/manageprofiles/schedulewidget.py:145
+msgid "Disabled"
+msgstr "Deaktiviert"
+
+#: qt/manageprofiles/schedulewidget.py:146
+msgid "At every boot/reboot"
+msgstr "Bei jedem Hochfahren/Neustart"
+
+#: qt/manageprofiles/schedulewidget.py:148
+#: qt/manageprofiles/schedulewidget.py:150
+#: qt/manageprofiles/schedulewidget.py:152
+#, python-brace-format
+msgid "Every minute"
+msgid_plural "Every {n} minutes"
+msgstr[0] "Jede Minute"
+msgstr[1] "Alle {n} Minuten"
+
+#: qt/manageprofiles/schedulewidget.py:154
+#: qt/manageprofiles/schedulewidget.py:156
+#: qt/manageprofiles/schedulewidget.py:158
+#: qt/manageprofiles/schedulewidget.py:160
+#: qt/manageprofiles/schedulewidget.py:162
+#, python-brace-format
+msgid "Every hour"
+msgid_plural "Every {n} hours"
+msgstr[0] "Jede Stunde"
+msgstr[1] "Alle {n} Stunden"
+
+#: qt/manageprofiles/schedulewidget.py:163
+msgid "Custom hours"
+msgstr "Benutzerdefinierte Stunden"
+
+#: qt/manageprofiles/schedulewidget.py:164
+msgid "Every day"
+msgstr "Täglich"
+
+#: qt/manageprofiles/schedulewidget.py:165
+msgid "Repeatedly (anacron)"
+msgstr "Wiederholend (anacron)"
+
+#: qt/manageprofiles/schedulewidget.py:166
+msgid "When drive gets connected (udev)"
+msgstr "Sobald das Laufwerk angeschlossen wird (udev)"
+
+#: qt/manageprofiles/schedulewidget.py:167
+msgid "Every week"
+msgstr "Wöchentlich"
+
+#: qt/manageprofiles/schedulewidget.py:168
+msgid "Every month"
+msgstr "Monatlich"
+
+#: qt/manageprofiles/schedulewidget.py:169
+msgid "Every year"
+msgstr "Jährlich"
+
+#: qt/manageprofiles/schedulewidget.py:228
+msgid "Hour(s)"
+msgstr "Stunde(n)"
+
+#: qt/manageprofiles/schedulewidget.py:229
+#: qt/manageprofiles/tab_remove_retention.py:271
+msgid "Day(s)"
+msgstr "Tag(e)"
+
+#: qt/manageprofiles/schedulewidget.py:230
+#: qt/manageprofiles/tab_remove_retention.py:272
+msgid "Week(s)"
+msgstr "Woche(n)"
+
+#: qt/manageprofiles/schedulewidget.py:231
+msgid "Month(s)"
+msgstr "Monat(e)"
+
+#: qt/manageprofiles/schedulewidget.py:326
+msgid ""
+"Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
+"or */3 for periodic backups every 3 hours."
+msgstr ""
+"Benutzerdefinierte Stunden, bitte als Kommata getrennte Stundenliste "
+"schreiben (z.B. 8,12,18,23) oder */3 für wiederholte Sicherungen alle 3 "
+"Stunden."
+
+#: qt/manageprofiles/sshkeyselector.py:64
+msgid "<Select another file…>"
+msgstr "<Andere Datei auswählen…>"
+
+#: qt/manageprofiles/sshkeyselector.py:65
+msgid "Choose an existing private key file from somewhere else."
+msgstr ""
+"Wählt eine vorhandene private Schlüsseldatei von einem anderen Ort aus."
+
+#: qt/manageprofiles/sshkeyselector.py:71
+msgid "<Generate new key-pair…>"
+msgstr "<Generiere neues Schlüsselpaar …>"
+
+#: qt/manageprofiles/sshkeyselector.py:72
+msgid "Create a new SSH key without passphrase."
+msgstr "Erstellt einen neuen SSH-Schlüssel ohne Passphrase."
+
+#: qt/manageprofiles/sshkeyselector.py:92
+#, python-brace-format
+msgid "Full path: {path}"
+msgstr "Vollständiger Pfad: {path}"
+
+#: qt/manageprofiles/sshkeyselector.py:205
+msgid "Private key:"
+msgstr "Privater Schlüssel:"
+
+#: qt/manageprofiles/sshkeyselector.py:210
+msgid "Use system SSH configuration"
+msgstr "SSH-Konfiguration des Systems verwenden"
+
+#: qt/manageprofiles/sshkeyselector.py:212
+msgid ""
+"Leaves the key file unselected. SSH connections will rely on the system’s "
+"existing client configuration (e.g., ~/.ssh/config)."
+msgstr ""
+"Wählt keine Schlüsseldatei. SSH Verbindungen nutzen die Konfiguration des "
+"SSH-Clients aus dem System (z.B., ~/.ssh/config)."
+
+#: qt/manageprofiles/sshproxywidget.py:47
+msgid "SSH Proxy"
+msgstr "SSH-Proxy"
+
+#: qt/manageprofiles/sshproxywidget.py:55 qt/manageprofiles/tab_general.py:110
+#: qt/manageprofiles/tab_general.py:231
+msgid "Host:"
+msgstr "Host:"
+
+#: qt/manageprofiles/sshproxywidget.py:59 qt/manageprofiles/tab_general.py:115
+msgid "Port:"
+msgstr "Port:"
+
+#: qt/manageprofiles/sshproxywidget.py:63 qt/manageprofiles/tab_general.py:120
+#: qt/manageprofiles/tab_general.py:237
+msgid "User:"
+msgstr "User:"
+
+#: qt/manageprofiles/sshproxywidget.py:72
+msgid ""
+"Connect to the target host via this proxy (also known as a jump host). See "
+"\"-J\" in the \"ssh\" command documentation or \"ProxyJump\" in "
+"\"ssh_config\" man page for details."
+msgstr ""
+"Verbindet sich mit dem Ziel-Host über diesen Proxy (auch bekannt als Jump-"
+"Host). Für Details siehe \"-J\" in der Dokumentation des \"ssh\"-Befehls "
+"oder \"ProxyJump\" in der \"ssh_config\" man page."
+
+#: qt/manageprofiles/tab_exclude.py:63
+#, fuzzy, python-brace-format
+msgid ""
+"{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
+"asterisks are functional (e.g. {example2}). Other types of wildcards and "
+"patterns will be ignored (e.g. {example1}). Filenames are unpredictable in "
+"this mode."
+msgstr ""
+"{BOLD}Info{ENDBOLD}: Im Modus 'SSH verschlüsselt', funktionieren nur "
+"einzelne oder doppelte Sternchen (z. B. {example2}). Andere Arten von "
+"Platzhaltern und Mustern werden ignoriert (z. B. {example1}). Aufgrund der "
+"Verschlüsselung durch EncFS, sind Dateinamen in diesem Modus nicht "
+"vorhersehbar."
+
+#: qt/manageprofiles/tab_exclude.py:86
+msgid "Exclude patterns, files or directories"
+msgstr "Muster, Dateien oder Verzeichnisse ausschließen"
+
+#: qt/manageprofiles/tab_exclude.py:103
+msgid "Add pattern"
+msgstr "Muster hinzufügen"
+
+#: qt/manageprofiles/tab_exclude.py:108 qt/manageprofiles/tab_include.py:69
+msgid "Add files"
+msgstr "Dateien hinzufügen"
+
+#: qt/manageprofiles/tab_exclude.py:113 qt/manageprofiles/tab_include.py:74
+msgid "Add directories"
+msgstr "Verzeichnisse hinzufügen"
+
+#: qt/manageprofiles/tab_exclude.py:119
+msgid "Suggestions"
+msgstr "Vorschläge"
+
+#: qt/manageprofiles/tab_exclude.py:121
+msgid "Select from common used items to add to exclude list."
+msgstr "Häufig genutzte Elemente für die Ausschlussliste auswählen."
+
+#: qt/manageprofiles/tab_exclude.py:135
+msgid "Exclude files bigger than:"
+msgstr "Dateien ausschließen, die größer sind als:"
+
+#: qt/manageprofiles/tab_exclude.py:139
+#, python-brace-format
+msgid "Exclude files bigger than value in {size_unit}."
+msgstr "Dateien ausschließen, die größer sind als {size_unit}."
+
+#: qt/manageprofiles/tab_exclude.py:141
+msgid ""
+"With 'Full rsync mode' disabled, this setting affects only newly created "
+"files, as rsync treats it as transfer option rather than an exclusion rule. "
+"Consequently, large files that have already been backed up will remain in "
+"backups even if they are modified."
+msgstr ""
+"Wenn der „Vollständige rsync-Modus“ deaktiviert ist, wirkt sich diese "
+"Einstellung nur auf neu erstellte Dateien aus, da rsync sie als "
+"Übertragungsoption und nicht als Ausschlussregel behandelt. Folglich bleiben"
+" große Dateien, die bereits gesichert wurden, auch dann in den Sicherungen "
+"erhalten, wenn sie modifiziert werden."
+
+#: qt/manageprofiles/tab_exclude.py:266
+msgid "Exclude pattern"
+msgstr "Ausschlussmuster"
+
+#: qt/manageprofiles/tab_exclude.py:268
+msgid "Enter an exclude pattern:"
+msgstr "Ausschlussmuster eingeben:"
+
+#: qt/manageprofiles/tab_exclude.py:273
+#, python-brace-format
+msgid "For help, see the rsync man page section {link}."
+msgstr "Für Hilfe siehe den Abschnitt {link} der rsync-Manpage."
+
+#: qt/manageprofiles/tab_exclude.py:276
+msgid "Open rsync man page"
+msgstr "Öffnet die rsync-Manpage"
+
+#: qt/manageprofiles/tab_exclude.py:304
+msgid "Exclude files"
+msgstr "Dateien ausschließen"
+
+#: qt/manageprofiles/tab_exclude.py:317
+msgid "Exclude directories"
+msgstr "Verzeichnisse ausschließen"
+
+#: qt/manageprofiles/tab_exclude.py:403
+msgid ""
+"Disabled because this pattern is not functional in mode 'SSH encrypted'."
+msgstr ""
+"Deaktiviert, da dieses Muster im Modus »SSH verschlüsselt« nicht "
+"funktionsfähig ist."
+
+#: qt/manageprofiles/tab_expert_options.py:45
+msgid ""
+"These options are for advanced configurations. Modify only if fully aware of"
+" their implications."
+msgstr ""
+"Diese Optionen dienen der fortgeschrittenen Konfiguration. Nur ändern, wenn "
+"die Auswirkungen vollständig bekannt sind."
+
+#: qt/manageprofiles/tab_expert_options.py:54
+#: qt/manageprofiles/tab_expert_options.py:74
+#: qt/manageprofiles/tab_expert_options.py:99
+#, python-brace-format
+msgid "Run 'rsync' with '{cmd}':"
+msgstr "Starte »rsync« mit »{cmd}«:"
+
+#: qt/manageprofiles/tab_expert_options.py:61
+#: qt/manageprofiles/tab_expert_options.py:80
+msgid "as cron job"
+msgstr "als cron-job"
+
+#: qt/manageprofiles/tab_expert_options.py:67
+#: qt/manageprofiles/tab_expert_options.py:92
+#: qt/manageprofiles/tab_expert_options.py:123
+msgid "on remote host"
+msgstr "auf entfernten Rechnern"
+
+#: qt/manageprofiles/tab_expert_options.py:86
+msgid "when taking a manual backup"
+msgstr "wenn eine Sicherung manuell erstellt wird"
+
+#: qt/manageprofiles/tab_expert_options.py:110
+msgid "Please install 'nocache' to enable this option."
+msgstr "Bitte 'nocache' installieren, um diese Option freizuschalten."
+
+#: qt/manageprofiles/tab_expert_options.py:116
+msgid "on local machine"
+msgstr "auf dem lokalen Rechner"
+
+#: qt/manageprofiles/tab_expert_options.py:130
+msgid "Redirect stdout to /dev/null in cronjobs."
+msgstr "Leitet stdout in cronjobs nach /dev/null um."
+
+#: qt/manageprofiles/tab_expert_options.py:136
+msgid ""
+"Cron will automatically send an email with attached output of cronjobs if an"
+" MTA is installed."
+msgstr ""
+"Wenn ein MTA installiert ist, sendet Cron eine automatische E-Mail mit dem "
+"angehängten Ausgabeprotokoll der Cronjobs."
+
+#: qt/manageprofiles/tab_expert_options.py:142
+msgid "Redirect stderr to /dev/null in cronjobs."
+msgstr "Leitet stderr in cronjobs nach /dev/null um."
+
+#: qt/manageprofiles/tab_expert_options.py:148
+msgid ""
+"Cron will automatically send an email with attached errors of cronjobs if an"
+" MTA is installed."
+msgstr ""
+"Wenn ein MTA installiert ist, sendet Cron eine automatische E-Mail mit dem "
+"angehängten Fehlerprotokoll der Cronjobs."
+
+#: qt/manageprofiles/tab_expert_options.py:158
+msgid "KB/sec"
+msgstr "KB/s"
+
+#: qt/manageprofiles/tab_expert_options.py:163
+msgid "Limit rsync bandwidth usage:"
+msgstr "Bandbreitennutzung von rsync begrenzen:"
+
+#: qt/manageprofiles/tab_expert_options.py:204
+msgid "Preserve ACL"
+msgstr "ACL bewahren"
+
+#: qt/manageprofiles/tab_expert_options.py:222
+msgid "Preserve extended attributes (xattr)"
+msgstr "Erweiterte Attribute (xattr) bewahren"
+
+#: qt/manageprofiles/tab_expert_options.py:249
+msgid "Restrict to one file system"
+msgstr "Auf ein Dateisystem beschränken"
+
+#: qt/manageprofiles/tab_expert_options.py:267
+#, python-brace-format
+msgid "Options must be quoted e.g. {example}."
+msgstr "Optionen müssen in Anführungszeichen stehen z.B.: {example}."
+
+#: qt/manageprofiles/tab_expert_options.py:276
+msgid "Paste additional options to rsync"
+msgstr "Zusätzliche Optionen zu rsync hinzufügen"
+
+#: qt/manageprofiles/tab_expert_options.py:286
+msgid "Prefix to run before every command on remote host."
+msgstr "Präfix, das vor jedem Befehl auf dem Remote-Host ausgeführt wird."
+
+#: qt/manageprofiles/tab_expert_options.py:287
+#, python-brace-format
+msgid ""
+"Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
+"add a prefix for rsync use \"{example_value}\" with {rsync_options_value}."
+msgstr ""
+"Variablen müssen mit \\$FOO maskiert werden. Das betrifft nicht rsync. Um "
+"ein Präfix für rsync hinzuzufügen, verwenden Sie »{example_value}« mit "
+"{rsync_options_value}."
+
+#: qt/manageprofiles/tab_expert_options.py:293
+msgid "default"
+msgstr "Standard"
+
+#: qt/manageprofiles/tab_expert_options.py:298
+msgid "Add prefix to SSH commands"
+msgstr "Präfix zu SSH-Befehl hinzufügen"
+
+#: qt/manageprofiles/tab_expert_options.py:333
+msgid "(default: {})"
+msgstr "(Standard: {})"
+
+#: qt/manageprofiles/tab_expert_options.py:334
+msgid "disabled"
+msgstr "Deaktiviert"
+
+#: qt/manageprofiles/tab_expert_options.py:334
+msgid "enabled"
+msgstr "Aktiviert"
+
+#: qt/manageprofiles/tab_general.py:65 qt/restoreconfigdialog.py:338
+msgid "Mode:"
+msgstr "Modus:"
+
+#: qt/manageprofiles/tab_general.py:72 qt/manageprofiles/tab_general.py:377
+#: qt/manageprofiles/tab_general.py:681
+msgid "Where to save backups"
+msgstr "Wo Sicherungen zu speichern sind"
+
+#: qt/manageprofiles/tab_general.py:98
+msgid "SSH Settings"
+msgstr "SSH-Einstellungen"
+
+#: qt/manageprofiles/tab_general.py:132
+msgid "Key file:"
+msgstr "Schlüsseldatei:"
+
+#: qt/manageprofiles/tab_general.py:169 qt/manageprofiles/tab_general.py:177
+#: qt/manageprofiles/tab_general.py:182
+msgid "Password"
+msgstr "Passwort"
+
+#: qt/manageprofiles/tab_general.py:199
+msgid "Save Password to Keyring"
+msgstr "Passwort in Schlüsselbund speichern"
+
+#: qt/manageprofiles/tab_general.py:203
+msgid "Cache Password for Cron (Security issue: root can read password)"
+msgstr ""
+"Passwort für Cron zwischenspeichern (Sicherheitsproblem: Systemverwalter "
+"»root« kann das Passwort lesen)"
+
+#: qt/manageprofiles/tab_general.py:219
+msgid "Advanced"
+msgstr "Erweitert"
+
+#: qt/manageprofiles/tab_general.py:249 qt/manageprofiles/tab_general.py:804
+msgid "Full backup path:"
+msgstr "Vollständiger Sicherungspfad:"
+
+#: qt/manageprofiles/tab_general.py:257
+msgid ""
+"Scheduling is disabled because no cron installation was found. Please "
+"install cron to enable scheduled backups."
+msgstr ""
+"Die Zeitplanung ist deaktiviert, da keine Cron-Installation gefunden wurde. "
+"Bitte Cron installieren, um geplante Sicherungen zu aktivieren."
+
+#: qt/manageprofiles/tab_general.py:376
+msgid "The backup destination path cannot be empty."
+msgstr "Der Pfad für das Sicherungsziel darf nicht leer sein."
+
+#: qt/manageprofiles/tab_general.py:392
+msgid "The encryption password cannot be empty."
+msgstr "Das Verschlüsselungspasswort darf nicht leer sein."
+
+#: qt/manageprofiles/tab_general.py:475
+msgid "Back In Time could not validate the SSH configuration."
+msgstr ""
+
+#: qt/manageprofiles/tab_general.py:477
+msgid "SSH profile setup failed"
+msgstr ""
+
+#: qt/manageprofiles/tab_general.py:521
+#, fuzzy
+msgid "Profile setup failed"
+msgstr "Profil: {profile_name}"
+
+#: qt/manageprofiles/tab_general.py:704
+msgid "Really change the backup directory?"
+msgstr "Wirklich das Sicherungsverzeichnis ändern?"
+
+#: qt/manageprofiles/tab_general.py:724
+#, fuzzy
+msgid "The selected backup destination cannot be used for encryption."
+msgstr "Das ausgewählte Sicherungsziel ist nicht leer."
+
+#: qt/manageprofiles/tab_general.py:727
+msgid "It must either be empty or already initialized for gocryptfs."
+msgstr ""
+
+#: qt/manageprofiles/tab_general.py:757
+msgid "Invalid file: Not a private SSH key"
+msgstr "Ungültige Datei: Der SSH Schlüssel ist nicht privat"
+
+#: qt/manageprofiles/tab_general.py:758
+#, python-brace-format
+msgid ""
+"The selected file ({path}) is a public SSH key. Please choose the "
+"corresponding private key file instead (without \".pub\")."
+msgstr ""
+"Die ausgewählte Datei {path} ist ein öffentlicher SSH-Schüssel. Bitte "
+"stattdessen die entsprechende private Schlüsseldatei auswählen (ohne ».pub« "
+"Endung)."
+
+#: qt/manageprofiles/tab_general.py:782
+#, python-brace-format
+msgid ""
+"The file {path} already exists. Cannot create a new SSH key with that name."
+msgstr ""
+"Die Datei {path} ist bereits vorhanden. Es kann kein neuer SSH-Schüssel mit "
+"diesem Namen erstellt werden."
+
+#: qt/manageprofiles/tab_general.py:792
+#, python-brace-format
+msgid "Failed to create new SSH key in {path}."
+msgstr "Neuer SSH-Schlüssel in {path} konnte nicht erstellt werden."
+
+#: qt/manageprofiles/tab_include.py:49
+msgid "Include files and directories"
+msgstr "Dateien und Verzeichnisse einbeziehen"
+
+#: qt/manageprofiles/tab_include.py:169
+#, python-brace-format
+msgid ""
+"\"{path}\" is a symlink. The linked target will not be backed up until it is"
+" included, too."
+msgstr ""
+"»{path}« ist ein symbolischer Link (Symlink). Das verlinkte Ziel wird erst "
+"gesichert, wenn es ebenfalls enthalten wird."
+
+#: qt/manageprofiles/tab_include.py:173
+msgid "Include the symlink's target instead?"
+msgstr "Stattdessen das verlinkte Ziel einbeziehen?"
+
+#: qt/manageprofiles/tab_include.py:181
+msgid "Include files"
+msgstr "Dateien einbeziehen"
+
+#: qt/manageprofiles/tab_include.py:200
+msgid "Include directories"
+msgstr "Verzeichnisse einbeziehen"
+
+#: qt/manageprofiles/tab_options.py:39
+msgid "Enable notifications"
+msgstr "Benachrichtigungen aktivieren"
+
+#: qt/manageprofiles/tab_options.py:43
+msgid "Disable backups when on battery"
+msgstr "Sicherungen deaktivieren, wenn im Akkubetrieb"
+
+#: qt/manageprofiles/tab_options.py:49
+msgid "Power status not available from system"
+msgstr "Energiestatus des Systems nicht verfügbar"
+
+#: qt/manageprofiles/tab_options.py:52
+msgid "Run only one backup at a time"
+msgstr "Nur eine Sicherung gleichzeitig ausführen"
+
+#: qt/manageprofiles/tab_options.py:56
+msgid ""
+"Other backups will be blocked until the current backup is completed. This is"
+" a global setting, meaning it will affect all profiles for this user. "
+"However, it must also be activated for all other users."
+msgstr ""
+"Andere Sicherungen werden blockiert, bis die aktuelle Sicherung "
+"abgeschlossen ist. Dies ist eine globale Einstellung, die alle Profile "
+"dieses Benutzers betrifft. Sie muss jedoch auch für alle anderen Benutzer "
+"aktiviert werden."
+
+#: qt/manageprofiles/tab_options.py:63
+msgid "Backup replaced files on restore"
+msgstr "Beim Wiederherstellen Dateien ersetzen"
+
+#: qt/manageprofiles/tab_options.py:78
+msgid "Continue on errors (keep incomplete backups)"
+msgstr "Bei Fehlern fortfahren (unvollständige Sicherungen behalten)"
+
+#: qt/manageprofiles/tab_options.py:82
+msgid "Use checksum to detect changes"
+msgstr "Prüfsumme verwenden, um Änderungen zu erkennen"
+
+#: qt/manageprofiles/tab_options.py:86
+msgid "Create a new backup whether there were changes or not."
+msgstr ""
+"Neue Sicherung erstellen, egal ob Änderungen vorgenommen wurden oder nicht."
+
+#: qt/manageprofiles/tab_options.py:95
+msgid "Warn if the free disk space falls below"
+msgstr "Warne, wenn freier Speicherplatz weniger als"
+
+#: qt/manageprofiles/tab_options.py:101
+msgid ""
+"Shows a warning when free space on the backup destination disk is less than "
+"the specified value."
+msgstr ""
+"Zeigt eine Warnung, wenn der freie Speicherplatz am Sicherungsziel geringer "
+"ist, als der angegebene Wert."
+
+#: qt/manageprofiles/tab_options.py:103
+msgid ""
+"If the Remove & Retention policy is enabled and old backups are removed "
+"based on available free space, this value cannot be lower than the value set"
+" in the policy."
+msgstr ""
+"Wenn die Richtlinien zum Löschen & Aufbewahren aktiviert sind und alte "
+"Sicherungen abhängig vom verfügbaren Speicherplatz gelöscht werden, darf "
+"dieser Wert nicht niedriger sein als der in der Richtlinie festgelegte Wert."
+
+#: qt/manageprofiles/tab_options.py:122
+msgid "Log Level:"
+msgstr "Protokollierungsstufe:"
+
+#: qt/manageprofiles/tab_options.py:185
+msgid "None"
+msgstr "Nichts"
+
+#: qt/manageprofiles/tab_remove_retention.py:206
+msgid "user manual"
+msgstr "Benutzerhandbuch"
+
+#: qt/manageprofiles/tab_remove_retention.py:208
+#, python-brace-format
+msgid ""
+"The following rules are processed from top to bottom. Later rules override "
+"earlier ones. See the {manual_link} for details and examples."
+msgstr ""
+"Die folgenden Regeln werden von oben nach unten verarbeitet. Spätere Regeln "
+"setzen frühere Regeln außer Kraft. Siehe das {manual_link} für Details und "
+"Beispiele."
+
+#: qt/manageprofiles/tab_remove_retention.py:223
+msgid "Open user manual in browser."
+msgstr "Öffnet Benutzerhandbuch im Browser."
+
+#: qt/manageprofiles/tab_remove_retention.py:237
+msgid "Keep the most recent backup."
+msgstr "Die aktuellste Sicherung behalten."
+
+#: qt/manageprofiles/tab_remove_retention.py:241
+msgid "The most up-to-date backup is kept under all circumstances."
+msgstr "Die neueste Sicherung wird unter allen Umständen aufbewahrt."
+
+#: qt/manageprofiles/tab_remove_retention.py:243
+msgid "That behavior cannot be changed."
+msgstr "Das Verhalten kann nicht geändert werden."
+
+#: qt/manageprofiles/tab_remove_retention.py:255
+msgid "Keep named backups."
+msgstr "Benannte Sicherungen behalten."
+
+#: qt/manageprofiles/tab_remove_retention.py:258
+msgid ""
+"Backups that have been given a name, in addition to the usual timestamp, "
+"will be retained under all circumstances and will not be removed."
+msgstr ""
+"Sicherungen, denen zusätzlich zum üblichen Zeitstempel ein Name zugewiesen "
+"wurde, werden unter allen Umständen bewahrt und nicht entfernt."
+
+#: qt/manageprofiles/tab_remove_retention.py:273
+msgid "Year(s)"
+msgstr "Jahr(e)"
+
+#: qt/manageprofiles/tab_remove_retention.py:278
+msgid "Remove backups older than"
+msgstr "Entferne Sicherungen, die älter sind als"
+
+#: qt/manageprofiles/tab_remove_retention.py:284
+msgid "Full days. Current day is ignored."
+msgstr "Vollständige Tage. Aktueller Tag wird ignoriert."
+
+#: qt/manageprofiles/tab_remove_retention.py:286
+msgid "Calendar weeks with Monday as first day. Current week is ignored."
+msgstr "Kalenderwochen beginnend mit Montag. Aktuelle Woche wird ignoriert."
+
+#: qt/manageprofiles/tab_remove_retention.py:289
+msgid "12 months periods. Current month is ignored."
+msgstr "12 Monats Periode. Aktueller Monat wird ignoriert."
+
+#: qt/manageprofiles/tab_remove_retention.py:305
+msgid "Retention policy"
+msgstr "Aufbewahrungs-Richtlinien"
+
+#: qt/manageprofiles/tab_remove_retention.py:310
+msgid "Run in background on remote host."
+msgstr "Auf entferntem Rechner im Hintergrund ausführen."
+
+#: qt/manageprofiles/tab_remove_retention.py:313
+msgid ""
+"The retention policy will be executed directly on the remote machine, not "
+"locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
+"and available on that remote machine."
+msgstr ""
+"Die Aufbewahrungs-Richtlinien werden direkt auf dem entfernten System "
+"ausgeführt, nicht lokal. Die Befehle „bash“, „screen“ und „flock“ müssen auf"
+" dem entfernten System installiert und verfügbar sein."
+
+#: qt/manageprofiles/tab_remove_retention.py:317
+msgid "If selected, Back In Time will first test the remote machine."
+msgstr "Wenn ausgewählt, testet Back In Time zunächst das entfernte System."
+
+#: qt/manageprofiles/tab_remove_retention.py:321
+msgid "The days are counted starting from today."
+msgstr "Die Tage werden gezählt, beginnend mit den aktuellen Tag."
+
+#: qt/manageprofiles/tab_remove_retention.py:322
+msgid "Keep all backups for the last"
+msgstr "Behalte alle Sicherungen, der letzten"
+
+#: qt/manageprofiles/tab_remove_retention.py:327
+#: qt/manageprofiles/tab_remove_retention.py:339
+msgid "day(s)."
+msgstr "Tag(e)."
+
+#: qt/manageprofiles/tab_remove_retention.py:334
+msgid "Keep the last backup for each day for the last"
+msgstr "Behalte die letzte Sicherung jeden Tages, für die letzten"
+
+#: qt/manageprofiles/tab_remove_retention.py:344
+msgid ""
+"The weeks are counted starting from the current running week. A week starts "
+"on Monday."
+msgstr ""
+"Die Wochen werden ab der aktuell laufenden Woche gezählt. Eine Woche beginnt"
+" am Montag."
+
+#: qt/manageprofiles/tab_remove_retention.py:347
+msgid "Keep the last backup for each week for the last"
+msgstr "Behalte die letzte Sicherung jeder Woche, für die letzten"
+
+#: qt/manageprofiles/tab_remove_retention.py:352
+msgid "week(s)."
+msgstr "Woche(n)."
+
+#: qt/manageprofiles/tab_remove_retention.py:357
+msgid ""
+"The months are counted as calendar months starting with the current month."
+msgstr ""
+"Die Monate werden als Kalendermonate gezählt, beginnend mit dem aktuellen "
+"Monat."
+
+#: qt/manageprofiles/tab_remove_retention.py:360
+msgid "Keep the last backup for each month for the last"
+msgstr "Behalte die letzte Sicherung jedes Monats, für die letzten"
+
+#: qt/manageprofiles/tab_remove_retention.py:365
+msgid "month(s)."
+msgstr "Monat(e)."
+
+#: qt/manageprofiles/tab_remove_retention.py:370
+msgid ""
+"The years are counted as calendar years starting with the current year."
+msgstr ""
+"Die Jahre werden als Kalenderjahre gezählt, beginnend mit dem aktuellen "
+"Jahr."
+
+#: qt/manageprofiles/tab_remove_retention.py:372
+msgid "Keep the last backup for each year for"
+msgstr "Behalte die letzte Sicherung jedes Jahres, für"
+
+#: qt/manageprofiles/tab_remove_retention.py:374
+msgid "all years."
+msgstr "alle Jahre."
+
+#: qt/manageprofiles/tab_remove_retention.py:389
+msgid "… the free space is less than"
+msgstr "… freier Speicher weniger ist als"
+
+#: qt/manageprofiles/tab_remove_retention.py:394
+msgid "… the free inodes are less than"
+msgstr "… freie Inodes weniger sind als"
+
+#: qt/manageprofiles/tab_remove_retention.py:403
+msgid "Remove oldest backup if …"
+msgstr "Älteste Sicherung entfernen, wenn …"
+
+#: qt/net.launchpad.backintime.policy:21
+msgid "Authentication is required to run Back In Time as root."
+msgstr ""
+"Zur Ausführung von Back In Time als root ist eine Authentifizierung "
+"erforderlich."
+
+#: qt/net.launchpad.backintime.policy:33 qt/net.launchpad.backintime.policy:43
+msgid ""
+"Authentication is required to change backup schedules triggered by external "
+"storage device connections."
+msgstr ""
+"Zur Änderung von Sicherungszeitplänen, die durch den Anschluss externer "
+"Speichergeräte ausgelöst werden, ist eine Authentifizierung erforderlich."
+
+#: qt/placeswidget.py:51
+msgid "Shortcuts"
+msgstr "Verknüpfungen"
+
+#: qt/placeswidget.py:96
+msgid "Places"
+msgstr "Orte"
+
+#: qt/placeswidget.py:97
+msgid "File System"
+msgstr "Dateisystem"
+
+#: qt/placeswidget.py:150
+msgid "Backup directories"
+msgstr "Sicherungsverzeichnisse"
+
+#: qt/qtsystrayicon.py:110
+#, python-brace-format
+msgid "Profile: {profile_name}"
+msgstr "Profil: {profile_name}"
+
+#: qt/qtsystrayicon.py:113
+#, python-brace-format
+msgid "Profile: {profile_name} (by user \"{desktop_user}\")"
+msgstr "Profil: {profile_name} (von Nutzer \"{desktop_user}\")"
+
+#: qt/qtsystrayicon.py:142
+msgid "View Last Log"
+msgstr "Letztes Protokoll ansehen"
+
+#: qt/qtsystrayicon.py:148
+#, python-brace-format
+msgid "Start {appname}"
+msgstr "{appname} starten"
+
+#: qt/qtsystrayicon.py:240
+msgid "Working…"
+msgstr "In Arbeit …"
+
+#: qt/qttools.py:504
+#, python-brace-format
+msgid "man page: {man_page_name}"
+msgstr "Manpage: {man_page_name}"
+
+#: qt/restoreconfigdialog.py:71
+msgid "Import configuration"
+msgstr "Konfiguration importieren"
+
+#: qt/restoreconfigdialog.py:102
+msgid "No directory selected"
+msgstr "Kein Verzeichnis ausgewählt"
+
+#: qt/restoreconfigdialog.py:151 qt/restoreconfigdialog.py:227
+msgid "Searching…"
+msgstr "Suche …"
+
+#: qt/restoreconfigdialog.py:204
+#, python-brace-format
+msgid ""
+"Select the backup directory from which the configuration file should be "
+"imported. The path may look like: {samplePath}"
+msgstr ""
+"Sicherungsverzeichnis wählen, aus dem die Konfiguration importiert werden "
+"soll. Der Pfad könnte beispielsweise wie folgt aussehen: {samplePath}"
+
+#: qt/restoreconfigdialog.py:209
+msgid ""
+"If the directory is located on an external or remote drive, it must be "
+"manually mounted beforehand."
+msgstr ""
+"Befindet sich das Verzeichnis auf einem externen oder entfernten Laufwerk, "
+"muss dieses vorher manuell eingehängt werden."
+
+#: qt/restoreconfigdialog.py:230
+msgid "Scan again"
+msgstr "Erneut scannen"
+
+#: qt/restoreconfigdialog.py:249
+msgid "Show hidden directories"
+msgstr "Versteckte Verzeichnisse anzeigen"
+
+#: qt/restoreconfigdialog.py:251
+msgid "Show/hide hidden directories (Ctrl+H)"
+msgstr "Versteckte Verzeichnisse zeigen/ausblenden (Strg+H)"
+
+#: qt/restoreconfigdialog.py:298
+#, fuzzy
+msgid "No config found in this directory."
+msgstr "In diesem Verzeichnis wurde keine Konfiguration gefunden"
+
+#: qt/restoreconfigdialog.py:359
+msgid "Search complete."
+msgstr "Suche abgeschlossen."
+
+#: qt/restoredialog.py:58
+msgid "Show full Log"
+msgstr "Vollständiges Protokoll zeigen"
+
+#: qt/shutdowndlg.py:28
+msgid "Countdown to Shutdown"
+msgstr "Countdown zum Herunterfahren"
+
+#: qt/shutdowndlg.py:29
+msgid "The backup has finished."
+msgstr "Die Sicherung ist abgeschlossen."
+
+#: qt/shutdowndlg.py:36
+msgid "Cancel Shutdown"
+msgstr "Herunterfahren abbrechen"
+
+#: qt/shutdowndlg.py:37
+msgid "Shutdown Now"
+msgstr "Jetzt herunterfahren"
+
+#: qt/shutdowndlg.py:69
+#, python-brace-format
+msgid "The system will shut down in {n} second."
+msgid_plural "The system will shut down in {n} seconds."
+msgstr[0] "Das System wird in {n} Sekunde heruntergefahren."
+msgstr[1] "Das System wird in {n} Sekunden heruntergefahren."
+
+#: qt/snapshotsdialog.py:62
+msgid "Options about comparing backups"
+msgstr "Optionen zum Vergleichen von Sicherungen"
+
+#: qt/snapshotsdialog.py:73
+msgid "Parameters:"
+msgstr "Parameter:"
+
+#: qt/snapshotsdialog.py:78
+msgid "Use %1 and %2 for path parameters"
+msgstr "Als Pfadparameter %1 und %2 verwenden"
+
+#: qt/snapshotsdialog.py:95
+msgid "Please set a diff command or press Cancel."
+msgstr "Bitte Diff-Befehl festlegen oder Abbrechen drücken."
+
+#: qt/snapshotsdialog.py:101
+#, python-brace-format
+msgid ""
+"The command \"{cmd}\" cannot be found on this system. Please try something "
+"else or press Cancel."
+msgstr ""
+"Der Befehl »{cmd}« kann auf dem System nicht gefunden werden. Bitte etwas "
+"anderes versuchen oder Abbrechen drücken."
+
+#: qt/snapshotsdialog.py:109
+#, python-brace-format
+msgid "No parameters set for the diff command. Using default value \"{params}\"."
+msgstr ""
+"Keine Parameter für den diff-Befehl festgelegt. Verwendet wird der "
+"Defaultwert »{params}«."
+
+#: qt/snapshotsdialog.py:140 qt/timeline.py:119
+msgid "Backups"
+msgstr "Sicherungen"
+
+#: qt/snapshotsdialog.py:151
+msgid "Differing backups only"
+msgstr "Nur sich unterscheidende Sicherungen"
+
+#: qt/snapshotsdialog.py:160
+msgid "List only backups that are equal to:"
+msgstr "Nur Sicherungen auflisten, die gleich sind mit:"
+
+#: qt/snapshotsdialog.py:172
+msgid "Deep check (more accurate, but slow)"
+msgstr "Gründliche Prüfung (genauer, aber langsamer)"
+
+#: qt/snapshotsdialog.py:193
+msgid "Delete"
+msgstr "Löschen"
+
+#: qt/snapshotsdialog.py:198
+msgid "Select All"
+msgstr "Alles auswählen"
+
+#: qt/snapshotsdialog.py:218
+msgid "Compare"
+msgstr "Vergleichen"
+
+#: qt/snapshotsdialog.py:233
+msgid "Go To"
+msgstr "Gehen zu"
+
+#: qt/snapshotsdialog.py:235
+msgid "Options"
+msgstr "Optionen"
+
+#: qt/snapshotsdialog.py:417
+msgid ""
+"It is not possible to compare a backup to itself, as the comparison would be"
+" redundant."
+msgstr ""
+"Es ist nicht möglich, eine Sicherung mit sich selbst zu vergleichen, da der "
+"Vergleich redundant wäre."
+
+#: qt/snapshotsdialog.py:463
+#, python-brace-format
+msgid "Really delete {file_or_dir} in backup {backup_id}?"
+msgstr ""
+"Soll »{file_or_dir}« in der Sicherung »{backup_id}« wirklich gelöscht "
+"werden?"
+
+#: qt/snapshotsdialog.py:468
+#, python-brace-format
+msgid "Really delete {file_or_dir} in {count} backups?"
+msgstr "Soll »{file_or_dir}« wirklich in {count} Sicherungen gelöscht werden?"
+
+#: qt/snapshotsdialog.py:471
+msgid "WARNING: This cannot be revoked."
+msgstr "WARNUNG: Dies kann nicht rückgängig gemacht werden."
+
+#: qt/snapshotsdialog.py:488
+#, python-brace-format
+msgid "Exclude {path} from future backups?"
+msgstr "»{path}« von zukünftigen Sicherungen ausschließen?"
+
+#: qt/statusbar.py:85
+msgid "Root mode"
+msgstr "Root-Modus"
+
+#: qt/statusbar.py:87
+msgid ""
+"Back In Time is currently running with root privileges (full system access)"
+msgstr ""
+"Back In Time wird derzeit mit Root-Rechten (vollständiger Systemzugriff) "
+"ausgeführt"
+
+#: qt/timeline.py:66
+msgid "Today"
+msgstr "Heute"
+
+#: qt/timeline.py:71
+msgid "Yesterday"
+msgstr "Gestern"
+
+#: qt/timeline.py:78
+msgid "This week"
+msgstr "Diese Woche"
+
+#: qt/timeline.py:83
+msgid "Last week"
+msgstr "Letzte Woche"
+
+#: qt/timeline.py:90
+msgid "This month"
+msgstr "Dieser Monat"
+
+#: qt/timeline.py:97
+msgid "Last month"
+msgstr "Letzter Monat"
+
+#: qt/timeline.py:374
+#, python-brace-format
+msgid "Last check {time}"
+msgstr "Letzte Überprüfung {time}"
+
+#: qt/timeline.py:407
+msgid "These are your files as they are right now. It is not a backup."
+msgstr "Dies sind die Dateien, so wie sie jetzt sind. Es ist keine Sicherung."
+
+#~ msgid ""
+#~ "An error occurred while attempting to log in to the remote host. The "
+#~ "following error message was returned:"
+#~ msgstr ""
+#~ "Beim Versuch, sich am Zielrechner anzumelden, ist ein Fehler aufgetreten. "
+#~ "Die folgende Fehlermeldung wurde zurückgegeben:"
+
+#~ msgid "Cancel"
+#~ msgstr "Abbrechen"
+
+#, python-brace-format
+#~ msgid "Checking commands on host {host} returned unknown error"
+#~ msgstr ""
+#~ "Die Überprüfung der Befehle auf dem Rechner {host} gab unbekannten Fehler "
+#~ "zurück"
+
+#~ msgid "Configuration for the encrypted directory not found."
+#~ msgstr "Konfiguration für das verschlüsselte Verzeichnis nicht gefunden."
+
+#~ msgid ""
+#~ "Could not unlock ssh private key. Wrong password or password not available "
+#~ "for cron."
+#~ msgstr ""
+#~ "Privater SSH-Schlüssel konnte nicht entsperrt werden. Passwort falsch oder "
+#~ "für cron nicht verfügbar."
+
+#~ msgid "Create a new encrypted directory?"
+#~ msgstr "Ein neues verschlüsseltes Verzeichnis erstellen?"
+
+#~ msgid "Encryption Transition (EncFS)"
+#~ msgstr "Umstellung der Verschlüsselung (EncFS)"
+
+#~ msgid "It must be empty to use encryption."
+#~ msgstr "Es muss leer sein, um die Verschlüsselung zu verwenden."
+
+#~ msgid "Local (EncFS encrypted)"
+#~ msgstr "Lokal (EncFS-verschlüsselt)"
+
+#, python-brace-format
+#~ msgid "Mountpoint {mntpoint} not empty."
+#~ msgstr "Einhängepunkt {mntpoint} nicht leer."
+
+#~ msgid "Please re-enter the EncFS password to confirm."
+#~ msgstr "Bitte das EncFS-Passwort zur Bestätigung erneut eingeben."
+
+#~ msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
+#~ msgstr ""
+#~ "Bitte diesen Fingerabdruck überprüfen. Diesen zur Datei »known_hosts« "
+#~ "hinzufügen?"
+
+#~ msgid "Proceed with copying the SSH key?"
+#~ msgstr "Mit dem Kopieren des SSH-Schlüssels fortfahren?"
+
+#, python-brace-format
+#~ msgid "Remote host {host} doesn't support {command}"
+#~ msgstr "Der entfernte Rechner {host} unterstützt {command} nicht"
+
+#~ msgid "Remote path is not executable."
+#~ msgstr "Der Pfad auf dem entfernten Rechner ist nicht ausführbar."
+
+#~ msgid "Remote path is not writable."
+#~ msgstr "Der Pfad auf dem entfernten Rechner ist nicht beschreibbar."
+
+#~ msgid "Shows the message about EncFS removal again."
+#~ msgstr "Zeigt die Nachricht zur Entfernung von EncFS erneut."
+
+#~ msgid "The EncFS passwords do not match."
+#~ msgstr "Die EncFS-Passwörter stimmt nicht überein."
+
+#, python-brace-format
+#~ msgid "The authenticity of host {host} can't be established."
+#~ msgstr "Die Echtheit des Rechners {host} kann nicht festgestellt werden."
+
+#~ msgid ""
+#~ "The public SSH key could not be copied. This may be due to a connection or "
+#~ "permission issue."
+#~ msgstr ""
+#~ "Der öffentliche SSH-Schlüssel konnte nicht kopiert werden. Dies kann auf ein"
+#~ " Verbindungs- oder Berechtigungsproblem zurückzuführen sein."
+
+#~ msgid "This is NOT a backup but a live view of the local files."
+#~ msgstr "Dies ist KEINE Sicherung, aber eine Live-Ansicht der lokalen Daten."
+
+#~ msgid ""
+#~ "To enable password-less login, the public SSH key can be copied to the "
+#~ "remote host."
+#~ msgstr ""
+#~ "Um die passwortlose Anmeldung zu ermöglichen, kann der öffentliche SSH-"
+#~ "Schlüssel auf das entfernte System kopiert werden."
+
+#, python-brace-format
+#~ msgid "Unable to mount \"{command}\""
+#~ msgstr "„{command}“ konnte nicht eingehängt werden"
+
+#, python-brace-format
+#~ msgid "Unable to mount {sshfs}"
+#~ msgstr "Nicht möglich, {sshfs} einzuhängen"
+
+#, python-brace-format
+#~ msgid "Unable to unmount {mountprocess} from {mountpoint}."
+#~ msgstr "{mountprocess} aus {mountpoint} konnte nicht ausgehängt werden."
+
+#~ msgid ""
+#~ "Warning: If disabled and the remote host does not support all necessary "
+#~ "commands, this could lead to some weird errors."
+#~ msgstr ""
+#~ "Warnung: Wenn diese Option deaktiviert ist und der entfernte Rechner nicht "
+#~ "alle erforderlichen Befehle unterstützt, kann es zu einigen verwirrenden "
+#~ "Fehlern kommen."
+
+#~ msgid ""
+#~ "Warning: If disabled and the remote host is not available, this could lead "
+#~ "to some weird errors."
+#~ msgstr ""
+#~ "Warnung: Wenn diese Option deaktiviert ist und der entfernte Rechner nicht "
+#~ "verfügbar ist, kann es zu einigen verwirrenden Fehlern kommen."
+
+#~ msgid "decode paths"
+#~ msgstr "Pfade dekodieren"
+
+#, python-brace-format
+#~ msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
+#~ msgstr ""
+#~ "{command} nicht gefunden. Bitte installieren (z. B. via »{installcommand}«)"
+
+#, python-brace-format
+#~ msgid "{keytype} key fingerprint is:"
+#~ msgstr "{keytype} Fingerabdruck des Schlüssels ist:"
+# REUSE-IgnoreEnd
