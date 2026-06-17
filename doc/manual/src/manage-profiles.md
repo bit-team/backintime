@@ -151,15 +151,20 @@ schedules. You can use `crontab -l` to view them or `crontab -e` to edit.
 - **Every Day**: start a new backup on a configurable time on every day. If
   the computer is not running at the configured time there will be no new
   backup for the day.
-- **Repeatedly (anacron)**: this schedule will start new backups after a
-  configurable time (hours, days or weeks) when the last backup was done
-  before this delay. This will also work when the system was powered off. It
-  does imitate anacron but doesn't use it. Instead Back in Time writes it's own
-  time-stamp after each successful backup and add a `crontab` job which will
-  start Back in Time every 15min (or every hour if configured for weeks). If
-  the configured delay is not done yet it will just exit immediately. If an
-  error occurred during taking the backup it won't write a new time-stamp and
-  so will try again after 15min/one hour.
+- **Repeatedly**: this schedule triggers backups when a configured number of
+  calendar units (hours, days, weeks, or months) has passed since the last
+  successful backup.
+  A backup becomes due once a new calendar unit has been reached. For
+  example, "1 hour" means the backup runs once the next clock hour begins,
+  not after a fixed 60-minute duration.
+  _Back In Time checks_ the schedule periodically via a crontab entry
+  (typically every 15 minutes, or every hour for longer intervals). If no
+  backup is due, it exits immediately.
+  If the system was powered off or _Back In Time_ was not running at the
+  scheduled time, the next execution will still perform the backup if it is
+  due. No scheduled backup is lost.
+  If a backup fails, no new timestamp is written, and the backup will be
+  retried on the next check.
 - **When drive get connected (udev)**: this schedule will start a new backup
   as soon as the USB/eSATA/Firewire drive get connected. You can configure a
   delay (hours, days or weeks like in schedule Repeatedly) so it won't start on

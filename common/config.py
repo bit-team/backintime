@@ -1379,7 +1379,7 @@ class Config(configfile.ConfigFileWithProfiles):
         if not last_time:
             return True
 
-        return tools.elapsed_at_least(
+        return tools.crossed_at_least_units(
             start=last_time,
             end=datetime.datetime.now(),
             value=self.scheduleRepeatedPeriod(profile_id),

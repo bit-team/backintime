@@ -59,7 +59,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ## Fixed
 - Prevent crash in case a plugin fails ([#2447](https://github.com/bit-team/backintime/issues/2447))
-- Schedule mode "Repeatedly (anacron)" using "Hourly" units ([#2507](https://github.com/bit-team/backintime/issues/2507))
+- Schedule mode "Repeatedly (anacron)" using "Hourly" units is now consistent with other units ([#2507](https://github.com/bit-team/backintime/issues/2507))
 
 ## [1.6.1] (2026-02-10)
 
