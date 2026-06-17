@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-06-16 20:33+0200\n"
-"PO-Revision-Date: 2026-06-15 20:08+0000\n"
+"POT-Creation-Date: 2026-06-17 17:15+0200\n"
+"PO-Revision-Date: 2026-06-17 15:13+0000\n"
 "Last-Translator: SomeTr <sometr@noreply.codeberg.org>\n"
 "Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
 "Language: uk\n"
@@ -118,16 +118,16 @@ msgstr ""
 "Налаштуйте параметри так, щоб ліміт видалення резервної копії не перевищував"
 " ліміт попередження."
 
-#: common/config.py:1420
+#: common/config.py:1417
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Розклад udev не працює з режимом {mode}"
 
-#: common/config.py:1474
+#: common/config.py:1471
 msgid "Failed to write new crontab."
 msgstr "Не вдалося записати новий crontab."
 
-#: common/config.py:1482
+#: common/config.py:1479
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -276,25 +276,25 @@ msgstr "Монтування не вдалося, код повернення {r
 msgid "Error:"
 msgstr "Помилка:"
 
-#: common/mount/_encryptors.py:342 qt/snapshotsdialog.py:69
+#: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:69
 msgid "Command:"
 msgstr "Команда:"
 
-#: common/mount/_encryptors.py:373
+#: common/mount/_encryptors.py:374
 msgid "Unmount failed"
 msgstr "Не вдалося розмонтувати"
 
-#: common/mount/_encryptors.py:375
+#: common/mount/_encryptors.py:376
 #, python-brace-format
 msgid "Return code: {rc}"
 msgstr "Код повернення: {rc}"
 
-#: common/mount/_encryptors.py:376
+#: common/mount/_encryptors.py:378
 #, python-brace-format
 msgid "Original error: {err}"
 msgstr "Початкова помилка: {err}"
 
-#: common/password.py:312
+#: common/password.py:298
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "Уведіть пароль для профілю {mode} «{profile}»:"
@@ -416,6 +416,8 @@ msgid ""
 "Negative exit codes indicate termination by a signal. The number corresponds"
 " to the signal (see 'kill -l')."
 msgstr ""
+"Від’ємні значення кодів виходу вказують на завершення через надходження "
+"сигналу. Число відповідає номеру сигналу (див. «kill -l»)."
 
 #: common/snapshots.py:1578
 msgid "Nothing changed, no new backup necessary"
@@ -473,7 +475,6 @@ msgid "The SSH key is not loaded into ssh-agent."
 msgstr "Ключ SSH не завантажено в ssh-agent."
 
 #: common/sshsetupvalidator.py:309
-#, fuzzy
 msgid "Failed to add SSH key."
 msgstr "Не вдалося додати ключ SSH."
 

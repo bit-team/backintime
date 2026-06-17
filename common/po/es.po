@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-06-16 20:33+0200\n"
-"PO-Revision-Date: 2026-06-16 17:43+0000\n"
+"POT-Creation-Date: 2026-06-17 17:15+0200\n"
+"PO-Revision-Date: 2026-06-17 15:13+0000\n"
 "Last-Translator: gallegonovato <gallegonovato@noreply.codeberg.org>\n"
 "Language-Team: Spanish <https://translate.codeberg.org/projects/backintime/common/es/>\n"
 "Language: es\n"
@@ -121,16 +121,16 @@ msgstr ""
 "Por favor, ajusta la configuración para que el límite de eliminación de "
 "copias de seguridad no sea superior al límite de la advertencia."
 
-#: common/config.py:1420
+#: common/config.py:1417
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "La programación de Udev no funciona con el modo {mode}"
 
-#: common/config.py:1474
+#: common/config.py:1471
 msgid "Failed to write new crontab."
 msgstr "Error al escribir nuevo crontab."
 
-#: common/config.py:1482
+#: common/config.py:1479
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -267,9 +267,9 @@ msgstr ""
 "cifrado. Ruta: {path}"
 
 #: common/mount/_encryptors.py:286
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Mountpoint as decrypted view is missing. Path: {path}"
-msgstr "Falta el punto de montaje como vista descifrada. Ruta: {path}"
+msgstr "Falta el directorio para el desencriptado. Ruta: {path}"
 
 #: common/mount/_encryptors.py:338
 #, python-brace-format
@@ -280,25 +280,25 @@ msgstr "El montaje falló con el código {rc}."
 msgid "Error:"
 msgstr "Error:"
 
-#: common/mount/_encryptors.py:342 qt/snapshotsdialog.py:69
+#: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:69
 msgid "Command:"
 msgstr "Orden:"
 
-#: common/mount/_encryptors.py:373
+#: common/mount/_encryptors.py:374
 msgid "Unmount failed"
 msgstr "Error al desmontar"
 
-#: common/mount/_encryptors.py:375
+#: common/mount/_encryptors.py:376
 #, python-brace-format
 msgid "Return code: {rc}"
 msgstr "Error recibido: {rc}"
 
-#: common/mount/_encryptors.py:376
+#: common/mount/_encryptors.py:378
 #, python-brace-format
 msgid "Original error: {err}"
 msgstr "Error original: {err}"
 
-#: common/password.py:312
+#: common/password.py:298
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "Introduzca la contraseña para el perfil {mode} «{profile}»:"
@@ -423,6 +423,8 @@ msgid ""
 "Negative exit codes indicate termination by a signal. The number corresponds"
 " to the signal (see 'kill -l')."
 msgstr ""
+"Las alertas con errores negativos indican que el proceso se ha interrumpido."
+" Para ver imás nformación del error (véase «kill -l»)."
 
 #: common/snapshots.py:1578
 msgid "Nothing changed, no new backup necessary"
@@ -481,7 +483,6 @@ msgid "The SSH key is not loaded into ssh-agent."
 msgstr "La clave SSH no está cargada en ssh-agent."
 
 #: common/sshsetupvalidator.py:309
-#, fuzzy
 msgid "Failed to add SSH key."
 msgstr "Error al añadir la clave SSH."
 

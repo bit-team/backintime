@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-06-16 20:33+0200\n"
+"POT-Creation-Date: 2026-06-17 17:15+0200\n"
 "PO-Revision-Date: 2026-06-16 17:43+0000\n"
 "Last-Translator: bubub <bubub@noreply.codeberg.org>\n"
 "Language-Team: French <https://translate.codeberg.org/projects/backintime/common/fr/>\n"
@@ -123,16 +123,16 @@ msgstr ""
 "Veuillez ajuster les paramètres pour que la limite de suppression des "
 "sauvegardes ne soit pas supérieure à limite d'alerte."
 
-#: common/config.py:1420
+#: common/config.py:1417
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "La planification Udev ne fonctionne pas avec le mode {mode}"
 
-#: common/config.py:1474
+#: common/config.py:1471
 msgid "Failed to write new crontab."
 msgstr "Échec d'écriture de la nouvelle crontab."
 
-#: common/config.py:1482
+#: common/config.py:1479
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -281,25 +281,25 @@ msgstr "Le montage a échoué avec le code d'erreur {rc}."
 msgid "Error:"
 msgstr "Erreur :"
 
-#: common/mount/_encryptors.py:342 qt/snapshotsdialog.py:69
+#: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:69
 msgid "Command:"
 msgstr "Commande :"
 
-#: common/mount/_encryptors.py:373
+#: common/mount/_encryptors.py:374
 msgid "Unmount failed"
 msgstr "Le démontage a échoué"
 
-#: common/mount/_encryptors.py:375
+#: common/mount/_encryptors.py:376
 #, python-brace-format
 msgid "Return code: {rc}"
 msgstr "Code renvoyé : {rc}"
 
-#: common/mount/_encryptors.py:376
+#: common/mount/_encryptors.py:378
 #, python-brace-format
 msgid "Original error: {err}"
 msgstr "Erreur originelle : {err}"
 
-#: common/password.py:312
+#: common/password.py:298
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "Entrez le mot de passe pour le profil {mode} \"{profile}\" :"

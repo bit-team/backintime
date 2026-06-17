@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-06-16 20:33+0200\n"
+"POT-Creation-Date: 2026-06-17 17:15+0200\n"
 "PO-Revision-Date: 2026-06-16 07:01+0000\n"
 "Last-Translator: Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>\n"
 "Language-Team: Romanian <https://translate.codeberg.org/projects/backintime/common/ro/>\n"
@@ -120,16 +120,16 @@ msgstr ""
 "Ajustați valorile limitelor astfel încât limita de eliminare a copiilor de "
 "rezervă să nu fie mai mare decât limita de avertizare."
 
-#: common/config.py:1420
+#: common/config.py:1417
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Planificarea Udev nu funcționează cu modul {mode}"
 
-#: common/config.py:1474
+#: common/config.py:1471
 msgid "Failed to write new crontab."
 msgstr "Nu s-a putut scrie un nou crontab."
 
-#: common/config.py:1482
+#: common/config.py:1479
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -284,25 +284,25 @@ msgstr "Montarea a eșuat cu codul de returnare {rc}."
 msgid "Error:"
 msgstr "Eroare:"
 
-#: common/mount/_encryptors.py:342 qt/snapshotsdialog.py:69
+#: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:69
 msgid "Command:"
 msgstr "Comandă:"
 
-#: common/mount/_encryptors.py:373
+#: common/mount/_encryptors.py:374
 msgid "Unmount failed"
 msgstr "Demontarea a eșuat"
 
-#: common/mount/_encryptors.py:375
+#: common/mount/_encryptors.py:376
 #, python-brace-format
 msgid "Return code: {rc}"
 msgstr "Codul de returnare: {rc}"
 
-#: common/mount/_encryptors.py:376
+#: common/mount/_encryptors.py:378
 #, python-brace-format
 msgid "Original error: {err}"
 msgstr "Eroare inițială: {err}"
 
-#: common/password.py:312
+#: common/password.py:298
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "Introduceți parola pentru profilul {mode} „{profile}”:"

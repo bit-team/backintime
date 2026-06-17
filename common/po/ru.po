@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-06-16 20:33+0200\n"
+"POT-Creation-Date: 2026-06-17 17:15+0200\n"
 "PO-Revision-Date: 2026-03-10 14:29+0000\n"
 "Last-Translator: andronikfa <andronikfa@noreply.codeberg.org>\n"
 "Language-Team: Russian <https://translate.codeberg.org/projects/backintime/common/ru/>\n"
@@ -120,16 +120,16 @@ msgstr ""
 "Пожалуйста, измените настройки таким образом, чтобы лимит удаления резервной"
 " копии не превышал лимит предупреждения."
 
-#: common/config.py:1420
+#: common/config.py:1417
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Расписание udev не работает в режиме {mode}"
 
-#: common/config.py:1474
+#: common/config.py:1471
 msgid "Failed to write new crontab."
 msgstr "Не удалось записать новый crontab."
 
-#: common/config.py:1482
+#: common/config.py:1479
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -284,25 +284,25 @@ msgstr ""
 msgid "Error:"
 msgstr "Ошибка"
 
-#: common/mount/_encryptors.py:342 qt/snapshotsdialog.py:69
+#: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:69
 msgid "Command:"
 msgstr "Команда:"
 
-#: common/mount/_encryptors.py:373
+#: common/mount/_encryptors.py:374
 msgid "Unmount failed"
-msgstr ""
-
-#: common/mount/_encryptors.py:375
-#, python-brace-format
-msgid "Return code: {rc}"
 msgstr ""
 
 #: common/mount/_encryptors.py:376
 #, python-brace-format
+msgid "Return code: {rc}"
+msgstr ""
+
+#: common/mount/_encryptors.py:378
+#, python-brace-format
 msgid "Original error: {err}"
 msgstr ""
 
-#: common/password.py:312
+#: common/password.py:298
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "Введите пароль для {mode} профиля \"{profile}\":"

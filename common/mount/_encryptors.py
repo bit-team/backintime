@@ -339,6 +339,7 @@ class GoCryptFS(Encryptor):
                             rc=proc.returncode
                         ) + '\n\n'
                         + _('Error:') + f'\n{output}'
+                        + '\n'
                         + _('Command:') + f'\n{cmd}'
                     )
                     raise MountError(log_msg, gui_msg)
@@ -373,6 +374,7 @@ class GoCryptFS(Encryptor):
                 _('Unmount failed')
                 + '\n'
                 + _('Return code: {rc}').format(rc=proc.returncode)
+                + '\n'
                 + _('Original error: {err}').format(err=proc.stdout)
             )
             raise MountError(log_msg, gui_msg)

@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-06-16 20:33+0200\n"
+"POT-Creation-Date: 2026-06-17 17:15+0200\n"
 "PO-Revision-Date: 2026-05-02 14:57+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.codeberg.org/projects/backintime/common/pt_BR/>\n"
@@ -129,17 +129,17 @@ msgstr ""
 "Por favor, ajuste as configurações para que o valor do limite da remoção da "
 "cópia de segurança não seja superior ao valor do limite da notificação."
 
-#: common/config.py:1420
+#: common/config.py:1417
 #, fuzzy, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "O agendamento do ‘udev’ não funciona com o modo ‘{mode}’"
 
-#: common/config.py:1474
+#: common/config.py:1471
 #, fuzzy
 msgid "Failed to write new crontab."
 msgstr "Ocorreu uma falha ao escrever um novo ‘crontab’."
 
-#: common/config.py:1482
+#: common/config.py:1479
 #, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
@@ -305,25 +305,25 @@ msgstr ""
 msgid "Error:"
 msgstr "Ocorreu um erro"
 
-#: common/mount/_encryptors.py:342 qt/snapshotsdialog.py:69
+#: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:69
 msgid "Command:"
 msgstr "Comando:"
 
-#: common/mount/_encryptors.py:373
+#: common/mount/_encryptors.py:374
 msgid "Unmount failed"
-msgstr ""
-
-#: common/mount/_encryptors.py:375
-#, python-brace-format
-msgid "Return code: {rc}"
 msgstr ""
 
 #: common/mount/_encryptors.py:376
 #, python-brace-format
+msgid "Return code: {rc}"
+msgstr ""
+
+#: common/mount/_encryptors.py:378
+#, python-brace-format
 msgid "Original error: {err}"
 msgstr ""
 
-#: common/password.py:312
+#: common/password.py:298
 #, fuzzy, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "Digite a senha do ‘{mode}’ para o perfil ‘{profile}’:"
