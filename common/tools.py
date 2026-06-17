@@ -782,8 +782,10 @@ def elapsed_at_least(start: datetime,
                      end: datetime,
                      value: int,
                      unit: TimeUnit) -> bool:
-    """
-    Check if a time span meets at least a number of time units, counting
+    """new: Count the number of crossed calendar unit boundaries between start and
+    end. Return True if at least value boundaries have been crossed.
+
+    old: Check if a time span meets at least a number of time units, counting
     partial units as full.
 
 
@@ -806,6 +808,7 @@ def elapsed_at_least(start: datetime,
     Returns:
         ``True`` if the elapsed time is greater than or equal to ``value``
         units, otherwise ``False``.
+
     """
     # Workaround
     if not isinstance(unit, TimeUnit):
@@ -813,8 +816,15 @@ def elapsed_at_least(start: datetime,
 
     if unit is TimeUnit.HOUR:
         # Calculate difference in hours, counting partial hours
-        delta_hours = math.ceil((end - start).total_seconds() / 3600)
+        start_hour = start.replace(minute=0, second=0, microsecond=0)
+        end_hour = end.replace(minute=0, second=0, microsecond=0)
+
+        delta_hours = int(
+            (end_hour - start_hour).total_seconds() / 3600
+        )
+
         return delta_hours >= value
+
 
     if unit is TimeUnit.DAY:
         return start.date() <= (end.date() - timedelta(days=value))

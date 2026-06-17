@@ -598,6 +598,19 @@ class ValidateSnapshotsPath(generic.TestCaseCfg):
 
 
 class ElapsedAtLeast(unittest.TestCase):
+    def test_hours_false(self):
+        # 18:56
+        self.assertFalse(
+            tools.elapsed_at_least(
+                # 18:23 last job run
+                datetime(1982, 8, 6, 18, 23, 0, 0),
+                # 18:56 end
+                datetime(1982, 8, 6, 18, 56, 0, 0),
+                # 1 hour
+                1, TimeUnit.HOUR
+            )
+        )
+
     def test_hours_boundary(self):
         # 18:23
         last_job_run = datetime(1982, 8, 6, 18, 23, 0, 0)
@@ -607,7 +620,7 @@ class ElapsedAtLeast(unittest.TestCase):
         self.assertTrue(tools.elapsed_at_least(last_job_run, end, 1, TimeUnit.HOUR))
         self.assertFalse(tools.elapsed_at_least(last_job_run, end, 2, TimeUnit.HOUR))
 
-        # 20:01 (only 36 minutes later, but the next hour)
+        # 20:01 (only 1 hour and 36 minutes later, but over the boundary)
         end = datetime(1982, 8, 6, 20, 1, 0, 0)
         self.assertTrue(tools.elapsed_at_least(last_job_run, end, 2, TimeUnit.HOUR))
 
