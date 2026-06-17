@@ -9,6 +9,7 @@
 from typing import Any
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QComboBox, QWidget
+import qttools
 
 
 class BitComboBox(QComboBox):
@@ -29,6 +30,13 @@ class BitComboBox(QComboBox):
             40: 'Month'
         }
         combo = BitComboBox(parent, fill)
+
+        # more complex
+        fill = {
+            10: ('Label', 'tooltip'),
+            20: ('Second label', 'tooltip', ICON),
+            30: 'Week',
+        }
 
     """
 
@@ -64,7 +72,10 @@ class BitComboBox(QComboBox):
 
             if tip is not None:
                 self.setItemData(
-                    self.count()-1, tip, Qt.ItemDataRole.ToolTipRole)
+                    self.count()-1,
+                    qttools.wrap_tooltip(tip),
+                    Qt.ItemDataRole.ToolTipRole
+                )
 
     @property
     def current_data(self) -> Any:

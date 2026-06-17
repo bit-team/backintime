@@ -26,6 +26,14 @@ import tools
 import qttools
 from manageprofiles import combobox
 
+_REPEATEDLY_TOOLTIP = _(
+    'For example, "repeatedly every 1 hour" means a backup is triggered at '
+    'each new clock hour. If the last successful backup was at 18:56, it '
+    'will be triggered again at 19:00 because the hour boundary has been '
+    'crossed. This schedule mode is useful if the computer is not running '
+    'regularly.'
+)
+
 
 class ScheduleWidget(QGroupBox):
     """Widget about schedule snapshots.
@@ -39,7 +47,10 @@ class ScheduleWidget(QGroupBox):
 
         main_layout = QFormLayout(self)
 
-        def _create_form_entry(label: str, widget: QWidget = None) -> int:
+        def _create_form_entry(
+                label: str,
+                widget: QWidget = None,
+                tooltip: str = None) -> int:
             """Helper to create a row with a label and widget in the form
             layout.
 
@@ -48,9 +59,13 @@ class ScheduleWidget(QGroupBox):
             """
             if widget:
                 main_layout.addRow(label, widget)
+                if tooltip:
+                    widget.setToolTip(tooltip)
             else:
                 lbl = QLabel(label)
                 lbl.setWordWrap(True)
+                if tooltip:
+                    qttools.set_wrapped_tooltip(lbl, tooltip)
                 main_layout.addRow(lbl)
 
             return main_layout.rowCount() - 1
@@ -93,11 +108,12 @@ class ScheduleWidget(QGroupBox):
             _('Run Back In Time as soon as the drive is connected (only once'
               ' every X days). A sudo password prompt will appear.'))
 
-        # Repeatedly (like anacron)
+        # Repeatedly
         self._rowidx_repeated = _create_form_entry(
-            _('Run Back In Time repeatedly. This is useful if the computer '
-              'is not running regularly.'))
-
+            label=_('Trigger a backup when a new hour, day, week, or month begins. '
+              'If the system was off, it runs on the next start.'),
+            tooltip=_REPEATEDLY_TOOLTIP
+        )
         # Repeatedly - Every (value) (units)
         self._spin_period = QSpinBox(self)
         self._spin_period.setSingleStep(1)
@@ -162,7 +178,9 @@ class ScheduleWidget(QGroupBox):
                 'Every hour', 'Every {n} hours', 12).format(n=12),
             config.Config.CUSTOM_HOUR: _('Custom hours'),
             config.Config.DAY: _('Every day'),
-            config.Config.REPEATEDLY: _('Repeatedly (anacron)'),
+            config.Config.REPEATEDLY: (
+                _('Repeatedly'), _REPEATEDLY_TOOLTIP
+            ),
             config.Config.UDEV: _('When drive gets connected (udev)'),
             config.Config.WEEK: _('Every week'),
             config.Config.MONTH: _('Every month'),
