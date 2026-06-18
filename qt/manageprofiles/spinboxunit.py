@@ -61,4 +61,5 @@ class SpinBoxWithUnit(QWidget):
 
     def set_value(self, val: int) -> None:
         """Set value of spin box."""
+        print(f'SpinBoxWithUnit.set_value({val=})')  # DEBUG
         self._spin.setValue(val)

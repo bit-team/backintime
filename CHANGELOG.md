@@ -62,6 +62,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ## Fixed
 - Prevent crash in case a plugin fails ([#2447](https://github.com/bit-team/backintime/issues/2447))
+- **Breaking**: "Remove backups older than" value was stored only as years ([#2460](https://github.com/bit-team/backintime/issues/2460))
 
 ## [1.6.1] (2026-02-10)
 

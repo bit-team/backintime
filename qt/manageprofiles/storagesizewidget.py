@@ -29,6 +29,7 @@ class StorageSizeWidget(SpinBoxWithUnit):
             content_dict=content_dict,
         )
 
+        print(f'SSW {value=}')  # DEBUG
         self._value = None
         self.set_storagesize(value)
 
@@ -47,6 +48,8 @@ class StorageSizeWidget(SpinBoxWithUnit):
                         value: StorageSize,
                         dont_touch_unit: bool = False):
         """Set value using a StorageSize object."""
+        print('='*40)
+        print(f'set_storagesize() :: {value=} {value.value()=} {value.unit=} {self._value=}')  # DEBUG
         if dont_touch_unit:
             # copy
             value = StorageSize(value.value(), value.unit)
@@ -57,6 +60,7 @@ class StorageSizeWidget(SpinBoxWithUnit):
         self.select_unit(value.unit)
 
         self._value = value
+        print(f'    {self._value=} {self._value.value()=} {self._value.unit=}\n')  # DEBUG
 
     def _on_spin_changed(self, val):
         self._value.set_value(val)
