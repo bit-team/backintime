@@ -8,7 +8,7 @@ This file is part of the program "Back In Time" which is released under GNU
 General Public License v2 (GPLv2). See LICENSES directory or go to
 <https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
-<sub>December 2025</sub>
+<sub>June 2026</sub>
 
 # FAQ - Frequently Asked Questions
 
@@ -41,7 +41,6 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [Back In Time doesn't find my old backups on my new Computer](#back-in-time-doesnt-find-my-old-backups-on-my-new-computer)
 - [Schedule](#schedule)
    * [How does the 'Repeatedly (anacron)' schedule work?](#how-does-the-repeatedly-anacron-schedule-work)
-   * [Will a scheduled backup run as soon as the computer is back on?](#will-a-scheduled-backup-run-as-soon-as-the-computer-is-back-on)
    * [If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?](#if-i-edit-my-crontab-and-add-additional-entries-will-that-be-a-problem-for-bit-as-long-as-i-dont-touch-its-entries-what-does-it-look-for-in-the-crontab-to-find-its-own-entries)
    * [Can I use a systemd timer instead of cron?](#can-i-use-a-systemd-timer-instead-of-cron)
 - [Problems, Errors & Solutions](#problems-errors--solutions)
@@ -655,40 +654,23 @@ You have three options to fix this:
 
 # Schedule
 
-## How does the 'Repeatedly (anacron)' schedule work?
+## How does the 'Repeatedly' schedule work?
 
-In fact *Back In Time* doesn't use anacron anymore. It was to inflexible. But that
-schedule mimics anacron.
-
-BIT will create a crontab entry which will start ``backintime --backup-job``
-every 15min (or once an hour if the schedule is set to *weeks*). With the
-``--backup-job`` command, BIT will check if the profile is supposed to be run
-this time or exit immediately. For this it will read the time of the last
-successful run from ``~/.local/share/backintime/anacron/ID_PROFILENAME``.
+_Back In Time_ will create a crontab entry which will start
+``backintime --backup-job`` every 15min (or once an hour if the schedule is
+set to *weeks*). With the ``--backup-job`` command, _Back In Time_ will check
+if the profile is supposed to be run this time or exit immediately. For this
+it will read the time of the last successful run from
+``~/.local/share/backintime/anacron/ID_PROFILENAME``.
 If this is older than the configured time, it will continue creating a backup.
 
-If the backup was successful without errors, BIT will write the current time
-into ``~/.local/share/backintime/anacron/ID_PROFILENAME`` (even if *Repeatedly
-(anacron)* isn't chosen). So, if there was an error, BIT will try again at
-the next quarter hour.
+If the backup was successful without errors, _Back In Time_ will write the
+current time into ``~/.local/share/backintime/anacron/ID_PROFILENAME``
+(even if *Repeatedly* isn't chosen). So, if there was an error, _Back In Time_
+will try again at the next quarter hour.
 
 ``backintime --backup`` will always create a new backup. No matter how many
 time elapsed since last successful backup.
-
-## Will a scheduled backup run as soon as the computer is back on?
-
-Depends on which schedule you choose:
-
-- the schedule ``Repeatedly (anacron)`` will use an anacron-like code. So if
-  your computer is back on it will start the job if the given time is gone till
-  last backup.
-
-- with ``When drive get connected (udev)`` *Back In Time* will start a backup
-  as soon as you connect your drive ;-)
-
-- old fashion schedules like ``Every Day`` will use cron. This will only start a
-  new backup at the given time. If your computer is off, no backup will be
-  created.
 
 ## If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?
 

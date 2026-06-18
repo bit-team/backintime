@@ -168,8 +168,7 @@ specific events, such as system startup or connecting a backup drive via USB.
   backup is due, it exits immediately.
   If the system was powered off or _Back In Time_ was not running when a backup
   became due, the backup will be performed the next time the schedule is
-  checked. If a backup fails, no new timestamp is written, and the backup will
-  be retried on the next check.
+  checked. If a backup fails, it will be retried on the next check.
 
 **Event-based schedule modes**:
 
@@ -178,10 +177,10 @@ specific events, such as system startup or connecting a backup drive via USB.
   suspend/hibernate will not trigger this schedule.
 - **When drive gets connected (udev)**: this schedule will start a new backup
   as soon as the USB/eSATA/Firewire drive gets connected. You can configure a
-  delay (hours, days or weeks like in schedule Repeatedly) so it won't start on
+  delay (hours, days or weeks) so it won't start on
   every new connection. This will add a new udev rule in
-  `/etc/udev/rules.d/99-backintime-<USER>.rules` using the partitions UUID. If
-  using KDE you need to enable auto-mount for the device in System-Settings.
+  `/etc/udev/rules.d/99-backintime-<USER>.rules` using the partitions UUID.
+  Make sure auto-mount is enabled in your system.
 
 **Technical details**:
 
