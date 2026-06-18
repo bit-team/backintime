@@ -42,7 +42,10 @@ class ScheduleWidget(QGroupBox):
     """
     # pylint: disable=too-many-instance-attributes
 
-    def __init__(self, parent: QWidget, allow_udev: bool = True):
+    # pylint: disable=too-many-statements
+    def __init__(self,  # noqa: PLR0915
+                 parent: QWidget,
+                 allow_udev: bool = True):
         super().__init__(title=_('Schedule'), parent=parent)
 
         main_layout = QFormLayout(self)
@@ -70,6 +73,12 @@ class ScheduleWidget(QGroupBox):
 
             return main_layout.rowCount() - 1
 
+        def _create_spin_box(step, range_min, range_max) -> QSpinBox:
+            spin = QSpinBox(self)
+            spin.setSingleStep(step)
+            spin.setRange(range_min, range_max)
+            return spin
+
         # Schedule modes
         self._combo_schedule_mode = self._schedule_mode_combobox()
         main_layout.addRow(self._combo_schedule_mode)
@@ -94,9 +103,7 @@ class ScheduleWidget(QGroupBox):
             _('Hours:'), self._edit_cronpattern)
 
         # Offset
-        self._spin_offset = QSpinBox(self)
-        self._spin_offset.setSingleStep(1)
-        self._spin_offset.setRange(0, 59)
+        self._spin_offset = _create_spin_box(1, 0, 59)
         hlayout = QHBoxLayout()
         hlayout.addWidget(self._spin_offset)
         hlayout.addWidget(QLabel(_('after the hour'), self))
@@ -110,14 +117,14 @@ class ScheduleWidget(QGroupBox):
 
         # Repeatedly
         self._rowidx_repeated = _create_form_entry(
-            label=_('Trigger a backup when a new hour, day, week, or month begins. '
-              'If the system was off, it runs on the next start.'),
+            label=_(
+                'Trigger a backup when a new hour, day, week, or month '
+                'beginns. If the system was off, it runs on the next start.'
+            ),
             tooltip=_REPEATEDLY_TOOLTIP
         )
         # Repeatedly - Every (value) (units)
-        self._spin_period = QSpinBox(self)
-        self._spin_period.setSingleStep(1)
-        self._spin_period.setRange(1, 10000)
+        self._spin_period = _create_spin_box(1, 1, 10000)
         self._combo_repeated_unit = self._repeated_unit_combobox()
         hlayout = QHBoxLayout()
         hlayout.addWidget(self._spin_period)
