@@ -160,7 +160,7 @@ class RemoveRetentionTab(QDialog):
         self.config.setRemoveOldSnapshots(
             self._checkbox_remove_older.isChecked(),
             self._spinunit_remove_older.value(),
-            self._spinunit_remove_older.unit()
+            self._spinunit_remove_older.unit().value
         )
 
         self.config.setDontRemoveNamedSnapshots(
