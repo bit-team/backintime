@@ -43,8 +43,6 @@ class StorageSize:
     }
 
     def __init__(self, value: int, unit: SizeUnit = SizeUnit.B):
-        print(f'StorageSize.__init__() :: {value=} {unit=}')  # DEBUG
-
         # Original value in Bytes
         self._bytes = None
         # Unit used to represent the value (e.g. in strings)
@@ -95,8 +93,6 @@ class StorageSize:
         """Set the value based on the current size unit.
         """
         self._bytes = StorageSize.value_to_bytes(value, self.unit)
-
-        print(f'set_value() :: {self._bytes=} {value=} {self.unit=} {self.value()=}')  # DEBUG
 
     def value(self, unit: SizeUnit = None, decimal_places: int = 0
               ) -> int | float:
