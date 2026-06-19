@@ -56,8 +56,8 @@ class StorageSizeWidget(SpinBoxWithUnit):
             # Use widgets unit
             value.unit = self.unit()
 
-        self.set_value(value.value())
         self.select_unit(value.unit)
+        self.set_value(value.value())
 
         self._value = value
         print(f'    {self._value=} {self._value.value()=} {self._value.unit=}\n')  # DEBUG
