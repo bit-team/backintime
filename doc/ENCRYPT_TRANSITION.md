@@ -21,6 +21,7 @@ details.
  * [The transition process](#the-transition-process)
  * [FAQ - Frequently Asked Questions](#faq--frequently-asked-questions)
    * [How to migrate an EncFS backup profile to a gocryptfs backup profile?](#how-to-migrate-an-encfs-backup-profile-to-a-gocryptfs-backup-profile)
+   * [How to access existing EncFS snapshots without Back In Time?](#how-to-access-existing-encfs-snapshots-without-back-in-time)
  * [About EncFS security issues](#about-encfs-security-issues)
  * [Further readings and resources](#further-readings-and-resources)
 
@@ -67,6 +68,73 @@ about technical details.
 > [!NOTE]
 > :wink: If you are successful, it would help a lot if you could contribute
 > a tutorial like documentation to the project.
+
+### How to access existing EncFS snapshots without Back In Time?
+
+Even after upgrading to _Back In Time_ 2.0.0, your old EncFS-encrypted
+snapshots still exist on disk. You can access them directly using the
+`encfs` or `encfsctl` command-line tools — no Back In Time needed.
+
+**Prerequisites:** Install the EncFS tools for your distribution:
+
+```bash
+# Debian / Ubuntu
+sudo apt install encfs
+
+# Fedora
+sudo dnf install fuse-encfs
+
+# Arch Linux
+sudo pacman -S encfs
+
+# macOS (Homebrew)
+brew install encfs-mac
+```
+
+**Option 1 — Mount interactively (browse files):**
+```bash
+# Create a mount point
+mkdir -p ~/encfs-mount
+
+# Mount the encrypted directory (you'll be prompted for the password)
+encfs /path/to/backintime/encrypted-backup ~/encfs-mount
+
+# Now browse your files
+ls ~/encfs-mount
+
+# When done, unmount
+fusermount -u ~/encfs-mount        # Linux
+umount ~/encfs-mount               # macOS
+```
+
+**Option 2 — Export without mounting (batch extract):**
+```bash
+# Export all files from the encrypted directory to a plain directory
+encfs --extpass="echo your-password" \
+  /path/to/backintime/encrypted-backup \
+  /path/to/export-directory \
+  --reverse
+```
+> [!CAUTION]
+> Putting the password on the command line leaves it in your shell history.
+> Use `encfs` without `--extpass` (interactive prompt) unless you fully trust
+> the environment.
+
+**Option 3 — Inspect without password (metadata only):**
+```bash
+# List encrypted filenames and sizes without decrypting content
+encfsctl info /path/to/backintime/encrypted-backup
+```
+
+**After extracting your data**, create a new gocryptfs-encrypted profile in
+_Back In Time_ and take a fresh backup.
+
+> [!TIP]
+> The EncFS encrypted data is stored at the path you configured in your old
+> Back In Time profile (typically under the snapshot directory with an
+> `.encfs` suffix or a separate `encfs` folder). Look for a file named
+> `.encfs6.xml` — that's the EncFS configuration file identifying the
+> encrypted data.
 
 ## About EncFS security issues
 
