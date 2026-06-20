@@ -596,14 +596,18 @@ def is_mounted(path: pathlib.Path) -> bool:
     if not absolute.exists():
         return False
 
-    if absolute.is_mount():
-        return True
+    if not absolute.is_mount():
+        return False
 
+    # Keep in mind, that is_mount() can be false positive on btrfs-subvolumes
+    # Issue #2487. Thats why we need to be sure and also check the
+    # proc-mountinfo file
     return in_proc_self_mountinfo(absolute)
 
 
 def in_proc_self_mountinfo(path: pathlib.Path) -> bool:
     """Test if the path is in /proc/self/mountinfo"""
+
     mountinfo = pathlib.Path('/proc') / 'self' / 'mountinfo'
 
     try:
@@ -612,10 +616,13 @@ def in_proc_self_mountinfo(path: pathlib.Path) -> bool:
         logger.critical(f'Unable to read from file "{mountinfo}". {exc}')
         return False
 
-    return any(
-        (lambda parts=row.split(): len(parts) > 4 and parts[4] == path)()
-        for row in all_rows
-    )
+    for row in reversed(all_rows):
+        parts = row.split()
+
+        if len(parts) > 4 and pathlib.Path(parts[4]) == path:
+            return True
+
+    return False
 
 
 def free_space(path: pathlib.Path, ssh_command: list[str] = None
@@ -1705,7 +1712,7 @@ def setPassword(*args):
     return False
 
 
-def mountpoint(path):
+def mountpoint(path: Union[pathlib.Path, str]) -> str:
     """
     Get the mountpoint of ``path``. If your HOME is on a separate partition
     mountpoint('/home/user/foo') would return '/home'.
@@ -1716,15 +1723,21 @@ def mountpoint(path):
     Returns:
         str:        mountpoint of the filesystem
     """
-    path = os.path.realpath(os.path.abspath(path))
+    # WORKAROUND
+    if isinstance(path, str):
+        path = pathlib.Path(path)
 
-    while path != os.path.sep:
-        if os.path.ismount(path):
-            return path
+    path = path.resolve()
 
-        path = os.path.abspath(os.path.join(path, os.pardir))
+    while path != pathlib.Path(path.root):
 
-    return path
+        if is_mounted(path):
+            return str(path)
+
+        # one dir up
+        path = path.parent
+
+    return str(path)
 
 
 def decodeOctalEscape(s):

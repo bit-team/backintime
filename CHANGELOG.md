@@ -61,6 +61,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Prevent crash in case a plugin fails ([#2447](https://github.com/bit-team/backintime/issues/2447))
 - Schedule mode "Repeatedly (anacron)" using "Hourly" units is now consistent with other units ([#2507](https://github.com/bit-team/backintime/issues/2507))
 - **Breaking**: "Remove backups older than" value was stored only as years ([#2460](https://github.com/bit-team/backintime/issues/2460))
+- Crash when use Btrfs-subvolume as backup destination (Daidalos [@D4id4los](https://github.com/D4id4los), [#2487](https://github.com/bit-team/backintime/issues/2487))
 
 ## [1.6.1] (2026-02-10)
 
