@@ -25,6 +25,7 @@ import locale
 import gettext
 import hashlib
 import shutil
+import json
 from datetime import datetime, timedelta
 from collections.abc import MutableMapping
 from packaging.version import Version
@@ -73,7 +74,6 @@ except ImportError:
     else:
         raise
 
-import configfile
 import bcolors
 from exceptions import (Timeout,
                         InvalidChar,
@@ -1546,27 +1546,28 @@ def checkCronPattern(s):
         return False
 
 
-def envLoad(f):
+def envLoad(fp: pathlib.Path):
     """
     Load environ variables from file ``f`` into current environ.
     Do not overwrite existing environ variables.
 
     Args:
-        f (str):    full path to file with environ variables
+        full path to file with environ variables
     """
     env = os.environ.copy()
-    env_file = configfile.ConfigFile()
-    env_file.load(f, maxsplit = 1)
-    for key in env_file.keys():
-        value = env_file.strValue(key)
+
+    content = json.loads(fp.read_text(encoding='utf-8'))
+
+    for key, value in content.items():
+
         if not value:
             continue
+
         if not key in list(env.keys()):
             os.environ[key] = value
-    del env_file
 
 
-def envSave(f):
+def envSave(fp: pathlib.Path):
     """
     Save environ variables to file that are needed by cron
     to connect to keyring. This will only work if the user is logged in.
@@ -1575,15 +1576,23 @@ def envSave(f):
         f (str):    full path to file for environ variables
     """
     env = os.environ.copy()
-    env_file = configfile.ConfigFile()
-    for key in ('GNOME_KEYRING_CONTROL', 'DBUS_SESSION_BUS_ADDRESS',
-                'DBUS_SESSION_BUS_PID', 'DBUS_SESSION_BUS_WINDOWID',
-                'DISPLAY', 'XAUTHORITY', 'GNOME_DESKTOP_SESSION_ID',
-                'KDE_FULL_SESSION'):
-        if key in env:
-            env_file.setStrValue(key, env[key])
 
-    env_file.save(f)
+    content = {}
+
+    for key in ('GNOME_KEYRING_CONTROL',
+                'DBUS_SESSION_BUS_ADDRESS',
+                'DBUS_SESSION_BUS_PID',
+                'DBUS_SESSION_BUS_WINDOWID',
+                'DISPLAY',
+                'XAUTHORITY',
+                'GNOME_DESKTOP_SESSION_ID',
+                'KDE_FULL_SESSION',
+                'SSH_AUTH_SOCK'):
+
+        if key in env:
+            content[key] = env[key]
+
+    fp.write_text(json.dumps(content), encoding='utf-8')
 
 
 def _check_if_keyring_is_supported():

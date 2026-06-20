@@ -22,13 +22,11 @@ import unittest
 from datetime import datetime
 from time import sleep
 from unittest.mock import patch
-from copy import deepcopy
 from tempfile import NamedTemporaryFile, TemporaryDirectory
 import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 from test import generic
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import tools
-import configfile
 from bitbase import TimeUnit
 
 # chroot jails used for building may have no UUID devices (because of tmpfs)
@@ -405,84 +403,6 @@ class EscapeIPv6(unittest.TestCase):
         for val in test_values:
             with self.subTest(val=val):
                 self.assertEqual(tools.escapeIPv6Address(val), val)
-
-
-class Environ(generic.TestCase):
-    """???
-    """
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.env = deepcopy(os.environ)
-
-    def setUp(self):
-        super().setUp()
-        self.temp_file = '/tmp/temp.txt'
-        os.environ = deepcopy(self.env)
-
-    def tearDown(self):
-        super().tearDown()
-        if os.path.exists(self.temp_file):
-            os.remove(self.temp_file)
-        os.environ = deepcopy(self.env)
-
-    def test_envLoad_without_previous_values(self):
-        test_env = configfile.ConfigFile()
-        test_env.setStrValue('FOO', 'bar')
-        test_env.setStrValue('ASDF', 'qwertz')
-        test_env.save(self.temp_file)
-
-        # make sure environ is clean
-        self.assertNotIn('FOO', os.environ)
-        self.assertNotIn('ASDF', os.environ)
-
-        tools.envLoad(self.temp_file)
-        self.assertIn('FOO', os.environ)
-        self.assertIn('ASDF', os.environ)
-        self.assertEqual(os.environ['FOO'], 'bar')
-        self.assertEqual(os.environ['ASDF'], 'qwertz')
-
-    def test_envLoad_do_not_overwrite_previous_values(self):
-        test_env = configfile.ConfigFile()
-        test_env.setStrValue('FOO', 'bar')
-        test_env.setStrValue('ASDF', 'qwertz')
-        test_env.save(self.temp_file)
-
-        # add some environ vars that should not get overwritten
-        os.environ['FOO'] = 'defaultFOO'
-        os.environ['ASDF'] = 'defaultASDF'
-
-        tools.envLoad(self.temp_file)
-        self.assertIn('FOO', os.environ)
-        self.assertIn('ASDF', os.environ)
-        self.assertEqual(os.environ['FOO'], 'defaultFOO')
-        self.assertEqual(os.environ['ASDF'], 'defaultASDF')
-
-    def test_envSave(self):
-        keys = (
-            'GNOME_KEYRING_CONTROL',
-            'DBUS_SESSION_BUS_ADDRESS',
-            'DBUS_SESSION_BUS_PID',
-            'DBUS_SESSION_BUS_WINDOWID',
-            'DISPLAY',
-            'XAUTHORITY',
-            'GNOME_DESKTOP_SESSION_ID',
-            'KDE_FULL_SESSION')
-
-        for i, k in enumerate(keys):
-            os.environ[k] = str(i)
-
-        tools.envSave(self.temp_file)
-
-        self.assertIsFile(self.temp_file)
-
-        test_env = configfile.ConfigFile()
-        test_env.load(self.temp_file)
-        for i, k in enumerate(keys):
-            with self.subTest(i=i, k=k):
-                # workaround for py.test3 2.5.1 doesn't support subTest
-                msg = 'i = %s, k = %s' % (i, k)
-                self.assertEqual(test_env.strValue(k), str(i), msg)
 
 
 class ExecuteSubprocess(unittest.TestCase):

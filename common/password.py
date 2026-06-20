@@ -14,7 +14,9 @@ import tools
 import daemon
 import password_ipc
 import logger
+import bitbase
 from exceptions import Timeout
+
 
 
 class Password_Cache(daemon.Daemon):
@@ -61,7 +63,7 @@ class Password_Cache(daemon.Daemon):
             self
         )
 
-        tools.envSave(self.config.cronEnvFile())
+        tools.envSave(bitbase.CRON_ENV_PATH)
 
         if not self.collectPasswords():
             logger.debug(

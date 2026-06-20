@@ -67,6 +67,8 @@ XDG_DATA_HOME = Path(os.environ.get(
 ))
 
 FILENAME_CONFIG = 'config'
+CRON_ENV_PATH = XDG_DATA_HOME / 'cron_env.json'
+
 # See issue #1743
 ENCFS_BACKUP_CONFIG_SUFFIX = '.encfs.backup'
 
