@@ -600,7 +600,7 @@ def is_mounted(path: pathlib.Path) -> bool:
         return False
 
     # Keep in mind, that is_mount() can be false positive on btrfs-subvolumes
-    # Issue #2487. Thats why we need to be sure and also check the
+    # Issue #2487. That's why we need to be sure and also check the
     # proc-mountinfo file
     return in_proc_self_mountinfo(absolute)
 

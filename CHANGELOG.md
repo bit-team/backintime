@@ -56,6 +56,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - GUI Expert Options:
   - "Check if remote host is online" ([#2482](https://github.com/bit-team/backintime/issues/2482)).
   - "Check if remote host supports all necessary commands" ([#2482](https://github.com/bit-team/backintime/issues/2482)).
+- Test targets in Makefiles. Use a regular Python test runner (e.g. pytest) instead.
 
 ## Fixed
 - **Breaking**: "Remove backups older than" value was stored only as years ([#2460](https://github.com/bit-team/backintime/issues/2460))
