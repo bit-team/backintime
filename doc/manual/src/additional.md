@@ -1,6 +1,7 @@
 # Additional sources
 <!--
 SPDX-FileCopyrightText: © 2016 Germar Reitze
+SPDX-FileCopyrightText: © 2025 Christian BUHTZ <c.buhtz@posteo.jp>
 
 SPDX-License-Identifier: GPL-2.0-or-later
 
@@ -9,7 +10,6 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 <https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
 - [FAQ - Frequently Asked Questions](https://github.com/bit-team/backintime/blob/dev/FAQ.md)
-- [Source code documentation for developers](https://backintime-dev.readthedocs.org)
 - [Issue Tracker](https://github.com/bit-team/backintime/issues)
 - [Contributing to Back In Time](https://github.com/bit-team/backintime/blob/dev/CONTRIBUTING.md)
 - [Project Website at Microsoft GitHub](https://github.com/bit-team/backintime)

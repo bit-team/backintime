@@ -596,13 +596,14 @@ class MainWindow(QMainWindow):
                 icon.FAQ, _('FAQ'),
                 self._slot_help_faq, None,
                 _('Open Frequently Asked Questions (FAQ) in browser')),
-            'act_help_question': (
-                icon.QUESTION, _('Ask a question'),
-                self._slot_help_ask_question, None,
-                None),
             'act_help_bugreport': (
                 icon.BUG, _('Report a bug'),
                 self._slot_help_report_bug, None, None),
+            'act_help_contact': (
+                icon.QUESTION, _('Contact'),
+                self._slot_help_contact, None,
+                _('Shows additional contact options in the browser'),
+            ),
             'act_help_translation': (
                 icon.LANGUAGE, _('Translation'),
                 self._slot_help_translation, None,
@@ -747,8 +748,8 @@ class MainWindow(QMainWindow):
                 self.act_help_website,
                 self.act_help_changelog,
                 self.act_help_faq,
-                self.act_help_question,
                 self.act_help_bugreport,
+                self.act_help_contact,
                 self.act_help_translation,
                 self.act_help_encryption,
                 self.act_help_about,
@@ -2322,6 +2323,9 @@ class MainWindow(QMainWindow):
     def _slot_help_website(self):
         qttools.open_url(bitbase.URL_WEBSITE)
 
+    def _slot_help_contact(self):
+        qttools.open_url(bitbase.URL_CONTACT)
+
     def _slot_help_changelog(self):
         markdown = False
         if bitbase.CHANGELOG_LOCAL_PATH.exists():
@@ -2353,9 +2357,6 @@ class MainWindow(QMainWindow):
 
     def _slot_help_encryption(self):
         qttools.open_url(bitbase.URL_ENCRYPT_TRANSITION)
-
-    def _slot_help_ask_question(self):
-        qttools.open_url(bitbase.URL_ISSUES)
 
     def _slot_help_report_bug(self):
         qttools.open_url(bitbase.URL_ISSUES_CREATE_NEW)

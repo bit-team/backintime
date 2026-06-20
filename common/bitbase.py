@@ -50,6 +50,7 @@ URL_ENCRYPT_TRANSITION = 'https://github.com/bit-team/backintime' \
 URL_SOURCE = 'https://github.com/bit-team/backintime'
 URL_WEBSITE = URL_SOURCE
 URL_FAQ = f'{URL_WEBSITE}/blob/-/FAQ.md'
+URL_CONTACT = f'{URL_WEBSITE}/blob/-/README.md#contact--social'
 URL_ISSUES = f'{URL_WEBSITE}/issues'
 URL_ISSUES_CREATE_NEW = f'{URL_ISSUES}/new'
 URL_CHANGELOG = f'{URL_WEBSITE}/blob/-/CHANGELOG.md'
