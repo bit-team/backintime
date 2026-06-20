@@ -393,6 +393,7 @@ class MainWindow(QMainWindow):
         state_data = StateData()
         if state_data.msg_encfs_global < bitbase.ENCFS_MSG_STAGE:
             state_data.msg_encfs_global = bitbase.ENCFS_MSG_STAGE
+            state_data.save()
             dlg = encfsmsgbox.EncfsFinalRemoval(config_fp_backup)
             dlg.exec()
 

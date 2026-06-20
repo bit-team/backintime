@@ -26,6 +26,14 @@ import tools
 import qttools
 from manageprofiles import combobox
 
+_REPEATEDLY_TOOLTIP = _(
+    'For example, "repeatedly every 1 hour" means a backup is triggered at '
+    'each new clock hour. If the last successful backup was at 18:56, it '
+    'will be triggered again at 19:00 because the hour boundary has been '
+    'crossed. This schedule mode is useful if the computer is not running '
+    'regularly.'
+)
+
 
 class ScheduleWidget(QGroupBox):
     """Widget about schedule snapshots.
@@ -34,12 +42,18 @@ class ScheduleWidget(QGroupBox):
     """
     # pylint: disable=too-many-instance-attributes
 
-    def __init__(self, parent: QWidget, allow_udev: bool = True):
+    # pylint: disable=too-many-statements
+    def __init__(self,  # noqa: PLR0915
+                 parent: QWidget,
+                 allow_udev: bool = True):
         super().__init__(title=_('Schedule'), parent=parent)
 
         main_layout = QFormLayout(self)
 
-        def _create_form_entry(label: str, widget: QWidget = None) -> int:
+        def _create_form_entry(
+                label: str,
+                widget: QWidget = None,
+                tooltip: str = None) -> int:
             """Helper to create a row with a label and widget in the form
             layout.
 
@@ -48,12 +62,22 @@ class ScheduleWidget(QGroupBox):
             """
             if widget:
                 main_layout.addRow(label, widget)
+                if tooltip:
+                    widget.setToolTip(tooltip)
             else:
                 lbl = QLabel(label)
                 lbl.setWordWrap(True)
+                if tooltip:
+                    qttools.set_wrapped_tooltip(lbl, tooltip)
                 main_layout.addRow(lbl)
 
             return main_layout.rowCount() - 1
+
+        def _create_spin_box(step, range_min, range_max) -> QSpinBox:
+            spin = QSpinBox(self)
+            spin.setSingleStep(step)
+            spin.setRange(range_min, range_max)
+            return spin
 
         # Schedule modes
         self._combo_schedule_mode = self._schedule_mode_combobox()
@@ -79,9 +103,7 @@ class ScheduleWidget(QGroupBox):
             _('Hours:'), self._edit_cronpattern)
 
         # Offset
-        self._spin_offset = QSpinBox(self)
-        self._spin_offset.setSingleStep(1)
-        self._spin_offset.setRange(0, 59)
+        self._spin_offset = _create_spin_box(1, 0, 59)
         hlayout = QHBoxLayout()
         hlayout.addWidget(self._spin_offset)
         hlayout.addWidget(QLabel(_('after the hour'), self))
@@ -93,15 +115,16 @@ class ScheduleWidget(QGroupBox):
             _('Run Back In Time as soon as the drive is connected (only once'
               ' every X days). A sudo password prompt will appear.'))
 
-        # Repeatedly (like anacron)
+        # Repeatedly
         self._rowidx_repeated = _create_form_entry(
-            _('Run Back In Time repeatedly. This is useful if the computer '
-              'is not running regularly.'))
-
+            label=_(
+                'Trigger a backup when a new hour, day, week, or month '
+                'beginns. If the system was off, it runs on the next start.'
+            ),
+            tooltip=_REPEATEDLY_TOOLTIP
+        )
         # Repeatedly - Every (value) (units)
-        self._spin_period = QSpinBox(self)
-        self._spin_period.setSingleStep(1)
-        self._spin_period.setRange(1, 10000)
+        self._spin_period = _create_spin_box(1, 1, 10000)
         self._combo_repeated_unit = self._repeated_unit_combobox()
         hlayout = QHBoxLayout()
         hlayout.addWidget(self._spin_period)
@@ -162,7 +185,9 @@ class ScheduleWidget(QGroupBox):
                 'Every hour', 'Every {n} hours', 12).format(n=12),
             config.Config.CUSTOM_HOUR: _('Custom hours'),
             config.Config.DAY: _('Every day'),
-            config.Config.REPEATEDLY: _('Repeatedly (anacron)'),
+            config.Config.REPEATEDLY: (
+                _('Repeatedly'), _REPEATEDLY_TOOLTIP
+            ),
             config.Config.UDEV: _('When drive gets connected (udev)'),
             config.Config.WEEK: _('Every week'),
             config.Config.MONTH: _('Every month'),

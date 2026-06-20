@@ -131,26 +131,17 @@ def might_be_richtext(txt: str) -> bool:
     return bool(_REX_RICHTEXT.match(txt))
 
 
-def set_wrapped_tooltip(widget: Union[QWidget, Iterable[QWidget]],
-                        tooltip: Union[str, Iterable[str]],
-                        wrap_length: int = 72):
-    """Add a tooltip to the widget but insert line breaks when appropriated.
+def wrap_tooltip(tooltip: Union[str, Iterable[str]],
+                 wrap_length: int = 72) -> str:
+    """Wrap a tooltip string but insert line breaks when appropriated.
 
     If a list of strings is provided, each string is wrapped individually and
     then joined with a line break.
 
     Args:
-        widget: The widget or list of widgets to which a tooltip should be
-            added.
         tooltip: The tooltip as string or iterable of strings.
         wrap_length: Every line is at most this lengths.
     """
-
-    if isinstance(widget, Iterable):
-        for wdg in widget:
-            set_wrapped_tooltip(wdg, tooltip, wrap_length)
-
-        return
 
     # Always use tuple or list
     if isinstance(tooltip, str):
@@ -176,7 +167,31 @@ def set_wrapped_tooltip(widget: Union[QWidget, Iterable[QWidget]],
     if is_richtext and result[0] != '<':
         result = f'<html>{result}</html>'
 
-    widget.setToolTip(result)
+    return result
+
+
+def set_wrapped_tooltip(widget: Union[QWidget, Iterable[QWidget]],
+                        tooltip: Union[str, Iterable[str]],
+                        wrap_length: int = 72):
+    """Add a tooltip to the widget but insert line breaks when appropriated.
+
+    If a list of strings is provided, each string is wrapped individually and
+    then joined with a line break.
+
+    Args:
+        widget: The widget or list of widgets to which a tooltip should be
+            added.
+        tooltip: The tooltip as string or iterable of strings.
+        wrap_length: Every line is at most this lengths.
+    """
+
+    if isinstance(widget, Iterable):
+        for wdg in widget:
+            set_wrapped_tooltip(wdg, tooltip, wrap_length)
+
+        return
+
+    widget.setToolTip(wrap_tooltip(tooltip, wrap_length))
 
 
 def update_combo_profiles(config, combo_profiles, current_profile_id):
