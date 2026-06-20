@@ -145,10 +145,13 @@ class RemoveRetentionTab(QDialog):
         self._cb_run_remote_in_background.setChecked(
             self.config.smartRemoveRunRemoteInBackground())
 
+        print('R'*50)  # DEBUG
         # min free space
         enabled, value = self.config.minFreeSpaceAsStorageSize()
         self._checkbox_space.setChecked(enabled)
-        self._spin_unit_space.set_storagesize(value)
+        print(f'load_values() before set_storagesize() :: {value=}')  # DEBUG
+        self._spin_unit_space.set_storagesize(value=value)
+        print('T'*50)  # DEBUG
 
         # min free inodes
         self._checkbox_inodes.setChecked(self.config.minFreeInodesEnabled())
@@ -160,7 +163,7 @@ class RemoveRetentionTab(QDialog):
         self.config.setRemoveOldSnapshots(
             self._checkbox_remove_older.isChecked(),
             self._spinunit_remove_older.value(),
-            self._spinunit_remove_older.unit()
+            self._spinunit_remove_older.unit().value
         )
 
         self.config.setDontRemoveNamedSnapshots(
