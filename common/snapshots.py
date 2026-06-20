@@ -953,18 +953,19 @@ class Snapshots:
                         if (self.config.PLUGIN_MANAGER.hasGuiPlugins
                                 and self.config.notify()):
 
-                            # IMHO useless?
                             message = (
-                                _("Can't find backup directory.")
+                                _("Can't find backup destination directory.")
                                 + '\n'
                                 + self.config.snapshotsFullPath(profile_id)
                                 + '\n'
                                 + _('If it is on a removable drive, '
                                     'please plug it in.')
                                 + '\n'
-                                + gettext.ngettext('Waiting {n} second.',
-                                                    'Waiting {n} seconds.',
-                                                    30).format(n=30)
+                                + gettext.ngettext(
+                                    'Waiting {n} second.',
+                                    'Waiting {n} seconds.',
+                                    30
+                                ).format(n=30)
                             )
 
                             self.setTakeSnapshotMessage(
@@ -1550,9 +1551,11 @@ class Snapshots:
             # HACK to fix #489 (params[0] and has_errors should be merged)
             params[0] = True
             self.setTakeSnapshotMessage(
-                1, rsync_exit_code_msg + ": "
-                   + _("Negative rsync exit codes are signal numbers, see "
-                       "'kill -l' and 'man kill'"))
+                1, rsync_exit_code_msg + ': '
+                   + _('Negative exit codes indicate termination by a '
+                       'signal. The number corresponds to the signal '
+                       "(see 'kill -l').")
+            )
 
         # params[0] -> error?
         if params[0]:
@@ -1570,7 +1573,7 @@ class Snapshots:
 
             self.remove(new_snapshot)
 
-            logger.info("Nothing changed, no new backup necessary", self)
+            logger.info('Nothing changed, no new backup necessary', self)
             self.snapshotLog.append(
                 '[I] ' + _('Nothing changed, no new backup necessary'), 3)
 

@@ -121,7 +121,7 @@ def _do_backup(args: argparse.Namespace, force: bool):
     cli.print_header()
     cfg = _get_config(args)
 
-    tools.envLoad(cfg.cronEnvFile())
+    tools.envLoad(bitbase.CRON_ENV_PATH)
     ret = snapshots.Snapshots(cfg).backup(force)
 
     sys.exit(int(ret))

@@ -9,11 +9,12 @@
 # Strict and accurate recording of translators' names began around 2022. As
 # the project started in 2008, some earlier translators' names may not have
 # been documented and could be lost.
+# REUSE-IgnoreStart
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-03-08 12:51+0100\n"
+"POT-Creation-Date: 2026-06-17 17:15+0200\n"
 "PO-Revision-Date: 2025-01-03 03:42+0000\n"
 "Last-Translator: sveinki <sveinki@users.noreply.translate.codeberg.org>\n"
 "Language-Team: Icelandic <https://translate.codeberg.org/projects/backintime/common/is/>\n"
@@ -32,73 +33,70 @@ msgid ""
 "refer to {readme_link}."
 msgstr ""
 
-#: common/config.py:37 common/tools.py:87 qt/encfsmsgbox.py:25
-#: qt/messagebox.py:99 qt/timeline.py:33
+#: common/config.py:37 common/tools.py:89 qt/encfsmsgbox.py:27
+#: qt/messagebox.py:99 qt/timeline.py:35
 msgid "Warning"
 msgstr "Aðvörun"
 
-#: common/config.py:109 common/config.py:219
+#: common/config.py:107 common/config.py:160
 msgid "Main profile"
 msgstr "Aðalsnið"
 
-#: common/config.py:225
-msgid "Local (EncFS encrypted)"
-msgstr "Staðvært (EncFS-dulritað)"
-
-#: common/config.py:226
-msgid "SSH (EncFS encrypted)"
-msgstr "SSH (EncFS-dulritað)"
-
-#: common/config.py:237
+#: common/config.py:171
 msgid "Local"
 msgstr "Staðvært"
 
-#: common/config.py:240
+#: common/config.py:177
 msgid "Local encrypted"
 msgstr "Staðvært dulritað"
 
-#: common/config.py:241 common/config.py:249 common/config.py:256
-#: qt/manageprofiles/tab_general.py:405
+#: common/config.py:178 common/config.py:191
+#: qt/manageprofiles/tab_general.py:393
 msgid "Encryption"
 msgstr "Dulritun"
 
-#: common/config.py:245
+#: common/config.py:183
 msgid "SSH"
 msgstr "SSH"
 
-#: common/config.py:245 common/config.py:255
-#: qt/manageprofiles/tab_general.py:744
+#: common/config.py:184 common/config.py:190
+#: qt/manageprofiles/tab_general.py:745
 msgid "SSH private key"
 msgstr "SSH-einkalykill"
 
-#: common/config.py:300 common/config.py:312 common/config.py:330
-#: common/config.py:344 common/config.py:365
+#: common/config.py:189
+#, fuzzy
+msgid "SSH encrypted"
+msgstr "SSH (EncFS-dulritað)"
+
+#: common/config.py:221 common/config.py:233 common/config.py:251
+#: common/config.py:265 common/config.py:286
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Snið: \"{name}\""
 
-#: common/config.py:301
+#: common/config.py:222
 #, fuzzy
 msgid "Backup directory is not valid."
 msgstr "Mappa fyrir skyndiafrit er ekki gild."
 
-#: common/config.py:313
+#: common/config.py:234
 msgid "At least one directory must be selected for backup."
 msgstr "Að minnsta kosti ein mappa verður að vera undir öryggisafrit."
 
-#: common/config.py:331 common/config.py:346
+#: common/config.py:252 common/config.py:267
 #, fuzzy, python-brace-format
 msgid "Directory: {path}"
 msgstr "Endurheimta {path}"
 
-#: common/config.py:332 common/config.py:347
+#: common/config.py:253 common/config.py:268
 #, fuzzy
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
 msgstr "Mappan getur ekki verið innifalin í öryggisafritinu."
 
-#: common/config.py:366
+#: common/config.py:287
 #, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
@@ -106,22 +104,22 @@ msgid ""
 " space falls below\" ({val_two})."
 msgstr ""
 
-#: common/config.py:371
+#: common/config.py:292
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr ""
 
-#: common/config.py:1515
+#: common/config.py:1417
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Áætlað udev virkar ekki með hamnum {mode}"
 
-#: common/config.py:1569
+#: common/config.py:1471
 msgid "Failed to write new crontab."
 msgstr "Mistókst að skrifa nýtt crontab."
 
-#: common/config.py:1577
+#: common/config.py:1479
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -138,69 +136,157 @@ msgstr "Mistókst að vista stillingaskrá"
 msgid "Failed to load config"
 msgstr "Mistókst að hlaða inn stillingaskrá"
 
-#: common/configfile.py:679 common/configfile.py:779
+#: common/configfile.py:654 common/configfile.py:754
 #, python-brace-format
 msgid "Profile \"{name}\" already exists."
 msgstr "Sniðið \"{name}\" er þegar til staðar."
 
-#: common/configfile.py:725
+#: common/configfile.py:700
 msgid "The last profile cannot be removed."
 msgstr "Ekki er hægt að fjarlægja síðasta sniðið."
 
-#: common/encfstools.py:129 common/gocryptfstools.py:84
-#, fuzzy, python-brace-format
-msgid "Unable to mount \"{command}\""
-msgstr "Get ekki tengt '{command}'"
-
-#: common/encfstools.py:190
-msgid "Configuration for the encrypted directory not found."
-msgstr "Grunnstillingar fyrir dulritaða möppu fundust ekki."
-
-#: common/encfstools.py:197
-msgid "Create a new encrypted directory?"
-msgstr "Búa til nýja dulritaða möppu?"
-
-#: common/encfstools.py:204
-msgid "Cancel"
-msgstr "Hætta við"
-
-#: common/encfstools.py:209
+#: common/mount/_backends.py:88 common/snapshots.py:957
 #, fuzzy
-msgid "Please re-enter the EncFS password to confirm."
-msgstr "Settu inn lykilorð fyrir \"{user}\"."
+msgid "Can't find backup destination directory."
+msgstr "Finn ekki möppu fyrir skyndiafrit."
 
-#: common/encfstools.py:215
+#: common/mount/_backends.py:90 common/snapshots.py:961
 #, fuzzy
-msgid "The EncFS passwords do not match."
-msgstr "Lykilorðin samsvara ekki."
-
-#: common/encfstools.py:659 common/snapshots.py:1128
-msgid "Take snapshot"
-msgstr "Taka skyndiafrit"
-
-#: common/gocryptfstools.py:133
-#, fuzzy, python-brace-format
-msgid "Unable to init encrypted path \"{command}\""
-msgstr "Get ekki tengt '{command}'"
-
-#: common/mount.py:663
-#, python-brace-format
-msgid "Unable to unmount {mountprocess} from {mountpoint}."
-msgstr "Get ekki aftengt {mountprocess} úr {mountpoint}."
-
-#: common/mount.py:750
-#, python-brace-format
-msgid "{command} not found. Please install it (e.g. via \"{installcommand}\")"
+msgid "If it is on a removable drive, please plug it in."
 msgstr ""
-"{command} fannst ekki. Endilega settu það upp (t.d. með "
-"\"{installcommand}\")"
+"Ef hún er á útskiptanlegu drifi, skaltu tengja það og ýta síðan á 'Í lagi'."
 
-#: common/mount.py:774
+#: common/mount/_backends.py:91
+msgid "Then press OK."
+msgstr ""
+
+#: common/mount/_backends.py:108
+msgid "Back In Time could not connect to the remote backup location."
+msgstr ""
+
+#: common/mount/_backends.py:110 qt/manageprofiles/tab_general.py:476
+msgid "Reason:"
+msgstr ""
+
+#: common/mount/_backends.py:156 common/sshsetupvalidator.py:181
 #, python-brace-format
-msgid "Mountpoint {mntpoint} not empty."
-msgstr "Tengipunktur {mntpoint} er ekki laus."
+msgid "Could not reach the SSH proxy host \"{host_port}\"."
+msgstr ""
 
-#: common/password.py:306
+#: common/mount/_backends.py:161 common/sshsetupvalidator.py:186
+#, python-brace-format
+msgid "Could not reach the SSH host \"{host_port}\"."
+msgstr ""
+
+#: common/mount/_backends.py:215
+msgid "SSH authentication failed for:"
+msgstr ""
+
+#: common/mount/_backends.py:217 common/mount/_backends.py:395
+#: common/mount/_encryptors.py:262 common/sshsetupvalidator.py:237
+#: common/sshsetupvalidator.py:310 common/sshsetupvalidator.py:348
+#: common/sshsetupvalidator.py:416 common/sshsetupvalidator.py:470
+#: common/sshsetupvalidator.py:499 common/sshsetupvalidator.py:549
+msgid "Details:"
+msgstr ""
+
+#: common/mount/_backends.py:272
+#, fuzzy
+msgid "The remote backup directory does not exist or is not a directory."
+msgstr "Fjartengd slóð er til, en er ekki mappa."
+
+#: common/mount/_backends.py:278
+#, fuzzy
+msgid "The remote backup directory is not writable."
+msgstr "Mappa fyrir skyndiafrit er ekki gild."
+
+#: common/mount/_backends.py:283
+msgid "The remote backup directory cannot be accessed."
+msgstr ""
+
+#: common/mount/_backends.py:297 qt/manageprofiles/tab_general.py:125
+msgid "Path:"
+msgstr "Slóð:"
+
+#: common/mount/_backends.py:305
+msgid "No SSH host configured."
+msgstr ""
+
+#: common/mount/_backends.py:312
+#, fuzzy
+msgid "No destination backup directory configured."
+msgstr "Finn ekki möppu fyrir skyndiafrit."
+
+#: common/mount/_backends.py:393
+#, fuzzy
+msgid "Could not mount the remote backup location."
+msgstr "Tókst ekki að útbúa fjartengda slóð."
+
+#: common/mount/_encryptors.py:188
+msgid ""
+"Cannot initialize encryption because the backup destination is not empty."
+msgstr ""
+
+#: common/mount/_encryptors.py:191
+#, fuzzy
+msgid "Remove existing files or choose an empty directory."
+msgstr "Fjartengd slóð er til, en er ekki mappa."
+
+#: common/mount/_encryptors.py:208
+#, python-brace-format
+msgid "Required tool \"{tool}\" is not installed or not available."
+msgstr ""
+
+#: common/mount/_encryptors.py:209
+#, fuzzy
+msgid "Please install it and try again."
+msgstr "Settu upp 'nocache' til að geta notað þennan valkost."
+
+#: common/mount/_encryptors.py:261
+#, fuzzy
+msgid "Unable to initialize encryption."
+msgstr "Get ekki tengt '{command}'"
+
+#: common/mount/_encryptors.py:277
+#, python-brace-format
+msgid ""
+"Backup destination directory is not prepared for encryption. Path: {path}"
+msgstr ""
+
+#: common/mount/_encryptors.py:286
+#, python-brace-format
+msgid "Mountpoint as decrypted view is missing. Path: {path}"
+msgstr ""
+
+#: common/mount/_encryptors.py:338
+#, python-brace-format
+msgid "Mount failed with return code {rc}."
+msgstr ""
+
+#: common/mount/_encryptors.py:341
+#, fuzzy
+msgid "Error:"
+msgstr "Villa"
+
+#: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:69
+msgid "Command:"
+msgstr "Skipun:"
+
+#: common/mount/_encryptors.py:374
+msgid "Unmount failed"
+msgstr ""
+
+#: common/mount/_encryptors.py:376
+#, python-brace-format
+msgid "Return code: {rc}"
+msgstr ""
+
+#: common/mount/_encryptors.py:378
+#, python-brace-format
+msgid "Original error: {err}"
+msgstr ""
+
+#: common/password.py:298
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "Settu inn lykilorð fyrir {mode}-notkunarsniðið \"{profile}\":"
@@ -227,57 +313,50 @@ msgstr "MISTÓKST"
 msgid "Restore permissions"
 msgstr "Endurheimta heimildir"
 
-#: common/snapshots.py:656 qt/app.py:207 qt/app.py:1170 qt/app.py:1186
-#: qt/qtsystrayicon.py:118
+#: common/snapshots.py:656 qt/app.py:210 qt/app.py:1203 qt/app.py:1229
+#: qt/qtsystrayicon.py:119
 msgid "Done"
 msgstr "Búið"
 
-#: common/snapshots.py:749
+#: common/snapshots.py:754
 msgid ""
 "The following entries from the include list have no corresponding file or "
 "directory in the backup source:"
 msgstr ""
 
-#: common/snapshots.py:812
+#: common/snapshots.py:844
 msgid "Deferring backup while on battery"
 msgstr "Fresta afritun þegar rafhlöður eru í notkun"
 
-#: common/snapshots.py:931 qt/app.py:377
-#, fuzzy
-msgid "Can't find backup directory."
-msgstr "Finn ekki möppu fyrir skyndiafrit."
-
-#: common/snapshots.py:935 qt/app.py:378
-#, fuzzy
-msgid "If it is on a removable drive, please plug it in."
-msgstr ""
-"Ef hún er á útskiptanlegu drifi, skaltu tengja það og ýta síðan á 'Í lagi'."
-
-#: common/snapshots.py:938
+#: common/snapshots.py:965
 #, fuzzy, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
 msgstr[0] "Bið %s sekúndu."
 msgstr[1] "Bið %s sekúndur."
 
-#: common/snapshots.py:1005
+#: common/snapshots.py:1039
 #, fuzzy, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Mistókst að taka skyndiafritið {snapshot_id}."
 
-#: common/snapshots.py:1037
+#: common/snapshots.py:1071
 msgid "Please be patient. Finalizing…"
 msgstr "Sýndu þolinmæði. Er að klára.…"
 
 #: common/snapshots.py:1163
+msgid "Take snapshot"
+msgstr "Taka skyndiafrit"
+
+#: common/snapshots.py:1198
 msgid "Can't create directory."
 msgstr "Get ekki búið til möppu."
 
-#: common/snapshots.py:1180
+#: common/snapshots.py:1214
 msgid "Saving config file…"
 msgstr "Vista stillingaskrá…"
 
-#: common/snapshots.py:1261
+#: common/snapshots.py:1262
 msgid "Saving permissions…"
 msgstr "Vista aðgangsheimildir…"
 
@@ -296,129 +375,152 @@ msgstr "Fjarlægi leifar af möppunni {snapshot_id} frá síðustu keyrslu"
 msgid "Can't remove directory"
 msgstr "Get ekki fjarlægt möppu"
 
-#: common/snapshots.py:1466
+#: common/snapshots.py:1476
 msgid "Creating backup"
 msgstr ""
 
-#: common/snapshots.py:1517
+#: common/snapshots.py:1527
 msgid "Success"
 msgstr "Tókst"
 
-#: common/snapshots.py:1520
+#: common/snapshots.py:1530
 msgid "Partial transfer due to error"
 msgstr "Einungis hluti skráaflutnings vegna villu"
 
-#: common/snapshots.py:1521
+#: common/snapshots.py:1531
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Einungis hluti skráaflutnings vegna horfinna upprunaskráa (skoðaðu 'man "
 "rsync')"
 
-#: common/snapshots.py:1525
+#: common/snapshots.py:1535
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' hætti með stöðvunarkóðanum {exit_code}"
 
-#: common/snapshots.py:1538
+#: common/snapshots.py:1548
 msgid "See 'man rsync' for more details"
 msgstr "Skoðaðu 'man rsync' til að sjá frekari upplýsingar"
 
-#: common/snapshots.py:1545
+#: common/snapshots.py:1555
 msgid ""
-"Negative rsync exit codes are signal numbers, see 'kill -l' and 'man kill'"
+"Negative exit codes indicate termination by a signal. The number corresponds"
+" to the signal (see 'kill -l')."
 msgstr ""
 
-#: common/snapshots.py:1566
+#: common/snapshots.py:1578
 #, fuzzy
 msgid "Nothing changed, no new backup necessary"
 msgstr "Engar breytingar, engin þörf fyrir nýtt skyndiafrit"
 
-#: common/snapshots.py:1611
+#: common/snapshots.py:1622
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "Gat ekki endurnefnt {new_path} sem {path}."
 
-#: common/snapshots.py:1998
+#: common/snapshots.py:2022
 #, fuzzy
 msgid "Applying rules to remove old backups"
 msgstr "Fjarlægja gömul skyndiafrit"
 
-#: common/snapshots.py:2031
+#: common/snapshots.py:2059
 msgid "Applying retention policy"
 msgstr ""
 
-#: common/snapshots.py:2041
+#: common/snapshots.py:2069
 msgid "Trying to keep min free space"
 msgstr "Reyna að halda í lágmarksmagn af lausu plássi"
 
-#: common/snapshots.py:2079
+#: common/snapshots.py:2112
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Reyna að halda a.m.k. {perc} af lausum i-hnútum (inodes)"
 
-#: common/snapshots.py:3240 qt/app.py:1490 qt/timeline.py:397
+#: common/snapshots.py:3306 qt/app.py:1546 qt/timeline.py:410
 msgid "Now"
 msgstr "Núna"
 
-#: common/sshtools.py:233
+#: common/sshsetupvalidator.py:124
 #, python-brace-format
-msgid "Unable to mount {sshfs}"
-msgstr "Get ekki tengt {sshfs}"
+msgid "\"{tool}\" is not installed on the remote host."
+msgstr ""
 
-#: common/sshtools.py:306
-msgid "ssh-agent not found. Please ensure it is installed."
+#: common/sshsetupvalidator.py:221
+#, fuzzy
+msgid "ssh-agent is not installed"
 msgstr "ssh-agent fannst ekki. Gakktu úr skugga um að það sé uppsett."
 
-#: common/sshtools.py:489
-msgid ""
-"Could not unlock ssh private key. Wrong password or password not available "
-"for cron."
-msgstr ""
-"Tókst ekki að aflæsa ssh-einkalykli. Rangt lykilorð eða að lykilorð er ekki "
-"tiltækt fyrir cron."
-
-#: common/sshtools.py:721
-msgid "Remote path exists but is not a directory."
-msgstr "Fjartengd slóð er til, en er ekki mappa."
-
-#: common/sshtools.py:726
-msgid "Remote path is not writable."
-msgstr "Fjartengd slóð er ekki skrifanleg."
-
-#: common/sshtools.py:731
-msgid "Remote path is not executable."
-msgstr "Fjartengd slóð er ekki keyranleg."
-
-#: common/sshtools.py:736
-msgid "Couldn't create remote path."
-msgstr "Tókst ekki að útbúa fjartengda slóð."
-
-#: common/sshtools.py:1022
-#, python-brace-format
-msgid "Remote host {host} doesn't support {command}"
-msgstr "Fjartengda vélin {host} styður ekki {command}"
-
-#: common/sshtools.py:1026
-#, python-brace-format
-msgid "Checking commands on host {host} returned unknown error"
+#: common/sshsetupvalidator.py:236
+msgid "Unexpected response from ssh-agent."
 msgstr ""
 
-#: common/sshtools.py:1044
+#: common/sshsetupvalidator.py:252
+msgid "Unexpected output from ssh-agent."
+msgstr ""
+
+#: common/sshsetupvalidator.py:253
+msgid "Output:"
+msgstr ""
+
+#: common/sshsetupvalidator.py:280
+msgid "The SSH key is not loaded into ssh-agent."
+msgstr ""
+
+#: common/sshsetupvalidator.py:309
+#, fuzzy
+msgid "Failed to add SSH key."
+msgstr "Mistókst að búa til nýjan SSH-lykil í {path}."
+
+#: common/sshsetupvalidator.py:331
+msgid "sshfs is not installed"
+msgstr ""
+
+#: common/sshsetupvalidator.py:347
+msgid "Unexpected response from sshfs."
+msgstr ""
+
+#: common/sshsetupvalidator.py:373
 #, python-brace-format
-msgid "Remote host {host} doesn't support hardlinks"
+msgid "The SSH host \"{host}\" is not trusted yet."
+msgstr ""
+
+#: common/sshsetupvalidator.py:375
+msgid "Please connect to the host manually once to confirm its fingerprint."
+msgstr ""
+
+#: common/sshsetupvalidator.py:415
+msgid "Could not write files to the remote host using rsync."
+msgstr ""
+
+#: common/sshsetupvalidator.py:469
+msgid "Could not verify rsync hardlink support."
+msgstr ""
+
+#: common/sshsetupvalidator.py:498
+msgid "Unexpected error while verifying rsync hardlink support."
+msgstr ""
+
+#: common/sshsetupvalidator.py:505
+#, fuzzy
+msgid "The remote file system does not support hardlinks."
 msgstr "Fjartengda vélin {host} styður ekki harðtengi (hardlinks)"
 
-#: common/sshtools.py:1206
-#, python-brace-format
-msgid "Copy public ssh-key \"{pubkey}\" to remote host \"{host}\"."
+#: common/sshsetupvalidator.py:548
+#, fuzzy, python-brace-format
+msgid "Could not create remote backup directory: {path}"
+msgstr "Tókst ekki að útbúa fjartengda slóð."
+
+#: common/sshtools.py:157
+#, fuzzy, python-brace-format
+msgid "Copy public SSH key \"{pubkey}\" to remote host \"{host}\"."
 msgstr "Afritaðu ssh-dreifilykil \"{pubkey}\" yfir á fjartengdu vélina \"{host}\"."
 
-#: common/sshtools.py:1208
+#: common/sshtools.py:159
 #, python-brace-format
 msgid "Please enter a password for \"{user}\"."
 msgstr "Settu inn lykilorð fyrir \"{user}\"."
 
-#: common/tools.py:382
+#: common/tools.py:402
 #, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
@@ -427,20 +529,20 @@ msgstr ""
 "Markskráakerfi fyrir {path} er í NTFS-sniði, sem þekkt er fyrir ósamhæfni "
 "við Unix-ættuð skráakerfi."
 
-#: common/tools.py:414
+#: common/tools.py:434
 #, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "{path} er ekki gild mappa."
 
-#: common/tools.py:428
+#: common/tools.py:451
 msgid "Creation of following directory failed:"
 msgstr "Gerð eftirfarandi möppu mistókst:"
 
-#: common/tools.py:430 common/tools.py:527
+#: common/tools.py:453 common/tools.py:550
 msgid "Write access may be restricted."
 msgstr "Skrifaðgangur gæti verið takmarkaður."
 
-#: common/tools.py:471
+#: common/tools.py:494
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -449,7 +551,7 @@ msgstr ""
 "Markskráakerfi fyrir {path} er á FAT-sniði sem virkar ekki með hörðum-"
 "tenglum. Notaðu frekar upprunalegt GNU/Linux skráakerfi."
 
-#: common/tools.py:482
+#: common/tools.py:505
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -460,15 +562,15 @@ msgstr ""
 "fjartengdi SMB-þjónninn styðji tákntengi (symlink) eða virkjaðu {copyLinks} "
 "í {expertOptions}."
 
-#: common/tools.py:486
+#: common/tools.py:509
 msgid "Copy links (dereference symbolic links)"
 msgstr "Afrita tengla (afbyggja tákntengi - dereference symbolic links)"
 
-#: common/tools.py:487
+#: common/tools.py:510
 msgid "Expert Options"
 msgstr "Ítarlegri valkostir"
 
-#: common/tools.py:491
+#: common/tools.py:514
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
@@ -477,7 +579,7 @@ msgstr ""
 "Markskráakerfi fyrir {path} er í sshfs-tengd sameign. SSHFS styður ekki "
 "harða-tengla. Notaðu frekar 'SSH'."
 
-#: common/tools.py:525
+#: common/tools.py:548
 msgid "File creation failed in this directory:"
 msgstr "Mistókst að útbúa skrá í þessari möppu:"
 
@@ -517,15 +619,15 @@ msgstr ""
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
 
-#: qt/aboutdlg.py:240 qt/app.py:562
+#: qt/aboutdlg.py:240 qt/app.py:584
 msgid "Project website"
 msgstr ""
 
-#: qt/aboutdlg.py:245 qt/app.py:544
+#: qt/aboutdlg.py:245 qt/app.py:566
 msgid "User manual"
 msgstr ""
 
-#: qt/aboutdlg.py:247 qt/app.py:546
+#: qt/aboutdlg.py:247 qt/app.py:568
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
 
@@ -534,7 +636,7 @@ msgstr ""
 msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr ""
 
-#: qt/app.py:332
+#: qt/app.py:343
 #, fuzzy, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time because no configuration"
@@ -543,194 +645,195 @@ msgstr ""
 "Það lítur út fyrir að {app_name} sé að keyra í fyrsta skipti þar sem engar "
 "grunnstillingar fundust."
 
-#: qt/app.py:337
+#: qt/app.py:348
 #, fuzzy
 msgid ""
-"Import an existing configuration from a backup location or another computer?"
+"Create a new configuration or import an existing configuration from a "
+"backup?"
 msgstr ""
 "Flytja inn fyrirliggjandi grunnstillingar (úr markmöppu öryggisafritunar eða"
 " annarri tölvu)?"
 
-#: qt/app.py:379
-msgid "Then press OK."
+#: qt/app.py:353 qt/confirmrestoredialog.py:35 qt/messagebox.py:123
+msgid "Question"
+msgstr "Spurning"
+
+#: qt/app.py:356
+msgid "Create"
 msgstr ""
 
-#: qt/app.py:483
+#: qt/app.py:358 qt/restoreconfigdialog.py:131
+msgid "Import"
+msgstr "Flytja inn"
+
+#: qt/app.py:505
 msgid "Create a backup"
 msgstr ""
 
-#: qt/app.py:485
+#: qt/app.py:507
 msgid "Use modification time & size for file change detection."
 msgstr "Nota breytingartíma og stærð til að skynja breytingar á skrám."
 
-#: qt/app.py:488
+#: qt/app.py:510
 #, fuzzy
 msgid "Create a backup (checksum mode)"
 msgstr "Taka skyndiafrit (í gátsummuham)"
 
-#: qt/app.py:490
+#: qt/app.py:512
 msgid "Use checksums for file change detection."
 msgstr "Nota gátsummu til að skynja breytingar á skrám."
 
-#: qt/app.py:492 qt/qtsystrayicon.py:125
+#: qt/app.py:514 qt/qtsystrayicon.py:126
 #, fuzzy
 msgid "Pause backup process"
 msgstr "Gera hlé á vinnslu skyndiafrits"
 
-#: qt/app.py:496 qt/qtsystrayicon.py:130
+#: qt/app.py:518 qt/qtsystrayicon.py:131
 #, fuzzy
 msgid "Resume backup process"
 msgstr "Halda áfram með vinnslu skyndiafrits"
 
-#: qt/app.py:500 qt/qtsystrayicon.py:135
+#: qt/app.py:522 qt/qtsystrayicon.py:136
 #, fuzzy
 msgid "Stop backup process"
 msgstr "Stöðva vinnslu skyndiafrits"
 
-#: qt/app.py:504
+#: qt/app.py:526
 #, fuzzy
 msgid "Refresh backup list"
 msgstr "Endurlesa lista yfir skyndiafrit"
 
-#: qt/app.py:508
+#: qt/app.py:530
 msgid "Name backup"
 msgstr ""
 
-#: qt/app.py:512
+#: qt/app.py:534
 #, fuzzy
 msgid "Remove backup"
 msgstr "Fjarlægja skyndiafrit"
 
-#: qt/app.py:516
+#: qt/app.py:538
 #, fuzzy
 msgid "Open backup log"
 msgstr "Skoða síðustu atvikaskrá"
 
-#: qt/app.py:518
+#: qt/app.py:540
 #, fuzzy
 msgid "View log of the selected backup."
 msgstr "Að minnsta kosti ein mappa verður að vera undir öryggisafrit."
 
-#: qt/app.py:520
+#: qt/app.py:542
 #, fuzzy
 msgid "Open last backup log"
 msgstr "Skoða síðustu atvikaskrá"
 
-#: qt/app.py:522
+#: qt/app.py:544
 msgid "View log of the latest backup."
 msgstr ""
 
-#: qt/app.py:524
+#: qt/app.py:546
 msgid "Manage profiles…"
 msgstr "Sýsla með notkunarsnið…"
 
-#: qt/app.py:528
+#: qt/app.py:550
 msgid "Edit user-callback"
 msgstr ""
 
-#: qt/app.py:532
+#: qt/app.py:554
 msgid "Shutdown"
 msgstr "Slökkva"
 
-#: qt/app.py:534
+#: qt/app.py:556
 #, fuzzy
 msgid "Shut down system after backup has finished."
 msgstr "Slökkva á kerfi þegar skyndiafritun lýkur."
 
-#: qt/app.py:536
+#: qt/app.py:558
 msgid "Setup language…"
 msgstr "Setja upp tungumál…"
 
-#: qt/app.py:540
+#: qt/app.py:562
 msgid "Exit"
 msgstr "Hætta"
 
-#: qt/app.py:550
+#: qt/app.py:572
 #, fuzzy
 msgid "man page: Back In Time"
 msgstr "Back In &Time öryggisafritun"
 
-#: qt/app.py:552
+#: qt/app.py:574
 msgid "Displays man page about Back In Time (backintime)"
 msgstr ""
 
-#: qt/app.py:555
+#: qt/app.py:577
 #, fuzzy
 msgid "man page: Profiles config file"
 msgstr "Stillingaskrá notkunarsniða"
 
-#: qt/app.py:558
+#: qt/app.py:580
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 
-#: qt/app.py:565
+#: qt/app.py:587
 msgid "Open Back In Time website in browser"
 msgstr ""
 
-#: qt/app.py:567 qt/app.py:2243
+#: qt/app.py:589 qt/app.py:2337
 msgid "Changelog"
 msgstr "Breytingasaga"
 
-#: qt/app.py:570
+#: qt/app.py:592
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr ""
 
-#: qt/app.py:573
+#: qt/app.py:595
 msgid "FAQ"
 msgstr "FAQ / Algengar spurningar"
 
-#: qt/app.py:575
+#: qt/app.py:597
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr ""
 
-#: qt/app.py:577
+#: qt/app.py:599
 msgid "Ask a question"
 msgstr "Spyrja spurninga"
 
-#: qt/app.py:581
+#: qt/app.py:603
 msgid "Report a bug"
 msgstr "Tilkynna um villu"
 
-#: qt/app.py:584
+#: qt/app.py:606
 msgid "Translation"
 msgstr "Þýðingar"
 
-#: qt/app.py:586
+#: qt/app.py:608
 msgid "Shows the message about participation in translation again."
 msgstr "Birtir aftur skilaboðin um þátttöku í þýðingum."
 
-#: qt/app.py:590
-msgid "Encryption Transition (EncFS)"
-msgstr "Encryption Transition (EncFS)"
-
-#: qt/app.py:592
-msgid "Shows the message about EncFS removal again."
-msgstr "Birtir aftur skilaboðin um fjarlægingu EncFS."
-
-#: qt/app.py:599
+#: qt/app.py:618
 msgid "About"
 msgstr "Um forritið"
 
-#: qt/app.py:602 qt/restoredialog.py:46 qt/snapshotsdialog.py:182
-#: qt/snapshotsdialog.py:187
+#: qt/app.py:621 qt/restoredialog.py:46 qt/snapshotsdialog.py:183
+#: qt/snapshotsdialog.py:188
 msgid "Restore"
 msgstr "Endurheimta"
 
-#: qt/app.py:604
+#: qt/app.py:623
 #, fuzzy
 msgid "Restore the selected files or directories to the original location."
 msgstr "Endurheimta valdar skrár eða möppur á upprunalega staðsetningu."
 
-#: qt/app.py:607 qt/app.py:1886 qt/snapshotsdialog.py:184
+#: qt/app.py:626 qt/app.py:1973 qt/snapshotsdialog.py:185
 msgid "Restore to …"
 msgstr "Endurheimta í …"
 
-#: qt/app.py:609
+#: qt/app.py:628
 #, fuzzy
 msgid "Restore the selected files or directories to a new location."
 msgstr "Endurheimta valdar skrár eða möppur á nýja staðsetningu."
 
-#: qt/app.py:615
+#: qt/app.py:634
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
@@ -738,97 +841,97 @@ msgid ""
 msgstr ""
 "Endurheimta sýnda möppu og allt innihald hennar á upprunalega staðsetningu."
 
-#: qt/app.py:621
+#: qt/app.py:640
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
 msgstr "Endurheimta sýnda möppu og allt innihald hennar á nýja staðsetningu."
 
-#: qt/app.py:624
+#: qt/app.py:643
 msgid "Up"
 msgstr "Upp"
 
-#: qt/app.py:627
+#: qt/app.py:646
 msgid "Show hidden files"
 msgstr "Sýna faldar skrár"
 
-#: qt/app.py:630
+#: qt/app.py:649
 #, fuzzy
 msgid "Compare backups…"
 msgstr "Bera saman skyndiafrit…"
 
-#: qt/app.py:660 qt/app.py:1759
+#: qt/app.py:679 qt/app.py:1815
 msgid "Release Candidate"
 msgstr "Útgáfukandídat"
 
-#: qt/app.py:663
+#: qt/app.py:682
 msgid "Shows the message about this Release Candidate again."
 msgstr "Birtir aftur skilaboðin um þennan útgáfukandídat."
 
-#: qt/app.py:700
+#: qt/app.py:719
 msgid "Back In &Time"
 msgstr "Back In &Time öryggisafritun"
 
-#: qt/app.py:705
+#: qt/app.py:724
 msgid "&Backup"
 msgstr "&Öryggisafrit"
 
-#: qt/app.py:717
+#: qt/app.py:736
 msgid "&Restore"
 msgstr "Endu&rheimta"
 
-#: qt/app.py:723
+#: qt/app.py:742
 msgid "&Help"
 msgstr "&Hjálp"
 
-#: qt/app.py:774
+#: qt/app.py:792
 msgid "Systray Icon"
 msgstr ""
 
-#: qt/app.py:780
+#: qt/app.py:798
 msgid "Automatic"
 msgstr ""
 
-#: qt/app.py:784
+#: qt/app.py:802
 msgid "Light icon"
 msgstr ""
 
-#: qt/app.py:785
+#: qt/app.py:803
 msgid "Dark icon"
 msgstr ""
 
-#: qt/app.py:808
+#: qt/app.py:826
 msgid "Icons only"
 msgstr ""
 
-#: qt/app.py:811
+#: qt/app.py:829
 msgid "Text only"
 msgstr ""
 
-#: qt/app.py:814
+#: qt/app.py:832
 msgid "Text below icons"
 msgstr ""
 
-#: qt/app.py:817
+#: qt/app.py:835
 msgid "Text beside icon"
 msgstr ""
 
-#: qt/app.py:943
+#: qt/app.py:961
 #, fuzzy
 msgid "This directory doesn't exist in the selected backup."
 msgstr ""
 "Þessi mappa er ekki til\n"
 "í valda skyndiafritinu."
 
-#: qt/app.py:946
+#: qt/app.py:964
 #, fuzzy
 msgid "This directory doesn't exist on the computer."
 msgstr ""
 "Þessi mappa er ekki til\n"
 "í valda skyndiafritinu."
 
-#: qt/app.py:995
+#: qt/app.py:1013
 #, fuzzy
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
@@ -837,54 +940,58 @@ msgstr ""
 "Ef þú lokar þessum glugga, mun Back In Time ekki geta slökkt á kerfinu þegar"
 " skyndiafritun lýkur."
 
-#: qt/app.py:998
+#: qt/app.py:1016
 msgid "Close the window anyway?"
 msgstr ""
 
-#: qt/app.py:1189
+#: qt/app.py:1107 qt/app.py:1114
+msgid "Backup destination unavailable"
+msgstr ""
+
+#: qt/app.py:1232
 msgid "Done, no backup needed"
 msgstr "Búið, engin öryggisafritun nauðsynleg"
 
-#: qt/app.py:1260
+#: qt/app.py:1303
 msgid "Working:"
 msgstr "Að vinna:"
 
-#: qt/app.py:1267
+#: qt/app.py:1310
 msgid "Working"
 msgstr "Að vinna"
 
-#: qt/app.py:1273 qt/messagebox.py:136
+#: qt/app.py:1316 qt/messagebox.py:136
 msgid "Error"
 msgstr "Villa"
 
-#: qt/app.py:1314 qt/qtsystrayicon.py:295
+#: qt/app.py:1357 qt/qtsystrayicon.py:282
 msgid "Sent:"
 msgstr "Sent:"
 
-#: qt/app.py:1315 qt/qtsystrayicon.py:296
+#: qt/app.py:1358 qt/qtsystrayicon.py:283
 msgid "Speed:"
 msgstr "Hraði:"
 
-#: qt/app.py:1316 qt/qtsystrayicon.py:297
+#: qt/app.py:1359 qt/qtsystrayicon.py:284
 msgid "ETA:"
 msgstr "Áætluð lok:"
 
-#: qt/app.py:1498
+#: qt/app.py:1554
 #, fuzzy
 msgid "Backup:"
 msgstr "&Öryggisafrit"
 
-#: qt/app.py:1598
+#: qt/app.py:1654
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Endurheimta {path}"
 
-#: qt/app.py:1600
+#: qt/app.py:1656
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Endurheimta {path} í …"
 
-#: qt/app.py:1624
+#: qt/app.py:1680
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -901,48 +1008,48 @@ msgstr ""
 "Við biðjums velvirðingar á trufluninni, þessi skilaboð munu ekki birtast aftur. Hægt er að skoða þessi skilaboð aftur hvenær sem er úr hjálparvalmyndinni.\n"
 "Back In Time teymið"
 
-#: qt/app.py:1653
+#: qt/app.py:1709
 msgid "translation platform"
 msgstr "þýðingakerfið"
 
-#: qt/app.py:1658
+#: qt/app.py:1714
 msgid "Website"
 msgstr "Vefsvæði"
 
-#: qt/app.py:1672
+#: qt/app.py:1728
 msgid "Your translation"
 msgstr "Þýðing þín"
 
-#: qt/app.py:1709
+#: qt/app.py:1765
 #, fuzzy, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Senda tölvupóst til {link_and_label}."
 
-#: qt/app.py:1714
+#: qt/app.py:1770
 #, fuzzy, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "Póstlisti {link_and_label}"
 
-#: qt/app.py:1718
+#: qt/app.py:1774
 #, fuzzy, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "Póstlisti {link_and_label}"
 
-#: qt/app.py:1722
+#: qt/app.py:1778
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} á vefsvæði verkefnisins."
 
-#: qt/app.py:1725
+#: qt/app.py:1781
 msgid "Open an issue"
 msgstr "Opna verkbeiðni"
 
-#: qt/app.py:1726
+#: qt/app.py:1782
 msgid "Alternatively, you can use another channel of your choice."
 msgstr ""
 "Einnig gætirðu sent inn spurningar á aðra samskiptaleið sem þér líkar."
 
-#: qt/app.py:1731
+#: qt/app.py:1787
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -955,27 +1062,35 @@ msgid ""
 "Your Back In Time Team"
 msgstr ""
 
-#: qt/app.py:1836
+#: qt/app.py:1879
+msgid "Check if remote host is online"
+msgstr "Athuga hvort fjartengd vél er á netinu"
+
+#: qt/app.py:1880
+msgid "Check if remote host supports all necessary commands."
+msgstr "Athuga hvort fjartengd vél styðji allar nauðsynlegar skipanir."
+
+#: qt/app.py:1923
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr ""
 
-#: qt/app.py:1841
+#: qt/app.py:1928
 msgid "Proceed with the backup?"
 msgstr ""
 
-#: qt/app.py:1866
+#: qt/app.py:1953
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr ""
 
-#: qt/app.py:1869
+#: qt/app.py:1956
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 
-#: qt/app.py:1875
+#: qt/app.py:1962
 #, fuzzy, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -984,18 +1099,18 @@ msgstr ""
 "{BOLD}Aðvörun{BOLDEND}: Eyðing skráa á rót skráarkerfis gæti skemmt "
 "varanlega allt kerfið þitt."
 
-#: qt/app.py:2107
+#: qt/app.py:2199
 #, fuzzy
 msgid "Backup name"
 msgstr "&Öryggisafrit"
 
-#: qt/app.py:2138
+#: qt/app.py:2231
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qt/app.py:2204
+#: qt/app.py:2298
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "Breytingar á tungumálastillingum munu öðlast gildi þegar þú skráir þig næst "
@@ -1018,10 +1133,6 @@ msgstr "Geyma nefnd skyndiafrit."
 #: qt/backintime-qt.desktop:23
 msgid "User-friendly GUI for versioned backups that reduces disk usage"
 msgstr ""
-
-#: qt/confirmrestoredialog.py:35 qt/messagebox.py:123
-msgid "Question"
-msgstr "Spurning"
 
 #: qt/confirmrestoredialog.py:76
 #, python-brace-format
@@ -1137,59 +1248,55 @@ msgstr "Sjálfgefið í kerfinu"
 msgid "Use operating system's language."
 msgstr "Nota tungumál stýrikerfis."
 
-#: qt/logviewdialog.py:63
+#: qt/logviewdialog.py:60
 #, fuzzy
 msgid "Backup Log View"
 msgstr "Síðasta virka sýn atvikaskráningar"
 
-#: qt/logviewdialog.py:63
+#: qt/logviewdialog.py:60
 msgid "Last Log View"
 msgstr "Síðasta virka sýn atvikaskráningar"
 
-#: qt/logviewdialog.py:71 qt/manageprofiles/__init__.py:72
-#: qt/manageprofiles/tab_general.py:250 qt/restoreconfigdialog.py:343
+#: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:72
+#: qt/manageprofiles/tab_general.py:243 qt/restoreconfigdialog.py:336
 msgid "Profile:"
 msgstr "Notkunarsnið:"
 
-#: qt/logviewdialog.py:86
+#: qt/logviewdialog.py:84
 #, fuzzy
 msgid "Backups:"
 msgstr "&Öryggisafrit"
 
-#: qt/logviewdialog.py:93
+#: qt/logviewdialog.py:91
 msgid "Filter:"
 msgstr "Sía:"
 
-#: qt/logviewdialog.py:100
+#: qt/logviewdialog.py:98
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] Villa, [I] Upplýsingar, [C] Breyta"
 
-#: qt/logviewdialog.py:103 qt/qtsystrayicon.py:148
-msgid "decode paths"
-msgstr "afkóða slóðir"
-
-#: qt/logviewdialog.py:122 qt/manageprofiles/copylinkswidget.py:56
+#: qt/logviewdialog.py:113 qt/manageprofiles/copylinkswidget.py:56
 #: qt/manageprofiles/tab_options.py:188
 msgid "All"
 msgstr "Allt"
 
-#: qt/logviewdialog.py:128 qt/logviewdialog.py:132
+#: qt/logviewdialog.py:119 qt/logviewdialog.py:123
 #: qt/manageprofiles/tab_options.py:187
 msgid "Changes"
 msgstr "Breytingar"
 
-#: qt/logviewdialog.py:128 qt/logviewdialog.py:131
+#: qt/logviewdialog.py:119 qt/logviewdialog.py:122
 #: qt/manageprofiles/tab_options.py:186 qt/manageprofiles/tab_options.py:187
 msgid "Errors"
 msgstr "Villur"
 
-#: qt/logviewdialog.py:133 qt/messagebox.py:75
+#: qt/logviewdialog.py:124 qt/messagebox.py:75
 msgid "Information"
 msgid_plural "Information"
 msgstr[0] "Upplýsingar"
 msgstr[1] "Upplýsingar"
 
-#: qt/logviewdialog.py:135
+#: qt/logviewdialog.py:126
 msgid "rsync transfer failures (experimental)"
 msgstr ""
 
@@ -1205,8 +1312,8 @@ msgstr "Breyta"
 msgid "Add"
 msgstr "Bæta við"
 
-#: qt/manageprofiles/__init__.py:91 qt/manageprofiles/tab_exclude.py:125
-#: qt/manageprofiles/tab_include.py:79
+#: qt/manageprofiles/__init__.py:91 qt/manageprofiles/tab_exclude.py:126
+#: qt/manageprofiles/tab_include.py:80
 msgid "Remove"
 msgstr "Fjarlægja"
 
@@ -1630,74 +1737,74 @@ msgstr ""
 msgid "SSH Proxy"
 msgstr "SSH-milliþjónn"
 
-#: qt/manageprofiles/sshproxywidget.py:54 qt/manageprofiles/tab_general.py:117
-#: qt/manageprofiles/tab_general.py:238
+#: qt/manageprofiles/sshproxywidget.py:55 qt/manageprofiles/tab_general.py:110
+#: qt/manageprofiles/tab_general.py:231
 msgid "Host:"
 msgstr "Miðlari:"
 
-#: qt/manageprofiles/sshproxywidget.py:58 qt/manageprofiles/tab_general.py:122
+#: qt/manageprofiles/sshproxywidget.py:59 qt/manageprofiles/tab_general.py:115
 msgid "Port:"
 msgstr "Gátt:"
 
-#: qt/manageprofiles/sshproxywidget.py:62 qt/manageprofiles/tab_general.py:127
-#: qt/manageprofiles/tab_general.py:244
+#: qt/manageprofiles/sshproxywidget.py:63 qt/manageprofiles/tab_general.py:120
+#: qt/manageprofiles/tab_general.py:237
 msgid "User:"
 msgstr "Notandi:"
 
-#: qt/manageprofiles/sshproxywidget.py:71
+#: qt/manageprofiles/sshproxywidget.py:72
 msgid ""
 "Connect to the target host via this proxy (also known as a jump host). See "
 "\"-J\" in the \"ssh\" command documentation or \"ProxyJump\" in "
 "\"ssh_config\" man page for details."
 msgstr ""
 
-#: qt/manageprofiles/tab_exclude.py:62
+#: qt/manageprofiles/tab_exclude.py:63
 #, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
 "asterisks are functional (e.g. {example2}). Other types of wildcards and "
 "patterns will be ignored (e.g. {example1}). Filenames are unpredictable in "
-"this mode due to encryption by EncFS."
+"this mode."
 msgstr ""
 
-#: qt/manageprofiles/tab_exclude.py:85
+#: qt/manageprofiles/tab_exclude.py:86
 msgid "Exclude patterns, files or directories"
 msgstr "Undanskilja mynstur, skrár eða möppur"
 
-#: qt/manageprofiles/tab_exclude.py:102
+#: qt/manageprofiles/tab_exclude.py:103
 #, fuzzy
 msgid "Add pattern"
 msgstr "Útilokunarmynstur"
 
-#: qt/manageprofiles/tab_exclude.py:107 qt/manageprofiles/tab_include.py:68
+#: qt/manageprofiles/tab_exclude.py:108 qt/manageprofiles/tab_include.py:69
 #, fuzzy
 msgid "Add files"
 msgstr "Bæta við skrá"
 
-#: qt/manageprofiles/tab_exclude.py:112 qt/manageprofiles/tab_include.py:73
+#: qt/manageprofiles/tab_exclude.py:113 qt/manageprofiles/tab_include.py:74
 #, fuzzy
 msgid "Add directories"
 msgstr "Bæta við möppu"
 
-#: qt/manageprofiles/tab_exclude.py:118
+#: qt/manageprofiles/tab_exclude.py:119
 #, fuzzy
 msgid "Suggestions"
 msgstr "Spurning"
 
-#: qt/manageprofiles/tab_exclude.py:120
+#: qt/manageprofiles/tab_exclude.py:121
 msgid "Select from common used items to add to exclude list."
 msgstr ""
 
-#: qt/manageprofiles/tab_exclude.py:134
+#: qt/manageprofiles/tab_exclude.py:135
 msgid "Exclude files bigger than:"
 msgstr "Hunsa skrár stærri en:"
 
-#: qt/manageprofiles/tab_exclude.py:138
+#: qt/manageprofiles/tab_exclude.py:139
 #, python-brace-format
 msgid "Exclude files bigger than value in {size_unit}."
 msgstr "Hunsa skrár stærri en gildi í {size_unit}."
 
-#: qt/manageprofiles/tab_exclude.py:140
+#: qt/manageprofiles/tab_exclude.py:141
 msgid ""
 "With 'Full rsync mode' disabled, this setting affects only newly created "
 "files, as rsync treats it as transfer option rather than an exclusion rule. "
@@ -1705,35 +1812,35 @@ msgid ""
 "backups even if they are modified."
 msgstr ""
 
-#: qt/manageprofiles/tab_exclude.py:265
+#: qt/manageprofiles/tab_exclude.py:266
 msgid "Exclude pattern"
 msgstr "Útilokunarmynstur"
 
-#: qt/manageprofiles/tab_exclude.py:267
+#: qt/manageprofiles/tab_exclude.py:268
 #, fuzzy
 msgid "Enter an exclude pattern:"
 msgstr "Útilokunarmynstur"
 
-#: qt/manageprofiles/tab_exclude.py:272
+#: qt/manageprofiles/tab_exclude.py:273
 #, python-brace-format
 msgid "For help, see the rsync man page section {link}."
 msgstr ""
 
-#: qt/manageprofiles/tab_exclude.py:275
+#: qt/manageprofiles/tab_exclude.py:276
 msgid "Open rsync man page"
 msgstr ""
 
-#: qt/manageprofiles/tab_exclude.py:303
+#: qt/manageprofiles/tab_exclude.py:304
 #, fuzzy
 msgid "Exclude files"
 msgstr "Undanskilja skrá"
 
-#: qt/manageprofiles/tab_exclude.py:316
+#: qt/manageprofiles/tab_exclude.py:317
 #, fuzzy
 msgid "Exclude directories"
 msgstr "Undanskilja möppu"
 
-#: qt/manageprofiles/tab_exclude.py:401
+#: qt/manageprofiles/tab_exclude.py:403
 msgid ""
 "Disabled because this pattern is not functional in mode 'SSH encrypted'."
 msgstr ""
@@ -1843,194 +1950,144 @@ msgstr "sjálfgefið"
 msgid "Add prefix to SSH commands"
 msgstr "Bæta forskeyti við SSH-skipanir"
 
-#: qt/manageprofiles/tab_expert_options.py:308
-msgid "Check if remote host is online"
-msgstr "Athuga hvort fjartengd vél er á netinu"
-
-#: qt/manageprofiles/tab_expert_options.py:311
-msgid ""
-"Warning: If disabled and the remote host is not available, this could lead "
-"to some weird errors."
-msgstr ""
-
-#: qt/manageprofiles/tab_expert_options.py:315
-msgid "Check if remote host supports all necessary commands."
-msgstr "Athuga hvort fjartengd vél styðji allar nauðsynlegar skipanir."
-
-#: qt/manageprofiles/tab_expert_options.py:318
-msgid ""
-"Warning: If disabled and the remote host does not support all necessary "
-"commands, this could lead to some weird errors."
-msgstr ""
-
-#: qt/manageprofiles/tab_expert_options.py:332
+#: qt/manageprofiles/tab_expert_options.py:333
 msgid "(default: {})"
 msgstr "(sjálfgefið: {})"
 
-#: qt/manageprofiles/tab_expert_options.py:333
+#: qt/manageprofiles/tab_expert_options.py:334
 msgid "disabled"
 msgstr "óvirkt"
 
-#: qt/manageprofiles/tab_expert_options.py:333
+#: qt/manageprofiles/tab_expert_options.py:334
 msgid "enabled"
 msgstr "virkt"
 
-#: qt/manageprofiles/tab_general.py:67 qt/restoreconfigdialog.py:345
+#: qt/manageprofiles/tab_general.py:65 qt/restoreconfigdialog.py:338
 msgid "Mode:"
 msgstr "Hamur:"
 
-#: qt/manageprofiles/tab_general.py:79 qt/manageprofiles/tab_general.py:394
-#: qt/manageprofiles/tab_general.py:686
+#: qt/manageprofiles/tab_general.py:72 qt/manageprofiles/tab_general.py:377
+#: qt/manageprofiles/tab_general.py:681
 #, fuzzy
 msgid "Where to save backups"
 msgstr "Hvar á að vista skyndiafrit"
 
-#: qt/manageprofiles/tab_general.py:105
+#: qt/manageprofiles/tab_general.py:98
 msgid "SSH Settings"
 msgstr "SSH stillingar"
 
 #: qt/manageprofiles/tab_general.py:132
-msgid "Path:"
-msgstr "Slóð:"
-
-#: qt/manageprofiles/tab_general.py:139
 #, fuzzy
 msgid "Key file:"
 msgstr "Nýtt snið"
 
-#: qt/manageprofiles/tab_general.py:176 qt/manageprofiles/tab_general.py:184
-#: qt/manageprofiles/tab_general.py:189
+#: qt/manageprofiles/tab_general.py:169 qt/manageprofiles/tab_general.py:177
+#: qt/manageprofiles/tab_general.py:182
 msgid "Password"
 msgstr "Lykilorð"
 
-#: qt/manageprofiles/tab_general.py:206
+#: qt/manageprofiles/tab_general.py:199
 msgid "Save Password to Keyring"
 msgstr "Vista lykilorð í lyklakippu"
 
-#: qt/manageprofiles/tab_general.py:210
+#: qt/manageprofiles/tab_general.py:203
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:226
+#: qt/manageprofiles/tab_general.py:219
 msgid "Advanced"
 msgstr "Nánar"
 
-#: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:803
+#: qt/manageprofiles/tab_general.py:249 qt/manageprofiles/tab_general.py:804
 #, fuzzy
 msgid "Full backup path:"
 msgstr "Heildarslóð skyndiafrita:"
 
-#: qt/manageprofiles/tab_general.py:264
+#: qt/manageprofiles/tab_general.py:257
 msgid ""
 "Scheduling is disabled because no cron installation was found. Please "
 "install cron to enable scheduled backups."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:393
+#: qt/manageprofiles/tab_general.py:376
 msgid "The backup destination path cannot be empty."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:404
+#: qt/manageprofiles/tab_general.py:392
 #, fuzzy
 msgid "The encryption password cannot be empty."
 msgstr "Lykilorðin samsvara ekki."
 
-#: qt/manageprofiles/tab_general.py:553
-msgid ""
-"An error occurred while attempting to log in to the remote host. The "
-"following error message was returned:"
+#: qt/manageprofiles/tab_general.py:475
+msgid "Back In Time could not validate the SSH configuration."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:557
-msgid ""
-"To enable password-less login, the public SSH key can be copied to the "
-"remote host."
+#: qt/manageprofiles/tab_general.py:477
+msgid "SSH profile setup failed"
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:560
-msgid "Proceed with copying the SSH key?"
-msgstr ""
-
-#: qt/manageprofiles/tab_general.py:585
-msgid ""
-"The public SSH key could not be copied. This may be due to a connection or "
-"permission issue."
-msgstr ""
-
-#: qt/manageprofiles/tab_general.py:606
-#, python-brace-format
-msgid "The authenticity of host {host} can't be established."
-msgstr "Ekki tókst að sannreyna auðkenni hýsilvélarinnar {host}."
-
-#: qt/manageprofiles/tab_general.py:609
-#, python-brace-format
-msgid "{keytype} key fingerprint is:"
-msgstr "Fingrafar {keytype} dulritunarlykils er:"
-
-#: qt/manageprofiles/tab_general.py:613
+#: qt/manageprofiles/tab_general.py:521
 #, fuzzy
-msgid "Please verify this fingerprint. Add it to the \"known_hosts\" file?"
-msgstr ""
-"Yfirfarðu þetta fingrafar. Myndirðu vilja bæta því í 'known_hosts' skrána "
-"þina?"
+msgid "Profile setup failed"
+msgstr "Snið: {profile_name}"
 
-#: qt/manageprofiles/tab_general.py:709
+#: qt/manageprofiles/tab_general.py:704
 #, fuzzy
 msgid "Really change the backup directory?"
 msgstr "Búa til nýja dulritaða möppu?"
 
-#: qt/manageprofiles/tab_general.py:725
-msgid "The selected backup destination is not empty."
+#: qt/manageprofiles/tab_general.py:724
+msgid "The selected backup destination cannot be used for encryption."
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:727
-msgid "It must be empty to use encryption."
+msgid "It must either be empty or already initialized for gocryptfs."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:756
+#: qt/manageprofiles/tab_general.py:757
 #, fuzzy
 msgid "Invalid file: Not a private SSH key"
 msgstr "SSH-einkalykill"
 
-#: qt/manageprofiles/tab_general.py:757
+#: qt/manageprofiles/tab_general.py:758
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:781
+#: qt/manageprofiles/tab_general.py:782
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:791
+#: qt/manageprofiles/tab_general.py:792
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Mistókst að búa til nýjan SSH-lykil í {path}."
 
-#: qt/manageprofiles/tab_include.py:48
+#: qt/manageprofiles/tab_include.py:49
 msgid "Include files and directories"
 msgstr "Hafa með skrár og möppur"
 
-#: qt/manageprofiles/tab_include.py:168
+#: qt/manageprofiles/tab_include.py:169
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until it is"
 " included, too."
 msgstr ""
 
-#: qt/manageprofiles/tab_include.py:172
+#: qt/manageprofiles/tab_include.py:173
 msgid "Include the symlink's target instead?"
 msgstr ""
 
-#: qt/manageprofiles/tab_include.py:180
+#: qt/manageprofiles/tab_include.py:181
 #, fuzzy
 msgid "Include files"
 msgstr "Hafa með skrá"
 
-#: qt/manageprofiles/tab_include.py:199
+#: qt/manageprofiles/tab_include.py:200
 #, fuzzy
 msgid "Include directories"
 msgstr "Hafa með möppu"
@@ -2281,88 +2338,84 @@ msgstr ""
 msgid "File System"
 msgstr ""
 
-#: qt/placeswidget.py:146
+#: qt/placeswidget.py:150
 msgid "Backup directories"
 msgstr "Öryggisafritunarmöppur"
 
-#: qt/qtsystrayicon.py:109
+#: qt/qtsystrayicon.py:110
 #, python-brace-format
 msgid "Profile: {profile_name}"
 msgstr "Snið: {profile_name}"
 
-#: qt/qtsystrayicon.py:112
+#: qt/qtsystrayicon.py:113
 #, fuzzy, python-brace-format
 msgid "Profile: {profile_name} (by user \"{desktop_user}\")"
 msgstr "Snið: {profile_name}"
 
-#: qt/qtsystrayicon.py:155
+#: qt/qtsystrayicon.py:142
 msgid "View Last Log"
 msgstr "Skoða síðasta annál"
 
-#: qt/qtsystrayicon.py:161
+#: qt/qtsystrayicon.py:148
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "Ræsa {appname}"
 
-#: qt/qtsystrayicon.py:253
+#: qt/qtsystrayicon.py:240
 msgid "Working…"
 msgstr "Í vinnslu…"
 
-#: qt/qttools.py:503
+#: qt/qttools.py:504
 #, python-brace-format
 msgid "man page: {man_page_name}"
 msgstr ""
 
-#: qt/restoreconfigdialog.py:74
+#: qt/restoreconfigdialog.py:71
 msgid "Import configuration"
 msgstr "Flytja inn grunnstillingar"
 
-#: qt/restoreconfigdialog.py:105
+#: qt/restoreconfigdialog.py:102
 msgid "No directory selected"
 msgstr ""
 
-#: qt/restoreconfigdialog.py:134
-msgid "Import"
-msgstr "Flytja inn"
-
-#: qt/restoreconfigdialog.py:154 qt/restoreconfigdialog.py:234
+#: qt/restoreconfigdialog.py:151 qt/restoreconfigdialog.py:227
 #, fuzzy
 msgid "Searching…"
 msgstr "Í vinnslu…"
 
-#: qt/restoreconfigdialog.py:211
+#: qt/restoreconfigdialog.py:204
 #, python-brace-format
 msgid ""
 "Select the backup directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
 
-#: qt/restoreconfigdialog.py:216
+#: qt/restoreconfigdialog.py:209
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
 msgstr ""
 
-#: qt/restoreconfigdialog.py:237
+#: qt/restoreconfigdialog.py:230
 msgid "Scan again"
 msgstr ""
 
-#: qt/restoreconfigdialog.py:256
+#: qt/restoreconfigdialog.py:249
 #, fuzzy
 msgid "Show hidden directories"
 msgstr "Sýna faldar skrár"
 
-#: qt/restoreconfigdialog.py:258
+#: qt/restoreconfigdialog.py:251
 #, fuzzy
 msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Hafa með skrár og möppur"
 
-#: qt/restoreconfigdialog.py:305
+#: qt/restoreconfigdialog.py:298
 #, fuzzy
-msgid "No config found in this directory"
+msgid "No config found in this directory."
 msgstr "Mistókst að útbúa skrá í þessari möppu:"
 
-#: qt/restoreconfigdialog.py:366
+#: qt/restoreconfigdialog.py:359
 msgid "Search complete."
 msgstr ""
 
@@ -2396,28 +2449,24 @@ msgid_plural "The system will shut down in {n} seconds."
 msgstr[0] ""
 msgstr[1] ""
 
-#: qt/snapshotsdialog.py:61
+#: qt/snapshotsdialog.py:62
 #, fuzzy
 msgid "Options about comparing backups"
 msgstr "Valkostir við samanburð skyndiafrita"
 
-#: qt/snapshotsdialog.py:68
-msgid "Command:"
-msgstr "Skipun:"
-
-#: qt/snapshotsdialog.py:72
+#: qt/snapshotsdialog.py:73
 msgid "Parameters:"
 msgstr "Viðföng:"
 
-#: qt/snapshotsdialog.py:77
+#: qt/snapshotsdialog.py:78
 msgid "Use %1 and %2 for path parameters"
 msgstr "Notaðu %1 og %2 fyrir viðföng slóðar"
 
-#: qt/snapshotsdialog.py:94
+#: qt/snapshotsdialog.py:95
 msgid "Please set a diff command or press Cancel."
 msgstr "Veldu aðra diff-skipun eða ýttu á að hætta við."
 
-#: qt/snapshotsdialog.py:100
+#: qt/snapshotsdialog.py:101
 #, python-brace-format
 msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
@@ -2426,71 +2475,71 @@ msgstr ""
 "Skipunin \"{cmd}\" finnst ekki á þessu kerfi. Prófaðu eitthvað annað eða "
 "ýttu á að hætta við."
 
-#: qt/snapshotsdialog.py:108
+#: qt/snapshotsdialog.py:109
 #, python-brace-format
 msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr ""
 
-#: qt/snapshotsdialog.py:139 qt/timeline.py:117
+#: qt/snapshotsdialog.py:140 qt/timeline.py:119
 #, fuzzy
 msgid "Backups"
 msgstr "&Öryggisafrit"
 
-#: qt/snapshotsdialog.py:150
+#: qt/snapshotsdialog.py:151
 #, fuzzy
 msgid "Differing backups only"
 msgstr "Taka skyndiafrit mismunar"
 
-#: qt/snapshotsdialog.py:159
+#: qt/snapshotsdialog.py:160
 #, fuzzy
 msgid "List only backups that are equal to:"
 msgstr "Telja aðeins upp skyndiafrit sem jafngilda:"
 
-#: qt/snapshotsdialog.py:171
+#: qt/snapshotsdialog.py:172
 msgid "Deep check (more accurate, but slow)"
 msgstr "Ítarleg yfirferð (nákvæmari, en hægvirkt)"
 
-#: qt/snapshotsdialog.py:192
+#: qt/snapshotsdialog.py:193
 msgid "Delete"
 msgstr "Eyða"
 
-#: qt/snapshotsdialog.py:197
+#: qt/snapshotsdialog.py:198
 msgid "Select All"
 msgstr "Velja allt"
 
-#: qt/snapshotsdialog.py:217
+#: qt/snapshotsdialog.py:218
 msgid "Compare"
 msgstr "Bera saman"
 
-#: qt/snapshotsdialog.py:232
+#: qt/snapshotsdialog.py:233
 msgid "Go To"
 msgstr "Fara í"
 
-#: qt/snapshotsdialog.py:234
+#: qt/snapshotsdialog.py:235
 msgid "Options"
 msgstr "Valkostir"
 
-#: qt/snapshotsdialog.py:424
+#: qt/snapshotsdialog.py:417
 msgid ""
 "It is not possible to compare a backup to itself, as the comparison would be"
 " redundant."
 msgstr ""
 
-#: qt/snapshotsdialog.py:470
+#: qt/snapshotsdialog.py:463
 #, fuzzy, python-brace-format
 msgid "Really delete {file_or_dir} in backup {backup_id}?"
 msgstr "Ertu viss um að þú viljir eyða {file} í skyndiafritinu {snapshot_id}?"
 
-#: qt/snapshotsdialog.py:475
+#: qt/snapshotsdialog.py:468
 #, fuzzy, python-brace-format
 msgid "Really delete {file_or_dir} in {count} backups?"
 msgstr "Ertu viss um að þú viljir eyða {file} í {count} skyndiafritum?"
 
-#: qt/snapshotsdialog.py:478
+#: qt/snapshotsdialog.py:471
 msgid "WARNING: This cannot be revoked."
 msgstr "AÐVÖRUN: Þetta er ekki hægt að afturkalla."
 
-#: qt/snapshotsdialog.py:495
+#: qt/snapshotsdialog.py:488
 #, fuzzy, python-brace-format
 msgid "Exclude {path} from future backups?"
 msgstr "Útiloka {path} framvegis frá skyndiafritun?"
@@ -2505,35 +2554,36 @@ msgid ""
 "Back In Time is currently running with root privileges (full system access)"
 msgstr ""
 
-#: qt/timeline.py:64
+#: qt/timeline.py:66
 msgid "Today"
 msgstr "Í dag"
 
-#: qt/timeline.py:69
+#: qt/timeline.py:71
 msgid "Yesterday"
 msgstr "Í gær"
 
-#: qt/timeline.py:76
+#: qt/timeline.py:78
 msgid "This week"
 msgstr "Í þessari viku"
 
-#: qt/timeline.py:81
+#: qt/timeline.py:83
 msgid "Last week"
 msgstr "Í síðustu viku"
 
-#: qt/timeline.py:88
+#: qt/timeline.py:90
 msgid "This month"
 msgstr ""
 
-#: qt/timeline.py:95
+#: qt/timeline.py:97
 msgid "Last month"
 msgstr ""
 
-#: qt/timeline.py:365
+#: qt/timeline.py:374
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Síðasta athugun {time}"
 
-#: qt/timeline.py:394
+#: qt/timeline.py:407
 msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
+# REUSE-IgnoreEnd

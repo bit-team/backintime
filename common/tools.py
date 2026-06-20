@@ -25,6 +25,7 @@ import locale
 import gettext
 import hashlib
 import shutil
+import json
 from datetime import datetime, timedelta
 from collections.abc import MutableMapping
 from packaging.version import Version
@@ -73,7 +74,6 @@ except ImportError:
     else:
         raise
 
-import configfile
 import bcolors
 from exceptions import (Timeout,
                         InvalidChar,
@@ -596,14 +596,18 @@ def is_mounted(path: pathlib.Path) -> bool:
     if not absolute.exists():
         return False
 
-    if absolute.is_mount():
-        return True
+    if not absolute.is_mount():
+        return False
 
+    # Keep in mind, that is_mount() can be false positive on btrfs-subvolumes
+    # Issue #2487. That's why we need to be sure and also check the
+    # proc-mountinfo file
     return in_proc_self_mountinfo(absolute)
 
 
 def in_proc_self_mountinfo(path: pathlib.Path) -> bool:
     """Test if the path is in /proc/self/mountinfo"""
+
     mountinfo = pathlib.Path('/proc') / 'self' / 'mountinfo'
 
     try:
@@ -612,10 +616,13 @@ def in_proc_self_mountinfo(path: pathlib.Path) -> bool:
         logger.critical(f'Unable to read from file "{mountinfo}". {exc}')
         return False
 
-    return any(
-        (lambda parts=row.split(): len(parts) > 4 and parts[4] == path)()
-        for row in all_rows
-    )
+    for row in reversed(all_rows):
+        parts = row.split()
+
+        if len(parts) > 4 and pathlib.Path(parts[4]) == path:
+            return True
+
+    return False
 
 
 def free_space(path: pathlib.Path, ssh_command: list[str] = None
@@ -778,24 +785,19 @@ def get_git_repository_info(path=None, hash_length=None):
     return result
 
 
-def elapsed_at_least(start: datetime,
-                     end: datetime,
-                     value: int,
-                     unit: TimeUnit) -> bool:
-    """
-    Check if a time span meets at least a number of time units, counting
-    partial units as full.
+def crossed_at_least_units(start: datetime,
+                           end: datetime,
+                           value: int,
+                           unit: TimeUnit) -> bool:
+    """Return ``True`` if at least ``value`` boundaries have been crossed.
 
+    The number of crossed calendar unit boundaries between ``start`` and
+    ``end`` is counted. The elapsed time between ``start`` and ``end`` is
+    measured in terms of crossed calendar units rather than exact durations.
 
-    Return ``True`` if the time span between ``start`` and ``end`` is at least
-    ``value`` units (``units``). The unit can be hours, days, weeks, or months
-    (see `TimeUnit` for details). Partial units are counted.
-
-    The difference is measured as follows:
-    * hours: full or partial hours
-    * days: calendar days (date only)
-    * weeks: full or partial calendar weeks (starting Monday)
-    * months: full or partial calendar months
+    A ``unit`` is considered elapsed when its boundary has
+    been crossed. For example, moving from 18:59 to 19:02 crosses one hour
+    boundary, even though only three minutes have elapsed.
 
     Args:
         start: Beginning timestamp.
@@ -804,8 +806,9 @@ def elapsed_at_least(start: datetime,
         unit: TimeUnit specifying hours, days, weeks, or months.
 
     Returns:
-        ``True`` if the elapsed time is greater than or equal to ``value``
-        units, otherwise ``False``.
+        ``True`` if at least ``value`` boundaries have been crossed,
+        otherwise ``False``.
+
     """
     # Workaround
     if not isinstance(unit, TimeUnit):
@@ -813,8 +816,15 @@ def elapsed_at_least(start: datetime,
 
     if unit is TimeUnit.HOUR:
         # Calculate difference in hours, counting partial hours
-        delta_hours = math.ceil((end - start).total_seconds() / 3600)
+        start_hour = start.replace(minute=0, second=0, microsecond=0)
+        end_hour = end.replace(minute=0, second=0, microsecond=0)
+
+        delta_hours = int(
+            (end_hour - start_hour).total_seconds() / 3600
+        )
+
         return delta_hours >= value
+
 
     if unit is TimeUnit.DAY:
         return start.date() <= (end.date() - timedelta(days=value))
@@ -1536,27 +1546,28 @@ def checkCronPattern(s):
         return False
 
 
-def envLoad(f):
+def envLoad(fp: pathlib.Path):
     """
     Load environ variables from file ``f`` into current environ.
     Do not overwrite existing environ variables.
 
     Args:
-        f (str):    full path to file with environ variables
+        full path to file with environ variables
     """
     env = os.environ.copy()
-    env_file = configfile.ConfigFile()
-    env_file.load(f, maxsplit = 1)
-    for key in env_file.keys():
-        value = env_file.strValue(key)
+
+    content = json.loads(fp.read_text(encoding='utf-8'))
+
+    for key, value in content.items():
+
         if not value:
             continue
+
         if not key in list(env.keys()):
             os.environ[key] = value
-    del env_file
 
 
-def envSave(f):
+def envSave(fp: pathlib.Path):
     """
     Save environ variables to file that are needed by cron
     to connect to keyring. This will only work if the user is logged in.
@@ -1565,15 +1576,23 @@ def envSave(f):
         f (str):    full path to file for environ variables
     """
     env = os.environ.copy()
-    env_file = configfile.ConfigFile()
-    for key in ('GNOME_KEYRING_CONTROL', 'DBUS_SESSION_BUS_ADDRESS',
-                'DBUS_SESSION_BUS_PID', 'DBUS_SESSION_BUS_WINDOWID',
-                'DISPLAY', 'XAUTHORITY', 'GNOME_DESKTOP_SESSION_ID',
-                'KDE_FULL_SESSION'):
-        if key in env:
-            env_file.setStrValue(key, env[key])
 
-    env_file.save(f)
+    content = {}
+
+    for key in ('GNOME_KEYRING_CONTROL',
+                'DBUS_SESSION_BUS_ADDRESS',
+                'DBUS_SESSION_BUS_PID',
+                'DBUS_SESSION_BUS_WINDOWID',
+                'DISPLAY',
+                'XAUTHORITY',
+                'GNOME_DESKTOP_SESSION_ID',
+                'KDE_FULL_SESSION',
+                'SSH_AUTH_SOCK'):
+
+        if key in env:
+            content[key] = env[key]
+
+    fp.write_text(json.dumps(content), encoding='utf-8')
 
 
 def _check_if_keyring_is_supported():
@@ -1702,7 +1721,7 @@ def setPassword(*args):
     return False
 
 
-def mountpoint(path):
+def mountpoint(path: Union[pathlib.Path, str]) -> str:
     """
     Get the mountpoint of ``path``. If your HOME is on a separate partition
     mountpoint('/home/user/foo') would return '/home'.
@@ -1713,15 +1732,21 @@ def mountpoint(path):
     Returns:
         str:        mountpoint of the filesystem
     """
-    path = os.path.realpath(os.path.abspath(path))
+    # WORKAROUND
+    if isinstance(path, str):
+        path = pathlib.Path(path)
 
-    while path != os.path.sep:
-        if os.path.ismount(path):
-            return path
+    path = path.resolve()
 
-        path = os.path.abspath(os.path.join(path, os.pardir))
+    while path != pathlib.Path(path.root):
 
-    return path
+        if is_mounted(path):
+            return str(path)
+
+        # one dir up
+        path = path.parent
+
+    return str(path)
 
 
 def decodeOctalEscape(s):

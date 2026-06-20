@@ -393,19 +393,30 @@ class MainWindow(QMainWindow):
         state_data = StateData()
         if state_data.msg_encfs_global < bitbase.ENCFS_MSG_STAGE:
             state_data.msg_encfs_global = bitbase.ENCFS_MSG_STAGE
+            state_data.save()
             dlg = encfsmsgbox.EncfsFinalRemoval(config_fp_backup)
             dlg.exec()
 
     def _handle_user_messages(self):
         self._message_about_encfs_config_backup()
 
-        # Ignore if debug or release/testing candidate
-        if version.IS_RELEASE_CANDIDATE or logger.DEBUG:
-            return
+        # # Ignore if debug or release/testing candidate
+        # if version.IS_RELEASE_CANDIDATE or logger.DEBUG:
+        #     return
+
+        # See issue #2493. Global config is not supported anymore.
+        if bitbase.GLOBAL_CONFIG_PATH.exists():
+            messagebox.critical(
+                self,
+                f'The global config file ({bitbase.GLOBAL_CONFIG_PATH}) is '
+                'no longer supported.\n\nRemove it.\n\nBack In Time only '
+                'supports per-user configuration files.',
+                'Global config file support dropped'
+            )
 
         state_data = StateData()
 
-        # SSH Cipher removal
+        # SSH Cipher removal (#2176)
         cipher = cli.detect_cipher_settings(self.config)
         if cipher:
             self._open_ssh_cipher_remove_dialog(
@@ -414,6 +425,13 @@ class MainWindow(QMainWindow):
         # remove the cipher keys from config
         for _name, _val, key in cipher:
             del self.config.dict[key]
+
+        # SSH Remote host checks deprecation (#2482)
+        check_settings = cli.detect_remote_host_check_settings(self.config)
+        if check_settings:
+            self._open_remote_host_check_deprecation_dialog(
+                [entry[0] for entry in check_settings]
+            )
 
         # Issue: https://github.com/bit-team/backintime/issues/2080
         lang_planed_for_removal = [
@@ -578,13 +596,14 @@ class MainWindow(QMainWindow):
                 icon.FAQ, _('FAQ'),
                 self._slot_help_faq, None,
                 _('Open Frequently Asked Questions (FAQ) in browser')),
-            'act_help_question': (
-                icon.QUESTION, _('Ask a question'),
-                self._slot_help_ask_question, None,
-                None),
             'act_help_bugreport': (
                 icon.BUG, _('Report a bug'),
                 self._slot_help_report_bug, None, None),
+            'act_help_contact': (
+                icon.QUESTION, _('Contact'),
+                self._slot_help_contact, None,
+                _('Shows additional contact options in the browser'),
+            ),
             'act_help_translation': (
                 icon.LANGUAGE, _('Translation'),
                 self._slot_help_translation, None,
@@ -729,8 +748,8 @@ class MainWindow(QMainWindow):
                 self.act_help_website,
                 self.act_help_changelog,
                 self.act_help_faq,
-                self.act_help_question,
                 self.act_help_bugreport,
+                self.act_help_contact,
                 self.act_help_translation,
                 self.act_help_encryption,
                 self.act_help_about,
@@ -1851,6 +1870,42 @@ class MainWindow(QMainWindow):
             full_label=_complete_text(ssh_cipher_profiles))
         dlg.exec()
 
+    def _open_remote_host_check_deprecation_dialog(self, profiles):
+        """SSH check remote host deprecation (#2482)"""
+
+        def _complete_text(profiles) -> str:
+            txt = (
+                'Some of the profiles <strong>disabled</strong> one or two '
+                'of these settings:',
+                '<ul>'
+                '<li>' + _('Check if remote host is online') + '</li>'
+                '<li>' + _('Check if remote host supports all '
+                         'necessary commands.') + '</li></ul>',
+                'Those might not be supported anymore in the near future. '
+                'Please contact the project and describe your needs.',
+                'The affected backup profiles are:',
+                '{profiles}',
+            )
+            txt = '\n'.join(txt)
+
+            # Wrap paragraphs in <p> tags.
+            result = ''
+            for t in txt.split('\n'):
+                result = f'{result}<p>{t}</p>'
+
+            profiles = '<ul>' \
+                + ''.join(f'<li>{profile}</li>' for profile in set(profiles)) \
+                + '</ul>'
+
+            return result.format(profiles=profiles)
+
+        dlg = UserMessageDialog(
+            parent=self,
+            title='Deprecation of SSH Check Remote Host settings',
+            full_label=_complete_text(profiles)
+        )
+        dlg.exec()
+
     # |---------------|
     # | Create Backup |
     # |---------------|
@@ -2268,6 +2323,9 @@ class MainWindow(QMainWindow):
     def _slot_help_website(self):
         qttools.open_url(bitbase.URL_WEBSITE)
 
+    def _slot_help_contact(self):
+        qttools.open_url(bitbase.URL_CONTACT)
+
     def _slot_help_changelog(self):
         markdown = False
         if bitbase.CHANGELOG_LOCAL_PATH.exists():
@@ -2299,9 +2357,6 @@ class MainWindow(QMainWindow):
 
     def _slot_help_encryption(self):
         qttools.open_url(bitbase.URL_ENCRYPT_TRANSITION)
-
-    def _slot_help_ask_question(self):
-        qttools.open_url(bitbase.URL_ISSUES)
 
     def _slot_help_report_bug(self):
         qttools.open_url(bitbase.URL_ISSUES_CREATE_NEW)
@@ -2555,6 +2610,23 @@ if __name__ == '__main__':
     load_state_data(cfg)
 
     mainWindow = MainWindow(cfg, appInstance, qapp)
+    # from manageprofiles.spinboxunit import SpinBoxWithUnit
+    # from manageprofiles.storagesizewidget import StorageSizeWidget
+    # from storagesize import StorageSize, SizeUnit
+
+    # mainWindow = QDialog()
+    # layout = QVBoxLayout()
+    # mainWindow.setLayout(layout)
+    # szw = StorageSizeWidget(mainWindow, (1, 999999))
+    # layout.addWidget(szw)
+
+    # print('A'*70)
+    # szw.set_storagesize(
+    #     StorageSize(50, SizeUnit.GIB)
+    # )
+    # print('Z'*70)
+    # print(f'{szw._value.value()=}')
+    # print(f'{szw._value.unit=}')
 
     # if cfg.isConfigured():
     config_fp = pathlib.Path(cfg._LOCAL_CONFIG_PATH)

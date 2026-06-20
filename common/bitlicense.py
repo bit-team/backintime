@@ -51,7 +51,9 @@ def _determine_licenses_dir() -> str | None:
                 bitbase.BINARY_NAME_GUI,
                 bitbase.BINARY_NAME_CLI,
                 bitbase.BINARY_NAME_BASE):
-        for path in (Path('/usr/share/doc'), Path('/usr/share/licenses')):
+        for path in (Path('/usr/share/doc'),
+                     Path('/usr/share/doc/packages'),
+                     Path('/usr/share/licenses')):
 
             fp = path / pkg / 'LICENSES'
             if fp.is_dir():

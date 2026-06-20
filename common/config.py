@@ -22,7 +22,6 @@ Development notes:
     parses this module for that.
 """
 import os
-import sys
 import datetime
 import socket
 import random
@@ -54,6 +53,7 @@ from exceptions import PermissionDeniedByPolicy
 class Config(configfile.ConfigFileWithProfiles):
     APP_NAME = bitbase.APP_NAME
 
+    # Version was introduced with 72fc490 in Sept. 2016 by Germar
     CONFIG_VERSION = 6
     """Latest or highest possible version of Back in Time's config file."""
 
@@ -108,8 +108,6 @@ class Config(configfile.ConfigFileWithProfiles):
 
         self._unsaved_profiles = []
 
-        self._GLOBAL_CONFIG_PATH = '/etc/backintime/config'
-
         HOME_FOLDER = os.path.expanduser('~')
         DATA_FOLDER = '.local/share'
         CONFIG_FOLDER = '.config'
@@ -142,66 +140,8 @@ class Config(configfile.ConfigFileWithProfiles):
             self._LOCAL_CONFIG_PATH = os.path.abspath(config_path)
             self._LOCAL_CONFIG_FOLDER = os.path.dirname(self._LOCAL_CONFIG_PATH)
 
-        # Load global config file
-        self.load(self._GLOBAL_CONFIG_PATH)
-
         # Append local config file
         self.append(self._LOCAL_CONFIG_PATH)
-
-        # Get the version of the config file
-        # or assume the highest config version if it isn't set.
-        currentConfigVersion \
-            = self.intValue('config.version', self.CONFIG_VERSION)
-
-        if currentConfigVersion < self.CONFIG_VERSION:
-            if currentConfigVersion < 5:
-                logger.error(
-                    'The config file version is 4 or lower. This config was '
-                    'made with a version of Back In Time that is out dated. '
-                    'Because of that upgrading config to the current version '
-                    'is not possible. The latest Back In Time version '
-                    'supporting upgrade the config file was v1.5.2.',
-                    self)
-                sys.exit(2)
-
-            if currentConfigVersion < 6:
-                logger.info('Update to config version 6', self)
-                # remap some keys
-                for profile in self.profiles():
-                    # make a 'schedule' domain for everything relating schedules
-                    self.remapProfileKey('snapshots.automatic_backup_anacron_period',
-                                         'schedule.repeatedly.period',
-                                         profile)
-                    self.remapProfileKey('snapshots.automatic_backup_anacron_unit',
-                                         'schedule.repeatedly.unit',
-                                         profile)
-                    self.remapProfileKey('snapshots.automatic_backup_day',
-                                         'schedule.day',
-                                         profile)
-                    self.remapProfileKey('snapshots.automatic_backup_mode',
-                                         'schedule.mode',
-                                         profile)
-                    self.remapProfileKey('snapshots.automatic_backup_time',
-                                         'schedule.time',
-                                         profile)
-                    self.remapProfileKey('snapshots.automatic_backup_weekday',
-                                         'schedule.weekday',
-                                         profile)
-                    self.remapProfileKey('snapshots.custom_backup_time',
-                                         'schedule.custom_time',
-                                         profile)
-
-                    # we don't have 'full rsync mode' anymore
-                    self.remapProfileKey('snapshots.full_rsync.take_snapshot_regardless_of_changes',
-                                         'snapshots.take_snapshot_regardless_of_changes',
-                                         profile)
-                # remap 'qt4' keys
-                self.remapKeyRegex(r'qt4', 'qt')
-                # remove old gnome and kde keys
-                self.removeKeysStartsWith('gnome')
-                self.removeKeysStartsWith('kde')
-
-            self.save()
 
         self.current_hash_id = 'local'
         self.pw = None
@@ -1014,6 +954,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def minFreeSpaceAsStorageSize(self, profile_id = None):
         enabled, value, unit = self.minFreeSpace(profile_id)
+        print(f'minFreeSpaceAsStorageSize() :: {enabled=} {value=} {unit=}')  # DEBUG
 
         return (
             enabled,
@@ -1359,9 +1300,6 @@ class Config(configfile.ConfigFileWithProfiles):
     def passwordCacheFifo(self):
         return os.path.join(self.passwordCacheFolder(), "FIFO")
 
-    def passwordCacheInfo(self):
-        return os.path.join(self.passwordCacheFolder(), "info")
-
     def cronEnvFile(self):
         return os.path.join(self._LOCAL_DATA_FOLDER, "cron_env")
 
@@ -1409,15 +1347,12 @@ class Config(configfile.ConfigFileWithProfiles):
         It is assumed as configured if a snapshot path (backup destination)
         and include files/directories (backup source) are given.
         """
-        # print(f'isConfigured() {profile_id=} {self.currentProfile()=}')
         if not profile_id:
             profile_id = self.profiles()[0]
-            # print(f' first is {profile_id=}')
 
         path = self.snapshotsPath(profile_id)
         includes = self.include(profile_id)
 
-        # print(f'{path=} {includes=}')
         if bool(path and includes):
             return True
 
@@ -1442,7 +1377,7 @@ class Config(configfile.ConfigFileWithProfiles):
         if not last_time:
             return True
 
-        return tools.elapsed_at_least(
+        return tools.crossed_at_least_units(
             start=last_time,
             end=datetime.datetime.now(),
             value=self.scheduleRepeatedPeriod(profile_id),

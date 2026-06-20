@@ -148,7 +148,7 @@ class RemoveRetentionTab(QDialog):
         # min free space
         enabled, value = self.config.minFreeSpaceAsStorageSize()
         self._checkbox_space.setChecked(enabled)
-        self._spin_unit_space.set_storagesize(value)
+        self._spin_unit_space.set_storagesize(value=value)
 
         # min free inodes
         self._checkbox_inodes.setChecked(self.config.minFreeInodesEnabled())
@@ -160,7 +160,7 @@ class RemoveRetentionTab(QDialog):
         self.config.setRemoveOldSnapshots(
             self._checkbox_remove_older.isChecked(),
             self._spinunit_remove_older.value(),
-            self._spinunit_remove_older.unit()
+            self._spinunit_remove_older.unit().value
         )
 
         self.config.setDontRemoveNamedSnapshots(

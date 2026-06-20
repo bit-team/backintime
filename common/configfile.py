@@ -142,41 +142,6 @@ class ConfigFile:
             if len(items) == 2:
                 self.dict[items[0]] = items[1]
 
-    def remapKey(self, old_key, new_key):
-        """
-        Remap keys to a new key name.
-
-        Args:
-            old_key (str):  old key name
-            new_key (str):  new key name
-        """
-        if old_key != new_key:
-
-            if old_key in self.dict:
-
-                if new_key not in self.dict:
-                    self.dict[new_key] = self.dict[old_key]
-
-                del self.dict[old_key]
-
-    def remapKeyRegex(self, pattern, replace):
-        """
-        Remap keys to a new key name using :py:func:`re.sub`.
-
-        Args:
-            pattern (str):  part of key name that should be replaced
-            replace (:py:class:`str`, method):
-                            string or a callable function which will be used
-                            to replace all matches of ``pattern``.
-        """
-        c = re.compile(pattern)
-
-        for key in list(self.dict):
-            newKey = c.sub(replace, key)
-
-            if key != newKey:
-                self.remapKey(key, newKey)
-
     def hasKey(self, key):
         """
         ``True`` if key is set.
@@ -833,18 +798,6 @@ class ConfigFileWithProfiles(ConfigFile):
             profile_id (str, int):  valid profile ID
         """
         self.removeKeysStartsWith(self.profileKey(prefix, profile_id))
-
-    def remapProfileKey(self, oldKey, newKey, profileId=None):
-        """
-        Remap profile keys to a new key name.
-
-        Args:
-            oldKey (str):           old key name
-            newKey (str):           new key name
-            profileId (str, int):   valid profile ID
-        """
-        self.remapKey(self.profileKey(oldKey, profileId),
-                      self.profileKey(newKey, profileId))
 
     def hasProfileKey(self, key, profile_id=None):
         """

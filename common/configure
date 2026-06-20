@@ -171,8 +171,6 @@ for langfile in `ls po/*.po`; do
 done
 
 # Start Makefile
-printf ".PHONY: test test-v unittest unittest-v\n" >> ${MAKEFILE}
-
 printf "LANGS=$langs\n\n" >> ${MAKEFILE}
 
 printf "PREFIX=/usr\n" >> ${MAKEFILE}
@@ -185,7 +183,6 @@ printf "build:\ttranslate compress\n" >> ${MAKEFILE}
 printf "clean:\n" >> ${MAKEFILE}
 printf "\trm -f po/*.mo\n" >> ${MAKEFILE}
 printf "\trm -f ../doc/manpages/*.gz\n" >> ${MAKEFILE}
-printf "\trm -rf doc-dev/_build/*\n" >> ${MAKEFILE}
 printf "\n" >> ${MAKEFILE}
 
 # Create install and uninstall target
@@ -214,7 +211,8 @@ addComment "documentation"
 addInstallDir                        "/share/doc/backintime-common"
 addInstallFile "../AUTHORS"          "/share/doc/backintime-common"
 addInstallFile "../README.md"        "/share/doc/backintime-common"
-addInstallFile "../FAQ.md"           "/share/doc/backintime-common"
+# BIT opens the online FAQ only
+# addInstallFile "../FAQ.md"           "/share/doc/backintime-common"
 addInstallFile "../CHANGELOG.md"     "/share/doc/backintime-common"
 addInstallFile "../CHANGELOG.html"   "/share/doc/backintime-common"
 addInstallFile "../LICENSES.md"      "/share/doc/backintime-common"
@@ -297,14 +295,6 @@ cat ${UNINSTALL_FILES} >> ${MAKEFILE}
 
 printf "uninstall_dirs:\n" >> ${MAKEFILE}
 cat ${UNINSTALL_DIRS} >> ${MAKEFILE}
-
-for target in test test-v unittest unittest-v; do
-    printf "\n\n%s:\n" "$target" >> ${MAKEFILE}
-    printf "\t@echo \"Target '%s' not available anymore. " "$target">> ${MAKEFILE}
-    printf "Use a test runner of your own choice " >> ${MAKEFILE}
-    printf "(e.g. 'unittest' or 'pytest').\"" >> ${MAKEFILE}
-    printf "\n\t@false" >> ${MAKEFILE}
-done
 
 # Copy Makefile
 mv ${MAKEFILE} Makefile

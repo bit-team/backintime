@@ -1,16 +1,19 @@
 #!/bin/bash
 # SPDX-FileCopyrightText: © 2014 Fabrizio Marana
 #
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: CC0-1.0
 #
-# This file is part of the program "Back In Time" which is released under GNU
-# General Public License v2 (GPLv2). See LICENSES directory or go to
-# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-
+# This file is released under Creative Commons Zero 1.0 (CC0-1.0) and part of
+# the program "Back In Time". The program as a whole is released under GNU
+# General Public License v2 or any later version (GPL-2.0-or-later).
+# See folder LICENSES or
+# go to <https://spdx.org/licenses/CC0-1.0.html>
+# and <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+#
 # Example script for user-callback
 # user-callback is a script called by backintime (http://backintime.le-web.org)
 # before, during and after a backup.
-
+#
 # Note:
 #   To allow the notify-send "expire-time" parameter to work,
 #     follow http://www.webupd8.org/2014/04/configurable-notification-bubbles-for.html
@@ -20,12 +23,6 @@
 #     sudo apt-get install mailutils
 #     sudo apt-get install postfix
 #     https://www.google.com/search?q=linux+configure+mailutils
-
-# Version 0.2 DD 2014/11/08 Change as much fixed text to variables to allow
-#                           others to modify more easily
-#                           Polish code to make it more readable
-# TO DO:  Use rsync instead of cpio
-
 
 ### Init ###
 # You need to configure this before using this script

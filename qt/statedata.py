@@ -8,8 +8,10 @@
 """Management of the state file."""
 # pylint: disable=wrong-import-position,wrong-import-order
 from __future__ import annotations
+import sys
 import os
 import json
+import re
 from pathlib import Path
 from datetime import datetime, timezone
 from copy import deepcopy
@@ -53,6 +55,8 @@ class StateData(dict, metaclass=singleton.Singleton):
             'encfs': {}
         },
     }
+
+    _file_path = None
 
     class Profile:
         """A surrogate to access profile-specific state data."""
@@ -124,17 +128,49 @@ class StateData(dict, metaclass=singleton.Singleton):
     @staticmethod
     def file_path() -> Path:
         """Returns the state file path."""
+
+        if StateData._file_path:
+            return StateData._file_path
+
+        # the path
         xdg_state = os.environ.get('XDG_STATE_HOME', None)
         if xdg_state:
             xdg_state = Path(xdg_state)
         else:
             xdg_state = Path.home() / '.local' / 'state'
 
-        fp = xdg_state / 'backintime-qt.json'
+        # "connect" to current config file
+        cfg = StateData._extract_config_path_from_args()
+        if cfg:
+            # normalize
+            cfg = '.' + re.sub(r'[^a-zA-Z0-9]+', '_', cfg).strip('_')
+        else:
+            cfg = ''
 
-        logger.debug(f'State file path: {fp}')
+        fp = xdg_state / f'backintime-qt{cfg}.json'
+        logger.critical(f'State file path: {fp}')
 
         return fp
+
+    @staticmethod
+    def _extract_config_path_from_args() -> Optional[str]:
+        """Get the config path from the CLI arguments.
+
+        A workaround."""
+        it = iter(sys.argv)
+        next(it)  # drop first argument
+
+        for arg in it:
+            if arg.startswith('--config='):
+                return arg.split('=', 1)[1]
+
+            if arg == '--config':
+                try:
+                    return next(it)
+                except StopIteration:
+                    return None
+
+        return None
 
     def __init__(self, data: dict = None):
         """Constructor."""

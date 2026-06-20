@@ -61,6 +61,7 @@ URL_ENCRYPT_TRANSITION = 'https://github.com/bit-team/backintime' \
 URL_SOURCE = 'https://github.com/bit-team/backintime'
 URL_WEBSITE = URL_SOURCE
 URL_FAQ = f'{URL_WEBSITE}/blob/-/FAQ.md'
+URL_CONTACT = f'{URL_WEBSITE}/blob/-/README.md#contact--social'
 URL_ISSUES = f'{URL_WEBSITE}/issues'
 URL_ISSUES_CREATE_NEW = f'{URL_ISSUES}/new'
 URL_CHANGELOG = f'{URL_WEBSITE}/blob/-/CHANGELOG.md'
@@ -77,6 +78,8 @@ XDG_DATA_HOME = Path(os.environ.get(
 ))
 
 FILENAME_CONFIG = 'config'
+CRON_ENV_PATH = XDG_DATA_HOME / 'cron_env.json'
+
 # See issue #1743
 ENCFS_BACKUP_CONFIG_SUFFIX = '.encfs.backup'
 
@@ -196,3 +199,6 @@ IS_IN_DEBUG_MODE = False
 ENCFS_MSG_STAGE = 42  # FINAL!
 
 DEFAULT_SSH_PORT = 22
+
+# Used for warnings only. Not supported anymore. #2493
+GLOBAL_CONFIG_PATH = Path('/etc/backintime/config')

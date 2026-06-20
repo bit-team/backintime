@@ -43,7 +43,6 @@ class StorageSize:
     }
 
     def __init__(self, value: int, unit: SizeUnit = SizeUnit.B):
-
         # Original value in Bytes
         self._bytes = None
         # Unit used to represent the value (e.g. in strings)
