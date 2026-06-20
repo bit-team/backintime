@@ -1347,15 +1347,12 @@ class Config(configfile.ConfigFileWithProfiles):
         It is assumed as configured if a snapshot path (backup destination) is
         and include files/directories (backup source) are given.
         """
-        # print(f'isConfigured() {profile_id=} {self.currentProfile()=}')
         if not profile_id:
             profile_id = self.profiles()[0]
-            # print(f' first is {profile_id=}')
 
         path = self.snapshotsPath(profile_id)
         includes = self.include(profile_id)
 
-        # print(f'{path=} {includes=}')
         if bool(path and includes):
             return True
 
