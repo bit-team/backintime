@@ -29,6 +29,8 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
   ([#2482](https://github.com/bit-team/backintime/issues/2482))
 - Clear up license and copyright situation of `qt/serviceHelper.py`
   ([#1986](https://github.com/bit-team/backintime/issues/1986))
+- GUI: Schedule mode "Repeatedly (anacron)" re-phrased and extended with
+  explanations ([#2507](https://github.com/bit-team/backintime/issues/2507))
 
 ### Added
 - Gocryptfs for SSH encrypted profiles
@@ -45,23 +47,19 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Dependency: `encfs`
 - CLI:
   - Switch `--keep-mount`
-  - Command `decode` because of EncFS removal
-    ([#1734](https://github.com/bit-team/backintime/issues/1734))
-  - Command `benchmark-cipher`
-    ([#2120](https://github.com/bit-team/backintime/issues/2120))
+  - Command `decode` because of EncFS removal ([#1734](https://github.com/bit-team/backintime/issues/1734))
+  - Command `benchmark-cipher` ([#2120](https://github.com/bit-team/backintime/issues/2120))
 - SSH Cipher ([#2176](https://github.com/bit-team/backintime/issues/2176))
 - Config examples
 - Languages Faroese, Croatian, Vietnames and Norwegian (Nynorsk)
   ([#2080](https://github.com/bit-team/backintime/issues/2080))
 - GUI Expert Options:
-  - "Check if remote host is online"
-    ([#2482](https://github.com/bit-team/backintime/issues/2482)).
-  - "Check if remote host supports all necessary commands"
-    ([#2482](https://github.com/bit-team/backintime/issues/2482)).
-
+  - "Check if remote host is online" ([#2482](https://github.com/bit-team/backintime/issues/2482)).
+  - "Check if remote host supports all necessary commands" ([#2482](https://github.com/bit-team/backintime/issues/2482)).
 
 ## Fixed
 - Prevent crash in case a plugin fails ([#2447](https://github.com/bit-team/backintime/issues/2447))
+- Schedule mode "Repeatedly (anacron)" using "Hourly" units is now consistent with other units ([#2507](https://github.com/bit-team/backintime/issues/2507))
 - **Breaking**: "Remove backups older than" value was stored only as years ([#2460](https://github.com/bit-team/backintime/issues/2460))
 
 ## [1.6.1] (2026-02-10)

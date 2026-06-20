@@ -393,6 +393,7 @@ class MainWindow(QMainWindow):
         state_data = StateData()
         if state_data.msg_encfs_global < bitbase.ENCFS_MSG_STAGE:
             state_data.msg_encfs_global = bitbase.ENCFS_MSG_STAGE
+            state_data.save()
             dlg = encfsmsgbox.EncfsFinalRemoval(config_fp_backup)
             dlg.exec()
 
@@ -2608,6 +2609,23 @@ if __name__ == '__main__':
     load_state_data(cfg)
 
     mainWindow = MainWindow(cfg, appInstance, qapp)
+    # from manageprofiles.spinboxunit import SpinBoxWithUnit
+    # from manageprofiles.storagesizewidget import StorageSizeWidget
+    # from storagesize import StorageSize, SizeUnit
+
+    # mainWindow = QDialog()
+    # layout = QVBoxLayout()
+    # mainWindow.setLayout(layout)
+    # szw = StorageSizeWidget(mainWindow, (1, 999999))
+    # layout.addWidget(szw)
+
+    # print('A'*70)
+    # szw.set_storagesize(
+    #     StorageSize(50, SizeUnit.GIB)
+    # )
+    # print('Z'*70)
+    # print(f'{szw._value.value()=}')
+    # print(f'{szw._value.unit=}')
 
     # if cfg.isConfigured():
     config_fp = pathlib.Path(cfg._LOCAL_CONFIG_PATH)

@@ -13,14 +13,18 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 This document outlines the status of the encryption feature.  Starting with
 _Back In Time_ version [2.0.0], support for [EncFS] was dropped in favor of
-[gocryptfs]. See [meta issue
-#1734](https://github.com/bit-team/backintime/issues/1734) for technical
-details.
+[gocryptfs]. See
+[meta issue #1734](https://github.com/bit-team/backintime/issues/1734) for
+technical details.
+
+You might be looking for the
+[answer about how to access existing EncFS backups without using Back In Time](#how-to-access-existing-encfs-backups-without-using-back-in-time).
 
  * [Rationale](#rationale)
  * [The transition process](#the-transition-process)
  * [FAQ - Frequently Asked Questions](#faq--frequently-asked-questions)
    * [How to migrate an EncFS backup profile to a gocryptfs backup profile?](#how-to-migrate-an-encfs-backup-profile-to-a-gocryptfs-backup-profile)
+   * [How to access existing EncFS backups without using Back In Time](#how-to-access-existing-encfs-backups-without-using-back-in-time)
  * [About EncFS security issues](#about-encfs-security-issues)
  * [Further readings and resources](#further-readings-and-resources)
 
@@ -68,15 +72,33 @@ about technical details.
 > :wink: If you are successful, it would help a lot if you could contribute
 > a tutorial like documentation to the project.
 
+
+### How to access existing EncFS backups without using Back In Time
+
+At the moment, there is no official documentation for accessing
+existing EncFS backups outside of _Back In Time_.
+
+The underlying mechanism is known to work, but a clean, reproducible and
+well-documented procedure has not yet been written down and verified.
+
+The current maintainer does not have the resources to work on this topic and is
+focusing on other priorities. However, contributions from users are welcome:
+anyone who is willing to investigate the workflow, document a reliable process,
+or provide step-by-step instructions is invited to submit a proposal or pull
+request.
+
+If a working and reproducible approach is provided by the community, it can be
+added to the documentation or FAQ.
+
 ## About EncFS security issues
 
-   - EncFS Security Audit
-       - https://defuse.ca/audits/encfs.htm (as updated blog post)
-       - https://sourceforge.net/p/encfs/mailman/message/31849549/ (original mailing list entry)
-   - [EncFS#314](https://github.com/vgough/encfs/issues/314) (a **not-fixed** meta issue with a list of several open issues related to the Security Audit)
-   - [EncFS#659](https://github.com/vgough/encfs/issues/659)
-   - [EncFS#9](https://github.com/vgough/encfs/issues/9)
-   - [EncFS - Ubuntu Users Wiki (German)](https://wiki.ubuntuusers.de/Archiv/EncFS)
+- EncFS Security Audit
+    - https://defuse.ca/audits/encfs.htm (as updated blog post)
+    - https://sourceforge.net/p/encfs/mailman/message/31849549/ (original mailing list entry)
+- [EncFS#314](https://github.com/vgough/encfs/issues/314) (a **not-fixed** meta issue with a list of several open issues related to the Security Audit)
+- [EncFS#659](https://github.com/vgough/encfs/issues/659)
+- [EncFS#9](https://github.com/vgough/encfs/issues/9)
+- [EncFS - Ubuntu Users Wiki (German)](https://wiki.ubuntuusers.de/Archiv/EncFS)
 
 ## Further readings and resources
 

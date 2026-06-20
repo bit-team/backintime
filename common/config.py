@@ -954,6 +954,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def minFreeSpaceAsStorageSize(self, profile_id = None):
         enabled, value, unit = self.minFreeSpace(profile_id)
+        print(f'minFreeSpaceAsStorageSize() :: {enabled=} {value=} {unit=}')  # DEBUG
 
         return (
             enabled,
@@ -1376,7 +1377,7 @@ class Config(configfile.ConfigFileWithProfiles):
         if not last_time:
             return True
 
-        return tools.elapsed_at_least(
+        return tools.crossed_at_least_units(
             start=last_time,
             end=datetime.datetime.now(),
             value=self.scheduleRepeatedPeriod(profile_id),

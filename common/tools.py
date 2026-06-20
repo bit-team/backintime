@@ -778,24 +778,19 @@ def get_git_repository_info(path=None, hash_length=None):
     return result
 
 
-def elapsed_at_least(start: datetime,
-                     end: datetime,
-                     value: int,
-                     unit: TimeUnit) -> bool:
-    """
-    Check if a time span meets at least a number of time units, counting
-    partial units as full.
+def crossed_at_least_units(start: datetime,
+                           end: datetime,
+                           value: int,
+                           unit: TimeUnit) -> bool:
+    """Return ``True`` if at least ``value`` boundaries have been crossed.
 
+    The number of crossed calendar unit boundaries between ``start`` and
+    ``end`` is counted. The elapsed time between ``start`` and ``end`` is
+    measured in terms of crossed calendar units rather than exact durations.
 
-    Return ``True`` if the time span between ``start`` and ``end`` is at least
-    ``value`` units (``units``). The unit can be hours, days, weeks, or months
-    (see `TimeUnit` for details). Partial units are counted.
-
-    The difference is measured as follows:
-    * hours: full or partial hours
-    * days: calendar days (date only)
-    * weeks: full or partial calendar weeks (starting Monday)
-    * months: full or partial calendar months
+    A ``unit`` is considered elapsed when its boundary has
+    been crossed. For example, moving from 18:59 to 19:02 crosses one hour
+    boundary, even though only three minutes have elapsed.
 
     Args:
         start: Beginning timestamp.
@@ -804,8 +799,9 @@ def elapsed_at_least(start: datetime,
         unit: TimeUnit specifying hours, days, weeks, or months.
 
     Returns:
-        ``True`` if the elapsed time is greater than or equal to ``value``
-        units, otherwise ``False``.
+        ``True`` if at least ``value`` boundaries have been crossed,
+        otherwise ``False``.
+
     """
     # Workaround
     if not isinstance(unit, TimeUnit):
@@ -813,8 +809,15 @@ def elapsed_at_least(start: datetime,
 
     if unit is TimeUnit.HOUR:
         # Calculate difference in hours, counting partial hours
-        delta_hours = math.ceil((end - start).total_seconds() / 3600)
+        start_hour = start.replace(minute=0, second=0, microsecond=0)
+        end_hour = end.replace(minute=0, second=0, microsecond=0)
+
+        delta_hours = int(
+            (end_hour - start_hour).total_seconds() / 3600
+        )
+
         return delta_hours >= value
+
 
     if unit is TimeUnit.DAY:
         return start.date() <= (end.date() - timedelta(days=value))
