@@ -26,6 +26,8 @@ import gettext
 import hashlib
 import shutil
 import json
+import configparser
+from io import StringIO, TextIOWrapper
 from datetime import datetime, timedelta
 from collections.abc import MutableMapping
 from packaging.version import Version
@@ -1554,6 +1556,9 @@ def envLoad(fp: pathlib.Path):
     Args:
         full path to file with environ variables
     """
+    if not fp.exists():
+        return
+
     env = os.environ.copy()
 
     content = json.loads(fp.read_text(encoding='utf-8'))
@@ -1563,7 +1568,7 @@ def envLoad(fp: pathlib.Path):
         if not value:
             continue
 
-        if not key in list(env.keys()):
+        if key not in list(env.keys()):
             os.environ[key] = value
 
 
@@ -2513,3 +2518,26 @@ class Execute:
         if self.pausable and self.currentProc:
             logger.info(f'Kill process "{self.printable_cmd}"', self.parent, 2)
             return self.currentProc.kill()
+
+
+def convert_info_ini_file_to_dict(buffer: Union[TextIOWrapper, StringIO]
+                                  ) -> dict:
+    """Load the old 'info' file in INI format and convert its content
+    to a regular dict.
+
+    Args:
+        buffer: An open text-file handle or a string buffer ready to read.
+    """
+
+    section = 'info-file-in-conversion'
+
+    # raw content
+    content = buffer.read()
+
+    config_parser = configparser.ConfigParser(interpolation=None)
+
+    # Add section header to make it a real INI file
+    config_parser.read_string(f'[{section}]\n{content}')
+
+    # The one and only main section
+    return dict(config_parser[section])

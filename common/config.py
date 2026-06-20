@@ -954,7 +954,6 @@ class Config(configfile.ConfigFileWithProfiles):
 
     def minFreeSpaceAsStorageSize(self, profile_id = None):
         enabled, value, unit = self.minFreeSpace(profile_id)
-        print(f'minFreeSpaceAsStorageSize() :: {enabled=} {value=} {unit=}')  # DEBUG
 
         return (
             enabled,

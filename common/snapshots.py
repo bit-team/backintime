@@ -225,7 +225,7 @@ class Snapshots:
         self.uidCache = {}
         self.gidCache = {}
 
-    def uid(self, name, callback = None, backup = None):
+    def uid(self, name, callback=None, backup=None):
         """
         Get the User identifier (UID) for the user in ``name``.
         name->uid will be cached to speed up subsequent requests.
@@ -245,28 +245,34 @@ class Snapshots:
 
         if name in self.uidCache:
             return self.uidCache[name]
-        else:
-            uid = -1
-            try:
-                uid = pwd.getpwnam(name).pw_uid
-            except Exception as e:
-                if backup:
-                    uid = backup
-                    msg = "UID for '%s' is not available on this system. Using UID %s from snapshot." %(name, backup)
-                    logger.info(msg, self)
-                    if callback is not None:
-                        callback(msg)
-                else:
-                    self.restorePermissionFailed = True
-                    msg = 'Failed to get UID for %s: %s' %(name, str(e))
-                    logger.error(msg, self)
-                    if callback:
-                        callback(msg)
 
-            self.uidCache[name] = uid
-            return uid
+        uid = -1
+        try:
+            uid = pwd.getpwnam(name).pw_uid
+        except Exception as e:
+            if backup:
+                uid = backup
+                msg = (
+                    f"UID for '{name}' is not available on this system. Using "
+                    f"UID {backup} from snapshot."
+                )
+                logger.info(msg, self)
 
-    def gid(self, name, callback = None, backup = None):
+                if callback is not None:
+                    callback(msg)
+
+            else:
+                self.restorePermissionFailed = True
+                msg = f'Failed to get UID for {name}: {str(e)}'
+                logger.error(msg, self)
+                if callback:
+                    callback(msg)
+
+        self.uidCache[name] = uid
+
+        return uid
+
+    def gid(self, name, callback=None, backup=None):
         """
         Get the Group identifier (GID) for the group in ``name``.
         name->gid will be cached to speed up subsequent requests.
@@ -286,26 +292,27 @@ class Snapshots:
 
         if name in self.gidCache:
             return self.gidCache[name]
-        else:
-            gid = -1
-            try:
-                gid = grp.getgrnam(name).gr_gid
-            except Exception as e:
-                if backup is not None:
-                    gid = backup
-                    msg = "GID for '%s' is not available on this system. Using GID %s from snapshot." %(name, backup)
-                    logger.info(msg, self)
-                    if callback:
-                        callback(msg)
-                else:
-                    self.restorePermissionFailed = True
-                    msg = 'Failed to get GID for %s: %s' %(name, str(e))
-                    logger.error(msg, self)
-                    if callback:
-                        callback(msg)
 
-            self.gidCache[name] = gid
-            return gid
+        gid = -1
+        try:
+            gid = grp.getgrnam(name).gr_gid
+        except Exception as e:
+            if backup is not None:
+                gid = backup
+                msg = "GID for '%s' is not available on this system. Using GID %s from snapshot." %(name, backup)
+                logger.info(msg, self)
+                if callback:
+                    callback(msg)
+            else:
+                self.restorePermissionFailed = True
+                msg = 'Failed to get GID for %s: %s' %(name, str(e))
+                logger.error(msg, self)
+                if callback:
+                    callback(msg)
+
+        self.gidCache[name] = gid
+
+        return gid
 
     def userName(self, uid):
         """
@@ -3004,12 +3011,20 @@ class SID:  # -> "BackupID" will be its new name
         Returns:
             configfile.ConfigFile:  snapshots information
         """
+        # DEBUG
+        import traceback
+        traceback.print_stack(limit=12)
+
         i = configfile.ConfigFile()
         i.load(self.path(self.INFO))
         return i
 
     @info.setter
     def info(self, i):
+        # DEBUG
+        import traceback
+        traceback.print_stack(limit=12)
+
         assert isinstance(i, configfile.ConfigFile), 'i is not configfile.ConfigFile type: {}'.format(i)
         i.save(self.path(self.INFO))
 
