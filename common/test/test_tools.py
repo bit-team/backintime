@@ -785,19 +785,21 @@ class InfoIniToDict(unittest.TestCase):
     ])
 
     DICT = {
+        'backup': {
+            'date': '20260620-113047',
+            'machine': 'TONNE',
+            'profile_id': '1',
+            'tag': '240',
+            'user': 'user',
+        },
+       'users': [
+            {'uid': 0, 'name': 'root'},
+            {'uid': 1000, 'name': 'user'}
+        ],
         'groups': [
             {'gid': 0, 'name': 'root'},
             {'gid': 1000, 'name': 'user'}
         ],
-        'users': [
-            {'uid': 0, 'name': 'root'},
-            {'uid': 1000, 'name': 'user'}
-        ],
-        'snapshot_date': '20260620-113047',
-        'snapshot_machine': 'TONNE',
-        'snapshot_profile_id': 1,
-        'snapshot_tag': 240,
-        'snapshot_user': 'user'
     }
 
     def test_info_ini_to_json(self):

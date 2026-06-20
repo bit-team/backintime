@@ -2525,6 +2525,13 @@ def convert_info_ini_file_to_dict(buffer: Union[TextIOWrapper, StringIO]
     """Load the old 'info' file in INI format and convert its content
     to a regular dict.
 
+    The old INI like file format used `config.ConfigFile`. But this class was
+    dreprecated and planed to get removed (#1923). Because of that the format
+    of that file was transformed to JSON.
+
+    The old format still need to be supported because old backups contain this
+    file and will need to for restoring.
+
     Args:
         buffer: An open text-file handle or a string buffer ready to read.
     """
@@ -2540,4 +2547,46 @@ def convert_info_ini_file_to_dict(buffer: Union[TextIOWrapper, StringIO]
     config_parser.read_string(f'[{section}]\n{content}')
 
     # The one and only main section
-    return dict(config_parser[section])
+    result = dict(config_parser[section])
+
+
+    # extract "snapshot" items
+    prefix = 'snapshot_'
+    snapshot_keys = list(
+        filter(lambda key: key.startswith(prefix), result.keys())
+    )
+    result['backup'] = {}
+    for key in snapshot_keys:
+        result['backup'][key.replace(prefix, '')] = result[key]
+        del result[key]
+
+    # clean up not necessary keys
+    del result['user.size']
+    del result['group.size']
+
+    # extract "user" and "group" items
+    for item_name in ('user', 'group'):
+        prefix = f'{item_name}.'
+        item_keys = filter(lambda key: key.startswith(prefix), result.keys())
+        item_it = iter(sorted(item_keys))
+        pairs = list(zip(item_it, item_it))
+
+        result[f'{item_name}s'] = []
+
+        for key_pair in pairs:
+            pair_result = {}
+
+            for key in key_pair:
+                new_key = key.rsplit('.', 1)[1]
+                pair_result[new_key] = result[key]
+
+                if pair_result[new_key].isdigit():
+                    pair_result[new_key] = int(pair_result[new_key])
+
+                del result[key]
+
+            result[f'{item_name}s'].append(pair_result)
+
+    print(json.dumps(result, indent=4))
+
+    return result
