@@ -251,10 +251,13 @@ class QtSysTrayIcon:
 
                 self.status_icon.setToolTip(message[1])
 
-        pg = progress.ProgressFile(self.config)
+        pg = progress.ProgressFile(
+            filename=self.config.takeSnapshotProgressFile()
+        )
 
         if pg.fileReadable():
             pg.load()
+            pg_data = pg.get_data()
             # percent = pg.intValue('percent')
             ## disable progressbar in icon until BiT has it's own icon
             ## fixes bug #902
@@ -266,14 +269,16 @@ class QtSysTrayIcon:
             #         flags=QWidget.RenderFlags(QWidget.DrawChildren))
             #     self.status_icon.setIcon(QIcon(self.pixmap))
 
-            self.menuProgress.setText(' | '.join(self.getMenuProgress(pg)))
+            self.menuProgress.setText(
+                ' | '.join(self.getMenuProgress(pg_data))
+            )
             self.menuProgress.setVisible(True)
 
         else:
             # self.status_icon.setIcon(self.icon.BIT_LOGO)
             self.menuProgress.setVisible(False)
 
-    def getMenuProgress(self, pg):
+    def getMenuProgress(self, pg_data):
         """See common/app.py::MainWindow.getProgressBarFormat().
 
         The code is a near duplicate.
@@ -281,16 +286,16 @@ class QtSysTrayIcon:
         data = (
             ('sent', _('Sent:')),
             ('speed', _('Speed:')),
-            ('eta',    _('ETA:'))
+            ('eta', _('ETA:'))
         )
 
         for key, txt in data:
-            value = pg.strValue(key, '')
+            value = pg_data.get(key, '')
 
             if not value:
                 continue
 
-            yield txt + ' ' + value
+            yield f'{txt} {value}'
 
     @trust_required
     def _slot_pause(self, *_args, **_kwargs):
