@@ -26,6 +26,8 @@ import gettext
 import hashlib
 import shutil
 import json
+import configparser
+from io import StringIO, TextIOWrapper
 from datetime import datetime, timedelta
 from collections.abc import MutableMapping
 from packaging.version import Version
@@ -1554,6 +1556,9 @@ def envLoad(fp: pathlib.Path):
     Args:
         full path to file with environ variables
     """
+    if not fp.exists():
+        return
+
     env = os.environ.copy()
 
     content = json.loads(fp.read_text(encoding='utf-8'))
@@ -1563,7 +1568,7 @@ def envLoad(fp: pathlib.Path):
         if not value:
             continue
 
-        if not key in list(env.keys()):
+        if key not in list(env.keys()):
             os.environ[key] = value
 
 
@@ -2513,3 +2518,73 @@ class Execute:
         if self.pausable and self.currentProc:
             logger.info(f'Kill process "{self.printable_cmd}"', self.parent, 2)
             return self.currentProc.kill()
+
+
+def convert_info_ini_file_to_dict(buffer: Union[TextIOWrapper, StringIO]
+                                  ) -> dict:
+    """Load the old 'info' file in INI format and convert its content
+    to a regular dict.
+
+    The old INI like file format used `config.ConfigFile`. But this class was
+    dreprecated and planned to get removed (#1923). Because of that the format
+    of that file was transformed to JSON.
+
+    The old format still need to be supported because old backups contain this
+    file and will need to for restoring.
+
+    Args:
+        buffer: An open text-file handle or a string buffer ready to read.
+    """
+
+    section = 'info-file-in-conversion'
+
+    # raw content
+    content = buffer.read()
+
+    config_parser = configparser.ConfigParser(interpolation=None)
+
+    # Add section header to make it a real INI file
+    config_parser.read_string(f'[{section}]\n{content}')
+
+    # The one and only main section
+    result = dict(config_parser[section])
+
+    # extract "snapshot" items
+    prefix = 'snapshot_'
+    snapshot_keys = list(
+        filter(lambda key: key.startswith(prefix), result.keys())
+    )
+    result['backup'] = {}
+    for key in snapshot_keys:
+        result['backup'][key.replace(prefix, '')] = result[key]
+        del result[key]
+
+    # clean up not necessary keys
+    del result['user.size']
+    del result['group.size']
+
+    # extract "user" and "group" items
+    for item_name in ('user', 'group'):
+        id_name = {'user': 'uid', 'group': 'gid'}[item_name]
+        prefix = f'{item_name}.'
+        item_keys = filter(lambda key: key.startswith(prefix), result.keys())
+        item_it = iter(sorted(item_keys))
+        pairs = list(zip(item_it, item_it))
+
+        result[f'{item_name}s'] = {}
+
+        for key_pair in pairs:
+            pair_result = {}
+
+            for key in key_pair:
+                new_key = key.rsplit('.', 1)[1]
+                pair_result[new_key] = result[key]
+
+                if pair_result[new_key].isdigit():
+                    pair_result[new_key] = int(pair_result[new_key])
+
+                del result[key]
+
+            result[f'{item_name}s'][pair_result[id_name]] = pair_result['name']
+
+    return result

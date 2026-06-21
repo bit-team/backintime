@@ -17,6 +17,11 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
   Behavior is intended to remain unchanged; regressions cannot be fully ruled
   out. ([PR#2449](https://github.com/bit-team/backintime/pull/2449))
 - **Breaking**: Minimal Python version 3.13 increased
+- **Breaking**: Part of the backup metadata ("info" file) migrated from an
+  INI-like format to JSON. Older versions of _Back In Time_ (before 2.0.0) may
+  have issues with backups created in 2.0.0 or later. Restoring still works,
+  but ownership and permission information is not restored correctly.
+  ([PR#2527](https://github.com/bit-team/backintime/pull/2527)) to avoid
 - Default mountpoint permissions changed from 700 to 711
   ([PR#2451](https://github.com/bit-team/backintime/pull/2451)) to avoid
   FUSE mount failures when accessing via different user contexts.

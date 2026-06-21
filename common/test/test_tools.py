@@ -19,6 +19,7 @@ import pathlib
 import stat
 import signal
 import unittest
+from io import StringIO
 from datetime import datetime
 from time import sleep
 from unittest.mock import patch
@@ -762,3 +763,46 @@ class NestedDictUpdate(unittest.TestCase):
         self.assertDictEqual(
             tools.nested_dict_update(org, update),
             expect)
+
+
+class InfoIniToDict(unittest.TestCase):
+    INI = '\n'.join([
+        'group.1.gid=0',
+        'group.1.name=root',
+        'group.2.gid=1000',
+        'group.2.name=user',
+        'group.size=2',
+        'snapshot_date=20260620-113047',
+        'snapshot_machine=TONNE',
+        'snapshot_profile_id=1',
+        'snapshot_tag=240',
+        'snapshot_user=user',
+        'user.1.name=root',
+        'user.1.uid=0',
+        'user.2.name=user',
+        'user.2.uid=1000',
+        'user.size=2',
+    ])
+
+    DICT = {
+        'backup': {
+            'date': '20260620-113047',
+            'machine': 'TONNE',
+            'profile_id': '1',
+            'tag': '240',
+            'user': 'user',
+        },
+        'users': {
+            0: 'root',
+            1000: 'user'
+        },
+        'groups': {
+            0: 'root',
+            1000: 'user'
+        },
+    }
+
+    def test_info_ini_to_json(self):
+        ini_content = StringIO(self.INI)
+        result = tools.convert_info_ini_file_to_dict(ini_content)
+        self.assertEqual(result, self.DICT)
