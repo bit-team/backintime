@@ -2526,7 +2526,7 @@ def convert_info_ini_file_to_dict(buffer: Union[TextIOWrapper, StringIO]
     to a regular dict.
 
     The old INI like file format used `config.ConfigFile`. But this class was
-    dreprecated and planed to get removed (#1923). Because of that the format
+    dreprecated and planned to get removed (#1923). Because of that the format
     of that file was transformed to JSON.
 
     The old format still need to be supported because old backups contain this
