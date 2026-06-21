@@ -1130,21 +1130,26 @@ class Snapshots:
                         ``line`` was a progress
         """
         ret = []
-        for l in line.split('\n'):
-            m = self.reRsyncProgress.match(l)
+
+        for part in line.split('\n'):
+            m = self.reRsyncProgress.match(part)
+
             if m:
-                # if m.group(5).strip():
-                #     return
-                pg = progress.ProgressFile(self.config)
-                pg.setIntValue('status', pg.RSYNC)
-                pg.setStrValue('sent', m.group(1))
-                pg.setIntValue('percent', int(m.group(2)))
-                pg.setStrValue('speed', m.group(3))
-                pg.setStrValue('eta', m.group(4))
+                pg = progress.ProgressFile(
+                    filename=self.config.takeSnapshotProgressFile()
+                )
+                pg.set_data({
+                    'status': progress.ProgressFile.RSYNC,
+                    'sent': m.group(1),
+                    'percent': int(m.group(2)),
+                    'speed': m.group(3),
+                    'eta': m.group(4)
+                })
                 pg.save()
-                del pg
+
             else:
-                ret.append(l)
+                ret.append(part)
+
         return '\n'.join(ret)
 
     def rsyncCallback(self, line, params):

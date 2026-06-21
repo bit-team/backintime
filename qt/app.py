@@ -1322,20 +1322,25 @@ class MainWindow(QMainWindow):
         return message
 
     def _update_progress_bar(self, message: str):
-        pg = progress.ProgressFile(self.config)
 
-        if not pg.fileReadable():
+        pg = progress.ProgressFile(
+            filename=self.config.takeSnapshotProgressFile()
+        )
+
+        if not pg.fileReadable():  # Why not?
             self.status_bar.progress_hide()
             return
 
         self.status_bar.progress_show()
         pg.load()
-        self.status_bar.set_progress_value(pg.intValue('percent'))
-        message = ' | '.join(self.getProgressBarFormat(pg, message))
+        pg_data = pg.get_data()
+
+        self.status_bar.set_progress_value(pg_data['percent'])
+        message = ' | '.join(self.getProgressBarFormat(pg_data, message))
         self.status_bar.set_status_message(message)
 
     def getProgressBarFormat(self,
-                             pg: progress.ProgressFile,
+                             pg_data: dict,
                              message: str) -> Generator[str, None, None]:
         """Generates formatted components of a progress bar display.
 
@@ -1358,18 +1363,18 @@ class MainWindow(QMainWindow):
         d = (
             ('sent', _('Sent:')),
             ('speed', _('Speed:')),
-            ('eta',    _('ETA:'))
+            ('eta', _('ETA:'))
         )
 
-        yield '{}%'.format(pg.intValue('percent'))
+        yield f'{pg_data["percent"]}%'
 
         for key, txt in d:
-            value = pg.strValue(key, '')
+            value = pg_data.get(key, '')
 
             if not value:
                 continue
 
-            yield txt + ' ' + value
+            yield f'{txt} {value}'
 
         yield message
 

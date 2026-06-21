@@ -1270,15 +1270,15 @@ class Config(configfile.ConfigFileWithProfiles):
 
         return profile_id
 
-    def takeSnapshotLogFile(self, profile_id = None):
+    def takeSnapshotLogFile(self, profile_id=None):
         return os.path.join(self._LOCAL_DATA_FOLDER,
                             "takesnapshot_%s.log" % self.fileId(profile_id))
 
-    def takeSnapshotMessageFile(self, profile_id = None):
+    def takeSnapshotMessageFile(self, profile_id=None):
         return os.path.join(self._LOCAL_DATA_FOLDER,
                             "worker%s.message" % self.fileId(profile_id))
 
-    def takeSnapshotProgressFile(self, profile_id = None):
+    def takeSnapshotProgressFile(self, profile_id=None):
         return os.path.join(self._LOCAL_DATA_FOLDER,
                             "worker%s.progress" % self.fileId(profile_id))
 
