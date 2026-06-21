@@ -2952,9 +2952,9 @@ class SID:  # -> "BackupID" will be its new name
         Returns:
             str:    date and time of last check (YYYY-MM-DD HH:MM:SS)
         """
-        fp = Path(self.path) / self.INFO
+        fp = Path(self.path()) / self.INFO_JSON
         if not fp.exists():
-            fp = Path(self.path) / self.INFO_JSON
+            fp = Path(self.path()) / self.INFO
 
         if fp.exists():
             return time.strftime(
@@ -2971,9 +2971,9 @@ class SID:  # -> "BackupID" will be its new name
         Set info files atime to current time to indicate this snapshot was
         checked against source without changes right now.
         """
-        fp = Path(self.path) / self.INFO
+        fp = Path(self.path()) / self.INFO_JSON
         if not fp.exists():
-            fp = Path(self.path) / self.INFO_JSON
+            fp = Path(self.path()) / self.INFO
 
         if fp.exists():
             os.utime(fp, None)
@@ -3020,12 +3020,13 @@ class SID:  # -> "BackupID" will be its new name
         one is in JSON format.
 
         """
-        # Check if the "old" format is present
-        old_fp = Path(self.path()) / self.INFO
+        new_fp = Path(self.path()) / self.INFO_JSON
+
         old_stat = None
 
-        if old_fp.exists():
-            # preserve the files timestamps
+        # Check if the new new format is used
+        if not new_fp.exists():
+            old_fp = Path(self.path()) / self.INFO
             old_stat = old_fp.stat()
 
             info_dict = tools.convert_info_ini_file_to_dict(old_fp)
@@ -3033,17 +3034,11 @@ class SID:  # -> "BackupID" will be its new name
             # store into new file
             self.store_to_info_file(info_dict)
 
-            # delete the old one
-            old_fp.unlink()
-
-        # load from new file
-        fp = Path(self.path()) / self.INFO_JSON
-
-        if old_stat:
             # set back the old timestamps because BIT is using them
-            os.utime(fp, (old_stat.st_atime, old_stat.st_mtime))
+            os.utime(new_fp, (old_stat.st_atime, old_stat.st_mtime))
 
-        info_dict = json.loads(fp.read_text(encoding='utf-8'))
+        # read from new file
+        info_dict = json.loads(new_fp.read_text(encoding='utf-8'))
 
         return info_dict
 
