@@ -2549,7 +2549,6 @@ def convert_info_ini_file_to_dict(buffer: Union[TextIOWrapper, StringIO]
     # The one and only main section
     result = dict(config_parser[section])
 
-
     # extract "snapshot" items
     prefix = 'snapshot_'
     snapshot_keys = list(
@@ -2566,12 +2565,13 @@ def convert_info_ini_file_to_dict(buffer: Union[TextIOWrapper, StringIO]
 
     # extract "user" and "group" items
     for item_name in ('user', 'group'):
+        id_name = {'user': 'uid', 'group': 'gid'}[item_name]
         prefix = f'{item_name}.'
         item_keys = filter(lambda key: key.startswith(prefix), result.keys())
         item_it = iter(sorted(item_keys))
         pairs = list(zip(item_it, item_it))
 
-        result[f'{item_name}s'] = []
+        result[f'{item_name}s'] = {}
 
         for key_pair in pairs:
             pair_result = {}
@@ -2585,8 +2585,6 @@ def convert_info_ini_file_to_dict(buffer: Union[TextIOWrapper, StringIO]
 
                 del result[key]
 
-            result[f'{item_name}s'].append(pair_result)
-
-    print(json.dumps(result, indent=4))
+            result[f'{item_name}s'][pair_result[id_name]] = pair_result['name']
 
     return result

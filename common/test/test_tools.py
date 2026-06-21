@@ -792,18 +792,17 @@ class InfoIniToDict(unittest.TestCase):
             'tag': '240',
             'user': 'user',
         },
-       'users': [
-            {'uid': 0, 'name': 'root'},
-            {'uid': 1000, 'name': 'user'}
-        ],
-        'groups': [
-            {'gid': 0, 'name': 'root'},
-            {'gid': 1000, 'name': 'user'}
-        ],
+        'users': {
+            0: 'root',
+            1000: 'user'
+        },
+        'groups': {
+            0: 'root',
+            1000: 'user'
+        },
     }
 
     def test_info_ini_to_json(self):
         ini_content = StringIO(self.INI)
         result = tools.convert_info_ini_file_to_dict(ini_content)
-        print(result)
         self.assertEqual(result, self.DICT)
