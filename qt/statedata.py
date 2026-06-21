@@ -15,6 +15,7 @@ import re
 from pathlib import Path
 from datetime import datetime, timezone
 from copy import deepcopy
+from typing import Optional
 from qttools_path import register_backintime_path
 register_backintime_path('common')
 import singleton  # noqa: E402
@@ -148,7 +149,7 @@ class StateData(dict, metaclass=singleton.Singleton):
             cfg = ''
 
         fp = xdg_state / f'backintime-qt{cfg}.json'
-        logger.critical(f'State file path: {fp}')
+        logger.debug(f'State file path: {fp}')
 
         return fp
 
