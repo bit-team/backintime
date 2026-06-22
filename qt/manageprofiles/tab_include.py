@@ -13,7 +13,6 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """The IncludeTab class for managing include paths"""
 from pathlib import Path
-import messagebox
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QWidget,
                              QVBoxLayout,
@@ -23,6 +22,7 @@ from PyQt6.QtWidgets import (QWidget,
                              QPushButton,
                              QHeaderView,
                              QAbstractItemView)
+import messagebox
 from qttools import custom_sort_order
 from filedialog import FileDialog
 

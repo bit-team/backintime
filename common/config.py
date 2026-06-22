@@ -46,6 +46,7 @@ import logger
 import password
 import pluginmanager
 import schedule
+import core_events
 from storagesize import StorageSize, SizeUnit
 from exceptions import PermissionDeniedByPolicy
 
