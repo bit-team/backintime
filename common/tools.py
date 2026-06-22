@@ -33,6 +33,7 @@ from collections.abc import MutableMapping
 from packaging.version import Version
 from typing import Union
 from bitbase import TimeUnit, BINARY_NAME_BASE
+from event import Event
 from storagesize import StorageSize, SizeUnit
 import logger
 
@@ -410,7 +411,7 @@ def validate_and_prepare_snapshots_path(
         host_user_profile: tuple[str, str, str],
         mode: str,
         copy_links: bool,
-        error_handler: callable) -> bool:
+        error_event: Event) -> bool:
     """Check if the given path is valid for being a snapshot path.
 
     It is checked if it is a folder, if it is writable, if the filesystem is
@@ -426,15 +427,16 @@ def validate_and_prepare_snapshots_path(
             snapshots path.
         mode: The profiles mode.
         copy_links: The copy links value.
-        error_handler: Handle function receiving error messages.
+        error_event: Handle receiving error messages.
 
     Returns: Success (`True`) or failure (`False`).
     """
     path = pathlib.Path(path)
 
     if not path.is_dir():
-        error_handler(_('{path} is not a valid directory.')
-                      .format(path=path))
+        error_event.notify(
+            _('{path} is not a valid directory.').format(path=path)
+        )
         return False
 
     # build full path
@@ -449,24 +451,31 @@ def validate_and_prepare_snapshots_path(
         full_path.mkdir(mode=0o777, parents=True, exist_ok=True)
 
     except PermissionError:
-        error_handler('\n'.join([
-            _('Creation of following directory failed:'),
-            str(full_path),
-            _('Write access may be restricted.')]))
+        error_event.notify('\n'.join(
+            [
+                _('Creation of following directory failed:'),
+                str(full_path),
+                _('Write access may be restricted.')
+            ]
+        ))
         return False
 
     # Test filesystem
     rc, msg = is_filesystem_valid(
         full_path, path, mode, copy_links)
+
     if msg:
-        error_handler(msg)
+        error_event.notify(msg)
+
     if rc is False:
         return False
 
     # Test write access for the folder
     rc, msg = is_writeable(full_path)
+
     if msg:
-        error_handler(msg)
+        error_event.notify(msg)
+
     if rc is False:
         return False
 

@@ -22,6 +22,7 @@ from PyQt6.QtWidgets import (QWidget,
                              QPushButton,
                              QHeaderView,
                              QAbstractItemView)
+import messagebox
 from qttools import custom_sort_order
 from filedialog import FileDialog
 
@@ -172,7 +173,11 @@ class IncludeTab(QWidget):
         question_msg = question_msg + '\n' + _(
             "Include the symlink's target instead?")
 
-        return self._parent_dialog.questionHandler(question_msg)
+        answer = messagebox.question(
+            text=question_msg, widget_to_center_on=self
+        )
+
+        return answer
 
     def btn_include_file_clicked(self):
         """Handle file-adding button click."""

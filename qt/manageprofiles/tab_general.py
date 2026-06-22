@@ -34,6 +34,7 @@ import version
 import schedule
 import qttools
 import messagebox
+import core_events
 from manageprofiles import combobox, schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
 from manageprofiles.sshkeyselector import SshKeySelector
@@ -527,12 +528,8 @@ class GeneralTab(QDialog):
             host_user_profile=self.config.hostUserProfile(),
             mode=mode,
             copy_links=self.config.copyLinks(),
-            error_handler=self.config.notifyError)
-
-        # # DEBUG
-        # logger.critical(
-        #     f'validate_and_prepare_snapshots_path() returned {success=}'
-        # )
+            error_event=core_events.event_error
+        )
 
         if success is False:
             return False

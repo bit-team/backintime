@@ -14,10 +14,10 @@ soon. See PR #1850
 """
 # pylint: disable=wrong-import-order,wrong-import-position
 from pathlib import Path
-from event import Event
 # We need to import common/mount/
 import qttools_path
 qttools_path.register_backintime_path('common')
+from event import Event  # noqa: E402
 from mount import MountManager  # noqa: E402
 
 

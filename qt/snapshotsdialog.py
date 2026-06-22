@@ -63,8 +63,9 @@ class DiffOptionsDialog(QDialog):
 
         self.mainLayout = QGridLayout(self)
 
-        cmd = self.config.strValue('qt.diff.cmd', DIFF_CMD)
-        params = self.config.strValue('qt.diff.params', DIFF_PARAMS)
+        cmd, params = self.config.get_diff_cmd_and_params(
+            DIFF_CMD, DIFF_PARAMS
+        )
 
         self.mainLayout.addWidget(QLabel(_('Command:')), 0, 0)
         self.editCmd = QLineEdit(cmd, self)
@@ -110,8 +111,7 @@ class DiffOptionsDialog(QDialog):
                   'default value "{params}".').format(params=params))
 
         # save new values
-        self.config.setStrValue('qt.diff.cmd', cmd)
-        self.config.setStrValue('qt.diff.params', params)
+        self.config.set_diff_cmd_and_params(cmd, params)
         self.config.save()
 
         super(DiffOptionsDialog, self).accept()
@@ -419,8 +419,10 @@ class SnapshotsDialog(QDialog):
             )
             return
 
-        diffCmd = self.config.strValue('qt.diff.cmd', DIFF_CMD)
-        diffParams = self.config.strValue('qt.diff.params', DIFF_PARAMS)
+
+        diffCmd, diffParams = self.config.get_diff_cmd_and_params(
+            DIFF_CMD, DIFF_PARAMS
+        )
 
         # prevent backup data from being accidentally overwritten
         # by create a temporary local copy and only open that one
@@ -442,7 +444,9 @@ class SnapshotsDialog(QDialog):
     def _update_btn_diff(self):
         """Enable the Compare button if diff command is set otherwise Disable
         it."""
-        cmd = self.config.strValue('qt.diff.cmd', DIFF_CMD)
+        cmd, _ = self.config.get_diff_cmd_and_params(
+            DIFF_CMD, DIFF_PARAMS
+        )
         self.btnDiff.setDisabled(not cmd)
 
     def btnDiffOptionsClicked(self):
