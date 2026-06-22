@@ -26,8 +26,8 @@ from PyQt6.QtWidgets import (QAbstractItemView,
                              QTreeWidget,
                              QTreeWidgetItem)
 import logger  # workaround. shouldn't be necessary
-import qttools
 from event import Event
+import qttools
 from qttools_path import register_backintime_path
 register_backintime_path('common')
 

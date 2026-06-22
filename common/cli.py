@@ -18,6 +18,7 @@ import bcolors
 import config
 import logger
 import bitbase
+import core_events
 from mount import MountManager, MountError
 from typing import Optional
 from version import __version__
@@ -105,7 +106,8 @@ def checkConfig(cfg, crontab=True):
     def errorHandler(msg):
         print(bcolors.WARNING + 'WARNING: ' + bcolors.ENDC + msg)
 
-    cfg.setErrorHandler(errorHandler)
+    core_events.event_error.register(errorHandler)
+    # cfg.setErrorHandler(errorHandler)
     mode = cfg.snapshotsMode()
 
     mount_manager = MountManager.create(cfg)
@@ -148,7 +150,8 @@ def checkConfig(cfg, crontab=True):
         host_user_profile=cfg.hostUserProfile(),
         mode=mode,
         copy_links=cfg.copyLinks(),
-        error_handler=cfg.notifyError)
+        error_event=core_events.event_error
+    )
 
     if not ret:
         failed()
