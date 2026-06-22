@@ -12,7 +12,7 @@ import os
 import collections
 import re
 import logger
-
+import core_events
 
 class ConfigFile:
     """Store options in a plain text file in form of: key=value
@@ -20,55 +20,6 @@ class ConfigFile:
 
     def __init__(self):
         self.dict = {}
-        self.errorHandler = None
-        self.questionHandler = None
-
-    def setErrorHandler(self, handler):
-        """
-        Register a function that should be called for notifying errors.
-
-        handler (method):   callable function
-        """
-        self.errorHandler = handler
-
-    def setQuestionHandler(self, handler):
-        """
-        Register a function that should be called for asking questions.
-
-        handler (method):   callable function
-        """
-        self.questionHandler = handler
-
-    def clearHandlers(self):
-        """
-        Reset error and question handlers.
-        """
-        self.errorHandler = None
-        self.questionHandler = None
-
-    def notifyError(self, message):
-        """
-        Call previously registered function to show an error.
-
-        Args:
-            message (str):  error message that should be shown
-        """
-        if self.errorHandler is None:
-            return
-
-        self.errorHandler(message)
-
-    def askQuestion(self, message):
-        """
-        Call previously registered function to ask a question.
-
-        Args:
-            message (str):    question that should be shown
-        """
-        if self.questionHandler is None:
-            return False
-
-        return self.questionHandler(message)
 
     def save(self, filename):
         """
@@ -97,8 +48,9 @@ class ConfigFile:
 
         except OSError as e:
             logger.error('Failed to save config: %s' % str(e), self)
-            self.notifyError(
-                '{}: {}'.format(_('Failed to save config'), str(e)))
+            core_events.event_error.notify(
+                '{}: {}'.format(_('Failed to save config'), str(e))
+            )
 
             return False
 
@@ -133,8 +85,9 @@ class ConfigFile:
 
         except OSError as e:
             logger.error('Failed to load config: %s' % str(e), self)
-            self.notifyError(
-                '{}: {}'.format(_('Failed to load config'), str(e)))
+            core_events.event_error.notify(
+                '{}: {}'.format(_('Failed to load config'), str(e))
+            )
 
         for line in lines:
             items = line.strip('\n').split('=', maxsplit)
@@ -650,8 +603,9 @@ class ConfigFileWithProfiles(ConfigFile):
                 already exists.
         """
         if self.profileExistsByName(name):
-            self.notifyError(
-                _('Profile "{name}" already exists.').format(name=name))
+            core_events.event_error.notify(
+                _('Profile "{name}" already exists.').format(name=name)
+            )
 
             return None
 
@@ -697,7 +651,9 @@ class ConfigFileWithProfiles(ConfigFile):
         profiles = self.profiles()
 
         if len(profiles) <= 1:
-            self.notifyError(_("The last profile cannot be removed."))
+            core_events.event_error.notify(
+                _("The last profile cannot be removed.")
+            )
 
             return False
 
@@ -750,8 +706,9 @@ class ConfigFileWithProfiles(ConfigFile):
             if self.profileName(profile) == name:
 
                 if profile[0] != profile_id:
-                    self.notifyError(_(
-                        'Profile "{name}" already exists.').format(name=name))
+                    core_events.event_error.notify(
+                        _('Profile "{name}" already exists.').format(name=name)
+                    )
 
                     return False
 

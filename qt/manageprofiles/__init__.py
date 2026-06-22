@@ -25,6 +25,7 @@ from PyQt6.QtWidgets import (QDialog,
                              QTabWidget,
                              QLabel,
                              QPushButton)
+import core_events
 import qttools
 import messagebox
 from statedata import StateData
@@ -57,8 +58,8 @@ class SettingsDialog(QDialog):
         import icon  # noqa: PLC0415
         self.icon = icon
 
-        self.config.setQuestionHandler(self.questionHandler)
-        self.config.setErrorHandler(self.errorHandler)
+        core_events.event_error.register(self.errorHandler)
+        # self.config.setErrorHandler(self.errorHandler)
 
         self.setWindowIcon(icon.SETTINGS_DIALOG)
         self.setWindowTitle(_('Manage profiles'))
@@ -212,10 +213,13 @@ class SettingsDialog(QDialog):
         self._update_profiles_combo(reload_settings=False)
 
     def _slot_remove_profile(self):
-        question = _('Delete the profile "{name}"?').format(
-            name=self.config.profileName())
-
-        if self.questionHandler(question):
+        answer = messagebox.question(
+            text=_('Delete the profile "{name}"?').format(
+                name=self.config.profileName()
+            ),
+            widget_to_center_on=self
+        )
+        if answer:
             self.config.removeProfile()
             self._update_profiles_combo()
 
@@ -318,22 +322,6 @@ class SettingsDialog(QDialog):
         """Show error in messagebox"""
         messagebox.critical(self, message)
 
-    # pylint: disable-next=invalid-name
-    def questionHandler(self, message: str) -> bool:  # noqa: N802
-        """Ask question in a question dialog"""
-        return messagebox.question(text=message, widget_to_center_on=self)
-
-    # def setComboValue(self, combo, value, t='int'):
-    #     for i in range(combo.count()):
-
-    #         if t == 'int' and value == combo.itemData(i):
-    #             combo.setCurrentIndex(i)
-    #             break
-
-    #         if t == 'str' and value == combo.itemData(i):
-    #             combo.setCurrentIndex(i)
-    #             break
-
     def validate(self):
         """Save to config and validate"""
         if not self.save_profile():
@@ -381,7 +369,7 @@ class SettingsDialog(QDialog):
 
     def _slot_finished(self, result):
         """Handle dialogs finished signal."""
-        self.config.clearHandlers()
+        core_events.event_error.deregister(self.errorHandler)
 
         if not result:
             self.config.dict = self.config_dict_copy

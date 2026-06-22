@@ -29,6 +29,7 @@ from test import generic
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import tools
 from bitbase import TimeUnit
+from event import Event
 
 # chroot jails used for building may have no UUID devices (because of tmpfs)
 # we need to skip tests that require UUIDs
@@ -489,7 +490,8 @@ class ValidateSnapshotsPath(generic.TestCaseCfg):
                 host_user_profile=self.cfg.hostUserProfile(),
                 mode=self.cfg.snapshotsMode(),
                 copy_links=self.cfg.copyLinks(),
-                error_handler=self.cfg.notifyError)
+                error_event=Event()
+            )
             self.assertTrue(ret)
 
     def test_fails_on_ro(self):
@@ -502,7 +504,8 @@ class ValidateSnapshotsPath(generic.TestCaseCfg):
                     host_user_profile=self.cfg.hostUserProfile(),
                     mode=self.cfg.snapshotsMode(),
                     copy_links=self.cfg.copyLinks(),
-                    error_handler=self.cfg.notifyError)
+                    error_event=Event()
+                )
                 self.assertFalse(ret)
 
     @patch('os.chmod')
@@ -514,7 +517,8 @@ class ValidateSnapshotsPath(generic.TestCaseCfg):
                 host_user_profile=self.cfg.hostUserProfile(),
                 mode=self.cfg.snapshotsMode(),
                 copy_links=self.cfg.copyLinks(),
-                error_handler=self.cfg.notifyError)
+                error_event=Event()
+            )
             self.assertTrue(ret)
 
 

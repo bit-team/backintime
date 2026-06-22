@@ -216,7 +216,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
             # check snapshots path
             if not snapshots_path:
-                self.notifyError(
+                core_events.event_error.notify(
                     '{}\n{}'.format(
                         _('Profile: "{name}"').format(name=profile_name),
                         _('Backup directory is not valid.')
@@ -228,7 +228,7 @@ class Config(configfile.ConfigFileWithProfiles):
             include_list = self.include(profile_id)
 
             if not include_list:
-                self.notifyError(
+                core_events.event_error.notify(
                     '{}\n{}'.format(
                         _('Profile: "{name}"').format(name=profile_name),
                         _('At least one directory must be selected '
@@ -246,7 +246,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
                 path = item[0]
                 if path == snapshots_path:
-                    self.notifyError(
+                    core_events.event_error.notify(
                         '{}\n{}\n{}'.format(
                             _('Profile: "{name}"').format(name=profile_name),
                             _('Directory: {path}').format(path=path),
@@ -260,7 +260,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
                 if len(path) >= len(snapshots_path2):
                     if path[: len(snapshots_path2)] == snapshots_path2:
-                        self.notifyError(
+                        core_events.event_error.notify(
                             '{}\n{}\n{}'.format(
                                 _('Profile: "{name}"').format(
                                     name=profile_name),
@@ -281,7 +281,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 _enabled, min_free = self.minFreeSpaceAsStorageSize(profile_id)
 
                 if warn < min_free:
-                    self.notifyError(
+                    core_events.event_error.notify(
                         '{}\n{}\n{}'.format(
                             _('Profile: "{name}"').format(name=profile_name),
                             _('The value for "Remove oldest backup if the '
@@ -1410,7 +1410,7 @@ class Config(configfile.ConfigFileWithProfiles):
                 logger.error(
                     f"Udev scheduling doesn't work with mode {backup_mode}",
                     self)
-                self.notifyError(_(
+                core_events.event_error.notify(_(
                     "Udev schedule doesn't work with mode {mode}")
                     .format(mode=backup_mode))
                 return
@@ -1420,8 +1420,8 @@ class Config(configfile.ConfigFileWithProfiles):
                 pid=pid,
                 udev_setup=self.setupUdev,
                 dest_path=dest_path,
-                exec_command=self._cron_cmd(pid),
-                notify_callback=self.notifyError)
+                exec_command=self._cron_cmd(pid)
+            )
 
         # Save Udev rules
         try:
@@ -1430,7 +1430,7 @@ class Config(configfile.ConfigFileWithProfiles):
 
         except PermissionDeniedByPolicy as err:
             logger.error(str(err), self)
-            self.notifyError(str(err))
+            core_events.event_error.notify(str(err))
             return False
 
     def _setup_schedule_based_automation(self):
@@ -1465,20 +1465,23 @@ class Config(configfile.ConfigFileWithProfiles):
 
         if schedule.write_crontab(crontab_lines) is False:
             logger.error('Failed to write new crontab.')
-            self.notifyError(_('Failed to write new crontab.'))
+            core_events.event_error.notify(
+                _('Failed to write new crontab.')
+            )
             return
 
         if not schedule.is_cron_running():
             logger.error(
                 'Cron is not running despite the crontab command being '
                 'available. Scheduled backup jobs will not run.')
-            self.notifyError(_(
+            core_events.event_error.notify(_(
                 'Cron is not running, even though the crontab command is '
                 'available. Scheduled backup jobs will not run. '
                 'Cron might be installed but not enabled. Try running the two '
                 'commands "systemctl enable cron" and '
                 '"systemctl start cron", or consult the support channels of '
-                'the currently used GNU/Linux distribution for assistance.'))
+                'the currently used GNU/Linux distribution for assistance.'
+            ))
 
     def profile_ids_automated_via_cron_schedule(self):
         """Return list of profile ids configured to time based automation
@@ -1535,8 +1538,8 @@ class Config(configfile.ConfigFileWithProfiles):
             custom_backup_time=self.customBackupTime(profile_id),
             repeat_unit=bitbase.TimeUnit(
                 self.scheduleRepeatedUnit(profile_id)),
-            pid=profile_id,
-            notify_callback=self.notifyError)
+            pid=profile_id
+        )
 
     def _cron_cmd(self, profile_id):
         """Generates the command used in the crontab file based on the settings

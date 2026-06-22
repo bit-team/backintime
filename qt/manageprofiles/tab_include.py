@@ -13,6 +13,7 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """The IncludeTab class for managing include paths"""
 from pathlib import Path
+import messagebox
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QWidget,
                              QVBoxLayout,
@@ -172,7 +173,11 @@ class IncludeTab(QWidget):
         question_msg = question_msg + '\n' + _(
             "Include the symlink's target instead?")
 
-        return self._parent_dialog.questionHandler(question_msg)
+        answer = messagebox.question(
+            text=question_msg, widget_to_center_on=self
+        )
+
+        return answer
 
     def btn_include_file_clicked(self):
         """Handle file-adding button click."""

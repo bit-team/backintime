@@ -17,6 +17,7 @@ import subprocess
 from typing import Callable
 import logger
 import tools
+import core_events
 from bitbase import ScheduleMode, TimeUnit
 from exceptions import InvalidChar, InvalidCmd, LimitExceeded
 
@@ -224,8 +225,7 @@ def is_cron_running():
 def add_udev_rule(pid: str,
                   udev_setup: tools.SetupUdev,
                   dest_path: str,
-                  exec_command: str,
-                  notify_callback: Callable
+                  exec_command: str
                   ):
     """Initiate adding udev rule for profile."""
 
@@ -234,7 +234,7 @@ def add_udev_rule(pid: str,
             f'Failed to install Udev rule for profile {pid}. DBus Service '
             '"net.launchpad.backintime.serviceHelper" not available')
 
-        notify_callback(_(
+        core_events.event_error.notify(_(
             "Could not install Udev rule for profile {profile_id}. "
             "DBus Service '{dbus_interface}' wasn't available."
         ).format(
@@ -271,8 +271,7 @@ def create_cron_line(schedule_mode: ScheduleMode,  # noqa: PLR0913
                      offset: str,
                      custom_backup_time: str,
                      repeat_unit: TimeUnit,
-                     pid: str,
-                     notify_callback: Callable) -> str:
+                     pid: str) -> str:
     """Create a crontab line based on the given arguments.
 
     Returns:
@@ -306,7 +305,7 @@ def create_cron_line(schedule_mode: ScheduleMode,  # noqa: PLR0913
     msg = (f'Unexpected error while creating cron line for profile "{pid}" '
            f'with schedule mode "{schedule_mode}".')
     logger.error(msg)
-    notify_callback(msg)
+    core_events.event_error.notify(msg)
 
     return None
 
