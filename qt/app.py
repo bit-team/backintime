@@ -2448,40 +2448,42 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
 
     # internal.manual_starts_countdown
     data['manual_starts_countdown'] \
-        = cfg.intValue('internal.manual_starts_countdown', 10)
+        = int(cfg.the_dict().get('internal.manual_starts_countdown', 10))
 
     # internal.msg_rc
-    val = cfg.strValue('internal.msg_rc', None)
+    val = cfg.the_dict().get('internal.msg_rc', None)
     if val:
         data.msg_release_candidate = val
 
     # internal.msg_shown_encfs
-    val = cfg.boolValue('internal.msg_shown_encfs', 0)
+    val = cfg.the_dict().get('internal.msg_shown_encfs', 0)
     if val:
         data.msg_encfs_global = val
 
     # qt.show_hidden_files
-    data.mainwindow_show_hidden = cfg.boolValue('qt.show_hidden_files', False)
+    data.mainwindow_show_hidden = cfg.the_dict().get(
+        'qt.show_hidden_files', False
+    )
 
     # Coordinates and dimensions
     val = (
-        cfg.intValue('qt.main_window.x', None),
-        cfg.intValue('qt.main_window.y', None)
+        cfg.the_dict().get('qt.main_window.x', None),
+        cfg.the_dict().get('qt.main_window.y', None)
     )
 
     if all(val):
         data.mainwindow_coords = val
 
     val = (
-        cfg.intValue('qt.main_window.width', None),
-        cfg.intValue('qt.main_window.height', None)
+        cfg.the_dict().get('qt.main_window.width', None),
+        cfg.the_dict().get('qt.main_window.height', None)
     )
     if all(val):
         data.mainwindow_dims = val
 
     val = (
-        cfg.intValue('qt.logview.width', None),
-        cfg.intValue('qt.logview.height', None)
+        cfg.the_dict().get('qt.logview.width', None),
+        cfg.the_dict().get('qt.logview.height', None)
     )
     if all(val):
         data.logview_dims = val
@@ -2497,21 +2499,22 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
     # qt.main_window.files_view.size_width
     # qt.main_window.files_view.date_width
 
-    col = cfg.intValue('qt.main_window.files_view.sort.column', 0)
-    order = cfg.boolValue('qt.main_window.files_view.sort.ascending', True)
+    col = cfg.the_dict().get('qt.main_window.files_view.sort.column', 0)
+    order = cfg.the_dict().get(
+        'qt.main_window.files_view.sort.ascending', True)
     data.files_view_sorting = (col, 0 if order else 1)
 
     # splitter width
     widths = (
-        cfg.intValue('qt.main_window.main_splitter_left_w', None),
-        cfg.intValue('qt.main_window.main_splitter_right_w', None)
+        cfg.the_dict().get('qt.main_window.main_splitter_left_w', None),
+        cfg.the_dict().get('qt.main_window.main_splitter_right_w', None)
     )
     if all(widths):
         data.mainwindow_main_splitter_widths = widths
 
     widths = (
-        cfg.intValue('qt.main_window.second_splitter_left_w', None),
-        cfg.intValue('qt.main_window.second_splitter_right_w', None)
+        cfg.the_dict().get('qt.main_window.second_splitter_left_w', None),
+        cfg.the_dict().get('qt.main_window.second_splitter_right_w', None)
     )
     if all(widths):
         data.mainwindow_second_splitter_widths = widths

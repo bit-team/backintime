@@ -193,6 +193,20 @@ class Config(configfile.ConfigFileWithProfiles):
                     ),
         }
 
+    def the_dict(self) -> dict:
+        """Workaround to access the raw dictionary defined in ConfigFile. See
+        #1923"""
+        return self.dict
+
+    def get_diff_cmd_and_params(self, default_cmd, default_params):
+        cmd = self.the_dict().get('qt.diff.cmd', default_cmd)
+        params = self.the_dict().get('qt.diff.params', default_params)
+        return (cmd, params)
+
+    def set_diff_cmd_and_params(self, cmd, params):
+        self.the_dict()['qt.diff.cmd'] = cmd
+        self.the_dict()['qt.diff.params'] = params
+
     def save(self):
         self._unsaved_profiles = []
         self.setIntValue('config.version', self.CONFIG_VERSION)
