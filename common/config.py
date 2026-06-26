@@ -51,7 +51,7 @@ from storagesize import StorageSize, SizeUnit
 from exceptions import PermissionDeniedByPolicy
 
 
-class Config(configfile.ConfigFileWithProfiles):
+class Config:  # (configfile.ConfigFileWithProfiles):
     APP_NAME = bitbase.APP_NAME
 
     # Version was introduced with 72fc490 in Sept. 2016 by Germar
@@ -92,6 +92,7 @@ class Config(configfile.ConfigFileWithProfiles):
     DEFAULT_OFFSET = 0
 
     ENCODE = encode.Bounce()
+    # Deprecated. See issue #2424
     PLUGIN_MANAGER = pluginmanager.PluginManager()
 
     def __init__(self, config_path=None, data_path=None):
@@ -105,49 +106,53 @@ class Config(configfile.ConfigFileWithProfiles):
         # Note: The main profiles name here is translated using the systems
         # current locale because the language code in the config file wasn't
         # read yet.
-        configfile.ConfigFileWithProfiles.__init__(self, _('Main profile'))
+        # configfile.ConfigFileWithProfiles.__init__(self, _('Main profile'))
 
-        self._unsaved_profiles = []
+        # self._unsaved_profiles = []
 
-        HOME_FOLDER = os.path.expanduser('~')
-        DATA_FOLDER = '.local/share'
-        CONFIG_FOLDER = '.config'
-        BIT_FOLDER = 'backintime'
-        self._DEFAULT_LOCAL_DATA_FOLDER = os.path.join(HOME_FOLDER, DATA_FOLDER, BIT_FOLDER)
-        self._LOCAL_CONFIG_FOLDER = os.path.join(HOME_FOLDER, CONFIG_FOLDER, BIT_FOLDER)
-        self._MOUNT_ROOT = os.path.join(DATA_FOLDER, BIT_FOLDER, 'mnt')
+        # HOME_FOLDER = os.path.expanduser('~')
+        # DATA_FOLDER = '.local/share'
+        # CONFIG_FOLDER = '.config'
+        # BIT_FOLDER = 'backintime'
+        # self._DEFAULT_LOCAL_DATA_FOLDER = os.path.join(HOME_FOLDER, DATA_FOLDER, BIT_FOLDER)
+        # self._LOCAL_CONFIG_FOLDER = os.path.join(HOME_FOLDER, CONFIG_FOLDER, BIT_FOLDER)
+        # self._MOUNT_ROOT = os.path.join(DATA_FOLDER, BIT_FOLDER, 'mnt')
+        self._MOUNT_ROOT = bitbase.XDG_DATA_HOME / BINARY_NAME_BASE / 'mnt'
+        self._MOUNT_ROOT = str(self._MOUNT_ROOT)
 
-        if data_path:
-            # Deprecated: --share-path was removed
-            self.DATA_FOLDER_ROOT = data_path
-            self._LOCAL_DATA_FOLDER = os.path.join(data_path, DATA_FOLDER, BIT_FOLDER)
-            self._LOCAL_MOUNT_ROOT = os.path.join(data_path, self._MOUNT_ROOT)
-        else:
-            self.DATA_FOLDER_ROOT = HOME_FOLDER
-            self._LOCAL_DATA_FOLDER = self._DEFAULT_LOCAL_DATA_FOLDER
-            self._LOCAL_MOUNT_ROOT = os.path.join(HOME_FOLDER, self._MOUNT_ROOT)
+        # if data_path:
+        #     # Deprecated: --share-path was removed
+        #     self.DATA_FOLDER_ROOT = data_path
+        #     self._LOCAL_DATA_FOLDER = os.path.join(data_path, DATA_FOLDER, BIT_FOLDER)
+        #     self._LOCAL_MOUNT_ROOT = os.path.join(data_path, self._MOUNT_ROOT)
+        # else:
+        #     self.DATA_FOLDER_ROOT = HOME_FOLDER
+        #     self._LOCAL_DATA_FOLDER = self._DEFAULT_LOCAL_DATA_FOLDER
+        #     self._LOCAL_MOUNT_ROOT = os.path.join(HOME_FOLDER, self._MOUNT_ROOT)
 
-        tools.makeDirs(self._LOCAL_CONFIG_FOLDER)
-        tools.makeDirs(self._LOCAL_DATA_FOLDER)
-        tools.makeDirs(self._LOCAL_MOUNT_ROOT)
+        # tools.makeDirs(self._LOCAL_CONFIG_FOLDER)
+        # tools.makeDirs(self._LOCAL_DATA_FOLDER)
+        # tools.makeDirs(self._LOCAL_MOUNT_ROOT)
 
-        self._DEFAULT_CONFIG_PATH = os.path.join(
-            self._LOCAL_CONFIG_FOLDER, bitbase.FILENAME_CONFIG
-        )
+        # self._DEFAULT_CONFIG_PATH = os.path.join(
+        #     self._LOCAL_CONFIG_FOLDER, bitbase.FILENAME_CONFIG
+        # )
 
-        if config_path is None:
-            self._LOCAL_CONFIG_PATH = self._DEFAULT_CONFIG_PATH
-        else:
-            self._LOCAL_CONFIG_PATH = os.path.abspath(config_path)
-            self._LOCAL_CONFIG_FOLDER = os.path.dirname(self._LOCAL_CONFIG_PATH)
+        # if config_path is None:
+        #     self._LOCAL_CONFIG_PATH = self._DEFAULT_CONFIG_PATH
+        # else:
+        #     self._LOCAL_CONFIG_PATH = os.path.abspath(config_path)
+        #     self._LOCAL_CONFIG_FOLDER = os.path.dirname(self._LOCAL_CONFIG_PATH)
 
-        # Append local config file
-        self.append(self._LOCAL_CONFIG_PATH)
+        # # Append local config file
+        # self.append(self._LOCAL_CONFIG_PATH)
 
         self.current_hash_id = 'local'
         self.pw = None
-        self.forceUseChecksum = False
+        # self.forceUseChecksum = False
         self.setupUdev = tools.SetupUdev()
+
+        self.current_profile_id = None
 
         language_used = tools.initiate_translation(self.language())
 
@@ -157,7 +162,7 @@ class Config(configfile.ConfigFileWithProfiles):
         """ISO-639 language code of the used language. See
         `tools._determine_current_used_language_code()` for details."""
 
-        # Workaround
+        # Workaround: Maybe into bitbase?
         self.default_profile_name = _('Main profile')
 
         self.SNAPSHOT_MODES = {
@@ -198,42 +203,105 @@ class Config(configfile.ConfigFileWithProfiles):
         #1923"""
         return self.dict
 
+    def currentProfile(self):
+        return self.current_profile_id
+
+    def get_profile(self, profile_id):
+        """Workaround"""
+        real_konfig = Konfig()
+        return real_konfig.profile(
+            int(profile_id) if profile_id else self.current_profile_id
+        )
+
+    def setCurrentProfile(self, profile_id):
+        """
+        Change the current profile.
+
+        Args:
+            profile_id (str, int):  valid profile ID
+
+        Returns:
+            bool:                   ``True`` if successful
+        """
+        if isinstance(profile_id, int):
+            profile_id = str(profile_id)
+
+        if self.current_profile_id == profile_id:
+            return True
+
+        p = Konfig().profile(int(profile_id))
+        self.current_profile_id = p.profile_id
+
+        logger.changeProfile(p.profile_id, p.name)
+        logger.info(
+            f'Profile switched: {p.name}({p.profile_id})',
+            self)
+
+        return True
+
+    def setCurrentProfileByName(self, name):
+        """
+        Change the current profile by a given name.
+
+        Args:
+            name (str): valid profile name
+
+        Returns:
+            bool: ``True`` if successful
+        """
+
+        p = Konfig().profile(name)
+        return self.setCurrentProfile(p.profile_id)
+
     def get_diff_cmd_and_params(self, default_cmd, default_params):
-        cmd = self.the_dict().get('qt.diff.cmd', default_cmd)
-        params = self.the_dict().get('qt.diff.params', default_params)
-        return (cmd, params)
+        # cmd = self.the_dict().get('qt.diff.cmd', default_cmd)
+        # params = self.the_dict().get('qt.diff.params', default_params)
+        # return (cmd, params)
+        return Konfig().diff_cmd_and_params
 
     def set_diff_cmd_and_params(self, cmd, params):
-        self.the_dict()['qt.diff.cmd'] = cmd
-        self.the_dict()['qt.diff.params'] = params
+        # self.the_dict()['qt.diff.cmd'] = cmd
+        # self.the_dict()['qt.diff.params'] = params
+        Konfig().diff_cmd_and_params = (cmd, params)
 
     def save(self):
-        self._unsaved_profiles = []
-        self.setIntValue('config.version', self.CONFIG_VERSION)
-        return super().save(self._LOCAL_CONFIG_PATH)
+        # self._unsaved_profiles = []
+        # self.setIntValue('config.version', self.CONFIG_VERSION)
+        # return super().save(self._LOCAL_CONFIG_PATH)
+        Konfig().save()
 
     def is_profile_unsaved(self, profile_id: str) -> bool:
-        return profile_id in self._unsaved_profiles
+        return = Konfig().is_profile_unsaved(int(profile_id))
 
     def is_current_profile_unsaved(self) -> bool:
         return self.is_profile_unsaved(self.currentProfile())
 
     def checkConfig(self, profile_id = None):
+        """Dev note (2026-06, buhtz): Would say this method
+        should go into its own class. e.g. CheckConfigAgent
+        Who executes it? Not only by "check-config" CLI command I think.
+        """
         if profile_id:
-            profiles = [profile_id]
+            profiles = [self.get_profile(profile_id)]
         else:
-            profiles = self.profiles()
+            real_konfig = Konfig()
+            profiles = list(real_konfig.iter_profiles())
 
-        for profile_id in profiles:
-            profile_name = self.profileName(profile_id)
-            snapshots_path = self.snapshotsPath(profile_id)
-            logger.debug(f'Check profile {profile_name}', self)
+        for one_profile in profiles:
+            logger.debug(f'Check {profile}')
+            profile_id = one_profile.profile_id
 
-            # check snapshots path
-            if not snapshots_path:
+            profile_name = one_profile.name
+            mount_manager = MountManager.create(self)
+            mount_path = mount_manager.path
+            # snapshots_path = one_profile.snapshots_path
+
+            # check the backups mountpoint (formaly known as "snapshot_path"
+            if not mount_path:
                 core_events.event_error.notify(
                     '{}\n{}'.format(
                         _('Profile: "{name}"').format(name=profile_name),
+                        # Don't like this errro message!
                         _('Backup directory is not valid.')
                     )
                 )
@@ -253,14 +321,17 @@ class Config(configfile.ConfigFileWithProfiles):
 
                 return False
 
-            snapshots_path2 = snapshots_path + '/'
+            # ???
+            snapshots_path2 = str(mount_path)
+            if snapshots_path2[-1] != '/':
+                snapshots_path2 = snapshots_path2 + '/'
 
             for item in include_list:
                 if item[1] != 0:
                     continue
 
                 path = item[0]
-                if path == snapshots_path:
+                if path == str(mount_path):
                     core_events.event_error.notify(
                         '{}\n{}\n{}'.format(
                             _('Profile: "{name}"').format(name=profile_name),
@@ -312,8 +383,8 @@ class Config(configfile.ConfigFileWithProfiles):
 
         return True
 
-    def host(self):
-        return socket.gethostname()
+    # def host(self):
+    #     return socket.gethostname()
 
     def get_snapshots_mountpoint(self, profile_id=None, mode=None, tmp_mount=False):
         """Return the profiles snapshot path in form of a mount point.
@@ -387,45 +458,44 @@ class Config(configfile.ConfigFileWithProfiles):
     def snapshotsMode(self, profile_id=None):
         #? Use mode (or backend) for this snapshot. Look at 'man backintime'
         #? section 'Modes'.;local|ssh|ssh_gocryptfs|local_gocryptfs
-        return self.profileStrValue('snapshots.mode', 'local', profile_id)
+        # return self.profileStrValue('snapshots.mode', 'local', profile_id)
+        return self.get_profile(profile_id).mode
 
     def setSnapshotsMode(self, value, profile_id = None):
-        self.setProfileStrValue('snapshots.mode', value, profile_id)
-
-    def setCurrentHashId(self, hash_id):
-        self.current_hash_id = hash_id
-
-    def hashCollision(self):
-        #?Internal value used to prevent hash collisions on mountpoints. Do not change this.
-        return self.intValue('global.hash_collision', 0)
-
-    def incrementHashCollision(self):
-        value = self.hashCollision() + 1
-        self.setIntValue('global.hash_collision', value)
+        p = self.get_profile(profile_id)
+        p.mode = value
 
     def systray(self) -> str:
         #?Color of systray icon.;auto,dark,light
-        return self.strValue('global.systray', 'auto')
+        # return self.strValue('global.systray', 'auto')
+        return Konfig().systray
 
     def set_systray(self, value: str) -> None:
-        self.setStrValue('global.systray', value)
+        # self.setStrValue('global.systray', value)
+        k = Konfig()
+        k.systray = value
 
     def language(self) -> str:
         #?Language code (ISO 639) used to translate the user interface.
         #?If empty the operating systems current local is used. If 'en' the
         #?translation is not active and the original English source strings
         #?are used. It is the same if the value is unknown.
-        return self.strValue('global.language', '')
+        # return self.strValue('global.language', '')
+        return Konfig().language
 
     def setLanguage(self, language: str):
-        self.setStrValue('global.language', language if language else '')
+        # self.setStrValue('global.language', language if language else '')
+        k = Konfig()
+        k.language = language
 
     # SSH
     def sshSnapshotsPath(self, profile_id = None):
         #?Snapshot path on remote host. If the path is relative (no leading '/')
         #?it will start from remote Users homedir. An empty path will be replaced
         #?with './'.;absolute or relative path
-        return self.profileStrValue('snapshots.ssh.path', '', profile_id)
+        # return self.profileStrValue('snapshots.ssh.path', '', profile_id)
+        p = self.get_profile(profile_id)
+        return p.ssh_snapshots_path
 
     def sshSnapshotsFullPath(self, profile_id = None):
         """
@@ -438,29 +508,39 @@ class Config(configfile.ConfigFileWithProfiles):
         return os.path.join(path, 'backintime', host, user, profile)
 
     def setSshSnapshotsPath(self, value, profile_id = None):
-        self.setProfileStrValue('snapshots.ssh.path', value, profile_id)
-        return True
+        # self.setProfileStrValue('snapshots.ssh.path', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.ssh_snapshots_path = value
 
     def sshHost(self, profile_id = None):
         #?Remote host used for mode 'ssh' and 'ssh_gocryptfs'.;IP or domain address
-        return self.profileStrValue('snapshots.ssh.host', '', profile_id)
+        # return self.profileStrValue('snapshots.ssh.host', '', profile_id)
+        self.get_profile(profile_id).ssh_host
 
     def setSshHost(self, value, profile_id = None):
-        self.setProfileStrValue('snapshots.ssh.host', value, profile_id)
+        # self.setProfileStrValue('snapshots.ssh.host', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.ssh_host = value
 
     def sshPort(self, profile_id = None):
         #?SSH Port on remote host.;0-65535
-        return self.profileIntValue('snapshots.ssh.port', '22', profile_id)
+        # return self.profileIntValue('snapshots.ssh.port', '22', profile_id)
+        self.get_profile(profile_id).ssh_port
 
     def setSshPort(self, value, profile_id = None):
-        self.setProfileIntValue('snapshots.ssh.port', value, profile_id)
+        # self.setProfileIntValue('snapshots.ssh.port', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.ssh_port = value
 
     def sshUser(self, profile_id = None):
         #?Remote SSH user;;local users name
-        return self.profileStrValue('snapshots.ssh.user', getpass.getuser(), profile_id)
+        # return self.profileStrValue('snapshots.ssh.user', getpass.getuser(), profile_id)
+        self.get_profile(profile_id).ssh_user
 
     def setSshUser(self, value, profile_id = None):
-        self.setProfileStrValue('snapshots.ssh.user', value, profile_id)
+        # self.setProfileStrValue('snapshots.ssh.user', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.ssh_user = value
 
     def sshPrivateKeyFile(self, profile_id=None) -> None | bool | str:
         """The field can have three states:
@@ -468,20 +548,27 @@ class Config(configfile.ConfigFileWithProfiles):
         2. Field exist but is empty: Using keys is disabled.
         3. Field has a path:
         """
-        val = self.profileStrValue('snapshots.ssh.private_key_file', None, profile_id)
+        # val = self.profileStrValue('snapshots.ssh.private_key_file', None, profile_id)
 
-        # Using keys is disabled
-        if val == '':
-            return False
+        # # Using keys is disabled
+        # if val == '':
+        #     return False
 
-        return val
+        # return val
+        p = self.get_profile(profile_id)
+        return p.ssh_private_key_file
 
     def sshPrivateKeyFile_enabled(self, profile_id=None):
-        return self.sshPrivateKeyFile(profile_id) is not False
+        # return self.sshPrivateKeyFile(profile_id) is not False
+        p = self.get_profile(profile_id)
+        return p.ssh_private_key_file is not None:
 
     def setSshPrivateKeyFile(self, value, profile_id=None):
-        self.setProfileStrValue('snapshots.ssh.private_key_file', value, profile_id)
+        # self.setProfileStrValue('snapshots.ssh.private_key_file', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.ssh_private_key_file = value
 
+    # --- WEITER WEITER WEITER
     def sshProxyHost(self, profile_id=None):
         #?Proxy host used to connect to remote host.;;IP or domain address
         return self.profileStrValue('snapshots.ssh.proxy_host', '', profile_id)
@@ -779,10 +866,17 @@ class Config(configfile.ConfigFileWithProfiles):
     def include(self, profile_id=None):
         #?Include this file or folder. <I> must be a counter starting with 1;absolute path::
         #?Specify if \fIprofile<N>.snapshots.include.<I>.value\fR is a folder (0) or a file (1).;0|1;0
-        return self.profileListValue(key='snapshots.include', type_key=('str:value', 'int:type'), default=[], profile_id=profile_id)
+        # return self.profileListValue(
+        #     key='snapshots.include',
+        #     type_key=('str:value', 'int:type'), default=[],
+        #     profile_id=profile_id
+        # )
+        return self.get_profile(profile_id).include
+
 
     def setInclude(self, values, profile_id = None):
-        self.setProfileListValue('snapshots.include', ('str:value', 'int:type'), values, profile_id)
+        # self.setProfileListValue('snapshots.include', ('str:value', 'int:type'), values, profile_id)
+        self.get_profile(profile_id).include = values
 
     def exclude(self, profile_id = None):
         """
@@ -941,55 +1035,70 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setProfileIntValue('snapshots.remove_old_snapshots.unit', unit, profile_id)
 
     def warnFreeSpaceEnabled(self, profile_id=None):
-        value = self.profileIntValue('snapshots.warn_free_space.value', 0, profile_id)
-        return value > 0
+        p = self.get_profile(profile_id)
+        return p.warn_free_space_enabled
 
     def warnFreeSpace(self, profile_id=None) -> StorageSize:
-        value = self.profileIntValue('snapshots.warn_free_space.value', 0, profile_id)
-        unit = self.profileIntValue('snapshots.warn_free_space.unit', SizeUnit.MIB, profile_id)
-        return StorageSize(value, SizeUnit(unit))
+        p = self.get_profile(profile_id)
+        return p.warn_free_space
 
     def setWarnFreeSpaceDisabled(self, profile_id=None):
-        self.setWarnFreeSpace(value=StorageSize(0, SizeUnit.MIB), profile_id=profile_id)
+        p = self.get_profile(profile_id)
+        p.set_warn_free_space_disabled()
 
     def setWarnFreeSpace(self, value: StorageSize, profile_id=None):
-        self.setProfileIntValue('snapshots.warn_free_space.value', value.value(), profile_id)
-        self.setProfileIntValue('snapshots.warn_free_space.unit', value.unit.value, profile_id)
+        p = self.get_profile(profile_id)
+        p.warn_free_space = value
 
     def minFreeSpace(self, profile_id = None):
                 #?Remove snapshots until \fIprofile<N>.snapshots.min_free_space.value\fR
                 #?free space is reached.
+
+        # return (
+        #     self.profileBoolValue('snapshots.min_free_space.enabled', True, profile_id),
+        #     #?Keep at least value + unit free space.;1-99999
+        #     self.profileIntValue('snapshots.min_free_space.value', 1, profile_id),
+        #     #?10 = MB\n20 = GB;10|20;20
+        #     SizeUnit(self.profileIntValue('snapshots.min_free_space.unit', SizeUnit.GIB, profile_id))
+        # )
+        p = self.get_profile(profile_id)
+        size = p.min_free_space
         return (
-            self.profileBoolValue('snapshots.min_free_space.enabled', True, profile_id),
-            #?Keep at least value + unit free space.;1-99999
-            self.profileIntValue('snapshots.min_free_space.value', 1, profile_id),
-            #?10 = MB\n20 = GB;10|20;20
-            SizeUnit(self.profileIntValue('snapshots.min_free_space.unit', SizeUnit.GIB, profile_id))
+            p.min_free_space_enabled,
+            size.value(),
+            size.unit.value
         )
 
-    def minFreeSpaceAsStorageSize(self, profile_id = None):
-        enabled, value, unit = self.minFreeSpace(profile_id)
 
+    def minFreeSpaceAsStorageSize(self, profile_id = None):
+        # enabled, value, unit = self.minFreeSpace(profile_id)
+        p = self.get_profile(profile_id)
         return (
-            enabled,
-            StorageSize(value, SizeUnit(unit))
+            p.min_free_space_enabled,
+            p.min_free_space
         )
 
     def minFreeSpaceEnabled(self, profile_id = None):
-        return self.profileBoolValue('snapshots.min_free_space.enabled', False, profile_id)
+        # return self.profileBoolValue('snapshots.min_free_space.enabled', False, profile_id)
+        p = self.get_profile(profile_id)
+        return p.min_free_space_enabled
 
     def setMinFreeSpace(self, enabled, value, unit, profile_id = None):
-        self.setProfileBoolValue('snapshots.min_free_space.enabled', enabled, profile_id)
-        self.setProfileIntValue('snapshots.min_free_space.value', value, profile_id)
-        self.setProfileIntValue('snapshots.min_free_space.unit', unit, profile_id)
+        # self.setProfileBoolValue('snapshots.min_free_space.enabled', enabled, profile_id)
+        # self.setProfileIntValue('snapshots.min_free_space.value', value, profile_id)
+        # self.setProfileIntValue('snapshots.min_free_space.unit', unit, profile_id)
+        raise RuntimeError('Use setMinFreeSpaceWithStorageSize()')
 
     def setMinFreeSpaceWithStorageSize(self, enabled, value: StorageSize, profile_id = None):
-        self.setMinFreeSpace(
-            enabled=enabled,
-            value=value.value(),
-            unit=value.unit.value,
-            profile_id=profile_id
-        )
+        # self.setMinFreeSpace(
+        #     enabled=enabled,
+        #     value=value.value(),
+        #     unit=value.unit.value,
+        #     profile_id=profile_id
+        # )
+        p = self.get_profile(profile_id)
+        p.set_min_free_space_enabled(enabled)
+        p.min_free_space = value
 
     def minFreeInodes(self, profile_id = None):
         #?Keep at least value % free inodes.;1-15

@@ -15,6 +15,7 @@
 import getpass
 import threading
 import subprocess
+import socket
 from typing import Any, Generator
 from pathlib import Path
 from queue import Queue
@@ -196,7 +197,8 @@ class RestoreConfigDialog(QDialog):
             (QLabel): The label
         """
 
-        sample_path = Path.home() / 'backintime' / config.host() \
+        sample_path = Path.home() / 'backintime' \
+            / socket.gethostname() \
             / getpass.getuser() / '1' / '20250203-172341-123'
         sample_path = f'</ br><code>{str(sample_path)}</code>'
 

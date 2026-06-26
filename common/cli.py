@@ -19,6 +19,7 @@ import config
 import logger
 import bitbase
 import core_events
+from konfig import Konfig
 from mount import MountManager, MountError
 from typing import Optional
 from version import __version__
@@ -324,7 +325,13 @@ class RestoreDialog:
     def run(self):
         s = snapshots.Snapshots(self.config)
         s.restore(
-            self.sid, self.what, self.callback, self.where, **self.kwargs)
+            self.sid,
+            self.what,
+            self.callback,
+            self.where,
+            self.force_checksum_use = getattr(kwargs, 'checksum', False),
+            **self.kwargs
+        )
         print('\nLog saved to %s' % self.logFile)
 
 
@@ -375,14 +382,15 @@ def print_header():
     )
 
 
-def detect_cipher_settings(cfg: config.Config) -> tuple[str, str, str]:
+def detect_cipher_settings(cfg: Konfig) -> tuple[str, str, str]:
     """See issue #2176."""
     result = []
     cipher_keys = list(filter(
-        lambda key: 'cipher' in key, cfg.dict.keys()
+        lambda key: 'cipher' in key, cfg._conf.keys()
     ))
+
     for key in cipher_keys:
-        val = cfg.dict[key]
+        val = cfg._conf[key]
         if val.lower() == 'default':
             continue
 
@@ -390,7 +398,7 @@ def detect_cipher_settings(cfg: config.Config) -> tuple[str, str, str]:
         if pid == '1':
             name = 'Main profile'
         else:
-            name = cfg.dict[f'{key.split('.')[0]}.name']
+            name = cfg._conf[f'{key.split('.')[0]}.name']
 
         result.append((f'"{name}" ({pid})', val, key))
 
@@ -411,7 +419,7 @@ def _warn_about_global_config():
     )
 
 
-def _warn_about_cipher(cfg: config.Config) -> None:
+def _warn_about_cipher(cfg: Konfig) -> None:
     """See issue #2176. Cipher options is not used anymore by BIT.
     Therefore, users having it in config need to be warned about it.
     """
@@ -423,7 +431,7 @@ def _warn_about_cipher(cfg: config.Config) -> None:
         )
 
 
-def _warn_about_remote_host_check(cfg: config.Config) -> None:
+def _warn_about_remote_host_check(cfg: Konfig) -> None:
     """See issue #2482. Those settings are deprecated.
     """
     for name, key in detect_remote_host_check_settings(cfg):
@@ -434,37 +442,37 @@ def _warn_about_remote_host_check(cfg: config.Config) -> None:
         )
 
 
-def detect_remote_host_check_settings(cfg: config.Config) -> tuple[str, str, str]:
+def detect_remote_host_check_settings(cfg: Konfig) -> tuple[str, str, str]:
     """See issue #2482."""
     result = []
 
-    cipher_keys = sorted(filter(
-        lambda key: 'snapshots.ssh.check_' in key, cfg.dict.keys()
+    rh_keys = sorted(filter(
+        lambda key: 'snapshots.ssh.check_' in key, cfg._conf.keys()
     ))
 
-    for key in cipher_keys:
+    for key in rh_keys:
         # ignore default (true)
-        if cfg.dict[key].lower() == 'true':
+        if cfg._conf[key].lower() == 'true':
             continue
 
         pid = key.split('.')[0].replace('profile', '')
 
         # SSH mode ?
-        if 'ssh' not in cfg.dict[f'profile{pid}.snapshots.mode']:
+        if 'ssh' not in cfg._conf[f'profile{pid}.snapshots.mode']:
             # irrelevant not SSH
             continue
 
         if pid == '1':
             name = 'Main profile'
         else:
-            name = cfg.dict[f'{key.split('.')[0]}.name']
+            name = cfg._conf[f'{key.split('.')[0]}.name']
 
         result.append((f'"{name}" ({pid})', key))
 
     return result
 
 
-def _backup_and_remove_encfs_config(cfg: config.Config) -> bool:
+def _backup_and_remove_encfs_config(cfg: Konfi) -> bool:
     """EncFS encryption feature was removed from Back In Time (#1734).
     This function detects existing EncFS profiles. If detected a backup is
     created of the complete config file and the EncFS profiles removed after.
@@ -472,11 +480,13 @@ def _backup_and_remove_encfs_config(cfg: config.Config) -> bool:
     encfs_pids = []
     names = ''
 
-    for pid in cfg.profiles():
-        if 'encfs' in cfg.snapshotsMode(profile_id=pid).lower():
-            name = cfg.profileName(profile_id=pid)
+    for profile in cfg.iter_profiles():
+        if 'encfs' in profile.snapshots_mode.lower():
+            name = profile.name
+            pid = profile.profile_id
             logger.critical(
-                f'Profile "{name}" ({pid}) uses obsolete EncFS encryption. '
+                f'Profile "{name}" ({pid}) uses '
+                'obsolete EncFS encryption. '
                 'EncFS support was removed from Back In Time.'
             )
             encfs_pids.append(pid)
@@ -493,62 +503,79 @@ def _backup_and_remove_encfs_config(cfg: config.Config) -> bool:
     )
     shutil.copyfile(config_fp, config_fp_backup)
 
-    # remove profiles, but remember that BIT will refuse to remove the
-    # last standing profil
-    temp_pid = cfg.addProfile('tmp-f8f58e16-ff2eeb4da37d-remove-me')
     for pid in encfs_pids:
-        cfg.removeProfile(pid)
-        # if pid == '1':
-        #     first_pid = cfg.addProfile(cfg.default_profile_name)
-        #     logger.critical(f'Reset Hauptprofil. {first_pid=}')
+        cfg.profile(pid).remove()
 
-    # If main profil was reset and it is the only profile left,
-    # delete the whole config file.
-    if '1' in encfs_pids and len(cfg.profiles()) == 1:
-        config_fp.unlink()
+    if len(cfg.profiles):
+        cfg.save(config_fp)
     else:
-        cfg.removeProfile(temp_pid)
-        cfg.save()
+        # If no profile is left, remove the file itself
+        config_fp.unlink()
 
     logger.critical(
         f'A backup of the current config file was created: {config_fp} -> '
         f'{config_fp_backup}. All detected EncFS profiles were removed '
-        f'from the active configuration. Profiles affected: {names}'
+        f'from the active configuration. Affected profiles are: {names}'
     )
 
     return True
 
 
+def config_file_path() -> Path:
+    """Return the config file path.
+
+    Could be moved into backintime.py. sys.argv (--config) needs to be
+    considered.
+    """
+    xdg_config = os.environ.get('XDG_CONFIG_HOME', Path.home() / '.config')
+    path = Path(xdg_config) / 'backintime' / 'config'
+
+    logger.debug(f'Config path: {path}')
+
+    return path
+
+
 def get_config_and_select_profile(
         config_path: str,
-        data_path: str,
-        profile: str,
-        checksum: Optional[bool] = None,
-        check: bool = True) -> config.Config:
+        # data_path: str,
+        pid_or_name: Union[str, int]
+        # checksum: Optional[bool] = None
+        # check: bool = True
+) -> Konfig:
     """Load config and change to profile selected on commandline.
 
     Args:
         config_path: Path to config file.
         data_path: Path to "share_path".
-        profile: Name or ID of the profile.
+        pid_or_name: Name or ID of the profile.
         checksum: Use checksum option.
         check: If ``True`` check if config is valid.
 
     Returns:
-        Current config with requested profile selected.
+        Current the config
 
     Raises: SystemExit: 1 if ``profile`` or ``profile_id`` is no valid
         profile. 2 if ``check`` is ``True`` and config is not configured
 
     """
+    if config_path is None:
+        config_path = config_file_path()
+
+    # Workaround: Sometimes the id is given as string.
+    if pid_or_name and pid_or_name.isdigit():
+        pid_or_name = int(pid_or_name)
+
     _warn_about_global_config()
 
-    cfg = config.Config(config_path=config_path, data_path=data_path)
+    cfg = Konfig()
+    cfg.load(config_path)
+
+    # cfg = config.Config(config_path=config_path, data_path=data_path)
 
     # detect and remove encfs profiles
     if _backup_and_remove_encfs_config(cfg):
         # re-read again
-        cfg = config.Config(config_path=config_path, data_path=data_path)
+        cfg.load(config_path)
 
     # Just warn about cipher settings if present.
     _warn_about_cipher(cfg)
@@ -556,26 +583,16 @@ def get_config_and_select_profile(
     # Warn about deprecated remote host check settings (#2482)
     _warn_about_remote_host_check(cfg)
 
-    # explicit profile?
-    if profile:
-        if profile.isdigit():
-            if not cfg.setCurrentProfile(int(profile)):
-                logger.error(f'Profile-ID not found: {profile}')
-                sys.exit(bitbase.RETURN_ERR)
-        else:
-            if not cfg.setCurrentProfileByName(profile):
-                logger.error(f'Profile not found: {profile}')
-                sys.exit(bitbase.RETURN_ERR)
+    # explicit select a profile?
+    if pid_or_name and not cfg.has_profile(pid_or_name):
+        logger.error(f'Profile not found: {pid_or_name}')
+        sys.exit(bitbase.RETURN_ERR)
 
-    else:
-        # Use the first available profile as default
-        cfg.setCurrentProfile(cfg.profiles()[0])
+    # if check and not cfg.isConfigured():
+    #     logger.error(f'{cfg.APP_NAME} is not configured!')
+    #     sys.exit(bitbase.RETURN_NO_CFG)
 
-    if check and not cfg.isConfigured():
-        logger.error(f'{cfg.APP_NAME} is not configured!')
-        sys.exit(bitbase.RETURN_NO_CFG)
-
-    if checksum is not None:
-        cfg.forceUseChecksum = checksum
+    # if checksum is not None:
+    #     cfg.forceUseChecksum = checksum
 
     return cfg

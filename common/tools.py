@@ -1336,7 +1336,8 @@ def rsyncCaps() -> list[str]:
 def rsyncPrefix(config,
                 no_perms: bool = True,
                 use_mode: list[str] = ['ssh', 'ssh_gocryptfs'],
-                progress: bool = True) -> list[str]:
+                progress: bool = True,
+                force_checksum_use: bool = False) -> list[str]:
     """
     Get rsync command and all args for creating a new snapshot. Args are
     based on current profile in ``config``.
@@ -1380,7 +1381,7 @@ def rsyncPrefix(config,
         '-s'
     ))
 
-    if config.useChecksum() or config.forceUseChecksum:
+    if config.useChecksum() or force_checksum_use:
         cmd.append('--checksum')
 
     if config.copyUnsafeLinks():

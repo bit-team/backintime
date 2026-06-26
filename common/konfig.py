@@ -32,18 +32,27 @@ except NameError:
     def _(val):
         return val
 
+# WORKAROUND
+import tools  # <- get rid of that import asap
+if tools.checkCommand('meld'):
+    DIFF_CMD = 'meld'
+elif tools.checkCommand('kompare'):
+    DIFF_CMD = 'kompare'
+else:
+    DIFF_CMD = ''
+
 
 class Profile:  # pylint: disable=too-many-public-methods
     """Manages access to profile-specific configuration data."""
     _DEFAULT_VALUES = {
+        'name': _('Main profile'),  # A workaround we will get rid of soon
         'snapshots.mode': 'local',
         'snapshots.path.host': socket.gethostname(),
         'snapshots.path.user': getpass.getuser(),
         'snapshots.ssh.port': 22,
         'snapshots.ssh.cipher': 'default',
         'snapshots.ssh.user': getpass.getuser(),
-        'snapshots.ssh.private_key_file':
-            str(Path('~') / '.ssh' / 'id_rsa'),
+        'snapshots.ssh.private_key_file': None,
         'snapshots.ssh.max_arg_length': 0,
         'snapshots.ssh.check_commands': True,
         'snapshots.ssh.check_ping': True,
@@ -69,6 +78,8 @@ class Profile:  # pylint: disable=too-many-public-methods
         'snapshots.min_free_space.unit': StorageSizeUnit.GB,
         'snapshots.min_free_inodes.enabled': True,
         'snapshots.min_free_inodes.value': 2,
+        'snapshots.warn_free_space.value': 0,
+        'snapshots.warn_free_space.unit': SizeUnit.MIB,
         'snapshots.dont_remove_named_snapshots': True,
         'snapshots.smart_remove': False,
         'snapshots.smart_remove.keep_all': 2,
@@ -125,6 +136,7 @@ class Profile:  # pylint: disable=too-many-public-methods
         """
         try:
             return self._config[f'{self._prefix}.{key}']
+
         except KeyError:
             return self._DEFAULT_VALUES[key]
 
@@ -143,8 +155,36 @@ class Profile:  # pylint: disable=too-many-public-methods
         del self._config[f'{self._prefix}.{key}']
 
     @property
-    def snapshots_mode(self) -> str:
-        """Use mode (or backend) for this snapshot. Look at 'man
+    def name(self) -> str:
+        """The name of the profile"""
+        result = self['name']
+
+        # Workaround
+        if result == self._DEFAULT_VALUES['name']:
+            if self._prefix != 'profile1':
+                raise RuntimeError(
+                    f'Unexpected situation. {result=} {self._prefix=}'
+                )
+
+    @property
+    def profile_id(self) -> int:
+        return int(self._prefix.replace('profile', ''))
+
+    def remove(self):
+        """Remove the profile including all its keys and values.
+        """
+
+        my_keys = list(filter(
+            lambda key: key.startswith(self._prefix),
+            self._config.keys()
+        ))
+
+        for key in my_keys:
+            del self._config[key]
+
+    @property
+    def mode(self) -> str:
+        """Used mode (or backend) for this backup profile. Look at 'man
         backintime' section 'Modes'.
 
         {
@@ -154,8 +194,8 @@ class Profile:  # pylint: disable=too-many-public-methods
         """
         return self['snapshots.mode']
 
-    @snapshots_mode.setter
-    def snapshots_mode(self, val: str) -> None:
+    @mode.setter
+    def mode(self, val: str) -> None:
         self['snapshots.mode'] = val
 
     @property
@@ -167,11 +207,10 @@ class Profile:  # pylint: disable=too-many-public-methods
             'values': 'absolute path',
         }
         """
+        # return self['snapshots.path']
         raise NotImplementedError(
             'see original in Config class. See also '
             'Config.snapshotsFullPath(self, profile_id = None)')
-
-        # return self['snapshots.path']
 
     @snapshots_path.setter
     def snapshots_path(self, path):
@@ -236,7 +275,7 @@ class Profile:  # pylint: disable=too-many-public-methods
 
     @ssh_snapshots_path.setter
     def ssh_snapshots_path(self, path):
-        raise NotImplementedError('see original in Config class.')
+        self['snapshots.ssh.path'] = path
 
     @property
     def ssh_host(self) -> str:
@@ -283,42 +322,26 @@ class Profile:  # pylint: disable=too-many-public-methods
         self['snapshots.ssh.user'] = value
 
     @property
-    def ssh_cipher(self) -> str:
-        """Cipher that is used for encrypting the SSH tunnel. Depending on
-        the environment (network bandwidth, cpu and hdd performance) a
-        different cipher might be faster.
-
-        {
-            'values': 'default | aes192-cbc | aes256-cbc | aes128-ctr ' \
-                        '| aes192-ctr | aes256-ctr | arcfour | arcfour256 ' \
-                        '| arcfour128 | aes128-cbc | 3des-cbc | ' \
-                        'blowfish-cbc | cast128-cbc',
-        }
-        """
-        return self['snapshots.ssh.cipher']
-
-    @ssh_cipher.setter
-    def ssh_cipher(self, value: str) -> None:
-        self['snapshots.ssh.cipher'] = value
-
-    @property
     def ssh_private_key_file(self) -> Path:
         """Private key file used for password-less authentication on remote
         host.
 
         {
             'values': 'absolute path to private key file',
+            'default': None,
             'type': 'str'
         }
 
         """
-        raise NotImplementedError('see original in Config class')
-        # path_string = self['snapshots.ssh.private_key_file']
-        # return Path(path_string)
+        value = self['snapshots.ssh.private_key_file']
+        if value:
+            return Path(value)
+
+        return value
 
     @ssh_private_key_file.setter
     def ssh_private_key_file(self, path: Path) -> None:
-        self['snapshots.ssh.private_key_file'] = path
+        self['snapshots.ssh.private_key_file'] = str(path) if path else None
 
     @property
     def ssh_proxy_host(self) -> str:
@@ -713,35 +736,47 @@ class Profile:  # pylint: disable=too-many-public-methods
         self['snapshots.remove_old_snapshots.unit'] = unit
 
     @property
+    def warn_free_space(self) -> StorageSize:
+        """TODO"""
+        value = self['snapshots.warn_free_space.value']
+        unit = self['snapshots.warn_free_space.unit']
+        return StorageSize(value, SizeUnit(unit))
+
+    @warn_free_space.setter
+    def warn_free_space(self, value: StorageSize) -> None:
+        self['snapshots.warn_free_space.value'] = value.value()
+        self['snapshots.warn_free_space.unit'] = value.unit.value
+
+    @property
+    def warn_free_space_enabled(self) -> bool:
+        return self['snapshots.warn_free_space.value'] > 0
+
+    def set_warn_free_space_disabled(self) -> None:
+        self.warn_free_space = StorageSize(0, SizeUnit.MIB)
+
+    @property
+    def min_free_space(self) -> StorageSize:
+        """Keep at least value + unit free space."""
+        return StorageSize(
+            self['snapshots.min_free_space.value'],
+            self['snapshots.min_free_space.unit']
+        )
+
+    @min_free_space_value.setter
+    def min_free_space(self, value: StorageSize) -> None:
+        self['snapshots.min_free_space.value'] = value.value()
+        self['snapshots.min_free_space.unit'] = value.unit.value
+
+    @property
     def min_free_space_enabled(self) -> bool:
         """Remove snapshots until \\fIprofile<N>.snapshots.min_free_space.
         value\\fR free space is reached.
         """
-        return self['snapshots.min_free_space.enabled']
+        return self['snapshots.min_free_space.enabled'] == 'true'
 
-    @min_free_space_enabled.setter
-    def min_free_space_enabled(self, enable: bool) -> None:
-        self['snapshots.min_free_space.enabled'] = enable
-
-    @property
-    def min_free_space_value(self) -> int:
-        """Keep at least value + unit free space."""
-        return self['snapshots.min_free_space.value']
-
-    @min_free_space_value.setter
-    def min_free_space_value(self, value: int) -> None:
-        self['snapshots.min_free_space.value'] = value
-
-    @property
-    def min_free_space_unit(self) -> StorageSizeUnit:
-        """10 = MB\n20 = GB
-        { 'values': '10|20' }
-        """
-        return self['snapshots.min_free_space.unit']
-
-    @min_free_space_unit.setter
-    def min_free_space_unit(self, unit: StorageSizeUnit) -> None:
-        self['snapshots.min_free_space.unit'] = unit
+    def set_min_free_space_enabled(self, enable: bool):
+        value = 'true' if enable else 'false'
+        self['snapshots.min_free_space.enabled'] = value
 
     @property
     def min_free_inodes_enabled(self) -> bool:
@@ -1121,17 +1156,6 @@ class Profile:  # pylint: disable=too-many-public-methods
     def take_snapshot_regardless_of_changes(self, enable: bool) -> None:
         self['snapshots.take_snapshot_regardless_of_changes'] = enable
 
-    @property
-    def global_flock(self) -> bool:
-        """Prevent multiple snapshots (from different profiles or users) to be
-        run at the same time.
-        """
-        return self['global.use_flock']
-
-    @global_flock.setter
-    def global_flock(self, enable: bool) -> None:
-        self['global.use_flock'] = enable
-
 
 class Konfig(metaclass=singleton.Singleton):
     """Manage configuration data for Back In Time.
@@ -1142,39 +1166,25 @@ class Konfig(metaclass=singleton.Singleton):
     """
 
     _DEFAULT_VALUES = {
-        'global.hash_collision': 0,
         'global.language': '',
+        'global.systray': 'auto',
         'global.use_flock': False,
         'internal.manual_starts_countdown': 10,
+        'qt.diff.cmd': DIFF_CMD,
+        'qt.diff.params': '%1 %2',
     }
 
     _DEFAULT_SECTION = 'bit'
 
-    def __init__(self, buffer: Optional[TextIOWrapper, StringIO] = None):
+    def __init__(self):
         """Constructor.
-
-        Args:
-            buffer: An open text-file handle or a string buffer ready to read.
 
         Note: That method is executed only once because `Konfig` is a
         singleton.
         """
-        if buffer:
-            self.load(buffer)
-        else:
-            self._conf = {}
-
-        # Names and IDs of profiles
-        # Extract all relevant lines of format 'profile*.name=*'
-        name_items = filter(
-            lambda val:
-                val[0].startswith('profile') and val[0].endswith('.name'),
-            self._conf.items()
-        )
-        self._profiles = {
-            name: int(pid.replace('profile', '').replace('.name', ''))
-            for pid, name in name_items
-        }
+        self._conf = {}
+        self._profiles = {}
+        self._unsaved_profiles = []
 
     def __getitem__(self, key: str) -> Any:
         try:
@@ -1192,17 +1202,27 @@ class Konfig(metaclass=singleton.Singleton):
         """Return a `Profile` object related to the given name or id.
 
         Args:
-            name_or_id: A name or an numeric id of a snapshot profile.
+            name_or_id: A name or an numeric id of a backup profile.
 
         Raises:
             KeyError: If no corresponding profile exists.
         """
         if isinstance(name_or_id, int):
             profile_id = name_or_id
+
         else:
             profile_id = self._profiles[name_or_id]
 
         return Profile(profile_id=profile_id, config=self)
+
+    def has_profile(self, name_or_id: Union[str, int]) -> bool:
+        """Check if the profile exists"""
+        try:
+            self.profile(name_or_id)
+        except KeyError:
+            return False
+
+        return True
 
     @property
     def profile_names(self) -> list[str]:
@@ -1214,11 +1234,94 @@ class Konfig(metaclass=singleton.Singleton):
         """List of numerical profile ids."""
         return list(self._profiles.values())
 
-    def load(self, buffer: Union[TextIOWrapper, StringIO]):
+    def _profile_list(self) -> dict:
+        """Create a dictionary of profile names and ids.
+
+        Example: :: ..
+
+            {
+                'simple': 2,
+                'lcoal-gocrypt': 3,
+                'Main profile': 1
+            }
+        """
+        # Names and IDs of profiles
+        # Extract all relevant lines of format 'profile*.name=*'
+        name_items = filter(
+            lambda val:
+                val[0].startswith('profile') and val[0].endswith('.name'),
+            self._conf.items()
+        )
+        return {
+            name: int(pid.replace('profile', '').replace('.name', ''))
+            for pid, name in name_items
+        }
+
+    def iter_profiles(self):
+        for pid in self.profile_ids():
+            yield Profile(profile_id=pid, config=self)
+
+    def new_profile(self, name: str) -> Profile:
+        """Create and add a new profile and returns it.
+
+        The name need to be unique, otherwise a ValueException is raised.
+
+        Args:
+            name: The name of the profile.
+
+        Returns:
+            The new created profile
+
+        Raises:
+            ValueError if the name is not unique.
+        """
+        if name in self.profile_names:
+            raise ValueError(
+                'Profile name need to be unique, but "{name}" already exists.'
+            )
+
+        new_pid = self._next_free_id()
+        prefix = f'profile{new_pid}.'
+
+        self[f'{prefix}name'] = name
+
+        self._unsaved_profiles.append(new_pid)
+
+        return self.profile(new_pid)
+
+    def _next_free_id(self) -> int:
+        """Compute the next free profile id.
+
+        Returns:
+            An unused and free id.
+        """
+
+        # Assumentions: Sorted, no negative values, no zero, no duplicates
+        pids = self.profile_ids
+
+        try:
+            # contiguous sequence starting at 1?
+            if len(pids) == pids[-1]:
+                return pids[-1] + 1
+
+            # find the gap
+            free_pid = 1
+            used = set(pids)
+            while free_pid in used:
+                free_pid = free_pid + 1
+
+        except IndexError:
+            return 1
+
+        # gap found
+        return free_pid
+
+    def load(self, buffer_or_path: Union[Path, TextIOWrapper, StringIO]):
         """Load configuration from file like object.
 
         Args:
-            buffer: An open text-file handle or a string buffer ready to read.
+            buffer: A path object, an open text-file handle or a string
+                buffer ready to read.
         """
 
         self._config_parser = configparser.ConfigParser(
@@ -1226,7 +1329,10 @@ class Konfig(metaclass=singleton.Singleton):
             defaults={'profile1.name': _('Main profile')})
 
         # raw content
-        content = buffer.read()
+        if isinstance(buffer_or_path, Path):
+            content = buffer_or_path.read_text(encoding='utf-8')
+        else:
+            content = buffer_or_path.read()
 
         # Add section header to make it a real INI file
         self._config_parser.read_string(
@@ -1235,9 +1341,12 @@ class Konfig(metaclass=singleton.Singleton):
         # The one and only main section
         self._conf = self._config_parser[self._DEFAULT_SECTION]
 
+        self._profiles = self._profile_list()
+
     def save(self, buffer: TextIOWrapper):
         """Store configuraton to the config file."""
 
+        self._unsaved_profiles = []
         raise NotImplementedError('Prevent overwritting real config data.')
 
         # tmp_io_buffer = StringIO()
@@ -1249,21 +1358,19 @@ class Konfig(metaclass=singleton.Singleton):
         # tmp_io_buffer.readline()
         # handle.write(tmp_io_buffer.read())
 
+    def is_profile_unsaved(self, name_or_id: Union[str, int]) -> bool:
+        p = self.profile(name_or_id)
+        return p.profile_id in self._unsaved_profiles
+
     @property
-    def hash_collision(self) -> int:
-        """Internal value used to prevent hash collisions on mountpoints.
-        Do not change this.
+    def diff_cmd_and_params(self) -> tuple[str, str]:
+        """TODO"""
+        return (self['qt.diff.cmd'], self['qt.diff.params'])
 
-        {
-            'values': '0-99999',
-            'default': 0,
-        }
-        """
-        return self['global.hash_collision']
-
-    @hash_collision.setter
-    def hash_collision(self, val: int) -> None:
-        self['global.hash_collision'] = val
+    @diff_cmd_and_params.setter
+    def diff_cmd_and_params(self, value: tuple[str, str]) -> None:
+        self['qt.diff.cmd'] = value[0]
+        self['qt.diff.params'] = value[1]
 
     @property
     def language(self) -> str:
@@ -1299,6 +1406,21 @@ class Konfig(metaclass=singleton.Singleton):
         self['global.use_flock'] = value
 
     @property
+    def systray(self) -> str:
+        """Color of systray icon.;auto,dark,light
+        {
+            'values': 'auto|dark|light',
+            'default': 'auto',
+            'type': str
+        }
+        """
+        return self['global.systray']
+
+    @systray.setter
+    def systray(self, color_mode: str) -> None:
+        self['global.systray'] = color_mode
+
+    @property
     def manual_starts_countdown(self) -> int:  # pylint: disable=C0116
         # Countdown value about how often the users started the Back In Time
         # GUI.
@@ -1319,19 +1441,6 @@ class Konfig(metaclass=singleton.Singleton):
             self['internal.manual_starts_countdown'] = val - 1
 
 
-def config_file_path() -> Path:
-    """Return the config file path.
-
-    Could be moved into backintime.py. sys.argv (--config) needs to be
-    considered.
-    """
-    xdg_config = os.environ.get('XDG_CONFIG_HOME', Path.home() / '.config')
-    path = Path(xdg_config) / 'backintime' / 'config'
-
-    logger.debug(f'Config path: {path}')
-
-    return path
-
 
 if __name__ == '__main__':
     # Empty in-memory config file
@@ -1339,15 +1448,19 @@ if __name__ == '__main__':
 
     k = Konfig()
     print(k)
-    print(k._conf)  # pylint: disable=protected-access
+    print(f'{k._conf=}')  # pylint: disable=protected-access
+    print(f'{k._profiles=}')  # pylint: disable=protected-access
 
+    k.load(Path.home() / '.config' / 'backintime' / 'config')
+    sys.exit()
     # Regular config file
     with config_file_path().open('r', encoding='utf-8') as handle:
         k = Konfig()
         k.load(handle)
 
     print(k)
-    print(k._conf)  # pylint: disable=protected-access
+    print(f'{k._conf=}')  # pylint: disable=protected-access
+    print(f'{k._profiles=}')  # pylint: disable=protected-access
 
     print(f'{k.profile_names=}')
     print(f'{k.profile_ids=}')

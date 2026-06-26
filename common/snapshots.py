@@ -26,6 +26,7 @@ import grp
 import shutil
 import time
 import re
+import socket
 from tempfile import TemporaryDirectory
 import config
 import logger
@@ -462,6 +463,7 @@ class Snapshots:
                 paths,
                 callback = None,
                 restore_to = '',
+                force_checksum_use = False,
                 delete = False,
                 backup = True,
                 only_new = False):
@@ -514,7 +516,10 @@ class Snapshots:
         info_dict = sid.load_from_info_file()
 
         cmd_prefix = tools.rsyncPrefix(
-            self.config, no_perms=False, use_mode=['ssh']
+            self.config,
+            no_perms=False,
+            use_mode=['ssh'],
+            force_checksum_use=force_checksum_use
         )
         cmd_prefix.extend(('-R', '-v'))
 
@@ -815,7 +820,7 @@ class Snapshots:
         return True
 
     # TODO Refactor: This functions is extremely difficult to understand.
-    def backup(self, force=False):
+    def backup(self, force=False, force_checksum_use=False):
         """Wrapper for :py:func:`takeSnapshot` which will prepare and clean up
         things for the main :py:func:`takeSnapshot` method.
 
@@ -1024,7 +1029,8 @@ class Snapshots:
                                 ret_val, ret_error = self.takeSnapshot(
                                     sid,
                                     now,
-                                    include_folders
+                                    include_folders,
+                                    force_checksum_use
                                 )
 
                             except:  # TODO too broad exception
@@ -1248,7 +1254,7 @@ class Snapshots:
         info_dict = {
             'backup': {
                 'date': sid.withoutTag,
-                'machine': self.config.host(),
+                'machine': socket.gethostname(),
                 'profile_id': self.config.currentProfile(),
                 'tag': sid.tag,
                 'user': getpass.getuser(),
@@ -1342,7 +1348,7 @@ class Snapshots:
             group = self.groupName(info.st_gid).encode('utf-8', 'replace')
             fileinfo[path] = (mode, user, group)
 
-    def takeSnapshot(self, sid, now, include_folders):
+    def takeSnapshot(self, sid, now, include_folders, force_checksum_use):
         """This is the main backup routine.
 
         It will take a new snapshot and store permissions of included files
@@ -1448,7 +1454,11 @@ class Snapshots:
             prev_sid = snapshots[0]
 
         # rsync prefix & suffix
-        rsync_prefix = tools.rsyncPrefix(self.config, no_perms=False)
+        rsync_prefix = tools.rsyncPrefix(
+            self.config,
+            no_perms=False
+            force_checksum_use=force_checksum_use
+        )
 
         if self.config.excludeBySizeEnabled():
             rsync_prefix.append('--max-size=%sM' % self.config.excludeBySize())
@@ -3500,8 +3510,7 @@ def get_backup_ids_and_paths(cfg: config.Config,
 
     return result
 
-
-if __name__ == '__main__':
-    config = config.Config()
-    snapshots = Snapshots(config)
-    snapshots.backup()
+# if __name__ == '__main__':
+#     config = config.Config()
+#     snapshots = Snapshots(config)
+#     snapshots.backup()

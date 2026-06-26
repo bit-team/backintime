@@ -122,7 +122,10 @@ def _do_backup(args: argparse.Namespace, force: bool):
     cfg = _get_config(args)
 
     tools.envLoad(bitbase.CRON_ENV_PATH)
-    ret = snapshots.Snapshots(cfg).backup(force)
+    ret = snapshots.Snapshots(cfg).backup(
+        force=force,
+        force_checksum_use = getattr(args, 'checksum', False)
+    )
 
     sys.exit(int(ret))
 

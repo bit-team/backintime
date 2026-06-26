@@ -20,6 +20,7 @@ import logger
 import cli
 import cliarguments
 from diagnostics import collect_minimal_diagnostics
+from konfig import Konfig
 
 
 def takeSnapshotAsync(cfg, checksum=False):
@@ -66,6 +67,7 @@ def takeSnapshotAsync(cfg, checksum=False):
             pass
 
     subprocess.Popen(cmd, env=env)
+
 
 
 def startApp(bin_name: str) -> config.Config | None:
@@ -122,14 +124,20 @@ def startApp(bin_name: str) -> config.Config | None:
     cli.set_quiet(args)
     cli.print_header()
 
-    return cli.get_config_and_select_profile(
+    # This loads the real/new "Konfig"
+    real_konfig = cli.get_config_and_select_profile(
         config_path=args.config,
-        data_path=args.share_path,
-        profile=args.profile,
+        # data_path=args.share_path,
+        pid_or_name=args.profile,
         # Dev note (buhtz, 2025): There is not a default value in all cases,
         # because "--checksum" is exclusive to rsync-related commands.
-        checksum=getattr(args, 'checksum', None),
-        check=False)
+        # checksum=getattr(args, 'checksum', None),
+        # check=False
+    )
+
+    # Workaround: For the current time we use "Config" as surrogate, that is
+    # using the real "Konfig" in the back.
+    return Config()
 
 
 if __name__ == '__main__':
