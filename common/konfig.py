@@ -57,7 +57,16 @@ class Profile:  # pylint: disable=too-many-public-methods
         'snapshots.ssh.check_commands': True,
         'snapshots.ssh.check_ping': True,
         'snapshots.local_encfs.path': '',
-        'snapshots.password.save': False,
+        # This is fragil. Why not 'snapshots.password.save' ?
+        'snapshots.local.password.save': False,
+        'snapshots.ssh.password.save': False,
+        'snapshots.local_gocryptfs.password.save': False,
+        'snapshots.ssh_gocryptfs.password.save': False,
+        # This is fragil. Why not 'snapshots.password.use_cache' ?
+        'snapshots.local.password.use_cache': True,
+        'snapshots.ssh.password.use_cache': True,
+        'snapshots.local_gocryptfs.password.use_cache': True,
+        'snapshots.ssh_gocryptfs.password.use_cache': True,
         'snapshots.include': [],
         'snapshots.exclude': [],
         'snapshots.exclude.bysize.enabled': False,
@@ -241,8 +250,8 @@ class Profile:  # pylint: disable=too-many-public-methods
         self['snapshots.path.user'] = value
 
     @property
-    def snapshots_path_profileid(self) -> str:
-        """Set Profile-ID for snapshot path
+    def snapshots_path_profile(self) -> str:
+        """Set Profile-ID for backup path
 
         {
             'values': '1-99999',
@@ -251,13 +260,14 @@ class Profile:  # pylint: disable=too-many-public-methods
         """
         try:
             return self['snapshots.path.profile']
+
         except KeyError:
             # Extract number from field prefix
             # e.g. "profile1" -> "1"
-            return self._prefix.replace('profile', '')
+            return self.profile_id
 
-    @snapshots_path_profileid.setter
-    def snapshots_path_profileid(self, value: str) -> None:
+    @snapshots_path_profile.setter
+    def snapshots_path_profile(self, value: str) -> None:
         self['snapshots.path.profile'] = value
 
     @property
@@ -411,6 +421,8 @@ class Profile:  # pylint: disable=too-many-public-methods
         expected on the remote host.
         { 'values': 'true|false' }
         """
+
+        # Deprecated. See issue #2509
         return self['snapshots.ssh.check_commands']
 
     @ssh_check_commands.setter
@@ -429,30 +441,27 @@ class Profile:  # pylint: disable=too-many-public-methods
         self['snapshots.ssh.check_ping'] = value
 
     @property
-    def local_encfs_path(self) -> Path:
-        """Where to save snapshots in mode 'local_encfs'.
+    def local_gocryptfs_path(self) -> Path:
+        """Where to save snapshots in mode 'local_gocryptfs'.
 
         { 'values': 'absolute path' }
         """
-        return self['snapshots.local_encfs.path']
+        return self['snapshots.local_gocryptfs.path']
 
-    @local_encfs_path.setter
-    def local_encfs_path(self, path: Path):
-        self['snapshots.local_encfs.path'] = str(path)
+    @local_gocryptfs_path.setter
+    def local_gocryptfs_path(self, path: Path):
+        self['snapshots.local_gocryptfs.path'] = str(path)
 
     @property
     def password_save(self) -> bool:
         """Save password to system keyring (gnome-keyring or kwallet).
         { 'values': 'true|false' }
         """
-        raise NotImplementedError(
-            'Refactor it first to make the field name mode independed. '
-            'profileN.snapshots.password.save')
-        # return self['snapshots.password.save']
+        return self[f'snapshots.{self.mode}.password.save']
 
     @password_save.setter
     def password_save(self, value: bool) -> None:
-        self['snapshots.password.save'] = value
+        self[f'snapshots.{self.mode}.password.save'] = value
 
     @property
     def password_use_cache(self) -> None:
@@ -463,16 +472,11 @@ class Profile:  # pylint: disable=too-many-public-methods
             'default': 'see #1855'
         }
         """
-        raise NotImplementedError(
-            'Refactor it first to make the field name mode independed. '
-            'profileN.snapshots.password.use_cache.'
-            'See also Issue #1855 about encrypted home dir')
-        # ??? default = not tools.checkHomeEncrypt()
-        # return self['snapshots.password.use_cache']
+        return self[f'snapshots.{self.mode}.password.use_cache']
 
     @password_use_cache.setter
     def password_use_cache(self, value: bool) -> None:
-        self['snapshots.password.use_cache'] = value
+        self[f'snapshots.{self.mode}.password.use_cache'] = value
 
     def _generic_include_exclude_ids(self, inc_exc_str: str) -> tuple[int]:
         """Return two list of numeric IDs used for include and exclude values.

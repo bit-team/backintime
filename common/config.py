@@ -602,7 +602,6 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         p = self.get_profile(profile_id)
         p.ssh_proxy_user = value
 
-    # --- WEITER WEITER WEITER
     def sshMaxArgLength(self, profile_id = None):
         #?Maximum command length of commands run on remote host. This can be tested
         #?for all ssh profiles in the configuration
@@ -625,17 +624,25 @@ class Config:  # (configfile.ConfigFileWithProfiles):
     def sshCheckCommands(self, profile_id = None):
         #?Check if all commands (used during takeSnapshot) work like expected
         #?on the remote host.
-        return self.profileBoolValue('snapshots.ssh.check_commands', True, profile_id)
+        # return self.profileBoolValue('snapshots.ssh.check_commands', True, profile_id)
+        p = self.get_profile(profile_id)
+        return p.ssh_check_commands
 
     def setSshCheckCommands(self, value, profile_id = None):
-        self.setProfileBoolValue('snapshots.ssh.check_commands', value, profile_id)
+        # self.setProfileBoolValue('snapshots.ssh.check_commands', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.ssh_check_commands = vlaue
 
     def sshCheckPingHost(self, profile_id = None):
         #?Check if the remote host is available before trying to mount.
-        return self.profileBoolValue('snapshots.ssh.check_ping', True, profile_id)
+        # return self.profileBoolValue('snapshots.ssh.check_ping', True, profile_id)
+        p = self.get_profile(profile_id)
+        return p.ssh_check_ping_host
 
     def setSshCheckPingHost(self, value, profile_id = None):
         self.setProfileBoolValue('snapshots.ssh.check_ping', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.ssh_check_ping_host = value
 
     def sshDefaultArgs(self, profile_id = None):
         """
@@ -747,35 +754,66 @@ class Config:  # (configfile.ConfigFileWithProfiles):
     # gocryptfs
     def localGocryptfsPath(self, profile_id):
         #?Where to save snapshots in mode 'local_gocryptfs'.;absolute path
-        return self.profileStrValue('snapshots.local_gocryptfs.path', '', profile_id)
+        # return self.profileStrValue('snapshots.local_gocryptfs.path', '', profile_id)
+        p = self.get_profile(profile_id)
+        return p.local_gocryptfs_path
 
     def setLocalGocryptfsPath(self, value, profile_id):
-        self.setProfileStrValue('snapshots.local_gocryptfs.path', value, profile_id)
+        # self.setProfileStrValue('snapshots.local_gocryptfs.path', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.local_gocryptfs_path = value
+
+    @staticmethod
+    def _mode_not_profile(profile_id, mode):
+        # Why is there an extra "mode" argument in this methods signature?
+        # Doesn't the profile itself defines the mode?
+        if mode is None:
+            return
+
+        p = self.get_profile(profile_id)
+        if p.mode != mode:
+            raise RuntimeError(
+                'Unexpected situation. Open an issue and report '
+                'steps to reproduce the situation!'
+            )
 
     def passwordSave(self, profile_id = None, mode = None):
-        if mode is None:
-            mode = self.snapshotsMode(profile_id)
+        # if mode is None:
+        #     mode = self.snapshotsMode(profile_id)
+        Config._mode_not_profile(profile_id, mode)
         #?Save password to system keyring (gnome-keyring or kwallet).
         #?<MODE> must be the same as \fIprofile<N>.snapshots.mode\fR
-        return self.profileBoolValue('snapshots.%s.password.save' % mode, False, profile_id)
+        # return self.profileBoolValue('snapshots.%s.password.save' % mode, False, profile_id)
+
+        p = self.get_profile(profile_id)
+        return p.password_save
 
     def setPasswordSave(self, value, profile_id = None, mode = None):
-        if mode is None:
-            mode = self.snapshotsMode(profile_id)
-        self.setProfileBoolValue('snapshots.%s.password.save' % mode, value, profile_id)
+        # if mode is None:
+        #     mode = self.snapshotsMode(profile_id)
+        Config._mode_not_profile(profile_id, mode)
+        # self.setProfileBoolValue('snapshots.%s.password.save' % mode, value, profile_id)
+        p = self.get_profile(profile_id)
+        p.password_save = value
 
     def passwordUseCache(self, profile_id = None, mode = None):
-        if mode is None:
-            mode = self.snapshotsMode(profile_id)
+        # if mode is None:
+        #     mode = self.snapshotsMode(profile_id)
+        Config._mode_not_profile(profile_id, mode)
         #?Cache password in RAM so it can be read by cronjobs.
         #?Security issue: root might be able to read that password, too.
         #?<MODE> must be the same as \fIprofile<N>.snapshots.mode\fR;;true
-        return self.profileBoolValue('snapshots.%s.password.use_cache' % mode, True, profile_id)
+        # return self.profileBoolValue('snapshots.%s.password.use_cache' % mode, True, profile_id)
+        p = self.get_profile(profile_id)
+        return p.password_use_cache
 
     def setPasswordUseCache(self, value, profile_id = None, mode = None):
-        if mode is None:
-            mode = self.snapshotsMode(profile_id)
-        self.setProfileBoolValue('snapshots.%s.password.use_cache' % mode, value, profile_id)
+        # if mode is None:
+        #     mode = self.snapshotsMode(profile_id)
+        Config._mode_not_profile(profile_id, mode)
+        # self.setProfileBoolValue('snapshots.%s.password.use_cache' % mode, value, profile_id)
+        p = self.get_profile(profile_id)
+        p.password_use_cache = value
 
     def password(self,
                  parent=None,
@@ -783,18 +821,29 @@ class Config:  # (configfile.ConfigFileWithProfiles):
                  mode=None,
                  pw_id=1,
                  only_from_keyring=False):
+        """Dev note (2026-06, buhtz): This password stuff is an ugly mess.
+        I am working on it, hoping not to break something.
+        """
 
         if self.pw is None:
             self.pw = password.Password(self)
 
-        if profile_id is None:
-            profile_id = self.currentProfile()
+        # if profile_id is None:
+        #     profile_id = self.currentProfile()
+        p = self.get_profile(profile_id)
 
-        if mode is None:
-            mode = self.snapshotsMode(profile_id)
+        Config._mode_not_profile(profile_id, mode)
+
+        # if mode is None:
+        #     mode = self.snapshotsMode(profile_id)
 
         return self.pw.password(
-            parent, profile_id, mode, pw_id, only_from_keyring)
+            parent=parent,
+            profile_id=p.profile_id,
+            mode=p.mode,
+            pw_id=pw_id,
+            only_from_keyring=only_from_keyring
+        )
 
     def get_encryption_password(self):
         """Dirty workaround, because the meaning of password1 and password2
@@ -832,6 +881,8 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         if profile_id is None:
             profile_id = self.currentProfile()
 
+        Config._mode_not_profile(profile_id, mode)
+
         if mode is None:
             mode = self.snapshotsMode(profile_id)
 
@@ -855,32 +906,40 @@ class Config:  # (configfile.ConfigFileWithProfiles):
             profile_id = self.currentProfile()
         return 'profile_id_%s' % profile_id
 
-    def hostUserProfileDefault(self, profile_id=None):
-        host = socket.gethostname()
-        user = getpass.getuser()
-        profile = profile_id
-        if profile is None:
-            profile = self.currentProfile()
+    # def hostUserProfileDefault(self, profile_id=None):
+    #     host = socket.gethostname()
+    #     user = getpass.getuser()
+    #     profile = profile_id
+    #     if profile is None:
+    #         profile = self.currentProfile()
 
-        return (host, user, profile)
+    #     return (host, user, profile)
 
     def hostUserProfile(self, profile_id = None):
-        default_host, default_user, default_profile = self.hostUserProfileDefault(profile_id)
-        #?Set Host for snapshot path;;local hostname
-        host = self.profileStrValue('snapshots.path.host', default_host, profile_id)
+        # default_host, default_user, default_profile = self.hostUserProfileDefault(profile_id)
+        p = self.get_profile(profile_id)
+        # #?Set Host for snapshot path;;local hostname
+        # host = self.profileStrValue('snapshots.path.host', default_host, profile_id)
+        # #?Set User for snapshot path;;local username
+        # user = self.profileStrValue('snapshots.path.user', default_user, profile_id)
+        # #?Set Profile-ID for snapshot path;1-99999;current Profile-ID
+        # profile = self.profileStrValue('snapshots.path.profile', default_profile, profile_id)
 
-        #?Set User for snapshot path;;local username
-        user = self.profileStrValue('snapshots.path.user', default_user, profile_id)
-
-        #?Set Profile-ID for snapshot path;1-99999;current Profile-ID
-        profile = self.profileStrValue('snapshots.path.profile', default_profile, profile_id)
-
-        return (host, user, profile)
+        # return (host, user, profile)
+        return (
+            p.snapshots_path_host,
+            p.snapshots_path_user,
+            p.snapshots_path_profile
+        )
 
     def setHostUserProfile(self, host, user, profile, profile_id = None):
-        self.setProfileStrValue('snapshots.path.host', host, profile_id)
-        self.setProfileStrValue('snapshots.path.user', user, profile_id)
-        self.setProfileStrValue('snapshots.path.profile', profile, profile_id)
+        # self.setProfileStrValue('snapshots.path.host', host, profile_id)
+        # self.setProfileStrValue('snapshots.path.user', user, profile_id)
+        # self.setProfileStrValue('snapshots.path.profile', profile, profile_id)
+        p = self.get_profile(profile_id)
+        p.snapshots_path_host = host
+        p.snapshots_path_user = user
+        p.snapshots_path_profile = profile
 
     def include(self, profile_id=None):
         #?Include this file or folder. <I> must be a counter starting with 1;absolute path::
@@ -903,14 +962,20 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         """
         #?Exclude this file or folder. <I> must be a counter
         #?starting with 1;file, folder or pattern (relative or absolute)
-        return self.profileListValue('snapshots.exclude', 'str:value', [], profile_id)
+        # return self.profileListValue('snapshots.exclude', 'str:value', [], profile_id)
+        p = self.get_profile(profile_id)
+        reutrn p.exclude
 
     def setExclude(self, values, profile_id = None):
-        self.setProfileListValue('snapshots.exclude', 'str:value', values, profile_id)
+        # self.setProfileListValue('snapshots.exclude', 'str:value', values, profile_id)
+        p = self.get_profile(profile_id)
+        p.exclude = values
 
     def excludeBySizeEnabled(self, profile_id = None):
         #?Enable exclude files by size.
-        return self.profileBoolValue('snapshots.exclude.bysize.enabled', False, profile_id)
+        # return self.profileBoolValue('snapshots.exclude.bysize.enabled', False, profile_id)
+        p = self.get_profile(profile_id)
+        return p.exclude_by_size_enabled
 
     def excludeBySize(self, profile_id = None):
         #?Exclude files bigger than value in MiB.
@@ -918,16 +983,24 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         #?because for rsync this is a transfer option, not an exclude option.
         #?So big files that has been backed up before will remain in snapshots
         #?even if they had changed.
-        return self.profileIntValue('snapshots.exclude.bysize.value', 500, profile_id)
+        # return self.profileIntValue('snapshots.exclude.bysize.value', 500, profile_id)
+        p = self.get_profile(profile_id)
+        return p.exclude_by_size_enabled
 
     def setExcludeBySize(self, enabled, value, profile_id = None):
-        self.setProfileBoolValue('snapshots.exclude.bysize.enabled', enabled, profile_id)
-        self.setProfileIntValue('snapshots.exclude.bysize.value', value, profile_id)
+        # self.setProfileBoolValue('snapshots.exclude.bysize.enabled', enabled, profile_id)
+        # self.setProfileIntValue('snapshots.exclude.bysize.value', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.exclude_by_size = value
+        p.exclude_by_size_enabled = enabled
 
     def tag(self, profile_id = None):
         #?!ignore this in manpage
-        return self.profileStrValue('snapshots.tag', str(random.randint(100, 999)), profile_id)
+        # return self.profileStrValue('snapshots.tag', str(random.randint(100, 999)), profile_id)
 
+        return str(random.randint(100, 999))
+
+    # --- WEITER WEITER WEITER
     def scheduleMode(self, profile_id = None):
         #?Which schedule used for crontab. The crontab entry will be
         #?generated with 'backintime check-config'.\n

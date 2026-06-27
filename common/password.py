@@ -18,7 +18,6 @@ import bitbase
 from exceptions import Timeout
 
 
-
 class Password_Cache(daemon.Daemon):
     """
     Password_Cache get started on User login. It provides passwords for

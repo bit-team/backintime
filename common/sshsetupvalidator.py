@@ -139,7 +139,7 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
 
         # --- Check remote capabilities ---
         try:
-            if self.cfg.sshCheckCommands():  # See issue #2482
+            if self.cfg.sshCheckCommands():  # Deprecated. See issue #2509
                 self._check_rsync_basic()
                 self._check_rsync_hardlinks()
                 self._check_remote_tools()
