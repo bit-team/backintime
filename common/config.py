@@ -49,6 +49,7 @@ import schedule
 import core_events
 from storagesize import StorageSize, SizeUnit
 from exceptions import PermissionDeniedByPolicy
+from konfig import Konfig
 
 
 class Config:  # (configfile.ConfigFileWithProfiles):
@@ -568,40 +569,58 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         p = self.get_profile(profile_id)
         p.ssh_private_key_file = value
 
-    # --- WEITER WEITER WEITER
     def sshProxyHost(self, profile_id=None):
         #?Proxy host used to connect to remote host.;;IP or domain address
-        return self.profileStrValue('snapshots.ssh.proxy_host', '', profile_id)
+        # return self.profileStrValue('snapshots.ssh.proxy_host', '', profile_id)
+        p = self.get_profile(profile_id)
+        return p.ssh_proxy_host
 
     def setSshProxyHost(self, value, profile_id=None):
-        self.setProfileStrValue('snapshots.ssh.proxy_host', value, profile_id)
+        # self.setProfileStrValue('snapshots.ssh.proxy_host', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.ssh_proxy_host = value
 
     def sshProxyPort(self, profile_id=None):
         #?Proxy host port used to connect to remote host.;0-65535
-        return self.profileIntValue('snapshots.ssh.proxy_host_port', '22', profile_id)
+        # return self.profileIntValue('snapshots.ssh.proxy_host_port', '22', profile_id)
+        p = self.get_profile(profile_id)
+        return p.ssh_proxy_port
 
     def setSshProxyPort(self, value, profile_id = None):
-        self.setProfileIntValue('snapshots.ssh.proxy_host_port', value, profile_id)
+        # self.setProfileIntValue('snapshots.ssh.proxy_host_port', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.ssh_proxy_port = value
 
     def sshProxyUser(self, profile_id=None):
         #?Remote SSH user;;the local users name
-        return self.profileStrValue('snapshots.ssh.proxy_user', getpass.getuser(), profile_id)
+        # return self.profileStrValue('snapshots.ssh.proxy_user', getpass.getuser(), profile_id)
+        p = self.get_profile(profile_id)
+        return p.ssh_proxy_user
 
     def setSshProxyUser(self, value, profile_id=None):
-        self.setProfileStrValue('snapshots.ssh.proxy_user', value, profile_id)
+        # self.setProfileStrValue('snapshots.ssh.proxy_user', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.ssh_proxy_user = value
 
+    # --- WEITER WEITER WEITER
     def sshMaxArgLength(self, profile_id = None):
         #?Maximum command length of commands run on remote host. This can be tested
         #?for all ssh profiles in the configuration
         #?with 'python3 /usr/share/backintime/common/ssh_max_arg.py LENGTH'.\n
         #?0 = unlimited;0, >700
-        value = self.profileIntValue('snapshots.ssh.max_arg_length', 0, profile_id)
+
+        # See #2532 about sshMaxArgs() removal.
+        # value = self.profileIntValue('snapshots.ssh.max_arg_length', 0, profile_id)
+        p = self.get_profile(profile_id)
+        value = p.ssh_max_arg_length
         if value and value < 700:
             raise ValueError('SSH max arg length %s is too low to run commands' % value)
         return value
 
     def setSshMaxArgLength(self, value, profile_id = None):
         self.setProfileIntValue('snapshots.ssh.max_arg_length', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.ssh_max_arg_length = value
 
     def sshCheckCommands(self, profile_id = None):
         #?Check if all commands (used during takeSnapshot) work like expected

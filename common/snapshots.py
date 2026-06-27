@@ -1892,6 +1892,8 @@ class Snapshots:
         if mode is `ssh` or `ssh_gocryptfs` and smart-remove in background is
         activated.
 
+        See #2532 about sshMaxArgs() removal.
+
         Args:
             del_snapshots (list):   list of :py:class:`SID` that should be removed
             log (method):           callable method that will handle progress log
@@ -1902,7 +1904,9 @@ class Snapshots:
         if not log:
             log = lambda x: self.setTakeSnapshotMessage(0, x)
 
-        if self.config.snapshotsMode() in ['ssh', 'ssh_gocryptfs'] and self.config.smartRemoveRunRemoteInBackground():
+        if (self.config.snapshotsMode() in ['ssh', 'ssh_gocryptfs']
+                and self.config.smartRemoveRunRemoteInBackground()):
+
             logger.info('[smart remove] remove snapshots in background: %s'
                         % del_snapshots, self)
 
@@ -1945,8 +1949,14 @@ class Snapshots:
             cmds = []
 
             for sid in del_snapshots:
-                remote = self.rsyncRemotePath(sid.path(use_mode = ['ssh', 'ssh_gocryptfs']), use_mode = [], quote = '\\\"')
-                rsync = ' '.join(tools.rsyncRemove(self.config, run_local = False))
+                remote = self.rsyncRemotePath(
+                    sid.path(use_mode=['ssh', 'ssh_gocryptfs']),
+                    use_mode=[],
+                    quote = '\\\"'
+                )
+                rsync = ' '.join(
+                    tools.rsyncRemove(self.config, run_local=False)
+                )
                 rsync += ' \\\"\\$TMP/\\\" {}; '.format(remote)
 
                 s = 'test -e \\\"%s\\\" && (' %sid.path(use_mode = ['ssh', 'ssh_gocryptfs'])
