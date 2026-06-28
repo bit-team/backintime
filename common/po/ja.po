@@ -16,12 +16,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
-"POT-Creation-Date: 2026-06-17 17:15+0200\n"
+"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"POT-Creation-Date: 2026-06-28 13:24+0200\n"
 "PO-Revision-Date: 2026-06-19 13:16+0000\n"
 "Last-Translator: psw1747 <psw1747@noreply.codeberg.org>\n"
-"Language-Team: Japanese <https://translate.codeberg.org/projects/backintime/"
-"common/ja/>\n"
+"Language-Team: Japanese <https://translate.codeberg.org/projects/backintime/common/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,67 +38,67 @@ msgstr ""
 "このプロジェクトで使われる全てのライセンスは {dir_link} "
 "ディレクトリにあります。ファイル単位のライセンス及び著作権をSPDXメタデータから取得するには、{readme_link} を参照してください。"
 
-#: common/config.py:37 common/tools.py:89 qt/encfsmsgbox.py:27
+#: common/config.py:37 common/tools.py:92 qt/encfsmsgbox.py:27
 #: qt/messagebox.py:99 qt/timeline.py:35
 msgid "Warning"
 msgstr "警告"
 
-#: common/config.py:107 common/config.py:160
+#: common/config.py:108 common/config.py:161
 msgid "Main profile"
 msgstr "メインプロファイル"
 
-#: common/config.py:171
+#: common/config.py:172
 msgid "Local"
 msgstr "ローカル"
 
-#: common/config.py:177
+#: common/config.py:178
 msgid "Local encrypted"
 msgstr "ローカル暗号化"
 
-#: common/config.py:178 common/config.py:191
-#: qt/manageprofiles/tab_general.py:393
+#: common/config.py:179 common/config.py:192
+#: qt/manageprofiles/tab_general.py:394
 msgid "Encryption"
 msgstr "暗号"
 
-#: common/config.py:183
+#: common/config.py:184
 msgid "SSH"
 msgstr "SSH"
 
-#: common/config.py:184 common/config.py:190
-#: qt/manageprofiles/tab_general.py:745
+#: common/config.py:185 common/config.py:191
+#: qt/manageprofiles/tab_general.py:742
 msgid "SSH private key"
 msgstr "SSH 秘密鍵"
 
-#: common/config.py:189
+#: common/config.py:190
 msgid "SSH encrypted"
 msgstr "SSH 暗号化"
 
-#: common/config.py:221 common/config.py:233 common/config.py:251
-#: common/config.py:265 common/config.py:286
+#: common/config.py:236 common/config.py:248 common/config.py:266
+#: common/config.py:280 common/config.py:301
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "プロファイル: 「{name}」"
 
-#: common/config.py:222
+#: common/config.py:237
 msgid "Backup directory is not valid."
 msgstr "バックアップフォルダが無効です。"
 
-#: common/config.py:234
+#: common/config.py:249
 msgid "At least one directory must be selected for backup."
 msgstr "最低でも一個のディレクトリをバックアップのために指定してください。"
 
-#: common/config.py:252 common/config.py:267
+#: common/config.py:267 common/config.py:282
 #, python-brace-format
 msgid "Directory: {path}"
 msgstr "ディレクトリ: {path}"
 
-#: common/config.py:253 common/config.py:268
+#: common/config.py:268 common/config.py:283
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
 msgstr "このディレクトリはバックアップ先の一部であるため、バックアップに含めることはできません。"
 
-#: common/config.py:287
+#: common/config.py:302
 #, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
@@ -109,22 +108,22 @@ msgstr ""
 "「空き容量が以下になった場合に最古のバックアップを削除する」の値 ({val_one}) は、「空きディスク容量が以下になった場合に警告する」のしきい値"
 " ({val_two}) 以下でなければなりません。"
 
-#: common/config.py:292
+#: common/config.py:307
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
 msgstr "バックアップ削除制限が警告制限を超えないよう設定を調整してください。"
 
-#: common/config.py:1417
+#: common/config.py:1429
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "{mode} モード では、udev スケジュールは使用できません"
 
-#: common/config.py:1471
+#: common/config.py:1484
 msgid "Failed to write new crontab."
 msgstr "新しい crontab の書き込みに失敗しました。"
 
-#: common/config.py:1479
+#: common/config.py:1493
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -137,28 +136,28 @@ msgstr ""
 "'systemctl start cron' を実行してみてください、もしくは使用している GNU/Linux "
 "ディストリビューションのサポートに相談するのもよいでしょう。"
 
-#: common/configfile.py:101
+#: common/configfile.py:52
 msgid "Failed to save config"
 msgstr "設定を保存できませんでした"
 
-#: common/configfile.py:137
+#: common/configfile.py:89
 msgid "Failed to load config"
 msgstr "設定を読み込めませんでした"
 
-#: common/configfile.py:654 common/configfile.py:754
+#: common/configfile.py:607 common/configfile.py:710
 #, python-brace-format
 msgid "Profile \"{name}\" already exists."
 msgstr "プロファイル 「{name}」 はすでに存在しています。"
 
-#: common/configfile.py:700
+#: common/configfile.py:655
 msgid "The last profile cannot be removed."
 msgstr "最後に残ったプロファイルを削除することはできません。"
 
-#: common/mount/_backends.py:88 common/snapshots.py:957
+#: common/mount/_backends.py:88 common/snapshots.py:966
 msgid "Can't find backup destination directory."
 msgstr "バックアップ先のディレクトリが見つかりません。"
 
-#: common/mount/_backends.py:90 common/snapshots.py:961
+#: common/mount/_backends.py:90 common/snapshots.py:970
 msgid "If it is on a removable drive, please plug it in."
 msgstr "もしリムーバブルドライブ上にあるのなら、それを接続してください。"
 
@@ -170,7 +169,7 @@ msgstr "次に「OK」を押してください。"
 msgid "Back In Time could not connect to the remote backup location."
 msgstr "Back In Time はリモートバックアップ先への接続に失敗しました。"
 
-#: common/mount/_backends.py:110 qt/manageprofiles/tab_general.py:476
+#: common/mount/_backends.py:110 qt/manageprofiles/tab_general.py:477
 msgid "Reason:"
 msgstr "理由："
 
@@ -208,7 +207,7 @@ msgstr "リモートバックアップディレクトリに書き込み権限が
 msgid "The remote backup directory cannot be accessed."
 msgstr "リモートバックアップディレクトリにアクセスできません。"
 
-#: common/mount/_backends.py:297 qt/manageprofiles/tab_general.py:125
+#: common/mount/_backends.py:297 qt/manageprofiles/tab_general.py:126
 msgid "Path:"
 msgstr "パス:"
 
@@ -266,7 +265,7 @@ msgstr "マウントに失敗しました 戻り値 {rc}）。"
 msgid "Error:"
 msgstr "エラー："
 
-#: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:69
+#: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:70
 msgid "Command:"
 msgstr "コマンド:"
 
@@ -284,12 +283,12 @@ msgstr "戻り値 :{rc}"
 msgid "Original error: {err}"
 msgstr "元のエラー : {err}"
 
-#: common/password.py:298
+#: common/password.py:300
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "{mode}プロファイル 「{profile}」 のパスワードを入力してください："
 
-#: common/schedule.py:238
+#: common/schedule.py:236
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -298,139 +297,138 @@ msgstr ""
 "プロファイル {profile_id} のUdevルールをインストールできませんでした。 DBusサービス '{dbus_interface}' "
 "が有効ではありません。"
 
-#: common/schedule.py:251
+#: common/schedule.py:250
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "{path} には該当の UUID がありませんでした"
 
-#: common/snapshots.py:378 common/snapshots.py:656
+#: common/snapshots.py:385 common/snapshots.py:665
 msgid "FAILED"
 msgstr "失敗"
 
-#: common/snapshots.py:579 common/snapshots.py:652
+#: common/snapshots.py:588 common/snapshots.py:661
 msgid "Restore permissions"
 msgstr "パーミッションを復元"
 
-#: common/snapshots.py:656 qt/app.py:210 qt/app.py:1203 qt/app.py:1229
+#: common/snapshots.py:665 qt/app.py:210 qt/app.py:1205 qt/app.py:1231
 #: qt/qtsystrayicon.py:119
 msgid "Done"
 msgstr "完了"
 
-#: common/snapshots.py:754
+#: common/snapshots.py:763
 msgid ""
 "The following entries from the include list have no corresponding file or "
 "directory in the backup source:"
 msgstr "以下のインクルードリストのエントリには、バックアップソースに対応するファイルまたはディレクトリが存在しません:"
 
-#: common/snapshots.py:844
+#: common/snapshots.py:853
 msgid "Deferring backup while on battery"
 msgstr "バッテリー動作のときは延期する"
 
-#: common/snapshots.py:965
+#: common/snapshots.py:974
 #, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
 msgstr[0] "{n} 秒待機中。"
 
-#: common/snapshots.py:1039
+#: common/snapshots.py:1048
 #, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "バックアップ {snapshot_id} の作成に失敗しました。"
 
-#: common/snapshots.py:1071
+#: common/snapshots.py:1080
 msgid "Please be patient. Finalizing…"
 msgstr "最終処理を行っています、少々お持ちください…"
 
-#: common/snapshots.py:1163
+#: common/snapshots.py:1177
 msgid "Take snapshot"
 msgstr "スナップショット取得"
 
-#: common/snapshots.py:1198
+#: common/snapshots.py:1212
 msgid "Can't create directory."
 msgstr "フォルダを作成できません。"
 
-#: common/snapshots.py:1214
+#: common/snapshots.py:1228
 msgid "Saving config file…"
 msgstr "設定ファイルの保存…"
 
-#: common/snapshots.py:1262
+#: common/snapshots.py:1274
 msgid "Saving permissions…"
 msgstr "パーミッションを保存…"
 
-#: common/snapshots.py:1377
+#: common/snapshots.py:1389
 #, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr "以前に作成した継続使用できるバックアップ {snapshot_id} がありました。"
 
-#: common/snapshots.py:1401
+#: common/snapshots.py:1413
 #, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr "前回の作業で作成した不完全な {snapshot_id} フォルダを削除しています"
 
-#: common/snapshots.py:1412
+#: common/snapshots.py:1424
 msgid "Can't remove directory"
 msgstr "フォルダを削除できません"
 
-#: common/snapshots.py:1476
+#: common/snapshots.py:1487
 msgid "Creating backup"
 msgstr "バックアップを作成中"
 
-#: common/snapshots.py:1527
+#: common/snapshots.py:1538
 msgid "Success"
 msgstr "成功"
 
-#: common/snapshots.py:1530
+#: common/snapshots.py:1541
 msgid "Partial transfer due to error"
 msgstr "エラーによる部分的な転送"
 
-#: common/snapshots.py:1531
+#: common/snapshots.py:1542
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "ソースファイルの消失による部分的な転送 (man rsync を参照)"
 
-#: common/snapshots.py:1535
+#: common/snapshots.py:1546
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' は終了コード {exit_code} で終了しました"
 
-#: common/snapshots.py:1548
+#: common/snapshots.py:1559
 msgid "See 'man rsync' for more details"
 msgstr "詳細は'man rsync'を参照"
 
-#: common/snapshots.py:1555
+#: common/snapshots.py:1566
 msgid ""
 "Negative exit codes indicate termination by a signal. The number corresponds"
 " to the signal (see 'kill -l')."
 msgstr ""
-"負の数で書かれている終了コードはシグナルによって強制終了されたことを意味しま"
-"す。 番号はシグナルに一致しています ( kill -l を参照)。"
+"負の数で書かれている終了コードはシグナルによって強制終了されたことを意味します。 番号はシグナルに一致しています ( kill -l を参照)。"
 
-#: common/snapshots.py:1578
+#: common/snapshots.py:1589
 msgid "Nothing changed, no new backup necessary"
 msgstr "変更箇所がないので新しいバックアップは必要ありません"
 
-#: common/snapshots.py:1622
+#: common/snapshots.py:1633
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "{path} を {new_path} に変更できません。"
 
-#: common/snapshots.py:2022
+#: common/snapshots.py:2033
 msgid "Applying rules to remove old backups"
 msgstr "古いバックアップを削除するためのルールの適用"
 
-#: common/snapshots.py:2059
+#: common/snapshots.py:2070
 msgid "Applying retention policy"
 msgstr "保持ポリシーの適用"
 
-#: common/snapshots.py:2069
+#: common/snapshots.py:2080
 msgid "Trying to keep min free space"
 msgstr "最小限のフリースペースの確保を試みる"
 
-#: common/snapshots.py:2112
+#: common/snapshots.py:2123
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "最低限でも{perc}分のフリーなinodeを確保中です"
 
-#: common/snapshots.py:3306 qt/app.py:1546 qt/timeline.py:410
+#: common/snapshots.py:3345 qt/app.py:1553 qt/timeline.py:410
 msgid "Now"
 msgstr "現在"
 
@@ -511,7 +509,7 @@ msgstr "SSH公開鍵 \"{pubkey}\" をリモートホスト \"{host}\" にコピ�
 msgid "Please enter a password for \"{user}\"."
 msgstr "ユーザ 「{user}」のパスワードを入力してください。"
 
-#: common/tools.py:402
+#: common/tools.py:405
 #, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
@@ -520,20 +518,20 @@ msgstr ""
 "{path} の保存先ファイルシステムは NTFS でフォーマットされていて、これはUnix-"
 "styleのファイルシステムと非互換であることが知られています。"
 
-#: common/tools.py:434
+#: common/tools.py:438
 #, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "{path} は有効なディレクトリではありません。"
 
-#: common/tools.py:451
+#: common/tools.py:456
 msgid "Creation of following directory failed:"
 msgstr "以下のディレクトリの作成に失敗しました:"
 
-#: common/tools.py:453 common/tools.py:550
+#: common/tools.py:458 common/tools.py:561
 msgid "Write access may be restricted."
 msgstr "書き込み権限が限定されているようです。"
 
-#: common/tools.py:494
+#: common/tools.py:505
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -542,7 +540,7 @@ msgstr ""
 "{path} の保存先ファイルシステムは、ハードリンクをサポートしない FAT でフォーマットされています。ネイティブの GNU/Linux "
 "ファイルシステムを使用してください。"
 
-#: common/tools.py:505
+#: common/tools.py:516
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -553,15 +551,15 @@ msgstr ""
 "リモートSMBサーバーがシンボリックリンクをサポートしているか確認してください、または {expertOptions} で {copyLinks} "
 "を有効化してください。"
 
-#: common/tools.py:509
+#: common/tools.py:520
 msgid "Copy links (dereference symbolic links)"
 msgstr "リンクをコピーする（シンボリックリンクの参照解除）"
 
-#: common/tools.py:510
+#: common/tools.py:521
 msgid "Expert Options"
 msgstr "上級者向けオプション"
 
-#: common/tools.py:514
+#: common/tools.py:525
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
@@ -570,7 +568,7 @@ msgstr ""
 "{path} の保存先ファイルシステムは sshfs の共有マウントです。 sshfs はハードリンクをサポートしていません 。代わりにモード "
 "「SSH」 を使用してください。"
 
-#: common/tools.py:548
+#: common/tools.py:559
 msgid "File creation failed in this directory:"
 msgstr "以下のディレクトリへのファイル作成が失敗しました:"
 
@@ -610,15 +608,15 @@ msgstr "このリンク"
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr "全言語の翻訳者一覧は {thislink} にあります。"
 
-#: qt/aboutdlg.py:240 qt/app.py:584
+#: qt/aboutdlg.py:240 qt/app.py:585
 msgid "Project website"
 msgstr "開発元サイト"
 
-#: qt/aboutdlg.py:245 qt/app.py:566
+#: qt/aboutdlg.py:245 qt/app.py:567
 msgid "User manual"
 msgstr "ユーザーマニュアル"
 
-#: qt/aboutdlg.py:247 qt/app.py:568
+#: qt/aboutdlg.py:247 qt/app.py:569
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr "ユーザーマニュアルをブラウザで開く（ローカルファイルがある場合はローカルファイル、ない場合はオンライン）"
 
@@ -652,304 +650,309 @@ msgstr "作成"
 msgid "Import"
 msgstr "インポート"
 
-#: qt/app.py:505
+#: qt/app.py:506
 msgid "Create a backup"
 msgstr "バックアップを作成"
 
-#: qt/app.py:507
+#: qt/app.py:508
 msgid "Use modification time & size for file change detection."
 msgstr "ファイルの変更検出には、変更時間とサイズを使用します。"
 
-#: qt/app.py:510
+#: qt/app.py:511
 msgid "Create a backup (checksum mode)"
 msgstr "バックアップを作成（チェックサムモード）"
 
-#: qt/app.py:512
+#: qt/app.py:513
 msgid "Use checksums for file change detection."
 msgstr "変更の検出にチェックサムを使用する。"
 
-#: qt/app.py:514 qt/qtsystrayicon.py:126
+#: qt/app.py:515 qt/qtsystrayicon.py:126
 msgid "Pause backup process"
 msgstr "バックアップの作成を一時停止する"
 
-#: qt/app.py:518 qt/qtsystrayicon.py:131
+#: qt/app.py:519 qt/qtsystrayicon.py:131
 msgid "Resume backup process"
 msgstr "バックアップの作成を再開する"
 
-#: qt/app.py:522 qt/qtsystrayicon.py:136
+#: qt/app.py:523 qt/qtsystrayicon.py:136
 msgid "Stop backup process"
 msgstr "バックアップの作成を停止する"
 
-#: qt/app.py:526
+#: qt/app.py:527
 msgid "Refresh backup list"
 msgstr "バックアップのリストを更新"
 
-#: qt/app.py:530
+#: qt/app.py:531
 msgid "Name backup"
 msgstr "バックアップに名前をつける"
 
-#: qt/app.py:534
+#: qt/app.py:535
 msgid "Remove backup"
 msgstr "バックアップの削除"
 
-#: qt/app.py:538
+#: qt/app.py:539
 msgid "Open backup log"
 msgstr "バックアップログを開く"
 
-#: qt/app.py:540
+#: qt/app.py:541
 msgid "View log of the selected backup."
 msgstr "選択したバックアップのログを表示します。"
 
-#: qt/app.py:542
+#: qt/app.py:543
 msgid "Open last backup log"
 msgstr "最後のバックアップログを開く"
 
-#: qt/app.py:544
+#: qt/app.py:545
 msgid "View log of the latest backup."
 msgstr "最新のバックアップのログを表示する。"
 
-#: qt/app.py:546
+#: qt/app.py:547
 msgid "Manage profiles…"
 msgstr "プロファイルの管理…"
 
-#: qt/app.py:550
+#: qt/app.py:551
 msgid "Edit user-callback"
 msgstr "ユーザーコールバックの編集"
 
-#: qt/app.py:554
+#: qt/app.py:555
 msgid "Shutdown"
 msgstr "電源を切る"
 
-#: qt/app.py:556
+#: qt/app.py:557
 msgid "Shut down system after backup has finished."
 msgstr "バックアップの作成終了後に電源を切る。"
 
-#: qt/app.py:558
+#: qt/app.py:559
 msgid "Setup language…"
 msgstr "言語設定…"
 
-#: qt/app.py:562
+#: qt/app.py:563
 msgid "Exit"
 msgstr "終了"
 
-#: qt/app.py:572
+#: qt/app.py:573
 msgid "man page: Back In Time"
 msgstr "man ページ: Back In Time"
 
-#: qt/app.py:574
+#: qt/app.py:575
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "Back In Time (backintime)の man ページを表示する"
 
-#: qt/app.py:577
+#: qt/app.py:578
 msgid "man page: Profiles config file"
 msgstr "man ページ: 設定ファイルのプロファイル"
 
-#: qt/app.py:580
+#: qt/app.py:581
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr "設定ファイル (backintime-config) のプロファイルに関する man ページを表示する"
 
-#: qt/app.py:587
+#: qt/app.py:588
 msgid "Open Back In Time website in browser"
 msgstr "Back In Time の開発サイトをブラウザで開く"
 
-#: qt/app.py:589 qt/app.py:2337
+#: qt/app.py:590 qt/app.py:2347
 msgid "Changelog"
 msgstr "変更履歴"
 
-#: qt/app.py:592
+#: qt/app.py:593
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr "変更履歴を開く（ローカルで利用可能な場合はローカルから、そうでない場合はウェブから）"
 
-#: qt/app.py:595
+#: qt/app.py:596
 msgid "FAQ"
 msgstr "よくある質問"
 
-#: qt/app.py:597
+#: qt/app.py:598
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "よくある質問 (FAQ) をブラウザで開く"
 
-#: qt/app.py:599
-msgid "Ask a question"
-msgstr "質問する"
-
-#: qt/app.py:603
+#: qt/app.py:600
 msgid "Report a bug"
 msgstr "バグを報告する"
 
-#: qt/app.py:606
+#: qt/app.py:603
+msgid "Contact"
+msgstr ""
+
+#: qt/app.py:605
+#, fuzzy
+msgid "Shows additional contact options in the browser"
+msgstr "rsync に追加オプションを貼り付ける"
+
+#: qt/app.py:608
 msgid "Translation"
 msgstr "翻訳"
 
-#: qt/app.py:608
+#: qt/app.py:610
 msgid "Shows the message about participation in translation again."
 msgstr "翻訳への参加に関するメッセージを再度表示。"
 
-#: qt/app.py:618
+#: qt/app.py:620
 msgid "About"
 msgstr "バージョン情報"
 
-#: qt/app.py:621 qt/restoredialog.py:46 qt/snapshotsdialog.py:183
+#: qt/app.py:623 qt/restoredialog.py:46 qt/snapshotsdialog.py:183
 #: qt/snapshotsdialog.py:188
 msgid "Restore"
 msgstr "復元"
 
-#: qt/app.py:623
+#: qt/app.py:625
 msgid "Restore the selected files or directories to the original location."
 msgstr "選択したファイルまたはディレクトリを元の場所に復元します。"
 
-#: qt/app.py:626 qt/app.py:1973 qt/snapshotsdialog.py:185
+#: qt/app.py:628 qt/app.py:1980 qt/snapshotsdialog.py:185
 msgid "Restore to …"
 msgstr "復元…"
 
-#: qt/app.py:628
+#: qt/app.py:630
 msgid "Restore the selected files or directories to a new location."
 msgstr "選択したファイルまたはディレクトリを新しい場所に復元します。"
 
-#: qt/app.py:634
+#: qt/app.py:636
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
 msgstr "現在表示されているディレクトリとそのすべての内容を元の場所に復元します。"
 
-#: qt/app.py:640
+#: qt/app.py:642
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
 msgstr "現在表示されているディレクトリとその全内容を新しい場所に復元します。"
 
-#: qt/app.py:643
+#: qt/app.py:645
 msgid "Up"
 msgstr "上のフォルダへ"
 
-#: qt/app.py:646
+#: qt/app.py:648
 msgid "Show hidden files"
 msgstr "不可視ファイルを表示"
 
-#: qt/app.py:649
+#: qt/app.py:651
 msgid "Compare backups…"
 msgstr "バックアップを比較…"
 
-#: qt/app.py:679 qt/app.py:1815
+#: qt/app.py:681 qt/app.py:1822
 msgid "Release Candidate"
 msgstr "リリース候補版"
 
-#: qt/app.py:682
+#: qt/app.py:684
 msgid "Shows the message about this Release Candidate again."
 msgstr "リリース候補版についてのメッセージを再度表示。"
 
-#: qt/app.py:719
+#: qt/app.py:721
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:724
+#: qt/app.py:726
 msgid "&Backup"
 msgstr "バックアップ(&B)"
 
-#: qt/app.py:736
+#: qt/app.py:738
 msgid "&Restore"
 msgstr "復元(&R)"
 
-#: qt/app.py:742
+#: qt/app.py:744
 msgid "&Help"
 msgstr "ヘルプ(&H)"
 
-#: qt/app.py:792
+#: qt/app.py:794
 msgid "Systray Icon"
 msgstr "システムトレイアイコン"
 
-#: qt/app.py:798
+#: qt/app.py:800
 msgid "Automatic"
 msgstr "自動"
 
-#: qt/app.py:802
+#: qt/app.py:804
 msgid "Light icon"
 msgstr "ライトアイコン"
 
-#: qt/app.py:803
+#: qt/app.py:805
 msgid "Dark icon"
 msgstr "ダークアイコン"
 
-#: qt/app.py:826
+#: qt/app.py:828
 msgid "Icons only"
 msgstr "アイコンのみ"
 
-#: qt/app.py:829
+#: qt/app.py:831
 msgid "Text only"
 msgstr "テキストのみ"
 
-#: qt/app.py:832
+#: qt/app.py:834
 msgid "Text below icons"
 msgstr "テキストをアイコンの下に"
 
-#: qt/app.py:835
+#: qt/app.py:837
 msgid "Text beside icon"
 msgstr "テキストをアイコンの横に"
 
-#: qt/app.py:961
+#: qt/app.py:963
 msgid "This directory doesn't exist in the selected backup."
 msgstr "選択されているバックアップにこのフォルダはありません。"
 
-#: qt/app.py:964
+#: qt/app.py:966
 msgid "This directory doesn't exist on the computer."
 msgstr "選択されているバックアップにこのフォルダはありません。"
 
-#: qt/app.py:1013
+#: qt/app.py:1015
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
 msgstr "このウインドウを閉じると Back In Time はバックアップの作成終了時に電源を切ることができなくなります。"
 
-#: qt/app.py:1016
+#: qt/app.py:1018
 msgid "Close the window anyway?"
 msgstr "本当に閉じますか？"
 
-#: qt/app.py:1107 qt/app.py:1114
+#: qt/app.py:1109 qt/app.py:1116
 msgid "Backup destination unavailable"
 msgstr "バックアップ先が利用できません"
 
-#: qt/app.py:1232
+#: qt/app.py:1234
 msgid "Done, no backup needed"
 msgstr "完了、バックアップの必要はありませんでした"
 
-#: qt/app.py:1303
+#: qt/app.py:1305
 msgid "Working:"
 msgstr "作業中："
 
-#: qt/app.py:1310
+#: qt/app.py:1312
 msgid "Working"
 msgstr "作業中"
 
-#: qt/app.py:1316 qt/messagebox.py:136
+#: qt/app.py:1318 qt/messagebox.py:136
 msgid "Error"
 msgstr "エラー"
 
-#: qt/app.py:1357 qt/qtsystrayicon.py:282
+#: qt/app.py:1364 qt/qtsystrayicon.py:287
 msgid "Sent:"
 msgstr "送信:"
 
-#: qt/app.py:1358 qt/qtsystrayicon.py:283
+#: qt/app.py:1365 qt/qtsystrayicon.py:288
 msgid "Speed:"
 msgstr "速度:"
 
-#: qt/app.py:1359 qt/qtsystrayicon.py:284
+#: qt/app.py:1366 qt/qtsystrayicon.py:289
 msgid "ETA:"
 msgstr "完了予想時間:"
 
-#: qt/app.py:1554
+#: qt/app.py:1561
 msgid "Backup:"
 msgstr "バックアップ:"
 
-#: qt/app.py:1654
+#: qt/app.py:1661
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "{path} を復元"
 
-#: qt/app.py:1656
+#: qt/app.py:1663
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "{path} を復元…"
 
-#: qt/app.py:1680
+#: qt/app.py:1687
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -966,47 +969,47 @@ msgstr ""
 "突然のメッセージを失礼致しました。このメッセージは今後表示されませんが、ヘルプメニューからいつでもご覧いただけます。\n"
 "Back In Time チーム一同"
 
-#: qt/app.py:1709
+#: qt/app.py:1716
 msgid "translation platform"
 msgstr "翻訳プラットフォーム"
 
-#: qt/app.py:1714
+#: qt/app.py:1721
 msgid "Website"
 msgstr "ウェブサイト"
 
-#: qt/app.py:1728
+#: qt/app.py:1735
 msgid "Your translation"
 msgstr "翻訳へのご協力のお願い"
 
-#: qt/app.py:1765
+#: qt/app.py:1772
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Mastodon にある Fediverse で: {link_and_label}。"
 
-#: qt/app.py:1770
+#: qt/app.py:1777
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "{link_and_label}宛のメール。"
 
-#: qt/app.py:1774
+#: qt/app.py:1781
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "メーリングリスト {link_and_label}。"
 
-#: qt/app.py:1778
+#: qt/app.py:1785
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "開発サイトに {link_and_label}。"
 
-#: qt/app.py:1781
+#: qt/app.py:1788
 msgid "Open an issue"
 msgstr "議題を伝える"
 
-#: qt/app.py:1782
+#: qt/app.py:1789
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "その他に、好みのチャンネルを選択することもできます。"
 
-#: qt/app.py:1787
+#: qt/app.py:1794
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -1027,51 +1030,51 @@ msgstr ""
 "Back In Time をご愛用いただき、多大なる支援を頂いて誠に感謝申し上げます。\n"
 "Back In Time チーム一同"
 
-#: qt/app.py:1879
+#: qt/app.py:1886
 msgid "Check if remote host is online"
 msgstr "リモートホストがオンラインかどうか確認する"
 
-#: qt/app.py:1880
+#: qt/app.py:1887
 msgid "Check if remote host supports all necessary commands."
 msgstr "リモートホストが必要なコマンドをすべてサポートしているか確認する。"
 
-#: qt/app.py:1923
+#: qt/app.py:1930
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr "宛先には {free} の空き領域しかなく、これは設定されたしきい値 {threshold} を下回っています。"
 
-#: qt/app.py:1928
+#: qt/app.py:1935
 msgid "Proceed with the backup?"
 msgstr "バックアップを続行しますか？"
 
-#: qt/app.py:1953
+#: qt/app.py:1960
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr "{path} にあるより新しいファイルは削除されます。続行しますか？"
 
-#: qt/app.py:1956
+#: qt/app.py:1963
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr "元のディレクトリにあるより新しいファイルは削除されます。続行しますか？"
 
-#: qt/app.py:1962
+#: qt/app.py:1969
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "the entire system."
 msgstr "{BOLD}警告{BOLDEND}: ファイルシステムルートのファイルを削除すると、システム全体が壊れる可能性があります。"
 
-#: qt/app.py:2199
+#: qt/app.py:2206
 msgid "Backup name"
 msgstr "バックアップ名"
 
-#: qt/app.py:2231
+#: qt/app.py:2238
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "このバックアップを削除しますか？"
 
-#: qt/app.py:2298
+#: qt/app.py:2305
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "言語設定は、Back In Time を再起動した後に有効になります。"
 
@@ -1207,8 +1210,8 @@ msgstr "バックアップログを表示"
 msgid "Last Log View"
 msgstr "最終ログを表示"
 
-#: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:72
-#: qt/manageprofiles/tab_general.py:243 qt/restoreconfigdialog.py:336
+#: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:73
+#: qt/manageprofiles/tab_general.py:244 qt/restoreconfigdialog.py:336
 msgid "Profile:"
 msgstr "プロファイル:"
 
@@ -1248,60 +1251,60 @@ msgstr[0] "情報"
 msgid "rsync transfer failures (experimental)"
 msgstr "rsync 転送の失敗 (実験的)"
 
-#: qt/manageprofiles/__init__.py:64
+#: qt/manageprofiles/__init__.py:65
 msgid "Manage profiles"
 msgstr "プロファイルの管理"
 
-#: qt/manageprofiles/__init__.py:83
+#: qt/manageprofiles/__init__.py:84
 msgid "Edit"
 msgstr "編集"
 
-#: qt/manageprofiles/__init__.py:87
+#: qt/manageprofiles/__init__.py:88
 msgid "Add"
 msgstr "追加"
 
-#: qt/manageprofiles/__init__.py:91 qt/manageprofiles/tab_exclude.py:126
-#: qt/manageprofiles/tab_include.py:80
+#: qt/manageprofiles/__init__.py:92 qt/manageprofiles/tab_exclude.py:126
+#: qt/manageprofiles/tab_include.py:81
 msgid "Remove"
 msgstr "削除"
 
-#: qt/manageprofiles/__init__.py:112
+#: qt/manageprofiles/__init__.py:113
 msgid "&General"
 msgstr "一般(&G)"
 
-#: qt/manageprofiles/__init__.py:116
+#: qt/manageprofiles/__init__.py:117
 msgid "&Include"
 msgstr "追加リスト(&I)"
 
-#: qt/manageprofiles/__init__.py:120
+#: qt/manageprofiles/__init__.py:121
 msgid "&Exclude"
 msgstr "除外リスト(&E)"
 
-#: qt/manageprofiles/__init__.py:135
+#: qt/manageprofiles/__init__.py:136
 msgid "&Remove & Retention"
 msgstr "削除と保持の条件(&R)"
 
-#: qt/manageprofiles/__init__.py:139
+#: qt/manageprofiles/__init__.py:140
 msgid "&Options"
 msgstr "オプション(&O)"
 
-#: qt/manageprofiles/__init__.py:143
+#: qt/manageprofiles/__init__.py:144
 msgid "E&xpert Options"
 msgstr "上級者向けオプション(&X)"
 
-#: qt/manageprofiles/__init__.py:151
+#: qt/manageprofiles/__init__.py:152
 msgid "Restore Config"
 msgstr "設定の復元"
 
-#: qt/manageprofiles/__init__.py:182
+#: qt/manageprofiles/__init__.py:183
 msgid "New profile"
 msgstr "新規プロファイル"
 
-#: qt/manageprofiles/__init__.py:199
+#: qt/manageprofiles/__init__.py:200
 msgid "Rename profile"
 msgstr "プロファイルをリネーム"
 
-#: qt/manageprofiles/__init__.py:215
+#: qt/manageprofiles/__init__.py:217
 #, python-brace-format
 msgid "Delete the profile \"{name}\"?"
 msgstr "プロファイル \"{name}\" を削除しますか？"
@@ -1500,172 +1503,181 @@ msgstr "デフォルト"
 msgid "Reset to predefined selection"
 msgstr "事前定義された選択にリセット"
 
-#: qt/manageprofiles/schedulewidget.py:38
+#: qt/manageprofiles/schedulewidget.py:30
+msgid ""
+"For example, \"repeatedly every 1 hour\" means a backup is triggered at each"
+" new clock hour. If the last successful backup was at 18:56, it will be "
+"triggered again at 19:00 because the hour boundary has been crossed. This "
+"schedule mode is useful if the computer is not running regularly."
+msgstr ""
+
+#: qt/manageprofiles/schedulewidget.py:49
 msgid "Schedule"
 msgstr "スケジュール"
 
-#: qt/manageprofiles/schedulewidget.py:64
+#: qt/manageprofiles/schedulewidget.py:88
 msgid "Day:"
 msgstr "日:"
 
-#: qt/manageprofiles/schedulewidget.py:69
+#: qt/manageprofiles/schedulewidget.py:93
 msgid "Weekday:"
 msgstr "曜日:"
 
-#: qt/manageprofiles/schedulewidget.py:74
+#: qt/manageprofiles/schedulewidget.py:98
 msgid "Time:"
 msgstr "時間:"
 
-#: qt/manageprofiles/schedulewidget.py:79
+#: qt/manageprofiles/schedulewidget.py:103
 msgid "Hours:"
 msgstr "時間:"
 
-#: qt/manageprofiles/schedulewidget.py:87
+#: qt/manageprofiles/schedulewidget.py:109
 msgid "after the hour"
 msgstr "毎正時後"
 
-#: qt/manageprofiles/schedulewidget.py:89
+#: qt/manageprofiles/schedulewidget.py:111
 msgid "Minutes:"
 msgstr "分:"
 
-#: qt/manageprofiles/schedulewidget.py:93
+#: qt/manageprofiles/schedulewidget.py:115
 msgid ""
 "Run Back In Time as soon as the drive is connected (only once every X days)."
 " A sudo password prompt will appear."
 msgstr "ドライブが接続されたら Back In Time を実行 (ただし X日に一回)。 sudo のパスワードプロンプトが表示されるでしょう。"
 
-#: qt/manageprofiles/schedulewidget.py:98
+#: qt/manageprofiles/schedulewidget.py:121
 msgid ""
-"Run Back In Time repeatedly. This is useful if the computer is not running "
-"regularly."
-msgstr "Back In Time を繰り返し実行する。コンピュータを定期的に起動していない場合に便利です。"
+"Trigger a backup when a new hour, day, week, or month beginns. If the system"
+" was off, it runs on the next start."
+msgstr ""
 
-#: qt/manageprofiles/schedulewidget.py:110
+#: qt/manageprofiles/schedulewidget.py:133
 msgid "Every:"
 msgstr "毎:"
 
-#: qt/manageprofiles/schedulewidget.py:114
+#: qt/manageprofiles/schedulewidget.py:137
 msgid "Enable logging of debug messages"
 msgstr "デバッグメッセージのログを有効化"
 
-#: qt/manageprofiles/schedulewidget.py:118
+#: qt/manageprofiles/schedulewidget.py:141
 msgid "Writes debug-level messages into the system log via \"--debug\"."
 msgstr "デバッグレベルメッセージを 「--debug」 経由でシステムログに書き込む。"
 
-#: qt/manageprofiles/schedulewidget.py:120
+#: qt/manageprofiles/schedulewidget.py:143
 msgid ""
 "Caution: Only use this temporarily for diagnostics, as it generates a large "
 "amount of output."
 msgstr "注意: これは非常に大量の出力を発生させるので、臨時の診断に使用してください。"
 
-#: qt/manageprofiles/schedulewidget.py:145
+#: qt/manageprofiles/schedulewidget.py:168
 msgid "Disabled"
 msgstr "無効"
 
-#: qt/manageprofiles/schedulewidget.py:146
+#: qt/manageprofiles/schedulewidget.py:169
 msgid "At every boot/reboot"
 msgstr "起動/再起動毎に"
 
-#: qt/manageprofiles/schedulewidget.py:148
-#: qt/manageprofiles/schedulewidget.py:150
-#: qt/manageprofiles/schedulewidget.py:152
+#: qt/manageprofiles/schedulewidget.py:171
+#: qt/manageprofiles/schedulewidget.py:173
+#: qt/manageprofiles/schedulewidget.py:175
 #, python-brace-format
 msgid "Every minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "毎{n}分ごと"
 
-#: qt/manageprofiles/schedulewidget.py:154
-#: qt/manageprofiles/schedulewidget.py:156
-#: qt/manageprofiles/schedulewidget.py:158
-#: qt/manageprofiles/schedulewidget.py:160
-#: qt/manageprofiles/schedulewidget.py:162
+#: qt/manageprofiles/schedulewidget.py:177
+#: qt/manageprofiles/schedulewidget.py:179
+#: qt/manageprofiles/schedulewidget.py:181
+#: qt/manageprofiles/schedulewidget.py:183
+#: qt/manageprofiles/schedulewidget.py:185
 #, python-brace-format
 msgid "Every hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "毎{n}時間ごと"
 
-#: qt/manageprofiles/schedulewidget.py:163
+#: qt/manageprofiles/schedulewidget.py:186
 msgid "Custom hours"
 msgstr "カスタム時間"
 
-#: qt/manageprofiles/schedulewidget.py:164
+#: qt/manageprofiles/schedulewidget.py:187
 msgid "Every day"
 msgstr "毎日"
 
-#: qt/manageprofiles/schedulewidget.py:165
-msgid "Repeatedly (anacron)"
+#: qt/manageprofiles/schedulewidget.py:189
+#, fuzzy
+msgid "Repeatedly"
 msgstr "繰り返し (anacron)"
 
-#: qt/manageprofiles/schedulewidget.py:166
+#: qt/manageprofiles/schedulewidget.py:191
 msgid "When drive gets connected (udev)"
 msgstr "ドライブが接続されたとき（udev）"
 
-#: qt/manageprofiles/schedulewidget.py:167
+#: qt/manageprofiles/schedulewidget.py:192
 msgid "Every week"
 msgstr "毎週"
 
-#: qt/manageprofiles/schedulewidget.py:168
+#: qt/manageprofiles/schedulewidget.py:193
 msgid "Every month"
 msgstr "毎月"
 
-#: qt/manageprofiles/schedulewidget.py:169
+#: qt/manageprofiles/schedulewidget.py:194
 msgid "Every year"
 msgstr "毎年"
 
-#: qt/manageprofiles/schedulewidget.py:228
+#: qt/manageprofiles/schedulewidget.py:253
 msgid "Hour(s)"
 msgstr "時間"
 
-#: qt/manageprofiles/schedulewidget.py:229
+#: qt/manageprofiles/schedulewidget.py:254
 #: qt/manageprofiles/tab_remove_retention.py:271
 msgid "Day(s)"
 msgstr "日"
 
-#: qt/manageprofiles/schedulewidget.py:230
+#: qt/manageprofiles/schedulewidget.py:255
 #: qt/manageprofiles/tab_remove_retention.py:272
 msgid "Week(s)"
 msgstr "週"
 
-#: qt/manageprofiles/schedulewidget.py:231
+#: qt/manageprofiles/schedulewidget.py:256
 msgid "Month(s)"
 msgstr "カ月"
 
-#: qt/manageprofiles/schedulewidget.py:326
+#: qt/manageprofiles/schedulewidget.py:351
 msgid ""
 "Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours."
 msgstr "カスタム時間には、カンマ区切りの時間リスト（例：8,12,18,23）または */3 3時間ごとの定期バックアップのみを指定できます。"
 
-#: qt/manageprofiles/sshkeyselector.py:64
+#: qt/manageprofiles/sshkeyselector.py:54
 msgid "<Select another file…>"
 msgstr "<別のファイルを選択…>"
 
-#: qt/manageprofiles/sshkeyselector.py:65
+#: qt/manageprofiles/sshkeyselector.py:55
 msgid "Choose an existing private key file from somewhere else."
 msgstr "別の場所にある既存の秘密鍵ファイルを選択してください。"
 
-#: qt/manageprofiles/sshkeyselector.py:71
+#: qt/manageprofiles/sshkeyselector.py:61
 msgid "<Generate new key-pair…>"
 msgstr "<新しい鍵ペアを生成します…>"
 
-#: qt/manageprofiles/sshkeyselector.py:72
+#: qt/manageprofiles/sshkeyselector.py:62
 msgid "Create a new SSH key without passphrase."
 msgstr "パスフレーズなしの新しいSSHキーを作成する。"
 
-#: qt/manageprofiles/sshkeyselector.py:92
+#: qt/manageprofiles/sshkeyselector.py:82
 #, python-brace-format
 msgid "Full path: {path}"
 msgstr "フルパス: {path}"
 
-#: qt/manageprofiles/sshkeyselector.py:205
+#: qt/manageprofiles/sshkeyselector.py:195
 msgid "Private key:"
 msgstr "秘密鍵："
 
-#: qt/manageprofiles/sshkeyselector.py:210
+#: qt/manageprofiles/sshkeyselector.py:200
 msgid "Use system SSH configuration"
 msgstr "システムSSH設定を使用する"
 
-#: qt/manageprofiles/sshkeyselector.py:212
+#: qt/manageprofiles/sshkeyselector.py:202
 msgid ""
 "Leaves the key file unselected. SSH connections will rely on the system’s "
 "existing client configuration (e.g., ~/.ssh/config)."
@@ -1675,17 +1687,17 @@ msgstr "キーファイルを選択解除します。SSH接続はシステムの
 msgid "SSH Proxy"
 msgstr "SSH プロキシ"
 
-#: qt/manageprofiles/sshproxywidget.py:55 qt/manageprofiles/tab_general.py:110
-#: qt/manageprofiles/tab_general.py:231
+#: qt/manageprofiles/sshproxywidget.py:55 qt/manageprofiles/tab_general.py:111
+#: qt/manageprofiles/tab_general.py:232
 msgid "Host:"
 msgstr "ホスト:"
 
-#: qt/manageprofiles/sshproxywidget.py:59 qt/manageprofiles/tab_general.py:115
+#: qt/manageprofiles/sshproxywidget.py:59 qt/manageprofiles/tab_general.py:116
 msgid "Port:"
 msgstr "ポート:"
 
-#: qt/manageprofiles/sshproxywidget.py:63 qt/manageprofiles/tab_general.py:120
-#: qt/manageprofiles/tab_general.py:237
+#: qt/manageprofiles/sshproxywidget.py:63 qt/manageprofiles/tab_general.py:121
+#: qt/manageprofiles/tab_general.py:238
 msgid "User:"
 msgstr "ユーザ:"
 
@@ -1717,11 +1729,11 @@ msgstr "除外するファイルやフォルダのパターン"
 msgid "Add pattern"
 msgstr "パターンを追加"
 
-#: qt/manageprofiles/tab_exclude.py:108 qt/manageprofiles/tab_include.py:69
+#: qt/manageprofiles/tab_exclude.py:108 qt/manageprofiles/tab_include.py:70
 msgid "Add files"
 msgstr "ファイルを追加する"
 
-#: qt/manageprofiles/tab_exclude.py:113 qt/manageprofiles/tab_include.py:74
+#: qt/manageprofiles/tab_exclude.py:113 qt/manageprofiles/tab_include.py:75
 msgid "Add directories"
 msgstr "ディレクトリを追加する"
 
@@ -1901,45 +1913,45 @@ msgstr "無効"
 msgid "enabled"
 msgstr "有効"
 
-#: qt/manageprofiles/tab_general.py:65 qt/restoreconfigdialog.py:338
+#: qt/manageprofiles/tab_general.py:66 qt/restoreconfigdialog.py:338
 msgid "Mode:"
 msgstr "モード:"
 
-#: qt/manageprofiles/tab_general.py:72 qt/manageprofiles/tab_general.py:377
-#: qt/manageprofiles/tab_general.py:681
+#: qt/manageprofiles/tab_general.py:73 qt/manageprofiles/tab_general.py:378
+#: qt/manageprofiles/tab_general.py:678
 msgid "Where to save backups"
 msgstr "バックアップの保存場所"
 
-#: qt/manageprofiles/tab_general.py:98
+#: qt/manageprofiles/tab_general.py:99
 msgid "SSH Settings"
 msgstr "SSH 設定"
 
-#: qt/manageprofiles/tab_general.py:132
+#: qt/manageprofiles/tab_general.py:133
 msgid "Key file:"
 msgstr "キーファイル:"
 
-#: qt/manageprofiles/tab_general.py:169 qt/manageprofiles/tab_general.py:177
-#: qt/manageprofiles/tab_general.py:182
+#: qt/manageprofiles/tab_general.py:170 qt/manageprofiles/tab_general.py:178
+#: qt/manageprofiles/tab_general.py:183
 msgid "Password"
 msgstr "パスワード"
 
-#: qt/manageprofiles/tab_general.py:199
+#: qt/manageprofiles/tab_general.py:200
 msgid "Save Password to Keyring"
 msgstr "パスワードを鍵束に保存"
 
-#: qt/manageprofiles/tab_general.py:203
+#: qt/manageprofiles/tab_general.py:204
 msgid "Cache Password for Cron (Security issue: root can read password)"
 msgstr "パスワードを cron に渡す (セキュリティ上の問題: 管理者にパスワードを知られます)"
 
-#: qt/manageprofiles/tab_general.py:219
+#: qt/manageprofiles/tab_general.py:220
 msgid "Advanced"
 msgstr "上級設定"
 
-#: qt/manageprofiles/tab_general.py:249 qt/manageprofiles/tab_general.py:804
+#: qt/manageprofiles/tab_general.py:250 qt/manageprofiles/tab_general.py:801
 msgid "Full backup path:"
 msgstr "バックアップのフルパス："
 
-#: qt/manageprofiles/tab_general.py:257
+#: qt/manageprofiles/tab_general.py:258
 msgid ""
 "Scheduling is disabled because no cron installation was found. Please "
 "install cron to enable scheduled backups."
@@ -1947,80 +1959,80 @@ msgstr ""
 "cron のインストールが検出されなかったため、スケジュール設定は無効になっています。スケジュールされたバックアップを有効にするには、cron "
 "をインストールしてください。"
 
-#: qt/manageprofiles/tab_general.py:376
+#: qt/manageprofiles/tab_general.py:377
 msgid "The backup destination path cannot be empty."
 msgstr "バックアップ先のパスは空にできません。"
 
-#: qt/manageprofiles/tab_general.py:392
+#: qt/manageprofiles/tab_general.py:393
 msgid "The encryption password cannot be empty."
 msgstr "暗号化パスワードは空欄にできません。"
 
-#: qt/manageprofiles/tab_general.py:475
+#: qt/manageprofiles/tab_general.py:476
 msgid "Back In Time could not validate the SSH configuration."
 msgstr "Back In Time は SSH 設定を検証できませんでした。"
 
-#: qt/manageprofiles/tab_general.py:477
+#: qt/manageprofiles/tab_general.py:478
 msgid "SSH profile setup failed"
 msgstr "SSHプロファイルの設定に失敗しました"
 
-#: qt/manageprofiles/tab_general.py:521
+#: qt/manageprofiles/tab_general.py:522
 msgid "Profile setup failed"
 msgstr "プロファイルの設定に失敗しました"
 
-#: qt/manageprofiles/tab_general.py:704
+#: qt/manageprofiles/tab_general.py:701
 msgid "Really change the backup directory?"
 msgstr "バックアップのディレクトリを変更しますか？"
 
-#: qt/manageprofiles/tab_general.py:724
+#: qt/manageprofiles/tab_general.py:721
 msgid "The selected backup destination cannot be used for encryption."
 msgstr "選択したバックアップ先では、暗号化を使用できません。"
 
-#: qt/manageprofiles/tab_general.py:727
+#: qt/manageprofiles/tab_general.py:724
 msgid "It must either be empty or already initialized for gocryptfs."
 msgstr "gocryptfs を使用するには、そのディレクトリが空であるか、すでに初期化されている必要があります。"
 
-#: qt/manageprofiles/tab_general.py:757
+#: qt/manageprofiles/tab_general.py:754
 msgid "Invalid file: Not a private SSH key"
 msgstr "無効なファイル: SSH秘密鍵ではありません"
 
-#: qt/manageprofiles/tab_general.py:758
+#: qt/manageprofiles/tab_general.py:755
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr "選択されたファイル（{path}）は公開SSHキーです。代わりに、対応する秘密鍵ファイル（「.pub」 なし）を選択してください。"
 
-#: qt/manageprofiles/tab_general.py:782
+#: qt/manageprofiles/tab_general.py:779
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
 msgstr "ファイル {path} は既に存在します。その名前で新しい SSH キーを作成できません。"
 
-#: qt/manageprofiles/tab_general.py:792
+#: qt/manageprofiles/tab_general.py:789
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "{path} において新しい SSH鍵の作成に失敗しました。"
 
-#: qt/manageprofiles/tab_include.py:49
+#: qt/manageprofiles/tab_include.py:50
 msgid "Include files and directories"
 msgstr "追加するファイルとフォルダ"
 
-#: qt/manageprofiles/tab_include.py:169
+#: qt/manageprofiles/tab_include.py:170
 #, python-brace-format
 msgid ""
 "\"{path}\" is a symlink. The linked target will not be backed up until it is"
 " included, too."
 msgstr "{path} はシンボリックリンクです。このリンクにある本体は指定しない限りバックアップされません。"
 
-#: qt/manageprofiles/tab_include.py:173
+#: qt/manageprofiles/tab_include.py:174
 msgid "Include the symlink's target instead?"
 msgstr "シンボリックリンクの代わりに本体を指定しますか？"
 
-#: qt/manageprofiles/tab_include.py:181
+#: qt/manageprofiles/tab_include.py:186
 msgid "Include files"
 msgstr "インクルードファイル"
 
-#: qt/manageprofiles/tab_include.py:200
+#: qt/manageprofiles/tab_include.py:205
 msgid "Include directories"
 msgstr "インクルードディレクトリ"
 
@@ -2286,7 +2298,7 @@ msgstr "{appname} を開始する"
 msgid "Working…"
 msgstr "作業中…"
 
-#: qt/qttools.py:504
+#: qt/qttools.py:519
 #, python-brace-format
 msgid "man page: {man_page_name}"
 msgstr "manページ: {man_page_name}"
@@ -2367,26 +2379,26 @@ msgstr[0] "{n} 秒後にシステムはシャットダウンします。"
 msgid "Options about comparing backups"
 msgstr "バックアップの比較についてのオプション"
 
-#: qt/snapshotsdialog.py:73
+#: qt/snapshotsdialog.py:74
 msgid "Parameters:"
 msgstr "パラメータ:"
 
-#: qt/snapshotsdialog.py:78
+#: qt/snapshotsdialog.py:79
 msgid "Use %1 and %2 for path parameters"
 msgstr "パスのパラメータに %1 と %2 を使う"
 
-#: qt/snapshotsdialog.py:95
+#: qt/snapshotsdialog.py:96
 msgid "Please set a diff command or press Cancel."
 msgstr "diff コマンドをセットしてください、またはキャンセルボタンを押してください。"
 
-#: qt/snapshotsdialog.py:101
+#: qt/snapshotsdialog.py:102
 #, python-brace-format
 msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
 "else or press Cancel."
 msgstr "この {cmd} コマンドはシステムにありません。 別の方法を試すかキャンセルボタンを押してください。"
 
-#: qt/snapshotsdialog.py:109
+#: qt/snapshotsdialog.py:110
 #, python-brace-format
 msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr "diff コマンドに渡すパラメータがありません。 デフォルトの値 {params} を使用します。"
@@ -2433,21 +2445,21 @@ msgid ""
 " redundant."
 msgstr "比較結果が冗長ですから、バックアップをそれ自身とは比較できません。"
 
-#: qt/snapshotsdialog.py:463
+#: qt/snapshotsdialog.py:467
 #, python-brace-format
 msgid "Really delete {file_or_dir} in backup {backup_id}?"
 msgstr "バックアップ {backup_id} の {file_or_dir} を本当に削除してもよろしいですか？"
 
-#: qt/snapshotsdialog.py:468
+#: qt/snapshotsdialog.py:472
 #, python-brace-format
 msgid "Really delete {file_or_dir} in {count} backups?"
 msgstr "{count}個のバックアップから {file_or_dir} を本当に削除したいですか？"
 
-#: qt/snapshotsdialog.py:471
+#: qt/snapshotsdialog.py:475
 msgid "WARNING: This cannot be revoked."
 msgstr "警告: これを取り消すことはできません。"
 
-#: qt/snapshotsdialog.py:488
+#: qt/snapshotsdialog.py:492
 #, python-brace-format
 msgid "Exclude {path} from future backups?"
 msgstr "今後のバックアップから {path} を除外しますか？"
@@ -2493,5 +2505,4 @@ msgstr "最終チェック {time}"
 #: qt/timeline.py:407
 msgid "These are your files as they are right now. It is not a backup."
 msgstr "これらは、現在のままのあなたのファイルです。バックアップではありません。"
-
 # REUSE-IgnoreEnd
