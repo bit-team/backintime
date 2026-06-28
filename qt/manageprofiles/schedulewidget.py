@@ -119,7 +119,7 @@ class ScheduleWidget(QGroupBox):
         self._rowidx_repeated = _create_form_entry(
             label=_(
                 'Trigger a backup when a new hour, day, week, or month '
-                'beginns. If the system was off, it runs on the next start.'
+                'begins. If the system was off, it runs on the next start.'
             ),
             tooltip=_REPEATEDLY_TOOLTIP
         )
