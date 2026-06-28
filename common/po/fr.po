@@ -19,11 +19,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-06-17 17:15+0200\n"
-"PO-Revision-Date: 2026-06-16 17:43+0000\n"
+"PO-Revision-Date: 2026-06-24 08:07+0000\n"
 "Last-Translator: bubub <bubub@noreply.codeberg.org>\n"
-"Language-Team: French <https://translate.codeberg.org/projects/backintime/common/fr/>\n"
+"Language-Team: French <https://translate.codeberg.org/projects/backintime/"
+"common/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -271,6 +272,7 @@ msgstr ""
 #, python-brace-format
 msgid "Mountpoint as decrypted view is missing. Path: {path}"
 msgstr ""
+"Le point de montage, tel que déchiffré, est manquant. Chemin d'accès: {path}"
 
 #: common/mount/_encryptors.py:338
 #, python-brace-format
@@ -421,6 +423,8 @@ msgid ""
 "Negative exit codes indicate termination by a signal. The number corresponds"
 " to the signal (see 'kill -l')."
 msgstr ""
+"Les codes de retour sont négatifs lorsque l'arrêt est du à la réception d'un "
+"signal. La valeur du code correspond au signal (voir 'kill -l')."
 
 #: common/snapshots.py:1578
 msgid "Nothing changed, no new backup necessary"
@@ -467,18 +471,17 @@ msgstr "Réponse inattendue de ssh-agent."
 
 #: common/sshsetupvalidator.py:252
 msgid "Unexpected output from ssh-agent."
-msgstr ""
+msgstr "Réponse inattendue de ssh-agent."
 
 #: common/sshsetupvalidator.py:253
 msgid "Output:"
-msgstr ""
+msgstr "Sortie :"
 
 #: common/sshsetupvalidator.py:280
 msgid "The SSH key is not loaded into ssh-agent."
 msgstr "La clef SSH n'est pas chargée dans ssh-agent."
 
 #: common/sshsetupvalidator.py:309
-#, fuzzy
 msgid "Failed to add SSH key."
 msgstr "Impossible d'ajouter la clef SSH."
 
@@ -493,7 +496,7 @@ msgstr "Réponse inattendue de sshfs."
 #: common/sshsetupvalidator.py:373
 #, python-brace-format
 msgid "The SSH host \"{host}\" is not trusted yet."
-msgstr ""
+msgstr "L'hôte SSH \"{host}\" n'est pas de confiance pour le moment."
 
 #: common/sshsetupvalidator.py:375
 msgid "Please connect to the host manually once to confirm its fingerprint."
@@ -507,21 +510,22 @@ msgstr ""
 
 #: common/sshsetupvalidator.py:469
 msgid "Could not verify rsync hardlink support."
-msgstr ""
+msgstr "Impossible de vérifier la prise en charge de lien direct par rsync."
 
 #: common/sshsetupvalidator.py:498
 msgid "Unexpected error while verifying rsync hardlink support."
 msgstr ""
+"Erreur inattendue lors de la vérification de la prise en charge de lien "
+"direct par rsync."
 
 #: common/sshsetupvalidator.py:505
-#, fuzzy
 msgid "The remote file system does not support hardlinks."
-msgstr "L'hôte distant {host} ne prend pas en charge les liens physiques"
+msgstr "L'hôte distant {host} ne prend pas en charge les liens directs."
 
 #: common/sshsetupvalidator.py:548
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not create remote backup directory: {path}"
-msgstr "Impossible de créer le chemin distant."
+msgstr "Impossible de créer le répertoire de sauvegarde distant : {path}"
 
 #: common/sshtools.py:157
 #, fuzzy, python-brace-format
@@ -668,13 +672,12 @@ msgstr ""
 "n'ayant été trouvée."
 
 #: qt/app.py:348
-#, fuzzy
 msgid ""
 "Create a new configuration or import an existing configuration from a "
 "backup?"
 msgstr ""
-"Importer une configuration existante à partir d'un emplacement de sauvegarde"
-" ou d'un autre ordinateur ?"
+"Créer une nouvelle ou importer une configuration existante à partir d'un "
+"emplacement de sauvegarde ou d'un autre ordinateur ?"
 
 #: qt/app.py:353 qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -682,7 +685,7 @@ msgstr "Question"
 
 #: qt/app.py:356
 msgid "Create"
-msgstr ""
+msgstr "Créer"
 
 #: qt/app.py:358 qt/restoreconfigdialog.py:131
 msgid "Import"
@@ -959,7 +962,7 @@ msgstr "Fermer quand même la fenêtre ?"
 
 #: qt/app.py:1107 qt/app.py:1114
 msgid "Backup destination unavailable"
-msgstr ""
+msgstr "Destination de sauvegarde indisponible"
 
 #: qt/app.py:1232
 msgid "Done, no backup needed"
@@ -1817,17 +1820,17 @@ msgstr ""
 "\"ProxyJump\" dans celle de \"ssh_config\" pour les détails."
 
 #: qt/manageprofiles/tab_exclude.py:63
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
 "asterisks are functional (e.g. {example2}). Other types of wildcards and "
 "patterns will be ignored (e.g. {example1}). Filenames are unpredictable in "
 "this mode."
 msgstr ""
-"{BOLD}Info{ENDBOLD} : En mode 'SSH chiffré', seuls les astérisques simples "
+"{BOLD}Info{ENDBOLD} : En mode 'SSH chiffré', seuls les astérisques simples "
 "ou doubles sont fonctionnels (par exemple {example2}). Les autres types de "
 "jokers et de motifs seront ignorés (par exemple {example1}). Les noms de "
-"fichiers sont imprévisibles dans ce mode en raison du chiffrement par EncFS."
+"fichiers sont imprévisibles dans ce mode."
 
 #: qt/manageprofiles/tab_exclude.py:86
 msgid "Exclude patterns, files or directories"
@@ -2677,4 +2680,5 @@ msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
 "Ce sont vos fichiers tels qu'ils sont maintenant. Ce n'est pas une "
 "sauvegarde."
+
 # REUSE-IgnoreEnd

@@ -17,17 +17,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-06-17 17:15+0200\n"
-"PO-Revision-Date: 2026-04-22 18:57+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
-"Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/common/sv/>\n"
+"PO-Revision-Date: 2026-06-18 06:49+0000\n"
+"Last-Translator: bittin <bittin@noreply.codeberg.org>\n"
+"Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/"
+"common/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.17\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -69,12 +70,11 @@ msgstr "SSH"
 #: common/config.py:184 common/config.py:190
 #: qt/manageprofiles/tab_general.py:745
 msgid "SSH private key"
-msgstr "Privat SSH-nyckel"
+msgstr "SSH privat nyckel"
 
 #: common/config.py:189
-#, fuzzy
 msgid "SSH encrypted"
-msgstr "SSH (EncFS-krypterad)"
+msgstr "SSH krypterad"
 
 #: common/config.py:221 common/config.py:233 common/config.py:251
 #: common/config.py:265 common/config.py:286
@@ -164,9 +164,8 @@ msgid "The last profile cannot be removed."
 msgstr "Den sista profilen kan inte tas bort."
 
 #: common/mount/_backends.py:88 common/snapshots.py:957
-#, fuzzy
 msgid "Can't find backup destination directory."
-msgstr "Kan inte hitta katalogen för säkerhetskopian."
+msgstr "Kan inte hitta säkerhetskopians destinationskatalog."
 
 #: common/mount/_backends.py:90 common/snapshots.py:961
 msgid "If it is on a removable drive, please plug it in."
@@ -179,24 +178,25 @@ msgstr "Klicka sedan på OK."
 #: common/mount/_backends.py:108
 msgid "Back In Time could not connect to the remote backup location."
 msgstr ""
+"Back In Time kunde inte ansluta till fjärrplatsen för säkerhetskopiering."
 
 #: common/mount/_backends.py:110 qt/manageprofiles/tab_general.py:476
 msgid "Reason:"
-msgstr ""
+msgstr "Anledning:"
 
 #: common/mount/_backends.py:156 common/sshsetupvalidator.py:181
 #, python-brace-format
 msgid "Could not reach the SSH proxy host \"{host_port}\"."
-msgstr ""
+msgstr "Kunde inte nå SSH-proxyvärd \"{host_port}\"."
 
 #: common/mount/_backends.py:161 common/sshsetupvalidator.py:186
 #, python-brace-format
 msgid "Could not reach the SSH host \"{host_port}\"."
-msgstr ""
+msgstr "Kunde inte nå SSH-värd \"{host_port}\"."
 
 #: common/mount/_backends.py:215
 msgid "SSH authentication failed for:"
-msgstr ""
+msgstr "SSH-autentisering misslyckades för:"
 
 #: common/mount/_backends.py:217 common/mount/_backends.py:395
 #: common/mount/_encryptors.py:262 common/sshsetupvalidator.py:237
@@ -204,22 +204,21 @@ msgstr ""
 #: common/sshsetupvalidator.py:416 common/sshsetupvalidator.py:470
 #: common/sshsetupvalidator.py:499 common/sshsetupvalidator.py:549
 msgid "Details:"
-msgstr ""
+msgstr "Detaljer:"
 
 #: common/mount/_backends.py:272
-#, fuzzy
 msgid "The remote backup directory does not exist or is not a directory."
-msgstr "Fjärrsökvägen existerar men är inte en katalog."
+msgstr ""
+"Katalogen för fjärrsäkerhetskopiering existerar inte eller är inte en "
+"katalog."
 
 #: common/mount/_backends.py:278
-#, fuzzy
 msgid "The remote backup directory is not writable."
-msgstr "Katalogen för säkerhetskopian är inte giltig."
+msgstr "Katalogen för fjärrsäkerhetskopiering är inte skrivbar."
 
 #: common/mount/_backends.py:283
-#, fuzzy
 msgid "The remote backup directory cannot be accessed."
-msgstr "Sökväg för säkerhetskopia får inte vara tom."
+msgstr "Det går inte att komma åt katalogen för fjärrsäkerhetskopiering."
 
 #: common/mount/_backends.py:297 qt/manageprofiles/tab_general.py:125
 msgid "Path:"
@@ -227,64 +226,61 @@ msgstr "Sökväg:"
 
 #: common/mount/_backends.py:305
 msgid "No SSH host configured."
-msgstr ""
+msgstr "Ingen SSH värd konfigurerad."
 
 #: common/mount/_backends.py:312
-#, fuzzy
 msgid "No destination backup directory configured."
-msgstr "Kan inte hitta katalogen för säkerhetskopian."
+msgstr "Ingen målkatalog för säkerhetskopiering konfigurerad."
 
 #: common/mount/_backends.py:393
-#, fuzzy
 msgid "Could not mount the remote backup location."
-msgstr "Kunde inte skapa fjärrsökväg."
+msgstr "Kunde inte montera fjärr säkerhetskopieringsplats."
 
 #: common/mount/_encryptors.py:188
-#, fuzzy
 msgid ""
 "Cannot initialize encryption because the backup destination is not empty."
-msgstr "Den valda säkerhetskopierings-destinationen är inte tom."
+msgstr ""
+"Kunde inte initiera krypteringen eftersom säkerhetskopians mål inte är tomt."
 
 #: common/mount/_encryptors.py:191
-#, fuzzy
 msgid "Remove existing files or choose an empty directory."
-msgstr "Fjärrsökvägen existerar men är inte en katalog."
+msgstr "Ta bort befintliga filer eller välj en tom katalog."
 
 #: common/mount/_encryptors.py:208
 #, python-brace-format
 msgid "Required tool \"{tool}\" is not installed or not available."
 msgstr ""
+"Kräver verktyg \"{tool}\" som inte är installerat eller inte tillgängligt."
 
 #: common/mount/_encryptors.py:209
-#, fuzzy
 msgid "Please install it and try again."
-msgstr "Vänligen installera 'nocache' för att aktivera detta alternativ."
+msgstr "Vänligen installera det och försök igen."
 
 #: common/mount/_encryptors.py:261
-#, fuzzy
 msgid "Unable to initialize encryption."
-msgstr "Kan inte montera init-krypterad sökväg \"{command}\""
+msgstr "Kunde inte initiera krypteringen."
 
 #: common/mount/_encryptors.py:277
 #, python-brace-format
 msgid ""
 "Backup destination directory is not prepared for encryption. Path: {path}"
 msgstr ""
+"Säkerhetskopieringsdestinationskatalogen är inte förberedd för kryptering. "
+"Sökväg: {path}"
 
 #: common/mount/_encryptors.py:286
 #, python-brace-format
 msgid "Mountpoint as decrypted view is missing. Path: {path}"
-msgstr ""
+msgstr "Monteringspunkt som dekrypterad vy saknas. Sökväg: {path}"
 
 #: common/mount/_encryptors.py:338
 #, python-brace-format
 msgid "Mount failed with return code {rc}."
-msgstr ""
+msgstr "Montering misslyckades med returkod {rc}."
 
 #: common/mount/_encryptors.py:341
-#, fuzzy
 msgid "Error:"
-msgstr "Fel"
+msgstr "Fel:"
 
 #: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:69
 msgid "Command:"
@@ -292,17 +288,17 @@ msgstr "Kommando:"
 
 #: common/mount/_encryptors.py:374
 msgid "Unmount failed"
-msgstr ""
+msgstr "Avmontering misslyckades"
 
 #: common/mount/_encryptors.py:376
 #, python-brace-format
 msgid "Return code: {rc}"
-msgstr ""
+msgstr "Returkod: {rc}"
 
 #: common/mount/_encryptors.py:378
 #, python-brace-format
 msgid "Original error: {err}"
-msgstr ""
+msgstr "Original fel: {err}"
 
 #: common/password.py:298
 #, python-brace-format
@@ -426,6 +422,8 @@ msgid ""
 "Negative exit codes indicate termination by a signal. The number corresponds"
 " to the signal (see 'kill -l')."
 msgstr ""
+"Negativa utgångskoder indikerar avslutning med en signal. Numret motsvarar "
+"signalen (se 'kill -l')."
 
 #: common/snapshots.py:1578
 msgid "Nothing changed, no new backup necessary"
@@ -460,77 +458,75 @@ msgstr "Nu"
 #: common/sshsetupvalidator.py:124
 #, python-brace-format
 msgid "\"{tool}\" is not installed on the remote host."
-msgstr ""
+msgstr "\"{tool}\" är inte installerat på fjärrvärden."
 
 #: common/sshsetupvalidator.py:221
-#, fuzzy
 msgid "ssh-agent is not installed"
-msgstr "ssh-agent hittades inte. Kontrollera att den är installerad."
+msgstr "ssh-agent är inte installerad"
 
 #: common/sshsetupvalidator.py:236
 msgid "Unexpected response from ssh-agent."
-msgstr ""
+msgstr "Oväntat svar från ssh-agent."
 
 #: common/sshsetupvalidator.py:252
 msgid "Unexpected output from ssh-agent."
-msgstr ""
+msgstr "Oväntad utdata från ssh-agent."
 
 #: common/sshsetupvalidator.py:253
 msgid "Output:"
-msgstr ""
+msgstr "Utdata:"
 
 #: common/sshsetupvalidator.py:280
 msgid "The SSH key is not loaded into ssh-agent."
-msgstr ""
+msgstr "SSH-nyckel är inte inläst i ssh-agent."
 
 #: common/sshsetupvalidator.py:309
-#, fuzzy
 msgid "Failed to add SSH key."
-msgstr "Misslyckades med att skapa ny SSH-nyckel i {path}."
+msgstr "Misslyckades med att lägga till SSH-nyckel."
 
 #: common/sshsetupvalidator.py:331
 msgid "sshfs is not installed"
-msgstr ""
+msgstr "sshfs är inte installerat"
 
 #: common/sshsetupvalidator.py:347
 msgid "Unexpected response from sshfs."
-msgstr ""
+msgstr "Oväntat svar från sshfs."
 
 #: common/sshsetupvalidator.py:373
 #, python-brace-format
 msgid "The SSH host \"{host}\" is not trusted yet."
-msgstr ""
+msgstr "SSH-värd \"{host}\" är ännu inte betrodd."
 
 #: common/sshsetupvalidator.py:375
 msgid "Please connect to the host manually once to confirm its fingerprint."
 msgstr ""
+"Anslut till värden manuellt en gång för att bekräfta dess fingeravtryck."
 
 #: common/sshsetupvalidator.py:415
 msgid "Could not write files to the remote host using rsync."
-msgstr ""
+msgstr "Kunde inte skriva filer till fjärrvärd med rsync."
 
 #: common/sshsetupvalidator.py:469
 msgid "Could not verify rsync hardlink support."
-msgstr ""
+msgstr "Kunde inte verifiera rsync hårdlänk stöd."
 
 #: common/sshsetupvalidator.py:498
 msgid "Unexpected error while verifying rsync hardlink support."
-msgstr ""
+msgstr "Oväntat fel vid verifiering av rsync hårdlänk stöd."
 
 #: common/sshsetupvalidator.py:505
-#, fuzzy
 msgid "The remote file system does not support hardlinks."
-msgstr "Fjärrvärd {host} stöder inte hårda länkar"
+msgstr "Fjärr filsystemet stöder inte hårda länkar."
 
 #: common/sshsetupvalidator.py:548
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not create remote backup directory: {path}"
-msgstr "Kunde inte skapa fjärrsökväg."
+msgstr "Kunde inte skapa katalogen för fjärrbackup: {path}"
 
 #: common/sshtools.py:157
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Copy public SSH key \"{pubkey}\" to remote host \"{host}\"."
-msgstr "Kopiera offentlig SSH-nyckel \"{pubkey}\" till fjärrvärd \"{host}\"."
+msgstr "Kopiera publik SSH-nyckel \"{pubkey}\" till fjärrvärd \"{host}\"."
 
 #: common/sshtools.py:159
 #, python-brace-format
@@ -667,13 +663,12 @@ msgstr ""
 "hittades."
 
 #: qt/app.py:348
-#, fuzzy
 msgid ""
 "Create a new configuration or import an existing configuration from a "
 "backup?"
 msgstr ""
-"Importera en befintlig konfiguration från en säkerhetskopia eller en annan "
-"dator?"
+"Skapa en ny konfiguration eller importera en befintlig konfiguration från en "
+"säkerhetskopia?"
 
 #: qt/app.py:353 qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -681,7 +676,7 @@ msgstr "Fråga"
 
 #: qt/app.py:356
 msgid "Create"
-msgstr ""
+msgstr "Skapa"
 
 #: qt/app.py:358 qt/restoreconfigdialog.py:131
 msgid "Import"
@@ -946,7 +941,7 @@ msgstr "Stäng fönstret ändå?"
 
 #: qt/app.py:1107 qt/app.py:1114
 msgid "Backup destination unavailable"
-msgstr ""
+msgstr "Säkerhetskopieringsdestination är inte tillgänglig"
 
 #: qt/app.py:1232
 msgid "Done, no backup needed"
@@ -1785,17 +1780,17 @@ msgstr ""
 " för \"ssh_config\" för detaljer."
 
 #: qt/manageprofiles/tab_exclude.py:63
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
 "asterisks are functional (e.g. {example2}). Other types of wildcards and "
 "patterns will be ignored (e.g. {example1}). Filenames are unpredictable in "
 "this mode."
 msgstr ""
-"{BOLD}Info{ENDBOLD}: I \"SSH-krypterat\" läge är endast enkla eller dubbla "
-"asterisker funktionella (t.ex. {example2}). Andra typer av jokertecken och "
+"{BOLD}Info{ENDBOLD}: I läget 'SSH-krypterat' fungerar endast enkla eller "
+"dubbla asterisker. (t.ex. {example2}). Andra typer av jokertecken och "
 "mönster kommer att ignoreras (t.ex. {example1}). Filnamn är oförutsägbara i "
-"detta läge på grund av kryptering med EncFS."
+"det här läget."
 
 #: qt/manageprofiles/tab_exclude.py:86
 msgid "Exclude patterns, files or directories"
@@ -2058,29 +2053,28 @@ msgstr "Krypteringslösenordet får inte vara tomt."
 
 #: qt/manageprofiles/tab_general.py:475
 msgid "Back In Time could not validate the SSH configuration."
-msgstr ""
+msgstr "Back In Time kunde inte validera SSH-konfiguration."
 
 #: qt/manageprofiles/tab_general.py:477
 msgid "SSH profile setup failed"
-msgstr ""
+msgstr "Konfigurationen av SSH-profil misslyckades"
 
 #: qt/manageprofiles/tab_general.py:521
-#, fuzzy
 msgid "Profile setup failed"
-msgstr "Profil: \"{profile_name}\""
+msgstr "Profilinställningarna misslyckades"
 
 #: qt/manageprofiles/tab_general.py:704
 msgid "Really change the backup directory?"
 msgstr "Verkligen ändra katalog för säkerhetskopiering?"
 
 #: qt/manageprofiles/tab_general.py:724
-#, fuzzy
 msgid "The selected backup destination cannot be used for encryption."
-msgstr "Den valda säkerhetskopierings-destinationen är inte tom."
+msgstr ""
+"Den valda säkerhetskopierings destinationen kan inte användas för kryptering."
 
 #: qt/manageprofiles/tab_general.py:727
 msgid "It must either be empty or already initialized for gocryptfs."
-msgstr ""
+msgstr "Den måste antingen vara tom eller redan initialiserad för gocryptfs."
 
 #: qt/manageprofiles/tab_general.py:757
 msgid "Invalid file: Not a private SSH key"
@@ -2457,9 +2451,8 @@ msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Visa/göm dolda mappar (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:298
-#, fuzzy
 msgid "No config found in this directory."
-msgstr "Ingen konfiguration hittades i den här katalogen"
+msgstr "Ingen konfiguration hittades i den här katalogen."
 
 #: qt/restoreconfigdialog.py:359
 msgid "Search complete."
@@ -2631,4 +2624,5 @@ msgstr "Senaste kontroll {time}"
 msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
 "Det här är dina filer som de är just nu. Det är inte en säkerhetskopia."
+
 # REUSE-IgnoreEnd

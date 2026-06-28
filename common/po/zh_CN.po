@@ -14,11 +14,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-06-17 17:15+0200\n"
-"PO-Revision-Date: 2026-06-15 09:24+0000\n"
+"PO-Revision-Date: 2026-06-18 06:49+0000\n"
 "Last-Translator: Outbreak2096 <outbreak2096@noreply.codeberg.org>\n"
-"Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
+"Language-Team: Chinese (Simplified Han script) <https://"
+"translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -245,7 +246,7 @@ msgid ""
 msgstr "备份目标目录未针对加密做好准备。路径：{path}"
 
 #: common/mount/_encryptors.py:286
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Mountpoint as decrypted view is missing. Path: {path}"
 msgstr "作为解密视图的挂载点缺失。路径：{path}"
 
@@ -380,7 +381,7 @@ msgstr "由于源文件消失导致仅部分传输（请参阅“man rsync”）
 #: common/snapshots.py:1535
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
-msgstr "“rsync”以退出代码 {exit_code} 结束"
+msgstr "“rsync”以退出码 {exit_code} 结束"
 
 #: common/snapshots.py:1548
 msgid "See 'man rsync' for more details"
@@ -390,7 +391,7 @@ msgstr "要了解详情，请查看“man rsync”"
 msgid ""
 "Negative exit codes indicate termination by a signal. The number corresponds"
 " to the signal (see 'kill -l')."
-msgstr ""
+msgstr "负退出码表示因信号而终止。该数字对应于该信号（参见“kill -l”）。"
 
 #: common/snapshots.py:1578
 msgid "Nothing changed, no new backup necessary"
@@ -448,7 +449,6 @@ msgid "The SSH key is not loaded into ssh-agent."
 msgstr "SSH 密钥未加载到 ssh-agent 中。"
 
 #: common/sshsetupvalidator.py:309
-#, fuzzy
 msgid "Failed to add SSH key."
 msgstr "无法添加 SSH 密钥。"
 
@@ -2457,4 +2457,5 @@ msgstr "上次检查 {time}"
 #: qt/timeline.py:407
 msgid "These are your files as they are right now. It is not a backup."
 msgstr "这些是您当前的文件，并非备份。"
+
 # REUSE-IgnoreEnd

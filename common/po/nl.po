@@ -13,17 +13,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-06-17 17:15+0200\n"
-"PO-Revision-Date: 2026-03-11 08:07+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
-"Language-Team: Dutch <https://translate.codeberg.org/projects/backintime/common/nl/>\n"
+"PO-Revision-Date: 2026-06-23 06:07+0000\n"
+"Last-Translator: dheijl <dheijl@noreply.codeberg.org>\n"
+"Language-Team: Dutch <https://translate.codeberg.org/projects/backintime/"
+"common/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -68,9 +69,8 @@ msgid "SSH private key"
 msgstr "SSH private sleutel"
 
 #: common/config.py:189
-#, fuzzy
 msgid "SSH encrypted"
-msgstr "SSH (EncFS-versleuteld)"
+msgstr "SSH versleuteld"
 
 #: common/config.py:221 common/config.py:233 common/config.py:251
 #: common/config.py:265 common/config.py:286
@@ -158,9 +158,8 @@ msgid "The last profile cannot be removed."
 msgstr "Het laatste profiel kan niet worden verwijderd."
 
 #: common/mount/_backends.py:88 common/snapshots.py:957
-#, fuzzy
 msgid "Can't find backup destination directory."
-msgstr "Kan de back-up map niet vinden."
+msgstr "Kan de back-up doelmap niet vinden."
 
 #: common/mount/_backends.py:90 common/snapshots.py:961
 msgid "If it is on a removable drive, please plug it in."
@@ -173,25 +172,25 @@ msgstr "Druk vervolgens op OK."
 
 #: common/mount/_backends.py:108
 msgid "Back In Time could not connect to the remote backup location."
-msgstr ""
+msgstr "Back In Time kon niet verbinden met de externe locatie."
 
 #: common/mount/_backends.py:110 qt/manageprofiles/tab_general.py:476
 msgid "Reason:"
-msgstr ""
+msgstr "Reden:"
 
 #: common/mount/_backends.py:156 common/sshsetupvalidator.py:181
 #, python-brace-format
 msgid "Could not reach the SSH proxy host \"{host_port}\"."
-msgstr ""
+msgstr "Kon de SSH proxy host \"{host_port}\" niet bereiken."
 
 #: common/mount/_backends.py:161 common/sshsetupvalidator.py:186
 #, python-brace-format
 msgid "Could not reach the SSH host \"{host_port}\"."
-msgstr ""
+msgstr "Kon de SSH proxy \"{host_port}\" niet bereiken."
 
 #: common/mount/_backends.py:215
 msgid "SSH authentication failed for:"
-msgstr ""
+msgstr "SSH authenticatie mislukt voor:"
 
 #: common/mount/_backends.py:217 common/mount/_backends.py:395
 #: common/mount/_encryptors.py:262 common/sshsetupvalidator.py:237
@@ -199,22 +198,19 @@ msgstr ""
 #: common/sshsetupvalidator.py:416 common/sshsetupvalidator.py:470
 #: common/sshsetupvalidator.py:499 common/sshsetupvalidator.py:549
 msgid "Details:"
-msgstr ""
+msgstr "Details:"
 
 #: common/mount/_backends.py:272
-#, fuzzy
 msgid "The remote backup directory does not exist or is not a directory."
-msgstr "Extern pad bestaat maar is geen map."
+msgstr "De externe back-up map bestaat niet of is geen map."
 
 #: common/mount/_backends.py:278
-#, fuzzy
 msgid "The remote backup directory is not writable."
-msgstr "Backup-folder is ongeldig."
+msgstr "De externe back-up map is niet beschrijfbaar."
 
 #: common/mount/_backends.py:283
-#, fuzzy
 msgid "The remote backup directory cannot be accessed."
-msgstr "Hat back-up doelpad kan niet leeg zijn."
+msgstr "De externe back-up map is niet toegankelijk."
 
 #: common/mount/_backends.py:297 qt/manageprofiles/tab_general.py:125
 msgid "Path:"
@@ -222,64 +218,60 @@ msgstr "Pad:"
 
 #: common/mount/_backends.py:305
 msgid "No SSH host configured."
-msgstr ""
+msgstr "Geen SSH host geconfigureerd."
 
 #: common/mount/_backends.py:312
-#, fuzzy
 msgid "No destination backup directory configured."
-msgstr "Kan de back-up map niet vinden."
+msgstr "Geen doelmap voor de back-up geconfigureerd."
 
 #: common/mount/_backends.py:393
-#, fuzzy
 msgid "Could not mount the remote backup location."
-msgstr "Kon extern pad niet aanmaken."
+msgstr "De externe back-up locatie kan niet gekoppeld worden."
 
 #: common/mount/_encryptors.py:188
-#, fuzzy
 msgid ""
 "Cannot initialize encryption because the backup destination is not empty."
-msgstr "Het geselecteerde back-up doel is niet leeg."
+msgstr ""
+"Kan de versleuteling niet initialiseren omdat de back-up bestemming niet "
+"leeg is."
 
 #: common/mount/_encryptors.py:191
-#, fuzzy
 msgid "Remove existing files or choose an empty directory."
-msgstr "Extern pad bestaat maar is geen map."
+msgstr "Verwijder bestaande bestanden of kies een lege map."
 
 #: common/mount/_encryptors.py:208
 #, python-brace-format
 msgid "Required tool \"{tool}\" is not installed or not available."
 msgstr ""
+"Vereiste gereedschap \"{tool}\" is niet geïnstalleerd of niet beschikbaar."
 
 #: common/mount/_encryptors.py:209
-#, fuzzy
 msgid "Please install it and try again."
-msgstr "Gelieve 'nocache' te installeren om deze optie in te schakelen."
+msgstr "Installeer het aub. en probeer opnieuw."
 
 #: common/mount/_encryptors.py:261
-#, fuzzy
 msgid "Unable to initialize encryption."
-msgstr "Kan het geëncrypteerde pad \"{command}\" niet initialiseren"
+msgstr "Kan de versleuteling niet initialiseren."
 
 #: common/mount/_encryptors.py:277
 #, python-brace-format
 msgid ""
 "Backup destination directory is not prepared for encryption. Path: {path}"
-msgstr ""
+msgstr "Backup bestemming map is niet voorbereid voor encryptie. Pad: {path}"
 
 #: common/mount/_encryptors.py:286
 #, python-brace-format
 msgid "Mountpoint as decrypted view is missing. Path: {path}"
-msgstr ""
+msgstr "Koppelingspunt als gedecodeerde weergave ontbreekt. Pad: {path}"
 
 #: common/mount/_encryptors.py:338
 #, python-brace-format
 msgid "Mount failed with return code {rc}."
-msgstr ""
+msgstr "Koppeling mislukt met foutcode {rc}."
 
 #: common/mount/_encryptors.py:341
-#, fuzzy
 msgid "Error:"
-msgstr "Fout"
+msgstr "Fout:"
 
 #: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:69
 msgid "Command:"
@@ -287,17 +279,17 @@ msgstr "Commando:"
 
 #: common/mount/_encryptors.py:374
 msgid "Unmount failed"
-msgstr ""
+msgstr "Ontkoppelen mislukt"
 
 #: common/mount/_encryptors.py:376
 #, python-brace-format
 msgid "Return code: {rc}"
-msgstr ""
+msgstr "Foutcode: {rc}"
 
 #: common/mount/_encryptors.py:378
 #, python-brace-format
 msgid "Original error: {err}"
-msgstr ""
+msgstr "Oorspronkelijke fout: {err}"
 
 #: common/password.py:298
 #, python-brace-format
@@ -421,6 +413,8 @@ msgid ""
 "Negative exit codes indicate termination by a signal. The number corresponds"
 " to the signal (see 'kill -l')."
 msgstr ""
+"Negatieve terugkeerwaarden wijzen op afbreken door een signaal. Het getal "
+"komt overeen met het signaal (zie 'kill -l)."
 
 #: common/snapshots.py:1578
 msgid "Nothing changed, no new backup necessary"
@@ -455,78 +449,77 @@ msgstr "Nu"
 #: common/sshsetupvalidator.py:124
 #, python-brace-format
 msgid "\"{tool}\" is not installed on the remote host."
-msgstr ""
+msgstr "\"{tool}\" is niet voorhanden op de externe host."
 
 #: common/sshsetupvalidator.py:221
-#, fuzzy
 msgid "ssh-agent is not installed"
-msgstr ""
-"ssh-agent niet gevonden. Gelieve te controleren of deze is geïnstalleerd."
+msgstr "ssh-agent is niet geïnstalleerd"
 
 #: common/sshsetupvalidator.py:236
 msgid "Unexpected response from ssh-agent."
-msgstr ""
+msgstr "Onverwacht antwoord van de ssh-agent."
 
 #: common/sshsetupvalidator.py:252
 msgid "Unexpected output from ssh-agent."
-msgstr ""
+msgstr "Onverwachte uitvoer van de ssh-agent."
 
 #: common/sshsetupvalidator.py:253
 msgid "Output:"
-msgstr ""
+msgstr "Uitvoer:"
 
 #: common/sshsetupvalidator.py:280
 msgid "The SSH key is not loaded into ssh-agent."
-msgstr ""
+msgstr "De SSH sleutel is niet ingeladen in de ssh-agent."
 
 #: common/sshsetupvalidator.py:309
-#, fuzzy
 msgid "Failed to add SSH key."
-msgstr "Aanmaken nieuwe SSH-sleutel in {path} mislukt."
+msgstr "Toevoegen SSH sleutel mislukt."
 
 #: common/sshsetupvalidator.py:331
 msgid "sshfs is not installed"
-msgstr ""
+msgstr "sshfs is niet geïnstalleerd"
 
 #: common/sshsetupvalidator.py:347
 msgid "Unexpected response from sshfs."
-msgstr ""
+msgstr "Onverwacht antwoord van sshfs."
 
 #: common/sshsetupvalidator.py:373
 #, python-brace-format
 msgid "The SSH host \"{host}\" is not trusted yet."
-msgstr ""
+msgstr "De SSH host \"{host}\" wordt nog niet vertrouwd."
 
 #: common/sshsetupvalidator.py:375
 msgid "Please connect to the host manually once to confirm its fingerprint."
 msgstr ""
+"Verbindt u aub. één keer manueel met de host om de vingerafdruk te "
+"bevestigen."
 
 #: common/sshsetupvalidator.py:415
 msgid "Could not write files to the remote host using rsync."
-msgstr ""
+msgstr "Kon geen bestanden opslaan naar de remote host met rsync."
 
 #: common/sshsetupvalidator.py:469
 msgid "Could not verify rsync hardlink support."
-msgstr ""
+msgstr "Kon rsync ondersteuning voor harde links niet bevestigen."
 
 #: common/sshsetupvalidator.py:498
 msgid "Unexpected error while verifying rsync hardlink support."
 msgstr ""
+"Onverwachte fout tijdens verifiëren van ondersteuning voor rsync harde links."
 
 #: common/sshsetupvalidator.py:505
-#, fuzzy
 msgid "The remote file system does not support hardlinks."
-msgstr "Externe host {host} ondersteunt geen harde koppelingen"
+msgstr "Het externe bestandssysteem ondersteunt geen harde koppelingen."
 
 #: common/sshsetupvalidator.py:548
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not create remote backup directory: {path}"
-msgstr "Kon extern pad niet aanmaken."
+msgstr "Kon extern back-up pad: {path} niet aanmaken"
 
 #: common/sshtools.py:157
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Copy public SSH key \"{pubkey}\" to remote host \"{host}\"."
-msgstr "De openbare SSH-sleutel \"{pubkey}\" kopiëren naar externe host \"{host}\"."
+msgstr "Kopieer openbare SSH-sleutel \"{pubkey}\" naar externe host \"{host}\"."
 
 #: common/sshtools.py:159
 #, python-brace-format
@@ -661,13 +654,12 @@ msgstr ""
 "is geen configuratie gevonden."
 
 #: qt/app.py:348
-#, fuzzy
 msgid ""
 "Create a new configuration or import an existing configuration from a "
 "backup?"
 msgstr ""
-"Een bestaande configuratie importeren vanuit een back-up doelmap of een "
-"andere computer?"
+"Een nieuwe configuratie aanmaken of een bestaande configuratie importeren "
+"vanuit een back-up?"
 
 #: qt/app.py:353 qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -675,7 +667,7 @@ msgstr "Vraag"
 
 #: qt/app.py:356
 msgid "Create"
-msgstr ""
+msgstr "Aanmaken"
 
 #: qt/app.py:358 qt/restoreconfigdialog.py:131
 msgid "Import"
@@ -945,7 +937,7 @@ msgstr "Het venster toch sluiten?"
 
 #: qt/app.py:1107 qt/app.py:1114
 msgid "Backup destination unavailable"
-msgstr ""
+msgstr "Backup bestemming niet beschikbaar"
 
 #: qt/app.py:1232
 msgid "Done, no backup needed"
@@ -1794,7 +1786,7 @@ msgstr ""
 "de manpagina van \"ssh_config\" voor details."
 
 #: qt/manageprofiles/tab_exclude.py:63
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
 "asterisks are functional (e.g. {example2}). Other types of wildcards and "
@@ -1804,8 +1796,7 @@ msgstr ""
 "{BOLD}Info{ENDBOLD}: in de modus 'SSH-versleuteld' zijn alleen enkele of "
 "dubbele sterretjes functioneel (bijvoorbeeld {example2}). Andere soorten "
 "jokertekens en patronen worden genegeerd (bijvoorbeeld {example1}). "
-"Bestandsnamen zijn in deze modus onvoorspelbaar vanwege de versleuteling "
-"door EncFS."
+"Bestandsnamen zijn in deze modus onvoorspelbaar."
 
 #: qt/manageprofiles/tab_exclude.py:86
 msgid "Exclude patterns, files or directories"
@@ -2069,29 +2060,28 @@ msgstr "Het encryptie wachtwoord kan niet leeg zijn."
 
 #: qt/manageprofiles/tab_general.py:475
 msgid "Back In Time could not validate the SSH configuration."
-msgstr ""
+msgstr "Back In Time kon de SSH configuratie niet valideren."
 
 #: qt/manageprofiles/tab_general.py:477
 msgid "SSH profile setup failed"
-msgstr ""
+msgstr "Instellen van SSH profiel mislukt"
 
 #: qt/manageprofiles/tab_general.py:521
-#, fuzzy
 msgid "Profile setup failed"
-msgstr "Profiel: {profile_name}"
+msgstr "Profiel instellen mislukt"
 
 #: qt/manageprofiles/tab_general.py:704
 msgid "Really change the backup directory?"
 msgstr "Weet u zeker dat u de back-up directory wilt wijzigen?"
 
 #: qt/manageprofiles/tab_general.py:724
-#, fuzzy
 msgid "The selected backup destination cannot be used for encryption."
-msgstr "Het geselecteerde back-up doel is niet leeg."
+msgstr ""
+"Het geselecteerde back-up doel kan niet gebruikt worden voor versleuteling."
 
 #: qt/manageprofiles/tab_general.py:727
 msgid "It must either be empty or already initialized for gocryptfs."
-msgstr ""
+msgstr "Het moet leeg zijn ofwel reeds geïnitialiseerd voor gocryptfs."
 
 #: qt/manageprofiles/tab_general.py:757
 msgid "Invalid file: Not a private SSH key"
@@ -2473,9 +2463,8 @@ msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Verborgen mappen tonen/verbergen (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:298
-#, fuzzy
 msgid "No config found in this directory."
-msgstr "Geen configuratie gevonden in deze map"
+msgstr "Geen configuratie gevonden in deze map."
 
 #: qt/restoreconfigdialog.py:359
 msgid "Search complete."
@@ -2645,4 +2634,5 @@ msgstr "Laatste controle {time}"
 #: qt/timeline.py:407
 msgid "These are your files as they are right now. It is not a backup."
 msgstr "Dit zijn uw bestanden in hun huidige toestand. Het is geen backup."
+
 # REUSE-IgnoreEnd

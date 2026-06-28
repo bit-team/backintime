@@ -14,16 +14,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-06-17 17:15+0200\n"
-"PO-Revision-Date: 2026-06-14 14:49+0000\n"
+"PO-Revision-Date: 2026-06-18 06:49+0000\n"
 "Last-Translator: Merik <merik@noreply.codeberg.org>\n"
-"Language-Team: Polish <https://translate.codeberg.org/projects/backintime/common/pl/>\n"
+"Language-Team: Polish <https://translate.codeberg.org/projects/backintime/"
+"common/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2026.6.1\n"
 
 #: common/bitlicense.py:43
@@ -267,9 +269,9 @@ msgstr ""
 "Ścieżka: {path}"
 
 #: common/mount/_encryptors.py:286
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Mountpoint as decrypted view is missing. Path: {path}"
-msgstr "Brak punktu montowania jako widoku odszyfrowanego. Ścieżka: {path}"
+msgstr "Brak punktu montowania w odszyfrowanym widoku. Ścieżka: {path}"
 
 #: common/mount/_encryptors.py:338
 #, python-brace-format
@@ -424,6 +426,8 @@ msgid ""
 "Negative exit codes indicate termination by a signal. The number corresponds"
 " to the signal (see 'kill -l')."
 msgstr ""
+"Ujemne kody wyjścia oznaczają zakończenie sygnałem. Numer odpowiada "
+"sygnałowi (patrz „kill -l”)."
 
 #: common/snapshots.py:1578
 msgid "Nothing changed, no new backup necessary"
@@ -481,7 +485,6 @@ msgid "The SSH key is not loaded into ssh-agent."
 msgstr "Klucz SSH nie został załadowany do programu ssh-agent."
 
 #: common/sshsetupvalidator.py:309
-#, fuzzy
 msgid "Failed to add SSH key."
 msgstr "Nie udało się dodać klucza SSH."
 
@@ -2655,4 +2658,5 @@ msgstr "Ostatnie sprawdzenie {time}"
 #: qt/timeline.py:407
 msgid "These are your files as they are right now. It is not a backup."
 msgstr "To są pliki w obecnej formie. Nie jest to kopia zapasowa."
+
 # REUSE-IgnoreEnd
