@@ -19,7 +19,7 @@ from pathlib import Path
 from io import StringIO, TextIOWrapper
 import singleton
 import logger
-from bitbase import TimeUnit, StorageSizeUnit
+from bitbase import TimeUnit, StorageSizeUnit, ScheduleMode
 
 # Workaround: Mostly relevant on TravisCI but not exclusively.
 # While unittesting and without regular invocation of BIT the GNU gettext
@@ -72,6 +72,7 @@ class Profile:  # pylint: disable=too-many-public-methods
         'snapshots.exclude.bysize.enabled': False,
         'snapshots.exclude.bysize.value': 500,
         'schedule.mode': 0,
+        'schedule.offset': 0,
         'schedule.debug': False,
         'schedule.time': 0,
         'schedule.day': 1,
@@ -602,7 +603,7 @@ class Profile:  # pylint: disable=too-many-public-methods
         self['snapshots.exclude.bysize.value'] = value
 
     @property
-    def schedule_mode(self) -> int:
+    def schedule_mode(self) -> ScheduleMode:
         """Which schedule used for crontab. The crontab entry will be
         generated with 'backintime check-config'.\n
          0 = Disabled\n 1 = at every boot\n 2 = every 5 minute\n
@@ -616,11 +617,20 @@ class Profile:  # pylint: disable=too-many-public-methods
             'values': '0|1|2|4|7|10|12|14|16|18|19|20|25|27|30|40|80'
         }
         """
-        return self['schedule.mode']
+        return ScheduleMode(self['schedule.mode'])
 
     @schedule_mode.setter
     def schedule_mode(self, value: int) -> None:
         self['schedule.mode'] = value
+
+    @property
+    def schedule_offset(self) -> int:
+        """TODO"""
+        return self['schedule.offset']
+
+    @schedule_offset.setter
+    def schedule_offset(self, value: int) -> None:
+        self['schedule.offset'] = value
 
     @property
     def schedule_debug(self) -> bool:

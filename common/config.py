@@ -1000,7 +1000,6 @@ class Config:  # (configfile.ConfigFileWithProfiles):
 
         return str(random.randint(100, 999))
 
-    # --- WEITER WEITER WEITER
     def scheduleMode(self, profile_id = None):
         #?Which schedule used for crontab. The crontab entry will be
         #?generated with 'backintime check-config'.\n
@@ -1011,26 +1010,38 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         #?25 = daily anacron\n27 = when drive get connected\n30 = every week\n
         #?40 = every month\n80 = every year
         #?;0|1|2|4|7|10|12|14|16|18|19|20|25|27|30|40|80;0
-        value = self.profileIntValue('schedule.mode', Config.NONE.value, profile_id)
-        return bitbase.ScheduleMode(value)
+        # value = self.profileIntValue('schedule.mode', Config.NONE.value, profile_id)
+        # return bitbase.ScheduleMode(value)
+        p = self.get_profile(profile_id)
+        return p.schedule_mode
 
     def setScheduleMode(self, value, profile_id = None):
         if isinstance(value, bitbase.ScheduleMode):
             value = value.value
-        self.setProfileIntValue('schedule.mode', value, profile_id)
+        # self.setProfileIntValue('schedule.mode', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.schedule_mode = value
 
     def schedule_offset(self, profile_id = None):
-        return self.profileIntValue('schedule.offset', Config.DEFAULT_OFFSET, profile_id)
+        # return self.profileIntValue('schedule.offset', Config.DEFAULT_OFFSET, profile_id)
+        p = self.get_profile(profile_id)
+        return p.schedule_offset
 
     def set_schedule_offset(self, value, profile_id = None):
-        self.setProfileIntValue('schedule.offset', value, profile_id)
+        # self.setProfileIntValue('schedule.offset', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.schedule_offset = value
 
     def scheduleDebug(self, profile_id = None):
         #?Enable debug output to system log for schedule mode.
         return self.profileBoolValue('schedule.debug', False, profile_id)
+        p = self.get_profile(profile_id)
+        return p.schedule_debug
 
     def setScheduleDebug(self, value, profile_id = None):
         self.setProfileBoolValue('schedule.debug', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.schedule_debug = value
 
     def scheduleTime(self, profile_id = None):
         #?Position-coded number with the format "hhmm" to specify the hour
@@ -1039,17 +1050,21 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         #?Only valid for
         #?\fIprofile<N>.schedule.mode\fR = 20 (daily), 30 (weekly),
         #?40 (monthly) and 80 (yearly);0-2400
-        return self.profileIntValue('schedule.time', 0, profile_id)
+        # return self.profileIntValue('schedule.time', 0, profile_id)
+        p = self.get_profile(profile_id)
+        return p.schedule_time
 
     def scheduleHourMinute(self, profile_id: str = None
                                   ) -> tuple[int, int]:
         the_time = self.scheduleTime(profile_id)
-
         return (the_time // 100, the_time % 100)
 
     def setScheduleTime(self, value, profile_id = None):
-        self.setProfileIntValue('schedule.time', value, profile_id)
+        # self.setProfileIntValue('schedule.time', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.schedule_time = value
 
+    # --- WEITER WEITER WEITER
     def scheduleDay(self, profile_id = None):
         #?Which day of month the cronjob should run? Only valid for
         #?\fIprofile<N>.schedule.mode\fR >= 40;1-28
