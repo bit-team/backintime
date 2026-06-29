@@ -1026,12 +1026,12 @@ class Profile:  # pylint: disable=too-many-public-methods
         self['snapshots.bwlimit.value'] = limit_kb_sec
 
     @property
-    def no_snapshot_on_battery(self) -> bool:
-        """Don't take snapshots if the Computer runs on battery."""
+    def no_backup_on_battery(self) -> bool:
+        """Don't take backups if the computer runs on battery."""
         return self['snapshots.no_on_battery']
 
-    @no_snapshot_on_battery.setter
-    def no_snapshot_on_battery(self, enable: bool) -> None:
+    @no_backup_on_battery.setter
+    def no_backup_on_battery(self, enable: bool) -> None:
         self['snapshots.no_on_battery'] = enable
 
     @property

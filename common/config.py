@@ -1411,61 +1411,88 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         p = self.get_profile(profile_id)
         p.ionice_on_remote = value
 
-    # --- WEITER WEITER WEITER
     def nocacheOnLocal(self, profile_id = None):
         #?Run rsync on local machine with 'nocache'.
         #?This will prevent files from being cached in memory.
-        return self.profileBoolValue('snapshots.local.nocache', self.DEFAULT_RUN_NOCACHE_ON_LOCAL, profile_id)
+        # return self.profileBoolValue('snapshots.local.nocache', self.DEFAULT_RUN_NOCACHE_ON_LOCAL, profile_id)
+        p = self.get_profile(profile_id)
+        return p.nocache_on_local
 
     def setNocacheOnLocal(self, value, profile_id = None):
-        self.setProfileBoolValue('snapshots.local.nocache', value, profile_id)
+        # self.setProfileBoolValue('snapshots.local.nocache', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.nocache_on_local = value
 
     def nocacheOnRemote(self, profile_id = None):
         #?Run rsync on remote host with 'nocache'.
         #?This will prevent files from being cached in memory.
-        return self.profileBoolValue('snapshots.ssh.nocache', self.DEFAULT_RUN_NOCACHE_ON_REMOTE, profile_id)
+        # return self.profileBoolValue('snapshots.ssh.nocache', self.DEFAULT_RUN_NOCACHE_ON_REMOTE, profile_id)
+        p = self.get_profile(profile_id)
+        return p.nocache_on_remote
 
     def setNocacheOnRemote(self, value, profile_id = None):
-        self.setProfileBoolValue('snapshots.ssh.nocache', value, profile_id)
+        # self.setProfileBoolValue('snapshots.ssh.nocache', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.nocache_on_remote = value
 
     def redirectStdoutInCron(self, profile_id = None):
         #?redirect stdout to /dev/null in cronjobs
-        return self.profileBoolValue('snapshots.cron.redirect_stdout', self.DEFAULT_REDIRECT_STDOUT_IN_CRON, profile_id)
+        # return self.profileBoolValue('snapshots.cron.redirect_stdout', self.DEFAULT_REDIRECT_STDOUT_IN_CRON, profile_id)
+        p = self.get_profile(profile_id)
+        return p.redirect_stdout_in_cron
 
     def redirectStderrInCron(self, profile_id = None):
         #?redirect stderr to /dev/null in cronjobs;;self.DEFAULT_REDIRECT_STDERR_IN_CRON
-        if self.isConfigured(profile_id):
-            default = True
-        else:
-            default = self.DEFAULT_REDIRECT_STDERR_IN_CRON
-        return self.profileBoolValue('snapshots.cron.redirect_stderr', default, profile_id)
+        # if self.isConfigured(profile_id):
+        #     default = True
+        # else:
+        #     default = self.DEFAULT_REDIRECT_STDERR_IN_CRON
+        # return self.profileBoolValue('snapshots.cron.redirect_stderr', default, profile_id)
+        p = self.get_profile(profile_id)
+        return p.redirect_stderr_in_cron
 
     def setRedirectStdoutInCron(self, value, profile_id = None):
-        self.setProfileBoolValue('snapshots.cron.redirect_stdout', value, profile_id)
+        # self.setProfileBoolValue('snapshots.cron.redirect_stdout', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.redirect_stdout_in_cron = value
 
     def setRedirectStderrInCron(self, value, profile_id = None):
-        self.setProfileBoolValue('snapshots.cron.redirect_stderr', value, profile_id)
+        # self.setProfileBoolValue('snapshots.cron.redirect_stderr', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.redirect_stderr_in_cron = value
 
     def bwlimitEnabled(self, profile_id = None):
         #?Limit rsync bandwidth usage over network. Use this with mode SSH.
         #?For mode Local you should rather use ionice.
         return self.profileBoolValue('snapshots.bwlimit.enabled', False, profile_id)
+        p = self.get_profile(profile_id)
+        return p.bw_limit_enabled
 
     def bwlimit(self, profile_id = None):
         #?Bandwidth limit in KB/sec.
-        return self.profileIntValue('snapshots.bwlimit.value', 3000, profile_id)
+        # return self.profileIntValue('snapshots.bwlimit.value', 3000, profile_id)
+        p = self.get_profile(profile_id)
+        return p.bw_limit
 
     def setBwlimit(self, enabled, value, profile_id = None):
-        self.setProfileBoolValue('snapshots.bwlimit.enabled', enabled, profile_id)
-        self.setProfileIntValue('snapshots.bwlimit.value', value, profile_id)
+        # self.setProfileBoolValue('snapshots.bwlimit.enabled', enabled, profile_id)
+        # self.setProfileIntValue('snapshots.bwlimit.value', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.bw_limit_enabled = enabled
+        p.bw_limit = value
 
     def noSnapshotOnBattery(self, profile_id = None):
         #?Don't take snapshots if the Computer runs on battery.
-        return self.profileBoolValue('snapshots.no_on_battery', False, profile_id)
+        # return self.profileBoolValue('snapshots.no_on_battery', False, profile_id)
+        p = self.get_profile(profile_id)
+        return p.no_backup_on_battery
 
     def setNoSnapshotOnBattery(self, value, profile_id = None):
-        self.setProfileBoolValue('snapshots.no_on_battery', value, profile_id)
+        # self.setProfileBoolValue('snapshots.no_on_battery', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.no_backup_on_battery = value
 
+    # --- WEITER WEITER WEITER
     def preserveAcl(self, profile_id = None):
         #?Preserve ACL. The  source  and  destination  systems must have
         #?compatible ACL entries for this option to work properly.
