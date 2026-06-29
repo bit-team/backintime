@@ -1064,70 +1064,108 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         p = self.get_profile(profile_id)
         p.schedule_time = value
 
-    # --- WEITER WEITER WEITER
     def scheduleDay(self, profile_id = None):
         #?Which day of month the cronjob should run? Only valid for
         #?\fIprofile<N>.schedule.mode\fR >= 40;1-28
-        return self.profileIntValue('schedule.day', 1, profile_id)
+        # return self.profileIntValue('schedule.day', 1, profile_id)
+        p = self.get_profile(profile_id)
+        return p.schedule_day
 
     def setScheduleDay(self, value, profile_id = None):
-        self.setProfileIntValue('schedule.day', value, profile_id)
+        # self.setProfileIntValue('schedule.day', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.schedule_day = value
 
     def scheduleWeekday(self, profile_id = None):
         #?Which day of week the cronjob should run? Only valid for
         #?\fIprofile<N>.schedule.mode\fR = 30;1 = monday \- 7 = sunday
-        return self.profileIntValue('schedule.weekday', 7, profile_id)
+        # return self.profileIntValue('schedule.weekday', 7, profile_id)
+        p = self.get_profile(profile_id)
+        return p.schedule_weekday
 
     def setScheduleWeekday(self, value, profile_id = None):
-        self.setProfileIntValue('schedule.weekday', value, profile_id)
+        # self.setProfileIntValue('schedule.weekday', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.schedule_weekday = value
 
     def customBackupTime(self, profile_id = None):
         #?Custom hours for cronjob. Only valid for
         #?\fIprofile<N>.schedule.mode\fR = 19
         #?;comma separated int (8,12,18,23) or */3;8,12,18,23
-        return self.profileStrValue('schedule.custom_time', '8,12,18,23', profile_id)
+        # return self.profileStrValue('schedule.custom_time', '8,12,18,23', profile_id)
+        p = self.get_profile(profile_id)
+        return p.custom_backup_time
 
     def setCustomBackupTime(self, value, profile_id = None):
-        self.setProfileStrValue('schedule.custom_time', value, profile_id)
+        # self.setProfileStrValue('schedule.custom_time', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.custom_backup_time = value
 
     def scheduleRepeatedPeriod(self, profile_id = None):
         #?How many units to wait between new snapshots with anacron? Only valid
         #?for \fIprofile<N>.schedule.mode\fR = 25|27
-        return self.profileIntValue('schedule.repeatedly.period', 1, profile_id)
+        # return self.profileIntValue('schedule.repeatedly.period', 1, profile_id)
+        p = self.get_profile(profile_id)
+        return p.schedule_repeated_period
 
     def setScheduleRepeatedPeriod(self, value, profile_id = None):
-        self.setProfileIntValue('schedule.repeatedly.period', value, profile_id)
+        # self.setProfileIntValue('schedule.repeatedly.period', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.schedule_repeated_period = value
 
     def scheduleRepeatedUnit(self, profile_id = None):
         #?Units to wait between new snapshots with anacron.\n
         #?10 = hours\n20 = days\n30 = weeks\n40 = months\n
         #?Only valid for \fIprofile<N>.schedule.mode\fR = 25|27;
         #?10|20|30|40;20
-        value = self.profileIntValue('schedule.repeatedly.unit', bitbase.TimeUnit.DAY.value, profile_id)
-        return bitbase.TimeUnit(value)
+        # value = self.profileIntValue('schedule.repeatedly.unit', bitbase.TimeUnit.DAY.value, profile_id)
+        p = self.get_profile(profile_id)
+        return bitbase.TimeUnit(p.schedule_repeated_unit)
 
     def setScheduleRepeatedUnit(self, value, profile_id = None):
-        if isinstance(value, bitbase.TimeUnit):
-            value = value.value
-        self.setProfileIntValue('schedule.repeatedly.unit', value, profile_id)
+        # if isinstance(value, bitbase.TimeUnit):
+        #     value = value.value
+        if not isinstance(value, bitbase.TimeUnit):
+            value = bitbase.TimeUnit(value)
+        # self.setProfileIntValue('schedule.repeatedly.unit', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.schedule_repeated_unit = value
 
     def removeOldSnapshots(self, profile_id = None):
                 #?Remove all snapshots older than value + unit
-        return (self.profileBoolValue('snapshots.remove_old_snapshots.enabled', True, profile_id),
-                #?Snapshots older than this times units will be removed
-                self.profileIntValue('snapshots.remove_old_snapshots.value', 10, profile_id),
-                #?20 = days\n30 = weeks\n80 = years;20|30|80;80
-                bitbase.TimeUnit(self.profileIntValue('snapshots.remove_old_snapshots.unit', bitbase.TimeUnit.YEAR, profile_id)))
+        # return (
+        #     self.profileBoolValue(
+        #         'snapshots.remove_old_snapshots.enabled', True, profile_id
+        #     ),
+        #     #?Snapshots older than this times units will be removed
+        #     self.profileIntValue(
+        #         'snapshots.remove_old_snapshots.value', 10, profile_id
+        #     ),
+        #     #?20 = days\n30 = weeks\n80 = years;20|30|80;80
+        #     bitbase.TimeUnit(self.profileIntValue(
+        #         'snapshots.remove_old_snapshots.unit',
+        #         bitbase.TimeUnit.YEAR,
+        #         profile_id
+        #     ))
+        # )
+        p = self.get_profile(profile_id)
+        return (
+            p.remove_old_snapshots_enabled,
+            p.remove_old_snapshots_value,
+            p.remove_old_snapshots_unit
+        )
 
-    def keepOnlyOneSnapshot(self, profile_id = None):
-        #?NOT YET IMPLEMENTED. Remove all snapshots but one.
-        return self.profileBoolValue('snapshots.keep_only_one_snapshot.enabled', False, profile_id)
+    # def keepOnlyOneSnapshot(self, profile_id = None):
+    #     #?NOT YET IMPLEMENTED. Remove all snapshots but one.
+    #     return self.profileBoolValue('snapshots.keep_only_one_snapshot.enabled', False, profile_id)
 
-    def setKeepOnlyOneSnapshot(self, value, profile_id = None):
-        self.setProfileBoolValue('snapshots.keep_only_one_snapshot.enabled', value, profile_id)
+    # def setKeepOnlyOneSnapshot(self, value, profile_id = None):
+    #     self.setProfileBoolValue('snapshots.keep_only_one_snapshot.enabled', value, profile_id)
 
     def removeOldSnapshotsEnabled(self, profile_id = None):
-        return self.profileBoolValue('snapshots.remove_old_snapshots.enabled', True, profile_id)
+        # return self.profileBoolValue('snapshots.remove_old_snapshots.enabled', True, profile_id)
+        p = self.get_profile(profile_id)
+        return p.remove_old_snapshots_enabled
 
     def removeOldSnapshotsDate(self, profile_id=None):
         enabled, value, unit = self.removeOldSnapshots(profile_id)
@@ -1137,9 +1175,14 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         return _remove_old_snapshots_date(value, unit)
 
     def setRemoveOldSnapshots(self, enabled, value, unit, profile_id = None):
-        self.setProfileBoolValue('snapshots.remove_old_snapshots.enabled', enabled, profile_id)
-        self.setProfileIntValue('snapshots.remove_old_snapshots.value', value, profile_id)
-        self.setProfileIntValue('snapshots.remove_old_snapshots.unit', unit, profile_id)
+        # self.setProfileBoolValue(
+        #     'snapshots.remove_old_snapshots.enabled', enabled, profile_id)
+        # self.setProfileIntValue('snapshots.remove_old_snapshots.value', value, profile_id)
+        # self.setProfileIntValue('snapshots.remove_old_snapshots.unit', unit, profile_id)
+        p = self.get_profile(profile_id)
+        p.remove_old_snapshots_enabled = enabled
+        p.remove_old_snapshots_value = value
+        p.remove_old_snapshots_unit = unit
 
     def warnFreeSpaceEnabled(self, profile_id=None):
         p = self.get_profile(profile_id)
@@ -1209,35 +1252,54 @@ class Config:  # (configfile.ConfigFileWithProfiles):
 
     def minFreeInodes(self, profile_id = None):
         #?Keep at least value % free inodes.;1-15
-        return self.profileIntValue('snapshots.min_free_inodes.value', 2, profile_id)
+        # return self.profileIntValue('snapshots.min_free_inodes.value', 2, profile_id)
+        p = self.get_profile(profile_id)
+        return p.min_free_inodes_value
 
     def minFreeInodesEnabled(self, profile_id = None):
         #?Remove snapshots until \fIprofile<N>.snapshots.min_free_inodes.value\fR
         #?free inodes in % is reached.
-        return self.profileBoolValue('snapshots.min_free_inodes.enabled', False, profile_id)
+        # return self.profileBoolValue('snapshots.min_free_inodes.enabled', False, profile_id)
+        p = self.get_profile(profile_id)
+        return p.min_free_inodes_enabled
 
     def setMinFreeInodes(self, enabled, value, profile_id = None):
-        self.setProfileBoolValue('snapshots.min_free_inodes.enabled', enabled, profile_id)
-        self.setProfileIntValue('snapshots.min_free_inodes.value', value, profile_id)
+        # self.setProfileBoolValue('snapshots.min_free_inodes.enabled', enabled, profile_id)
+        # self.setProfileIntValue('snapshots.min_free_inodes.value', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.min_free_inodes_enabled = enabled
+        p.min_free_inodes_value = value
 
     def dontRemoveNamedSnapshots(self, profile_id = None):
         #?Keep snapshots with names during smart_remove.
-        return self.profileBoolValue('snapshots.dont_remove_named_snapshots', True, profile_id)
+        # return self.profileBoolValue('snapshots.dont_remove_named_snapshots', True, profile_id)
+        p = self.get_profile(profile_id)
+        return p.dont_remove_named_snapshots
 
     def setDontRemoveNamedSnapshots(self, value, profile_id = None):
-        self.setProfileBoolValue('snapshots.dont_remove_named_snapshots', value, profile_id)
+        # self.setProfileBoolValue('snapshots.dont_remove_named_snapshots', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.dont_remove_named_snapshots = value
 
     def smartRemove(self, profile_id = None):
                 #?Run smart_remove to clean up old snapshots after a new snapshot was created.
-        return (self.profileBoolValue('snapshots.smart_remove', False, profile_id),
-                #?Keep all snapshots for X days.
-                self.profileIntValue('snapshots.smart_remove.keep_all', 2, profile_id),
-                #?Keep one snapshot per day for X days.
-                self.profileIntValue('snapshots.smart_remove.keep_one_per_day', 7, profile_id),
-                #?Keep one snapshot per week for X weeks.
-                self.profileIntValue('snapshots.smart_remove.keep_one_per_week', 4, profile_id),
-                #?Keep one snapshot per month for X month.
-                self.profileIntValue('snapshots.smart_remove.keep_one_per_month', 24, profile_id))
+        # return (self.profileBoolValue('snapshots.smart_remove', False, profile_id),
+        #         #?Keep all snapshots for X days.
+        #         self.profileIntValue('snapshots.smart_remove.keep_all', 2, profile_id),
+        #         #?Keep one snapshot per day for X days.
+        #         self.profileIntValue('snapshots.smart_remove.keep_one_per_day', 7, profile_id),
+        #         #?Keep one snapshot per week for X weeks.
+        #         self.profileIntValue('snapshots.smart_remove.keep_one_per_week', 4, profile_id),
+        #         #?Keep one snapshot per month for X month.
+        #         self.profileIntValue('snapshots.smart_remove.keep_one_per_month', 24, profile_id))
+        p = self.get_profile(profile_id)
+        return (
+            p.smart_remove,
+            p.smart_remove_keep_all,
+            p.smart_remove_keep_one_per_day,
+            p.smart_remove_keep_one_per_week,
+            p.smart_remove_keep_one_per_month
+        )
 
     def setSmartRemove(self,
                        value,
@@ -1246,72 +1308,110 @@ class Config:  # (configfile.ConfigFileWithProfiles):
                        keep_one_per_week,
                        keep_one_per_month,
                        profile_id = None):
-        self.setProfileBoolValue('snapshots.smart_remove', value, profile_id)
-        self.setProfileIntValue('snapshots.smart_remove.keep_all', keep_all, profile_id)
-        self.setProfileIntValue('snapshots.smart_remove.keep_one_per_day', keep_one_per_day, profile_id)
-        self.setProfileIntValue('snapshots.smart_remove.keep_one_per_week', keep_one_per_week, profile_id)
-        self.setProfileIntValue('snapshots.smart_remove.keep_one_per_month', keep_one_per_month, profile_id)
+        # self.setProfileBoolValue('snapshots.smart_remove', value, profile_id)
+        # self.setProfileIntValue('snapshots.smart_remove.keep_all', keep_all, profile_id)
+        # self.setProfileIntValue('snapshots.smart_remove.keep_one_per_day', keep_one_per_day, profile_id)
+        # self.setProfileIntValue('snapshots.smart_remove.keep_one_per_week', keep_one_per_week, profile_id)
+        # self.setProfileIntValue('snapshots.smart_remove.keep_one_per_month', keep_one_per_month, profile_id)
+        p = self.get_profile(profile_id)
+        p.smart_remove = value
+        p.smart_remove_keep_all = keep_all
+        p.smart_remove_keep_one_per_day = keep_one_per_day
+        p.smart_remove_keep_one_per_week = keep_one_per_week
+        p.smart_remove_keep_one_per_month = keep_one_per_month
 
     def smartRemoveRunRemoteInBackground(self, profile_id = None):
         #?If using mode SSH or SSH-encrypted, run smart_remove in background on remote machine
-        return self.profileBoolValue('snapshots.smart_remove.run_remote_in_background', False, profile_id)
+        # return self.profileBoolValue('snapshots.smart_remove.run_remote_in_background', False, profile_id)
+        p = self.get_profile(profile_id)
+        return p.smart_remove_run_remote_in_background
 
     def setSmartRemoveRunRemoteInBackground(self, value, profile_id = None):
         self.setProfileBoolValue('snapshots.smart_remove.run_remote_in_background', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.smart_remove_run_remote_in_background = value
 
     def notify(self, profile_id = None):
         #?Display notifications (errors, warnings) through libnotify.
-        return self.profileBoolValue('snapshots.notify.enabled', True, profile_id)
+        # return self.profileBoolValue('snapshots.notify.enabled', True, profile_id)
+        p = self.get_profile(profile_id)
+        return p.notify
 
     def setNotify(self, value, profile_id = None):
         self.setProfileBoolValue('snapshots.notify.enabled', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.notify = value
 
     def backupOnRestore(self, profile_id = None):
         #?Rename existing files before restore into FILE.backup.YYYYMMDD
         return self.profileBoolValue('snapshots.backup_on_restore.enabled', True, profile_id)
+        p = self.get_profile(profile_id)
 
     def setBackupOnRestore(self, value, profile_id = None):
-        self.setProfileBoolValue('snapshots.backup_on_restore.enabled', value, profile_id)
+        # self.setProfileBoolValue('snapshots.backup_on_restore.enabled', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.backup_on_restore = value
 
     def niceOnCron(self, profile_id = None):
         #?Run cronjobs with 'nice \-n19'. This will give BackInTime the
         #?lowest CPU priority to not interrupt any other working process.
-        return self.profileBoolValue('snapshots.cron.nice', self.DEFAULT_RUN_NICE_FROM_CRON, profile_id)
+        # return self.profileBoolValue('snapshots.cron.nice', self.DEFAULT_RUN_NICE_FROM_CRON, profile_id)
+        p = self.get_profile(profile_id)
+        return p.ionice_on_cron
 
     def setNiceOnCron(self, value, profile_id = None):
-        self.setProfileBoolValue('snapshots.cron.nice', value, profile_id)
+        # self.setProfileBoolValue('snapshots.cron.nice', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.ionice_on_cron = value
 
     def ioniceOnCron(self, profile_id = None):
         #?Run cronjobs with 'ionice \-c2 \-n7'. This will give BackInTime the
         #?lowest IO bandwidth priority to not interrupt any other working process.
-        return self.profileBoolValue('snapshots.cron.ionice', self.DEFAULT_RUN_IONICE_FROM_CRON, profile_id)
+        # return self.profileBoolValue('snapshots.cron.ionice', self.DEFAULT_RUN_IONICE_FROM_CRON, profile_id)
+        p = self.get_profile(profile_id)
+        return p.ionice_on_cron
 
     def setIoniceOnCron(self, value, profile_id = None):
-        self.setProfileBoolValue('snapshots.cron.ionice', value, profile_id)
+        # self.setProfileBoolValue('snapshots.cron.ionice', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.ionice_on_cron = value
 
     def ioniceOnUser(self, profile_id = None):
         #?Run BackInTime with 'ionice \-c2 \-n7' when taking a manual snapshot.
         #?This will give BackInTime the lowest IO bandwidth priority to not
         #?interrupt any other working process.
-        return self.profileBoolValue('snapshots.user_backup.ionice', self.DEFAULT_RUN_IONICE_FROM_USER, profile_id)
+        # return self.profileBoolValue('snapshots.user_backup.ionice', self.DEFAULT_RUN_IONICE_FROM_USER, profile_id)
+        p = self.get_profile(profile_id)
+        return p.ionice_on_user
 
     def setIoniceOnUser(self, value, profile_id = None):
-        self.setProfileBoolValue('snapshots.user_backup.ionice', value, profile_id)
+        # self.setProfileBoolValue('snapshots.user_backup.ionice', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.ionice_on_user = value
 
     def niceOnRemote(self, profile_id = None):
         #?Run rsync and other commands on remote host with 'nice \-n19'
-        return self.profileBoolValue('snapshots.ssh.nice', self.DEFAULT_RUN_NICE_ON_REMOTE, profile_id)
+        # return self.profileBoolValue('snapshots.ssh.nice', self.DEFAULT_RUN_NICE_ON_REMOTE, profile_id)
+        p = self.get_profile(profile_id)
+        return p.nice_on_remote
 
     def setNiceOnRemote(self, value, profile_id = None):
-        self.setProfileBoolValue('snapshots.ssh.nice', value, profile_id)
+        # self.setProfileBoolValue('snapshots.ssh.nice', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.nice_on_remote = value
 
     def ioniceOnRemote(self, profile_id = None):
         #?Run rsync and other commands on remote host with 'ionice \-c2 \-n7'
-        return self.profileBoolValue('snapshots.ssh.ionice', self.DEFAULT_RUN_IONICE_ON_REMOTE, profile_id)
+        # return self.profileBoolValue('snapshots.ssh.ionice', self.DEFAULT_RUN_IONICE_ON_REMOTE, profile_id)
+        p = self.get_profile(profile_id)
+        return p.ionice_on_remote
 
     def setIoniceOnRemote(self, value, profile_id = None):
-        self.setProfileBoolValue('snapshots.ssh.ionice', value, profile_id)
+        # self.setProfileBoolValue('snapshots.ssh.ionice', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.ionice_on_remote = value
 
+    # --- WEITER WEITER WEITER
     def nocacheOnLocal(self, profile_id = None):
         #?Run rsync on local machine with 'nocache'.
         #?This will prevent files from being cached in memory.

@@ -125,6 +125,7 @@ class TimeUnit(Enum):
     YEAR = 80  # Config.Year
 
 
+# TODO: Duplicate of storagesize.SizeUnit
 class StorageSizeUnit(Enum):
     """Describe the units used to express the size of storage devices or file
     system objects."""

@@ -11,14 +11,13 @@
 from __future__ import annotations
 import configparser
 import getpass
-import os
 import socket
 import re
-from typing import Union, Any, Optional
+from typing import Union, Any
 from pathlib import Path
 from io import StringIO, TextIOWrapper
 import singleton
-import logger
+from storagesize import SizeUnit, StorageSize
 from bitbase import TimeUnit, StorageSizeUnit, ScheduleMode
 
 # Workaround: Mostly relevant on TravisCI but not exclusively.
@@ -223,7 +222,7 @@ class Profile:  # pylint: disable=too-many-public-methods
             'Config.snapshotsFullPath(self, profile_id = None)')
 
     @snapshots_path.setter
-    def snapshots_path(self, path):
+    def snapshots_path(self, path: str):
         raise NotImplementedError('see original in Config class.')
 
     @property
@@ -599,7 +598,7 @@ class Profile:  # pylint: disable=too-many-public-methods
         return self['snapshots.exclude.bysize.value']
 
     @exclude_by_size.setter
-    def exclude_by_size(self, value):
+    def exclude_by_size(self, value: int):
         self['snapshots.exclude.bysize.value'] = value
 
     @property
@@ -776,7 +775,7 @@ class Profile:  # pylint: disable=too-many-public-methods
             self['snapshots.min_free_space.unit']
         )
 
-    @min_free_space_value.setter
+    @min_free_space.setter
     def min_free_space(self, value: StorageSize) -> None:
         self['snapshots.min_free_space.value'] = value.value()
         self['snapshots.min_free_space.unit'] = value.unit.value
@@ -1455,11 +1454,30 @@ class Konfig(metaclass=singleton.Singleton):
             self['internal.manual_starts_countdown'] = val - 1
 
 
-
 if __name__ == '__main__':
     # Empty in-memory config file
     # k = Konfig(StringIO())
 
+    import inspect
+    from typing import get_type_hints
+    properties = inspect.getmembers(
+        Profile,
+        lambda obj: isinstance(obj, property)
+    )
+    for name, p in properties:
+        type_return = get_type_hints(p.fget)['return']
+        if p.fset:
+            hints = get_type_hints(p.fset)
+            param = list(inspect.signature(p.fset).parameters)[1]
+            print(p)
+            print(p.fset)
+            type_setter = hints[param]
+        else:
+            type_setter = None
+
+        print(f'{name=} {p=}\n  {type_setter=}\n  {type_return=}\n')
+
+    sys.exit()
     k = Konfig()
     print(k)
     print(f'{k._conf=}')  # pylint: disable=protected-access
