@@ -2606,8 +2606,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         raiseCmd = '\n'.join(sys.argv[1:])
 
-    appInstance = guiapplicationinstance.GUIApplicationInstance(
-        cfg.appInstanceFile(), raiseCmd)
+    appInstance = guiapplicationinstance.GUIApplicationInstance(raiseCmd)
     cfg.PLUGIN_MANAGER.load(cfg=cfg)
     cfg.PLUGIN_MANAGER.appStart()
 

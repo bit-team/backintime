@@ -17,6 +17,7 @@ from typing import Union, Any
 from pathlib import Path
 from io import StringIO, TextIOWrapper
 import singleton
+import logger
 from storagesize import SizeUnit, StorageSize
 from bitbase import TimeUnit, StorageSizeUnit, ScheduleMode
 
@@ -123,7 +124,6 @@ class Profile:  # pylint: disable=too-many-public-methods
         'snapshots.use_checksum': False,
         'snapshots.log_level': 3,
         'snapshots.take_snapshot_regardless_of_changes': False,
-        'global.use_flock': False,
     }
 
     def __init__(self, profile_id: int, config: Konfig):
@@ -1035,15 +1035,15 @@ class Profile:  # pylint: disable=too-many-public-methods
         self['snapshots.no_on_battery'] = enable
 
     @property
-    def preserve_alc(self) -> bool:
+    def preserve_acl(self) -> bool:
         """Preserve Access Control Lists (ACL). The source and destination
         systems must have compatible ACL entries for this option to work
         properly.
         """
         return self['snapshots.preserve_acl']
 
-    @preserve_alc.setter
-    def preserve_alc(self, preserve: bool) -> None:
+    @preserve_acl.setter
+    def preserve_acl(self, preserve: bool) -> None:
         self['snapshots.preserve_acl'] = preserve
 
     @property
@@ -1271,7 +1271,7 @@ class Konfig(metaclass=singleton.Singleton):
         }
 
     def iter_profiles(self):
-        for pid in self.profile_ids():
+        for pid in self.profile_ids:
             yield Profile(profile_id=pid, config=self)
 
     def new_profile(self, name: str) -> Profile:
@@ -1343,7 +1343,14 @@ class Konfig(metaclass=singleton.Singleton):
 
         # raw content
         if isinstance(buffer_or_path, Path):
-            content = buffer_or_path.read_text(encoding='utf-8')
+            try:
+                content = buffer_or_path.read_text(encoding='utf-8')
+            except FileNotFoundError:
+                logger.warning(
+                    f'Config file not found: {buffer_or_path}, but '
+                    'starting with empty config.'
+                )
+                content = ''
         else:
             content = buffer_or_path.read()
 
@@ -1357,10 +1364,10 @@ class Konfig(metaclass=singleton.Singleton):
         self._profiles = self._profile_list()
 
     def save(self, buffer: TextIOWrapper):
-        """Store configuraton to the config file."""
+        """Store configuration to the config file."""
 
         self._unsaved_profiles = []
-        raise NotImplementedError('Prevent overwritting real config data.')
+        raise NotImplementedError('Prevent overwriting real config data.')
 
         # tmp_io_buffer = StringIO()
         # self._config_parser.write(tmp_io_buffer)

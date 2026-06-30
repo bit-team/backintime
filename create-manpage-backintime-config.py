@@ -270,7 +270,7 @@ def inspect_properties(cls: type, name_prefix: str = '') -> dict[str, dict]:
     All public properties containing a doc string are considered.
     Some values can be specified with a dictionary contained in the doc string
     but don't have to, except the 'values' field containing the allowed values.
-    The docstring is used as description ('doc'). The type annoation of the
+    The docstring is used as description ('doc'). The type annotation of the
     return value is used as 'type'. The name of the config field is extracted
     from the code body of the property method.
 
@@ -299,7 +299,7 @@ def inspect_properties(cls: type, name_prefix: str = '') -> dict[str, dict]:
     Returns:
         A dictionary indexed by the config option field names.
     """
-    # The folloing fields/properties will produce warnings. But this is
+    # The following fields/properties will produce warnings. But this is
     # expected on happens on purpose. The list is used to "ease" the warning
     # message.
     expect_to_be_ignored = (
@@ -427,7 +427,7 @@ def main():
     )
 
     # WORKAROuND:
-    # Structure of include/exclude fields can not be easly handled via
+    # Structure of include/exclude fields can not be easily handled via
     # properties and doc-string inspection. The structure will get
     # modified in the future. Until then we add their man page docu
     # manual.

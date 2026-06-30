@@ -242,7 +242,7 @@ class ParserAgent:
         parser.add_argument(
             '--config',
             metavar='PATH',
-            type=str,
+            type=Path,
             action='store',
             help='read config from %(metavar)s '
                  '(Default: $XDG_CONFIG_HOME/backintime/config)')

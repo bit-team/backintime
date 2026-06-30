@@ -21,7 +21,7 @@ import bitbase
 import core_events
 from konfig import Konfig
 from mount import MountManager, MountError
-from typing import Optional
+from typing import Optional, Union
 from version import __version__
 
 
@@ -329,7 +329,7 @@ class RestoreDialog:
             self.what,
             self.callback,
             self.where,
-            self.force_checksum_use = getattr(kwargs, 'checksum', False),
+            self.force_checksum_use,
             **self.kwargs
         )
         print('\nLog saved to %s' % self.logFile)
@@ -472,7 +472,7 @@ def detect_remote_host_check_settings(cfg: Konfig) -> tuple[str, str, str]:
     return result
 
 
-def _backup_and_remove_encfs_config(cfg: Konfi) -> bool:
+def _backup_and_remove_encfs_config(cfg: Konfig) -> bool:
     """EncFS encryption feature was removed from Back In Time (#1734).
     This function detects existing EncFS profiles. If detected a backup is
     created of the complete config file and the EncFS profiles removed after.
@@ -481,7 +481,7 @@ def _backup_and_remove_encfs_config(cfg: Konfi) -> bool:
     names = ''
 
     for profile in cfg.iter_profiles():
-        if 'encfs' in profile.snapshots_mode.lower():
+        if 'encfs' in profile.mode.lower():
             name = profile.name
             pid = profile.profile_id
             logger.critical(

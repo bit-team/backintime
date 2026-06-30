@@ -23,7 +23,7 @@ Development notes:
 """
 import os
 import datetime
-import socket
+# import socket
 import random
 import getpass
 import shlex
@@ -40,14 +40,14 @@ except NameError:
 
 import bitbase
 import tools
-import configfile
+# import configfile
 import encode
 import logger
 import password
 import pluginmanager
 import schedule
 import core_events
-from storagesize import StorageSize, SizeUnit
+from storagesize import StorageSize
 from exceptions import PermissionDeniedByPolicy
 from konfig import Konfig
 
@@ -118,8 +118,9 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         # self._DEFAULT_LOCAL_DATA_FOLDER = os.path.join(HOME_FOLDER, DATA_FOLDER, BIT_FOLDER)
         # self._LOCAL_CONFIG_FOLDER = os.path.join(HOME_FOLDER, CONFIG_FOLDER, BIT_FOLDER)
         # self._MOUNT_ROOT = os.path.join(DATA_FOLDER, BIT_FOLDER, 'mnt')
-        self._MOUNT_ROOT = bitbase.XDG_DATA_HOME / BINARY_NAME_BASE / 'mnt'
+        self._MOUNT_ROOT = bitbase.XDG_DATA_HOME / bitbase.BINARY_NAME_BASE / 'mnt'
         self._MOUNT_ROOT = str(self._MOUNT_ROOT)
+        self._LOCAL_DATA_FOLDER = str(bitbase.BIT_DATA_HOME)
 
         # if data_path:
         #     # Deprecated: --share-path was removed
@@ -272,7 +273,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         Konfig().save()
 
     def is_profile_unsaved(self, profile_id: str) -> bool:
-        return = Konfig().is_profile_unsaved(int(profile_id))
+        return Konfig().is_profile_unsaved(int(profile_id))
 
     def is_current_profile_unsaved(self) -> bool:
         return self.is_profile_unsaved(self.currentProfile())
@@ -297,12 +298,12 @@ class Config:  # (configfile.ConfigFileWithProfiles):
             mount_path = mount_manager.path
             # snapshots_path = one_profile.snapshots_path
 
-            # check the backups mountpoint (formaly known as "snapshot_path"
+            # check the backups mountpoint (formerly known as "snapshot_path")
             if not mount_path:
                 core_events.event_error.notify(
                     '{}\n{}'.format(
                         _('Profile: "{name}"').format(name=profile_name),
-                        # Don't like this errro message!
+                        # Don't like this error message!
                         _('Backup directory is not valid.')
                     )
                 )
@@ -562,7 +563,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
     def sshPrivateKeyFile_enabled(self, profile_id=None):
         # return self.sshPrivateKeyFile(profile_id) is not False
         p = self.get_profile(profile_id)
-        return p.ssh_private_key_file is not None:
+        return p.ssh_private_key_file is not None
 
     def setSshPrivateKeyFile(self, value, profile_id=None):
         # self.setProfileStrValue('snapshots.ssh.private_key_file', value, profile_id)
@@ -631,7 +632,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
     def setSshCheckCommands(self, value, profile_id = None):
         # self.setProfileBoolValue('snapshots.ssh.check_commands', value, profile_id)
         p = self.get_profile(profile_id)
-        p.ssh_check_commands = vlaue
+        p.ssh_check_commands = value
 
     def sshCheckPingHost(self, profile_id = None):
         #?Check if the remote host is available before trying to mount.
@@ -964,7 +965,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         #?starting with 1;file, folder or pattern (relative or absolute)
         # return self.profileListValue('snapshots.exclude', 'str:value', [], profile_id)
         p = self.get_profile(profile_id)
-        reutrn p.exclude
+        return p.exclude
 
     def setExclude(self, values, profile_id = None):
         # self.setProfileListValue('snapshots.exclude', 'str:value', values, profile_id)
@@ -1487,78 +1488,112 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         p = self.get_profile(profile_id)
         return p.no_backup_on_battery
 
-    def setNoSnapshotOnBattery(self, value, profile_id = None):
+    def setNoSnapshotOnBattery(self, value, profile_id=None):
         # self.setProfileBoolValue('snapshots.no_on_battery', value, profile_id)
         p = self.get_profile(profile_id)
         p.no_backup_on_battery = value
 
     # --- WEITER WEITER WEITER
-    def preserveAcl(self, profile_id = None):
+    def preserveAcl(self, profile_id=None):
         #?Preserve ACL. The  source  and  destination  systems must have
         #?compatible ACL entries for this option to work properly.
-        return self.profileBoolValue('snapshots.preserve_acl', False, profile_id)
+        # return self.profileBoolValue('snapshots.preserve_acl', False, profile_id)
+        p = self.get_profile(profile_id)
+        return p.preserve_acl
 
     def setPreserveAcl(self, value, profile_id = None):
-        return self.setProfileBoolValue('snapshots.preserve_acl', value, profile_id)
+        # return self.setProfileBoolValue('snapshots.preserve_acl', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.preserve_acl = value
 
     def preserveXattr(self, profile_id = None):
         #?Preserve extended attributes (xattr).
-        return self.profileBoolValue('snapshots.preserve_xattr', False, profile_id)
+        # return self.profileBoolValue('snapshots.preserve_xattr', False, profile_id)
+        p = self.get_profile(profile_id)
+        return p.preserve_xattr
 
     def setPreserveXattr(self, value, profile_id = None):
-        return self.setProfileBoolValue('snapshots.preserve_xattr', value, profile_id)
+        # return self.setProfileBoolValue('snapshots.preserve_xattr', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.preserve_xattr = value
 
     def copyUnsafeLinks(self, profile_id = None):
         #?This tells rsync to copy the referent of symbolic links that point
         #?outside the copied tree.  Absolute symlinks are also treated like
         #?ordinary files.
-        return self.profileBoolValue('snapshots.copy_unsafe_links', False, profile_id)
+        # return self.profileBoolValue('snapshots.copy_unsafe_links', False, profile_id)
+        p = self.get_profile(profile_id)
+        return p.copy_unsafe_links
 
     def setCopyUnsafeLinks(self, value, profile_id = None):
-        return self.setProfileBoolValue('snapshots.copy_unsafe_links', value, profile_id)
+        # return self.setProfileBoolValue('snapshots.copy_unsafe_links', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.copy_unsafe_links = value
 
-    def copyLinks(self, profile_id = None):
+    def copyLinks(self, profile_id=None):
         #?When symlinks are encountered, the item that they point to
         #?(the reference) is copied, rather than the symlink.
-        return self.profileBoolValue('snapshots.copy_links', False, profile_id)
+        # return self.profileBoolValue('snapshots.copy_links', False, profile_id)
+        p = self.get_profile(profile_id)
+        return p.copy_links
 
     def setCopyLinks(self, value, profile_id = None):
-        return self.setProfileBoolValue('snapshots.copy_links', value, profile_id)
+        # return self.setProfileBoolValue('snapshots.copy_links', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.copy_links = value
 
     def oneFileSystem(self, profile_id = None):
         #?Use rsync's "--one-file-system" to avoid crossing filesystem
         #?boundaries when recursing.
-        return self.profileBoolValue('snapshots.one_file_system', False, profile_id)
+        # return self.profileBoolValue('snapshots.one_file_system', False, profile_id)
+        p = self.get_profile(profile_id)
+        return p.one_file_system
 
     def setOneFileSystem(self, value, profile_id = None):
-        return self.setProfileBoolValue('snapshots.one_file_system', value, profile_id)
+        # return self.setProfileBoolValue('snapshots.one_file_system', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.one_file_system = value
 
     def rsyncOptionsEnabled(self, profile_id = None):
         #?Past additional options to rsync
-        return self.profileBoolValue('snapshots.rsync_options.enabled', False, profile_id)
+        # return self.profileBoolValue('snapshots.rsync_options.enabled', False, profile_id)
+        p = self.get_profile(profile_id)
+        return p.rsync_options_enabled
 
     def rsyncOptions(self, profile_id = None):
         #?rsync options. Options must be quoted e.g. \-\-exclude-from="/path/to/my exclude file"
-        return self.profileStrValue('snapshots.rsync_options.value', '', profile_id)
+        # return self.profileStrValue('snapshots.rsync_options.value', '', profile_id)
+        p = self.get_profile(profile_id)
+        return p.rsync_options
 
     def setRsyncOptions(self, enabled, value, profile_id = None):
-        self.setProfileBoolValue('snapshots.rsync_options.enabled', enabled, profile_id)
-        self.setProfileStrValue('snapshots.rsync_options.value', value, profile_id)
+        # self.setProfileBoolValue('snapshots.rsync_options.enabled', enabled, profile_id)
+        # self.setProfileStrValue('snapshots.rsync_options.value', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.rsync_options = value
+        p.rsync_options_enabled = enabled
 
     def sshPrefixEnabled(self, profile_id = None):
         #?Add prefix to every command which run through SSH on remote host.
-        return self.profileBoolValue('snapshots.ssh.prefix.enabled', False, profile_id)
+        # return self.profileBoolValue('snapshots.ssh.prefix.enabled', False, profile_id)
+        p = self.get_profile(profile_id)
+        return p.ssh_prefix_enabled
 
-    def sshPrefix(self, profile_id = None):
+    def sshPrefix(self, profile_id=None):
         #?Prefix to run before every command on remote host. Variables need to be escaped with \\$FOO.
         #?This doesn't touch rsync. So to add a prefix for rsync use
         #?\fIprofile<N>.snapshots.rsync_options.value\fR with
         #?--rsync-path="FOO=bar:\\$FOO /usr/bin/rsync"
-        return self.profileStrValue('snapshots.ssh.prefix.value', self.DEFAULT_SSH_PREFIX, profile_id)
+        # return self.profileStrValue('snapshots.ssh.prefix.value', self.DEFAULT_SSH_PREFIX, profile_id)
+        p = self.get_profile(profile_id)
+        return p.ssh_prefix
 
     def setSshPrefix(self, enabled, value, profile_id = None):
-        self.setProfileBoolValue('snapshots.ssh.prefix.enabled', enabled, profile_id)
-        self.setProfileStrValue('snapshots.ssh.prefix.value', value, profile_id)
+        # self.setProfileBoolValue('snapshots.ssh.prefix.enabled', enabled, profile_id)
+        # self.setProfileStrValue('snapshots.ssh.prefix.value', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.ssh_prefix = value
+        p.ssh_prefix_enabled = enabled
 
     def sshPrefixCmd(self, profile_id=None, cmd_type=str):
         """Return the config value of sshPrefix if enabled.
@@ -1583,41 +1618,61 @@ class Config:  # (configfile.ConfigFileWithProfiles):
     def continueOnErrors(self, profile_id = None):
         #?Continue on errors. This will keep incomplete snapshots rather than
         #?deleting and start over again.
-        return self.profileBoolValue('snapshots.continue_on_errors', True, profile_id)
+        # return self.profileBoolValue('snapshots.continue_on_errors', True, profile_id)
+        p = self.get_profile(profile_id)
+        return p.continue_on_errors
 
     def setContinueOnErrors(self, value, profile_id = None):
-        return self.setProfileBoolValue('snapshots.continue_on_errors', value, profile_id)
+        # return self.setProfileBoolValue('snapshots.continue_on_errors', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.continue_on_errors = value
 
     def useChecksum(self, profile_id = None):
         #?Use checksum to detect changes rather than size + time.
-        return self.profileBoolValue('snapshots.use_checksum', False, profile_id)
+        # return self.profileBoolValue('snapshots.use_checksum', False, profile_id)
+        p = self.get_profile(profile_id)
+        return p.use_checksum
 
     def setUseChecksum(self, value, profile_id = None):
-        return self.setProfileBoolValue('snapshots.use_checksum', value, profile_id)
+        # return self.setProfileBoolValue('snapshots.use_checksum', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.use_checksum = value
 
     def logLevel(self, profile_id = None):
         #?Log level used during takeSnapshot.\n1 = Error\n2 = Changes\n3 = Info;1-3
-        return self.profileIntValue('snapshots.log_level', 3, profile_id)
+        # return self.profileIntValue('snapshots.log_level', 3, profile_id)
+        p = self.get_profile(profile_id)
+        return p.log_level
 
     def setLogLevel(self, value, profile_id = None):
-        return self.setProfileIntValue('snapshots.log_level', value, profile_id)
+        # return self.setProfileIntValue('snapshots.log_level', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.log_level = value
 
     def takeSnapshotRegardlessOfChanges(self, profile_id = None):
         #?Create a new snapshot regardless if there were changes or not.
-        return self.profileBoolValue('snapshots.take_snapshot_regardless_of_changes', False, profile_id)
+        # return self.profileBoolValue('snapshots.take_snapshot_regardless_of_changes', False, profile_id)
+        p = self.get_profile(profile_id)
+        return p.take_snapshot_regardless_of_changes
 
     def setTakeSnapshotRegardlessOfChanges(self, value, profile_id = None):
-        return self.setProfileBoolValue('snapshots.take_snapshot_regardless_of_changes', value, profile_id)
+        # return self.setProfileBoolValue('snapshots.take_snapshot_regardless_of_changes', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.take_snapshot_regardless_of_changes = value
 
     def globalFlock(self):
         #?Prevent multiple snapshots (from different profiles or users) to be run at the same time
-        return self.boolValue('global.use_flock', False)
+        # return self.boolValue('global.use_flock', False)
+        k = Konfig()
+        return k.global_flock
 
     def setGlobalFlock(self, value):
-        self.setBoolValue('global.use_flock', value)
+        # self.setBoolValue('global.use_flock', value)
+        k = Konfig()
+        k.global_flock = value
 
-    def appInstanceFile(self):
-        return os.path.join(self._LOCAL_DATA_FOLDER, 'app.lock')
+    # def appInstanceFile(self):
+    #     return os.path.join(self._LOCAL_DATA_FOLDER, 'app.lock')
 
     def fileId(self, profile_id=None):
         if profile_id is None:
@@ -1685,10 +1740,16 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         return profile_id + '_' + profile_name.replace(' ', '_')
 
     def udevRulesPath(self):
-        return os.path.join('/etc/udev/rules.d', '99-backintime-%s.rules' % getpass.getuser())
+        return os.path.join(
+            '/etc/udev/rules.d',
+            '99-backintime-%s.rules' % getpass.getuser()
+        )
 
-    def restoreLogFile(self, profile_id = None):
-        return os.path.join(self._LOCAL_DATA_FOLDER, "restore_%s.log" % self.fileId(profile_id))
+    def restoreLogFile(self, profile_id=None):
+        return os.path.join(
+            self._LOCAL_DATA_FOLDER,
+            "restore_%s.log" % self.fileId(profile_id)
+        )
 
     def restoreInstanceFile(self, profile_id=None):
         return os.path.join(
@@ -1703,6 +1764,10 @@ class Config:  # (configfile.ConfigFileWithProfiles):
 
         It is assumed as configured if a snapshot path (backup destination)
         and include files/directories (backup source) are given.
+
+        Dev note (2026-06, buhtz): I don't see much value in this. Today the
+        GUI initiates enough check and validations before storing new or
+        modified profile.
         """
         if not profile_id:
             profile_id = self.profiles()[0]
@@ -1916,7 +1981,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
             cmd += '--profile %s ' % profile_id
 
         # User defined path to config file
-        if not self._LOCAL_CONFIG_PATH is self._DEFAULT_CONFIG_PATH:
+        if self._LOCAL_CONFIG_PATH is not self._DEFAULT_CONFIG_PATH:
             cmd += '--config %s ' % self._LOCAL_CONFIG_PATH
 
         # Enable debug output
@@ -1951,12 +2016,8 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         return cmd
 
     def addProfile(self, name: str) -> str | None:
-        pid = super().addProfile(name)
-
-        if pid:
-            self._unsaved_profiles.append(pid)
-
-        return pid
+        p = Konfig().new_profile(name)
+        return str(p.profile_id)
 
 
 def _remove_old_snapshots_date(value, unit):

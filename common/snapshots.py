@@ -1456,7 +1456,7 @@ class Snapshots:
         # rsync prefix & suffix
         rsync_prefix = tools.rsyncPrefix(
             self.config,
-            no_perms=False
+            no_perms=False,
             force_checksum_use=force_checksum_use
         )
 

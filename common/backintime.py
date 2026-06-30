@@ -137,7 +137,7 @@ def startApp(bin_name: str) -> config.Config | None:
 
     # Workaround: For the current time we use "Config" as surrogate, that is
     # using the real "Konfig" in the back.
-    return Config()
+    return config.Config()
 
 
 if __name__ == '__main__':
