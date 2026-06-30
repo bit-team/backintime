@@ -273,6 +273,9 @@ class PluginManager:
 
             self.loadedPlugins.append(file_name)
 
+        except AttributeError as exc:
+            raise
+
         except BaseException as exc:
             logger.critical(f'Failed to load plugin {file_name}: {exc=}', self)
 

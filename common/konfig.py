@@ -47,6 +47,7 @@ class Profile:  # pylint: disable=too-many-public-methods
     _DEFAULT_VALUES = {
         'name': _('Main profile'),  # A workaround we will get rid of soon
         'snapshots.mode': 'local',
+        'snapshots.path': '',
         'snapshots.path.host': socket.gethostname(),
         'snapshots.path.user': getpass.getuser(),
         'snapshots.ssh.port': 22,
@@ -56,7 +57,7 @@ class Profile:  # pylint: disable=too-many-public-methods
         'snapshots.ssh.max_arg_length': 0,
         'snapshots.ssh.check_commands': True,
         'snapshots.ssh.check_ping': True,
-        'snapshots.local_encfs.path': '',
+        'snapshots.local_gocryptfs.path': '',
         # This is fragil. Why not 'snapshots.password.save' ?
         'snapshots.local.password.save': False,
         'snapshots.ssh.password.save': False,
@@ -197,7 +198,7 @@ class Profile:  # pylint: disable=too-many-public-methods
         backintime' section 'Modes'.
 
         {
-            'values': 'local|local_encfs|ssh|ssh_encfs',
+            'values': 'local|local_gocryptfs|ssh|ssh_gocryptfs',
             'default': 'local',
         }
         """
@@ -216,14 +217,11 @@ class Profile:  # pylint: disable=too-many-public-methods
             'values': 'absolute path',
         }
         """
-        # return self['snapshots.path']
-        raise NotImplementedError(
-            'see original in Config class. See also '
-            'Config.snapshotsFullPath(self, profile_id = None)')
+        return self['snapshots.path']
 
     @snapshots_path.setter
     def snapshots_path(self, path: str):
-        raise NotImplementedError('see original in Config class.')
+        self['snapshots.path'] = path
 
     @property
     def snapshots_path_host(self) -> str:
@@ -289,7 +287,7 @@ class Profile:  # pylint: disable=too-many-public-methods
 
     @property
     def ssh_host(self) -> str:
-        """Remote host used for mode 'ssh' and 'ssh_encfs'.
+        """Remote host used for mode 'ssh' and 'ssh_gocryptfs'.
 
         {
             'values': 'IP or domain address',
@@ -1493,7 +1491,9 @@ if __name__ == '__main__':
     k.load(Path.home() / '.config' / 'backintime' / 'config')
     sys.exit()
     # Regular config file
-    with config_file_path().open('r', encoding='utf-8') as handle:
+    import bitbase
+    cfp = bitbase.CONFIG_FILE_PATH
+    with cfp.open('r', encoding='utf-8') as handle:
         k = Konfig()
         k.load(handle)
 

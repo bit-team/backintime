@@ -74,13 +74,21 @@ URL_USER_MANUAL = 'https://backintime.readthedocs.io'
 
 XDG_DATA_HOME = Path(os.environ.get(
     'XDG_DATA_HOME',
-    os.environ.get('HOME') + '/.local/share'
+    Path.home() / '.local' / 'share'
 ))
+XDG_CONFIG_HOME = Path(os.environ.get(
+    'XDG_CONFIG_HOME',
+    Path.home() / '.config'
+))
+
 # Dev note (2026-06, buhtz): Formerly known as Config._LOCAL_DATA_FOLDER
 BIT_DATA_HOME = XDG_DATA_HOME / BINARY_NAME_BASE
 
+
 FILENAME_CONFIG = 'config'
 CRON_ENV_PATH = XDG_DATA_HOME / 'cron_env.json'
+
+CONFIG_FILE_PATH = XDG_CONFIG_HOME / BINARY_NAME_BASE / FILENAME_CONFIG
 
 # See issue #1743
 ENCFS_BACKUP_CONFIG_SUFFIX = '.encfs.backup'

@@ -521,20 +521,6 @@ def _backup_and_remove_encfs_config(cfg: Konfig) -> bool:
     return True
 
 
-def config_file_path() -> Path:
-    """Return the config file path.
-
-    Could be moved into backintime.py. sys.argv (--config) needs to be
-    considered.
-    """
-    xdg_config = os.environ.get('XDG_CONFIG_HOME', Path.home() / '.config')
-    path = Path(xdg_config) / 'backintime' / 'config'
-
-    logger.debug(f'Config path: {path}')
-
-    return path
-
-
 def get_config_and_select_profile(
         config_path: str,
         # data_path: str,
@@ -559,7 +545,9 @@ def get_config_and_select_profile(
 
     """
     if config_path is None:
-        config_path = config_file_path()
+        config_path = bitbase.CONFIG_FILE_PATH
+
+    logger.debug(f'Config path: {config_path}')
 
     # Workaround: Sometimes the id is given as string.
     if pid_or_name and pid_or_name.isdigit():

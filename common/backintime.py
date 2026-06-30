@@ -69,7 +69,6 @@ def takeSnapshotAsync(cfg, checksum=False):
     subprocess.Popen(cmd, env=env)
 
 
-
 def startApp(bin_name: str) -> config.Config | None:
     """
     Start the requested command or return config.
@@ -96,10 +95,11 @@ def startApp(bin_name: str) -> config.Config | None:
     args = cliarguments.parse_arguments(args=None, agent=parser_agent)
 
     # Name, Version, As Root, OS
-    msg = ''
-    for key, val in collect_minimal_diagnostics().items():
-        msg = f'{msg}; {key}: {val}'
-    logger.debug(msg[2:])
+    if logger.DEBUG:
+        msg = ''
+        for key, val in collect_minimal_diagnostics().items():
+            msg = f'{msg}; {key}: {val}'
+        logger.debug(msg[2:])
 
     # Add source path to $PATH environ if running from source
     if tools.runningFromSource():

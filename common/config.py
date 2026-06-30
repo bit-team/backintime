@@ -120,6 +120,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         # self._MOUNT_ROOT = os.path.join(DATA_FOLDER, BIT_FOLDER, 'mnt')
         self._MOUNT_ROOT = bitbase.XDG_DATA_HOME / bitbase.BINARY_NAME_BASE / 'mnt'
         self._MOUNT_ROOT = str(self._MOUNT_ROOT)
+        self._LOCAL_MOUNT_ROOT = self._MOUNT_ROOT
         self._LOCAL_DATA_FOLDER = str(bitbase.BIT_DATA_HOME)
 
         # if data_path:
@@ -167,6 +168,9 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         # Workaround: Maybe into bitbase?
         self.default_profile_name = _('Main profile')
 
+        # Workaround
+        self.setCurrentProfile('1')
+
         self.SNAPSHOT_MODES = {
                     # mode: (
                     #     <mounttools>,
@@ -203,7 +207,8 @@ class Config:  # (configfile.ConfigFileWithProfiles):
     def the_dict(self) -> dict:
         """Workaround to access the raw dictionary defined in ConfigFile. See
         #1923"""
-        return self.dict
+        # return self.dict
+        return Konfig()._conf
 
     def currentProfile(self):
         return self.current_profile_id
@@ -448,14 +453,18 @@ class Config:  # (configfile.ConfigFileWithProfiles):
 
     def get_snapshots_path(self, profile_id):
         """Return the value of the snapshot path (backup destination) field."""
-        return self.profileStrValue('snapshots.path', '', profile_id)
+        # return self.profileStrValue('snapshots.path', '', profile_id)
+        p = self.get_profile(profile_id)
+        return p.snapshots_path
 
     def set_snapshots_path(self, value, profile_id=None):
         """Sets the snapshot path to value."""
-        if profile_id is None:
-            profile_id = self.currentProfile()
+        # if profile_id is None:
+        #     profile_id = self.currentProfile()
 
-        self.setProfileStrValue('snapshots.path', value, profile_id)
+        # self.setProfileStrValue('snapshots.path', value, profile_id)
+        p = self.get_profile(profile_id)
+        p.snapshots_path = value
 
     def snapshotsMode(self, profile_id=None):
         #? Use mode (or backend) for this snapshot. Look at 'man backintime'
@@ -1701,7 +1710,8 @@ class Config:  # (configfile.ConfigFileWithProfiles):
             "worker%s.lock" % self.fileId(profile_id))
 
     def takeSnapshotUserCallback(self):
-        return os.path.join(self._LOCAL_CONFIG_FOLDER, "user-callback")
+        # return os.path.join(self._LOCAL_CONFIG_FOLDER, "user-callback")
+        return str(bitbase.CONFIG_FILE_PATH.parent / 'user-callback')
 
     def passwordCacheFolder(self):
         return os.path.join(self._LOCAL_DATA_FOLDER, "password_cache")
@@ -1769,8 +1779,8 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         GUI initiates enough check and validations before storing new or
         modified profile.
         """
-        if not profile_id:
-            profile_id = self.profiles()[0]
+        p = self.get_profile(profile_id)
+        profile_id = str(p.profile_id)
 
         path = self.snapshotsPath(profile_id)
         includes = self.include(profile_id)

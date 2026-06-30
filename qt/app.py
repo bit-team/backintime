@@ -212,7 +212,7 @@ class MainWindow(QMainWindow):
         self.snapshotsList = []
 
         # ???
-        self.path = self.config.profileStrValue('qt.last_path', '/')
+        self.path = self.config.the_dict().get('qt.last_path', '/')
 
         self.widget_current_path.setText(self.path)
         self.path_history = tools.PathHistory(self.path)
