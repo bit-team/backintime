@@ -47,6 +47,7 @@ from exceptions import MountException
 from statedata import StateData
 from filedialog import FileDialog
 from textdlg import TextDialog
+from konfig import Konfig
 from PyQt6.QtGui import (QAction,
                          QActionGroup,
                          QDesktopServices,
@@ -335,7 +336,9 @@ class MainWindow(QMainWindow):
         # if self.config.isConfigured():
         #     return
 
-        config_fp = pathlib.Path(self.config._LOCAL_CONFIG_PATH)
+        # config_fp = Path(self.config._LOCAL_CONFIG_PATH)
+        config_fp = bitbase.context['--config']
+
         if config_fp.exists():
             return
 
@@ -362,29 +365,24 @@ class MainWindow(QMainWindow):
         import_prompt.exec()
         answer = import_prompt.clickedButton()
 
-        mark_main_profile_unsaved = answer is btn_create
+
         if answer == btn_import:
             rc = RestoreConfigDialog(self.config).exec()
             if rc == QDialog.DialogCode.Rejected:
-                mark_main_profile_unsaved = True
+                answer = btn_create
 
-        # Workaround: If BIT config is fresh the Main Profile is not
-        # saved yet. If it wouldn't be recognized as unsaved the
-        # default excludes are not added to it.
-        # This workaround need to remain until #1371 and other related
-        # issues are solved.
-        if mark_main_profile_unsaved:
-            # failesafe: Main profile only
-            if self.config.profiles() == ['1']:
-                # Mark "Main profile" as unsaved.
-                self.config._unsaved_profiles.append('1')
+        # # Create or Import rejected
+        # if answer == btn_create:
+        #     k = Konfig()
+        #     k.new_profile(_('Main profile'))
 
         SettingsDialog(self).exec()
 
     def _message_about_encfs_config_backup(self):
         # e.g. '~/.config/backintime/config.encfs.backup'
         config_fp_backup = pathlib.Path(
-            self.config._LOCAL_CONFIG_PATH
+            # self.config._LOCAL_CONFIG_PATH
+            Konfig().last_loaded_from()
         ).with_suffix(bitbase.ENCFS_BACKUP_CONFIG_SUFFIX)
 
         if not config_fp_backup.exists():
@@ -2523,39 +2521,35 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
     for profile_id in cfg.profiles():
         profile_state = data.profile(profile_id)
 
-        # profile specific encfs warning
-        val = cfg.profileBoolValue('msg_shown_encfs', 0, profile_id)
-        profile_state.msg_encfs = val
+        # # profile specific encfs warning
+        # val = cfg.the_dict().get(f'profile{profile_id}.msg_shown_encfs', 0)
+        # profile_state.msg_encfs = val
 
-        # qt.last_path
-        if cfg.hasProfileKey('qt.last_path', profile_id):
-            profile_state.last_path \
-                = cfg.profileStrValue('qt.last_path', None, profile_id)
+        # # qt.last_path
+        # if cfg.hasProfileKey('qt.last_path', profile_id):
+        #     profile_state.last_path \
+        #         = cfg.profileStrValue('qt.last_path', None, profile_id)
 
         # Places: sorting
         sorting = (
-            cfg.profileIntValue('qt.places.SortColumn', None, profile_id),
-            cfg.profileIntValue('qt.places.SortOrder', None, profile_id)
+            cfg.the_dict().get(f'profile{profile_id}.qt.places.SortColumn', None),
+            cfg.the_dict().get(f'profile{profile_id}.qt.places.SortOrder', None)
         )
         if all(sorting):
             profile_state.places_sorting = sorting
 
         # Manage profiles - Exclude tab: sorting
         sorting = (
-            cfg.profileIntValue(
-                'qt.settingsdialog.exclude.SortColumn', None, profile_id),
-            cfg.profileIntValue(
-                'qt.settingsdialog.exclude.SortOrder', None, profile_id)
+            cfg.the_dict().get(f'profile{profile_id}.qt.settingsdialog.exclude.SortColumn', None),
+            cfg.the_dict().get(f'profile{profile_id}.qt.settingsdialog.exclude.SortOrder', None)
         )
         if all(sorting):
             profile_state.exclude_sorting = sorting
 
         # Manage profiles - Include tab: sorting
         sorting = (
-            cfg.profileIntValue(
-                'qt.settingsdialog.include.SortColumn', None, profile_id),
-            cfg.profileIntValue(
-                'qt.settingsdialog.include.SortOrder', None, profile_id)
+            cfg.the_dict().get(f'profile{profile_id}.qt.settingsdialog.include.SortColumn', None),
+            cfg.the_dict().get(f'profile{profile_id}.qt.settingsdialog.include.SortOrder', None)
         )
         if all(sorting):
             profile_state.include_sorting = sorting
@@ -2617,26 +2611,9 @@ if __name__ == '__main__':
     load_state_data(cfg)
 
     mainWindow = MainWindow(cfg, appInstance, qapp)
-    # from manageprofiles.spinboxunit import SpinBoxWithUnit
-    # from manageprofiles.storagesizewidget import StorageSizeWidget
-    # from storagesize import StorageSize, SizeUnit
-
-    # mainWindow = QDialog()
-    # layout = QVBoxLayout()
-    # mainWindow.setLayout(layout)
-    # szw = StorageSizeWidget(mainWindow, (1, 999999))
-    # layout.addWidget(szw)
-
-    # print('A'*70)
-    # szw.set_storagesize(
-    #     StorageSize(50, SizeUnit.GIB)
-    # )
-    # print('Z'*70)
-    # print(f'{szw._value.value()=}')
-    # print(f'{szw._value.unit=}')
 
     # if cfg.isConfigured():
-    config_fp = pathlib.Path(cfg._LOCAL_CONFIG_PATH)
+    config_fp = bitbase.context['--config']
     if config_fp.exists():
         mainWindow.show()
         qapp.exec()

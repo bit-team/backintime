@@ -35,6 +35,12 @@ BINARY_NAME_GUI = f'{BINARY_NAME_BASE}-qt'
 PACKAGE_NAME_CLI = f'{BINARY_NAME_BASE}-common'
 PACKAGE_NAME_GUI = f'{BINARY_NAME_BASE}-qt'
 
+# A dictionary containing some application global information.
+# Dev note (2026-07, buhtz): Might be a temporary workaround. But I didn't want
+# to create an extra AppContext or RuntimeContext class.
+context = {
+    # '--config': None,
+}
 
 # |-----------------|
 # | Several strings |

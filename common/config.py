@@ -210,8 +210,17 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         # return self.dict
         return Konfig()._conf
 
-    def currentProfile(self):
-        return self.current_profile_id
+    def currentProfile(self) -> str:
+        return str(self.current_profile_id)
+
+    def profiles(self) -> list[str]:
+        """Workaround, return list of profile_ids as strings."""
+        return [str(pid) for pid in Konfig().profile_ids]
+
+    def profileName(self, profile_id=None) -> str:
+        """Workaround"""
+        p = self.get_profile(profile_id)
+        return p.name
 
     def get_profile(self, profile_id):
         """Workaround"""
@@ -939,7 +948,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         return (
             p.snapshots_path_host,
             p.snapshots_path_user,
-            p.snapshots_path_profile
+            str(p.snapshots_path_profile)
         )
 
     def setHostUserProfile(self, host, user, profile, profile_id = None):
@@ -1044,12 +1053,12 @@ class Config:  # (configfile.ConfigFileWithProfiles):
 
     def scheduleDebug(self, profile_id = None):
         #?Enable debug output to system log for schedule mode.
-        return self.profileBoolValue('schedule.debug', False, profile_id)
+        # return self.profileBoolValue('schedule.debug', False, profile_id)
         p = self.get_profile(profile_id)
         return p.schedule_debug
 
     def setScheduleDebug(self, value, profile_id = None):
-        self.setProfileBoolValue('schedule.debug', value, profile_id)
+        # self.setProfileBoolValue('schedule.debug', value, profile_id)
         p = self.get_profile(profile_id)
         p.schedule_debug = value
 
@@ -1337,7 +1346,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         return p.smart_remove_run_remote_in_background
 
     def setSmartRemoveRunRemoteInBackground(self, value, profile_id = None):
-        self.setProfileBoolValue('snapshots.smart_remove.run_remote_in_background', value, profile_id)
+        # self.setProfileBoolValue('snapshots.smart_remove.run_remote_in_background', value, profile_id)
         p = self.get_profile(profile_id)
         p.smart_remove_run_remote_in_background = value
 
@@ -1348,14 +1357,15 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         return p.notify
 
     def setNotify(self, value, profile_id = None):
-        self.setProfileBoolValue('snapshots.notify.enabled', value, profile_id)
+        # self.setProfileBoolValue('snapshots.notify.enabled', value, profile_id)
         p = self.get_profile(profile_id)
         p.notify = value
 
     def backupOnRestore(self, profile_id = None):
         #?Rename existing files before restore into FILE.backup.YYYYMMDD
-        return self.profileBoolValue('snapshots.backup_on_restore.enabled', True, profile_id)
+        # return self.profileBoolValue('snapshots.backup_on_restore.enabled', True, profile_id)
         p = self.get_profile(profile_id)
+        return p.backup_on_restore
 
     def setBackupOnRestore(self, value, profile_id = None):
         # self.setProfileBoolValue('snapshots.backup_on_restore.enabled', value, profile_id)
@@ -1474,7 +1484,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
     def bwlimitEnabled(self, profile_id = None):
         #?Limit rsync bandwidth usage over network. Use this with mode SSH.
         #?For mode Local you should rather use ionice.
-        return self.profileBoolValue('snapshots.bwlimit.enabled', False, profile_id)
+        # return self.profileBoolValue('snapshots.bwlimit.enabled', False, profile_id)
         p = self.get_profile(profile_id)
         return p.bw_limit_enabled
 

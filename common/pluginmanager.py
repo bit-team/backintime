@@ -294,6 +294,8 @@ class PluginManager:
         for plugin in reversed(self.plugins):
             try:
                 plugin.processEnd()
+            except (AttributeError, TypeError, ValueError):
+                raise
             except BaseException as e:
                 self.logError(plugin, e)
 
@@ -301,6 +303,8 @@ class PluginManager:
         for plugin in self.plugins:
             try:
                 plugin.error(code, message)
+            except (AttributeError, TypeError, ValueError):
+                raise
             except BaseException as e:
                 self.logError(plugin, e)
 
@@ -308,6 +312,8 @@ class PluginManager:
         for plugin in self.plugins:
             try:
                 plugin.newSnapshot(snapshot_id, snapshot_path)
+            except (AttributeError, TypeError, ValueError):
+                raise
             except BaseException as e:
                 self.logError(plugin, e)
 
@@ -316,6 +322,8 @@ class PluginManager:
             try:
                 plugin.message(
                     profile_id, profile_name, level, message, timeout)
+            except (AttributeError, TypeError, ValueError):
+                raise
             except BaseException as e:
                 self.logError(plugin, e)
 
@@ -323,6 +331,8 @@ class PluginManager:
         for plugin in reversed(self.plugins):
             try:
                 plugin.appStart()
+            except (AttributeError, TypeError, ValueError):
+                raise
             except BaseException as e:
                 self.logError(plugin, e)
 
@@ -330,6 +340,8 @@ class PluginManager:
         for plugin in reversed(self.plugins):
             try:
                 plugin.appExit()
+            except (AttributeError, TypeError, ValueError):
+                raise
             except BaseException as e:
                 self.logError(plugin, e)
 
@@ -337,6 +349,8 @@ class PluginManager:
         for plugin in reversed(self.plugins):
             try:
                 plugin.mount(profileID)
+            except (AttributeError, TypeError, ValueError):
+                raise
             except BaseException as e:
                 self.logError(plugin, e)
 
@@ -344,6 +358,8 @@ class PluginManager:
         for plugin in reversed(self.plugins):
             try:
                 plugin.unmount(profileID)
+            except (AttributeError, TypeError, ValueError):
+                raise
             except BaseException as e:
                 self.logError(plugin, e)
 

@@ -26,6 +26,7 @@ import subprocess
 import pluginmanager
 import tools
 import logger
+from konfig import Konfig
 
 
 _ = gettext.gettext
@@ -88,13 +89,15 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
         """Start the process."""
         path = os.path.join(
             tools.as_backintime_path('qt'), 'qtsystrayicon.py')
+
         cmd = [
             sys.executable,
             path,
             self.snapshots.config.currentProfile(),
             '--config',
             # pylint: disable-next=protected-access
-            self.snapshots.config._LOCAL_CONFIG_PATH
+            # self.snapshots.config._LOCAL_CONFIG_PATH
+            Konfig().last_loaded_from()
         ]
 
         if logger.DEBUG:

@@ -243,9 +243,12 @@ class ParserAgent:
             '--config',
             metavar='PATH',
             type=Path,
+            default=bitbase.CONFIG_FILE_PATH,
             action='store',
             help='read config from %(metavar)s '
-                 '(Default: $XDG_CONFIG_HOME/backintime/config)')
+                 f'(Default: $XDG_CONFIG_HOME/{bitbase.BINARY_NAME_BASE}/'
+                 f'{bitbase.FILENAME_CONFIG})'
+        )
 
         parser.add_argument(
             '--share-path',

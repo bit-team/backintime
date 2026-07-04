@@ -202,8 +202,8 @@ def update_combo_profiles(config, combo_profiles, current_profile_id):
     :param combo_profiles: The combo box widget to be updated.
     :param current_profile_id: The ID of the current profile to be selected.
     """
-    profiles = config.profilesSortedByName()
-    for profile_id in profiles:
+    # profiles = config.profilesSortedByName()
+    for profile_id in config.profiles():
         combo_profiles.add_profile_id(profile_id)
         if profile_id == current_profile_id:
             combo_profiles.set_current_profile_id(profile_id)

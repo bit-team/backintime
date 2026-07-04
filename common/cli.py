@@ -522,7 +522,7 @@ def _backup_and_remove_encfs_config(cfg: Konfig) -> bool:
 
 
 def get_config_and_select_profile(
-        config_path: str,
+        config_path: Path,
         # data_path: str,
         pid_or_name: Union[str, int]
         # checksum: Optional[bool] = None
@@ -544,9 +544,6 @@ def get_config_and_select_profile(
         profile. 2 if ``check`` is ``True`` and config is not configured
 
     """
-    if config_path is None:
-        config_path = bitbase.CONFIG_FILE_PATH
-
     logger.debug(f'Config path: {config_path}')
 
     # Workaround: Sometimes the id is given as string.

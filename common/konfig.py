@@ -50,6 +50,8 @@ class Profile:  # pylint: disable=too-many-public-methods
         'snapshots.path': '',
         'snapshots.path.host': socket.gethostname(),
         'snapshots.path.user': getpass.getuser(),
+        'snapshots.ssh.path': '',
+        'snapshots.ssh.host': '',
         'snapshots.ssh.port': 22,
         'snapshots.ssh.cipher': 'default',
         'snapshots.ssh.user': getpass.getuser(),
@@ -57,6 +59,9 @@ class Profile:  # pylint: disable=too-many-public-methods
         'snapshots.ssh.max_arg_length': 0,
         'snapshots.ssh.check_commands': True,
         'snapshots.ssh.check_ping': True,
+        'snapshots.ssh.proxy_host': '',
+        'snapshots.ssh.proxy_port': 22,
+        'snapshots.ssh.proxy_user': getpass.getuser(),
         'snapshots.local_gocryptfs.path': '',
         # This is fragil. Why not 'snapshots.password.save' ?
         'snapshots.local.password.save': False,
@@ -118,6 +123,7 @@ class Profile:  # pylint: disable=too-many-public-methods
         'snapshots.copy_links': False,
         'snapshots.one_file_system': False,
         'snapshots.rsync_options.enabled': False,
+        'snapshots.rsync_options.value': '',
         'snapshots.ssh.prefix.enabled': False,
         # Config.DEFAULT_SSH_PREFIX
         'snapshots.ssh.prefix.value': 'PATH=/opt/bin:/opt/sbin:\\$PATH',
@@ -150,7 +156,7 @@ class Profile:  # pylint: disable=too-many-public-methods
         except KeyError:
             return self._DEFAULT_VALUES[key]
 
-    def __setitem__(self, key: str, val: Any) -> None:
+    def __setitem__(self, key: str, val: str) -> None:
         """Set the value of a field of the profiles config.
 
         For example `self['field.name'] = 7` will set the value `7` to the
@@ -175,6 +181,8 @@ class Profile:  # pylint: disable=too-many-public-methods
                 raise RuntimeError(
                     f'Unexpected situation. {result=} {self._prefix=}'
                 )
+
+        return result
 
     @property
     def profile_id(self) -> int:
@@ -308,11 +316,11 @@ class Profile:  # pylint: disable=too-many-public-methods
             'default': 22,
         }
         """
-        return self['snapshots.ssh.port']
+        return int(self['snapshots.ssh.port'])
 
     @ssh_port.setter
     def ssh_port(self, value: int) -> None:
-        self['snapshots.ssh.port'] = value
+        self['snapshots.ssh.port'] = str(value)
 
     @property
     def ssh_user(self) -> str:
@@ -330,7 +338,7 @@ class Profile:  # pylint: disable=too-many-public-methods
         self['snapshots.ssh.user'] = value
 
     @property
-    def ssh_private_key_file(self) -> Path:
+    def ssh_private_key_file(self) -> Optional[Path]:
         """Private key file used for password-less authentication on remote
         host.
 
@@ -374,11 +382,11 @@ class Profile:  # pylint: disable=too-many-public-methods
             'default': 22,
         }
         """
-        return self['snapshots.ssh.proxy_port']
+        return int(self['snapshots.ssh.proxy_port'])
 
     @ssh_proxy_port.setter
     def ssh_proxy_port(self, value: int) -> None:
-        self['snapshots.ssh.proxy_port'] = value
+        self['snapshots.ssh.proxy_port'] = str(value)
 
     @property
     def ssh_proxy_user(self) -> str:
@@ -411,7 +419,7 @@ class Profile:  # pylint: disable=too-many-public-methods
 
     @ssh_max_arg_length.setter
     def ssh_max_arg_length(self, length: int) -> None:
-        self['snapshots.ssh.max_arg_length'] = length
+        self['snapshots.ssh.max_arg_length'] = str(length)
 
     @property
     def ssh_check_commands(self) -> bool:
@@ -421,22 +429,22 @@ class Profile:  # pylint: disable=too-many-public-methods
         """
 
         # Deprecated. See issue #2509
-        return self['snapshots.ssh.check_commands']
+        return Konfig.to_bool(self['snapshots.ssh.check_commands'])
 
     @ssh_check_commands.setter
     def ssh_check_commands(self, value: bool) -> None:
-        self['snapshots.ssh.check_commands'] = value
+        self['snapshots.ssh.check_commands'] = str(value).lower()
 
     @property
     def ssh_check_ping_host(self) -> bool:
         """Check if the remote host is available before trying to mount.
         { 'values': 'true|false' }
         """
-        return self['snapshots.ssh.check_ping']
+        return Konfig.to_bool(self['snapshots.ssh.check_ping'])
 
     @ssh_check_ping_host.setter
     def ssh_check_ping_host(self, value: bool) -> None:
-        self['snapshots.ssh.check_ping'] = value
+        self['snapshots.ssh.check_ping'] = str(value).lower()
 
     @property
     def local_gocryptfs_path(self) -> Path:
@@ -444,7 +452,7 @@ class Profile:  # pylint: disable=too-many-public-methods
 
         { 'values': 'absolute path' }
         """
-        return self['snapshots.local_gocryptfs.path']
+        return Path(self['snapshots.local_gocryptfs.path'])
 
     @local_gocryptfs_path.setter
     def local_gocryptfs_path(self, path: Path):
@@ -455,14 +463,14 @@ class Profile:  # pylint: disable=too-many-public-methods
         """Save password to system keyring (gnome-keyring or kwallet).
         { 'values': 'true|false' }
         """
-        return self[f'snapshots.{self.mode}.password.save']
+        return Konfig.to_bool(self[f'snapshots.{self.mode}.password.save'])
 
     @password_save.setter
     def password_save(self, value: bool) -> None:
-        self[f'snapshots.{self.mode}.password.save'] = value
+        self[f'snapshots.{self.mode}.password.save'] = str(value).lower()
 
     @property
-    def password_use_cache(self) -> None:
+    def password_use_cache(self) -> bool:
         """Cache password in RAM so it can be read by cronjobs.
         Security issue: root might be able to read that password, too.
         {
@@ -470,11 +478,13 @@ class Profile:  # pylint: disable=too-many-public-methods
             'default': 'see #1855'
         }
         """
-        return self[f'snapshots.{self.mode}.password.use_cache']
+        return Konfig.to_bool(
+            self[f'snapshots.{self.mode}.password.use_cache']
+        )
 
     @password_use_cache.setter
     def password_use_cache(self, value: bool) -> None:
-        self[f'snapshots.{self.mode}.password.use_cache'] = value
+        self[f'snapshots.{self.mode}.password.use_cache'] = str(value).lower()
 
     def _generic_include_exclude_ids(self, inc_exc_str: str) -> tuple[int]:
         """Return two list of numeric IDs used for include and exclude values.
@@ -580,11 +590,11 @@ class Profile:  # pylint: disable=too-many-public-methods
     @property
     def exclude_by_size_enabled(self) -> bool:
         """Enable exclude files by size."""
-        return self['snapshots.exclude.bysize.enabled']
+        return Konfig.to_bool(self['snapshots.exclude.bysize.enabled'])
 
     @exclude_by_size_enabled.setter
     def exclude_by_size_enabled(self, value: bool) -> None:
-        self['snapshots.exclude.bysize.enabled'] = value
+        self['snapshots.exclude.bysize.enabled'] = str(value).lower()
 
     @property
     def exclude_by_size(self) -> int:
@@ -593,11 +603,11 @@ class Profile:  # pylint: disable=too-many-public-methods
         transfer option, not an exclude option. So big files that has been
         backed up before will remain in snapshots even if they had changed.
         """
-        return self['snapshots.exclude.bysize.value']
+        return int(self['snapshots.exclude.bysize.value'])
 
     @exclude_by_size.setter
     def exclude_by_size(self, value: int):
-        self['snapshots.exclude.bysize.value'] = value
+        self['snapshots.exclude.bysize.value'] = str(value)
 
     @property
     def schedule_mode(self) -> ScheduleMode:
@@ -614,29 +624,31 @@ class Profile:  # pylint: disable=too-many-public-methods
             'values': '0|1|2|4|7|10|12|14|16|18|19|20|25|27|30|40|80'
         }
         """
-        return ScheduleMode(self['schedule.mode'])
+        return ScheduleMode(int(self['schedule.mode']))
 
     @schedule_mode.setter
-    def schedule_mode(self, value: int) -> None:
-        self['schedule.mode'] = value
+    def schedule_mode(self, value: Union[int, ScheduleMode]) -> None:
+        if isinstance(value, ScheduleMode):
+            value = value.value
+        self['schedule.mode'] = str(value)
 
     @property
     def schedule_offset(self) -> int:
         """TODO"""
-        return self['schedule.offset']
+        return int(self['schedule.offset'])
 
     @schedule_offset.setter
     def schedule_offset(self, value: int) -> None:
-        self['schedule.offset'] = value
+        self['schedule.offset'] = str(value)
 
     @property
     def schedule_debug(self) -> bool:
         """Enable debug output to system log for schedule mode."""
-        return self['schedule.debug']
+        return Konfig.to_bool(self['schedule.debug'])
 
     @schedule_debug.setter
     def schedule_debug(self, value: bool) -> None:
-        self['schedule.debug'] = value
+        self['schedule.debug'] = str(value).lower()
 
     @property
     def schedule_time(self) -> int:
@@ -647,11 +659,11 @@ class Profile:  # pylint: disable=too-many-public-methods
         30 (weekly), 40 (monthly) and 80 (yearly).
         { 'values': '0-2400' }
         """
-        return self['schedule.time']
+        return int(self['schedule.time'])
 
     @schedule_time.setter
     def schedule_time(self, value: int) -> None:
-        self['schedule.time'] = value
+        self['schedule.time'] = str(value)
 
     @property
     def schedule_day(self) -> int:
@@ -659,11 +671,11 @@ class Profile:  # pylint: disable=too-many-public-methods
         \\fIprofile<N>.schedule.mode\\fR >= 40.
         { 'values': '1-28' }
         """
-        return self['schedule.day']
+        return int(self['schedule.day'])
 
     @schedule_day.setter
     def schedule_day(self, value: int) -> None:
-        self['schedule.day'] = value
+        self['schedule.day'] = str(value)
 
     @property
     def schedule_weekday(self) -> int:
@@ -671,11 +683,11 @@ class Profile:  # pylint: disable=too-many-public-methods
         \\fIprofile<N>.schedule.mode\\fR = 30.
         { 'values': '1 (monday) to 7 (sunday)' }
         """
-        return self['schedule.weekday']
+        return int(self['schedule.weekday'])
 
     @schedule_weekday.setter
     def schedule_weekday(self, value: int) -> None:
-        self['schedule.weekday'] = value
+        self['schedule.weekday'] = str(value)
 
     @property
     def custom_backup_time(self) -> str:
@@ -707,30 +719,30 @@ class Profile:  # pylint: disable=too-many-public-methods
         Only valid for \\fIprofile<N>.schedule.mode\\fR = 25|27;
         { 'values': '10|20|30|40' }
         """
-        return self['schedule.repeatedly.unit']
+        return int(self['schedule.repeatedly.unit'])
 
     @schedule_repeated_unit.setter
     def schedule_repeated_unit(self, value: int) -> None:
-        self['schedule.repeatedly.unit'] = value
+        self['schedule.repeatedly.unit'] = str(value)
 
     @property
     def remove_old_snapshots_enabled(self) -> bool:
         """Remove all snapshots older than value + unit.
         """
-        return self['snapshots.remove_old_snapshots.enabled']
+        return Konfig.to_bool(self['snapshots.remove_old_snapshots.enabled'])
 
     @remove_old_snapshots_enabled.setter
     def remove_old_snapshots_enabled(self, enabled: bool) -> None:
-        self['snapshots.remove_old_snapshots.enabled'] = enabled
+        self['snapshots.remove_old_snapshots.enabled'] = str(enabled).lower()
 
     @property
     def remove_old_snapshots_value(self) -> int:
         """Snapshots older than this times units will be removed."""
-        return self['snapshots.remove_old_snapshots.value']
+        return int(self['snapshots.remove_old_snapshots.value'])
 
     @remove_old_snapshots_value.setter
     def remove_old_snapshots_value(self, value: int) -> None:
-        self['snapshots.remove_old_snapshots.value'] = value
+        self['snapshots.remove_old_snapshots.value'] = str(value)
 
     @property
     def remove_old_snapshots_unit(self) -> TimeUnit:
@@ -740,27 +752,27 @@ class Profile:  # pylint: disable=too-many-public-methods
             'values': '20|30|80'
         }
         """
-        return self['snapshots.remove_old_snapshots.unit']
+        return TimeUnit(self['snapshots.remove_old_snapshots.unit'])
 
     @remove_old_snapshots_unit.setter
     def remove_old_snapshots_unit(self, unit: TimeUnit) -> None:
-        self['snapshots.remove_old_snapshots.unit'] = unit
+        self['snapshots.remove_old_snapshots.unit'] = str(unit.value)
 
     @property
     def warn_free_space(self) -> StorageSize:
         """TODO"""
         value = self['snapshots.warn_free_space.value']
         unit = self['snapshots.warn_free_space.unit']
-        return StorageSize(value, SizeUnit(unit))
+        return StorageSize(int(value), SizeUnit(int(unit)))
 
     @warn_free_space.setter
     def warn_free_space(self, value: StorageSize) -> None:
-        self['snapshots.warn_free_space.value'] = value.value()
+        self['snapshots.warn_free_space.value'] = str(value.value())
         self['snapshots.warn_free_space.unit'] = value.unit.value
 
     @property
     def warn_free_space_enabled(self) -> bool:
-        return self['snapshots.warn_free_space.value'] > 0
+        return int(self['snapshots.warn_free_space.value']) > 0
 
     def set_warn_free_space_disabled(self) -> None:
         self.warn_free_space = StorageSize(0, SizeUnit.MIB)
@@ -769,25 +781,26 @@ class Profile:  # pylint: disable=too-many-public-methods
     def min_free_space(self) -> StorageSize:
         """Keep at least value + unit free space."""
         return StorageSize(
-            self['snapshots.min_free_space.value'],
-            self['snapshots.min_free_space.unit']
+            int(self['snapshots.min_free_space.value']),
+            # Workaround because
+            # of bitbase.StorageSizeUnit and storagesize.SizeUnit
+            SizeUnit(self['snapshots.min_free_space.unit'].value)
         )
 
     @min_free_space.setter
     def min_free_space(self, value: StorageSize) -> None:
-        self['snapshots.min_free_space.value'] = value.value()
-        self['snapshots.min_free_space.unit'] = value.unit.value
+        self['snapshots.min_free_space.value'] = str(value.value())
+        self['snapshots.min_free_space.unit'] = str(value.unit.value)
 
     @property
     def min_free_space_enabled(self) -> bool:
         """Remove snapshots until \\fIprofile<N>.snapshots.min_free_space.
         value\\fR free space is reached.
         """
-        return self['snapshots.min_free_space.enabled'] == 'true'
+        return Konfig.to_bool(self['snapshots.min_free_space.enabled'])
 
     def set_min_free_space_enabled(self, enable: bool):
-        value = 'true' if enable else 'false'
-        self['snapshots.min_free_space.enabled'] = value
+        self['snapshots.min_free_space.enabled'] = str(value).lower()
 
     @property
     def min_free_inodes_enabled(self) -> bool:
@@ -795,126 +808,129 @@ class Profile:  # pylint: disable=too-many-public-methods
         \\fIprofile<N>.snapshots.min_free_inodes.value\\fR
         free inodes in % is reached.
         """
-        return self['snapshots.min_free_inodes.enabled']
+        return Konfig.to_bool(self['snapshots.min_free_inodes.enabled'])
 
     @min_free_inodes_enabled.setter
     def min_free_inodes_enabled(self, enable: bool) -> None:
-        self['snapshots.min_free_inodes.enabled'] = enable
+        self['snapshots.min_free_inodes.enabled'] = str(enable).lower()
 
     @property
     def min_free_inodes_value(self) -> int:
         """Keep at least value % free inodes.
         { 'values': '1-15' }
         """
-        return self['snapshots.min_free_inodes.value']
+        return int(self['snapshots.min_free_inodes.value'])
 
     @min_free_inodes_value.setter
     def min_free_inodes_value(self, value: int) -> None:
-        self['snapshots.min_free_inodes.value'] = value
+        self['snapshots.min_free_inodes.value'] = str(value)
 
     @property
     def dont_remove_named_snapshots(self) -> bool:
         """Keep snapshots with names during smart_remove."""
-        return self['snapshots.dont_remove_named_snapshots']
+        return Konfig.to_bool(self['snapshots.dont_remove_named_snapshots'])
 
     @dont_remove_named_snapshots.setter
     def dont_remove_named_snapshots(self, value: bool) -> None:
         """Keep snapshots with names during smart_remove."""
-        self['snapshots.dont_remove_named_snapshots'] = value
+        self['snapshots.dont_remove_named_snapshots'] = str(value).lower()
 
     @property
     def keep_named_snapshots(self) -> bool:
         """Keep snapshots with names during smart_remove."""
-        return self.dont_remove_named_snapshots
+        return Konfig.to_bool(self.dont_remove_named_snapshots)
 
     @keep_named_snapshots.setter
     def keep_named_snapshots(self, value: bool) -> None:
-        self.dont_remove_named_snapshots = value
+        self.dont_remove_named_snapshots = str(value).lower()
 
     @property
     def smart_remove(self) -> bool:
         """Run smart_remove to clean up old snapshots after a new snapshot was
         created."""
-        return self['snapshots.smart_remove']
+        return Konfig.to_bool(self['snapshots.smart_remove'])
 
     @smart_remove.setter
     def smart_remove(self, enable: bool) -> None:
-        self['snapshots.smart_remove'] = enable
+        self['snapshots.smart_remove'] = str(enable).lower()
 
     @property
     def smart_remove_keep_all(self) -> int:
         """Keep all snapshots for X days."""
-        return self['snapshots.smart_remove.keep_all']
+        return int(self['snapshots.smart_remove.keep_all'])
 
     @smart_remove_keep_all.setter
     def smart_remove_keep_all(self, days: int) -> None:
-        self['snapshots.smart_remove.keep_all'] = days
+        self['snapshots.smart_remove.keep_all'] = str(days)
 
     @property
     def smart_remove_keep_one_per_day(self) -> int:
         """Keep one snapshot per day for X days."""
-        return self['snapshots.smart_remove.keep_one_per_day']
+        return int(self['snapshots.smart_remove.keep_one_per_day'])
 
     @smart_remove_keep_one_per_day.setter
     def smart_remove_keep_one_per_day(self, days: int) -> None:
-        self['snapshots.smart_remove.keep_one_per_day'] = days
+        self['snapshots.smart_remove.keep_one_per_day'] = str(days)
 
     @property
     def smart_remove_keep_one_per_week(self) -> int:
         """Keep one snapshot per week for X weeks."""
-        return self['snapshots.smart_remove.keep_one_per_week']
+        return int(self['snapshots.smart_remove.keep_one_per_week'])
 
     @smart_remove_keep_one_per_week.setter
     def smart_remove_keep_one_per_week(self, weeks: int) -> None:
-        self['snapshots.smart_remove.keep_one_per_week'] = weeks
+        self['snapshots.smart_remove.keep_one_per_week'] = str(weeks)
 
     @property
     def smart_remove_keep_one_per_month(self) -> int:
         """Keep one snapshot per month for X months."""
-        return self['snapshots.smart_remove.keep_one_per_month']
+        return int(self['snapshots.smart_remove.keep_one_per_month'])
 
     @smart_remove_keep_one_per_month.setter
     def smart_remove_keep_one_per_month(self, months: int) -> None:
-        self['snapshots.smart_remove.keep_one_per_month'] = months
+        self['snapshots.smart_remove.keep_one_per_month'] = str(months)
 
     @property
     def smart_remove_run_remote_in_background(self) -> bool:
         """If using modes SSH or SSH-encrypted, run smart_remove in background
         on remote machine"""
-        return self['snapshots.smart_remove.run_remote_in_background']
+        return Konfig.to_bool(
+            self['snapshots.smart_remove.run_remote_in_background']
+        )
 
     @smart_remove_run_remote_in_background.setter
     def smart_remove_run_remote_in_background(self, enable: bool) -> None:
-        self['snapshots.smart_remove.run_remote_in_background'] = enable
+        self['snapshots.smart_remove.run_remote_in_background'] \
+            = str(enable).lower()
 
     @property
     def notify(self) -> bool:
         """Display notifications (errors, warnings) through libnotify or DBUS.
         """
-        return self['snapshots.notify.enabled']
+        return Konfig.to_bool(self['snapshots.notify.enabled'])
 
     @notify.setter
     def notify(self, enable: bool) -> None:
-        self['snapshots.notify.enabled'] = enable
+        self['snapshots.notify.enabled'] = str(enable).lower()
 
     @property
     def backup_on_restore(self) -> bool:
         """Rename existing files before restore into FILE.backup.YYYYMMDD"""
-        return self['snapshots.backup_on_restore.enabled']
+        return Konfig.to_bool(self['snapshots.backup_on_restore.enabled'])
 
     @backup_on_restore.setter
     def backup_on_restore(self, enable: bool) -> None:
-        self['snapshots.backup_on_restore.enabled'] = enable
+        self['snapshots.backup_on_restore.enabled'] = str(enable).lower()
 
     @property
     def nice_on_cron(self) -> bool:
         """Run cronjobs with nice-Value 19. This will give Back In Time the
         lowest CPU priority to not interrupt any other working process."""
-        return self['snapshots.cron.nice']
+        return Konfig.to_bool(self['snapshots.cron.nice'])
 
     @nice_on_cron.setter
     def nice_on_cron(self, enable: bool) -> None:
-        self['snapshots.cron.nice'] = enable
+        self['snapshots.cron.nice'] = str(enable).lower()
 
     @property
     def ionice_on_cron(self) -> bool:
@@ -922,11 +938,11 @@ class Profile:  # pylint: disable=too-many-public-methods
         Back In Time the lowest IO bandwidth priority to not interrupt any
         other working process.
         """
-        return self['snapshots.cron.ionice']
+        return Konfig.to_bool(self['snapshots.cron.ionice'])
 
     @ionice_on_cron.setter
     def ionice_on_cron(self, enable: bool) -> None:
-        self['snapshots.cron.ionice'] = enable
+        self['snapshots.cron.ionice'] = str(enable).lower()
 
     @property
     def ionice_on_user(self) -> bool:
@@ -934,59 +950,59 @@ class Profile:  # pylint: disable=too-many-public-methods
         a manual snapshot. This will give Back In Time the lowest IO bandwidth
         priority to not interrupt any other working process.
         """
-        return self['snapshots.user_backup.ionice']
+        return Konfig.to_bool(self['snapshots.user_backup.ionice'])
 
     @ionice_on_user.setter
     def ionice_on_user(self, enable: bool) -> None:
-        self['snapshots.user_backup.ionice'] = enable
+        self['snapshots.user_backup.ionice'] = str(enable).lower()
 
     @property
     def nice_on_remote(self) -> bool:
         """Run rsync and other commands on remote host with 'nice' value 19."""
-        return self['snapshots.ssh.nice']
+        return Konfig.to_bool(self['snapshots.ssh.nice'])
 
     @nice_on_remote.setter
     def nice_on_remote(self, enable: bool) -> None:
-        self['snapshots.ssh.nice'] = enable
+        self['snapshots.ssh.nice'] = str(enable).lower()
 
     @property
     def ionice_on_remote(self) -> bool:
         """Run rsync and other commands on remote host with
         'ionice' and class 2 and level 7."""
-        return self['snapshots.ssh.ionice']
+        return Konfig.to_bool(self['snapshots.ssh.ionice'])
 
     @ionice_on_remote.setter
     def ionice_on_remote(self, enable: bool) -> None:
-        self['snapshots.ssh.ionice'] = enable
+        self['snapshots.ssh.ionice'] = str(enable).lower()
 
     @property
     def nocache_on_local(self) -> bool:
         """Run rsync on local machine with 'nocache'.
         This will prevent files from being cached in memory."""
-        return self['snapshots.local.nocache']
+        return Konfig.to_bool(self['snapshots.local.nocache'])
 
     @nocache_on_local.setter
     def nocache_on_local(self, enable: bool) -> None:
-        self['snapshots.local.nocache'] = enable
+        self['snapshots.local.nocache'] = str(enable).lower()
 
     @property
     def nocache_on_remote(self) -> bool:
         """Run rsync on remote host with 'nocache'.
         This will prevent files from being cached in memory."""
-        return self['snapshots.ssh.nocache']
+        return Konfig.to_bool(self['snapshots.ssh.nocache'])
 
     @nocache_on_remote.setter
     def nocache_on_remote(self, enable: bool) -> None:
-        self['snapshots.ssh.nocache'] = enable
+        self['snapshots.ssh.nocache'] = str(enable).lower()
 
     @property
     def redirect_stdout_in_cron(self) -> bool:
         """Redirect stdout to /dev/null in cronjobs."""
-        return self['snapshots.cron.redirect_stdout']
+        return Konfig.to_bool(self['snapshots.cron.redirect_stdout'])
 
     @redirect_stdout_in_cron.setter
     def redirect_stdout_in_cron(self, enable: bool) -> None:
-        self['snapshots.cron.redirect_stdout'] = enable
+        self['snapshots.cron.redirect_stdout'] = str(enable).lower()
 
     @property
     def redirect_stderr_in_cron(self) -> bool:
@@ -998,39 +1014,39 @@ class Profile:  # pylint: disable=too-many-public-methods
         #     default = True
         # else:
         #     default = self.DEFAULT_REDIRECT_STDERR_IN_CRON
-        return self['snapshots.cron.redirect_stderr']
+        return Konfig.to_bool(self['snapshots.cron.redirect_stderr'])
 
     @redirect_stderr_in_cron.setter
     def redirect_stderr_in_cron(self, enable: bool) -> None:
-        self['snapshots.cron.redirect_stderr'] = enable
+        self['snapshots.cron.redirect_stderr'] = str(enable).lower()
 
     @property
     def bw_limit_enabled(self) -> bool:
         """Limit rsync bandwidth usage over network. Use this with mode SSH.
         For mode Local you should rather use ionice."""
-        return self['snapshots.bwlimit.enabled']
+        return Konfig.to_bool(self['snapshots.bwlimit.enabled'])
 
     @bw_limit_enabled.setter
     def bw_limit_enabled(self, enable: bool) -> None:
-        self['snapshots.bwlimit.enabled'] = enable
+        self['snapshots.bwlimit.enabled'] = str(enable).lower()
 
     @property
     def bw_limit(self) -> int:
         """Bandwidth limit in KB/sec."""
-        return self['snapshots.bwlimit.value']
+        return int(self['snapshots.bwlimit.value'])
 
     @bw_limit.setter
     def bw_limit(self, limit_kb_sec: int) -> None:
-        self['snapshots.bwlimit.value'] = limit_kb_sec
+        self['snapshots.bwlimit.value'] = str(limit_kb_sec)
 
     @property
     def no_backup_on_battery(self) -> bool:
         """Don't take backups if the computer runs on battery."""
-        return self['snapshots.no_on_battery']
+        return Konfig.to_bool(self['snapshots.no_on_battery'])
 
     @no_backup_on_battery.setter
     def no_backup_on_battery(self, enable: bool) -> None:
-        self['snapshots.no_on_battery'] = enable
+        self['snapshots.no_on_battery'] = str(enable).lower()
 
     @property
     def preserve_acl(self) -> bool:
@@ -1038,63 +1054,63 @@ class Profile:  # pylint: disable=too-many-public-methods
         systems must have compatible ACL entries for this option to work
         properly.
         """
-        return self['snapshots.preserve_acl']
+        return Konfig.to_bool(self['snapshots.preserve_acl'])
 
     @preserve_acl.setter
     def preserve_acl(self, preserve: bool) -> None:
-        self['snapshots.preserve_acl'] = preserve
+        self['snapshots.preserve_acl'] = str(preserve).lower()
 
     @property
     def preserve_xattr(self) -> bool:
         """Preserve extended attributes (xattr)."""
-        return self['snapshots.preserve_xattr']
+        return Konfig.to_bool(self['snapshots.preserve_xattr'])
 
     @preserve_xattr.setter
     def preserve_xattr(self, preserve: bool) -> None:
         """Preserve extended attributes (xattr)."""
-        self['snapshots.preserve_xattr'] = preserve
+        self['snapshots.preserve_xattr'] = str(preserve).lower()
 
     @property
     def copy_unsafe_links(self) -> bool:
         """This tells rsync to copy the referent of symbolic links that point
         outside the copied tree. Absolute symlinks are also treated like
         ordinary files."""
-        return self['snapshots.copy_unsafe_links']
+        return Konfig.to_bool(self['snapshots.copy_unsafe_links'])
 
     @copy_unsafe_links.setter
     def copy_unsafe_links(self, enable: bool) -> None:
-        self['snapshots.copy_unsafe_links'] = enable
+        self['snapshots.copy_unsafe_links'] = str(enable).lower()
 
     @property
     def copy_links(self) -> bool:
         """When symlinks are encountered, the item that they point to (the
         reference) is copied, rather than the symlink.
         """
-        return self['snapshots.copy_links']
+        return Konfig.to_bool(self['snapshots.copy_links'])
 
     @copy_links.setter
     def copy_links(self, enable: bool) -> None:
-        self['snapshots.copy_links'] = enable
+        self['snapshots.copy_links'] = str(enable).lower()
 
     @property
     def one_file_system(self) -> bool:
         """Use rsync's "--one-file-system" to avoid crossing filesystem
         boundaries when recursing.
         """
-        return self['snapshots.one_file_system']
+        return Konfig.to_bool(self['snapshots.one_file_system'])
 
     @one_file_system.setter
     def one_file_system(self, enable: bool) -> None:
-        self['snapshots.one_file_system'] = enable
+        self['snapshots.one_file_system'] = str(enable).lower()
 
     @property
     def rsync_options_enabled(self) -> bool:
         """Past additional options to rsync"""
-        return self['snapshots.rsync_options.enabled']
+        return Konfig.to_bool(self['snapshots.rsync_options.enabled'])
 
     @rsync_options_enabled.setter
     def rsync_options_enabled(self, enable: bool) -> None:
-        self['snapshots.rsync_options.enabled'] = enable
+        self['snapshots.rsync_options.enabled'] = str(enable).lower()
 
     @property
     def rsync_options(self) -> str:
@@ -1108,11 +1124,11 @@ class Profile:  # pylint: disable=too-many-public-methods
     @property
     def ssh_prefix_enabled(self) -> bool:
         """Add prefix to every command which run through SSH on remote host."""
-        return self['snapshots.ssh.prefix.enabled']
+        return Konfig.to_bool(self['snapshots.ssh.prefix.enabled'])
 
     @ssh_prefix_enabled.setter
     def ssh_prefix_enabled(self, enable: bool) -> None:
-        self['snapshots.ssh.prefix.enabled'] = enable
+        self['snapshots.ssh.prefix.enabled'] = str(enable).lower()
 
     @property
     def ssh_prefix(self) -> str:
@@ -1131,20 +1147,20 @@ class Profile:  # pylint: disable=too-many-public-methods
     def continue_on_errors(self) -> bool:
         """Continue on errors. This will keep incomplete snapshots rather than
         deleting and start over again."""
-        return self['snapshots.continue_on_errors']
+        return Konfig.to_bool(self['snapshots.continue_on_errors'])
 
     @continue_on_errors.setter
     def continue_on_errors(self, enable: bool) -> None:
-        self['snapshots.continue_on_errors'] = enable
+        self['snapshots.continue_on_errors'] = str(enable).lower()
 
     @property
     def use_checksum(self) -> bool:
         """Use checksum to detect changes rather than size + time."""
-        return self['snapshots.use_checksum']
+        return Konfig.to_bool(self['snapshots.use_checksum'])
 
     @use_checksum.setter
     def use_checksum(self, enable: bool) -> None:
-        self['snapshots.use_checksum'] = enable
+        self['snapshots.use_checksum'] = str(enable).value()
 
     @property
     def log_level(self) -> int:
@@ -1152,20 +1168,23 @@ class Profile:  # pylint: disable=too-many-public-methods
         Info.
         { 'values': '1-3' }
         """
-        return self['snapshots.log_level']
+        return int(self['snapshots.log_level'])
 
     @log_level.setter
     def log_level(self, level: int) -> None:
-        self['snapshots.log_level'] = level
+        self['snapshots.log_level'] = str(level)
 
     @property
     def take_snapshot_regardless_of_changes(self) -> bool:
         """Create a new snapshot regardless if there were changes or not."""
-        return self['snapshots.take_snapshot_regardless_of_changes']
+        return Konfig.to_bool(
+            self['snapshots.take_snapshot_regardless_of_changes']
+        )
 
     @take_snapshot_regardless_of_changes.setter
     def take_snapshot_regardless_of_changes(self, enable: bool) -> None:
-        self['snapshots.take_snapshot_regardless_of_changes'] = enable
+        self['snapshots.take_snapshot_regardless_of_changes'] \
+            = str(enable).lower()
 
 
 class Konfig(metaclass=singleton.Singleton):
@@ -1208,6 +1227,13 @@ class Konfig(metaclass=singleton.Singleton):
 
     def __delitem__(self, key: str) -> None:
         self._config_parser.remove_option(self._DEFAULT_SECTION, key)
+
+    @staticmethod
+    def to_bool(value: str) -> bool:
+        return {
+            'true': True,
+            'false': False
+        }[value.lower()]
 
     def profile(self, name_or_id: Union[str, int]) -> Profile:
         """Return a `Profile` object related to the given name or id.
@@ -1297,6 +1323,7 @@ class Konfig(metaclass=singleton.Singleton):
         self[f'{prefix}name'] = name
 
         self._unsaved_profiles.append(new_pid)
+        self._profiles[name] = new_pid
 
         return self.profile(new_pid)
 
@@ -1337,7 +1364,8 @@ class Konfig(metaclass=singleton.Singleton):
 
         self._config_parser = configparser.ConfigParser(
             interpolation=None,
-            defaults={'profile1.name': _('Main profile')})
+            defaults={'profile1.name': _('Main profile')}
+        )
 
         # raw content
         if isinstance(buffer_or_path, Path):
@@ -1359,6 +1387,10 @@ class Konfig(metaclass=singleton.Singleton):
         # The one and only main section
         self._conf = self._config_parser[self._DEFAULT_SECTION]
 
+        # # Minimall create this profile
+        # if content == '':
+        #     p = self.new_profile(_('Main profile'))
+
         self._profiles = self._profile_list()
 
     def save(self, buffer: TextIOWrapper):
@@ -1377,13 +1409,20 @@ class Konfig(metaclass=singleton.Singleton):
         # handle.write(tmp_io_buffer.read())
 
     def is_profile_unsaved(self, name_or_id: Union[str, int]) -> bool:
+        """Was the profile ever saved?
+
+        Don't confuse this with is-modified.
+        """
         p = self.profile(name_or_id)
         return p.profile_id in self._unsaved_profiles
 
     @property
     def diff_cmd_and_params(self) -> tuple[str, str]:
         """TODO"""
-        return (self['qt.diff.cmd'], self['qt.diff.params'])
+        return (
+            self['qt.diff.cmd'],
+            self['qt.diff.params']
+        )
 
     @diff_cmd_and_params.setter
     def diff_cmd_and_params(self, value: tuple[str, str]) -> None:
@@ -1417,11 +1456,11 @@ class Konfig(metaclass=singleton.Singleton):
             'type': bool
         }
         """
-        return self['global.use_flock']
+        return Konfig.to_bool(self['global.use_flock'])
 
     @global_flock.setter
     def global_flock(self, value: bool) -> None:
-        self['global.use_flock'] = value
+        self['global.use_flock'] = str(value).lower()
 
     @property
     def systray(self) -> str:
@@ -1446,7 +1485,7 @@ class Konfig(metaclass=singleton.Singleton):
         # It is an internal variable not meant to be used or manipulated be the
         # users. At the end of the countown the
         # :py:class:`ApproachTranslatorDialog` is presented to the user.
-        return self['internal.manual_starts_countdown']
+        return int(self['internal.manual_starts_countdown'])
 
     def decrement_manual_starts_countdown(self):
         """Counts down to -1.
@@ -1456,39 +1495,43 @@ class Konfig(metaclass=singleton.Singleton):
         val = self.manual_starts_countdown
 
         if val > -1:
-            self['internal.manual_starts_countdown'] = val - 1
+            self['internal.manual_starts_countdown'] = str(val - 1)
 
 
 if __name__ == '__main__':
     # Empty in-memory config file
     # k = Konfig(StringIO())
 
-    import inspect
-    from typing import get_type_hints
-    properties = inspect.getmembers(
-        Profile,
-        lambda obj: isinstance(obj, property)
-    )
-    for name, p in properties:
-        type_return = get_type_hints(p.fget)['return']
-        if p.fset:
-            hints = get_type_hints(p.fset)
-            param = list(inspect.signature(p.fset).parameters)[1]
-            print(p)
-            print(p.fset)
-            type_setter = hints[param]
-        else:
-            type_setter = None
+    # import inspect
+    # from typing import get_type_hints
+    # properties = inspect.getmembers(
+    #     Profile,
+    #     lambda obj: isinstance(obj, property)
+    # )
+    # for name, p in properties:
+    #     type_return = get_type_hints(p.fget)['return']
+    #     if p.fset:
+    #         hints = get_type_hints(p.fset)
+    #         param = list(inspect.signature(p.fset).parameters)[1]
+    #         print(p)
+    #         print(p.fset)
+    #         type_setter = hints[param]
+    #     else:
+    #         type_setter = None
 
-        print(f'{name=} {p=}\n  {type_setter=}\n  {type_return=}\n')
+    #     print(f'{name=} {p=}\n  {type_setter=}\n  {type_return=}\n')
 
-    sys.exit()
+    # sys.exit()
+
     k = Konfig()
-    print(k)
-    print(f'{k._conf=}')  # pylint: disable=protected-access
-    print(f'{k._profiles=}')  # pylint: disable=protected-access
+    # print(k)
+    # print(f'{k._conf=}')  # pylint: disable=protected-access
+    # print(f'{k._profiles=}')  # pylint: disable=protected-access
 
     k.load(Path.home() / '.config' / 'backintime' / 'config')
+
+    print(f'{k.profile(1).remove_old_snapshots_enabled=}')
+
     sys.exit()
     # Regular config file
     import bitbase
@@ -1522,3 +1565,5 @@ if __name__ == '__main__':
 
     p.include = [('foo', 0), ('bar', 1)]
     print(f'{p.include=}')
+
+#  LocalWords:  enable

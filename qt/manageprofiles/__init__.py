@@ -51,7 +51,7 @@ class SettingsDialog(QDialog):
         self.parent = parent
         self.config = parent.config
         self.snapshots = parent.snapshots
-        self.config_dict_copy = copy.copy(self.config.dict)
+        self.config_dict_copy = copy.copy(self.config.the_dict())
         self.original_current_profile = self.config.currentProfile()
 
         # pylint: disable-next=import-outside-toplevel

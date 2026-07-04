@@ -124,6 +124,9 @@ def startApp(bin_name: str) -> config.Config | None:
     cli.set_quiet(args)
     cli.print_header()
 
+    # Remember the --config argument
+    bitbase.context['--config'] = args.config
+
     # This loads the real/new "Konfig"
     real_konfig = cli.get_config_and_select_profile(
         config_path=args.config,
