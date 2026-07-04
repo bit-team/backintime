@@ -77,6 +77,9 @@ class BitComboBox(QComboBox):
                     Qt.ItemDataRole.ToolTipRole
                 )
 
+        self.currentIndexChanged.connect(self._update_tooltip)
+        self._update_tooltip(self.currentIndex())
+
     @property
     def current_data(self) -> Any:
         """Data linked to the current selected entry."""
@@ -123,3 +126,10 @@ class BitComboBox(QComboBox):
                 return True
 
         return False
+
+    def _update_tooltip(self, index: int):
+        tip = self.itemData(
+            index,
+            Qt.ItemDataRole.ToolTipRole
+        )
+        self.setToolTip(tip or '')
