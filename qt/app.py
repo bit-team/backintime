@@ -356,15 +356,14 @@ class MainWindow(QMainWindow):
         import_prompt.setWindowTitle(_('Question'))
         import_prompt.setText(message)
         import_prompt.setIcon(QMessageBox.Icon.Question)
-        btn_create = import_prompt.addButton(_('Create'),
-                                QMessageBox.ButtonRole.ActionRole)
-        btn_import = import_prompt.addButton(_('Import'),
-                                QMessageBox.ButtonRole.ActionRole)
+        btn_create = import_prompt.addButton(
+            _('Create'), QMessageBox.ButtonRole.ActionRole)
+        btn_import = import_prompt.addButton(
+            _('Import'), QMessageBox.ButtonRole.ActionRole)
 
         import_prompt.setDefaultButton(btn_create)
         import_prompt.exec()
         answer = import_prompt.clickedButton()
-
 
         if answer == btn_import:
             rc = RestoreConfigDialog(self.config).exec()
@@ -380,10 +379,9 @@ class MainWindow(QMainWindow):
 
     def _message_about_encfs_config_backup(self):
         # e.g. '~/.config/backintime/config.encfs.backup'
-        config_fp_backup = pathlib.Path(
-            # self.config._LOCAL_CONFIG_PATH
-            Konfig().last_loaded_from()
-        ).with_suffix(bitbase.ENCFS_BACKUP_CONFIG_SUFFIX)
+        config_fp_backup = bitbase.context['--config'].with_suffix(
+            bitbase.ENCFS_BACKUP_CONFIG_SUFFIX
+        )
 
         if not config_fp_backup.exists():
             return
@@ -415,7 +413,7 @@ class MainWindow(QMainWindow):
         state_data = StateData()
 
         # SSH Cipher removal (#2176)
-        cipher = cli.detect_cipher_settings(self.config)
+        cipher = cli.detect_cipher_settings()
         if cipher:
             self._open_ssh_cipher_remove_dialog(
                 [entry[0] for entry in cipher]
@@ -425,7 +423,7 @@ class MainWindow(QMainWindow):
             del self.config.dict[key]
 
         # SSH Remote host checks deprecation (#2482)
-        check_settings = cli.detect_remote_host_check_settings(self.config)
+        check_settings = cli.detect_remote_host_check_settings()
         if check_settings:
             self._open_remote_host_check_deprecation_dialog(
                 [entry[0] for entry in check_settings]

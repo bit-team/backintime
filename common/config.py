@@ -1193,7 +1193,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
 
         return _remove_old_snapshots_date(value, unit)
 
-    def setRemoveOldSnapshots(self, enabled, value, unit, profile_id = None):
+    def setRemoveOldSnapshots(self, enabled, value, unit, profile_id=None):
         # self.setProfileBoolValue(
         #     'snapshots.remove_old_snapshots.enabled', enabled, profile_id)
         # self.setProfileIntValue('snapshots.remove_old_snapshots.value', value, profile_id)
@@ -1201,7 +1201,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         p = self.get_profile(profile_id)
         p.remove_old_snapshots_enabled = enabled
         p.remove_old_snapshots_value = value
-        p.remove_old_snapshots_unit = unit
+        p.remove_old_snapshots_unit = bitbase.TimeUnit(unit)
 
     def warnFreeSpaceEnabled(self, profile_id=None):
         p = self.get_profile(profile_id)

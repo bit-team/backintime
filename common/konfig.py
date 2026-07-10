@@ -57,80 +57,80 @@ class Profile:  # pylint: disable=too-many-public-methods
         'snapshots.ssh.user': getpass.getuser(),
         'snapshots.ssh.private_key_file': None,
         'snapshots.ssh.max_arg_length': 0,
-        'snapshots.ssh.check_commands': True,
-        'snapshots.ssh.check_ping': True,
+        'snapshots.ssh.check_commands': 'true',
+        'snapshots.ssh.check_ping': 'true',
         'snapshots.ssh.proxy_host': '',
         'snapshots.ssh.proxy_port': 22,
         'snapshots.ssh.proxy_user': getpass.getuser(),
         'snapshots.local_gocryptfs.path': '',
         # This is fragil. Why not 'snapshots.password.save' ?
-        'snapshots.local.password.save': False,
-        'snapshots.ssh.password.save': False,
-        'snapshots.local_gocryptfs.password.save': False,
-        'snapshots.ssh_gocryptfs.password.save': False,
+        'snapshots.local.password.save': 'false',
+        'snapshots.ssh.password.save': 'false',
+        'snapshots.local_gocryptfs.password.save': 'false',
+        'snapshots.ssh_gocryptfs.password.save': 'false',
         # This is fragil. Why not 'snapshots.password.use_cache' ?
-        'snapshots.local.password.use_cache': True,
-        'snapshots.ssh.password.use_cache': True,
-        'snapshots.local_gocryptfs.password.use_cache': True,
-        'snapshots.ssh_gocryptfs.password.use_cache': True,
+        'snapshots.local.password.use_cache': 'true',
+        'snapshots.ssh.password.use_cache': 'true',
+        'snapshots.local_gocryptfs.password.use_cache': 'true',
+        'snapshots.ssh_gocryptfs.password.use_cache': 'true',
         'snapshots.include': [],
         'snapshots.exclude': [],
-        'snapshots.exclude.bysize.enabled': False,
+        'snapshots.exclude.bysize.enabled': 'false',
         'snapshots.exclude.bysize.value': 500,
         'schedule.mode': 0,
         'schedule.offset': 0,
-        'schedule.debug': False,
+        'schedule.debug': 'false',
         'schedule.time': 0,
         'schedule.day': 1,
         'schedule.weekday': 7,
         'schedule.custom_time': '8,12,18,23',
         'schedule.repeatedly.period': 1,
-        'schedule.repeatedly.unit': TimeUnit.DAY,
-        'snapshots.remove_old_snapshots.enabled': True,
+        'schedule.repeatedly.unit': TimeUnit.DAY.value,
+        'snapshots.remove_old_snapshots.enabled': 'true',
         'snapshots.remove_old_snapshots.value': 10,
-        'snapshots.remove_old_snapshots.unit': TimeUnit.YEAR,
-        'snapshots.min_free_space.enabled': True,
+        'snapshots.remove_old_snapshots.unit': TimeUnit.YEAR.value,
+        'snapshots.min_free_space.enabled': 'true',
         'snapshots.min_free_space.value': 1,
-        'snapshots.min_free_space.unit': StorageSizeUnit.GB,
-        'snapshots.min_free_inodes.enabled': True,
+        'snapshots.min_free_space.unit': StorageSizeUnit.GB.value,
+        'snapshots.min_free_inodes.enabled': 'true',
         'snapshots.min_free_inodes.value': 2,
         'snapshots.warn_free_space.value': 0,
-        'snapshots.warn_free_space.unit': SizeUnit.MIB,
-        'snapshots.dont_remove_named_snapshots': True,
-        'snapshots.smart_remove': False,
+        'snapshots.warn_free_space.unit': SizeUnit.MIB.value,
+        'snapshots.dont_remove_named_snapshots': 'true',
+        'snapshots.smart_remove': 'false',
         'snapshots.smart_remove.keep_all': 2,
         'snapshots.smart_remove.keep_one_per_day': 7,
         'snapshots.smart_remove.keep_one_per_week': 4,
         'snapshots.smart_remove.keep_one_per_month': 24,
-        'snapshots.smart_remove.run_remote_in_background': False,
-        'snapshots.notify.enabled': True,
-        'snapshots.backup_on_restore.enabled': True,
-        'snapshots.cron.nice': True,
-        'snapshots.cron.ionice': True,
-        'snapshots.user_backup.ionice': False,
-        'snapshots.ssh.nice': False,
-        'snapshots.ssh.ionice': False,
-        'snapshots.local.nocache': False,
-        'snapshots.ssh.nocache': False,
-        'snapshots.cron.redirect_stdout': True,
-        'snapshots.cron.redirect_stderr': False,
-        'snapshots.bwlimit.enabled': False,
+        'snapshots.smart_remove.run_remote_in_background': 'false',
+        'snapshots.notify.enabled': 'true',
+        'snapshots.backup_on_restore.enabled': 'true',
+        'snapshots.cron.nice': 'true',
+        'snapshots.cron.ionice': 'true',
+        'snapshots.user_backup.ionice': 'false',
+        'snapshots.ssh.nice': 'false',
+        'snapshots.ssh.ionice': 'false',
+        'snapshots.local.nocache': 'false',
+        'snapshots.ssh.nocache': 'false',
+        'snapshots.cron.redirect_stdout': 'true',
+        'snapshots.cron.redirect_stderr': 'false',
+        'snapshots.bwlimit.enabled': 'false',
         'snapshots.bwlimit.value': 3000,
-        'snapshots.no_on_battery': False,
-        'snapshots.preserve_acl': False,
-        'snapshots.preserve_xattr': False,
-        'snapshots.copy_unsafe_links': False,
-        'snapshots.copy_links': False,
-        'snapshots.one_file_system': False,
-        'snapshots.rsync_options.enabled': False,
+        'snapshots.no_on_battery': 'false',
+        'snapshots.preserve_acl': 'false',
+        'snapshots.preserve_xattr': 'false',
+        'snapshots.copy_unsafe_links': 'false',
+        'snapshots.copy_links': 'false',
+        'snapshots.one_file_system': 'false',
+        'snapshots.rsync_options.enabled': 'false',
         'snapshots.rsync_options.value': '',
-        'snapshots.ssh.prefix.enabled': False,
+        'snapshots.ssh.prefix.enabled': 'false',
         # Config.DEFAULT_SSH_PREFIX
         'snapshots.ssh.prefix.value': 'PATH=/opt/bin:/opt/sbin:\\$PATH',
-        'snapshots.continue_on_errors': True,
-        'snapshots.use_checksum': False,
+        'snapshots.continue_on_errors': 'true',
+        'snapshots.use_checksum': 'false',
         'snapshots.log_level': 3,
-        'snapshots.take_snapshot_regardless_of_changes': False,
+        'snapshots.take_snapshot_regardless_of_changes': 'false',
     }
 
     def __init__(self, profile_id: int, config: Konfig):
@@ -478,12 +478,20 @@ class Profile:  # pylint: disable=too-many-public-methods
             'default': 'see #1855'
         }
         """
+        # # DEBUG
+        # print(f'GET snapshots.{self.mode}.password.use_cache')
+        # val = self[f'snapshots.{self.mode}.password.use_cache']
+        # print(f'{val=} {type(val)=}')
+
         return Konfig.to_bool(
             self[f'snapshots.{self.mode}.password.use_cache']
         )
 
     @password_use_cache.setter
     def password_use_cache(self, value: bool) -> None:
+        print(f'SET snapshots.{self.mode}.password.use_cache')
+        print(f'{value=} {type(value)=}')
+
         self[f'snapshots.{self.mode}.password.use_cache'] = str(value).lower()
 
     def _generic_include_exclude_ids(self, inc_exc_str: str) -> tuple[int]:
@@ -784,7 +792,7 @@ class Profile:  # pylint: disable=too-many-public-methods
             int(self['snapshots.min_free_space.value']),
             # Workaround because
             # of bitbase.StorageSizeUnit and storagesize.SizeUnit
-            SizeUnit(self['snapshots.min_free_space.unit'].value)
+            SizeUnit(self['snapshots.min_free_space.unit'])
         )
 
     @min_free_space.setter
@@ -1198,7 +1206,7 @@ class Konfig(metaclass=singleton.Singleton):
     _DEFAULT_VALUES = {
         'global.language': '',
         'global.systray': 'auto',
-        'global.use_flock': False,
+        'global.use_flock': 'false',
         'internal.manual_starts_countdown': 10,
         'qt.diff.cmd': DIFF_CMD,
         'qt.diff.params': '%1 %2',
@@ -1386,6 +1394,11 @@ class Konfig(metaclass=singleton.Singleton):
 
         # The one and only main section
         self._conf = self._config_parser[self._DEFAULT_SECTION]
+
+        # # DEBUG
+        # for key in self._conf:
+        #     val = self._conf[key]
+        #     print(f'{key}={val} TYPE: {type(val)}')
 
         # # Minimall create this profile
         # if content == '':

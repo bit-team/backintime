@@ -382,9 +382,10 @@ def print_header():
     )
 
 
-def detect_cipher_settings(cfg: Konfig) -> tuple[str, str, str]:
+def detect_cipher_settings() -> tuple[str, str, str]:
     """See issue #2176."""
     result = []
+    cfg = Konfig()
     cipher_keys = list(filter(
         lambda key: 'cipher' in key, cfg._conf.keys()
     ))
@@ -419,11 +420,11 @@ def _warn_about_global_config():
     )
 
 
-def _warn_about_cipher(cfg: Konfig) -> None:
+def _warn_about_cipher() -> None:
     """See issue #2176. Cipher options is not used anymore by BIT.
     Therefore, users having it in config need to be warned about it.
     """
-    for name, val, _key in detect_cipher_settings(cfg):
+    for name, val, _key in detect_cipher_settings():
         logger.critical(
             f'Oboslete cipher setting "{val}" detected in profile {name}. '
             f'Cipher support was removed from Back In Time. Check the backup '
@@ -431,10 +432,10 @@ def _warn_about_cipher(cfg: Konfig) -> None:
         )
 
 
-def _warn_about_remote_host_check(cfg: Konfig) -> None:
+def _warn_about_remote_host_check() -> None:
     """See issue #2482. Those settings are deprecated.
     """
-    for name, key in detect_remote_host_check_settings(cfg):
+    for name, key in detect_remote_host_check_settings():
         logger.critical(
             f'DEPRECATED setting "{key}" not set to default "true" detected '
             f'in profile {name}. Please contact the project and describe '
@@ -442,9 +443,10 @@ def _warn_about_remote_host_check(cfg: Konfig) -> None:
         )
 
 
-def detect_remote_host_check_settings(cfg: Konfig) -> tuple[str, str, str]:
+def detect_remote_host_check_settings() -> tuple[str, str, str]:
     """See issue #2482."""
     result = []
+    cfg = Konfig()
 
     rh_keys = sorted(filter(
         lambda key: 'snapshots.ssh.check_' in key, cfg._conf.keys()
@@ -563,10 +565,10 @@ def get_config_and_select_profile(
         cfg.load(config_path)
 
     # Just warn about cipher settings if present.
-    _warn_about_cipher(cfg)
+    _warn_about_cipher()
 
     # Warn about deprecated remote host check settings (#2482)
-    _warn_about_remote_host_check(cfg)
+    _warn_about_remote_host_check()
 
     # explicit select a profile?
     if pid_or_name and not cfg.has_profile(pid_or_name):
