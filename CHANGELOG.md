@@ -38,6 +38,9 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
   explanations ([#2507](https://github.com/bit-team/backintime/issues/2507))
 
 ### Added
+- Diagnostics: Detect and report coreutils variant (GNU, Rust/uutils,
+  BusyBox) in `--diagnostics` output
+  ([#2478](https://github.com/bit-team/backintime/issues/2478))
 - Gocryptfs for SSH encrypted profiles
   ([PR#2486](https://github.com/bit-team/backintime/pull/2486))
 - Dependencies:

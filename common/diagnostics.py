@@ -178,6 +178,9 @@ def collect_diagnostics():
         result['external-programs']['shell-version'] \
             = shell_version.split('\n')[0]
 
+    # Coreutils (GNU, Rust/uutils, BusyBox, or unknown)
+    result['external-programs']['coreutils'] = _get_coreutils_info()
+
     result = _replace_username_paths(
         result=result,
         username=pwd.getpwuid(os.getuid()).pw_name
@@ -346,6 +349,45 @@ def _get_rsync_info():
                     f'{k}: {v}' for k, v in info[key].items())
 
     return info
+
+
+def _get_coreutils_info():
+    """Detect the installed coreutils variant (GNU, Rust/uutils, BusyBox).
+
+    Uses ``ls --version`` as a probe because ``ls`` is present on every
+    Unix-like system and each implementation produces a distinctive
+    version string.
+
+    Returns:
+        str: A human-readable description of the coreutils variant and
+        version, or an error string if detection fails.
+    """
+    output = _get_extern_versions(['ls', '--version'])
+
+    if output is None or output.startswith('(no ls)'):
+        return output if output else '(ls detection failed)'
+
+    first_line = output.split('\n')[0]
+
+    # GNU coreutils: "ls (GNU coreutils) 9.4"
+    if 'GNU coreutils' in output:
+        return first_line
+
+    # BusyBox: "BusyBox v1.36.1 (date) multi-call binary"
+    if 'BusyBox' in output:
+        return first_line
+
+    # Rust/uutils coreutils: "ls 0.0.27" (no "GNU coreutils" tag)
+    # Distinguish from other implementations by checking for the
+    # uutils project name which appears in the full --version output.
+    if 'uutils' in output:
+        return f'Rust/uutils coreutils - {first_line}'
+
+    # uutils sometimes prints just the version without the project name
+    # on older releases; the output is a bare version number with no
+    # "GNU" or "BusyBox" marker.
+    # In that ambiguous case, return the first line as-is.
+    return first_line
 
 
 def _get_os_release():
