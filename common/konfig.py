@@ -709,7 +709,7 @@ class Profile:  # pylint: disable=too-many-public-methods
         """How many units to wait between new snapshots with anacron? Only
         valid for \\fIprofile<N>.schedule.mode\\fR = 25|27.
         """
-        return self['schedule.repeatedly.period']
+        return int(self['schedule.repeatedly.period'])
 
     @schedule_repeated_period.setter
     def schedule_repeated_period(self, value: int) -> None:
@@ -755,7 +755,7 @@ class Profile:  # pylint: disable=too-many-public-methods
             'values': '20|30|80'
         }
         """
-        return TimeUnit(self['snapshots.remove_old_snapshots.unit'])
+        return TimeUnit(int(self['snapshots.remove_old_snapshots.unit']))
 
     @remove_old_snapshots_unit.setter
     def remove_old_snapshots_unit(self, unit: TimeUnit) -> None:
@@ -787,7 +787,7 @@ class Profile:  # pylint: disable=too-many-public-methods
             int(self['snapshots.min_free_space.value']),
             # Workaround because
             # of bitbase.StorageSizeUnit and storagesize.SizeUnit
-            SizeUnit(self['snapshots.min_free_space.unit'])
+            SizeUnit(int(self['snapshots.min_free_space.unit']))
         )
 
     @min_free_space.setter
