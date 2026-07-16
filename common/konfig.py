@@ -85,17 +85,17 @@ class Profile:  # pylint: disable=too-many-public-methods
         'schedule.weekday': 7,
         'schedule.custom_time': '8,12,18,23',
         'schedule.repeatedly.period': 1,
-        'schedule.repeatedly.unit': TimeUnit.DAY.value,
+        'schedule.repeatedly.unit': int(TimeUnit.DAY.value),
         'snapshots.remove_old_snapshots.enabled': 'true',
         'snapshots.remove_old_snapshots.value': 10,
-        'snapshots.remove_old_snapshots.unit': TimeUnit.YEAR.value,
+        'snapshots.remove_old_snapshots.unit': int(TimeUnit.YEAR.value),
         'snapshots.min_free_space.enabled': 'true',
         'snapshots.min_free_space.value': 1,
-        'snapshots.min_free_space.unit': StorageSizeUnit.GB.value,
+        'snapshots.min_free_space.unit': int(StorageSizeUnit.GB.value),
         'snapshots.min_free_inodes.enabled': 'true',
         'snapshots.min_free_inodes.value': 2,
         'snapshots.warn_free_space.value': 0,
-        'snapshots.warn_free_space.unit': SizeUnit.MIB.value,
+        'snapshots.warn_free_space.unit': int(SizeUnit.MIB.value),
         'snapshots.dont_remove_named_snapshots': 'true',
         'snapshots.smart_remove': 'false',
         'snapshots.smart_remove.keep_all': 2,
@@ -317,7 +317,7 @@ class Profile:  # pylint: disable=too-many-public-methods
         }
         """
         val = self['snapshots.ssh.port']
-        return int(val) if val else None
+        return int(val)
 
     @ssh_port.setter
     def ssh_port(self, value: int) -> None:
@@ -716,17 +716,18 @@ class Profile:  # pylint: disable=too-many-public-methods
         self['schedule.repeatedly.period'] = str(value)
 
     @property
-    def schedule_repeated_unit(self) -> int:
+    def schedule_repeated_unit(self) -> TimeUnit:
         """Units to wait between new snapshots with anacron.\n
         10 = hours\n20 = days\n30 = weeks\n40 = months\n
         Only valid for \\fIprofile<N>.schedule.mode\\fR = 25|27;
         { 'values': '10|20|30|40' }
         """
-        return int(self['schedule.repeatedly.unit'])
+        val = int(self['schedule.repeatedly.unit'])
+        return TimeUnit(val)
 
     @schedule_repeated_unit.setter
-    def schedule_repeated_unit(self, value: int) -> None:
-        self['schedule.repeatedly.unit'] = str(value)
+    def schedule_repeated_unit(self, unit: TimeUnit) -> None:
+        self['schedule.repeatedly.unit'] = str(unit.value)
 
     @property
     def remove_old_snapshots_enabled(self) -> bool:

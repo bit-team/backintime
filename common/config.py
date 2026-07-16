@@ -536,7 +536,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
     def sshHost(self, profile_id = None):
         #?Remote host used for mode 'ssh' and 'ssh_gocryptfs'.;IP or domain address
         # return self.profileStrValue('snapshots.ssh.host', '', profile_id)
-        self.get_profile(profile_id).ssh_host
+        return self.get_profile(profile_id).ssh_host
 
     def setSshHost(self, value, profile_id = None):
         # self.setProfileStrValue('snapshots.ssh.host', value, profile_id)
@@ -546,7 +546,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
     def sshPort(self, profile_id = None):
         #?SSH Port on remote host.;0-65535
         # return self.profileIntValue('snapshots.ssh.port', '22', profile_id)
-        self.get_profile(profile_id).ssh_port
+        return self.get_profile(profile_id).ssh_port
 
     def setSshPort(self, value, profile_id = None):
         # self.setProfileIntValue('snapshots.ssh.port', value, profile_id)
@@ -556,7 +556,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
     def sshUser(self, profile_id = None):
         #?Remote SSH user;;local users name
         # return self.profileStrValue('snapshots.ssh.user', getpass.getuser(), profile_id)
-        self.get_profile(profile_id).ssh_user
+        return self.get_profile(profile_id).ssh_user
 
     def setSshUser(self, value, profile_id = None):
         # self.setProfileStrValue('snapshots.ssh.user', value, profile_id)
@@ -1139,7 +1139,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         #?10|20|30|40;20
         # value = self.profileIntValue('schedule.repeatedly.unit', bitbase.TimeUnit.DAY.value, profile_id)
         p = self.get_profile(profile_id)
-        return bitbase.TimeUnit(p.schedule_repeated_unit)
+        return p.schedule_repeated_unit
 
     def setScheduleRepeatedUnit(self, value, profile_id = None):
         # if isinstance(value, bitbase.TimeUnit):
