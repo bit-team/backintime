@@ -385,8 +385,9 @@ class Config:  # (configfile.ConfigFileWithProfiles):
 
                 if warn < min_free:
                     core_events.event_error.notify(
-                        '{}\n{}\n{}'.format(
+                        '{}\n{}\n\n{}\n{}'.format(
                             _('Profile: "{name}"').format(name=profile_name),
+                            _('There is a conflict between two settings.'),
                             _('The value for "Remove oldest backup if the '
                               'free space is less than" ({val_one}) must be '
                               'less than or equal the threshold for "Warn if '
