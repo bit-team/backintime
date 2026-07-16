@@ -285,7 +285,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         # self._unsaved_profiles = []
         # self.setIntValue('config.version', self.CONFIG_VERSION)
         # return super().save(self._LOCAL_CONFIG_PATH)
-        Konfig().save(bitbase.context['--config'])
+        return Konfig().save(bitbase.context['--config'])
 
     def is_profile_unsaved(self, profile_id: str) -> bool:
         return Konfig().is_profile_unsaved(int(profile_id))

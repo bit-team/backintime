@@ -13,7 +13,7 @@ import configparser
 import getpass
 import socket
 import re
-from typing import Union, Any
+from typing import Union, Any, Optional
 from pathlib import Path
 from io import StringIO, TextIOWrapper
 import singleton
@@ -316,7 +316,8 @@ class Profile:  # pylint: disable=too-many-public-methods
             'default': 22,
         }
         """
-        return int(self['snapshots.ssh.port'])
+        val = self['snapshots.ssh.port']
+        return int(val) if val else None
 
     @ssh_port.setter
     def ssh_port(self, value: int) -> None:
@@ -374,7 +375,7 @@ class Profile:  # pylint: disable=too-many-public-methods
         self['snapshots.ssh.proxy_host'] = value
 
     @property
-    def ssh_proxy_port(self) -> int:
+    def ssh_proxy_port(self) -> Optional[int]:
         """Port of SSH proxy (jump) host used to connect to remote host.
 
         {
@@ -382,7 +383,9 @@ class Profile:  # pylint: disable=too-many-public-methods
             'default': 22,
         }
         """
-        return int(self['snapshots.ssh.proxy_port'])
+        val = self['snapshots.ssh.proxy_port']
+
+        return int(val) if val else None
 
     @ssh_proxy_port.setter
     def ssh_proxy_port(self, value: int) -> None:
@@ -478,20 +481,12 @@ class Profile:  # pylint: disable=too-many-public-methods
             'default': 'see #1855'
         }
         """
-        # # DEBUG
-        # print(f'GET snapshots.{self.mode}.password.use_cache')
-        # val = self[f'snapshots.{self.mode}.password.use_cache']
-        # print(f'{val=} {type(val)=}')
-
         return Konfig.to_bool(
             self[f'snapshots.{self.mode}.password.use_cache']
         )
 
     @password_use_cache.setter
     def password_use_cache(self, value: bool) -> None:
-        print(f'SET snapshots.{self.mode}.password.use_cache')
-        print(f'{value=} {type(value)=}')
-
         self[f'snapshots.{self.mode}.password.use_cache'] = str(value).lower()
 
     def _generic_include_exclude_ids(self, inc_exc_str: str) -> tuple[int]:
@@ -1370,10 +1365,7 @@ class Konfig(metaclass=singleton.Singleton):
                 buffer ready to read.
         """
 
-        self._config_parser = configparser.ConfigParser(
-            interpolation=None,
-            defaults={'profile1.name': _('Main profile')}
-        )
+        self._config_parser = configparser.ConfigParser(interpolation=None)
 
         # raw content
         if isinstance(buffer_or_path, Path):
@@ -1395,14 +1387,9 @@ class Konfig(metaclass=singleton.Singleton):
         # The one and only main section
         self._conf = self._config_parser[self._DEFAULT_SECTION]
 
-        # # DEBUG
-        # for key in self._conf:
-        #     val = self._conf[key]
-        #     print(f'{key}={val} TYPE: {type(val)}')
-
-        # # Minimall create this profile
-        # if content == '':
-        #     p = self.new_profile(_('Main profile'))
+        # Ensure required defaults
+        if 'profile1.name' not in self._conf:
+            self._conf['profile1.name'] = _('Main profile')
 
         self._profiles = self._profile_list()
 
@@ -1410,21 +1397,22 @@ class Konfig(metaclass=singleton.Singleton):
         """Store configuration to a file."""
 
         self._unsaved_profiles = []
-        # raise NotImplementedError('Prevent overwriting real config data.')
 
         tmp_io_buffer = StringIO()
-        self._conf.write(tmp_io_buffer)
+        self._config_parser.write(tmp_io_buffer, space_around_delimiters=False)
         tmp_io_buffer.seek(0)
 
-        # Discard unwanted first line (section header)
-        tmp_io_buffer.readline()
+        # Discard unwanted first line
+        _section_header = tmp_io_buffer.readline()
+        content = tmp_io_buffer.read().lstrip('\n')
 
         # Write
         if isinstance(buffer_or_path, Path):
-            buffer_or_path.write_text(tmp_io_buffer.read(), encoding='utf-8')
-
+            buffer_or_path.write_text(content, encoding='utf-8')
         else:
-            buffer_or_path.write(tmp_io_buffer.read())
+            buffer_or_path.write(content)
+
+        return True
 
     def is_profile_unsaved(self, name_or_id: Union[str, int]) -> bool:
         """Was the profile ever saved?

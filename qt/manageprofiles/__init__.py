@@ -325,6 +325,7 @@ class SettingsDialog(QDialog):
 
     def validate(self):
         """Save to config and validate"""
+        print('Y'*30)##DEBUG
         if not self.save_profile():
             return False
 
