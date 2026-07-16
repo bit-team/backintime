@@ -50,6 +50,7 @@ import core_events
 from storagesize import StorageSize
 from exceptions import PermissionDeniedByPolicy
 from konfig import Konfig
+from mount import MountManager
 
 
 class Config:  # (configfile.ConfigFileWithProfiles):
@@ -284,7 +285,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         # self._unsaved_profiles = []
         # self.setIntValue('config.version', self.CONFIG_VERSION)
         # return super().save(self._LOCAL_CONFIG_PATH)
-        Konfig().save()
+        Konfig().save(bitbase.context['--config'])
 
     def is_profile_unsaved(self, profile_id: str) -> bool:
         return Konfig().is_profile_unsaved(int(profile_id))
@@ -292,7 +293,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
     def is_current_profile_unsaved(self) -> bool:
         return self.is_profile_unsaved(self.currentProfile())
 
-    def checkConfig(self, profile_id = None):
+    def checkConfig(self, profile_id=None):
         """Dev note (2026-06, buhtz): Would say this method
         should go into its own class. e.g. CheckConfigAgent
         Who executes it? Not only by "check-config" CLI command I think.
@@ -304,7 +305,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
             profiles = list(real_konfig.iter_profiles())
 
         for one_profile in profiles:
-            logger.debug(f'Check {profile}')
+            logger.debug(f'Check {one_profile}')
             profile_id = one_profile.profile_id
 
             profile_name = one_profile.name
@@ -782,8 +783,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         p = self.get_profile(profile_id)
         p.local_gocryptfs_path = value
 
-    @staticmethod
-    def _mode_not_profile(profile_id, mode):
+    def _mode_not_profile(self, profile_id, mode):
         # Why is there an extra "mode" argument in this methods signature?
         # Doesn't the profile itself defines the mode?
         if mode is None:
@@ -799,7 +799,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
     def passwordSave(self, profile_id = None, mode = None):
         # if mode is None:
         #     mode = self.snapshotsMode(profile_id)
-        Config._mode_not_profile(profile_id, mode)
+        self._mode_not_profile(profile_id, mode)
         #?Save password to system keyring (gnome-keyring or kwallet).
         #?<MODE> must be the same as \fIprofile<N>.snapshots.mode\fR
         # return self.profileBoolValue('snapshots.%s.password.save' % mode, False, profile_id)
@@ -810,7 +810,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
     def setPasswordSave(self, value, profile_id = None, mode = None):
         # if mode is None:
         #     mode = self.snapshotsMode(profile_id)
-        Config._mode_not_profile(profile_id, mode)
+        self._mode_not_profile(profile_id, mode)
         # self.setProfileBoolValue('snapshots.%s.password.save' % mode, value, profile_id)
         p = self.get_profile(profile_id)
         p.password_save = value
@@ -818,7 +818,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
     def passwordUseCache(self, profile_id = None, mode = None):
         # if mode is None:
         #     mode = self.snapshotsMode(profile_id)
-        Config._mode_not_profile(profile_id, mode)
+        self._mode_not_profile(profile_id, mode)
         #?Cache password in RAM so it can be read by cronjobs.
         #?Security issue: root might be able to read that password, too.
         #?<MODE> must be the same as \fIprofile<N>.snapshots.mode\fR;;true
@@ -829,7 +829,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
     def setPasswordUseCache(self, value, profile_id = None, mode = None):
         # if mode is None:
         #     mode = self.snapshotsMode(profile_id)
-        Config._mode_not_profile(profile_id, mode)
+        self._mode_not_profile(profile_id, mode)
         # self.setProfileBoolValue('snapshots.%s.password.use_cache' % mode, value, profile_id)
         p = self.get_profile(profile_id)
         p.password_use_cache = value
@@ -851,7 +851,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         #     profile_id = self.currentProfile()
         p = self.get_profile(profile_id)
 
-        Config._mode_not_profile(profile_id, mode)
+        self._mode_not_profile(profile_id, mode)
 
         # if mode is None:
         #     mode = self.snapshotsMode(profile_id)
@@ -900,7 +900,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         if profile_id is None:
             profile_id = self.currentProfile()
 
-        Config._mode_not_profile(profile_id, mode)
+        self._mode_not_profile(profile_id, mode)
 
         if mode is None:
             mode = self.snapshotsMode(profile_id)

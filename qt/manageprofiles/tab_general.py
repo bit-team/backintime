@@ -697,12 +697,13 @@ class GeneralTab(QDialog):
                 return
 
         # Really change?
-        answer = messagebox.question(
-            text=_('Really change the backup directory?'),
-            widget_to_center_on=self)
+        if old_path != Path('.'):
+            answer = messagebox.question(
+                text=_('Really change the backup directory?'),
+                widget_to_center_on=self)
 
-        if not answer:
-            return
+            if not answer:
+                return
 
         # Set the path
         self._edit_backup_path.setText(str(path))

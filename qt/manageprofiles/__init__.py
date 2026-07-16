@@ -28,6 +28,7 @@ from PyQt6.QtWidgets import (QDialog,
 import core_events
 import qttools
 import messagebox
+import bitbase
 from statedata import StateData
 from manageprofiles.tab_general import GeneralTab
 from manageprofiles.tab_remove_retention import RemoveRetentionTab

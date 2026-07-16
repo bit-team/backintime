@@ -718,7 +718,7 @@ class Profile:  # pylint: disable=too-many-public-methods
 
     @schedule_repeated_period.setter
     def schedule_repeated_period(self, value: int) -> None:
-        self['schedule.repeatedly.period'] = value
+        self['schedule.repeatedly.period'] = str(value)
 
     @property
     def schedule_repeated_unit(self) -> int:
@@ -769,14 +769,14 @@ class Profile:  # pylint: disable=too-many-public-methods
     @property
     def warn_free_space(self) -> StorageSize:
         """TODO"""
-        value = self['snapshots.warn_free_space.value']
-        unit = self['snapshots.warn_free_space.unit']
-        return StorageSize(int(value), SizeUnit(int(unit)))
+        value = int(self['snapshots.warn_free_space.value'])
+        unit = int(self['snapshots.warn_free_space.unit'])
+        return StorageSize(value, SizeUnit(unit))
 
     @warn_free_space.setter
     def warn_free_space(self, value: StorageSize) -> None:
         self['snapshots.warn_free_space.value'] = str(value.value())
-        self['snapshots.warn_free_space.unit'] = value.unit.value
+        self['snapshots.warn_free_space.unit'] = str(value.unit.value)
 
     @property
     def warn_free_space_enabled(self) -> bool:
@@ -808,7 +808,7 @@ class Profile:  # pylint: disable=too-many-public-methods
         return Konfig.to_bool(self['snapshots.min_free_space.enabled'])
 
     def set_min_free_space_enabled(self, enable: bool):
-        self['snapshots.min_free_space.enabled'] = str(value).lower()
+        self['snapshots.min_free_space.enabled'] = str(enable).lower()
 
     @property
     def min_free_inodes_enabled(self) -> bool:
@@ -1168,7 +1168,7 @@ class Profile:  # pylint: disable=too-many-public-methods
 
     @use_checksum.setter
     def use_checksum(self, enable: bool) -> None:
-        self['snapshots.use_checksum'] = str(enable).value()
+        self['snapshots.use_checksum'] = str(enable).lower()
 
     @property
     def log_level(self) -> int:
