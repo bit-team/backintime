@@ -1406,20 +1406,25 @@ class Konfig(metaclass=singleton.Singleton):
 
         self._profiles = self._profile_list()
 
-    def save(self, buffer: TextIOWrapper):
-        """Store configuration to the config file."""
+    def save(self, buffer_or_path: Union[Path, TextIOWrapper, StringIO]):
+        """Store configuration to a file."""
 
         self._unsaved_profiles = []
-        raise NotImplementedError('Prevent overwriting real config data.')
+        # raise NotImplementedError('Prevent overwriting real config data.')
 
-        # tmp_io_buffer = StringIO()
-        # self._config_parser.write(tmp_io_buffer)
-        # tmp_io_buffer.seek(0)
+        tmp_io_buffer = StringIO()
+        self._conf.write(tmp_io_buffer)
+        tmp_io_buffer.seek(0)
 
-        # # Write to file without section header
-        # # Discard unwanted first line
-        # tmp_io_buffer.readline()
-        # handle.write(tmp_io_buffer.read())
+        # Discard unwanted first line (section header)
+        tmp_io_buffer.readline()
+
+        # Write
+        if isinstance(buffer_or_path, Path):
+            buffer_or_path.write_text(tmp_io_buffer.read(), encoding='utf-8')
+
+        else:
+            buffer_or_path.write(tmp_io_buffer.read())
 
     def is_profile_unsaved(self, name_or_id: Union[str, int]) -> bool:
         """Was the profile ever saved?
