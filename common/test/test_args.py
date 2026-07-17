@@ -9,6 +9,7 @@
 """Tests about argument parsings."""
 import unittest
 import itertools
+from pathlib import Path
 import bitbase  # noqa: E402, RUF100
 import cliarguments  # noqa: E402, RUF100
 import clicommands  # noqa: E402, RUF100
@@ -60,7 +61,7 @@ class Basics(unittest.TestCase):
             ['--config', '/tmp/config'], self.parser_agent)
 
         self.assertIn('config', sut)
-        self.assertEqual(sut.config, '/tmp/config')
+        self.assertEqual(sut.config, Path('/tmp/config'))
 
     def test_config_no_path(self):
         with self.assertRaises(SystemExit):
@@ -122,11 +123,12 @@ class BackupCommand(unittest.TestCase):
                                  ('--config', 'bar')):
 
             sut = cliarguments.parse_arguments(argv, self.parser_agent)
+            print(sut)
             self.assertEqual(sut.command, 'backup')
             self.assertEqual(sut.profile, 'foo')
             self.assertEqual(sut.quiet, True)
             self.assertEqual(sut.checksum, True)
-            self.assertEqual(sut.config, 'bar')
+            self.assertEqual(sut.config, Path('bar'))
 
 
 class RestoreCommand(unittest.TestCase):
@@ -177,7 +179,7 @@ class RestoreCommand(unittest.TestCase):
             self.assertEqual(sut.BACKUP_ID, '20151130-230501-984')
             self.assertEqual(sut.local_backup, True)
             self.assertEqual(sut.delete, True)
-            self.assertEqual(sut.config, 'foo')
+            self.assertEqual(sut.config, Path('foo'))
 
     def test_multible_args(self):
         for argv in shuffle_args(('--profile', '2'),
@@ -195,7 +197,7 @@ class RestoreCommand(unittest.TestCase):
             self.assertEqual(sut.command, 'restore')
             self.assertEqual(sut.local_backup, True)
             self.assertEqual(sut.delete, True)
-            self.assertEqual(sut.config, 'foo')
+            self.assertEqual(sut.config, Path('foo'))
 
     def test_snapshot_id_index(self):
         sut = cliarguments.parse_arguments(

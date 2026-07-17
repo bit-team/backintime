@@ -193,9 +193,6 @@ class Password:
         Based on profile settings return password from keyring,
         Password_Cache or by asking User.
         """
-        # DEBUG
-        # logger.debug(f'{parent=} {profile_id=} {mode=}')
-
         if not self.config.modeNeedPassword(mode, pw_id):
             return ''
 

@@ -243,7 +243,10 @@ class ParserAgent:
             '--config',
             metavar='PATH',
             type=Path,
-            default=bitbase.DEFAULT_CONFIG_FILE_PATH,
+            # Dev note (buhtz, 2026-07): Don't use "default=" at this place.
+            # There is creepy argument parsing happening in
+            # parse_arguments().join(). Not my invention!
+            # default=bitbase.DEFAULT_CONFIG_FILE_PATH,
             action='store',
             help='read config from %(metavar)s '
                  f'(Default: $XDG_CONFIG_HOME/{bitbase.BINARY_NAME_BASE}/'
