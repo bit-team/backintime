@@ -123,7 +123,6 @@ class BackupCommand(unittest.TestCase):
                                  ('--config', 'bar')):
 
             sut = cliarguments.parse_arguments(argv, self.parser_agent)
-            print(sut)
             self.assertEqual(sut.command, 'backup')
             self.assertEqual(sut.profile, 'foo')
             self.assertEqual(sut.quiet, True)

@@ -26,7 +26,7 @@ class Password_Cache(daemon.Daemon):
     (e.g. no profile allows to cache).
     """
 
-    def __init__(self, cfg = None, *args, **kwargs):
+    def __init__(self, cfg=None, *args, **kwargs):
         self.config = cfg
 
         if self.config is None:
@@ -43,7 +43,8 @@ class Password_Cache(daemon.Daemon):
         pid = self.config.passwordCachePid()
 
         super(Password_Cache, self).__init__(
-            pid, umask = 0o077, *args, **kwargs)
+            pid, umask=0o077, *args, **kwargs
+        )
 
         self.dbKeyring = {}
         self.dbUsr = {}

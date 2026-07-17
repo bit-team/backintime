@@ -299,6 +299,8 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         """Dev note (2026-06, buhtz): Would say this method
         should go into its own class. e.g. CheckConfigAgent
         Who executes it? Not only by "check-config" CLI command I think.
+
+        WEITER
         """
         if profile_id:
             profiles = [self.get_profile(profile_id)]

@@ -23,6 +23,7 @@ import sys
 import os
 import gettext
 import subprocess
+import bitbase
 import pluginmanager
 import tools
 import logger
@@ -97,7 +98,7 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
             '--config',
             # pylint: disable-next=protected-access
             # self.snapshots.config._LOCAL_CONFIG_PATH
-            Konfig().last_loaded_from()
+            str(bitbase.context['--config'])
         ]
 
         if logger.DEBUG:
