@@ -243,7 +243,7 @@ class ParserAgent:
             '--config',
             metavar='PATH',
             type=Path,
-            default=bitbase.CONFIG_FILE_PATH,
+            default=bitbase.DEFAULT_CONFIG_FILE_PATH,
             action='store',
             help='read config from %(metavar)s '
                  f'(Default: $XDG_CONFIG_HOME/{bitbase.BINARY_NAME_BASE}/'

@@ -358,7 +358,7 @@ class Profile:  # pylint: disable=too-many-public-methods
 
     @ssh_private_key_file.setter
     def ssh_private_key_file(self, path: Path) -> None:
-        self['snapshots.ssh.private_key_file'] = str(path) if path else None
+        self['snapshots.ssh.private_key_file'] = str(path) if path else ''
 
     @property
     def ssh_proxy_host(self) -> str:
@@ -1542,7 +1542,7 @@ if __name__ == '__main__':
     sys.exit()
     # Regular config file
     import bitbase
-    cfp = bitbase.CONFIG_FILE_PATH
+    cfp = bitbase.DEFAULT_CONFIG_FILE_PATH
     with cfp.open('r', encoding='utf-8') as handle:
         k = Konfig()
         k.load(handle)

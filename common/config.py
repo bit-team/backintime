@@ -794,13 +794,14 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         if p.mode != mode:
             raise RuntimeError(
                 'Unexpected situation. Open an issue and report '
-                'steps to reproduce the situation!'
+                'steps to reproduce the situation! '
+                f'{profile_id=} -> {mode=} != {p.mode=}'
             )
 
     def passwordSave(self, profile_id = None, mode = None):
         # if mode is None:
         #     mode = self.snapshotsMode(profile_id)
-        self._mode_not_profile(profile_id, mode)
+        # self._mode_not_profile(profile_id, mode)
         #?Save password to system keyring (gnome-keyring or kwallet).
         #?<MODE> must be the same as \fIprofile<N>.snapshots.mode\fR
         # return self.profileBoolValue('snapshots.%s.password.save' % mode, False, profile_id)
@@ -811,7 +812,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
     def setPasswordSave(self, value, profile_id = None, mode = None):
         # if mode is None:
         #     mode = self.snapshotsMode(profile_id)
-        self._mode_not_profile(profile_id, mode)
+        # self._mode_not_profile(profile_id, mode)
         # self.setProfileBoolValue('snapshots.%s.password.save' % mode, value, profile_id)
         p = self.get_profile(profile_id)
         p.password_save = value
@@ -819,7 +820,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
     def passwordUseCache(self, profile_id = None, mode = None):
         # if mode is None:
         #     mode = self.snapshotsMode(profile_id)
-        self._mode_not_profile(profile_id, mode)
+        # self._mode_not_profile(profile_id, mode)
         #?Cache password in RAM so it can be read by cronjobs.
         #?Security issue: root might be able to read that password, too.
         #?<MODE> must be the same as \fIprofile<N>.snapshots.mode\fR;;true
@@ -830,7 +831,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
     def setPasswordUseCache(self, value, profile_id = None, mode = None):
         # if mode is None:
         #     mode = self.snapshotsMode(profile_id)
-        self._mode_not_profile(profile_id, mode)
+        # self._mode_not_profile(profile_id, mode)
         # self.setProfileBoolValue('snapshots.%s.password.use_cache' % mode, value, profile_id)
         p = self.get_profile(profile_id)
         p.password_use_cache = value
@@ -844,7 +845,6 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         """Dev note (2026-06, buhtz): This password stuff is an ugly mess.
         I am working on it, hoping not to break something.
         """
-
         if self.pw is None:
             self.pw = password.Password(self)
 
@@ -852,7 +852,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         #     profile_id = self.currentProfile()
         p = self.get_profile(profile_id)
 
-        self._mode_not_profile(profile_id, mode)
+        # self._mode_not_profile(profile_id, mode)
 
         # if mode is None:
         #     mode = self.snapshotsMode(profile_id)
@@ -860,7 +860,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         return self.pw.password(
             parent=parent,
             profile_id=p.profile_id,
-            mode=p.mode,
+            mode=mode if mode else p.mode,
             pw_id=pw_id,
             only_from_keyring=only_from_keyring
         )
@@ -901,7 +901,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         if profile_id is None:
             profile_id = self.currentProfile()
 
-        self._mode_not_profile(profile_id, mode)
+        # self._mode_not_profile(profile_id, mode)
 
         if mode is None:
             mode = self.snapshotsMode(profile_id)
@@ -1722,7 +1722,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
 
     def takeSnapshotUserCallback(self):
         # return os.path.join(self._LOCAL_CONFIG_FOLDER, "user-callback")
-        return str(bitbase.CONFIG_FILE_PATH.parent / 'user-callback')
+        return str(bitbase.DEFAULT_CONFIG_FILE_PATH.parent / 'user-callback')
 
     def passwordCacheFolder(self):
         return os.path.join(self._LOCAL_DATA_FOLDER, "password_cache")
@@ -2002,8 +2002,9 @@ class Config:  # (configfile.ConfigFileWithProfiles):
             cmd += '--profile %s ' % profile_id
 
         # User defined path to config file
-        if self._LOCAL_CONFIG_PATH is not self._DEFAULT_CONFIG_PATH:
-            cmd += '--config %s ' % self._LOCAL_CONFIG_PATH
+        fp_config = bitbase.context['--config']
+        if fp_config != bitbase.DEFAULT_CONFIG_FILE_PATH:
+            cmd += f'--config {fp_config} '
 
         # Enable debug output
         if self.scheduleDebug(profile_id):
