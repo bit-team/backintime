@@ -75,10 +75,10 @@ def show_deprecation_message(cmd_flag: str):
 def _get_config(args: argparse.Namespace) -> config.Config:
     """A dirty little helper. Feel free to refactor."""
     return cli.get_config_and_select_profile(
-        config_path=args.config,
-        data_path=args.share_path,
-        profile=args.profile,
-        checksum=getattr(args, 'checksum', None)
+        config_path=bitbase.context['--config'],  # args.config,
+        # data_path=args.share_path,
+        pid_or_name=args.profile
+        # checksum=getattr(args, 'checksum', None)
     )
 
 
@@ -339,9 +339,11 @@ def restore(args: argparse.Namespace):
             what=args.WHAT,
             where=args.WHERE,
             mount_manager=mount_manager,
+            force_checksum_use=args.checksum,
             delete=args.delete,
             backup=isbackup,
-            only_new=args.only_new)
+            only_new=args.only_new
+        )
 
     sys.exit(bitbase.RETURN_OK)
 

@@ -8,6 +8,7 @@
 # pylint: disable=too-many-lines,anomalous-backslash-in-string
 """Configuration mangament.
 """
+# pylint: disable=missing-function-docstring
 from __future__ import annotations
 import configparser
 import getpass
@@ -33,7 +34,7 @@ except NameError:
         return val
 
 # WORKAROUND
-import tools  # <- get rid of that import asap
+import tools  # pylint: disable=wrong-import-position
 if tools.checkCommand('meld'):
     DIFF_CMD = 'meld'
 elif tools.checkCommand('kompare'):
@@ -186,6 +187,7 @@ class Profile:  # pylint: disable=too-many-public-methods
 
     @property
     def profile_id(self) -> int:
+        """The profiles numeric id."""
         return int(self._prefix.replace('profile', ''))
 
     def remove(self):
@@ -764,7 +766,6 @@ class Profile:  # pylint: disable=too-many-public-methods
 
     @property
     def warn_free_space(self) -> StorageSize:
-        """TODO"""
         value = int(self['snapshots.warn_free_space.value'])
         unit = int(self['snapshots.warn_free_space.unit'])
         return StorageSize(value, SizeUnit(unit))
@@ -1219,6 +1220,7 @@ class Konfig(metaclass=singleton.Singleton):
         self._conf = {}
         self._profiles = {}
         self._unsaved_profiles = []
+        self._config_parser = None
 
     def __getitem__(self, key: str) -> Any:
         try:
@@ -1404,8 +1406,7 @@ class Konfig(metaclass=singleton.Singleton):
         tmp_io_buffer.seek(0)
 
         # Discard unwanted first line
-        _section_header = tmp_io_buffer.readline()
-        content = tmp_io_buffer.read().lstrip('\n')
+        content = tmp_io_buffer.getvalue().split('\n', 1)[1].lstrip('\n')
 
         # Write
         if isinstance(buffer_or_path, Path):
@@ -1503,74 +1504,3 @@ class Konfig(metaclass=singleton.Singleton):
 
         if val > -1:
             self['internal.manual_starts_countdown'] = str(val - 1)
-
-
-if __name__ == '__main__':
-    # Empty in-memory config file
-    # k = Konfig(StringIO())
-
-    # import inspect
-    # from typing import get_type_hints
-    # properties = inspect.getmembers(
-    #     Profile,
-    #     lambda obj: isinstance(obj, property)
-    # )
-    # for name, p in properties:
-    #     type_return = get_type_hints(p.fget)['return']
-    #     if p.fset:
-    #         hints = get_type_hints(p.fset)
-    #         param = list(inspect.signature(p.fset).parameters)[1]
-    #         print(p)
-    #         print(p.fset)
-    #         type_setter = hints[param]
-    #     else:
-    #         type_setter = None
-
-    #     print(f'{name=} {p=}\n  {type_setter=}\n  {type_return=}\n')
-
-    # sys.exit()
-
-    k = Konfig()
-    # print(k)
-    # print(f'{k._conf=}')  # pylint: disable=protected-access
-    # print(f'{k._profiles=}')  # pylint: disable=protected-access
-
-    k.load(Path.home() / '.config' / 'backintime' / 'config')
-
-    print(f'{k.profile(1).remove_old_snapshots_enabled=}')
-
-    sys.exit()
-    # Regular config file
-    import bitbase
-    cfp = bitbase.DEFAULT_CONFIG_FILE_PATH
-    with cfp.open('r', encoding='utf-8') as handle:
-        k = Konfig()
-        k.load(handle)
-
-    print(k)
-    print(f'{k._conf=}')  # pylint: disable=protected-access
-    print(f'{k._profiles=}')  # pylint: disable=protected-access
-
-    print(f'{k.profile_names=}')
-    print(f'{k.profile_ids=}')
-    print(f'{k.hash_collision=}')
-    print(f'{k.language=}')
-    print(f'{k.global_flock=}')
-
-    p = k.profile(2)
-    print(f'{p.snapshots_mode=}')
-    p.snapshots_mode = 'ssh'
-    print(f'{p.snapshots_mode=}')
-    print(f'{p.include=}')
-
-    p = k.profile(8)
-    print(f'{p.include=}')
-
-    p = k.profile(9)
-    print(f'{p.include=}')
-    print(f'{p.exclude=}')
-
-    p.include = [('foo', 0), ('bar', 1)]
-    print(f'{p.include=}')
-
-#  LocalWords:  enable

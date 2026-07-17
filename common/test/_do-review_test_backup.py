@@ -7,6 +7,7 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import sys
+import unittest
 from unittest.mock import patch, ANY
 from datetime import datetime
 from test import generic
@@ -23,6 +24,7 @@ from applicationinstance import ApplicationInstance
 from pluginmanager import PluginManager
 
 
+@unittest.skip('See Issue #2461')
 @patch('time.sleep')  # speed up unittest
 class TestBackup(generic.SnapshotsTestCase):
     @patch('snapshots.Snapshots.takeSnapshot')

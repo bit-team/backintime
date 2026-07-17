@@ -461,12 +461,12 @@ class Snapshots:
     def restore(self,
                 sid,
                 paths,
-                callback = None,
-                restore_to = '',
-                force_checksum_use = False,
-                delete = False,
-                backup = True,
-                only_new = False):
+                callback=None,
+                restore_to='',
+                force_checksum_use=False,
+                delete=False,
+                backup=True,
+                only_new=False):
         """
         Restore one or more files from snapshot ``sid`` to either original
         or a different destination. Restore is done with rsync. If available

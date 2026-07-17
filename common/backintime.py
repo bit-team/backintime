@@ -9,6 +9,7 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
+import sys
 import subprocess
 import tools
 # Workaround for situations where startApp() is not invoked.
@@ -20,7 +21,6 @@ import logger
 import cli
 import cliarguments
 from diagnostics import collect_minimal_diagnostics
-from konfig import Konfig
 
 
 def takeSnapshotAsync(cfg, checksum=False):
@@ -92,6 +92,7 @@ def startApp(bin_name: str) -> config.Config | None:
 
     logger.openlog(syslog_id_suffix)
 
+    cli.set_quiet('--quiet' in sys.argv)
     args = cliarguments.parse_arguments(args=None, agent=parser_agent)
 
     # Name, Version, As Root, OS
@@ -121,7 +122,6 @@ def startApp(bin_name: str) -> config.Config | None:
         return None
 
     # No arguments/commands
-    cli.set_quiet(args)
     cli.print_header()
 
     # Remember the --config argument
@@ -131,8 +131,8 @@ def startApp(bin_name: str) -> config.Config | None:
         bitbase.context['--config'] = bitbase.DEFAULT_CONFIG_FILE_PATH
 
     # This loads the real/new "Konfig"
-    real_konfig = cli.get_config_and_select_profile(
-        config_path=args.config,
+    _real_konfig = cli.get_config_and_select_profile(
+        config_path=bitbase.context['--config'],
         # data_path=args.share_path,
         pid_or_name=args.profile,
         # Dev note (buhtz, 2025): There is not a default value in all cases,

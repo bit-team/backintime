@@ -15,17 +15,16 @@ import tools
 import daemon
 import snapshots
 import bcolors
-import config
 import logger
 import bitbase
 import core_events
 from konfig import Konfig
 from mount import MountManager, MountError
-from typing import Optional, Union
+from typing import Union
 from version import __version__
 
 
-def restore(cfg, snapshot_id, what, where, mount_manager, **kwargs):
+def restore(cfg, snapshot_id, what, where, mount_manager, force_checksum_use, **kwargs):
     if what is None:
         what = input('File to restore: ')
 
@@ -53,7 +52,7 @@ def restore(cfg, snapshot_id, what, where, mount_manager, **kwargs):
     )
     print('')
 
-    RestoreDialog(cfg, sid, what, where, **kwargs).run()
+    RestoreDialog(cfg, sid, what, where, force_checksum_use, **kwargs).run()
 
 
 def remove(cfg, snapshot_ids, force, mount_manager):
@@ -301,12 +300,13 @@ def frame(msg, size=32):
 
 
 class RestoreDialog:
-    def __init__(self, cfg, sid, what, where, **kwargs):
+    def __init__(self, cfg, sid, what, where, force_checksum_use, **kwargs):
         self.config = cfg
         self.sid = sid
         self.what = what
         self.where = where
         self.kwargs = kwargs
+        self.force_checksum_use = force_checksum_use
 
         self.logFile = self.config.restoreLogFile()
 
@@ -345,7 +345,7 @@ class BackupJobDaemon(daemon.Daemon):
         self.func(self.args, False)
 
 
-def set_quiet(args):
+def set_quiet(quiet: bool):
     """
     Redirect :py:data:`sys.stdout` to ``/dev/null`` if ``--quiet`` was set on
     commandline. Return the original :py:data:`sys.stdout` file object which
@@ -360,7 +360,7 @@ def set_quiet(args):
     """
     force_stdout = sys.stdout
 
-    if args.quiet:
+    if quiet:
         # do not replace with subprocess.DEVNULL - will not work
         sys.stdout = open(os.devnull, 'w')
         atexit.register(sys.stdout.close)

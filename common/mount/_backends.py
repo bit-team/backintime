@@ -19,6 +19,13 @@ from sshcore import SSHHost
 from ._error import MountError
 
 
+try:
+    _('Warning')
+except NameError:
+    def _(val):
+        return val
+
+
 class Backend:
     """Base class for mount backends"""
 

@@ -170,7 +170,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         self.default_profile_name = _('Main profile')
 
         # Workaround
-        self.setCurrentProfile('1')
+        self.setCurrentProfile('1', True)
 
         self.SNAPSHOT_MODES = {
             # mode: (
@@ -230,7 +230,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
             int(profile_id) if profile_id else self.current_profile_id
         )
 
-    def setCurrentProfile(self, profile_id):
+    def setCurrentProfile(self, profile_id, silent: bool = False):
         """
         Change the current profile.
 
@@ -250,9 +250,11 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         self.current_profile_id = p.profile_id
 
         logger.changeProfile(p.profile_id, p.name)
-        logger.info(
-            f'Profile switched: {p.name}({p.profile_id})',
-            self)
+        if not silent:
+            logger.info(
+                f'Profile switched: {p.name}({p.profile_id})',
+                self
+            )
 
         return True
 
@@ -634,11 +636,13 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         p = self.get_profile(profile_id)
         value = p.ssh_max_arg_length
         if value and value < 700:
-            raise ValueError('SSH max arg length %s is too low to run commands' % value)
+            raise ValueError(
+                f'SSH max arg length {value} is too low to run commands'
+            )
         return value
 
     def setSshMaxArgLength(self, value, profile_id = None):
-        self.setProfileIntValue('snapshots.ssh.max_arg_length', value, profile_id)
+        # self.setProfileIntValue('snapshots.ssh.max_arg_length', value, profile_id)
         p = self.get_profile(profile_id)
         p.ssh_max_arg_length = value
 
@@ -660,12 +664,12 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         p = self.get_profile(profile_id)
         return p.ssh_check_ping_host
 
-    def setSshCheckPingHost(self, value, profile_id = None):
-        self.setProfileBoolValue('snapshots.ssh.check_ping', value, profile_id)
+    def setSshCheckPingHost(self, value, profile_id=None):
+        # self.setProfileBoolValue('snapshots.ssh.check_ping', value, profile_id)
         p = self.get_profile(profile_id)
         p.ssh_check_ping_host = value
 
-    def sshDefaultArgs(self, profile_id = None):
+    def sshDefaultArgs(self, profile_id=None):
         """
         Default arguments used for ``ssh`` and ``sshfs`` commands.
 

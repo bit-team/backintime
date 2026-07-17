@@ -273,7 +273,7 @@ class PluginManager:
 
             self.loadedPlugins.append(file_name)
 
-        except AttributeError as exc:
+        except AttributeError:
             raise
 
         except BaseException as exc:
