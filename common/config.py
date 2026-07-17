@@ -173,36 +173,36 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         self.setCurrentProfile('1')
 
         self.SNAPSHOT_MODES = {
-                    # mode: (
-                    #     <mounttools>,
-                    #     'ComboBox Text',
-                    #     need_pw|lbl_pw_1,
-                    #     need_2_pw|lbl_pw_2
-                    # ),
-                    'local': (
-                        None,
-                        _('Local'),
-                        False,
-                        False
-                    ),
-                    'local_gocryptfs': (
-                        None,  # gocryptfstools.GocryptfsMount,
-                        _('Local encrypted') + ' (via gocryptfs)',
-                        _('Encryption'),
-                        False
-                    ),
-                    'ssh': (
-                        None,  # sshtools.SSH,
-                        _('SSH'),
-                        _('SSH private key'),
-                        False
-                    ),
-                    'ssh_gocryptfs': (
-                        None,
-                        _('SSH encrypted') + ' (via gocryptfs)',
-                        _('SSH private key'),
-                        _('Encryption')
-                    ),
+            # mode: (
+            #     <mounttools>,
+            #     'ComboBox Text',
+            #     need_pw|lbl_pw_1,
+            #     need_2_pw|lbl_pw_2
+            # ),
+            'local': (
+                None,
+                _('Local'),
+                False,
+                False
+            ),
+            'local_gocryptfs': (
+                None,  # gocryptfstools.GocryptfsMount,
+                _('Local (encrypted)'),
+                _('Encryption'),
+                False
+            ),
+            'ssh': (
+                None,  # sshtools.SSH,
+                _('SSH'),
+                _('SSH private key'),
+                False
+            ),
+            'ssh_gocryptfs': (
+                None,
+                _('SSH (encrypted)'),
+                _('SSH private key'),
+                _('Encryption')
+            ),
         }
 
     def the_dict(self) -> dict:

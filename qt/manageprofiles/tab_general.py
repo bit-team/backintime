@@ -653,17 +653,25 @@ class GeneralTab(QDialog):
         #     return False
 
     def _snapshot_mode_combobox(self) -> combobox.BitComboBox:
-        # Workaround until encryption transition (#1734) is finished.
-
-        # # Find out if profiles using EncFS
-        # all_used_modes = {
-        #     self.config.snapshotsMode(pid) for pid in self.config.profiles()
-        # }
-        # print(f'{all_used_modes=}')  # DEBUG
-
+        tooltips = {
+            'local': _('Backups are stored locally.'),
+            'local_gocryptfs': _(
+                'Backups are stored locally and encrypted using gocryptfs.'
+            ),
+            'ssh': _('Backups are stored on a remote system via SSH.'),
+            'ssh_gocryptfs': _(
+                'Backups are stored on a remote system via SSH and '
+                'encrypted using gocryptfs.'
+            )
+        }
         snapshot_modes = {}
         for key in self.config.SNAPSHOT_MODES:
-            snapshot_modes[key] = self.config.SNAPSHOT_MODES[key][1]
+            snapshot_modes[key] = (
+                # label
+                self.config.SNAPSHOT_MODES[key][1],
+                # tooltip
+                tooltips[key]
+            )
 
         return combobox.BitComboBox(self, snapshot_modes)
 

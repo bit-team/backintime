@@ -269,18 +269,20 @@ class SSHBackend(Backend):
             (
                 ['test', '-d', path],
                 'Remote path is not a directory or does not exist"',
-                _('The remote backup directory does not exist or is not '
-                  'a directory.')
+                _('The remote backup directory is missing or is not a '
+                  'valid directory.')
             ),
             (
                 ['test', '-w', path],
                 'Remote path is not writable',
-                _('The remote backup directory is not writable.')
+                _('Write access to the remote backup directory was '
+                  'denied (missing permissions).')
             ),
             (
                 ['test', '-x', path],
                 'Remote path is not accessible/searchable',
-                _('The remote backup directory cannot be accessed.')
+                _('Access to the remote backup directory denied '
+                  '(missing permissions).')
             )
         ]
 
