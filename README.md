@@ -106,7 +106,6 @@ latest development version of _Back In Time_ please see section
 
 In the latest stable release:
 - [File permissions handling and therefore possible non-differential backups](#file-permissions-handling-and-therefore-possible-non-differential-backups)
-- [`qt_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`](#qt_probingpy-may-hang-with-high-cpu-usage-when-running-bit-as-root-via-cron)
 
 More problems described in
 [this FAQ section](FAQ.md#problems-errors--solutions).
@@ -126,17 +125,6 @@ If you don't like the new behavior, you can use _Expert Options_ ->
 _Paste additional options to rsync_ to add `--no-perms --no-group --no-owner`
 to it. Note that the exact file permissions can still be found in
 `fileinfo.bz2` and are also considered when restoring files.
-
-## `qt_probing.py` may hang with high CPU usage when running BiT as `root` via `cron`
-
-See the related issue [#1592](https://github.com/bit-team/backintime/issues/1592).
-
-The only reliable work-around is to delete (or move into another directory)
-the file `/usr/share/backintime/common/qt_probing.py`:
-
-`mv /usr/share/backintime/common/qt_probing.py /usr/share/backintime/`
-
-Renaming does *not* work!
 
 # Contributing and other ways to support the project
 See [CONTRIBUTING](CONTRIBUTING.md) file for an overview about the projects
