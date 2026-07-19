@@ -115,6 +115,12 @@ def startApp(bin_name: str) -> config.Config | None:
             f"{config.Config.APP_NAME}. This will cause some trouble. "
             f"Please use either 'sudo -i {bin_name}' or 'pkexec {bin_name}'.")
 
+    # Remember the --config argument
+    if args.config:
+        bitbase.context['--config'] = args.config
+    else:
+        bitbase.context['--config'] = bitbase.DEFAULT_CONFIG_FILE_PATH
+
     # Call commands
     if 'func' in dir(args):
         args.func(args)
@@ -122,12 +128,6 @@ def startApp(bin_name: str) -> config.Config | None:
 
     # No arguments/commands
     cli.print_header()
-
-    # Remember the --config argument
-    if args.config:
-        bitbase.context['--config'] = args.config
-    else:
-        bitbase.context['--config'] = bitbase.DEFAULT_CONFIG_FILE_PATH
 
     # This loads the real/new "Konfig"
     _real_konfig = cli.get_config_and_select_profile(
