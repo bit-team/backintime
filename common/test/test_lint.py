@@ -48,6 +48,7 @@ full_test_files = [_base_dir / fp for fp in (
     'bitlicense.py',
     # 'cliarguments.py',
     # 'clicommands.py',
+    'check_config.py',
     'core_events.py',
     'daemon.py',
     'event.py',

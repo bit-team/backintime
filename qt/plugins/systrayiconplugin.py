@@ -27,7 +27,6 @@ import bitbase
 import pluginmanager
 import tools
 import logger
-from konfig import Konfig
 
 
 _ = gettext.gettext

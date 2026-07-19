@@ -23,7 +23,6 @@ Development notes:
 """
 import os
 import datetime
-# import socket
 import random
 import getpass
 import shlex
@@ -40,7 +39,6 @@ except NameError:
 
 import bitbase
 import tools
-# import configfile
 import encode
 import logger
 import password
@@ -50,7 +48,6 @@ import core_events
 from storagesize import StorageSize
 from exceptions import PermissionDeniedByPolicy
 from konfig import Konfig
-from mount import MountManager
 
 
 class Config:  # (configfile.ConfigFileWithProfiles):
@@ -295,118 +292,117 @@ class Config:  # (configfile.ConfigFileWithProfiles):
     def is_current_profile_unsaved(self) -> bool:
         return self.is_profile_unsaved(self.currentProfile())
 
-    def checkConfig(self, profile_id=None):
-        """Dev note (2026-06, buhtz): Would say this method
-        should go into its own class. e.g. CheckConfigAgent
-        Who executes it? Not only by "check-config" CLI command I think.
+    # def _DELETE_ME_checkConfig(self, profile_id=None):
+    #     """Dev note (2026-06, buhtz): Would say this method
+    #     should go into its own class. e.g. CheckConfigAgent
+    #     Who executes it? Not only by "check-config" CLI command I think.
 
-        WEITER
-        """
-        if profile_id:
-            profiles = [self.get_profile(profile_id)]
-        else:
-            real_konfig = Konfig()
-            profiles = list(real_konfig.iter_profiles())
+    #     """
 
-        for one_profile in profiles:
-            logger.debug(f'Check {one_profile}')
-            profile_id = one_profile.profile_id
+    #     # Ensure a list of profiles
+    #     if profile_id:
+    #         profiles = [self.get_profile(profile_id)]
+    #     else:
+    #         real_konfig = Konfig()
+    #         profiles = list(real_konfig.iter_profiles())
 
-            profile_name = one_profile.name
-            mount_manager = MountManager.create(self)
-            mount_path = mount_manager.path
-            # snapshots_path = one_profile.snapshots_path
+    #     # each profile
+    #     for one_profile in profiles:
+    #         logger.debug(f'Check {one_profile}')
+    #         profile_id = one_profile.profile_id
 
-            # check the backups mountpoint (formerly known as "snapshot_path")
-            if not mount_path:
-                core_events.event_error.notify(
-                    '{}\n{}'.format(
-                        _('Profile: "{name}"').format(name=profile_name),
-                        # Don't like this error message!
-                        _('Backup directory is not valid.')
-                    )
-                )
-                return False
+    #         profile_name = one_profile.name
+    #         mount_manager = MountManager.create(self)
+    #         mount_path = mount_manager.path
+    #         # snapshots_path = one_profile.snapshots_path
 
-            # check include
-            include_list = self.include(profile_id)
+    #         # check the backups mountpoint (formerly known as "snapshot_path")
+    #         if not mount_path:
+    #             core_events.event_error.notify(
+    #                 '{}\n{}'.format(
+    #                     _('Profile: "{name}"').format(name=profile_name),
+    #                     # Don't like this error message!
+    #                     _('Backup directory is not valid.')
+    #                 )
+    #             )
+    #             return False
 
-            if not include_list:
-                core_events.event_error.notify(
-                    '{}\n{}'.format(
-                        _('Profile: "{name}"').format(name=profile_name),
-                        _('At least one directory must be selected '
-                          'for backup.')
-                    )
-                )
+    #         # check include
+    #         include_list = self.include(profile_id)
 
-                return False
+    #         if not include_list:
+    #             core_events.event_error.notify(
+    #                 '{}\n{}'.format(
+    #                     _('Profile: "{name}"').format(name=profile_name),
+    #                     _('At least one directory must be selected '
+    #                       'for backup.')
+    #                 )
+    #             )
 
-            # ???
-            snapshots_path2 = str(mount_path)
-            if snapshots_path2[-1] != '/':
-                snapshots_path2 = snapshots_path2 + '/'
+    #             return False
 
-            for item in include_list:
-                if item[1] != 0:
-                    continue
+    #         # ???
+    #         snapshots_path2 = str(mount_path)
+    #         if snapshots_path2[-1] != '/':
+    #             snapshots_path2 = snapshots_path2 + '/'
 
-                path = item[0]
-                if path == str(mount_path):
-                    core_events.event_error.notify(
-                        '{}\n{}\n{}'.format(
-                            _('Profile: "{name}"').format(name=profile_name),
-                            _('Directory: {path}').format(path=path),
-                            _('This directory cannot be included in the '
-                              'backup as it is part of the backup '
-                              'destination itself.')
-                        )
-                    )
+    #         for item in include_list:
+    #             if item[1] != 0:
+    #                 continue
 
-                    return False
+    #             path = item[0]
+    #             if path == str(mount_path):
+    #                 core_events.event_error.notify(
+    #                     '{}\n{}\n{}'.format(
+    #                         _('Profile: "{name}"').format(name=profile_name),
+    #                         _('Directory: {path}').format(path=path),
+    #                         _('This directory cannot be included in the '
+    #                           'backup as it is part of the backup '
+    #                           'destination itself.')
+    #                     )
+    #                 )
 
-                if len(path) >= len(snapshots_path2):
-                    if path[: len(snapshots_path2)] == snapshots_path2:
-                        core_events.event_error.notify(
-                            '{}\n{}\n{}'.format(
-                                _('Profile: "{name}"').format(
-                                    name=profile_name),
-                                _('Directory: {path}').format(path=path),
-                                _('This directory cannot be included in the '
-                                'backup as it is part of the backup '
-                                'destination itself.')
-                            )
-                        )
+    #                 return False
 
-                        return False
+    #             if len(path) >= len(snapshots_path2):
+    #                 if path[: len(snapshots_path2)] == snapshots_path2:
+    #                     core_events.event_error.notify(
+    #                         '{}\n{}\n{}'.format(
+    #                             _('Profile: "{name}"').format(
+    #                                 name=profile_name),
+    #                             _('Directory: {path}').format(path=path),
+    #                             _('This directory cannot be included in the '
+    #                             'backup as it is part of the backup '
+    #                             'destination itself.')
+    #                         )
+    #                     )
 
-            # check warn free space
-            if (self.warnFreeSpaceEnabled(profile_id)
-                and self.minFreeSpaceEnabled(profile_id)):
+    #                     return False
 
-                warn = self.warnFreeSpace(profile_id)
-                _enabled, min_free = self.minFreeSpaceAsStorageSize(profile_id)
+    #         # check warn free space
+    #         if (self.warnFreeSpaceEnabled(profile_id)
+    #             and self.minFreeSpaceEnabled(profile_id)):
 
-                if warn < min_free:
-                    core_events.event_error.notify(
-                        '{}\n{}\n\n{}\n{}'.format(
-                            _('Profile: "{name}"').format(name=profile_name),
-                            _('There is a conflict between two settings.'),
-                            _('The value for "Remove oldest backup if the '
-                              'free space is less than" ({val_one}) must be '
-                              'less than or equal the threshold for "Warn if '
-                              'free disk space falls below" ({val_two}).'
-                              ).format(val_one=min_free, val_two=warn),
-                            _('Please adjust the settings so that the backup '
-                              'removal limit is not higher than the '
-                              'warning limit.')
-                        ))
-                    return False
+    #             warn = self.warnFreeSpace(profile_id)
+    #             _enabled, min_free = self.minFreeSpaceAsStorageSize(profile_id)
 
-        return True
+    #             if warn < min_free:
+    #                 core_events.event_error.notify(
+    #                     '{}\n{}\n\n{}\n{}'.format(
+    #                         _('Profile: "{name}"').format(name=profile_name),
+    #                         _('There is a conflict between two settings.'),
+    #                         _('The value for "Remove oldest backup if the '
+    #                           'free space is less than" ({val_one}) must be '
+    #                           'less than or equal the threshold for "Warn if '
+    #                           'free disk space falls below" ({val_two}).'
+    #                           ).format(val_one=min_free, val_two=warn),
+    #                         _('Please adjust the settings so that the backup '
+    #                           'removal limit is not higher than the '
+    #                           'warning limit.')
+    #                     ))
+    #                 return False
 
-    # def host(self):
-    #     return socket.gethostname()
+    #     return True
 
     def get_snapshots_mountpoint(self, profile_id=None, mode=None, tmp_mount=False):
         """Return the profiles snapshot path in form of a mount point.

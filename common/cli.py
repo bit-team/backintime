@@ -18,9 +18,10 @@ import bcolors
 import logger
 import bitbase
 import core_events
-from konfig import Konfig
-from mount import MountManager, MountError
 from typing import Union
+from konfig import Konfig
+from check_config import CheckConfigAgent
+from mount import MountManager, MountError
 from version import __version__
 
 
@@ -177,7 +178,8 @@ def checkConfig(cfg, crontab=True):
     test = 'Check config'
     announceTest()
 
-    if not cfg.checkConfig():
+    agent = CheckConfigAgent()
+    if agent.check() is False:
         failed()
         return False
 
@@ -189,6 +191,7 @@ def checkConfig(cfg, crontab=True):
 
         try:
             cfg.setup_automation()
+
         except Exception as exc:
             failed()
             print(str(exc))

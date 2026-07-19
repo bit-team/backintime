@@ -46,6 +46,7 @@ from PyQt6.QtCore import (Qt,
                           QTimer)
 import qttools
 from bitwidgets import Spinner
+from konfig import Konfig
 
 
 # pylint: disable-next=too-many-instance-attributes
@@ -79,7 +80,7 @@ class RestoreConfigDialog(QDialog):
         main_layout = QVBoxLayout(self)
 
         top_layout = QVBoxLayout()
-        self._create_hint(top_layout, config)
+        self._create_hint(top_layout)
         self._lbl_spinner, self._spinner, self._btn_scan \
             = self._create_scan_controls(top_layout)
 
@@ -187,9 +188,7 @@ class RestoreConfigDialog(QDialog):
 
         return red, green
 
-    def _create_hint(self,
-                     parent_layout: QLayout,
-                     config: Config) -> None:
+    def _create_hint(self, parent_layout: QLayout) -> None:
         """Create the label to explain how and where to find existing config
         file.
 
@@ -286,7 +285,7 @@ class RestoreConfigDialog(QDialog):
         """
         # pylint: disable=protected-access
         fp = self._path_from_index(current)
-        cfg = _get_valid_config(fp / bitbase.FILENAME_CONFIG)
+        cfg = _get_valid_konfig(fp / bitbase.FILENAME_CONFIG)
 
         if cfg:
             self._expand_with_parents(current)
@@ -325,20 +324,19 @@ class RestoreConfigDialog(QDialog):
 
         expand_next()
 
-    def _show_profile(self, cfg):
+    def _show_profile(self, cfg: Konfig):
         child = self._grid_layout.takeAt(0)
 
         while child:
             child.widget().deleteLater()
             child = self._grid_layout.takeAt(0)
 
-        for row, pid in enumerate(cfg.profiles()):
+        for row, profile in enumerate(cfg.iter_profiles()):
 
             for col, txt in enumerate((
-                    _('Profile:') + str(pid),
-                    cfg.profileName(pid),
-                    _('Mode:') + cfg.SNAPSHOT_MODES[
-                        cfg.snapshotsMode(pid)][1]
+                    _('Profile:') + profile.profile_id,
+                    profile.name,
+                    _('Mode:') + profile.mode
                     )):
                 self._grid_layout.addWidget(QLabel(txt, self), row, col)
 
@@ -380,7 +378,7 @@ class RestoreConfigDialog(QDialog):
         all settings from the config.
         """
         if self._config_to_restore:
-            self.config.dict = self._config_to_restore.dict
+            self.config = self._config_to_restore
 
         super().accept()
 
@@ -508,6 +506,29 @@ class _ScanFileSystem(threading.Thread):
         self.join()
 
 
+def _get_valid_konfig(path: Path) -> Konfig | None:
+    try:
+        cfg = Konfig()
+        cfg.load(path)
+
+        # is "configured"?
+        for profile in cfg.iter_profiles():
+            logger.debug(f'Is {profile=} configured...')
+            if not profile.snapshots_path or not profile.includes:
+                return None
+
+        return cfg
+
+    except (FileNotFoundError, UnicodeDecodeError):
+        pass
+
+    # pylint: disable-next=broad-exception-caught
+    except Exception as exc:
+        logger.critical(f'Unhandled branch in code!\n{exc}\n{__file__}')
+
+    return None
+
+
 def _get_valid_config(path: Path) -> Config | None:
     try:
         cfg = Config(str(path))
@@ -522,3 +543,19 @@ def _get_valid_config(path: Path) -> Config | None:
         logger.critical(f'Unhandled branch in code!\n{exc}\n{__file__}')
 
     return None
+
+
+def _is_valid_config(path: Path) -> bool:
+    try:
+        cfg = Config(str(path))
+        if cfg.isConfigured():
+            return True
+
+    except (FileNotFoundError, UnicodeDecodeError):
+        pass
+
+    # pylint: disable-next=broad-exception-caught
+    except Exception as exc:
+        logger.critical(f'Unhandled branch in code!\n{exc}\n{__file__}')
+
+    return False

@@ -26,9 +26,10 @@ from PyQt6.QtWidgets import (QDialog,
                              QLabel,
                              QPushButton)
 import core_events
+from konfig import Konfig
+from check_config import CheckConfigAgent
 import qttools
 import messagebox
-import bitbase
 from statedata import StateData
 from manageprofiles.tab_general import GeneralTab
 from manageprofiles.tab_remove_retention import RemoveRetentionTab
@@ -328,7 +329,11 @@ class SettingsDialog(QDialog):
         if not self.save_profile():
             return False
 
-        if not self.config.checkConfig(self.config.currentProfile()):
+        profile_id = self.config.currentProfile()
+        profile = Konfig().profile(profile_id)
+
+        agent = CheckConfigAgent(profile)
+        if agent.check() is False:
             return False
 
         # This will raise exceptions in case of errors

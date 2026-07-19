@@ -13,9 +13,8 @@ from unittest.mock import Mock
 # Workaround: gettext isn't initialized
 import builtins
 builtins._ = lambda txt: txt
-from qttools_path import register_backintime_path
+from qttools_path import register_backintime_path  # noqa: E402
 register_backintime_path('common')
-import mount
 from profile_operations import ProfileOperations  # noqa: E402
 
 
