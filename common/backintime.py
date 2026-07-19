@@ -41,8 +41,7 @@ def takeSnapshotAsync(cfg, checksum=False):
     if '1' != cfg.currentProfile():
         cmd.extend(('--profile', str(cfg.currentProfile())))
 
-    if cfg._LOCAL_CONFIG_PATH is not cfg._DEFAULT_CONFIG_PATH:
-        cmd.extend(('--config', cfg._LOCAL_CONFIG_PATH))
+    cmd.extend(('--config', str(bitbase.context['--config'])))
 
     # if cfg._LOCAL_DATA_FOLDER is not cfg._DEFAULT_LOCAL_DATA_FOLDER:
     #     cmd.extend(('--share-path', cfg.DATA_FOLDER_ROOT))
