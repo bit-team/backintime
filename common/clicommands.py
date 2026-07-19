@@ -74,12 +74,17 @@ def show_deprecation_message(cmd_flag: str):
 
 def _get_config(args: argparse.Namespace) -> config.Config:
     """A dirty little helper. Feel free to refactor."""
-    return cli.get_config_and_select_profile(
+
+    # Crreate a Konfig instance
+    cli.get_config_and_select_profile(
         config_path=bitbase.context['--config'],  # args.config,
         # data_path=args.share_path,
         pid_or_name=args.profile
         # checksum=getattr(args, 'checksum', None)
     )
+
+    # A surrogate using Konfig() in the back
+    return config.Config()
 
 
 def backup(args: argparse.Namespace, force: bool = True):

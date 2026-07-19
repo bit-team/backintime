@@ -2594,7 +2594,6 @@ def load_state_data(cfg: config.Config) -> None:
 if __name__ == '__main__':
     cfg = backintime.startApp(bitbase.BINARY_NAME_GUI)
 
-    print(f'B {bitbase.context=}')
     raiseCmd = ''
     if len(sys.argv) > 1:
         raiseCmd = '\n'.join(sys.argv[1:])
