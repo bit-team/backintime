@@ -140,7 +140,6 @@ def startApp(bin_name: str) -> config.Config | None:
         # check=False
     )
 
-    print(f'A {bitbase.context=}')
     # Workaround: For the current time we use "Config" as surrogate, that is
     # using the real "Konfig" in the back.
     return config.Config()

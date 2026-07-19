@@ -758,8 +758,6 @@ class Profile:  # pylint: disable=too-many-public-methods
             'values': '20|30|80'
         }
         """
-        val = self['snapshots.remove_old_snapshots.unit']
-        print(f'XXX {val=} {type(val)=}')  # DEBUG
         return TimeUnit(int(self['snapshots.remove_old_snapshots.unit']))
 
     @remove_old_snapshots_unit.setter

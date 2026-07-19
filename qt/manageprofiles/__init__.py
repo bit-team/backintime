@@ -330,7 +330,7 @@ class SettingsDialog(QDialog):
             return False
 
         profile_id = self.config.currentProfile()
-        profile = Konfig().profile(profile_id)
+        profile = Konfig().profile(int(profile_id))
 
         agent = CheckConfigAgent(profile)
         if agent.check() is False:
