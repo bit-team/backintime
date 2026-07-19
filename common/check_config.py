@@ -14,6 +14,7 @@ The code was extracted and decoupled from config.py
 from typing import Optional
 import logger
 import core_events
+import config
 from konfig import Konfig, Profile
 from mount import MountManager
 
@@ -35,7 +36,7 @@ class CheckConfigAgent:  # pylint: disable=too-few-public-methods
         """Check the configuration of one profile"""
         logger.debug(f'Check {profile}')
 
-        mount_manager = MountManager.create(self)
+        mount_manager = MountManager.create(config.Config())
         mount_path = mount_manager.path
         # snapshots_path = one_profile.snapshots_path
 
