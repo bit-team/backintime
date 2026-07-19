@@ -1234,6 +1234,10 @@ class Konfig(metaclass=singleton.Singleton):
     def __delitem__(self, key: str) -> None:
         self._config_parser.remove_option(self._DEFAULT_SECTION, key)
 
+    def delete_this_instance(self):
+        """Delete this (singleton) instances."""
+        singleton.Singleton.remove_instance(__class__)
+
     @staticmethod
     def to_bool(value: str) -> bool:
         return {

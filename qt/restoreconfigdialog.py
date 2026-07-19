@@ -126,7 +126,7 @@ class RestoreConfigDialog(QDialog):
             | QDialogButtonBox.StandardButton.Cancel,
             self
         )
-        btn_box.accepted.connect(self.accept)
+        # btn_box.accepted.connect(self.accept)
         btn_box.rejected.connect(self.reject)
 
         self._btn_restore = btn_box.button(QDialogButtonBox.StandardButton.Ok)
@@ -283,6 +283,12 @@ class RestoreConfigDialog(QDialog):
         If there was a config found inside the selected folder, show
         available information about the config.
         """
+
+        if self._config_to_restore is not None:
+            # Reset the singleton instance
+            self._config_to_restore.delete_this_instance()
+            self._config_to_restore = None
+
         # pylint: disable=protected-access
         fp = self._path_from_index(current)
         cfg = _get_valid_konfig(fp / bitbase.FILENAME_CONFIG)
@@ -372,15 +378,22 @@ class RestoreConfigDialog(QDialog):
 
         self._tree_model.setFilter(flags)
 
-    def accept(self):
-        """
-        handle over the dict from the selected config. The dict contains
-        all settings from the config.
-        """
-        if self._config_to_restore:
-            self.config = self._config_to_restore
+    # def accept(self):
+    #     """
+    #     handle over the dict from the selected config. The dict contains
+    #     all settings from the config.
+    #     """
+    #     if self._config_to_restore:
+    #         self.config = self._config_to_restore
 
-        super().accept()
+    #     super().accept()
+
+    def reject(self):
+        """Dialog was cancled."""
+        if self._config_to_restore:
+            self._config_to_restore.delete_this_instance()
+
+        super().reject()
 
     def exec(self):
         """
@@ -515,6 +528,8 @@ def _get_valid_konfig(path: Path) -> Konfig | None:
         for profile in cfg.iter_profiles():
             logger.debug(f'Is {profile=} configured...')
             if not profile.snapshots_path or not profile.includes:
+                # Remove the singleton instance
+                cfg.delete_this_instance()
                 return None
 
         return cfg
@@ -526,6 +541,8 @@ def _get_valid_konfig(path: Path) -> Konfig | None:
     except Exception as exc:
         logger.critical(f'Unhandled branch in code!\n{exc}\n{__file__}')
 
+    # Remove the singleton instance
+    cfg.delete_this_instance()
     return None
 
 
