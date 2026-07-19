@@ -163,6 +163,10 @@ class SnapshotLog:
     ALL = 3
 
     def __init__(self, cfg, profile=None):
+        print(f'\n XXX {cfg=}')  # DEBUG
+        # pylint: disable-next=invalid-name
+        self.logFile = None
+
         self.config = cfg
 
         if profile:
@@ -174,8 +178,6 @@ class SnapshotLog:
         self.logLevel = cfg.logLevel()
         # pylint: disable-next=invalid-name
         self.logFileName = cfg.takeSnapshotLogFile(self.profile)
-        # pylint: disable-next=invalid-name
-        self.logFile = None
 
         self.timer = tools.Alarm(self.flush, overwrite=False)
 
