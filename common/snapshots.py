@@ -1233,8 +1233,7 @@ class Snapshots:
         """
         self.setTakeSnapshotMessage(0, _('Saving config file…'))
 
-        with open(self.config._LOCAL_CONFIG_PATH, 'rb') as src:
-
+        with open(bitbase.context['--config'], 'rb') as src:
             with open(sid.path('config'), 'wb') as dst1:
                 dst1.write(src.read())
 
