@@ -928,9 +928,18 @@ class ActionPrintLicense(argparse.Action):
         text_gpl = bitlicense.get_gpl_short_text()
         text_licenses = bitlicense.TXT_LICENSES.format(
                 dir_link=bitlicense.DIR_LICENSES,
-                readme_link=bitlicense.DIR_LICENSES.parent / 'LICENSES.md')
+                readme_link=bitlicense.DIR_LICENSES.parent / 'LICENSES.md'
+        )
 
-        print(f'{text_gpl}\n{text_licenses}')
+        print(
+            text_gpl
+            + '\n'
+            + f'{bitbase.APP_NAME} comes with ABSOLUTELY NO WARRANTY. '
+            'This is free software, and you are welcome to redistribute it '
+            'under certain conditions'
+            + '\n\n'
+            + text_licenses
+        )
 
         sys.exit(bitbase.RETURN_OK)
 

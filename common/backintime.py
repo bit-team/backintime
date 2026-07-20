@@ -120,7 +120,7 @@ def startApp(bin_name: str) -> config.Config | None:
 
     # No arguments/commands
     cli.set_quiet(args)
-    cli.print_header()
+    print(bitbase.APP_HEADER)
 
     return cli.get_config_and_select_profile(
         config_path=args.config,

@@ -11,6 +11,7 @@ See also bitlicense.py for additional constants and logic."""
 import os
 from enum import Enum
 from pathlib import Path
+from version import __version__
 
 # |-------------|
 # | Application |
@@ -18,6 +19,7 @@ from pathlib import Path
 
 # Used as a label in the GUI. Not sure if this should be translatable.
 APP_NAME = 'Back In Time'
+APP_HEADER = f'{APP_NAME} {__version__}'
 
 BINARY_NAME_BASE = 'backintime'
 BINARY_NAME_CLI = f'{BINARY_NAME_BASE}'
