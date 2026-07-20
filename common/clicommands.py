@@ -123,7 +123,7 @@ def _do_backup(args: argparse.Namespace, force: bool):
         SystemExit:     0 if successful, 1 if not
     """
     cli.set_quiet(args)
-    cli.print_header()
+    print(bitbase.APP_HEADER)
     cfg = _get_config(args)
 
     tools.envLoad(bitbase.CRON_ENV_PATH)
@@ -165,7 +165,7 @@ def check_config(args: argparse.Namespace):
 
     """
     force_stdout = cli.set_quiet(args)
-    cli.print_header()
+    print(bitbase.APP_HEADER)
     cfg = _get_config(args)
 
     msg = f'\nConfig {cfg._LOCAL_CONFIG_PATH} profile ' \
@@ -247,7 +247,7 @@ def pw_cache(args: argparse.Namespace):
         SystemExit: 0 if daemon is running, 1 if not.
     """
     force_stdout = cli.set_quiet(args)
-    cli.print_header()
+    print(bitbase.APP_HEADER)
 
     cfg = _get_config(args)
     ret = bitbase.RETURN_OK
@@ -288,7 +288,7 @@ def remove(args: argparse.Namespace):
         SystemExit: 0
     """
     cli.set_quiet(args)
-    cli.print_header()
+    print(bitbase.APP_HEADER)
 
     cfg = _get_config(args)
 
@@ -328,7 +328,7 @@ def restore(args: argparse.Namespace):
         SystemExit: 0
     """
     cli.set_quiet(args)
-    cli.print_header()
+    print(bitbase.APP_HEADER)
     cfg = _get_config(args)
 
     if cfg.backupOnRestore() and not args.no_local_backup:
@@ -366,7 +366,7 @@ def shutdown(args: argparse.Namespace):
 
     """
     cli.set_quiet(args)
-    cli.print_header()
+    print(bitbase.APP_HEADER)
     cfg = _get_config(args)
 
     sd = ShutdownAgent()
@@ -562,7 +562,7 @@ def prune(args: argparse.Namespace):
         SystemExit: 0 if okay. 2 if Remove & Retention is not configured.
     """
     cli.set_quiet(args)
-    cli.print_header()
+    print(bitbase.APP_HEADER)
     cfg = _get_config(args)
 
     sn = snapshots.Snapshots(cfg)

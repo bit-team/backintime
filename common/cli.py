@@ -372,19 +372,6 @@ def set_quiet(quiet: bool):
     return force_stdout
 
 
-def print_header():
-    """Print application name, version and legal notes."""
-    print(
-        f'\n{bitbase.APP_NAME}\n'
-        f'Version: {__version__}\n'
-        '\n'
-        'Back In Time comes with ABSOLUTELY NO WARRANTY.\n'
-        'This is free software, and you are welcome to redistribute it\n'
-        "under certain conditions; type `backintime --license' for details.\n"
-        '\n'
-    )
-
-
 def detect_cipher_settings() -> tuple[str, str, str]:
     """See issue #2176."""
     result = []

@@ -127,7 +127,7 @@ def startApp(bin_name: str) -> config.Config | None:
         return None
 
     # No arguments/commands
-    cli.print_header()
+    print(bitbase.APP_HEADER)
 
     # This loads the real/new "Konfig"
     _real_konfig = cli.get_config_and_select_profile(
