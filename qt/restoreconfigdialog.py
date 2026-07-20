@@ -527,7 +527,7 @@ def _get_valid_konfig(path: Path) -> Konfig | None:
         # is "configured"?
         for profile in cfg.iter_profiles():
             logger.debug(f'Is {profile=} configured...')
-            if not profile.snapshots_path or not profile.includes:
+            if not profile.snapshots_path or not profile.include:
                 # Remove the singleton instance
                 cfg.delete_this_instance()
                 return None
@@ -536,10 +536,6 @@ def _get_valid_konfig(path: Path) -> Konfig | None:
 
     except (FileNotFoundError, UnicodeDecodeError):
         pass
-
-    # pylint: disable-next=broad-exception-caught
-    except Exception as exc:
-        logger.critical(f'Unhandled branch in code!\n{exc}\n{__file__}')
 
     # Remove the singleton instance
     cfg.delete_this_instance()
@@ -555,10 +551,6 @@ def _get_valid_config(path: Path) -> Config | None:
     except (FileNotFoundError, UnicodeDecodeError):
         pass
 
-    # pylint: disable-next=broad-exception-caught
-    except Exception as exc:
-        logger.critical(f'Unhandled branch in code!\n{exc}\n{__file__}')
-
     return None
 
 
@@ -570,9 +562,5 @@ def _is_valid_config(path: Path) -> bool:
 
     except (FileNotFoundError, UnicodeDecodeError):
         pass
-
-    # pylint: disable-next=broad-exception-caught
-    except Exception as exc:
-        logger.critical(f'Unhandled branch in code!\n{exc}\n{__file__}')
 
     return False
