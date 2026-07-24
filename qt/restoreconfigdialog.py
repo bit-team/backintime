@@ -396,7 +396,7 @@ class RestoreConfigDialog(QDialog):
     #     super().accept()
 
     def reject(self):
-        """Dialog was cancled."""
+        """Dialog was canceled."""
         if self._config_to_restore:
             self._config_to_restore.delete_this_instance()
 
