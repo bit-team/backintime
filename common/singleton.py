@@ -63,7 +63,7 @@ Example ::
 class Singleton(type):
     """Singleton implementation supporting inheritance and multiple classes."""
 
-    _instances = {}
+    _instances = {}  # noqa: RUF012
     """Hold single instances of multiple classes."""
 
     def __call__(cls, *args, **kwargs):

@@ -15,7 +15,6 @@ import re
 from pathlib import Path
 from datetime import datetime, timezone
 from copy import deepcopy
-from typing import Optional
 from qttools_path import register_backintime_path
 register_backintime_path('common')
 import singleton  # noqa: E402
@@ -37,7 +36,7 @@ class StateData(dict, metaclass=singleton.Singleton):
     # pylint: disable=too-many-instance-attributes
     # The default structure. All properties do rely on them and assuming
     # it is there.
-    _EMPTY_STRUCT = {
+    _EMPTY_STRUCT = {  # noqa: RUF012
         'gui': {
             'mainwindow': {
                 'files_view': {},
@@ -154,7 +153,7 @@ class StateData(dict, metaclass=singleton.Singleton):
         return fp
 
     @staticmethod
-    def _extract_config_path_from_args() -> Optional[str]:
+    def _extract_config_path_from_args() -> str | None:
         """Get the config path from the CLI arguments.
 
         A workaround."""
@@ -173,7 +172,7 @@ class StateData(dict, metaclass=singleton.Singleton):
 
         return None
 
-    def __init__(self, data: dict = None):
+    def __init__(self, data: dict | None = None):
         """Constructor."""
 
         # default
@@ -189,7 +188,7 @@ class StateData(dict, metaclass=singleton.Singleton):
 
     def _set_save_meta_data(self):
         meta = {
-            'saved': datetime.now().isoformat(),
+            'saved': datetime.now().isoformat(),  # noqa: DTZ005
             'saved_utc': datetime.now(timezone.utc).isoformat(),
             'bitversion': __version__,
         }

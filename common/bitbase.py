@@ -50,11 +50,15 @@ context = {
 
 # Used in about dialog to add language independent translator credits
 TRANSLATION_CREDITS_MISC = (
-    'Launchpad translators <https://translations.launchpad.net/backintime/'
-    'trunk/+pots/back-in-time>',
+    (
+        'Launchpad translators <https://translations.launchpad.net/backintime/'
+        'trunk/+pots/back-in-time>'
+    ),
     'https://www.reddit.com/r/translator',
-    'Several mailing lists in Debian (@lists.debian.org) & Ubuntu '
-    '(@lists.ubuntu.com) especially the user related lists',
+    (
+        'Several mailing lists in Debian (@lists.debian.org) & Ubuntu '
+        '(@lists.ubuntu.com) especially the user related lists'
+    ),
 )
 
 
@@ -178,7 +182,7 @@ class ScheduleMode(Enum):
     MINUTES_10 = 4
     MINUTES_30 = 7
     HOUR = 10
-    HOUR_1 = 10
+    HOUR_1 = 10  # noqa: PIE796
     HOURS_2 = 12
     HOURS_4 = 14
     HOURS_6 = 16

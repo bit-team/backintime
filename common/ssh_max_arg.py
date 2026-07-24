@@ -71,7 +71,7 @@ def probe_max_ssh_command_size(
     except OSError as exc:
         # Only handle "Argument to long error"
         if exc.errno != _ERR_CODE_E2BIG:
-            raise exc
+            raise
 
         report_test(
             ssh_command_size,

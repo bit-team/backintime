@@ -77,7 +77,7 @@ class LanguageDialog(QDialog):
         r.lang_code = lang_code
 
         # Is it the current used AND configured language?
-        if (r.lang_code == self.used_language_code
+        if (r.lang_code == self.used_language_code  # noqa: SIM114
                 and r.lang_code == self.configured_language_code):
 
             r.setChecked(True)

@@ -53,7 +53,7 @@ class ScheduleWidget(QGroupBox):
         def _create_form_entry(
                 label: str,
                 widget: QWidget = None,
-                tooltip: str = None) -> int:
+                tooltip: str | None = None) -> int:
             """Helper to create a row with a label and widget in the form
             layout.
 
@@ -217,7 +217,7 @@ class ScheduleWidget(QGroupBox):
         # {0: '00:00', 100: '01:00', ..., 2200: '22:00', 2300: '23:00'}
         times = {
             val*100: datetime.time(val, 0).strftime('%H:%M')
-            for val in range(0, 24)
+            for val in range(24)
         }
         return combobox.BitComboBox(self, times)
 
@@ -336,7 +336,8 @@ class ScheduleWidget(QGroupBox):
             bool: Success or not.
         """
 
-        if self._combo_schedule_mode.current_data == cfg.CUSTOM_HOUR:
+        current_data = self._combo_schedule_mode.current_data
+        if current_data == cfg.CUSTOM_HOUR:  # noqa: SIM102
             # Dev note (buhtz, 2024-05): IMHO checkCronPattern() is not needed
             # because the "crontab" command itself will validate this. See
             # schedule.write_crontab().
@@ -347,11 +348,11 @@ class ScheduleWidget(QGroupBox):
             # the schedule section in the Manage Profiles dialog.
             if not tools.checkCronPattern(self._edit_cronpattern.text()):
 
-                cfg.errorHandler(
-                    _('Custom hours can only be a comma separated list of '
-                      'hours (e.g. 8,12,18,23) or */3 for periodic '
-                      'backups every 3 hours.')
-                )
+                cfg.errorHandler(_(
+                    'Custom hours can only be a comma separated list of '
+                    'hours (e.g. 8,12,18,23) or */3 for periodic '
+                    'backups every 3 hours.'
+                ))
 
                 return False
 

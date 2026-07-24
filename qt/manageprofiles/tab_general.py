@@ -699,10 +699,9 @@ class GeneralTab(QDialog):
             return
 
         # gocryptfs destination need to be empty
-        if 'gocryptfs' in self.mode:
-            # is not empty
-            if not self._is_empty_or_initialized_gocryptfs(path):
-                return
+        if ('gocryptfs' in self.mode
+                and not self._is_empty_or_initialized_gocryptfs(path)):
+            return
 
         # Really change?
         if old_path != Path('.'):

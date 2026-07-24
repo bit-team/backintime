@@ -17,7 +17,8 @@ import threading
 import subprocess
 import socket
 import configparser
-from typing import Any, Generator
+from typing import Any
+from collections.abc import Generator
 from pathlib import Path
 from queue import Queue
 import logger
@@ -200,7 +201,7 @@ class RestoreConfigDialog(QDialog):
         sample_path = Path.home() / 'backintime' \
             / socket.gethostname() \
             / getpass.getuser() / '1' / '20250203-172341-123'
-        sample_path = f'</ br><code>{str(sample_path)}</code>'
+        sample_path = f'<br /><code>{sample_path!s}</code>'
 
         text_a = _(
             'Select the backup directory from which the configuration '

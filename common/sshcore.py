@@ -15,7 +15,6 @@ from __future__ import annotations
 import socket
 import ipaddress
 import subprocess
-from typing import Optional
 from pathlib import Path
 import bitbase
 import logger
@@ -27,13 +26,13 @@ class SSHHost:
     DEFAULT_PORT = bitbase.DEFAULT_SSH_PORT
 
     # pylint: disable-next=too-many-arguments,too-many-positional-arguments
-    def __init__(  # noqa: PLR0913
+    def __init__(  # noqa: PLR0913, PLR0917
             self,
             host: str,
-            user: str = None,
+            user: str | None = None,
             port: int = DEFAULT_PORT,
-            priv_key_file: str = None,
-            proxy: Optional[SSHHost] = None,
+            priv_key_file: str | None = None,
+            proxy: SSHHost | None = None,
             path: str = './',
     ):
         self.host = self.ensure_ipv6_brackets(host)

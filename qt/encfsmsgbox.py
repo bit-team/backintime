@@ -24,9 +24,12 @@ class _EncfsWarningBase(QMessageBox):
                  text,
                  informative_text,
                  button_label=None,
-                 title=_('Warning'),
+                 title=None,
                  icon=QMessageBox.Icon.Warning):
         super().__init__()
+
+        if title is None:
+            title = _('Warning')
 
         self.setWindowTitle(title)
         self.setIcon(icon)

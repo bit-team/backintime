@@ -22,7 +22,6 @@ import subprocess
 import shutil
 import atexit
 import signal
-from typing import Optional
 from pathlib import Path
 import logger
 import sshcore
@@ -39,7 +38,7 @@ class SSHSetupError(ApplicationError):
     def __init__(
             self,
             log_msg: str,
-            gui_msg: Optional[str] = None
+            gui_msg: str | None = None
     ):
         super().__init__(log_msg=log_msg, gui_msg=gui_msg)
 
@@ -333,8 +332,9 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
 
         proc = subprocess.run(
             [path, '--version'],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
+            # stdout=subprocess.PIPE,
+            # stderr=subprocess.PIPE,
             text=True,
             check=False
         )
@@ -359,8 +359,9 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
         for host in hosts_to_check:
             proc = subprocess.run(
                 ['ssh-keygen', '-F', host],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
+                capture_output=True,
+                # stdout=subprocess.PIPE,
+                # stderr=subprocess.PIPE,
                 text=True,
                 check=False
             )

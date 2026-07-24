@@ -14,7 +14,8 @@ import configparser
 import getpass
 import socket
 import re
-from typing import Union, Any, Optional
+from types import MappingProxyType
+from typing import Any
 from pathlib import Path
 from io import StringIO, TextIOWrapper
 import singleton
@@ -45,7 +46,7 @@ else:
 
 class Profile:  # pylint: disable=too-many-public-methods
     """Manages access to profile-specific configuration data."""
-    _DEFAULT_VALUES = {
+    _DEFAULT_VALUES = MappingProxyType({
         'name': _('Main profile'),  # A workaround we will get rid of soon
         'snapshots.mode': 'local',
         'snapshots.path': '',
@@ -132,7 +133,7 @@ class Profile:  # pylint: disable=too-many-public-methods
         'snapshots.use_checksum': 'false',
         'snapshots.log_level': 3,
         'snapshots.take_snapshot_regardless_of_changes': 'false',
-    }
+    })
 
     def __init__(self, profile_id: int, config: Konfig):
         self._config = config
@@ -177,11 +178,12 @@ class Profile:  # pylint: disable=too-many-public-methods
         result = self['name']
 
         # Workaround
-        if result == self._DEFAULT_VALUES['name']:
-            if self._prefix != 'profile1':
-                raise RuntimeError(
-                    f'Unexpected situation. {result=} {self._prefix=}'
-                )
+        if (result == self._DEFAULT_VALUES['name']
+                and self._prefix != 'profile1'):
+
+            raise RuntimeError(
+                f'Unexpected situation. {result=} {self._prefix=}'
+            )
 
         return result
 
@@ -341,7 +343,7 @@ class Profile:  # pylint: disable=too-many-public-methods
         self['snapshots.ssh.user'] = value
 
     @property
-    def ssh_private_key_file(self) -> Optional[Path]:
+    def ssh_private_key_file(self) -> Path | None:
         """Private key file used for password-less authentication on remote
         host.
 
@@ -377,7 +379,7 @@ class Profile:  # pylint: disable=too-many-public-methods
         self['snapshots.ssh.proxy_host'] = value
 
     @property
-    def ssh_proxy_port(self) -> Optional[int]:
+    def ssh_proxy_port(self) -> int | None:
         """Port of SSH proxy (jump) host used to connect to remote host.
 
         {
@@ -632,7 +634,7 @@ class Profile:  # pylint: disable=too-many-public-methods
         return ScheduleMode(int(self['schedule.mode']))
 
     @schedule_mode.setter
-    def schedule_mode(self, value: Union[int, ScheduleMode]) -> None:
+    def schedule_mode(self, value: int | ScheduleMode) -> None:
         if isinstance(value, ScheduleMode):
             value = value.value
         self['schedule.mode'] = str(value)
@@ -1200,14 +1202,14 @@ class Konfig(metaclass=singleton.Singleton):
         That class is a replacement for the `config.Config` class.
     """
 
-    _DEFAULT_VALUES = {
+    _DEFAULT_VALUES = MappingProxyType({
         'global.language': '',
         'global.systray': 'auto',
         'global.use_flock': 'false',
         'internal.manual_starts_countdown': 10,
         'qt.diff.cmd': DIFF_CMD,
         'qt.diff.params': '%1 %2',
-    }
+    })
 
     _DEFAULT_SECTION = 'bit'
 
@@ -1245,7 +1247,7 @@ class Konfig(metaclass=singleton.Singleton):
             'false': False
         }[value.lower()]
 
-    def profile(self, name_or_id: Union[str, int]) -> Profile:
+    def profile(self, name_or_id: str | int) -> Profile:
         """Return a `Profile` object related to the given name or id.
 
         Args:
@@ -1262,7 +1264,7 @@ class Konfig(metaclass=singleton.Singleton):
 
         return Profile(profile_id=profile_id, config=self)
 
-    def has_profile(self, name_or_id: Union[str, int]) -> bool:
+    def has_profile(self, name_or_id: str | int) -> bool:
         """Check if the profile exists"""
         try:
             self.profile(name_or_id)
@@ -1364,7 +1366,7 @@ class Konfig(metaclass=singleton.Singleton):
         # gap found
         return free_pid
 
-    def load(self, buffer_or_path: Union[Path, TextIOWrapper, StringIO]):
+    def load(self, buffer_or_path: Path | TextIOWrapper | StringIO):
         """Load configuration from file like object.
 
         Args:
@@ -1403,7 +1405,7 @@ class Konfig(metaclass=singleton.Singleton):
 
         self._profiles = self._profile_list()
 
-    def save(self, buffer_or_path: Union[Path, TextIOWrapper, StringIO]):
+    def save(self, buffer_or_path: Path | TextIOWrapper | StringIO):
         """Store configuration to a file."""
 
         self._unsaved_profiles = []
@@ -1423,7 +1425,7 @@ class Konfig(metaclass=singleton.Singleton):
 
         return True
 
-    def is_profile_unsaved(self, name_or_id: Union[str, int]) -> bool:
+    def is_profile_unsaved(self, name_or_id: str | int) -> bool:
         """Was the profile ever saved?
 
         Don't confuse this with is-modified.

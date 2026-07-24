@@ -11,7 +11,6 @@
 
 The code was extracted and decoupled from config.py
 """
-from typing import Optional
 import logger
 import core_events
 import config
@@ -21,7 +20,7 @@ from mount import MountManager
 
 class CheckConfigAgent:  # pylint: disable=too-few-public-methods
     """An agent manage some checkups of the configuration."""
-    def __init__(self, profile: Optional[Profile] = None):
+    def __init__(self, profile: Profile | None = None):
         self._profiles = None
 
         # Ensure a list of profiles
@@ -85,21 +84,21 @@ class CheckConfigAgent:  # pylint: disable=too-few-public-methods
 
                 return False
 
-            if len(path) >= len(snapshots_path2):
-                if path[: len(snapshots_path2)] == snapshots_path2:
-                    core_events.event_error.notify(
-                        _('Profile: "{name}"').format(name=profile.name)
-                        + '\n'
-                        + _('Directory: {path}').format(path=path)
-                        + '\n'
-                        + _(
-                            'This directory cannot be included in the '
-                            'backup as it is part of the backup '
-                            'destination itself.'
-                        )
+            if (len(path) >= len(snapshots_path2)
+                    and path[: len(snapshots_path2)] == snapshots_path2):
+                core_events.event_error.notify(
+                    _('Profile: "{name}"').format(name=profile.name)
+                    + '\n'
+                    + _('Directory: {path}').format(path=path)
+                    + '\n'
+                    + _(
+                        'This directory cannot be included in the '
+                        'backup as it is part of the backup '
+                        'destination itself.'
                     )
+                )
 
-                    return False
+                return False
 
         # check warn free space
         if profile.warn_free_space_enabled and profile.min_free_space_enabled:

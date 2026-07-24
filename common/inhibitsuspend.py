@@ -20,7 +20,10 @@ import bitbase
 class InhibitSuspend:
     """Context manager to prevent machine to go to suspend or hibernate."""
 
-    def __init__(self, reason: str = None, app_id: str = None):
+    def __init__(self,
+                 reason: str | None = None,
+                 app_id: str | None = None):
+
         self.app_id = app_id if app_id else sys.argv[0]
         self.reason = reason if reason else 'take snapshot'
         self.cookie = None

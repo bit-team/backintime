@@ -182,7 +182,7 @@ class SettingsDialog(QDialog):
             self._tab_retention.warn_free_space_value_changed)
 
     def _slot_add_profile(self):
-        ret_val = QInputDialog.getText(self, _('New profile'), str())
+        ret_val = QInputDialog.getText(self, _('New profile'), '')
         if not ret_val[1]:
             return
 
@@ -199,8 +199,11 @@ class SettingsDialog(QDialog):
 
     def _slot_edit_profile(self):
         ret_val = QInputDialog.getText(
-            self, _('Rename profile'), str(),
-            text=self.config.profileName())
+            self,
+            _('Rename profile'),
+            '',
+            text=self.config.profileName()
+        )
 
         if not ret_val[1]:
             return

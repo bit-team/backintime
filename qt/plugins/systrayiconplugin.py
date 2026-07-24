@@ -72,9 +72,10 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
                 return True
 
         # pylint: disable-next=broad-exception-caught
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001
             logger.debug(
-                f'Could not ask Qt if system tray is available: {repr(exc)}')
+                f'Could not ask Qt if system tray is available: {exc!r}'
+            )
 
         logger.debug(
             'No system tray available to show the BIT system tray icon')
@@ -132,7 +133,7 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
             return True
 
         # pylint: disable-next=broad-exception-caught
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001
             logger.critical(f'Faild to start systray: {exc}')
             self.process = None
             return False

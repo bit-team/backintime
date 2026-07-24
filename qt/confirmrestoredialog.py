@@ -10,6 +10,7 @@
 """Module offering a confirmation dialog shown before restoring backup elements
 starts.
 """
+# ruff: noqa: ISC004
 from PyQt6.QtWidgets import (QAbstractItemView,
                              QDialog,
                              QDialogButtonBox,

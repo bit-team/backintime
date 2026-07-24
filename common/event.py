@@ -39,7 +39,7 @@ Example :
                 print('data was modified')
 """
 from contextlib import contextmanager
-from typing import Callable
+from collections.abc import Callable
 
 
 class Event:
