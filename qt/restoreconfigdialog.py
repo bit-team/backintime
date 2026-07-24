@@ -310,56 +310,6 @@ class RestoreConfigDialog(QDialog):
 
         self._btn_restore.setEnabled(bool(cfg))
 
-    # def _expand_with_parents(self, index: QModelIndex):
-    #     stack = []
-
-    #     # Remember index's of the entry and all its parents
-    #     current = index
-    #     while current.isValid():
-    #         stack.insert(0, current)
-    #         current = current.parent()
-
-    #     def expand_next():
-    #         try:
-    #             idx = stack.pop(0)
-    #             print(
-    #                 'EXPAND',
-    #                 self._tree_model.filePath(idx),
-    #                 idx.isValid()
-    #             )
-    #             self._tree_view.expand(idx)
-
-    #             if not stack:
-    #                 self._tree_view.scrollTo(
-    #                     idx,
-    #                     QTreeView.ScrollHint.PositionAtCenter
-    #                 )
-
-    #             # Sligthely reduce slowdown/freeze because of resource
-    #             # hungry QFileSystemModel
-    #             QTimer.singleShot(2500, expand_next)
-
-    #         except IndexError:
-    #             pass
-
-    #     expand_next()
-
-    # def _expand_with_parents(self, index):
-    #     path = self._tree_model.filePath(index)
-
-    #     def expand_path():
-    #         idx = self._index_from_path(path)
-    #         if idx.isValid():
-    #             self._tree_view.expand(idx)
-    #             self._tree_model.fetchMore(idx)
-    #             self._tree_view.scrollTo(idx)
-
-    #     self._tree_model.directoryLoaded.connect(
-    #         lambda _: expand_path()
-    #     )
-
-    #     expand_path()
-
     def _expand_with_parents(self, index):
         indexes = []
 
@@ -379,7 +329,7 @@ class RestoreConfigDialog(QDialog):
             self._tree_view.expand(idx)
             self._tree_model.fetchMore(idx)
 
-            QTimer.singleShot(100, expand_next)
+            QTimer.singleShot(150, expand_next)
 
         expand_next()
 
@@ -620,7 +570,7 @@ def _get_valid_konfig(path: Path) -> Konfig | None:
 
         return cfg
 
-    except (FileNotFoundError, UnicodeDecodeError, configparser.ParsingError) as exc:
+    except (FileNotFoundError, UnicodeDecodeError, configparser.ParsingError):
         pass
 
     # Remove the singleton instance

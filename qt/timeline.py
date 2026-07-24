@@ -137,7 +137,7 @@ class TimeLine(QTreeWidget):
         # other than a default header.
         self._specific_month_boundary = None
 
-        self.clear_and_reset()
+        # self.clear_and_reset()
 
         self.itemSelectionChanged.connect(self._on_item_selection_changed)
 
@@ -154,7 +154,6 @@ class TimeLine(QTreeWidget):
 
     def clear_and_reset(self):
         """Remove all entries, recalculate header data and add 'Now' entry"""
-
         with qttools.block_paint_updates(self):
             super().clear()
             self._header_data = []

@@ -229,13 +229,12 @@ class MainWindow(QMainWindow):
 
         self._handle_release_candidate()
 
-        self._import_config_from_backup()
-
-        # if not self.config.isConfigured():
-        #     return
+        was_imported = self._import_config_from_backup()
 
         # populate lists
-        self.updateProfiles()
+        if not was_imported:
+            self.updateProfiles()
+
         self.comboProfiles.currentIndexChanged \
                           .connect(self.comboProfileChanged)
 
@@ -333,14 +332,11 @@ class MainWindow(QMainWindow):
             self._open_release_candidate_dialog()
 
     def _import_config_from_backup(self):
-        # if self.config.isConfigured():
-        #     return
-
         # config_fp = Path(self.config._LOCAL_CONFIG_PATH)
         config_fp = bitbase.context['--config']
 
         if config_fp.exists():
-            return
+            return False
 
         message = _(
             '{app_name} appears to be running for the first time because no '
@@ -370,12 +366,9 @@ class MainWindow(QMainWindow):
             if rc == QDialog.DialogCode.Rejected:
                 answer = btn_create
 
-        # # Create or Import rejected
-        # if answer == btn_create:
-        #     k = Konfig()
-        #     k.new_profile(_('Main profile'))
-
         SettingsDialog(self).exec()
+
+        return True
 
     def _message_about_encfs_config_backup(self):
         # e.g. '~/.config/backintime/config.encfs.backup'
@@ -1419,11 +1412,6 @@ class MainWindow(QMainWindow):
         backup_queue = queue.Queue()
 
         mount_manager = self._profile_operations.get_mount_manager()
-
-        # DEBUG
-        # if not tools.is_mounted(mount_manager.mount_root):
-        #     import traceback
-        #     traceback.print_stack(limit=4)
 
         def _worker():
             """Proceed all backups and put their timline related information
