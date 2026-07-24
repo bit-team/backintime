@@ -102,6 +102,12 @@ class Config:  # (configfile.ConfigFileWithProfiles):
                 (default: `~/.config/backintime/config`).
             data_path (str): It is $XDG_DATA_HOME (default: `~/.local/share`).
         """
+
+        # WORKAROUND
+        # This arguments shouldn't be used anymore. See "class Konfig"
+        if config_path or data_path:
+            raise RuntimeError(f'{config_path=} {data_path=}')
+
         # Note: The main profiles name here is translated using the systems
         # current locale because the language code in the config file wasn't
         # read yet.

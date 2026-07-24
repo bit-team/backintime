@@ -1370,6 +1370,9 @@ class Konfig(metaclass=singleton.Singleton):
         Args:
             buffer: A path object, an open text-file handle or a string
                 buffer ready to read.
+
+        Raises: FileNotFoundError, UnicodeDecodeError,
+            configparser.ParsingError
         """
 
         self._config_parser = configparser.ConfigParser(interpolation=None)

@@ -16,6 +16,7 @@ import getpass
 import threading
 import subprocess
 import socket
+import configparser
 from typing import Any, Generator
 from pathlib import Path
 from queue import Queue
@@ -126,7 +127,7 @@ class RestoreConfigDialog(QDialog):
             | QDialogButtonBox.StandardButton.Cancel,
             self
         )
-        # btn_box.accepted.connect(self.accept)
+        btn_box.accepted.connect(self.accept)
         btn_box.rejected.connect(self.reject)
 
         self._btn_restore = btn_box.button(QDialogButtonBox.StandardButton.Ok)
@@ -309,24 +310,76 @@ class RestoreConfigDialog(QDialog):
 
         self._btn_restore.setEnabled(bool(cfg))
 
-    def _expand_with_parents(self, index: QModelIndex):
-        stack = []
+    # def _expand_with_parents(self, index: QModelIndex):
+    #     stack = []
 
-        # Remember index's of the entry and all its parents
-        current = index
+    #     # Remember index's of the entry and all its parents
+    #     current = index
+    #     while current.isValid():
+    #         stack.insert(0, current)
+    #         current = current.parent()
+
+    #     def expand_next():
+    #         try:
+    #             idx = stack.pop(0)
+    #             print(
+    #                 'EXPAND',
+    #                 self._tree_model.filePath(idx),
+    #                 idx.isValid()
+    #             )
+    #             self._tree_view.expand(idx)
+
+    #             if not stack:
+    #                 self._tree_view.scrollTo(
+    #                     idx,
+    #                     QTreeView.ScrollHint.PositionAtCenter
+    #                 )
+
+    #             # Sligthely reduce slowdown/freeze because of resource
+    #             # hungry QFileSystemModel
+    #             QTimer.singleShot(2500, expand_next)
+
+    #         except IndexError:
+    #             pass
+
+    #     expand_next()
+
+    # def _expand_with_parents(self, index):
+    #     path = self._tree_model.filePath(index)
+
+    #     def expand_path():
+    #         idx = self._index_from_path(path)
+    #         if idx.isValid():
+    #             self._tree_view.expand(idx)
+    #             self._tree_model.fetchMore(idx)
+    #             self._tree_view.scrollTo(idx)
+
+    #     self._tree_model.directoryLoaded.connect(
+    #         lambda _: expand_path()
+    #     )
+
+    #     expand_path()
+
+    def _expand_with_parents(self, index):
+        indexes = []
+
+        current = index.parent()
+
         while current.isValid():
-            stack.insert(0, current)
+            indexes.insert(0, current)
             current = current.parent()
 
         def expand_next():
-            try:
-                self._tree_view.expand(stack.pop(0))
-                # Sligthely reduce slowdown/freeze because of resource
-                # hungry QFileSystemModel
-                QTimer.singleShot(50, expand_next)
+            if not indexes:
+                self._tree_view.scrollTo(index)
+                return
 
-            except IndexError:
-                pass
+            idx = indexes.pop(0)
+
+            self._tree_view.expand(idx)
+            self._tree_model.fetchMore(idx)
+
+            QTimer.singleShot(100, expand_next)
 
         expand_next()
 
@@ -340,9 +393,9 @@ class RestoreConfigDialog(QDialog):
         for row, profile in enumerate(cfg.iter_profiles()):
 
             for col, txt in enumerate((
-                    _('Profile:') + profile.profile_id,
+                    '{} {}'.format(_('Profile:'), profile.profile_id),
                     profile.name,
-                    _('Mode:') + profile.mode
+                    '{} {}'.format(_('Mode:'), profile.mode)
                     )):
                 self._grid_layout.addWidget(QLabel(txt, self), row, col)
 
@@ -354,8 +407,11 @@ class RestoreConfigDialog(QDialog):
 
         while not self._queue.empty():
             path = self._queue.get()
+
             self._tree_model.highlight_this(Path(path))
-            self._expand_with_parents(self._index_from_path(path))
+
+            idx = self._index_from_path(path)
+            self._expand_with_parents(idx)
 
         self._tree_view.setUpdatesEnabled(True)
 
@@ -425,10 +481,24 @@ class _CfgFileSystemModel(QFileSystemModel):
 
     def highlight_this(self, path: Path) -> None:
         """Remember the path to draw with different font"""
+        if path in self._paths:
+            return
+
         self._paths.append(path)
 
-        # notify (redraw) the view
-        self.layoutChanged.emit()
+        index = self.index(str(path))
+        if index.isValid():
+            self.dataChanged.emit(
+                index,
+                index,
+                [
+                    Qt.ItemDataRole.ForegroundRole,
+                    Qt.ItemDataRole.FontRole,
+                ],
+            )
+
+        # # notify (redraw) the view
+        # self.layoutChanged.emit()
 
     def data(self, index: QModelIndex, role: Qt.ItemDataRole) -> Any:
         """Draw an entry with bold font and highlted font color if in
@@ -446,7 +516,6 @@ class _CfgFileSystemModel(QFileSystemModel):
 
 class _ScanFileSystem(threading.Thread):
     """A thread scanning the file system for config files related to BIT."""
-    # foundConfig = pyqtSignal(str)
 
     def __init__(self, queue: Queue, stop_event=None):
         super().__init__()
@@ -456,6 +525,9 @@ class _ScanFileSystem(threading.Thread):
 
     def run(self):
         """Run several searches for config files"""
+
+        # Perform multiple scans starting with the most important parts
+        # of the filesystem
         search_paths = [
             str(Path.home()),
             '/media',
@@ -464,8 +536,10 @@ class _ScanFileSystem(threading.Thread):
         ]
 
         for path_to_scan in search_paths:
-            # Exclude the other dirs if searching in root
+
             if path_to_scan == search_paths[-1]:
+                # When scanning the root filesystem, exclude directories that
+                # were already scanned separately above.
                 excludes = search_paths[:-1][:]
             else:
                 excludes = []
@@ -474,7 +548,6 @@ class _ScanFileSystem(threading.Thread):
                 if self._stop_event.is_set():
                     return
 
-                # print(f'queue.put({found=}')
                 self._queue.put(found)
 
     def _scan(self, search_path: Path, excludes: list[str]
@@ -484,8 +557,19 @@ class _ScanFileSystem(threading.Thread):
         logger.debug(f'Scanning in {search_path} for config files', self)
         cmd = ['find', str(search_path)]
 
+        to_exclude = [
+            '/proc',
+            '/var',
+            '/sys',
+            '/tmp',
+            '/run',
+            '*/.git',
+            '*/__*',
+        ]
+        to_exclude = to_exclude + excludes
+
         # exclude directories: defaults + extras
-        for exclude in ['/proc', '/var', '/sys', '/tmp', '/run'] + excludes:
+        for exclude in to_exclude:
             cmd = cmd + ['(', '-path', exclude, '-prune', ')', '-o']
 
         cmd = cmd + [
@@ -497,6 +581,8 @@ class _ScanFileSystem(threading.Thread):
             '-print',
             ')'
         ]
+
+        logger.debug(f'Executing command {" ".join(cmd)}...')
 
         with subprocess.Popen(cmd,
                               stdout=subprocess.PIPE,
@@ -510,7 +596,7 @@ class _ScanFileSystem(threading.Thread):
 
                 path = Path(line.strip())
 
-                if _get_valid_config(path):
+                if _get_valid_konfig(path):
                     yield path.parent
 
     def stop(self):
@@ -526,15 +612,15 @@ def _get_valid_konfig(path: Path) -> Konfig | None:
 
         # is "configured"?
         for profile in cfg.iter_profiles():
-            logger.debug(f'Is {profile=} configured...')
             if not profile.snapshots_path or not profile.include:
                 # Remove the singleton instance
                 cfg.delete_this_instance()
+
                 return None
 
         return cfg
 
-    except (FileNotFoundError, UnicodeDecodeError):
+    except (FileNotFoundError, UnicodeDecodeError, configparser.ParsingError) as exc:
         pass
 
     # Remove the singleton instance
@@ -543,6 +629,7 @@ def _get_valid_konfig(path: Path) -> Konfig | None:
 
 
 def _get_valid_config(path: Path) -> Config | None:
+    raise RuntimeError('Use _get_valid_konfig() instead')
     try:
         cfg = Config(str(path))
         if cfg.isConfigured():

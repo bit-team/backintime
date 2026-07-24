@@ -163,7 +163,6 @@ class SnapshotLog:
     ALL = 3
 
     def __init__(self, cfg, profile=None):
-        print(f'\n XXX {cfg=}')  # DEBUG
         # pylint: disable-next=invalid-name
         self.logFile = None
 
