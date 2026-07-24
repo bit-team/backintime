@@ -47,7 +47,6 @@ from exceptions import MountException
 from statedata import StateData
 from filedialog import FileDialog
 from textdlg import TextDialog
-from konfig import Konfig
 from PyQt6.QtGui import (QAction,
                          QActionGroup,
                          QDesktopServices,
@@ -2518,24 +2517,40 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
 
         # Places: sorting
         sorting = (
-            cfg.the_dict().get(f'profile{profile_id}.qt.places.SortColumn', None),
-            cfg.the_dict().get(f'profile{profile_id}.qt.places.SortOrder', None)
+            cfg.the_dict().get(
+                f'profile{profile_id}.qt.places.SortColumn', None
+            ),
+            cfg.the_dict().get(
+                f'profile{profile_id}.qt.places.SortOrder', None
+            )
         )
         if all(sorting):
             profile_state.places_sorting = sorting
 
         # Manage profiles - Exclude tab: sorting
         sorting = (
-            cfg.the_dict().get(f'profile{profile_id}.qt.settingsdialog.exclude.SortColumn', None),
-            cfg.the_dict().get(f'profile{profile_id}.qt.settingsdialog.exclude.SortOrder', None)
+            cfg.the_dict().get(
+                f'profile{profile_id}.qt.settingsdialog.exclude.SortColumn',
+                None
+            ),
+            cfg.the_dict().get(
+                f'profile{profile_id}.qt.settingsdialog.exclude.SortOrder',
+                None
+            )
         )
         if all(sorting):
             profile_state.exclude_sorting = sorting
 
         # Manage profiles - Include tab: sorting
         sorting = (
-            cfg.the_dict().get(f'profile{profile_id}.qt.settingsdialog.include.SortColumn', None),
-            cfg.the_dict().get(f'profile{profile_id}.qt.settingsdialog.include.SortOrder', None)
+            cfg.the_dict().get(
+                f'profile{profile_id}.qt.settingsdialog.include.SortColumn',
+                None
+            ),
+            cfg.the_dict().get(
+                f'profile{profile_id}.qt.settingsdialog.include.SortOrder',
+                None
+            )
         )
         if all(sorting):
             profile_state.include_sorting = sorting

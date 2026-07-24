@@ -45,9 +45,9 @@ from PyQt6.QtCore import (Qt,
                           QDir,
                           QModelIndex,
                           QTimer)
+from konfig import Konfig
 import qttools
 from bitwidgets import Spinner
-from konfig import Konfig
 
 
 # pylint: disable-next=too-many-instance-attributes
@@ -343,9 +343,9 @@ class RestoreConfigDialog(QDialog):
         for row, profile in enumerate(cfg.iter_profiles()):
 
             for col, txt in enumerate((
-                    '{} {}'.format(_('Profile:'), profile.profile_id),
+                    _('Profile:') + f' {profile.profile_id}',
                     profile.name,
-                    '{} {}'.format(_('Mode:'), profile.mode)
+                    _('Mode:') + f' {profile.mode}'
                     )):
                 self._grid_layout.addWidget(QLabel(txt, self), row, col)
 
@@ -576,28 +576,3 @@ def _get_valid_konfig(path: Path) -> Konfig | None:
     # Remove the singleton instance
     cfg.delete_this_instance()
     return None
-
-
-def _get_valid_config(path: Path) -> Config | None:
-    raise RuntimeError('Use _get_valid_konfig() instead')
-    try:
-        cfg = Config(str(path))
-        if cfg.isConfigured():
-            return cfg
-
-    except (FileNotFoundError, UnicodeDecodeError):
-        pass
-
-    return None
-
-
-def _is_valid_config(path: Path) -> bool:
-    try:
-        cfg = Config(str(path))
-        if cfg.isConfigured():
-            return True
-
-    except (FileNotFoundError, UnicodeDecodeError):
-        pass
-
-    return False

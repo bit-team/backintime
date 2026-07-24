@@ -165,10 +165,10 @@ def check_config(args: argparse.Namespace):
 
     """
     force_stdout = cli.set_quiet(args)
-    print(bitbase.APP_HEADER)
+    print(bitbase.APP_HEADER, file=force_stdout)
     cfg = _get_config(args)
 
-    msg = f'\nConfig {cfg._LOCAL_CONFIG_PATH} profile ' \
+    msg = f'Config {bitbase.context["--config"]} profile ' \
           f"'{cfg.profileName()}'"
 
     if cli.checkConfig(cfg, crontab=not args.no_crontab):
