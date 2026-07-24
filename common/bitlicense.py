@@ -21,7 +21,7 @@ COPYRIGHT = 'Copyright © 2008-2024 ' \
 URL_GPL_TWO = 'https://spdx.org/licenses/GPL-2.0-or-later.html'
 
 
-def get_gpl_short_text(href: str = None) -> str:
+def get_gpl_short_text(href: str | None = None) -> str:
     """Short description of primary license.
 
     The string is used in the AboutDialog and when using --license on shell.
@@ -42,7 +42,8 @@ def get_gpl_short_text(href: str = None) -> str:
 TXT_LICENSES = _(
     'All licenses used in this project are located in the {dir_link} '
     'directory. To extract per-file license and copyright information '
-    'using SPDX metadata, refer to {readme_link}.')
+    'using SPDX metadata, refer to {readme_link}.'
+)
 
 
 def _determine_licenses_dir() -> str | None:

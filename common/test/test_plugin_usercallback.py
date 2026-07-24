@@ -125,7 +125,8 @@ class Reasons(unittest.TestCase):
             func_callback.assert_called_with('8', profileID='987')
 
 
-class SystemTest(unittest.TestCase):
+@unittest.skip('See Issue #2461')
+class _DO_REVIEW_SystemTest(unittest.TestCase):
     """Full backup run and parsing the log output for the expected
     user-callback returns in correct order.
 

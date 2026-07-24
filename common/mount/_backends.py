@@ -19,6 +19,13 @@ from sshcore import SSHHost
 from ._error import MountError
 
 
+try:
+    _('Warning')
+except NameError:
+    def _(val):
+        return val
+
+
 class Backend:
     """Base class for mount backends"""
 
@@ -200,7 +207,7 @@ class SSHBackend(Backend):
             cmd,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.PIPE,
-            universal_newlines=True,
+            text=True,
             check=False
         )
 
@@ -366,8 +373,7 @@ class SSHBackend(Backend):
         if self.host.proxy:
             cmd.extend([
                 '-o',
-                'ssh_command=ssh -J '
-                f'{self.host.proxy.user_host_port}'
+                f'ssh_command=ssh -J {self.host.proxy.user_host_port}'
             ])
 
         logger.debug(f'Calling mount command: {cmd}')

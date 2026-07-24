@@ -9,6 +9,7 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
+import sys
 import subprocess
 import tools
 # Workaround for situations where startApp() is not invoked.
@@ -40,8 +41,7 @@ def takeSnapshotAsync(cfg, checksum=False):
     if '1' != cfg.currentProfile():
         cmd.extend(('--profile', str(cfg.currentProfile())))
 
-    if cfg._LOCAL_CONFIG_PATH is not cfg._DEFAULT_CONFIG_PATH:
-        cmd.extend(('--config', cfg._LOCAL_CONFIG_PATH))
+    cmd.extend(('--config', str(bitbase.context['--config'])))
 
     # if cfg._LOCAL_DATA_FOLDER is not cfg._DEFAULT_LOCAL_DATA_FOLDER:
     #     cmd.extend(('--share-path', cfg.DATA_FOLDER_ROOT))
@@ -91,13 +91,15 @@ def startApp(bin_name: str) -> config.Config | None:
 
     logger.openlog(syslog_id_suffix)
 
+    cli.set_quiet('--quiet' in sys.argv)
     args = cliarguments.parse_arguments(args=None, agent=parser_agent)
 
     # Name, Version, As Root, OS
-    msg = ''
-    for key, val in collect_minimal_diagnostics().items():
-        msg = f'{msg}; {key}: {val}'
-    logger.debug(msg[2:])
+    if logger.DEBUG:
+        msg = ''
+        for key, val in collect_minimal_diagnostics().items():
+            msg = f'{msg}; {key}: {val}'
+        logger.debug(msg[2:])
 
     # Add source path to $PATH environ if running from source
     if tools.runningFromSource():
@@ -113,23 +115,34 @@ def startApp(bin_name: str) -> config.Config | None:
             f"{config.Config.APP_NAME}. This will cause some trouble. "
             f"Please use either 'sudo -i {bin_name}' or 'pkexec {bin_name}'.")
 
+    # Remember the --config argument
+    if args.config:
+        bitbase.context['--config'] = args.config
+    else:
+        bitbase.context['--config'] = bitbase.DEFAULT_CONFIG_FILE_PATH
+
     # Call commands
     if 'func' in dir(args):
         args.func(args)
         return None
 
     # No arguments/commands
-    cli.set_quiet(args)
     print(bitbase.APP_HEADER)
 
-    return cli.get_config_and_select_profile(
-        config_path=args.config,
-        data_path=args.share_path,
-        profile=args.profile,
+    # This loads the real/new "Konfig"
+    _real_konfig = cli.get_config_and_select_profile(
+        config_path=bitbase.context['--config'],
+        # data_path=args.share_path,
+        pid_or_name=args.profile,
         # Dev note (buhtz, 2025): There is not a default value in all cases,
         # because "--checksum" is exclusive to rsync-related commands.
-        checksum=getattr(args, 'checksum', None),
-        check=False)
+        # checksum=getattr(args, 'checksum', None),
+        # check=False
+    )
+
+    # Workaround: For the current time we use "Config" as surrogate, that is
+    # using the real "Konfig" in the back.
+    return config.Config()
 
 
 if __name__ == '__main__':

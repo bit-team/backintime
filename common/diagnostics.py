@@ -21,6 +21,7 @@ import locale
 import subprocess
 import json
 import re
+import bitbase
 import config
 import tools
 import version
@@ -61,10 +62,15 @@ def collect_diagnostics():
     # (should be singleton)
     cfg = config.Config()
 
+    # WORKAROUND
+    fp_config_file = bitbase.context.get(
+        '--config', bitbase.DEFAULT_CONFIG_FILE_PATH
+    )
+
     result['backintime'].update({
         'latest-config-version': config.Config.CONFIG_VERSION,
-        'config-file': cfg._LOCAL_CONFIG_PATH,
-        'config-file-found': Path(cfg._LOCAL_CONFIG_PATH).exists(),
+        'config-file': str(fp_config_file),
+        'config-file-found': fp_config_file.exists(),
         # 'distribution-package': str(distro_path),
         'started-from': str(Path(config.__file__).parent),
         'user-callback': cfg.takeSnapshotUserCallback(),

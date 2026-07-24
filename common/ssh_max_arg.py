@@ -34,6 +34,8 @@ def probe_max_ssh_command_size(
     The function calls itself recursively until it finds the maximum
     possible length. The offset ``size_offset`` is bisect in each try.
 
+    See #2532 about sshMaxArgs() removal.
+
     Args:
         config: Back In Time config instance including the details about the
             current SSH snapshot profile. The current profile must use the SSH
@@ -69,7 +71,7 @@ def probe_max_ssh_command_size(
     except OSError as exc:
         # Only handle "Argument to long error"
         if exc.errno != _ERR_CODE_E2BIG:
-            raise exc
+            raise
 
         report_test(
             ssh_command_size,

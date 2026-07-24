@@ -77,8 +77,8 @@ def info(text, title=None, widget_to_center_on=None):
 
 
 def warning(text: str,
-            title: str = None,
-            widget_to_center_on: QWidget = None,
+            title: str | None = None,
+            widget_to_center_on: QWidget | None = None,
             as_question: bool = False) -> bool | None:
     """Show a modal warning message box.
 
@@ -126,7 +126,7 @@ def question(text, title=None, widget_to_center_on=None) -> bool:
     return answer == QMessageBox.StandardButton.Yes
 
 
-def critical(parent, msg: str, title: str = None):
+def critical(parent, msg: str, title: str | None = None):
     """Shows an error message box.
 
     Qt itseld does not distinguish between error and critical messages.

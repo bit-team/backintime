@@ -246,6 +246,7 @@ class RemoveRetentionTab(QDialog):
 
         # Always enabled
         cb.setChecked(True)
+        cb.setEnabled(False)
         cb.nextCheckState = lambda: None
 
         # fromRow, fromColumn spanning rowSpan rows and columnSpan

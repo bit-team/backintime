@@ -26,6 +26,7 @@ import grp
 import shutil
 import time
 import re
+import socket
 from tempfile import TemporaryDirectory
 import config
 import logger
@@ -460,11 +461,12 @@ class Snapshots:
     def restore(self,
                 sid,
                 paths,
-                callback = None,
-                restore_to = '',
-                delete = False,
-                backup = True,
-                only_new = False):
+                callback=None,
+                restore_to='',
+                force_checksum_use=False,
+                delete=False,
+                backup=True,
+                only_new=False):
         """
         Restore one or more files from snapshot ``sid`` to either original
         or a different destination. Restore is done with rsync. If available
@@ -514,7 +516,10 @@ class Snapshots:
         info_dict = sid.load_from_info_file()
 
         cmd_prefix = tools.rsyncPrefix(
-            self.config, no_perms=False, use_mode=['ssh']
+            self.config,
+            no_perms=False,
+            use_mode=['ssh'],
+            force_checksum_use=force_checksum_use
         )
         cmd_prefix.extend(('-R', '-v'))
 
@@ -815,7 +820,7 @@ class Snapshots:
         return True
 
     # TODO Refactor: This functions is extremely difficult to understand.
-    def backup(self, force=False):
+    def backup(self, force=False, force_checksum_use=False):
         """Wrapper for :py:func:`takeSnapshot` which will prepare and clean up
         things for the main :py:func:`takeSnapshot` method.
 
@@ -1024,7 +1029,8 @@ class Snapshots:
                                 ret_val, ret_error = self.takeSnapshot(
                                     sid,
                                     now,
-                                    include_folders
+                                    include_folders,
+                                    force_checksum_use
                                 )
 
                             except:  # TODO too broad exception
@@ -1227,8 +1233,7 @@ class Snapshots:
         """
         self.setTakeSnapshotMessage(0, _('Saving config file…'))
 
-        with open(self.config._LOCAL_CONFIG_PATH, 'rb') as src:
-
+        with open(bitbase.context['--config'], 'rb') as src:
             with open(sid.path('config'), 'wb') as dst1:
                 dst1.write(src.read())
 
@@ -1248,7 +1253,7 @@ class Snapshots:
         info_dict = {
             'backup': {
                 'date': sid.withoutTag,
-                'machine': self.config.host(),
+                'machine': socket.gethostname(),
                 'profile_id': self.config.currentProfile(),
                 'tag': sid.tag,
                 'user': getpass.getuser(),
@@ -1342,7 +1347,7 @@ class Snapshots:
             group = self.groupName(info.st_gid).encode('utf-8', 'replace')
             fileinfo[path] = (mode, user, group)
 
-    def takeSnapshot(self, sid, now, include_folders):
+    def takeSnapshot(self, sid, now, include_folders, force_checksum_use):
         """This is the main backup routine.
 
         It will take a new snapshot and store permissions of included files
@@ -1448,7 +1453,11 @@ class Snapshots:
             prev_sid = snapshots[0]
 
         # rsync prefix & suffix
-        rsync_prefix = tools.rsyncPrefix(self.config, no_perms=False)
+        rsync_prefix = tools.rsyncPrefix(
+            self.config,
+            no_perms=False,
+            force_checksum_use=force_checksum_use
+        )
 
         if self.config.excludeBySizeEnabled():
             rsync_prefix.append('--max-size=%sM' % self.config.excludeBySize())
@@ -1882,6 +1891,8 @@ class Snapshots:
         if mode is `ssh` or `ssh_gocryptfs` and smart-remove in background is
         activated.
 
+        See #2532 about sshMaxArgs() removal.
+
         Args:
             del_snapshots (list):   list of :py:class:`SID` that should be removed
             log (method):           callable method that will handle progress log
@@ -1892,7 +1903,9 @@ class Snapshots:
         if not log:
             log = lambda x: self.setTakeSnapshotMessage(0, x)
 
-        if self.config.snapshotsMode() in ['ssh', 'ssh_gocryptfs'] and self.config.smartRemoveRunRemoteInBackground():
+        if (self.config.snapshotsMode() in ['ssh', 'ssh_gocryptfs']
+                and self.config.smartRemoveRunRemoteInBackground()):
+
             logger.info('[smart remove] remove snapshots in background: %s'
                         % del_snapshots, self)
 
@@ -1935,8 +1948,14 @@ class Snapshots:
             cmds = []
 
             for sid in del_snapshots:
-                remote = self.rsyncRemotePath(sid.path(use_mode = ['ssh', 'ssh_gocryptfs']), use_mode = [], quote = '\\\"')
-                rsync = ' '.join(tools.rsyncRemove(self.config, run_local = False))
+                remote = self.rsyncRemotePath(
+                    sid.path(use_mode=['ssh', 'ssh_gocryptfs']),
+                    use_mode=[],
+                    quote = '\\\"'
+                )
+                rsync = ' '.join(
+                    tools.rsyncRemove(self.config, run_local=False)
+                )
                 rsync += ' \\\"\\$TMP/\\\" {}; '.format(remote)
 
                 s = 'test -e \\\"%s\\\" && (' %sid.path(use_mode = ['ssh', 'ssh_gocryptfs'])
@@ -3500,8 +3519,7 @@ def get_backup_ids_and_paths(cfg: config.Config,
 
     return result
 
-
-if __name__ == '__main__':
-    config = config.Config()
-    snapshots = Snapshots(config)
-    snapshots.backup()
+# if __name__ == '__main__':
+#     config = config.Config()
+#     snapshots = Snapshots(config)
+#     snapshots.backup()

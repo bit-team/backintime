@@ -242,10 +242,16 @@ class ParserAgent:
         parser.add_argument(
             '--config',
             metavar='PATH',
-            type=str,
+            type=Path,
+            # Dev note (buhtz, 2026-07): Don't use "default=" at this place.
+            # There is creepy argument parsing happening in
+            # parse_arguments().join(). Not my invention!
+            # default=bitbase.DEFAULT_CONFIG_FILE_PATH,
             action='store',
             help='read config from %(metavar)s '
-                 '(Default: $XDG_CONFIG_HOME/backintime/config)')
+                 f'(Default: $XDG_CONFIG_HOME/{bitbase.BINARY_NAME_BASE}/'
+                 f'{bitbase.FILENAME_CONFIG})'
+        )
 
         parser.add_argument(
             '--share-path',

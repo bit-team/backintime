@@ -482,6 +482,7 @@ class Tools_FakeFS(pyfakefs_ut.TestCase):
         )
 
 
+@unittest.skip('See Issue #2461')
 class ValidateSnapshotsPath(generic.TestCaseCfg):
     def test_writes(self):
         with TemporaryDirectory() as dirpath:

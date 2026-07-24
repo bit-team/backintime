@@ -16,7 +16,6 @@
 """
 import os
 import pathlib
-from typing import Optional
 from PyQt6.QtWidgets import (QAbstractItemView,
                              QTreeWidget,
                              QTreeWidgetItem,
@@ -83,7 +82,7 @@ class PlacesWidget(QTreeWidget):
         """Event handler if a backup entry in timeline was selected"""
         self.do_update(now_selected=False)
 
-    def do_update(self, now_selected: Optional[bool] = None) -> None:
+    def do_update(self, now_selected: bool | None = None) -> None:
         """Update the places view"""
 
         # Workaround

@@ -204,7 +204,7 @@ class LogViewDialog(QDialog):  # pylint: disable=too-many-instance-attributes
             if sid == self.sid:
                 self._combo_backups.set_current_snapshot_id(sid)
 
-    def _update_log(self, watched_path: str = None):
+    def _update_log(self, watched_path: str | None = None):
         """
         Show the log file of the current snapshot in the GUI
 

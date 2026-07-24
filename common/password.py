@@ -18,7 +18,6 @@ import bitbase
 from exceptions import Timeout
 
 
-
 class Password_Cache(daemon.Daemon):
     """
     Password_Cache get started on User login. It provides passwords for
@@ -27,7 +26,7 @@ class Password_Cache(daemon.Daemon):
     (e.g. no profile allows to cache).
     """
 
-    def __init__(self, cfg = None, *args, **kwargs):
+    def __init__(self, cfg=None, *args, **kwargs):
         self.config = cfg
 
         if self.config is None:
@@ -44,7 +43,8 @@ class Password_Cache(daemon.Daemon):
         pid = self.config.passwordCachePid()
 
         super(Password_Cache, self).__init__(
-            pid, umask = 0o077, *args, **kwargs)
+            pid, umask=0o077, *args, **kwargs
+        )
 
         self.dbKeyring = {}
         self.dbUsr = {}
@@ -194,9 +194,6 @@ class Password:
         Based on profile settings return password from keyring,
         Password_Cache or by asking User.
         """
-        # DEBUG
-        # logger.debug(f'{parent=} {profile_id=} {mode=}')
-
         if not self.config.modeNeedPassword(mode, pw_id):
             return ''
 

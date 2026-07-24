@@ -699,18 +699,18 @@ class GeneralTab(QDialog):
             return
 
         # gocryptfs destination need to be empty
-        if 'gocryptfs' in self.mode:
-            # is not empty
-            if not self._is_empty_or_initialized_gocryptfs(path):
-                return
+        if ('gocryptfs' in self.mode
+                and not self._is_empty_or_initialized_gocryptfs(path)):
+            return
 
         # Really change?
-        answer = messagebox.question(
-            text=_('Really change the backup directory?'),
-            widget_to_center_on=self)
+        if old_path != Path('.'):
+            answer = messagebox.question(
+                text=_('Really change the backup directory?'),
+                widget_to_center_on=self)
 
-        if not answer:
-            return
+            if not answer:
+                return
 
         # Set the path
         self._edit_backup_path.setText(str(path))

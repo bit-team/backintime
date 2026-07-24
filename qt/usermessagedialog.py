@@ -6,7 +6,6 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Module about UserMessageDialog"""
-from typing import Optional
 from PyQt6.QtCore import Qt, QSize, QTimer
 from PyQt6.QtGui import QCursor, QGuiApplication
 from PyQt6.QtWidgets import (QDialog,
@@ -34,7 +33,7 @@ class UserMessageDialog(QDialog):
 
     def __init__(
             self,
-            parent: Optional[QWidget],
+            parent: QWidget | None,
             title: str,
             full_label: str,
     ):

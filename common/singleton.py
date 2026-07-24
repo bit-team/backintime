@@ -17,7 +17,6 @@
 # <https://stackoverflow.com/q/6760685/4865723> question as his inspiration.
 #
 # Original code adapted by Christian Buhtz.
-
 """Flexible and pythonic singleton implementation.
 
 Support inheritance and multiple classes. Multilevel inheritance is
@@ -64,7 +63,7 @@ Example ::
 class Singleton(type):
     """Singleton implementation supporting inheritance and multiple classes."""
 
-    _instances = {}
+    _instances = {}  # noqa: RUF012
     """Hold single instances of multiple classes."""
 
     def __call__(cls, *args, **kwargs):

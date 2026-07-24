@@ -15,7 +15,10 @@
 import getpass
 import threading
 import subprocess
-from typing import Any, Generator
+import socket
+import configparser
+from typing import Any
+from collections.abc import Generator
 from pathlib import Path
 from queue import Queue
 import logger
@@ -43,6 +46,7 @@ from PyQt6.QtCore import (Qt,
                           QDir,
                           QModelIndex,
                           QTimer)
+from konfig import Konfig
 import qttools
 from bitwidgets import Spinner
 
@@ -78,7 +82,7 @@ class RestoreConfigDialog(QDialog):
         main_layout = QVBoxLayout(self)
 
         top_layout = QVBoxLayout()
-        self._create_hint(top_layout, config)
+        self._create_hint(top_layout)
         self._lbl_spinner, self._spinner, self._btn_scan \
             = self._create_scan_controls(top_layout)
 
@@ -186,9 +190,7 @@ class RestoreConfigDialog(QDialog):
 
         return red, green
 
-    def _create_hint(self,
-                     parent_layout: QLayout,
-                     config: Config) -> None:
+    def _create_hint(self, parent_layout: QLayout) -> None:
         """Create the label to explain how and where to find existing config
         file.
 
@@ -196,9 +198,10 @@ class RestoreConfigDialog(QDialog):
             (QLabel): The label
         """
 
-        sample_path = Path.home() / 'backintime' / config.host() \
+        sample_path = Path.home() / 'backintime' \
+            / socket.gethostname() \
             / getpass.getuser() / '1' / '20250203-172341-123'
-        sample_path = f'</ br><code>{str(sample_path)}</code>'
+        sample_path = f'<br /><code>{sample_path!s}</code>'
 
         text_a = _(
             'Select the backup directory from which the configuration '
@@ -282,9 +285,15 @@ class RestoreConfigDialog(QDialog):
         If there was a config found inside the selected folder, show
         available information about the config.
         """
+
+        if self._config_to_restore is not None:
+            # Reset the singleton instance
+            self._config_to_restore.delete_this_instance()
+            self._config_to_restore = None
+
         # pylint: disable=protected-access
         fp = self._path_from_index(current)
-        cfg = _get_valid_config(fp / bitbase.FILENAME_CONFIG)
+        cfg = _get_valid_konfig(fp / bitbase.FILENAME_CONFIG)
 
         if cfg:
             self._expand_with_parents(current)
@@ -302,41 +311,42 @@ class RestoreConfigDialog(QDialog):
 
         self._btn_restore.setEnabled(bool(cfg))
 
-    def _expand_with_parents(self, index: QModelIndex):
-        stack = []
+    def _expand_with_parents(self, index):
+        indexes = []
 
-        # Remember index's of the entry and all its parents
-        current = index
+        current = index.parent()
+
         while current.isValid():
-            stack.insert(0, current)
+            indexes.insert(0, current)
             current = current.parent()
 
         def expand_next():
-            try:
-                self._tree_view.expand(stack.pop(0))
-                # Sligthely reduce slowdown/freeze because of resource
-                # hungry QFileSystemModel
-                QTimer.singleShot(50, expand_next)
+            if not indexes:
+                self._tree_view.scrollTo(index)
+                return
 
-            except IndexError:
-                pass
+            idx = indexes.pop(0)
+
+            self._tree_view.expand(idx)
+            self._tree_model.fetchMore(idx)
+
+            QTimer.singleShot(150, expand_next)
 
         expand_next()
 
-    def _show_profile(self, cfg):
+    def _show_profile(self, cfg: Konfig):
         child = self._grid_layout.takeAt(0)
 
         while child:
             child.widget().deleteLater()
             child = self._grid_layout.takeAt(0)
 
-        for row, pid in enumerate(cfg.profiles()):
+        for row, profile in enumerate(cfg.iter_profiles()):
 
             for col, txt in enumerate((
-                    _('Profile:') + str(pid),
-                    cfg.profileName(pid),
-                    _('Mode:') + cfg.SNAPSHOT_MODES[
-                        cfg.snapshotsMode(pid)][1]
+                    _('Profile:') + f' {profile.profile_id}',
+                    profile.name,
+                    _('Mode:') + f' {profile.mode}'
                     )):
                 self._grid_layout.addWidget(QLabel(txt, self), row, col)
 
@@ -348,8 +358,11 @@ class RestoreConfigDialog(QDialog):
 
         while not self._queue.empty():
             path = self._queue.get()
+
             self._tree_model.highlight_this(Path(path))
-            self._expand_with_parents(self._index_from_path(path))
+
+            idx = self._index_from_path(path)
+            self._expand_with_parents(idx)
 
         self._tree_view.setUpdatesEnabled(True)
 
@@ -372,15 +385,22 @@ class RestoreConfigDialog(QDialog):
 
         self._tree_model.setFilter(flags)
 
-    def accept(self):
-        """
-        handle over the dict from the selected config. The dict contains
-        all settings from the config.
-        """
-        if self._config_to_restore:
-            self.config.dict = self._config_to_restore.dict
+    # def accept(self):
+    #     """
+    #     handle over the dict from the selected config. The dict contains
+    #     all settings from the config.
+    #     """
+    #     if self._config_to_restore:
+    #         self.config = self._config_to_restore
 
-        super().accept()
+    #     super().accept()
+
+    def reject(self):
+        """Dialog was canceled."""
+        if self._config_to_restore:
+            self._config_to_restore.delete_this_instance()
+
+        super().reject()
 
     def exec(self):
         """
@@ -412,10 +432,24 @@ class _CfgFileSystemModel(QFileSystemModel):
 
     def highlight_this(self, path: Path) -> None:
         """Remember the path to draw with different font"""
+        if path in self._paths:
+            return
+
         self._paths.append(path)
 
-        # notify (redraw) the view
-        self.layoutChanged.emit()
+        index = self.index(str(path))
+        if index.isValid():
+            self.dataChanged.emit(
+                index,
+                index,
+                [
+                    Qt.ItemDataRole.ForegroundRole,
+                    Qt.ItemDataRole.FontRole,
+                ],
+            )
+
+        # # notify (redraw) the view
+        # self.layoutChanged.emit()
 
     def data(self, index: QModelIndex, role: Qt.ItemDataRole) -> Any:
         """Draw an entry with bold font and highlted font color if in
@@ -433,7 +467,6 @@ class _CfgFileSystemModel(QFileSystemModel):
 
 class _ScanFileSystem(threading.Thread):
     """A thread scanning the file system for config files related to BIT."""
-    # foundConfig = pyqtSignal(str)
 
     def __init__(self, queue: Queue, stop_event=None):
         super().__init__()
@@ -443,6 +476,9 @@ class _ScanFileSystem(threading.Thread):
 
     def run(self):
         """Run several searches for config files"""
+
+        # Perform multiple scans starting with the most important parts
+        # of the filesystem
         search_paths = [
             str(Path.home()),
             '/media',
@@ -451,8 +487,10 @@ class _ScanFileSystem(threading.Thread):
         ]
 
         for path_to_scan in search_paths:
-            # Exclude the other dirs if searching in root
+
             if path_to_scan == search_paths[-1]:
+                # When scanning the root filesystem, exclude directories that
+                # were already scanned separately above.
                 excludes = search_paths[:-1][:]
             else:
                 excludes = []
@@ -461,7 +499,6 @@ class _ScanFileSystem(threading.Thread):
                 if self._stop_event.is_set():
                     return
 
-                # print(f'queue.put({found=}')
                 self._queue.put(found)
 
     def _scan(self, search_path: Path, excludes: list[str]
@@ -471,8 +508,19 @@ class _ScanFileSystem(threading.Thread):
         logger.debug(f'Scanning in {search_path} for config files', self)
         cmd = ['find', str(search_path)]
 
+        to_exclude = [
+            '/proc',
+            '/var',
+            '/sys',
+            '/tmp',
+            '/run',
+            '*/.git',
+            '*/__*',
+        ]
+        to_exclude = to_exclude + excludes
+
         # exclude directories: defaults + extras
-        for exclude in ['/proc', '/var', '/sys', '/tmp', '/run'] + excludes:
+        for exclude in to_exclude:
             cmd = cmd + ['(', '-path', exclude, '-prune', ')', '-o']
 
         cmd = cmd + [
@@ -484,6 +532,8 @@ class _ScanFileSystem(threading.Thread):
             '-print',
             ')'
         ]
+
+        logger.debug(f'Executing command {" ".join(cmd)}...')
 
         with subprocess.Popen(cmd,
                               stdout=subprocess.PIPE,
@@ -497,7 +547,7 @@ class _ScanFileSystem(threading.Thread):
 
                 path = Path(line.strip())
 
-                if _get_valid_config(path):
+                if _get_valid_konfig(path):
                     yield path.parent
 
     def stop(self):
@@ -506,17 +556,24 @@ class _ScanFileSystem(threading.Thread):
         self.join()
 
 
-def _get_valid_config(path: Path) -> Config | None:
+def _get_valid_konfig(path: Path) -> Konfig | None:
     try:
-        cfg = Config(str(path))
-        if cfg.isConfigured():
-            return cfg
+        cfg = Konfig()
+        cfg.load(path)
 
-    except (FileNotFoundError, UnicodeDecodeError):
+        # is "configured"?
+        for profile in cfg.iter_profiles():
+            if not profile.snapshots_path or not profile.include:
+                # Remove the singleton instance
+                cfg.delete_this_instance()
+
+                return None
+
+        return cfg
+
+    except (FileNotFoundError, UnicodeDecodeError, configparser.ParsingError):
         pass
 
-    # pylint: disable-next=broad-exception-caught
-    except Exception as exc:
-        logger.critical(f'Unhandled branch in code!\n{exc}\n{__file__}')
-
+    # Remove the singleton instance
+    cfg.delete_this_instance()
     return None

@@ -23,6 +23,7 @@ import sys
 import os
 import gettext
 import subprocess
+import bitbase
 import pluginmanager
 import tools
 import logger
@@ -71,9 +72,10 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
                 return True
 
         # pylint: disable-next=broad-exception-caught
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001
             logger.debug(
-                f'Could not ask Qt if system tray is available: {repr(exc)}')
+                f'Could not ask Qt if system tray is available: {exc!r}'
+            )
 
         logger.debug(
             'No system tray available to show the BIT system tray icon')
@@ -88,13 +90,15 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
         """Start the process."""
         path = os.path.join(
             tools.as_backintime_path('qt'), 'qtsystrayicon.py')
+
         cmd = [
             sys.executable,
             path,
             self.snapshots.config.currentProfile(),
             '--config',
             # pylint: disable-next=protected-access
-            self.snapshots.config._LOCAL_CONFIG_PATH
+            # self.snapshots.config._LOCAL_CONFIG_PATH
+            str(bitbase.context['--config'])
         ]
 
         if logger.DEBUG:
@@ -129,7 +133,7 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
             return True
 
         # pylint: disable-next=broad-exception-caught
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001
             logger.critical(f'Faild to start systray: {exc}')
             self.process = None
             return False

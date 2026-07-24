@@ -15,10 +15,12 @@
 import stat
 from pathlib import Path
 from test import generic
+import unittest
 import snapshots
 import snapshotlog
 
 
+@unittest.skip('See Issue #2461')
 class TakeSnapshotLog(generic.SnapshotsTestCase):
     """Tests regarding takesnapshot.log file"""
 

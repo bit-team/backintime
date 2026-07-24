@@ -74,12 +74,17 @@ def show_deprecation_message(cmd_flag: str):
 
 def _get_config(args: argparse.Namespace) -> config.Config:
     """A dirty little helper. Feel free to refactor."""
-    return cli.get_config_and_select_profile(
-        config_path=args.config,
-        data_path=args.share_path,
-        profile=args.profile,
-        checksum=getattr(args, 'checksum', None)
+
+    # Crreate a Konfig instance
+    cli.get_config_and_select_profile(
+        config_path=bitbase.context['--config'],  # args.config,
+        # data_path=args.share_path,
+        pid_or_name=args.profile
+        # checksum=getattr(args, 'checksum', None)
     )
+
+    # A surrogate using Konfig() in the back
+    return config.Config()
 
 
 def backup(args: argparse.Namespace, force: bool = True):
@@ -122,7 +127,10 @@ def _do_backup(args: argparse.Namespace, force: bool):
     cfg = _get_config(args)
 
     tools.envLoad(bitbase.CRON_ENV_PATH)
-    ret = snapshots.Snapshots(cfg).backup(force)
+    ret = snapshots.Snapshots(cfg).backup(
+        force=force,
+        force_checksum_use = getattr(args, 'checksum', False)
+    )
 
     sys.exit(int(ret))
 
@@ -157,10 +165,10 @@ def check_config(args: argparse.Namespace):
 
     """
     force_stdout = cli.set_quiet(args)
-    print(bitbase.APP_HEADER)
+    print(bitbase.APP_HEADER, file=force_stdout)
     cfg = _get_config(args)
 
-    msg = f'\nConfig {cfg._LOCAL_CONFIG_PATH} profile ' \
+    msg = f'Config {bitbase.context["--config"]} profile ' \
           f"'{cfg.profileName()}'"
 
     if cli.checkConfig(cfg, crontab=not args.no_crontab):
@@ -336,9 +344,11 @@ def restore(args: argparse.Namespace):
             what=args.WHAT,
             where=args.WHERE,
             mount_manager=mount_manager,
+            force_checksum_use=args.checksum,
             delete=args.delete,
             backup=isbackup,
-            only_new=args.only_new)
+            only_new=args.only_new
+        )
 
     sys.exit(bitbase.RETURN_OK)
 

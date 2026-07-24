@@ -212,7 +212,7 @@ class MainWindow(QMainWindow):
         self.snapshotsList = []
 
         # ???
-        self.path = self.config.profileStrValue('qt.last_path', '/')
+        self.path = self.config.the_dict().get('qt.last_path', '/')
 
         self.widget_current_path.setText(self.path)
         self.path_history = tools.PathHistory(self.path)
@@ -228,13 +228,12 @@ class MainWindow(QMainWindow):
 
         self._handle_release_candidate()
 
-        self._import_config_from_backup()
-
-        # if not self.config.isConfigured():
-        #     return
+        was_imported = self._import_config_from_backup()
 
         # populate lists
-        self.updateProfiles()
+        if not was_imported:
+            self.updateProfiles()
+
         self.comboProfiles.currentIndexChanged \
                           .connect(self.comboProfileChanged)
 
@@ -332,12 +331,11 @@ class MainWindow(QMainWindow):
             self._open_release_candidate_dialog()
 
     def _import_config_from_backup(self):
-        # if self.config.isConfigured():
-        #     return
+        # config_fp = Path(self.config._LOCAL_CONFIG_PATH)
+        config_fp = bitbase.context['--config']
 
-        config_fp = pathlib.Path(self.config._LOCAL_CONFIG_PATH)
         if config_fp.exists():
-            return
+            return False
 
         message = _(
             '{app_name} appears to be running for the first time because no '
@@ -353,39 +351,29 @@ class MainWindow(QMainWindow):
         import_prompt.setWindowTitle(_('Question'))
         import_prompt.setText(message)
         import_prompt.setIcon(QMessageBox.Icon.Question)
-        btn_create = import_prompt.addButton(_('Create'),
-                                QMessageBox.ButtonRole.ActionRole)
-        btn_import = import_prompt.addButton(_('Import'),
-                                QMessageBox.ButtonRole.ActionRole)
+        btn_create = import_prompt.addButton(
+            _('Create'), QMessageBox.ButtonRole.ActionRole)
+        btn_import = import_prompt.addButton(
+            _('Import'), QMessageBox.ButtonRole.ActionRole)
 
         import_prompt.setDefaultButton(btn_create)
         import_prompt.exec()
         answer = import_prompt.clickedButton()
 
-        mark_main_profile_unsaved = answer is btn_create
         if answer == btn_import:
             rc = RestoreConfigDialog(self.config).exec()
             if rc == QDialog.DialogCode.Rejected:
-                mark_main_profile_unsaved = True
-
-        # Workaround: If BIT config is fresh the Main Profile is not
-        # saved yet. If it wouldn't be recognized as unsaved the
-        # default excludes are not added to it.
-        # This workaround need to remain until #1371 and other related
-        # issues are solved.
-        if mark_main_profile_unsaved:
-            # failesafe: Main profile only
-            if self.config.profiles() == ['1']:
-                # Mark "Main profile" as unsaved.
-                self.config._unsaved_profiles.append('1')
+                answer = btn_create
 
         SettingsDialog(self).exec()
 
+        return True
+
     def _message_about_encfs_config_backup(self):
         # e.g. '~/.config/backintime/config.encfs.backup'
-        config_fp_backup = pathlib.Path(
-            self.config._LOCAL_CONFIG_PATH
-        ).with_suffix(bitbase.ENCFS_BACKUP_CONFIG_SUFFIX)
+        config_fp_backup = bitbase.context['--config'].with_suffix(
+            bitbase.ENCFS_BACKUP_CONFIG_SUFFIX
+        )
 
         if not config_fp_backup.exists():
             return
@@ -417,7 +405,7 @@ class MainWindow(QMainWindow):
         state_data = StateData()
 
         # SSH Cipher removal (#2176)
-        cipher = cli.detect_cipher_settings(self.config)
+        cipher = cli.detect_cipher_settings()
         if cipher:
             self._open_ssh_cipher_remove_dialog(
                 [entry[0] for entry in cipher]
@@ -427,7 +415,7 @@ class MainWindow(QMainWindow):
             del self.config.dict[key]
 
         # SSH Remote host checks deprecation (#2482)
-        check_settings = cli.detect_remote_host_check_settings(self.config)
+        check_settings = cli.detect_remote_host_check_settings()
         if check_settings:
             self._open_remote_host_check_deprecation_dialog(
                 [entry[0] for entry in check_settings]
@@ -1423,11 +1411,6 @@ class MainWindow(QMainWindow):
         backup_queue = queue.Queue()
 
         mount_manager = self._profile_operations.get_mount_manager()
-
-        # DEBUG
-        # if not tools.is_mounted(mount_manager.mount_root):
-        #     import traceback
-        #     traceback.print_stack(limit=4)
 
         def _worker():
             """Proceed all backups and put their timline related information
@@ -2523,39 +2506,51 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
     for profile_id in cfg.profiles():
         profile_state = data.profile(profile_id)
 
-        # profile specific encfs warning
-        val = cfg.profileBoolValue('msg_shown_encfs', 0, profile_id)
-        profile_state.msg_encfs = val
+        # # profile specific encfs warning
+        # val = cfg.the_dict().get(f'profile{profile_id}.msg_shown_encfs', 0)
+        # profile_state.msg_encfs = val
 
-        # qt.last_path
-        if cfg.hasProfileKey('qt.last_path', profile_id):
-            profile_state.last_path \
-                = cfg.profileStrValue('qt.last_path', None, profile_id)
+        # # qt.last_path
+        # if cfg.hasProfileKey('qt.last_path', profile_id):
+        #     profile_state.last_path \
+        #         = cfg.profileStrValue('qt.last_path', None, profile_id)
 
         # Places: sorting
         sorting = (
-            cfg.profileIntValue('qt.places.SortColumn', None, profile_id),
-            cfg.profileIntValue('qt.places.SortOrder', None, profile_id)
+            cfg.the_dict().get(
+                f'profile{profile_id}.qt.places.SortColumn', None
+            ),
+            cfg.the_dict().get(
+                f'profile{profile_id}.qt.places.SortOrder', None
+            )
         )
         if all(sorting):
             profile_state.places_sorting = sorting
 
         # Manage profiles - Exclude tab: sorting
         sorting = (
-            cfg.profileIntValue(
-                'qt.settingsdialog.exclude.SortColumn', None, profile_id),
-            cfg.profileIntValue(
-                'qt.settingsdialog.exclude.SortOrder', None, profile_id)
+            cfg.the_dict().get(
+                f'profile{profile_id}.qt.settingsdialog.exclude.SortColumn',
+                None
+            ),
+            cfg.the_dict().get(
+                f'profile{profile_id}.qt.settingsdialog.exclude.SortOrder',
+                None
+            )
         )
         if all(sorting):
             profile_state.exclude_sorting = sorting
 
         # Manage profiles - Include tab: sorting
         sorting = (
-            cfg.profileIntValue(
-                'qt.settingsdialog.include.SortColumn', None, profile_id),
-            cfg.profileIntValue(
-                'qt.settingsdialog.include.SortOrder', None, profile_id)
+            cfg.the_dict().get(
+                f'profile{profile_id}.qt.settingsdialog.include.SortColumn',
+                None
+            ),
+            cfg.the_dict().get(
+                f'profile{profile_id}.qt.settingsdialog.include.SortOrder',
+                None
+            )
         )
         if all(sorting):
             profile_state.include_sorting = sorting
@@ -2606,8 +2601,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         raiseCmd = '\n'.join(sys.argv[1:])
 
-    appInstance = guiapplicationinstance.GUIApplicationInstance(
-        cfg.appInstanceFile(), raiseCmd)
+    appInstance = guiapplicationinstance.GUIApplicationInstance(raiseCmd)
     cfg.PLUGIN_MANAGER.load(cfg=cfg)
     cfg.PLUGIN_MANAGER.appStart()
 
@@ -2618,26 +2612,9 @@ if __name__ == '__main__':
     load_state_data(cfg)
 
     mainWindow = MainWindow(cfg, appInstance, qapp)
-    # from manageprofiles.spinboxunit import SpinBoxWithUnit
-    # from manageprofiles.storagesizewidget import StorageSizeWidget
-    # from storagesize import StorageSize, SizeUnit
-
-    # mainWindow = QDialog()
-    # layout = QVBoxLayout()
-    # mainWindow.setLayout(layout)
-    # szw = StorageSizeWidget(mainWindow, (1, 999999))
-    # layout.addWidget(szw)
-
-    # print('A'*70)
-    # szw.set_storagesize(
-    #     StorageSize(50, SizeUnit.GIB)
-    # )
-    # print('Z'*70)
-    # print(f'{szw._value.value()=}')
-    # print(f'{szw._value.unit=}')
 
     # if cfg.isConfigured():
-    config_fp = pathlib.Path(cfg._LOCAL_CONFIG_PATH)
+    config_fp = bitbase.context['--config']
     if config_fp.exists():
         mainWindow.show()
         qapp.exec()

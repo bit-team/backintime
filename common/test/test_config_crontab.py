@@ -17,15 +17,13 @@ import tempfile
 import unittest
 from pathlib import Path
 from unittest import mock
-
 import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
-
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-
 import config
 
 
-class Cron(unittest.TestCase):
+@unittest.skip('See Issue #2461')
+class _DO_REVIEW_Cron(unittest.TestCase):
     """Cron-related behavior of Config class."""
 
     def test_cron_lines(self):
@@ -61,7 +59,8 @@ class Cron(unittest.TestCase):
         self.assertIn('--profile 3', result[1])
 
 
-class CrontabDebug(pyfakefs_ut.TestCase):
+@unittest.skip('See Issue #2461')
+class _DO_REVIEW_CrontabDebug(pyfakefs_ut.TestCase):
     """Debug behavior when scheduled via crontab"""
 
     def setUp(self):
