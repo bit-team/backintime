@@ -13,6 +13,7 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 from __future__ import annotations
 import os
+import json
 from pathlib import Path
 import stat
 import datetime
@@ -25,9 +26,9 @@ import grp
 import shutil
 import time
 import re
+import socket
 from tempfile import TemporaryDirectory
 import config
-import configfile
 import logger
 import tools
 import encode
@@ -225,7 +226,7 @@ class Snapshots:
         self.uidCache = {}
         self.gidCache = {}
 
-    def uid(self, name, callback = None, backup = None):
+    def uid(self, name, callback=None, backup=None):
         """
         Get the User identifier (UID) for the user in ``name``.
         name->uid will be cached to speed up subsequent requests.
@@ -245,28 +246,34 @@ class Snapshots:
 
         if name in self.uidCache:
             return self.uidCache[name]
-        else:
-            uid = -1
-            try:
-                uid = pwd.getpwnam(name).pw_uid
-            except Exception as e:
-                if backup:
-                    uid = backup
-                    msg = "UID for '%s' is not available on this system. Using UID %s from snapshot." %(name, backup)
-                    logger.info(msg, self)
-                    if callback is not None:
-                        callback(msg)
-                else:
-                    self.restorePermissionFailed = True
-                    msg = 'Failed to get UID for %s: %s' %(name, str(e))
-                    logger.error(msg, self)
-                    if callback:
-                        callback(msg)
 
-            self.uidCache[name] = uid
-            return uid
+        uid = -1
+        try:
+            uid = pwd.getpwnam(name).pw_uid
+        except Exception as e:
+            if backup:
+                uid = backup
+                msg = (
+                    f"UID for '{name}' is not available on this system. Using "
+                    f"UID {backup} from snapshot."
+                )
+                logger.info(msg, self)
 
-    def gid(self, name, callback = None, backup = None):
+                if callback is not None:
+                    callback(msg)
+
+            else:
+                self.restorePermissionFailed = True
+                msg = f'Failed to get UID for {name}: {str(e)}'
+                logger.error(msg, self)
+                if callback:
+                    callback(msg)
+
+        self.uidCache[name] = uid
+
+        return uid
+
+    def gid(self, name, callback=None, backup=None):
         """
         Get the Group identifier (GID) for the group in ``name``.
         name->gid will be cached to speed up subsequent requests.
@@ -286,26 +293,27 @@ class Snapshots:
 
         if name in self.gidCache:
             return self.gidCache[name]
-        else:
-            gid = -1
-            try:
-                gid = grp.getgrnam(name).gr_gid
-            except Exception as e:
-                if backup is not None:
-                    gid = backup
-                    msg = "GID for '%s' is not available on this system. Using GID %s from snapshot." %(name, backup)
-                    logger.info(msg, self)
-                    if callback:
-                        callback(msg)
-                else:
-                    self.restorePermissionFailed = True
-                    msg = 'Failed to get GID for %s: %s' %(name, str(e))
-                    logger.error(msg, self)
-                    if callback:
-                        callback(msg)
 
-            self.gidCache[name] = gid
-            return gid
+        gid = -1
+        try:
+            gid = grp.getgrnam(name).gr_gid
+        except Exception as e:
+            if backup is not None:
+                gid = backup
+                msg = "GID for '%s' is not available on this system. Using GID %s from snapshot." %(name, backup)
+                logger.info(msg, self)
+                if callback:
+                    callback(msg)
+            else:
+                self.restorePermissionFailed = True
+                msg = 'Failed to get GID for %s: %s' %(name, str(e))
+                logger.error(msg, self)
+                if callback:
+                    callback(msg)
+
+        self.gidCache[name] = gid
+
+        return gid
 
     def userName(self, uid):
         """
@@ -453,11 +461,12 @@ class Snapshots:
     def restore(self,
                 sid,
                 paths,
-                callback = None,
-                restore_to = '',
-                delete = False,
-                backup = True,
-                only_new = False):
+                callback=None,
+                restore_to='',
+                force_checksum_use=False,
+                delete=False,
+                backup=True,
+                only_new=False):
         """
         Restore one or more files from snapshot ``sid`` to either original
         or a different destination. Restore is done with rsync. If available
@@ -504,9 +513,14 @@ class Snapshots:
                     %(', '.join(paths), restore_to),
                     self)
 
-        info = sid.info
+        info_dict = sid.load_from_info_file()
 
-        cmd_prefix = tools.rsyncPrefix(self.config, no_perms=False, use_mode=['ssh'])
+        cmd_prefix = tools.rsyncPrefix(
+            self.config,
+            no_perms=False,
+            use_mode=['ssh'],
+            force_checksum_use=force_checksum_use
+        )
         cmd_prefix.extend(('-R', '-v'))
 
         if backup:
@@ -580,12 +594,12 @@ class Snapshots:
         self.restorePermissionFailed = False
         fileInfoDict = sid.fileInfo
 
-        # cache uids/gids
-        for uid, name in info.listValue('user', ('int:uid', 'str:name')):
-            self.uid(name.encode(), callback = callback, backup = uid)
-
-        for gid, name in info.listValue('group', ('int:gid', 'str:name')):
-            self.gid(name.encode(), callback = callback, backup = gid)
+        # cache uids
+        for uid, name in info_dict['users'].items():
+            self.uid(name, callback=callback, backup=uid)
+        # cache gids
+        for gid, name in info_dict['groups'].items():
+            self.gid(name, callback=callback, backup=gid)
 
         if fileInfoDict:
             # restore dir permissions after all files are done
@@ -806,7 +820,7 @@ class Snapshots:
         return True
 
     # TODO Refactor: This functions is extremely difficult to understand.
-    def backup(self, force=False):
+    def backup(self, force=False, force_checksum_use=False):
         """Wrapper for :py:func:`takeSnapshot` which will prepare and clean up
         things for the main :py:func:`takeSnapshot` method.
 
@@ -953,18 +967,19 @@ class Snapshots:
                         if (self.config.PLUGIN_MANAGER.hasGuiPlugins
                                 and self.config.notify()):
 
-                            # IMHO useless?
                             message = (
-                                _("Can't find backup directory.")
+                                _("Can't find backup destination directory.")
                                 + '\n'
                                 + self.config.snapshotsFullPath(profile_id)
                                 + '\n'
                                 + _('If it is on a removable drive, '
                                     'please plug it in.')
                                 + '\n'
-                                + gettext.ngettext('Waiting {n} second.',
-                                                    'Waiting {n} seconds.',
-                                                    30).format(n=30)
+                                + gettext.ngettext(
+                                    'Waiting {n} second.',
+                                    'Waiting {n} seconds.',
+                                    30
+                                ).format(n=30)
                             )
 
                             self.setTakeSnapshotMessage(
@@ -1014,7 +1029,8 @@ class Snapshots:
                                 ret_val, ret_error = self.takeSnapshot(
                                     sid,
                                     now,
-                                    include_folders
+                                    include_folders,
+                                    force_checksum_use
                                 )
 
                             except:  # TODO too broad exception
@@ -1120,21 +1136,26 @@ class Snapshots:
                         ``line`` was a progress
         """
         ret = []
-        for l in line.split('\n'):
-            m = self.reRsyncProgress.match(l)
+
+        for part in line.split('\n'):
+            m = self.reRsyncProgress.match(part)
+
             if m:
-                # if m.group(5).strip():
-                #     return
-                pg = progress.ProgressFile(self.config)
-                pg.setIntValue('status', pg.RSYNC)
-                pg.setStrValue('sent', m.group(1))
-                pg.setIntValue('percent', int(m.group(2)))
-                pg.setStrValue('speed', m.group(3))
-                pg.setStrValue('eta', m.group(4))
+                pg = progress.ProgressFile(
+                    filename=self.config.takeSnapshotProgressFile()
+                )
+                pg.set_data({
+                    'status': progress.ProgressFile.RSYNC,
+                    'sent': m.group(1),
+                    'percent': int(m.group(2)),
+                    'speed': m.group(3),
+                    'eta': m.group(4)
+                })
                 pg.save()
-                del pg
+
             else:
-                ret.append(l)
+                ret.append(part)
+
         return '\n'.join(ret)
 
     def rsyncCallback(self, line, params):
@@ -1212,8 +1233,7 @@ class Snapshots:
         """
         self.setTakeSnapshotMessage(0, _('Saving config file…'))
 
-        with open(self.config._LOCAL_CONFIG_PATH, 'rb') as src:
-
+        with open(bitbase.context['--config'], 'rb') as src:
             with open(sid.path('config'), 'wb') as dst1:
                 dst1.write(src.read())
 
@@ -1230,22 +1250,20 @@ class Snapshots:
         logger.debug(
             f'Create info file for snapshot "{sid.displayName}".', self)
 
-        machine = self.config.host()
-        user = getpass.getuser()
-        profile_id = self.config.currentProfile()
+        info_dict = {
+            'backup': {
+                'date': sid.withoutTag,
+                'machine': socket.gethostname(),
+                'profile_id': self.config.currentProfile(),
+                'tag': sid.tag,
+                'user': getpass.getuser(),
+            }
+        }
 
-        i = configfile.ConfigFile()
-        i.setStrValue('snapshot_date', sid.withoutTag)
-        i.setStrValue('snapshot_machine', machine)
-        i.setStrValue('snapshot_user', user)
-        i.setIntValue('snapshot_profile_id', profile_id)
-        i.setIntValue('snapshot_tag', sid.tag)
-        i.setListValue(
-            'user', ('int:uid', 'str:name'), list(self.userCache.items()))
-        i.setListValue(
-            'group', ('int:gid', 'str:name'), list(self.groupCache.items()))
+        info_dict['users'] = self.userCache
+        info_dict['groups'] = self.groupCache
 
-        sid.info = i
+        sid.store_to_info_file(info_dict)
 
     def backupPermissions(self, sid):
         """
@@ -1329,7 +1347,7 @@ class Snapshots:
             group = self.groupName(info.st_gid).encode('utf-8', 'replace')
             fileinfo[path] = (mode, user, group)
 
-    def takeSnapshot(self, sid, now, include_folders):
+    def takeSnapshot(self, sid, now, include_folders, force_checksum_use):
         """This is the main backup routine.
 
         It will take a new snapshot and store permissions of included files
@@ -1435,7 +1453,11 @@ class Snapshots:
             prev_sid = snapshots[0]
 
         # rsync prefix & suffix
-        rsync_prefix = tools.rsyncPrefix(self.config, no_perms=False)
+        rsync_prefix = tools.rsyncPrefix(
+            self.config,
+            no_perms=False,
+            force_checksum_use=force_checksum_use
+        )
 
         if self.config.excludeBySizeEnabled():
             rsync_prefix.append('--max-size=%sM' % self.config.excludeBySize())
@@ -1463,7 +1485,6 @@ class Snapshots:
             rsync_prefix.append('--link-dest=%s' % link_dest)
 
         # sync changed folders
-        # logger.info("Call rsync to create a backup", self)
         new_snapshot.saveToContinue = True
         cmd = rsync_prefix + rsync_suffix
 
@@ -1550,9 +1571,11 @@ class Snapshots:
             # HACK to fix #489 (params[0] and has_errors should be merged)
             params[0] = True
             self.setTakeSnapshotMessage(
-                1, rsync_exit_code_msg + ": "
-                   + _("Negative rsync exit codes are signal numbers, see "
-                       "'kill -l' and 'man kill'"))
+                1, rsync_exit_code_msg + ': '
+                   + _('Negative exit codes indicate termination by a '
+                       'signal. The number corresponds to the signal '
+                       "(see 'kill -l').")
+            )
 
         # params[0] -> error?
         if params[0]:
@@ -1570,7 +1593,7 @@ class Snapshots:
 
             self.remove(new_snapshot)
 
-            logger.info("Nothing changed, no new backup necessary", self)
+            logger.info('Nothing changed, no new backup necessary', self)
             self.snapshotLog.append(
                 '[I] ' + _('Nothing changed, no new backup necessary'), 3)
 
@@ -1868,6 +1891,8 @@ class Snapshots:
         if mode is `ssh` or `ssh_gocryptfs` and smart-remove in background is
         activated.
 
+        See #2532 about sshMaxArgs() removal.
+
         Args:
             del_snapshots (list):   list of :py:class:`SID` that should be removed
             log (method):           callable method that will handle progress log
@@ -1878,7 +1903,9 @@ class Snapshots:
         if not log:
             log = lambda x: self.setTakeSnapshotMessage(0, x)
 
-        if self.config.snapshotsMode() in ['ssh', 'ssh_gocryptfs'] and self.config.smartRemoveRunRemoteInBackground():
+        if (self.config.snapshotsMode() in ['ssh', 'ssh_gocryptfs']
+                and self.config.smartRemoveRunRemoteInBackground()):
+
             logger.info('[smart remove] remove snapshots in background: %s'
                         % del_snapshots, self)
 
@@ -1921,8 +1948,14 @@ class Snapshots:
             cmds = []
 
             for sid in del_snapshots:
-                remote = self.rsyncRemotePath(sid.path(use_mode = ['ssh', 'ssh_gocryptfs']), use_mode = [], quote = '\\\"')
-                rsync = ' '.join(tools.rsyncRemove(self.config, run_local = False))
+                remote = self.rsyncRemotePath(
+                    sid.path(use_mode=['ssh', 'ssh_gocryptfs']),
+                    use_mode=[],
+                    quote = '\\\"'
+                )
+                rsync = ' '.join(
+                    tools.rsyncRemove(self.config, run_local=False)
+                )
                 rsync += ' \\\"\\$TMP/\\\" {}; '.format(remote)
 
                 s = 'test -e \\\"%s\\\" && (' %sid.path(use_mode = ['ssh', 'ssh_gocryptfs'])
@@ -2585,7 +2618,10 @@ class SID:  # -> "BackupID" will be its new name
     """
     __cValidSID = re.compile(r'^\d{8}-\d{6}(?:-\d{3})?$')
 
+    # An INI like file storing some meta data about a backup. Deprecated.
     INFO = 'info'
+    # Replacement for 'info'
+    INFO_JSON = 'info.json'
     NAME = 'name'
     FAILED = 'failed'
     FILEINFO = 'fileinfo.bz2'
@@ -2940,9 +2976,16 @@ class SID:  # -> "BackupID" will be its new name
         Returns:
             str:    date and time of last check (YYYY-MM-DD HH:MM:SS)
         """
-        info = self.path(self.INFO)
-        if os.path.exists(info):
-            return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(os.path.getatime(info)))
+        fp = Path(self.path()) / self.INFO_JSON
+        if not fp.exists():
+            fp = Path(self.path()) / self.INFO
+
+        if fp.exists():
+            return time.strftime(
+                '%Y-%m-%d %H:%M:%S',
+                time.localtime(fp.stat().st_atime)
+            )
+
         return self.displayID
 
     # using @property.setter would be confusing here as there is no value to
@@ -2952,9 +2995,12 @@ class SID:  # -> "BackupID" will be its new name
         Set info files atime to current time to indicate this snapshot was
         checked against source without changes right now.
         """
-        info = self.path(self.INFO)
-        if os.path.exists(info):
-            os.utime(info, None)
+        fp = Path(self.path()) / self.INFO_JSON
+        if not fp.exists():
+            fp = Path(self.path()) / self.INFO
+
+        if fp.exists():
+            os.utime(fp, None)
 
     @property
     def failed(self):
@@ -2989,26 +3035,41 @@ class SID:  # -> "BackupID" will be its new name
         elif os.path.exists(failedFile):
             os.remove(failedFile)
 
-    @property
-    def info(self):
+    def load_from_info_file(self) -> dict:
         """
-        Load/save "info" file which contains additional information
-        about this snapshot (using configfile.ConfigFile)
+        Load "info" file which contains additional information
+        about this backup.
 
-        Args:
-            i (configfile.ConfigFile):  info that should be saved.
+        Two file formats are supported, the older one was INI like and the new
+        one is in JSON format.
 
-        Returns:
-            configfile.ConfigFile:  snapshots information
         """
-        i = configfile.ConfigFile()
-        i.load(self.path(self.INFO))
-        return i
+        new_fp = Path(self.path()) / self.INFO_JSON
 
-    @info.setter
-    def info(self, i):
-        assert isinstance(i, configfile.ConfigFile), 'i is not configfile.ConfigFile type: {}'.format(i)
-        i.save(self.path(self.INFO))
+        old_stat = None
+
+        # Check if the new new format is used
+        if not new_fp.exists():
+            old_fp = Path(self.path()) / self.INFO
+            old_stat = old_fp.stat()
+
+            info_dict = tools.convert_info_ini_file_to_dict(old_fp)
+
+            # store into new file
+            self.store_to_info_file(info_dict)
+
+            # set back the old timestamps because BIT is using them
+            os.utime(new_fp, (old_stat.st_atime, old_stat.st_mtime))
+
+        # read from new file
+        info_dict = json.loads(new_fp.read_text(encoding='utf-8'))
+
+        return info_dict
+
+    def store_to_info_file(self, info_dict: dict):
+        """Saves the given info dict in the info file"""
+        fp = Path(self.path()) / self.INFO_JSON
+        fp.write_text(json.dumps(info_dict, indent=4), encoding='utf-8')
 
     @property
     def fileInfo(self) -> FileInfoDict:
@@ -3458,8 +3519,7 @@ def get_backup_ids_and_paths(cfg: config.Config,
 
     return result
 
-
-if __name__ == '__main__':
-    config = config.Config()
-    snapshots = Snapshots(config)
-    snapshots.backup()
+# if __name__ == '__main__':
+#     config = config.Config()
+#     snapshots = Snapshots(config)
+#     snapshots.backup()

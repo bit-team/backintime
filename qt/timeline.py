@@ -18,7 +18,6 @@ from datetime import (datetime, date, timedelta)
 from calendar import monthrange
 from contextlib import contextmanager
 from functools import partial
-from typing import Optional
 from PyQt6.QtGui import QFont, QPalette
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtWidgets import (QAbstractItemView,
@@ -26,8 +25,8 @@ from PyQt6.QtWidgets import (QAbstractItemView,
                              QTreeWidget,
                              QTreeWidgetItem)
 import logger  # workaround. shouldn't be necessary
-import qttools
 from event import Event
+import qttools
 from qttools_path import register_backintime_path
 register_backintime_path('common')
 
@@ -48,7 +47,7 @@ def end_of_day(day: date) -> datetime:
     return datetime.combine(day, datetime.max.time())
 
 
-def _calculate_timeline_periods(today: date = date.today()
+def _calculate_timeline_periods(today: date
                                 ) -> list[tuple[str, datetime, datetime]]:
     """Calculate timestamps for the sub-headers.
 
@@ -137,7 +136,7 @@ class TimeLine(QTreeWidget):
         # other than a default header.
         self._specific_month_boundary = None
 
-        self.clear_and_reset()
+        # self.clear_and_reset()
 
         self.itemSelectionChanged.connect(self._on_item_selection_changed)
 
@@ -154,11 +153,12 @@ class TimeLine(QTreeWidget):
 
     def clear_and_reset(self):
         """Remove all entries, recalculate header data and add 'Now' entry"""
-
         with qttools.block_paint_updates(self):
             super().clear()
             self._header_data = []
-            self._default_header_data = _calculate_timeline_periods()
+            self._default_header_data = _calculate_timeline_periods(
+                today=date.today()  # noqa: DTZ011
+            )
             self._specific_month_boundary = self._default_header_data[-1][1]
 
             # "Now"
@@ -219,7 +219,8 @@ class TimeLine(QTreeWidget):
         end = start.replace(day=monthrange(start.year, start.month)[1])
 
         label = start.strftime(
-            '%B' if start.year == date.today().year else '%B, %Y'
+            '%B' if start.year == date.today().year  # noqa: DTZ011
+            else '%B, %Y'
         )
         label = label.capitalize()
 
@@ -229,12 +230,6 @@ class TimeLine(QTreeWidget):
         item = HeaderEntry(label, end)
         self.addTopLevelItem(item)
         self._header_data.append((label, start, end))
-
-        # # DEBUG
-        # item.setToolTip(
-        #     0,
-        #     f'DEBUG - {start.strftime("%c")} to {end.strftime("%c")}'
-        # )
 
         return True
 
@@ -313,7 +308,7 @@ class TimeLine(QTreeWidget):
         for item in self.iter_backup_items():
             item.setSelected(True)
 
-    def get_backup_item(self, descriptor: str) -> Optional[BackupEntry]:
+    def get_backup_item(self, descriptor: str) -> BackupEntry | None:
         """Return the related backup item"""
         for item in self.iter_backup_items():
             if item.descriptor == descriptor:
@@ -402,7 +397,7 @@ class NowEntry(_TimeLineItemBase):
 
     def __init__(self):
         super().__init__(
-            timestamp=datetime.max,
+            timestamp=datetime.max,  # noqa: DTZ901
             tooltip=_(
                 'These are your files as they are right now. '
                 'It is not a backup.'

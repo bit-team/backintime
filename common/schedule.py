@@ -14,9 +14,9 @@ Basic functions for handling Cron, Crontab, and other scheduling-related
 features.
 """
 import subprocess
-from typing import Callable
 import logger
 import tools
+import core_events
 from bitbase import ScheduleMode, TimeUnit
 from exceptions import InvalidChar, InvalidCmd, LimitExceeded
 
@@ -224,9 +224,7 @@ def is_cron_running():
 def add_udev_rule(pid: str,
                   udev_setup: tools.SetupUdev,
                   dest_path: str,
-                  exec_command: str,
-                  notify_callback: Callable
-                  ):
+                  exec_command: str):
     """Initiate adding udev rule for profile."""
 
     if not udev_setup.isReady:
@@ -234,7 +232,7 @@ def add_udev_rule(pid: str,
             f'Failed to install Udev rule for profile {pid}. DBus Service '
             '"net.launchpad.backintime.serviceHelper" not available')
 
-        notify_callback(_(
+        core_events.event_error.notify(_(
             "Could not install Udev rule for profile {profile_id}. "
             "DBus Service '{dbus_interface}' wasn't available."
         ).format(
@@ -248,8 +246,11 @@ def add_udev_rule(pid: str,
     if uuid is None:
         logger.error(
             f"Couldn't find UUID for \"{dest_path}\"")
-        notify_callback(_("Couldn't find UUID for {path}").format(
-            path=f'"{dest_path}"'))
+        core_events.event_error.notify(
+            _("Couldn't find UUID for {path}").format(
+                path=f'"{dest_path}"'
+            )
+        )
 
         return
 
@@ -258,11 +259,11 @@ def add_udev_rule(pid: str,
 
     except (InvalidChar, InvalidCmd, LimitExceeded) as exc:
         logger.error(str(exc))
-        notify_callback(str(exc))
+        core_events.event_error.notify(str(exc))
 
 
 # pylint: disable-next=too-many-arguments,too-many-positional-arguments
-def create_cron_line(schedule_mode: ScheduleMode,  # noqa: PLR0913
+def create_cron_line(schedule_mode: ScheduleMode,  # noqa: PLR0913, PLR0917
                      cron_command: str,
                      hour: int,
                      minute: int,
@@ -271,8 +272,7 @@ def create_cron_line(schedule_mode: ScheduleMode,  # noqa: PLR0913
                      offset: str,
                      custom_backup_time: str,
                      repeat_unit: TimeUnit,
-                     pid: str,
-                     notify_callback: Callable) -> str:
+                     pid: str) -> str:
     """Create a crontab line based on the given arguments.
 
     Returns:
@@ -306,13 +306,13 @@ def create_cron_line(schedule_mode: ScheduleMode,  # noqa: PLR0913
     msg = (f'Unexpected error while creating cron line for profile "{pid}" '
            f'with schedule mode "{schedule_mode}".')
     logger.error(msg)
-    notify_callback(msg)
+    core_events.event_error.notify(msg)
 
     return None
 
 
 # pylint: disable-next=too-many-arguments,too-many-positional-arguments
-def _simple_cron_line(schedule_mode: ScheduleMode,  # noqa: PLR0913
+def _simple_cron_line(schedule_mode: ScheduleMode,  # noqa: PLR0913, PLR0917
                       minute,  # pylint: disable=unused-argument
                       hour,  # pylint: disable=unused-argument
                       offset,  # pylint: disable=unused-argument

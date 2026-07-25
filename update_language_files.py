@@ -9,6 +9,7 @@
 """This helper script does manage transferring translations to and from the
 translation platform (currently Weblate).
 """
+import importlib
 import sys
 import datetime
 import re
@@ -16,10 +17,11 @@ import tempfile
 import string
 import shutil
 import json
+import common.languages as languages
+import common.version as version
 from pathlib import Path
 from subprocess import run, check_output
 from lxml import etree
-from common import languages, version
 
 try:
     import polib
@@ -131,6 +133,24 @@ def update_po_template():
     _update_po_template_from_desktop_files()
 
     _add_spdx_header_to_po_template()
+
+    _add_reuse_ignore_statements(TEMPLATE_PO)
+
+
+def _add_reuse_ignore_statements(fp: Path):
+    """The file content is encloused between REUSE ignore statemtents to
+    exclude that content from scanning by the reuse-tool linter.
+    """
+
+    content = fp.read_text(encoding='utf-8').splitlines()
+
+    for idx, line in enumerate(content):
+        if not line.startswith('#'):
+            content.insert(idx, '# REUSE-IgnoreStart')
+            content.append('# REUSE-IgnoreEnd')
+            break
+
+    fp.write_text('\n'.join(content), encoding='utf-8')
 
 
 def _add_spdx_header_to_po_template():
@@ -282,6 +302,8 @@ def update_po_language_files(remove_obsolete_entries: bool = False):
             run(cmd, check=True)
 
         _set_header(po_path, spdx_base)
+
+        _add_reuse_ignore_statements(po_path)
 
 
 def update_desktop_files():
@@ -670,7 +692,7 @@ def create_completeness_dict():
 
         result[po_path.stem] = pof.percent_translated()
 
-        pof.save()
+        # pof.save()
 
     # "en" is the source language
     result['en'] = 100
@@ -723,6 +745,9 @@ def create_languages_py_file():
         handle.write('\n')
 
     print(f'Result written to {LANGUAGE_NAMES_PY}.')
+
+    # reload the languages
+    importlib.reload(languages)
 
     # Completeness statistics (English is excluded)
     compl = list(compl_dict.values())
@@ -1024,8 +1049,8 @@ if __name__ == '__main__':
     # into the repository.
     if 'weblate' in sys.argv:
         update_from_weblate()
-        check_syntax_of_po_files()
         create_languages_py_file()
+        check_syntax_of_po_files()
         print(FIN_MSG)
         sys.exit()
 

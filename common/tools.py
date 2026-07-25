@@ -25,11 +25,15 @@ import locale
 import gettext
 import hashlib
 import shutil
+import json
+import configparser
+from io import StringIO, TextIOWrapper
 from datetime import datetime, timedelta
 from collections.abc import MutableMapping
 from packaging.version import Version
 from typing import Union
 from bitbase import TimeUnit, BINARY_NAME_BASE
+from event import Event
 from storagesize import StorageSize, SizeUnit
 import logger
 
@@ -73,7 +77,6 @@ except ImportError:
     else:
         raise
 
-import configfile
 import bcolors
 from exceptions import (Timeout,
                         InvalidChar,
@@ -408,7 +411,7 @@ def validate_and_prepare_snapshots_path(
         host_user_profile: tuple[str, str, str],
         mode: str,
         copy_links: bool,
-        error_handler: callable) -> bool:
+        error_event: Event) -> bool:
     """Check if the given path is valid for being a snapshot path.
 
     It is checked if it is a folder, if it is writable, if the filesystem is
@@ -424,15 +427,16 @@ def validate_and_prepare_snapshots_path(
             snapshots path.
         mode: The profiles mode.
         copy_links: The copy links value.
-        error_handler: Handle function receiving error messages.
+        error_event: Handle receiving error messages.
 
     Returns: Success (`True`) or failure (`False`).
     """
     path = pathlib.Path(path)
 
     if not path.is_dir():
-        error_handler(_('{path} is not a valid directory.')
-                      .format(path=path))
+        error_event.notify(
+            _('{path} is not a valid directory.').format(path=path)
+        )
         return False
 
     # build full path
@@ -447,24 +451,31 @@ def validate_and_prepare_snapshots_path(
         full_path.mkdir(mode=0o777, parents=True, exist_ok=True)
 
     except PermissionError:
-        error_handler('\n'.join([
-            _('Creation of following directory failed:'),
-            str(full_path),
-            _('Write access may be restricted.')]))
+        error_event.notify('\n'.join(
+            [
+                _('Creation of following directory failed:'),
+                str(full_path),
+                _('Write access may be restricted.')
+            ]
+        ))
         return False
 
     # Test filesystem
     rc, msg = is_filesystem_valid(
         full_path, path, mode, copy_links)
+
     if msg:
-        error_handler(msg)
+        error_event.notify(msg)
+
     if rc is False:
         return False
 
     # Test write access for the folder
     rc, msg = is_writeable(full_path)
+
     if msg:
-        error_handler(msg)
+        error_event.notify(msg)
+
     if rc is False:
         return False
 
@@ -596,14 +607,18 @@ def is_mounted(path: pathlib.Path) -> bool:
     if not absolute.exists():
         return False
 
-    if absolute.is_mount():
-        return True
+    if not absolute.is_mount():
+        return False
 
+    # Keep in mind, that is_mount() can be false positive on btrfs-subvolumes
+    # Issue #2487. That's why we need to be sure and also check the
+    # proc-mountinfo file
     return in_proc_self_mountinfo(absolute)
 
 
 def in_proc_self_mountinfo(path: pathlib.Path) -> bool:
     """Test if the path is in /proc/self/mountinfo"""
+
     mountinfo = pathlib.Path('/proc') / 'self' / 'mountinfo'
 
     try:
@@ -612,10 +627,13 @@ def in_proc_self_mountinfo(path: pathlib.Path) -> bool:
         logger.critical(f'Unable to read from file "{mountinfo}". {exc}')
         return False
 
-    return any(
-        (lambda parts=row.split(): len(parts) > 4 and parts[4] == path)()
-        for row in all_rows
-    )
+    for row in reversed(all_rows):
+        parts = row.split()
+
+        if len(parts) > 4 and pathlib.Path(parts[4]) == path:
+            return True
+
+    return False
 
 
 def free_space(path: pathlib.Path, ssh_command: list[str] = None
@@ -778,24 +796,19 @@ def get_git_repository_info(path=None, hash_length=None):
     return result
 
 
-def elapsed_at_least(start: datetime,
-                     end: datetime,
-                     value: int,
-                     unit: TimeUnit) -> bool:
-    """
-    Check if a time span meets at least a number of time units, counting
-    partial units as full.
+def crossed_at_least_units(start: datetime,
+                           end: datetime,
+                           value: int,
+                           unit: TimeUnit) -> bool:
+    """Return ``True`` if at least ``value`` boundaries have been crossed.
 
+    The number of crossed calendar unit boundaries between ``start`` and
+    ``end`` is counted. The elapsed time between ``start`` and ``end`` is
+    measured in terms of crossed calendar units rather than exact durations.
 
-    Return ``True`` if the time span between ``start`` and ``end`` is at least
-    ``value`` units (``units``). The unit can be hours, days, weeks, or months
-    (see `TimeUnit` for details). Partial units are counted.
-
-    The difference is measured as follows:
-    * hours: full or partial hours
-    * days: calendar days (date only)
-    * weeks: full or partial calendar weeks (starting Monday)
-    * months: full or partial calendar months
+    A ``unit`` is considered elapsed when its boundary has
+    been crossed. For example, moving from 18:59 to 19:02 crosses one hour
+    boundary, even though only three minutes have elapsed.
 
     Args:
         start: Beginning timestamp.
@@ -804,8 +817,9 @@ def elapsed_at_least(start: datetime,
         unit: TimeUnit specifying hours, days, weeks, or months.
 
     Returns:
-        ``True`` if the elapsed time is greater than or equal to ``value``
-        units, otherwise ``False``.
+        ``True`` if at least ``value`` boundaries have been crossed,
+        otherwise ``False``.
+
     """
     # Workaround
     if not isinstance(unit, TimeUnit):
@@ -813,8 +827,15 @@ def elapsed_at_least(start: datetime,
 
     if unit is TimeUnit.HOUR:
         # Calculate difference in hours, counting partial hours
-        delta_hours = math.ceil((end - start).total_seconds() / 3600)
+        start_hour = start.replace(minute=0, second=0, microsecond=0)
+        end_hour = end.replace(minute=0, second=0, microsecond=0)
+
+        delta_hours = int(
+            (end_hour - start_hour).total_seconds() / 3600
+        )
+
         return delta_hours >= value
+
 
     if unit is TimeUnit.DAY:
         return start.date() <= (end.date() - timedelta(days=value))
@@ -1315,7 +1336,8 @@ def rsyncCaps() -> list[str]:
 def rsyncPrefix(config,
                 no_perms: bool = True,
                 use_mode: list[str] = ['ssh', 'ssh_gocryptfs'],
-                progress: bool = True) -> list[str]:
+                progress: bool = True,
+                force_checksum_use: bool = False) -> list[str]:
     """
     Get rsync command and all args for creating a new snapshot. Args are
     based on current profile in ``config``.
@@ -1359,7 +1381,7 @@ def rsyncPrefix(config,
         '-s'
     ))
 
-    if config.useChecksum() or config.forceUseChecksum:
+    if config.useChecksum() or force_checksum_use:
         cmd.append('--checksum')
 
     if config.copyUnsafeLinks():
@@ -1536,27 +1558,31 @@ def checkCronPattern(s):
         return False
 
 
-def envLoad(f):
+def envLoad(fp: pathlib.Path):
     """
     Load environ variables from file ``f`` into current environ.
     Do not overwrite existing environ variables.
 
     Args:
-        f (str):    full path to file with environ variables
+        full path to file with environ variables
     """
+    if not fp.exists():
+        return
+
     env = os.environ.copy()
-    env_file = configfile.ConfigFile()
-    env_file.load(f, maxsplit = 1)
-    for key in env_file.keys():
-        value = env_file.strValue(key)
+
+    content = json.loads(fp.read_text(encoding='utf-8'))
+
+    for key, value in content.items():
+
         if not value:
             continue
-        if not key in list(env.keys()):
+
+        if key not in list(env.keys()):
             os.environ[key] = value
-    del env_file
 
 
-def envSave(f):
+def envSave(fp: pathlib.Path):
     """
     Save environ variables to file that are needed by cron
     to connect to keyring. This will only work if the user is logged in.
@@ -1565,15 +1591,23 @@ def envSave(f):
         f (str):    full path to file for environ variables
     """
     env = os.environ.copy()
-    env_file = configfile.ConfigFile()
-    for key in ('GNOME_KEYRING_CONTROL', 'DBUS_SESSION_BUS_ADDRESS',
-                'DBUS_SESSION_BUS_PID', 'DBUS_SESSION_BUS_WINDOWID',
-                'DISPLAY', 'XAUTHORITY', 'GNOME_DESKTOP_SESSION_ID',
-                'KDE_FULL_SESSION'):
-        if key in env:
-            env_file.setStrValue(key, env[key])
 
-    env_file.save(f)
+    content = {}
+
+    for key in ('GNOME_KEYRING_CONTROL',
+                'DBUS_SESSION_BUS_ADDRESS',
+                'DBUS_SESSION_BUS_PID',
+                'DBUS_SESSION_BUS_WINDOWID',
+                'DISPLAY',
+                'XAUTHORITY',
+                'GNOME_DESKTOP_SESSION_ID',
+                'KDE_FULL_SESSION',
+                'SSH_AUTH_SOCK'):
+
+        if key in env:
+            content[key] = env[key]
+
+    fp.write_text(json.dumps(content), encoding='utf-8')
 
 
 def _check_if_keyring_is_supported():
@@ -1702,7 +1736,7 @@ def setPassword(*args):
     return False
 
 
-def mountpoint(path):
+def mountpoint(path: Union[pathlib.Path, str]) -> str:
     """
     Get the mountpoint of ``path``. If your HOME is on a separate partition
     mountpoint('/home/user/foo') would return '/home'.
@@ -1713,15 +1747,21 @@ def mountpoint(path):
     Returns:
         str:        mountpoint of the filesystem
     """
-    path = os.path.realpath(os.path.abspath(path))
+    # WORKAROUND
+    if isinstance(path, str):
+        path = pathlib.Path(path)
 
-    while path != os.path.sep:
-        if os.path.ismount(path):
-            return path
+    path = path.resolve()
 
-        path = os.path.abspath(os.path.join(path, os.pardir))
+    while path != pathlib.Path(path.root):
 
-    return path
+        if is_mounted(path):
+            return str(path)
+
+        # one dir up
+        path = path.parent
+
+    return str(path)
 
 
 def decodeOctalEscape(s):
@@ -2488,3 +2528,73 @@ class Execute:
         if self.pausable and self.currentProc:
             logger.info(f'Kill process "{self.printable_cmd}"', self.parent, 2)
             return self.currentProc.kill()
+
+
+def convert_info_ini_file_to_dict(buffer: Union[TextIOWrapper, StringIO]
+                                  ) -> dict:
+    """Load the old 'info' file in INI format and convert its content
+    to a regular dict.
+
+    The old INI like file format used `config.ConfigFile`. But this class was
+    dreprecated and planned to get removed (#1923). Because of that the format
+    of that file was transformed to JSON.
+
+    The old format still need to be supported because old backups contain this
+    file and will need to for restoring.
+
+    Args:
+        buffer: An open text-file handle or a string buffer ready to read.
+    """
+
+    section = 'info-file-in-conversion'
+
+    # raw content
+    content = buffer.read()
+
+    config_parser = configparser.ConfigParser(interpolation=None)
+
+    # Add section header to make it a real INI file
+    config_parser.read_string(f'[{section}]\n{content}')
+
+    # The one and only main section
+    result = dict(config_parser[section])
+
+    # extract "snapshot" items
+    prefix = 'snapshot_'
+    snapshot_keys = list(
+        filter(lambda key: key.startswith(prefix), result.keys())
+    )
+    result['backup'] = {}
+    for key in snapshot_keys:
+        result['backup'][key.replace(prefix, '')] = result[key]
+        del result[key]
+
+    # clean up not necessary keys
+    del result['user.size']
+    del result['group.size']
+
+    # extract "user" and "group" items
+    for item_name in ('user', 'group'):
+        id_name = {'user': 'uid', 'group': 'gid'}[item_name]
+        prefix = f'{item_name}.'
+        item_keys = filter(lambda key: key.startswith(prefix), result.keys())
+        item_it = iter(sorted(item_keys))
+        pairs = list(zip(item_it, item_it))
+
+        result[f'{item_name}s'] = {}
+
+        for key_pair in pairs:
+            pair_result = {}
+
+            for key in key_pair:
+                new_key = key.rsplit('.', 1)[1]
+                pair_result[new_key] = result[key]
+
+                if pair_result[new_key].isdigit():
+                    pair_result[new_key] = int(pair_result[new_key])
+
+                del result[key]
+
+            result[f'{item_name}s'][pair_result[id_name]] = pair_result['name']
+
+    return result

@@ -126,61 +126,66 @@ below. You can change them to match paths from other machines.
 
 ### Schedule
 
-You can choose between couple different schedules which will automatically
-start a new backup. Most of them will use `crontab` to set up new
-schedules. You can use `crontab -l` to view them or `crontab -e` to edit.
+Different schedule types are available for different backup workflows
+depending on how backups should be triggered.
 
-- **At every boot/reboot**: start a new backup immediately after
-  startup. This will add a `@reboot <COMMAND>` line in `crontab`. Wake up from
-  suspend/hibernate will not trigger this schedule.
+Most schedules run backups at **fixed times**. If the computer is turned off at
+the scheduled time, the backup is skipped and will not be started later. 
+Other schedules can **catch up** on missed backups. If the computer was turned
+off when a backup became due, the backup will be started the next time _Back
+In Time_ is able to check the schedule. 
+Additionally **event-based** schedules start backups in response to
+specific events, such as system startup or connecting a backup drive via USB.
+
+**Fixed-time schedule modes**:
+
+- **Every Day**: start a new backup on a configurable time on every day.
+- **Every Week**: start a new backup on a configurable week-day/time every week.
+- **Every Month**: start a new backup on a configurable day/time every month.
+- **Every Year**: start a new backup on first day of first month of each year at a configurable time.
 - **Every X minutes**: start a new backup every 5, 10 or 30 minutes. This
   will add a line `*/<X> * * * * <COMMAND>` in `crontab`.
 - **Every hour**: start a new backup on every full hour. This will add a line
   `0 * * * * <COMMAND>` in `crontab`.
 - **Every X hours**: start a new backup every 2, 4, 6 or 12 hours at the full
-  hour (e.g. at 0:00, 6:00, 12:00 and 18:00 with schedule [Every 6 hours). This
-  will add a line `0 */<X> * * * <COMMAND>` in `crontab`. If the computer is
-  not running at scheduled time there will be no new backup. This will not
-  resume after switching on again.
+  hour (e.g. at 0:00, 6:00, 12:00 and 18:00 with schedule "Every 6 hours"). This
+  will add a line `0 */<X> * * * <COMMAND>` in `crontab`.
 - **Custom Hours**: define custom pattern for `crontab`. This can be either a
-  comma separated list of hours (e.g 0,10,13,15,17,20,23) or \*/\<X\>
-  (e.g. [\*/3) for periodic schedules. This will add a line `0
-  0,10,13,15,17,20,23 * * * <COMMAND>` in `crontab`. If the computer is not
-  running at scheduled time there will be no new backup. This will not resume
-  after switching on again.
-- **Every Day**: start a new backup on a configurable time on every day. If
-  the computer is not running at the configured time there will be no new
-  backup for the day.
-- **Repeatedly (anacron)**: this schedule will start new backups after a
-  configurable time (hours, days or weeks) when the last backup was done
-  before this delay. This will also work when the system was powered off. It
-  does imitate anacron but doesn't use it. Instead Back in Time writes it's own
-  time-stamp after each successful backup and add a `crontab` job which will
-  start Back in Time every 15min (or every hour if configured for weeks). If
-  the configured delay is not done yet it will just exit immediately. If an
-  error occurred during taking the backup it won't write a new time-stamp and
-  so will try again after 15min/one hour.
-- **When drive get connected (udev)**: this schedule will start a new backup
-  as soon as the USB/eSATA/Firewire drive get connected. You can configure a
-  delay (hours, days or weeks like in schedule Repeatedly) so it won't start on
-  every new connection. This will add a new udev rule in
-  `/etc/udev/rules.d/99-backintime-<USER>.rules` using the partitions UUID. If
-  using KDE you need to enable auto-mount for the device in System-Settings.
-- **Every Week**: start a new backup on a configurable week-day/time every
-  week. If the computer is not running at the configured time there will be no
-  new backup for the week.
-- **Every Month**: start a new backup on a configurable day/time every
-  month. If the computer is not running at the configured time there will be no
-  new backup for the month.
-- **Every Year**: Start a new backup on on first day of first month of each
-  year at a configurable time. If the computer is not running at the configured
-  time there will be no new backup for the year.
+  comma separated list of hours (e.g `0,10,13,15,17,20,23`) or `*/<X>` (e.g.
+  `*/3`) for periodic schedules. This will add a line
+  `0 0,10,13,15,17,20,23 * * * <COMMAND>` in `crontab`.
 
-!!! note
-    For hourly schedules (every hour, every x hours, and custom hours),
-    there will be an option to specify how many minutes after the hour the
-    schedule should run. This can be used to prevent multiple backup profiles
-    from running at the same time.
+**Catch-up schedule mode**:
+
+- **Repeatedly**: this schedule triggers backups when a configured number of
+  calendar units (hours, days, weeks, or months) has passed since the last
+  successful backup.
+  A backup becomes due once a new calendar unit has been reached. For
+  example, "1 hour" means the backup runs once the next clock hour begins,
+  not after a fixed 60-minute duration.
+  _Back In Time checks_ the schedule periodically via a crontab entry
+  (typically every 15 minutes, or every hour for longer intervals). If no
+  backup is due, it exits immediately.
+  If the system was powered off or _Back In Time_ was not running when a backup
+  became due, the backup will be performed the next time the schedule is
+  checked. If a backup fails, it will be retried on the next check.
+
+**Event-based schedule modes**:
+
+- **At every boot/reboot**: start a new backup immediately after
+  startup. This will add a `@reboot <COMMAND>` line in `crontab`. Wake up from
+  suspend/hibernate will not trigger this schedule.
+- **When drive gets connected (udev)**: this schedule will start a new backup
+  as soon as the USB/eSATA/Firewire drive gets connected. You can configure a
+  delay (hours, days or weeks) so it won't start on
+  every new connection. This will add a new udev rule in
+  `/etc/udev/rules.d/99-backintime-<USER>.rules` using the partitions UUID.
+  Make sure auto-mount is enabled in your system.
+
+**Technical details**:
+
+Most of the modes will use `crontab` to set up new schedules. You can use
+`crontab -l` to view them or `crontab -e` to edit them manually.
 
 ## Include
 

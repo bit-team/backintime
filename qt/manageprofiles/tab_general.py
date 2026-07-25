@@ -34,6 +34,7 @@ import version
 import schedule
 import qttools
 import messagebox
+import core_events
 from manageprofiles import combobox, schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
 from manageprofiles.sshkeyselector import SshKeySelector
@@ -527,12 +528,8 @@ class GeneralTab(QDialog):
             host_user_profile=self.config.hostUserProfile(),
             mode=mode,
             copy_links=self.config.copyLinks(),
-            error_handler=self.config.notifyError)
-
-        # # DEBUG
-        # logger.critical(
-        #     f'validate_and_prepare_snapshots_path() returned {success=}'
-        # )
+            error_event=core_events.event_error
+        )
 
         if success is False:
             return False
@@ -656,17 +653,25 @@ class GeneralTab(QDialog):
         #     return False
 
     def _snapshot_mode_combobox(self) -> combobox.BitComboBox:
-        # Workaround until encryption transition (#1734) is finished.
-
-        # # Find out if profiles using EncFS
-        # all_used_modes = {
-        #     self.config.snapshotsMode(pid) for pid in self.config.profiles()
-        # }
-        # print(f'{all_used_modes=}')  # DEBUG
-
+        tooltips = {
+            'local': _('Backups are stored locally.'),
+            'local_gocryptfs': _(
+                'Backups are stored locally and encrypted using gocryptfs.'
+            ),
+            'ssh': _('Backups are stored on a remote system via SSH.'),
+            'ssh_gocryptfs': _(
+                'Backups are stored on a remote system via SSH and '
+                'encrypted using gocryptfs.'
+            )
+        }
         snapshot_modes = {}
         for key in self.config.SNAPSHOT_MODES:
-            snapshot_modes[key] = self.config.SNAPSHOT_MODES[key][1]
+            snapshot_modes[key] = (
+                # label
+                self.config.SNAPSHOT_MODES[key][1],
+                # tooltip
+                tooltips[key]
+            )
 
         return combobox.BitComboBox(self, snapshot_modes)
 
@@ -694,18 +699,18 @@ class GeneralTab(QDialog):
             return
 
         # gocryptfs destination need to be empty
-        if 'gocryptfs' in self.mode:
-            # is not empty
-            if not self._is_empty_or_initialized_gocryptfs(path):
-                return
+        if ('gocryptfs' in self.mode
+                and not self._is_empty_or_initialized_gocryptfs(path)):
+            return
 
         # Really change?
-        answer = messagebox.question(
-            text=_('Really change the backup directory?'),
-            widget_to_center_on=self)
+        if old_path != Path('.'):
+            answer = messagebox.question(
+                text=_('Really change the backup directory?'),
+                widget_to_center_on=self)
 
-        if not answer:
-            return
+            if not answer:
+                return
 
         # Set the path
         self._edit_backup_path.setText(str(path))

@@ -19,6 +19,13 @@ from sshcore import SSHHost
 from ._error import MountError
 
 
+try:
+    _('Warning')
+except NameError:
+    def _(val):
+        return val
+
+
 class Backend:
     """Base class for mount backends"""
 
@@ -200,7 +207,7 @@ class SSHBackend(Backend):
             cmd,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.PIPE,
-            universal_newlines=True,
+            text=True,
             check=False
         )
 
@@ -269,18 +276,20 @@ class SSHBackend(Backend):
             (
                 ['test', '-d', path],
                 'Remote path is not a directory or does not exist"',
-                _('The remote backup directory does not exist or is not '
-                  'a directory.')
+                _('The remote backup directory is missing or is not a '
+                  'valid directory.')
             ),
             (
                 ['test', '-w', path],
                 'Remote path is not writable',
-                _('The remote backup directory is not writable.')
+                _('Write access to the remote backup directory was '
+                  'denied (missing permissions).')
             ),
             (
                 ['test', '-x', path],
                 'Remote path is not accessible/searchable',
-                _('The remote backup directory cannot be accessed.')
+                _('Access to the remote backup directory denied '
+                  '(missing permissions).')
             )
         ]
 
@@ -364,8 +373,7 @@ class SSHBackend(Backend):
         if self.host.proxy:
             cmd.extend([
                 '-o',
-                'ssh_command=ssh -J '
-                f'{self.host.proxy.user_host_port}'
+                f'ssh_command=ssh -J {self.host.proxy.user_host_port}'
             ])
 
         logger.debug(f'Calling mount command: {cmd}')

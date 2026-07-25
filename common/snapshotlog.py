@@ -11,6 +11,7 @@
 import os
 import re
 from collections.abc import Iterator
+from types import MappingProxyType
 import logger
 import snapshots
 import tools
@@ -44,7 +45,7 @@ class LogFilter:  # pylint: disable=too-few-public-methods
     # re.html#regular-expression-syntax
     # (?:...) = the matched substring cannot be retrieved in a
     # group (non-capturing)
-    REGEX = {
+    REGEX = MappingProxyType({
         None: None,
         NO_FILTER: None,
         ERROR: re.compile(r'^(?:\[E\]|[^\[])'),
@@ -98,7 +99,8 @@ class LogFilter:  # pylint: disable=too-few-public-methods
              r'|get_xattr_data: lgetxattr'  # xattrs.c#L199, #L215
              # r').*'  # no need to match the remainder of the line
              r')'
-             )}
+        )
+    })
 
     def __init__(self, mode=0, decode=None):
         self.regex = self.REGEX[mode]
@@ -163,6 +165,9 @@ class SnapshotLog:
     ALL = 3
 
     def __init__(self, cfg, profile=None):
+        # pylint: disable-next=invalid-name
+        self.logFile = None
+
         self.config = cfg
 
         if profile:
@@ -174,8 +179,6 @@ class SnapshotLog:
         self.logLevel = cfg.logLevel()
         # pylint: disable-next=invalid-name
         self.logFileName = cfg.takeSnapshotLogFile(self.profile)
-        # pylint: disable-next=invalid-name
-        self.logFile = None
 
         self.timer = tools.Alarm(self.flush, overwrite=False)
 
@@ -184,7 +187,7 @@ class SnapshotLog:
             self.logFile.close()
 
     def get(self,
-            mode: int = None,
+            mode: int | None = None,
             decode=None,
             skipLines: int = 0  # pylint: disable=invalid-name # noqa: N803
             ) -> Iterator[str]:
@@ -210,7 +213,7 @@ class SnapshotLog:
                 if logFilter.header and not skipLines:
                     yield logFilter.header
 
-                for line in f.readlines():
+                for line in f:
                     line = logFilter.filter(line.rstrip('\n'))
 
                     if line is not None:
@@ -221,7 +224,8 @@ class SnapshotLog:
 
                         yield line
 
-        except Exception as exc:  # pylint: disable=broad-exception-caught
+        # pylint: disable-next=broad-exception-caught
+        except Exception as exc:  # noqa: BLE001
             msg = (
                 f'Failed to get take_snapshot log from {self.logFile}:',
                 str(exc)
@@ -274,7 +278,9 @@ class SnapshotLog:
 
         if not self.logFile:
             # pylint: disable-next=consider-using-with
-            self.logFile = open(self.logFileName, mode='at', encoding='utf-8')
+            self.logFile = open(  # noqa: SIM115
+                self.logFileName, mode='at', encoding='utf-8'
+            )
 
         self.logFile.write(msg + '\n')
         self.timer.start(5)  # flush the log output buffer after 5 seconds

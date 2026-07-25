@@ -59,3 +59,34 @@ class Test(unittest.TestCase):
         self.assertEqual(b.value, 'who')
         self.assertEqual(x.value, 'Naomi')
         self.assertEqual(x.value, y.value)
+
+    def test_clear_instance(self):
+        """Remove the instance"""
+        # pylint: disable=protected-access
+        sut = Test.Foo()
+
+        # Instance exists
+        self.assertEqual(
+            singleton.Singleton._instances,
+            {Test.Foo: sut}
+        )
+
+        singleton.Singleton.remove_instance(Test.Foo)
+
+        # No instance
+        self.assertEqual(
+            singleton.Singleton._instances,
+            {}
+        )
+
+    def test_clear_unexisting_instance(self):
+        """Exception on removing an unexisting instance"""
+        # pylint: disable=protected-access
+        # No instance
+        self.assertEqual(
+            singleton.Singleton._instances,
+            {}
+        )
+
+        with self.assertRaises(TypeError):
+            singleton.Singleton.remove_instance(Test.Foo)

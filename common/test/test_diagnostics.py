@@ -71,16 +71,16 @@ class General(unittest.TestCase):
         as a context manaager.
         """
 
-        # an AssertionError must be raised! See next block for explanation.
-        with self.assertRaises(AssertionError):
-
-            # We expect NO ResourceWarnings. But Python doesn't offer
-            # assertNoWarns().
-            # This will raise an AssertionError because no ResourceWarning's
-            # are raised.
-            with self.assertWarns(ResourceWarning):
-
-                diagnostics.collect_diagnostics()
+        # an AssertionError must be raised!
+        # We expect NO ResourceWarnings. But Python doesn't offer
+        # assertNoWarns().
+        # This will raise an AssertionError because no ResourceWarning's
+        # are raised.
+        with (
+            self.assertRaises(AssertionError),
+            self.assertWarns(ResourceWarning)
+        ):
+            diagnostics.collect_diagnostics()
 
     def test_no_extern_version(self):
         """Get version from not existing tool."""

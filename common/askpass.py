@@ -12,13 +12,14 @@ import password
 import password_ipc
 import tools
 import config
+import bitbase
 
 
 if __name__ == '__main__':
     # return password
 
     cfg = config.Config()
-    tools.envLoad(cfg.cronEnvFile())
+    tools.envLoad(bitbase.CRON_ENV_PATH)
 
     profile_id = os.getenv('ASKPASS_PROFILE_ID', '1')
     mode = os.getenv('ASKPASS_MODE', 'local')

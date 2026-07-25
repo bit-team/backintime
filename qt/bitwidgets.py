@@ -17,7 +17,7 @@ Dev note (buhtz, 2025-03: Have look at "qt/manageprofiles/combobox.py" and
 consolidate if possible.
 """
 import itertools
-from typing import Callable
+from collections.abc import Callable
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import QCursor, QMouseEvent
 from PyQt6.QtWidgets import (QCheckBox,
@@ -174,8 +174,8 @@ class WrappedCheckBox(QWidget):
 
     def __init__(self,
                  label: str,
-                 tooltip: str = None,
-                 parent: QWidget = None):
+                 tooltip: str | None = None,
+                 parent: QWidget | None = None):
         super().__init__(parent)
 
         self.checkbox = QCheckBox()
@@ -223,7 +223,7 @@ class Spinner(QLabel):
 
     def __init__(self,
                  parent: QWidget = None,
-                 font_scale: float = None):
+                 font_scale: float | None = None):
         super().__init__(parent)
 
         # self.spinner_sequence = ['◐', '◓', '◑', '◒']
@@ -268,9 +268,9 @@ class HypertextLabel(QLabel):
     def __init__(self,
                  label: str,
                  word_wrap: bool = False,
-                 link_slot: Callable[[str], None] = None,
-                 link_tooltip: str = None,
-                 parent: QWidget = None):
+                 link_slot: Callable[[str], None] | None = None,
+                 link_tooltip: str | None = None,
+                 parent: QWidget | None = None):
         super().__init__(parent)
 
         self._link_tooltip = link_tooltip

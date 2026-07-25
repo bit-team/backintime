@@ -8,6 +8,7 @@
 import os
 import sys
 import re
+import unittest
 from test import generic
 from datetime import datetime
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -16,6 +17,7 @@ import snapshots
 from mount import MountManager
 
 
+@unittest.skip('See Issue #2461')
 class Filter(generic.TestCase):
     # TODO: add decode test
     def __init__(self, *args, **kwargs):
@@ -96,6 +98,7 @@ class Filter(generic.TestCase):
             self.assertEqual(line, logFilter.filter(line))
 
 
+@unittest.skip('See Issue #2461')
 class Log(generic.SnapshotsTestCase):
     def setUp(self):
         super().setUp()

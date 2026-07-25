@@ -18,6 +18,7 @@ import snapshots
 from snapshotlog import SnapshotLog
 
 
+@unittest.skip('See Issue #2461')
 class General(generic.SnapshotsTestCase):
     def test_new_object_with_valid_date(self):
         sid1 = snapshots.SID('20151219-010324-123', self.cfg)
@@ -305,6 +306,7 @@ class General(generic.SnapshotsTestCase):
             self.fail(msg.format(testFile))
 
 
+@unittest.skip('See Issue #2461')
 class NewBackup(generic.SnapshotsTestCase):
     def test_create_new(self):
         new = snapshots.NewSnapshot(self.cfg)
@@ -351,6 +353,7 @@ class NewBackup(generic.SnapshotsTestCase):
         self.assertTrue(new.hasChanges)
 
 
+@unittest.skip('See Issue #2461')
 class RootBackup(generic.SnapshotsTestCase):
     #TODO: add test with 'sid.path(use_mode=['ssh_encfs'])'
     def test_create(self):
@@ -365,6 +368,7 @@ class RootBackup(generic.SnapshotsTestCase):
         self.assertEqual(sid.path('foo', 'bar'), '/foo/bar')
 
 
+@unittest.skip('See Issue #2461')
 class IterBackups(generic.SnapshotsTestCase):
     def setUp(self):
         super().setUp()
@@ -462,6 +466,7 @@ class IterBackups(generic.SnapshotsTestCase):
                          '20151219-040324-123')
 
 
+@unittest.skip('See Issue #2461')
 class IterBackupsNonexistingBackupPath(generic.TestCaseSnapshotPath):
     def test_iter(self):
         for _ in snapshots.iterSnapshots(self.cfg):

@@ -18,9 +18,14 @@ class StorageSizeWidget(SpinBoxWithUnit):
     def __init__(self,
                  parent: QWidget,
                  range_min_max: tuple[int, int],
-                 value: StorageSize = StorageSize(0, SizeUnit.MIB)):
+                 value: StorageSize | None):
 
-        content_dict = {unit: str(unit) for unit in SizeUnit}
+        if value is None:
+            value = StorageSize(0, SizeUnit.MIB)
+
+        content_dict = {
+            unit: str(unit) for unit in SizeUnit
+        }
         del content_dict[SizeUnit.B]  # exclude Bytes
 
         super().__init__(
@@ -53,8 +58,8 @@ class StorageSizeWidget(SpinBoxWithUnit):
             # Use widgets unit
             value.unit = self.unit()
 
-        self.set_value(value.value())
         self.select_unit(value.unit)
+        self.set_value(value.value())
 
         self._value = value
 
