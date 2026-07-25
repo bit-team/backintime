@@ -46,7 +46,7 @@ import pluginmanager
 import schedule
 import core_events
 from storagesize import StorageSize
-from exceptions import PermissionDeniedByPolicy
+from exceptions import PermissionDeniedByPolicy, Timeout
 from konfig import Konfig
 
 
@@ -1853,11 +1853,15 @@ class Config:  # (configfile.ConfigFileWithProfiles):
             return
 
         for pid in profile_ids:
+
             backup_mode = self.snapshotsMode(pid)
+
             if backup_mode == 'local':
                 dest_path = self.snapshotsFullPath(pid)
+
             elif backup_mode == 'local_gocryptfs':
                 dest_path = self.localGocryptfsPath(pid)
+
             else:
                 logger.error(
                     f"Udev scheduling doesn't work with mode {backup_mode}",
@@ -1883,6 +1887,16 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         except PermissionDeniedByPolicy as err:
             logger.error(str(err), self)
             core_events.event_error.notify(str(err))
+            return False
+
+        except Timeout:
+            logger.error(
+                'Time out while waiting for users dbus authentication'
+            )
+            core_events.event_error.notify(_(
+                'Authentication timed out. The udev scheduling setup was not '
+                'completed. Please try again.'
+            ))
             return False
 
     def _setup_schedule_based_automation(self):
