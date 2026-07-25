@@ -1164,7 +1164,6 @@ class MainWindow(QMainWindow):
 
             self.updateProfile()
 
-
     def raiseApplication(self):
         raiseCmd = self.appInstance.raiseCommand()
         if raiseCmd is None:
@@ -1928,11 +1927,22 @@ class MainWindow(QMainWindow):
         self._update_backup_status(True)
 
     def _send_signal_to_backup_process(self, sig: signal.Signals) -> bool:
+        """Send a POSIX signal to the backup process.
 
+        If the process has already terminated, the GUI state is refreshed and
+        ``False`` is returned instead of propagating ``ProcessLookupError``.
+
+        Returns:
+            ``True`` if the signal was sent successfully, otherwise
+                ``False``.
+
+        """
         try:
             os.kill(self.snapshots.pid(), sig)
+
         except ProcessLookupError:
             self._update_backup_status(True)
+
             return False
 
         return True
