@@ -692,7 +692,7 @@ class ParserAgent:
             '--usage',
             action='store_true',
             default=False,
-            help='display total physical disk usage of all backups')
+            help='show disk usage and space saved by hard-link deduplication')
 
         self.parsers[name] = parser
 
