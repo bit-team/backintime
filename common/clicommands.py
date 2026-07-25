@@ -523,11 +523,6 @@ def show_backups(args: argparse.Namespace):
             mounted_path=mount_manager.path
         )
 
-    if not backups:
-        logger.error(f'No backups in profile "{cfg.profileName()}"')
-        _umount(cfg)
-        sys.exit(bitbase.RETURN_ERR)
-
     if args.last:
         backups = backups[-1:]
 
@@ -559,25 +554,10 @@ def show_backups(args: argparse.Namespace):
 
     print(result)
 
-    sys.exit(bitbase.RETURN_OK)
+    if not backups:
+        logger.info(f'No backups in profile "{cfg.profileName()}"')
+        sys.exit(bitbase.RETURN_ERR)
 
-
-def _umount(cfg):
-    """Unmount backend and encryptor for the current profile."""
-    MountManager.create(cfg).umount()
-
-
-def unmount(args: argparse.Namespace):
-    """Command 'unmount'.
-
-    Args:
-        args: Parsed command-line arguments.
-
-    Raises:
-        SystemExit: 0
-    """
-    cfg = _get_config(args)
-    _umount(cfg)
     sys.exit(bitbase.RETURN_OK)
 
 
@@ -620,6 +600,24 @@ def prune(args: argparse.Namespace):
                                             keep_one_per_month)
         logger.info(f'{len(del_snapshots)} backups are marked for removal.')
         sn.smartRemove(del_snapshots, log=logger.info)
+        sys.exit(bitbase.RETURN_OK)
+
+
+def unmount(args):
+    """Unmount all filesystems.
+
+    Args:
+        args: Previously parsed arguments
+
+    Raises:
+        SystemExit: 0
+    """
+    cli.set_quiet(args)
+
+    cfg = _get_config(args)
+
+    mount_manager = MountManager.create(cfg)
+    with mount_manager.mounted():
         sys.exit(bitbase.RETURN_OK)
 
 
@@ -721,8 +719,6 @@ def _format_usage(size_bytes: int) -> str:
     else:
         return f'Total disk usage: {size_bytes} Byte'
 
-
-# --- Space savings via hard links ---
 
 def _compute_sizes_local(paths: list) -> tuple:
     """Return (apparent_bytes, physical_bytes) for local backup dirs.
