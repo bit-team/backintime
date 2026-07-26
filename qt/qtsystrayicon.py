@@ -20,6 +20,7 @@ import subprocess
 import signal
 import textwrap
 import functools
+from pathlib import Path
 from argparse import ArgumentParser
 from typing import Callable
 # TODO Is this really required? If the client is not configured for X11
@@ -513,7 +514,7 @@ if __name__ == '__main__':
     argparser.add_argument(
         '--config',
         metavar='PATH',
-        type=str,
+        type=Path,
         action='store'
     )
 
