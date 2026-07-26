@@ -51,6 +51,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
   ([PR#2493](https://github.com/bit-team/backintime/issues/2493))
 - Dependency: `encfs`
 - CLI:
+  - **Breaking**: CLI option `--share-path` which was deprecated earlier in `1.6.0` ([#2535](https://github.com/bit-team/backintime/issues/2535))
   - Switch `--keep-mount`
   - Command `decode` because of EncFS removal ([#1734](https://github.com/bit-team/backintime/issues/1734))
   - Command `benchmark-cipher` ([#2120](https://github.com/bit-team/backintime/issues/2120))
