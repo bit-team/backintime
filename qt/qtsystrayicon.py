@@ -39,6 +39,7 @@ import snapshots
 import progress
 import logviewdialog
 import config
+from konfig import Konfig
 from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QProgressBar, QWidget
 from PyQt6.QtGui import QIcon, QRegion
@@ -67,7 +68,11 @@ class QtSysTrayIcon:
 
     def __init__(self, config_path=None, profile_id=None):
 
-        self.config = config.Config(config_path)
+        konfig = Konfig()
+        konfig.load(config_path)
+
+        self.config = config.Config()
+
         self.snapshots = snapshots.Snapshots(cfg=self.config)
         self.decode = None
 
@@ -516,7 +521,6 @@ if __name__ == '__main__':
 
     logger.DEBUG = args.debug
 
-    logger.critical(f'{args=}')  # DEBUG
     if args.config:
         config_path = args.config
     else:
