@@ -259,6 +259,10 @@ under certain conditions; type `backintime --license' for details.
         os.makedirs(os.path.join(snapshot_root, '20260101-010000-001', 'backup'))
         os.makedirs(os.path.join(snapshot_root, '20260315-083000-002', 'backup'))
 
+        # Ensure mount subsystem password cache dir exists on CI
+        os.makedirs(os.path.expanduser(
+            '~/.local/share/backintime/password_cache'), exist_ok=True)
+
         proc = subprocess.Popen(["./backintime",
                                  "--config", "test/config",
                                  "show", "--usage"],
