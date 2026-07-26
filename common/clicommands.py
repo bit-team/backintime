@@ -523,20 +523,21 @@ def show_backups(args: argparse.Namespace):
             mounted_path=mount_manager.path
         )
 
-    if args.last:
-        backups = backups[-1:]
+        if args.last:
+            backups = backups[-1:]
 
-    if args.usage:
-        size_bytes = _compute_total_usage(cfg, backups)
-        print(_format_usage(size_bytes))
+        if args.usage:
+            size_bytes = _compute_total_usage(cfg, backups,
+                                               mount_manager.path)
+            print(_format_usage(size_bytes))
 
-        # Append space savings from hard-link deduplication
-        logical, physical, saved, percent = \
-            _compute_space_savings(cfg, backups)
-        if logical >= 0 and physical >= 0:
-            saved_fmt = _format_size_human(saved)
-            print(f'Space saved by hard links: {percent:.1f} %'
-                  f' ({saved_fmt})')
+            # Append space savings from hard-link deduplication
+            logical, physical, saved, percent = \
+                _compute_space_savings(cfg, backups, mount_manager.path)
+            if logical >= 0 and physical >= 0:
+                saved_fmt = _format_size_human(saved)
+                print(f'Space saved by hard links: {percent:.1f} %'
+                      f' ({saved_fmt})')
 
     if args.path:
         # Path
@@ -650,13 +651,15 @@ def _du_local_total(paths: list, du_flags=None) -> int:
         return -1
 
 
-def _du_remote_total(cfg, backups, du_flags=None) -> int:
+def _du_remote_total(cfg, backups, du_flags=None,
+                     mounted_path=None) -> int:
     """Compute total disk usage of remote backups via SSH.
 
     Args:
         cfg: Config instance.
         backups: List of (sid_str, path) tuples.
         du_flags: Flags for ``du``, defaults to ``['-sbc']`` (apparent size).
+        mounted_path: Mount path required by new mount subsystem.
 
     Returns:
         Total size in bytes, or -1 on failure.
@@ -668,7 +671,7 @@ def _du_remote_total(cfg, backups, du_flags=None) -> int:
     remote_paths = []
 
     for sid_str, _ in backups:
-        sid_obj = snapshots.SID(sid_str, cfg)
+        sid_obj = snapshots.SID(sid_str, cfg, mounted_path)
         if mode == 'ssh_encfs':
             remote_path = sid_obj.path(use_mode=['ssh_encfs'])
         else:
@@ -694,10 +697,11 @@ def _du_remote_total(cfg, backups, du_flags=None) -> int:
         return -1
 
 
-def _compute_total_usage(cfg, backups):
+def _compute_total_usage(cfg, backups, mounted_path=None):
     mode = cfg.snapshotsMode()
     if mode in ('ssh', 'ssh_encfs'):
-        return _du_remote_total(cfg, backups)
+        return _du_remote_total(cfg, backups,
+                                mounted_path=mounted_path)
     return _du_local_total([p for _, p in backups])
 
 
@@ -710,14 +714,13 @@ def _format_usage(size_bytes: int) -> str:
     if size >= StorageSize(1, SizeUnit.GIB):
         value = size.value(SizeUnit.GIB, decimal_places=1)
         return f'Total disk usage: {value:.1f} GiB'
-    elif size >= StorageSize(1, SizeUnit.MIB):
+    if size >= StorageSize(1, SizeUnit.MIB):
         value = size.value(SizeUnit.MIB, decimal_places=1)
         return f'Total disk usage: {value:.1f} MiB'
-    elif size_bytes >= 1024:
+    if size_bytes >= 1024:
         value = size_bytes / 1024
         return f'Total disk usage: {value:.1f} KiB'
-    else:
-        return f'Total disk usage: {size_bytes} Byte'
+    return f'Total disk usage: {size_bytes} Byte'
 
 
 def _compute_sizes_local(paths: list) -> tuple:
@@ -735,7 +738,7 @@ def _compute_sizes_local(paths: list) -> tuple:
     return (logical, physical)
 
 
-def _compute_sizes_remote(cfg, backups) -> tuple:
+def _compute_sizes_remote(cfg, backups, mounted_path=None) -> tuple:
     """Return (apparent_bytes, physical_bytes) for remote backups via SSH.
 
     Apparent = sum of ``du -sbc`` per snapshot via SSH (no cross-snapshot
@@ -743,13 +746,14 @@ def _compute_sizes_remote(cfg, backups) -> tuple:
     deduplicated across snapshots).
     """
     # Logical: each snapshot individually via SSH (no cross-snapshot dedup)
-    logical = sum(_du_remote_total(cfg, [b]) for b in backups)
+    logical = sum(_du_remote_total(cfg, [b], mounted_path=mounted_path)
+                  for b in backups)
     # Physical: all together (cross-snapshot hard-link dedup)
-    physical = _du_remote_total(cfg, backups)
+    physical = _du_remote_total(cfg, backups, mounted_path=mounted_path)
     return (logical, physical)
 
 
-def _compute_space_savings(cfg, backups) -> tuple:
+def _compute_space_savings(cfg, backups, mounted_path=None) -> tuple:
     """Compute space saved by hard link-based deduplication.
 
     Returns:
@@ -759,20 +763,14 @@ def _compute_space_savings(cfg, backups) -> tuple:
     mode = cfg.snapshotsMode()
 
     if mode in ('ssh', 'ssh_encfs'):
-        logical, physical = _compute_sizes_remote(cfg, backups)
+        logical, physical = _compute_sizes_remote(
+            cfg, backups, mounted_path=mounted_path)
     else:
         logical, physical = _compute_sizes_local(
             [str(p) for _, p in backups])
 
     if logical < 0 or physical < 0:
         return (-1, -1, -1, 0.0)
-
-    if logical == 0:
-        return (0, 0, 0, 0.0)
-
-    saved = logical - physical
-    percent = (saved / logical) * 100.0
-    return (logical, physical, saved, percent)
 
     if logical == 0:
         return (0, 0, 0, 0.0)
@@ -796,11 +794,10 @@ def _format_size_human(size_bytes: int) -> str:
     if size >= StorageSize(1, SizeUnit.GIB):
         value = size.value(SizeUnit.GIB, decimal_places=1)
         return f'{value:.1f} GiB'
-    elif size >= StorageSize(1, SizeUnit.MIB):
+    if size >= StorageSize(1, SizeUnit.MIB):
         value = size.value(SizeUnit.MIB, decimal_places=1)
         return f'{value:.1f} MiB'
-    elif size_bytes >= 1024:
+    if size_bytes >= 1024:
         value = size_bytes / 1024
         return f'{value:.1f} KiB'
-    else:
-        return f'{size_bytes} Byte'
+    return f'{size_bytes} Byte'
