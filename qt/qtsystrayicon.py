@@ -516,6 +516,8 @@ if __name__ == '__main__':
 
     logger.DEBUG = args.debug
 
+    print('X'*100)
+    print(f'{args=}')  # DEBUG
     if args.config:
         config_path = args.config
     else:
