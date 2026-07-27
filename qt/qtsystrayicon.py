@@ -20,6 +20,7 @@ import subprocess
 import signal
 import textwrap
 import functools
+from pathlib import Path
 from argparse import ArgumentParser
 from typing import Callable
 # TODO Is this really required? If the client is not configured for X11
@@ -39,6 +40,7 @@ import snapshots
 import progress
 import logviewdialog
 import config
+from konfig import Konfig
 from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QProgressBar, QWidget
 from PyQt6.QtGui import QIcon, QRegion
@@ -67,7 +69,11 @@ class QtSysTrayIcon:
 
     def __init__(self, config_path=None, profile_id=None):
 
-        self.config = config.Config(config_path)
+        konfig = Konfig()
+        konfig.load(config_path)
+
+        self.config = config.Config()
+
         self.snapshots = snapshots.Snapshots(cfg=self.config)
         self.decode = None
 
@@ -508,7 +514,7 @@ if __name__ == '__main__':
     argparser.add_argument(
         '--config',
         metavar='PATH',
-        type=str,
+        type=Path,
         action='store'
     )
 
