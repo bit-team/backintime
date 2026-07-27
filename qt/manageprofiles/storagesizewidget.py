@@ -18,7 +18,7 @@ class StorageSizeWidget(SpinBoxWithUnit):
     def __init__(self,
                  parent: QWidget,
                  range_min_max: tuple[int, int],
-                 value: StorageSize | None):
+                 value: StorageSize | None = None):
 
         if value is None:
             value = StorageSize(0, SizeUnit.MIB)
