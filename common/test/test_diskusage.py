@@ -16,49 +16,6 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import diskusage
 
 
-class FormatUsage(unittest.TestCase):
-    """Tests for format_usage()."""
-
-    def test_negative(self):
-        self.assertEqual(
-            diskusage.format_usage(-1),
-            'Total disk usage: ERROR (could not determine size)')
-
-    def test_zero(self):
-        self.assertEqual(
-            diskusage.format_usage(0),
-            'Total disk usage: 0 Byte')
-
-    def test_bytes(self):
-        # 512 < 1024, stays as Byte
-        self.assertEqual(
-            diskusage.format_usage(512),
-            'Total disk usage: 512 Byte')
-
-    def test_kib(self):
-        self.assertEqual(
-            diskusage.format_usage(2048),
-            'Total disk usage: 2.0 KiB')
-
-    def test_mib(self):
-        mib = 1024 * 1024
-        self.assertEqual(
-            diskusage.format_usage(mib),
-            'Total disk usage: 1.0 MiB')
-
-    def test_gib(self):
-        gib = 1024 * 1024 * 1024
-        self.assertEqual(
-            diskusage.format_usage(gib),
-            'Total disk usage: 1.0 GiB')
-
-    def test_boundary_kib_to_mib(self):
-        # Just below 1 MiB
-        self.assertIn('KiB', diskusage.format_usage(1024 * 1024 - 1))
-        # At 1 MiB
-        self.assertIn('MiB', diskusage.format_usage(1024 * 1024))
-
-
 class FormatSizeHuman(unittest.TestCase):
     """Tests for format_size_human()."""
 

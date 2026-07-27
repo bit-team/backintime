@@ -83,6 +83,7 @@ class Basics(unittest.TestCase):
         expected_bytes = 1024*(1024**2)
         expected_value = {
             SizeUnit.B: expected_bytes,
+            SizeUnit.KIB: 1024 * 1024,
             SizeUnit.MIB: 1024,
             SizeUnit.GIB: 1
         }

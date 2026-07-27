@@ -97,25 +97,6 @@ def compute_total_usage(cfg, backups, mounted_path=None):
     return _du_local_total([p for _, p in backups])
 
 
-def format_usage(size_bytes: int) -> str:
-    """Format a disk usage byte count into a human-readable string."""
-    if size_bytes < 0:
-        return 'Total disk usage: ERROR (could not determine size)'
-
-    size = StorageSize(size_bytes)
-
-    if size >= StorageSize(1, SizeUnit.GIB):
-        value = size.value(SizeUnit.GIB, decimal_places=1)
-        return f'Total disk usage: {value:.1f} GiB'
-    if size >= StorageSize(1, SizeUnit.MIB):
-        value = size.value(SizeUnit.MIB, decimal_places=1)
-        return f'Total disk usage: {value:.1f} MiB'
-    if size_bytes >= 1024:
-        value = size_bytes / 1024
-        return f'Total disk usage: {value:.1f} KiB'
-    return f'Total disk usage: {size_bytes} Byte'
-
-
 def format_size_human(size_bytes: int) -> str:
     """Format a byte count into a human-readable string.
 
@@ -133,8 +114,8 @@ def format_size_human(size_bytes: int) -> str:
     if size >= StorageSize(1, SizeUnit.MIB):
         value = size.value(SizeUnit.MIB, decimal_places=1)
         return f'{value:.1f} MiB'
-    if size_bytes >= 1024:
-        value = size_bytes / 1024
+    if size >= StorageSize(1, SizeUnit.KIB):
+        value = size.value(SizeUnit.KIB, decimal_places=1)
         return f'{value:.1f} KiB'
     return f'{size_bytes} Byte'
 

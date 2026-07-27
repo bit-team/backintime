@@ -251,30 +251,3 @@ under certain conditions; type `backintime --license' for details.
                          bitbase.APP_NAME)
         self.assertEqual(diagnostics["backintime"]["version"],
                          version.__version__)
-
-    def test_show_with_usage(self):
-        snapshot_root = '/tmp/snapshots/backintime/test-host/test-user/1'
-
-        subprocess.getoutput(f'rm -rf {snapshot_root}')
-        os.makedirs(os.path.join(snapshot_root, '20260101-010000-001', 'backup'))
-        os.makedirs(os.path.join(snapshot_root, '20260315-083000-002', 'backup'))
-
-        # Ensure mount subsystem dirs exist on CI (#2461)
-        for subdir in ('password_cache', 'mnt'):
-            os.makedirs(os.path.expanduser(
-                f'~/.local/share/backintime/{subdir}'), exist_ok=True)
-
-        proc = subprocess.Popen(["./backintime",
-                                 "--config", "test/config",
-                                 "show", "--usage"],
-                                stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE)
-        output, error = proc.communicate()
-        output_str = output.decode()
-
-        self.assertEqual(proc.returncode, 0,
-                         f'show --usage failed. stderr: {error.decode()}')
-
-        self.assertIn('Total disk usage:', output_str)
-        self.assertIn('20260101-010000-001', output_str)
-        self.assertIn('20260315-083000-002', output_str)

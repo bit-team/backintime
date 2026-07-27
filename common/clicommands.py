@@ -528,7 +528,13 @@ def show_backups(args: argparse.Namespace):
         if args.usage:
             size_bytes = diskusage.compute_total_usage(
                 cfg, backups, mount_manager.path)
-            print(diskusage.format_usage(size_bytes))
+
+            if size_bytes < 0:
+                print('Total disk usage: ERROR '
+                      '(could not determine size)')
+            else:
+                print(f'Total disk usage: '
+                      f'{diskusage.format_size_human(size_bytes)}')
 
             # Append space savings from hard-link deduplication
             logical, physical, saved, percent = \

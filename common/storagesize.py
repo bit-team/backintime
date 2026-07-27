@@ -18,7 +18,7 @@ from types import MappingProxyType
 class SizeUnit(Enum):
     """Unit to describe storage size."""
     B = 0
-    # KIB = 5
+    KIB = 5
     MIB = 10
     GIB = 20
     # TIB = 30
@@ -26,6 +26,7 @@ class SizeUnit(Enum):
     def __str__(self):
         return {
             self.B: 'Byte',
+            self.KIB: 'KiB',
             self.MIB: 'MiB',
             self.GIB: 'GiB',
         }[self]
@@ -39,6 +40,7 @@ class StorageSize:
     """
     _FACTORS = MappingProxyType({
         SizeUnit.B: 0,
+        SizeUnit.KIB: 1,
         SizeUnit.MIB: 2,
         SizeUnit.GIB: 3,
     })
