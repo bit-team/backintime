@@ -14,28 +14,28 @@ import os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import diskusage
+from storagesize import StorageSize
 
 
 class FormatSizeHuman(unittest.TestCase):
-    """Tests for format_size_human()."""
+    """Tests for StorageSize.human_readable()."""
 
     def test_zero(self):
-        self.assertEqual(diskusage.format_size_human(0), '0 Byte')
+        self.assertEqual(StorageSize(0).as_human_readable(), '0 Byte')
 
     def test_bytes(self):
-        # 512 < 1024, stays as Byte
-        self.assertEqual(diskusage.format_size_human(512), '512 Byte')
+        self.assertEqual(StorageSize(512).as_human_readable(), '512 Byte')
 
     def test_kib(self):
-        self.assertEqual(diskusage.format_size_human(2048), '2.0 KiB')
+        self.assertEqual(StorageSize(2048).as_human_readable(), '2.0 KiB')
 
     def test_mib(self):
         self.assertEqual(
-            diskusage.format_size_human(1024 * 1024), '1.0 MiB')
+            StorageSize(1024 * 1024).as_human_readable(), '1.0 MiB')
 
     def test_gib(self):
         gib = 1024 * 1024 * 1024
-        self.assertEqual(diskusage.format_size_human(gib), '1.0 GiB')
+        self.assertEqual(StorageSize(gib).as_human_readable(), '1.0 GiB')
 
 
 class LocalDiskUsage(unittest.TestCase):

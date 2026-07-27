@@ -30,6 +30,7 @@ from mount import MountManager
 from applicationinstance import ApplicationInstance
 from shutdownagent import ShutdownAgent
 import diskusage
+from storagesize import StorageSize
 
 
 def _deprecation_msg(cmd_flag: str, replacement: str) -> str:
@@ -534,14 +535,14 @@ def show_backups(args: argparse.Namespace):
                       '(could not determine size)')
             else:
                 print(f'Total disk usage: '
-                      f'{diskusage.format_size_human(size_bytes)}')
+                      f'{StorageSize(size_bytes).as_human_readable()}')
 
             # Append space savings from hard-link deduplication
             logical, physical, saved, percent = \
                 diskusage.compute_space_savings(
                     cfg, backups, mount_manager.path)
             if logical >= 0 and physical >= 0:
-                saved_fmt = diskusage.format_size_human(saved)
+                saved_fmt = StorageSize(saved).as_human_readable()
                 print(f'Space saved by hard links: {percent:.1f} %'
                       f' ({saved_fmt})')
 
