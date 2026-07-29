@@ -254,17 +254,6 @@ class ParserAgent:
         )
 
         parser.add_argument(
-            '--share-path',
-            metavar='PATH',
-            type=str,
-            action='store',
-            # Hide because deprecated (#2125)
-            help=argparse.SUPPRESS
-            # help='Write runtime data (locks, messages, log and '
-            #      'mountpoints) to %(metavar)s.'
-        )
-
-        parser.add_argument(
             '--quiet',
             action='store_true',
             help='be quiet and suppress messages on stdout')
@@ -912,9 +901,6 @@ def parse_arguments(args: Namespace,
     if args.profile_id:
         clicommands.show_deprecation_message('--profile-id')
         args.profile = str(args.profile_id)
-
-    if args.share_path:
-        clicommands.show_deprecation_message('--share-path')
 
     # Report unknown arguments but not if we run aliasParser next because we
     # will parse again in there.

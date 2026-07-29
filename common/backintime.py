@@ -43,9 +43,6 @@ def takeSnapshotAsync(cfg, checksum=False):
 
     cmd.extend(('--config', str(bitbase.context['--config'])))
 
-    # if cfg._LOCAL_DATA_FOLDER is not cfg._DEFAULT_LOCAL_DATA_FOLDER:
-    #     cmd.extend(('--share-path', cfg.DATA_FOLDER_ROOT))
-
     if logger.DEBUG:
         cmd.append('--debug')
 
@@ -132,7 +129,6 @@ def startApp(bin_name: str) -> config.Config | None:
     # This loads the real/new "Konfig"
     _real_konfig = cli.get_config_and_select_profile(
         config_path=bitbase.context['--config'],
-        # data_path=args.share_path,
         pid_or_name=args.profile,
         # Dev note (buhtz, 2025): There is not a default value in all cases,
         # because "--checksum" is exclusive to rsync-related commands.
