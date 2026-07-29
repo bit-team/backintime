@@ -2293,12 +2293,16 @@ class SetupUdev:
             return self.iface.save()
 
         except dbus.exceptions.DBusException as err:
+            dbus_name = err.get_dbus_name()
 
-            if (err._dbus_error_name
+            if (dbus_name
                     == 'com.ubuntu.DeviceDriver.PermissionDeniedByPolicy'):
                 raise PermissionDeniedByPolicy(str(err)) from err
 
-            raise err
+            if dbus_name == 'org.freedesktop.DBus.Error.NoReply':
+                raise Timeout() from err
+
+            raise
 
     def clean(self):
         """Clean up remote cache.
