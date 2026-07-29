@@ -541,8 +541,6 @@ def get_config_and_select_profile(
     cfg = Konfig()
     cfg.load(config_path)
 
-    # cfg = config.Config(config_path=config_path, data_path=data_path)
-
     # detect and remove encfs profiles
     if _backup_and_remove_encfs_config(cfg):
         # re-read again
@@ -558,12 +556,5 @@ def get_config_and_select_profile(
     if pid_or_name and not cfg.has_profile(pid_or_name):
         logger.error(f'Profile not found: {pid_or_name}')
         sys.exit(bitbase.RETURN_ERR)
-
-    # if check and not cfg.isConfigured():
-    #     logger.error(f'{cfg.APP_NAME} is not configured!')
-    #     sys.exit(bitbase.RETURN_NO_CFG)
-
-    # if checksum is not None:
-    #     cfg.forceUseChecksum = checksum
 
     return cfg

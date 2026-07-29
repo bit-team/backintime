@@ -9,7 +9,8 @@
 import subprocess
 import logger
 import snapshots
-
+import konfig
+import config
 
 
 def _du_local_total(paths: list, du_flags=None) -> int:
@@ -41,12 +42,16 @@ def _du_local_total(paths: list, du_flags=None) -> int:
         return -1
 
 
-def _du_remote_total(cfg, backups, du_flags=None,
+def _du_remote_total(profile: konfig.Profile,
+                     cfg: config.Config,
+                     backups,
+                     du_flags: bool | None = None,
                      mounted_path=None) -> int:
     """Compute total disk usage of remote backups via SSH.
 
     Args:
-        cfg: Config instance.
+        profile: The related backup profile.
+        cfg: (Deprecated) config object.
         backups: List of (sid_str, path) tuples.
         du_flags: Flags for ``du``, defaults to ``['-sbc']`` (apparent size).
         mounted_path: Mount path required by new mount subsystem.
@@ -54,24 +59,24 @@ def _du_remote_total(cfg, backups, du_flags=None,
     Returns:
         Total size in bytes, or -1 on failure.
     """
+
     if du_flags is None:
         du_flags = ['-sbc']
 
-    mode = cfg.snapshotsMode()
+    mode = profile.mode
     remote_paths = []
 
-    for sid_str, _ in backups:
+    for sid_str, _unused in backups:
         sid_obj = snapshots.SID(sid_str, cfg, mounted_path)
-        if mode == 'ssh_encfs':
-            remote_path = sid_obj.path(use_mode=['ssh_encfs'])
-        else:
-            remote_path = sid_obj.path(use_mode=['ssh'])
+        remote_path = sid_obj.path()
         remote_paths.append(remote_path)
 
     ssh_cmd = cfg.sshCommand(
         cmd=['du'] + du_flags + remote_paths,
         nice=False, ionice=False
     )
+    # print(f'{ssh_cmd=}')
+    # sys.exit()
     try:
         result = subprocess.run(
             ssh_cmd, capture_output=True, text=True, check=True
@@ -87,15 +92,18 @@ def _du_remote_total(cfg, backups, du_flags=None,
         return -1
 
 
-def compute_total_usage(cfg, backups, mounted_path=None):
+def compute_total_usage(profile: konfig.Profile,
+                        cfg: config.Config,
+                        backups,
+                        mounted_path=None):
     """Total physical disk usage of all backups."""
-    mode = cfg.snapshotsMode()
-    if mode in ('ssh', 'ssh_encfs'):
-        return _du_remote_total(cfg, backups,
-                                mounted_path=mounted_path)
-    return _du_local_total([p for _, p in backups])
 
+    if profile.mode in ('ssh', 'ssh_encfs'):
+        return _du_remote_total(
+            profile, cfg, backups, mounted_path=mounted_path
+        )
 
+    return _du_local_total([p for _unused, p in backups])
 
 
 def compute_sizes_local(paths: list) -> tuple:

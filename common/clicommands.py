@@ -26,6 +26,7 @@ import password
 import cli
 import config
 import bitbase
+from konfig import Konfig
 from mount import MountManager
 from applicationinstance import ApplicationInstance
 from shutdownagent import ShutdownAgent
@@ -84,7 +85,12 @@ def _get_config(args: argparse.Namespace) -> config.Config:
     )
 
     # A surrogate using Konfig() in the back
-    return config.Config()
+    cfg = config.Config()
+
+    print('X'*100)
+    logger.debug(f'{cfg.current_profile_id=} {cfg.currentProfile()=}')
+
+    return cfg
 
 
 def backup(args: argparse.Namespace, force: bool = True):
@@ -511,6 +517,12 @@ def show_backups(args: argparse.Namespace):
 
     cfg = _get_config(args)
     mount_manager = MountManager.create(cfg)
+    usage_result = ''
+
+    # Dirty WORKAROUND
+    # The info which profil is selected shouldn't state in a config object
+    current_profile_id = cfg.current_profile_id
+    profile = Konfig().profile(current_profile_id)
 
     with mount_manager.mounted():
         # raw data
@@ -526,7 +538,10 @@ def show_backups(args: argparse.Namespace):
 
         if args.usage:
             size_bytes = diskusage.compute_total_usage(
-                cfg, backups, mount_manager.path)
+                profile,
+                cfg,
+                backups,
+                mount_manager.path)
 
             if size_bytes < 0:
                 print('Total disk usage: ERROR '
@@ -565,6 +580,28 @@ def show_backups(args: argparse.Namespace):
         sys.exit(bitbase.RETURN_ERR)
 
     sys.exit(bitbase.RETURN_OK)
+
+
+def _get_usage_summary_text() -> str:
+    size_bytes = diskusage.compute_total_usage(
+        cfg, backups, mount_manager.path)
+
+    if size_bytes < 0:
+        print('Total disk usage: ERROR '
+                '(could not determine size)')
+    else:
+        print(f'Total disk usage: '
+                f'{StorageSize(size_bytes).as_human_readable()}')
+
+    # Append space savings from hard-link deduplication
+    logical, physical, saved, percent = \
+        diskusage.compute_space_savings(
+            cfg, backups, mount_manager.path)
+    if logical >= 0 and physical >= 0:
+        saved_fmt = StorageSize(saved).as_human_readable()
+        print(f'Space saved by hard links: {percent:.1f} %'
+                f' ({saved_fmt})')
+
 
 
 def smart_remove(args: argparse.Namespace):

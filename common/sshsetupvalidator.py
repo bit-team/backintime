@@ -370,7 +370,7 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
                 return
 
         raise SSHSetupError(
-            f'{self.ssh_host.host} is not a known hosts',
+            f'{self.ssh_host.host} is not a known host',
             _('The SSH host "{host}" is not trusted yet.').format(
                 host=self.ssh_host.host)
             + '\n\n' + _('Please connect to the host manually once to '
