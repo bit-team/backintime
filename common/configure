@@ -192,9 +192,7 @@ printf "\t(cd .. && ./updateversion.sh)\n\n" >> ${MAKEFILE}
 
 # buildinfo.py does not exist when configure generates the Makefile.
 # Install it explicitly if updateversion.sh created it.
-printf "\tif [ -f common/buildinfo.py ]; then \\\n" >> ${MAKEFILE}
-printf "\t\tinstall --mode=644 common/buildinfo.py \$(DEST)/share/backintime/common; \\\n" >> ${MAKEFILE}
-printf "\tfi\n\n" >> ${MAKEFILE}
+printf "\tif [ -f common/buildinfo.py ]; then install --mode=644 common/buildinfo.py \$(DEST)/share/backintime/common; fi\n\n" >> ${MAKEFILE}
 
 addComment "python"
 addUninstallDir          "/share/backintime/common/__pycache__"
