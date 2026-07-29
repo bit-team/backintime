@@ -16,7 +16,7 @@ import re
 __version__ = '2.0.0-dev'
 
 try:
-    from .buildinfo import git_hash
+    from buildinfo import git_hash
     if git_hash and __version__.endswith('-dev'):
         __version__ = f'{__version__}.{git_hash}'
 except ImportError:
