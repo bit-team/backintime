@@ -515,19 +515,13 @@ def _backup_and_remove_encfs_config(cfg: Konfig) -> bool:
 
 def get_config_and_select_profile(
         config_path: Path,
-        # data_path: str,
         pid_or_name: Union[str, int]
-        # checksum: Optional[bool] = None
-        # check: bool = True
 ) -> Konfig:
     """Load config and change to profile selected on commandline.
 
     Args:
         config_path: Path to config file.
-        data_path: Path to "share_path".
         pid_or_name: Name or ID of the profile.
-        checksum: Use checksum option.
-        check: If ``True`` check if config is valid.
 
     Returns:
         Current the config
