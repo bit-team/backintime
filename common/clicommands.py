@@ -65,7 +65,6 @@ def show_deprecation_message(cmd_flag: str):
         'remove-and-do-not-ask-again':
             'Use "remove --skip-confirmation" instead.',
         '--profile-id': 'Use "--profile" instead.',
-        '--share-path': None,
     }[cmd_flag]
 
     msg = _deprecation_msg(cmd_flag, replacement)
@@ -80,7 +79,6 @@ def _get_config(args: argparse.Namespace) -> config.Config:
     # Crreate a Konfig instance
     cli.get_config_and_select_profile(
         config_path=bitbase.context['--config'],  # args.config,
-        # data_path=args.share_path,
         pid_or_name=args.profile
         # checksum=getattr(args, 'checksum', None)
     )

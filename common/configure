@@ -190,11 +190,22 @@ printf "install:\tinstall_translations\n" >> ${MAKEFILE}
 printf "\n\t# Inject version string into source files\n" >> ${MAKEFILE}
 printf "\t(cd .. && ./updateversion.sh)\n\n" >> ${MAKEFILE}
 
+# buildinfo.py does not exist when configure generates the Makefile.
+# Install it explicitly if updateversion.sh created it.
+printf "\tif [ -f common/buildinfo.py ]; then install --mode=644 common/buildinfo.py \$(DEST)/share/backintime/common; fi\n\n" >> ${MAKEFILE}
+
 addComment "python"
 addUninstallDir          "/share/backintime/common/__pycache__"
 addUninstallFile "*.pyc" "/share/backintime/common/__pycache__"
 addInstallDir            "/share/backintime/common"
-addInstallFiles "*.py"   "/share/backintime/common"
+# addInstallFiles "*.py"   "/share/backintime/common"
+# All py-files except "buildinfo.py"
+for file in *.py; do
+    if [ "$file" != "buildinfo.py" ]; then
+        addInstallFile "$file" "/share/backintime/common"
+    fi
+done
+
 addInstallDir                  "/share/backintime/common/mount"
 addInstallFiles "mount/*.py"   "/share/backintime/common/mount"
 addNewline

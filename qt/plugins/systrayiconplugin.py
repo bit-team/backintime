@@ -12,7 +12,7 @@
 # Known open issues:
 # this script should get started and consider some cmd line arguments from BiT
 # (parsed via backintime.createParsers()) so that the same paths are used,
-# mainly "share-path" and "config" (path to the config file).
+# mainly "config" (path to the config file).
 # Otherwise e.g. unit tests or special user path settings may lead to
 # wrong status info in the systray icon!
 """Plugin starting the systray icon process

@@ -501,11 +501,13 @@ class MainWindow(QMainWindow):
                 _('Use checksums for file change detection.')),
             'act_pause_take_snapshot': (
                 icon.PAUSE, _('Pause backup process'),
-                lambda: os.kill(self.snapshots.pid(), signal.SIGSTOP), None,
+                lambda: self._send_signal_to_backup_process(signal.SIGSTOP),
+                None,
                 None),
             'act_resume_take_snapshot': (
                 icon.RESUME, _('Resume backup process'),
-                lambda: os.kill(self.snapshots.pid(), signal.SIGCONT), None,
+                lambda: self._send_signal_to_backup_process(signal.SIGCONT),
+                None,
                 None),
             'act_stop_take_snapshot': (
                 icon.STOP, _('Stop backup process'),
@@ -1161,7 +1163,6 @@ class MainWindow(QMainWindow):
                 self.widget_current_path.setText(self.path)
 
             self.updateProfile()
-
 
     def raiseApplication(self):
         raiseCmd = self.appInstance.raiseCommand()
@@ -1925,12 +1926,34 @@ class MainWindow(QMainWindow):
         backintime.takeSnapshotAsync(self.config, checksum=checksum)
         self._update_backup_status(True)
 
+    def _send_signal_to_backup_process(self, sig: signal.Signals) -> bool:
+        """Send a POSIX signal to the backup process.
+
+        If the process has already terminated, the GUI state is refreshed and
+        ``False`` is returned instead of propagating ``ProcessLookupError``.
+
+        Returns:
+            ``True`` if the signal was sent successfully, otherwise
+                ``False``.
+
+        """
+        try:
+            os.kill(self.snapshots.pid(), sig)
+
+        except ProcessLookupError:
+            self._update_backup_status(True)
+
+            return False
+
+        return True
+
     def _slot_backup_stop(self):
-        os.kill(self.snapshots.pid(), signal.SIGKILL)
+        if self._send_signal_to_backup_process(signal.SIGKILL):
+            self.snapshots.setTakeSnapshotMessage(0, 'Backup terminated')
+
         self.act_stop_take_snapshot.setEnabled(False)
         self.act_pause_take_snapshot.setEnabled(False)
         self.act_resume_take_snapshot.setEnabled(False)
-        self.snapshots.setTakeSnapshotMessage(0, 'Backup terminated')
 
     # |---------|
     # | Restore |
