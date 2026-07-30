@@ -90,7 +90,7 @@ class Singleton(type):
             raise TypeError(
                 f'No instance of class {cls_to_remove} exists') from exc
 
-    @classmethod
-    def remove_all_instances(mcs):
-        """Remove all existing singleton instances"""
-        mcs._instances.clear()
+    # pylint: disable=no-method-argument
+    def remove_all_instances():
+        """Remove all singleton instances"""
+        Singleton._instances.clear()

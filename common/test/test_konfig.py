@@ -133,7 +133,7 @@ class ProfilesExistance(unittest.TestCase):
         self.assertEqual(Konfig().to_profile_id('One'), 1)
         self.assertEqual(Konfig().to_profile_id('TheAnswer'), 42)
 
-        # existance is irrelevant
+        # existence is irrelevant
         self.assertEqual(Konfig().to_profile_id(4), 4)
 
     def test_exists(self):
@@ -231,3 +231,29 @@ class IncExc(unittest.TestCase):
                 '/bar/foo/folder',
             ]
         )
+
+    def test_include_does_not_leak_between_instances(self):
+        """Include values do not leak through singleton state.
+
+        This is aregression test covering a specific bug found in the past. It
+        is similar to General.test_new_instance_has_clean_state().
+        """
+        config = Konfig()
+        config.load(StringIO('\n'.join([
+            'profile1.name=dontleak'
+        ])))
+        profile = config.profile(1)
+
+        profile.include = [
+            ('/foo', 0),
+        ]
+
+        Singleton.remove_all_instances()
+
+        config = Konfig()
+        config.load(StringIO('\n'.join([
+            'profile1.name=dontleak'
+        ])))
+        profile = config.profile(1)
+
+        self.assertEqual(profile.include, [])
