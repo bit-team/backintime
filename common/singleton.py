@@ -74,9 +74,9 @@ class Singleton(type):
 
         except KeyError:
             # Create new instance
-            cls._instances[cls] = super().__call__(*args, **kwargs)
+            Singleton._instances[cls] = super().__call__(*args, **kwargs)
 
-            return cls._instances[cls]
+            return Singleton._instances[cls]
 
     # pylint: disable-next=C0203
     def remove_instance(cls_to_remove):  # noqa: N804
@@ -89,3 +89,8 @@ class Singleton(type):
         except KeyError as exc:
             raise TypeError(
                 f'No instance of class {cls_to_remove} exists') from exc
+
+    @classmethod
+    def remove_all_instances(mcs):
+        """Remove all existing singleton instances"""
+        mcs._instances.clear()

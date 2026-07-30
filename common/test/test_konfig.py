@@ -10,14 +10,15 @@ import configparser
 import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 from pathlib import Path
 from io import StringIO
-from konfig import Konfig
+from konfig import Konfig, Profile
+from singleton import Singleton
 
 
 class General(unittest.TestCase):
     """Konfig class"""
 
     def setUp(self):
-        Konfig._instances = {}
+        Singleton.remove_all_instances()
 
     def test_empty(self):
         """Empty config file"""
@@ -47,12 +48,24 @@ class General(unittest.TestCase):
         except configparser.InterpolationSyntaxError as exc:
             self.fail(f'InterpolationSyntaxError was raised. {exc}')
 
+    def test_new_instance_has_clean_state(self):
+        """A new Konfig instance does not inherit old values."""
+        sut = Konfig()
+        sut['test.value'] = 'foobar'
+
+        Singleton.remove_all_instances()
+
+        sut = Konfig()
+
+        with self.assertRaises(KeyError):
+            sut['test.value']
+
 
 class Read(unittest.TestCase):
     """Read a config file/object"""
 
     def setUp(self):
-        Konfig._instances = {}
+        Singleton.remove_all_instances()
 
     def test_from_memory_via_load(self):
         """Config in memory"""
@@ -78,11 +91,11 @@ class Read(unittest.TestCase):
         self.assertEqual(sut.language, 'wq')
 
 
-class Profiles(unittest.TestCase):
+class ProfilesBasics(unittest.TestCase):
     """Konfig.Profile class"""
 
     def setUp(self):
-        Konfig._instances = {}
+        Singleton.remove_all_instances()
 
     def test_empty(self):
         """Profile child objects"""
@@ -94,7 +107,7 @@ class Profiles(unittest.TestCase):
     def test_default_values(self):
         """Default values and their types of fields if not present."""
         sut = Konfig()
-        sut.load(StringIO(''))
+        sut.load(StringIO('profile0.name=Zero'))
         sut = sut.profile(0)
 
         self.assertEqual(sut.ssh_check_commands, True)
@@ -103,15 +116,55 @@ class Profiles(unittest.TestCase):
         self.assertIsInstance(sut.ssh_port, int)
 
 
+class ProfilesExistance(unittest.TestCase):
+    def setUp(self):
+        Singleton.remove_all_instances()
+        konfig = Konfig()
+        konfig.load(StringIO('\n'.join([
+            'profile1.name=One',
+            'profile3.name=Misc',
+            'profile42.name=TheAnswer',
+            'profile7.name=Magic',
+        ])))
+
+    def test_to_id(self):
+        self.assertEqual(Konfig().to_profile_id(42), 42)
+        self.assertEqual(Konfig().to_profile_id('Magic'), 7)
+        self.assertEqual(Konfig().to_profile_id('One'), 1)
+        self.assertEqual(Konfig().to_profile_id('TheAnswer'), 42)
+
+        # existance is irrelevant
+        self.assertEqual(Konfig().to_profile_id(4), 4)
+
+    def test_exists(self):
+        self.assertIsInstance(Konfig().profile(42), Profile)
+        self.assertIsInstance(Konfig().profile('One'), Profile)
+
+    def test_unexisting(self):
+        with self.assertRaises(KeyError):
+            Konfig().profile(123)
+
+    def test_has(self):
+        self.assertTrue(Konfig().has_profile(42))
+        self.assertTrue(Konfig().has_profile('One'))
+
+    def test_dont_has(self):
+        for arg in [321, 'IamNotHere']:
+            self.assertFalse(Konfig().has_profile(arg))
+
+
 class IncExc(unittest.TestCase):
     """About include and exclude fields"""
 
     def setUp(self):
-        Konfig._instances = {}
+        Singleton.remove_all_instances()
 
     def test_exclude_write(self):
         """Write exclude fields"""
         config = Konfig()
+        config.load(StringIO('\n'.join([
+            'profile1.name=Foo'
+        ])))
         sut = config.profile(1)
 
         self.assertEqual(sut.exclude, [])
@@ -123,6 +176,9 @@ class IncExc(unittest.TestCase):
     def test_include_write(self):
         """Write include fields"""
         config = Konfig()
+        config.load(StringIO('\n'.join([
+            'profile1.name=includewrite'
+        ])))
         sut = config.profile(1)
 
         self.assertEqual(sut.include, [])
