@@ -669,13 +669,22 @@ class ParserAgent:
             '--path',
             action='store_true',
             default=False,
-            help='list backup paths instead of their ID')
+            help='list backup paths instead of their ID'
+        )
 
         parser.add_argument(
             '--last',
             action='store_true',
             default=False,
-            help='show the last (youngest) backup only')
+            help='show the last (youngest) backup only'
+        )
+
+        parser.add_argument(
+            '--profiles',
+            action='store_true',
+            default=False,
+            help='list available profiles'
+        )
 
         self.parsers[name] = parser
 
