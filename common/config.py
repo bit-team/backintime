@@ -246,24 +246,28 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         Returns:
             bool:                   ``True`` if successful
         """
-        raise RuntimeError('Who calls this?')  # DEBUG
-        if isinstance(profile_id, int):
-            profile_id = str(profile_id)
-
-        if self.current_profile_id == profile_id:
-            return True
-
-        p = Konfig().profile(int(profile_id))
-        self.current_profile_id = p.profile_id
-
-        logger.changeProfile(p.profile_id, p.name)
-        if not silent:
-            logger.info(
-                f'Profile switched: {p.name}({p.profile_id})',
-                self
-            )
+        context = ProfileContext()
+        context.switch(int(profile_id))
 
         return True
+
+        # if isinstance(profile_id, int):
+        #     profile_id = str(profile_id)
+
+        # if self.current_profile_id == profile_id:
+        #     return True
+
+        # p = Konfig().profile(int(profile_id))
+        # self.current_profile_id = p.profile_id
+
+        # logger.changeProfile(p.profile_id, p.name)
+        # if not silent:
+        #     logger.info(
+        #         f'Profile switched: {p.name}({p.profile_id})',
+        #         self
+        #     )
+
+        # return True
 
     def setCurrentProfileByName(self, name):
         """

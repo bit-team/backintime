@@ -49,6 +49,10 @@ class ProfileContext(metaclass=singleton.Singleton):
             selected profile. Passing ``None`` clears the current selection.
 
         """
+        # WORKAROUND regression test
+        if isinstance(profile_ref, str) and profile_ref.isdigit():
+            raise RuntimeError(f'Digit but string: {profile_ref=}')
+
         if isinstance(profile_ref, Profile):
             self._profile_ref = profile_ref.name
         else:
