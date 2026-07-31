@@ -50,6 +50,6 @@ class ProfileContext(metaclass=singleton.Singleton):
 
         """
         if isinstance(profile_ref, Profile):
-            self._profile_ref = profile_ref.profile_id
+            self._profile_ref = profile_ref.name
         else:
             self._profile_ref = profile_ref

@@ -172,6 +172,9 @@ class Profile:  # pylint: disable=too-many-public-methods
     def __delitem__(self, key: str) -> None:
         del self._config[f'{self._prefix}.{key}']
 
+    def __str__(self) -> str:
+        return f'"{self.name}" ({self.profile_id})'
+
     @property
     def name(self) -> str:
         """The name of the profile"""
@@ -1264,10 +1267,10 @@ class Konfig(metaclass=singleton.Singleton):
             name_or_id: A name or an numeric id of a backup profile.
 
         Raises:
-            KeyError: If no corresponding profile exists.
+            ValueError: If no corresponding profile exists.
         """
         if self.has_profile(name_or_id) is False:
-            raise KeyError(f'Unknown profile: {name_or_id}')
+            raise ValueError(f'Profile not found: "{name_or_id}"')
 
         return Profile(
             profile_id=self.to_profile_id(name_or_id),

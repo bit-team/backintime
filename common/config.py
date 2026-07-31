@@ -48,6 +48,7 @@ import core_events
 from storagesize import StorageSize
 from exceptions import PermissionDeniedByPolicy, Timeout
 from konfig import Konfig
+from profilecontext import ProfileContext
 
 
 class Config:  # (configfile.ConfigFileWithProfiles):
@@ -159,7 +160,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         # self.forceUseChecksum = False
         self.setupUdev = tools.SetupUdev()
 
-        self.current_profile_id = None
+        # self.current_profile_id = None
 
         language_used = tools.initiate_translation(self.language())
 
@@ -172,8 +173,8 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         # Workaround: Maybe into bitbase?
         self.default_profile_name = _('Main profile')
 
-        # Workaround
-        self.setCurrentProfile('1', True)
+        # # Workaround
+        # self.setCurrentProfile('1', True)
 
         self.SNAPSHOT_MODES = {
             # mode: (
@@ -215,7 +216,8 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         return Konfig()._conf
 
     def currentProfile(self) -> str:
-        return str(self.current_profile_id)
+        # return str(self.current_profile_id)
+        return str(ProfileContext().profile.profile_id)
 
     def profiles(self) -> list[str]:
         """Workaround, return list of profile_ids as strings."""
@@ -228,10 +230,11 @@ class Config:  # (configfile.ConfigFileWithProfiles):
 
     def get_profile(self, profile_id):
         """Workaround"""
+        if profile_id is None:
+            profile_id = self.currentProfile()
+
         real_konfig = Konfig()
-        return real_konfig.profile(
-            int(profile_id) if profile_id else self.current_profile_id
-        )
+        return real_konfig.profile(int(profile_id))
 
     def setCurrentProfile(self, profile_id, silent: bool = False):
         """
@@ -243,6 +246,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         Returns:
             bool:                   ``True`` if successful
         """
+        raise RuntimeError('Who calls this?')  # DEBUG
         if isinstance(profile_id, int):
             profile_id = str(profile_id)
 

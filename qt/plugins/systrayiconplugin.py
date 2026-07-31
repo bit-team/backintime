@@ -120,9 +120,10 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
 
             # Something bad happened because we have a return code
             stderr = self.process.stderr.read()
+            stderr = '\n\t'.join(stderr.split('\n'))
             logger.critical(
-                f'Systray exited unexpected and immediately with {rc=} '
-                f'and {stderr=}'
+                f'Systray exited unexpected and immediately with RC {rc} '
+                f'and STDERR:\n\t{stderr}'
             )
             self.process = None
             return False

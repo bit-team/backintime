@@ -40,6 +40,7 @@ import snapshots
 import progress
 import logviewdialog
 import config
+import cli
 from konfig import Konfig
 from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QProgressBar, QWidget
@@ -69,8 +70,8 @@ class QtSysTrayIcon:
 
     def __init__(self, config_path=None, profile_id=None):
 
-        konfig = Konfig()
-        konfig.load(config_path)
+        konfig = cli.get_config_and_select_profile(config_path, profile_id)
+        # konfig.load(config_path)
 
         self.config = config.Config()
 
@@ -79,10 +80,10 @@ class QtSysTrayIcon:
 
         self._current_user = pwd.getpwuid(os.getuid()).pw_name
 
-        if profile_id:
-            if not self.config.setCurrentProfile(profile_id):
-                logger.warning(
-                    f'Failed to change Profile_ID {profile_id}', self)
+        # if profile_id:
+        #     if not self.config.setCurrentProfile(profile_id):
+        #         logger.warning(
+        #             f'Failed to change Profile_ID {profile_id}', self)
 
         self.qapp = qttools.create_qapplication(self.config.APP_NAME)
         translator = qttools.initiate_translator(self.config.language())
