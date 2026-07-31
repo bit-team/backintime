@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: © 2023 Christian BUHTZ <c.buhtz@posteo.jp>
+﻿# SPDX-FileCopyrightText: Â© 2023 Christian BUHTZ <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -77,6 +77,7 @@ full_test_files = [_base_dir / fp for fp in (
     'test/test_lint.py',
     # 'test/test_mount.py',
     'test/test_singleton.py',
+    'test/test_sshsetupvalidator.py',
     'test/test_storagesize.py',
     # 'test/test_takesnapshotlog.py',
     'test/test_uniquenessset.py',

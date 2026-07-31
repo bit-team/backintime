@@ -348,15 +348,63 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
                 + _('Details:') + f'\n{err.strip()}'
             )
 
+    def _build_ssh_g_command(self) -> list[str]:
+        """Build ``ssh -G`` command mirroring connection options."""
+        cmd = self._build_ssh_command()
+        return [cmd[0], '-G', *cmd[1:]]
+
+    @staticmethod
+    def _parse_ssh_g_output(output: str) -> tuple[str | None, int | None]:
+        hostname = None
+        port = None
+
+        for line in output.splitlines():
+            key, _, value = line.partition(' ')
+            value = value.strip()
+
+            if key == 'hostname':
+                hostname = value
+            elif key == 'port':
+                try:
+                    port = int(value)
+                except ValueError:
+                    pass
+
+        return hostname, port
+
+    def _known_hosts_lookup_hosts(self) -> list[str]:
+        """Host names OpenSSH uses for known_hosts lookups."""
+        cmd = self._build_ssh_g_command()
+        proc = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True,
+            check=False
+        )
+
+        if proc.returncode != 0:
+            hostname = self.ssh_host.host
+            port = self.ssh_host.port
+        else:
+            resolved_hostname, resolved_port = self._parse_ssh_g_output(
+                proc.stdout
+            )
+            hostname = resolved_hostname or self.ssh_host.host
+            port = (
+                resolved_port
+                if resolved_port is not None
+                else self.ssh_host.port
+            )
+
+        return [
+            hostname,
+            f'[{hostname}]:{port}'
+        ]
+
     def _check_known_hosts(self):
         """Check if host is present in known_hosts file."""
 
-        hosts_to_check = [
-            self.ssh_host.host,
-            f'[{self.ssh_host.host}]:{self.ssh_host.port}'
-        ]
-
-        for host in hosts_to_check:
+        for host in self._known_hosts_lookup_hosts():
             proc = subprocess.run(
                 ['ssh-keygen', '-F', host],
                 capture_output=True,
