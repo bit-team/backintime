@@ -42,7 +42,7 @@ PACKAGE_NAME_GUI = f'{BINARY_NAME_BASE}-qt'
 # to create an extra AppContext or RuntimeContext class.
 context = {
     # '--config': None,
-    # '--quiet': None,
+    '--quiet': None,
 }
 
 # |-----------------|

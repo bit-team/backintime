@@ -555,11 +555,13 @@ def show_backups(args: argparse.Namespace):
                 backups,
                 mount_manager.path)
 
+            # Real usage
             usage_result = 'Real disk usage:'
             if size_bytes < 0:
                 usage_result = (
                     f'{usage_result} ERROR (could not determine size)'
                 )
+
             else:
                 size_fmt = StorageSize(size_bytes).as_human_readable()
                 usage_result = f'{usage_result} {size_fmt}'

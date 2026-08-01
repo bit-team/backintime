@@ -42,15 +42,13 @@ def _du_local_total(paths: list, du_flags=None) -> int:
         return -1
 
 
-def _du_remote_total(profile: konfig.Profile,
-                     cfg: config.Config,
+def _du_remote_total(cfg: config.Config,
                      backups,
                      du_flags: bool | None = None,
                      mounted_path=None) -> int:
     """Compute total disk usage of remote backups via SSH.
 
     Args:
-        profile: The related backup profile.
         cfg: (Deprecated) config object.
         backups: List of (sid_str, path) tuples.
         du_flags: Flags for ``du``, defaults to ``['-sbc']`` (apparent size).
@@ -63,7 +61,7 @@ def _du_remote_total(profile: konfig.Profile,
     if du_flags is None:
         du_flags = ['-sbc']
 
-    mode = profile.mode
+    # mode = cfg.snapshotsMode()
     remote_paths = []
 
     for sid_str, _unused in backups:
@@ -71,22 +69,28 @@ def _du_remote_total(profile: konfig.Profile,
         remote_path = sid_obj.path()
         remote_paths.append(remote_path)
 
+    # Config.sshCommand() is deprecated
     ssh_cmd = cfg.sshCommand(
         cmd=['du'] + du_flags + remote_paths,
-        nice=False, ionice=False
+        nice=False,
+        ionice=False
     )
-    # print(f'{ssh_cmd=}')
-    # sys.exit()
+
     try:
         result = subprocess.run(
-            ssh_cmd, capture_output=True, text=True, check=True
+            ssh_cmd,
+            capture_output=True,
+            text=True,
+            check=True
         )
         total_line = result.stdout.strip().split('\n')[-1]
         return int(total_line.split()[0])
+
     except subprocess.CalledProcessError as err:
         logger.error(
             f'Failed to compute remote disk usage: {err.stderr.strip()}')
         return -1
+
     except (ValueError, IndexError):
         logger.error('Failed to parse remote disk usage output')
         return -1
@@ -98,9 +102,9 @@ def compute_total_usage(profile: konfig.Profile,
                         mounted_path=None):
     """Total physical disk usage of all backups."""
 
-    if profile.mode in ('ssh', 'ssh_encfs'):
+    if 'ssh' in profile.mode:
         return _du_remote_total(
-            profile, cfg, backups, mounted_path=mounted_path
+            cfg, backups, mounted_path=mounted_path
         )
 
     return _du_local_total([p for _unused, p in backups])
@@ -126,8 +130,11 @@ def compute_sizes_remote(cfg, backups, mounted_path=None) -> tuple:
     dedup). Physical = ``du -sbc`` for all snapshots via SSH (hard links
     deduplicated across snapshots).
     """
-    logical = sum(_du_remote_total(cfg, [b], mounted_path=mounted_path)
-                  for b in backups)
+    logical = sum(
+        _du_remote_total(
+            cfg, [one_backup], mounted_path=mounted_path
+        ) for one_backup in backups
+    )
     physical = _du_remote_total(cfg, backups, mounted_path=mounted_path)
     return (logical, physical)
 
@@ -141,14 +148,20 @@ def compute_space_savings(cfg, backups, mounted_path=None) -> tuple:
     """
     mode = cfg.snapshotsMode()
 
-    if mode in ('ssh', 'ssh_encfs'):
+    if 'ssh' in mode:
         logical, physical = compute_sizes_remote(
-            cfg, backups, mounted_path=mounted_path)
+            cfg,
+            backups,
+            mounted_path=mounted_path
+        )
+
     else:
         logical, physical = compute_sizes_local(
-            [str(p) for _, p in backups])
+            [str(one_backup) for _, one_backup in backups]
+        )
 
     if logical < 0 or physical < 0:
+        # failure
         return (-1, -1, -1, 0.0)
 
     if logical == 0:
@@ -156,4 +169,5 @@ def compute_space_savings(cfg, backups, mounted_path=None) -> tuple:
 
     saved = logical - physical
     percent = (saved / logical) * 100.0
+
     return (logical, physical, saved, percent)
