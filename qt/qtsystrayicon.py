@@ -41,7 +41,6 @@ import progress
 import logviewdialog
 import config
 import cli
-from konfig import Konfig
 from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QProgressBar, QWidget
 from PyQt6.QtGui import QIcon, QRegion
@@ -70,7 +69,7 @@ class QtSysTrayIcon:
 
     def __init__(self, config_path=None, profile_id=None):
 
-        konfig = cli.get_config_and_select_profile(config_path, profile_id)
+        _konfig = cli.get_config_and_select_profile(config_path, profile_id)
         # konfig.load(config_path)
 
         self.config = config.Config()

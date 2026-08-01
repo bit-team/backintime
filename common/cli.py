@@ -18,12 +18,10 @@ import bcolors
 import logger
 import bitbase
 import core_events
-from typing import Union
 from konfig import Konfig
 from profilecontext import ProfileContext
 from check_config import CheckConfigAgent
 from mount import MountManager, MountError
-from version import __version__
 
 
 def restore(cfg, snapshot_id, what, where, mount_manager, force_checksum_use, **kwargs):
@@ -362,6 +360,9 @@ def set_quiet(quiet: bool):
     Returns:
         sys.stdout:     default sys.stdout
     """
+    # WORKAROUND
+    bitbase.context['--quiet'] = quiet
+
     force_stdout = sys.stdout
 
     if quiet:
@@ -569,7 +570,9 @@ def get_config_and_select_profile(
 
     context = ProfileContext()
     context.switch(profile)
-    logger.info(f'Switched to profile {profile}')
+
+    if not bitbase.context['--quiet']:  # WORKAROUND
+        logger.info(f'Switched to profile {profile}')
 
     # if check and not cfg.isConfigured():
     #     logger.error(f'{cfg.APP_NAME} is not configured!')

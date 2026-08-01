@@ -141,7 +141,7 @@ class ProfilesExistance(unittest.TestCase):
         self.assertIsInstance(Konfig().profile('One'), Profile)
 
     def test_unexisting(self):
-        with self.assertRaises(KeyError):
+        with self.assertRaises(ValueError):
             Konfig().profile(123)
 
     def test_has(self):

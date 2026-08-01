@@ -89,5 +89,5 @@ class Unexisting(unittest.TestCase):
         sut = ProfileContext()
         sut.switch(321)
 
-        with self.assertRaises(KeyError):
+        with self.assertRaises(ValueError):
             _profile = sut.profile
