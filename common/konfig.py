@@ -172,6 +172,9 @@ class Profile:  # pylint: disable=too-many-public-methods
     def __delitem__(self, key: str) -> None:
         del self._config[f'{self._prefix}.{key}']
 
+    def __str__(self) -> str:
+        return f'"{self.name}" ({self.profile_id})'
+
     @property
     def name(self) -> str:
         """The name of the profile"""
@@ -1220,6 +1223,8 @@ class Konfig(metaclass=singleton.Singleton):
         singleton.
         """
         self._conf = {}
+
+        # {name: id}
         self._profiles = {}
         self._unsaved_profiles = []
         self._config_parser = None
@@ -1247,6 +1252,14 @@ class Konfig(metaclass=singleton.Singleton):
             'false': False
         }[value.lower()]
 
+    def to_profile_id(self, name_or_id: str | int) -> int:
+        """Normalize the argument into a profile id"""
+        if isinstance(name_or_id, int):
+            return name_or_id
+
+        # Get the numeric ID by the profiles name
+        return self._profiles[name_or_id]
+
     def profile(self, name_or_id: str | int) -> Profile:
         """Return a `Profile` object related to the given name or id.
 
@@ -1254,24 +1267,25 @@ class Konfig(metaclass=singleton.Singleton):
             name_or_id: A name or an numeric id of a backup profile.
 
         Raises:
-            KeyError: If no corresponding profile exists.
+            ValueError: If no corresponding profile exists.
         """
-        if isinstance(name_or_id, int):
-            profile_id = name_or_id
+        if self.has_profile(name_or_id) is False:
+            raise ValueError(f'Profile not found: "{name_or_id}"')
 
-        else:
-            profile_id = self._profiles[name_or_id]
-
-        return Profile(profile_id=profile_id, config=self)
+        return Profile(
+            profile_id=self.to_profile_id(name_or_id),
+            config=self
+        )
 
     def has_profile(self, name_or_id: str | int) -> bool:
         """Check if the profile exists"""
+
         try:
-            self.profile(name_or_id)
+            profile_id = self.to_profile_id(name_or_id)
         except KeyError:
             return False
 
-        return True
+        return profile_id in self.profile_ids
 
     @property
     def profile_names(self) -> list[str]:

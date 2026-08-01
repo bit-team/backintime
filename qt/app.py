@@ -998,7 +998,7 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event):
         state_data = StateData()
-        profile_state = state_data.profile(self.config.current_profile_id)
+        profile_state = state_data.profile(self.config.currentProfile())
 
         # Dev note (buhtz, 2025-04): Makes not much sense to me. Investigate.
         if self.shutdown.ask_before_quit():

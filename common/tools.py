@@ -230,9 +230,9 @@ def initiate_translation(language_code):
     """
 
     if language_code:
-        logger.debug(f'Language code "{language_code}".')
+        msg = f'Language code "{language_code}".'
     else:
-        logger.debug('No language code. Use systems current locale.')
+        msg = 'Use systems current locale because no language code is set.'
 
     translation = gettext.translation(
         domain=_GETTEXT_DOMAIN,
@@ -247,7 +247,7 @@ def initiate_translation(language_code):
 
     set_locale_by_language_code(used_code)
 
-    logger.debug(f'Language code used: "{used_code}"')
+    logger.debug(f'{msg} Code used: "{used_code}"')
 
     return used_code
 
@@ -1172,7 +1172,7 @@ def is_Qt_working(systray_required=False):
     # Spawns a new process since it may crash with a SIGABRT and we
     # don't want to crash BiT if this happens...
 
-    logger.debug('tools::is_Qt_working()')
+    # logger.debug('tools::is_Qt_working()')
     path = os.path.join(as_backintime_path("common"), "qt_probing.py")
     cmd = [sys.executable, path]
 
@@ -1190,13 +1190,19 @@ def is_Qt_working(systray_required=False):
             # hang as root): Kill after timeout
             std_output, error_output = proc.communicate(timeout=30)
 
-            logger.debug(f"Qt probing result: exit code {proc.returncode}")
+            msg = f'Qt probing result:\n\tEXIT CODE {proc.returncode}'
 
             # if some Qt parts are missing: Show details
             if proc.returncode != 2 or logger.DEBUG:
-                logger.debug('Qt probing '
-                             f'STDOUT: "{std_output}" '
-                             f'STDERR: "{error_output}"')
+                error_output = '\n\t'.join(error_output.split('\n'))
+                std_output = '\n\t'.join(std_output.split('\n'))
+                logger.debug(
+                    f'{msg}'
+                    f'\n\tSTDOUT: "{std_output}"'
+                    f'\n\tSTDERR: "{error_output}"'
+                )
+            else:
+                logger.debug(msg)
 
             rc = proc.returncode
 

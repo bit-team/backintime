@@ -18,11 +18,10 @@ import bcolors
 import logger
 import bitbase
 import core_events
-from typing import Union
 from konfig import Konfig
+from profilecontext import ProfileContext
 from check_config import CheckConfigAgent
 from mount import MountManager, MountError
-from version import __version__
 
 
 def restore(cfg, snapshot_id, what, where, mount_manager, force_checksum_use, **kwargs):
@@ -361,6 +360,9 @@ def set_quiet(quiet: bool):
     Returns:
         sys.stdout:     default sys.stdout
     """
+    # WORKAROUND
+    bitbase.context['--quiet'] = quiet
+
     force_stdout = sys.stdout
 
     if quiet:
@@ -515,16 +517,18 @@ def _backup_and_remove_encfs_config(cfg: Konfig) -> bool:
 
 def get_config_and_select_profile(
         config_path: Path,
-        pid_or_name: Union[str, int]
+        pid_or_name: str | int | None
 ) -> Konfig:
-    """Load config and change to profile selected on commandline.
+    """Load config and switch to the selected profile.
+
+    If no profile id or name is given the first profile available is selected.
 
     Args:
         config_path: Path to config file.
-        pid_or_name: Name or ID of the profile.
+        pid_or_name: Name or ID of the profile to select.
 
     Returns:
-        Current the config
+        Current config
 
     Raises: SystemExit: 1 if ``profile`` or ``profile_id`` is no valid
         profile. 2 if ``check`` is ``True`` and config is not configured
@@ -533,7 +537,7 @@ def get_config_and_select_profile(
     logger.debug(f'Config path: {config_path}')
 
     # Workaround: Sometimes the id is given as string.
-    if pid_or_name and pid_or_name.isdigit():
+    if pid_or_name and isinstance(pid_or_name, str) and pid_or_name.isdigit():
         pid_or_name = int(pid_or_name)
 
     _warn_about_global_config()
@@ -552,9 +556,27 @@ def get_config_and_select_profile(
     # Warn about deprecated remote host check settings (#2482)
     _warn_about_remote_host_check()
 
-    # explicit select a profile?
-    if pid_or_name and not cfg.has_profile(pid_or_name):
-        logger.error(f'Profile not found: {pid_or_name}')
+    if pid_or_name is None:
+        pid_or_name = next(Konfig().iter_profiles()).profile_id
+
+    # select a profile
+    try:
+        profile = cfg.profile(pid_or_name)
+    except ValueError as exc:
+        logger.critical(exc)
         sys.exit(bitbase.RETURN_ERR)
+
+    context = ProfileContext()
+    context.switch(profile)
+
+    if not bitbase.context['--quiet']:  # WORKAROUND
+        logger.info(f'Switched to profile {profile}')
+
+    # if check and not cfg.isConfigured():
+    #     logger.error(f'{cfg.APP_NAME} is not configured!')
+    #     sys.exit(bitbase.RETURN_NO_CFG)
+
+    # if checksum is not None:
+    #     cfg.forceUseChecksum = checksum
 
     return cfg

@@ -44,6 +44,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Dependencies:
   - build: `pandoc` to convert markdown changelog into HTML
   - runtime-cli: `gocryptfs`
+- CLI: List all profiles with `show --profiles` ([#2336](https://github.com/bit-team/backintime/issues/2336))
 
 ### Removed
 - **Breaking**: EncFS support including existing EncFS profiles
