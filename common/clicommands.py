@@ -86,9 +86,7 @@ def _get_config(args: argparse.Namespace) -> config.Config:
     )
 
     # A surrogate using Konfig() in the back
-    cfg = config.Config()
-
-    return cfg
+    return config.Config()
 
 
 def backup(args: argparse.Namespace, force: bool = True):
@@ -548,35 +546,11 @@ def show_backups(args: argparse.Namespace):
 
         # CLI: "show --usage"
         if args.usage:
-
-            size_bytes = diskusage.compute_total_usage(
-                # profile,
-                cfg,
-                backups,
-                mount_manager.path)
-
-            # Real usage
-            usage_result = 'Real disk usage:'
-            if size_bytes < 0:
-                usage_result = (
-                    f'{usage_result} ERROR (could not determine size)'
-                )
-
-            else:
-                size_fmt = StorageSize(size_bytes).as_human_readable()
-                usage_result = f'{usage_result} {size_fmt}'
-
-            # Append space savings from hard-link deduplication
-            logical, physical, saved, percent = \
-                diskusage.compute_space_savings(
-                    cfg, backups, mount_manager.path
-                )
-            if logical >= 0 and physical >= 0:
-                saved_fmt = StorageSize(saved).as_human_readable()
-                usage_result = (
-                    f'{usage_result}\nSpace saved by hard links: '
-                    f'{saved_fmt} ({percent:.1f} %)'
-                )
+            usage_result = _get_usage_summary_text(
+                cfg=cfg,
+                backups=backups,
+                mounted_path=mount_manager.path
+            )
 
     if args.path:
         # Path
@@ -603,26 +577,42 @@ def show_backups(args: argparse.Namespace):
     sys.exit(bitbase.RETURN_OK)
 
 
-def _get_usage_summary_text() -> str:
-    size_bytes = diskusage.compute_total_usage(
-        cfg, backups, mount_manager.path)
+def _get_usage_summary_text(cfg, backups, mounted_path) -> str:
+    result = ''
 
+    size_bytes = diskusage.compute_total_usage(
+        # profile,
+        cfg,
+        backups,
+        mounted_path
+    )
+
+    # Real usage
+    result = 'Real disk usage:'
     if size_bytes < 0:
-        print('Total disk usage: ERROR '
-                '(could not determine size)')
+        result = (
+            f'{result} ERROR (could not determine size)'
+        )
+
     else:
-        print(f'Total disk usage: '
-                f'{StorageSize(size_bytes).as_human_readable()}')
+        size_fmt = StorageSize(size_bytes).as_human_readable()
+        result = f'{result} {size_fmt}'
 
     # Append space savings from hard-link deduplication
     logical, physical, saved, percent = \
-        diskusage.compute_space_savings(
-            cfg, backups, mount_manager.path)
+        diskusage.compute_space_savings(cfg, backups, mounted_path)
+
+    # DEBUG
+    print(f'DEBUG {logical=} {physical=} {saved=} {percent=}')
+
     if logical >= 0 and physical >= 0:
         saved_fmt = StorageSize(saved).as_human_readable()
-        print(f'Space saved by hard links: {percent:.1f} %'
-                f' ({saved_fmt})')
+        result = (
+            f'{result}\nSpace saved by hard links: '
+            f'{saved_fmt} ({percent:.1f} %)'
+        )
 
+    return result
 
 
 def smart_remove(args: argparse.Namespace):
