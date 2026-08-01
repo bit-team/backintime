@@ -237,7 +237,7 @@ class PluginManager:
             for f in os.listdir(fullPath):
 
                 if f.startswith('__') or not f.lower().endswith('.py'):
-                    logger.debug(f'Not a plugin file: {f}', self)
+                    # logger.debug(f'Not a plugin file: {f}', self)
                     continue
 
                 logger.debug(f'Try to load plugin from {f}', self)

@@ -998,7 +998,7 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event):
         state_data = StateData()
-        profile_state = state_data.profile(self.config.current_profile_id)
+        profile_state = state_data.profile(self.config.currentProfile())
 
         # Dev note (buhtz, 2025-04): Makes not much sense to me. Investigate.
         if self.shutdown.ask_before_quit():
@@ -1152,10 +1152,11 @@ class MainWindow(QMainWindow):
             else:
                 self.places.set_sorting(sorting)
 
-            self.config.setProfileStrValue(
-                'qt.last_path', self.path, old_profile_id)
-            path = self.config.profileStrValue(
-                'qt.last_path', self.path, profile_id)
+            path = self.path
+            # self.config.setProfileStrValue(
+            #     'qt.last_path', self.path, old_profile_id)
+            # path = self.config.profileStrValue(
+            #     'qt.last_path', self.path, profile_id)
 
             if not path == self.path:
                 self.path = path

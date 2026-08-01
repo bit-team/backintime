@@ -26,6 +26,7 @@ import password
 import cli
 import config
 import bitbase
+from konfig import Konfig
 from mount import MountManager
 from applicationinstance import ApplicationInstance
 from shutdownagent import ShutdownAgent
@@ -496,6 +497,12 @@ def snapshots_list_path(args: argparse.Namespace):
     _snapshots_list_base(args=args, path_info=True)
 
 
+def _show_profile_list():
+    """Process "show --profiles" listing all profiles."""
+    for profile in Konfig().iter_profiles():
+        print(profile.name)
+
+
 def show_backups(args: argparse.Namespace):
     """Command 'show'.
 
@@ -508,6 +515,11 @@ def show_backups(args: argparse.Namespace):
     """
 
     cfg = _get_config(args)
+
+    if args.profiles:
+        _show_profile_list()
+        sys.exit(bitbase.RETURN_OK)
+
     mount_manager = MountManager.create(cfg)
 
     with mount_manager.mounted():
