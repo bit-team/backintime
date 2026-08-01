@@ -550,7 +550,7 @@ def show_backups(args: argparse.Namespace):
         if args.usage:
 
             size_bytes = diskusage.compute_total_usage(
-                profile,
+                # profile,
                 cfg,
                 backups,
                 mount_manager.path)

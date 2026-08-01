@@ -6,13 +6,10 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Tests for diskusage module."""
+# pylint: disable=missing-function-docstring,missing-class-docstring
 import unittest
 from unittest.mock import patch
 import subprocess
-import sys
-import os
-
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import diskusage
 from storagesize import StorageSize
 
@@ -77,7 +74,16 @@ class LocalDiskUsage(unittest.TestCase):
         self.assertEqual(diskusage._du_local_total([]), 0)
         mock_run.assert_not_called()
 
-    # --- compute_space_savings ---
+
+class LocalSpaceSavings(unittest.TestCase):
+    def setUp(self):
+        self.cfg = type('StubCfg', (), {
+            'snapshotsMode': lambda self, profile_id=None: 'local',
+        })()
+        self.backups = [
+            ('20260101-010000-001', '/tmp/snap1'),
+            ('20260102-010000-002', '/tmp/snap2'),
+        ]
 
     @patch('diskusage._du_local_total')
     def test_savings_basic(self, mock_du):
@@ -155,18 +161,30 @@ class SSHDiskUsage(unittest.TestCase):
 
     @patch('diskusage.subprocess.run')
     @patch('diskusage.snapshots.SID')
-    def test_du_called_process_error(self, mock_sid, mock_run):
+    def test_du_called_process_error(self, _mock_sid, mock_run):
         """SSH du fails → return -1."""
         mock_run.side_effect = subprocess.CalledProcessError(
             1, 'ssh', stderr='error')
         self.assertEqual(
             diskusage._du_remote_total(self.cfg, self.backups), -1)
 
-    # --- compute_total_usage ---
+
+class SSHComputeTotalUsage(unittest.TestCase):
+    def setUp(self):
+        self.cfg = type('StubCfg', (), {
+            'snapshotsMode': lambda s, profile_id=None: 'ssh',
+            'sshCommand': lambda s, cmd=None, nice=False, ionice=False: (
+                ['ssh', 'localhost'] + (cmd or [])
+            ),
+        })()
+        self.backups = [
+            ('20260101-010000-001', '/mnt/remote/snap1'),
+            ('20260102-010000-002', '/mnt/remote/snap2'),
+        ]
 
     @patch('diskusage._du_remote_total')
     @patch('diskusage.snapshots.SID')
-    def test_total_usage_routing(self, mock_sid, mock_du):
+    def test_total_usage_routing(self, _mock_sid, mock_du):
         """compute_total_usage routes to _du_remote_total in SSH mode."""
         mock_du.return_value = 42
         result = diskusage.compute_total_usage(
@@ -176,11 +194,23 @@ class SSHDiskUsage(unittest.TestCase):
         self.assertEqual(
             mock_du.call_args.kwargs.get('mounted_path'), '/mnt')
 
-    # --- compute_space_savings ---
+
+class SSHComputeSpaceSavings(unittest.TestCase):
+    def setUp(self):
+        self.cfg = type('StubCfg', (), {
+            'snapshotsMode': lambda s, profile_id=None: 'ssh',
+            'sshCommand': lambda s, cmd=None, nice=False, ionice=False: (
+                ['ssh', 'localhost'] + (cmd or [])
+            ),
+        })()
+        self.backups = [
+            ('20260101-010000-001', '/mnt/remote/snap1'),
+            ('20260102-010000-002', '/mnt/remote/snap2'),
+        ]
 
     @patch('diskusage._du_remote_total')
     @patch('diskusage.snapshots.SID')
-    def test_savings_routing(self, mock_sid, mock_du):
+    def test_savings_routing(self, _mock_sid, mock_du):
         """SSH mode calls _du_remote_total, not _du_local_total."""
         mock_du.return_value = 100
         with patch('diskusage._du_local_total') as mock_local:
@@ -191,7 +221,7 @@ class SSHDiskUsage(unittest.TestCase):
 
     @patch('diskusage._du_remote_total')
     @patch('diskusage.snapshots.SID')
-    def test_savings_mounted_path(self, mock_sid, mock_du):
+    def test_savings_mounted_path(self, _mock_sid, mock_du):
         """mounted_path forwarded to every _du_remote_total call."""
         mock_du.return_value = 100
         diskusage.compute_space_savings(
@@ -201,7 +231,7 @@ class SSHDiskUsage(unittest.TestCase):
 
     @patch('diskusage._du_remote_total')
     @patch('diskusage.snapshots.SID')
-    def test_savings_calculation(self, mock_sid, mock_du):
+    def test_savings_calculation(self, _mock_sid, mock_du):
         """SSH savings percentage: 2 backups, 100 each, 50 together.
 
         Logical = 200, physical = 50 → 75 % saved.

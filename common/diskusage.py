@@ -9,8 +9,8 @@
 import subprocess
 import logger
 import snapshots
-import konfig
 import config
+# import konfig
 
 
 def _du_local_total(paths: list, du_flags=None) -> int:
@@ -96,13 +96,12 @@ def _du_remote_total(cfg: config.Config,
         return -1
 
 
-def compute_total_usage(profile: konfig.Profile,
-                        cfg: config.Config,
+def compute_total_usage(cfg: config.Config,
                         backups,
                         mounted_path=None):
     """Total physical disk usage of all backups."""
 
-    if 'ssh' in profile.mode:
+    if 'ssh' in cfg.snapshotsMode():
         return _du_remote_total(
             cfg, backups, mounted_path=mounted_path
         )

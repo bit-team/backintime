@@ -455,7 +455,7 @@ class MountManager:
         if not self._lock_mountpoint.exists():
             # # DEBUG
             # # pylint: disable-next=import-outside-toplevel
-            # import traceback  # noqa: PLC0415
+            # import traceback  # no-qa: PLC0415
             # traceback.print_stack(limit=5)
 
             # logger.warning(
