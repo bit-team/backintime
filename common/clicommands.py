@@ -32,6 +32,7 @@ from applicationinstance import ApplicationInstance
 from shutdownagent import ShutdownAgent
 import diskusage
 from storagesize import StorageSize
+from profilecontext import ProfileContext
 
 
 def _deprecation_msg(cmd_flag: str, replacement: str) -> str:
@@ -77,7 +78,7 @@ def show_deprecation_message(cmd_flag: str):
 def _get_config(args: argparse.Namespace) -> config.Config:
     """A dirty little helper. Feel free to refactor."""
 
-    # Crreate a Konfig instance
+    # Crreate a Konfig instance and select profile
     cli.get_config_and_select_profile(
         config_path=bitbase.context['--config'],  # args.config,
         pid_or_name=args.profile
@@ -86,9 +87,6 @@ def _get_config(args: argparse.Namespace) -> config.Config:
 
     # A surrogate using Konfig() in the back
     cfg = config.Config()
-
-    print('X'*100)
-    logger.debug(f'{cfg.current_profile_id=} {cfg.currentProfile()=}')
 
     return cfg
 
@@ -523,6 +521,7 @@ def show_backups(args: argparse.Namespace):
 
     cfg = _get_config(args)
 
+    # CLI: "show --profiles"
     if args.profiles:
         _show_profile_list()
         sys.exit(bitbase.RETURN_OK)
@@ -532,8 +531,7 @@ def show_backups(args: argparse.Namespace):
 
     # Dirty WORKAROUND
     # The info which profil is selected shouldn't state in a config object
-    current_profile_id = cfg.current_profile_id
-    profile = Konfig().profile(current_profile_id)
+    profile = ProfileContext().profile
 
     with mount_manager.mounted():
         # raw data
@@ -544,31 +542,39 @@ def show_backups(args: argparse.Namespace):
             mounted_path=mount_manager.path
         )
 
+        # CLI: "show --last"
         if args.last:
             backups = backups[-1:]
 
+        # CLI: "show --usage"
         if args.usage:
+
             size_bytes = diskusage.compute_total_usage(
                 profile,
                 cfg,
                 backups,
                 mount_manager.path)
 
+            usage_result = 'Real disk usage:'
             if size_bytes < 0:
-                print('Total disk usage: ERROR '
-                      '(could not determine size)')
+                usage_result = (
+                    f'{usage_result} ERROR (could not determine size)'
+                )
             else:
-                print(f'Total disk usage: '
-                      f'{StorageSize(size_bytes).as_human_readable()}')
+                size_fmt = StorageSize(size_bytes).as_human_readable()
+                usage_result = f'{usage_result} {size_fmt}'
 
             # Append space savings from hard-link deduplication
             logical, physical, saved, percent = \
                 diskusage.compute_space_savings(
-                    cfg, backups, mount_manager.path)
+                    cfg, backups, mount_manager.path
+                )
             if logical >= 0 and physical >= 0:
                 saved_fmt = StorageSize(saved).as_human_readable()
-                print(f'Space saved by hard links: {percent:.1f} %'
-                      f' ({saved_fmt})')
+                usage_result = (
+                    f'{usage_result}\nSpace saved by hard links: '
+                    f'{saved_fmt} ({percent:.1f} %)'
+                )
 
     if args.path:
         # Path
@@ -585,6 +591,8 @@ def show_backups(args: argparse.Namespace):
     )
 
     print(result)
+    if usage_result:
+        print(usage_result)
 
     if not backups:
         logger.info(f'No backups in profile "{cfg.profileName()}"')

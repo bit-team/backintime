@@ -44,7 +44,7 @@ backintime - Create and manage incremental backups using rsync
 [--diagnostics]
 {
     backup [--checksum] [--background]
-    | show [--path] [--last]
+    | show [--path] [--last] [--profiles] [--usage]
     | restore [--checksum] [--delete] [--local-backup | --no-local-backup] [--only-new] [WHAT] [WHERE] [BACKUP_ID]
     | remove [--skip-confirmation] [BACKUP_ID ...]
     | prune
@@ -114,6 +114,8 @@ List backup ID's or paths.
 
 *--path* :: List backup paths instead of their ID.
 *--last* :: Show the last (youngest) backup only.
+*--profiles* :: List available backup profiles.
+*--usage* :: Show disk usage and space saved by hard-link deduplication.
 
 === restore
 Restores entire backups or selected files and folders from them.
