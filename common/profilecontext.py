@@ -22,6 +22,7 @@ class ProfileContext(metaclass=singleton.Singleton):
 
     The class is implemented as a singleton.
     It does not load, save or manage profiles.
+    Be careful not to make this a good object!
     """
 
     def __init__(self):
