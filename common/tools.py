@@ -78,11 +78,7 @@ except ImportError:
         raise
 
 import bcolors
-from exceptions import (Timeout,
-                        InvalidChar,
-                        InvalidCmd,
-                        LimitExceeded,
-                        PermissionDeniedByPolicy)
+from exceptions import Timeout
 import languages
 
 # Workaround:
@@ -2216,103 +2212,6 @@ class Alarm:
 
         else:
             self.callback()
-
-
-class SetupUdev:
-    """
-    Setup Udev rules for starting BackInTime when a drive get connected.
-    This is done by serviceHelper.py script (included in backintime-qt)
-    running as root though DBus.
-    """
-    CONNECTION = 'net.launchpad.backintime.serviceHelper'
-    OBJECT = '/UdevRules'
-    INTERFACE = 'net.launchpad.backintime.serviceHelper.UdevRules'
-    MEMBERS = ('addRule', 'save', 'delete')
-
-    def __init__(self):
-        if dbus is None:
-            self.isReady = False
-            return
-
-        try:
-            bus = dbus.SystemBus()
-            conn = bus.get_object(SetupUdev.CONNECTION, SetupUdev.OBJECT)
-            self.iface = dbus.Interface(conn, SetupUdev.INTERFACE)
-            # Dummy message to catch org.freedesktop.DBus.Error.AccessDenied
-            # See #2366
-            self.iface.clean()
-
-        except dbus.exceptions.DBusException as exc:
-            user_msg = (
-                'Some profiles cannot be checked or edited because automatic '
-                'device detection (via Udev) is unavailable.'
-            )
-            debug_msg = (
-                'Failed connection to Udev serviceHelper daemon '
-                f'via D-Bus "{exc.get_dbus_name()}" | '
-                f'Message: "{exc.get_dbus_message()}"'
-            )
-            logger.debug(debug_msg)
-
-            logger.warning(user_msg)
-
-            conn = None
-
-        self.isReady = bool(conn)
-
-    def addRule(self, cmd, uuid):
-        """Prepare rules in serviceHelper.py
-        """
-        if not self.isReady:
-            return
-
-        try:
-            return self.iface.addRule(cmd, uuid)
-
-        except dbus.exceptions.DBusException as exc:
-            err_prefix = 'net.launchpad.backintime.'
-            if exc._dbus_error_name == f'{err_prefix}InvalidChar':
-                raise InvalidChar(str(exc)) from exc
-
-            elif exc._dbus_error_name == f'{err_prefix}InvalidCmd':
-                raise InvalidCmd(str(exc)) from exc
-
-            elif exc._dbus_error_name == f'{err_prefix}LimitExceeded':
-                raise LimitExceeded(str(exc)) from exc
-
-            else:
-                raise
-
-    def save(self):
-        """Save rules with serviceHelper.py after authentication.
-
-        If no rules where added before this will delete current rule.
-        """
-        if not self.isReady:
-            return
-
-        try:
-            return self.iface.save()
-
-        except dbus.exceptions.DBusException as err:
-            dbus_name = err.get_dbus_name()
-
-            if (dbus_name
-                    == 'com.ubuntu.DeviceDriver.PermissionDeniedByPolicy'):
-                raise PermissionDeniedByPolicy(str(err)) from err
-
-            if dbus_name == 'org.freedesktop.DBus.Error.NoReply':
-                raise Timeout() from err
-
-            raise
-
-    def clean(self):
-        """Clean up remote cache.
-        """
-        if not self.isReady:
-            return
-
-        self.iface.clean()
 
 
 class PathHistory:
