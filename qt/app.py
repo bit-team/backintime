@@ -2117,9 +2117,17 @@ class MainWindow(QMainWindow):
         )
 
     def _get_parent_path_of_fileview_selection_or_root(self) -> str:
+        """Dev note (buhtz, 2026-08): Ugly workaround because of removing
+        self.path . I never understood the purpose of that allmity
+        object variable.
+
+        This workaround might cause unusual behavior. But I am on it. See
+        #2434.
+        """
         path = self.filesView.get_current_path()
         path = str(pathlib.Path(path).parent)
 
+        # use root dir by default
         return path if path else '/'
 
     # |------------|
