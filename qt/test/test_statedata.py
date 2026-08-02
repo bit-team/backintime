@@ -8,6 +8,7 @@
 """Tests about statefile module."""
 # pylint: disable=wrong-import-position,wrong-import-order
 import unittest
+from pathlib import Path
 from qttools_path import register_backintime_path
 register_backintime_path('common')
 import statedata  # noqa: E402
@@ -88,6 +89,12 @@ class Properties(unittest.TestCase):
             _useless = sut.logview_dims
             _useless = sut.files_view_col_widths
 
+    def test_last_path_default_is_root(self):
+        """The last_path is / by default"""
+        sut = statedata.StateData()
+        profile = sut.profile(42)
+        self.assertEqual(profile.last_path, Path('/'))
+
     def test_profile_not_exist(self):
         """Profile does not exists."""
         sut = statedata.StateData()
@@ -95,4 +102,4 @@ class Properties(unittest.TestCase):
 
         with self.assertRaises(KeyError):
             # pylint: disable=pointless-statement
-            _useless = profile.last_path
+            _useless = profile.include_sorting

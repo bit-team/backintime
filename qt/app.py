@@ -216,13 +216,14 @@ class MainWindow(QMainWindow):
         # Dev note (buhtz, 2026-08): The purpose's of this variable were not
         # clear not me in the beginning. There was not docu about it.
         #
-        # It seems to be the current path shown in the files view and/or in the
-        # path-widget on top of the files view.
+        # Current logical path shown in the files view.
         #
-        # Current logical path in the backup tree shown in the files view.
-        # This is not an absolute filesystem path. Resolve it with
-        # self.sid.pathBackup(self.path). The value represents GUI navigation
-        # state. self.path is independent from the selected backup.
+        # This is a path inside the backup tree, not an absolute filesystem
+        # path. The selected backup resolves this path to the real filesystem
+        # location.
+        #
+        # self.path represents GUI navigation state and is independent from
+        # the selected backup.
         self.path = str(profile_state.last_path)
 
         self.widget_current_path.setText(self.path)
@@ -2580,8 +2581,10 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
 
         # qt.last_path
         key = 'profile' + profile_id + '.' + 'qt.last_path'
-        if key in cfg.the_dict():
-            profile_state.last_path = Path(cfg.the_dict()[key])
+        try:
+            profile_state.last_path = pathlib.Path(cfg.the_dict()[key])
+        except KeyError:
+            pass
 
         # Places: sorting
         sorting = (
