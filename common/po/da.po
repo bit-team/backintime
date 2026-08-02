@@ -14,11 +14,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-06-28 13:41+0200\n"
-"PO-Revision-Date: 2026-06-15 20:08+0000\n"
+"PO-Revision-Date: 2026-06-30 11:07+0000\n"
 "Last-Translator: asjo <asjo@noreply.codeberg.org>\n"
-"Language-Team: Danish <https://translate.codeberg.org/projects/backintime/common/da/>\n"
+"Language-Team: Danish <https://translate.codeberg.org/projects/backintime/"
+"common/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -263,7 +264,7 @@ msgstr ""
 "Fjerntilstandsbilledemappen er ikke klartgjort til kryptering. Sti: {path}"
 
 #: common/mount/_encryptors.py:286
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Mountpoint as decrypted view is missing. Path: {path}"
 msgstr "Monteringspunkt som dekrypteret indblik mangler. Sti: {path}"
 
@@ -416,6 +417,8 @@ msgid ""
 "Negative exit codes indicate termination by a signal. The number corresponds"
 " to the signal (see 'kill -l')."
 msgstr ""
+"Negative afslutningskoder betyder afslutning pga et signal. Tallet svarer "
+"til signalet (see 'kill -l')."
 
 #: common/snapshots.py:1589
 msgid "Nothing changed, no new backup necessary"
@@ -473,7 +476,6 @@ msgid "The SSH key is not loaded into ssh-agent."
 msgstr "SSH nøglen er ikke hentet ind i ssh-agenten."
 
 #: common/sshsetupvalidator.py:309
-#, fuzzy
 msgid "Failed to add SSH key."
 msgstr "Kunne ikke tilføje SSH nøgle."
 
@@ -792,12 +794,11 @@ msgstr "Rapporter en fejl"
 
 #: qt/app.py:603
 msgid "Contact"
-msgstr ""
+msgstr "Kontakt"
 
 #: qt/app.py:605
-#, fuzzy
 msgid "Shows additional contact options in the browser"
-msgstr "Indsæt yderligere parametre til rsync"
+msgstr "Viser yderligere kontaktmuligheder i weblæseren"
 
 #: qt/app.py:608
 msgid "Translation"
@@ -1565,6 +1566,11 @@ msgid ""
 "triggered again at 19:00 because the hour boundary has been crossed. This "
 "schedule mode is useful if the computer is not running regularly."
 msgstr ""
+"\"Gentaget hver time\" betyder for eksempel at dannelsen af et "
+"tilstandsbillede udløses for hver ny klokketime. Hvis det seneste vellykkede "
+"tilstandsbillede blev skabt kl. 18:56, bliver det næste oprettet kl. 19:00, "
+"fordi det er den næste time. Denne måde at udløse tilstandsbillededannelse "
+"på er praktisk hvis maskinen ikke er tændt regelmæssigt."
 
 #: qt/manageprofiles/schedulewidget.py:49
 msgid "Schedule"
@@ -1607,6 +1613,8 @@ msgid ""
 "Trigger a backup when a new hour, day, week, or month begins. If the system "
 "was off, it runs on the next start."
 msgstr ""
+"Udløser dannelse af et tilstandsbillede når en ny dag, uge eller måned "
+"begynder. Hvis maskinen var slukket dannes det ved næste opstart."
 
 #: qt/manageprofiles/schedulewidget.py:133
 msgid "Every:"
@@ -1665,9 +1673,8 @@ msgid "Every day"
 msgstr "Hver dag"
 
 #: qt/manageprofiles/schedulewidget.py:189
-#, fuzzy
 msgid "Repeatedly"
-msgstr "Gentag (anacron)"
+msgstr "Gentagen"
 
 #: qt/manageprofiles/schedulewidget.py:191
 msgid "When drive gets connected (udev)"
@@ -2617,4 +2624,5 @@ msgstr "Sidste check {time}"
 msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
 "Dette er dine filer som de ser ud lige nu. Det er ikke et tilstandsbillede."
+
 # REUSE-IgnoreEnd

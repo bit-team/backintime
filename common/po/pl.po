@@ -14,16 +14,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-06-28 13:41+0200\n"
-"PO-Revision-Date: 2026-06-18 06:49+0000\n"
+"PO-Revision-Date: 2026-06-28 13:51+0000\n"
 "Last-Translator: Merik <merik@noreply.codeberg.org>\n"
-"Language-Team: Polish <https://translate.codeberg.org/projects/backintime/common/pl/>\n"
+"Language-Team: Polish <https://translate.codeberg.org/projects/backintime/"
+"common/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2026.6.1\n"
 
 #: common/bitlicense.py:43
@@ -807,12 +809,11 @@ msgstr "Zgłoś błąd"
 
 #: qt/app.py:603
 msgid "Contact"
-msgstr ""
+msgstr "Kontakt"
 
 #: qt/app.py:605
-#, fuzzy
 msgid "Shows additional contact options in the browser"
-msgstr "Dodatkowe opcje dla rsync"
+msgstr "Pokazuje dodatkowe opcje kontaktu w przeglądarce"
 
 #: qt/app.py:608
 msgid "Translation"
@@ -1596,6 +1597,11 @@ msgid ""
 "triggered again at 19:00 because the hour boundary has been crossed. This "
 "schedule mode is useful if the computer is not running regularly."
 msgstr ""
+"Na przykład „wielokrotnie co godzinę” oznacza, że kopia zapasowa jest "
+"tworzona o każdej nowej godzinie zegarowej. Jeśli ostatnia pomyślna kopia "
+"zapasowa została utworzona o 18:56, zostanie ona ponownie utworzona o 19:00, "
+"ponieważ granica godziny została przekroczona. Ten tryb harmonogramu jest "
+"przydatny, jeśli komputer nie jest regularnie uruchamiany."
 
 #: qt/manageprofiles/schedulewidget.py:49
 msgid "Schedule"
@@ -1638,6 +1644,9 @@ msgid ""
 "Trigger a backup when a new hour, day, week, or month begins. If the system "
 "was off, it runs on the next start."
 msgstr ""
+"Utwórz kopię zapasową na początku nowej godziny, dnia, tygodnia lub "
+"miesiąca. Jeśli system był wyłączony, uruchomi się przy następnym "
+"uruchomieniu."
 
 #: qt/manageprofiles/schedulewidget.py:133
 msgid "Every:"
@@ -1700,9 +1709,8 @@ msgid "Every day"
 msgstr "Codziennie"
 
 #: qt/manageprofiles/schedulewidget.py:189
-#, fuzzy
 msgid "Repeatedly"
-msgstr "Wielokrotnie (anacron)"
+msgstr "Wielokrotnie"
 
 #: qt/manageprofiles/schedulewidget.py:191
 msgid "When drive gets connected (udev)"
@@ -2668,4 +2676,5 @@ msgstr "Ostatnie sprawdzenie {time}"
 #: qt/timeline.py:407
 msgid "These are your files as they are right now. It is not a backup."
 msgstr "To są pliki w obecnej formie. Nie jest to kopia zapasowa."
+
 # REUSE-IgnoreEnd

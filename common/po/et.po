@@ -14,11 +14,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-06-28 13:41+0200\n"
-"PO-Revision-Date: 2026-06-25 12:07+0000\n"
+"PO-Revision-Date: 2026-06-28 13:51+0000\n"
 "Last-Translator: Priit Jõerüüt <jrtcdbrg@noreply.codeberg.org>\n"
-"Language-Team: Estonian <https://translate.codeberg.org/projects/backintime/common/et/>\n"
+"Language-Team: Estonian <https://translate.codeberg.org/projects/backintime/"
+"common/et/>\n"
 "Language: et\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -802,12 +803,11 @@ msgstr "Teata veast"
 
 #: qt/app.py:603
 msgid "Contact"
-msgstr ""
+msgstr "Kontakt"
 
 #: qt/app.py:605
-#, fuzzy
 msgid "Shows additional contact options in the browser"
-msgstr "Lisa rsync-ile täiendavad suvandeid"
+msgstr "Vaata täiendavat kontaktiteavet veebibrauserist"
 
 #: qt/app.py:608
 msgid "Translation"
@@ -1584,6 +1584,10 @@ msgid ""
 "triggered again at 19:00 because the hour boundary has been crossed. This "
 "schedule mode is useful if the computer is not running regularly."
 msgstr ""
+"Näiteks tähendab „korduvalt iga tunni järel”, et varundamine käivitatakse "
+"iga uue täistunni alguses. Kui viimane edukas varundamine toimus kell 18:56, "
+"käivitatakse see uuesti kell 19:00, kuna tunni piir on ületatud. See "
+"ajastusrežiim on kasulik juhul, kui arvuti ei ole pidevalt sisselülitatud."
 
 #: qt/manageprofiles/schedulewidget.py:49
 msgid "Schedule"
@@ -1626,6 +1630,8 @@ msgid ""
 "Trigger a backup when a new hour, day, week, or month begins. If the system "
 "was off, it runs on the next start."
 msgstr ""
+"Käivita varundus, kui algab uus tund, päev, nädal või kuu. Kui arvuti või "
+"süsteem ei olnud töös, siis varundus käivitub järgmise alglaadimise järel."
 
 #: qt/manageprofiles/schedulewidget.py:133
 msgid "Every:"
@@ -1686,9 +1692,8 @@ msgid "Every day"
 msgstr "Iga päev"
 
 #: qt/manageprofiles/schedulewidget.py:189
-#, fuzzy
 msgid "Repeatedly"
-msgstr "Korduvalt (anacron)"
+msgstr "Korduvalt"
 
 #: qt/manageprofiles/schedulewidget.py:191
 msgid "When drive gets connected (udev)"
@@ -2649,4 +2654,5 @@ msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
 "Need on sinu failid sellisena, nagu nad hetkel leiduvad. Tegemist pole "
 "varukoopiaga."
+
 # REUSE-IgnoreEnd

@@ -14,17 +14,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-06-28 13:41+0200\n"
-"PO-Revision-Date: 2026-06-17 15:13+0000\n"
+"PO-Revision-Date: 2026-07-31 19:25+0000\n"
 "Last-Translator: SomeTr <sometr@noreply.codeberg.org>\n"
-"Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
+"Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/"
+"common/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2026.6.1\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2026.7.1\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -559,7 +561,7 @@ msgid ""
 "support hard-links. Please use a native GNU/Linux filesystem."
 msgstr ""
 "Цільову файлову систему для {path} відформатовано у FAT, яка не підтримує "
-"жорсткі посилання. Використовуйте файлові системи для GNU/Linux."
+"жорсткі посилання. Використовуйте рідну файлову систему GNU/Linux."
 
 #: common/tools.py:516
 #, python-brace-format
@@ -793,12 +795,11 @@ msgstr "Повідомити про помилку"
 
 #: qt/app.py:603
 msgid "Contact"
-msgstr ""
+msgstr "Контакти"
 
 #: qt/app.py:605
-#, fuzzy
 msgid "Shows additional contact options in the browser"
-msgstr "Додаткові параметри для rsync"
+msgstr "Відкриває в браузері додаткові варіанти зв’язку"
 
 #: qt/app.py:608
 msgid "Translation"
@@ -1577,6 +1578,10 @@ msgid ""
 "triggered again at 19:00 because the hour boundary has been crossed. This "
 "schedule mode is useful if the computer is not running regularly."
 msgstr ""
+"Наприклад, «повторно кожну годину» означає, що резервне копіювання "
+"запускається на початку кожної нової години. Якщо останнє успішне копіювання "
+"відбулося о 18:56, воно запуститься знову о 19:00, оскільки межа години вже "
+"минула. Цей режим планування корисний, якщо комп’ютер працює нерегулярно."
 
 #: qt/manageprofiles/schedulewidget.py:49
 msgid "Schedule"
@@ -1619,6 +1624,9 @@ msgid ""
 "Trigger a backup when a new hour, day, week, or month begins. If the system "
 "was off, it runs on the next start."
 msgstr ""
+"Запускати резервне копіювання на початку нової години, дня, тижня або "
+"місяця. Якщо система була вимкнена, копіювання виконується під час "
+"наступного запуску."
 
 #: qt/manageprofiles/schedulewidget.py:133
 msgid "Every:"
@@ -1681,9 +1689,8 @@ msgid "Every day"
 msgstr "Щодня"
 
 #: qt/manageprofiles/schedulewidget.py:189
-#, fuzzy
 msgid "Repeatedly"
-msgstr "Повторно (anacron)"
+msgstr "Повторно"
 
 #: qt/manageprofiles/schedulewidget.py:191
 msgid "When drive gets connected (udev)"
@@ -2370,7 +2377,7 @@ msgid ""
 "Authentication is required to change backup schedules triggered by external "
 "storage device connections."
 msgstr ""
-"Для зміни розкладів резервного копіювання, що запускаються підключенням "
+"Для зміни розкладів резервного копіювання, що запускається підключенням "
 "зовнішнього сховища, потрібна автентифікація."
 
 #: qt/placeswidget.py:51
@@ -2630,4 +2637,5 @@ msgstr "Остання перевірка {time}"
 #: qt/timeline.py:407
 msgid "These are your files as they are right now. It is not a backup."
 msgstr "Це Ваші файли в їхньому поточному стані. Це не резервна копія."
+
 # REUSE-IgnoreEnd

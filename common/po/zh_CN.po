@@ -14,11 +14,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-06-28 13:41+0200\n"
-"PO-Revision-Date: 2026-06-18 06:49+0000\n"
+"PO-Revision-Date: 2026-06-30 11:07+0000\n"
 "Last-Translator: Outbreak2096 <outbreak2096@noreply.codeberg.org>\n"
-"Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
+"Language-Team: Chinese (Simplified Han script) <https://"
+"translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -752,12 +753,11 @@ msgstr "报告错误"
 
 #: qt/app.py:603
 msgid "Contact"
-msgstr ""
+msgstr "联系"
 
 #: qt/app.py:605
-#, fuzzy
 msgid "Shows additional contact options in the browser"
-msgstr "粘贴附加选项到 rsync"
+msgstr "在浏览器中显示额外的联系选项"
 
 #: qt/app.py:608
 msgid "Translation"
@@ -1484,6 +1484,9 @@ msgid ""
 "triggered again at 19:00 because the hour boundary has been crossed. This "
 "schedule mode is useful if the computer is not running regularly."
 msgstr ""
+"例如，“每小时重复一次”意味着在每个新整点时触发一次备份。如果上次成功备份时间"
+"为 18:56，则会在 19:00 再次触发，因为已跨过整点。如果计算机未定期运行，此计划"
+"模式非常有用。"
 
 #: qt/manageprofiles/schedulewidget.py:49
 msgid "Schedule"
@@ -1524,6 +1527,8 @@ msgid ""
 "Trigger a backup when a new hour, day, week, or month begins. If the system "
 "was off, it runs on the next start."
 msgstr ""
+"当新的小时、天、周或月开始时触发备份。如果系统处于关闭状态，则会在下次启动时"
+"运行。"
 
 #: qt/manageprofiles/schedulewidget.py:133
 msgid "Every:"
@@ -1578,9 +1583,8 @@ msgid "Every day"
 msgstr "每天"
 
 #: qt/manageprofiles/schedulewidget.py:189
-#, fuzzy
 msgid "Repeatedly"
-msgstr "重复（anacron）"
+msgstr "重复"
 
 #: qt/manageprofiles/schedulewidget.py:191
 msgid "When drive gets connected (udev)"
@@ -2470,4 +2474,5 @@ msgstr "上次检查 {time}"
 #: qt/timeline.py:407
 msgid "These are your files as they are right now. It is not a backup."
 msgstr "这些是您当前的文件，并非备份。"
+
 # REUSE-IgnoreEnd

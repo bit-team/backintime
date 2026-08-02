@@ -19,11 +19,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-06-28 13:41+0200\n"
-"PO-Revision-Date: 2026-06-24 08:07+0000\n"
+"PO-Revision-Date: 2026-06-30 11:07+0000\n"
 "Last-Translator: bubub <bubub@noreply.codeberg.org>\n"
-"Language-Team: French <https://translate.codeberg.org/projects/backintime/common/fr/>\n"
+"Language-Team: French <https://translate.codeberg.org/projects/backintime/"
+"common/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -164,9 +165,8 @@ msgid "The last profile cannot be removed."
 msgstr "Le dernier profil ne peut pas être supprimé."
 
 #: common/mount/_backends.py:88 common/snapshots.py:966
-#, fuzzy
 msgid "Can't find backup destination directory."
-msgstr "Répertoire de sauvegarde non trouvé."
+msgstr "Impossible de trouver le répertoire de destination de sauvegarde."
 
 #: common/mount/_backends.py:90 common/snapshots.py:970
 msgid "If it is on a removable drive, please plug it in."
@@ -519,7 +519,7 @@ msgstr ""
 
 #: common/sshsetupvalidator.py:505
 msgid "The remote file system does not support hardlinks."
-msgstr ""
+msgstr "Le fichier distant ne prend pas en charge les liens directs."
 
 #: common/sshsetupvalidator.py:548
 #, python-brace-format
@@ -527,9 +527,10 @@ msgid "Could not create remote backup directory: {path}"
 msgstr "Impossible de créer le répertoire de sauvegarde distant : {path}"
 
 #: common/sshtools.py:157
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Copy public SSH key \"{pubkey}\" to remote host \"{host}\"."
-msgstr "Copie de la clé ssh publique \"{pubkey}\" sur l'hôte distant \"{host}\"."
+msgstr ""
+"Copie de la clé SSH publique \"{pubkey}\" sur l'hôte distant \"{host}\"."
 
 #: common/sshtools.py:159
 #, python-brace-format
@@ -819,12 +820,11 @@ msgstr "Signaler un bogue"
 
 #: qt/app.py:603
 msgid "Contact"
-msgstr ""
+msgstr "Contact"
 
 #: qt/app.py:605
-#, fuzzy
 msgid "Shows additional contact options in the browser"
-msgstr "Passer des options supplémentaires à rsync"
+msgstr "Afficher des options de contact supplémentaires dans le navigateur"
 
 #: qt/app.py:608
 msgid "Translation"
@@ -1615,6 +1615,11 @@ msgid ""
 "triggered again at 19:00 because the hour boundary has been crossed. This "
 "schedule mode is useful if the computer is not running regularly."
 msgstr ""
+"Par exemple, « de façon répétitive chaque heure » signifie qu'une sauvegarde "
+"se déclenche à chaque nouvelle heure. Si la dernière sauvegarde effective "
+"était à 18:56, la sauvegarde se déclenchera à nouveau à 19:00 car la limite "
+"horaire aura été franchie. Ce mode de planification est très utile si "
+"l'ordinateur ne fonctionne pas régulièrement."
 
 #: qt/manageprofiles/schedulewidget.py:49
 msgid "Schedule"
@@ -1658,6 +1663,8 @@ msgid ""
 "Trigger a backup when a new hour, day, week, or month begins. If the system "
 "was off, it runs on the next start."
 msgstr ""
+"Déclencher une sauvegarde à chaque nouvelle heure, jour, semaine ou mois. Si "
+"le système était éteint, la sauvegarde débutera au prochain démarrage."
 
 #: qt/manageprofiles/schedulewidget.py:133
 msgid "Every:"
@@ -1718,9 +1725,8 @@ msgid "Every day"
 msgstr "Tous les jours"
 
 #: qt/manageprofiles/schedulewidget.py:189
-#, fuzzy
 msgid "Repeatedly"
-msgstr "À plusieurs reprises (anacron)"
+msgstr "À plusieurs reprises"
 
 #: qt/manageprofiles/schedulewidget.py:191
 msgid "When drive gets connected (udev)"
@@ -2106,29 +2112,29 @@ msgstr "Le mot de passe de chiffrement ne peut pas être vide."
 
 #: qt/manageprofiles/tab_general.py:476
 msgid "Back In Time could not validate the SSH configuration."
-msgstr ""
+msgstr "Back In Time ne peut pas valider la configuration SSH."
 
 #: qt/manageprofiles/tab_general.py:478
 msgid "SSH profile setup failed"
-msgstr ""
+msgstr "L'installation du profil SSH a échoué"
 
 #: qt/manageprofiles/tab_general.py:522
-#, fuzzy
 msgid "Profile setup failed"
-msgstr "Profil : {profile_name}"
+msgstr "L'installation du profil a échoué"
 
 #: qt/manageprofiles/tab_general.py:701
 msgid "Really change the backup directory?"
 msgstr "Vraiment changer le répertoire de sauvegarde ?"
 
 #: qt/manageprofiles/tab_general.py:721
-#, fuzzy
 msgid "The selected backup destination cannot be used for encryption."
-msgstr "La destination de sauvegarde sélectionnée n'est pas vide."
+msgstr ""
+"La destination de sauvegarde sélectionnée ne peut pas être utilisée pour le "
+"chiffrement."
 
 #: qt/manageprofiles/tab_general.py:724
 msgid "It must either be empty or already initialized for gocryptfs."
-msgstr ""
+msgstr "Elle doit être vide ou déjà initialisée pour gocryptfs."
 
 #: qt/manageprofiles/tab_general.py:754
 msgid "Invalid file: Not a private SSH key"
@@ -2515,9 +2521,8 @@ msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Afficher/masquer les répertoires cachés (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:298
-#, fuzzy
 msgid "No config found in this directory."
-msgstr "Aucune configuration trouvée dans ce répertoire"
+msgstr "Aucune configuration trouvée dans ce répertoire."
 
 #: qt/restoreconfigdialog.py:359
 msgid "Search complete."
@@ -2691,4 +2696,5 @@ msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
 "Ce sont vos fichiers tels qu'ils sont maintenant. Ce n'est pas une "
 "sauvegarde."
+
 # REUSE-IgnoreEnd

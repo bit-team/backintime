@@ -14,11 +14,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-06-28 13:41+0200\n"
-"PO-Revision-Date: 2026-06-23 06:07+0000\n"
+"PO-Revision-Date: 2026-06-29 10:28+0000\n"
 "Last-Translator: smart2128 <smart2128@noreply.codeberg.org>\n"
-"Language-Team: Italian <https://translate.codeberg.org/projects/backintime/common/it/>\n"
+"Language-Team: Italian <https://translate.codeberg.org/projects/backintime/"
+"common/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -805,12 +806,11 @@ msgstr "Segnala un bug"
 
 #: qt/app.py:603
 msgid "Contact"
-msgstr ""
+msgstr "Contatto"
 
 #: qt/app.py:605
-#, fuzzy
 msgid "Shows additional contact options in the browser"
-msgstr "Passa opzioni aggiuntive a rsync"
+msgstr "Mostra ulteriori opzioni di contatto nel browser"
 
 #: qt/app.py:608
 msgid "Translation"
@@ -1596,6 +1596,11 @@ msgid ""
 "triggered again at 19:00 because the hour boundary has been crossed. This "
 "schedule mode is useful if the computer is not running regularly."
 msgstr ""
+"Ad esempio, l'impostazione \"ripetuto ogni ora\" significa che il backup "
+"viene avviato allo scoccare di ogni nuova ora; se l'ultimo backup riuscito è "
+"stato eseguito alle 18:56, ne verrà avviato un altro alle 19:00, poiché è "
+"stato superato il limite orario. Questa modalità di pianificazione è utile "
+"se il computer non è in funzione con regolarità."
 
 #: qt/manageprofiles/schedulewidget.py:49
 msgid "Schedule"
@@ -1638,6 +1643,8 @@ msgid ""
 "Trigger a backup when a new hour, day, week, or month begins. If the system "
 "was off, it runs on the next start."
 msgstr ""
+"Avvia un backup all'inizio di una nuova ora, giorno, settimana o mese. Se il "
+"sistema era spento, viene eseguito al riavvio successivo."
 
 #: qt/manageprofiles/schedulewidget.py:133
 msgid "Every:"
@@ -1696,9 +1703,8 @@ msgid "Every day"
 msgstr "Ogni giorno"
 
 #: qt/manageprofiles/schedulewidget.py:189
-#, fuzzy
 msgid "Repeatedly"
-msgstr "Ripetutamente (anacron)"
+msgstr "Ripetutamente"
 
 #: qt/manageprofiles/schedulewidget.py:191
 msgid "When drive gets connected (udev)"
@@ -2663,4 +2669,5 @@ msgstr "Ultimo controllo {time}"
 msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
 "Questi sono i tuoi file così come sono adesso. Non si tratta di un backup."
+
 # REUSE-IgnoreEnd

@@ -14,16 +14,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-06-28 13:41+0200\n"
-"PO-Revision-Date: 2026-06-23 06:07+0000\n"
+"PO-Revision-Date: 2026-06-29 10:28+0000\n"
 "Last-Translator: AndrewG <andrewg@noreply.codeberg.org>\n"
-"Language-Team: Russian <https://translate.codeberg.org/projects/backintime/common/ru/>\n"
+"Language-Team: Russian <https://translate.codeberg.org/projects/backintime/"
+"common/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2026.6.1\n"
 
 #: common/bitlicense.py:43
@@ -163,11 +165,8 @@ msgid "Can't find backup destination directory."
 msgstr "Невозможно найти папку снимков."
 
 #: common/mount/_backends.py:90 common/snapshots.py:970
-#, fuzzy
 msgid "If it is on a removable drive, please plug it in."
-msgstr ""
-"Если она находится на съёмном диске, пожалуйста, подключите его и нажмите "
-"ОК."
+msgstr "Если она находится на съёмном диске, пожалуйста, подключите его."
 
 #: common/mount/_backends.py:91
 msgid "Then press OK."
@@ -801,12 +800,11 @@ msgstr "Сообщить об ошибке"
 
 #: qt/app.py:603
 msgid "Contact"
-msgstr ""
+msgstr "Контакт"
 
 #: qt/app.py:605
-#, fuzzy
 msgid "Shows additional contact options in the browser"
-msgstr "Вставить дополнительные опции в rsync"
+msgstr "Показывает дополнительные возможности для связи в браузере"
 
 #: qt/app.py:608
 msgid "Translation"
@@ -1233,17 +1231,16 @@ msgstr[2] "Выбранные файлы уже включены в список
 #: qt/fileview.py:299
 msgid "The following item is already in the include list."
 msgid_plural "The following items are already in the include list."
-msgstr[0] "Выбранный файл уже в списке исключенных."
-msgstr[1] "Выбранные файлы уже в списке исключенных."
-msgstr[2] "Выбранные файлы уже в списке исключенных."
+msgstr[0] "Выбранный пункт уже в списке исключенных."
+msgstr[1] "Выбранные пункт уже в списке исключенных."
+msgstr[2] "Выбранные пункт уже в списке исключенных."
 
 #: qt/fileview.py:313
-#, fuzzy
 msgid "The selected item is already in the exclude list."
 msgid_plural "The selected items are already in the exclude list."
-msgstr[0] "Выбранный файл уже в списке исключенных."
-msgstr[1] "Выбранные файлы уже в списке исключенных."
-msgstr[2] "Выбранные файлы уже в списке исключенных."
+msgstr[0] "Выбранный пункт уже в списке исключенных."
+msgstr[1] "Выбранные пункты уже в списке исключенных."
+msgstr[2] "Выбранные пункты уже в списке исключенных."
 
 #: qt/fileview.py:320
 msgid "The following item is already in the exclude list."
@@ -1585,6 +1582,10 @@ msgid ""
 "triggered again at 19:00 because the hour boundary has been crossed. This "
 "schedule mode is useful if the computer is not running regularly."
 msgstr ""
+"Например, \"циклично каждый час\" означает, что бекап запускается каждый "
+"новый час. Если успешный бекап был в 18:56, то он будет запущен снова в "
+"19:00 потому, что граница часа будет пересечена. Этот режим планирования "
+"полезен, если компьютер не работает регулярно."
 
 #: qt/manageprofiles/schedulewidget.py:49
 msgid "Schedule"
@@ -1627,6 +1628,8 @@ msgid ""
 "Trigger a backup when a new hour, day, week, or month begins. If the system "
 "was off, it runs on the next start."
 msgstr ""
+"Запустить бекап, когда начинается новый час, новая неделя или новый месяц. "
+"Если система была выключена, он выполнится при следующем запуске."
 
 #: qt/manageprofiles/schedulewidget.py:133
 msgid "Every:"
@@ -1688,9 +1691,8 @@ msgid "Every day"
 msgstr "Каждый день"
 
 #: qt/manageprofiles/schedulewidget.py:189
-#, fuzzy
 msgid "Repeatedly"
-msgstr "Периодически (anacron)"
+msgstr "Периодически"
 
 #: qt/manageprofiles/schedulewidget.py:191
 msgid "When drive gets connected (udev)"
@@ -2644,4 +2646,5 @@ msgstr "Последняя проверка {time}"
 #: qt/timeline.py:407
 msgid "These are your files as they are right now. It is not a backup."
 msgstr "Это ваши файлы как есть сейчас. Это не резервная копия."
+
 # REUSE-IgnoreEnd

@@ -15,16 +15,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-06-28 13:41+0200\n"
-"PO-Revision-Date: 2026-06-19 13:16+0000\n"
+"PO-Revision-Date: 2026-06-30 11:07+0000\n"
 "Last-Translator: Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>\n"
-"Language-Team: Romanian <https://translate.codeberg.org/projects/backintime/common/ro/>\n"
+"Language-Team: Romanian <https://translate.codeberg.org/projects/backintime/"
+"common/ro/>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
 "X-Generator: Weblate 2026.6.1\n"
 
 #: common/bitlicense.py:43
@@ -822,12 +824,11 @@ msgstr "Raportează o eroare"
 
 #: qt/app.py:603
 msgid "Contact"
-msgstr ""
+msgstr "Contactare"
 
 #: qt/app.py:605
-#, fuzzy
 msgid "Shows additional contact options in the browser"
-msgstr "Lipește opțiunile adiționale la «rsync»"
+msgstr "Afișează opțiuni suplimentare de contactare în navigator"
 
 #: qt/app.py:608
 msgid "Translation"
@@ -1614,6 +1615,11 @@ msgid ""
 "triggered again at 19:00 because the hour boundary has been crossed. This "
 "schedule mode is useful if the computer is not running regularly."
 msgstr ""
+"De exemplu, „în mod repetat la fiecare oră” înseamnă că o copie de rezervă "
+"este declanșată la fiecare nouă oră. Dacă ultima copie de rezervă reușită a "
+"avut loc la ora 18:56, aceasta va fi declanșată din nou la ora 19:00, "
+"deoarece s-a trecut de limita orei. Acest mod de programare este util dacă "
+"calculatorul nu funcționează în mod regulat (după o anumită regulă/orar)."
 
 #: qt/manageprofiles/schedulewidget.py:49
 msgid "Schedule"
@@ -1656,6 +1662,8 @@ msgid ""
 "Trigger a backup when a new hour, day, week, or month begins. If the system "
 "was off, it runs on the next start."
 msgstr ""
+"Declanșează o copie de rezervă la începutul unei noi ore, zile, săptămâni "
+"sau luni. Dacă sistemul era oprit, operația se execută la următoarea pornire."
 
 #: qt/manageprofiles/schedulewidget.py:133
 msgid "Every:"
@@ -1718,9 +1726,8 @@ msgid "Every day"
 msgstr "Zilnic"
 
 #: qt/manageprofiles/schedulewidget.py:189
-#, fuzzy
 msgid "Repeatedly"
-msgstr "În mod repetat (anacron)"
+msgstr "În mod repetat"
 
 #: qt/manageprofiles/schedulewidget.py:191
 msgid "When drive gets connected (udev)"
@@ -2696,4 +2703,5 @@ msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
 "Acestea sunt fișierele tale așa cum sunt în acest moment. Nu este o copie de"
 " rezervă."
+
 # REUSE-IgnoreEnd

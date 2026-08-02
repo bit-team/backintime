@@ -14,17 +14,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-06-28 13:41+0200\n"
-"PO-Revision-Date: 2026-05-19 19:07+0000\n"
+"PO-Revision-Date: 2026-07-30 13:07+0000\n"
 "Last-Translator: alexgabi <alexgabi@noreply.codeberg.org>\n"
-"Language-Team: Basque <https://translate.codeberg.org/projects/backintime/common/eu/>\n"
+"Language-Team: Basque <https://translate.codeberg.org/projects/backintime/"
+"common/eu/>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.5\n"
+"X-Generator: Weblate 2026.7.1\n"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -69,9 +70,8 @@ msgid "SSH private key"
 msgstr "SSH giltz pribatu"
 
 #: common/config.py:190
-#, fuzzy
 msgid "SSH encrypted"
-msgstr "SSH (EncFS zifratua)"
+msgstr "SSH zifratua"
 
 #: common/config.py:236 common/config.py:248 common/config.py:266
 #: common/config.py:280 common/config.py:301
@@ -160,9 +160,8 @@ msgid "The last profile cannot be removed."
 msgstr "Ezin da azken profila kendu."
 
 #: common/mount/_backends.py:88 common/snapshots.py:966
-#, fuzzy
 msgid "Can't find backup destination directory."
-msgstr "Ezin da aurkitu babeskopien direktorioa."
+msgstr "Ezin da aurkitu babeskopien helmuga- direktorioa."
 
 #: common/mount/_backends.py:90 common/snapshots.py:970
 msgid "If it is on a removable drive, please plug it in."
@@ -174,25 +173,25 @@ msgstr "Ondoren, sakatu Ados."
 
 #: common/mount/_backends.py:108
 msgid "Back In Time could not connect to the remote backup location."
-msgstr ""
+msgstr "Back In Time ezin izan da urrutiko babeskopia-kokapenera konektatu."
 
 #: common/mount/_backends.py:110 qt/manageprofiles/tab_general.py:477
 msgid "Reason:"
-msgstr ""
+msgstr "Arrazoia:"
 
 #: common/mount/_backends.py:156 common/sshsetupvalidator.py:181
 #, python-brace-format
 msgid "Could not reach the SSH proxy host \"{host_port}\"."
-msgstr ""
+msgstr "Ezin izan da \"{host_port}\" SSH proxy ostalarira iritsi."
 
 #: common/mount/_backends.py:161 common/sshsetupvalidator.py:186
 #, python-brace-format
 msgid "Could not reach the SSH host \"{host_port}\"."
-msgstr ""
+msgstr "Ezin izan da \"{host_port}\" SSH ostalarira iritsi."
 
 #: common/mount/_backends.py:215
 msgid "SSH authentication failed for:"
-msgstr ""
+msgstr "SSH autentifikazioak huts egin du honentzat:"
 
 #: common/mount/_backends.py:217 common/mount/_backends.py:395
 #: common/mount/_encryptors.py:262 common/sshsetupvalidator.py:237
@@ -200,22 +199,19 @@ msgstr ""
 #: common/sshsetupvalidator.py:416 common/sshsetupvalidator.py:470
 #: common/sshsetupvalidator.py:499 common/sshsetupvalidator.py:549
 msgid "Details:"
-msgstr ""
+msgstr "Xehetasunak:"
 
 #: common/mount/_backends.py:272
-#, fuzzy
 msgid "The remote backup directory does not exist or is not a directory."
-msgstr "Urrutiko bide-izena badago baina ez da direktorio bat."
+msgstr "Urruneko babeskopien direktorioa ez dago edo ez da direktorio bat."
 
 #: common/mount/_backends.py:278
-#, fuzzy
 msgid "The remote backup directory is not writable."
-msgstr "Babeskopien direktorioa ez da baliozkoa."
+msgstr "Urruneko babeskopien direktorioa ezin da idatzi."
 
 #: common/mount/_backends.py:283
-#, fuzzy
 msgid "The remote backup directory cannot be accessed."
-msgstr "Babeskopiaren helmuga-bidea ezin da hutsik egon."
+msgstr "Urruneko babeskopien direktorioa ezin da atzitu."
 
 #: common/mount/_backends.py:297 qt/manageprofiles/tab_general.py:126
 msgid "Path:"
@@ -223,64 +219,61 @@ msgstr "Bide-izena:"
 
 #: common/mount/_backends.py:305
 msgid "No SSH host configured."
-msgstr ""
+msgstr "Ez dago SSH ostalaririk konfiguratuta."
 
 #: common/mount/_backends.py:312
-#, fuzzy
 msgid "No destination backup directory configured."
-msgstr "Ezin da aurkitu babeskopien direktorioa."
+msgstr "Ez dago helmugako babeskopien direktoriorik konfiguratuta."
 
 #: common/mount/_backends.py:393
-#, fuzzy
 msgid "Could not mount the remote backup location."
-msgstr "Ezin da sortu urrutiko bide-izena."
+msgstr "Ezin izan da urruneko babeskopia-kokapena muntatu."
 
 #: common/mount/_encryptors.py:188
-#, fuzzy
 msgid ""
 "Cannot initialize encryption because the backup destination is not empty."
-msgstr "Hautatutako babeskopiarako helmuga ez dago hutsik."
+msgstr ""
+"Ezin da enkriptatzea hasieratu, babeskopien helmuga hutsik ez dagoelako."
 
 #: common/mount/_encryptors.py:191
-#, fuzzy
 msgid "Remove existing files or choose an empty directory."
-msgstr "Urrutiko bide-izena badago baina ez da direktorio bat."
+msgstr "Kendu lehendik dauden fitxategiak edo aukeratu direktorio huts bat."
 
 #: common/mount/_encryptors.py:208
 #, python-brace-format
 msgid "Required tool \"{tool}\" is not installed or not available."
 msgstr ""
+"\"{tool}\" beharrezko tresna ez dago instalatuta edo ez dago erabilgarri."
 
 #: common/mount/_encryptors.py:209
-#, fuzzy
 msgid "Please install it and try again."
-msgstr "Mesedez, instalatu 'nocache' aukera hau gaitzeko."
+msgstr "instalatu eta saiatu berriro."
 
 #: common/mount/_encryptors.py:261
-#, fuzzy
 msgid "Unable to initialize encryption."
-msgstr "Ezin da \"{command}\" enkriptatutako bidea abiarazi"
+msgstr "Ezin da enkriptatzea abiarazi."
 
 #: common/mount/_encryptors.py:277
 #, python-brace-format
 msgid ""
 "Backup destination directory is not prepared for encryption. Path: {path}"
 msgstr ""
+"Babeskopiaren helmuga direktorioa ez dago enkriptatzeko prestatuta. Bidea: "
+"{path}"
 
 #: common/mount/_encryptors.py:286
 #, python-brace-format
 msgid "Mountpoint as decrypted view is missing. Path: {path}"
-msgstr ""
+msgstr "Muntaketa-puntua ikuspegi deszifratu gisa falta da. Bidea: {path}"
 
 #: common/mount/_encryptors.py:338
 #, python-brace-format
 msgid "Mount failed with return code {rc}."
-msgstr ""
+msgstr "Muntatzeak huts egin du eta {rc} kodea itzuli du."
 
 #: common/mount/_encryptors.py:341
-#, fuzzy
 msgid "Error:"
-msgstr "Errorea"
+msgstr "Errorea:"
 
 #: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:70
 msgid "Command:"
@@ -288,22 +281,22 @@ msgstr "Komandoa:"
 
 #: common/mount/_encryptors.py:374
 msgid "Unmount failed"
-msgstr ""
+msgstr "Desmuntatzeak huts egin du"
 
 #: common/mount/_encryptors.py:376
 #, python-brace-format
 msgid "Return code: {rc}"
-msgstr ""
+msgstr "Itzuli duen kodea: {rc}"
 
 #: common/mount/_encryptors.py:378
 #, python-brace-format
 msgid "Original error: {err}"
-msgstr ""
+msgstr "Jatorrizko errorea: {err}"
 
 #: common/password.py:300
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
-msgstr "Idatzi {mode} \"{profile}\" profilaren pasahitza:"
+msgstr "Idatzi {mode}ren \"{profile}\" profilaren pasahitza:"
 
 #: common/schedule.py:236
 #, python-brace-format
@@ -423,6 +416,8 @@ msgid ""
 "Negative exit codes indicate termination by a signal. The number corresponds"
 " to the signal (see 'kill -l')."
 msgstr ""
+"Irteera kode negatiboek seinale baten bidez amaitzea adierazten dute. "
+"Zenbakia seinaleari dagokio (ikus 'kill -l')."
 
 #: common/snapshots.py:1589
 msgid "Nothing changed, no new backup necessary"
@@ -457,77 +452,75 @@ msgstr "Orain"
 #: common/sshsetupvalidator.py:124
 #, python-brace-format
 msgid "\"{tool}\" is not installed on the remote host."
-msgstr ""
+msgstr "\"{tool}\" ez dago instalatuta urruneko ostalarian."
 
 #: common/sshsetupvalidator.py:221
-#, fuzzy
 msgid "ssh-agent is not installed"
-msgstr "ssh-agent ez da aurkitu. Ziurtatu instalatuta dagoela."
+msgstr "ssh-agentea ez dago instalatuta"
 
 #: common/sshsetupvalidator.py:236
 msgid "Unexpected response from ssh-agent."
-msgstr ""
+msgstr "Ssh-agentearen ustekabeko erantzuna."
 
 #: common/sshsetupvalidator.py:252
 msgid "Unexpected output from ssh-agent."
-msgstr ""
+msgstr "Ssh-agentearen ustekabeko irteera."
 
 #: common/sshsetupvalidator.py:253
 msgid "Output:"
-msgstr ""
+msgstr "Irteera:"
 
 #: common/sshsetupvalidator.py:280
 msgid "The SSH key is not loaded into ssh-agent."
-msgstr ""
+msgstr "SSH gakoa ez dago ssh-agentean kargatzen."
 
 #: common/sshsetupvalidator.py:309
-#, fuzzy
 msgid "Failed to add SSH key."
-msgstr "Huts egin du {path} kokalekuan SSH gako berria sortzen."
+msgstr "Ezin izan da gehitu SSH gakoa."
 
 #: common/sshsetupvalidator.py:331
 msgid "sshfs is not installed"
-msgstr ""
+msgstr "sshfs ez dago instalatuta"
 
 #: common/sshsetupvalidator.py:347
 msgid "Unexpected response from sshfs."
-msgstr ""
+msgstr "Sshfs-en ustekabeko erantzuna."
 
 #: common/sshsetupvalidator.py:373
 #, python-brace-format
 msgid "The SSH host \"{host}\" is not trusted yet."
-msgstr ""
+msgstr "\"{host}\" SSH ostalaria ez da oraindik fidagarria."
 
 #: common/sshsetupvalidator.py:375
 msgid "Please connect to the host manually once to confirm its fingerprint."
-msgstr ""
+msgstr "Konektatu eskuz ostalariarekin hatz-marka berresteko."
 
 #: common/sshsetupvalidator.py:415
 msgid "Could not write files to the remote host using rsync."
-msgstr ""
+msgstr "Ezin izan dira fitxategiak idatzi urruneko ostalarian rsync erabiliz."
 
 #: common/sshsetupvalidator.py:469
 msgid "Could not verify rsync hardlink support."
-msgstr ""
+msgstr "Ezin izan da egiaztatu rsync esteka gogorrak onartzen dituela."
 
 #: common/sshsetupvalidator.py:498
 msgid "Unexpected error while verifying rsync hardlink support."
-msgstr ""
+msgstr "Ustekabeko errorea rsync-en esteka gogorren onarpena egiaztatzean."
 
 #: common/sshsetupvalidator.py:505
 #, fuzzy
 msgid "The remote file system does not support hardlinks."
-msgstr "{host} urrutiko ostalariak ez ditu esteka gogorrak onartzen"
+msgstr "{host} urrutiko ostalariak ez ditu esteka gogorrak onartzen."
 
 #: common/sshsetupvalidator.py:548
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not create remote backup directory: {path}"
-msgstr "Ezin da sortu urrutiko bide-izena."
+msgstr "Ezin da sortu urrutiko babeskopia direktoriorik: {path}"
 
 #: common/sshtools.py:157
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Copy public SSH key \"{pubkey}\" to remote host \"{host}\"."
-msgstr "Kopiatu \"{pubkey}\" ssh-gako publikoa \"{host}\" urrutiko ostalarira."
+msgstr "Kopiatu SSH gako publikoa \"{pubkey}\" urruneko \"{host}\" ostalarian ."
 
 #: common/sshtools.py:159
 #, python-brace-format
@@ -660,13 +653,12 @@ msgstr ""
 " aurkitzen."
 
 #: qt/app.py:348
-#, fuzzy
 msgid ""
 "Create a new configuration or import an existing configuration from a "
 "backup?"
 msgstr ""
-"Lehendik dagoen konfigurazio bat inportatu babeskopia batetik edo beste "
-"ordenagailu batetik?"
+"Konfigurazio berri bat sortu edo lehendik dagoen konfigurazio bat babeskopia "
+"batetik inportatu?"
 
 #: qt/app.py:353 qt/confirmrestoredialog.py:35 qt/messagebox.py:123
 msgid "Question"
@@ -674,7 +666,7 @@ msgstr "Galdera"
 
 #: qt/app.py:356
 msgid "Create"
-msgstr ""
+msgstr "Sortu"
 
 #: qt/app.py:358 qt/restoreconfigdialog.py:131
 msgid "Import"
@@ -805,12 +797,11 @@ msgstr "Akats baten berri eman"
 
 #: qt/app.py:603
 msgid "Contact"
-msgstr ""
+msgstr "Kontaktua"
 
 #: qt/app.py:605
-#, fuzzy
 msgid "Shows additional contact options in the browser"
-msgstr "Itsatsi aukera gehigarriak rsync-eri"
+msgstr "Kontaktu-aukera gehigarriak erakusten ditu nabigatzailean"
 
 #: qt/app.py:608
 msgid "Translation"
@@ -949,7 +940,7 @@ msgstr "Leihoa itxi edonola?"
 
 #: qt/app.py:1109 qt/app.py:1116
 msgid "Backup destination unavailable"
-msgstr ""
+msgstr "Babeskopiaren helmuga ez dago erabilgarri"
 
 #: qt/app.py:1234
 msgid "Done, no backup needed"
@@ -1589,6 +1580,11 @@ msgid ""
 "triggered again at 19:00 because the hour boundary has been crossed. This "
 "schedule mode is useful if the computer is not running regularly."
 msgstr ""
+"Esate baterako, \"errepikatu orduero behin\" esan nahi du babeskopia bat "
+"abiarazten dela erloju-ordu berri bakoitzean. Azken babeskopia arrakastatsua "
+"18:56an izan bada, 19:00etan abiaraziko da berriro orduko muga gainditu "
+"delako. Programazio modu hau erabilgarria da ordenagailua ez bada "
+"erregularki exekutatzen."
 
 #: qt/manageprofiles/schedulewidget.py:49
 msgid "Schedule"
@@ -1631,6 +1627,8 @@ msgid ""
 "Trigger a backup when a new hour, day, week, or month begins. If the system "
 "was off, it runs on the next start."
 msgstr ""
+"Aktibatu babeskopia bat ordu, egun, aste edo hilabete berri bat hasten "
+"denean. Sistema itzalita bago, hurrengo abiaraztean exekutatzen da."
 
 #: qt/manageprofiles/schedulewidget.py:133
 msgid "Every:"
@@ -1691,9 +1689,8 @@ msgid "Every day"
 msgstr "Egunero"
 
 #: qt/manageprofiles/schedulewidget.py:189
-#, fuzzy
 msgid "Repeatedly"
-msgstr "Behin eta berriz (anacron)"
+msgstr "Behin eta berriz"
 
 #: qt/manageprofiles/schedulewidget.py:191
 msgid "When drive gets connected (udev)"
@@ -1804,7 +1801,7 @@ msgstr ""
 "\"ssh_config\" man orrialdean xehetasunetarako."
 
 #: qt/manageprofiles/tab_exclude.py:63
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
 "asterisks are functional (e.g. {example2}). Other types of wildcards and "
@@ -1813,8 +1810,8 @@ msgid ""
 msgstr ""
 "{BOLD}Informazioa{ENDBOLD}:'SSH enkriptatutako' moduan, izartxo bakunak edo "
 "bikoitzak baino ez dute funtzionatzen (adibidez, {example2}). Beste komodin "
-"eta ereduei ez ikusi egingo zaie (adibidez, {example1}). Fitxategi-izenak ez"
-" dira aurreikusten modu honetan, EncFS-k enkriptatutakoaren ondorioz."
+"eta ereduei ez ikusi egingo zaie (adibidez, {example1}). Fitxategi-izenak ez "
+"dira aurreikusten modu honetan."
 
 #: qt/manageprofiles/tab_exclude.py:86
 msgid "Exclude patterns, files or directories"
@@ -2079,29 +2076,27 @@ msgstr "Enkriptatzeko pasahitza ezin da hutsik egon."
 
 #: qt/manageprofiles/tab_general.py:476
 msgid "Back In Time could not validate the SSH configuration."
-msgstr ""
+msgstr "Back In Time-k ezin izan du SSH konfigurazioa balioztatu."
 
 #: qt/manageprofiles/tab_general.py:478
 msgid "SSH profile setup failed"
-msgstr ""
+msgstr "Ezin izan da SSH profila konfiguratu"
 
 #: qt/manageprofiles/tab_general.py:522
-#, fuzzy
 msgid "Profile setup failed"
-msgstr "Profila: {profile_name}"
+msgstr "Ezin izan da profila konfiguratu"
 
 #: qt/manageprofiles/tab_general.py:701
 msgid "Really change the backup directory?"
 msgstr "Benetan nahi duzu babeskopien direktorioa aldatu?"
 
 #: qt/manageprofiles/tab_general.py:721
-#, fuzzy
 msgid "The selected backup destination cannot be used for encryption."
-msgstr "Hautatutako babeskopiarako helmuga ez dago hutsik."
+msgstr "Hautatutako babeskopia-helmuga ezin da zifratzeko erabili."
 
 #: qt/manageprofiles/tab_general.py:724
 msgid "It must either be empty or already initialized for gocryptfs."
-msgstr ""
+msgstr "Hutsik edo dagoeneko hasieratuta egon behar du gocryptfs-entzat."
 
 #: qt/manageprofiles/tab_general.py:754
 msgid "Invalid file: Not a private SSH key"
@@ -2481,9 +2476,8 @@ msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Erakutsi/ezkutatu ezkutuko direktorioak (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:298
-#, fuzzy
 msgid "No config found in this directory."
-msgstr "Ez da konfiguraziorik aurkitu direktorio honetan"
+msgstr "Ez da konfiguraziorik aurkitu direktorio honetan."
 
 #: qt/restoreconfigdialog.py:359
 msgid "Search complete."
@@ -2655,4 +2649,5 @@ msgstr "Azken kontrola {time}"
 #: qt/timeline.py:407
 msgid "These are your files as they are right now. It is not a backup."
 msgstr "Hauek dira zure fitxategiak orain dauden bezala. Ez da babeskopia."
+
 # REUSE-IgnoreEnd

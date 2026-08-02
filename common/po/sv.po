@@ -17,11 +17,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-06-28 13:41+0200\n"
-"PO-Revision-Date: 2026-06-18 06:49+0000\n"
+"PO-Revision-Date: 2026-06-29 10:28+0000\n"
 "Last-Translator: bittin <bittin@noreply.codeberg.org>\n"
-"Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/common/sv/>\n"
+"Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/"
+"common/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -806,12 +807,11 @@ msgstr "Rapportera ett fel"
 
 #: qt/app.py:603
 msgid "Contact"
-msgstr ""
+msgstr "Kontakt"
 
 #: qt/app.py:605
-#, fuzzy
 msgid "Shows additional contact options in the browser"
-msgstr "Klistra in ytterligare alternativ till rsync"
+msgstr "Visar ytterligare kontaktalternativ i webbläsaren"
 
 #: qt/app.py:608
 msgid "Translation"
@@ -1579,6 +1579,11 @@ msgid ""
 "triggered again at 19:00 because the hour boundary has been crossed. This "
 "schedule mode is useful if the computer is not running regularly."
 msgstr ""
+"Till exempel betyder \"upprepade gånger varje 1:a timme\" att en "
+"säkerhetskopiering utlöses vid varje ny klocktimme. Om den senaste lyckade "
+"säkerhetskopieringen var klockan 18:56 kommer den att utlösas igen klockan "
+"19:00 eftersom timgränsen har passerats. Detta schemaläggningsläge är "
+"användbart om datorn inte körs regelbundet."
 
 #: qt/manageprofiles/schedulewidget.py:49
 msgid "Schedule"
@@ -1621,6 +1626,8 @@ msgid ""
 "Trigger a backup when a new hour, day, week, or month begins. If the system "
 "was off, it runs on the next start."
 msgstr ""
+"Utlös en säkerhetskopia när en ny timme, dag, vecka eller månad börjar. Om "
+"systemet var avstängt körs det vid nästa start."
 
 #: qt/manageprofiles/schedulewidget.py:133
 msgid "Every:"
@@ -1679,9 +1686,8 @@ msgid "Every day"
 msgstr "Varje dag"
 
 #: qt/manageprofiles/schedulewidget.py:189
-#, fuzzy
 msgid "Repeatedly"
-msgstr "Upprepad (anacron)"
+msgstr "Upprepade gånger"
 
 #: qt/manageprofiles/schedulewidget.py:191
 msgid "When drive gets connected (udev)"
@@ -2636,4 +2642,5 @@ msgstr "Senaste kontroll {time}"
 msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
 "Det här är dina filer som de är just nu. Det är inte en säkerhetskopia."
+
 # REUSE-IgnoreEnd
