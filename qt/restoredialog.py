@@ -15,10 +15,10 @@ from PyQt6.QtWidgets import (QDialog,
                              QDialogButtonBox,
                              QPlainTextEdit,
                              QVBoxLayout)
-from PyQt6.QtCore import QMutex, QThread, QTimer, QUrl, Qt
+from PyQt6.QtCore import QMutex, QThread, QTimer, QUrl
 from inhibitsuspend import InhibitSuspend
-import messagebox
 import logger
+import messagebox
 
 
 class RestoreDialog(QDialog):
