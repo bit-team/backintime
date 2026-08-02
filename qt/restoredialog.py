@@ -15,7 +15,7 @@ from PyQt6.QtWidgets import (QDialog,
                              QDialogButtonBox,
                              QPlainTextEdit,
                              QVBoxLayout)
-from PyQt6.QtCore import QMutex, QThread, QTimer, QUrl
+from PyQt6.QtCore import QMutex, QThread, QTimer, QUrl, Qt
 from inhibitsuspend import InhibitSuspend
 import messagebox
 
@@ -45,6 +45,9 @@ class RestoreDialog(QDialog):
         self.setWindowIcon(icon.RESTORE_DIALOG)
         self.setWindowTitle(_('Restore'))
 
+        # Remove the closing "X" in the window title bar
+        self.setWindowFlag(Qt.WindowType.WindowCloseButtonHint, False)
+
         self._main_layout = QVBoxLayout(self)
 
         self._txt_log_view = QPlainTextEdit(self)
@@ -55,7 +58,9 @@ class RestoreDialog(QDialog):
 
         button_box = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)
         btn_show_log = button_box.addButton(
-            _('Show full Log'), QDialogButtonBox.ButtonRole.ActionRole)
+            _('Show full Log'),
+            QDialogButtonBox.ButtonRole.ActionRole
+        )
         self._main_layout.addWidget(button_box)
         self._btn_close = button_box.button(
             QDialogButtonBox.StandardButton.Close)
@@ -106,23 +111,23 @@ class RestoreDialog(QDialog):
     def _slot_thread_finished(self):
         self._btn_close.setEnabled(True)
 
-    def closeEvent(self, event):  # noqa: N802
-        """
-        intercept close event to prevent canceling restoration early
-        this provides protection against upper corner x as well as
-        alt-f4 key presses
-        """
-        # Check if close button is enabled to avoid using new variable
-        # Could add a boolean to __init__ for easier readability
-        if not self._btn_close.isEnabled():
-            messagebox.critical(
-                self,
-                _("A critical process is currently running. Window "
-                  "cannot be closed until restoration is finished.")
-            )
-            event.ignore()
-        else:
-            event.accept()
+    # def closeEvent(self, event):  # noqa: N802
+    #     """
+    #     intercept close event to prevent canceling restoration early
+    #     this provides protection against upper corner x as well as
+    #     alt-f4 key presses
+    #     """
+    #     # Check if close button is enabled to avoid using new variable
+    #     # Could add a boolean to __init__ for easier readability
+    #     if not self._btn_close.isEnabled():
+    #         messagebox.critical(
+    #             self,
+    #             _("A critical process is currently running. Window "
+    #               "cannot be closed until restoration is finished.")
+    #         )
+    #         event.ignore()
+    #     else:
+    #         event.accept()
 
 
 class RestoreThread(QThread):
