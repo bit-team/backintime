@@ -2232,7 +2232,6 @@ class SetupUdev:
     def __init__(self):
         if dbus is None:
             self.isReady = False
-
             return
 
         try:
@@ -2243,24 +2242,21 @@ class SetupUdev:
             # See #2366
             self.iface.clean()
 
-        except dbus.exceptions.DBusException as e:
-            # Only DBusExceptions are  handled to do a "graceful recovery"
-            # by working without a serviceHelper D-Bus connection...
-            # All other exceptions are still raised causing BiT
-            # to stop during startup.
-            # if e._dbus_error_name in (
-            #    'org.freedesktop.DBus.Error.NameHasNoOwner',
-            #    'org.freedesktop.DBus.Error.ServiceUnknown',
-            #    'org.freedesktop.DBus.Error.FileNotFound'):
-            logger.warning('Failed to connect to Udev serviceHelper daemon '
-                           'via D-Bus: ' + e.get_dbus_name())
-            logger.warning('D-Bus message: ' + e.get_dbus_message())
-            logger.warning('Udev-based profiles cannot be changed or checked '
-                           'due to Udev serviceHelper connection failure')
-            conn = None
+        except dbus.exceptions.DBusException as exc:
+            user_msg = (
+                'Some profiles cannot be checked or edited because automatic '
+                'device detection (via Udev) is unavailable.'
+            )
+            debug_msg = (
+                'Failed connection to Udev serviceHelper daemon '
+                f'via D-Bus "{exc.get_dbus_name()}" | '
+                f'Message: "{exc.get_dbus_message()}"'
+            )
+            logger.debug(debug_msg)
 
-            # else:
-            #     raise
+            logger.warning(user_msg)
+
+            conn = None
 
         self.isReady = bool(conn)
 
