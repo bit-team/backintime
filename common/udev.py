@@ -9,10 +9,12 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
 # Split from tools.py
-"""Udev related module to manage scheduled backups triggered by pluged in
+"""Udev related module to manage scheduled backups triggered by plugged in
 storage devices (e.g. USB sticks).
 """
 import logger
+from bitbase import ScheduleMode
+from konfig import Konfig
 from exceptions import (InvalidChar,
                         InvalidCmd,
                         LimitExceeded,
@@ -38,9 +40,18 @@ except ImportError:
 # While unittesting and without regular invocation of BIT the GNU gettext
 # class-based API isn't setup yet.
 try:
-    _('Warning')
+    _('Udev')
 except NameError:
-    _ = lambda val: val
+    def _(val):
+        return val
+
+
+def _any_profile_uses_udev_schedule() -> bool:
+    for profile in Konfig().iter_profiles():
+        if profile.schedule_mode == ScheduleMode.UDEV:
+            return True
+
+    return False
 
 
 class SetupUdev:
@@ -52,12 +63,15 @@ class SetupUdev:
     CONNECTION = 'net.launchpad.backintime.serviceHelper'
     OBJECT = '/UdevRules'
     INTERFACE = 'net.launchpad.backintime.serviceHelper.UdevRules'
-    MEMBERS = ('addRule', 'save', 'delete')
+    # MEMBERS = ('addRule', 'save', 'delete')
 
     def __init__(self):
+        self.isReady = False  # pylint: disable=invalid-name
+
         if dbus is None:
-            self.isReady = False
             return
+
+        conn = None
 
         try:
             bus = dbus.SystemBus()
@@ -68,45 +82,51 @@ class SetupUdev:
             self.iface.clean()
 
         except dbus.exceptions.DBusException as exc:
-            user_msg = (
-                'Some profiles cannot be checked or edited because automatic '
-                'device detection (via Udev) is unavailable.'
-            )
             debug_msg = (
-                'Failed connection to Udev serviceHelper daemon '
-                f'via D-Bus "{exc.get_dbus_name()}" | '
-                f'Message: "{exc.get_dbus_message()}"'
+                 'Failed connection to Udev serviceHelper daemon '
+                 f'via D-Bus "{exc.get_dbus_name()}" | '
+                 f'Message: "{exc.get_dbus_message()}"'
             )
             logger.debug(debug_msg)
 
-            logger.warning(user_msg)
-
-            conn = None
+            # Only if necessary, user-facing warn message
+            if _any_profile_uses_udev_schedule():
+                logger.warning(
+                    'Some profiles cannot be checked or edited because '
+                    'automatic device detection (via Udev) is unavailable.'
+                )
 
         self.isReady = bool(conn)
 
-    def addRule(self, cmd, uuid):
+    # pylint: disable-next=invalid-name
+    def addRule(self, cmd, uuid):  # noqa: N802
         """Prepare rules in serviceHelper.py
         """
         if not self.isReady:
-            return
+            return None
 
         try:
             return self.iface.addRule(cmd, uuid)
 
         except dbus.exceptions.DBusException as exc:
-            err_prefix = 'net.launchpad.backintime.'
-            if exc._dbus_error_name == f'{err_prefix}InvalidChar':
+            dbus_name = exc.get_dbus_name()
+
+            if not dbus_name.startswith('net.launchpad.backintime.'):
+                raise
+
+            suffix = dbus_name.rsplit('.', 1)[-1]
+            if suffix == 'InvalidChar':
                 raise InvalidChar(str(exc)) from exc
 
-            elif exc._dbus_error_name == f'{err_prefix}InvalidCmd':
+            if suffix == 'InvalidCmd':
                 raise InvalidCmd(str(exc)) from exc
 
-            elif exc._dbus_error_name == f'{err_prefix}LimitExceeded':
+            if suffix == 'LimitExceeded':
                 raise LimitExceeded(str(exc)) from exc
 
-            else:
-                raise
+            raise
+
+        return None
 
     def save(self):
         """Save rules with serviceHelper.py after authentication.
@@ -114,7 +134,7 @@ class SetupUdev:
         If no rules where added before this will delete current rule.
         """
         if not self.isReady:
-            return
+            return None
 
         try:
             return self.iface.save()
@@ -130,6 +150,8 @@ class SetupUdev:
                 raise Timeout() from err
 
             raise
+
+        return None
 
     def clean(self):
         """Clean up remote cache.
