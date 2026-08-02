@@ -49,8 +49,9 @@ import gocryptfstools
 import password
 import pluginmanager
 import schedule
-from storagesize import StorageSize, SizeUnit
 from exceptions import PermissionDeniedByPolicy
+from storagesize import StorageSize, SizeUnit
+from udev import SetupUdev
 
 
 class Config(configfile.ConfigFileWithProfiles):
@@ -205,7 +206,7 @@ class Config(configfile.ConfigFileWithProfiles):
         self.current_hash_id = 'local'
         self.pw = None
         self.forceUseChecksum = False
-        self.setupUdev = tools.SetupUdev()
+        self.setupUdev = SetupUdev()
 
         language_used = tools.initiate_translation(self.language())
 
