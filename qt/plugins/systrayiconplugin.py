@@ -12,7 +12,7 @@
 # Known open issues:
 # this script should get started and consider some cmd line arguments from BiT
 # (parsed via backintime.createParsers()) so that the same paths are used,
-# mainly "share-path" and "config" (path to the config file).
+# mainly "config" (path to the config file).
 # Otherwise e.g. unit tests or special user path settings may lead to
 # wrong status info in the systray icon!
 """Plugin starting the systray icon process
@@ -23,6 +23,7 @@ import sys
 import os
 import gettext
 import subprocess
+import bitbase
 import pluginmanager
 import tools
 import logger
@@ -71,9 +72,10 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
                 return True
 
         # pylint: disable-next=broad-exception-caught
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001
             logger.debug(
-                f'Could not ask Qt if system tray is available: {repr(exc)}')
+                f'Could not ask Qt if system tray is available: {exc!r}'
+            )
 
         logger.debug(
             'No system tray available to show the BIT system tray icon')
@@ -88,13 +90,15 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
         """Start the process."""
         path = os.path.join(
             tools.as_backintime_path('qt'), 'qtsystrayicon.py')
+
         cmd = [
             sys.executable,
             path,
             self.snapshots.config.currentProfile(),
             '--config',
             # pylint: disable-next=protected-access
-            self.snapshots.config._LOCAL_CONFIG_PATH
+            # self.snapshots.config._LOCAL_CONFIG_PATH
+            str(bitbase.context['--config'])
         ]
 
         if logger.DEBUG:
@@ -116,9 +120,10 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
 
             # Something bad happened because we have a return code
             stderr = self.process.stderr.read()
+            stderr = '\n\t'.join(stderr.split('\n'))
             logger.critical(
-                f'Systray exited unexpected and immediately with {rc=} '
-                f'and {stderr=}'
+                f'Systray exited unexpected and immediately with RC {rc} '
+                f'and STDERR:\n\t{stderr}'
             )
             self.process = None
             return False
@@ -129,7 +134,7 @@ class SysTrayIconPlugin(pluginmanager.Plugin):
             return True
 
         # pylint: disable-next=broad-exception-caught
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001
             logger.critical(f'Faild to start systray: {exc}')
             self.process = None
             return False

@@ -26,6 +26,7 @@ import password
 import cli
 import config
 import bitbase
+from konfig import Konfig
 from mount import MountManager
 from applicationinstance import ApplicationInstance
 from shutdownagent import ShutdownAgent
@@ -63,7 +64,6 @@ def show_deprecation_message(cmd_flag: str):
         'remove-and-do-not-ask-again':
             'Use "remove --skip-confirmation" instead.',
         '--profile-id': 'Use "--profile" instead.',
-        '--share-path': None,
     }[cmd_flag]
 
     msg = _deprecation_msg(cmd_flag, replacement)
@@ -74,12 +74,16 @@ def show_deprecation_message(cmd_flag: str):
 
 def _get_config(args: argparse.Namespace) -> config.Config:
     """A dirty little helper. Feel free to refactor."""
-    return cli.get_config_and_select_profile(
-        config_path=args.config,
-        data_path=args.share_path,
-        profile=args.profile,
-        checksum=getattr(args, 'checksum', None)
+
+    # Crreate a Konfig instance
+    cli.get_config_and_select_profile(
+        config_path=bitbase.context['--config'],  # args.config,
+        pid_or_name=args.profile
+        # checksum=getattr(args, 'checksum', None)
     )
+
+    # A surrogate using Konfig() in the back
+    return config.Config()
 
 
 def backup(args: argparse.Namespace, force: bool = True):
@@ -118,11 +122,14 @@ def _do_backup(args: argparse.Namespace, force: bool):
         SystemExit:     0 if successful, 1 if not
     """
     cli.set_quiet(args)
-    cli.print_header()
+    print(bitbase.APP_HEADER)
     cfg = _get_config(args)
 
-    tools.envLoad(cfg.cronEnvFile())
-    ret = snapshots.Snapshots(cfg).backup(force)
+    tools.envLoad(bitbase.CRON_ENV_PATH)
+    ret = snapshots.Snapshots(cfg).backup(
+        force=force,
+        force_checksum_use = getattr(args, 'checksum', False)
+    )
 
     sys.exit(int(ret))
 
@@ -157,10 +164,10 @@ def check_config(args: argparse.Namespace):
 
     """
     force_stdout = cli.set_quiet(args)
-    cli.print_header()
+    print(bitbase.APP_HEADER, file=force_stdout)
     cfg = _get_config(args)
 
-    msg = f'\nConfig {cfg._LOCAL_CONFIG_PATH} profile ' \
+    msg = f'Config {bitbase.context["--config"]} profile ' \
           f"'{cfg.profileName()}'"
 
     if cli.checkConfig(cfg, crontab=not args.no_crontab):
@@ -239,7 +246,7 @@ def pw_cache(args: argparse.Namespace):
         SystemExit: 0 if daemon is running, 1 if not.
     """
     force_stdout = cli.set_quiet(args)
-    cli.print_header()
+    print(bitbase.APP_HEADER)
 
     cfg = _get_config(args)
     ret = bitbase.RETURN_OK
@@ -280,7 +287,7 @@ def remove(args: argparse.Namespace):
         SystemExit: 0
     """
     cli.set_quiet(args)
-    cli.print_header()
+    print(bitbase.APP_HEADER)
 
     cfg = _get_config(args)
 
@@ -320,7 +327,7 @@ def restore(args: argparse.Namespace):
         SystemExit: 0
     """
     cli.set_quiet(args)
-    cli.print_header()
+    print(bitbase.APP_HEADER)
     cfg = _get_config(args)
 
     if cfg.backupOnRestore() and not args.no_local_backup:
@@ -336,9 +343,11 @@ def restore(args: argparse.Namespace):
             what=args.WHAT,
             where=args.WHERE,
             mount_manager=mount_manager,
+            force_checksum_use=args.checksum,
             delete=args.delete,
             backup=isbackup,
-            only_new=args.only_new)
+            only_new=args.only_new
+        )
 
     sys.exit(bitbase.RETURN_OK)
 
@@ -356,7 +365,7 @@ def shutdown(args: argparse.Namespace):
 
     """
     cli.set_quiet(args)
-    cli.print_header()
+    print(bitbase.APP_HEADER)
     cfg = _get_config(args)
 
     sd = ShutdownAgent()
@@ -488,6 +497,12 @@ def snapshots_list_path(args: argparse.Namespace):
     _snapshots_list_base(args=args, path_info=True)
 
 
+def _show_profile_list():
+    """Process "show --profiles" listing all profiles."""
+    for profile in Konfig().iter_profiles():
+        print(profile.name)
+
+
 def show_backups(args: argparse.Namespace):
     """Command 'show'.
 
@@ -500,6 +515,11 @@ def show_backups(args: argparse.Namespace):
     """
 
     cfg = _get_config(args)
+
+    if args.profiles:
+        _show_profile_list()
+        sys.exit(bitbase.RETURN_OK)
+
     mount_manager = MountManager.create(cfg)
 
     with mount_manager.mounted():
@@ -552,7 +572,7 @@ def prune(args: argparse.Namespace):
         SystemExit: 0 if okay. 2 if Remove & Retention is not configured.
     """
     cli.set_quiet(args)
-    cli.print_header()
+    print(bitbase.APP_HEADER)
     cfg = _get_config(args)
 
     sn = snapshots.Snapshots(cfg)

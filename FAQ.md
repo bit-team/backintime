@@ -8,7 +8,7 @@ This file is part of the program "Back In Time" which is released under GNU
 General Public License v2 (GPLv2). See LICENSES directory or go to
 <https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
-<sub>December 2025</sub>
+<sub>June 2026</sub>
 
 # FAQ - Frequently Asked Questions
 
@@ -41,10 +41,10 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
    * [Back In Time doesn't find my old backups on my new Computer](#back-in-time-doesnt-find-my-old-backups-on-my-new-computer)
 - [Schedule](#schedule)
    * [How does the 'Repeatedly (anacron)' schedule work?](#how-does-the-repeatedly-anacron-schedule-work)
-   * [Will a scheduled backup run as soon as the computer is back on?](#will-a-scheduled-backup-run-as-soon-as-the-computer-is-back-on)
    * [If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?](#if-i-edit-my-crontab-and-add-additional-entries-will-that-be-a-problem-for-bit-as-long-as-i-dont-touch-its-entries-what-does-it-look-for-in-the-crontab-to-find-its-own-entries)
    * [Can I use a systemd timer instead of cron?](#can-i-use-a-systemd-timer-instead-of-cron)
 - [Problems, Errors & Solutions](#problems-errors--solutions)
+   * [Critical errors about "`snapshots.ssh_check_commands` or `snapshots.ssh.check_ping` not set to default..."](#critical-errors-about-snapshotsssh_check_commands-or-snapshotssshcheck_ping-not-set-to-default)
    * [OverflowError: Value 1702441408 out of range for UInt32](#overflowerror-value-1702441408-out-of-range-for-uint32)
    * [`SettingsDialog` object has no attribute `cbCopyUnsafeLinks`](#settingsDialog-object-has-no-attribute-cbcopyunsafelinks)
    * [WARNING: A backup is already running](#warning-a-backup-is-already-running)
@@ -654,40 +654,23 @@ You have three options to fix this:
 
 # Schedule
 
-## How does the 'Repeatedly (anacron)' schedule work?
+## How does the 'Repeatedly' schedule work?
 
-In fact *Back In Time* doesn't use anacron anymore. It was to inflexible. But that
-schedule mimics anacron.
-
-BIT will create a crontab entry which will start ``backintime --backup-job``
-every 15min (or once an hour if the schedule is set to *weeks*). With the
-``--backup-job`` command, BIT will check if the profile is supposed to be run
-this time or exit immediately. For this it will read the time of the last
-successful run from ``~/.local/share/backintime/anacron/ID_PROFILENAME``.
+_Back In Time_ will create a crontab entry which will start
+``backintime --backup-job`` every 15min (or once an hour if the schedule is
+set to *weeks*). With the ``--backup-job`` command, _Back In Time_ will check
+if the profile is supposed to be run this time or exit immediately. For this
+it will read the time of the last successful run from
+``~/.local/share/backintime/anacron/ID_PROFILENAME``.
 If this is older than the configured time, it will continue creating a backup.
 
-If the backup was successful without errors, BIT will write the current time
-into ``~/.local/share/backintime/anacron/ID_PROFILENAME`` (even if *Repeatedly
-(anacron)* isn't chosen). So, if there was an error, BIT will try again at
-the next quarter hour.
+If the backup was successful without errors, _Back In Time_ will write the
+current time into ``~/.local/share/backintime/anacron/ID_PROFILENAME``
+(even if *Repeatedly* isn't chosen). So, if there was an error, _Back In Time_
+will try again at the next quarter hour.
 
 ``backintime --backup`` will always create a new backup. No matter how many
 time elapsed since last successful backup.
-
-## Will a scheduled backup run as soon as the computer is back on?
-
-Depends on which schedule you choose:
-
-- the schedule ``Repeatedly (anacron)`` will use an anacron-like code. So if
-  your computer is back on it will start the job if the given time is gone till
-  last backup.
-
-- with ``When drive get connected (udev)`` *Back In Time* will start a backup
-  as soon as you connect your drive ;-)
-
-- old fashion schedules like ``Every Day`` will use cron. This will only start a
-  new backup at the given time. If your computer is off, no backup will be
-  created.
 
 ## If I edit my crontab and add additional entries, will that be a problem for BIT as long as I don't touch its entries? What does it look for in the crontab to find its own entries?
 
@@ -735,6 +718,44 @@ ExecStart=/usr/bin/nice -n19 /usr/bin/ionice -c2 -n7 /usr/bin/backintime backup 
 ```
 
 # Problems, Errors & Solutions
+## Critical errors about "`snapshots.ssh_check_commands` or `snapshots.ssh.check_ping` not set to default..."
+_Back In Time_ might displays critical errors like this in the terminal, syslog or GUI:
+
+```
+CRITICAL DEPRECATED setting "profile1.snapshots.ssh.check_commands" not set
+to default "true" detected in profile "Main profile" (1). Please contact 
+the project and describe your use case and why you need this setting be disabled.
+
+CRITICAL DEPRECATED setting "profile1.snapshots.ssh.check_ping" not set ...
+```
+
+For SSH profiles the _Expert Options_ tab in the _Manage profiles_ dialog
+provides these two options, which are enabled by default:
+
+ - Check if remote host is online
+ - Check if remote host supports all necessary commands
+ 
+There seems to be no good reason to disable these options. Regarding issue
+[#2482](https://github.com/bit-team/backintime/issues/2482) these options are
+deprecated and will be removed.
+
+User have the [option to
+contact](https://github.com/bit-team/backintime#contact--social) the project
+and give objections against this decision. Please do so if you have good
+reason to disable these options.
+
+To disable the critical errors the config file need to be edited manually. The
+files location is usually at `~/.config/backintime/config`. After creating a
+backup of that file, open it in a text editor of your choice. Find lines like
+this:
+
+```ini
+profile1.snapshots.ssh.check_commands=false
+profile1.snapshots.ssh.check_ping=false
+```
+
+Set the value from `false` to `true` (lower case!).
+
 ## OverflowError: Value 1702441408 out of range for UInt32
 The _Back In Time_ GUI crashes and this exception appears in its terminal
 output. Known to happen on restoring (#2084) and removing (#2192) of backups.

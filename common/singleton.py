@@ -17,7 +17,6 @@
 # <https://stackoverflow.com/q/6760685/4865723> question as his inspiration.
 #
 # Original code adapted by Christian Buhtz.
-
 """Flexible and pythonic singleton implementation.
 
 Support inheritance and multiple classes. Multilevel inheritance is
@@ -64,7 +63,7 @@ Example ::
 class Singleton(type):
     """Singleton implementation supporting inheritance and multiple classes."""
 
-    _instances = {}
+    _instances = {}  # noqa: RUF012
     """Hold single instances of multiple classes."""
 
     def __call__(cls, *args, **kwargs):
@@ -75,6 +74,23 @@ class Singleton(type):
 
         except KeyError:
             # Create new instance
-            cls._instances[cls] = super().__call__(*args, **kwargs)
+            Singleton._instances[cls] = super().__call__(*args, **kwargs)
 
-            return cls._instances[cls]
+            return Singleton._instances[cls]
+
+    # pylint: disable-next=C0203
+    def remove_instance(cls_to_remove):  # noqa: N804
+        """Remove the singleton instance of the specified class.
+
+        Raise: TypeError
+        """
+        try:
+            del Singleton._instances[cls_to_remove]
+        except KeyError as exc:
+            raise TypeError(
+                f'No instance of class {cls_to_remove} exists') from exc
+
+    # pylint: disable=no-method-argument
+    def remove_all_instances():
+        """Remove all singleton instances"""
+        Singleton._instances.clear()

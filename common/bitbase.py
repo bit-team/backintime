@@ -11,6 +11,17 @@ See also bitlicense.py for additional constants and logic."""
 import os
 from enum import Enum
 from pathlib import Path
+from version import __version__
+
+# Workaround: Mostly relevant on TravisCI but not exclusively.
+# While unittesting and without regular invocation of BIT the GNU gettext
+# class-based API isn't setup yet.
+# pylint: disable=duplicate-code
+try:
+    _('Warning')
+except NameError:
+    def _(val):
+        return val
 
 # |-------------|
 # | Application |
@@ -18,6 +29,7 @@ from pathlib import Path
 
 # Used as a label in the GUI. Not sure if this should be translatable.
 APP_NAME = 'Back In Time'
+APP_HEADER = f'{APP_NAME} {__version__}'
 
 BINARY_NAME_BASE = 'backintime'
 BINARY_NAME_CLI = f'{BINARY_NAME_BASE}'
@@ -25,6 +37,13 @@ BINARY_NAME_GUI = f'{BINARY_NAME_BASE}-qt'
 PACKAGE_NAME_CLI = f'{BINARY_NAME_BASE}-common'
 PACKAGE_NAME_GUI = f'{BINARY_NAME_BASE}-qt'
 
+# A dictionary containing some application global information.
+# Dev note (2026-07, buhtz): Might be a temporary workaround. But I didn't want
+# to create an extra AppContext or RuntimeContext class.
+context = {
+    # '--config': None,
+    # '--quiet': None,
+}
 
 # |-----------------|
 # | Several strings |
@@ -32,11 +51,15 @@ PACKAGE_NAME_GUI = f'{BINARY_NAME_BASE}-qt'
 
 # Used in about dialog to add language independent translator credits
 TRANSLATION_CREDITS_MISC = (
-    'Launchpad translators <https://translations.launchpad.net/backintime/'
-    'trunk/+pots/back-in-time>',
+    (
+        'Launchpad translators <https://translations.launchpad.net/backintime/'
+        'trunk/+pots/back-in-time>'
+    ),
     'https://www.reddit.com/r/translator',
-    'Several mailing lists in Debian (@lists.debian.org) & Ubuntu '
-    '(@lists.ubuntu.com) especially the user related lists',
+    (
+        'Several mailing lists in Debian (@lists.debian.org) & Ubuntu '
+        '(@lists.ubuntu.com) especially the user related lists'
+    ),
 )
 
 
@@ -47,9 +70,11 @@ TRANSLATION_CREDITS_MISC = (
 # See issue #1734 and #1735
 URL_ENCRYPT_TRANSITION = 'https://github.com/bit-team/backintime' \
                          '/blob/-/doc/ENCRYPT_TRANSITION.md'
+
 URL_SOURCE = 'https://github.com/bit-team/backintime'
 URL_WEBSITE = URL_SOURCE
 URL_FAQ = f'{URL_WEBSITE}/blob/-/FAQ.md'
+URL_CONTACT = f'{URL_WEBSITE}/blob/-/README.md#contact--social'
 URL_ISSUES = f'{URL_WEBSITE}/issues'
 URL_ISSUES_CREATE_NEW = f'{URL_ISSUES}/new'
 URL_CHANGELOG = f'{URL_WEBSITE}/blob/-/CHANGELOG.md'
@@ -62,10 +87,22 @@ URL_USER_MANUAL = 'https://backintime.readthedocs.io'
 
 XDG_DATA_HOME = Path(os.environ.get(
     'XDG_DATA_HOME',
-    os.environ.get('HOME') + '/.local/share'
+    Path.home() / '.local' / 'share'
+))
+XDG_CONFIG_HOME = Path(os.environ.get(
+    'XDG_CONFIG_HOME',
+    Path.home() / '.config'
 ))
 
+# Dev note (2026-06, buhtz): Formerly known as Config._LOCAL_DATA_FOLDER
+BIT_DATA_HOME = XDG_DATA_HOME / BINARY_NAME_BASE
+
+
 FILENAME_CONFIG = 'config'
+CRON_ENV_PATH = XDG_DATA_HOME / 'cron_env.json'
+
+DEFAULT_CONFIG_FILE_PATH = XDG_CONFIG_HOME / BINARY_NAME_BASE / FILENAME_CONFIG
+
 # See issue #1743
 ENCFS_BACKUP_CONFIG_SUFFIX = '.encfs.backup'
 
@@ -108,7 +145,15 @@ class TimeUnit(Enum):
     DAY = 20  # Config.DAY
     WEEK = 30  # Config.WEEK
     MONTH = 40  # Config.MONTH
-    YEAR = 80  # Config.YEAR
+    YEAR = 80  # Config.Year
+
+
+# T-O-D-O: Duplicate of storagesize.SizeUnit
+class StorageSizeUnit(Enum):
+    """Describe the units used to express the size of storage devices or file
+    system objects."""
+    MB = 10  # Config.DISK_UNIT_MB
+    GB = 20  # Config.DISK_UNIT_GB
 
 
 class ScheduleMode(Enum):
@@ -138,7 +183,7 @@ class ScheduleMode(Enum):
     MINUTES_10 = 4
     MINUTES_30 = 7
     HOUR = 10
-    HOUR_1 = 10
+    HOUR_1 = 10  # noqa: PIE796
     HOURS_2 = 12
     HOURS_4 = 14
     HOURS_6 = 16
@@ -178,3 +223,6 @@ IS_IN_DEBUG_MODE = False
 ENCFS_MSG_STAGE = 42  # FINAL!
 
 DEFAULT_SSH_PORT = 22
+
+# Used for warnings only. Not supported anymore. #2493
+GLOBAL_CONFIG_PATH = Path('/etc/backintime/config')

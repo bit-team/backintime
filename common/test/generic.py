@@ -240,7 +240,7 @@ class TestCaseSnapshotPath(TestCaseCfg):
         # e.g. '/tmp/tmpf3mdnt8l'
         self.tmpDir = TemporaryDirectory()
 
-        self.cfg.dict['profile1.snapshots.path'] = self.tmpDir.name
+        self.cfg.the_dict()['profile1.snapshots.path'] = self.tmpDir.name
 
         # The full snapshot path combines the backup destination root
         # directory with hostname, username and the profile (backupjob) ID.

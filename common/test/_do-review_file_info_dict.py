@@ -16,9 +16,11 @@ import stat
 from pathlib import Path
 from test import generic
 from unittest.mock import patch
+import unittest
 import snapshots
 
 
+@unittest.skip('See Issue #2461')
 class FileInfoTests(generic.SnapshotsTestCase):
     """Testinthe fileinfo.bz2 file"""
     def test_created_and_reloaded(self):

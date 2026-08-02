@@ -7,10 +7,10 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Module with widgets regarding SSH Key file selection"""
 # from pathlib import Path
-from typing import Callable
+from collections import deque
+from collections.abc import Callable
 from pathlib import Path
 from functools import partial
-from collections import deque
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtWidgets import (QButtonGroup,
                              QHBoxLayout,
@@ -26,16 +26,6 @@ from manageprofiles.combobox import BitComboBox
 
 class SshKeyCombo(BitComboBox):
     """Combo box to select SSH key files.
-
-        # The keys are the underlying 'userData'.
-        fill = {
-            10: 'Hour',
-            20: 'Day',
-            30: 'Week',
-            40: 'Month'
-        }
-        combo = BitComboBox(parent, fill)
-
     """
 
     ACT_ID_SELECT_FILE = 1

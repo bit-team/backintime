@@ -26,11 +26,11 @@ class TextDialog(QDialog):
     DEFAULT_HEIGHT_FRACTION = 0.75
 
     # pylint: disable-next=too-many-arguments,too-many-positional-arguments
-    def __init__(self,  # noqa: PLR0913
+    def __init__(self,  # noqa: PLR0913, PLR0917
                  content: str,
                  markdown: bool = False,
                  html: bool = False,
-                 scroll_to: str = None,
+                 scroll_to: str | None = None,
                  title: str = '',
                  icon: QIcon = None,
                  width_fraction: float = DEFAULT_WIDTH_FRACTION,

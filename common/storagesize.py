@@ -12,6 +12,7 @@ the StorageSize class. There are performance issues.
 """
 from __future__ import annotations
 from enum import Enum
+from types import MappingProxyType
 
 
 class SizeUnit(Enum):
@@ -36,14 +37,13 @@ class StorageSize:
     The object can be free or used space on disc, file size, etc. The value
     is stored internally in Bytes.
     """
-    _FACTORS = {
+    _FACTORS = MappingProxyType({
         SizeUnit.B: 0,
         SizeUnit.MIB: 2,
         SizeUnit.GIB: 3,
-    }
+    })
 
     def __init__(self, value: int, unit: SizeUnit = SizeUnit.B):
-
         # Original value in Bytes
         self._bytes = None
         # Unit used to represent the value (e.g. in strings)

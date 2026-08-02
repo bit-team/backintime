@@ -16,36 +16,65 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - **Rewritten from scratch**: Mount subsystem (backend and encryption).
   Behavior is intended to remain unchanged; regressions cannot be fully ruled
   out. ([PR#2449](https://github.com/bit-team/backintime/pull/2449))
+- **Breaking**: Minimal Python version 3.13 increased
+- **Breaking**: Part of the backup metadata ("info" file) migrated from an
+  INI-like format to JSON. Older versions of _Back In Time_ (before 2.0.0) may
+  have issues with backups created in 2.0.0 or later. Restoring still works,
+  but ownership and permission information is not restored correctly.
+  ([PR#2527](https://github.com/bit-team/backintime/pull/2527)) to avoid
 - Default mountpoint permissions changed from 700 to 711
   ([PR#2451](https://github.com/bit-team/backintime/pull/2451)) to avoid
   FUSE mount failures when accessing via different user contexts.
-- **Breaking**: Minimal Python version 3.13 increased
 - Changelog migrated to _Common Changelog_ standard
 - Build: Changelog shipped as HTML
-- Improved import config dialog on first start (Dominic Maluski, @maluskid, [#2483](https://github.com/bit-team/backintime/issues/2483))
+- GUI: Improved import config dialog on first start (Dominic Maluski, @maluskid, [#2483](https://github.com/bit-team/backintime/issues/2483))
+- Expert Options: Deprecate and warn about disabled SSH remote checks
+  if one of these two options is (non-default) disabled: "Check if remote host
+  is online", "Check if remote host supports all necessary commands"
+  ([#2482](https://github.com/bit-team/backintime/issues/2482))
+- Clear up license and copyright situation of `qt/serviceHelper.py`
+  ([#1986](https://github.com/bit-team/backintime/issues/1986))
+- GUI: Schedule mode "Repeatedly (anacron)" re-phrased and extended with
+  explanations ([#2507](https://github.com/bit-team/backintime/issues/2507))
 
 ### Added
 - Gocryptfs for SSH encrypted profiles
   ([PR#2486](https://github.com/bit-team/backintime/pull/2486))
-- Dependency(build): `pandoc` to convert markdown changelog into HTML
-- Dependency(runtime-cli): `gocryptfs`
+- Dependencies:
+  - build: `pandoc` to convert markdown changelog into HTML
+  - runtime-cli: `gocryptfs`
+- CLI: List all profiles with `show --profiles` ([#2336](https://github.com/bit-team/backintime/issues/2336))
 
 ### Removed
 - **Breaking**: EncFS support including existing EncFS profiles
   ([PR#2492](https://github.com/bit-team/backintime/pull/2492))
+- **Breaking**: Global config file support
+  ([PR#2493](https://github.com/bit-team/backintime/issues/2493))
 - Dependency: `encfs`
-- Command line switch `--keep-mount`
-- CLI Command `decode` because of EncFS removal ([#1734](https://github.com/bit-team/backintime/issues/1734))
-- CLI Command `benchmark-cipher` ([#2120](https://github.com/bit-team/backintime/issues/2120))
+- CLI:
+  - **Breaking**: CLI option `--share-path` which was deprecated earlier in `1.6.0` ([#2535](https://github.com/bit-team/backintime/issues/2535))
+  - Switch `--keep-mount`
+  - Command `decode` because of EncFS removal ([#1734](https://github.com/bit-team/backintime/issues/1734))
+  - Command `benchmark-cipher` ([#2120](https://github.com/bit-team/backintime/issues/2120))
 - SSH Cipher ([#2176](https://github.com/bit-team/backintime/issues/2176))
 - Config examples
 - Languages Faroese, Croatian, Vietnames and Norwegian (Nynorsk)
   ([#2080](https://github.com/bit-team/backintime/issues/2080))
+- GUI Expert Options:
+  - "Check if remote host is online" ([#2482](https://github.com/bit-team/backintime/issues/2482)).
+  - "Check if remote host supports all necessary commands" ([#2482](https://github.com/bit-team/backintime/issues/2482)).
+- Test targets in Makefiles. Use a regular Python test runner (e.g. pytest) instead.
 
 ## Fixed
+- **Breaking**: "Remove backups older than" value was stored only as years ([#2460](https://github.com/bit-team/backintime/issues/2460))
 - Prevent crash in case a plugin fails ([#2447](https://github.com/bit-team/backintime/issues/2447))
-- Prevent user from exiting the restore window while running causing backintime to freeze. (Dominic Maluski, @maluskid, [#2503](https://github.com/bit-team/backintime/issues/2503))
-- 
+- Ensure restore window stay open while restore is running. (Dominic Maluski, @maluskid, [#2503](https://github.com/bit-team/backintime/issues/2503))
+- Include SSH_AUTH_SOCK in cron environment to enable SSH agent access (Dan Kortschak, [@kortschak](https://github.com/kortschak), [#2506](https://github.com/bit-team/backintime/issues/2506))
+- Schedule mode "Repeatedly" using "Hourly" units is now consistent with other units ([#2507](https://github.com/bit-team/backintime/issues/2507))
+- Crash when use Btrfs-subvolume as backup destination (Daidalos [@D4id4los](https://github.com/D4id4los), [#2487](https://github.com/bit-team/backintime/issues/2487))
+- Crash when polkit authentication dialog times out while setting up udev scheduling ([#2375](https://github.com/bit-team/backintime/issues/2375))
+- Guard pause/resume/stop actions in the GUI against ProcessLookupError when the backup process has already exited. ([#1604](https://github.com/bit-team/backintime/issues/1604))
+
 ## [1.6.1] (2026-02-10)
 
 ### Fixed

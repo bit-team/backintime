@@ -150,7 +150,7 @@ distribution.
 | `asciidoctor`|||🗹|| |
 | `pylint` (>=4.0.0)|||🗹|🗹| Test suite |
 | `flake8`|||🗹|🗹| Test suite |
-| `ruff` (>=0.15.0)|||🗹|🗹| Test suite |
+| `ruff` (>=0.16.0)|||🗹|🗹| Test suite |
 | `codespell`|||🗹|🗹| Test suite |
 | `reuse` (>=4.0.0)|||🗹|🗹| Test suite |
 | `mkdocs`|||🗹|🗹| HTML user manual|

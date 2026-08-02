@@ -29,13 +29,13 @@ class FileDialog(QFileDialog):
 
     # PyLint bug: https://github.com/pylint-dev/pylint/issues/8675
     # pylint: disable-next=too-many-positional-arguments,too-many-arguments
-    def __init__(self,  # noqa: PLR0913
+    def __init__(self,  # noqa: PLR0913, PLR0917
                  parent: QWidget,
                  title: str,
                  show_hidden: bool = True,
                  allow_multiselection: bool = True,
                  dirs_only: bool = False,
-                 start_dir: Path = None):
+                 start_dir: Path | None = None):
         super().__init__(
             parent=parent,
             caption=title,
@@ -98,7 +98,7 @@ class FileDialog(QFileDialog):
         self.setFilter(self.filter() | QDir.Filter.Hidden)
         btn.setChecked(True)
 
-    def _slot_toggled_show_hidden(self, _enable: bool = None):
+    def _slot_toggled_show_hidden(self, _enable: bool | None = None):
         # toggle the filter
         self.setFilter(self.filter() ^ QDir.Filter.Hidden)
 

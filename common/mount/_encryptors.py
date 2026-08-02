@@ -281,9 +281,9 @@ class GoCryptFS(Encryptor):
             raise MountError(log_msg, gui_msg)
 
         if not self.path.exists():
-            log_msg = f'Mointpoint (as decrypted view) missing: {self.path}'
+            log_msg = f'Mountpoint (as decrypted view) missing: {self.path}'
             gui_msg = _(
-                'Mointpoint as decrypted view is missing. Path: {path}'
+                'Mountpoint as decrypted view is missing. Path: {path}'
             ).format(path=self.path)
             raise MountError(log_msg, gui_msg)
 
@@ -339,6 +339,7 @@ class GoCryptFS(Encryptor):
                             rc=proc.returncode
                         ) + '\n\n'
                         + _('Error:') + f'\n{output}'
+                        + '\n'
                         + _('Command:') + f'\n{cmd}'
                     )
                     raise MountError(log_msg, gui_msg)
@@ -373,6 +374,7 @@ class GoCryptFS(Encryptor):
                 _('Unmount failed')
                 + '\n'
                 + _('Return code: {rc}').format(rc=proc.returncode)
+                + '\n'
                 + _('Original error: {err}').format(err=proc.stdout)
             )
             raise MountError(log_msg, gui_msg)

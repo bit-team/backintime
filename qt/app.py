@@ -212,7 +212,7 @@ class MainWindow(QMainWindow):
         self.snapshotsList = []
 
         # ???
-        self.path = self.config.profileStrValue('qt.last_path', '/')
+        self.path = self.config.the_dict().get('qt.last_path', '/')
 
         self.widget_current_path.setText(self.path)
         self.path_history = tools.PathHistory(self.path)
@@ -228,13 +228,12 @@ class MainWindow(QMainWindow):
 
         self._handle_release_candidate()
 
-        self._import_config_from_backup()
-
-        # if not self.config.isConfigured():
-        #     return
+        was_imported = self._import_config_from_backup()
 
         # populate lists
-        self.updateProfiles()
+        if not was_imported:
+            self.updateProfiles()
+
         self.comboProfiles.currentIndexChanged \
                           .connect(self.comboProfileChanged)
 
@@ -332,12 +331,11 @@ class MainWindow(QMainWindow):
             self._open_release_candidate_dialog()
 
     def _import_config_from_backup(self):
-        # if self.config.isConfigured():
-        #     return
+        # config_fp = Path(self.config._LOCAL_CONFIG_PATH)
+        config_fp = bitbase.context['--config']
 
-        config_fp = pathlib.Path(self.config._LOCAL_CONFIG_PATH)
         if config_fp.exists():
-            return
+            return False
 
         message = _(
             '{app_name} appears to be running for the first time because no '
@@ -353,39 +351,29 @@ class MainWindow(QMainWindow):
         import_prompt.setWindowTitle(_('Question'))
         import_prompt.setText(message)
         import_prompt.setIcon(QMessageBox.Icon.Question)
-        btn_create = import_prompt.addButton(_('Create'),
-                                QMessageBox.ButtonRole.ActionRole)
-        btn_import = import_prompt.addButton(_('Import'),
-                                QMessageBox.ButtonRole.ActionRole)
+        btn_create = import_prompt.addButton(
+            _('Create'), QMessageBox.ButtonRole.ActionRole)
+        btn_import = import_prompt.addButton(
+            _('Import'), QMessageBox.ButtonRole.ActionRole)
 
         import_prompt.setDefaultButton(btn_create)
         import_prompt.exec()
         answer = import_prompt.clickedButton()
 
-        mark_main_profile_unsaved = answer is btn_create
         if answer == btn_import:
             rc = RestoreConfigDialog(self.config).exec()
             if rc == QDialog.DialogCode.Rejected:
-                mark_main_profile_unsaved = True
-
-        # Workaround: If BIT config is fresh the Main Profile is not
-        # saved yet. If it wouldn't be recognized as unsaved the
-        # default excludes are not added to it.
-        # This workaround need to remain until #1371 and other related
-        # issues are solved.
-        if mark_main_profile_unsaved:
-            # failesafe: Main profile only
-            if self.config.profiles() == ['1']:
-                # Mark "Main profile" as unsaved.
-                self.config._unsaved_profiles.append('1')
+                answer = btn_create
 
         SettingsDialog(self).exec()
 
+        return True
+
     def _message_about_encfs_config_backup(self):
         # e.g. '~/.config/backintime/config.encfs.backup'
-        config_fp_backup = pathlib.Path(
-            self.config._LOCAL_CONFIG_PATH
-        ).with_suffix(bitbase.ENCFS_BACKUP_CONFIG_SUFFIX)
+        config_fp_backup = bitbase.context['--config'].with_suffix(
+            bitbase.ENCFS_BACKUP_CONFIG_SUFFIX
+        )
 
         if not config_fp_backup.exists():
             return
@@ -393,20 +381,31 @@ class MainWindow(QMainWindow):
         state_data = StateData()
         if state_data.msg_encfs_global < bitbase.ENCFS_MSG_STAGE:
             state_data.msg_encfs_global = bitbase.ENCFS_MSG_STAGE
+            state_data.save()
             dlg = encfsmsgbox.EncfsFinalRemoval(config_fp_backup)
             dlg.exec()
 
     def _handle_user_messages(self):
         self._message_about_encfs_config_backup()
 
-        # Ignore if debug or release/testing candidate
-        if version.IS_RELEASE_CANDIDATE or logger.DEBUG:
-            return
+        # # Ignore if debug or release/testing candidate
+        # if version.IS_RELEASE_CANDIDATE or logger.DEBUG:
+        #     return
+
+        # See issue #2493. Global config is not supported anymore.
+        if bitbase.GLOBAL_CONFIG_PATH.exists():
+            messagebox.critical(
+                self,
+                f'The global config file ({bitbase.GLOBAL_CONFIG_PATH}) is '
+                'no longer supported.\n\nRemove it.\n\nBack In Time only '
+                'supports per-user configuration files.',
+                'Global config file support dropped'
+            )
 
         state_data = StateData()
 
-        # SSH Cipher removal
-        cipher = cli.detect_cipher_settings(self.config)
+        # SSH Cipher removal (#2176)
+        cipher = cli.detect_cipher_settings()
         if cipher:
             self._open_ssh_cipher_remove_dialog(
                 [entry[0] for entry in cipher]
@@ -414,6 +413,13 @@ class MainWindow(QMainWindow):
         # remove the cipher keys from config
         for _name, _val, key in cipher:
             del self.config.dict[key]
+
+        # SSH Remote host checks deprecation (#2482)
+        check_settings = cli.detect_remote_host_check_settings()
+        if check_settings:
+            self._open_remote_host_check_deprecation_dialog(
+                [entry[0] for entry in check_settings]
+            )
 
         # Issue: https://github.com/bit-team/backintime/issues/2080
         lang_planed_for_removal = [
@@ -495,11 +501,13 @@ class MainWindow(QMainWindow):
                 _('Use checksums for file change detection.')),
             'act_pause_take_snapshot': (
                 icon.PAUSE, _('Pause backup process'),
-                lambda: os.kill(self.snapshots.pid(), signal.SIGSTOP), None,
+                lambda: self._send_signal_to_backup_process(signal.SIGSTOP),
+                None,
                 None),
             'act_resume_take_snapshot': (
                 icon.RESUME, _('Resume backup process'),
-                lambda: os.kill(self.snapshots.pid(), signal.SIGCONT), None,
+                lambda: self._send_signal_to_backup_process(signal.SIGCONT),
+                None,
                 None),
             'act_stop_take_snapshot': (
                 icon.STOP, _('Stop backup process'),
@@ -578,13 +586,14 @@ class MainWindow(QMainWindow):
                 icon.FAQ, _('FAQ'),
                 self._slot_help_faq, None,
                 _('Open Frequently Asked Questions (FAQ) in browser')),
-            'act_help_question': (
-                icon.QUESTION, _('Ask a question'),
-                self._slot_help_ask_question, None,
-                None),
             'act_help_bugreport': (
                 icon.BUG, _('Report a bug'),
                 self._slot_help_report_bug, None, None),
+            'act_help_contact': (
+                icon.QUESTION, _('Contact'),
+                self._slot_help_contact, None,
+                _('Shows additional contact options in the browser'),
+            ),
             'act_help_translation': (
                 icon.LANGUAGE, _('Translation'),
                 self._slot_help_translation, None,
@@ -729,8 +738,8 @@ class MainWindow(QMainWindow):
                 self.act_help_website,
                 self.act_help_changelog,
                 self.act_help_faq,
-                self.act_help_question,
                 self.act_help_bugreport,
+                self.act_help_contact,
                 self.act_help_translation,
                 self.act_help_encryption,
                 self.act_help_about,
@@ -989,7 +998,7 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event):
         state_data = StateData()
-        profile_state = state_data.profile(self.config.current_profile_id)
+        profile_state = state_data.profile(self.config.currentProfile())
 
         # Dev note (buhtz, 2025-04): Makes not much sense to me. Investigate.
         if self.shutdown.ask_before_quit():
@@ -1143,10 +1152,11 @@ class MainWindow(QMainWindow):
             else:
                 self.places.set_sorting(sorting)
 
-            self.config.setProfileStrValue(
-                'qt.last_path', self.path, old_profile_id)
-            path = self.config.profileStrValue(
-                'qt.last_path', self.path, profile_id)
+            path = self.path
+            # self.config.setProfileStrValue(
+            #     'qt.last_path', self.path, old_profile_id)
+            # path = self.config.profileStrValue(
+            #     'qt.last_path', self.path, profile_id)
 
             if not path == self.path:
                 self.path = path
@@ -1154,7 +1164,6 @@ class MainWindow(QMainWindow):
                 self.widget_current_path.setText(self.path)
 
             self.updateProfile()
-
 
     def raiseApplication(self):
         raiseCmd = self.appInstance.raiseCommand()
@@ -1303,20 +1312,25 @@ class MainWindow(QMainWindow):
         return message
 
     def _update_progress_bar(self, message: str):
-        pg = progress.ProgressFile(self.config)
 
-        if not pg.fileReadable():
+        pg = progress.ProgressFile(
+            filename=self.config.takeSnapshotProgressFile()
+        )
+
+        if not pg.fileReadable():  # Why not?
             self.status_bar.progress_hide()
             return
 
         self.status_bar.progress_show()
         pg.load()
-        self.status_bar.set_progress_value(pg.intValue('percent'))
-        message = ' | '.join(self.getProgressBarFormat(pg, message))
+        pg_data = pg.get_data()
+
+        self.status_bar.set_progress_value(pg_data['percent'])
+        message = ' | '.join(self.getProgressBarFormat(pg_data, message))
         self.status_bar.set_status_message(message)
 
     def getProgressBarFormat(self,
-                             pg: progress.ProgressFile,
+                             pg_data: dict,
                              message: str) -> Generator[str, None, None]:
         """Generates formatted components of a progress bar display.
 
@@ -1339,18 +1353,18 @@ class MainWindow(QMainWindow):
         d = (
             ('sent', _('Sent:')),
             ('speed', _('Speed:')),
-            ('eta',    _('ETA:'))
+            ('eta', _('ETA:'))
         )
 
-        yield '{}%'.format(pg.intValue('percent'))
+        yield f'{pg_data["percent"]}%'
 
         for key, txt in d:
-            value = pg.strValue(key, '')
+            value = pg_data.get(key, '')
 
             if not value:
                 continue
 
-            yield txt + ' ' + value
+            yield f'{txt} {value}'
 
         yield message
 
@@ -1399,11 +1413,6 @@ class MainWindow(QMainWindow):
         backup_queue = queue.Queue()
 
         mount_manager = self._profile_operations.get_mount_manager()
-
-        # DEBUG
-        # if not tools.is_mounted(mount_manager.mount_root):
-        #     import traceback
-        #     traceback.print_stack(limit=4)
 
         def _worker():
             """Proceed all backups and put their timline related information
@@ -1851,6 +1860,42 @@ class MainWindow(QMainWindow):
             full_label=_complete_text(ssh_cipher_profiles))
         dlg.exec()
 
+    def _open_remote_host_check_deprecation_dialog(self, profiles):
+        """SSH check remote host deprecation (#2482)"""
+
+        def _complete_text(profiles) -> str:
+            txt = (
+                'Some of the profiles <strong>disabled</strong> one or two '
+                'of these settings:',
+                '<ul>'
+                '<li>' + _('Check if remote host is online') + '</li>'
+                '<li>' + _('Check if remote host supports all '
+                         'necessary commands.') + '</li></ul>',
+                'Those might not be supported anymore in the near future. '
+                'Please contact the project and describe your needs.',
+                'The affected backup profiles are:',
+                '{profiles}',
+            )
+            txt = '\n'.join(txt)
+
+            # Wrap paragraphs in <p> tags.
+            result = ''
+            for t in txt.split('\n'):
+                result = f'{result}<p>{t}</p>'
+
+            profiles = '<ul>' \
+                + ''.join(f'<li>{profile}</li>' for profile in set(profiles)) \
+                + '</ul>'
+
+            return result.format(profiles=profiles)
+
+        dlg = UserMessageDialog(
+            parent=self,
+            title='Deprecation of SSH Check Remote Host settings',
+            full_label=_complete_text(profiles)
+        )
+        dlg.exec()
+
     # |---------------|
     # | Create Backup |
     # |---------------|
@@ -1882,12 +1927,34 @@ class MainWindow(QMainWindow):
         backintime.takeSnapshotAsync(self.config, checksum=checksum)
         self._update_backup_status(True)
 
+    def _send_signal_to_backup_process(self, sig: signal.Signals) -> bool:
+        """Send a POSIX signal to the backup process.
+
+        If the process has already terminated, the GUI state is refreshed and
+        ``False`` is returned instead of propagating ``ProcessLookupError``.
+
+        Returns:
+            ``True`` if the signal was sent successfully, otherwise
+                ``False``.
+
+        """
+        try:
+            os.kill(self.snapshots.pid(), sig)
+
+        except ProcessLookupError:
+            self._update_backup_status(True)
+
+            return False
+
+        return True
+
     def _slot_backup_stop(self):
-        os.kill(self.snapshots.pid(), signal.SIGKILL)
+        if self._send_signal_to_backup_process(signal.SIGKILL):
+            self.snapshots.setTakeSnapshotMessage(0, 'Backup terminated')
+
         self.act_stop_take_snapshot.setEnabled(False)
         self.act_pause_take_snapshot.setEnabled(False)
         self.act_resume_take_snapshot.setEnabled(False)
-        self.snapshots.setTakeSnapshotMessage(0, 'Backup terminated')
 
     # |---------|
     # | Restore |
@@ -2268,6 +2335,9 @@ class MainWindow(QMainWindow):
     def _slot_help_website(self):
         qttools.open_url(bitbase.URL_WEBSITE)
 
+    def _slot_help_contact(self):
+        qttools.open_url(bitbase.URL_CONTACT)
+
     def _slot_help_changelog(self):
         markdown = False
         if bitbase.CHANGELOG_LOCAL_PATH.exists():
@@ -2299,9 +2369,6 @@ class MainWindow(QMainWindow):
 
     def _slot_help_encryption(self):
         qttools.open_url(bitbase.URL_ENCRYPT_TRANSITION)
-
-    def _slot_help_ask_question(self):
-        qttools.open_url(bitbase.URL_ISSUES)
 
     def _slot_help_report_bug(self):
         qttools.open_url(bitbase.URL_ISSUES_CREATE_NEW)
@@ -2388,40 +2455,42 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
 
     # internal.manual_starts_countdown
     data['manual_starts_countdown'] \
-        = cfg.intValue('internal.manual_starts_countdown', 10)
+        = int(cfg.the_dict().get('internal.manual_starts_countdown', 10))
 
     # internal.msg_rc
-    val = cfg.strValue('internal.msg_rc', None)
+    val = cfg.the_dict().get('internal.msg_rc', None)
     if val:
         data.msg_release_candidate = val
 
     # internal.msg_shown_encfs
-    val = cfg.boolValue('internal.msg_shown_encfs', 0)
+    val = cfg.the_dict().get('internal.msg_shown_encfs', 0)
     if val:
         data.msg_encfs_global = val
 
     # qt.show_hidden_files
-    data.mainwindow_show_hidden = cfg.boolValue('qt.show_hidden_files', False)
+    data.mainwindow_show_hidden = cfg.the_dict().get(
+        'qt.show_hidden_files', False
+    )
 
     # Coordinates and dimensions
     val = (
-        cfg.intValue('qt.main_window.x', None),
-        cfg.intValue('qt.main_window.y', None)
+        cfg.the_dict().get('qt.main_window.x', None),
+        cfg.the_dict().get('qt.main_window.y', None)
     )
 
     if all(val):
         data.mainwindow_coords = val
 
     val = (
-        cfg.intValue('qt.main_window.width', None),
-        cfg.intValue('qt.main_window.height', None)
+        cfg.the_dict().get('qt.main_window.width', None),
+        cfg.the_dict().get('qt.main_window.height', None)
     )
     if all(val):
         data.mainwindow_dims = val
 
     val = (
-        cfg.intValue('qt.logview.width', None),
-        cfg.intValue('qt.logview.height', None)
+        cfg.the_dict().get('qt.logview.width', None),
+        cfg.the_dict().get('qt.logview.height', None)
     )
     if all(val):
         data.logview_dims = val
@@ -2437,21 +2506,22 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
     # qt.main_window.files_view.size_width
     # qt.main_window.files_view.date_width
 
-    col = cfg.intValue('qt.main_window.files_view.sort.column', 0)
-    order = cfg.boolValue('qt.main_window.files_view.sort.ascending', True)
+    col = cfg.the_dict().get('qt.main_window.files_view.sort.column', 0)
+    order = cfg.the_dict().get(
+        'qt.main_window.files_view.sort.ascending', True)
     data.files_view_sorting = (col, 0 if order else 1)
 
     # splitter width
     widths = (
-        cfg.intValue('qt.main_window.main_splitter_left_w', None),
-        cfg.intValue('qt.main_window.main_splitter_right_w', None)
+        cfg.the_dict().get('qt.main_window.main_splitter_left_w', None),
+        cfg.the_dict().get('qt.main_window.main_splitter_right_w', None)
     )
     if all(widths):
         data.mainwindow_main_splitter_widths = widths
 
     widths = (
-        cfg.intValue('qt.main_window.second_splitter_left_w', None),
-        cfg.intValue('qt.main_window.second_splitter_right_w', None)
+        cfg.the_dict().get('qt.main_window.second_splitter_left_w', None),
+        cfg.the_dict().get('qt.main_window.second_splitter_right_w', None)
     )
     if all(widths):
         data.mainwindow_second_splitter_widths = widths
@@ -2460,39 +2530,51 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
     for profile_id in cfg.profiles():
         profile_state = data.profile(profile_id)
 
-        # profile specific encfs warning
-        val = cfg.profileBoolValue('msg_shown_encfs', 0, profile_id)
-        profile_state.msg_encfs = val
+        # # profile specific encfs warning
+        # val = cfg.the_dict().get(f'profile{profile_id}.msg_shown_encfs', 0)
+        # profile_state.msg_encfs = val
 
-        # qt.last_path
-        if cfg.hasProfileKey('qt.last_path', profile_id):
-            profile_state.last_path \
-                = cfg.profileStrValue('qt.last_path', None, profile_id)
+        # # qt.last_path
+        # if cfg.hasProfileKey('qt.last_path', profile_id):
+        #     profile_state.last_path \
+        #         = cfg.profileStrValue('qt.last_path', None, profile_id)
 
         # Places: sorting
         sorting = (
-            cfg.profileIntValue('qt.places.SortColumn', None, profile_id),
-            cfg.profileIntValue('qt.places.SortOrder', None, profile_id)
+            cfg.the_dict().get(
+                f'profile{profile_id}.qt.places.SortColumn', None
+            ),
+            cfg.the_dict().get(
+                f'profile{profile_id}.qt.places.SortOrder', None
+            )
         )
         if all(sorting):
             profile_state.places_sorting = sorting
 
         # Manage profiles - Exclude tab: sorting
         sorting = (
-            cfg.profileIntValue(
-                'qt.settingsdialog.exclude.SortColumn', None, profile_id),
-            cfg.profileIntValue(
-                'qt.settingsdialog.exclude.SortOrder', None, profile_id)
+            cfg.the_dict().get(
+                f'profile{profile_id}.qt.settingsdialog.exclude.SortColumn',
+                None
+            ),
+            cfg.the_dict().get(
+                f'profile{profile_id}.qt.settingsdialog.exclude.SortOrder',
+                None
+            )
         )
         if all(sorting):
             profile_state.exclude_sorting = sorting
 
         # Manage profiles - Include tab: sorting
         sorting = (
-            cfg.profileIntValue(
-                'qt.settingsdialog.include.SortColumn', None, profile_id),
-            cfg.profileIntValue(
-                'qt.settingsdialog.include.SortOrder', None, profile_id)
+            cfg.the_dict().get(
+                f'profile{profile_id}.qt.settingsdialog.include.SortColumn',
+                None
+            ),
+            cfg.the_dict().get(
+                f'profile{profile_id}.qt.settingsdialog.include.SortOrder',
+                None
+            )
         )
         if all(sorting):
             profile_state.include_sorting = sorting
@@ -2543,8 +2625,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         raiseCmd = '\n'.join(sys.argv[1:])
 
-    appInstance = guiapplicationinstance.GUIApplicationInstance(
-        cfg.appInstanceFile(), raiseCmd)
+    appInstance = guiapplicationinstance.GUIApplicationInstance(raiseCmd)
     cfg.PLUGIN_MANAGER.load(cfg=cfg)
     cfg.PLUGIN_MANAGER.appStart()
 
@@ -2557,7 +2638,7 @@ if __name__ == '__main__':
     mainWindow = MainWindow(cfg, appInstance, qapp)
 
     # if cfg.isConfigured():
-    config_fp = pathlib.Path(cfg._LOCAL_CONFIG_PATH)
+    config_fp = bitbase.context['--config']
     if config_fp.exists():
         mainWindow.show()
         qapp.exec()

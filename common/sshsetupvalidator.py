@@ -22,7 +22,6 @@ import subprocess
 import shutil
 import atexit
 import signal
-from typing import Optional
 from pathlib import Path
 import logger
 import sshcore
@@ -39,7 +38,7 @@ class SSHSetupError(ApplicationError):
     def __init__(
             self,
             log_msg: str,
-            gui_msg: Optional[str] = None
+            gui_msg: str | None = None
     ):
         super().__init__(log_msg=log_msg, gui_msg=gui_msg)
 
@@ -139,7 +138,7 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
 
         # --- Check remote capabilities ---
         try:
-            if self.cfg.sshCheckCommands():  # See issue #2482
+            if self.cfg.sshCheckCommands():  # Deprecated. See issue #2509
                 self._check_rsync_basic()
                 self._check_rsync_hardlinks()
                 self._check_remote_tools()
@@ -233,7 +232,10 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
         if proc.returncode:
             raise SSHSetupError(
                 f'ssh-agent failed: {err}',
-                _('Unexpected response from ssh-agent.') + '\n\n'
+                _(
+                    "Unexpected response from '{process}'"
+                ).format(process='ssh-agent')
+                + '\n\n'
                 + _('Details:') + f'\n{err}'
             )
 
@@ -249,7 +251,10 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
         if not sock_path or not agent_pid:
             raise SSHSetupError(
                 f'Unexpected ssh-agent output: {out}',
-                _('Unexpected output from ssh-agent.') + '\n\n'
+                _(
+                    "Unexpected output from '{process}'."
+                ).format(process='ssh-agent')
+                + '\n\n'
                 + _('Output:') + f'\n{out}'
             )
 
@@ -306,7 +311,7 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
         if proc.returncode != 0:
             raise SSHSetupError(
                 f'Adding SSH key failed ({cmd=}): "{err}"',
-                _('Faild to add SSH key.') + '\n\n'
+                _('Failed to add SSH key.') + '\n\n'
                 + _('Details:') + f'\n{err.strip()}\n{cmd}'
             )
 
@@ -333,8 +338,9 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
 
         proc = subprocess.run(
             [path, '--version'],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
+            # stdout=subprocess.PIPE,
+            # stderr=subprocess.PIPE,
             text=True,
             check=False
         )
@@ -344,7 +350,10 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
         if proc.returncode != 0:
             raise SSHSetupError(
                 f'sshfs not usable: {proc.stderr}',
-                _('Unexpected response from sshfs.') + '\n\n'
+                _(
+                    "Unexpected response from '{process}'"
+                ).format(process='sshfs')
+                + '\n\n'
                 + _('Details:') + f'\n{err.strip()}'
             )
 
@@ -359,8 +368,9 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
         for host in hosts_to_check:
             proc = subprocess.run(
                 ['ssh-keygen', '-F', host],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
+                capture_output=True,
+                # stdout=subprocess.PIPE,
+                # stderr=subprocess.PIPE,
                 text=True,
                 check=False
             )
@@ -370,10 +380,14 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
 
         raise SSHSetupError(
             f'{self.ssh_host.host} is not a known hosts',
-            _('The SSH host "{host}" is not trusted yet.').format(
-                host=self.ssh_host.host)
-            + '\n\n' + _('Please connect to the host manually once to '
-                         'confirm its fingerprint.')
+            _(
+                'The SSH host "{host}" is not known yet.'
+            ).format(host=self.ssh_host.host)
+            + '\n\n'
+            + _(
+                'Please connect to the host manually once to '
+                'confirm its fingerprint.'
+            )
         )
 
     def _check_rsync_basic(self):

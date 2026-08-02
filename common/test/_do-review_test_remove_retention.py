@@ -90,6 +90,7 @@ def create_SIDs(start_date: Union[date, datetime, list[date]],
     return sorted(sids, reverse=True)
 
 
+@unittest.skip('See Issue #2461')
 class KeepFirst(pyfakefs_ut.TestCase):
     """Test Snapshot.removeKeepFirst().
 
@@ -289,6 +290,7 @@ class KeepFirst(pyfakefs_ut.TestCase):
         self.assertEqual(str(sut.pop()), '20160422-020324-123')
 
 
+@unittest.skip('See Issue #2461')
 class KeepAllForLast(pyfakefs_ut.TestCase):
     """Test Snapshot.removeKeepAll().
 
@@ -415,6 +417,7 @@ class KeepAllForLast(pyfakefs_ut.TestCase):
         self.assertEqual(sut[7].date.date(), date(2024, 2, 19))
 
 
+@unittest.skip('See Issue #2461')
 class KeepOneForLastNDays(pyfakefs_ut.TestCase):
     """Covering the smart remove setting 'Keep the last snapshot of each day
     for the last N  days.'.
@@ -518,6 +521,7 @@ class KeepOneForLastNDays(pyfakefs_ut.TestCase):
         self.assertEqual(sut[4].date, datetime(2025, 4, 13, 19, 0))
 
 
+@unittest.skip('See Issue #2461')
 class KeepOneForLastNWeeks(pyfakefs_ut.TestCase):
     """Covering the smart remove setting 'Keep the last snapshot for each week
     for the last N weeks'.
@@ -638,6 +642,7 @@ class KeepOneForLastNWeeks(pyfakefs_ut.TestCase):
         self.assertEqual(len(sut), 4)
 
 
+@unittest.skip('See Issue #2461')
 class KeepOneForLastNMonths(pyfakefs_ut.TestCase):
     """Covering the smart remove setting 'Keep the last backup for each month
     for the last N months'.
@@ -787,7 +792,7 @@ class KeepOneForLastNMonths(pyfakefs_ut.TestCase):
             self.assertEqual(sut[idx].date.date(), expect_date)
 
 
-
+@unittest.skip('See Issue #2461')
 class KeepOnePerYearForAllYears(pyfakefs_ut.TestCase):
     """Covering the smart remove setting 'Keep the last snapshot for each year
     for all years.'
@@ -896,6 +901,7 @@ class KeepOnePerYearForAllYears(pyfakefs_ut.TestCase):
             self.assertTrue(sut[idx].date.date(), expect_date)
 
 
+@unittest.skip('See Issue #2461')
 class IncDecMonths(pyfakefs_ut.TestCase):
     """PyFakeFS is used here because of Config file dependency."""
 

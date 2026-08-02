@@ -27,7 +27,7 @@ import json
 import textwrap
 import subprocess
 import tempfile
-from typing import Union, Iterable, Callable
+from collections.abc import Iterable, Callable
 from pathlib import Path
 from contextlib import contextmanager
 from textdlg import TextDialog
@@ -131,26 +131,17 @@ def might_be_richtext(txt: str) -> bool:
     return bool(_REX_RICHTEXT.match(txt))
 
 
-def set_wrapped_tooltip(widget: Union[QWidget, Iterable[QWidget]],
-                        tooltip: Union[str, Iterable[str]],
-                        wrap_length: int = 72):
-    """Add a tooltip to the widget but insert line breaks when appropriated.
+def wrap_tooltip(tooltip: str | Iterable[str],
+                 wrap_length: int = 72) -> str:
+    """Wrap a tooltip string but insert line breaks when appropriated.
 
     If a list of strings is provided, each string is wrapped individually and
     then joined with a line break.
 
     Args:
-        widget: The widget or list of widgets to which a tooltip should be
-            added.
         tooltip: The tooltip as string or iterable of strings.
         wrap_length: Every line is at most this lengths.
     """
-
-    if isinstance(widget, Iterable):
-        for wdg in widget:
-            set_wrapped_tooltip(wdg, tooltip, wrap_length)
-
-        return
 
     # Always use tuple or list
     if isinstance(tooltip, str):
@@ -176,7 +167,31 @@ def set_wrapped_tooltip(widget: Union[QWidget, Iterable[QWidget]],
     if is_richtext and result[0] != '<':
         result = f'<html>{result}</html>'
 
-    widget.setToolTip(result)
+    return result
+
+
+def set_wrapped_tooltip(widget: QWidget | Iterable[QWidget],
+                        tooltip: str | Iterable[str],
+                        wrap_length: int = 72):
+    """Add a tooltip to the widget but insert line breaks when appropriated.
+
+    If a list of strings is provided, each string is wrapped individually and
+    then joined with a line break.
+
+    Args:
+        widget: The widget or list of widgets to which a tooltip should be
+            added.
+        tooltip: The tooltip as string or iterable of strings.
+        wrap_length: Every line is at most this lengths.
+    """
+
+    if isinstance(widget, Iterable):
+        for wdg in widget:
+            set_wrapped_tooltip(wdg, tooltip, wrap_length)
+
+        return
+
+    widget.setToolTip(wrap_tooltip(tooltip, wrap_length))
 
 
 def update_combo_profiles(config, combo_profiles, current_profile_id):
@@ -187,8 +202,8 @@ def update_combo_profiles(config, combo_profiles, current_profile_id):
     :param combo_profiles: The combo box widget to be updated.
     :param current_profile_id: The ID of the current profile to be selected.
     """
-    profiles = config.profilesSortedByName()
-    for profile_id in profiles:
+    # profiles = config.profilesSortedByName()
+    for profile_id in config.profiles():
         combo_profiles.add_profile_id(profile_id)
         if profile_id == current_profile_id:
             combo_profiles.set_current_profile_id(profile_id)
@@ -197,7 +212,7 @@ def update_combo_profiles(config, combo_profiles, current_profile_id):
 def create_icon_label(
         icon_type: QStyle.StandardPixmap,
         icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
-        icon_scale_factor: float | int = None,
+        icon_scale_factor: float | None = None,
         fixed_size_widget: bool = False) -> QLabel:
     """Return a ``QLabel`` instance containing an icon.
 
@@ -229,7 +244,7 @@ def create_icon_label(
 
 def create_icon_label_info(
         icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
-        icon_scale_factor: float | int = None,
+        icon_scale_factor: float | None = None,
         fixed_size_widget: bool = False) -> QLabel:
     """Return a QLabel with an info icon.
 
@@ -244,7 +259,7 @@ def create_icon_label_info(
 
 def create_icon_label_warning(
         icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
-        icon_scale_factor: float | int = None,
+        icon_scale_factor: float | None = None,
         fixed_size_widget: bool = False) -> QLabel:
     """Return a QLabel with a warning icon.
 
@@ -260,7 +275,7 @@ def create_icon_label_warning(
 def create_info_label(
         text: str,
         icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
-        icon_scale_factor: float | int = None,
+        icon_scale_factor: float | None = None,
         fixed_size_widget: bool = True) -> QLabel:
     """Return a widget with an info icon and text.
 
@@ -275,7 +290,7 @@ def create_info_label(
 def create_warning_label(
         text: str,
         icon_size: QStyle.PixelMetric = QStyle.PixelMetric.PM_LargeIconSize,
-        icon_scale_factor: float | int = None,
+        icon_scale_factor: float | None = None,
         fixed_size_widget: bool = True) -> QLabel:
     """Return a widget with a warning icon and text.
 
@@ -447,7 +462,8 @@ def open_url(url: str) -> None:
                      f'"{user_name}" while in root-mode. '
                      f'Error was: {exc}')
 
-    except Exception as exc:  # pylint: disable=broad-exception-caught
+    # pylint: disable-next=broad-exception-caught
+    except Exception as exc:  # noqa: BLE001
         logger.critical(f'Unknown problem while opening "{url}" as user '
                         f'"{user_name}" while in root-mode. '
                         f'Error was: {exc}')
@@ -473,8 +489,8 @@ def screen_width_in_chars(widget: QWidget, reference_char: str = 'M') -> int:
 
 
 def open_man_page(manpage: str,
-                  icon: QIcon = None,
-                  section: str = None) -> None:
+                  icon: QIcon | None = None,
+                  section: str | None = None) -> None:
     """Open the manpage in a text browser window.
 
     The position and geometry of the dialog depends on fractions of the screen.
@@ -518,8 +534,9 @@ def open_man_page(manpage: str,
     try:
         proc = subprocess.run(
             ['man', manpage],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
+            # stdout=subprocess.PIPE,
+            # stderr=subprocess.PIPE,
             text=True,
             env=env,
             check=False
@@ -593,7 +610,8 @@ def _show_qt_debug_info(the_qapp: QApplication):
         # msg = '\n' + json.dumps(info, indent=4)
         msg = json.dumps(info)
 
-    except Exception as exc:  # pylint: disable=broad-exception-caught
+    # pylint: disable-next=broad-exception-caught
+    except Exception as exc:  # noqa: BLE001
         msg = f'Error reading QT QPA platform plugin or style: {exc}'
 
     logger.debug(msg)
@@ -640,7 +658,8 @@ def create_qapplication(app_name=bitbase.APP_NAME) -> QApplication:
         else:
             qapp.setDesktopFileName("backintime-qt")
 
-    except Exception as exc:  # pylint: disable=broad-exception-caught
+    # pylint: disable-next=broad-exception-caught
+    except Exception as exc:  # noqa: BLE001
         logger.warning('Could not set App ID (required for Wayland App icon '
                        f'and more). Reason: {exc}')
 

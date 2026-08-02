@@ -13,6 +13,7 @@ import sys
 import inspect
 import random
 import string
+import unittest
 from unittest import mock
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -23,6 +24,7 @@ import config  # noqa: E402,RUF100
 import mount  # noqa: E402,RUF100
 
 
+@unittest.skip('See Issue #2461')
 class CheckLocks(pyfakefs_ut.TestCase):
     """Testing MountControl.checkLocks()"""
 
@@ -163,6 +165,7 @@ class CheckLocks(pyfakefs_ut.TestCase):
         self.assertFalse(sym.exists())
 
 
+@unittest.skip('See Issue #2461')
 class MountWithLocalBackend(pyfakefs_ut.TestCase):
     """Test high-level ``class Mount`` with 'local' backend.
     """

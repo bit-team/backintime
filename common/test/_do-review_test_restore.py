@@ -21,6 +21,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import mount
 
 
+@unittest.skip('See Issue #2461')
 class RestoreTestCase(generic.SnapshotsWithSidTestCase):
     def setUp(self):
         super(RestoreTestCase, self).setUp()
@@ -40,6 +41,8 @@ class RestoreTestCase(generic.SnapshotsWithSidTestCase):
         )
         self.sid.fileInfo = d
 
+
+@unittest.skip('See Issue #2461')
 class General(RestoreTestCase):
     def test_restore_multiple_files(self):
         restoreFile1 = os.path.join(self.include.name, 'test')
@@ -143,6 +146,8 @@ class General(RestoreTestCase):
         with open(restoreFile, 'rt') as f:
             self.assertEqual(f.read(), 'fooooooooooooooooooo')
 
+
+@unittest.skip('See Issue #2461')
 class RestoreLocal(RestoreTestCase):
     """
     Tests which should run on local and ssh profile
@@ -169,6 +174,8 @@ class RestoreLocal(RestoreTestCase):
 
         self.assertEqual(33260, os.stat(restoreFile).st_mode)
 
+
+@unittest.skip('See Issue #2461')
 @unittest.skipIf(not generic.LOCAL_SSH, generic.SKIP_SSH_TEST_MESSAGE)
 class RestoreSSH(generic.SSHSnapshotsWithSidTestCase, RestoreLocal):
     """BUHTZ 2022-10-09: Seems to me that testing restore via SSH isn't

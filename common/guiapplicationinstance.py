@@ -10,14 +10,16 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 import os
 import logger
+import bitbase
 from applicationinstance import ApplicationInstance
 
 
 class GUIApplicationInstance(ApplicationInstance):
     """Handle one application instance mechanism.
     """
-    def __init__(self, baseControlFile, raiseCmd=''):
+    def __init__(self, raiseCmd=''):
         """Specify the base for control files."""
+        baseControlFile = str(bitbase.BIT_DATA_HOME / 'app.lock')
         self.raiseFile = baseControlFile + '.raise'
         self.raiseCmd = raiseCmd
 

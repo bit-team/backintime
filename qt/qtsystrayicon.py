@@ -20,6 +20,7 @@ import subprocess
 import signal
 import textwrap
 import functools
+from pathlib import Path
 from argparse import ArgumentParser
 from typing import Callable
 # TODO Is this really required? If the client is not configured for X11
@@ -39,6 +40,7 @@ import snapshots
 import progress
 import logviewdialog
 import config
+import cli
 from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import QSystemTrayIcon, QMenu, QProgressBar, QWidget
 from PyQt6.QtGui import QIcon, QRegion
@@ -67,16 +69,20 @@ class QtSysTrayIcon:
 
     def __init__(self, config_path=None, profile_id=None):
 
-        self.config = config.Config(config_path)
+        _konfig = cli.get_config_and_select_profile(config_path, profile_id)
+        # konfig.load(config_path)
+
+        self.config = config.Config()
+
         self.snapshots = snapshots.Snapshots(cfg=self.config)
         self.decode = None
 
         self._current_user = pwd.getpwuid(os.getuid()).pw_name
 
-        if profile_id:
-            if not self.config.setCurrentProfile(profile_id):
-                logger.warning(
-                    f'Failed to change Profile_ID {profile_id}', self)
+        # if profile_id:
+        #     if not self.config.setCurrentProfile(profile_id):
+        #         logger.warning(
+        #             f'Failed to change Profile_ID {profile_id}', self)
 
         self.qapp = qttools.create_qapplication(self.config.APP_NAME)
         translator = qttools.initiate_translator(self.config.language())
@@ -251,10 +257,13 @@ class QtSysTrayIcon:
 
                 self.status_icon.setToolTip(message[1])
 
-        pg = progress.ProgressFile(self.config)
+        pg = progress.ProgressFile(
+            filename=self.config.takeSnapshotProgressFile()
+        )
 
         if pg.fileReadable():
             pg.load()
+            pg_data = pg.get_data()
             # percent = pg.intValue('percent')
             ## disable progressbar in icon until BiT has it's own icon
             ## fixes bug #902
@@ -266,14 +275,16 @@ class QtSysTrayIcon:
             #         flags=QWidget.RenderFlags(QWidget.DrawChildren))
             #     self.status_icon.setIcon(QIcon(self.pixmap))
 
-            self.menuProgress.setText(' | '.join(self.getMenuProgress(pg)))
+            self.menuProgress.setText(
+                ' | '.join(self.getMenuProgress(pg_data))
+            )
             self.menuProgress.setVisible(True)
 
         else:
             # self.status_icon.setIcon(self.icon.BIT_LOGO)
             self.menuProgress.setVisible(False)
 
-    def getMenuProgress(self, pg):
+    def getMenuProgress(self, pg_data):
         """See common/app.py::MainWindow.getProgressBarFormat().
 
         The code is a near duplicate.
@@ -281,16 +292,16 @@ class QtSysTrayIcon:
         data = (
             ('sent', _('Sent:')),
             ('speed', _('Speed:')),
-            ('eta',    _('ETA:'))
+            ('eta', _('ETA:'))
         )
 
         for key, txt in data:
-            value = pg.strValue(key, '')
+            value = pg_data.get(key, '')
 
             if not value:
                 continue
 
-            yield txt + ' ' + value
+            yield f'{txt} {value}'
 
     @trust_required
     def _slot_pause(self, *_args, **_kwargs):
@@ -503,7 +514,7 @@ if __name__ == '__main__':
     argparser.add_argument(
         '--config',
         metavar='PATH',
-        type=str,
+        type=Path,
         action='store'
     )
 

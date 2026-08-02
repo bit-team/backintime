@@ -125,9 +125,9 @@ class MountManager:
             backend = _BACKENDS[backend_type](cfg)
             encryptor = _ENCRYPT[encryptor_type](cfg, backend)
 
-        except Exception as exc:
+        except Exception:
             print(f'{mode=}')  # DEBUG
-            raise exc
+            raise
 
         manager = MountManager(backend, encryptor, cfg)
 
@@ -163,10 +163,13 @@ class MountManager:
             A SHA256 hash cut to a 12-character hexadecimal string.
 
         """
-        data = '|'.join([
+        data = (
             self.backend.get_fingerprint_base(),
+            '|',
             self.encryptor.get_fingerprint_base()
-        ])
+        )
+        data = ''.join(data)
+
         logger.debug(f'fingerprint: {data=}', self)
 
         return hashlib.sha256(data.encode()).hexdigest()[:12]
@@ -269,13 +272,12 @@ class MountManager:
     def _requires_mountpoint_lock(self) -> bool:
         """Whether runtime mountpoint locking is required."""
 
+        # SSH backend?
         if self.backend.TYPE is Backend.Type.SSH:
             return True
 
-        if self.encryptor.TYPE is Encryptor.Type.GOCRYPTFS:
-            return True
-
-        return False
+        # GoCryptFS encryptor?
+        return self.encryptor.TYPE is Encryptor.Type.GOCRYPTFS
 
     def mount(self):
         """Initiate mount in backend and encryptor"""

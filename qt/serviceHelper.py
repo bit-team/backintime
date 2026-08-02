@@ -1,22 +1,35 @@
-# SPDX-FileCopyrightText: © 2004-2006 Red Hat Inc. <http://www.redhat.com>
-# SPDX-FileCopyrightText: © 2005-2007 Collabora Ltd. <www.collabora.co.uk>
-# SPDX-FileCopyrightText: © 2008 Canonical Ltd.
-# SPDX-FileCopyrightText: © 2009 David D. Lowe
 # SPDX-FileCopyrightText: © 2015-2022 Germar Reitze
 # SPDX-FileCopyrightText: © 2025 Christian Buhtz <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
-# SPDX-License-Identifier: MIT
-# SPDX-License-Identifier: CC0-1.0
 #
-# This file is released under several licenses mentioned above. The file is
-# part of the program "Back In Time". The program as a whole is released under
-# GNU General Public License v2 (GPLv2). See LICENSES directory or go to
-# - <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-# - <https://spdx.org/licenses/MIT.html>
-# - <https://spdx.org/licenses/CC0-1.0.html>
+# This file is part of the program "Back In Time" which is released under GNU
+# General Public License v2 (GPLv2). See LICENSES directory or go to
+# <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
-# Note about the licenses by Christian Buhtz (2024-09):
+# Licensing and copyright has changed since this file exists. See the
+# following comments about it.
+#
+# ---- Note from 2026-06 by Christian Buhtz, about the licenses
+# After some research, discussions and asking involved persons I came to some
+# conclusions.
+# - Drop Canonical author ship. Martin Pitt (@martinpitt) as author of "jockey"
+#   confirmed this. See his comment:
+#   https://github.com/bit-team/backintime/issues/1986#issuecomment-3368102826
+# - Drop CC0-1.0 license and David D. Lowe as author: Unknown which part of the
+#   code is related to this license and person.
+# - Drop the MIT license and author ship of RedHad and Collabora: The relation
+#   was the "dbus-python" project. The assumption is that the former maintainer
+#   of Back In Time, Germar Reitze, just used some of the code snippets from
+#   documentation of "dbus-python". Myself, I did a line by line analysis and
+#   comparison with the "dbus-python" docu. I found no evidence that this
+#   code is even present in the current version of this file.
+#   Additinoally there was no valuable or clearing response since Sept. 2024
+#   from involved persons and dbus-python maintainer Simon McVittie.
+#   See also this issue at the "dbus-python" project:
+#   https://gitlab.freedesktop.org/dbus/dbus-python/-/work_items/52
+#
+# ---- Note from 2024-09 by Christian Buhtz, about the licenses
 # Despite extensive research and attempts to contact the aforementioned
 # individuals and institutions, it was not possible to definitively determine
 # which of the mentioned licenses and copyright notices apply to which parts of
@@ -33,29 +46,6 @@
 #   "python-dbus-docs"
 # - David D. Lowe claimed CC0-1.0 (public domain) in unknown context.
 #
-# Because of MIT License the following permission notice need to be included
-# in this file and should not be removed:
-# --- Begin of MIT License permission notice ---
-# Permission is hereby granted, free of charge, to any person
-# obtaining a copy of this software and associated documentation
-# files (the "Software"), to deal in the Software without
-# restriction, including without limitation the rights to use, copy,
-# modify, merge, publish, distribute, sublicense, and/or sell copies
-# of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be
-# included in all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-# HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-# WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-# DEALINGS IN THE SOFTWARE.
-# --- End of MIT License permission notice ---
 """Handling udev rules via DBUS service"""
 import os
 import re

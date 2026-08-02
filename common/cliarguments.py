@@ -242,20 +242,15 @@ class ParserAgent:
         parser.add_argument(
             '--config',
             metavar='PATH',
-            type=str,
+            type=Path,
+            # Dev note (buhtz, 2026-07): Don't use "default=" at this place.
+            # There is creepy argument parsing happening in
+            # parse_arguments().join(). Not my invention!
+            # default=bitbase.DEFAULT_CONFIG_FILE_PATH,
             action='store',
             help='read config from %(metavar)s '
-                 '(Default: $XDG_CONFIG_HOME/backintime/config)')
-
-        parser.add_argument(
-            '--share-path',
-            metavar='PATH',
-            type=str,
-            action='store',
-            # Hide because deprecated (#2125)
-            help=argparse.SUPPRESS
-            # help='Write runtime data (locks, messages, log and '
-            #      'mountpoints) to %(metavar)s.'
+                 f'(Default: $XDG_CONFIG_HOME/{bitbase.BINARY_NAME_BASE}/'
+                 f'{bitbase.FILENAME_CONFIG})'
         )
 
         parser.add_argument(
@@ -674,13 +669,22 @@ class ParserAgent:
             '--path',
             action='store_true',
             default=False,
-            help='list backup paths instead of their ID')
+            help='list backup paths instead of their ID'
+        )
 
         parser.add_argument(
             '--last',
             action='store_true',
             default=False,
-            help='show the last (youngest) backup only')
+            help='show the last (youngest) backup only'
+        )
+
+        parser.add_argument(
+            '--profiles',
+            action='store_true',
+            default=False,
+            help='list available profiles'
+        )
 
         self.parsers[name] = parser
 
@@ -907,9 +911,6 @@ def parse_arguments(args: Namespace,
         clicommands.show_deprecation_message('--profile-id')
         args.profile = str(args.profile_id)
 
-    if args.share_path:
-        clicommands.show_deprecation_message('--share-path')
-
     # Report unknown arguments but not if we run aliasParser next because we
     # will parse again in there.
     if unknown_args and not ('func' in args and args.func is alias_parser):
@@ -928,9 +929,18 @@ class ActionPrintLicense(argparse.Action):
         text_gpl = bitlicense.get_gpl_short_text()
         text_licenses = bitlicense.TXT_LICENSES.format(
                 dir_link=bitlicense.DIR_LICENSES,
-                readme_link=bitlicense.DIR_LICENSES.parent / 'LICENSES.md')
+                readme_link=bitlicense.DIR_LICENSES.parent / 'LICENSES.md'
+        )
 
-        print(f'{text_gpl}\n{text_licenses}')
+        print(
+            text_gpl
+            + '\n'
+            + f'{bitbase.APP_NAME} comes with ABSOLUTELY NO WARRANTY. '
+            'This is free software, and you are welcome to redistribute it '
+            'under certain conditions'
+            + '\n\n'
+            + text_licenses
+        )
 
         sys.exit(bitbase.RETURN_OK)
 

@@ -11,6 +11,7 @@
 """Shutdown the system via DBus"""
 import os
 import subprocess
+import types
 import dbus
 import logger
 import bitbase
@@ -20,7 +21,7 @@ class ShutdownAgent:
     """Shutdown the system after the current snapshot has finished."""
 
     # The order is relevant. Don't modify it without a good reason.
-    DBUS_SHUTDOWN = {
+    DBUS_SHUTDOWN = types.MappingProxyType({
         'login1': {
             'bus': 'systembus',
             'service': 'org.freedesktop.login1',
@@ -116,7 +117,7 @@ class ShutdownAgent:
             'interface': 'org.enlightenment.wm.Core',
             'arguments': ()
         },
-    }
+    })
 
     def __init__(self):
         if bitbase.IS_IN_ROOT_MODE:

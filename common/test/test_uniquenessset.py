@@ -16,7 +16,7 @@ import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 from pathlib import Path
 from tempfile import TemporaryDirectory
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-import logger  # noqa: E402,RUF100
+import logger  # noqa: E402,RUF100,I001
 from uniquenessset import UniquenessSet  # noqa: E402,RUF100
 logger.DEBUG = True
 

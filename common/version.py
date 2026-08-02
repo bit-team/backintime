@@ -13,7 +13,14 @@ See Issue #1575 for details about that migration.
 import re
 
 # Version string regularyly used by the application and presented to users.
-__version__ = '2.0.0-dev.5d7ff833'
+__version__ = '2.0.0-dev'
+
+try:
+    from buildinfo import git_hash
+    if git_hash and __version__.endswith('-dev'):
+        __version__ = f'{__version__}.{git_hash}'
+except ImportError:
+    pass
 
 # Version string ends with lower case ``rc`` and optionally with a number.
 # e.g. "1.6.0rc", "1.6.0-rc", "1.6.0-rc2"

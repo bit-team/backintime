@@ -149,8 +149,6 @@ else
 fi
 
 # Start Makefile
-printf ".PHONY: test test-v unitest unittest-v\n" >> ${MAKEFILE}
-
 printf "PREFIX=/usr\n" >> ${MAKEFILE}
 printf "DEST=\$(DESTDIR)\$(PREFIX)\n\n" >> ${MAKEFILE}
 
@@ -278,14 +276,6 @@ printf "uninstall_files:\n" >> ${MAKEFILE}
 cat ${UNINSTALL_FILES} >> ${MAKEFILE}
 printf "uninstall_dirs:\n" >> ${MAKEFILE}
 cat ${UNINSTALL_DIRS} >> ${MAKEFILE}
-
-for target in test test-v unittest unittest-v; do
-    printf "\n\n%s:\n" "$target" >> ${MAKEFILE}
-    printf "\t@echo \"Target '%s' not available anymore. " "$target">> ${MAKEFILE}
-    printf "Use a test runner of your own choice " >> ${MAKEFILE}
-    printf "(e.g. 'unittest' or 'pytest').\"" >> ${MAKEFILE}
-    printf "\n\t@false" >> ${MAKEFILE}
-done
 
 # copy Makefile
 mv ${MAKEFILE} Makefile

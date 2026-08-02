@@ -6,7 +6,6 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Error class related to mount subsystem."""
-from typing import Optional
 from exceptions import ApplicationError
 
 
@@ -19,6 +18,9 @@ class MountError(ApplicationError):
     def __init__(
             self,
             log_msg: str,
-            gui_msg: Optional[str] = None
+            gui_msg: str | None = None
     ):
-        super().__init__(log_msg=log_msg, gui_msg=gui_msg)
+        super().__init__(
+            log_msg=log_msg,
+            gui_msg=gui_msg
+        )

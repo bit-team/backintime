@@ -44,6 +44,7 @@ debian/backintime-qt
 # Makefile
 common/Makefile
 qt/Makefile
+common/githash.py
 
 # coveralls.io status
 .coverage
@@ -51,10 +52,6 @@ qt/Makefile
 # coverage result files (raw data and reports)
 # .coverage  # already ignored, see above
 **/htmlcov/**
-
-# sphinx doc build
-common/doc-dev/_build/doctrees
-common/doc-dev/_build/html
 
 # MkDocs
 doc/manual/html/
