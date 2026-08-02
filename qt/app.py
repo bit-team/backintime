@@ -666,7 +666,7 @@ class MainWindow(QMainWindow):
 
         # Release Candidate ?
         self.act_help_release_candidate = None
-        if version.IS_RELEASE_CANDIDATE or logger.DEBUG :
+        if version.IS_RELEASE_CANDIDATE or logger.DEBUG:
             # pylint: disable=undefined-variable
             action = QAction(icon.QUESTION, _('Release Candidate'), self)
             action.triggered.connect(self._slot_help_release_candidate)
@@ -2018,7 +2018,6 @@ class MainWindow(QMainWindow):
                    warnRoot='/' in paths, restoreTo=path_restore_to):
                 return
 
-        print(f'{paths=}')  # DEBUG
         rd = RestoreDialog(self,
                            self.selected_backup_id(),
                            # what
@@ -2120,7 +2119,6 @@ class MainWindow(QMainWindow):
     def _get_parent_path_of_fileview_selection_or_root(self) -> str:
         path = self.filesView.get_current_path()
         path = str(pathlib.Path(path).parent)
-        print(f'{path=}')  # DEBUG
 
         return path if path else '/'
 
