@@ -287,7 +287,7 @@ class SSHBackend(Backend):
             (
                 ['test', '-x', path],
                 'Remote path is not accessible/searchable',
-                _('Access to the remote backup directory denied.')
+                _('Access to the remote backup directory was denied.')
             )
         ]
 
