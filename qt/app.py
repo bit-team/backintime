@@ -1376,16 +1376,19 @@ class MainWindow(QMainWindow):
         self.act_name_snapshot.setEnabled(enable)
         self.act_remove_snapshot.setEnabled(enable)
         self.act_snapshot_logview.setEnabled(enable)
+        # self._enable_restore_ui_elements(enable)
 
     def is_now_selected(self) -> bool:
         """Workaround"""
         return self.timeline.is_now_selected()
 
     def _on_now_selected(self):
+        print('_on_NOW_selected()')  # DEBUG
         self._enable_snapshot_actions(False)
         self.updateFilesView(2)
 
     def _on_backup_selected(self, _sid):
+        print('_on_backup_selected()')  # DEBUG
         self._enable_snapshot_actions(True)
         self.updateFilesView(2)
 
@@ -1603,6 +1606,7 @@ class MainWindow(QMainWindow):
             self.filesView.show_hidden(self.showHiddenFiles)
             self.filesView.set_root_path(full_path)
             self.stackFilesView.setCurrentWidget(self.filesView)
+
         else:
             enable_flag = False
             self.stackFilesView.setCurrentWidget(
@@ -1634,6 +1638,7 @@ class MainWindow(QMainWindow):
         in the timeline all UI elements related to restoring should be
         disabled.
         """
+        print('restore enabled:', enable)
 
         # The whole sub-menu incl. its button/entry. The related UI elements
         # are the "Restore" entry in the main-menu and the toolbar button in
@@ -1644,6 +1649,18 @@ class MainWindow(QMainWindow):
         # the context menu of the files view.
         self.act_restore.setEnabled(enable)
         self.act_restore_to.setEnabled(enable)
+
+        print(
+            'menu:',
+            self.act_restore_menu.text(),
+            self.act_restore_menu.isEnabled()
+        )
+
+        print(
+            'restore:',
+            self.act_restore.isEnabled(),
+            self.act_restore_to.isEnabled()
+        )
 
         if path:
             self.act_restore_parent.setText(
