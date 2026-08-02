@@ -666,7 +666,7 @@ class MainWindow(QMainWindow):
 
         # Release Candidate ?
         self.act_help_release_candidate = None
-        if version.IS_RELEASE_CANDIDATE or logger.DEBUG :
+        if version.IS_RELEASE_CANDIDATE or logger.DEBUG:
             # pylint: disable=undefined-variable
             action = QAction(icon.QUESTION, _('Release Candidate'), self)
             action.triggered.connect(self._slot_help_release_candidate)
@@ -1324,6 +1324,10 @@ class MainWindow(QMainWindow):
         self.status_bar.progress_show()
         pg.load()
         pg_data = pg.get_data()
+
+        # Ugly workaround. See #2260
+        if not pg_data:
+            return
 
         self.status_bar.set_progress_value(pg_data['percent'])
         message = ' | '.join(self.getProgressBarFormat(pg_data, message))
@@ -2016,7 +2020,9 @@ class MainWindow(QMainWindow):
 
         rd = RestoreDialog(self,
                            self.selected_backup_id(),
+                           # what
                            paths if len(paths) > 1 else paths[0],
+                           # where
                            path_restore_to,
                            **opt)
 
@@ -2027,6 +2033,9 @@ class MainWindow(QMainWindow):
             return
 
         paths = self.filesView.get_selected_paths()
+        # Workaround
+        if not paths:
+            paths = ['/']
         # paths = [f for f, idx in self.multiFileSelected(fullPath = True)]
 
         confirm_dlg = ConfirmRestoreDialog(
@@ -2060,15 +2069,21 @@ class MainWindow(QMainWindow):
         # paths = [f for f, _idx in self.multiFileSelected(fullPath=True)]
         paths = self.filesView.get_selected_paths()
 
+        # Workaround
+        if not paths:
+            paths = ['/']
+
         self._restore_to(paths)
 
     def _slot_restore_parent(self):
         if self.is_now_selected():
             return
 
+        parent_path = self._get_parent_path_of_fileview_selection()
+
         confirm_dlg = ConfirmRestoreDialog(
             parent=self,
-            paths=(self.path, ),
+            paths=(parent_path, ),
             to_path=None,
             backup_on_restore=self.config.backupOnRestore(),
             backup_suffix=self.snapshots.backupSuffix()
@@ -2081,18 +2096,39 @@ class MainWindow(QMainWindow):
             opt = confirm_dlg.get_values_as_dict()
 
             if opt['delete'] and not self._restore_confirm_delete(
-                    warnRoot=self.path == '/'):
+                    warnRoot=parent_path == '/'):
                 return
 
-        rd = RestoreDialog(self, self.selected_backup_id(), self.path, **opt)
+        rd = RestoreDialog(
+            self,
+            self.selected_backup_id(),
+            parent_path,
+            **opt
+        )
         rd.exec()
 
     def _slot_restore_parent_to(self):
-        """Restore parent folder (of current selected) to ..."""
+        """Restore parent directory (of current selected) to ..."""
         if self.is_now_selected():
             return
 
-        self._restore_to([self.path])
+        self._restore_to(
+            [self._get_parent_path_of_fileview_selection_or_root()]
+        )
+
+    def _get_parent_path_of_fileview_selection_or_root(self) -> str:
+        """Dev note (buhtz, 2026-08): Ugly workaround because of removing
+        self.path . I never understood the purpose of that allmity
+        object variable.
+
+        This workaround might cause unusual behavior. But I am on it. See
+        #2434.
+        """
+        path = self.filesView.get_current_path()
+        path = str(pathlib.Path(path).parent)
+
+        # use root dir by default
+        return path if path else '/'
 
     # |------------|
     # | Files View |

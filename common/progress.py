@@ -40,7 +40,10 @@ class ProgressFile():
         self.filename.write_text(json.dumps(self._data), encoding='utf-8')
 
     def load(self):
-        self._data = json.loads(self.filename.read_text(encoding='utf-8'))
+        content = self.filename.read_text(encoding='utf-8')
+        # Ugly workaround. See #2260
+        if content:
+            self._data = json.loads(content)
 
     def fileReadable(self):
         return os.access(self.filename, os.R_OK)
