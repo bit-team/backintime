@@ -49,6 +49,7 @@ from storagesize import StorageSize
 from exceptions import PermissionDeniedByPolicy, Timeout
 from konfig import Konfig
 from profilecontext import ProfileContext
+from udev import SetupUdev
 
 
 class Config:  # (configfile.ConfigFileWithProfiles):
@@ -158,7 +159,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         self.current_hash_id = 'local'
         self.pw = None
         # self.forceUseChecksum = False
-        self.setupUdev = tools.SetupUdev()
+        self.setupUdev = SetupUdev()
 
         # self.current_profile_id = None
 

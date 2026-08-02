@@ -82,6 +82,8 @@ full_test_files = [_base_dir / fp for fp in (
     'test/test_storagesize.py',
     # 'test/test_takesnapshotlog.py',
     'test/test_uniquenessset.py',
+    # 'tools.py',
+    'udev.py',
     'version.py',
 )]
 
