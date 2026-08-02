@@ -14,10 +14,10 @@
 # REUSE-IgnoreStart
 msgid ""
 msgstr ""
-"Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
+"Project-Id-Version: Back In Time 2.0.0-dev\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-06-28 13:41+0200\n"
-"PO-Revision-Date: 2026-06-19 13:16+0000\n"
+"POT-Creation-Date: 2026-08-02 14:14+0200\n"
+"PO-Revision-Date: 2026-06-30 11:07+0000\n"
 "Last-Translator: Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>\n"
 "Language-Team: Romanian <https://translate.codeberg.org/projects/backintime/common/ro/>\n"
 "Language: ro\n"
@@ -26,6 +26,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
 "X-Generator: Weblate 2026.6.1\n"
+
+#: common/bitbase.py:21 common/config.py:36 common/konfig.py:32
+#: common/mount/_backends.py:23 common/tools.py:88 qt/encfsmsgbox.py:32
+#: qt/messagebox.py:99 qt/timeline.py:34
+msgid "Warning"
+msgstr "Avertisment"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -39,61 +45,27 @@ msgstr ""
 "autor pentru fiecare fișier utilizând metadatele SPDX, consultați "
 "{readme_link}."
 
-#: common/config.py:37 common/tools.py:92 qt/encfsmsgbox.py:27
-#: qt/messagebox.py:99 qt/timeline.py:35
-msgid "Warning"
-msgstr "Avertisment"
-
-#: common/config.py:108 common/config.py:161
-msgid "Main profile"
-msgstr "Profil principal"
-
-#: common/config.py:172
-msgid "Local"
-msgstr "Local"
-
-#: common/config.py:178
-msgid "Local encrypted"
-msgstr "Local criptat"
-
-#: common/config.py:179 common/config.py:192
-#: qt/manageprofiles/tab_general.py:394
-msgid "Encryption"
-msgstr "Criptare"
-
-#: common/config.py:184
-msgid "SSH"
-msgstr "SSH"
-
-#: common/config.py:185 common/config.py:191
-#: qt/manageprofiles/tab_general.py:742
-msgid "SSH private key"
-msgstr "Cheie privată SSH"
-
-#: common/config.py:190
-msgid "SSH encrypted"
-msgstr "Criptat SSH"
-
-#: common/config.py:236 common/config.py:248 common/config.py:266
-#: common/config.py:280 common/config.py:301
+#: common/check_config.py:45 common/check_config.py:55
+#: common/check_config.py:74 common/check_config.py:90
+#: common/check_config.py:111
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Profil: „{name}”"
 
-#: common/config.py:237
+#: common/check_config.py:48
 msgid "Backup directory is not valid."
 msgstr "Directorul pentru copii de rezervă nu este valid."
 
-#: common/config.py:249
+#: common/check_config.py:57
 msgid "At least one directory must be selected for backup."
 msgstr "Trebuie selectat cel puțin un director pentru copia de rezervă."
 
-#: common/config.py:267 common/config.py:282
+#: common/check_config.py:76 common/check_config.py:92
 #, python-brace-format
 msgid "Directory: {path}"
 msgstr "Director: {path}"
 
-#: common/config.py:268 common/config.py:283
+#: common/check_config.py:79 common/check_config.py:95
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
@@ -101,7 +73,11 @@ msgstr ""
 "Acest director nu poate fi inclus în copia de rezervă, deoarece face parte "
 "din destinația copiei de rezervă."
 
-#: common/config.py:302
+#: common/check_config.py:113
+msgid "There is a conflict between two settings."
+msgstr ""
+
+#: common/check_config.py:116
 #, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
@@ -112,7 +88,7 @@ msgstr ""
 "este mai mic decât” ({val_one}) trebuie să fie mai mică sau egală cu pragul "
 "pentru „Avertizează dacă spațiul liber pe disc scade sub” ({val_two})."
 
-#: common/config.py:307
+#: common/check_config.py:123
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
@@ -120,16 +96,54 @@ msgstr ""
 "Ajustați valorile limitelor astfel încât limita de eliminare a copiilor de "
 "rezervă să nu fie mai mare decât limita de avertizare."
 
-#: common/config.py:1429
+#: common/config.py:175 common/konfig.py:50 common/konfig.py:1418
+msgid "Main profile"
+msgstr "Profil principal"
+
+#: common/config.py:189
+msgid "Local"
+msgstr "Local"
+
+#: common/config.py:195
+#, fuzzy
+msgid "Local (encrypted)"
+msgstr "Local criptat"
+
+#: common/config.py:196 common/config.py:209
+#: qt/manageprofiles/tab_general.py:394
+msgid "Encryption"
+msgstr "Criptare"
+
+#: common/config.py:201
+msgid "SSH"
+msgstr "SSH"
+
+#: common/config.py:202 common/config.py:208
+#: qt/manageprofiles/tab_general.py:750
+msgid "SSH private key"
+msgstr "Cheie privată SSH"
+
+#: common/config.py:207
+#, fuzzy
+msgid "SSH (encrypted)"
+msgstr "Criptat SSH"
+
+#: common/config.py:1879
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "Planificarea Udev nu funcționează cu modul {mode}"
 
-#: common/config.py:1484
+#: common/config.py:1906
+msgid ""
+"Authentication timed out. The udev scheduling setup was not completed. "
+"Please try again."
+msgstr ""
+
+#: common/config.py:1944
 msgid "Failed to write new crontab."
 msgstr "Nu s-a putut scrie un nou crontab."
 
-#: common/config.py:1493
+#: common/config.py:1953
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -143,97 +157,83 @@ msgstr ""
 " start cron» sau consultați canalele de asistență ale distribuției GNU/Linux"
 " pe care o utilizați în prezent pentru a obține ajutor."
 
-#: common/configfile.py:52
-msgid "Failed to save config"
-msgstr "Nu s-a putut salva configurația"
-
-#: common/configfile.py:89
-msgid "Failed to load config"
-msgstr "Nu s-a putut încărca configurația"
-
-#: common/configfile.py:607 common/configfile.py:710
-#, python-brace-format
-msgid "Profile \"{name}\" already exists."
-msgstr "Profilul „{name}” există deja."
-
-#: common/configfile.py:655
-msgid "The last profile cannot be removed."
-msgstr "Ultimul profil nu poate fi eliminat."
-
-#: common/mount/_backends.py:88 common/snapshots.py:966
+#: common/mount/_backends.py:95 common/snapshots.py:971
 msgid "Can't find backup destination directory."
 msgstr "Nu s-a putut găsi directorul de destinație."
 
-#: common/mount/_backends.py:90 common/snapshots.py:970
+#: common/mount/_backends.py:97 common/snapshots.py:975
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Dacă acesta se află pe o unitate detașabilă, conectați-o."
 
-#: common/mount/_backends.py:91
+#: common/mount/_backends.py:98
 msgid "Then press OK."
 msgstr "Apoi apăsați «Ok»."
 
-#: common/mount/_backends.py:108
+#: common/mount/_backends.py:115
 msgid "Back In Time could not connect to the remote backup location."
 msgstr ""
 "Back In Time nu a putut stabili conexiunea cu locația de copie de rezervă de"
 " la distanță."
 
-#: common/mount/_backends.py:110 qt/manageprofiles/tab_general.py:477
+#: common/mount/_backends.py:117 qt/manageprofiles/tab_general.py:477
 msgid "Reason:"
 msgstr "Motivul:"
 
-#: common/mount/_backends.py:156 common/sshsetupvalidator.py:181
+#: common/mount/_backends.py:163 common/sshsetupvalidator.py:180
 #, python-brace-format
 msgid "Could not reach the SSH proxy host \"{host_port}\"."
 msgstr "Nu s-a putut stabili conexiunea cu gazda proxy SSH „{host_port}”."
 
-#: common/mount/_backends.py:161 common/sshsetupvalidator.py:186
+#: common/mount/_backends.py:168 common/sshsetupvalidator.py:185
 #, python-brace-format
 msgid "Could not reach the SSH host \"{host_port}\"."
 msgstr "Nu s-a putut stabili conexiunea cu gazda SSH „{host_port}”."
 
-#: common/mount/_backends.py:215
+#: common/mount/_backends.py:222
 msgid "SSH authentication failed for:"
 msgstr "Autentificarea SSH a eșuat pentru:"
 
-#: common/mount/_backends.py:217 common/mount/_backends.py:395
-#: common/mount/_encryptors.py:262 common/sshsetupvalidator.py:237
-#: common/sshsetupvalidator.py:310 common/sshsetupvalidator.py:348
-#: common/sshsetupvalidator.py:416 common/sshsetupvalidator.py:470
-#: common/sshsetupvalidator.py:499 common/sshsetupvalidator.py:549
+#: common/mount/_backends.py:224 common/mount/_backends.py:403
+#: common/mount/_encryptors.py:262 common/sshsetupvalidator.py:239
+#: common/sshsetupvalidator.py:315 common/sshsetupvalidator.py:357
+#: common/sshsetupvalidator.py:430 common/sshsetupvalidator.py:484
+#: common/sshsetupvalidator.py:513 common/sshsetupvalidator.py:563
 msgid "Details:"
 msgstr "Detalii:"
 
-#: common/mount/_backends.py:272
-msgid "The remote backup directory does not exist or is not a directory."
+#: common/mount/_backends.py:279
+#, fuzzy
+msgid "The remote backup directory is missing or is not a valid directory."
 msgstr ""
 "Directorul de copie de rezervă de la distanță nu există sau nu este un "
 "director."
 
-#: common/mount/_backends.py:278
-msgid "The remote backup directory is not writable."
+#: common/mount/_backends.py:285
+msgid ""
+"Write access to the remote backup directory was denied (missing "
+"permissions)."
+msgstr ""
+
+#: common/mount/_backends.py:291
+#, fuzzy
+msgid "Access to the remote backup directory denied (missing permissions)."
 msgstr ""
 "Directorul pentru copii de rezervă de la distanță nu este inscriptibil."
 
-#: common/mount/_backends.py:283
-msgid "The remote backup directory cannot be accessed."
-msgstr ""
-"Directorul pentru copii de rezervă de la distanță nu poate fi accesat."
-
-#: common/mount/_backends.py:297 qt/manageprofiles/tab_general.py:126
+#: common/mount/_backends.py:306 qt/manageprofiles/tab_general.py:126
 msgid "Path:"
 msgstr "Ruta:"
 
-#: common/mount/_backends.py:305
+#: common/mount/_backends.py:314
 msgid "No SSH host configured."
 msgstr "Nu este configurată nicio gazdă SSH."
 
-#: common/mount/_backends.py:312
+#: common/mount/_backends.py:321
 msgid "No destination backup directory configured."
 msgstr ""
 "Nu este configurat niciun director de destinație pentru copiile de rezervă."
 
-#: common/mount/_backends.py:393
+#: common/mount/_backends.py:401
 msgid "Could not mount the remote backup location."
 msgstr "Nu s-a putut monta locația de copie de rezervă de la distanță."
 
@@ -302,12 +302,12 @@ msgstr "Codul de returnare: {rc}"
 msgid "Original error: {err}"
 msgstr "Eroare inițială: {err}"
 
-#: common/password.py:300
+#: common/password.py:297
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "Introduceți parola pentru profilul {mode} „{profile}”:"
 
-#: common/schedule.py:236
+#: common/schedule.py:237
 #, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -316,25 +316,25 @@ msgstr ""
 "Nu s-a putut instala regula Udev pentru profilul {profile_id}. Serviciul "
 "DBus „{dbus_interface}” nu a era disponibil."
 
-#: common/schedule.py:250
+#: common/schedule.py:251
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "Nu s-a putut găsi UUID-ul pentru {path}"
 
-#: common/snapshots.py:385 common/snapshots.py:665
+#: common/snapshots.py:386 common/snapshots.py:670
 msgid "FAILED"
 msgstr "EȘUAT"
 
-#: common/snapshots.py:588 common/snapshots.py:661
+#: common/snapshots.py:593 common/snapshots.py:666
 msgid "Restore permissions"
 msgstr "Restabilește permisiunile"
 
-#: common/snapshots.py:665 qt/app.py:210 qt/app.py:1205 qt/app.py:1231
-#: qt/qtsystrayicon.py:119
+#: common/snapshots.py:670 qt/app.py:210 qt/app.py:1195 qt/app.py:1221
+#: qt/qtsystrayicon.py:125
 msgid "Done"
 msgstr "Terminat"
 
-#: common/snapshots.py:763
+#: common/snapshots.py:768
 msgid ""
 "The following entries from the include list have no corresponding file or "
 "directory in the backup source:"
@@ -342,11 +342,11 @@ msgstr ""
 "Următoarele intrări din lista de includere nu au fișiere sau directoare "
 "corespunzătoare în sursa copiei de rezervă:"
 
-#: common/snapshots.py:853
+#: common/snapshots.py:858
 msgid "Deferring backup while on battery"
 msgstr "Se amână copierea de rezervă în timpul funcționării pe baterie"
 
-#: common/snapshots.py:974
+#: common/snapshots.py:979
 #, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
@@ -354,76 +354,76 @@ msgstr[0] "Se așteaptă {n} secundă."
 msgstr[1] "Se așteaptă {n} secunde."
 msgstr[2] "Se așteaptă {n} de secunde."
 
-#: common/snapshots.py:1048
+#: common/snapshots.py:1054
 #, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "Nu s-a putut realiza copia de rezervă {snapshot_id}."
 
-#: common/snapshots.py:1080
+#: common/snapshots.py:1086
 msgid "Please be patient. Finalizing…"
 msgstr "Vă rugăm să aveți răbdare. Se finalizează…"
 
-#: common/snapshots.py:1177
+#: common/snapshots.py:1183
 msgid "Take snapshot"
 msgstr "Faceți o instantanee"
 
-#: common/snapshots.py:1212
+#: common/snapshots.py:1218
 msgid "Can't create directory."
 msgstr "Nu se poate crea directorul."
 
-#: common/snapshots.py:1228
+#: common/snapshots.py:1234
 msgid "Saving config file…"
 msgstr "Se salvează fișierul de configurare…"
 
-#: common/snapshots.py:1274
+#: common/snapshots.py:1279
 msgid "Saving permissions…"
 msgstr "Se salvează permisiunile…"
 
-#: common/snapshots.py:1389
+#: common/snapshots.py:1394
 #, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr ""
 "S-a găsit copia de rezervă incompletă {snapshot_id} care poate fi "
 "continuată."
 
-#: common/snapshots.py:1413
+#: common/snapshots.py:1418
 #, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr ""
 "Se elimină directorul incomplet {snapshot_id} rămas de la ultima rulare"
 
-#: common/snapshots.py:1424
+#: common/snapshots.py:1429
 msgid "Can't remove directory"
 msgstr "Nu se poate elimina directorul"
 
-#: common/snapshots.py:1487
+#: common/snapshots.py:1496
 msgid "Creating backup"
 msgstr "Se creează copia de rezervă"
 
-#: common/snapshots.py:1538
+#: common/snapshots.py:1547
 msgid "Success"
 msgstr "Succes"
 
-#: common/snapshots.py:1541
+#: common/snapshots.py:1550
 msgid "Partial transfer due to error"
 msgstr "Transfer parțial din cauza unei erori"
 
-#: common/snapshots.py:1542
+#: common/snapshots.py:1551
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Transfer parțial din cauza fișierelor sursă dispărute (consultați «man "
 "rsync»)"
 
-#: common/snapshots.py:1546
+#: common/snapshots.py:1555
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "«rsync» s-a încheiat cu codul de ieșire {exit_code}"
 
-#: common/snapshots.py:1559
+#: common/snapshots.py:1568
 msgid "See 'man rsync' for more details"
 msgstr "Consultați «man rsync» pentru mai multe detalii"
 
-#: common/snapshots.py:1566
+#: common/snapshots.py:1575
 msgid ""
 "Negative exit codes indicate termination by a signal. The number corresponds"
 " to the signal (see 'kill -l')."
@@ -431,102 +431,100 @@ msgstr ""
 "Codurile de ieșire negative indică întreruperea procesului de către un "
 "semnal. Numărul corespunde semnalului (a se vedea «kill -l»)."
 
-#: common/snapshots.py:1589
+#: common/snapshots.py:1598
 msgid "Nothing changed, no new backup necessary"
 msgstr "Nimic nu s-a schimbat, nu este necesară o copie de rezervă nouă"
 
-#: common/snapshots.py:1633
+#: common/snapshots.py:1642
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "Nu se poate redenumi {new_path} la {path}."
 
-#: common/snapshots.py:2033
+#: common/snapshots.py:2052
 msgid "Applying rules to remove old backups"
 msgstr "Se aplică regulile pentru eliminarea copiilor de rezervă vechi"
 
-#: common/snapshots.py:2070
+#: common/snapshots.py:2089
 msgid "Applying retention policy"
 msgstr "Se aplică politica de păstrare"
 
-#: common/snapshots.py:2080
+#: common/snapshots.py:2099
 msgid "Trying to keep min free space"
 msgstr "Se încearcă păstrarea minimului de spațiu liber"
 
-#: common/snapshots.py:2123
+#: common/snapshots.py:2142
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Se încearcă păstrarea a minim {perc} noduri-i libere"
 
-#: common/snapshots.py:3345 qt/app.py:1553 qt/timeline.py:410
+#: common/snapshots.py:3364 qt/app.py:1538 qt/timeline.py:405
 msgid "Now"
 msgstr "Acum"
 
-#: common/sshsetupvalidator.py:124
+#: common/sshsetupvalidator.py:123
 #, python-brace-format
 msgid "\"{tool}\" is not installed on the remote host."
 msgstr "„{tool}” nu este instalat pe gazda la distanță."
 
-#: common/sshsetupvalidator.py:221
+#: common/sshsetupvalidator.py:220
 msgid "ssh-agent is not installed"
 msgstr "«ssh-agent» nu este instalat"
 
-#: common/sshsetupvalidator.py:236
-msgid "Unexpected response from ssh-agent."
-msgstr "Răspuns neașteptat de la «ssh-agent»."
+#: common/sshsetupvalidator.py:236 common/sshsetupvalidator.py:354
+#, fuzzy, python-brace-format
+msgid "Unexpected response from '{process}'"
+msgstr "Răspuns neașteptat de la «sshfs»."
 
-#: common/sshsetupvalidator.py:252
-msgid "Unexpected output from ssh-agent."
+#: common/sshsetupvalidator.py:255
+#, fuzzy, python-brace-format
+msgid "Unexpected output from '{process}'."
 msgstr "Rezultat neașteptat de la «ssh-agent»."
 
-#: common/sshsetupvalidator.py:253
+#: common/sshsetupvalidator.py:258
 msgid "Output:"
 msgstr "Ieșire:"
 
-#: common/sshsetupvalidator.py:280
+#: common/sshsetupvalidator.py:285
 msgid "The SSH key is not loaded into ssh-agent."
 msgstr "Cheia SSH nu este încărcată în «ssh-agent»."
 
-#: common/sshsetupvalidator.py:309
+#: common/sshsetupvalidator.py:314
 msgid "Failed to add SSH key."
 msgstr "Adăugarea cheii SSH a eșuat."
 
-#: common/sshsetupvalidator.py:331
+#: common/sshsetupvalidator.py:336
 msgid "sshfs is not installed"
 msgstr "«sshfs» nu este instalat"
 
-#: common/sshsetupvalidator.py:347
-msgid "Unexpected response from sshfs."
-msgstr "Răspuns neașteptat de la «sshfs»."
-
-#: common/sshsetupvalidator.py:373
-#, python-brace-format
-msgid "The SSH host \"{host}\" is not trusted yet."
+#: common/sshsetupvalidator.py:384
+#, fuzzy, python-brace-format
+msgid "The SSH host \"{host}\" is not known yet."
 msgstr "Gazda SSH „{host}” nu este încă de încredere."
 
-#: common/sshsetupvalidator.py:375
+#: common/sshsetupvalidator.py:388
 msgid "Please connect to the host manually once to confirm its fingerprint."
 msgstr ""
 "Conectați-vă manual o dată la gazdă pentru a-i confirma amprenta digitală."
 
-#: common/sshsetupvalidator.py:415
+#: common/sshsetupvalidator.py:429
 msgid "Could not write files to the remote host using rsync."
 msgstr "Nu s-au putut scrie fișierele pe gazda la distanță folosind «rsync»."
 
-#: common/sshsetupvalidator.py:469
+#: common/sshsetupvalidator.py:483
 msgid "Could not verify rsync hardlink support."
 msgstr "Nu s-a putut verifica suportul pentru legături dure al «rsync»."
 
-#: common/sshsetupvalidator.py:498
+#: common/sshsetupvalidator.py:512
 msgid "Unexpected error while verifying rsync hardlink support."
 msgstr ""
 "Eroare neașteptată când se verifica suportul pentru legături dure al "
 "«rsync»."
 
-#: common/sshsetupvalidator.py:505
+#: common/sshsetupvalidator.py:519
 msgid "The remote file system does not support hardlinks."
 msgstr "Sistemul de fișiere de la distanță nu acceptă legăturile dure."
 
-#: common/sshsetupvalidator.py:548
+#: common/sshsetupvalidator.py:562
 #, python-brace-format
 msgid "Could not create remote backup directory: {path}"
 msgstr ""
@@ -543,7 +541,7 @@ msgstr ""
 msgid "Please enter a password for \"{user}\"."
 msgstr "Introduceți o parolă pentru „{user}”."
 
-#: common/tools.py:405
+#: common/tools.py:401
 #, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
@@ -552,20 +550,20 @@ msgstr ""
 "Sistemul de fișiere de destinație pentru {path} este formatat cu NTFS, care "
 "are incompatibilități cunoscute cu sistemele de fișiere de tip Unix."
 
-#: common/tools.py:438
+#: common/tools.py:434
 #, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "{path} nu este un director valid."
 
-#: common/tools.py:456
+#: common/tools.py:452
 msgid "Creation of following directory failed:"
 msgstr "Crearea următorului director a eșuat:"
 
-#: common/tools.py:458 common/tools.py:561
+#: common/tools.py:454 common/tools.py:557
 msgid "Write access may be restricted."
 msgstr "Accesul de scriere poate fi restricționat."
 
-#: common/tools.py:505
+#: common/tools.py:501
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -574,7 +572,7 @@ msgstr ""
 "Sistemul de fișiere destinație pentru {path} este formatat cu FAT care nu "
 "acceptă legăturile dure. Utilizați un sistem de fișiere nativ GNU/Linux."
 
-#: common/tools.py:516
+#: common/tools.py:512
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -585,15 +583,15 @@ msgstr ""
 "SMB. Asigurați-vă că serverul SMB de la distanță acceptă legăturile "
 "simbolice sau activați „{copyLinks}” în „{expertOptions}”."
 
-#: common/tools.py:520
+#: common/tools.py:516
 msgid "Copy links (dereference symbolic links)"
 msgstr "Copiază legăturile (dereferențiază legăturile simbolice)"
 
-#: common/tools.py:521
+#: common/tools.py:517
 msgid "Expert Options"
 msgstr "Opțiuni expert"
 
-#: common/tools.py:525
+#: common/tools.py:521
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
@@ -603,9 +601,13 @@ msgstr ""
 "sshfs. Sshfs nu oferă suport pentru legăturile dure). Utilizați în schimb "
 "modul „SSH”."
 
-#: common/tools.py:559
+#: common/tools.py:555
 msgid "File creation failed in this directory:"
 msgstr "Crearea fișierului a eșuat în acest director:"
+
+#: common/udev.py:43
+msgid "Udev"
+msgstr ""
 
 #: qt/aboutdlg.py:50
 msgid "About Back In Time"
@@ -645,15 +647,15 @@ msgstr ""
 "Urmați {thislink} pentru a obține informații despre traducători pentru toate"
 " limbile."
 
-#: qt/aboutdlg.py:240 qt/app.py:585
+#: qt/aboutdlg.py:240 qt/app.py:575
 msgid "Project website"
 msgstr "Situl web al proiectului"
 
-#: qt/aboutdlg.py:245 qt/app.py:567
+#: qt/aboutdlg.py:245 qt/app.py:557
 msgid "User manual"
 msgstr "Manualul de utilizare"
 
-#: qt/aboutdlg.py:247 qt/app.py:569
+#: qt/aboutdlg.py:247 qt/app.py:559
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
 "Deschideți manualul de utilizare în navigator (local, dacă este disponibil, "
@@ -664,7 +666,7 @@ msgstr ""
 msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}Versiune{BOLDEND}: {version}"
 
-#: qt/app.py:343
+#: qt/app.py:341
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time because no configuration"
@@ -673,7 +675,7 @@ msgstr ""
 "{app_name} pare să ruleze pentru prima dată, deoarece nu s-a găsit nicio "
 "configurație."
 
-#: qt/app.py:348
+#: qt/app.py:346
 msgid ""
 "Create a new configuration or import an existing configuration from a "
 "backup?"
@@ -681,185 +683,184 @@ msgstr ""
 "Creați o nouă configurație sau importați o configurație existentă dintr-o "
 "copie de rezervă?"
 
-#: qt/app.py:353 qt/confirmrestoredialog.py:35 qt/messagebox.py:123
+#: qt/app.py:351 qt/confirmrestoredialog.py:36 qt/messagebox.py:123
 msgid "Question"
 msgstr "Întrebare"
 
-#: qt/app.py:356
+#: qt/app.py:355
 msgid "Create"
 msgstr "Creează"
 
-#: qt/app.py:358 qt/restoreconfigdialog.py:131
+#: qt/app.py:357 qt/restoreconfigdialog.py:135
 msgid "Import"
 msgstr "Importă"
 
-#: qt/app.py:506
+#: qt/app.py:494
 msgid "Create a backup"
 msgstr "Crează o copie de rezervă"
 
-#: qt/app.py:508
+#: qt/app.py:496
 msgid "Use modification time & size for file change detection."
 msgstr ""
 "Utilizează timpul și dimensiunea modificării pentru detectarea modificărilor"
 " fișierelor."
 
-#: qt/app.py:511
+#: qt/app.py:499
 msgid "Create a backup (checksum mode)"
 msgstr "Crează o copie de rezervă (modul sumă de control)"
 
-#: qt/app.py:513
+#: qt/app.py:501
 msgid "Use checksums for file change detection."
 msgstr ""
 "Utilizează sume de control pentru detectarea modificărilor fișierelor."
 
-#: qt/app.py:515 qt/qtsystrayicon.py:126
+#: qt/app.py:503 qt/qtsystrayicon.py:132
 msgid "Pause backup process"
 msgstr "Pune în pauză procesul de copie de rezervă"
 
-#: qt/app.py:519 qt/qtsystrayicon.py:131
+#: qt/app.py:508 qt/qtsystrayicon.py:137
 msgid "Resume backup process"
 msgstr "Reia procesul de copie de rezervă"
 
-#: qt/app.py:523 qt/qtsystrayicon.py:136
+#: qt/app.py:513 qt/qtsystrayicon.py:142
 msgid "Stop backup process"
 msgstr "Oprește procesul de copie de rezervă"
 
-#: qt/app.py:527
+#: qt/app.py:517
 msgid "Refresh backup list"
 msgstr "Reîmprospătează lista copiilor de rezervă"
 
-#: qt/app.py:531
+#: qt/app.py:521
 msgid "Name backup"
 msgstr "Numește copia de rezervă"
 
-#: qt/app.py:535
+#: qt/app.py:525
 msgid "Remove backup"
 msgstr "Elimină copia de rezervă"
 
-#: qt/app.py:539
+#: qt/app.py:529
 msgid "Open backup log"
 msgstr "Deschide jurnalul copiilor de rezervă"
 
-#: qt/app.py:541
+#: qt/app.py:531
 msgid "View log of the selected backup."
 msgstr "Vizualizează jurnalul copiei de rezervă selectate."
 
-#: qt/app.py:543
+#: qt/app.py:533
 msgid "Open last backup log"
 msgstr "Vizualizează jurnalul ultimei copii de rezervă"
 
-#: qt/app.py:545
+#: qt/app.py:535
 msgid "View log of the latest backup."
 msgstr "Vizualizează jurnalul celei mai recente copii de rezervă."
 
-#: qt/app.py:547
+#: qt/app.py:537
 msgid "Manage profiles…"
 msgstr "Gestionează profilele…"
 
-#: qt/app.py:551
+#: qt/app.py:541
 msgid "Edit user-callback"
 msgstr "Editează scriptul «user-callback»"
 
-#: qt/app.py:555
+#: qt/app.py:545
 msgid "Shutdown"
 msgstr "Oprește"
 
-#: qt/app.py:557
+#: qt/app.py:547
 msgid "Shut down system after backup has finished."
 msgstr "Oprește sistemul după ce copia de rezervă a fost finalizată."
 
-#: qt/app.py:559
+#: qt/app.py:549
 msgid "Setup language…"
 msgstr "Configurează limba…"
 
-#: qt/app.py:563
+#: qt/app.py:553
 msgid "Exit"
 msgstr "Ieșire"
 
-#: qt/app.py:573
+#: qt/app.py:563
 msgid "man page: Back In Time"
 msgstr "pagina de manual: Back In Time"
 
-#: qt/app.py:575
+#: qt/app.py:565
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "Afișează pagina de manual despre Back In Time (backintime)"
 
-#: qt/app.py:578
+#: qt/app.py:568
 msgid "man page: Profiles config file"
 msgstr "pagina de manual: Fișierul de configurare a profilelor"
 
-#: qt/app.py:581
+#: qt/app.py:571
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 "Afișează pagina de manual despre fișierul de configurare a profilurilor "
 "(backintime-config)"
 
-#: qt/app.py:588
+#: qt/app.py:578
 msgid "Open Back In Time website in browser"
 msgstr "Deschide situl web Back In Time în navigator"
 
-#: qt/app.py:590 qt/app.py:2347
+#: qt/app.py:580 qt/app.py:2354
 msgid "Changelog"
 msgstr "Jurnal de modificări"
 
-#: qt/app.py:593
+#: qt/app.py:583
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr ""
 "Deschide jurnalul de modificări (local, dacă este disponibil, altfel din "
 "Internet)"
 
-#: qt/app.py:596
+#: qt/app.py:586
 msgid "FAQ"
 msgstr "Întrebări frecvente"
 
-#: qt/app.py:598
+#: qt/app.py:588
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "Deschide secțiunea Întrebări frecvente (FAQ) în navigator"
 
-#: qt/app.py:600
+#: qt/app.py:590
 msgid "Report a bug"
 msgstr "Raportează o eroare"
 
-#: qt/app.py:603
+#: qt/app.py:593
 msgid "Contact"
-msgstr ""
+msgstr "Contactare"
 
-#: qt/app.py:605
-#, fuzzy
+#: qt/app.py:595
 msgid "Shows additional contact options in the browser"
-msgstr "Lipește opțiunile adiționale la «rsync»"
+msgstr "Afișează opțiuni suplimentare de contactare în navigator"
 
-#: qt/app.py:608
+#: qt/app.py:598
 msgid "Translation"
 msgstr "Traducere"
 
-#: qt/app.py:610
+#: qt/app.py:600
 msgid "Shows the message about participation in translation again."
 msgstr "Afișează din nou mesajul despre participarea la traducere."
 
-#: qt/app.py:620
+#: qt/app.py:610
 msgid "About"
 msgstr "Despre"
 
-#: qt/app.py:623 qt/restoredialog.py:46 qt/snapshotsdialog.py:183
+#: qt/app.py:613 qt/restoredialog.py:46 qt/snapshotsdialog.py:183
 #: qt/snapshotsdialog.py:188
 msgid "Restore"
 msgstr "Restaurează"
 
-#: qt/app.py:625
+#: qt/app.py:615
 msgid "Restore the selected files or directories to the original location."
 msgstr ""
 "Restaurează fișierele sau directoarele selectate la locația originală."
 
-#: qt/app.py:628 qt/app.py:1980 qt/snapshotsdialog.py:185
+#: qt/app.py:618 qt/app.py:1987 qt/snapshotsdialog.py:185
 msgid "Restore to …"
 msgstr "Restaurează la…"
 
-#: qt/app.py:630
+#: qt/app.py:620
 msgid "Restore the selected files or directories to a new location."
 msgstr "Restaurează fișierele sau dosarele selectate la o nouă locație."
 
-#: qt/app.py:636
+#: qt/app.py:626
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
@@ -867,7 +868,7 @@ msgstr ""
 "Restaurează dosarul afișat în prezent și tot conținutul acestuia la locația "
 "originală."
 
-#: qt/app.py:642
+#: qt/app.py:632
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
@@ -875,83 +876,83 @@ msgstr ""
 "Restaurează dosarul afișat în prezent și tot conținutul acestuia la o nouă "
 "locație."
 
-#: qt/app.py:645
+#: qt/app.py:635
 msgid "Up"
 msgstr "Sus"
 
-#: qt/app.py:648
+#: qt/app.py:638
 msgid "Show hidden files"
 msgstr "Afișează fișierele ascunse"
 
-#: qt/app.py:651
+#: qt/app.py:641
 msgid "Compare backups…"
 msgstr "Compară copiile de rezervă…"
 
-#: qt/app.py:681 qt/app.py:1822
+#: qt/app.py:671 qt/app.py:1807
 msgid "Release Candidate"
 msgstr "Versiunea candidată pentru lansare"
 
-#: qt/app.py:684
+#: qt/app.py:674
 msgid "Shows the message about this Release Candidate again."
 msgstr "Afișează din nou mesajul despre versiunea candidată pentru lansare."
 
-#: qt/app.py:721
+#: qt/app.py:711
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:726
+#: qt/app.py:716
 msgid "&Backup"
 msgstr "&Copie de rezervă"
 
-#: qt/app.py:738
+#: qt/app.py:728
 msgid "&Restore"
 msgstr "&Restaurează"
 
-#: qt/app.py:744
+#: qt/app.py:734
 msgid "&Help"
 msgstr "&Ajutor"
 
-#: qt/app.py:794
+#: qt/app.py:784
 msgid "Systray Icon"
 msgstr "Pictogramă în tava sistemului"
 
-#: qt/app.py:800
+#: qt/app.py:790
 msgid "Automatic"
 msgstr "Automat"
 
-#: qt/app.py:804
+#: qt/app.py:794
 msgid "Light icon"
 msgstr "Pictogramă luminoasă"
 
-#: qt/app.py:805
+#: qt/app.py:795
 msgid "Dark icon"
 msgstr "Pictogramă întunecată"
 
-#: qt/app.py:828
+#: qt/app.py:818
 msgid "Icons only"
 msgstr "Doar pictograme"
 
-#: qt/app.py:831
+#: qt/app.py:821
 msgid "Text only"
 msgstr "Doar text"
 
-#: qt/app.py:834
+#: qt/app.py:824
 msgid "Text below icons"
 msgstr "Text sub pictograme"
 
-#: qt/app.py:837
+#: qt/app.py:827
 msgid "Text beside icon"
 msgstr "Text lângă pictograme"
 
-#: qt/app.py:963
+#: qt/app.py:953
 msgid "This directory doesn't exist in the selected backup."
 msgstr "Acest director nu există în copia de rezervă selectată."
 
-#: qt/app.py:966
+#: qt/app.py:956
 msgid "This directory doesn't exist on the computer."
 msgstr "Acest director nu există în calculator."
 
-#: qt/app.py:1015
+#: qt/app.py:1005
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
@@ -959,57 +960,57 @@ msgstr ""
 "Dacă închideți această fereastră, Back In Time nu vă va putea opri sistemul "
 "după finalizarea copierii de rezervă."
 
-#: qt/app.py:1018
+#: qt/app.py:1008
 msgid "Close the window anyway?"
 msgstr "Închideți fereastra oricum?"
 
-#: qt/app.py:1109 qt/app.py:1116
+#: qt/app.py:1099 qt/app.py:1106
 msgid "Backup destination unavailable"
 msgstr "Destinație pentru copiile de rezervă nedisponibilă"
 
-#: qt/app.py:1234
+#: qt/app.py:1224
 msgid "Done, no backup needed"
 msgstr "Gata, nu este nevoie de-a crea o copie de rezervă"
 
-#: qt/app.py:1305
+#: qt/app.py:1295
 msgid "Working:"
 msgstr "Se lucrează:"
 
-#: qt/app.py:1312
+#: qt/app.py:1302
 msgid "Working"
 msgstr "Se lucrează"
 
-#: qt/app.py:1318 qt/messagebox.py:136
+#: qt/app.py:1308 qt/messagebox.py:136
 msgid "Error"
 msgstr "Eroare"
 
-#: qt/app.py:1364 qt/qtsystrayicon.py:287
+#: qt/app.py:1354 qt/qtsystrayicon.py:293
 msgid "Sent:"
 msgstr "Trimis:"
 
-#: qt/app.py:1365 qt/qtsystrayicon.py:288
+#: qt/app.py:1355 qt/qtsystrayicon.py:294
 msgid "Speed:"
 msgstr "Viteză:"
 
-#: qt/app.py:1366 qt/qtsystrayicon.py:289
+#: qt/app.py:1356 qt/qtsystrayicon.py:295
 msgid "ETA:"
 msgstr "Timpul rămas estimat:"
 
-#: qt/app.py:1561
+#: qt/app.py:1546
 msgid "Backup:"
 msgstr "Copie de rezervă:"
 
-#: qt/app.py:1661
+#: qt/app.py:1646
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Restaurează {path}"
 
-#: qt/app.py:1663
+#: qt/app.py:1648
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Restaurează {path} la …"
 
-#: qt/app.py:1687
+#: qt/app.py:1672
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -1026,47 +1027,47 @@ msgstr ""
 "Ne cerem scuze pentru întrerupere, iar acest mesaj nu va mai fi afișat. Acest dialog este disponibil în orice moment prin meniul de ajutor.\n"
 "Echipa Back In Time"
 
-#: qt/app.py:1716
+#: qt/app.py:1701
 msgid "translation platform"
 msgstr "platforma de traducere"
 
-#: qt/app.py:1721
+#: qt/app.py:1706
 msgid "Website"
 msgstr "Pagina web"
 
-#: qt/app.py:1735
+#: qt/app.py:1720
 msgid "Your translation"
 msgstr "Traducerea ta"
 
-#: qt/app.py:1772
+#: qt/app.py:1757
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "În Fediverse la Mastodon: {link_and_label}."
 
-#: qt/app.py:1777
+#: qt/app.py:1762
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "Mesaj la {link_and_label}."
 
-#: qt/app.py:1781
+#: qt/app.py:1766
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "Lista de discuții {link_and_label}."
 
-#: qt/app.py:1785
+#: qt/app.py:1770
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} în pagina web al proiectului."
 
-#: qt/app.py:1788
+#: qt/app.py:1773
 msgid "Open an issue"
 msgstr "Deschideți o problemă"
 
-#: qt/app.py:1789
+#: qt/app.py:1774
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Alternativ, puteți utiliza un alt canal la alegere."
 
-#: qt/app.py:1794
+#: qt/app.py:1779
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -1087,15 +1088,15 @@ msgstr ""
 "Vă mulțumim pentru sprijin și pentru că ne ajutați să îmbunătățim Back In Time!\n"
 "Echipa Back In Time"
 
-#: qt/app.py:1886
+#: qt/app.py:1871
 msgid "Check if remote host is online"
 msgstr "Verifică dacă gazda de la distanță este conectată"
 
-#: qt/app.py:1887
+#: qt/app.py:1872
 msgid "Check if remote host supports all necessary commands."
 msgstr "Verifică dacă gazda de la distanță acceptă toate comenzile necesare."
 
-#: qt/app.py:1930
+#: qt/app.py:1915
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
@@ -1104,22 +1105,22 @@ msgstr ""
 "Doar {free} spațiu liber disponibil pe destinație, care este sub pragul "
 "configurat de {threshold}."
 
-#: qt/app.py:1935
+#: qt/app.py:1920
 msgid "Proceed with the backup?"
 msgstr "Continuați cu copierea de rezervă?"
 
-#: qt/app.py:1960
+#: qt/app.py:1967
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr "Toate fișierele mai noi din {path} vor fi eliminate. Continuați?"
 
-#: qt/app.py:1963
+#: qt/app.py:1970
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 "Toate fișierele mai noi din directorul original vor fi eliminate. "
 "Continuați?"
 
-#: qt/app.py:1969
+#: qt/app.py:1976
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -1128,18 +1129,18 @@ msgstr ""
 "{BOLD}Avertisment{BOLDEND}: Ștergerea fișierelor din rădăcina sistemului de "
 "fișiere ar putea deteriora întregul sistem."
 
-#: qt/app.py:2206
+#: qt/app.py:2213
 msgid "Backup name"
 msgstr "Numele copiei de rezervă"
 
-#: qt/app.py:2238
+#: qt/app.py:2245
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "Eliminați această copie de rezervă?"
 msgstr[1] "Eliminați aceste copii de rezervă?"
 msgstr[2] "Eliminați aceste copii de rezervă?"
 
-#: qt/app.py:2305
+#: qt/app.py:2312
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "Schimbările de limbă intră în vigoare doar după repornirea Back In Time."
@@ -1165,7 +1166,7 @@ msgstr ""
 "GUI ușor de utilizat pt. copii de rezervă cu versiuni ce reduce utiliz. "
 "discului"
 
-#: qt/confirmrestoredialog.py:76
+#: qt/confirmrestoredialog.py:77
 #, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix} before overwriting or removing "
@@ -1174,7 +1175,7 @@ msgstr ""
 "Creează copii de rezervă cu sufixul {suffix} înainte de a suprascrie sau "
 "elimina elementele locale."
 
-#: qt/confirmrestoredialog.py:81 qt/manageprofiles/tab_options.py:69
+#: qt/confirmrestoredialog.py:82 qt/manageprofiles/tab_options.py:69
 #, python-brace-format
 msgid ""
 "Before restoring, newer versions of files will be renamed with the appended "
@@ -1184,7 +1185,7 @@ msgstr ""
 "cu sufixul {suffix} atașat. Aceste fișiere pot fi eliminate cu următoarea "
 "comandă:"
 
-#: qt/confirmrestoredialog.py:94
+#: qt/confirmrestoredialog.py:95
 #, python-brace-format
 msgid ""
 "Only restore elements which do not exist or are newer than those in "
@@ -1193,11 +1194,11 @@ msgstr ""
 "Restaurează doar elementele care nu există sau care sunt mai noi decât cele "
 "din destinație. Se utilizează opțiunea „{rsync_example}”."
 
-#: qt/confirmrestoredialog.py:133
+#: qt/confirmrestoredialog.py:134
 msgid "Remove newer elements in original directory."
 msgstr "Elimină elementele mai noi din directorul original."
 
-#: qt/confirmrestoredialog.py:135
+#: qt/confirmrestoredialog.py:136
 msgid ""
 "Restore selected files or directories to the original destination and delete"
 " files or directories which are not in the backup. Be extremely careful "
@@ -1209,14 +1210,14 @@ msgstr ""
 "extrem de atent pentru că acest lucru va șterge fișierele și directoarele "
 "care au fost excluse în timpul creării copiei de rezervă."
 
-#: qt/confirmrestoredialog.py:147
+#: qt/confirmrestoredialog.py:148
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
 msgstr[0] "Doriți cu adevărat să restaurați acest element în noul director?"
 msgstr[1] "Doriți cu adevărat să restaurați aceste elemente în noul director?"
 msgstr[2] "Doriți cu adevărat să restaurați aceste elemente în noul director?"
 
-#: qt/confirmrestoredialog.py:157
+#: qt/confirmrestoredialog.py:158
 msgid "Really restore this element?"
 msgid_plural "Really restore these elements?"
 msgstr[0] "Doriți cu adevărat să restaurați acest element?"
@@ -1302,8 +1303,8 @@ msgstr "Vizualizare jurnal copie de rezervă"
 msgid "Last Log View"
 msgstr "Vizualizare ultimul jurnal"
 
-#: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:73
-#: qt/manageprofiles/tab_general.py:244 qt/restoreconfigdialog.py:336
+#: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:75
+#: qt/manageprofiles/tab_general.py:244 qt/restoreconfigdialog.py:347
 msgid "Profile:"
 msgstr "Profil:"
 
@@ -1319,7 +1320,7 @@ msgstr "Filtru:"
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E] Eroare, [I] Informații, [C] Modificare"
 
-#: qt/logviewdialog.py:113 qt/manageprofiles/copylinkswidget.py:56
+#: qt/logviewdialog.py:113 qt/manageprofiles/copylinkswidget.py:55
 #: qt/manageprofiles/tab_options.py:188
 msgid "All"
 msgstr "Toate"
@@ -1345,69 +1346,69 @@ msgstr[2] "Informații"
 msgid "rsync transfer failures (experimental)"
 msgstr "Eșecuri de transfer rsync (experimental)"
 
-#: qt/manageprofiles/__init__.py:65
+#: qt/manageprofiles/__init__.py:67
 msgid "Manage profiles"
 msgstr "Gestionează profilele"
 
-#: qt/manageprofiles/__init__.py:84
+#: qt/manageprofiles/__init__.py:86
 msgid "Edit"
 msgstr "Editează"
 
-#: qt/manageprofiles/__init__.py:88
+#: qt/manageprofiles/__init__.py:90
 msgid "Add"
 msgstr "Adaugă"
 
-#: qt/manageprofiles/__init__.py:92 qt/manageprofiles/tab_exclude.py:126
+#: qt/manageprofiles/__init__.py:94 qt/manageprofiles/tab_exclude.py:126
 #: qt/manageprofiles/tab_include.py:81
 msgid "Remove"
 msgstr "Elimină"
 
-#: qt/manageprofiles/__init__.py:113
+#: qt/manageprofiles/__init__.py:115
 msgid "&General"
 msgstr "&Generale"
 
-#: qt/manageprofiles/__init__.py:117
+#: qt/manageprofiles/__init__.py:119
 msgid "&Include"
 msgstr "&Include"
 
-#: qt/manageprofiles/__init__.py:121
+#: qt/manageprofiles/__init__.py:123
 msgid "&Exclude"
 msgstr "&Exclude"
 
-#: qt/manageprofiles/__init__.py:136
+#: qt/manageprofiles/__init__.py:138
 msgid "&Remove & Retention"
 msgstr "Elimină și păst&rează"
 
-#: qt/manageprofiles/__init__.py:140
+#: qt/manageprofiles/__init__.py:142
 msgid "&Options"
 msgstr "&Opțiuni"
 
-#: qt/manageprofiles/__init__.py:144
+#: qt/manageprofiles/__init__.py:146
 msgid "E&xpert Options"
 msgstr "Opțiuni e&xpert"
 
-#: qt/manageprofiles/__init__.py:152
+#: qt/manageprofiles/__init__.py:154
 msgid "Restore Config"
 msgstr "Restaurează configurația"
 
-#: qt/manageprofiles/__init__.py:183
+#: qt/manageprofiles/__init__.py:185
 msgid "New profile"
 msgstr "Profil nou"
 
-#: qt/manageprofiles/__init__.py:200
+#: qt/manageprofiles/__init__.py:203
 msgid "Rename profile"
 msgstr "Redenumește profilul"
 
-#: qt/manageprofiles/__init__.py:217
+#: qt/manageprofiles/__init__.py:222
 #, python-brace-format
 msgid "Delete the profile \"{name}\"?"
 msgstr "Ștergeți profilul „{name}”?"
 
-#: qt/manageprofiles/copylinkswidget.py:38
+#: qt/manageprofiles/copylinkswidget.py:37
 msgid "Copy symbolic links as files"
 msgstr "Copiază legăturile simbolice ca fișiere"
 
-#: qt/manageprofiles/copylinkswidget.py:43
+#: qt/manageprofiles/copylinkswidget.py:42
 msgid ""
 "Copy symbolic links as real files or directories in the backup. Select "
 "whether all links or only those pointing outside the source are copied."
@@ -1416,15 +1417,15 @@ msgstr ""
 "rezervă. Selectați dacă sunt copiate toate legăturile sau doar cele care "
 "indică în afara sursei."
 
-#: qt/manageprofiles/copylinkswidget.py:46
+#: qt/manageprofiles/copylinkswidget.py:45
 msgid "This option may increase backup size."
 msgstr "Această opțiune poate mări dimensiunea copiei de rezervă."
 
-#: qt/manageprofiles/copylinkswidget.py:47
+#: qt/manageprofiles/copylinkswidget.py:46
 msgid "Disabled by default."
 msgstr "Dezactivată în mod implicit."
 
-#: qt/manageprofiles/copylinkswidget.py:60
+#: qt/manageprofiles/copylinkswidget.py:59
 msgid ""
 "All symbolic links are replaced with real files or directories they point "
 "to. This increases backup size and may store the same files multiple times."
@@ -1433,15 +1434,15 @@ msgstr ""
 "către care acestea indică. Acest lucru mărește dimensiunea copiei de rezervă"
 " și poate stoca aceleași fișiere de mai multe ori."
 
-#: qt/manageprofiles/copylinkswidget.py:63
+#: qt/manageprofiles/copylinkswidget.py:62
 msgid "Uses 'rsync --copy-links'."
 msgstr "Utilizează «rsync --copy-links»."
 
-#: qt/manageprofiles/copylinkswidget.py:68
+#: qt/manageprofiles/copylinkswidget.py:67
 msgid "Only external"
 msgstr "Numai extern"
 
-#: qt/manageprofiles/copylinkswidget.py:72
+#: qt/manageprofiles/copylinkswidget.py:71
 msgid ""
 "Only links pointing outside the backup source are copied as files. This "
 "increases backup size and may store the same files multiple times."
@@ -1450,7 +1451,7 @@ msgstr ""
 "ca fișiere. Acest lucru mărește dimensiunea copiei de rezervă și poate stoca"
 " aceleași fișiere de mai multe ori."
 
-#: qt/manageprofiles/copylinkswidget.py:75
+#: qt/manageprofiles/copylinkswidget.py:74
 msgid "Uses 'rsync --copy-unsafe-links'."
 msgstr "Utilizează «rsync --copy-unsafe-links»."
 
@@ -1614,6 +1615,11 @@ msgid ""
 "triggered again at 19:00 because the hour boundary has been crossed. This "
 "schedule mode is useful if the computer is not running regularly."
 msgstr ""
+"De exemplu, „în mod repetat la fiecare oră” înseamnă că o copie de rezervă "
+"este declanșată la fiecare nouă oră. Dacă ultima copie de rezervă reușită a "
+"avut loc la ora 18:56, aceasta va fi declanșată din nou la ora 19:00, "
+"deoarece s-a trecut de limita orei. Acest mod de programare este util dacă "
+"calculatorul nu funcționează în mod regulat (după o anumită regulă/orar)."
 
 #: qt/manageprofiles/schedulewidget.py:49
 msgid "Schedule"
@@ -1656,6 +1662,9 @@ msgid ""
 "Trigger a backup when a new hour, day, week, or month begins. If the system "
 "was off, it runs on the next start."
 msgstr ""
+"Declanșează o copie de rezervă la începutul unei noi ore, zile, săptămâni "
+"sau luni. Dacă sistemul era oprit, operația se execută la următoarea "
+"pornire."
 
 #: qt/manageprofiles/schedulewidget.py:133
 msgid "Every:"
@@ -1718,9 +1727,8 @@ msgid "Every day"
 msgstr "Zilnic"
 
 #: qt/manageprofiles/schedulewidget.py:189
-#, fuzzy
 msgid "Repeatedly"
-msgstr "În mod repetat (anacron)"
+msgstr "În mod repetat"
 
 #: qt/manageprofiles/schedulewidget.py:191
 msgid "When drive gets connected (udev)"
@@ -1743,12 +1751,12 @@ msgid "Hour(s)"
 msgstr "Oră (Ore)"
 
 #: qt/manageprofiles/schedulewidget.py:254
-#: qt/manageprofiles/tab_remove_retention.py:271
+#: qt/manageprofiles/tab_remove_retention.py:272
 msgid "Day(s)"
 msgstr "Zi (Zile)"
 
 #: qt/manageprofiles/schedulewidget.py:255
-#: qt/manageprofiles/tab_remove_retention.py:272
+#: qt/manageprofiles/tab_remove_retention.py:273
 msgid "Week(s)"
 msgstr "Săptămână (Săptămâni)"
 
@@ -1756,7 +1764,7 @@ msgstr "Săptămână (Săptămâni)"
 msgid "Month(s)"
 msgstr "Lună (Luni)"
 
-#: qt/manageprofiles/schedulewidget.py:351
+#: qt/manageprofiles/schedulewidget.py:352
 msgid ""
 "Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours."
@@ -1922,7 +1930,7 @@ msgid ""
 msgstr ""
 "Dezactivat pentru că acest model nu este funcțional în modul „SSH criptat”."
 
-#: qt/manageprofiles/tab_expert_options.py:45
+#: qt/manageprofiles/tab_expert_options.py:46
 msgid ""
 "These options are for advanced configurations. Modify only if fully aware of"
 " their implications."
@@ -1930,43 +1938,43 @@ msgstr ""
 "Aceste opțiuni sunt destinate configurațiilor avansate. Modificați-le numai "
 "dacă sunteți pe deplin conștient de implicațiile lor."
 
-#: qt/manageprofiles/tab_expert_options.py:54
-#: qt/manageprofiles/tab_expert_options.py:74
-#: qt/manageprofiles/tab_expert_options.py:99
+#: qt/manageprofiles/tab_expert_options.py:55
+#: qt/manageprofiles/tab_expert_options.py:75
+#: qt/manageprofiles/tab_expert_options.py:100
 #, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
 msgstr "Rulează «rsync» cu „{cmd}”:"
 
-#: qt/manageprofiles/tab_expert_options.py:61
-#: qt/manageprofiles/tab_expert_options.py:80
+#: qt/manageprofiles/tab_expert_options.py:62
+#: qt/manageprofiles/tab_expert_options.py:81
 msgid "as cron job"
 msgstr "ca sarcină cron"
 
-#: qt/manageprofiles/tab_expert_options.py:67
-#: qt/manageprofiles/tab_expert_options.py:92
-#: qt/manageprofiles/tab_expert_options.py:123
+#: qt/manageprofiles/tab_expert_options.py:68
+#: qt/manageprofiles/tab_expert_options.py:93
+#: qt/manageprofiles/tab_expert_options.py:124
 msgid "on remote host"
 msgstr "pe gazda de la distanță"
 
-#: qt/manageprofiles/tab_expert_options.py:86
+#: qt/manageprofiles/tab_expert_options.py:87
 msgid "when taking a manual backup"
 msgstr "atunci când se efectuează manual o copie de rezervă"
 
-#: qt/manageprofiles/tab_expert_options.py:110
+#: qt/manageprofiles/tab_expert_options.py:111
 msgid "Please install 'nocache' to enable this option."
 msgstr "Instalați „nocache” pentru a activa această opțiune."
 
-#: qt/manageprofiles/tab_expert_options.py:116
+#: qt/manageprofiles/tab_expert_options.py:117
 msgid "on local machine"
 msgstr "pe mașina locală"
 
-#: qt/manageprofiles/tab_expert_options.py:130
+#: qt/manageprofiles/tab_expert_options.py:131
 msgid "Redirect stdout to /dev/null in cronjobs."
 msgstr ""
 "Redirecționează ieșirea standard (stdout) către „/dev/null” în sarcinile "
 "cron."
 
-#: qt/manageprofiles/tab_expert_options.py:136
+#: qt/manageprofiles/tab_expert_options.py:137
 msgid ""
 "Cron will automatically send an email with attached output of cronjobs if an"
 " MTA is installed."
@@ -1974,13 +1982,13 @@ msgstr ""
 "Cron va trimite automat un email cu rezultatul sarcinilor cronjobs atașat "
 "dacă un MTA este instalat."
 
-#: qt/manageprofiles/tab_expert_options.py:142
+#: qt/manageprofiles/tab_expert_options.py:143
 msgid "Redirect stderr to /dev/null in cronjobs."
 msgstr ""
 "Redirecționează ieșirea de eroare standard (stderr) către „/dev/null” în "
 "sarcinile cron."
 
-#: qt/manageprofiles/tab_expert_options.py:148
+#: qt/manageprofiles/tab_expert_options.py:149
 msgid ""
 "Cron will automatically send an email with attached errors of cronjobs if an"
 " MTA is installed."
@@ -1988,40 +1996,40 @@ msgstr ""
 "Cron va trimite automat un email cu erorile sarcinilor cronjob atașate dacă "
 "un MTA este instalat."
 
-#: qt/manageprofiles/tab_expert_options.py:158
+#: qt/manageprofiles/tab_expert_options.py:159
 msgid "KB/sec"
 msgstr "Ko/sec"
 
-#: qt/manageprofiles/tab_expert_options.py:163
+#: qt/manageprofiles/tab_expert_options.py:164
 msgid "Limit rsync bandwidth usage:"
 msgstr "Limitează utilizarea lățimii de bandă a «rsync»:"
 
-#: qt/manageprofiles/tab_expert_options.py:204
+#: qt/manageprofiles/tab_expert_options.py:205
 msgid "Preserve ACL"
 msgstr "Păstrează ACL"
 
-#: qt/manageprofiles/tab_expert_options.py:222
+#: qt/manageprofiles/tab_expert_options.py:223
 msgid "Preserve extended attributes (xattr)"
 msgstr "Păstrează atributele extinse (xattr)"
 
-#: qt/manageprofiles/tab_expert_options.py:249
+#: qt/manageprofiles/tab_expert_options.py:250
 msgid "Restrict to one file system"
 msgstr "Restricționează la un singur sistem de fișiere"
 
-#: qt/manageprofiles/tab_expert_options.py:267
+#: qt/manageprofiles/tab_expert_options.py:268
 #, python-brace-format
 msgid "Options must be quoted e.g. {example}."
 msgstr "Opțiunile trebuie să fie puse între ghilimele, de exemplu: {example}."
 
-#: qt/manageprofiles/tab_expert_options.py:276
+#: qt/manageprofiles/tab_expert_options.py:277
 msgid "Paste additional options to rsync"
 msgstr "Lipește opțiunile adiționale la «rsync»"
 
-#: qt/manageprofiles/tab_expert_options.py:286
+#: qt/manageprofiles/tab_expert_options.py:287
 msgid "Prefix to run before every command on remote host."
 msgstr "Prefix de rulat înainte de fiecare comandă pe gazda de la distanță."
 
-#: qt/manageprofiles/tab_expert_options.py:287
+#: qt/manageprofiles/tab_expert_options.py:288
 #, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
@@ -2031,32 +2039,32 @@ msgstr ""
 "«rsync». Deci, pentru a adăuga un prefix pentru «rsync» utilizați "
 "„{example_value}” cu {rsync_options_value}."
 
-#: qt/manageprofiles/tab_expert_options.py:293
+#: qt/manageprofiles/tab_expert_options.py:294
 msgid "default"
 msgstr "implicit"
 
-#: qt/manageprofiles/tab_expert_options.py:298
+#: qt/manageprofiles/tab_expert_options.py:299
 msgid "Add prefix to SSH commands"
 msgstr "Adaugă un prefix la comenzile SSH"
 
-#: qt/manageprofiles/tab_expert_options.py:333
+#: qt/manageprofiles/tab_expert_options.py:334
 msgid "(default: {})"
 msgstr "(implicit: {})"
 
-#: qt/manageprofiles/tab_expert_options.py:334
+#: qt/manageprofiles/tab_expert_options.py:335
 msgid "disabled"
 msgstr "dezactivată"
 
-#: qt/manageprofiles/tab_expert_options.py:334
+#: qt/manageprofiles/tab_expert_options.py:335
 msgid "enabled"
 msgstr "activată"
 
-#: qt/manageprofiles/tab_general.py:66 qt/restoreconfigdialog.py:338
+#: qt/manageprofiles/tab_general.py:66 qt/restoreconfigdialog.py:349
 msgid "Mode:"
 msgstr "Mod:"
 
 #: qt/manageprofiles/tab_general.py:73 qt/manageprofiles/tab_general.py:378
-#: qt/manageprofiles/tab_general.py:678
+#: qt/manageprofiles/tab_general.py:686
 msgid "Where to save backups"
 msgstr "Unde să se salveze copiile de rezervă"
 
@@ -2087,7 +2095,7 @@ msgstr ""
 msgid "Advanced"
 msgstr "Avansat"
 
-#: qt/manageprofiles/tab_general.py:250 qt/manageprofiles/tab_general.py:801
+#: qt/manageprofiles/tab_general.py:250 qt/manageprofiles/tab_general.py:809
 msgid "Full backup path:"
 msgstr "Ruta completă a copiei de rezervă:"
 
@@ -2120,26 +2128,43 @@ msgstr "Configurarea profilului SSH a eșuat"
 msgid "Profile setup failed"
 msgstr "Configurarea profilului a eșuat"
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:657
+msgid "Backups are stored locally."
+msgstr ""
+
+#: qt/manageprofiles/tab_general.py:659
+msgid "Backups are stored locally and encrypted using gocryptfs."
+msgstr ""
+
+#: qt/manageprofiles/tab_general.py:661
+msgid "Backups are stored on a remote system via SSH."
+msgstr ""
+
+#: qt/manageprofiles/tab_general.py:663
+msgid ""
+"Backups are stored on a remote system via SSH and encrypted using gocryptfs."
+msgstr ""
+
+#: qt/manageprofiles/tab_general.py:709
 msgid "Really change the backup directory?"
 msgstr "Doriți cu adevărat să schimbați directorul copiilor de rezervă?"
 
-#: qt/manageprofiles/tab_general.py:721
+#: qt/manageprofiles/tab_general.py:729
 msgid "The selected backup destination cannot be used for encryption."
 msgstr ""
 "Destinația de copie de rezervă selectată nu poate fi utilizată pentru "
 "criptare."
 
-#: qt/manageprofiles/tab_general.py:724
+#: qt/manageprofiles/tab_general.py:732
 msgid "It must either be empty or already initialized for gocryptfs."
 msgstr ""
 "Acesta trebuie să fie, fie gol, fie deja inițializat pentru gocryptfs."
 
-#: qt/manageprofiles/tab_general.py:754
+#: qt/manageprofiles/tab_general.py:762
 msgid "Invalid file: Not a private SSH key"
 msgstr "Fișier nevalid: Nu este o cheie SSH privată"
 
-#: qt/manageprofiles/tab_general.py:755
+#: qt/manageprofiles/tab_general.py:763
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
@@ -2148,7 +2173,7 @@ msgstr ""
 "Fișierul selectat ({path}) este o cheie SSH publică. Vă rugăm să alegeți "
 "fișierul de cheie privată corespunzător (fără sufixul „.pub”)."
 
-#: qt/manageprofiles/tab_general.py:779
+#: qt/manageprofiles/tab_general.py:787
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
@@ -2156,7 +2181,7 @@ msgstr ""
 "Fișierul {path} există deja. Nu se poate crea o nouă cheie SSH cu acest "
 "nume."
 
-#: qt/manageprofiles/tab_general.py:789
+#: qt/manageprofiles/tab_general.py:797
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "Nu s-a putut crea o cheie SSH nouă în {path}."
@@ -2182,7 +2207,7 @@ msgstr "Doriți să includeți în schimb ținta legăturii simbolice?"
 msgid "Include files"
 msgstr "Include fișiere"
 
-#: qt/manageprofiles/tab_include.py:205
+#: qt/manageprofiles/tab_include.py:206
 msgid "Include directories"
 msgstr "Include directoare"
 
@@ -2294,11 +2319,11 @@ msgstr "Cea mai recentă copie de rezervă este păstrată în orice situație."
 msgid "That behavior cannot be changed."
 msgstr "Acest comportament nu poate fi modificat."
 
-#: qt/manageprofiles/tab_remove_retention.py:255
+#: qt/manageprofiles/tab_remove_retention.py:256
 msgid "Keep named backups."
 msgstr "Păstrează copiile de siguranță numite."
 
-#: qt/manageprofiles/tab_remove_retention.py:258
+#: qt/manageprofiles/tab_remove_retention.py:259
 msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
 "will be retained under all circumstances and will not be removed."
@@ -2306,37 +2331,37 @@ msgstr ""
 "Copiile de rezervă care au primit un nume, pe lângă marcajul de timp "
 "obișnuit, vor fi păstrate în orice situație și nu vor fi eliminate."
 
-#: qt/manageprofiles/tab_remove_retention.py:273
+#: qt/manageprofiles/tab_remove_retention.py:274
 msgid "Year(s)"
 msgstr "An (Ani)"
 
-#: qt/manageprofiles/tab_remove_retention.py:278
+#: qt/manageprofiles/tab_remove_retention.py:279
 msgid "Remove backups older than"
 msgstr "Elimină copiile de rezervă mai vechi de"
 
-#: qt/manageprofiles/tab_remove_retention.py:284
+#: qt/manageprofiles/tab_remove_retention.py:285
 msgid "Full days. Current day is ignored."
 msgstr "Zile întregi. Ziua curentă este ignorată."
 
-#: qt/manageprofiles/tab_remove_retention.py:286
+#: qt/manageprofiles/tab_remove_retention.py:287
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
 "Săptămâni calendaristice cu luni ca primă zi. Săptămâna curentă este "
 "ignorată."
 
-#: qt/manageprofiles/tab_remove_retention.py:289
+#: qt/manageprofiles/tab_remove_retention.py:290
 msgid "12 months periods. Current month is ignored."
 msgstr "Perioade de 12 luni. Luna curentă este ignorată."
 
-#: qt/manageprofiles/tab_remove_retention.py:305
+#: qt/manageprofiles/tab_remove_retention.py:306
 msgid "Retention policy"
 msgstr "Politica de păstrare"
 
-#: qt/manageprofiles/tab_remove_retention.py:310
+#: qt/manageprofiles/tab_remove_retention.py:311
 msgid "Run in background on remote host."
 msgstr "Rulează în fundal pe gazda de la distanță."
 
-#: qt/manageprofiles/tab_remove_retention.py:313
+#: qt/manageprofiles/tab_remove_retention.py:314
 msgid ""
 "The retention policy will be executed directly on the remote machine, not "
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
@@ -2346,29 +2371,29 @@ msgstr ""
 "local. Comenzile „bash”, «screen» și «flock» trebuie să fie instalate și "
 "disponibile pe mașina de la distanță respectivă."
 
-#: qt/manageprofiles/tab_remove_retention.py:317
+#: qt/manageprofiles/tab_remove_retention.py:318
 msgid "If selected, Back In Time will first test the remote machine."
 msgstr ""
 "Dacă este activată, Back In Time va testa mai întâi mașina de la distanță."
 
-#: qt/manageprofiles/tab_remove_retention.py:321
+#: qt/manageprofiles/tab_remove_retention.py:322
 msgid "The days are counted starting from today."
 msgstr "Zilele sunt numărate începând de astăzi."
 
-#: qt/manageprofiles/tab_remove_retention.py:322
+#: qt/manageprofiles/tab_remove_retention.py:323
 msgid "Keep all backups for the last"
 msgstr "Păstrează toate copiile de rezervă pentru ultima(ultimele)"
 
-#: qt/manageprofiles/tab_remove_retention.py:327
-#: qt/manageprofiles/tab_remove_retention.py:339
+#: qt/manageprofiles/tab_remove_retention.py:328
+#: qt/manageprofiles/tab_remove_retention.py:340
 msgid "day(s)."
 msgstr "zi(zile)."
 
-#: qt/manageprofiles/tab_remove_retention.py:334
+#: qt/manageprofiles/tab_remove_retention.py:335
 msgid "Keep the last backup for each day for the last"
 msgstr "Păstrează ultima copie de rezervă pentru fiecare zi din ultimele"
 
-#: qt/manageprofiles/tab_remove_retention.py:344
+#: qt/manageprofiles/tab_remove_retention.py:345
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
@@ -2376,50 +2401,50 @@ msgstr ""
 "Săptămânile sunt numărate începând cu săptămâna curentă. O săptămână începe "
 "luni."
 
-#: qt/manageprofiles/tab_remove_retention.py:347
+#: qt/manageprofiles/tab_remove_retention.py:348
 msgid "Keep the last backup for each week for the last"
 msgstr ""
 "Păstrează ultima copie de rezervă pentru fiecare săptămână din ultimele"
 
-#: qt/manageprofiles/tab_remove_retention.py:352
+#: qt/manageprofiles/tab_remove_retention.py:353
 msgid "week(s)."
 msgstr "săptămână(săptămâni)."
 
-#: qt/manageprofiles/tab_remove_retention.py:357
+#: qt/manageprofiles/tab_remove_retention.py:358
 msgid ""
 "The months are counted as calendar months starting with the current month."
 msgstr "Lunile sunt numărate ca luni calendaristice începând cu luna curentă."
 
-#: qt/manageprofiles/tab_remove_retention.py:360
+#: qt/manageprofiles/tab_remove_retention.py:361
 msgid "Keep the last backup for each month for the last"
 msgstr "Păstrează ultima copie de rezervă pentru fiecare lună din ultimele"
 
-#: qt/manageprofiles/tab_remove_retention.py:365
+#: qt/manageprofiles/tab_remove_retention.py:366
 msgid "month(s)."
 msgstr "lună(luni)."
 
-#: qt/manageprofiles/tab_remove_retention.py:370
+#: qt/manageprofiles/tab_remove_retention.py:371
 msgid ""
 "The years are counted as calendar years starting with the current year."
 msgstr "Anii sunt numărați ca ani calendaristici începând cu anul curent."
 
-#: qt/manageprofiles/tab_remove_retention.py:372
+#: qt/manageprofiles/tab_remove_retention.py:373
 msgid "Keep the last backup for each year for"
 msgstr "Păstrează ultima copie de rezervă pentru fiecare an din"
 
-#: qt/manageprofiles/tab_remove_retention.py:374
+#: qt/manageprofiles/tab_remove_retention.py:375
 msgid "all years."
 msgstr "toți anii."
 
-#: qt/manageprofiles/tab_remove_retention.py:389
+#: qt/manageprofiles/tab_remove_retention.py:390
 msgid "… the free space is less than"
 msgstr "… spațiul liber este mai mic decât"
 
-#: qt/manageprofiles/tab_remove_retention.py:394
+#: qt/manageprofiles/tab_remove_retention.py:395
 msgid "… the free inodes are less than"
 msgstr "… nodurile-i libere sunt mai puține decât"
 
-#: qt/manageprofiles/tab_remove_retention.py:403
+#: qt/manageprofiles/tab_remove_retention.py:404
 msgid "Remove oldest backup if …"
 msgstr "Elimină cea mai veche copie de rezervă dacă …"
 
@@ -2435,63 +2460,63 @@ msgstr ""
 "Autentificarea este necesară pentru a modifica programările de copie de "
 "rezervă declanșate de conectările dispozitivelor de stocare externe."
 
-#: qt/placeswidget.py:51
+#: qt/placeswidget.py:50
 msgid "Shortcuts"
 msgstr "Scurtături"
 
-#: qt/placeswidget.py:96
+#: qt/placeswidget.py:95
 msgid "Places"
 msgstr "Locuri"
 
-#: qt/placeswidget.py:97
+#: qt/placeswidget.py:96
 msgid "File System"
 msgstr "Sistemul de fișiere"
 
-#: qt/placeswidget.py:150
+#: qt/placeswidget.py:149
 msgid "Backup directories"
 msgstr "Directoare copie de rezervă"
 
-#: qt/qtsystrayicon.py:110
+#: qt/qtsystrayicon.py:116
 #, python-brace-format
 msgid "Profile: {profile_name}"
 msgstr "Profil: {profile_name}"
 
-#: qt/qtsystrayicon.py:113
+#: qt/qtsystrayicon.py:119
 #, python-brace-format
 msgid "Profile: {profile_name} (by user \"{desktop_user}\")"
 msgstr "Profil: {profile_name}(al utilizatorului „{desktop_user}”)"
 
-#: qt/qtsystrayicon.py:142
+#: qt/qtsystrayicon.py:148
 msgid "View Last Log"
 msgstr "Vizualizează ultimul jurnal"
 
-#: qt/qtsystrayicon.py:148
+#: qt/qtsystrayicon.py:154
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "Pornește {appname}"
 
-#: qt/qtsystrayicon.py:240
+#: qt/qtsystrayicon.py:246
 msgid "Working…"
 msgstr "Se lucrează…"
 
-#: qt/qttools.py:519
+#: qt/qttools.py:520
 #, python-brace-format
 msgid "man page: {man_page_name}"
 msgstr "pagina de manual: {man_page_name}"
 
-#: qt/restoreconfigdialog.py:71
+#: qt/restoreconfigdialog.py:75
 msgid "Import configuration"
 msgstr "Importă configurația"
 
-#: qt/restoreconfigdialog.py:102
+#: qt/restoreconfigdialog.py:106
 msgid "No directory selected"
 msgstr "Nu a fost selectat niciun director"
 
-#: qt/restoreconfigdialog.py:151 qt/restoreconfigdialog.py:227
+#: qt/restoreconfigdialog.py:155 qt/restoreconfigdialog.py:230
 msgid "Searching…"
 msgstr "Se caută…"
 
-#: qt/restoreconfigdialog.py:204
+#: qt/restoreconfigdialog.py:207
 #, python-brace-format
 msgid ""
 "Select the backup directory from which the configuration file should be "
@@ -2500,7 +2525,7 @@ msgstr ""
 "Selectați directorul de copii de rezervă din care trebuie importat fișierul "
 "de configurare. Ruta poate arăta astfel: {samplePath}"
 
-#: qt/restoreconfigdialog.py:209
+#: qt/restoreconfigdialog.py:212
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
@@ -2508,23 +2533,23 @@ msgstr ""
 "Dacă directorul este localizat pe o unitate externă sau la distanță, aceasta"
 " trebuie să fie montată manual în prealabil."
 
-#: qt/restoreconfigdialog.py:230
+#: qt/restoreconfigdialog.py:233
 msgid "Scan again"
 msgstr "Scanează din nou"
 
-#: qt/restoreconfigdialog.py:249
+#: qt/restoreconfigdialog.py:252
 msgid "Show hidden directories"
 msgstr "Afișează directoarele ascunse"
 
-#: qt/restoreconfigdialog.py:251
+#: qt/restoreconfigdialog.py:254
 msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Afișează/ascunde directoarele ascunse (Ctrl+H)"
 
-#: qt/restoreconfigdialog.py:298
+#: qt/restoreconfigdialog.py:307
 msgid "No config found in this directory."
 msgstr "Nu s-a găsit nicio configurație în acest director."
 
-#: qt/restoreconfigdialog.py:359
+#: qt/restoreconfigdialog.py:372
 msgid "Search complete."
 msgstr "Căutare finalizată."
 
@@ -2588,7 +2613,7 @@ msgstr ""
 "Nu s-au stabilit parametri pentru comanda «diff». Se utilizează valoarea "
 "implicită «{params}»."
 
-#: qt/snapshotsdialog.py:140 qt/timeline.py:119
+#: qt/snapshotsdialog.py:140 qt/timeline.py:118
 msgid "Backups"
 msgstr "Copii de rezervă"
 
@@ -2662,36 +2687,36 @@ msgid ""
 msgstr ""
 "Back In Time rulează în prezent cu privilegii root (acces complet la sistem)"
 
-#: qt/timeline.py:66
+#: qt/timeline.py:65
 msgid "Today"
 msgstr "Astăzi"
 
-#: qt/timeline.py:71
+#: qt/timeline.py:70
 msgid "Yesterday"
 msgstr "Ieri"
 
-#: qt/timeline.py:78
+#: qt/timeline.py:77
 msgid "This week"
 msgstr "Săptămâna aceasta"
 
-#: qt/timeline.py:83
+#: qt/timeline.py:82
 msgid "Last week"
 msgstr "Săptămâna trecută"
 
-#: qt/timeline.py:90
+#: qt/timeline.py:89
 msgid "This month"
 msgstr "Luna aceasta"
 
-#: qt/timeline.py:97
+#: qt/timeline.py:96
 msgid "Last month"
 msgstr "Luna trecută"
 
-#: qt/timeline.py:374
+#: qt/timeline.py:369
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Ultima verificare: {time}"
 
-#: qt/timeline.py:407
+#: qt/timeline.py:402
 msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
 "Acestea sunt fișierele tale așa cum sunt în acest moment. Nu este o copie de"

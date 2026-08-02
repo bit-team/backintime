@@ -509,6 +509,34 @@ def check_syntax_of_po_files():
     # Extract placeholder/variable names
     rex_names = re.compile(r'\{(.*?)\}')
 
+    def _create_full_syntax_error_message(lang_code: str,
+                                          src_string: str,
+                                          trans_string: str,
+                                          problem_desc: str,
+                                          extra: str | None = None) -> str:
+        """
+        ERROR (eu):
+            Source string: The remote file system does not support hardlinks.
+            Translation: {host} urrutiko ostalariak ez ditu esteka gogorrak onartzen.
+            Problem: Number of "{" between original source and translated string is different.
+
+        To disable this check add the comment (not flag!) on top of the entry in the po-file: "# ignore-placeholder-compare"
+
+
+        """
+
+        result = (
+            f'ERROR ({lang_code}):\n'
+            f'\tSource: "{src_string}"\n'
+            f'\tTranslation: "{trans_string}"'
+            f'\tProblem: {problem_desc}'
+        )
+
+        if extra:
+            result = f'{result}\n{extra}'
+
+        return result
+
     def _curly_brackets_balanced(to_check):
         """Check if curly brackes for variable placeholders are balanced."""
         # Remove all characters that are not curly brackets
@@ -525,11 +553,23 @@ def check_syntax_of_po_files():
         # string. BIT won't use constructs like this in strings, so it is
         # handled as an error.
         if rex_curly_pair.findall(invalid):
-            print(f'\nERROR ({lang_code}): Curly brackets nested: {to_check}')
+            msg = _create_full_syntax_error_message(
+                lang_code,
+                '(not set)',
+                to_check,
+                'Curly brackets nested'
+            )
+            print(msg)
             return False
 
         if invalid:
-            print(f'\nERROR ({lang_code}): Curly brackets not balanced : {to_check}')
+            msg = _create_full_syntax_error_message(
+                lang_code,
+                '(not set)',
+                to_check,
+                'Curly brackets not balanced'
+            )
+            print(msg)
             return False
 
         return True
@@ -541,7 +581,13 @@ def check_syntax_of_po_files():
         QLabel with activated HTML interpretation.
         """
         if re.search('href', to_check, re.IGNORECASE):
-            print(f'CRITICAL - Potential harmful string: "{to_check}"')
+            msg = _create_full_syntax_error_message(
+                lang_code,
+                '(not set)',
+                to_check,
+                'CRITICAL - Potential harmful string!'
+            )
+            print(msg)
             return False
 
         return True
@@ -555,7 +601,13 @@ def check_syntax_of_po_files():
             list(string.Formatter().parse(format_string=to_check))
 
         except Exception as exc:  # pylint: disable=broad-exception-caught
-            print(f'\nERROR ({lang_code}): {exc} in translation: {to_check}')
+            msg = _create_full_syntax_error_message(
+                lang_code,
+                '(not set)',
+                to_check,
+                f'{exc!s}'
+            )
+            print(msg)
             return False
 
         return True
@@ -588,20 +640,36 @@ def check_syntax_of_po_files():
         # Compare number of curly brackets.
         for bracket in tuple('{}'):
             if src_string.count(bracket) != trans_string.count(bracket):
-                print(f'\nERROR ({lang_code}): Number of "{bracket}" between '
-                      'original source and translated string is different.\n'
-                      f'\nTranslation: {trans_string}\n\n{flagmsg}')
+                msg = _create_full_syntax_error_message(
+                    lang_code,
+                    src_string,
+                    trans_string,
+                    (
+                        f'Number of "{bracket}" between original source and '
+                        'translated string is different.'
+                    ),
+                    flagmsg
+                )
+                print(msg)
                 return False
 
         # Compare variable names
         org_names = rex_names.findall(src_string)
         trans_names = rex_names.findall(trans_string)
         if sorted(org_names) != sorted(trans_names):
-            print(f'\nERROR ({lang_code}): Names of placeholders between '
-                  'original source and translated string are different.\n'
-                  f'\nNames in original    : {org_names}\n'
-                  f'\nNames in translation : {trans_names}\n'
-                  f'\nFull translation: {trans_string}\n{flagmsg}')
+            msg = _create_full_syntax_error_message(
+                lang_code,
+                src_string,
+                trans_string,
+                (
+                    'Names of placeholders between original source and '
+                    'translated string are different.'
+                    f'\n\tNames in original    : {org_names}'
+                    f'\n\tNames in translation : {trans_names}'
+                ),
+                flagmsg
+            )
+            print(msg)
             return False
 
         return True

@@ -15,9 +15,9 @@
 # REUSE-IgnoreStart
 msgid ""
 msgstr ""
-"Project-Id-Version: Back In Time 2.0.0-dev.5d7ff833\n"
+"Project-Id-Version: Back In Time 2.0.0-dev\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-06-28 13:41+0200\n"
+"POT-Creation-Date: 2026-08-02 14:14+0200\n"
 "PO-Revision-Date: 2026-04-09 10:27+0000\n"
 "Last-Translator: emmapeel <emmapeel@noreply.codeberg.org>\n"
 "Language-Team: Catalan <https://translate.codeberg.org/projects/backintime/common/ca/>\n"
@@ -27,6 +27,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.16.2\n"
+
+#: common/bitbase.py:21 common/config.py:36 common/konfig.py:32
+#: common/mount/_backends.py:23 common/tools.py:88 qt/encfsmsgbox.py:32
+#: qt/messagebox.py:99 qt/timeline.py:34
+msgid "Warning"
+msgstr "Avís"
 
 #: common/bitlicense.py:43
 #, python-brace-format
@@ -39,62 +45,27 @@ msgstr ""
 "{dir_link}. Per extreure informació de llicència i drets d'autor per fitxer "
 "mitjançant metadades SPDX, consulteu {readme_link}."
 
-#: common/config.py:37 common/tools.py:92 qt/encfsmsgbox.py:27
-#: qt/messagebox.py:99 qt/timeline.py:35
-msgid "Warning"
-msgstr "Avís"
-
-#: common/config.py:108 common/config.py:161
-msgid "Main profile"
-msgstr "Perfil principal"
-
-#: common/config.py:172
-msgid "Local"
-msgstr "Local"
-
-#: common/config.py:178
-msgid "Local encrypted"
-msgstr "Xifrat local"
-
-#: common/config.py:179 common/config.py:192
-#: qt/manageprofiles/tab_general.py:394
-msgid "Encryption"
-msgstr "Xifratge"
-
-#: common/config.py:184
-msgid "SSH"
-msgstr "SSH"
-
-#: common/config.py:185 common/config.py:191
-#: qt/manageprofiles/tab_general.py:742
-msgid "SSH private key"
-msgstr "Clau privada SSH"
-
-#: common/config.py:190
-#, fuzzy
-msgid "SSH encrypted"
-msgstr "SSH (xifrat amb EncFS)"
-
-#: common/config.py:236 common/config.py:248 common/config.py:266
-#: common/config.py:280 common/config.py:301
+#: common/check_config.py:45 common/check_config.py:55
+#: common/check_config.py:74 common/check_config.py:90
+#: common/check_config.py:111
 #, python-brace-format
 msgid "Profile: \"{name}\""
 msgstr "Perfil: «{name}»"
 
-#: common/config.py:237
+#: common/check_config.py:48
 msgid "Backup directory is not valid."
 msgstr "El directori de còpies no és vàlid."
 
-#: common/config.py:249
+#: common/check_config.py:57
 msgid "At least one directory must be selected for backup."
 msgstr "Almenys cal seleccionar un directori per la copia de seguretat."
 
-#: common/config.py:267 common/config.py:282
+#: common/check_config.py:76 common/check_config.py:92
 #, python-brace-format
 msgid "Directory: {path}"
 msgstr "Directori: {path}"
 
-#: common/config.py:268 common/config.py:283
+#: common/check_config.py:79 common/check_config.py:95
 msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
@@ -102,7 +73,11 @@ msgstr ""
 "Aquest directori no es pot incloure en la còpia de seguretat perquè forma "
 "part de la destinació mateixa de la còpia."
 
-#: common/config.py:302
+#: common/check_config.py:113
+msgid "There is a conflict between two settings."
+msgstr ""
+
+#: common/check_config.py:116
 #, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
@@ -113,7 +88,7 @@ msgstr ""
 "inferior a\" ({val_one}) ha de ser inferior o igual al llindar de \"Avisa si"
 " l'espai lliure en disc cau per sota de\" ({val_two})."
 
-#: common/config.py:307
+#: common/check_config.py:123
 msgid ""
 "Please adjust the settings so that the backup removal limit is not higher "
 "than the warning limit."
@@ -121,16 +96,54 @@ msgstr ""
 "Ajusteu la configuració de manera que el límit d'eliminació de còpies de "
 "seguretat no sigui superior al límit d'advertència."
 
-#: common/config.py:1429
+#: common/config.py:175 common/konfig.py:50 common/konfig.py:1418
+msgid "Main profile"
+msgstr "Perfil principal"
+
+#: common/config.py:189
+msgid "Local"
+msgstr "Local"
+
+#: common/config.py:195
+#, fuzzy
+msgid "Local (encrypted)"
+msgstr "Xifrat local"
+
+#: common/config.py:196 common/config.py:209
+#: qt/manageprofiles/tab_general.py:394
+msgid "Encryption"
+msgstr "Xifratge"
+
+#: common/config.py:201
+msgid "SSH"
+msgstr "SSH"
+
+#: common/config.py:202 common/config.py:208
+#: qt/manageprofiles/tab_general.py:750
+msgid "SSH private key"
+msgstr "Clau privada SSH"
+
+#: common/config.py:207
+#, fuzzy
+msgid "SSH (encrypted)"
+msgstr "SSH (xifrat amb EncFS)"
+
+#: common/config.py:1879
 #, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}"
 msgstr "El planificador udev no funciona amb el mode {mode}"
 
-#: common/config.py:1484
+#: common/config.py:1906
+msgid ""
+"Authentication timed out. The udev scheduling setup was not completed. "
+"Please try again."
+msgstr ""
+
+#: common/config.py:1944
 msgid "Failed to write new crontab."
 msgstr "No s'ha pogut escriure el nou crontab ."
 
-#: common/config.py:1493
+#: common/config.py:1953
 #, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
@@ -144,96 +157,80 @@ msgstr ""
 "instal·lat però no activat. Proveu l'ordre «systemctl enable cron» o "
 "consulteu els canals d'assistència de la vostra distribució GNU/Linux."
 
-#: common/configfile.py:52
-msgid "Failed to save config"
-msgstr "No s'ha pogut desar la configuració"
-
-#: common/configfile.py:89
-msgid "Failed to load config"
-msgstr "No s'ha pogut carregar la configuració"
-
-#: common/configfile.py:607 common/configfile.py:710
-#, python-brace-format
-msgid "Profile \"{name}\" already exists."
-msgstr "El perfil «{name}» ja existeix."
-
-#: common/configfile.py:655
-msgid "The last profile cannot be removed."
-msgstr "No es pot eliminar l'últim perfil."
-
-#: common/mount/_backends.py:88 common/snapshots.py:966
+#: common/mount/_backends.py:95 common/snapshots.py:971
 #, fuzzy
 msgid "Can't find backup destination directory."
 msgstr "No es pot trobar el directori de còpies."
 
-#: common/mount/_backends.py:90 common/snapshots.py:970
+#: common/mount/_backends.py:97 common/snapshots.py:975
 #, fuzzy
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Si es troba en una unitat extraïble, connecteu-la."
 
-#: common/mount/_backends.py:91
+#: common/mount/_backends.py:98
 msgid "Then press OK."
 msgstr "A continuació, premeu D'acord."
 
-#: common/mount/_backends.py:108
+#: common/mount/_backends.py:115
 msgid "Back In Time could not connect to the remote backup location."
 msgstr ""
 
-#: common/mount/_backends.py:110 qt/manageprofiles/tab_general.py:477
+#: common/mount/_backends.py:117 qt/manageprofiles/tab_general.py:477
 msgid "Reason:"
 msgstr ""
 
-#: common/mount/_backends.py:156 common/sshsetupvalidator.py:181
+#: common/mount/_backends.py:163 common/sshsetupvalidator.py:180
 #, python-brace-format
 msgid "Could not reach the SSH proxy host \"{host_port}\"."
 msgstr ""
 
-#: common/mount/_backends.py:161 common/sshsetupvalidator.py:186
+#: common/mount/_backends.py:168 common/sshsetupvalidator.py:185
 #, python-brace-format
 msgid "Could not reach the SSH host \"{host_port}\"."
 msgstr ""
 
-#: common/mount/_backends.py:215
+#: common/mount/_backends.py:222
 msgid "SSH authentication failed for:"
 msgstr ""
 
-#: common/mount/_backends.py:217 common/mount/_backends.py:395
-#: common/mount/_encryptors.py:262 common/sshsetupvalidator.py:237
-#: common/sshsetupvalidator.py:310 common/sshsetupvalidator.py:348
-#: common/sshsetupvalidator.py:416 common/sshsetupvalidator.py:470
-#: common/sshsetupvalidator.py:499 common/sshsetupvalidator.py:549
+#: common/mount/_backends.py:224 common/mount/_backends.py:403
+#: common/mount/_encryptors.py:262 common/sshsetupvalidator.py:239
+#: common/sshsetupvalidator.py:315 common/sshsetupvalidator.py:357
+#: common/sshsetupvalidator.py:430 common/sshsetupvalidator.py:484
+#: common/sshsetupvalidator.py:513 common/sshsetupvalidator.py:563
 msgid "Details:"
 msgstr ""
 
-#: common/mount/_backends.py:272
+#: common/mount/_backends.py:279
 #, fuzzy
-msgid "The remote backup directory does not exist or is not a directory."
+msgid "The remote backup directory is missing or is not a valid directory."
 msgstr "El camí remot existeix però no és un directori."
 
-#: common/mount/_backends.py:278
+#: common/mount/_backends.py:285
+msgid ""
+"Write access to the remote backup directory was denied (missing "
+"permissions)."
+msgstr ""
+
+#: common/mount/_backends.py:291
 #, fuzzy
-msgid "The remote backup directory is not writable."
+msgid "Access to the remote backup directory denied (missing permissions)."
 msgstr "El directori de còpies no és vàlid."
 
-#: common/mount/_backends.py:283
-#, fuzzy
-msgid "The remote backup directory cannot be accessed."
-msgstr "La ruta de destinació de la còpia de seguretat no pot estar buida."
-
-#: common/mount/_backends.py:297 qt/manageprofiles/tab_general.py:126
+#: common/mount/_backends.py:306 qt/manageprofiles/tab_general.py:126
 msgid "Path:"
 msgstr "Camí:"
 
-#: common/mount/_backends.py:305
+#: common/mount/_backends.py:314
 msgid "No SSH host configured."
 msgstr ""
 
-#: common/mount/_backends.py:312
+#: common/mount/_backends.py:321
 #, fuzzy
 msgid "No destination backup directory configured."
 msgstr "No es pot trobar el directori de còpies."
 
-#: common/mount/_backends.py:393
+#: common/mount/_backends.py:401
 #, fuzzy
 msgid "Could not mount the remote backup location."
 msgstr "No s'ha pogut crear el camí remot."
@@ -303,12 +300,12 @@ msgstr ""
 msgid "Original error: {err}"
 msgstr ""
 
-#: common/password.py:300
+#: common/password.py:297
 #, python-brace-format
 msgid "Enter password for {mode} profile \"{profile}\":"
 msgstr "Introduïu la contrasenya del perfil {mode} «{profile}»:"
 
-#: common/schedule.py:236
+#: common/schedule.py:237
 #, fuzzy, python-brace-format
 msgid ""
 "Could not install Udev rule for profile {profile_id}. DBus Service "
@@ -317,25 +314,25 @@ msgstr ""
 "No s'ha pogut instal·lar la regla d'Udev per al perfil {profile_id}. El "
 "servei de DBus Service {dbus_interface} no estava disponible"
 
-#: common/schedule.py:250
+#: common/schedule.py:251
 #, python-brace-format
 msgid "Couldn't find UUID for {path}"
 msgstr "No s'ha pogut trobar l'UUID per a {path}"
 
-#: common/snapshots.py:385 common/snapshots.py:665
+#: common/snapshots.py:386 common/snapshots.py:670
 msgid "FAILED"
 msgstr "S'HA PRODUÏT UN ERROR"
 
-#: common/snapshots.py:588 common/snapshots.py:661
+#: common/snapshots.py:593 common/snapshots.py:666
 msgid "Restore permissions"
 msgstr "Restaura els permisos"
 
-#: common/snapshots.py:665 qt/app.py:210 qt/app.py:1205 qt/app.py:1231
-#: qt/qtsystrayicon.py:119
+#: common/snapshots.py:670 qt/app.py:210 qt/app.py:1195 qt/app.py:1221
+#: qt/qtsystrayicon.py:125
 msgid "Done"
 msgstr "Fet"
 
-#: common/snapshots.py:763
+#: common/snapshots.py:768
 msgid ""
 "The following entries from the include list have no corresponding file or "
 "directory in the backup source:"
@@ -343,188 +340,186 @@ msgstr ""
 "Les entrades següents de la llista d'inclusions no tenen cap fitxer o "
 "directori corresponent a l'origen de la còpia de seguretat:"
 
-#: common/snapshots.py:853
+#: common/snapshots.py:858
 msgid "Deferring backup while on battery"
 msgstr "Es posposa la còpia de seguretat mentre s'utilitza la bateria"
 
-#: common/snapshots.py:974
+#: common/snapshots.py:979
 #, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
 msgstr[0] "Esperant {n} segon."
 msgstr[1] "Esperant {n} segons."
 
-#: common/snapshots.py:1048
+#: common/snapshots.py:1054
 #, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "No s'ha pogut fer la còpia {snapshot_id}."
 
-#: common/snapshots.py:1080
+#: common/snapshots.py:1086
 msgid "Please be patient. Finalizing…"
 msgstr "Si us plau, tingueu paciència. S'està finalitzant…"
 
-#: common/snapshots.py:1177
+#: common/snapshots.py:1183
 msgid "Take snapshot"
 msgstr "Fes una instantània"
 
-#: common/snapshots.py:1212
+#: common/snapshots.py:1218
 msgid "Can't create directory."
 msgstr "No es pot crear la carpeta."
 
-#: common/snapshots.py:1228
+#: common/snapshots.py:1234
 msgid "Saving config file…"
 msgstr "S'està desant el fitxer de configuració …"
 
-#: common/snapshots.py:1274
+#: common/snapshots.py:1279
 msgid "Saving permissions…"
 msgstr "S'estan desant els permisos …"
 
-#: common/snapshots.py:1389
+#: common/snapshots.py:1394
 #, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr "S’ha trobat la còpia incompleta «{snapshot_id}» que es pot continuar."
 
-#: common/snapshots.py:1413
+#: common/snapshots.py:1418
 #, fuzzy, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr ""
 "S'està suprimint la carpeta sobrant de l'última execució: {snapshot_id}"
 
-#: common/snapshots.py:1424
+#: common/snapshots.py:1429
 msgid "Can't remove directory"
 msgstr "No es pot eliminar el directori"
 
-#: common/snapshots.py:1487
+#: common/snapshots.py:1496
 msgid "Creating backup"
 msgstr "S'està creant la còpia"
 
-#: common/snapshots.py:1538
+#: common/snapshots.py:1547
 msgid "Success"
 msgstr "Èxit"
 
-#: common/snapshots.py:1541
+#: common/snapshots.py:1550
 msgid "Partial transfer due to error"
 msgstr "Transferència parcial deguda a un error"
 
-#: common/snapshots.py:1542
+#: common/snapshots.py:1551
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr ""
 "Transferència parcial a causa de la desaparició dels fitxers d'origen (mireu"
 " «man rsync»)"
 
-#: common/snapshots.py:1546
+#: common/snapshots.py:1555
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "«rsync» ha finalitzat amb el codi de sortida {exit_code}"
 
-#: common/snapshots.py:1559
+#: common/snapshots.py:1568
 msgid "See 'man rsync' for more details"
 msgstr "Consulteu «man rsync» per a més detalls"
 
-#: common/snapshots.py:1566
+#: common/snapshots.py:1575
 msgid ""
 "Negative exit codes indicate termination by a signal. The number corresponds"
 " to the signal (see 'kill -l')."
 msgstr ""
 
-#: common/snapshots.py:1589
+#: common/snapshots.py:1598
 msgid "Nothing changed, no new backup necessary"
 msgstr "No hi ha canvis; no cal una còpia nova"
 
-#: common/snapshots.py:1633
+#: common/snapshots.py:1642
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "No es pot canviar el nom de {new_path} a {path}."
 
-#: common/snapshots.py:2033
+#: common/snapshots.py:2052
 #, fuzzy
 msgid "Applying rules to remove old backups"
 msgstr "Aplica regles per a eliminar còpies antigues"
 
-#: common/snapshots.py:2070
+#: common/snapshots.py:2089
 #, fuzzy
 msgid "Applying retention policy"
 msgstr "Aplicar la política de retenció"
 
-#: common/snapshots.py:2080
+#: common/snapshots.py:2099
 msgid "Trying to keep min free space"
 msgstr "Proveu de mantenir un minim d'espai lliure"
 
-#: common/snapshots.py:2123
+#: common/snapshots.py:2142
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Proveu de mantenir mínim un {perc} d'inodes lliures"
 
-#: common/snapshots.py:3345 qt/app.py:1553 qt/timeline.py:410
+#: common/snapshots.py:3364 qt/app.py:1538 qt/timeline.py:405
 msgid "Now"
 msgstr "Ara"
 
-#: common/sshsetupvalidator.py:124
+#: common/sshsetupvalidator.py:123
 #, python-brace-format
 msgid "\"{tool}\" is not installed on the remote host."
 msgstr ""
 
-#: common/sshsetupvalidator.py:221
+#: common/sshsetupvalidator.py:220
 #, fuzzy
 msgid "ssh-agent is not installed"
 msgstr "No s'ha trobat l'ssh-agent. Assegureu-vos que està instal·lat."
 
-#: common/sshsetupvalidator.py:236
-msgid "Unexpected response from ssh-agent."
+#: common/sshsetupvalidator.py:236 common/sshsetupvalidator.py:354
+#, python-brace-format
+msgid "Unexpected response from '{process}'"
 msgstr ""
 
-#: common/sshsetupvalidator.py:252
-msgid "Unexpected output from ssh-agent."
+#: common/sshsetupvalidator.py:255
+#, python-brace-format
+msgid "Unexpected output from '{process}'."
 msgstr ""
 
-#: common/sshsetupvalidator.py:253
+#: common/sshsetupvalidator.py:258
 msgid "Output:"
 msgstr ""
 
-#: common/sshsetupvalidator.py:280
+#: common/sshsetupvalidator.py:285
 msgid "The SSH key is not loaded into ssh-agent."
 msgstr ""
 
-#: common/sshsetupvalidator.py:309
+#: common/sshsetupvalidator.py:314
 #, fuzzy
 msgid "Failed to add SSH key."
 msgstr "No s'ha pogut crear una clau SSH nova a {path}."
 
-#: common/sshsetupvalidator.py:331
+#: common/sshsetupvalidator.py:336
 msgid "sshfs is not installed"
 msgstr ""
 
-#: common/sshsetupvalidator.py:347
-msgid "Unexpected response from sshfs."
-msgstr ""
-
-#: common/sshsetupvalidator.py:373
+#: common/sshsetupvalidator.py:384
 #, python-brace-format
-msgid "The SSH host \"{host}\" is not trusted yet."
+msgid "The SSH host \"{host}\" is not known yet."
 msgstr ""
 
-#: common/sshsetupvalidator.py:375
+#: common/sshsetupvalidator.py:388
 msgid "Please connect to the host manually once to confirm its fingerprint."
 msgstr ""
 
-#: common/sshsetupvalidator.py:415
+#: common/sshsetupvalidator.py:429
 msgid "Could not write files to the remote host using rsync."
 msgstr ""
 
-#: common/sshsetupvalidator.py:469
+#: common/sshsetupvalidator.py:483
 msgid "Could not verify rsync hardlink support."
 msgstr ""
 
-#: common/sshsetupvalidator.py:498
+#: common/sshsetupvalidator.py:512
 msgid "Unexpected error while verifying rsync hardlink support."
 msgstr ""
 
-#: common/sshsetupvalidator.py:505
+#: common/sshsetupvalidator.py:519
 #, fuzzy
 msgid "The remote file system does not support hardlinks."
 msgstr "L'amfitrió remot {host} no admet hardlinks"
 
-#: common/sshsetupvalidator.py:548
+#: common/sshsetupvalidator.py:562
 #, fuzzy, python-brace-format
 msgid "Could not create remote backup directory: {path}"
 msgstr "No s'ha pogut crear el camí remot."
@@ -539,7 +534,7 @@ msgstr "Copieu la clau SSH pública «{pubkey}» a l'amfitrió remot «{host}».
 msgid "Please enter a password for \"{user}\"."
 msgstr "Introduïu una contrasenya per a «{user}»."
 
-#: common/tools.py:405
+#: common/tools.py:401
 #, python-brace-format
 msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
@@ -548,20 +543,20 @@ msgstr ""
 "El sistema de fitxers de destinació per a {path} està formatat amb NTFS, que"
 " té incompatibilitats conegudes amb sistemes de fitxers d'estil Unix."
 
-#: common/tools.py:438
+#: common/tools.py:434
 #, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "{path} no és un directori vàlid."
 
-#: common/tools.py:456
+#: common/tools.py:452
 msgid "Creation of following directory failed:"
 msgstr "La creació del directori següent ha fallat:"
 
-#: common/tools.py:458 common/tools.py:561
+#: common/tools.py:454 common/tools.py:557
 msgid "Write access may be restricted."
 msgstr "L'accés d'escriptura pot estar restringit."
 
-#: common/tools.py:505
+#: common/tools.py:501
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -571,7 +566,7 @@ msgstr ""
 "no admet enllaços durs. Si us plau, utilitzeu un sistema de fitxers "
 "GNU/Linux natiu."
 
-#: common/tools.py:516
+#: common/tools.py:512
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -582,15 +577,15 @@ msgstr ""
 "amb SMB. Assegureu-vos que el servidor remot SMB admet enllaços simbòlics o "
 "activeu «{copyLinks}» a «{expertOptions}»."
 
-#: common/tools.py:520
+#: common/tools.py:516
 msgid "Copy links (dereference symbolic links)"
 msgstr "Copia enllaços (dereferencia els enllaços simbòlics)"
 
-#: common/tools.py:521
+#: common/tools.py:517
 msgid "Expert Options"
 msgstr "Opcions avançades"
 
-#: common/tools.py:525
+#: common/tools.py:521
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
@@ -599,9 +594,13 @@ msgstr ""
 "El sistema de fitxers de destí per a {path} és una compartició muntada amb "
 "sshfs. Sshfs no admet hard-links. Utilitzeu el mode 'SSH' en el seu lloc."
 
-#: common/tools.py:559
+#: common/tools.py:555
 msgid "File creation failed in this directory:"
 msgstr "La creació del fitxer ha fallat en aquest directori:"
+
+#: common/udev.py:43
+msgid "Udev"
+msgstr ""
 
 #: qt/aboutdlg.py:50
 msgid "About Back In Time"
@@ -640,15 +639,15 @@ msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
 "Segueix {thislink} per obtenir crèdits de traductor per a tots els idiomes."
 
-#: qt/aboutdlg.py:240 qt/app.py:585
+#: qt/aboutdlg.py:240 qt/app.py:575
 msgid "Project website"
 msgstr "Lloc web del projecte"
 
-#: qt/aboutdlg.py:245 qt/app.py:567
+#: qt/aboutdlg.py:245 qt/app.py:557
 msgid "User manual"
 msgstr "Manual d'ús"
 
-#: qt/aboutdlg.py:247 qt/app.py:569
+#: qt/aboutdlg.py:247 qt/app.py:559
 #, fuzzy
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
@@ -659,7 +658,7 @@ msgstr ""
 msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}Versió{BOLDEND}: {version}"
 
-#: qt/app.py:343
+#: qt/app.py:341
 #, fuzzy, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time because no configuration"
@@ -668,7 +667,7 @@ msgstr ""
 "{app_name} sembla que sigui el primer cop que s'executa perquè no s'ha "
 "trobat cap configuració."
 
-#: qt/app.py:348
+#: qt/app.py:346
 #, fuzzy
 msgid ""
 "Create a new configuration or import an existing configuration from a "
@@ -677,189 +676,189 @@ msgstr ""
 "Importeu una configuració existent (des d'una carpeta d'una còpia de "
 "seguretat o d'un altre ordinador)?"
 
-#: qt/app.py:353 qt/confirmrestoredialog.py:35 qt/messagebox.py:123
+#: qt/app.py:351 qt/confirmrestoredialog.py:36 qt/messagebox.py:123
 msgid "Question"
 msgstr "Pregunta"
 
-#: qt/app.py:356
+#: qt/app.py:355
 msgid "Create"
 msgstr ""
 
-#: qt/app.py:358 qt/restoreconfigdialog.py:131
+#: qt/app.py:357 qt/restoreconfigdialog.py:135
 msgid "Import"
 msgstr "Importa"
 
-#: qt/app.py:506
+#: qt/app.py:494
 msgid "Create a backup"
 msgstr "Crea una còpia"
 
-#: qt/app.py:508
+#: qt/app.py:496
 msgid "Use modification time & size for file change detection."
 msgstr ""
 "Utilitza el temps de modificació i mida per a la detecció de canvis de "
 "fitxers."
 
-#: qt/app.py:511
+#: qt/app.py:499
 msgid "Create a backup (checksum mode)"
 msgstr "Crea una còpia (mode suma de verificació)"
 
-#: qt/app.py:513
+#: qt/app.py:501
 msgid "Use checksums for file change detection."
 msgstr "Utilitza sumes de verificació per a la detecció de canvis de fitxers."
 
-#: qt/app.py:515 qt/qtsystrayicon.py:126
+#: qt/app.py:503 qt/qtsystrayicon.py:132
 msgid "Pause backup process"
 msgstr "Pausa el procés de còpia"
 
-#: qt/app.py:519 qt/qtsystrayicon.py:131
+#: qt/app.py:508 qt/qtsystrayicon.py:137
 msgid "Resume backup process"
 msgstr "Reprèn el procés de còpia"
 
-#: qt/app.py:523 qt/qtsystrayicon.py:136
+#: qt/app.py:513 qt/qtsystrayicon.py:142
 msgid "Stop backup process"
 msgstr "Atura el procés de còpia"
 
-#: qt/app.py:527
+#: qt/app.py:517
 msgid "Refresh backup list"
 msgstr "Actualitza la llista de còpies"
 
-#: qt/app.py:531
+#: qt/app.py:521
 msgid "Name backup"
 msgstr "Còpia de seguretat del nom"
 
-#: qt/app.py:535
+#: qt/app.py:525
 msgid "Remove backup"
 msgstr "Elimina la còpia"
 
-#: qt/app.py:539
+#: qt/app.py:529
 #, fuzzy
 msgid "Open backup log"
 msgstr "Visualitza l'últim registre"
 
-#: qt/app.py:541
+#: qt/app.py:531
 #, fuzzy
 msgid "View log of the selected backup."
 msgstr "Almenys cal seleccionar un directori per la copia de seguretat."
 
-#: qt/app.py:543
+#: qt/app.py:533
 #, fuzzy
 msgid "Open last backup log"
 msgstr "Visualitza l'últim registre"
 
-#: qt/app.py:545
+#: qt/app.py:535
 msgid "View log of the latest backup."
 msgstr "Veure el registre de la darrera còpia de seguretat."
 
-#: qt/app.py:547
+#: qt/app.py:537
 msgid "Manage profiles…"
 msgstr "Gestiona els perfils…"
 
-#: qt/app.py:551
+#: qt/app.py:541
 msgid "Edit user-callback"
 msgstr "Edita user-callback"
 
-#: qt/app.py:555
+#: qt/app.py:545
 msgid "Shutdown"
 msgstr "Aturada"
 
-#: qt/app.py:557
+#: qt/app.py:547
 msgid "Shut down system after backup has finished."
 msgstr "Apaga el sistema després d'acabar la còpia."
 
-#: qt/app.py:559
+#: qt/app.py:549
 msgid "Setup language…"
 msgstr "Configura la llengua…"
 
-#: qt/app.py:563
+#: qt/app.py:553
 msgid "Exit"
 msgstr "Surt"
 
-#: qt/app.py:573
+#: qt/app.py:563
 msgid "man page: Back In Time"
 msgstr "pàgina de manual: Back In Time"
 
-#: qt/app.py:575
+#: qt/app.py:565
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "Mostra la pàgina de manual sobre Back In Time (backintime)"
 
-#: qt/app.py:578
+#: qt/app.py:568
 msgid "man page: Profiles config file"
 msgstr "Página Manual: Perfils de config file"
 
-#: qt/app.py:581
+#: qt/app.py:571
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 "Mostra la pàgina de manual sobre el fitxer de configuració de perfils "
 "(backintime-config)"
 
-#: qt/app.py:588
+#: qt/app.py:578
 msgid "Open Back In Time website in browser"
 msgstr "Obre el lloc web del Back In Time al navegador"
 
-#: qt/app.py:590 qt/app.py:2347
+#: qt/app.py:580 qt/app.py:2354
 msgid "Changelog"
 msgstr "Registre de canvis"
 
-#: qt/app.py:593
+#: qt/app.py:583
 #, fuzzy
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr ""
 "Obre el manual d'usuari al navegador (local si està disponible en línia)"
 
-#: qt/app.py:596
+#: qt/app.py:586
 msgid "FAQ"
 msgstr "Preguntes freqüents"
 
-#: qt/app.py:598
+#: qt/app.py:588
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "Obriu Preguntes freqüents (FAQ) al navegador"
 
-#: qt/app.py:600
+#: qt/app.py:590
 msgid "Report a bug"
 msgstr "Informar d'un error"
 
-#: qt/app.py:603
+#: qt/app.py:593
 msgid "Contact"
 msgstr ""
 
-#: qt/app.py:605
+#: qt/app.py:595
 #, fuzzy
 msgid "Shows additional contact options in the browser"
 msgstr "Enganxa les opcions addicionals al 'rsync'"
 
-#: qt/app.py:608
+#: qt/app.py:598
 msgid "Translation"
 msgstr "Traducció"
 
-#: qt/app.py:610
+#: qt/app.py:600
 msgid "Shows the message about participation in translation again."
 msgstr "Mostra de nou el missatge sobre la participació en la traducció."
 
-#: qt/app.py:620
+#: qt/app.py:610
 msgid "About"
 msgstr "Quant a"
 
-#: qt/app.py:623 qt/restoredialog.py:46 qt/snapshotsdialog.py:183
+#: qt/app.py:613 qt/restoredialog.py:46 qt/snapshotsdialog.py:183
 #: qt/snapshotsdialog.py:188
 msgid "Restore"
 msgstr "Restaura"
 
-#: qt/app.py:625
+#: qt/app.py:615
 #, fuzzy
 msgid "Restore the selected files or directories to the original location."
 msgstr ""
 "Restaura els fitxers o carpetes seleccionades a la destinació original."
 
-#: qt/app.py:628 qt/app.py:1980 qt/snapshotsdialog.py:185
+#: qt/app.py:618 qt/app.py:1987 qt/snapshotsdialog.py:185
 msgid "Restore to …"
 msgstr "Restaura a …"
 
-#: qt/app.py:630
+#: qt/app.py:620
 #, fuzzy
 msgid "Restore the selected files or directories to a new location."
 msgstr "Restaura els fitxers o carpetes seleccionades a una destinació nova."
 
-#: qt/app.py:636
+#: qt/app.py:626
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
@@ -868,7 +867,7 @@ msgstr ""
 "Restaura la carpeta mostrada actualment i tot el seu contingut a la "
 "destinació original."
 
-#: qt/app.py:642
+#: qt/app.py:632
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
@@ -877,89 +876,89 @@ msgstr ""
 "Restaura la carpeta mostrada actualment i tot el seu contingut a una nova "
 "destinació."
 
-#: qt/app.py:645
+#: qt/app.py:635
 msgid "Up"
 msgstr "Amunt"
 
-#: qt/app.py:648
+#: qt/app.py:638
 msgid "Show hidden files"
 msgstr "Mostra els fitxers ocults"
 
-#: qt/app.py:651
+#: qt/app.py:641
 msgid "Compare backups…"
 msgstr "Compara les còpies…"
 
-#: qt/app.py:681 qt/app.py:1822
+#: qt/app.py:671 qt/app.py:1807
 msgid "Release Candidate"
 msgstr "Candidat d'alliberament"
 
-#: qt/app.py:684
+#: qt/app.py:674
 msgid "Shows the message about this Release Candidate again."
 msgstr "Torna a mostrar el missatge sobre aquest candidat a la versió."
 
-#: qt/app.py:721
+#: qt/app.py:711
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:726
+#: qt/app.py:716
 msgid "&Backup"
 msgstr "&Còpia de seguretat"
 
-#: qt/app.py:738
+#: qt/app.py:728
 msgid "&Restore"
 msgstr "&Restaura"
 
-#: qt/app.py:744
+#: qt/app.py:734
 msgid "&Help"
 msgstr "&Ajuda"
 
-#: qt/app.py:794
+#: qt/app.py:784
 msgid "Systray Icon"
 msgstr "Icona Systray"
 
-#: qt/app.py:800
+#: qt/app.py:790
 msgid "Automatic"
 msgstr "Automàtic"
 
-#: qt/app.py:804
+#: qt/app.py:794
 msgid "Light icon"
 msgstr "Icona Light"
 
-#: qt/app.py:805
+#: qt/app.py:795
 msgid "Dark icon"
 msgstr "Icona Dark"
 
-#: qt/app.py:828
+#: qt/app.py:818
 msgid "Icons only"
 msgstr "Només icones"
 
-#: qt/app.py:831
+#: qt/app.py:821
 msgid "Text only"
 msgstr "Només text"
 
-#: qt/app.py:834
+#: qt/app.py:824
 msgid "Text below icons"
 msgstr "Text a sota de les icones"
 
-#: qt/app.py:837
+#: qt/app.py:827
 msgid "Text beside icon"
 msgstr "Text al costat de la icona"
 
-#: qt/app.py:963
+#: qt/app.py:953
 #, fuzzy
 msgid "This directory doesn't exist in the selected backup."
 msgstr ""
 "Aquesta carpeta no existeix\n"
 "a la snapshot seleccionada."
 
-#: qt/app.py:966
+#: qt/app.py:956
 #, fuzzy
 msgid "This directory doesn't exist on the computer."
 msgstr ""
 "Aquesta carpeta no existeix\n"
 "a la snapshot seleccionada."
 
-#: qt/app.py:1015
+#: qt/app.py:1005
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
@@ -967,58 +966,58 @@ msgstr ""
 "Si tanqueu aquesta finestra, el Back In Time no podrà apagar el sistema quan"
 " s'hagi finalitzat la còpia."
 
-#: qt/app.py:1018
+#: qt/app.py:1008
 msgid "Close the window anyway?"
 msgstr "Voleu tancar la finestra de totes maneres?"
 
-#: qt/app.py:1109 qt/app.py:1116
+#: qt/app.py:1099 qt/app.py:1106
 msgid "Backup destination unavailable"
 msgstr ""
 
-#: qt/app.py:1234
+#: qt/app.py:1224
 msgid "Done, no backup needed"
 msgstr "Fet, no ha estat necessari crear una còpia de seguretat"
 
-#: qt/app.py:1305
+#: qt/app.py:1295
 msgid "Working:"
 msgstr "S'està treballant:"
 
-#: qt/app.py:1312
+#: qt/app.py:1302
 msgid "Working"
 msgstr "Treballant"
 
-#: qt/app.py:1318 qt/messagebox.py:136
+#: qt/app.py:1308 qt/messagebox.py:136
 msgid "Error"
 msgstr "Error"
 
-#: qt/app.py:1364 qt/qtsystrayicon.py:287
+#: qt/app.py:1354 qt/qtsystrayicon.py:293
 msgid "Sent:"
 msgstr "Enviat:"
 
-#: qt/app.py:1365 qt/qtsystrayicon.py:288
+#: qt/app.py:1355 qt/qtsystrayicon.py:294
 msgid "Speed:"
 msgstr "Velocitat:"
 
-#: qt/app.py:1366 qt/qtsystrayicon.py:289
+#: qt/app.py:1356 qt/qtsystrayicon.py:295
 msgid "ETA:"
 msgstr "ETA:"
 
-#: qt/app.py:1561
+#: qt/app.py:1546
 #, fuzzy
 msgid "Backup:"
 msgstr "Còpies:"
 
-#: qt/app.py:1661
+#: qt/app.py:1646
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Restaura {path}"
 
-#: qt/app.py:1663
+#: qt/app.py:1648
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Restaura {path} a …"
 
-#: qt/app.py:1687
+#: qt/app.py:1672
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -1035,47 +1034,47 @@ msgstr ""
 "Demanem disculpes per la interrupció i aquest missatge no es tornarà a mostrar. Aquest diàleg està disponible en qualsevol moment a través del menú d'ajuda.\n"
 "L'equip de Back In Time"
 
-#: qt/app.py:1716
+#: qt/app.py:1701
 msgid "translation platform"
 msgstr "plataforma de traducció"
 
-#: qt/app.py:1721
+#: qt/app.py:1706
 msgid "Website"
 msgstr "Lloc web"
 
-#: qt/app.py:1735
+#: qt/app.py:1720
 msgid "Your translation"
 msgstr "la teva traducció"
 
-#: qt/app.py:1772
+#: qt/app.py:1757
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Al fedivers, a Mastodon: {link_and_label}."
 
-#: qt/app.py:1777
+#: qt/app.py:1762
 #, fuzzy, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "Llista de correu {link_and_label}"
 
-#: qt/app.py:1781
+#: qt/app.py:1766
 #, fuzzy, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "Llista de correu {link_and_label}"
 
-#: qt/app.py:1785
+#: qt/app.py:1770
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} al lloc web del projecte."
 
-#: qt/app.py:1788
+#: qt/app.py:1773
 msgid "Open an issue"
 msgstr "Obre un problema"
 
-#: qt/app.py:1789
+#: qt/app.py:1774
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Alternativament, podeu utilitzar un altre canal que trieu."
 
-#: qt/app.py:1794
+#: qt/app.py:1779
 #, python-brace-format
 msgid ""
 "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
@@ -1096,15 +1095,15 @@ msgstr ""
 "Gràcies pel vostre suport i per ajudar-nos a millorar Back In Time!\n"
 "El teu equip de Back In Time"
 
-#: qt/app.py:1886
+#: qt/app.py:1871
 msgid "Check if remote host is online"
 msgstr "Comprova si l'amfitrió remot està connectat"
 
-#: qt/app.py:1887
+#: qt/app.py:1872
 msgid "Check if remote host supports all necessary commands."
 msgstr "Comprova si l'amfitrió remot admet totes les ordres necessàries."
 
-#: qt/app.py:1930
+#: qt/app.py:1915
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
@@ -1113,23 +1112,23 @@ msgstr ""
 "Només hi ha {free} espai lliure disponible a la destinació, que està per "
 "sota del llindar configurat de {threshold}."
 
-#: qt/app.py:1935
+#: qt/app.py:1920
 #, fuzzy
 msgid "Proceed with the backup?"
 msgstr "Voleu eliminar aquesta còpia?"
 
-#: qt/app.py:1960
+#: qt/app.py:1967
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr "Tots els fitxers més nous de {path} s'eliminaran. Voleu continuar?"
 
-#: qt/app.py:1963
+#: qt/app.py:1970
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 "Tots els fitxers més nous del directori original s'eliminaran. Voleu "
 "continuar?"
 
-#: qt/app.py:1969
+#: qt/app.py:1976
 #, fuzzy, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -1138,17 +1137,17 @@ msgstr ""
 "{BOLD}AVÍS:{BOLDEND} Esborrar fitxers a l'arrel del sistema de fitxers "
 "podria trencar tot el sistema."
 
-#: qt/app.py:2206
+#: qt/app.py:2213
 msgid "Backup name"
 msgstr "Nom de la còpia"
 
-#: qt/app.py:2238
+#: qt/app.py:2245
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "Voleu eliminar aquesta còpia?"
 msgstr[1] "Voleu eliminar aquestes còpies?"
 
-#: qt/app.py:2305
+#: qt/app.py:2312
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "La configuració de la llengua només tindrà efecte després de reiniciar Back "
@@ -1176,7 +1175,7 @@ msgstr ""
 "GUI fàcil d'utilitzar per a còpies de seguretat versionades que redueix l'ús"
 " del disc"
 
-#: qt/confirmrestoredialog.py:76
+#: qt/confirmrestoredialog.py:77
 #, fuzzy, python-brace-format
 msgid ""
 "Create backup copies with trailing {suffix} before overwriting or removing "
@@ -1185,7 +1184,7 @@ msgstr ""
 "Crea còpies de seguretat amb {suffix} al final abans de\n"
 "sobreescriure o esborrar fitxers locals."
 
-#: qt/confirmrestoredialog.py:81 qt/manageprofiles/tab_options.py:69
+#: qt/confirmrestoredialog.py:82 qt/manageprofiles/tab_options.py:69
 #, fuzzy, python-brace-format
 msgid ""
 "Before restoring, newer versions of files will be renamed with the appended "
@@ -1195,7 +1194,7 @@ msgstr ""
 "{suffix} abans de restaurar. Si ja no els necessiteu, podeu eliminar-los amb"
 " la següent comanda:"
 
-#: qt/confirmrestoredialog.py:94
+#: qt/confirmrestoredialog.py:95
 #, python-brace-format
 msgid ""
 "Only restore elements which do not exist or are newer than those in "
@@ -1204,11 +1203,11 @@ msgstr ""
 "Restaura només els fitxers que no existeixen o són més nous que els de "
 "destí. S'utilitza l'opció «{rsync_example}»."
 
-#: qt/confirmrestoredialog.py:133
+#: qt/confirmrestoredialog.py:134
 msgid "Remove newer elements in original directory."
 msgstr "Elimina els elements més nous del directori original."
 
-#: qt/confirmrestoredialog.py:135
+#: qt/confirmrestoredialog.py:136
 #, fuzzy
 msgid ""
 "Restore selected files or directories to the original destination and delete"
@@ -1220,14 +1219,14 @@ msgstr ""
 "els fitxers o directoris que no són a la instantània. Aneu amb compte perquè"
 " això suprimirà els fitxers i carpetes exclosos de la instantània."
 
-#: qt/confirmrestoredialog.py:147
+#: qt/confirmrestoredialog.py:148
 #, fuzzy
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
 msgstr[0] "Segur que voleu restaurar aquest element al directori nou?"
 msgstr[1] "Segur que voleu restaurar aquests elements al directori nou?"
 
-#: qt/confirmrestoredialog.py:157
+#: qt/confirmrestoredialog.py:158
 #, fuzzy
 msgid "Really restore this element?"
 msgid_plural "Really restore these elements?"
@@ -1321,8 +1320,8 @@ msgstr "Última visualització dels registres"
 msgid "Last Log View"
 msgstr "Última visualització dels registres"
 
-#: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:73
-#: qt/manageprofiles/tab_general.py:244 qt/restoreconfigdialog.py:336
+#: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:75
+#: qt/manageprofiles/tab_general.py:244 qt/restoreconfigdialog.py:347
 msgid "Profile:"
 msgstr "Perfil:"
 
@@ -1338,7 +1337,7 @@ msgstr "Filtre:"
 msgid "[E] Error, [I] Information, [C] Change"
 msgstr "[E]Error, [I]Informació, [C]Canvia"
 
-#: qt/logviewdialog.py:113 qt/manageprofiles/copylinkswidget.py:56
+#: qt/logviewdialog.py:113 qt/manageprofiles/copylinkswidget.py:55
 #: qt/manageprofiles/tab_options.py:188
 msgid "All"
 msgstr "Tots"
@@ -1363,69 +1362,69 @@ msgstr[1] "Informacions"
 msgid "rsync transfer failures (experimental)"
 msgstr "Errors de transferència de rsync (experimental)"
 
-#: qt/manageprofiles/__init__.py:65
+#: qt/manageprofiles/__init__.py:67
 msgid "Manage profiles"
 msgstr "Gestiona els perfils"
 
-#: qt/manageprofiles/__init__.py:84
+#: qt/manageprofiles/__init__.py:86
 msgid "Edit"
 msgstr "Edita"
 
-#: qt/manageprofiles/__init__.py:88
+#: qt/manageprofiles/__init__.py:90
 msgid "Add"
 msgstr "Afegeix"
 
-#: qt/manageprofiles/__init__.py:92 qt/manageprofiles/tab_exclude.py:126
+#: qt/manageprofiles/__init__.py:94 qt/manageprofiles/tab_exclude.py:126
 #: qt/manageprofiles/tab_include.py:81
 msgid "Remove"
 msgstr "Elimina"
 
-#: qt/manageprofiles/__init__.py:113
+#: qt/manageprofiles/__init__.py:115
 msgid "&General"
 msgstr "&General"
 
-#: qt/manageprofiles/__init__.py:117
+#: qt/manageprofiles/__init__.py:119
 msgid "&Include"
 msgstr "&Inclou"
 
-#: qt/manageprofiles/__init__.py:121
+#: qt/manageprofiles/__init__.py:123
 msgid "&Exclude"
 msgstr "&Exclou"
 
-#: qt/manageprofiles/__init__.py:136
+#: qt/manageprofiles/__init__.py:138
 msgid "&Remove & Retention"
 msgstr "Eliminar & &Retenir"
 
-#: qt/manageprofiles/__init__.py:140
+#: qt/manageprofiles/__init__.py:142
 msgid "&Options"
 msgstr "&Opcions"
 
-#: qt/manageprofiles/__init__.py:144
+#: qt/manageprofiles/__init__.py:146
 msgid "E&xpert Options"
 msgstr "Opcions d'e&xperts"
 
-#: qt/manageprofiles/__init__.py:152
+#: qt/manageprofiles/__init__.py:154
 msgid "Restore Config"
 msgstr "Restaura la configuració"
 
-#: qt/manageprofiles/__init__.py:183
+#: qt/manageprofiles/__init__.py:185
 msgid "New profile"
 msgstr "Perfil nou"
 
-#: qt/manageprofiles/__init__.py:200
+#: qt/manageprofiles/__init__.py:203
 msgid "Rename profile"
 msgstr "Reanomena el perfil"
 
-#: qt/manageprofiles/__init__.py:217
+#: qt/manageprofiles/__init__.py:222
 #, python-brace-format
 msgid "Delete the profile \"{name}\"?"
 msgstr "Voleu suprimir el perfil «{name}»?"
 
-#: qt/manageprofiles/copylinkswidget.py:38
+#: qt/manageprofiles/copylinkswidget.py:37
 msgid "Copy symbolic links as files"
 msgstr "Copiar enllaços simbòlics com a fitxers"
 
-#: qt/manageprofiles/copylinkswidget.py:43
+#: qt/manageprofiles/copylinkswidget.py:42
 msgid ""
 "Copy symbolic links as real files or directories in the backup. Select "
 "whether all links or only those pointing outside the source are copied."
@@ -1434,15 +1433,15 @@ msgstr ""
 "seguretat. Selecciona si es copien tots els enllaços o només els que apunten"
 " fora de l'origen."
 
-#: qt/manageprofiles/copylinkswidget.py:46
+#: qt/manageprofiles/copylinkswidget.py:45
 msgid "This option may increase backup size."
 msgstr "Aquesta opció pot augmentar la mida de la còpia de seguretat."
 
-#: qt/manageprofiles/copylinkswidget.py:47
+#: qt/manageprofiles/copylinkswidget.py:46
 msgid "Disabled by default."
 msgstr "Desactivat per defecte."
 
-#: qt/manageprofiles/copylinkswidget.py:60
+#: qt/manageprofiles/copylinkswidget.py:59
 msgid ""
 "All symbolic links are replaced with real files or directories they point "
 "to. This increases backup size and may store the same files multiple times."
@@ -1451,15 +1450,15 @@ msgstr ""
 "als quals apunten. Això augmenta la mida de la còpia de seguretat i pot "
 "emmagatzemar els mateixos fitxers diverses vegades."
 
-#: qt/manageprofiles/copylinkswidget.py:63
+#: qt/manageprofiles/copylinkswidget.py:62
 msgid "Uses 'rsync --copy-links'."
 msgstr ""
 
-#: qt/manageprofiles/copylinkswidget.py:68
+#: qt/manageprofiles/copylinkswidget.py:67
 msgid "Only external"
 msgstr "Només extern"
 
-#: qt/manageprofiles/copylinkswidget.py:72
+#: qt/manageprofiles/copylinkswidget.py:71
 msgid ""
 "Only links pointing outside the backup source are copied as files. This "
 "increases backup size and may store the same files multiple times."
@@ -1468,7 +1467,7 @@ msgstr ""
 "la còpia de seguretat. Això augmenta la mida de la còpia de seguretat i pot "
 "emmagatzemar els mateixos fitxers diverses vegades."
 
-#: qt/manageprofiles/copylinkswidget.py:75
+#: qt/manageprofiles/copylinkswidget.py:74
 msgid "Uses 'rsync --copy-unsafe-links'."
 msgstr ""
 
@@ -1769,12 +1768,12 @@ msgid "Hour(s)"
 msgstr "Hora(es)"
 
 #: qt/manageprofiles/schedulewidget.py:254
-#: qt/manageprofiles/tab_remove_retention.py:271
+#: qt/manageprofiles/tab_remove_retention.py:272
 msgid "Day(s)"
 msgstr "Dia(es)"
 
 #: qt/manageprofiles/schedulewidget.py:255
-#: qt/manageprofiles/tab_remove_retention.py:272
+#: qt/manageprofiles/tab_remove_retention.py:273
 msgid "Week(s)"
 msgstr "Setmana(es)"
 
@@ -1782,7 +1781,7 @@ msgstr "Setmana(es)"
 msgid "Month(s)"
 msgstr "Mes(os)"
 
-#: qt/manageprofiles/schedulewidget.py:351
+#: qt/manageprofiles/schedulewidget.py:352
 msgid ""
 "Custom hours can only be a comma separated list of hours (e.g. 8,12,18,23) "
 "or */3 for periodic backups every 3 hours."
@@ -1962,7 +1961,7 @@ msgid ""
 msgstr ""
 "S'ha desactivat perquè aquest patró no funciona en el mode «Xifrat amb SSH»."
 
-#: qt/manageprofiles/tab_expert_options.py:45
+#: qt/manageprofiles/tab_expert_options.py:46
 msgid ""
 "These options are for advanced configurations. Modify only if fully aware of"
 " their implications."
@@ -1970,41 +1969,41 @@ msgstr ""
 "Aquestes opcions són per a configuracions avançades. Modifiqueu només si "
 "teniu plena consciència de les seves implicacions."
 
-#: qt/manageprofiles/tab_expert_options.py:54
-#: qt/manageprofiles/tab_expert_options.py:74
-#: qt/manageprofiles/tab_expert_options.py:99
+#: qt/manageprofiles/tab_expert_options.py:55
+#: qt/manageprofiles/tab_expert_options.py:75
+#: qt/manageprofiles/tab_expert_options.py:100
 #, python-brace-format
 msgid "Run 'rsync' with '{cmd}':"
 msgstr "Executa «rsync» amb «{cmd}»:"
 
-#: qt/manageprofiles/tab_expert_options.py:61
-#: qt/manageprofiles/tab_expert_options.py:80
+#: qt/manageprofiles/tab_expert_options.py:62
+#: qt/manageprofiles/tab_expert_options.py:81
 msgid "as cron job"
 msgstr "com a tasca cron"
 
-#: qt/manageprofiles/tab_expert_options.py:67
-#: qt/manageprofiles/tab_expert_options.py:92
-#: qt/manageprofiles/tab_expert_options.py:123
+#: qt/manageprofiles/tab_expert_options.py:68
+#: qt/manageprofiles/tab_expert_options.py:93
+#: qt/manageprofiles/tab_expert_options.py:124
 msgid "on remote host"
 msgstr "a l'amfitrió remot"
 
-#: qt/manageprofiles/tab_expert_options.py:86
+#: qt/manageprofiles/tab_expert_options.py:87
 msgid "when taking a manual backup"
 msgstr "en prendre una còpia manual"
 
-#: qt/manageprofiles/tab_expert_options.py:110
+#: qt/manageprofiles/tab_expert_options.py:111
 msgid "Please install 'nocache' to enable this option."
 msgstr "Instal·leu «nocache» per a activar aquesta opció."
 
-#: qt/manageprofiles/tab_expert_options.py:116
+#: qt/manageprofiles/tab_expert_options.py:117
 msgid "on local machine"
 msgstr "a la màquina local"
 
-#: qt/manageprofiles/tab_expert_options.py:130
+#: qt/manageprofiles/tab_expert_options.py:131
 msgid "Redirect stdout to /dev/null in cronjobs."
 msgstr "Redirigeix la stdout a /dev/null a les funcions cron."
 
-#: qt/manageprofiles/tab_expert_options.py:136
+#: qt/manageprofiles/tab_expert_options.py:137
 msgid ""
 "Cron will automatically send an email with attached output of cronjobs if an"
 " MTA is installed."
@@ -2012,11 +2011,11 @@ msgstr ""
 "Cron enviarà automàticament un correu electrònic amb la sortida adjunta de "
 "cronjobs si hi ha instal·lat un MTA."
 
-#: qt/manageprofiles/tab_expert_options.py:142
+#: qt/manageprofiles/tab_expert_options.py:143
 msgid "Redirect stderr to /dev/null in cronjobs."
 msgstr "Redirigeix stderr a /dev/null a les funcions cron."
 
-#: qt/manageprofiles/tab_expert_options.py:148
+#: qt/manageprofiles/tab_expert_options.py:149
 msgid ""
 "Cron will automatically send an email with attached errors of cronjobs if an"
 " MTA is installed."
@@ -2024,40 +2023,40 @@ msgstr ""
 "Cron enviarà automàticament un correu electrònic amb errors adjunts de "
 "cronjobs si hi ha instal·lat un MTA."
 
-#: qt/manageprofiles/tab_expert_options.py:158
+#: qt/manageprofiles/tab_expert_options.py:159
 msgid "KB/sec"
 msgstr "kB/s"
 
-#: qt/manageprofiles/tab_expert_options.py:163
+#: qt/manageprofiles/tab_expert_options.py:164
 msgid "Limit rsync bandwidth usage:"
 msgstr "Limita l'ús de l'amplada de banda del rsync:"
 
-#: qt/manageprofiles/tab_expert_options.py:204
+#: qt/manageprofiles/tab_expert_options.py:205
 msgid "Preserve ACL"
 msgstr "Preserva ACL"
 
-#: qt/manageprofiles/tab_expert_options.py:222
+#: qt/manageprofiles/tab_expert_options.py:223
 msgid "Preserve extended attributes (xattr)"
 msgstr "Preserva els atributs extesos (xattr)"
 
-#: qt/manageprofiles/tab_expert_options.py:249
+#: qt/manageprofiles/tab_expert_options.py:250
 msgid "Restrict to one file system"
 msgstr "Limiteu-vos a un sistema de fitxers"
 
-#: qt/manageprofiles/tab_expert_options.py:267
+#: qt/manageprofiles/tab_expert_options.py:268
 #, python-brace-format
 msgid "Options must be quoted e.g. {example}."
 msgstr "Les opcions s'han de citar, p. ex. {example}."
 
-#: qt/manageprofiles/tab_expert_options.py:276
+#: qt/manageprofiles/tab_expert_options.py:277
 msgid "Paste additional options to rsync"
 msgstr "Enganxa les opcions addicionals al 'rsync'"
 
-#: qt/manageprofiles/tab_expert_options.py:286
+#: qt/manageprofiles/tab_expert_options.py:287
 msgid "Prefix to run before every command on remote host."
 msgstr "Prefix per a executar abans de cada ordre a l'amfitrió remot."
 
-#: qt/manageprofiles/tab_expert_options.py:287
+#: qt/manageprofiles/tab_expert_options.py:288
 #, python-brace-format
 msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
@@ -2067,32 +2066,32 @@ msgstr ""
 "afegir un prefix per al rsync utilitzeu «{example_value}» amb "
 "{rsync_options_value}."
 
-#: qt/manageprofiles/tab_expert_options.py:293
+#: qt/manageprofiles/tab_expert_options.py:294
 msgid "default"
 msgstr "per defecte"
 
-#: qt/manageprofiles/tab_expert_options.py:298
+#: qt/manageprofiles/tab_expert_options.py:299
 msgid "Add prefix to SSH commands"
 msgstr "Afegeix un prefix a les ordres SSH"
 
-#: qt/manageprofiles/tab_expert_options.py:333
+#: qt/manageprofiles/tab_expert_options.py:334
 msgid "(default: {})"
 msgstr "(per defecte: {})"
 
-#: qt/manageprofiles/tab_expert_options.py:334
+#: qt/manageprofiles/tab_expert_options.py:335
 msgid "disabled"
 msgstr "desactivat"
 
-#: qt/manageprofiles/tab_expert_options.py:334
+#: qt/manageprofiles/tab_expert_options.py:335
 msgid "enabled"
 msgstr "habilitat"
 
-#: qt/manageprofiles/tab_general.py:66 qt/restoreconfigdialog.py:338
+#: qt/manageprofiles/tab_general.py:66 qt/restoreconfigdialog.py:349
 msgid "Mode:"
 msgstr "Mode:"
 
 #: qt/manageprofiles/tab_general.py:73 qt/manageprofiles/tab_general.py:378
-#: qt/manageprofiles/tab_general.py:678
+#: qt/manageprofiles/tab_general.py:686
 msgid "Where to save backups"
 msgstr "A on desar còpies"
 
@@ -2124,7 +2123,7 @@ msgstr ""
 msgid "Advanced"
 msgstr "Avançat"
 
-#: qt/manageprofiles/tab_general.py:250 qt/manageprofiles/tab_general.py:801
+#: qt/manageprofiles/tab_general.py:250 qt/manageprofiles/tab_general.py:809
 msgid "Full backup path:"
 msgstr "Camí complet de la còpia:"
 
@@ -2158,25 +2157,42 @@ msgstr ""
 msgid "Profile setup failed"
 msgstr "Perfil: {profile_name}"
 
-#: qt/manageprofiles/tab_general.py:701
+#: qt/manageprofiles/tab_general.py:657
+msgid "Backups are stored locally."
+msgstr ""
+
+#: qt/manageprofiles/tab_general.py:659
+msgid "Backups are stored locally and encrypted using gocryptfs."
+msgstr ""
+
+#: qt/manageprofiles/tab_general.py:661
+msgid "Backups are stored on a remote system via SSH."
+msgstr ""
+
+#: qt/manageprofiles/tab_general.py:663
+msgid ""
+"Backups are stored on a remote system via SSH and encrypted using gocryptfs."
+msgstr ""
+
+#: qt/manageprofiles/tab_general.py:709
 msgid "Really change the backup directory?"
 msgstr "Realment voleu canviar el directori de les còpies?"
 
-#: qt/manageprofiles/tab_general.py:721
+#: qt/manageprofiles/tab_general.py:729
 #, fuzzy
 msgid "The selected backup destination cannot be used for encryption."
 msgstr "La destinació de còpia de seguretat seleccionada no està buida."
 
-#: qt/manageprofiles/tab_general.py:724
+#: qt/manageprofiles/tab_general.py:732
 msgid "It must either be empty or already initialized for gocryptfs."
 msgstr ""
 
-#: qt/manageprofiles/tab_general.py:754
+#: qt/manageprofiles/tab_general.py:762
 #, fuzzy
 msgid "Invalid file: Not a private SSH key"
 msgstr "Clau privada SSH"
 
-#: qt/manageprofiles/tab_general.py:755
+#: qt/manageprofiles/tab_general.py:763
 #, python-brace-format
 msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
@@ -2185,7 +2201,7 @@ msgstr ""
 "El fitxer seleccionat ({path}) és una clau SSH pública. Si us plau, trieu el"
 " fitxer de clau privada corresponent (sense \".pub\")."
 
-#: qt/manageprofiles/tab_general.py:779
+#: qt/manageprofiles/tab_general.py:787
 #, python-brace-format
 msgid ""
 "The file {path} already exists. Cannot create a new SSH key with that name."
@@ -2193,7 +2209,7 @@ msgstr ""
 "El fitxer {path} ja existeix. No es pot crear una nova clau SSH amb aquest "
 "nom."
 
-#: qt/manageprofiles/tab_general.py:789
+#: qt/manageprofiles/tab_general.py:797
 #, python-brace-format
 msgid "Failed to create new SSH key in {path}."
 msgstr "No s'ha pogut crear una clau SSH nova a {path}."
@@ -2219,7 +2235,7 @@ msgstr "Voleu incloure en el seu lloc la destinació de l'enllaç simbòlic?"
 msgid "Include files"
 msgstr "Inclou fitxers"
 
-#: qt/manageprofiles/tab_include.py:205
+#: qt/manageprofiles/tab_include.py:206
 msgid "Include directories"
 msgstr "Inclou directoris"
 
@@ -2328,12 +2344,12 @@ msgstr ""
 msgid "That behavior cannot be changed."
 msgstr "Aquest comportament no es pot modificar."
 
-#: qt/manageprofiles/tab_remove_retention.py:255
+#: qt/manageprofiles/tab_remove_retention.py:256
 #, fuzzy
 msgid "Keep named backups."
 msgstr "No eliminis les snapshots amb nom."
 
-#: qt/manageprofiles/tab_remove_retention.py:258
+#: qt/manageprofiles/tab_remove_retention.py:259
 #, fuzzy
 msgid ""
 "Backups that have been given a name, in addition to the usual timestamp, "
@@ -2342,38 +2358,38 @@ msgstr ""
 "Les Snapshots a les quals se'ls ha donat un nom, a més de la marca de temps "
 "habitual, es conservaran en qualsevol circumstància i no s'eliminaran."
 
-#: qt/manageprofiles/tab_remove_retention.py:273
+#: qt/manageprofiles/tab_remove_retention.py:274
 msgid "Year(s)"
 msgstr "Any(s)"
 
-#: qt/manageprofiles/tab_remove_retention.py:278
+#: qt/manageprofiles/tab_remove_retention.py:279
 #, fuzzy
 msgid "Remove backups older than"
 msgstr "Esborra les snapshots més velles que"
 
-#: qt/manageprofiles/tab_remove_retention.py:284
+#: qt/manageprofiles/tab_remove_retention.py:285
 msgid "Full days. Current day is ignored."
 msgstr "Jornades completes. S'ignora el dia actual."
 
-#: qt/manageprofiles/tab_remove_retention.py:286
+#: qt/manageprofiles/tab_remove_retention.py:287
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
 "Setmanes del calendari amb dilluns com a primer dia. La setmana actual "
 "s'ignora."
 
-#: qt/manageprofiles/tab_remove_retention.py:289
+#: qt/manageprofiles/tab_remove_retention.py:290
 msgid "12 months periods. Current month is ignored."
 msgstr "Períodes de 12 mesos. El mes actual s'ignora."
 
-#: qt/manageprofiles/tab_remove_retention.py:305
+#: qt/manageprofiles/tab_remove_retention.py:306
 msgid "Retention policy"
 msgstr "Política de retenció"
 
-#: qt/manageprofiles/tab_remove_retention.py:310
+#: qt/manageprofiles/tab_remove_retention.py:311
 msgid "Run in background on remote host."
 msgstr "Executa en segon pla en un amfitró remot."
 
-#: qt/manageprofiles/tab_remove_retention.py:313
+#: qt/manageprofiles/tab_remove_retention.py:314
 #, fuzzy
 msgid ""
 "The retention policy will be executed directly on the remote machine, not "
@@ -2384,30 +2400,30 @@ msgstr ""
 "màquina remota, no localment. Les ordres «bash», «screen» i «flock» han "
 "d'estar instal·lades i disponibles en la màquina remota."
 
-#: qt/manageprofiles/tab_remove_retention.py:317
+#: qt/manageprofiles/tab_remove_retention.py:318
 msgid "If selected, Back In Time will first test the remote machine."
 msgstr "Si se selecciona, Back In Time provarà primer la màquina remota."
 
-#: qt/manageprofiles/tab_remove_retention.py:321
+#: qt/manageprofiles/tab_remove_retention.py:322
 msgid "The days are counted starting from today."
 msgstr "Els dies es compten a partir d'avui."
 
-#: qt/manageprofiles/tab_remove_retention.py:322
+#: qt/manageprofiles/tab_remove_retention.py:323
 #, fuzzy
 msgid "Keep all backups for the last"
 msgstr "Mantingues totes les instantànies durant els darrers"
 
-#: qt/manageprofiles/tab_remove_retention.py:327
-#: qt/manageprofiles/tab_remove_retention.py:339
+#: qt/manageprofiles/tab_remove_retention.py:328
+#: qt/manageprofiles/tab_remove_retention.py:340
 msgid "day(s)."
 msgstr "dia(es)."
 
-#: qt/manageprofiles/tab_remove_retention.py:334
+#: qt/manageprofiles/tab_remove_retention.py:335
 #, fuzzy
 msgid "Keep the last backup for each day for the last"
 msgstr "Mantingues una snapshot al dia durant els darrers"
 
-#: qt/manageprofiles/tab_remove_retention.py:344
+#: qt/manageprofiles/tab_remove_retention.py:345
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
@@ -2415,52 +2431,52 @@ msgstr ""
 "Les setmanes es compten a partir de la setmana actual. Una setmana comença "
 "el dilluns."
 
-#: qt/manageprofiles/tab_remove_retention.py:347
+#: qt/manageprofiles/tab_remove_retention.py:348
 #, fuzzy
 msgid "Keep the last backup for each week for the last"
 msgstr "Mantingues una snapshot a la setmana durant les darreres"
 
-#: qt/manageprofiles/tab_remove_retention.py:352
+#: qt/manageprofiles/tab_remove_retention.py:353
 msgid "week(s)."
 msgstr "setmana(es)."
 
-#: qt/manageprofiles/tab_remove_retention.py:357
+#: qt/manageprofiles/tab_remove_retention.py:358
 msgid ""
 "The months are counted as calendar months starting with the current month."
 msgstr "Els mesos es compten com a mesos naturals a partir del mes actual."
 
-#: qt/manageprofiles/tab_remove_retention.py:360
+#: qt/manageprofiles/tab_remove_retention.py:361
 #, fuzzy
 msgid "Keep the last backup for each month for the last"
 msgstr "Mantingues una snapshot al mes durant els darrers"
 
-#: qt/manageprofiles/tab_remove_retention.py:365
+#: qt/manageprofiles/tab_remove_retention.py:366
 msgid "month(s)."
 msgstr "mes(os)."
 
-#: qt/manageprofiles/tab_remove_retention.py:370
+#: qt/manageprofiles/tab_remove_retention.py:371
 msgid ""
 "The years are counted as calendar years starting with the current year."
 msgstr "Els anys es compten com a anys naturals a partir de l'any en curs."
 
-#: qt/manageprofiles/tab_remove_retention.py:372
+#: qt/manageprofiles/tab_remove_retention.py:373
 #, fuzzy
 msgid "Keep the last backup for each year for"
 msgstr "Mantingues totes les snapshot durant els darrers"
 
-#: qt/manageprofiles/tab_remove_retention.py:374
+#: qt/manageprofiles/tab_remove_retention.py:375
 msgid "all years."
 msgstr "tots els anys."
 
-#: qt/manageprofiles/tab_remove_retention.py:389
+#: qt/manageprofiles/tab_remove_retention.py:390
 msgid "… the free space is less than"
 msgstr "… l'espai lliure és inferior a"
 
-#: qt/manageprofiles/tab_remove_retention.py:394
+#: qt/manageprofiles/tab_remove_retention.py:395
 msgid "… the free inodes are less than"
 msgstr "… els inodes lliures són menys de"
 
-#: qt/manageprofiles/tab_remove_retention.py:403
+#: qt/manageprofiles/tab_remove_retention.py:404
 msgid "Remove oldest backup if …"
 msgstr "Elimina la còpia més antiga si…"
 
@@ -2476,64 +2492,64 @@ msgstr ""
 "Cal autenticació per canviar les programacions de còpia de seguretat "
 "activades per connexions de dispositius d'emmagatzematge externs."
 
-#: qt/placeswidget.py:51
+#: qt/placeswidget.py:50
 msgid "Shortcuts"
 msgstr "Dreceres"
 
-#: qt/placeswidget.py:96
+#: qt/placeswidget.py:95
 msgid "Places"
 msgstr "Llocs"
 
-#: qt/placeswidget.py:97
+#: qt/placeswidget.py:96
 msgid "File System"
 msgstr "Sistema de fitxers"
 
-#: qt/placeswidget.py:150
+#: qt/placeswidget.py:149
 msgid "Backup directories"
 msgstr "Directoris de còpia de seguretat"
 
-#: qt/qtsystrayicon.py:110
+#: qt/qtsystrayicon.py:116
 #, python-brace-format
 msgid "Profile: {profile_name}"
 msgstr "Perfil: {profile_name}"
 
-#: qt/qtsystrayicon.py:113
+#: qt/qtsystrayicon.py:119
 #, fuzzy, python-brace-format
 msgid "Profile: {profile_name} (by user \"{desktop_user}\")"
 msgstr "Perfil: {profile_name}"
 
-#: qt/qtsystrayicon.py:142
+#: qt/qtsystrayicon.py:148
 msgid "View Last Log"
 msgstr "Visualitza l'últim registre"
 
-#: qt/qtsystrayicon.py:148
+#: qt/qtsystrayicon.py:154
 #, python-brace-format
 msgid "Start {appname}"
 msgstr "Inicia {appname}"
 
-#: qt/qtsystrayicon.py:240
+#: qt/qtsystrayicon.py:246
 msgid "Working…"
 msgstr "S'està treballant…"
 
-#: qt/qttools.py:519
+#: qt/qttools.py:520
 #, python-brace-format
 msgid "man page: {man_page_name}"
 msgstr ""
 
-#: qt/restoreconfigdialog.py:71
+#: qt/restoreconfigdialog.py:75
 msgid "Import configuration"
 msgstr "Importa la configuració"
 
-#: qt/restoreconfigdialog.py:102
+#: qt/restoreconfigdialog.py:106
 msgid "No directory selected"
 msgstr "No s'ha seleccionat cap directori"
 
-#: qt/restoreconfigdialog.py:151 qt/restoreconfigdialog.py:227
+#: qt/restoreconfigdialog.py:155 qt/restoreconfigdialog.py:230
 #, fuzzy
 msgid "Searching…"
 msgstr "S'està treballant…"
 
-#: qt/restoreconfigdialog.py:204
+#: qt/restoreconfigdialog.py:207
 #, fuzzy, python-brace-format
 msgid ""
 "Select the backup directory from which the configuration file should be "
@@ -2542,7 +2558,7 @@ msgstr ""
 "Seleccioneu la carpeta de snapshots des de la qual s'ha d'importar el fitxer"
 " de configuració. El path pot semblarse a: {samplePath}"
 
-#: qt/restoreconfigdialog.py:209
+#: qt/restoreconfigdialog.py:212
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
@@ -2550,26 +2566,26 @@ msgstr ""
 "Si la carpeta es troba en una unitat externa o remota, s'ha de muntar "
 "manualment prèviament."
 
-#: qt/restoreconfigdialog.py:230
+#: qt/restoreconfigdialog.py:233
 msgid "Scan again"
 msgstr "Torna a escanejar"
 
-#: qt/restoreconfigdialog.py:249
+#: qt/restoreconfigdialog.py:252
 #, fuzzy
 msgid "Show hidden directories"
 msgstr "Mostra els fitxers ocults"
 
-#: qt/restoreconfigdialog.py:251
+#: qt/restoreconfigdialog.py:254
 #, fuzzy
 msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Inclou fitxers i carpetes"
 
-#: qt/restoreconfigdialog.py:298
+#: qt/restoreconfigdialog.py:307
 #, fuzzy
 msgid "No config found in this directory."
 msgstr "La creació del fitxer ha fallat en aquest directori:"
 
-#: qt/restoreconfigdialog.py:359
+#: qt/restoreconfigdialog.py:372
 msgid "Search complete."
 msgstr "Cerca completada."
 
@@ -2632,7 +2648,7 @@ msgstr ""
 "No s'han definit paràmetres per a l'ordre diff. S'utilitza el valor per "
 "defecte «{params}»."
 
-#: qt/snapshotsdialog.py:140 qt/timeline.py:119
+#: qt/snapshotsdialog.py:140 qt/timeline.py:118
 msgid "Backups"
 msgstr "Còpies de seguretat"
 
@@ -2708,36 +2724,36 @@ msgstr ""
 "Back In Time s'està executant actualment amb privilegis de root (accés "
 "complet al sistema)"
 
-#: qt/timeline.py:66
+#: qt/timeline.py:65
 msgid "Today"
 msgstr "Avui"
 
-#: qt/timeline.py:71
+#: qt/timeline.py:70
 msgid "Yesterday"
 msgstr "Ahir"
 
-#: qt/timeline.py:78
+#: qt/timeline.py:77
 msgid "This week"
 msgstr "Aquesta setmana"
 
-#: qt/timeline.py:83
+#: qt/timeline.py:82
 msgid "Last week"
 msgstr "La setmana passada"
 
-#: qt/timeline.py:90
+#: qt/timeline.py:89
 msgid "This month"
 msgstr ""
 
-#: qt/timeline.py:97
+#: qt/timeline.py:96
 msgid "Last month"
 msgstr ""
 
-#: qt/timeline.py:374
+#: qt/timeline.py:369
 #, python-brace-format
 msgid "Last check {time}"
 msgstr "Última comprovació {time}"
 
-#: qt/timeline.py:407
+#: qt/timeline.py:402
 msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
 # REUSE-IgnoreEnd
