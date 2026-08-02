@@ -233,7 +233,7 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
             raise SSHSetupError(
                 f'ssh-agent failed: {err}',
                 _(
-                    "Unexpected response from '{process}'"
+                    "Unexpected response from '{process}'."
                 ).format(process='ssh-agent')
                 + '\n\n'
                 + _('Details:') + f'\n{err}'
