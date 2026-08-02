@@ -232,7 +232,10 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
         if proc.returncode:
             raise SSHSetupError(
                 f'ssh-agent failed: {err}',
-                _('Unexpected response from ssh-agent.') + '\n\n'
+                _(
+                    "Unexpected response from '{process}'"
+                ).format(process='ssh-agent')
+                + '\n\n'
                 + _('Details:') + f'\n{err}'
             )
 
@@ -248,7 +251,10 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
         if not sock_path or not agent_pid:
             raise SSHSetupError(
                 f'Unexpected ssh-agent output: {out}',
-                _('Unexpected output from ssh-agent.') + '\n\n'
+                _(
+                    "Unexpected output from '{process}'."
+                ).format(process='ssh-agent')
+                + '\n\n'
                 + _('Output:') + f'\n{out}'
             )
 
@@ -344,7 +350,10 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
         if proc.returncode != 0:
             raise SSHSetupError(
                 f'sshfs not usable: {proc.stderr}',
-                _('Unexpected response from sshfs.') + '\n\n'
+                _(
+                    "Unexpected response from '{process}'"
+                ).format(process='sshfs')
+                + '\n\n'
                 + _('Details:') + f'\n{err.strip()}'
             )
 
@@ -371,10 +380,14 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
 
         raise SSHSetupError(
             f'{self.ssh_host.host} is not a known hosts',
-            _('The SSH host "{host}" is not trusted yet.').format(
-                host=self.ssh_host.host)
-            + '\n\n' + _('Please connect to the host manually once to '
-                         'confirm its fingerprint.')
+            _(
+                'The SSH host "{host}" is not known yet.'
+            ).format(host=self.ssh_host.host)
+            + '\n\n'
+            + _(
+                'Please connect to the host manually once to '
+                'confirm its fingerprint.'
+            )
         )
 
     def _check_rsync_basic(self):
