@@ -211,8 +211,19 @@ class MainWindow(QMainWindow):
 
         self.snapshotsList = []
 
-        # ???
-        self.path = self.config.the_dict().get('qt.last_path', '/')
+        profile_state = state_data.profile(self.config.currentProfile())
+
+        # Dev note (buhtz, 2026-08): The purpose's of this variable were not
+        # clear not me in the beginning. There was not docu about it.
+        #
+        # It seems to be the current path shown in the files view and/or in the
+        # path-widget on top of the files view.
+        #
+        # Current logical path in the backup tree shown in the files view.
+        # This is not an absolute filesystem path. Resolve it with
+        # self.sid.pathBackup(self.path). The value represents GUI navigation
+        # state and is kept when switching backups.
+        self.path = str(profile_state.last_path)
 
         self.widget_current_path.setText(self.path)
         self.path_history = tools.PathHistory(self.path)
@@ -1002,13 +1013,14 @@ class MainWindow(QMainWindow):
 
         # Dev note (buhtz, 2025-04): Makes not much sense to me. Investigate.
         if self.shutdown.ask_before_quit():
-            msg = _('If this window is closed, Back In Time will not be able '
-                    'to shut down your system when the backup is finished.')
+            msg = _(
+                'If this window is closed, Back In Time will not be able '
+                'to shut down your system when the backup is finished.'
+            )
             msg = msg + '\n'
             msg = msg + _('Close the window anyway?')
 
-            answer = messagebox.question(text=msg,
-                                         widget_to_center_on=self)
+            answer = messagebox.question(text=msg, widget_to_center_on=self)
             if not answer:
                 return event.ignore()
 
@@ -2587,10 +2599,10 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
         # val = cfg.the_dict().get(f'profile{profile_id}.msg_shown_encfs', 0)
         # profile_state.msg_encfs = val
 
-        # # qt.last_path
-        # if cfg.hasProfileKey('qt.last_path', profile_id):
-        #     profile_state.last_path \
-        #         = cfg.profileStrValue('qt.last_path', None, profile_id)
+        # qt.last_path
+        key = 'profile' + profile_id + '.' + 'qt.last_path'
+        if key in cfg.the_dict():
+            profile_state.last_path = Path(cfg.the_dict()[key])
 
         # Places: sorting
         sorting = (
@@ -2657,8 +2669,9 @@ def load_state_data(cfg: config.Config) -> None:
         _get_state_data_from_config(cfg)
 
     except json.decoder.JSONDecodeError as exc:
-        logger.warning(f'Unable to read and decode state file "{fp}". '
-                       'Ignnoring it.')
+        logger.warning(
+            f'Unable to read and decode state file "{fp}". Ignnoring it.'
+        )
         logger.debug(f'{exc=}')
 
         try:
