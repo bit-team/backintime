@@ -1612,7 +1612,8 @@ class MainWindow(QMainWindow):
         # the handler in mainwindow than should decide about enable or disable
         # all this other UI elements.
         if os.path.isdir(full_path):
-            enable_flag = True
+            enable_flag = not self.timeline.is_now_selected()
+
             self.filesView.show_hidden(self.showHiddenFiles)
             self.filesView.set_root_path(full_path)
             self.stackFilesView.setCurrentWidget(self.filesView)
