@@ -40,7 +40,7 @@ except ImportError:
 # While unittesting and without regular invocation of BIT the GNU gettext
 # class-based API isn't setup yet.
 try:
-    _('Udev')
+    _('Error')
 except NameError:
     def _(val):
         return val
