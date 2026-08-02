@@ -957,10 +957,11 @@ class Snapshots:
                     profile_name = self.config.profileName()
                     user_name = logger.USER
 
-                    logger.info(f'Backup started (profile: '
-                                f'{profile_name}({profile_id}), '
-                                f'user: {user_name}',
-                                self)
+                    logger.info(
+                        'Backup started '
+                        f'(profile: {profile_name}({profile_id}), '
+                        f'user: {user_name})'
+                    )
 
                     if not self._can_backup(profile_id):
 
