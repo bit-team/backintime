@@ -222,7 +222,7 @@ class MainWindow(QMainWindow):
         # Current logical path in the backup tree shown in the files view.
         # This is not an absolute filesystem path. Resolve it with
         # self.sid.pathBackup(self.path). The value represents GUI navigation
-        # state and is kept when switching backups.
+        # state. self.path is independent from the selected backup.
         self.path = str(profile_state.last_path)
 
         self.widget_current_path.setText(self.path)
@@ -1164,11 +1164,8 @@ class MainWindow(QMainWindow):
             else:
                 self.places.set_sorting(sorting)
 
-            path = self.path
-            # self.config.setProfileStrValue(
-            #     'qt.last_path', self.path, old_profile_id)
-            # path = self.config.profileStrValue(
-            #     'qt.last_path', self.path, profile_id)
+            old_profile_state.last_path = pathlib.Path(self.path)
+            path = str(profile_state.last_path)
 
             if not path == self.path:
                 self.path = path
@@ -2108,11 +2105,9 @@ class MainWindow(QMainWindow):
         if self.is_now_selected():
             return
 
-        parent_path = self._get_parent_path_of_fileview_selection()
-
         confirm_dlg = ConfirmRestoreDialog(
             parent=self,
-            paths=(parent_path, ),
+            paths=(self.path, ),
             to_path=None,
             backup_on_restore=self.config.backupOnRestore(),
             backup_suffix=self.snapshots.backupSuffix()
@@ -2125,13 +2120,13 @@ class MainWindow(QMainWindow):
             opt = confirm_dlg.get_values_as_dict()
 
             if opt['delete'] and not self._restore_confirm_delete(
-                    warnRoot=parent_path == '/'):
+                    warnRoot=self.path == '/'):
                 return
 
         rd = RestoreDialog(
             self,
             self.selected_backup_id(),
-            parent_path,
+            self.path,
             **opt
         )
         rd.exec()
@@ -2141,23 +2136,7 @@ class MainWindow(QMainWindow):
         if self.is_now_selected():
             return
 
-        self._restore_to(
-            [self._get_parent_path_of_fileview_selection_or_root()]
-        )
-
-    def _get_parent_path_of_fileview_selection_or_root(self) -> str:
-        """Dev note (buhtz, 2026-08): Ugly workaround because of removing
-        self.path . I never understood the purpose of that allmity
-        object variable.
-
-        This workaround might cause unusual behavior. But I am on it. See
-        #2434.
-        """
-        path = self.filesView.get_current_path()
-        path = str(pathlib.Path(path).parent)
-
-        # use root dir by default
-        return path if path else '/'
+        self._restore_to([self.path])
 
     # |------------|
     # | Files View |
