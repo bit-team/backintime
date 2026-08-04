@@ -211,8 +211,20 @@ class MainWindow(QMainWindow):
 
         self.snapshotsList = []
 
-        # ???
-        self.path = self.config.the_dict().get('qt.last_path', '/')
+        profile_state = state_data.profile(self.config.currentProfile())
+
+        # Dev note (buhtz, 2026-08): The purpose's of this variable were not
+        # clear not me in the beginning. There was not docu about it.
+        #
+        # Current logical path shown in the files view.
+        #
+        # This is a path inside the backup tree, not an absolute filesystem
+        # path. The selected backup resolves this path to the real filesystem
+        # location.
+        #
+        # self.path represents GUI navigation state and is independent from
+        # the selected backup.
+        self.path = str(profile_state.last_path)
 
         self.widget_current_path.setText(self.path)
         self.path_history = tools.PathHistory(self.path)
@@ -1002,13 +1014,14 @@ class MainWindow(QMainWindow):
 
         # Dev note (buhtz, 2025-04): Makes not much sense to me. Investigate.
         if self.shutdown.ask_before_quit():
-            msg = _('If this window is closed, Back In Time will not be able '
-                    'to shut down your system when the backup is finished.')
+            msg = _(
+                'If this window is closed, Back In Time will not be able '
+                'to shut down your system when the backup is finished.'
+            )
             msg = msg + '\n'
             msg = msg + _('Close the window anyway?')
 
-            answer = messagebox.question(text=msg,
-                                         widget_to_center_on=self)
+            answer = messagebox.question(text=msg, widget_to_center_on=self)
             if not answer:
                 return event.ignore()
 
@@ -1152,11 +1165,8 @@ class MainWindow(QMainWindow):
             else:
                 self.places.set_sorting(sorting)
 
-            path = self.path
-            # self.config.setProfileStrValue(
-            #     'qt.last_path', self.path, old_profile_id)
-            # path = self.config.profileStrValue(
-            #     'qt.last_path', self.path, profile_id)
+            old_profile_state.last_path = pathlib.Path(self.path)
+            path = str(profile_state.last_path)
 
             if not path == self.path:
                 self.path = path
@@ -1599,10 +1609,12 @@ class MainWindow(QMainWindow):
         # the handler in mainwindow than should decide about enable or disable
         # all this other UI elements.
         if os.path.isdir(full_path):
-            enable_flag = True
+            enable_flag = not self.timeline.is_now_selected()
+
             self.filesView.show_hidden(self.showHiddenFiles)
             self.filesView.set_root_path(full_path)
             self.stackFilesView.setCurrentWidget(self.filesView)
+
         else:
             enable_flag = False
             self.stackFilesView.setCurrentWidget(
@@ -2079,11 +2091,9 @@ class MainWindow(QMainWindow):
         if self.is_now_selected():
             return
 
-        parent_path = self._get_parent_path_of_fileview_selection()
-
         confirm_dlg = ConfirmRestoreDialog(
             parent=self,
-            paths=(parent_path, ),
+            paths=(self.path, ),
             to_path=None,
             backup_on_restore=self.config.backupOnRestore(),
             backup_suffix=self.snapshots.backupSuffix()
@@ -2096,13 +2106,13 @@ class MainWindow(QMainWindow):
             opt = confirm_dlg.get_values_as_dict()
 
             if opt['delete'] and not self._restore_confirm_delete(
-                    warnRoot=parent_path == '/'):
+                    warnRoot=self.path == '/'):
                 return
 
         rd = RestoreDialog(
             self,
             self.selected_backup_id(),
-            parent_path,
+            self.path,
             **opt
         )
         rd.exec()
@@ -2112,23 +2122,7 @@ class MainWindow(QMainWindow):
         if self.is_now_selected():
             return
 
-        self._restore_to(
-            [self._get_parent_path_of_fileview_selection_or_root()]
-        )
-
-    def _get_parent_path_of_fileview_selection_or_root(self) -> str:
-        """Dev note (buhtz, 2026-08): Ugly workaround because of removing
-        self.path . I never understood the purpose of that allmity
-        object variable.
-
-        This workaround might cause unusual behavior. But I am on it. See
-        #2434.
-        """
-        path = self.filesView.get_current_path()
-        path = str(pathlib.Path(path).parent)
-
-        # use root dir by default
-        return path if path else '/'
+        self._restore_to([self.path])
 
     # |------------|
     # | Files View |
@@ -2570,10 +2564,12 @@ def _get_state_data_from_config(cfg: config.Config) -> StateData:
         # val = cfg.the_dict().get(f'profile{profile_id}.msg_shown_encfs', 0)
         # profile_state.msg_encfs = val
 
-        # # qt.last_path
-        # if cfg.hasProfileKey('qt.last_path', profile_id):
-        #     profile_state.last_path \
-        #         = cfg.profileStrValue('qt.last_path', None, profile_id)
+        # qt.last_path
+        key = 'profile' + profile_id + '.' + 'qt.last_path'
+        try:
+            profile_state.last_path = pathlib.Path(cfg.the_dict()[key])
+        except KeyError:
+            pass
 
         # Places: sorting
         sorting = (
@@ -2640,8 +2636,9 @@ def load_state_data(cfg: config.Config) -> None:
         _get_state_data_from_config(cfg)
 
     except json.decoder.JSONDecodeError as exc:
-        logger.warning(f'Unable to read and decode state file "{fp}". '
-                       'Ignnoring it.')
+        logger.warning(
+            f'Unable to read and decode state file "{fp}". Ignnoring it.'
+        )
         logger.debug(f'{exc=}')
 
         try:

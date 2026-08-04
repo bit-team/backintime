@@ -110,19 +110,19 @@ class CheckConfigAgent:  # pylint: disable=too-few-public-methods
                 core_events.event_error.notify(
                     _('Profile: "{name}"').format(name=profile.name)
                     + '\n'
-                    + _('There is a conflict between two settings.')
+                    + _('Two settings conflict with each other.')
                     + '\n\n'
                     + _(
                         'The value for "Remove oldest backup if the '
                         'free space is less than" ({val_one}) must be '
-                        'less than or equal the threshold for "Warn if '
-                        'free disk space falls below" ({val_two}).'
+                        'less than or equal to the value for "Warn if '
+                        'the free disk space falls below" ({val_two}).'
                     ).format(val_one=min_free, val_two=warn)
                     + '\n'
                     + _(
-                        'Please adjust the settings so that the backup '
-                        'removal limit is not higher than the '
-                        'warning limit.'
+                        'Please adjust the settings so that the threshold '
+                        'for removing old backups does not exceed the free '
+                        'disk space warning threshold.'
                     )
                 )
                 return False

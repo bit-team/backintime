@@ -351,7 +351,7 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
             raise SSHSetupError(
                 f'sshfs not usable: {proc.stderr}',
                 _(
-                    "Unexpected response from '{process}'"
+                    "Unexpected response from '{process}'."
                 ).format(process='sshfs')
                 + '\n\n'
                 + _('Details:') + f'\n{err.strip()}'
