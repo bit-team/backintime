@@ -1904,8 +1904,8 @@ class Config:  # (configfile.ConfigFileWithProfiles):
                 'Time out while waiting for users dbus authentication'
             )
             core_events.event_error.notify(_(
-                'Authentication timed out. The udev scheduling setup was not '
-                'completed. Please try again.'
+                'Authentication timed out. The setup of Udev-based '
+                'scheduling was not completed. Please try again.'
             ))
             return False
 
