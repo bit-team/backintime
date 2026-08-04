@@ -19,6 +19,7 @@ import tools
 import core_events
 from bitbase import ScheduleMode, TimeUnit
 from exceptions import InvalidChar, InvalidCmd, LimitExceeded
+from udev import SetupUdev
 
 _MARKER = '#Back In Time system entry, this will be edited by the gui:'
 """The string is used in crontab file to mark entries as owned by Back
@@ -222,7 +223,7 @@ def is_cron_running():
 
 
 def add_udev_rule(pid: str,
-                  udev_setup: tools.SetupUdev,
+                  udev_setup: SetupUdev,
                   dest_path: str,
                   exec_command: str):
     """Initiate adding udev rule for profile."""

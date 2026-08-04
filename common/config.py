@@ -49,6 +49,7 @@ from storagesize import StorageSize
 from exceptions import PermissionDeniedByPolicy, Timeout
 from konfig import Konfig
 from profilecontext import ProfileContext
+from udev import SetupUdev
 
 
 class Config:  # (configfile.ConfigFileWithProfiles):
@@ -158,7 +159,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         self.current_hash_id = 'local'
         self.pw = None
         # self.forceUseChecksum = False
-        self.setupUdev = tools.SetupUdev()
+        self.setupUdev = SetupUdev()
 
         # self.current_profile_id = None
 
@@ -1872,11 +1873,12 @@ class Config:  # (configfile.ConfigFileWithProfiles):
 
             else:
                 logger.error(
-                    f"Udev scheduling doesn't work with mode {backup_mode}",
+                    f"Udev scheduling doesn't work with mode '{backup_mode}'",
                     self)
+                mode_for_human = self.SNAPSHOT_MODES[backup_mode][1]
                 core_events.event_error.notify(_(
-                    "Udev schedule doesn't work with mode {mode}")
-                    .format(mode=backup_mode))
+                    "Udev schedule doesn't work with mode {mode}.")
+                    .format(mode=mode_for_human))
                 return
 
             # Add rule
@@ -1902,8 +1904,8 @@ class Config:  # (configfile.ConfigFileWithProfiles):
                 'Time out while waiting for users dbus authentication'
             )
             core_events.event_error.notify(_(
-                'Authentication timed out. The udev scheduling setup was not '
-                'completed. Please try again.'
+                'Authentication timed out. The setup of Udev-based '
+                'scheduling was not completed. Please try again.'
             ))
             return False
 

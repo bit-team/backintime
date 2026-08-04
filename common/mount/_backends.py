@@ -282,14 +282,12 @@ class SSHBackend(Backend):
             (
                 ['test', '-w', path],
                 'Remote path is not writable',
-                _('Write access to the remote backup directory was '
-                  'denied (missing permissions).')
+                _('Write access to the remote backup directory was denied.')
             ),
             (
                 ['test', '-x', path],
                 'Remote path is not accessible/searchable',
-                _('Access to the remote backup directory denied '
-                  '(missing permissions).')
+                _('Access to the remote backup directory was denied.')
             )
         ]
 

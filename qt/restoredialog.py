@@ -17,6 +17,7 @@ from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout)
 from PyQt6.QtCore import QMutex, QThread, QTimer, QUrl
 from inhibitsuspend import InhibitSuspend
+import logger
 import messagebox
 
 
@@ -25,6 +26,7 @@ class RestoreDialog(QDialog):
     # pylint: disable=too-many-instance-attributes
 
     def __init__(self, parent, sid, what, where='', **kwargs):
+        logger.debug(f'{what=} {where=}')
         super().__init__(parent)
         self.resize(600, 500)
 
@@ -55,7 +57,9 @@ class RestoreDialog(QDialog):
 
         button_box = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)
         btn_show_log = button_box.addButton(
-            _('Show full Log'), QDialogButtonBox.ButtonRole.ActionRole)
+            _('Show full Log'),
+            QDialogButtonBox.ButtonRole.ActionRole
+        )
         self._main_layout.addWidget(button_box)
         self._btn_close = button_box.button(
             QDialogButtonBox.StandardButton.Close)
@@ -105,6 +109,22 @@ class RestoreDialog(QDialog):
 
     def _slot_thread_finished(self):
         self._btn_close.setEnabled(True)
+
+    def closeEvent(self, event):  # noqa: N802
+        """Intercept close event to prevent canceling restoration.
+
+        It protect against closing-X and Alt-F4.
+        """
+        if self._btn_close.isEnabled():
+            event.accept()
+            return
+
+        messagebox.info(_(
+            'The restore is still running. The window cannot be closed '
+            'until it is finished.'
+        ))
+        event.ignore()
+        return
 
 
 class RestoreThread(QThread):

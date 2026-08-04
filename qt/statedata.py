@@ -69,11 +69,13 @@ class StateData(dict, metaclass=singleton.Singleton):
         def last_path(self) -> Path:
             """Last path used in the GUI.
 
-            Raises:
-                KeyError
+            Default is Path('/').
             """
-            return Path(self._state['gui']['mainwindow'][
-                'last_path'][self._profile_id])
+            try:
+                return Path(self._state['gui']['mainwindow'][
+                    'last_path'][self._profile_id])
+            except KeyError:
+                return Path('/')
 
         @last_path.setter
         def last_path(self, path: Path) -> None:
