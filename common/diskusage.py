@@ -29,7 +29,6 @@ def _du_local_total(paths: list, du_flags=None) -> int:
         du_flags: Flags for ``du``, defaults to ``['-sbc']`` (apparent size
             in bytes, each hard link counted individually).
     """
-    print(f'du_local_total() :: {paths=}, {du_flags=}')  # DEBUG
     if du_flags is None:
         du_flags = DEFAULT_DU_FLAGS
 
@@ -38,7 +37,6 @@ def _du_local_total(paths: list, du_flags=None) -> int:
 
     try:
         cmd = ['du'] + du_flags + [str(p) for p in paths]
-        print(f'\t{cmd=}')  # DEBUG
 
         result = subprocess.run(
             cmd,
@@ -76,8 +74,6 @@ def _du_remote_total(cfg: config.Config,
         Total size in bytes, or -1 on failure.
     """
 
-    print(f'du_remote_total() :: {backups=}, {du_flags=}')  # DEBUG
-
     if du_flags is None:
         du_flags = DEFAULT_DU_FLAGS
 
@@ -91,7 +87,6 @@ def _du_remote_total(cfg: config.Config,
     )
 
     try:
-        print(f'\t{ssh_cmd=}')  # DEBUG
         result = subprocess.run(
             ssh_cmd,
             capture_output=True,
@@ -102,7 +97,7 @@ def _du_remote_total(cfg: config.Config,
         total_line = output.strip().split('\n')[-1]
 
         total_size_bytes = int(total_line.split()[0])
-        print(f'\t{total_size_bytes=}')  # DEBUG
+
         return total_size_bytes
 
     except subprocess.CalledProcessError as err:
@@ -122,7 +117,9 @@ def compute_total_usage(cfg: config.Config,
 
     if 'ssh' in cfg.snapshotsMode():
         return _du_remote_total(
-            cfg, backups, mounted_path=mounted_path
+            cfg,
+            backups,
+            mounted_path=mounted_path
         )
 
     return _du_local_total([p for _unused, p in backups])
@@ -138,6 +135,7 @@ def compute_sizes_local(paths: list) -> tuple:
     """
     logical = sum(_du_local_total([p]) for p in paths)
     physical = _du_local_total(paths)
+
     return (logical, physical)
 
 
@@ -177,7 +175,7 @@ def compute_space_savings(cfg, backups, mounted_path=None) -> tuple:
 
     else:
         logical, physical = compute_sizes_local(
-            [str(one_backup) for _, one_backup in backups]
+            [str(one_backup[1]) for one_backup in backups]
         )
 
     if logical < 0 or physical < 0:

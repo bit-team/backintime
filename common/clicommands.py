@@ -558,9 +558,9 @@ def show_backups(args: argparse.Namespace):
                 mounted_path=mount_manager.path
             )
 
-        # DEBUG
-        for b in backups:
-            print(f'{b=}')
+        # # DEBUG
+        # for b in backups:
+        #     print(f'{b=}')
 
             # CLI: "show --last"
         if args.last:
@@ -600,40 +600,37 @@ def show_backups(args: argparse.Namespace):
 
 
 def _get_usage_summary_text(cfg, backups, mounted_path) -> str:
-    result = ''
-
     size_bytes = diskusage.compute_total_usage(
         # profile,
         cfg,
         backups,
         mounted_path
     )
-    print(f'{size_bytes=}')  # DEBUG
 
     # Real usage
-    result = 'Real disk usage:'
     if size_bytes < 0:
-        result = (
-            f'{result} ERROR (could not determine size)'
+        real_fmt = (
+            'ERROR (could not determine size)'
         )
 
     else:
-        size_fmt = StorageSize(size_bytes).as_human_readable()
-        result = f'{result} {size_fmt}'
+        real_fmt = StorageSize(size_bytes).as_human_readable()
 
     # Append space savings from hard-link deduplication
     logical, physical, saved, percent = \
         diskusage.compute_space_savings(cfg, backups, mounted_path)
 
-    # DEBUG
-    print(f'DEBUG {logical=} {physical=} {saved=} {percent=}')
-
     if logical >= 0 and physical >= 0:
         saved_fmt = StorageSize(saved).as_human_readable()
+        logical_fmt = StorageSize(logical).as_human_readable()
         result = (
-            f'{result}\nSpace saved by hard links: '
+            f'Logical size (hard links ignored): {logical_fmt}\n'
+            f'Real disk usage                  : {real_fmt}\n'
+            'Space saved by hard links        : '
             f'{saved_fmt} ({percent:.1f} %)'
         )
+    else:
+        result = f'Real disk usage: {real_fmt}'
 
     return result
 

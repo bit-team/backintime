@@ -101,11 +101,13 @@ class StorageSize:
         Returns:
             Formatted string like "1.5 GiB".
         """
-        for unit in (SizeUnit.GIB, SizeUnit.MIB, SizeUnit.KIB):
+        for unit in reversed(list(SizeUnit)):
+
             if self >= StorageSize(1, unit):
-                value = self.value(unit,
-                                   decimal_places=decimal_places)
+                value = self.value(unit, decimal_places=decimal_places)
+
                 return f'{value:.{decimal_places}f} {unit}'
+
         return f'{self._bytes} {SizeUnit.B}'
 
     def set_value(self, value: int):
