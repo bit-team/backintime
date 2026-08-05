@@ -101,7 +101,7 @@ class StorageSize:
         Returns:
             Formatted string like "1.5 GiB".
         """
-        for unit in reversed(list(SizeUnit)):
+        for unit in reversed(list(SizeUnit)[1:]):
 
             if self >= StorageSize(1, unit):
                 value = self.value(unit, decimal_places=decimal_places)

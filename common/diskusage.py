@@ -8,9 +8,8 @@
 """Disk usage calculation for backups incl. hard-link savings."""
 import subprocess
 import logger
-import snapshots
 import config
-# import konfig
+# import konfig  # Will come...
 
 DEFAULT_DU_FLAGS = [
     # display only a total for each argument
@@ -60,8 +59,7 @@ def _du_local_total(paths: list, du_flags=None) -> int:
 
 def _du_remote_total(cfg: config.Config,
                      backups,
-                     du_flags: bool | None = None,
-                     mounted_path=None) -> int:
+                     du_flags: bool | None = None) -> int:
     """Compute total disk usage of remote backups via SSH.
 
     Args:
@@ -110,17 +108,11 @@ def _du_remote_total(cfg: config.Config,
         return -1
 
 
-def compute_total_usage(cfg: config.Config,
-                        backups,
-                        mounted_path=None):
+def compute_total_usage(cfg: config.Config, backups):
     """Total physical disk usage of all backups."""
 
     if 'ssh' in cfg.snapshotsMode():
-        return _du_remote_total(
-            cfg,
-            backups,
-            mounted_path=mounted_path
-        )
+        return _du_remote_total(cfg, backups)
 
     return _du_local_total([p for _unused, p in backups])
 
@@ -139,7 +131,7 @@ def compute_sizes_local(paths: list) -> tuple:
     return (logical, physical)
 
 
-def compute_sizes_remote(cfg, backups, mounted_path=None) -> tuple:
+def compute_sizes_remote(cfg, backups) -> tuple:
     """Return (apparent_bytes, physical_bytes) for remote backups via SSH.
 
     Apparent = sum of ``du -sbc`` per snapshot via SSH (no cross-snapshot
@@ -147,17 +139,15 @@ def compute_sizes_remote(cfg, backups, mounted_path=None) -> tuple:
     deduplicated across snapshots).
     """
     logical = sum(
-        _du_remote_total(
-            cfg, [one_backup], mounted_path=mounted_path
-        ) for one_backup in backups
+        _du_remote_total(cfg, [one_backup]) for one_backup in backups
     )
 
-    physical = _du_remote_total(cfg, backups, mounted_path=mounted_path)
+    physical = _du_remote_total(cfg, backups)
 
     return (logical, physical)
 
 
-def compute_space_savings(cfg, backups, mounted_path=None) -> tuple:
+def compute_space_savings(cfg, backups) -> tuple:
     """Compute space saved by hard link-based deduplication.
 
     Returns:
@@ -167,11 +157,7 @@ def compute_space_savings(cfg, backups, mounted_path=None) -> tuple:
     mode = cfg.snapshotsMode()
 
     if 'ssh' in mode:
-        logical, physical = compute_sizes_remote(
-            cfg,
-            backups,
-            mounted_path=mounted_path
-        )
+        logical, physical = compute_sizes_remote(cfg, backups)
 
     else:
         logical, physical = compute_sizes_local(

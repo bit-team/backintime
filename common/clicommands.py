@@ -558,11 +558,7 @@ def show_backups(args: argparse.Namespace):
                 mounted_path=mount_manager.path
             )
 
-        # # DEBUG
-        # for b in backups:
-        #     print(f'{b=}')
-
-            # CLI: "show --last"
+        # CLI: "show --last"
         if args.last:
             backups = backups[-1:]
 
@@ -600,12 +596,7 @@ def show_backups(args: argparse.Namespace):
 
 
 def _get_usage_summary_text(cfg, backups, mounted_path) -> str:
-    size_bytes = diskusage.compute_total_usage(
-        # profile,
-        cfg,
-        backups,
-        mounted_path
-    )
+    size_bytes = diskusage.compute_total_usage(cfg, backups)
 
     # Real usage
     if size_bytes < 0:
@@ -618,7 +609,7 @@ def _get_usage_summary_text(cfg, backups, mounted_path) -> str:
 
     # Append space savings from hard-link deduplication
     logical, physical, saved, percent = \
-        diskusage.compute_space_savings(cfg, backups, mounted_path)
+        diskusage.compute_space_savings(cfg, backups)
 
     if logical >= 0 and physical >= 0:
         saved_fmt = StorageSize(saved).as_human_readable()
