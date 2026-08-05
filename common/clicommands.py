@@ -527,16 +527,6 @@ def show_backups(args: argparse.Namespace):
     mount_manager = MountManager.create(cfg)
     usage_result = ''
 
-    # # Dirty WORKAROUND
-    # # The info which profil is selected shouldn't state in a config object
-    # profile = ProfileContext().profile
-
-    # WORKAROUND
-    # The backup list contains 2-entry tuples with the backupID and its
-    # local mounted path.
-    # But for SSH profiles the size calculation is done remote via ssh direct
-    # on the remote machine.
-    # Because of that path on the remote machine need to be used.
     with mount_manager.mounted():
         if 'ssh' in ProfileContext().profile.mode:
             # List of 2-entry tuples
