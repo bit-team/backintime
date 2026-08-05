@@ -527,27 +527,42 @@ def show_backups(args: argparse.Namespace):
     mount_manager = MountManager.create(cfg)
     usage_result = ''
 
-    # Dirty WORKAROUND
-    # The info which profil is selected shouldn't state in a config object
-    profile = ProfileContext().profile
+    # # Dirty WORKAROUND
+    # # The info which profil is selected shouldn't state in a config object
+    # profile = ProfileContext().profile
 
+    # WORKAROUND
+    # The backup list contains 2-entry tuples with the backupID and its
+    # local mounted path.
+    # But for SSH profiles the size calculation is done remote via ssh direct
+    # on the remote machine.
+    # Because of that path on the remote machine need to be used.
     with mount_manager.mounted():
-        # List of 2-entry tuples
-        # (backup-ID, local-mounted-path)
-        backups = snapshots.get_backup_ids_and_paths(
-            cfg=cfg,
-            descending=True,
-            include_new=False,
-            mounted_path=mount_manager.path
-        )
+        if 'ssh' in ProfileContext().profile.mode:
+            # List of 2-entry tuples
+            # (backup-ID, remote-path)
+            backups = snapshots.get_backup_ids_and_source_paths(
+                cfg=cfg,
+                descending=True,
+                include_new=False,
+                mounted_path=mount_manager.path,
+                source_base_path=mount_manager.backend.source_path
+            )
+        else:
+            # List of 2-entry tuples
+            # (backup-ID, local-mounted-path)
+            backups = snapshots.get_backup_ids_and_paths(
+                cfg=cfg,
+                descending=True,
+                include_new=False,
+                mounted_path=mount_manager.path
+            )
 
         # DEBUG
         for b in backups:
             print(f'{b=}')
-            print(f'{mount_manager.backend.source_path=}')
-        sys.exit()
 
-        # CLI: "show --last"
+            # CLI: "show --last"
         if args.last:
             backups = backups[-1:]
 
@@ -586,15 +601,6 @@ def show_backups(args: argparse.Namespace):
 
 def _get_usage_summary_text(cfg, backups, mounted_path) -> str:
     result = ''
-
-    # WORKAROUND
-    # The backup list contains 2-entry tuples with the backupID and its
-    # local mounted path.
-    # But for SSH profiles the size calculation is done remote via ssh direct
-    # on the remote machine.
-    # Because of that path on the remote machine need to be used.
-    if 'ssh' in cfg.scheduleMode():
-        pass
 
     size_bytes = diskusage.compute_total_usage(
         # profile,

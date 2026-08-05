@@ -81,13 +81,7 @@ def _du_remote_total(cfg: config.Config,
     if du_flags is None:
         du_flags = DEFAULT_DU_FLAGS
 
-    # mode = cfg.snapshotsMode()
-    remote_paths = []
-
-    for sid_str, _unused in backups:
-        sid_obj = snapshots.SID(sid_str, cfg, mounted_path)
-        remote_path = sid_obj.path()
-        remote_paths.append(remote_path)
+    remote_paths = [one_backup[1] for one_backup in backups]
 
     # Config.sshCommand() is deprecated
     ssh_cmd = cfg.sshCommand(
