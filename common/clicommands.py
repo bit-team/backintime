@@ -532,13 +532,20 @@ def show_backups(args: argparse.Namespace):
     profile = ProfileContext().profile
 
     with mount_manager.mounted():
-        # raw data
+        # List of 2-entry tuples
+        # (backup-ID, local-mounted-path)
         backups = snapshots.get_backup_ids_and_paths(
             cfg=cfg,
             descending=True,
             include_new=False,
             mounted_path=mount_manager.path
         )
+
+        # DEBUG
+        for b in backups:
+            print(f'{b=}')
+            print(f'{mount_manager.backend.source_path=}')
+        sys.exit()
 
         # CLI: "show --last"
         if args.last:
@@ -580,12 +587,22 @@ def show_backups(args: argparse.Namespace):
 def _get_usage_summary_text(cfg, backups, mounted_path) -> str:
     result = ''
 
+    # WORKAROUND
+    # The backup list contains 2-entry tuples with the backupID and its
+    # local mounted path.
+    # But for SSH profiles the size calculation is done remote via ssh direct
+    # on the remote machine.
+    # Because of that path on the remote machine need to be used.
+    if 'ssh' in cfg.scheduleMode():
+        pass
+
     size_bytes = diskusage.compute_total_usage(
         # profile,
         cfg,
         backups,
         mounted_path
     )
+    print(f'{size_bytes=}')  # DEBUG
 
     # Real usage
     result = 'Real disk usage:'

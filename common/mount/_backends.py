@@ -46,6 +46,11 @@ class Backend:
         self.path = None
 
     @property
+    def source_path(self) -> Path:
+        """Return the real backend source path."""
+        raise NotImplementedError
+
+    @property
     def fingerprint(self) -> str:
         """See `MountManager.fingerprint`"""
         return self._fingerprint
@@ -79,7 +84,10 @@ class LocalBackend(Backend):
         super().__init__(cfg)
         self.path = cfg.get_backup_destination_path(cfg.currentProfile())
 
-        # logger.critical(f'{self=} {self.path=}')
+    @property
+    def source_path(self) -> Path:
+        """Return the local source path"""
+        return self.path
 
     def get_fingerprint_base(self) -> str:
         """See ``Backend.get_fingerprint_base()``"""
@@ -139,6 +147,11 @@ class SSHBackend(Backend):
             proxy=proxy,
             path=cfg.sshSnapshotsPath()
         )
+
+    @property
+    def source_path(self) -> Path:
+        """Return the source path on the remote machine"""
+        return Path(self.host.path)
 
     def set_fingerprint(self, fingerprint: str):
         """See `MountManager.fingerprint`"""

@@ -3518,9 +3518,5 @@ def get_backup_ids_and_paths(cfg: config.Config,
 
     result = [(str(sid), Path(sid.path())) for sid in all_sids]
 
+    # print(f'{all_sids=}\n{result=}\n')  # DEBUG
     return result
-
-# if __name__ == '__main__':
-#     config = config.Config()
-#     snapshots = Snapshots(config)
-#     snapshots.backup()

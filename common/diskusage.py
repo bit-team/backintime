@@ -12,6 +12,14 @@ import snapshots
 import config
 # import konfig
 
+DEFAULT_DU_FLAGS = [
+    # display only a total for each argument
+    '--summarize',
+    # equivalent to '--apparent-size --block-size=1'
+    '--bytes',
+    '--total'
+]
+
 
 def _du_local_total(paths: list, du_flags=None) -> int:
     """Compute total disk usage of local paths via ``du``.
@@ -21,22 +29,32 @@ def _du_local_total(paths: list, du_flags=None) -> int:
         du_flags: Flags for ``du``, defaults to ``['-sbc']`` (apparent size
             in bytes, each hard link counted individually).
     """
+    print(f'du_local_total() :: {paths=}, {du_flags=}')  # DEBUG
     if du_flags is None:
-        du_flags = ['-sbc']
+        du_flags = DEFAULT_DU_FLAGS
 
     if not paths:
         return 0
+
     try:
+        cmd = ['du'] + du_flags + [str(p) for p in paths]
+        print(f'\t{cmd=}')  # DEBUG
+
         result = subprocess.run(
-            ['du'] + du_flags + [str(p) for p in paths],
-            capture_output=True, text=True, check=True
+            cmd,
+            capture_output=True,
+            text=True,
+            check=True
         )
         total_line = result.stdout.strip().split('\n')[-1]
+
         return int(total_line.split()[0])
+
     except subprocess.CalledProcessError as err:
         logger.error(
             f'Failed to compute local disk usage: {err.stderr.strip()}')
         return -1
+
     except (ValueError, IndexError):
         logger.error('Failed to parse disk usage output')
         return -1
@@ -58,8 +76,10 @@ def _du_remote_total(cfg: config.Config,
         Total size in bytes, or -1 on failure.
     """
 
+    print(f'du_remote_total() :: {backups=}, {du_flags=}')  # DEBUG
+
     if du_flags is None:
-        du_flags = ['-sbc']
+        du_flags = DEFAULT_DU_FLAGS
 
     # mode = cfg.snapshotsMode()
     remote_paths = []
@@ -77,14 +97,19 @@ def _du_remote_total(cfg: config.Config,
     )
 
     try:
+        print(f'\t{ssh_cmd=}')  # DEBUG
         result = subprocess.run(
             ssh_cmd,
             capture_output=True,
             text=True,
             check=True
         )
-        total_line = result.stdout.strip().split('\n')[-1]
-        return int(total_line.split()[0])
+        output = result.stdout
+        total_line = output.strip().split('\n')[-1]
+
+        total_size_bytes = int(total_line.split()[0])
+        print(f'\t{total_size_bytes=}')  # DEBUG
+        return total_size_bytes
 
     except subprocess.CalledProcessError as err:
         logger.error(
@@ -134,7 +159,9 @@ def compute_sizes_remote(cfg, backups, mounted_path=None) -> tuple:
             cfg, [one_backup], mounted_path=mounted_path
         ) for one_backup in backups
     )
+
     physical = _du_remote_total(cfg, backups, mounted_path=mounted_path)
+
     return (logical, physical)
 
 
