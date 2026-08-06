@@ -686,6 +686,12 @@ class ParserAgent:
             help='list available profiles'
         )
 
+        parser.add_argument(
+            '--usage',
+            action='store_true',
+            default=False,
+            help='show disk usage and space saved by hard-link deduplication')
+
         self.parsers[name] = parser
 
     def _create_cmd_unmount(self):

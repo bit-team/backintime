@@ -232,3 +232,31 @@ class RestoreCommand(unittest.TestCase):
                 ('restore', '--local-backup', '--no-local-backup'),
                 self.parser_agent
             )
+
+
+class ShowCommand(unittest.TestCase):
+    """Tests about arguments related to the 'show' command."""
+
+    def setUp(self):
+        super().setUp()
+        self.parser_agent = cliarguments.ParserAgent(
+            app_name=bitbase.APP_NAME,
+            bin_name=bitbase.BINARY_NAME_CLI)
+
+    def test_simple(self):
+        sut = cliarguments.parse_arguments(['show'], self.parser_agent)
+        self.assertEqual(sut.command, 'show')
+        self.assertIs(sut.func, clicommands.show_backups)
+
+    def test_usage(self):
+        sut = cliarguments.parse_arguments(
+            ['show', '--usage'], self.parser_agent)
+        self.assertEqual(sut.command, 'show')
+        self.assertTrue(sut.usage)
+
+    def test_usage_last(self):
+        sut = cliarguments.parse_arguments(
+            ['show', '--usage', '--last'], self.parser_agent)
+        self.assertEqual(sut.command, 'show')
+        self.assertTrue(sut.usage)
+        self.assertTrue(sut.last)

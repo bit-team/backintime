@@ -18,7 +18,7 @@ from types import MappingProxyType
 class SizeUnit(Enum):
     """Unit to describe storage size."""
     B = 0
-    # KIB = 5
+    KIB = 5
     MIB = 10
     GIB = 20
     # TIB = 30
@@ -26,6 +26,7 @@ class SizeUnit(Enum):
     def __str__(self):
         return {
             self.B: 'Byte',
+            self.KIB: 'KiB',
             self.MIB: 'MiB',
             self.GIB: 'GiB',
         }[self]
@@ -39,6 +40,7 @@ class StorageSize:
     """
     _FACTORS = MappingProxyType({
         SizeUnit.B: 0,
+        SizeUnit.KIB: 1,
         SizeUnit.MIB: 2,
         SizeUnit.GIB: 3,
     })
@@ -89,6 +91,24 @@ class StorageSize:
         su = StorageSize(self._bytes, self._unit)
         su.unit = unit
         return str(su)
+
+    def as_human_readable(self, decimal_places: int = 1) -> str:
+        """Auto-select the largest suitable unit and format.
+
+        Args:
+            decimal_places: Number of decimal places (default 1).
+
+        Returns:
+            Formatted string like "1.5 GiB".
+        """
+        for unit in reversed(list(SizeUnit)[1:]):
+
+            if self >= StorageSize(1, unit):
+                value = self.value(unit, decimal_places=decimal_places)
+
+                return f'{value:.{decimal_places}f} {unit}'
+
+        return f'{self._bytes} {SizeUnit.B}'
 
     def set_value(self, value: int):
         """Set the value based on the current size unit.

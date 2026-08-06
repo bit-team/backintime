@@ -545,8 +545,6 @@ def get_config_and_select_profile(
     cfg = Konfig()
     cfg.load(config_path)
 
-    # cfg = config.Config(config_path=config_path, data_path=data_path)
-
     # detect and remove encfs profiles
     if _backup_and_remove_encfs_config(cfg):
         # re-read again

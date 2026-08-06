@@ -40,6 +40,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 ### Added
 - Gocryptfs for SSH encrypted profiles
   ([PR#2486](https://github.com/bit-team/backintime/pull/2486))
+- CLI: '--usage' option for the 'show' command, showing total physical disk usage of all backups ([@arcsinhx](https://github.com/arcsinhx), [PR#2480](https://github.com/bit-team/backintime/pull/2480))
 - Dependencies:
   - build: `pandoc` to convert markdown changelog into HTML
   - runtime-cli: `gocryptfs`

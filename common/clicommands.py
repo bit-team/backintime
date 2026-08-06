@@ -30,6 +30,9 @@ from konfig import Konfig
 from mount import MountManager
 from applicationinstance import ApplicationInstance
 from shutdownagent import ShutdownAgent
+import diskusage
+from storagesize import StorageSize
+from profilecontext import ProfileContext
 
 
 def _deprecation_msg(cmd_flag: str, replacement: str) -> str:
@@ -75,7 +78,7 @@ def show_deprecation_message(cmd_flag: str):
 def _get_config(args: argparse.Namespace) -> config.Config:
     """A dirty little helper. Feel free to refactor."""
 
-    # Crreate a Konfig instance
+    # Crreate a Konfig instance and select profile
     cli.get_config_and_select_profile(
         config_path=bitbase.context['--config'],  # args.config,
         pid_or_name=args.profile
@@ -516,23 +519,46 @@ def show_backups(args: argparse.Namespace):
 
     cfg = _get_config(args)
 
+    # CLI: "show --profiles"
     if args.profiles:
         _show_profile_list()
         sys.exit(bitbase.RETURN_OK)
 
     mount_manager = MountManager.create(cfg)
+    usage_result = ''
 
     with mount_manager.mounted():
-        # raw data
-        backups = snapshots.get_backup_ids_and_paths(
-            cfg=cfg,
-            descending=True,
-            include_new=False,
-            mounted_path=mount_manager.path
-        )
+        if 'ssh' in ProfileContext().profile.mode:
+            # List of 2-entry tuples
+            # (backup-ID, remote-path)
+            backups = snapshots.get_backup_ids_and_source_paths(
+                cfg=cfg,
+                descending=True,
+                include_new=False,
+                mounted_path=mount_manager.path,
+                source_base_path=mount_manager.backend.source_path
+            )
+        else:
+            # List of 2-entry tuples
+            # (backup-ID, local-mounted-path)
+            backups = snapshots.get_backup_ids_and_paths(
+                cfg=cfg,
+                descending=True,
+                include_new=False,
+                mounted_path=mount_manager.path
+            )
 
-    if args.last:
-        backups = backups[-1:]
+        # CLI: "show --last"
+        if args.last:
+            backups = backups[-1:]
+
+        # CLI: "show --usage"
+        if args.usage:
+            usage_result = _get_usage_summary_text(
+                cfg=cfg,
+                backups=backups,
+                mounted_path=mount_manager.path
+            )
 
     if args.path:
         # Path
@@ -549,12 +575,45 @@ def show_backups(args: argparse.Namespace):
     )
 
     print(result)
+    if usage_result:
+        print(usage_result)
 
     if not backups:
         logger.info(f'No backups in profile "{cfg.profileName()}"')
         sys.exit(bitbase.RETURN_ERR)
 
     sys.exit(bitbase.RETURN_OK)
+
+
+def _get_usage_summary_text(cfg, backups, mounted_path) -> str:
+    size_bytes = diskusage.compute_total_usage(cfg, backups)
+
+    # Real usage
+    if size_bytes < 0:
+        real_fmt = (
+            'ERROR (could not determine size)'
+        )
+
+    else:
+        real_fmt = StorageSize(size_bytes).as_human_readable()
+
+    # Append space savings from hard-link deduplication
+    logical, physical, saved, percent = \
+        diskusage.compute_space_savings(cfg, backups)
+
+    if logical >= 0 and physical >= 0:
+        saved_fmt = StorageSize(saved).as_human_readable()
+        logical_fmt = StorageSize(logical).as_human_readable()
+        result = (
+            f'Logical size (hard links ignored): {logical_fmt}\n'
+            f'Real disk usage                  : {real_fmt}\n'
+            'Space saved by hard links        : '
+            f'{saved_fmt} ({percent:.1f} %)'
+        )
+    else:
+        result = f'Real disk usage: {real_fmt}'
+
+    return result
 
 
 def smart_remove(args: argparse.Namespace):

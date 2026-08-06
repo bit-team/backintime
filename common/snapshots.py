@@ -2629,13 +2629,13 @@ class SID:  # -> "BackupID" will be its new name
     LOG = 'takesnapshot.log.bz2'
 
     @staticmethod
-    def _construct_path_workaround(mounted, cfg, sid) -> str:
+    def _construct_path_workaround(base_path, cfg, sid) -> str:
         """A dirty workaround. Will get back to it later.
 
         buhtz, 2026-03
         """
         host, user, profile = cfg.hostUserProfile(cfg.currentProfile())
-        path = mounted / 'backintime' / host / user / profile / sid
+        path = base_path / 'backintime' / host / user / profile / sid
         return str(path)
 
     def __init__(self, date, cfg, mounted_path):
@@ -2676,7 +2676,8 @@ class SID:  # -> "BackupID" will be its new name
                             f"or datetime.datetime but is '{date}'")
 
         self._path = SID._construct_path_workaround(
-            self._mounted_path, self.config, self.sid)
+            self._mounted_path, self.config, self.sid
+        )
 
     def get_descriptor(self):
         return self.sid
@@ -3259,7 +3260,8 @@ class NewSnapshot(GenericNonSnapshot):
         # WTF! super().__init__() not called.
 
         self._path = SID._construct_path_workaround(
-            self._mounted_path, self.config, self.sid)
+            self._mounted_path, self.config, self.sid
+        )
 
     def __lt__(self, other):
         return False
@@ -3518,9 +3520,32 @@ def get_backup_ids_and_paths(cfg: config.Config,
 
     result = [(str(sid), Path(sid.path())) for sid in all_sids]
 
+    # print(f'{all_sids=}\n{result=}\n')  # DEBUG
     return result
 
-# if __name__ == '__main__':
-#     config = config.Config()
-#     snapshots = Snapshots(config)
-#     snapshots.backup()
+
+def get_backup_ids_and_source_paths(cfg: config.Config,
+                                    descending: bool,
+                                    include_new: bool,
+                                    mounted_path: Path,
+                                    source_base_path: Path,
+                                    ) -> list[tuple[str, Path]]:
+    """Set get_backup_ids_and_paths()"""
+    result = []
+
+    all_sids = sorted(
+        iterSnapshots(
+            cfg=cfg,
+            includeNewSnapshot=include_new,
+            mounted_path=mounted_path
+        ),
+        reverse=not descending)
+
+    result = [
+        (
+            str(sid),
+            SID._construct_path_workaround(source_base_path, cfg, str(sid))
+        ) for sid in all_sids
+    ]
+
+    return result

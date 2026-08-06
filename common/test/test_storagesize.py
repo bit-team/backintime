@@ -83,6 +83,7 @@ class Basics(unittest.TestCase):
         expected_bytes = 1024*(1024**2)
         expected_value = {
             SizeUnit.B: expected_bytes,
+            SizeUnit.KIB: 1024 * 1024,
             SizeUnit.MIB: 1024,
             SizeUnit.GIB: 1
         }
@@ -398,3 +399,24 @@ class LessGreaterOrEqual(unittest.TestCase):
         b = StorageSize(1, SizeUnit.GIB)
         self.assertTrue(a <= b)
         self.assertTrue(b >= a)
+
+
+class FormatSizeHuman(unittest.TestCase):
+    """Tests for StorageSize.human_readable()."""
+
+    def test_zero(self):
+        self.assertEqual(StorageSize(0).as_human_readable(), '0 Byte')
+
+    def test_bytes(self):
+        self.assertEqual(StorageSize(512).as_human_readable(), '512 Byte')
+
+    def test_kib(self):
+        self.assertEqual(StorageSize(2048).as_human_readable(), '2.0 KiB')
+
+    def test_mib(self):
+        self.assertEqual(
+            StorageSize(1024 * 1024).as_human_readable(), '1.0 MiB')
+
+    def test_gib(self):
+        gib = 1024 * 1024 * 1024
+        self.assertEqual(StorageSize(gib).as_human_readable(), '1.0 GiB')
