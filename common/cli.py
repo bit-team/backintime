@@ -10,6 +10,7 @@ import os
 import sys
 import atexit
 import shutil
+from enum import Enum
 from pathlib import Path
 import tools
 import daemon
@@ -515,6 +516,32 @@ def _backup_and_remove_encfs_config(cfg: Konfig) -> bool:
     return True
 
 
+def _fix_enum_values(path: Path, enum_cls: type[Enum]) -> None:
+    """Fixes a bug in the wild where the config file contains enum names
+    instead of the enum integer values. One example is `bitbase.TimeUnit`.
+
+    Dev note (buhtz, 2026-08):
+    Back In Time version 1.6.1 (maybe earlier version) introduced this. But
+    beginning with version 2.0.0 this would make BIT crash.
+    Regarding 1.6.1 was introduced with Debian 13, my recommendation is to
+    remove this fix-workaround not before Debian 15 is released.
+    """
+    lines = []
+
+    for line in path.read_text().splitlines(keepends=True):
+        # each enum entry
+        for member in enum_cls:
+            line = line.replace(
+                # e.g. "=TimeUnit.YEAR
+                f'={enum_cls.__name__}.{member.name}',
+                # e.g. "=80"
+                f'={member.value!s}',
+            )
+        lines.append(line)
+
+    path.write_text(''.join(lines))
+
+
 def get_config_and_select_profile(
         config_path: Path,
         pid_or_name: str | int | None
@@ -541,6 +568,9 @@ def get_config_and_select_profile(
         pid_or_name = int(pid_or_name)
 
     _warn_about_global_config()
+
+    # fix enums in 1.6.1 config files
+    _fix_enum_values(config_path, bitbase.TimeUnit)
 
     cfg = Konfig()
     cfg.load(config_path)
