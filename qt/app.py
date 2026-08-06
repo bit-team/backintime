@@ -1792,31 +1792,22 @@ class MainWindow(QMainWindow):
             )
 
         rc_message = _(
-            'This version of Back In Time is a Release Candidate and is '
-            'primarily intended for stability testing in preparation for the '
-            'next official release.'
+            'This version is a Release Candidate for testing before the '
+            'next stable release.'
             '\n'
-            'No user data or telemetry is collected. However, the Back In '
-            'Time team is very interested in knowing if the Release Candidate '
-            'is being used and if it is worth continuing to provide such '
-            'pre-release versions.'
+            'If you test this version, please provide feedback. Let us know '
+            'if you found a problem or if everything worked as expected. Even '
+            'a short test of a few minutes is helpful.'
             '\n'
-            'Therefore, the team kindly asks for a short feedback on whether '
-            'you have tested this version, even if you didn’t encounter any '
-            'issues. Even a quick test run of a few minutes would help us a '
-            'lot.'
-            '\n'
-            'The following contact options are available:'
+            'You can reach the Back In Time team via:'
             '\n'
             '{contact_list}'
             '\n'
-            "In this version, this message won't be shown again but can be "
-            'accessed anytime through the help menu.'
+            "This message won't be shown again, but it can be opened anytime "
+            'from the Help menu.'
             '\n'
-            'Thank you for your support and for helping us improve '
-            'Back In Time!'
-            '\n'
-            'Your Back In Time Team').format(contact_list=html_contact_list)
+            'Thank you for testing Back In Time and helping us improve it!'
+        ).format(contact_list=html_contact_list)
 
         dlg = UserMessageDialog(
             parent=None,

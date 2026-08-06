@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-08-02 14:42+0200\n"
+"POT-Creation-Date: 2026-08-06 10:32+0200\n"
 "PO-Revision-Date: 2026-03-12 11:29+0000\n"
 "Last-Translator: barisozyurt <barisozyurt@noreply.codeberg.org>\n"
 "Language-Team: Turkish <https://translate.codeberg.org/projects/backintime/common/tr/>\n"
@@ -31,7 +31,7 @@ msgstr ""
 
 #: common/bitbase.py:21 common/config.py:36 common/konfig.py:32
 #: common/mount/_backends.py:23 common/tools.py:88 qt/encfsmsgbox.py:32
-#: qt/messagebox.py:99 qt/timeline.py:34
+#: qt/messagebox.py:100 qt/timeline.py:34
 msgid "Warning"
 msgstr "Uyarı"
 
@@ -74,24 +74,25 @@ msgstr ""
 "Bu dizin yedek dizininin bir parçası olduğundan yedeğe dahil edilemez."
 
 #: common/check_config.py:113
-msgid "There is a conflict between two settings."
+msgid "Two settings conflict with each other."
 msgstr ""
 
 #: common/check_config.py:116
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
-"({val_one}) must be less than or equal the threshold for \"Warn if free disk"
-" space falls below\" ({val_two})."
+"({val_one}) must be less than or equal to the value for \"Warn if the free "
+"disk space falls below\" ({val_two})."
 msgstr ""
 "\"Boş alan daha azsa en eski yedeklemeyi kaldır\" ({val_one}) değeri, \"Boş "
 "disk alanı altına düşerse uyar\" ({val_two}) eşiğinden küçük veya eşit "
 "olmalıdır."
 
 #: common/check_config.py:123
+#, fuzzy
 msgid ""
-"Please adjust the settings so that the backup removal limit is not higher "
-"than the warning limit."
+"Please adjust the settings so that the threshold for removing old backups "
+"does not exceed the free disk space warning threshold."
 msgstr ""
 "Lütfen yedekleme kaldırma sınırının uyarı sınırından yüksek olmaması için "
 "ayarları düzenleyin."
@@ -128,22 +129,22 @@ msgstr "SSH özel anahtar"
 msgid "SSH (encrypted)"
 msgstr "SSH (EncFS şifreli)"
 
-#: common/config.py:1879
-#, python-brace-format
-msgid "Udev schedule doesn't work with mode {mode}"
+#: common/config.py:1880
+#, fuzzy, python-brace-format
+msgid "Udev schedule doesn't work with mode {mode}."
 msgstr "Udev zamanlama kipi {mode} ile çalışmıyor"
 
-#: common/config.py:1906
+#: common/config.py:1907
 msgid ""
-"Authentication timed out. The udev scheduling setup was not completed. "
-"Please try again."
+"Authentication timed out. The setup of Udev-based scheduling was not "
+"completed. Please try again."
 msgstr ""
 
-#: common/config.py:1944
+#: common/config.py:1945
 msgid "Failed to write new crontab."
 msgstr "Yeni crontab yazımı başarısız oldu."
 
-#: common/config.py:1953
+#: common/config.py:1954
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -156,12 +157,12 @@ msgstr ""
 "\"systemctl enable cron\" ve \"systemctl start cron\" komutlarını deneyin "
 "veya GNU Linux dağıtımınızın destek kanallarına başvurun."
 
-#: common/mount/_backends.py:95 common/snapshots.py:971
+#: common/mount/_backends.py:95 common/snapshots.py:972
 #, fuzzy
 msgid "Can't find backup destination directory."
 msgstr "Yedekleme klasörü bulunamadı."
 
-#: common/mount/_backends.py:97 common/snapshots.py:975
+#: common/mount/_backends.py:97 common/snapshots.py:976
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Eğer bu bir çıkarılabilir sürücüde ise, lütfen sisteme takın."
 
@@ -191,7 +192,7 @@ msgstr ""
 msgid "SSH authentication failed for:"
 msgstr ""
 
-#: common/mount/_backends.py:224 common/mount/_backends.py:403
+#: common/mount/_backends.py:224 common/mount/_backends.py:401
 #: common/mount/_encryptors.py:262 common/sshsetupvalidator.py:239
 #: common/sshsetupvalidator.py:315 common/sshsetupvalidator.py:357
 #: common/sshsetupvalidator.py:430 common/sshsetupvalidator.py:484
@@ -205,30 +206,29 @@ msgid "The remote backup directory is missing or is not a valid directory."
 msgstr "Uzak yol mevcut ancak bir dizin değil."
 
 #: common/mount/_backends.py:285
-msgid ""
-"Write access to the remote backup directory was denied (missing "
-"permissions)."
-msgstr ""
-
-#: common/mount/_backends.py:291
 #, fuzzy
-msgid "Access to the remote backup directory denied (missing permissions)."
+msgid "Write access to the remote backup directory was denied."
 msgstr "Yedek dizini geçersiz."
 
-#: common/mount/_backends.py:306 qt/manageprofiles/tab_general.py:126
+#: common/mount/_backends.py:290
+#, fuzzy
+msgid "Access to the remote backup directory was denied."
+msgstr "Yedek dizini geçersiz."
+
+#: common/mount/_backends.py:304 qt/manageprofiles/tab_general.py:126
 msgid "Path:"
 msgstr "Yol:"
 
-#: common/mount/_backends.py:314
+#: common/mount/_backends.py:312
 msgid "No SSH host configured."
 msgstr ""
 
-#: common/mount/_backends.py:321
+#: common/mount/_backends.py:319
 #, fuzzy
 msgid "No destination backup directory configured."
 msgstr "Yedekleme klasörü bulunamadı."
 
-#: common/mount/_backends.py:401
+#: common/mount/_backends.py:399
 #, fuzzy
 msgid "Could not mount the remote backup location."
 msgstr "Uzak yol oluşturulamadı."
@@ -267,7 +267,7 @@ msgstr ""
 
 #: common/mount/_encryptors.py:286
 #, python-brace-format
-msgid "Mountpoint as decrypted view is missing. Path: {path}"
+msgid "Decrypted view mountpoint is missing. Path: {path}"
 msgstr ""
 
 #: common/mount/_encryptors.py:338
@@ -325,7 +325,7 @@ msgstr "BAŞARISIZ"
 msgid "Restore permissions"
 msgstr "İzinleri geri yükle"
 
-#: common/snapshots.py:670 qt/app.py:210 qt/app.py:1195 qt/app.py:1221
+#: common/snapshots.py:670 qt/app.py:210 qt/app.py:1205 qt/app.py:1231
 #: qt/qtsystrayicon.py:125
 msgid "Done"
 msgstr "Tamamlandı"
@@ -342,111 +342,111 @@ msgstr ""
 msgid "Deferring backup while on battery"
 msgstr "Pille çalışırken yedeklemeyi erteleme"
 
-#: common/snapshots.py:979
+#: common/snapshots.py:980
 #, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
 msgstr[0] "{n} saniye bekleniyor."
 msgstr[1] "{n} saniye bekleniyor."
 
-#: common/snapshots.py:1054
+#: common/snapshots.py:1055
 #, python-brace-format
 msgid "Failed to create backup {snapshot_id}."
 msgstr "{snapshot_id} yedeği alınamadı."
 
-#: common/snapshots.py:1086
+#: common/snapshots.py:1087
 msgid "Please be patient. Finalizing…"
 msgstr "Lütfen sabırlı olun. Tamamlanıyor…"
 
-#: common/snapshots.py:1183
+#: common/snapshots.py:1184
 msgid "Take snapshot"
 msgstr "Yedek al"
 
-#: common/snapshots.py:1218
+#: common/snapshots.py:1219
 msgid "Can't create directory."
 msgstr "Dizin oluşturulamıyor."
 
-#: common/snapshots.py:1234
+#: common/snapshots.py:1235
 msgid "Saving config file…"
 msgstr "Yapılandırma dosyası kaydediliyor…"
 
-#: common/snapshots.py:1279
+#: common/snapshots.py:1280
 msgid "Saving permissions…"
 msgstr "İzinler kaydediliyor…"
 
-#: common/snapshots.py:1394
+#: common/snapshots.py:1395
 #, python-brace-format
 msgid "Found incomplete backup {snapshot_id} that can be continued."
 msgstr "Devam edilebilecek tamamlanmamış {snapshot_id} yedeği bulundu."
 
-#: common/snapshots.py:1418
+#: common/snapshots.py:1419
 #, python-brace-format
 msgid "Removing incomplete {snapshot_id} directory from last run"
 msgstr ""
 "Son çalıştırmadan kalan tamamlanmamış {snapshot_id} dizini kaldırılıyor"
 
-#: common/snapshots.py:1429
+#: common/snapshots.py:1430
 msgid "Can't remove directory"
 msgstr "Dizin silinemiyor"
 
-#: common/snapshots.py:1496
+#: common/snapshots.py:1497
 msgid "Creating backup"
 msgstr "Yedek oluşturuluyor"
 
-#: common/snapshots.py:1547
+#: common/snapshots.py:1548
 msgid "Success"
 msgstr "Başarılı"
 
-#: common/snapshots.py:1550
+#: common/snapshots.py:1551
 msgid "Partial transfer due to error"
 msgstr "Hata sebebiyle kısmen aktarıldı"
 
-#: common/snapshots.py:1551
+#: common/snapshots.py:1552
 msgid "Partial transfer due to vanished source files (see 'man rsync')"
 msgstr "Kaybolan kaynak dosyalar nedeniyle kısmi aktarım (bkz. 'man rsync')"
 
-#: common/snapshots.py:1555
+#: common/snapshots.py:1556
 #, python-brace-format
 msgid "'rsync' ended with exit code {exit_code}"
 msgstr "'rsync' sonlandı, çıkış kodu: {exit_code}"
 
-#: common/snapshots.py:1568
+#: common/snapshots.py:1569
 msgid "See 'man rsync' for more details"
 msgstr "Daha fazla ayrıntı için bakınız; 'man rsync'"
 
-#: common/snapshots.py:1575
+#: common/snapshots.py:1576
 msgid ""
 "Negative exit codes indicate termination by a signal. The number corresponds"
 " to the signal (see 'kill -l')."
 msgstr ""
 
-#: common/snapshots.py:1598
+#: common/snapshots.py:1599
 msgid "Nothing changed, no new backup necessary"
 msgstr "Hiçbir değişiklik yok, yeni yedek gerekmiyor"
 
-#: common/snapshots.py:1642
+#: common/snapshots.py:1643
 #, python-brace-format
 msgid "Unable to rename {new_path} to {path}."
 msgstr "{new_path} yolu {path} olarak yeniden adlandırılamıyor."
 
-#: common/snapshots.py:2052
+#: common/snapshots.py:2053
 msgid "Applying rules to remove old backups"
 msgstr "Eski yedekleri kaldırmak için kurallar uygulanıyor"
 
-#: common/snapshots.py:2089
+#: common/snapshots.py:2090
 msgid "Applying retention policy"
 msgstr "Saklama politikası kuralları uygulanıyor"
 
-#: common/snapshots.py:2099
+#: common/snapshots.py:2100
 msgid "Trying to keep min free space"
 msgstr "En az boş alan korunmaya çalışılıyor"
 
-#: common/snapshots.py:2142
+#: common/snapshots.py:2143
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "En az {perc} boş düğümü korumaya çalışıyor"
 
-#: common/snapshots.py:3364 qt/app.py:1538 qt/timeline.py:405
+#: common/snapshots.py:3365 qt/app.py:1552 qt/timeline.py:405
 msgid "Now"
 msgstr "Şimdi"
 
@@ -462,7 +462,7 @@ msgstr "ssh-agent bulunamadı. Lütfen kurulu olduğundan emin olun."
 
 #: common/sshsetupvalidator.py:236 common/sshsetupvalidator.py:354
 #, python-brace-format
-msgid "Unexpected response from '{process}'"
+msgid "Unexpected response from '{process}'."
 msgstr ""
 
 #: common/sshsetupvalidator.py:255
@@ -593,7 +593,7 @@ msgstr ""
 msgid "File creation failed in this directory:"
 msgstr "Bu dizin içerisinde dosya oluşturulması sırasında hata:"
 
-#: common/udev.py:43 qt/app.py:1308 qt/messagebox.py:136
+#: common/udev.py:43 qt/app.py:1318 qt/messagebox.py:137
 msgid "Error"
 msgstr "Hata"
 
@@ -635,15 +635,15 @@ msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
 "Bütün dillerdeki çevirmen belirtimleri için bu linki takip edin {thislink}."
 
-#: qt/aboutdlg.py:240 qt/app.py:575
+#: qt/aboutdlg.py:240 qt/app.py:587
 msgid "Project website"
 msgstr "Proje Web Sitesi"
 
-#: qt/aboutdlg.py:245 qt/app.py:557
+#: qt/aboutdlg.py:245 qt/app.py:569
 msgid "User manual"
 msgstr "Kullanım kılavuzu"
 
-#: qt/aboutdlg.py:247 qt/app.py:559
+#: qt/aboutdlg.py:247 qt/app.py:571
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
 "Kullanım kılavuzunu tarayıcıda açın (mevcutsa yerel, aksi takdirde "
@@ -654,7 +654,7 @@ msgstr ""
 msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}Versiyon{BOLDEND}: {version}"
 
-#: qt/app.py:341
+#: qt/app.py:353
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time because no configuration"
@@ -663,7 +663,7 @@ msgstr ""
 "{app_name} uygulaması, herhangi bir yapılandırma bulunmadığı için ilk kez "
 "çalıştırılıyor gibi görünüyor."
 
-#: qt/app.py:346
+#: qt/app.py:358
 #, fuzzy
 msgid ""
 "Create a new configuration or import an existing configuration from a "
@@ -672,270 +672,270 @@ msgstr ""
 "Yedekleme konumundan veya başka bir bilgisayardan mevcut bir yapılandırmayı "
 "içe aktarmak ister misiniz?"
 
-#: qt/app.py:351 qt/confirmrestoredialog.py:36 qt/messagebox.py:123
+#: qt/app.py:363 qt/confirmrestoredialog.py:36 qt/messagebox.py:124
 msgid "Question"
 msgstr "Soru"
 
-#: qt/app.py:355
+#: qt/app.py:367
 msgid "Create"
 msgstr ""
 
-#: qt/app.py:357 qt/restoreconfigdialog.py:135
+#: qt/app.py:369 qt/restoreconfigdialog.py:135
 msgid "Import"
 msgstr "İçe Aktar"
 
-#: qt/app.py:494
+#: qt/app.py:506
 msgid "Create a backup"
 msgstr "Yedek oluştur"
 
-#: qt/app.py:496
+#: qt/app.py:508
 msgid "Use modification time & size for file change detection."
 msgstr ""
 "Dosya değişikliği tespiti için değişiklik zamanı ve boyutunu kullanın."
 
-#: qt/app.py:499
+#: qt/app.py:511
 msgid "Create a backup (checksum mode)"
 msgstr "Yedek oluştur (sağlama toplamı kipi)"
 
-#: qt/app.py:501
+#: qt/app.py:513
 msgid "Use checksums for file change detection."
 msgstr "Dosya değişikliklerini algılamak için sağlama toplamlarını kullan."
 
-#: qt/app.py:503 qt/qtsystrayicon.py:132
+#: qt/app.py:515 qt/qtsystrayicon.py:132
 msgid "Pause backup process"
 msgstr "Yedekleme sürecini duraklat"
 
-#: qt/app.py:508 qt/qtsystrayicon.py:137
+#: qt/app.py:520 qt/qtsystrayicon.py:137
 msgid "Resume backup process"
 msgstr "Yedekleme sürecini sürdür"
 
-#: qt/app.py:513 qt/qtsystrayicon.py:142
+#: qt/app.py:525 qt/qtsystrayicon.py:142
 msgid "Stop backup process"
 msgstr "Yedekleme sürecini durdur"
 
-#: qt/app.py:517
+#: qt/app.py:529
 msgid "Refresh backup list"
 msgstr "Yedekleme listesini yenile"
 
-#: qt/app.py:521
+#: qt/app.py:533
 msgid "Name backup"
 msgstr "Yedek isimlendir"
 
-#: qt/app.py:525
+#: qt/app.py:537
 msgid "Remove backup"
 msgstr "Yedeği kaldır"
 
-#: qt/app.py:529
+#: qt/app.py:541
 msgid "Open backup log"
 msgstr "Yedekleme günlüğünü görüntüle"
 
-#: qt/app.py:531
+#: qt/app.py:543
 msgid "View log of the selected backup."
 msgstr "Seçili yedeklemenin günlüğünü görüntüleyin."
 
-#: qt/app.py:533
+#: qt/app.py:545
 msgid "Open last backup log"
 msgstr "En son yedekleme günlüğünü görüntüle"
 
-#: qt/app.py:535
+#: qt/app.py:547
 msgid "View log of the latest backup."
 msgstr "En son yedekleme günlüğünü görüntüle."
 
-#: qt/app.py:537
+#: qt/app.py:549
 msgid "Manage profiles…"
 msgstr "Profilleri yönet…"
 
-#: qt/app.py:541
+#: qt/app.py:553
 msgid "Edit user-callback"
 msgstr "Kullanıcı Geri Çağrısını Düzenle"
 
-#: qt/app.py:545
+#: qt/app.py:557
 msgid "Shutdown"
 msgstr "Kapat"
 
-#: qt/app.py:547
+#: qt/app.py:559
 msgid "Shut down system after backup has finished."
 msgstr "Yedekleme tamamlandığında sistemi kapat."
 
-#: qt/app.py:549
+#: qt/app.py:561
 msgid "Setup language…"
 msgstr "Kurulum dili…"
 
-#: qt/app.py:553
+#: qt/app.py:565
 msgid "Exit"
 msgstr "Çıkış"
 
-#: qt/app.py:563
+#: qt/app.py:575
 msgid "man page: Back In Time"
 msgstr "man sayfası: Back In Time"
 
-#: qt/app.py:565
+#: qt/app.py:577
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "\"Back In Time\" hakkındaki man sayfasını göster"
 
-#: qt/app.py:568
+#: qt/app.py:580
 msgid "man page: Profiles config file"
 msgstr "man sayfası: Profil yapılandırma dosyası"
 
-#: qt/app.py:571
+#: qt/app.py:583
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 "Profil yapılandırma dosyası (backintime-config) hakkında man sayfasını "
 "görüntüler"
 
-#: qt/app.py:578
+#: qt/app.py:590
 msgid "Open Back In Time website in browser"
 msgstr "\"Back In Time\" web sitesini aç"
 
-#: qt/app.py:580 qt/app.py:2354
+#: qt/app.py:592 qt/app.py:2375
 msgid "Changelog"
 msgstr "Değişiklik Günlüğü"
 
-#: qt/app.py:583
+#: qt/app.py:595
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr ""
 "Değişiklik günlüğünü açın (mümkünse yerel olarak, aksi takdirde çevrimiçi)"
 
-#: qt/app.py:586
+#: qt/app.py:598
 msgid "FAQ"
 msgstr "SSS"
 
-#: qt/app.py:588
+#: qt/app.py:600
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "Sıkça Sorulan Sorular'ı (SSS) tarayıcıda açın"
 
-#: qt/app.py:590
+#: qt/app.py:602
 msgid "Report a bug"
 msgstr "Hata Bildir"
 
-#: qt/app.py:593
+#: qt/app.py:605
 msgid "Contact"
 msgstr ""
 
-#: qt/app.py:595
+#: qt/app.py:607
 #, fuzzy
 msgid "Shows additional contact options in the browser"
 msgstr "Ek seçenekleri rsyncʼa yapıştır"
 
-#: qt/app.py:598
+#: qt/app.py:610
 msgid "Translation"
 msgstr "Çeviri"
 
-#: qt/app.py:600
+#: qt/app.py:612
 msgid "Shows the message about participation in translation again."
 msgstr "Çeviriye katılım mesajını tekrar gösterir."
 
-#: qt/app.py:610
+#: qt/app.py:622
 msgid "About"
 msgstr "Hakkında"
 
-#: qt/app.py:613 qt/restoredialog.py:46 qt/snapshotsdialog.py:183
+#: qt/app.py:625 qt/restoredialog.py:48 qt/snapshotsdialog.py:183
 #: qt/snapshotsdialog.py:188
 msgid "Restore"
 msgstr "Geri Yükle"
 
-#: qt/app.py:615
+#: qt/app.py:627
 msgid "Restore the selected files or directories to the original location."
 msgstr "Seçili dosyaları veya dizinleri orijinal konumlarına geri yükleyin."
 
-#: qt/app.py:618 qt/app.py:1987 qt/snapshotsdialog.py:185
+#: qt/app.py:630 qt/app.py:1994 qt/snapshotsdialog.py:185
 msgid "Restore to …"
 msgstr "Şuraya geri yükle …"
 
-#: qt/app.py:620
+#: qt/app.py:632
 msgid "Restore the selected files or directories to a new location."
 msgstr "Seçili dosyaları veya dizinleri yeni bir konuma geri yükleyin."
 
-#: qt/app.py:626
+#: qt/app.py:638
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
 msgstr ""
 "Şu anda gösterilen dizini ve tüm içeriğini orijinal konumuna geri yükleyin."
 
-#: qt/app.py:632
+#: qt/app.py:644
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
 msgstr "Şu anda gösterilen klasörü ve tüm içeriğini yeni hedefe geri yükle."
 
-#: qt/app.py:635
+#: qt/app.py:647
 msgid "Up"
 msgstr "Yukarı"
 
-#: qt/app.py:638
+#: qt/app.py:650
 msgid "Show hidden files"
 msgstr "Gizli dosyaları göster"
 
-#: qt/app.py:641
+#: qt/app.py:653
 msgid "Compare backups…"
 msgstr "Yedekleri karşılaştır…"
 
-#: qt/app.py:671 qt/app.py:1807
+#: qt/app.py:683 qt/app.py:1814
 msgid "Release Candidate"
 msgstr "Sürüm adayı"
 
-#: qt/app.py:674
+#: qt/app.py:686
 msgid "Shows the message about this Release Candidate again."
 msgstr "Bu Yayınlama Adayı hakkındaki mesajı tekrar gösterir."
 
-#: qt/app.py:711
+#: qt/app.py:723
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:716
+#: qt/app.py:728
 msgid "&Backup"
 msgstr "&Yedekle"
 
-#: qt/app.py:728
+#: qt/app.py:740
 msgid "&Restore"
 msgstr "&Geri Yükle"
 
-#: qt/app.py:734
+#: qt/app.py:746
 msgid "&Help"
 msgstr "Y&ardım"
 
-#: qt/app.py:784
+#: qt/app.py:796
 msgid "Systray Icon"
 msgstr "Sistem Tepsisi Simgesi"
 
-#: qt/app.py:790
+#: qt/app.py:802
 msgid "Automatic"
 msgstr "Otomatik"
 
-#: qt/app.py:794
+#: qt/app.py:806
 msgid "Light icon"
 msgstr "Açık Renk Simge"
 
-#: qt/app.py:795
+#: qt/app.py:807
 msgid "Dark icon"
 msgstr "Koyu Renk Simge"
 
-#: qt/app.py:818
+#: qt/app.py:830
 msgid "Icons only"
 msgstr "Sadece simgeler"
 
-#: qt/app.py:821
+#: qt/app.py:833
 msgid "Text only"
 msgstr "Sadece Metin"
 
-#: qt/app.py:824
+#: qt/app.py:836
 msgid "Text below icons"
 msgstr "Metin ikonların altında"
 
-#: qt/app.py:827
+#: qt/app.py:839
 msgid "Text beside icon"
 msgstr "Metin ikonların yanında"
 
-#: qt/app.py:953
+#: qt/app.py:965
 msgid "This directory doesn't exist in the selected backup."
 msgstr "Seçilen yedekleme dosyasında bu dizin mevcut değil."
 
-#: qt/app.py:956
+#: qt/app.py:968
 msgid "This directory doesn't exist on the computer."
 msgstr "Bu klasör bilgisayarda mevcut değil."
 
-#: qt/app.py:1005
+#: qt/app.py:1018
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
@@ -943,53 +943,53 @@ msgstr ""
 "Eğer bu pencereyi kapatırsanız, Back In Time yedekleme işlemi "
 "tamamlandığında sisteminizi kapatamayacak."
 
-#: qt/app.py:1008
+#: qt/app.py:1022
 msgid "Close the window anyway?"
 msgstr "Yine de pencere kapansın mı?"
 
-#: qt/app.py:1099 qt/app.py:1106
+#: qt/app.py:1112 qt/app.py:1119
 msgid "Backup destination unavailable"
 msgstr ""
 
-#: qt/app.py:1224
+#: qt/app.py:1234
 msgid "Done, no backup needed"
 msgstr "Tamamlandı, yedekleme gerekmiyor"
 
-#: qt/app.py:1295
+#: qt/app.py:1305
 msgid "Working:"
 msgstr "Çalışıyor:"
 
-#: qt/app.py:1302
+#: qt/app.py:1312
 msgid "Working"
 msgstr "Çalışıyor"
 
-#: qt/app.py:1354 qt/qtsystrayicon.py:293
+#: qt/app.py:1368 qt/qtsystrayicon.py:293
 msgid "Sent:"
 msgstr "Gönderilen:"
 
-#: qt/app.py:1355 qt/qtsystrayicon.py:294
+#: qt/app.py:1369 qt/qtsystrayicon.py:294
 msgid "Speed:"
 msgstr "Hız:"
 
-#: qt/app.py:1356 qt/qtsystrayicon.py:295
+#: qt/app.py:1370 qt/qtsystrayicon.py:295
 msgid "ETA:"
 msgstr "Tahmini Varış Süresi:"
 
-#: qt/app.py:1546
+#: qt/app.py:1560
 msgid "Backup:"
 msgstr "Yedek:"
 
-#: qt/app.py:1646
+#: qt/app.py:1662
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "{path} geri yükle"
 
-#: qt/app.py:1648
+#: qt/app.py:1664
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "{path} geri yükle, hedef …"
 
-#: qt/app.py:1672
+#: qt/app.py:1688
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -1006,78 +1006,68 @@ msgstr ""
 "Böldüğümüz için özür dileriz. Bu mesaj tekrar gösterilmeyecektir. Bu mesajı istediğiniz zaman yardım menüsünden görüntüleyebilirsiniz.\n"
 "Back In Time Ekibi"
 
-#: qt/app.py:1701
+#: qt/app.py:1717
 msgid "translation platform"
 msgstr "çeviri platformu"
 
-#: qt/app.py:1706
+#: qt/app.py:1722
 msgid "Website"
 msgstr "Web Sitesi"
 
-#: qt/app.py:1720
+#: qt/app.py:1736
 msgid "Your translation"
 msgstr "Sizin çeviriniz"
 
-#: qt/app.py:1757
+#: qt/app.py:1773
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Mastodon'daki Fediverse: {link_and_label}."
 
-#: qt/app.py:1762
+#: qt/app.py:1778
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "{link_and_label} adresine e-posta gönderin."
 
-#: qt/app.py:1766
+#: qt/app.py:1782
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "E-posta listesi {link_and_label}."
 
-#: qt/app.py:1770
+#: qt/app.py:1786
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "Proje web sitesinde {link_and_label}."
 
-#: qt/app.py:1773
+#: qt/app.py:1789
 msgid "Open an issue"
 msgstr "hata bildir"
 
-#: qt/app.py:1774
+#: qt/app.py:1790
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Alternatif olarak istediğiniz iletişim yolunu kullanabilirsiniz."
 
-#: qt/app.py:1779
+#: qt/app.py:1795
 #, python-brace-format
 msgid ""
-"This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
-"No user data or telemetry is collected. However, the Back In Time team is very interested in knowing if the Release Candidate is being used and if it is worth continuing to provide such pre-release versions.\n"
-"Therefore, the team kindly asks for a short feedback on whether you have tested this version, even if you didn’t encounter any issues. Even a quick test run of a few minutes would help us a lot.\n"
-"The following contact options are available:\n"
+"This version is a Release Candidate for testing before the next stable release.\n"
+"If you test this version, please provide feedback. Let us know if you found a problem or if everything worked as expected. Even a short test of a few minutes is helpful.\n"
+"You can reach the Back In Time team via:\n"
 "{contact_list}\n"
-"In this version, this message won't be shown again but can be accessed anytime through the help menu.\n"
-"Thank you for your support and for helping us improve Back In Time!\n"
-"Your Back In Time Team"
+"This message won't be shown again, but it can be opened anytime from the Help menu.\n"
+"Thank you for testing Back In Time and helping us improve it!"
 msgstr ""
-"Back In Time'ın bu sürümü bir Sürüm Adayıdır ve öncelikli olarak bir sonraki resmi sürüme hazırlık olarak kararlılık testi için tasarlanmıştır..\n"
-"Hiçbir kullanıcı verisi veya telemetri toplanmaz. Ancak, Back In Time ekibi Sürüm Adayı'nın kullanılıp kullanılmadığını ve bu tür ön sürüm sürümlerini sağlamaya devam etmenin değerli olup olmadığını bilmekle çok ilgilenmektedir.\n"
-"Bu nedenle, ekip herhangi bir sorunla karşılaşmamış olsanız bile bu sürümü test edip etmediğinize dair kısa bir geri bildirim rica etmektedir. Birkaç dakikalık kısa bir test çalışması bile bize çok yardımcı olacaktır..\n"
-"Aşağıdaki iletişim seçenekleri mevcuttur:\n"
-"{contact_list}\n"
-"Bu sürümde, bu mesaj tekrar gösterilmeyecek ancak yardım menüsünden istediğiniz zaman erişilebilir.\n"
-"Desteğiniz ve Back In Time'ı geliştirmemize yardımcı olduğunuz için teşekkür ederiz!!\n"
-"\"Back In Time\" ekibi"
 
-#: qt/app.py:1871
+#: qt/app.py:1878
 msgid "Check if remote host is online"
 msgstr "Uzak makinenin çevrim içi olduğunu denetle"
 
-#: qt/app.py:1872
+#: qt/app.py:1879
 msgid "Check if remote host supports all necessary commands."
 msgstr ""
 "Uzak ana bilgisayarın gerekli tüm komutları destekleyip desteklemediğini "
 "kontrol edin."
 
-#: qt/app.py:1915
+#: qt/app.py:1922
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
@@ -1086,20 +1076,20 @@ msgstr ""
 "Hedefte yalnızca {free} boş alan mevcut ve bu alan tanımlanmış {threshold} "
 "sınırının altında."
 
-#: qt/app.py:1920
+#: qt/app.py:1927
 msgid "Proceed with the backup?"
 msgstr "Yedeklemeye devam edilsin mi?"
 
-#: qt/app.py:1967
+#: qt/app.py:1974
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr "{path} yolundaki bütün yeni dosyalar kaldırılacak. Devam edilsin mi?"
 
-#: qt/app.py:1970
+#: qt/app.py:1977
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr "Asıl dizindeki bütün yeni dosyalar kaldırılacak. Devam edilsin mi?"
 
-#: qt/app.py:1976
+#: qt/app.py:1983
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -1108,17 +1098,17 @@ msgstr ""
 "{BOLD}UYARI{BOLDEND}: Dosyaları dosya sistemi kökünden silmek, sisteminizin "
 "tamamını bozabilir."
 
-#: qt/app.py:2213
+#: qt/app.py:2234
 msgid "Backup name"
 msgstr "Yedek adı"
 
-#: qt/app.py:2245
+#: qt/app.py:2266
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "Bu yedek kaldırılsın mı?"
 msgstr[1] "Bu yedekler kaldırılsın mı?"
 
-#: qt/app.py:2312
+#: qt/app.py:2333
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "Dil ayarları yalnızca Back In Time yeniden başlatıldıktan sonra etkili olur."
@@ -2506,9 +2496,15 @@ msgstr "Bu dizinde yapılandırma dosyası bulunamadı"
 msgid "Search complete."
 msgstr "Arama tamamlandı."
 
-#: qt/restoredialog.py:58
+#: qt/restoredialog.py:60
 msgid "Show full Log"
 msgstr "Tüm günlüğü göster"
+
+#: qt/restoredialog.py:123
+msgid ""
+"The restore is still running. The window cannot be closed until it is "
+"finished."
+msgstr ""
 
 #: qt/shutdowndlg.py:28
 msgid "Countdown to Shutdown"
@@ -2673,4 +2669,24 @@ msgstr "Son denetim {time}"
 #: qt/timeline.py:402
 msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
+
+#, python-brace-format
+#~ msgid ""
+#~ "This version of Back In Time is a Release Candidate and is primarily intended for stability testing in preparation for the next official release.\n"
+#~ "No user data or telemetry is collected. However, the Back In Time team is very interested in knowing if the Release Candidate is being used and if it is worth continuing to provide such pre-release versions.\n"
+#~ "Therefore, the team kindly asks for a short feedback on whether you have tested this version, even if you didn’t encounter any issues. Even a quick test run of a few minutes would help us a lot.\n"
+#~ "The following contact options are available:\n"
+#~ "{contact_list}\n"
+#~ "In this version, this message won't be shown again but can be accessed anytime through the help menu.\n"
+#~ "Thank you for your support and for helping us improve Back In Time!\n"
+#~ "Your Back In Time Team"
+#~ msgstr ""
+#~ "Back In Time'ın bu sürümü bir Sürüm Adayıdır ve öncelikli olarak bir sonraki resmi sürüme hazırlık olarak kararlılık testi için tasarlanmıştır..\n"
+#~ "Hiçbir kullanıcı verisi veya telemetri toplanmaz. Ancak, Back In Time ekibi Sürüm Adayı'nın kullanılıp kullanılmadığını ve bu tür ön sürüm sürümlerini sağlamaya devam etmenin değerli olup olmadığını bilmekle çok ilgilenmektedir.\n"
+#~ "Bu nedenle, ekip herhangi bir sorunla karşılaşmamış olsanız bile bu sürümü test edip etmediğinize dair kısa bir geri bildirim rica etmektedir. Birkaç dakikalık kısa bir test çalışması bile bize çok yardımcı olacaktır..\n"
+#~ "Aşağıdaki iletişim seçenekleri mevcuttur:\n"
+#~ "{contact_list}\n"
+#~ "Bu sürümde, bu mesaj tekrar gösterilmeyecek ancak yardım menüsünden istediğiniz zaman erişilebilir.\n"
+#~ "Desteğiniz ve Back In Time'ı geliştirmemize yardımcı olduğunuz için teşekkür ederiz!!\n"
+#~ "\"Back In Time\" ekibi"
 # REUSE-IgnoreEnd
