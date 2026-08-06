@@ -473,7 +473,7 @@ class GeneralTab(QDialog):
             except SSHSetupError as exc:
                 logger.error(exc)
                 msg = _(
-                    'Back In Time could not validate the SSH configuration.'
+                    'Issues were found while validating the SSH configuration.'
                 ) + '\n\n' + _('Reason:') + '\n' + exc.gui_msg
                 messagebox.critical(self, msg, _('SSH profile setup failed'))
 

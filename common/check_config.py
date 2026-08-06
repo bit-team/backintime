@@ -104,7 +104,7 @@ class CheckConfigAgent:  # pylint: disable=too-few-public-methods
         if profile.warn_free_space_enabled and profile.min_free_space_enabled:
 
             warn = profile.warn_free_space
-            _enabled, min_free = profile.min_free_space
+            min_free = profile.min_free_space
 
             if warn < min_free:
                 core_events.event_error.notify(
@@ -118,11 +118,11 @@ class CheckConfigAgent:  # pylint: disable=too-few-public-methods
                         'less than or equal to the value for "Warn if '
                         'the free disk space falls below" ({val_two}).'
                     ).format(val_one=min_free, val_two=warn)
-                    + '\n'
+                    + '\n\n'
                     + _(
-                        'Please adjust the settings so that the threshold '
-                        'for removing old backups does not exceed the free '
-                        'disk space warning threshold.'
+                        'Please adjust the settings. The threshold for '
+                        'removing old backups must not be higher for the '
+                        'free disk space warning value.'
                     )
                 )
                 return False

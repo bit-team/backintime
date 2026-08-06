@@ -1873,12 +1873,12 @@ class Config:  # (configfile.ConfigFileWithProfiles):
 
             else:
                 logger.error(
-                    f"Udev scheduling doesn't work with mode '{backup_mode}'",
+                    f"Udev scheduling not supported in mode '{backup_mode}'",
                     self)
                 mode_for_human = self.SNAPSHOT_MODES[backup_mode][1]
                 core_events.event_error.notify(_(
-                    "Udev schedule doesn't work with mode {mode}.")
-                    .format(mode=mode_for_human))
+                    'Udev scheduling is not supported with mode "{mode}".'
+                ).format(mode=mode_for_human))
                 return
 
             # Add rule
