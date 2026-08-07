@@ -21,7 +21,6 @@ import locale
 import subprocess
 import json
 import re
-import bitbase
 import config
 import tools
 import version
@@ -62,15 +61,10 @@ def collect_diagnostics():
     # (should be singleton)
     cfg = config.Config()
 
-    # WORKAROUND
-    fp_config_file = bitbase.context.get(
-        '--config', bitbase.DEFAULT_CONFIG_FILE_PATH
-    )
-
     result['backintime'].update({
         'latest-config-version': config.Config.CONFIG_VERSION,
-        'config-file': str(fp_config_file),
-        'config-file-found': fp_config_file.exists(),
+        'config-file': cfg._LOCAL_CONFIG_PATH,
+        'config-file-found': Path(cfg._LOCAL_CONFIG_PATH).exists(),
         # 'distribution-package': str(distro_path),
         'started-from': str(Path(config.__file__).parent),
         'user-callback': cfg.takeSnapshotUserCallback(),
@@ -183,6 +177,9 @@ def collect_diagnostics():
         shell_version = _get_extern_versions([shell, '--version'])
         result['external-programs']['shell-version'] \
             = shell_version.split('\n')[0]
+
+    # Coreutils (GNU, Rust/uutils, BusyBox, or unknown)
+    result['external-programs']['coreutils'] = _get_coreutils_info()
 
     result = _replace_username_paths(
         result=result,
@@ -352,6 +349,46 @@ def _get_rsync_info():
                     f'{k}: {v}' for k, v in info[key].items())
 
     return info
+
+
+def _get_coreutils_info():
+    """Detect the installed coreutils variant (GNU, Rust/uutils, BusyBox).
+
+    Uses ``ls --version`` as a probe because ``ls`` is present on every
+    Unix-like system and each implementation produces a distinctive
+    version string.
+
+    Returns:
+        str: A human-readable description of the coreutils variant and
+        version, or an error string if detection fails.
+    """
+    output = _get_extern_versions(['ls', '--version'])
+
+    if not isinstance(output, str) or not output \
+            or output.startswith('(no ls)'):
+        if isinstance(output, str) and output:
+            return output
+        return '(ls detection failed)'
+
+    first_line = output.split('\n')[0]
+
+    # GNU coreutils: "ls (GNU coreutils) 9.4"
+    if 'GNU coreutils' in output:
+        return first_line
+
+    # BusyBox: "BusyBox v1.36.1 (date) multi-call binary"
+    if 'BusyBox' in output:
+        return first_line
+
+    # Rust/uutils coreutils: "ls 0.0.27" (no "GNU coreutils" tag)
+    # Distinguish from other implementations by checking for the
+    # uutils project name which appears in the full --version output.
+    if 'uutils' in output:
+        return f'Rust/uutils coreutils - {first_line}'
+
+    # Unknown implementation — return the first line with a marker so the
+    # output is informative rather than a bare version string.
+    return f'(unknown coreutils) {first_line}'
 
 
 def _get_os_release():
