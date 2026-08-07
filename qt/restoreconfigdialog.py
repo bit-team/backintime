@@ -23,6 +23,7 @@ from pathlib import Path
 from queue import Queue
 import logger
 import bitbase
+import singleton
 from config import Config
 from PyQt6.QtGui import (QBrush,
                          QColor,
@@ -288,7 +289,7 @@ class RestoreConfigDialog(QDialog):
 
         if self._config_to_restore is not None:
             # Reset the singleton instance
-            self._config_to_restore.delete_this_instance()
+            singleton.Singleton.remove_instance(type(self._config_to_restore))
             self._config_to_restore = None
 
         # pylint: disable=protected-access
@@ -398,7 +399,7 @@ class RestoreConfigDialog(QDialog):
     def reject(self):
         """Dialog was canceled."""
         if self._config_to_restore:
-            self._config_to_restore.delete_this_instance()
+            singleton.Singleton(type(self._config_to_restore))
 
         super().reject()
 
@@ -564,8 +565,7 @@ def _get_valid_konfig(path: Path) -> Konfig | None:
         # is "configured"?
         for profile in cfg.iter_profiles():
             if not profile.snapshots_path or not profile.include:
-                # Remove the singleton instance
-                cfg.delete_this_instance()
+                singleton.Singleton.remove_instance(type(cfg))
 
                 return None
 
@@ -574,6 +574,6 @@ def _get_valid_konfig(path: Path) -> Konfig | None:
     except (FileNotFoundError, UnicodeDecodeError, configparser.ParsingError):
         pass
 
-    # Remove the singleton instance
-    cfg.delete_this_instance()
+    singleton.Singleton.remove_instance(type(cfg))
+
     return None

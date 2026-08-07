@@ -18,6 +18,7 @@ from types import MappingProxyType
 from typing import Any
 from pathlib import Path
 from io import StringIO, TextIOWrapper
+from contextlib import contextmanager
 import singleton
 import logger
 from storagesize import SizeUnit, StorageSize
@@ -1241,10 +1242,6 @@ class Konfig(metaclass=singleton.Singleton):
     def __delitem__(self, key: str) -> None:
         self._config_parser.remove_option(self._DEFAULT_SECTION, key)
 
-    def delete_this_instance(self):
-        """Delete this (singleton) instances."""
-        singleton.Singleton.remove_instance(__class__)
-
     @staticmethod
     def to_bool(value: str) -> bool:
         return {
@@ -1527,3 +1524,33 @@ class Konfig(metaclass=singleton.Singleton):
 
         if val > -1:
             self['internal.manual_starts_countdown'] = str(val - 1)
+
+
+class _ArchivedConfig(Konfig):
+    def save(self, buffer_or_path: Path | TextIOWrapper | StringIO):
+        raise RuntimeError(
+            'Forbbiden, because an archived instance is not '
+            'intendet to get saved.'
+        )
+
+    def new_profile(self, name: str) -> Profile:
+        raise RuntimeError(
+            'Forbbiden, because an archived instance is not '
+            'intendet to modified with a new profile.'
+        )
+
+
+@contextmanager
+def load_archived_config(path: Path):
+    # make sure there is no previous instance
+    if singleton.Singleton.has_instance(_ArchivedConfig):
+        raise RuntimeError('An instance of an archived config still exists.')
+
+    try:
+        archived_config = _ArchivedConfig()
+        archived_config.load(path)
+        yield archived_config
+
+    finally:
+        if singleton.Singleton.has_instance(_ArchivedConfig):
+            singleton.Singleton.remove_instance(_ArchivedConfig)
