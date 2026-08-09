@@ -82,13 +82,21 @@ class Singleton(type):
     def remove_instance(cls_to_remove):  # noqa: N804
         """Remove the singleton instance of the specified class.
 
+        This does not destroy an object directly. It only removes the
+        reference held by the singleton registry.
+
         Raise: TypeError
         """
         try:
             del Singleton._instances[cls_to_remove]
+
         except KeyError as exc:
             raise TypeError(
                 f'No instance of class {cls_to_remove} exists') from exc
+
+    def has_instance(cls) -> bool:
+        """Test if a class is in the singleton registry"""
+        return cls in Singleton._instances
 
     # pylint: disable=no-method-argument
     def remove_all_instances():

@@ -276,12 +276,12 @@ class MainWindow(QMainWindow):
         if not backup_descriptor:
             return None
 
-        # mounted_path=self._profile_operations.get_mount_manager().path
+        mounted_path = self._profile_operations.get_mount_manager().path
 
         return snapshots.SID(
             date=backup_descriptor,
             cfg=self.config,
-            mounted_path=self._profile_operations.get_mount_manager().path
+            mounted_path=mounted_path
         )
 
     def _setup_timers(self):
@@ -1598,6 +1598,7 @@ class MainWindow(QMainWindow):
 
         if backup_id:
             full_path = backup_id.pathBackup(self.path)
+
         else:
             # Dev note (2026-03, buhtz): Dirty WORKAROUND.
             # RootSnapshot need to be deleted. Its features
@@ -2206,8 +2207,6 @@ class MainWindow(QMainWindow):
         self.shutdown.activate_shutdown = checked
 
     def _slot_snapshots_dialog(self):
-        #  path = self.filesView.get_current_path()
-        # print(f'slot_snapshots_dialog() :: {path=} {self.path=}')
 
         with self.suspend_mouse_button_navigation():
             backup_id = self.selected_backup_id()

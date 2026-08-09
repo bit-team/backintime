@@ -59,6 +59,17 @@ class Basics(unittest.TestCase):
         self.assertEqual(x.value, 'Naomi')
         self.assertEqual(x.value, y.value)
 
+    def test_has(self):
+        """Class existence"""
+
+        self.assertFalse(singleton.Singleton.has_instance(self.Foo))
+        self.assertFalse(singleton.Singleton.has_instance(self.Bar))
+
+        _unused = self.Bar()
+
+        self.assertFalse(singleton.Singleton.has_instance(self.Foo))
+        self.assertTrue(singleton.Singleton.has_instance(self.Bar))
+
 
 class Clear(unittest.TestCase):
     class Foo(metaclass=singleton.Singleton):
@@ -68,6 +79,9 @@ class Clear(unittest.TestCase):
     class Bar(metaclass=singleton.Singleton):
         def __init__(self):
             self.value = 'Brian'
+
+    class DerivedFromFoo(Foo):
+        pass
 
     def setUp(self):
         singleton.Singleton.remove_all_instances()
@@ -137,3 +151,24 @@ class Clear(unittest.TestCase):
 
         self.assertIsNot(sut, new_sut)
         self.assertEqual(new_sut.value, 'Alf')
+
+    def test_remove_subclass_instance_keeps_parent_instance(self):
+        """Simulates the relationshipt between class Konfig and class
+        _ArchivedConfig in the konfig module.
+        """
+
+        self.assertFalse(singleton.Singleton.has_instance(self.Foo))
+        self.assertFalse(singleton.Singleton.has_instance(self.DerivedFromFoo))
+
+        a = self.Foo()
+        b = self.DerivedFromFoo()
+
+        self.assertIsNot(a, b)
+
+        self.assertTrue(singleton.Singleton.has_instance(self.Foo))
+        self.assertTrue(singleton.Singleton.has_instance(self.DerivedFromFoo))
+
+        singleton.Singleton.remove_instance(type(b))
+
+        self.assertTrue(singleton.Singleton.has_instance(self.Foo))
+        self.assertFalse(singleton.Singleton.has_instance(self.DerivedFromFoo))

@@ -18,6 +18,8 @@ from types import MappingProxyType
 from typing import Any
 from pathlib import Path
 from io import StringIO, TextIOWrapper
+from contextlib import contextmanager
+from collections.abc import Iterator
 import singleton
 import logger
 from storagesize import SizeUnit, StorageSize
@@ -565,6 +567,17 @@ class Profile:  # pylint: disable=too-many-public-methods
             )
 
         return result
+
+    @property
+    def include_directories(self) -> list[str]:
+        """Return only the directories from the include list.
+
+        Files are ignored.
+        """
+        # Use folders only (if 2nd tuple entry is 0)
+        only_dirs = filter(lambda entry: entry[1] == 0, self.include)
+
+        return [item[0] for item in only_dirs]
 
     @include.setter
     def include(self, values: list[str, int]) -> None:
@@ -1241,10 +1254,6 @@ class Konfig(metaclass=singleton.Singleton):
     def __delitem__(self, key: str) -> None:
         self._config_parser.remove_option(self._DEFAULT_SECTION, key)
 
-    def delete_this_instance(self):
-        """Delete this (singleton) instances."""
-        singleton.Singleton.remove_instance(__class__)
-
     @staticmethod
     def to_bool(value: str) -> bool:
         return {
@@ -1527,3 +1536,48 @@ class Konfig(metaclass=singleton.Singleton):
 
         if val > -1:
             self['internal.manual_starts_countdown'] = str(val - 1)
+
+
+class _ArchivedConfig(Konfig):
+    def save(self, buffer_or_path: Path | TextIOWrapper | StringIO):
+        raise RuntimeError(
+            'Forbbiden, because an archived instance is not '
+            'intendet to get saved.'
+        )
+
+    def new_profile(self, name: str) -> Profile:
+        raise RuntimeError(
+            'Forbbiden, because an archived instance is not '
+            'intendet to modified with a new profile.'
+        )
+
+
+@contextmanager
+def load_archived_config(path: Path) -> Iterator[_ArchivedConfig]:
+    """Temporarily load an archived configuration.
+
+    The loaded config is independent from the application global configuration.
+
+    Args:
+        path: Path to the config file.
+
+    Raises:
+
+    Return:
+        Configuration object.
+    """
+    logger.debug(f'Loading archived config from {path}')
+
+    # make sure there is no previous instance
+    if singleton.Singleton.has_instance(_ArchivedConfig):
+        raise RuntimeError('An instance of an archived config still exists.')
+
+    try:
+        archived_config = _ArchivedConfig()
+        archived_config.load(path)
+
+        yield archived_config
+
+    finally:
+        if singleton.Singleton.has_instance(_ArchivedConfig):
+            singleton.Singleton.remove_instance(_ArchivedConfig)
