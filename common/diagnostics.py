@@ -21,10 +21,10 @@ import locale
 import subprocess
 import json
 import re
-import bitbase
 import config
 import tools
 import version
+import bitbase
 
 
 def collect_minimal_diagnostics():
@@ -35,7 +35,7 @@ def collect_minimal_diagnostics():
     """
     return {
         'backintime': {
-            'name': config.Config.APP_NAME,
+            'name': bitbase.APP_NAME,
             'version': version.__version__,
             'running-as-root': pwd.getpwuid(os.getuid()).pw_name == 'root',
         },
@@ -62,16 +62,7 @@ def collect_diagnostics():
     # (should be singleton)
     cfg = config.Config()
 
-    # WORKAROUND
-    fp_config_file = bitbase.context.get(
-        '--config', bitbase.DEFAULT_CONFIG_FILE_PATH
-    )
-
     result['backintime'].update({
-        'latest-config-version': config.Config.CONFIG_VERSION,
-        'config-file': str(fp_config_file),
-        'config-file-found': fp_config_file.exists(),
-        # 'distribution-package': str(distro_path),
         'started-from': str(Path(config.__file__).parent),
         'user-callback': cfg.takeSnapshotUserCallback(),
         'keyring-supported': tools.KEYRING_SUPPORTED
@@ -183,6 +174,14 @@ def collect_diagnostics():
         shell_version = _get_extern_versions([shell, '--version'])
         result['external-programs']['shell-version'] \
             = shell_version.split('\n')[0]
+
+    # Coreutils (GNU, Rust/uutils, BusyBox, etc)
+    ls_version = _get_extern_versions(['ls', '--version'])
+    if not ls_version:
+        ls_version = '(ls detection failed)'
+    else:
+        ls_version = ls_version.split('\n')[0]
+    result['external-programs']['coreutils'] = ls_version
 
     result = _replace_username_paths(
         result=result,
