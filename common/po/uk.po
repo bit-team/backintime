@@ -14,16 +14,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-08-06 10:32+0200\n"
-"PO-Revision-Date: 2026-08-05 06:41+0000\n"
+"PO-Revision-Date: 2026-08-07 06:49+0000\n"
 "Last-Translator: SomeTr <sometr@noreply.codeberg.org>\n"
-"Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/common/uk/>\n"
+"Language-Team: Ukrainian <https://translate.codeberg.org/projects/backintime/"
+"common/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2026.7.1\n"
 
 #: common/bitbase.py:21 common/config.py:36 common/konfig.py:32
@@ -73,27 +75,26 @@ msgstr ""
 
 #: common/check_config.py:113
 msgid "Two settings conflict with each other."
-msgstr ""
+msgstr "Виявлено конфлікт між двома налаштуваннями."
 
 #: common/check_config.py:116
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal to the value for \"Warn if the free "
 "disk space falls below\" ({val_two})."
 msgstr ""
-"Значення «Видаляти найстарішу копію, якщо вільного місця менше, ніж» "
-"({val_one}) має бути меншим або дорівнювати пороговому значенню "
-"«Попереджати, якщо вільного місця менше, ніж» ({val_two})."
+"Значення «Видаляти найстарішу копію, якщо вільного місця менше, ніж» ("
+"{val_one}) має бути меншим або дорівнювати значенню «Попереджати, якщо "
+"вільного місця менше, ніж» ({val_two})."
 
 #: common/check_config.py:123
-#, fuzzy
 msgid ""
 "Please adjust the settings so that the threshold for removing old backups "
 "does not exceed the free disk space warning threshold."
 msgstr ""
-"Налаштуйте параметри так, щоб ліміт видалення резервної копії не перевищував"
-" ліміт попередження."
+"Будь ласка, налаштуйте параметри так, щоб поріг видалення старих резервних "
+"копій не перевищував порога попередження про вільне місце на диску."
 
 #: common/config.py:175 common/konfig.py:50 common/konfig.py:1418
 msgid "Main profile"
@@ -126,18 +127,17 @@ msgid "SSH (encrypted)"
 msgstr "SSH (зашифрований)"
 
 #: common/config.py:1880
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}."
-msgstr "Розклад udev не працює з режимом {mode}"
+msgstr "Розклад udev не працює з режимом {mode}."
 
 #: common/config.py:1907
-#, fuzzy
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
 msgstr ""
-"Час очікування автентифікації закінчився. Налаштування розкладу udev не "
-"завершено. Спробуйте ще раз."
+"Час очікування автентифікації закінчився. Налаштування розкладу на основі "
+"Udev не завершено. Спробуйте ще раз."
 
 #: common/config.py:1945
 msgid "Failed to write new crontab."
@@ -206,18 +206,12 @@ msgid "The remote backup directory is missing or is not a valid directory."
 msgstr "Віддалений каталог резервних копій не існує або є недійсним."
 
 #: common/mount/_backends.py:285
-#, fuzzy
 msgid "Write access to the remote backup directory was denied."
-msgstr ""
-"Доступ на запис до віддаленого каталогу резервних копій заборонено (відсутні"
-" дозволи)."
+msgstr "Доступ на запис до віддаленого каталогу резервних копій заборонено."
 
 #: common/mount/_backends.py:290
-#, fuzzy
 msgid "Access to the remote backup directory was denied."
-msgstr ""
-"Доступ до віддаленого каталогу резервних копій заборонено (відсутні "
-"дозволи)."
+msgstr "Доступ до віддаленого каталогу резервних копій заборонено."
 
 #: common/mount/_backends.py:304 qt/manageprofiles/tab_general.py:126
 msgid "Path:"
@@ -268,7 +262,7 @@ msgstr ""
 "Шлях: {path}"
 
 #: common/mount/_encryptors.py:286
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Decrypted view mountpoint is missing. Path: {path}"
 msgstr "Відсутня точка монтування для розшифрованого перегляду. Шлях: {path}"
 
@@ -464,9 +458,9 @@ msgid "ssh-agent is not installed"
 msgstr "ssh-agent не встановлено"
 
 #: common/sshsetupvalidator.py:236 common/sshsetupvalidator.py:354
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unexpected response from '{process}'."
-msgstr "Неочікувана відповідь від «{process}»"
+msgstr "Неочікувана відповідь від «{process}»."
 
 #: common/sshsetupvalidator.py:255
 #, python-brace-format
@@ -993,9 +987,14 @@ msgid ""
 msgstr ""
 "Вітаємо,\n"
 "Ви вже кілька разів користувалися Back In Time українською мовою.\n"
-"Переклад встановленої версії Back In Time на українську завершено на {perc}. Незалежно від Вашого рівня технічних знань, Ви може зробити свій внесок у переклад і, таким чином, у розвиток Back In Time.\n"
-"Якщо бажаєте зробити внесок, відвідайте {translation_platform_url}. Додаткову допомогу та відповіді на запитання можна отримати на сайті проєкту {back_in_time_project_website}.\n"
-"Перепрошуємо за втручання, це повідомлення більше не виводитиметься. Це діалогове вікно доступне в будь-який час через меню «Допомога».\n"
+"Переклад встановленої версії Back In Time на українську завершено на {perc}. "
+"Незалежно від Вашого рівня технічних знань, Ви може зробити свій внесок у "
+"переклад і, таким чином, у розвиток Back In Time.\n"
+"Якщо бажаєте зробити внесок, відвідайте {translation_platform_url}. "
+"Додаткову допомогу та відповіді на запитання можна отримати на сайті проєкту "
+"{back_in_time_project_website}.\n"
+"Перепрошуємо за втручання, це повідомлення більше не з’являтиметься. Це "
+"діалогове вікно можна відкрити будь-коли через меню «Допомога».\n"
 "Ваша команда Back In Time"
 
 #: qt/app.py:1717
@@ -1048,6 +1047,16 @@ msgid ""
 "This message won't be shown again, but it can be opened anytime from the Help menu.\n"
 "Thank you for testing Back In Time and helping us improve it!"
 msgstr ""
+"Ця версія є реліз-кандидатом (Release Candidate) і призначена для тестування "
+"перед наступним стабільним релізом.\n"
+"Якщо Ви тестуєте цю версію, будь ласка, надайте свій відгук. Повідомте нам, "
+"чи виявили Ви якусь проблему, чи все працювало як слід. Навіть короткий тест "
+"протягом кількох хвилин буде корисним.\n"
+"З командою Back In Time можна зв’язатися через:\n"
+"{contact_list}\n"
+"Це повідомлення більше не з’являтиметься, але його можна відкрити будь-коли "
+"з меню «Допомога».\n"
+"Дякуємо за те, що Ви тестуєте Back In Time і допомагаєте нам його покращити!"
 
 #: qt/app.py:1878
 msgid "Check if remote host is online"
@@ -2493,6 +2502,7 @@ msgid ""
 "The restore is still running. The window cannot be closed until it is "
 "finished."
 msgstr ""
+"Триває відновлення. Це вікно не можна закрити, поки процес не завершиться."
 
 #: qt/shutdowndlg.py:28
 msgid "Countdown to Shutdown"
@@ -2680,4 +2690,5 @@ msgstr "Це Ваші файли в їхньому поточному стані
 
 #~ msgid "Udev"
 #~ msgstr "Udev"
+
 # REUSE-IgnoreEnd

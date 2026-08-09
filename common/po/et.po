@@ -14,11 +14,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-08-06 10:32+0200\n"
-"PO-Revision-Date: 2026-08-04 07:39+0000\n"
+"PO-Revision-Date: 2026-08-07 13:32+0000\n"
 "Last-Translator: Priit Jõerüüt <jrtcdbrg@noreply.codeberg.org>\n"
-"Language-Team: Estonian <https://translate.codeberg.org/projects/backintime/common/et/>\n"
+"Language-Team: Estonian <https://translate.codeberg.org/projects/backintime/"
+"common/et/>\n"
 "Language: et\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -73,27 +74,26 @@ msgstr ""
 
 #: common/check_config.py:113
 msgid "Two settings conflict with each other."
-msgstr ""
+msgstr "Kaks seadistust on omavahel vastuolus."
 
 #: common/check_config.py:116
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal to the value for \"Warn if the free "
 "disk space falls below\" ({val_two})."
 msgstr ""
-"„Eemalda vanimad varukoopiad, kui vaba ruumi on vähem kui“ väärtus "
-"({val_one}) peab olema väiksem või võrdne „Hoiata, kui vaba andmeruumi on "
+"„Eemalda vanimad varukoopiad, kui vaba ruumi on vähem kui“ väärtus ("
+"{val_one}) peab olema väiksem või võrdne „Hoiata, kui vaba andmeruumi on "
 "vähem, kui“ ({val_two}) lävendiga."
 
 #: common/check_config.py:123
-#, fuzzy
 msgid ""
 "Please adjust the settings so that the threshold for removing old backups "
 "does not exceed the free disk space warning threshold."
 msgstr ""
 "Palun muuda seadistusi parasjagu nii, et varukoopiate eemaldamise piir pole "
-"hoiatamise piirist kõrgem."
+"vaba andmeruumi hoiatuspiirist kõrgem."
 
 #: common/config.py:175 common/konfig.py:50 common/konfig.py:1418
 msgid "Main profile"
@@ -126,12 +126,11 @@ msgid "SSH (encrypted)"
 msgstr "SSH (krüptituna)"
 
 #: common/config.py:1880
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}."
-msgstr "{mode}-režiimis udev'i kasutamine ajastamiseks ei toimi"
+msgstr "{mode}-režiimis udev'i kasutamine ajastamiseks ei toimi."
 
 #: common/config.py:1907
-#, fuzzy
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
@@ -205,16 +204,12 @@ msgstr ""
 "Välisseadmes näidatud asukohta pole olemas või tegemist pole kaustaga."
 
 #: common/mount/_backends.py:285
-#, fuzzy
 msgid "Write access to the remote backup directory was denied."
-msgstr ""
-"Välisseadmes näidatud kausta pole võimalik kirjutada (õigused on puudu)."
+msgstr "Kirjutamine välisseadmes näidatud kausta on keelatud."
 
 #: common/mount/_backends.py:290
-#, fuzzy
 msgid "Access to the remote backup directory was denied."
-msgstr ""
-"Välisseadmes näidatud kausta pole võimalik vaadata (õigused on puudu)."
+msgstr "Ligipääs välisseadmes näidatud kausta on keelatud."
 
 #: common/mount/_backends.py:304 qt/manageprofiles/tab_general.py:126
 msgid "Path:"
@@ -264,7 +259,7 @@ msgstr ""
 "Varukoopia sihtkaust pole krüptimiseks ette valmistatud. Asukoht: {path}"
 
 #: common/mount/_encryptors.py:286
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Decrypted view mountpoint is missing. Path: {path}"
 msgstr "Haakepunkti dekrüptitud vaade on puudu. Asukoht: {path}"
 
@@ -462,9 +457,9 @@ msgid "ssh-agent is not installed"
 msgstr "Programm „ssh-agent“ on paigaldamata"
 
 #: common/sshsetupvalidator.py:236 common/sshsetupvalidator.py:354
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unexpected response from '{process}'."
-msgstr "Tundmatu vastus protsessilt „{process}“"
+msgstr "Tundmatu vastus protsessilt „{process}“."
 
 #: common/sshsetupvalidator.py:255
 #, python-brace-format
@@ -1052,6 +1047,16 @@ msgid ""
 "This message won't be shown again, but it can be opened anytime from the Help menu.\n"
 "Thank you for testing Back In Time and helping us improve it!"
 msgstr ""
+"See versioon on kandidaatversioon, mis on mõeldud testimiseks enne järgmise "
+"stabiilse versiooni avaldamist.\n"
+"Kui testid seda versiooni, palun jaga tagasisidet. Teata meile, kui leidsid "
+"mõne vea või kui kõik töötas ootuspäraselt. Isegi mõneminutiline test on "
+"abiks.\n"
+"Back In Time'i meeskonnaga saad ühendust võtta järgmiselt:\n"
+"{contact_list}\n"
+"Seda teadet enam uuesti ei kuvata, kuid seda saad alati avada menüüst „"
+"Abiteave“.\n"
+"Täname sind Back In Time'i testimise eest ja abi eest selle täiustamisel!"
 
 #: qt/app.py:1878
 msgid "Check if remote host is online"
@@ -2504,6 +2509,8 @@ msgid ""
 "The restore is still running. The window cannot be closed until it is "
 "finished."
 msgstr ""
+"Taastamine on veel töös. Seda akent ei saa sulgeda enne, kui taastamine pole "
+"lõppenud."
 
 #: qt/shutdowndlg.py:28
 msgid "Countdown to Shutdown"
@@ -2693,4 +2700,5 @@ msgstr ""
 #~ "Ntud sõnumit selles versioonis enam ei kuvata, aga on alati leitav abiteabe menüüst.\n"
 #~ "Täname sind osalemise eest ning abi eest Back In Time'i parandamisel!\n"
 #~ "Sinu Back In Time'i tiim"
+
 # REUSE-IgnoreEnd

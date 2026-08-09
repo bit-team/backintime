@@ -14,16 +14,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-08-06 10:32+0200\n"
-"PO-Revision-Date: 2026-08-03 11:46+0000\n"
+"PO-Revision-Date: 2026-08-07 06:49+0000\n"
 "Last-Translator: Merik <merik@noreply.codeberg.org>\n"
-"Language-Team: Polish <https://translate.codeberg.org/projects/backintime/common/pl/>\n"
+"Language-Team: Polish <https://translate.codeberg.org/projects/backintime/"
+"common/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2026.7.1\n"
 
 #: common/bitbase.py:21 common/config.py:36 common/konfig.py:32
@@ -75,10 +77,10 @@ msgstr ""
 
 #: common/check_config.py:113
 msgid "Two settings conflict with each other."
-msgstr ""
+msgstr "Dwa ustawienia są ze sobą sprzeczne."
 
 #: common/check_config.py:116
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal to the value for \"Warn if the free "
@@ -86,17 +88,16 @@ msgid ""
 msgstr ""
 "Wartość parametru „Usuń najstarszą kopię zapasową, jeśli ilość wolnego "
 "miejsca jest mniejsza niż” ({val_one}) musi być mniejsza lub równa progowi "
-"parametru „Ostrzegaj, jeśli ilość wolnego miejsca na dysku spadnie poniżej” "
-"({val_two})."
+"parametru „Ostrzegaj, jeśli ilość wolnego miejsca na dysku spadnie poniżej” ("
+"{val_two})."
 
 #: common/check_config.py:123
-#, fuzzy
 msgid ""
 "Please adjust the settings so that the threshold for removing old backups "
 "does not exceed the free disk space warning threshold."
 msgstr ""
-"Dostosuj ustawienia tak, aby limit usuwania kopii zapasowych nie był wyższy "
-"niż limit ostrzegawczy."
+"Dostosuj ustawienia tak, aby próg usuwania starych kopii zapasowych nie "
+"przekroczył progu ostrzegawczego dotyczącego ilości wolnego miejsca na dysku."
 
 #: common/config.py:175 common/konfig.py:50 common/konfig.py:1418
 msgid "Main profile"
@@ -129,12 +130,11 @@ msgid "SSH (encrypted)"
 msgstr "SSH (szyfrowany)"
 
 #: common/config.py:1880
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}."
-msgstr "Harmonogram udev nie działa z trybem {mode}"
+msgstr "Harmonogram udev nie działa z trybem {mode}."
 
 #: common/config.py:1907
-#, fuzzy
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
@@ -209,18 +209,12 @@ msgid "The remote backup directory is missing or is not a valid directory."
 msgstr "Brakuje katalogu zdalnej kopii zapasowej lub nie jest on prawidłowy."
 
 #: common/mount/_backends.py:285
-#, fuzzy
 msgid "Write access to the remote backup directory was denied."
-msgstr ""
-"Dostęp do zapisu w zdalnym katalogu kopii zapasowej został zablokowany (brak"
-" uprawnień)."
+msgstr "Dostęp do zapisu w zdalnym katalogu kopii zapasowej został zablokowany."
 
 #: common/mount/_backends.py:290
-#, fuzzy
 msgid "Access to the remote backup directory was denied."
-msgstr ""
-"Dostęp do zdalnego katalogu kopii zapasowej jest zabroniony (brak "
-"uprawnień)."
+msgstr "Dostęp do zdalnego katalogu kopii zapasowej został zablokowany."
 
 #: common/mount/_backends.py:304 qt/manageprofiles/tab_general.py:126
 msgid "Path:"
@@ -272,9 +266,9 @@ msgstr ""
 "Ścieżka: {path}"
 
 #: common/mount/_encryptors.py:286
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Decrypted view mountpoint is missing. Path: {path}"
-msgstr "Brak punktu montowania w odszyfrowanym widoku. Ścieżka: {path}"
+msgstr "Brak odszyfrowanego punktu montowania widoku. Ścieżka: {path}"
 
 #: common/mount/_encryptors.py:338
 #, python-brace-format
@@ -472,9 +466,9 @@ msgid "ssh-agent is not installed"
 msgstr "ssh-agent nie jest zainstalowany"
 
 #: common/sshsetupvalidator.py:236 common/sshsetupvalidator.py:354
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unexpected response from '{process}'."
-msgstr "Nieoczekiwana odpowiedź od „{process}”"
+msgstr "Nieoczekiwana odpowiedź od „{process}”."
 
 #: common/sshsetupvalidator.py:255
 #, python-brace-format
@@ -1062,6 +1056,16 @@ msgid ""
 "This message won't be shown again, but it can be opened anytime from the Help menu.\n"
 "Thank you for testing Back In Time and helping us improve it!"
 msgstr ""
+"Ta wersja jest kandydatem do wydania i jest przeznaczona do testowania przed "
+"kolejną wersją stabilną.\n"
+"Jeśli testujesz tę wersję, prosimy o przesłanie opinii. Daj nam znać, jeśli "
+"znalazłeś problem lub czy wszystko działało zgodnie z oczekiwaniami. Nawet "
+"krótki, kilkuminutowy test jest pomocny.\n"
+"Możesz skontaktować się z zespołem Back In Time za pośrednictwem:\n"
+"{contact_list}\n"
+"Ta wiadomość nie pojawi się ponownie, ale możesz ją otworzyć w dowolnym "
+"momencie z menu Pomoc.\n"
+"Dziękujemy za testowanie Back In Time i pomoc w jego ulepszaniu!"
 
 #: qt/app.py:1878
 msgid "Check if remote host is online"
@@ -2532,6 +2536,8 @@ msgid ""
 "The restore is still running. The window cannot be closed until it is "
 "finished."
 msgstr ""
+"Przywracanie jest nadal w toku. Okna nie można zamknąć, dopóki się nie "
+"zakończy."
 
 #: qt/shutdowndlg.py:28
 msgid "Countdown to Shutdown"
@@ -2717,4 +2723,5 @@ msgstr "To są pliki w obecnej formie. Nie jest to kopia zapasowa."
 #~ "W tej wersji ten komunikat nie zostanie ponownie wyświetlony, ale można uzyskać do niego dostęp w dowolnym momencie za pośrednictwem menu pomocy.\n"
 #~ "Dziękujemy za wsparcie i pomoc w ulepszaniu Back In Time!\n"
 #~ "Twój zespół Back In Time"
+
 # REUSE-IgnoreEnd

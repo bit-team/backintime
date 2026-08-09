@@ -17,11 +17,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-08-06 10:32+0200\n"
-"PO-Revision-Date: 2026-08-03 11:46+0000\n"
+"PO-Revision-Date: 2026-08-06 09:51+0000\n"
 "Last-Translator: gallegonovato <gallegonovato@noreply.codeberg.org>\n"
-"Language-Team: Spanish <https://translate.codeberg.org/projects/backintime/common/es/>\n"
+"Language-Team: Spanish <https://translate.codeberg.org/projects/backintime/"
+"common/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -76,27 +77,26 @@ msgstr ""
 
 #: common/check_config.py:113
 msgid "Two settings conflict with each other."
-msgstr ""
+msgstr "Dos parámetros se contradicen."
 
 #: common/check_config.py:116
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal to the value for \"Warn if the free "
 "disk space falls below\" ({val_two})."
 msgstr ""
 "El valor de «Eliminar la copia de seguridad más antigua si el espacio libre "
-"es inferior a» ({val_one}) debe ser menor o igual que el límte de «Avisar si"
-" el espacio libre en disco es inferior a» ({val_two})."
+"es menor que» ({val_one}) debe ser menor o igual que el valor de Advertir si "
+"el espacio libre en disco cae por debajo de» ({val_two})."
 
 #: common/check_config.py:123
-#, fuzzy
 msgid ""
 "Please adjust the settings so that the threshold for removing old backups "
 "does not exceed the free disk space warning threshold."
 msgstr ""
-"Por favor, ajusta la configuración para que el límite de eliminación de "
-"copias de seguridad no sea superior al límite de la advertencia."
+"Por favor, el umbral para eliminar copias de seguridad antiguas no puede "
+"superar al umbral de advertencia de espacio libre»."
 
 #: common/config.py:175 common/konfig.py:50 common/konfig.py:1418
 msgid "Main profile"
@@ -129,18 +129,17 @@ msgid "SSH (encrypted)"
 msgstr "SSH (Cifrado)"
 
 #: common/config.py:1880
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}."
-msgstr "La programación de Udev no funciona con el modo {mode}"
+msgstr "El planificador udev no funciona con el modo {mode}."
 
 #: common/config.py:1907
-#, fuzzy
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
 msgstr ""
-"Tiempo de verificación agotado. No se completó la asignación de udev. Por "
-"favor, inténtelo de nuevo."
+"Tiempo de autenticación agotado. Error al configurar la programación basada "
+"en udev. Por favor, reinténtelo."
 
 #: common/config.py:1945
 msgid "Failed to write new crontab."
@@ -208,14 +207,13 @@ msgid "The remote backup directory is missing or is not a valid directory."
 msgstr "Falta la carpeta de copia de seguridad remota o la ruta es inválida."
 
 #: common/mount/_backends.py:285
-#, fuzzy
 msgid "Write access to the remote backup directory was denied."
-msgstr "Sin permisos de escritura en la copia de seguridad remota."
+msgstr ""
+"Sin acceso de escritura al almacenamiento remoto de copias de seguridad."
 
 #: common/mount/_backends.py:290
-#, fuzzy
 msgid "Access to the remote backup directory was denied."
-msgstr "Sin permisos para acceder a la copia de seguridad remota."
+msgstr "Imposible acceder a la ubicación de la copia de seguridad remota."
 
 #: common/mount/_backends.py:304 qt/manageprofiles/tab_general.py:126
 msgid "Path:"
@@ -266,9 +264,9 @@ msgstr ""
 "cifrado. Ruta: {path}"
 
 #: common/mount/_encryptors.py:286
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Decrypted view mountpoint is missing. Path: {path}"
-msgstr "Error en el desencriptado. En la ruta: {path}"
+msgstr "Falta la carpeta donde se muestran los datos descifrados. Ruta: {path}"
 
 #: common/mount/_encryptors.py:338
 #, python-brace-format
@@ -466,9 +464,9 @@ msgid "ssh-agent is not installed"
 msgstr "ssh-agent no instalado"
 
 #: common/sshsetupvalidator.py:236 common/sshsetupvalidator.py:354
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unexpected response from '{process}'."
-msgstr "Error en '{process}'"
+msgstr "El proceso '{process}' no respondió como se esperaba."
 
 #: common/sshsetupvalidator.py:255
 #, python-brace-format
@@ -1063,6 +1061,16 @@ msgid ""
 "This message won't be shown again, but it can be opened anytime from the Help menu.\n"
 "Thank you for testing Back In Time and helping us improve it!"
 msgstr ""
+"Esta versión es una candidata a una versión beta, para hacer pruebas antes "
+"de la próxima versión estable.\n"
+"Si prueba esta versión, por favor envíenos sus comentarios. Háganos saber si "
+"encontró algún problema o si todo funcionó como esperaba. Incluso una prueba "
+"breve de pocos minutos es de gran ayuda.\n"
+"Puede ponerse en contacto con el equipo de Back In Time a través de:\n"
+"{contact_list}\n"
+"Este mensaje no se volverá a mostrar, pero puede abrirse en cualquier "
+"momento desde el menú Ayuda.\n"
+"¡Gracias por probar Back In Time y ayudarnos a mejorarlo!"
 
 #: qt/app.py:1878
 msgid "Check if remote host is online"
@@ -2528,6 +2536,8 @@ msgid ""
 "The restore is still running. The window cannot be closed until it is "
 "finished."
 msgstr ""
+"La restauración aún se está ejecutando. La ventana no se puede cerrar hasta "
+"que haya terminado."
 
 #: qt/shutdowndlg.py:28
 msgid "Countdown to Shutdown"
@@ -2718,4 +2728,5 @@ msgstr ""
 #~ "En esta versión, este mensaje no volverá a aparecer, pero podrás acceder a él en cualquier momento a través del menú de ayuda.\n"
 #~ "¡Gracias por tu apoyo y por ayudarnos a mejorar Back In Time!\n"
 #~ "El equipo de Back In Time"
+
 # REUSE-IgnoreEnd

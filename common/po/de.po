@@ -15,11 +15,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-08-06 10:32+0200\n"
-"PO-Revision-Date: 2026-08-05 06:41+0000\n"
-"Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
-"Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
+"PO-Revision-Date: 2026-08-07 13:32+0000\n"
+"Last-Translator: burned42 <burned42@noreply.codeberg.org>\n"
+"Language-Team: German <https://translate.codeberg.org/projects/backintime/"
+"common/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,27 +75,27 @@ msgstr ""
 
 #: common/check_config.py:113
 msgid "Two settings conflict with each other."
-msgstr ""
+msgstr "Zwei Einstellungen stehen im Konflikt miteinander."
 
 #: common/check_config.py:116
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal to the value for \"Warn if the free "
 "disk space falls below\" ({val_two})."
 msgstr ""
-"Der Wert für »Älteste Sicherung entfernen, wenn freier Platz weniger ist "
-"als« ({val_one}) muss kleiner oder gleich dem Schwellenwert für »Warne, wenn"
-" freier Speicherplatz weniger als« ({val_two}) sein."
+"Der Wert für »Älteste Sicherung entfernen, wenn freier Speicher weniger ist "
+"als« ({val_one}) muss kleiner oder gleich dem Wert für »Warne, wenn freier "
+"Speicherplatz weniger als« ({val_two}) sein."
 
 #: common/check_config.py:123
-#, fuzzy
 msgid ""
 "Please adjust the settings so that the threshold for removing old backups "
 "does not exceed the free disk space warning threshold."
 msgstr ""
-"Bitte die Einstellungen anpassen, so dass der Grenzwert für das Entfernen "
-"von Sicherungen nicht größer ist als das Warnlimit."
+"Bitte die Einstellungen anpassen. Der Schwellenwert zum Entfernen alter "
+"Sicherungen darf nicht höher sein, als der Wertwert für den freien "
+"Speicherplatz."
 
 #: common/config.py:175 common/konfig.py:50 common/konfig.py:1418
 msgid "Main profile"
@@ -127,12 +128,11 @@ msgid "SSH (encrypted)"
 msgstr "SSH (verschlüsselt)"
 
 #: common/config.py:1880
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev schedule doesn't work with mode {mode}."
-msgstr "Udev-Zeitplan funktioniert nicht mit Modus {mode}"
+msgstr "Udev-Zeitplanung wird im Modus {mode} nicht unterstützt."
 
 #: common/config.py:1907
-#, fuzzy
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
@@ -205,20 +205,19 @@ msgid "Details:"
 msgstr "Details:"
 
 #: common/mount/_backends.py:279
-#, fuzzy
 msgid "The remote backup directory is missing or is not a valid directory."
 msgstr ""
-"Das Remote-Backup-Verzeichnis ist nicht vorhanden oder ist kein Verzeichnis."
+"Das Sicherungsverzeichnis auf dem entfernten Rechner ist nicht vorhanden "
+"oder ist kein Verzeichnis."
 
 #: common/mount/_backends.py:285
-#, fuzzy
 msgid "Write access to the remote backup directory was denied."
-msgstr "Das Remote-Backup-Verzeichnis ist nicht beschreibbar."
+msgstr ""
+"Kein Schreibzugriff auf das Sicherungsverzeichnis auf dem entfernten Rechner."
 
 #: common/mount/_backends.py:290
-#, fuzzy
 msgid "Access to the remote backup directory was denied."
-msgstr "Das Remote-Backup-Verzeichnis ist nicht beschreibbar."
+msgstr "Kein Zugriff auf das Sicherungsverzeichnis auf dem entfernten Rechner."
 
 #: common/mount/_backends.py:304 qt/manageprofiles/tab_general.py:126
 msgid "Path:"
@@ -270,14 +269,14 @@ msgstr ""
 "{path}"
 
 #: common/mount/_encryptors.py:286
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Decrypted view mountpoint is missing. Path: {path}"
-msgstr "Einhängepunkt für entschlüsselte Ansicht fehlt. Pfad: {path}"
+msgstr "Der Einhängepunkt für die entschlüsselte Ansicht fehlt. Pfad: {path}"
 
 #: common/mount/_encryptors.py:338
 #, python-brace-format
 msgid "Mount failed with return code {rc}."
-msgstr ""
+msgstr "Einhängen fehlgeschlagen mit Exit-Code {rc}."
 
 #: common/mount/_encryptors.py:341
 msgid "Error:"
@@ -294,7 +293,7 @@ msgstr "Aushängen fehlgeschlagen"
 #: common/mount/_encryptors.py:376
 #, python-brace-format
 msgid "Return code: {rc}"
-msgstr ""
+msgstr "Return-Code: {rc}"
 
 #: common/mount/_encryptors.py:378
 #, python-brace-format
@@ -470,9 +469,9 @@ msgid "ssh-agent is not installed"
 msgstr "ssh-agent ist nicht installiert"
 
 #: common/sshsetupvalidator.py:236 common/sshsetupvalidator.py:354
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unexpected response from '{process}'."
-msgstr "Unerwartete Antwort von '{process}'"
+msgstr "Unerwartete Rückmeldung von '{process}'."
 
 #: common/sshsetupvalidator.py:255
 #, python-brace-format
@@ -509,14 +508,15 @@ msgstr ""
 #: common/sshsetupvalidator.py:429
 msgid "Could not write files to the remote host using rsync."
 msgstr ""
+"Schreiben der Dateien auf den entfernten Rechner via rsync fehlgeschlagen."
 
 #: common/sshsetupvalidator.py:483
 msgid "Could not verify rsync hardlink support."
-msgstr ""
+msgstr "Prüfung auf Unterstützung von Hardlinks fehlgeschlagen."
 
 #: common/sshsetupvalidator.py:512
 msgid "Unexpected error while verifying rsync hardlink support."
-msgstr ""
+msgstr "Unerwarteter Fehler beim Prüfen auf Unterstützung von Hardlinks."
 
 #: common/sshsetupvalidator.py:519
 msgid "The remote file system does not support hardlinks."
@@ -673,13 +673,12 @@ msgstr ""
 "gefunden wurde."
 
 #: qt/app.py:358
-#, fuzzy
 msgid ""
 "Create a new configuration or import an existing configuration from a "
 "backup?"
 msgstr ""
-"Eine vorhandene Konfiguration aus einem Sicherungsspeicherort oder einem "
-"anderen Computer importieren?"
+"Neue Konfiguration erstellen oder eine vorhandene Konfiguration aus einer "
+"Sicherung importieren?"
 
 #: qt/app.py:363 qt/confirmrestoredialog.py:36 qt/messagebox.py:124
 msgid "Question"
@@ -687,7 +686,7 @@ msgstr "Frage"
 
 #: qt/app.py:367
 msgid "Create"
-msgstr ""
+msgstr "Erstellen"
 
 #: qt/app.py:369 qt/restoreconfigdialog.py:135
 msgid "Import"
@@ -818,12 +817,11 @@ msgstr "Einen Fehler melden"
 
 #: qt/app.py:605
 msgid "Contact"
-msgstr ""
+msgstr "Kontakt"
 
 #: qt/app.py:607
-#, fuzzy
 msgid "Shows additional contact options in the browser"
-msgstr "Zusätzliche Optionen zu rsync hinzufügen"
+msgstr "Zeigt zusätzliche Kontaktmöglichkeiten im Browser an"
 
 #: qt/app.py:610
 msgid "Translation"
@@ -966,7 +964,7 @@ msgstr "Das Fenster dennoch schließen?"
 
 #: qt/app.py:1112 qt/app.py:1119
 msgid "Backup destination unavailable"
-msgstr ""
+msgstr "Sicherungsziel nicht verfügbar"
 
 #: qt/app.py:1234
 msgid "Done, no backup needed"
@@ -1073,6 +1071,18 @@ msgid ""
 "This message won't be shown again, but it can be opened anytime from the Help menu.\n"
 "Thank you for testing Back In Time and helping us improve it!"
 msgstr ""
+"Diese Version ist ein Release Candidate für das Testen vor der nächsten "
+"stabilen Version.\n"
+"Gib uns bitte Rückmeldung, wenn du diese Version testest. Informiere uns, "
+"wenn du ein Problem gefunden hast, aber auch wenn alles wie erwartet "
+"funktioniert hat. Auch ein kurzer Test von wenigen Minuten ist bereits sehr "
+"hilfreich.\n"
+"Du kannst das Back In Time Team folgendermaßen erreichen:\n"
+"{contact_list}\n"
+"Diese Nachricht wird nicht wieder angezeigt, kann aber jederzeit über das "
+"Hilfe-Menü aufgerufen werden.\n"
+"Danke für das Testen von Back In Time und deine Unterstützung bei der "
+"Verbesserung des Programms!"
 
 #: qt/app.py:1878
 msgid "Check if remote host is online"
@@ -1237,26 +1247,26 @@ msgstr "Hinzufügen zum Ausschließen"
 #: qt/fileview.py:292
 msgid "The selected item is already in the include list."
 msgid_plural "The selected items are already in the include list."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Der gewählte Eintrag ist bereits auf der Einschlussliste."
+msgstr[1] "Die gewählten Einträge sind bereits auf der Einschlussliste."
 
 #: qt/fileview.py:299
 msgid "The following item is already in the include list."
 msgid_plural "The following items are already in the include list."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Der folgende Eintrag ist bereits auf der Einschlussliste."
+msgstr[1] "Die folgenden Einträge sind bereits auf der Einschlussliste."
 
 #: qt/fileview.py:313
 msgid "The selected item is already in the exclude list."
 msgid_plural "The selected items are already in the exclude list."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Der gewählte Eintrag ist bereits auf der Ausschlussliste."
+msgstr[1] "Die gewählten Einträge sind bereits auf der Ausschlussliste."
 
 #: qt/fileview.py:320
 msgid "The following item is already in the exclude list."
 msgid_plural "The following items are already in the exclude list."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Der folgende Eintrag ist bereits auf der Ausschlussliste."
+msgstr[1] "Die folgenden Einträge sind bereits auf der Ausschlussliste."
 
 #: qt/languagedialog.py:36
 msgid "Setup language"
@@ -1591,6 +1601,11 @@ msgid ""
 "triggered again at 19:00 because the hour boundary has been crossed. This "
 "schedule mode is useful if the computer is not running regularly."
 msgstr ""
+"Zum Beispiel bedeutet \"wiederholend alle 1 Stunde\", dass eine Sicherung zu "
+"jeder vollen Stunde ausgelöst wird. Wenn die letzte erfolgreiche Sicherung "
+"um 18:56 Uhr erstellt wurde, wird sie bereits um 19:00 Uhr erneut ausgelöst, "
+"weil eine neue volle Stunde begonnen hat. Dieser Modus der Zeitplanung ist "
+"nützlich, wenn der Computer nicht regelmäßig läuft."
 
 #: qt/manageprofiles/schedulewidget.py:49
 msgid "Schedule"
@@ -1633,6 +1648,9 @@ msgid ""
 "Trigger a backup when a new hour, day, week, or month begins. If the system "
 "was off, it runs on the next start."
 msgstr ""
+"Löst eine Sicherung aus sobald eine neue Stunde, ein neuer Tag, eine neue "
+"Woche, oder ein neuer Monat beginnt. Falls das System zu dem Zeitpunkt aus "
+"war, läuft die Sicherung beim nächsten Start."
 
 #: qt/manageprofiles/schedulewidget.py:133
 msgid "Every:"
@@ -1692,9 +1710,8 @@ msgid "Every day"
 msgstr "Täglich"
 
 #: qt/manageprofiles/schedulewidget.py:189
-#, fuzzy
 msgid "Repeatedly"
-msgstr "Wiederholend (anacron)"
+msgstr "Wiederholend"
 
 #: qt/manageprofiles/schedulewidget.py:191
 msgid "When drive gets connected (udev)"
@@ -2080,46 +2097,48 @@ msgstr "Das Verschlüsselungspasswort darf nicht leer sein."
 
 #: qt/manageprofiles/tab_general.py:476
 msgid "Back In Time could not validate the SSH configuration."
-msgstr ""
+msgstr "Back In Time konnte die SSH-Konfiguration nicht validieren."
 
 #: qt/manageprofiles/tab_general.py:478
 msgid "SSH profile setup failed"
-msgstr ""
+msgstr "Fehler bei Einrichtung des SSH-Profils"
 
 #: qt/manageprofiles/tab_general.py:522
-#, fuzzy
 msgid "Profile setup failed"
-msgstr "Profil: {profile_name}"
+msgstr "Fehler bei Einrichtung des Profils"
 
 #: qt/manageprofiles/tab_general.py:657
 msgid "Backups are stored locally."
-msgstr ""
+msgstr "Sicherungen werden lokal gespeichert."
 
 #: qt/manageprofiles/tab_general.py:659
 msgid "Backups are stored locally and encrypted using gocryptfs."
-msgstr ""
+msgstr "Sicherungen werden lokal und mit gocryptfs verschlüsselt gespeichert."
 
 #: qt/manageprofiles/tab_general.py:661
 msgid "Backups are stored on a remote system via SSH."
-msgstr ""
+msgstr "Sicherungen werden auf einem entfernten Rechner via SSH gespeichert."
 
 #: qt/manageprofiles/tab_general.py:663
 msgid ""
 "Backups are stored on a remote system via SSH and encrypted using gocryptfs."
 msgstr ""
+"Sicherungen werden auf einem entfernten Rechner via SSH und mit gocryptfs "
+"verschlüsselt gespeichert."
 
 #: qt/manageprofiles/tab_general.py:709
 msgid "Really change the backup directory?"
 msgstr "Wirklich das Sicherungsverzeichnis ändern?"
 
 #: qt/manageprofiles/tab_general.py:729
-#, fuzzy
 msgid "The selected backup destination cannot be used for encryption."
-msgstr "Das ausgewählte Sicherungsziel ist nicht leer."
+msgstr ""
+"Das ausgewählte Sicherungsziel kann nicht mit Verschlüsselung verwendet "
+"werden."
 
 #: qt/manageprofiles/tab_general.py:732
 msgid "It must either be empty or already initialized for gocryptfs."
-msgstr ""
+msgstr "Es muss entweder leer, oder bereits für gocryptfs initialisiert sein."
 
 #: qt/manageprofiles/tab_general.py:762
 msgid "Invalid file: Not a private SSH key"
@@ -2522,6 +2541,8 @@ msgid ""
 "The restore is still running. The window cannot be closed until it is "
 "finished."
 msgstr ""
+"Die Wiederherstellung läuft noch. Das Fenster kann solange nicht geschlossen "
+"werden."
 
 #: qt/shutdowndlg.py:28
 msgid "Countdown to Shutdown"
@@ -2706,4 +2727,5 @@ msgstr "Dies sind die Dateien, so wie sie jetzt sind. Es ist keine Sicherung."
 #~ "In dieser Version wird diese Nachricht nicht erneut gezeigt, kann aber jederzeit über das Hilfe-Menü aufgerufen werden.\n"
 #~ "Vielen Dank für Ihre Unterstützung und dafür, dass Sie uns dabei helfen, Back In Time zu verbessern!\n"
 #~ "Ihr Back-In-Time-Team"
+
 # REUSE-IgnoreEnd
