@@ -55,7 +55,7 @@ using a "feature" branch and sending a pull request asking for a review.
   their support and kindly ask for new OSS credits.
 - Create a new branch (e.g. `rc/v1.5.4`) in your clone for the new release.
 - Update `VERSION` file.
-- Update `CHANGES` file.
+- Update `CHANGELOG.md` file.
 - Execute the script `./updateversion.sh` to update the version numbers (based on `VERSION` file) in several files.
 <!--
 - Autogenerate and update the man page file `backintime-config.1` by executing the script `common/create-manapge-backintime-config.py`.
