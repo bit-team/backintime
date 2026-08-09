@@ -526,6 +526,9 @@ def _fix_enum_values(path: Path, enum_cls: type[Enum]) -> None:
     Regarding 1.6.1 was introduced with Debian 13, my recommendation is to
     remove this fix-workaround not before Debian 15 is released.
     """
+    if not path.exists():
+        return
+
     lines = []
 
     for line in path.read_text().splitlines(keepends=True):

@@ -19,6 +19,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 class BackInTime(generic.TestCase):
     def test_quiet_mode(self):
+        self.maxDiff = None
         output = subprocess.getoutput('python3 backintime.py --quiet')
 
         # Remove "WARNING:" and "ERROR:" messages from output.

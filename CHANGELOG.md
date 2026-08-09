@@ -13,6 +13,9 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ### Changed
  
+* **Breaking**: Configuration file write by 2.0.0 not backward compatible with
+  previous versions due to the removal of the legacy `profiles=` entry and EncFS
+  support. ([PR#1850](https://github.com/bit-team/backintime/pull/1850))
 - **Rewritten from scratch**: Mount subsystem (backend and encryption).
   Behavior is intended to remain unchanged; regressions cannot be fully ruled
   out. ([PR#2449](https://github.com/bit-team/backintime/pull/2449))
@@ -75,7 +78,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Crash when use Btrfs-subvolume as backup destination (Daidalos [@D4id4los](https://github.com/D4id4los), [#2487](https://github.com/bit-team/backintime/issues/2487))
 - Crash when polkit authentication dialog times out while setting up udev scheduling ([#2375](https://github.com/bit-team/backintime/issues/2375))
 - Guard pause/resume/stop actions in the GUI against ProcessLookupError when the backup process has already exited. ([#1604](https://github.com/bit-team/backintime/issues/1604))
-* Enum names in config file are replaced by their values
+* Enum names in config file are replaced by their values ([11930b68](https://github.com/bit-team/backintime/commit/11930b68))
 
 ## [1.6.1] (2026-02-10)
 

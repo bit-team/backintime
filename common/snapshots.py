@@ -2223,10 +2223,6 @@ class Snapshots:
         Returns:
             list:                   filtered list of :py:class:`SID` objects
         """
-        # print(f'Snapshots.filter() :: {base_sid=} {base_path=} '
-        #       f'{snapshotsList=} {list_diff_only=} {flag_deep_check=} '
-        #       f'{list_equal_to=}')
-
         snapshotsFiltered = []
 
         base_full_path = base_sid.pathBackup(base_path)
@@ -2846,6 +2842,17 @@ class SID:  # -> "BackupID" will be its new name
         path_return = Path(self._path)
 
         for p in path:
+            # WORKAROUND
+            # Example:
+            # >>> from pathlib import Path
+            # >>> a = Path('/home/user/Vorlagen')
+            # >>> a / 'backup'
+            # PosixPath('/home/user/Vorlagen/backup')
+            # >>> a / '/home/user/Downloads'
+            # PosixPath('/home/user/Downloads')
+            if p[0] == '/':
+                p = p[1:]
+
             path_return = path_return / p
 
         return str(path_return)
@@ -3520,7 +3527,6 @@ def get_backup_ids_and_paths(cfg: config.Config,
 
     result = [(str(sid), Path(sid.path())) for sid in all_sids]
 
-    # print(f'{all_sids=}\n{result=}\n')  # DEBUG
     return result
 
 

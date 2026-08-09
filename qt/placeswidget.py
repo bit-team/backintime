@@ -23,7 +23,10 @@ from PyQt6.QtWidgets import (QAbstractItemView,
 from PyQt6.QtGui import QFont, QIcon, QPalette
 from PyQt6.QtCore import Qt
 import bitbase
+import konfig
 import config
+import logger
+from profilecontext import ProfileContext
 from profile_operations import ProfileOperations
 
 
@@ -100,60 +103,84 @@ class PlacesWidget(QTreeWidget):
             # Use full path in root mode ("/root") otherwise users name only
             str(fp_home) if bitbase.IS_IN_ROOT_MODE else fp_home.name,
             str(fp_home),
-            'user-home')
+            'user-home'
+        )
 
         # formally known as self.sid
         backup_id = self.parent.selected_backup_id()
 
-        # "Now" or a specific snapshot selected?
+        include_dirs = None
+
+        # "Now" or no specific backup selected?
         if now_selected or backup_id is None:
-            # Use snapshots profiles list of include files and folders
-            include_entries = self.config.include()
+            include_dirs = ProfileContext().profile.include_directories
 
         else:
-            # Dev note (2026-03): I wonder why this is needed. Isn't the
-            # profile config stored within each backup. Why not parse
-            # that config file instead of scanning the real filesystem?
+            # Check the config file which is stored in the backup itself
+            cfg_fp = pathlib.Path(backup_id.path()) / 'config'
 
-            # Workaround
-            backup_path = pathlib.Path(backup_id.path()) / 'backup' \
-                / str(pathlib.Path.home())[1:]
+            try:
+                with konfig.load_archived_config(cfg_fp) as acfg:
+                    ap = acfg.profile(ProfileContext().profile.profile_id)
+                    include_dirs = ap.include_directories
 
-            # Determine directories from the backup itself
-            base = os.path.expanduser('~')
-            if not backup_path.exists():
-                # Folder not mounted. We can skip for the next updatePlaces()
-                return
+            # pylint: disable-next=broad-exception-caught
+            except Exception as exc:  # noqa
+                logger.critical(
+                    'Unexpected problem while loading archived config file '
+                    f'from {cfg_fp}. {exc!s}'
+                )
 
-            folders = [
-                fp.name for fp in backup_path.iterdir() if fp.is_dir()
-            ]
-            # print(f'{folders=}')  # DEBUG
+                # Fallback if something unexpected went wrong
+                include_dirs = self._determine_include_dirs_fallback(backup_id)
 
-            include_entries = [(os.path.join(base, f), 0) for f in folders]
-            # print(f'{include_entries=}')  # DEBUG
+        if include_dirs:
+
+            if not self.header().sortIndicatorSection():
+                indic = self.header().sortIndicatorOrder()
+                reverse = indic == Qt.SortOrder.DescendingOrder
+                include_dirs = sorted(include_dirs, reverse=reverse)
+
+            self._add_place(_('Backup directories'), '', '')
+
+            for folder in include_dirs:
+                self._add_place(folder, folder, 'document-save')
+
+            # Select "home" if nothing is selected
+            if self.currentItem() is None:
+                self.setCurrentItem(home_item)
+
+    def _determine_include_dirs_fallback(self, backup_id) -> list[str] | None:
+        """Determine the include dirs in the selected backup.
+
+        Usually this information is taken from the archived config file
+        stored in the specfici backup. If this fails for some reasons
+        the include dirs are determined from the real filesystem and the
+        backups structure.
+        """
+        logger.debug(
+            f'Determine include dirs for {backup_id} from filesystem.'
+        )
+
+        # Workaround
+        backup_path = pathlib.Path(backup_id.path()) / 'backup' \
+            / str(pathlib.Path.home())[1:]
+
+        # Determine directories from the backup itself
+        base = os.path.expanduser('~')
+        if not backup_path.exists():
+            return None
+
+        folders = [
+            fp.name for fp in backup_path.iterdir() if fp.is_dir()
+        ]
+
+        include_entries = [(os.path.join(base, f), 0) for f in folders]
 
         # Use folders only (if 2nd tuple entry is 0)
         only_folders = filter(lambda entry: entry[1] == 0, include_entries)
-        include_folders = [item[0] for item in only_folders]
-        # print(f'{include_folders=}')  # DEBUG
 
-        if not include_folders:
-            return
-
-        if not self.header().sortIndicatorSection():
-            indic = self.header().sortIndicatorOrder()
-            reverse = indic == Qt.SortOrder.DescendingOrder
-            include_folders = sorted(include_folders, reverse=reverse)
-
-        self._add_place(_('Backup directories'), '', '')
-
-        for folder in include_folders:
-            self._add_place(folder, folder, 'document-save')
-
-        # Select "home" if nothing is selected
-        if self.currentItem() is None:
-            self.setCurrentItem(home_item)
+        return [item[0] for item in only_folders]
 
     def _add_place(self, name, path, icon) -> QTreeWidgetItem:
         """
