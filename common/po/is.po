@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: © 2008 Back In Time Team <bit-dev@python.org>
+# SPDX-FileCopyrightText: © Sveinn í Felli (sveinki), 2024-2026
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -13,12 +14,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev\n"
-"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
-"POT-Creation-Date: 2026-08-06 10:32+0200\n"
+"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"POT-Creation-Date: 2026-08-09 12:53+0200\n"
 "PO-Revision-Date: 2026-08-08 08:57+0000\n"
 "Last-Translator: sveinki <sveinki@noreply.codeberg.org>\n"
-"Language-Team: Icelandic <https://translate.codeberg.org/projects/backintime/"
-"common/is/>\n"
+"Language-Team: Icelandic <https://translate.codeberg.org/projects/backintime/common/is/>\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2026.7.1\n"
 
-#: common/bitbase.py:21 common/config.py:36 common/konfig.py:32
+#: common/bitbase.py:21 common/config.py:36 common/konfig.py:34
 #: common/mount/_backends.py:23 common/tools.py:88 qt/encfsmsgbox.py:32
 #: qt/messagebox.py:100 qt/timeline.py:34
 msgid "Warning"
@@ -79,17 +79,17 @@ msgid ""
 "({val_one}) must be less than or equal to the value for \"Warn if the free "
 "disk space falls below\" ({val_two})."
 msgstr ""
-"Gildið fyrir \"Fjarlægja elsta öryggisafrit ef laust pláss er minna en\" ("
-"{val_one}) verður að vera minna en eða jafnt gildinu fyrir \"Aðvara ef laust "
-"diskpláss fer niður fyrir\" ({val_two})."
+"Gildið fyrir \"Fjarlægja elsta öryggisafrit ef laust pláss er minna en\" "
+"({val_one}) verður að vera minna en eða jafnt gildinu fyrir \"Aðvara ef "
+"laust diskpláss fer niður fyrir\" ({val_two})."
 
 #: common/check_config.py:123
 msgid ""
-"Please adjust the settings so that the threshold for removing old backups "
-"does not exceed the free disk space warning threshold."
+"Please adjust the settings. The threshold for removing old backups must not "
+"be higher for the free disk space warning value."
 msgstr ""
 
-#: common/config.py:175 common/konfig.py:50 common/konfig.py:1418
+#: common/config.py:175 common/konfig.py:52 common/konfig.py:1427
 msgid "Main profile"
 msgstr "Aðalsnið"
 
@@ -120,8 +120,8 @@ msgid "SSH (encrypted)"
 msgstr "SSH (dulritað)"
 
 #: common/config.py:1880
-#, python-brace-format
-msgid "Udev schedule doesn't work with mode {mode}."
+#, fuzzy, python-brace-format
+msgid "Udev scheduling is not supported with mode \"{mode}\"."
 msgstr "Áætlað udev virkar ekki með hamnum {mode}."
 
 #: common/config.py:1907
@@ -143,43 +143,43 @@ msgid ""
 "distribution for assistance."
 msgstr ""
 
-#: common/mount/_backends.py:95 common/snapshots.py:972
+#: common/mount/_backends.py:103 common/snapshots.py:972
 msgid "Can't find backup destination directory."
 msgstr "Finn ekki geymslumöppu fyrir öryggisafrit."
 
-#: common/mount/_backends.py:97 common/snapshots.py:976
+#: common/mount/_backends.py:105 common/snapshots.py:976
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Ef hún er á útskiptanlegu drifi, skaltu tengja það."
 
-#: common/mount/_backends.py:98
+#: common/mount/_backends.py:106
 msgid "Then press OK."
 msgstr "Ýttu síðan á 'Í lagi'."
 
-#: common/mount/_backends.py:115
+#: common/mount/_backends.py:123
 msgid "Back In Time could not connect to the remote backup location."
 msgstr ""
 "Back In Time tókst ekki að tengjast við fjartengda staðsetningu "
 "öryggisafritunar."
 
-#: common/mount/_backends.py:117 qt/manageprofiles/tab_general.py:477
+#: common/mount/_backends.py:125 qt/manageprofiles/tab_general.py:477
 msgid "Reason:"
 msgstr "Ástæða:"
 
-#: common/mount/_backends.py:163 common/sshsetupvalidator.py:180
+#: common/mount/_backends.py:176 common/sshsetupvalidator.py:180
 #, python-brace-format
 msgid "Could not reach the SSH proxy host \"{host_port}\"."
 msgstr ""
 
-#: common/mount/_backends.py:168 common/sshsetupvalidator.py:185
+#: common/mount/_backends.py:181 common/sshsetupvalidator.py:185
 #, python-brace-format
 msgid "Could not reach the SSH host \"{host_port}\"."
 msgstr ""
 
-#: common/mount/_backends.py:222
+#: common/mount/_backends.py:235
 msgid "SSH authentication failed for:"
 msgstr "SSH-auðkenning brást fyrir:"
 
-#: common/mount/_backends.py:224 common/mount/_backends.py:401
+#: common/mount/_backends.py:237 common/mount/_backends.py:414
 #: common/mount/_encryptors.py:262 common/sshsetupvalidator.py:239
 #: common/sshsetupvalidator.py:315 common/sshsetupvalidator.py:357
 #: common/sshsetupvalidator.py:430 common/sshsetupvalidator.py:484
@@ -187,32 +187,32 @@ msgstr "SSH-auðkenning brást fyrir:"
 msgid "Details:"
 msgstr "Nánar:"
 
-#: common/mount/_backends.py:279
+#: common/mount/_backends.py:292
 msgid "The remote backup directory is missing or is not a valid directory."
 msgstr ""
 "Fjartengdu möppuna undir öryggisafrit vantar eða að hún er ekki gild mappa."
 
-#: common/mount/_backends.py:285
+#: common/mount/_backends.py:298
 msgid "Write access to the remote backup directory was denied."
 msgstr "Skrifaðgangi að fjartengdri möppu fyrir öryggisafrit var hafnað."
 
-#: common/mount/_backends.py:290
+#: common/mount/_backends.py:303
 msgid "Access to the remote backup directory was denied."
 msgstr "Aðgangi að fjartengdri möppu fyrir öryggisafrit var hafnað."
 
-#: common/mount/_backends.py:304 qt/manageprofiles/tab_general.py:126
+#: common/mount/_backends.py:317 qt/manageprofiles/tab_general.py:126
 msgid "Path:"
 msgstr "Slóð:"
 
-#: common/mount/_backends.py:312
+#: common/mount/_backends.py:325
 msgid "No SSH host configured."
 msgstr "Ekki er búið að skilgreina SSH-hýsivél."
 
-#: common/mount/_backends.py:319
+#: common/mount/_backends.py:332
 msgid "No destination backup directory configured."
 msgstr "Ekki er búið að skilgreina neina möppu undir öryggisafrit."
 
-#: common/mount/_backends.py:399
+#: common/mount/_backends.py:412
 msgid "Could not mount the remote backup location."
 msgstr "Tókst ekki að tengja fjartengda staðsetningu öryggisafritunar."
 
@@ -428,7 +428,7 @@ msgstr "Reyna að halda í lágmarksmagn af lausu plássi"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Reyna að halda a.m.k. {perc} af lausum i-hnútum (inodes)"
 
-#: common/snapshots.py:3365 qt/app.py:1552 qt/timeline.py:405
+#: common/snapshots.py:3374 qt/app.py:1552 qt/timeline.py:405
 msgid "Now"
 msgstr "Núna"
 
@@ -500,8 +500,7 @@ msgstr "Tókst ekki að útbúa fjartengda möppu öryggisafritunar: {path}"
 #: common/sshtools.py:157
 #, python-brace-format
 msgid "Copy public SSH key \"{pubkey}\" to remote host \"{host}\"."
-msgstr ""
-"Afritaðu SSH-dreifilykil \"{pubkey}\" yfir á fjartengdu vélina \"{host}\"."
+msgstr "Afritaðu SSH-dreifilykil \"{pubkey}\" yfir á fjartengdu vélina \"{host}\"."
 
 #: common/sshtools.py:159
 #, python-brace-format
@@ -639,8 +638,8 @@ msgid ""
 "Create a new configuration or import an existing configuration from a "
 "backup?"
 msgstr ""
-"Útbúa nýjar grunnstillingar eða flytja inn fyrirliggjandi grunnstillingar úr "
-"öryggisafriti?"
+"Útbúa nýjar grunnstillingar eða flytja inn fyrirliggjandi grunnstillingar úr"
+" öryggisafriti?"
 
 #: qt/app.py:363 qt/confirmrestoredialog.py:36 qt/messagebox.py:124
 msgid "Question"
@@ -650,7 +649,7 @@ msgstr "Spurning"
 msgid "Create"
 msgstr "Búa til"
 
-#: qt/app.py:369 qt/restoreconfigdialog.py:135
+#: qt/app.py:369 qt/restoreconfigdialog.py:136
 msgid "Import"
 msgstr "Flytja inn"
 
@@ -754,7 +753,7 @@ msgstr ""
 msgid "Open Back In Time website in browser"
 msgstr "Opna vefsvæði Back In Time í vafra"
 
-#: qt/app.py:592 qt/app.py:2375
+#: qt/app.py:592 qt/app.py:2374
 msgid "Changelog"
 msgstr "Breytingasaga"
 
@@ -803,7 +802,7 @@ msgstr "Endurheimta"
 msgid "Restore the selected files or directories to the original location."
 msgstr "Endurheimta valdar skrár eða möppur á upprunalegu staðsetninguna."
 
-#: qt/app.py:630 qt/app.py:1994 qt/snapshotsdialog.py:185
+#: qt/app.py:630 qt/app.py:1995 qt/snapshotsdialog.py:185
 msgid "Restore to …"
 msgstr "Endurheimta í …"
 
@@ -816,7 +815,8 @@ msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
 msgstr ""
-"Endurheimta sýnda möppu og allt innihald hennar á upprunalegu staðsetninguna."
+"Endurheimta sýnda möppu og allt innihald hennar á upprunalegu "
+"staðsetninguna."
 
 #: qt/app.py:644
 msgid ""
@@ -836,7 +836,7 @@ msgstr "Sýna faldar skrár"
 msgid "Compare backups…"
 msgstr "Bera saman öryggisafrit…"
 
-#: qt/app.py:683 qt/app.py:1814
+#: qt/app.py:683 qt/app.py:1815
 msgid "Release Candidate"
 msgstr "Útgáfukandídat"
 
@@ -905,8 +905,8 @@ msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
 msgstr ""
-"Ef þú lokar þessum glugga, mun Back In Time ekki geta slökkt á kerfinu þegar "
-"öryggisafritun lýkur."
+"Ef þú lokar þessum glugga, mun Back In Time ekki geta slökkt á kerfinu þegar"
+" öryggisafritun lýkur."
 
 #: qt/app.py:1022
 msgid "Close the window anyway?"
@@ -944,17 +944,17 @@ msgstr "Áætluð lok:"
 msgid "Backup:"
 msgstr "Öryggisafrit:"
 
-#: qt/app.py:1662
+#: qt/app.py:1663
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Endurheimta {path}"
 
-#: qt/app.py:1664
+#: qt/app.py:1665
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Endurheimta {path} í …"
 
-#: qt/app.py:1688
+#: qt/app.py:1689
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -971,48 +971,48 @@ msgstr ""
 "Við biðjums velvirðingar á trufluninni, þessi skilaboð munu ekki birtast aftur. Hægt er að skoða þessi skilaboð aftur hvenær sem er úr hjálparvalmyndinni.\n"
 "Back In Time teymið"
 
-#: qt/app.py:1717
+#: qt/app.py:1718
 msgid "translation platform"
 msgstr "þýðingakerfið"
 
-#: qt/app.py:1722
+#: qt/app.py:1723
 msgid "Website"
 msgstr "Vefsvæði"
 
-#: qt/app.py:1736
+#: qt/app.py:1737
 msgid "Your translation"
 msgstr "Þýðing þín"
 
-#: qt/app.py:1773
+#: qt/app.py:1774
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Í dreifðu skýjasambandi á Mastodon: {link_and_label}."
 
-#: qt/app.py:1778
+#: qt/app.py:1779
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "Senda tölvupóst til {link_and_label}."
 
-#: qt/app.py:1782
+#: qt/app.py:1783
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "Póstlisti {link_and_label}."
 
-#: qt/app.py:1786
+#: qt/app.py:1787
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} á vefsvæði verkefnisins."
 
-#: qt/app.py:1789
+#: qt/app.py:1790
 msgid "Open an issue"
 msgstr "Opna verkbeiðni"
 
-#: qt/app.py:1790
+#: qt/app.py:1791
 msgid "Alternatively, you can use another channel of your choice."
 msgstr ""
 "Einnig gætirðu sent inn spurningar á aðra samskiptaleið sem þér líkar."
 
-#: qt/app.py:1795
+#: qt/app.py:1796
 #, python-brace-format
 msgid ""
 "This version is a Release Candidate for testing before the next stable release.\n"
@@ -1023,35 +1023,35 @@ msgid ""
 "Thank you for testing Back In Time and helping us improve it!"
 msgstr ""
 
-#: qt/app.py:1878
+#: qt/app.py:1879
 msgid "Check if remote host is online"
 msgstr "Athuga hvort fjartengd vél er á netinu"
 
-#: qt/app.py:1879
+#: qt/app.py:1880
 msgid "Check if remote host supports all necessary commands."
 msgstr "Athuga hvort fjartengd vél styðji allar nauðsynlegar skipanir."
 
-#: qt/app.py:1922
+#: qt/app.py:1923
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr ""
 
-#: qt/app.py:1927
+#: qt/app.py:1928
 msgid "Proceed with the backup?"
 msgstr "Halda áfram með öryggisafritið?"
 
-#: qt/app.py:1974
+#: qt/app.py:1975
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr "Allar nýrri skrár í {path} verða fjarlægðar. Halda áfram?"
 
-#: qt/app.py:1977
+#: qt/app.py:1978
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr "Allar nýrri skrár í upprunalegri möppu verða fjarlægðar. Halda áfram?"
 
-#: qt/app.py:1983
+#: qt/app.py:1984
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -1060,17 +1060,17 @@ msgstr ""
 "{BOLD}Aðvörun{BOLDEND}: Eyðing skráa á rót skráarkerfis gæti skemmt allt "
 "kerfið þitt."
 
-#: qt/app.py:2234
+#: qt/app.py:2233
 msgid "Backup name"
 msgstr "Heiti öryggisafrits"
 
-#: qt/app.py:2266
+#: qt/app.py:2265
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "Fjarlægja þetta öryggisafrit?"
 msgstr[1] "Fjarlægja þessi öryggisafrit?"
 
-#: qt/app.py:2333
+#: qt/app.py:2332
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "Breytingar á tungumálastillingum munu öðlast gildi þegar þú skráir þig næst "
@@ -1212,7 +1212,7 @@ msgid "Last Log View"
 msgstr "Síðasta virka sýn atvikaskráningar"
 
 #: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:75
-#: qt/manageprofiles/tab_general.py:244 qt/restoreconfigdialog.py:347
+#: qt/manageprofiles/tab_general.py:244 qt/restoreconfigdialog.py:348
 msgid "Profile:"
 msgstr "Notkunarsnið:"
 
@@ -1904,7 +1904,7 @@ msgstr "óvirkt"
 msgid "enabled"
 msgstr "virkt"
 
-#: qt/manageprofiles/tab_general.py:66 qt/restoreconfigdialog.py:349
+#: qt/manageprofiles/tab_general.py:66 qt/restoreconfigdialog.py:350
 msgid "Mode:"
 msgstr "Hamur:"
 
@@ -1957,7 +1957,7 @@ msgid "The encryption password cannot be empty."
 msgstr "Lykilorð dulritunar getur ekki verið autt."
 
 #: qt/manageprofiles/tab_general.py:476
-msgid "Back In Time could not validate the SSH configuration."
+msgid "Issues were found while validating the SSH configuration."
 msgstr ""
 
 #: qt/manageprofiles/tab_general.py:478
@@ -2092,8 +2092,8 @@ msgid ""
 "Shows a warning when free space on the backup destination disk is less than "
 "the specified value."
 msgstr ""
-"Birtir aðvörun þegar laust pláss á diski með geymslustað öryggisafritunar er "
-"minna en uppgefið gildi."
+"Birtir aðvörun þegar laust pláss á diski með geymslustað öryggisafritunar er"
+" minna en uppgefið gildi."
 
 #: qt/manageprofiles/tab_options.py:103
 msgid ""
@@ -2165,7 +2165,8 @@ msgstr "Heilir dagar. Fyrirliggjandi dagur er hunsaður."
 #: qt/manageprofiles/tab_remove_retention.py:287
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
 msgstr ""
-"Almanaksvikur með mánudag sem fyrsta dag viku. Fyrirliggjandi vika er hunsuð."
+"Almanaksvikur með mánudag sem fyrsta dag viku. Fyrirliggjandi vika er "
+"hunsuð."
 
 #: qt/manageprofiles/tab_remove_retention.py:290
 msgid "12 months periods. Current month is ignored."
@@ -2211,7 +2212,8 @@ msgstr "Geyma síðasta öryggisafrit hvers dags síðustu"
 msgid ""
 "The weeks are counted starting from the current running week. A week starts "
 "on Monday."
-msgstr "Vikur eru taldar frá og með fyrirliggjandi viku. Vika hefst á mánudegi."
+msgstr ""
+"Vikur eru taldar frá og með fyrirliggjandi viku. Vika hefst á mánudegi."
 
 #: qt/manageprofiles/tab_remove_retention.py:348
 msgid "Keep the last backup for each week for the last"
@@ -2270,19 +2272,19 @@ msgid ""
 "storage device connections."
 msgstr ""
 
-#: qt/placeswidget.py:50
+#: qt/placeswidget.py:53
 msgid "Shortcuts"
 msgstr "Flýtilyklar"
 
-#: qt/placeswidget.py:95
+#: qt/placeswidget.py:98
 msgid "Places"
 msgstr "Staðir"
 
-#: qt/placeswidget.py:96
+#: qt/placeswidget.py:99
 msgid "File System"
 msgstr "Skráakerfi"
 
-#: qt/placeswidget.py:149
+#: qt/placeswidget.py:144
 msgid "Backup directories"
 msgstr "Öryggisafritunarmöppur"
 
@@ -2314,48 +2316,48 @@ msgstr "Í vinnslu…"
 msgid "man page: {man_page_name}"
 msgstr "man-síða: {man_page_name}"
 
-#: qt/restoreconfigdialog.py:75
+#: qt/restoreconfigdialog.py:76
 msgid "Import configuration"
 msgstr "Flytja inn grunnstillingar"
 
-#: qt/restoreconfigdialog.py:106
+#: qt/restoreconfigdialog.py:107
 msgid "No directory selected"
 msgstr "Engin mappa valin"
 
-#: qt/restoreconfigdialog.py:155 qt/restoreconfigdialog.py:230
+#: qt/restoreconfigdialog.py:156 qt/restoreconfigdialog.py:231
 msgid "Searching…"
 msgstr "Leita…"
 
-#: qt/restoreconfigdialog.py:207
+#: qt/restoreconfigdialog.py:208
 #, python-brace-format
 msgid ""
 "Select the backup directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
 
-#: qt/restoreconfigdialog.py:212
+#: qt/restoreconfigdialog.py:213
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
 msgstr ""
 
-#: qt/restoreconfigdialog.py:233
+#: qt/restoreconfigdialog.py:234
 msgid "Scan again"
 msgstr "Leita aftur"
 
-#: qt/restoreconfigdialog.py:252
+#: qt/restoreconfigdialog.py:253
 msgid "Show hidden directories"
 msgstr "Sýna faldar möppur"
 
-#: qt/restoreconfigdialog.py:254
+#: qt/restoreconfigdialog.py:255
 msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Sýna/fela faldar möppur (Ctrl+H)"
 
-#: qt/restoreconfigdialog.py:307
+#: qt/restoreconfigdialog.py:308
 msgid "No config found in this directory."
 msgstr "Engin stillingaskrá fannst í þessari möppu."
 
-#: qt/restoreconfigdialog.py:372
+#: qt/restoreconfigdialog.py:373
 msgid "Search complete."
 msgstr "Leit lokið."
 
@@ -2473,7 +2475,8 @@ msgstr ""
 #: qt/snapshotsdialog.py:472
 #, python-brace-format
 msgid "Really delete {file_or_dir} in {count} backups?"
-msgstr "Ertu viss um að þú viljir eyða {file_or_dir} í {count} öryggisafritum?"
+msgstr ""
+"Ertu viss um að þú viljir eyða {file_or_dir} í {count} öryggisafritum?"
 
 #: qt/snapshotsdialog.py:475
 msgid "WARNING: This cannot be revoked."
@@ -2525,5 +2528,4 @@ msgstr "Síðasta athugun {time}"
 #: qt/timeline.py:402
 msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
-
 # REUSE-IgnoreEnd
