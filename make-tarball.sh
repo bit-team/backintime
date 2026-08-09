@@ -34,6 +34,7 @@ tar cfz backintime-$VER.tar.gz \
     --exclude-vcs \
     ${NEW}/AUTHORS \
     ${NEW}/CHANGES \
+    ${NEW}/CHANGELOG.md \
     ${NEW}/CONTRIBUTING.md \
     ${NEW}/FAQ.md \
     ${NEW}/HISTORY.md \

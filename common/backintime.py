@@ -11,6 +11,7 @@
 import os
 import sys
 import subprocess
+import pathlib
 import tools
 # Workaround for situations where startApp() is not invoked.
 # E.g. when using --diagnostics and other argparse.Action
@@ -85,6 +86,9 @@ def startApp(bin_name: str) -> config.Config | None:
         bitbase.BINARY_NAME_CLI: 'CLI',
         bitbase.BINARY_NAME_GUI: 'GUI'
     }[bin_name]
+
+    # Ensure existance of XDG_DATA_HOME (formally known as --share-path)
+    pathlib.Path(bitbase.BIT_DATA_HOME).mkdir(parents=True, exist_ok=True)
 
     logger.openlog(syslog_id_suffix)
 

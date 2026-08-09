@@ -965,7 +965,7 @@ def mkdir(path, mode=0o755, enforce_permissions=True):
         return True
 
     else:
-        os.mkdir(path, mode)
+        os.makedirs(name=path, mode=mode, exist_ok=True)
 
         if mode & 0o002 == 0o002:
             # make file world (other) writable was requested
