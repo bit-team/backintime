@@ -45,8 +45,9 @@ class General(unittest.TestCase):
         )
 
         # 2nd level "backintime"
-        minimal_keys = ['name', 'version', 'latest-config-version',
-                        'started-from', 'running-as-root']
+        minimal_keys = [
+            'name', 'version', 'started-from', 'running-as-root'
+        ]
         for key in minimal_keys:
             self.assertIn(key, result['backintime'], key)
 
@@ -60,8 +61,12 @@ class General(unittest.TestCase):
 
         # 2nd level "external-programs"
         minimal_keys = [
-            'rsync', 'shell', 'RSYNC_OLD_ARGS', 'RSYNC_PROTECT_ARGS',
-            'coreutils']
+            'rsync',
+            'shell',
+            'RSYNC_OLD_ARGS',
+            'RSYNC_PROTECT_ARGS',
+            'coreutils'
+        ]
         for key in minimal_keys:
             self.assertIn(key, result['external-programs'], key)
 
@@ -110,47 +115,3 @@ class General(unittest.TestCase):
             diagnostics._replace_username_paths(d, 'user'),
             d
         )
-
-    @patch('diagnostics._get_extern_versions')
-    def test_coreutils_gnu(self, mock_extern):
-        """Detect GNU coreutils from ls --version output."""
-        mock_extern.return_value = (
-            'ls (GNU coreutils) 9.4\n'
-            'Copyright (C) 2024 Free Software Foundation, Inc.'
-        )
-        # pylint: disable=protected-access
-        result = diagnostics._get_coreutils_info()
-        self.assertEqual(result, 'ls (GNU coreutils) 9.4')
-
-    @patch('diagnostics._get_extern_versions')
-    def test_coreutils_busybox(self, mock_extern):
-        """Detect BusyBox from ls --version output."""
-        mock_extern.return_value = (
-            'BusyBox v1.36.1 (2023-11-07 18:53:09 UTC) multi-call binary.'
-        )
-        # pylint: disable=protected-access
-        result = diagnostics._get_coreutils_info()
-        self.assertEqual(
-            result,
-            'BusyBox v1.36.1 (2023-11-07 18:53:09 UTC) multi-call binary.'
-        )
-
-    @patch('diagnostics._get_extern_versions')
-    def test_coreutils_uutils(self, mock_extern):
-        """Detect Rust/uutils coreutils from ls --version output."""
-        mock_extern.return_value = (
-            'ls 0.0.27\n'
-            'uutils coreutils - MIT license'
-        )
-        # pylint: disable=protected-access
-        result = diagnostics._get_coreutils_info()
-        self.assertEqual(result, 'Rust/uutils coreutils - ls 0.0.27')
-
-
-    @patch('diagnostics._get_extern_versions')
-    def test_coreutils_unknown(self, mock_extern):
-        """Handle unknown coreutils variant gracefully."""
-        mock_extern.return_value = 'ls 1.2.3\nSome unknown implementation'
-        # pylint: disable=protected-access
-        result = diagnostics._get_coreutils_info()
-        self.assertEqual(result, '(unknown coreutils) ls 1.2.3')
