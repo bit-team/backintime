@@ -14,8 +14,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 ## [2.0.0-rc1] (2026-08-XX)
 
 ### Changed
- 
-* **Breaking**: Configuration file write by 2.0.0 not backward compatible with
+- **Breaking**: Configuration file write by 2.0.0 not backward compatible with 
   previous versions due to the removal of the legacy `profiles=` entry and EncFS
   support. ([PR#1850](https://github.com/bit-team/backintime/pull/1850))
 - **Rewritten from scratch**: Mount subsystem (backend and encryption).
@@ -43,8 +42,8 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
   explanations ([#2507](https://github.com/bit-team/backintime/issues/2507))
 
 ### Added
-- Gocryptfs for SSH encrypted profiles
-  ([PR#2486](https://github.com/bit-team/backintime/pull/2486))
+- Detect and report coreutils variant (GNU, Rust/uutils, BusyBox) in `--diagnostics` output ([#2478](https://github.com/bit-team/backintime/issues/2478))
+- Gocryptfs for SSH encrypted profiles ([PR#2486](https://github.com/bit-team/backintime/pull/2486))
 - CLI: '--usage' option for the 'show' command, showing total physical disk usage of all backups ([@arcsinhx](https://github.com/arcsinhx), [PR#2480](https://github.com/bit-team/backintime/pull/2480))
 - Dependencies:
   - build: `pandoc` to convert markdown changelog into HTML

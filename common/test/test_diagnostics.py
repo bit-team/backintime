@@ -45,8 +45,9 @@ class General(unittest.TestCase):
         )
 
         # 2nd level "backintime"
-        minimal_keys = ['name', 'version', 'latest-config-version',
-                        'started-from', 'running-as-root']
+        minimal_keys = [
+            'name', 'version', 'started-from', 'running-as-root'
+        ]
         for key in minimal_keys:
             self.assertIn(key, result['backintime'], key)
 
@@ -60,7 +61,12 @@ class General(unittest.TestCase):
 
         # 2nd level "external-programs"
         minimal_keys = [
-            'rsync', 'shell', 'RSYNC_OLD_ARGS', 'RSYNC_PROTECT_ARGS']
+            'rsync',
+            'shell',
+            'RSYNC_OLD_ARGS',
+            'RSYNC_PROTECT_ARGS',
+            'coreutils'
+        ]
         for key in minimal_keys:
             self.assertIn(key, result['external-programs'], key)
 
@@ -71,14 +77,12 @@ class General(unittest.TestCase):
         as a context manaager.
         """
 
-        # an AssertionError must be raised!
-        # We expect NO ResourceWarnings. But Python doesn't offer
-        # assertNoWarns().
-        # This will raise an AssertionError because no ResourceWarning's
-        # are raised.
+        # An AssertionError must be raised.
+        # We expect NO ResourceWarnings, but Python has no assertNoWarns().
+        # This raises AssertionError because no ResourceWarnings occur.
         with (
             self.assertRaises(AssertionError),
-            self.assertWarns(ResourceWarning)
+            self.assertWarns(ResourceWarning),
         ):
             diagnostics.collect_diagnostics()
 

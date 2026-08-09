@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-08-06 10:32+0200\n"
-"PO-Revision-Date: 2026-06-29 10:28+0000\n"
+"POT-Creation-Date: 2026-08-09 12:53+0200\n"
+"PO-Revision-Date: 2026-08-07 13:32+0000\n"
 "Last-Translator: p-bo <p-bo@noreply.codeberg.org>\n"
 "Language-Team: Czech <https://translate.codeberg.org/projects/backintime/common/cs/>\n"
 "Language: cs\n"
@@ -24,9 +24,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 2026.6.1\n"
+"X-Generator: Weblate 2026.7.1\n"
 
-#: common/bitbase.py:21 common/config.py:36 common/konfig.py:32
+#: common/bitbase.py:21 common/config.py:36 common/konfig.py:34
 #: common/mount/_backends.py:23 common/tools.py:88 qt/encfsmsgbox.py:32
 #: qt/messagebox.py:100 qt/timeline.py:34
 msgid "Warning"
@@ -74,29 +74,29 @@ msgstr ""
 
 #: common/check_config.py:113
 msgid "Two settings conflict with each other."
-msgstr ""
+msgstr "Dvě nastavení navzájem kolidují."
 
 #: common/check_config.py:116
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal to the value for \"Warn if the free "
 "disk space falls below\" ({val_two})."
 msgstr ""
 "Je třeba, aby hodnota pro „Odstranit nejstarší zálohu, pokud volného místa "
-"zbývá méně než“ ({val_one}) byla nižší nebo rovná prahu pro „Varovat pokud "
-"volné místo na disku poklesne pod“ ({val_two})."
+"zbývá méně než“ ({val_one}) byla nižší nebo rovná hodnotě pro „Varovat pokud"
+" volné místo na disku poklesne pod“ ({val_two})."
 
 #: common/check_config.py:123
 #, fuzzy
 msgid ""
-"Please adjust the settings so that the threshold for removing old backups "
-"does not exceed the free disk space warning threshold."
+"Please adjust the settings. The threshold for removing old backups must not "
+"be higher for the free disk space warning value."
 msgstr ""
-"Upravte nastavení tak, aby limit pro odebrání zálohy nebyl vyšší než limit "
-"pro varování."
+"Upravte nastavení tak, aby práh pro odebírání starých záloh nebyl vyšší než "
+"ten pro varování ohledně volného místa."
 
-#: common/config.py:175 common/konfig.py:50 common/konfig.py:1418
+#: common/config.py:175 common/konfig.py:52 common/konfig.py:1427
 msgid "Main profile"
 msgstr "Hlavní profil"
 
@@ -105,7 +105,6 @@ msgid "Local"
 msgstr "Místní"
 
 #: common/config.py:195
-#, fuzzy
 msgid "Local (encrypted)"
 msgstr "Místní (v šifrované podobě)"
 
@@ -124,20 +123,21 @@ msgid "SSH private key"
 msgstr "SSH soukromý klíč"
 
 #: common/config.py:207
-#, fuzzy
 msgid "SSH (encrypted)"
-msgstr "Přes SSH (v EncFS šifrované podobě)"
+msgstr "Přes SSH (v šifrované podobě)"
 
 #: common/config.py:1880
 #, fuzzy, python-brace-format
-msgid "Udev schedule doesn't work with mode {mode}."
-msgstr "Plán, používající správce zařízení udev, nefunguje v režimu {mode}"
+msgid "Udev scheduling is not supported with mode \"{mode}\"."
+msgstr "Plán, používající správce zařízení udev, nefunguje v režimu {mode}."
 
 #: common/config.py:1907
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
 msgstr ""
+"Ověření se neprovedeno do časového limitu. Nastavení plánování založeného na"
+" Udev nebylo dokončeno. Zkuste to znovu."
 
 #: common/config.py:1945
 msgid "Failed to write new crontab."
@@ -157,41 +157,41 @@ msgstr ""
 "cron“ a „systemctl start cron“ nebo se obraťte na kanály podpory vámi "
 "využívané linuxové distribuce."
 
-#: common/mount/_backends.py:95 common/snapshots.py:972
+#: common/mount/_backends.py:103 common/snapshots.py:972
 msgid "Can't find backup destination directory."
 msgstr "Nebylo možné najít cílovou složku se zálohami."
 
-#: common/mount/_backends.py:97 common/snapshots.py:976
+#: common/mount/_backends.py:105 common/snapshots.py:976
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Pokud se nachází na vyjímatelném médiu, připojte ho."
 
-#: common/mount/_backends.py:98
+#: common/mount/_backends.py:106
 msgid "Then press OK."
 msgstr "Poté klikněte na OK."
 
-#: common/mount/_backends.py:115
+#: common/mount/_backends.py:123
 msgid "Back In Time could not connect to the remote backup location."
 msgstr "Back In Time se nepodařilo připojit ke vzdálenému umístění zálohy."
 
-#: common/mount/_backends.py:117 qt/manageprofiles/tab_general.py:477
+#: common/mount/_backends.py:125 qt/manageprofiles/tab_general.py:477
 msgid "Reason:"
 msgstr "Důvod:"
 
-#: common/mount/_backends.py:163 common/sshsetupvalidator.py:180
+#: common/mount/_backends.py:176 common/sshsetupvalidator.py:180
 #, python-brace-format
 msgid "Could not reach the SSH proxy host \"{host_port}\"."
 msgstr "Nebylo možné dosáhnout hostitele SSH proxy „{host_port}“."
 
-#: common/mount/_backends.py:168 common/sshsetupvalidator.py:185
+#: common/mount/_backends.py:181 common/sshsetupvalidator.py:185
 #, python-brace-format
 msgid "Could not reach the SSH host \"{host_port}\"."
 msgstr "Nebylo možné dosáhnout hostitele SSH „{host_port}“."
 
-#: common/mount/_backends.py:222
+#: common/mount/_backends.py:235
 msgid "SSH authentication failed for:"
 msgstr "Nezdar SSH ověřování pro:"
 
-#: common/mount/_backends.py:224 common/mount/_backends.py:401
+#: common/mount/_backends.py:237 common/mount/_backends.py:414
 #: common/mount/_encryptors.py:262 common/sshsetupvalidator.py:239
 #: common/sshsetupvalidator.py:315 common/sshsetupvalidator.py:357
 #: common/sshsetupvalidator.py:430 common/sshsetupvalidator.py:484
@@ -199,34 +199,31 @@ msgstr "Nezdar SSH ověřování pro:"
 msgid "Details:"
 msgstr "Podrobnosti:"
 
-#: common/mount/_backends.py:279
-#, fuzzy
+#: common/mount/_backends.py:292
 msgid "The remote backup directory is missing or is not a valid directory."
-msgstr "Vzdálená složka se zálohou neexistuje nebo se nejedná o složku."
+msgstr "Vzdálená složka se zálohou chybí nebo se nejedná o platnou složku."
 
-#: common/mount/_backends.py:285
-#, fuzzy
+#: common/mount/_backends.py:298
 msgid "Write access to the remote backup directory was denied."
-msgstr "Tato vzdálená složka se zálohami není přístupná pro zápis."
+msgstr "Přístup pro zápis do vzdálené složky se zálohami byl odepřen."
 
-#: common/mount/_backends.py:290
-#, fuzzy
+#: common/mount/_backends.py:303
 msgid "Access to the remote backup directory was denied."
-msgstr "Tato vzdálená složka se zálohami není přístupná pro zápis."
+msgstr "Přístup do vzdálené složky se zálohami byl odepřen."
 
-#: common/mount/_backends.py:304 qt/manageprofiles/tab_general.py:126
+#: common/mount/_backends.py:317 qt/manageprofiles/tab_general.py:126
 msgid "Path:"
 msgstr "Umístění:"
 
-#: common/mount/_backends.py:312
+#: common/mount/_backends.py:325
 msgid "No SSH host configured."
 msgstr "Nenastaven žádný hostitel SSH."
 
-#: common/mount/_backends.py:319
+#: common/mount/_backends.py:332
 msgid "No destination backup directory configured."
 msgstr "Není nastavená žádná vzdálená složka se zálohami."
 
-#: common/mount/_backends.py:399
+#: common/mount/_backends.py:412
 msgid "Could not mount the remote backup location."
 msgstr "Nebylo možné připojit (mount) vzdálené umístění zálohy."
 
@@ -260,9 +257,9 @@ msgstr ""
 "Složka s cílem záloh není připravená pro šifrování. Popis umístění: {path}"
 
 #: common/mount/_encryptors.py:286
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Decrypted view mountpoint is missing. Path: {path}"
-msgstr "Přípojný bod coby rozšifrovaný pohled chybí: Popis umístění: {path}"
+msgstr "Přípojný bod rozšifrovaného pohledu chybí: Popis umístění: {path}"
 
 #: common/mount/_encryptors.py:338
 #, python-brace-format
@@ -442,7 +439,7 @@ msgstr "Pokus o zachování neobsazeného prostoru dle nastavení"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Pokus o zachování neobsazených {perc} i-uzlů dle nastavení"
 
-#: common/snapshots.py:3365 qt/app.py:1552 qt/timeline.py:405
+#: common/snapshots.py:3374 qt/app.py:1552 qt/timeline.py:405
 msgid "Now"
 msgstr "Nyní"
 
@@ -456,14 +453,14 @@ msgid "ssh-agent is not installed"
 msgstr "ssh-agent není nainstalován"
 
 #: common/sshsetupvalidator.py:236 common/sshsetupvalidator.py:354
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unexpected response from '{process}'."
-msgstr "Neočekávaná odpověď ze sshfs."
+msgstr "Neočekávaná odpověď z „{process}“."
 
 #: common/sshsetupvalidator.py:255
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unexpected output from '{process}'."
-msgstr "Neočekávaný výstup z ssh-agenta."
+msgstr "Neočekávaný výstup z „{process}“."
 
 #: common/sshsetupvalidator.py:258
 msgid "Output:"
@@ -482,9 +479,10 @@ msgid "sshfs is not installed"
 msgstr "sshfs není nainstalované"
 
 #: common/sshsetupvalidator.py:384
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "The SSH host \"{host}\" is not known yet."
-msgstr "Hostitele SSH „{host}“ jste zatím ještě nezařadili mezi důvěryhodné."
+msgstr ""
+"Hostitele SSH „{host}“ zatím ještě nemáte zařazeného mezi důvěryhodné."
 
 #: common/sshsetupvalidator.py:388
 msgid "Please connect to the host manually once to confirm its fingerprint."
@@ -669,7 +667,7 @@ msgstr "Dotaz"
 msgid "Create"
 msgstr "Vytvořit"
 
-#: qt/app.py:369 qt/restoreconfigdialog.py:135
+#: qt/app.py:369 qt/restoreconfigdialog.py:136
 msgid "Import"
 msgstr "Naimportovat"
 
@@ -775,7 +773,7 @@ msgstr ""
 msgid "Open Back In Time website in browser"
 msgstr "Otevřít webové stránky Back in Time v prohlížeči"
 
-#: qt/app.py:592 qt/app.py:2375
+#: qt/app.py:592 qt/app.py:2374
 msgid "Changelog"
 msgstr "Co je v aplikaci nového"
 
@@ -825,7 +823,7 @@ msgstr "Obnovit"
 msgid "Restore the selected files or directories to the original location."
 msgstr "Obnovit označené soubory či složky do jejich původních umístění."
 
-#: qt/app.py:630 qt/app.py:1994 qt/snapshotsdialog.py:185
+#: qt/app.py:630 qt/app.py:1995 qt/snapshotsdialog.py:185
 msgid "Restore to …"
 msgstr "Obnovit do…"
 
@@ -859,7 +857,7 @@ msgstr "Zobrazovat skryté soubory"
 msgid "Compare backups…"
 msgstr "Porovnat zálohy…"
 
-#: qt/app.py:683 qt/app.py:1814
+#: qt/app.py:683 qt/app.py:1815
 msgid "Release Candidate"
 msgstr "Kandidát na vydání"
 
@@ -967,17 +965,17 @@ msgstr "Odhad. zbývající čas:"
 msgid "Backup:"
 msgstr "Záloha:"
 
-#: qt/app.py:1662
+#: qt/app.py:1663
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Obnovit {path}"
 
-#: qt/app.py:1664
+#: qt/app.py:1665
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Obnovit {path} do…"
 
-#: qt/app.py:1688
+#: qt/app.py:1689
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -994,47 +992,47 @@ msgstr ""
 "Omlouváme se za vyrušení a tato zpráva už nebude zobrazována. Tento dialog je ale kdykoli k dispozici prostřednictvím nabídky Nápověda.\n"
 "Váš kolektiv vývojářů Back In Time"
 
-#: qt/app.py:1717
+#: qt/app.py:1718
 msgid "translation platform"
 msgstr "překladatelskou platformu"
 
-#: qt/app.py:1722
+#: qt/app.py:1723
 msgid "Website"
 msgstr "Webové stránky"
 
-#: qt/app.py:1736
+#: qt/app.py:1737
 msgid "Your translation"
 msgstr "Pomozte s překladem do svého jazyka"
 
-#: qt/app.py:1773
+#: qt/app.py:1774
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Ve Fediverse na Mastodon: {link_and_label}."
 
-#: qt/app.py:1778
+#: qt/app.py:1779
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "E-mail na {link_and_label}."
 
-#: qt/app.py:1782
+#: qt/app.py:1783
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "E-mailová konference {link_and_label}."
 
-#: qt/app.py:1786
+#: qt/app.py:1787
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} na webových stránkách projektu."
 
-#: qt/app.py:1789
+#: qt/app.py:1790
 msgid "Open an issue"
 msgstr "Otevřít problém"
 
-#: qt/app.py:1790
+#: qt/app.py:1791
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Alternativně je možné použít jiný vámi zvolený kanál."
 
-#: qt/app.py:1795
+#: qt/app.py:1796
 #, python-brace-format
 msgid ""
 "This version is a Release Candidate for testing before the next stable release.\n"
@@ -1044,16 +1042,22 @@ msgid ""
 "This message won't be shown again, but it can be opened anytime from the Help menu.\n"
 "Thank you for testing Back In Time and helping us improve it!"
 msgstr ""
+"Tato verze je kandidát na vydání pro testování před příštím stabilním vydáním.\n"
+"Pokud zkoušíte tuto verzi, prosím poskytněte nám zpětnou vazbu. Dejte nám vědět, pokud narazíte na problém nebo zda vše funguje, jak má. I krátký, několikaminutový test je nápomocný.\n"
+"Kolektiv vývojářů Back In Time je možné kontaktovat prostřednictvím:\n"
+"{contact_list}\n"
+"Tato zpráva se znovu nezobrazí, ale je možné ji kdykoli otevřít z nabídky Nápověda.\n"
+"Děkujeme za testování Back In Time a pomoc s jeho vylepšováním!"
 
-#: qt/app.py:1878
+#: qt/app.py:1879
 msgid "Check if remote host is online"
 msgstr "Zkontrolujte zda je vzdálený stroj dostupný na síti"
 
-#: qt/app.py:1879
+#: qt/app.py:1880
 msgid "Check if remote host supports all necessary commands."
 msgstr "Ověřit zda vzdálený stroj podporuje všechny nezbytné příkazy."
 
-#: qt/app.py:1922
+#: qt/app.py:1923
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
@@ -1062,20 +1066,20 @@ msgstr ""
 "V cíli je k dispozici pouze {free} volného místa, což je méně než nastavená "
 "spodní hranice {threshold}."
 
-#: qt/app.py:1927
+#: qt/app.py:1928
 msgid "Proceed with the backup?"
 msgstr "Pokračovat v záloze?"
 
-#: qt/app.py:1974
+#: qt/app.py:1975
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr "Všechny novější soubory v {path} budou odebrány. Pokračovat?"
 
-#: qt/app.py:1977
+#: qt/app.py:1978
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr "Všechny novější soubory v původní složce budou odebrány. Pokračovat?"
 
-#: qt/app.py:1983
+#: qt/app.py:1984
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -1084,18 +1088,18 @@ msgstr ""
 "{BOLD}Varování{BOLDEND}: smazání souborů v kořenové složce souborového "
 "systému může způsobit nefunkčnost celého operačního systému."
 
-#: qt/app.py:2234
+#: qt/app.py:2233
 msgid "Backup name"
 msgstr "Název pro zálohu"
 
-#: qt/app.py:2266
+#: qt/app.py:2265
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "Odebrat tuto zálohu?"
 msgstr[1] "Odebrat tyto zálohy?"
 msgstr[2] "Odebrat tyto zálohy?"
 
-#: qt/app.py:2333
+#: qt/app.py:2332
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "Nastavení jazyka se projeví až po restartu Back In Time."
 
@@ -1255,7 +1259,7 @@ msgid "Last Log View"
 msgstr "Zobrazení nedávných událostí"
 
 #: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:75
-#: qt/manageprofiles/tab_general.py:244 qt/restoreconfigdialog.py:347
+#: qt/manageprofiles/tab_general.py:244 qt/restoreconfigdialog.py:348
 msgid "Profile:"
 msgstr "Profil:"
 
@@ -2004,7 +2008,7 @@ msgstr "vypnuto"
 msgid "enabled"
 msgstr "zapnuto"
 
-#: qt/manageprofiles/tab_general.py:66 qt/restoreconfigdialog.py:349
+#: qt/manageprofiles/tab_general.py:66 qt/restoreconfigdialog.py:350
 msgid "Mode:"
 msgstr "Režim:"
 
@@ -2061,7 +2065,8 @@ msgid "The encryption password cannot be empty."
 msgstr "Šifrovací heslo je třeba vyplnit."
 
 #: qt/manageprofiles/tab_general.py:476
-msgid "Back In Time could not validate the SSH configuration."
+#, fuzzy
+msgid "Issues were found while validating the SSH configuration."
 msgstr "Back In Time nemohlo ověřit správnost nastavení SSH."
 
 #: qt/manageprofiles/tab_general.py:478
@@ -2074,20 +2079,22 @@ msgstr "Nastavování profilu se nezdařilo"
 
 #: qt/manageprofiles/tab_general.py:657
 msgid "Backups are stored locally."
-msgstr ""
+msgstr "Zálohy jsou ukládány lokálně."
 
 #: qt/manageprofiles/tab_general.py:659
 msgid "Backups are stored locally and encrypted using gocryptfs."
-msgstr ""
+msgstr "Zálohy jsou ukládány lokálně a šifrovány pomocí gocryptfs."
 
 #: qt/manageprofiles/tab_general.py:661
 msgid "Backups are stored on a remote system via SSH."
-msgstr ""
+msgstr "Zálohy jsou ukládány na vzdálený systém prostřednictvím SSH."
 
 #: qt/manageprofiles/tab_general.py:663
 msgid ""
 "Backups are stored on a remote system via SSH and encrypted using gocryptfs."
 msgstr ""
+"Zálohy jsou ukládány na vzdálený systém prostřednictvím SSH a šifrované "
+"pomocí gocryptfs."
 
 #: qt/manageprofiles/tab_general.py:709
 msgid "Really change the backup directory?"
@@ -2397,19 +2404,19 @@ msgstr ""
 "Pro plánování záloh spouštěných připojeními externího úložného zařízení je "
 "třeba se ověřit."
 
-#: qt/placeswidget.py:50
+#: qt/placeswidget.py:53
 msgid "Shortcuts"
 msgstr "Zkratky"
 
-#: qt/placeswidget.py:95
+#: qt/placeswidget.py:98
 msgid "Places"
 msgstr "Místa"
 
-#: qt/placeswidget.py:96
+#: qt/placeswidget.py:99
 msgid "File System"
 msgstr "Souborový systém"
 
-#: qt/placeswidget.py:149
+#: qt/placeswidget.py:144
 msgid "Backup directories"
 msgstr "Složky zálohy"
 
@@ -2441,19 +2448,19 @@ msgstr "Zpracování…"
 msgid "man page: {man_page_name}"
 msgstr "manuálová stránka: {man_page_name}"
 
-#: qt/restoreconfigdialog.py:75
+#: qt/restoreconfigdialog.py:76
 msgid "Import configuration"
 msgstr "Naimportovat nastavení"
 
-#: qt/restoreconfigdialog.py:106
+#: qt/restoreconfigdialog.py:107
 msgid "No directory selected"
 msgstr "Nevybrána žádná složka"
 
-#: qt/restoreconfigdialog.py:155 qt/restoreconfigdialog.py:230
+#: qt/restoreconfigdialog.py:156 qt/restoreconfigdialog.py:231
 msgid "Searching…"
 msgstr "Hledání…"
 
-#: qt/restoreconfigdialog.py:207
+#: qt/restoreconfigdialog.py:208
 #, python-brace-format
 msgid ""
 "Select the backup directory from which the configuration file should be "
@@ -2462,7 +2469,7 @@ msgstr ""
 "Vyberte složku se zálohami ze které má být naimportován soubor s "
 "nastaveními. Popis umístění může vypadat jako: {samplePath}"
 
-#: qt/restoreconfigdialog.py:212
+#: qt/restoreconfigdialog.py:213
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
@@ -2470,23 +2477,23 @@ msgstr ""
 "Pokud se složka nachází na externí nebo síťové jednotce – je třeba ji předem"
 " ručně připojit."
 
-#: qt/restoreconfigdialog.py:233
+#: qt/restoreconfigdialog.py:234
 msgid "Scan again"
 msgstr "Proskenovat znovu"
 
-#: qt/restoreconfigdialog.py:252
+#: qt/restoreconfigdialog.py:253
 msgid "Show hidden directories"
 msgstr "Zobrazovat skryté složky"
 
-#: qt/restoreconfigdialog.py:254
+#: qt/restoreconfigdialog.py:255
 msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Zahrnout/skrýt skryté složky (Ctrl+H)"
 
-#: qt/restoreconfigdialog.py:307
+#: qt/restoreconfigdialog.py:308
 msgid "No config found in this directory."
 msgstr "V této složce nenalezena žádná nastavení."
 
-#: qt/restoreconfigdialog.py:372
+#: qt/restoreconfigdialog.py:373
 msgid "Search complete."
 msgstr "Hledání dokončeno."
 
@@ -2499,6 +2506,7 @@ msgid ""
 "The restore is still running. The window cannot be closed until it is "
 "finished."
 msgstr ""
+"Obnova pořád ještě probíhá. Do jejího dokončení okno není možné zavřít."
 
 #: qt/shutdowndlg.py:28
 msgid "Countdown to Shutdown"

@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-08-06 10:32+0200\n"
-"PO-Revision-Date: 2026-08-03 11:46+0000\n"
+"POT-Creation-Date: 2026-08-09 12:53+0200\n"
+"PO-Revision-Date: 2026-08-07 06:49+0000\n"
 "Last-Translator: Merik <merik@noreply.codeberg.org>\n"
 "Language-Team: Polish <https://translate.codeberg.org/projects/backintime/common/pl/>\n"
 "Language: pl\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2026.7.1\n"
 
-#: common/bitbase.py:21 common/config.py:36 common/konfig.py:32
+#: common/bitbase.py:21 common/config.py:36 common/konfig.py:34
 #: common/mount/_backends.py:23 common/tools.py:88 qt/encfsmsgbox.py:32
 #: qt/messagebox.py:100 qt/timeline.py:34
 msgid "Warning"
@@ -75,10 +75,10 @@ msgstr ""
 
 #: common/check_config.py:113
 msgid "Two settings conflict with each other."
-msgstr ""
+msgstr "Dwa ustawienia są ze sobą sprzeczne."
 
 #: common/check_config.py:116
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal to the value for \"Warn if the free "
@@ -92,13 +92,14 @@ msgstr ""
 #: common/check_config.py:123
 #, fuzzy
 msgid ""
-"Please adjust the settings so that the threshold for removing old backups "
-"does not exceed the free disk space warning threshold."
+"Please adjust the settings. The threshold for removing old backups must not "
+"be higher for the free disk space warning value."
 msgstr ""
-"Dostosuj ustawienia tak, aby limit usuwania kopii zapasowych nie był wyższy "
-"niż limit ostrzegawczy."
+"Dostosuj ustawienia tak, aby próg usuwania starych kopii zapasowych nie "
+"przekroczył progu ostrzegawczego dotyczącego ilości wolnego miejsca na "
+"dysku."
 
-#: common/config.py:175 common/konfig.py:50 common/konfig.py:1418
+#: common/config.py:175 common/konfig.py:52 common/konfig.py:1427
 msgid "Main profile"
 msgstr "Profil główny"
 
@@ -130,11 +131,10 @@ msgstr "SSH (szyfrowany)"
 
 #: common/config.py:1880
 #, fuzzy, python-brace-format
-msgid "Udev schedule doesn't work with mode {mode}."
-msgstr "Harmonogram udev nie działa z trybem {mode}"
+msgid "Udev scheduling is not supported with mode \"{mode}\"."
+msgstr "Harmonogram udev nie działa z trybem {mode}."
 
 #: common/config.py:1907
-#, fuzzy
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
@@ -160,43 +160,43 @@ msgstr ""
 "cron” i „systemctl start cron” lub skorzystaj z kanałów wsparcia aktualnie "
 "używanej dystrybucji GNU/Linux, aby uzyskać pomoc."
 
-#: common/mount/_backends.py:95 common/snapshots.py:972
+#: common/mount/_backends.py:103 common/snapshots.py:972
 msgid "Can't find backup destination directory."
 msgstr "Nie można odnaleźć katalogu docelowego kopii zapasowej."
 
-#: common/mount/_backends.py:97 common/snapshots.py:976
+#: common/mount/_backends.py:105 common/snapshots.py:976
 msgid "If it is on a removable drive, please plug it in."
 msgstr "Jeśli znajduje się na dysku wymiennym, podłącz go."
 
-#: common/mount/_backends.py:98
+#: common/mount/_backends.py:106
 msgid "Then press OK."
 msgstr "Następnie naciśnij OK."
 
-#: common/mount/_backends.py:115
+#: common/mount/_backends.py:123
 msgid "Back In Time could not connect to the remote backup location."
 msgstr ""
 "Back In Time nie mógł nawiązać połączenia ze zdalną lokalizacją kopii "
 "zapasowej."
 
-#: common/mount/_backends.py:117 qt/manageprofiles/tab_general.py:477
+#: common/mount/_backends.py:125 qt/manageprofiles/tab_general.py:477
 msgid "Reason:"
 msgstr "Powód:"
 
-#: common/mount/_backends.py:163 common/sshsetupvalidator.py:180
+#: common/mount/_backends.py:176 common/sshsetupvalidator.py:180
 #, python-brace-format
 msgid "Could not reach the SSH proxy host \"{host_port}\"."
 msgstr "Nie można nawiązać połączenia z hostem proxy SSH „{host_port}”."
 
-#: common/mount/_backends.py:168 common/sshsetupvalidator.py:185
+#: common/mount/_backends.py:181 common/sshsetupvalidator.py:185
 #, python-brace-format
 msgid "Could not reach the SSH host \"{host_port}\"."
 msgstr "Nie można nawiązać połączenia z hostem SSH „{host_port}”."
 
-#: common/mount/_backends.py:222
+#: common/mount/_backends.py:235
 msgid "SSH authentication failed for:"
 msgstr "Uwierzytelnianie SSH nie powiodło się dla:"
 
-#: common/mount/_backends.py:224 common/mount/_backends.py:401
+#: common/mount/_backends.py:237 common/mount/_backends.py:414
 #: common/mount/_encryptors.py:262 common/sshsetupvalidator.py:239
 #: common/sshsetupvalidator.py:315 common/sshsetupvalidator.py:357
 #: common/sshsetupvalidator.py:430 common/sshsetupvalidator.py:484
@@ -204,37 +204,32 @@ msgstr "Uwierzytelnianie SSH nie powiodło się dla:"
 msgid "Details:"
 msgstr "Szczegóły:"
 
-#: common/mount/_backends.py:279
+#: common/mount/_backends.py:292
 msgid "The remote backup directory is missing or is not a valid directory."
 msgstr "Brakuje katalogu zdalnej kopii zapasowej lub nie jest on prawidłowy."
 
-#: common/mount/_backends.py:285
-#, fuzzy
+#: common/mount/_backends.py:298
 msgid "Write access to the remote backup directory was denied."
 msgstr ""
-"Dostęp do zapisu w zdalnym katalogu kopii zapasowej został zablokowany (brak"
-" uprawnień)."
+"Dostęp do zapisu w zdalnym katalogu kopii zapasowej został zablokowany."
 
-#: common/mount/_backends.py:290
-#, fuzzy
+#: common/mount/_backends.py:303
 msgid "Access to the remote backup directory was denied."
-msgstr ""
-"Dostęp do zdalnego katalogu kopii zapasowej jest zabroniony (brak "
-"uprawnień)."
+msgstr "Dostęp do zdalnego katalogu kopii zapasowej został zablokowany."
 
-#: common/mount/_backends.py:304 qt/manageprofiles/tab_general.py:126
+#: common/mount/_backends.py:317 qt/manageprofiles/tab_general.py:126
 msgid "Path:"
 msgstr "Ścieżka:"
 
-#: common/mount/_backends.py:312
+#: common/mount/_backends.py:325
 msgid "No SSH host configured."
 msgstr "Nie skonfigurowano hosta SSH."
 
-#: common/mount/_backends.py:319
+#: common/mount/_backends.py:332
 msgid "No destination backup directory configured."
 msgstr "Nie skonfigurowano katalogu docelowego kopii zapasowej."
 
-#: common/mount/_backends.py:399
+#: common/mount/_backends.py:412
 msgid "Could not mount the remote backup location."
 msgstr "Nie można zamontować zdalnej lokalizacji kopii zapasowej."
 
@@ -272,9 +267,9 @@ msgstr ""
 "Ścieżka: {path}"
 
 #: common/mount/_encryptors.py:286
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Decrypted view mountpoint is missing. Path: {path}"
-msgstr "Brak punktu montowania w odszyfrowanym widoku. Ścieżka: {path}"
+msgstr "Brak odszyfrowanego punktu montowania widoku. Ścieżka: {path}"
 
 #: common/mount/_encryptors.py:338
 #, python-brace-format
@@ -458,7 +453,7 @@ msgstr "Próba utrzymamia minimum wolnego miejsca"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Próba utrzymania minimum {perc} wolnych i-węzłów"
 
-#: common/snapshots.py:3365 qt/app.py:1552 qt/timeline.py:405
+#: common/snapshots.py:3374 qt/app.py:1552 qt/timeline.py:405
 msgid "Now"
 msgstr "Teraz"
 
@@ -472,9 +467,9 @@ msgid "ssh-agent is not installed"
 msgstr "ssh-agent nie jest zainstalowany"
 
 #: common/sshsetupvalidator.py:236 common/sshsetupvalidator.py:354
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unexpected response from '{process}'."
-msgstr "Nieoczekiwana odpowiedź od „{process}”"
+msgstr "Nieoczekiwana odpowiedź od „{process}”."
 
 #: common/sshsetupvalidator.py:255
 #, python-brace-format
@@ -684,7 +679,7 @@ msgstr "Pytanie"
 msgid "Create"
 msgstr "Utwórz"
 
-#: qt/app.py:369 qt/restoreconfigdialog.py:135
+#: qt/app.py:369 qt/restoreconfigdialog.py:136
 msgid "Import"
 msgstr "Importuj"
 
@@ -790,7 +785,7 @@ msgstr ""
 msgid "Open Back In Time website in browser"
 msgstr "Otwórz witrynę Back In Time w przeglądarce"
 
-#: qt/app.py:592 qt/app.py:2375
+#: qt/app.py:592 qt/app.py:2374
 msgid "Changelog"
 msgstr "Lista zmian"
 
@@ -841,7 +836,7 @@ msgstr "Przywróć"
 msgid "Restore the selected files or directories to the original location."
 msgstr "Przywróć wybrane pliki lub katalogi do pierwotnej lokalizacji."
 
-#: qt/app.py:630 qt/app.py:1994 qt/snapshotsdialog.py:185
+#: qt/app.py:630 qt/app.py:1995 qt/snapshotsdialog.py:185
 msgid "Restore to …"
 msgstr "Przywróć do…"
 
@@ -877,7 +872,7 @@ msgstr "Pokaż ukryte pliki"
 msgid "Compare backups…"
 msgstr "Porównaj kopie zapasowe…"
 
-#: qt/app.py:683 qt/app.py:1814
+#: qt/app.py:683 qt/app.py:1815
 msgid "Release Candidate"
 msgstr "Wydanie kandydujące"
 
@@ -985,17 +980,17 @@ msgstr "Czas do końca:"
 msgid "Backup:"
 msgstr "Kopia zapasowa:"
 
-#: qt/app.py:1662
+#: qt/app.py:1663
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Przywróć {path}"
 
-#: qt/app.py:1664
+#: qt/app.py:1665
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Przywróć {path} do…"
 
-#: qt/app.py:1688
+#: qt/app.py:1689
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -1012,47 +1007,47 @@ msgstr ""
 "Przepraszamy za utrudniania, ten komunikat nie pojawi się sam ponownie, ale będzie dostępny w menu pomocy.\n"
 "Zespół Back In Time"
 
-#: qt/app.py:1717
+#: qt/app.py:1718
 msgid "translation platform"
 msgstr "platformę do tłumaczenia"
 
-#: qt/app.py:1722
+#: qt/app.py:1723
 msgid "Website"
 msgstr "Strona internetowa"
 
-#: qt/app.py:1736
+#: qt/app.py:1737
 msgid "Your translation"
 msgstr "Twoje tłumaczenia"
 
-#: qt/app.py:1773
+#: qt/app.py:1774
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "W Fediverse na platformie Mastodon: {link_and_label}."
 
-#: qt/app.py:1778
+#: qt/app.py:1779
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "Wyślij wiadomość e-mail na adres {link_and_label}."
 
-#: qt/app.py:1782
+#: qt/app.py:1783
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "Lista mailingowa {link_and_label}."
 
-#: qt/app.py:1786
+#: qt/app.py:1787
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} na stronie internetowej projektu."
 
-#: qt/app.py:1789
+#: qt/app.py:1790
 msgid "Open an issue"
 msgstr "Otwórz zagadnienie"
 
-#: qt/app.py:1790
+#: qt/app.py:1791
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Możesz również użyć innego wybranego kanału."
 
-#: qt/app.py:1795
+#: qt/app.py:1796
 #, python-brace-format
 msgid ""
 "This version is a Release Candidate for testing before the next stable release.\n"
@@ -1062,16 +1057,22 @@ msgid ""
 "This message won't be shown again, but it can be opened anytime from the Help menu.\n"
 "Thank you for testing Back In Time and helping us improve it!"
 msgstr ""
+"Ta wersja jest kandydatem do wydania i jest przeznaczona do testowania przed kolejną wersją stabilną.\n"
+"Jeśli testujesz tę wersję, prosimy o przesłanie opinii. Daj nam znać, jeśli znalazłeś problem lub czy wszystko działało zgodnie z oczekiwaniami. Nawet krótki, kilkuminutowy test jest pomocny.\n"
+"Możesz skontaktować się z zespołem Back In Time za pośrednictwem:\n"
+"{contact_list}\n"
+"Ta wiadomość nie pojawi się ponownie, ale możesz ją otworzyć w dowolnym momencie z menu Pomoc.\n"
+"Dziękujemy za testowanie Back In Time i pomoc w jego ulepszaniu!"
 
-#: qt/app.py:1878
+#: qt/app.py:1879
 msgid "Check if remote host is online"
 msgstr "Sprawdź, czy zdalny host jest dostępny"
 
-#: qt/app.py:1879
+#: qt/app.py:1880
 msgid "Check if remote host supports all necessary commands."
 msgstr "Sprawdź, czy zdalny host obsługuje wszystkie niezbędne polecenia."
 
-#: qt/app.py:1922
+#: qt/app.py:1923
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
@@ -1080,21 +1081,21 @@ msgstr ""
 "Dostępne jest tylko {free} wolnego miejsca w miejscu docelowym, co jest "
 "poniżej skonfigurowanego progu {threshold}."
 
-#: qt/app.py:1927
+#: qt/app.py:1928
 msgid "Proceed with the backup?"
 msgstr "Kontynuować tworzenie kopii zapasowej?"
 
-#: qt/app.py:1974
+#: qt/app.py:1975
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr "Wszystkie nowsze pliki w  {path} zostaną usunięte. Kontynuować?"
 
-#: qt/app.py:1977
+#: qt/app.py:1978
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 "Wszystkie nowsze pliki w oryginalnym katalogu zostaną usunięte. Kontynuować?"
 
-#: qt/app.py:1983
+#: qt/app.py:1984
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -1103,18 +1104,18 @@ msgstr ""
 "{BOLD}Ostrzeżenie{BOLDEND}: usunięcie plików z katalogu głównego systemu "
 "plików może spowodować uszkodzenie całego systemu."
 
-#: qt/app.py:2234
+#: qt/app.py:2233
 msgid "Backup name"
 msgstr "Nazwa kopii zapasowej"
 
-#: qt/app.py:2266
+#: qt/app.py:2265
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "Usunąć tę kopię zapasową?"
 msgstr[1] "Usunąć te kopie zapasowe?"
 msgstr[2] "Usunąć te kopie zapasowe?"
 
-#: qt/app.py:2333
+#: qt/app.py:2332
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "Ustawienia języka zaczną obowiązywać dopiero po ponownym uruchomieniu "
@@ -1277,7 +1278,7 @@ msgid "Last Log View"
 msgstr "Ostatni widok dziennika"
 
 #: qt/logviewdialog.py:69 qt/manageprofiles/__init__.py:75
-#: qt/manageprofiles/tab_general.py:244 qt/restoreconfigdialog.py:347
+#: qt/manageprofiles/tab_general.py:244 qt/restoreconfigdialog.py:348
 msgid "Profile:"
 msgstr "Profil:"
 
@@ -2028,7 +2029,7 @@ msgstr "wyłączone"
 msgid "enabled"
 msgstr "włączone"
 
-#: qt/manageprofiles/tab_general.py:66 qt/restoreconfigdialog.py:349
+#: qt/manageprofiles/tab_general.py:66 qt/restoreconfigdialog.py:350
 msgid "Mode:"
 msgstr "Tryb:"
 
@@ -2085,7 +2086,8 @@ msgid "The encryption password cannot be empty."
 msgstr "Hasło szyfrujące nie może być puste."
 
 #: qt/manageprofiles/tab_general.py:476
-msgid "Back In Time could not validate the SSH configuration."
+#, fuzzy
+msgid "Issues were found while validating the SSH configuration."
 msgstr "Back In Time nie mógł zweryfikować konfiguracji SSH."
 
 #: qt/manageprofiles/tab_general.py:478
@@ -2430,19 +2432,19 @@ msgstr ""
 "zapasowych uruchamianych przez połączenia z zewnętrznymi urządzeniami "
 "pamięci masowej."
 
-#: qt/placeswidget.py:50
+#: qt/placeswidget.py:53
 msgid "Shortcuts"
 msgstr "Skróty"
 
-#: qt/placeswidget.py:95
+#: qt/placeswidget.py:98
 msgid "Places"
 msgstr "Miejsca"
 
-#: qt/placeswidget.py:96
+#: qt/placeswidget.py:99
 msgid "File System"
 msgstr "System plików"
 
-#: qt/placeswidget.py:149
+#: qt/placeswidget.py:144
 msgid "Backup directories"
 msgstr "Katalogi kopii zapasowej"
 
@@ -2474,19 +2476,19 @@ msgstr "Działanie…"
 msgid "man page: {man_page_name}"
 msgstr "Strona podręcznika: {man_page_name}"
 
-#: qt/restoreconfigdialog.py:75
+#: qt/restoreconfigdialog.py:76
 msgid "Import configuration"
 msgstr "Importuj konfigurację"
 
-#: qt/restoreconfigdialog.py:106
+#: qt/restoreconfigdialog.py:107
 msgid "No directory selected"
 msgstr "Nie wybrano katalogu"
 
-#: qt/restoreconfigdialog.py:155 qt/restoreconfigdialog.py:230
+#: qt/restoreconfigdialog.py:156 qt/restoreconfigdialog.py:231
 msgid "Searching…"
 msgstr "Wyszukiwanie…"
 
-#: qt/restoreconfigdialog.py:207
+#: qt/restoreconfigdialog.py:208
 #, python-brace-format
 msgid ""
 "Select the backup directory from which the configuration file should be "
@@ -2495,7 +2497,7 @@ msgstr ""
 "Wybierz katalog kopii zapasowej, z którego plik konfiguracji powinien zostać"
 " zaimportowany. Ścieżka może wyglądać następująco: {samplePath}"
 
-#: qt/restoreconfigdialog.py:212
+#: qt/restoreconfigdialog.py:213
 msgid ""
 "If the directory is located on an external or remote drive, it must be "
 "manually mounted beforehand."
@@ -2503,23 +2505,23 @@ msgstr ""
 "Jeśli katalog znajduje się na dysku zewnętrznym lub zdalnym, należy go "
 "wcześniej zamontować ręcznie."
 
-#: qt/restoreconfigdialog.py:233
+#: qt/restoreconfigdialog.py:234
 msgid "Scan again"
 msgstr "Skanuj ponownie"
 
-#: qt/restoreconfigdialog.py:252
+#: qt/restoreconfigdialog.py:253
 msgid "Show hidden directories"
 msgstr "Pokaż ukryte katalogi"
 
-#: qt/restoreconfigdialog.py:254
+#: qt/restoreconfigdialog.py:255
 msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Pokaż/ukryj ukryte katalogi (Ctrl+H)"
 
-#: qt/restoreconfigdialog.py:307
+#: qt/restoreconfigdialog.py:308
 msgid "No config found in this directory."
 msgstr "Nie znaleziono konfiguracji w tym katalogu."
 
-#: qt/restoreconfigdialog.py:372
+#: qt/restoreconfigdialog.py:373
 msgid "Search complete."
 msgstr "Wyszukiwanie zakończone."
 
@@ -2532,6 +2534,8 @@ msgid ""
 "The restore is still running. The window cannot be closed until it is "
 "finished."
 msgstr ""
+"Przywracanie jest nadal w toku. Okna nie można zamknąć, dopóki się nie "
+"zakończy."
 
 #: qt/shutdowndlg.py:28
 msgid "Countdown to Shutdown"
