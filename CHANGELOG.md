@@ -11,7 +11,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 [![Common Changelog](https://common-changelog.org/badge.svg)](https://common-changelog.org)
 
 ## <!--- [2.0.0] (Unreleased Development) -->
-## [2.0.0-rc1]
+## [2.0.0-rc1] (2026-08-XX)
 
 ### Changed
  
@@ -1670,6 +1670,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 -->
 
 [2.0.0]: https://github.com/bit-team/backintime/releases/tag/v2.0.0
+[2.0.0-rc1]: https://github.com/bit-team/backintime/releases/tag/v2.0.0-rc1
 [1.6.2]: https://github.com/bit-team/backintime/releases/tag/v1.6.2
 [1.6.1]: https://github.com/bit-team/backintime/releases/tag/v1.6.1
 [1.6.0]: https://github.com/bit-team/backintime/releases/tag/v1.6.0
