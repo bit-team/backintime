@@ -40,17 +40,13 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
   explanations ([#2507](https://github.com/bit-team/backintime/issues/2507))
 
 ### Added
-- Detect and report coreutils variant (GNU, Rust/uutils,
-  BusyBox) in `--diagnostics` output
-  ([#2478](https://github.com/bit-team/backintime/issues/2478))
-- Gocryptfs for SSH encrypted profiles
-  ([PR#2486](https://github.com/bit-team/backintime/pull/2486))
+- Detect and report coreutils variant (GNU, Rust/uutils, BusyBox) in `--diagnostics` output ([#2478](https://github.com/bit-team/backintime/issues/2478))
+- Gocryptfs for SSH encrypted profiles ([PR#2486](https://github.com/bit-team/backintime/pull/2486))
 - CLI: '--usage' option for the 'show' command, showing total physical disk usage of all backups ([@arcsinhx](https://github.com/arcsinhx), [PR#2480](https://github.com/bit-team/backintime/pull/2480))
 - Dependencies:
   - build: `pandoc` to convert markdown changelog into HTML
   - runtime-cli: `gocryptfs`
 - CLI: List all profiles with `show --profiles` ([#2336](https://github.com/bit-team/backintime/issues/2336))
-* Enum names in config file are replaced by their values ([11930b68](https://github.com/bit-team/backintime/commit/11930b68))
 
 ### Removed
 - **Breaking**: EncFS support including existing EncFS profiles
@@ -81,7 +77,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Crash when use Btrfs-subvolume as backup destination (Daidalos [@D4id4los](https://github.com/D4id4los), [#2487](https://github.com/bit-team/backintime/issues/2487))
 - Crash when polkit authentication dialog times out while setting up udev scheduling ([#2375](https://github.com/bit-team/backintime/issues/2375))
 - Guard pause/resume/stop actions in the GUI against ProcessLookupError when the backup process has already exited. ([#1604](https://github.com/bit-team/backintime/issues/1604))
-* Enum names in config file are replaced by their values
+* Enum names in config file are replaced by their values ([11930b68](https://github.com/bit-team/backintime/commit/11930b68))
 
 ## [1.6.1] (2026-02-10)
 
