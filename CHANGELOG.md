@@ -11,7 +11,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 [![Common Changelog](https://common-changelog.org/badge.svg)](https://common-changelog.org)
 
 ## <!--- [2.0.0] (Unreleased Development) -->
-## [2.0.0-rc1] (2026-08-XX)
+## [2.0.0-rc1] (2026-08-11)
 
 ### Changed
 - **Breaking**: Configuration file write by 2.0.0 not backward compatible with 

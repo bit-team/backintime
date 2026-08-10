@@ -87,9 +87,6 @@ def startApp(bin_name: str) -> config.Config | None:
         bitbase.BINARY_NAME_GUI: 'GUI'
     }[bin_name]
 
-    # Ensure existance of XDG_DATA_HOME (formally known as --share-path)
-    pathlib.Path(bitbase.BIT_DATA_HOME).mkdir(parents=True, exist_ok=True)
-
     logger.openlog(syslog_id_suffix)
 
     cli.set_quiet('--quiet' in sys.argv)
@@ -121,6 +118,14 @@ def startApp(bin_name: str) -> config.Config | None:
         bitbase.context['--config'] = args.config
     else:
         bitbase.context['--config'] = bitbase.DEFAULT_CONFIG_FILE_PATH
+
+    # Ensure existance of XDG_DATA_HOME (formally known as --share-path)
+    # and underlying structure
+    ensure_path = bitbase.BIT_DATA_HOME / 'mnt'
+    ensure_path.mkdir(parents=True, exist_ok=True)
+    # Ensure existance of config dir
+    ensure_path = bitbase.context['--config'].parent
+    ensure_path.mkdir(parents=True, exist_ok=True)
 
     # Call commands
     if 'func' in dir(args):
