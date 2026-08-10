@@ -81,7 +81,7 @@ direction. See [HISTORY](HISTORY.md) for more details.
  * [FAQ - Frequently Asked Questions](FAQ.md)
  * [End user documentation](https://backintime.readthedocs.org/) (not totally up-to-date)
  * [Source code documentation for developers](https://backintime-dev.readthedocs.org)
-   (**Disabled** and not up-2-tdate. Please open an issue if you need to use it.)
+   (**Disabled** and not up-to-date. Please open an issue if you need to use it.)
 
 # Contact & Social
 
