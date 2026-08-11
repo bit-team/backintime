@@ -157,6 +157,9 @@ class FilesView(QTreeView):
     def set_root_path(self, path: str):
         # self.selectionModel().clear()
 
+        print('-'*40)  # DEBUG
+        print(f'FilesView.set_root_path() :: {path=}')  # DEBUG
+
         # model: path to read from
         model_index = self.model.setRootPath(path)
         proxy_model_index = self.proxy.mapFromSource(model_index)
