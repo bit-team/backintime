@@ -790,16 +790,16 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         return ssh
 
     # gocryptfs
-    def localGocryptfsPath(self, profile_id):
+    def localGocryptfsPath(self, profile_id) -> str:
         #?Where to save snapshots in mode 'local_gocryptfs'.;absolute path
         # return self.profileStrValue('snapshots.local_gocryptfs.path', '', profile_id)
         p = self.get_profile(profile_id)
-        return p.local_gocryptfs_path
+        return str(p.local_gocryptfs_path)
 
-    def setLocalGocryptfsPath(self, value, profile_id):
+    def setLocalGocryptfsPath(self, value: str, profile_id):
         # self.setProfileStrValue('snapshots.local_gocryptfs.path', value, profile_id)
         p = self.get_profile(profile_id)
-        p.local_gocryptfs_path = value
+        p.local_gocryptfs_path = Path(value)
 
     def _mode_not_profile(self, profile_id, mode):
         # Why is there an extra "mode" argument in this methods signature?
