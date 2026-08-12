@@ -38,6 +38,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
   ([#1986](https://github.com/bit-team/backintime/issues/1986))
 - GUI: Schedule mode "Repeatedly (anacron)" re-phrased and extended with
   explanations ([#2507](https://github.com/bit-team/backintime/issues/2507))
+- GUI State: "Show hidden files" is on by default
 
 ### Added
 - Detect and report coreutils variant (GNU, Rust/uutils, BusyBox) in `--diagnostics` output ([#2478](https://github.com/bit-team/backintime/issues/2478))

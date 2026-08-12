@@ -289,7 +289,10 @@ class StateData(dict, metaclass=singleton.Singleton):
         try:
             return self['gui']['mainwindow']['show_hidden']
         except KeyError:
-            self.mainwindow_show_hidden = False
+            # Dev note (2026-08-12, buhtz): Until 1.6.1 the default was False.
+            # Since 2.0.0 the default switched to True.
+            # It is a workaround regarding a wired bug in the FilesView.
+            self.mainwindow_show_hidden = True
             return self.mainwindow_show_hidden
 
     @mainwindow_show_hidden.setter
