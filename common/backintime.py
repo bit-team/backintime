@@ -11,7 +11,6 @@
 import os
 import sys
 import subprocess
-import pathlib
 import tools
 # Workaround for situations where startApp() is not invoked.
 # E.g. when using --diagnostics and other argparse.Action
