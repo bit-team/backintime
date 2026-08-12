@@ -46,9 +46,9 @@ before_install:
   - sudo apt-get install -y ruby rubygems asciidoctor gocryptfs pandoc
   - sudo gem install asciidoctor
 
-jobs:
-  exclude:
-    - python: "3.13"
+# jobs:
+#   exclude:
+#     - python: "3.13"
 
 install:
   - pip install -U pip

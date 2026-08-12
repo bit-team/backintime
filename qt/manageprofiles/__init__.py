@@ -383,7 +383,7 @@ class SettingsDialog(QDialog):
         if not result:
             self.config.dict = self.config_dict_copy
 
-        self.config.setCurrentProfile(self.original_current_profile)
+        # self.config.setCurrentProfile(self.original_current_profile)
 
         if result:
             # self.parent.remount(self.original_current_profile,

@@ -19,17 +19,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-08-09 12:53+0200\n"
-"PO-Revision-Date: 2026-08-05 06:41+0000\n"
-"Last-Translator: bubub <bubub@noreply.codeberg.org>\n"
-"Language-Team: French <https://translate.codeberg.org/projects/backintime/common/fr/>\n"
+"PO-Revision-Date: 2026-08-11 09:16+0000\n"
+"Last-Translator: marc9876543210 <marc9876543210@noreply.codeberg.org>\n"
+"Language-Team: French <https://translate.codeberg.org/projects/backintime/"
+"common/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.7.1\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #: common/bitbase.py:21 common/config.py:36 common/konfig.py:34
 #: common/mount/_backends.py:23 common/tools.py:88 qt/encfsmsgbox.py:32
@@ -78,27 +79,27 @@ msgstr ""
 
 #: common/check_config.py:113
 msgid "Two settings conflict with each other."
-msgstr ""
+msgstr "Deux des réglages effectués sont incompatibles."
 
 #: common/check_config.py:116
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal to the value for \"Warn if the free "
 "disk space falls below\" ({val_two})."
 msgstr ""
-"La valeur pour \"Supprimer la plus ancienne sauvegarde si l'espace libre est"
-" inférieur à\" ({val_one}) doit être inférieure ou égale au seuil de "
+"La valeur pour \"Supprimer la plus ancienne sauvegarde si l'espace libre est "
+"inférieur à\" ({val_one}) doit être inférieure ou égale au seuil de "
 "\"Avertir si l'espace libre du disque est inférieur à\" ({val_two})."
 
 #: common/check_config.py:123
-#, fuzzy
 msgid ""
 "Please adjust the settings. The threshold for removing old backups must not "
 "be higher for the free disk space warning value."
 msgstr ""
-"Veuillez ajuster les paramètres pour que la limite de suppression des "
-"sauvegardes ne soit pas supérieure à limite d'alerte."
+"Veuillez ajuster les paramètres. La limite pour supprimer d'anciennes "
+"sauvegardes ne doit pas être supérieure à la limite pour alerter sur "
+"l'espace disque disponible."
 
 #: common/config.py:175 common/konfig.py:52 common/konfig.py:1427
 msgid "Main profile"
@@ -109,9 +110,8 @@ msgid "Local"
 msgstr "Local"
 
 #: common/config.py:195
-#, fuzzy
 msgid "Local (encrypted)"
-msgstr "Chiffré localement"
+msgstr "Local (chiffré)"
 
 #: common/config.py:196 common/config.py:209
 #: qt/manageprofiles/tab_general.py:394
@@ -128,9 +128,8 @@ msgid "SSH private key"
 msgstr "Clé privée SSH"
 
 #: common/config.py:207
-#, fuzzy
 msgid "SSH (encrypted)"
-msgstr "chiffré avec SSH"
+msgstr "SSH (chiffré)"
 
 #: common/config.py:1880
 #, fuzzy, python-brace-format
@@ -204,20 +203,18 @@ msgid "Details:"
 msgstr "Détails :"
 
 #: common/mount/_backends.py:292
-#, fuzzy
 msgid "The remote backup directory is missing or is not a valid directory."
 msgstr ""
-"Le répertoire de sauvegarde distant n'existe pas ou n'est pas un répertoire."
+"Le répertoire de sauvegarde distant n'existe pas ou n'est pas un répertoire "
+"valide."
 
 #: common/mount/_backends.py:298
-#, fuzzy
 msgid "Write access to the remote backup directory was denied."
-msgstr "Impossible d'écrire dans le répertoire de sauvegarde distant.."
+msgstr "L'accès en écriture au répertoire de sauvegarde distant a été refusé."
 
 #: common/mount/_backends.py:303
-#, fuzzy
 msgid "Access to the remote backup directory was denied."
-msgstr "Impossible d'écrire dans le répertoire de sauvegarde distant.."
+msgstr "L'accès au répertoire de sauvegarde distant a été refusé."
 
 #: common/mount/_backends.py:317 qt/manageprofiles/tab_general.py:126
 msgid "Path:"
@@ -465,14 +462,14 @@ msgid "ssh-agent is not installed"
 msgstr "ssh-agent n'est pas installé"
 
 #: common/sshsetupvalidator.py:236 common/sshsetupvalidator.py:354
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unexpected response from '{process}'."
-msgstr "Réponse inattendue de sshfs."
+msgstr "Réponse inattendue reçue de '{process}'."
 
 #: common/sshsetupvalidator.py:255
 #, fuzzy, python-brace-format
 msgid "Unexpected output from '{process}'."
-msgstr "Réponse inattendue de ssh-agent."
+msgstr "Information inattendue reçue de '{process}'."
 
 #: common/sshsetupvalidator.py:258
 msgid "Output:"
@@ -1074,6 +1071,16 @@ msgid ""
 "This message won't be shown again, but it can be opened anytime from the Help menu.\n"
 "Thank you for testing Back In Time and helping us improve it!"
 msgstr ""
+"Cette version est une Release Candidate, pour test, avant la prochaine "
+"version stable.\n"
+"Si vous testez cette version, merci de nous faire un retour. Faites nous "
+"savoir si vous rencontrez un problème ou si tout fonctionne comme attendu. "
+"Même un court test de quelques minutes est utile.\n"
+"Vous pouvez contacter l'équipe Back In Time via:\n"
+"{contact_list}\n"
+"Ce message ne sera pas ré-affiché, mais vous pouvez le relire à n'importe "
+"quel moment à partir du menu Aide.\n"
+"Merci de tester Back In Time et de nous aider à l'améliorer!"
 
 #: qt/app.py:1879
 msgid "Check if remote host is online"
@@ -2098,9 +2105,9 @@ msgid "The encryption password cannot be empty."
 msgstr "Le mot de passe de chiffrement ne peut pas être vide."
 
 #: qt/manageprofiles/tab_general.py:476
-#, fuzzy
 msgid "Issues were found while validating the SSH configuration."
-msgstr "Back In Time ne peut pas valider la configuration SSH."
+msgstr ""
+"Des problèmes ont été détectés durant la validation de la configuration SSH."
 
 #: qt/manageprofiles/tab_general.py:478
 msgid "SSH profile setup failed"
@@ -2546,6 +2553,8 @@ msgid ""
 "The restore is still running. The window cannot be closed until it is "
 "finished."
 msgstr ""
+"La restauration est encore en cours. La fenêtre ne peut pas être fermée tant "
+"qu'elle n'est pas terminée."
 
 #: qt/shutdowndlg.py:28
 msgid "Countdown to Shutdown"
@@ -2731,4 +2740,5 @@ msgstr ""
 #~ "Ce message n'apparaîtra plus, mais peut être affiché à tout moment via le menu d'aide.\n"
 #~ "Merci pour votre soutien et pour l'aide apportée à l'amélioration de Back In Time !\n"
 #~ "Votre équipe Back In Time"
+
 # REUSE-IgnoreEnd

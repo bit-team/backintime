@@ -55,7 +55,7 @@ using a "feature" branch and sending a pull request asking for a review.
   their support and kindly ask for new OSS credits.
 - Create a new branch (e.g. `rc/v1.5.4`) in your clone for the new release.
 - Update `VERSION` file.
-- Update `CHANGES` file.
+- Update `CHANGELOG.md` file.
 - Execute the script `./updateversion.sh` to update the version numbers (based on `VERSION` file) in several files.
 <!--
 - Autogenerate and update the man page file `backintime-config.1` by executing the script `common/create-manapge-backintime-config.py`.
@@ -135,10 +135,10 @@ After the PR is merged:
 
 ### Bump version number
 
-- Update the changelog file `CHANGES` in the project's root folder:
+- Update the changelog file `CHANGELOG.md` in the project's root folder:
 
   - Check the commit history about forgotten but relevant entries that are
-    currently not present in `CHANGES` file. e.g. `git log v1.4.0..HEAD`
+    currently not present in `CHANGELOG.md` file. e.g. `git log v1.4.0..HEAD`
 
   - Rename the top-most line with the collected `dev` changes from eg.
 
@@ -150,32 +150,30 @@ After the PR is merged:
 
   using the new version number and release date.
 
-- Update `VERSION` text file in the project's root folder and set the new
-  version number **without** the release date (eg. `1.4.0`).
+- Update the version
+  
+  1. Update `VERSION` text file in the project's root folder and set the new
+     version number **without** the release date (eg. `1.4.0`).
+  2. Execute the script `./updateversion.sh` in the project's root folder
+     to automatically update the version number in multiple files
+     using the version number from the `VERSION` file
+     (so you do not forget to update one file ;-). The script should modify the
+     following files:
 
-- Execute the script `./updateversion.sh` in the project's root folder
-  to automatically update the version number in multiple files
-  using the version number from the `VERSION` file
-  (so you do not forget to update one file ;-). The script should modify the
-  following files:
+     - `common/version.py`
+     - `doc/manpages/backintime-config.5`
+     - Note: All other manpages should be updated automatically by `asciidoctor`.
 
-  - `common/version.py`
-  - `common/man/C/backintime*.1`
-  - `common/man/C/backintime*.5`
-  - `qt/man/C/backintime*.1`
+  3. Check that the version numbers have been update by opening some of the
+     above files.
 
-- Check that the version numbers have been update by opening some of the above
-  files.
-
-- Update the "as at" date in the man page files (in
-  `common/man/C/backintime*.1` and `qt/man/C/backintime*.1`) manually by
-  changing the month and year in the first line that looks like this:
+  4. Update the "as at" date in the man page `backintime-config.5`.
 
   ```
   .TH backintime-config 5 "Aug 2023" "version 1.4.0" "USER COMMANDS"
   ```
 
-- Update the `AUTHORS` file in the project's root folder if necessary.
+- (outdated) Update the `AUTHORS` file in the project's root folder if necessary.
   Do not publish contributors names and email address without their permission.
 
 ### Build documentation

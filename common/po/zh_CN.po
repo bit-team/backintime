@@ -14,17 +14,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-08-09 12:53+0200\n"
-"PO-Revision-Date: 2026-08-08 08:57+0000\n"
+"PO-Revision-Date: 2026-08-11 09:16+0000\n"
 "Last-Translator: Outbreak2096 <outbreak2096@noreply.codeberg.org>\n"
-"Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
+"Language-Team: Chinese (Simplified Han script) <https://"
+"translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.7.1\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #: common/bitbase.py:21 common/config.py:36 common/konfig.py:34
 #: common/mount/_backends.py:23 common/tools.py:88 qt/encfsmsgbox.py:32
@@ -80,11 +81,10 @@ msgid ""
 msgstr "“当可用空间小于（{val_one}）时移除最旧备份”的值必须小于或等于“当可用磁盘空间低于（{val_two}）时发出警告”的值。"
 
 #: common/check_config.py:123
-#, fuzzy
 msgid ""
 "Please adjust the settings. The threshold for removing old backups must not "
 "be higher for the free disk space warning value."
-msgstr "请调整设置，确保移除旧备份的阈值不超过可用磁盘空间警告阈值。"
+msgstr "请调整设置。移除旧备份的阈值不得高于可用磁盘空间警告值。"
 
 #: common/config.py:175 common/konfig.py:52 common/konfig.py:1427
 msgid "Main profile"
@@ -117,9 +117,9 @@ msgid "SSH (encrypted)"
 msgstr "SSH（加密）"
 
 #: common/config.py:1880
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
-msgstr "Udev 计划任务在 {mode} 模式下无法工作。"
+msgstr "Udev 计划任务不支持“{mode}”模式。"
 
 #: common/config.py:1907
 msgid ""
@@ -1928,9 +1928,8 @@ msgid "The encryption password cannot be empty."
 msgstr "加密密码不能为空。"
 
 #: qt/manageprofiles/tab_general.py:476
-#, fuzzy
 msgid "Issues were found while validating the SSH configuration."
-msgstr "Back In Time 无法验证 SSH 配置。"
+msgstr "在验证 SSH 配置时发现问题。"
 
 #: qt/manageprofiles/tab_general.py:478
 msgid "SSH profile setup failed"
@@ -2507,4 +2506,5 @@ msgstr "这些是您当前的文件，并非备份。"
 #~ "在此版本中，不会再次显示此消息，但可通过帮助菜单随时访问。\n"
 #~ "感谢您的支持和帮助我们改进 Back In Time！\n"
 #~ "您的 Back In Time 团队"
+
 # REUSE-IgnoreEnd
