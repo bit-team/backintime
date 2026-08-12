@@ -33,7 +33,6 @@ tar cfz backintime-$VER.tar.gz \
     --exclude="*/po/*.mo" \
     --exclude-vcs \
     ${NEW}/AUTHORS \
-    ${NEW}/CHANGES \
     ${NEW}/CHANGELOG.md \
     ${NEW}/CONTRIBUTING.md \
     ${NEW}/FAQ.md \

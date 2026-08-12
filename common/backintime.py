@@ -119,13 +119,14 @@ def startApp(bin_name: str) -> config.Config | None:
     else:
         bitbase.context['--config'] = bitbase.DEFAULT_CONFIG_FILE_PATH
 
-    # Ensure existance of XDG_DATA_HOME (formally known as --share-path)
-    # and underlying structure
-    ensure_path = bitbase.BIT_DATA_HOME / 'mnt'
-    ensure_path.mkdir(parents=True, exist_ok=True)
-    # Ensure existance of config dir
-    ensure_path = bitbase.context['--config'].parent
-    ensure_path.mkdir(parents=True, exist_ok=True)
+    # Ensure existence of XDG_DATA_HOME (formally known as --share-path)
+    # and others
+    ensure_paths = [
+        bitbase.BIT_DATA_HOME / 'mnt',
+        bitbase.context['--config'].parent,
+    ]
+    for path in ensure_paths:
+        path.mkdir(parents=True, exist_ok=True)
 
     # Call commands
     if 'func' in dir(args):

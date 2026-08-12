@@ -959,6 +959,7 @@ def mkdir(path, mode=0o755, enforce_permissions=True):
         try:
             if enforce_permissions:
                 os.chmod(path, mode)
+
         except:
             return False
 
