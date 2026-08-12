@@ -77,7 +77,7 @@ class Properties(unittest.TestCase):
 
         self.assertEqual(sut.msg_release_candidate, None)
         self.assertEqual(sut.msg_encfs_global, False)
-        self.assertEqual(sut.mainwindow_show_hidden, False)
+        self.assertEqual(sut.mainwindow_show_hidden, True)
         self.assertEqual(sut.files_view_sorting, (0, 0))
         self.assertEqual(sut.mainwindow_main_splitter_widths, (150, 450))
         self.assertEqual(sut.mainwindow_second_splitter_widths, (150, 300))
