@@ -13,17 +13,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-08-09 12:53+0200\n"
-"PO-Revision-Date: 2026-08-06 07:25+0000\n"
-"Last-Translator: Nederslofsky <nederslofsky@noreply.codeberg.org>\n"
-"Language-Team: Dutch <https://translate.codeberg.org/projects/backintime/common/nl/>\n"
+"PO-Revision-Date: 2026-08-11 09:16+0000\n"
+"Last-Translator: dheijl <dheijl@noreply.codeberg.org>\n"
+"Language-Team: Dutch <https://translate.codeberg.org/projects/backintime/"
+"common/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.7.1\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #: common/bitbase.py:21 common/config.py:36 common/konfig.py:34
 #: common/mount/_backends.py:23 common/tools.py:88 qt/encfsmsgbox.py:32
@@ -72,27 +73,26 @@ msgstr ""
 
 #: common/check_config.py:113
 msgid "Two settings conflict with each other."
-msgstr ""
+msgstr "Twee instellingen zijn met elkaar in conflict."
 
 #: common/check_config.py:116
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal to the value for \"Warn if the free "
 "disk space falls below\" ({val_two})."
 msgstr ""
 "De waarde voor \"Verwijder oudste backup indien de vrije plaats kleiner is "
-"dan\" ({val_one}) moet kleiner dan of gelijk zijn aan de grenswaarde voor "
-"\"Waarschuw als de vrije schijfruimte minder is dan\" ({val_two})."
+"dan\" ({val_one}) moet kleiner dan of gelijk zijn aan de waarde voor "
+"\"Waarschuw als de vrije schijfruimte minder wordt dan\" ({val_two})."
 
 #: common/check_config.py:123
-#, fuzzy
 msgid ""
 "Please adjust the settings. The threshold for removing old backups must not "
 "be higher for the free disk space warning value."
 msgstr ""
-"Pas aub. de waarden aan zodat limiet om backups te verwijderen niet groter "
-"is dan de limiet voor de waarschuwing."
+"Pas aub. de instellingen aan. De limiet om oude backups te verwijderen mag "
+"niet groter zijn voor de waarschuwingslimiet voor de vrije schijfruimte."
 
 #: common/config.py:175 common/konfig.py:52 common/konfig.py:1427
 msgid "Main profile"
@@ -103,9 +103,8 @@ msgid "Local"
 msgstr "Lokaal"
 
 #: common/config.py:195
-#, fuzzy
 msgid "Local (encrypted)"
-msgstr "Lokaal versleuteld"
+msgstr "Lokaal (versleuteld)"
 
 #: common/config.py:196 common/config.py:209
 #: qt/manageprofiles/tab_general.py:394
@@ -122,23 +121,21 @@ msgid "SSH private key"
 msgstr "SSH private sleutel"
 
 #: common/config.py:207
-#, fuzzy
 msgid "SSH (encrypted)"
-msgstr "SSH versleuteld"
+msgstr "SSH (versleuteld)"
 
 #: common/config.py:1880
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
-msgstr "Udev methode werkt niet bij modus {mode}"
+msgstr "Udev planning niet ondersteund bij modus \"{mode}\"."
 
 #: common/config.py:1907
-#, fuzzy
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
 msgstr ""
-"De tijd voor authenticatie is verstreken. De configuratie van de udev-"
-"planning is niet voltooid. Probeer het opnieuw."
+"De tijd voor authenticatie is verstreken. De configuratie van de Udev-"
+"gebaseerde planning is niet voltooid. Probeer het opnieuw."
 
 #: common/config.py:1945
 msgid "Failed to write new crontab."
@@ -201,21 +198,16 @@ msgid "Details:"
 msgstr "Details:"
 
 #: common/mount/_backends.py:292
-#, fuzzy
 msgid "The remote backup directory is missing or is not a valid directory."
-msgstr "De externe back-up map bestaat niet of is geen map."
+msgstr "De externe backupmap bestaat niet of is geen geldige map."
 
 #: common/mount/_backends.py:298
-#, fuzzy
 msgid "Write access to the remote backup directory was denied."
-msgstr ""
-"Schrijftoegang tot de externe backupmap werd geweigerd (ontbrekende "
-"rechten)."
+msgstr "Schrijftoegang tot de externe backupmap werd geweigerd."
 
 #: common/mount/_backends.py:303
-#, fuzzy
 msgid "Access to the remote backup directory was denied."
-msgstr "De externe back-up map is niet beschrijfbaar."
+msgstr "Toegang tot de de externe backup map werd geweigerd."
 
 #: common/mount/_backends.py:317 qt/manageprofiles/tab_general.py:126
 msgid "Path:"
@@ -265,9 +257,9 @@ msgid ""
 msgstr "Backup bestemming map is niet voorbereid voor encryptie. Pad: {path}"
 
 #: common/mount/_encryptors.py:286
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Decrypted view mountpoint is missing. Path: {path}"
-msgstr "Koppelingspunt als gedecodeerde weergave ontbreekt. Pad: {path}"
+msgstr "Gedecodeerde weergave koppelingspunt ontbreekt. Pad: {path}"
 
 #: common/mount/_encryptors.py:338
 #, python-brace-format
@@ -461,14 +453,14 @@ msgid "ssh-agent is not installed"
 msgstr "ssh-agent is niet geïnstalleerd"
 
 #: common/sshsetupvalidator.py:236 common/sshsetupvalidator.py:354
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unexpected response from '{process}'."
-msgstr "Onverwacht antwoord van sshfs."
+msgstr "Onverwacht antwoord van '{process}'."
 
 #: common/sshsetupvalidator.py:255
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unexpected output from '{process}'."
-msgstr "Onverwachte uitvoer van de ssh-agent."
+msgstr "Onverwachte uitvoer van '{process}'."
 
 #: common/sshsetupvalidator.py:258
 msgid "Output:"
@@ -487,9 +479,9 @@ msgid "sshfs is not installed"
 msgstr "sshfs is niet geïnstalleerd"
 
 #: common/sshsetupvalidator.py:384
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "The SSH host \"{host}\" is not known yet."
-msgstr "De SSH host \"{host}\" wordt nog niet vertrouwd."
+msgstr "De SSH host \"{host}\" is nog niet gekend."
 
 #: common/sshsetupvalidator.py:388
 msgid "Please connect to the host manually once to confirm its fingerprint."
@@ -1056,6 +1048,16 @@ msgid ""
 "This message won't be shown again, but it can be opened anytime from the Help menu.\n"
 "Thank you for testing Back In Time and helping us improve it!"
 msgstr ""
+"Deze versie is een Release Candidate om te testen voor de volgende stabiele "
+"release.\n"
+"Als u deze versie test geef dan aub. feedback. Laat het ons weten als u een "
+"probleem ontdekte of als alles werkte als verwacht. Zelfs een korte test van "
+"een paar minuten is nuttig.\n"
+"U kan het Back In Time team bereiken via\n"
+"{contact_list}\n"
+"Dit bericht zal niet opnieuw getoond worden, maar het kan altijd geopend "
+"worden vanuit het Help menu.\n"
+"Bedankt om Back In Time te testen en om ons te helpen het te verbeteren."
 
 #: qt/app.py:1879
 msgid "Check if remote host is online"
@@ -2069,13 +2071,12 @@ msgid "The encryption password cannot be empty."
 msgstr "Het encryptie wachtwoord kan niet leeg zijn."
 
 #: qt/manageprofiles/tab_general.py:476
-#, fuzzy
 msgid "Issues were found while validating the SSH configuration."
-msgstr "Back In Time kon de SSH configuratie niet valideren."
+msgstr "Problemen gevonden tijdens het controleren van de SSH configuratie."
 
 #: qt/manageprofiles/tab_general.py:478
 msgid "SSH profile setup failed"
-msgstr "Instellen van SSH profiel mislukt"
+msgstr "SSH profiel instellen mislukt"
 
 #: qt/manageprofiles/tab_general.py:522
 msgid "Profile setup failed"
@@ -2288,9 +2289,8 @@ msgid "Remove backups older than"
 msgstr "Verwijder backups ouder dan"
 
 #: qt/manageprofiles/tab_remove_retention.py:285
-#, fuzzy
 msgid "Full days. Current day is ignored."
-msgstr "Volledige dagen. Vandaag niet meegerekend."
+msgstr "Volledige dagen. Vandaag wordt genegeerd."
 
 #: qt/manageprofiles/tab_remove_retention.py:287
 msgid "Calendar weeks with Monday as first day. Current week is ignored."
@@ -2511,6 +2511,8 @@ msgid ""
 "The restore is still running. The window cannot be closed until it is "
 "finished."
 msgstr ""
+"Het herstel is nog bezig. Het venster kan niet gesloten worden tot het "
+"gedaan is."
 
 #: qt/shutdowndlg.py:28
 msgid "Countdown to Shutdown"
@@ -2695,4 +2697,5 @@ msgstr "Dit zijn uw bestanden in hun huidige toestand. Het is geen backup."
 #~ "In deze versie wordt dit bericht niet meer weergegeven, maar u kunt het op elk moment raadplegen via het helpmenu.\n"
 #~ "Bedankt voor uw steun en voor uw hulp bij het verbeteren van Back In Time!\n"
 #~ "Uw Back In Time-team"
+
 # REUSE-IgnoreEnd
