@@ -1433,6 +1433,10 @@ class Konfig(metaclass=singleton.Singleton):
 
         self._unsaved_profiles = []
 
+        sorted_items = sorted(self._conf.items())
+        self._conf.clear()
+        self._conf.update(sorted_items)
+
         tmp_io_buffer = StringIO()
         self._config_parser.write(tmp_io_buffer, space_around_delimiters=False)
         tmp_io_buffer.seek(0)
