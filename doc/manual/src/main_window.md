@@ -13,7 +13,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 
 ## Main Toolbar
 
-![take_backup](_images/document-save_btn.svg) Create a backup
+**_Create a backup_**
 
 Create a new backup in background. The main window can be closed during 
 creation. Normal behavior is to only compare files size and modification
@@ -22,82 +22,65 @@ enabled. This will calculate checksums for every file to decide if the file has
 changed. Creating a backup with checksums option takes a lot more time but it
 will make sure, the destination files won't be corrupt.
 
-![refresh_backup](_images/view-refresh_btn.svg) Refresh Backups List
+**_Refresh backup list_**
 
 Refresh the Backups in [Timeline](#timeline).
 
-![backup_name](_images/gtk-edit_btn.svg) Backup Name
+**_Name backup_**
 
 Add a name for a backup so you can easily identify it later. If `Don't remove
 named backups` in **Manage profile \--\> Remote & Retention** is enabled this will also
 prevent the backup from being removed.
 
-![remove_backup](_images/edit-delete_btn.svg) Remove backup
+**_Remove backup_**
 
 Remove one or more backups from Timeline. `Now` can not be removed as this is
 no backup but the live view of the local file-system. If this button is
 grayed out you need to select a backup in [Timeline](#timeline).
 
-![view_log](_images/text-plain_btn.svg) View Backup Log
+**_View log of the selected backup_**
 
 View the log of the selected backup.
 
-![view_log](_images/document-new_btn.svg) View Last Log
+**_Open last backup log_**
 
 View the log from the last backup attempt.
 
-![settings](_images/gtk-preferences_btn.svg) Manage profiles
+**_Manage profiles_**
 
 Open [*Manage profiles*](manage-profiles.md).
 
-![shutdown](_images/system-shutdown_btn.svg) Shutdown System after backup has
-finished
+**_Shutdown_**
 
 Shutdown the computer and poweroff after a backup has finished. The main
 window must stay open for this. If shutdown is not supported on the system this
 button will be grayed out.
 
-![exit](_images/window-close_btn.svg) Exit
-
-Close the main window. Running backups will remain in background.
-
-![help](_images/help-contents_btn.svg) Help
-
-Menu with links to this help, FAQ, report bugs, ...
-
 ## Files Toolbar
 
-![up](_images/go-up_btn.svg) Up
+**_Up_**
 
-Go to the parent folder.
+Go to the parent directory.
 
-![show_hidden](_images/show-hidden_btn.svg) Show hidden files
+**_Show hidden files_**
 
 Toggle hidden files (starting with a dot) to be shown in files view.
 
-![restore](_images/edit-undo_btn.svg) Restore
+**_Restore_**
 
 Restore selected files or directories. This button has a sub-menu (hold down
 the button). Default action is `Restore`.
 
-![restore](_images/edit-undo_btn.svg) Restore
+Or, Restore the selected files or directories to the original destination.
 
-Restore the selected files or directories to the original destination.
+Or, Restore the selected files or directories to a new destination.
 
-![restore_to](_images/document-revert_btn.svg) Restore to...
-
-Restore the selected files or directories to a new destination.
-
-![restore](_images/edit-undo_btn.svg) Restore */path*
-
-Restore the currently shown directory and all its content to the original
+Or, Restore the currently shown directory and all its content to the original
 destination.
 
-![restore_to](_images/document-revert_btn.svg) Restore *path* to...
+Or, Restore the currently shown directory and all its content to a new destination.
 
-Restore the currently shown directory and all its content to a new destination.
-
-![backups](_images/file-manager_btn.svg) Backups
+**_Compare backups_**
 
 Open [Backups dialog](backups-dialog.md).
 
