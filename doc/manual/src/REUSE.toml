@@ -7,11 +7,22 @@
 # General Public License v2 or any later version (GPL-2.0-or-later).
 # See LICENSES directory or go to <https://spdx.org/licenses/CC0-1.0.html>
 # and <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-
+#
 # See https://reuse.software/faq/#bulk-license
 version = 1
 
 [[annotations]]
-path = "_images/**"
+path = [
+    "_images/dark/*.png",
+    "_images/light/*.png",
+]
 SPDX-License-Identifier = "GPL-2.0-or-later"
 SPDX-FileCopyrightText = "© 2024 Kosta Vukicevic (stcksmsh)"
+
+[[annotations]]
+path = [
+    "_images/rule*.png",
+    "_images/tab_remove_retention.png",
+]
+SPDX-License-Identifier = "CC0-1.0"
+SPDX-FileCopyrightText = "© 2025 Christian Buhtz <c.buhtz@posteo.jp>"

@@ -32,8 +32,8 @@ shares do not support hard-links.
 ![Settings - General](_images/dark/settings_general.png#only-dark)
 
 Choose the destination path for backups with the
-![directory](_images/folder_btn.svg) directory button (to show hidden files use
-CTRL + H or context menu with right mouse button). [Back in Time will create
+_directory_ button (to show hidden files use
+CTRL + H or context menu with right mouse button). Back in Time will create
 sub-directories `backintime/<HOST>/<USER>/<PROFILE>/` inside that directory.
 Backups will be placed inside the `<PROFILE>/` directory.
 
@@ -95,7 +95,7 @@ known to be insecure.
 
 In `Private Key` you need to select your private SSH key. If this does not yet
 exist, you can create a new public/private SSH key without password by clicking
-on ![add](_images/list-add_btn.svg)
+on the _add_ button.
 
 Enter the private key password in `SSH private key` (this is the password you
 chose above during creating the public/private key pair, not the login password
@@ -142,7 +142,8 @@ specific events, such as system startup or connecting a backup drive via USB.
 - **Every Day**: start a new backup on a configurable time on every day.
 - **Every Week**: start a new backup on a configurable week-day/time every week.
 - **Every Month**: start a new backup on a configurable day/time every month.
-- **Every Year**: start a new backup on first day of first month of each year at a configurable time.
+- **Every Year**: start a new backup on first day of first month of each year
+  at a configurable time.
 - **Every X minutes**: start a new backup every 5, 10 or 30 minutes. This
   will add a line `*/<X> * * * * <COMMAND>` in `crontab`.
 - **Every hour**: start a new backup on every full hour. This will add a line
