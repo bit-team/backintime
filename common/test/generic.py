@@ -216,7 +216,35 @@ class TestCaseCfg(TestCase):
 
     def setUp(self):
         super(TestCaseCfg, self).setUp()
+
+        # Dev note (buhtz, 2026-08):
+        # Usually this produce a RuntimeError because Config is obsolete.
+        # All tests using generic.TestCase as a base class are skipped or
+        # scheduled for review (#2461). Currently they are not executited,
+        # and therefore no error.
         self.cfg = config.Config(self.cfgFile, self.sharePath)
+
+        # pylint: disable-next=pointless-string-statement
+        """This is the content of (removed) file common/test/config:
+        config.version=6
+        profile1.snapshots.include.1.type=0
+        profile1.snapshots.include.1.value=/tmp/test
+        profile1.snapshots.include.size=1
+        profile1.snapshots.no_on_battery=false
+        profile1.snapshots.notify.enabled=true
+        profile1.snapshots.path=/tmp/snapshots
+        profile1.snapshots.path.host=test-host
+        profile1.snapshots.path.profile=1
+        profile1.snapshots.path.user=test-user
+        profile1.snapshots.preserve_acl=false
+        profile1.snapshots.preserve_xattr=false
+        profile1.snapshots.remove_old_snapshots.enabled=true
+        profile1.snapshots.remove_old_snapshots.unit=80
+        profile1.snapshots.remove_old_snapshots.value=10
+        profile1.snapshots.rsync_options.enabled=false
+        profile1.snapshots.rsync_options.value=
+        profiles.version=1
+        """
 
         # mock notifyplugin to suppress notifications
         patcher = patch('notifyplugin.NotifyPlugin.message')

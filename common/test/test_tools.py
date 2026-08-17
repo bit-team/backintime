@@ -3,7 +3,7 @@
 # SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
 # SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 # SPDX-FileCopyrightText: © 2008-2022 Taylor Raack
-# SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2024 Christian BUHTZ <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -90,7 +90,7 @@ class Basics(unittest.TestCase):
                     '{0:o}'.format(mode), msg)
 
 
-class General(generic.TestCase):
+class General(unittest.TestCase):
     def setUp(self):
         super().setUp()
         self.subproc = None

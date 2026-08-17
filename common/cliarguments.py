@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: © 2008-2022 Bart de Koning
 # SPDX-FileCopyrightText: © 2008-2022 Richard Bailey
 # SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
-# SPDX-FileCopyrightText: © 2025 Christian Buhtz <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2025 Christian BUHTZ <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -159,6 +159,7 @@ class ParserAgent:
         self._create_command_parsers()
 
     def _build_epilog(self):
+        # REUSE-IgnoreStart
         # Create with "Text ASCII Generator" by "patorjk"
         # https://patorjk.com/software/taag
         # Font used is "Mini"
@@ -180,6 +181,7 @@ class ParserAgent:
             f'Additional Licenses : {add_licenses}',
         ])
 
+        # REUSE-IgnoreEnd
         return epi
 
     def _create_reusable_parsers(self):

@@ -66,37 +66,6 @@ Several example scripts can be found in the directory
 `/usr/share/doc/backintime` or in the
 [projects repository](https://github.com/bit-team/backintime).
 
-The following is a minimal script to log all calls to user-callback to a file
-in `$HOME/.local/state/backintime_callback_log`.
-
-```sh
-#!/bin/bash
-# SPDX-FileCopyrightText: © 2024 Kosta Vukicevic
-# SPDX-FileCopyrightText: © 2024 @daveTheOldCoder
-# SPDX-License-Identifier: CC0-1.0
-
-LOG_FILE='/tmp/backintime_callback.log'
-
-# Get current time
-current_time=$(date +"%Y-%m-%d %H:%M:%S")
-
-# Check if file exists, if not create it
-touch $LOG_FILE
-
-# Append current time to the file
-echo -n "{$current_time}: " >> "$LOG_FILE"
-
-# Iterate through all arguments
-for arg in "$@"
-do
-    # Append argument to the file
-    echo -n "$arg," >> "$LOG_FILE"
-done
-
-# Append newline character at the end
-echo >> "$LOG_FILE"
-```
-
 [^1]: Ensure that manual and automatic backups do not run at the same time.
     
 [^2]: For example, if the backups directory is on a removable drive, which is

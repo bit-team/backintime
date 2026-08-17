@@ -12,11 +12,20 @@ strings but bitbase is not able to provide it."""
 from pathlib import Path
 import bitbase
 
+# REUSE-IgnoreStart
 COPYRIGHT = 'Copyright © 2008-2024 ' \
             'Oprea Dan, Bart de Koning, Richard Bailey, Germar Reitze\n' \
             'Copyright © 2022 ' \
             'Christian Buhtz, Michael Büker, Jürgen Altfeld'
 
+
+TXT_LICENSES = _(
+    'All licenses used in this project are located in the {dir_link} '
+    'directory. To extract per-file license and copyright information '
+    'using SPDX metadata, refer to {readme_link}.'
+)
+
+# REUSE-IgnoreEnd
 
 URL_GPL_TWO = 'https://spdx.org/licenses/GPL-2.0-or-later.html'
 
@@ -37,13 +46,6 @@ def get_gpl_short_text(href: str | None = None) -> str:
         gpl = f'<a href="{href}">{gpl}</a>'
 
     return f'The application is released under {gpl}.'
-
-
-TXT_LICENSES = _(
-    'All licenses used in this project are located in the {dir_link} '
-    'directory. To extract per-file license and copyright information '
-    'using SPDX metadata, refer to {readme_link}.'
-)
 
 
 def _determine_licenses_dir() -> str | None:

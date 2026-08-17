@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: © 2007 Sander Marechal
 # SPDX-FileCopyrightText: © 2016 Germar Reitze
-# SPDX-FileCopyrightText: © 2025 Christian Buhtz <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2025 Christian BUHTZ <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: CC0-1.0
 #
@@ -10,6 +10,8 @@
 # See LICENSES directory or
 # go to <https://spdx.org/licenses/CC0-1.0.html>
 # and <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+#
+# REUSE-IgnoreStart
 """A generic daemon class.
 
     Original from:
@@ -44,6 +46,7 @@ See this original email.
     --
     Sander Marechal
 """
+# REUSE-IgnoreEnd
 import sys
 import os
 import io

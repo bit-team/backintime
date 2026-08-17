@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2016 Taylor Raack
+# SPDX-FileCopyrightText: © 2016 Taylor Raack
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #

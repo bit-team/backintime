@@ -1,0 +1,28 @@
+#!/bin/bash
+# SPDX-FileCopyrightText: © 2024 Kosta Vukicevic
+# SPDX-FileCopyrightText: © 2024 @daveTheOldCoder
+# SPDX-License-Identifier: CC0-1.0
+#
+# A minimal script to log all calls to user-callback to a file
+# in `backintime_callback.log`
+
+LOG_FILE='/tmp/backintime_callback.log'
+
+# Get current time
+current_time=$(date +"%Y-%m-%d %H:%M:%S")
+
+# Check if file exists, if not create it
+touch $LOG_FILE
+
+# Append current time to the file
+echo -n "{$current_time}: " >> "$LOG_FILE"
+
+# Iterate through all arguments
+for arg in "$@"
+do
+    # Append argument to the file
+    echo -n "$arg," >> "$LOG_FILE"
+done
+
+# Append newline character at the end
+echo >> "$LOG_FILE"
