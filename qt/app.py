@@ -110,7 +110,7 @@ class MainWindow(QMainWindow):
         self.snapshots = snapshots.Snapshots(config)
 
         self._profile_operations = None
-        self._reset_profile_operations()
+        # self._reset_profile_operations()
 
         self.lastTakeSnapshotMessage = None
         self.tmpDirs = []
