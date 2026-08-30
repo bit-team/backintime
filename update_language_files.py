@@ -169,9 +169,6 @@ def _add_spdx_header_to_po_template():
     copyright = f'SPDX-FileCopyrightText: {DEFAULT_COPYRIGHT}'
 
     pof = polib.pofile(TEMPLATE_PO)
-
-    print(f'\n{len(pof)} entries in {TEMPLATE_PO}')
-
     pof.header = f'{DEFAULT_COPYRIGHT}\n{spdx_base}\n{MISSING_TRANSLATORS_TXT}'
     pof.save()
     # REUSE-IgnoreEnd
@@ -844,7 +841,6 @@ def create_languages_py_file():
     }
 
     print('STATISTICS')
-
     print(f'\tTotal completeness: {statistic["compl"]}%')
     print(f'\tNumber of strings: {statistic["nstrings"]}')
     print(f'\tNumber of languages (excl. English): {statistic["n"]}')
