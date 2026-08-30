@@ -110,7 +110,6 @@ class MainWindow(QMainWindow):
         self.snapshots = snapshots.Snapshots(config)
 
         self._profile_operations = None
-        self._reset_profile_operations()
 
         self.lastTakeSnapshotMessage = None
         self.tmpDirs = []
@@ -1158,10 +1157,13 @@ class MainWindow(QMainWindow):
             self.config.setCurrentProfile(profile_id)
 
             profile_state = state_data.profile(profile_id)
+
             try:
                 sorting = profile_state.places_sorting
+
             except KeyError:
                 pass
+
             else:
                 self.places.set_sorting(sorting)
 
