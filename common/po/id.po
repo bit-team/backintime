@@ -13,10 +13,10 @@
 # REUSE-IgnoreStart
 msgid ""
 msgstr ""
-"Project-Id-Version: Back In Time 2.0.0-dev\n"
+"Project-Id-Version: Back In Time 2.0.0-rc1\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-08-09 12:53+0200\n"
-"PO-Revision-Date: 2026-01-19 13:21+0000\n"
+"POT-Creation-Date: 2026-08-30 21:13+0200\n"
+"PO-Revision-Date: 2026-08-13 06:03+0000\n"
 "Last-Translator: andika <andika@noreply.codeberg.org>\n"
 "Language-Team: Indonesian <https://translate.codeberg.org/projects/backintime/common/id/>\n"
 "Language: id\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #: common/bitbase.py:21 common/config.py:36 common/konfig.py:34
 #: common/mount/_backends.py:23 common/tools.py:88 qt/encfsmsgbox.py:32
@@ -32,7 +32,7 @@ msgstr ""
 msgid "Warning"
 msgstr "Peringatan"
 
-#: common/bitlicense.py:43
+#: common/bitlicense.py:23
 #, python-brace-format
 msgid ""
 "All licenses used in this project are located in the {dir_link} directory. "
@@ -73,7 +73,7 @@ msgstr ""
 
 #: common/check_config.py:113
 msgid "Two settings conflict with each other."
-msgstr ""
+msgstr "Dua pengaturan konflik satu sama lain."
 
 #: common/check_config.py:116
 #, fuzzy, python-brace-format
@@ -137,6 +137,8 @@ msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
 msgstr ""
+"Habis waktu autentikasi. Penyiapan penjadwalan berbasis udev belum lengkap. "
+"Silakan coba lagi."
 
 #: common/config.py:1945
 msgid "Failed to write new crontab."
@@ -324,7 +326,7 @@ msgstr "GAGAL"
 msgid "Restore permissions"
 msgstr "Pulihkan izin"
 
-#: common/snapshots.py:670 qt/app.py:210 qt/app.py:1205 qt/app.py:1231
+#: common/snapshots.py:670 qt/app.py:209 qt/app.py:1216 qt/app.py:1242
 #: qt/qtsystrayicon.py:125
 msgid "Done"
 msgstr "Selesai"
@@ -445,7 +447,7 @@ msgstr "Mencoba menjaga ruang kosong minimum"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Mencoba menjaga min {perc} inode bebas"
 
-#: common/snapshots.py:3374 qt/app.py:1552 qt/timeline.py:405
+#: common/snapshots.py:3374 qt/app.py:1563 qt/timeline.py:405
 msgid "Now"
 msgstr "Sekarang"
 
@@ -536,20 +538,36 @@ msgstr ""
 "Sistem berkas tujuan untuk {path} diformat dengan NTFS, yang diketahui "
 "memiliki inkompatibilitas dengan sistem berkas gaya Unix."
 
-#: common/tools.py:434
+#: common/tools.py:408
+msgid "Write access may be restricted."
+msgstr "Akses tulis mungkin dibatasi."
+
+#: common/tools.py:411
+msgid "Not enough free space on the device."
+msgstr ""
+
+#: common/tools.py:415
+msgid "Not enough free space because the disk quota has been exceeded."
+msgstr ""
+
+#: common/tools.py:419
+msgid "Filesystem is read-only."
+msgstr ""
+
+#: common/tools.py:422
+msgid "Unexpected error: "
+msgstr ""
+
+#: common/tools.py:425
+msgid "Creation failed:"
+msgstr ""
+
+#: common/tools.py:460
 #, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "{path} bukan direktori yang valid."
 
-#: common/tools.py:452
-msgid "Creation of following directory failed:"
-msgstr "Pembuatan direktori berikut gagal:"
-
-#: common/tools.py:454 common/tools.py:557
-msgid "Write access may be restricted."
-msgstr "Akses tulis mungkin dibatasi."
-
-#: common/tools.py:501
+#: common/tools.py:522
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -558,7 +576,7 @@ msgstr ""
 "Sistem berkas tujuan untuk {path} diformat FAT yang tidak mendukung hard-"
 "link. Silakan gunakan sistem berkas GNU/Linux yang native."
 
-#: common/tools.py:512
+#: common/tools.py:533
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -569,15 +587,15 @@ msgstr ""
 "Pastikan server SMB remote mendukung symlink atau aktifkan {copyLinks} dalam"
 " {expertOptions}."
 
-#: common/tools.py:516
+#: common/tools.py:537
 msgid "Copy links (dereference symbolic links)"
 msgstr "Salin link (dereference link simbolik)"
 
-#: common/tools.py:517
+#: common/tools.py:538
 msgid "Expert Options"
 msgstr "Opsi Pakar"
 
-#: common/tools.py:521
+#: common/tools.py:542
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
@@ -587,11 +605,7 @@ msgstr ""
 "sshfs tidak mendukung hard-link. Harap gunakan mode \"SSH\" sebagai "
 "pengganti."
 
-#: common/tools.py:555
-msgid "File creation failed in this directory:"
-msgstr "Pembuatan berkas gagal di direktori ini:"
-
-#: common/udev.py:43 qt/app.py:1318 qt/messagebox.py:137
+#: common/udev.py:43 qt/app.py:1329 qt/messagebox.py:137
 msgid "Error"
 msgstr "Kesalahan"
 
@@ -629,15 +643,15 @@ msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
 "Ikuti {thislink} untuk mendapatkan kredit penerjemah bagi semua bahasa."
 
-#: qt/aboutdlg.py:240 qt/app.py:587
+#: qt/aboutdlg.py:240 qt/app.py:595
 msgid "Project website"
 msgstr "Situs web proyek"
 
-#: qt/aboutdlg.py:245 qt/app.py:569
+#: qt/aboutdlg.py:245 qt/app.py:577
 msgid "User manual"
 msgstr "Manual pengguna"
 
-#: qt/aboutdlg.py:247 qt/app.py:571
+#: qt/aboutdlg.py:247 qt/app.py:579
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
 "Buka manual pengguna dalam peramban (lokal bila tersedia, daring bila tidak)"
@@ -647,7 +661,7 @@ msgstr ""
 msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}Versi{BOLDEND}: {version}"
 
-#: qt/app.py:353
+#: qt/app.py:352
 #, fuzzy, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time because no configuration"
@@ -656,7 +670,7 @@ msgstr ""
 "{app_name} tampaknya dijalankan untuk pertama kali karena tidak ditemukan "
 "konfigurasi."
 
-#: qt/app.py:358
+#: qt/app.py:357
 #, fuzzy
 msgid ""
 "Create a new configuration or import an existing configuration from a "
@@ -665,178 +679,178 @@ msgstr ""
 "Impor konfigurasi yang ada (dari direktori target cadangan atau komputer "
 "lain)?"
 
-#: qt/app.py:363 qt/confirmrestoredialog.py:36 qt/messagebox.py:124
+#: qt/app.py:362 qt/confirmrestoredialog.py:36 qt/messagebox.py:124
 msgid "Question"
 msgstr "Pertanyaan"
 
-#: qt/app.py:367
+#: qt/app.py:366
 msgid "Create"
 msgstr ""
 
-#: qt/app.py:369 qt/restoreconfigdialog.py:136
+#: qt/app.py:368 qt/restoreconfigdialog.py:136
 msgid "Import"
 msgstr "Impor"
 
-#: qt/app.py:506
+#: qt/app.py:514
 msgid "Create a backup"
 msgstr "Buat cadangan"
 
-#: qt/app.py:508
+#: qt/app.py:516
 msgid "Use modification time & size for file change detection."
 msgstr "Gunakan waktu & ukuran modifikasi untuk deteksi perubahan berkas."
 
-#: qt/app.py:511
+#: qt/app.py:519
 msgid "Create a backup (checksum mode)"
 msgstr "Buat cadangan (mode checksum)"
 
-#: qt/app.py:513
+#: qt/app.py:521
 msgid "Use checksums for file change detection."
 msgstr "Gunakan checksum untuk deteksi perubahan berkas."
 
-#: qt/app.py:515 qt/qtsystrayicon.py:132
+#: qt/app.py:523 qt/qtsystrayicon.py:132
 msgid "Pause backup process"
 msgstr "Istirahatkan proses pencadangan"
 
-#: qt/app.py:520 qt/qtsystrayicon.py:137
+#: qt/app.py:528 qt/qtsystrayicon.py:137
 msgid "Resume backup process"
 msgstr "Lanjutkan proses pencadangan"
 
-#: qt/app.py:525 qt/qtsystrayicon.py:142
+#: qt/app.py:533 qt/qtsystrayicon.py:142
 msgid "Stop backup process"
 msgstr "Hentikan proses pencadangan"
 
-#: qt/app.py:529
+#: qt/app.py:537
 msgid "Refresh backup list"
 msgstr "Segarkan daftar cadangan"
 
-#: qt/app.py:533
+#: qt/app.py:541
 msgid "Name backup"
 msgstr "Namai cadangan"
 
-#: qt/app.py:537
+#: qt/app.py:545
 msgid "Remove backup"
 msgstr "Buang cadangan"
 
-#: qt/app.py:541
+#: qt/app.py:549
 msgid "Open backup log"
 msgstr "Buka catatan log pencadangan"
 
-#: qt/app.py:543
+#: qt/app.py:551
 msgid "View log of the selected backup."
 msgstr "Lihat catatan log dari cadangan yang dipilih."
 
-#: qt/app.py:545
+#: qt/app.py:553
 msgid "Open last backup log"
 msgstr "Buka catatan log pencadangan terakhir"
 
-#: qt/app.py:547
+#: qt/app.py:555
 msgid "View log of the latest backup."
 msgstr "Lihat catatan log dari cadangan terakhir."
 
-#: qt/app.py:549
+#: qt/app.py:557
 msgid "Manage profiles…"
 msgstr "Kelola profil…"
 
-#: qt/app.py:553
+#: qt/app.py:561
 msgid "Edit user-callback"
 msgstr "Sunting user-callback"
 
-#: qt/app.py:557
+#: qt/app.py:565
 msgid "Shutdown"
 msgstr "Matikan"
 
-#: qt/app.py:559
+#: qt/app.py:567
 msgid "Shut down system after backup has finished."
 msgstr "Matikan sistem setelah pencadangan selesai."
 
-#: qt/app.py:561
+#: qt/app.py:569
 msgid "Setup language…"
 msgstr "Siapkan bahasa…"
 
-#: qt/app.py:565
+#: qt/app.py:573
 msgid "Exit"
 msgstr "Keluar"
 
-#: qt/app.py:575
+#: qt/app.py:583
 msgid "man page: Back In Time"
 msgstr "halaman man: Back In Time"
 
-#: qt/app.py:577
+#: qt/app.py:585
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "Menampilkan halaman man tentang Back In Time (backintime)"
 
-#: qt/app.py:580
+#: qt/app.py:588
 msgid "man page: Profiles config file"
 msgstr "halaman man: Berkas konfigurasi profil"
 
-#: qt/app.py:583
+#: qt/app.py:591
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 "Menampilkan halaman man tentang berkas konfig profil (backintime-config)"
 
-#: qt/app.py:590
+#: qt/app.py:598
 msgid "Open Back In Time website in browser"
 msgstr "Buka situs web Back In Time dalam peramban"
 
-#: qt/app.py:592 qt/app.py:2374
+#: qt/app.py:600 qt/app.py:2385
 msgid "Changelog"
 msgstr "Log Perubahan"
 
-#: qt/app.py:595
+#: qt/app.py:603
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr "Buka log perubahan (secara lokal jika tersedia, dari web jika tidak)"
 
-#: qt/app.py:598
+#: qt/app.py:606
 msgid "FAQ"
 msgstr "FAQ"
 
-#: qt/app.py:600
+#: qt/app.py:608
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "Buka Pertanyaan Sering Muncul (FAQ) dalam peramban"
 
-#: qt/app.py:602
+#: qt/app.py:610
 msgid "Report a bug"
 msgstr "Laporkan bug"
 
-#: qt/app.py:605
+#: qt/app.py:613
 msgid "Contact"
 msgstr ""
 
-#: qt/app.py:607
+#: qt/app.py:615
 #, fuzzy
 msgid "Shows additional contact options in the browser"
 msgstr "Tempelkan opsi tambahan ke rsync"
 
-#: qt/app.py:610
+#: qt/app.py:618
 msgid "Translation"
 msgstr "Terjemahan"
 
-#: qt/app.py:612
+#: qt/app.py:620
 msgid "Shows the message about participation in translation again."
 msgstr "Menampilkan lagi pesan tentang partisipasi dalam penerjemahan."
 
-#: qt/app.py:622
+#: qt/app.py:630
 msgid "About"
 msgstr "Tentang"
 
-#: qt/app.py:625 qt/restoredialog.py:48 qt/snapshotsdialog.py:183
+#: qt/app.py:633 qt/restoredialog.py:48 qt/snapshotsdialog.py:183
 #: qt/snapshotsdialog.py:188
 msgid "Restore"
 msgstr "Pulihkan"
 
-#: qt/app.py:627
+#: qt/app.py:635
 msgid "Restore the selected files or directories to the original location."
 msgstr "Pulihkan berkas atau direktori yang dipilih ke tujuan asli."
 
-#: qt/app.py:630 qt/app.py:1995 qt/snapshotsdialog.py:185
+#: qt/app.py:638 qt/app.py:2006 qt/snapshotsdialog.py:185
 msgid "Restore to …"
 msgstr "Pulihkan ke …"
 
-#: qt/app.py:632
+#: qt/app.py:640
 msgid "Restore the selected files or directories to a new location."
 msgstr "Pulihkan berkas atau direktori yang dipilih ke sebuah lokasi baru."
 
-#: qt/app.py:638
+#: qt/app.py:646
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
@@ -844,7 +858,7 @@ msgstr ""
 "Pulihkan direktori yang saat ini ditampilkan dan semua isinya ke tujuan "
 "asli."
 
-#: qt/app.py:644
+#: qt/app.py:652
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
@@ -852,89 +866,89 @@ msgstr ""
 "Pulihkan direktori yang saat ini ditampilkan dan semua isinya ke lokasi "
 "baru."
 
-#: qt/app.py:647
+#: qt/app.py:655
 msgid "Up"
 msgstr "Naik"
 
-#: qt/app.py:650
+#: qt/app.py:658
 msgid "Show hidden files"
 msgstr "Tampilkan berkas tersembunyi"
 
-#: qt/app.py:653
+#: qt/app.py:661
 msgid "Compare backups…"
 msgstr "Bandingkan cadangan…"
 
-#: qt/app.py:683 qt/app.py:1815
+#: qt/app.py:691 qt/app.py:1826
 msgid "Release Candidate"
 msgstr "Kandidat Rilis"
 
-#: qt/app.py:686
+#: qt/app.py:694
 msgid "Shows the message about this Release Candidate again."
 msgstr "Menampilkan lagi pesan tentang Kandidat Rilis ini."
 
-#: qt/app.py:723
+#: qt/app.py:731
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:728
+#: qt/app.py:736
 msgid "&Backup"
 msgstr "&Backup"
 
-#: qt/app.py:740
+#: qt/app.py:748
 msgid "&Restore"
 msgstr "&Pulihkan"
 
-#: qt/app.py:746
+#: qt/app.py:754
 msgid "&Help"
 msgstr "B&antuan"
 
-#: qt/app.py:796
+#: qt/app.py:804
 msgid "Systray Icon"
 msgstr "Ikon Systray"
 
-#: qt/app.py:802
+#: qt/app.py:810
 msgid "Automatic"
 msgstr "Otomatis"
 
-#: qt/app.py:806
+#: qt/app.py:814
 msgid "Light icon"
 msgstr "Ikon terang"
 
-#: qt/app.py:807
+#: qt/app.py:815
 msgid "Dark icon"
 msgstr "Ikon gelap"
 
-#: qt/app.py:830
+#: qt/app.py:838
 msgid "Icons only"
 msgstr "Hanya ikon"
 
-#: qt/app.py:833
+#: qt/app.py:841
 msgid "Text only"
 msgstr "Hanya teks"
 
-#: qt/app.py:836
+#: qt/app.py:844
 msgid "Text below icons"
 msgstr "Teks di bawah ikon"
 
-#: qt/app.py:839
+#: qt/app.py:847
 msgid "Text beside icon"
 msgstr "Teks di samping ikon"
 
-#: qt/app.py:965
+#: qt/app.py:973
 #, fuzzy
 msgid "This directory doesn't exist in the selected backup."
 msgstr ""
 "Direktori ini tidak ada\n"
 "dalam cadangan yang sedang dipilih."
 
-#: qt/app.py:968
+#: qt/app.py:976
 #, fuzzy
 msgid "This directory doesn't exist on the computer."
 msgstr ""
 "Direktori ini tidak ada\n"
 "dalam cadangan yang sedang dipilih."
 
-#: qt/app.py:1018
+#: qt/app.py:1026
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
@@ -942,53 +956,53 @@ msgstr ""
 "Jika Anda menutup jendela ini, Back In Time tidak akan mampu mematikan "
 "sistem Anda ketika pencadangan selesai."
 
-#: qt/app.py:1022
+#: qt/app.py:1030
 msgid "Close the window anyway?"
 msgstr "Tutup saja jendelanya?"
 
-#: qt/app.py:1112 qt/app.py:1119
+#: qt/app.py:1120 qt/app.py:1127
 msgid "Backup destination unavailable"
 msgstr ""
 
-#: qt/app.py:1234
+#: qt/app.py:1245
 msgid "Done, no backup needed"
 msgstr "Selesai, backup tidak diperlukan"
 
-#: qt/app.py:1305
+#: qt/app.py:1316
 msgid "Working:"
 msgstr "Sedang Bekerja:"
 
-#: qt/app.py:1312
+#: qt/app.py:1323
 msgid "Working"
 msgstr "Sedang Bekerja"
 
-#: qt/app.py:1368 qt/qtsystrayicon.py:293
+#: qt/app.py:1379 qt/qtsystrayicon.py:293
 msgid "Sent:"
 msgstr "Terkirim:"
 
-#: qt/app.py:1369 qt/qtsystrayicon.py:294
+#: qt/app.py:1380 qt/qtsystrayicon.py:294
 msgid "Speed:"
 msgstr "Kecepatan:"
 
-#: qt/app.py:1370 qt/qtsystrayicon.py:295
+#: qt/app.py:1381 qt/qtsystrayicon.py:295
 msgid "ETA:"
 msgstr "ETA:"
 
-#: qt/app.py:1560
+#: qt/app.py:1571
 msgid "Backup:"
 msgstr "Cadangan:"
 
-#: qt/app.py:1663
+#: qt/app.py:1674
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Pulihkan {path}"
 
-#: qt/app.py:1665
+#: qt/app.py:1676
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Pulihkan {path} ke …"
 
-#: qt/app.py:1689
+#: qt/app.py:1700
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -1005,47 +1019,47 @@ msgstr ""
 "Maaf atas gangguannya, dan pesan ini tidak akan ditampilkan lagi. Dialog ini tersedia kapan saja melalui menu bantuan.\n"
 "Tim Back In Time"
 
-#: qt/app.py:1718
+#: qt/app.py:1729
 msgid "translation platform"
 msgstr "platform penerjemahan"
 
-#: qt/app.py:1723
+#: qt/app.py:1734
 msgid "Website"
 msgstr "Situs Web"
 
-#: qt/app.py:1737
+#: qt/app.py:1748
 msgid "Your translation"
 msgstr "Terjemahan Anda"
 
-#: qt/app.py:1774
+#: qt/app.py:1785
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Dalam Fediverse pada Mastodon: {link_and_label}."
 
-#: qt/app.py:1779
+#: qt/app.py:1790
 #, fuzzy, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "Milis {link_and_label}."
 
-#: qt/app.py:1783
+#: qt/app.py:1794
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "Milis {link_and_label}."
 
-#: qt/app.py:1787
+#: qt/app.py:1798
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} di laman web proyek."
 
-#: qt/app.py:1790
+#: qt/app.py:1801
 msgid "Open an issue"
 msgstr "Buat laporan masalah"
 
-#: qt/app.py:1791
+#: qt/app.py:1802
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Atau, Anda dapat menggunakan saluran lain sesuai keinginan Anda."
 
-#: qt/app.py:1796
+#: qt/app.py:1807
 #, python-brace-format
 msgid ""
 "This version is a Release Candidate for testing before the next stable release.\n"
@@ -1056,16 +1070,16 @@ msgid ""
 "Thank you for testing Back In Time and helping us improve it!"
 msgstr ""
 
-#: qt/app.py:1879
+#: qt/app.py:1890
 msgid "Check if remote host is online"
 msgstr "Periksa apakah host jarak jauh sedang daring"
 
-#: qt/app.py:1880
+#: qt/app.py:1891
 msgid "Check if remote host supports all necessary commands."
 msgstr ""
 "Periksa apakah host jarak jauh mendukung semua perintah yang diperlukan."
 
-#: qt/app.py:1923
+#: qt/app.py:1934
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
@@ -1074,21 +1088,21 @@ msgstr ""
 "Hanya tersedia {free} ruang kosong pada tujuan, yang berada di bawah ambang "
 "batas yang telah dikonfigurasi yaitu {threshold}."
 
-#: qt/app.py:1928
+#: qt/app.py:1939
 msgid "Proceed with the backup?"
 msgstr "Lanjutkan dengan pencadangan?"
 
-#: qt/app.py:1975
+#: qt/app.py:1986
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr "Semua berkas yang lebih baru di {path} akan dihapus. Lanjutkan?"
 
-#: qt/app.py:1978
+#: qt/app.py:1989
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 "Semua berkas yang lebih baru di direktori asli akan dihapus. Lanjutkan?"
 
-#: qt/app.py:1984
+#: qt/app.py:1995
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -1097,16 +1111,16 @@ msgstr ""
 "{BOLD}Peringatan{BOLDEND}: Menghapus berkas dalam sistem berkas root dapat "
 "merusak seluruh sistem."
 
-#: qt/app.py:2233
+#: qt/app.py:2244
 msgid "Backup name"
 msgstr "Nama cadangan"
 
-#: qt/app.py:2265
+#: qt/app.py:2276
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "Hapus cadangan ini?"
 
-#: qt/app.py:2332
+#: qt/app.py:2343
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "Pengaturan bahasa hanya berlaku setelah memulai ulang Back In Time."
 
@@ -1200,25 +1214,25 @@ msgstr ""
 msgid "Show/hide hidden files and directories (Ctrl+H)"
 msgstr "Tampilkan/sembunyikan berkas dan direktori tersembunyi (Ctrl+H)"
 
-#: qt/fileview.py:204
+#: qt/fileview.py:207
 msgid "Add to Include"
 msgstr "Tambah ke Disertakan"
 
-#: qt/fileview.py:205
+#: qt/fileview.py:208
 msgid "Add to Exclude"
 msgstr "Tambah ke Pengecualian"
 
-#: qt/fileview.py:292
+#: qt/fileview.py:295
 msgid "The selected item is already in the include list."
 msgid_plural "The selected items are already in the include list."
 msgstr[0] ""
 
-#: qt/fileview.py:299
+#: qt/fileview.py:302
 msgid "The following item is already in the include list."
 msgid_plural "The following items are already in the include list."
 msgstr[0] ""
 
-#: qt/fileview.py:313
+#: qt/fileview.py:316
 #, fuzzy
 msgid "The selected item is already in the exclude list."
 msgid_plural "The selected items are already in the exclude list."
@@ -1226,7 +1240,7 @@ msgstr[0] ""
 "Pilih dari butir yang umum digunakan untuk ditambahkan ke daftar "
 "pengecualian."
 
-#: qt/fileview.py:320
+#: qt/fileview.py:323
 #, fuzzy
 msgid "The following item is already in the exclude list."
 msgid_plural "The following items are already in the exclude list."
@@ -2647,6 +2661,12 @@ msgstr "Pemeriksaan terakhir {time}"
 #: qt/timeline.py:402
 msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
+
+#~ msgid "Creation of following directory failed:"
+#~ msgstr "Pembuatan direktori berikut gagal:"
+
+#~ msgid "File creation failed in this directory:"
+#~ msgstr "Pembuatan berkas gagal di direktori ini:"
 
 #, python-brace-format
 #~ msgid ""

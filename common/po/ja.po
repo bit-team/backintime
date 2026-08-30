@@ -15,18 +15,18 @@
 # REUSE-IgnoreStart
 msgid ""
 msgstr ""
-"Project-Id-Version: Back In Time 2.0.0-dev\n"
+"Project-Id-Version: Back In Time 2.0.0-rc1\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-08-09 12:53+0200\n"
-"PO-Revision-Date: 2026-06-19 13:16+0000\n"
-"Last-Translator: psw1747 <psw1747@noreply.codeberg.org>\n"
+"POT-Creation-Date: 2026-08-30 21:13+0200\n"
+"PO-Revision-Date: 2026-08-13 06:03+0000\n"
+"Last-Translator: kazuo <kazuo@noreply.codeberg.org>\n"
 "Language-Team: Japanese <https://translate.codeberg.org/projects/backintime/common/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.6.1\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #: common/bitbase.py:21 common/config.py:36 common/konfig.py:34
 #: common/mount/_backends.py:23 common/tools.py:88 qt/encfsmsgbox.py:32
@@ -34,7 +34,7 @@ msgstr ""
 msgid "Warning"
 msgstr "警告"
 
-#: common/bitlicense.py:43
+#: common/bitlicense.py:23
 #, python-brace-format
 msgid ""
 "All licenses used in this project are located in the {dir_link} directory. "
@@ -72,24 +72,23 @@ msgstr "このディレクトリはバックアップ先の一部であるため
 
 #: common/check_config.py:113
 msgid "Two settings conflict with each other."
-msgstr ""
+msgstr "2つの設定が互いに競合しています。"
 
 #: common/check_config.py:116
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal to the value for \"Warn if the free "
 "disk space falls below\" ({val_two})."
 msgstr ""
-"「空き容量が以下になった場合に最古のバックアップを削除する」の値 ({val_one}) は、「空きディスク容量が以下になった場合に警告する」のしきい値"
-" ({val_two}) 以下でなければなりません。"
+"\"空き容量が以下になった場合に最も古いバックアップを削除する\" （{val_one}）の値は、 "
+"\"ディスクの空き容量が以下になった場合に警告を表示する\" （{val_two}）の値以下でなければなりません。"
 
 #: common/check_config.py:123
-#, fuzzy
 msgid ""
 "Please adjust the settings. The threshold for removing old backups must not "
 "be higher for the free disk space warning value."
-msgstr "バックアップ削除制限が警告制限を超えないよう設定を調整してください。"
+msgstr "設定を調整してください。古いバックアップを削除するしきい値は、空きディスク容量の警告値よりも高く設定してはいけません。"
 
 #: common/config.py:175 common/konfig.py:52 common/konfig.py:1427
 msgid "Main profile"
@@ -100,9 +99,8 @@ msgid "Local"
 msgstr "ローカル"
 
 #: common/config.py:195
-#, fuzzy
 msgid "Local (encrypted)"
-msgstr "ローカル暗号化"
+msgstr "ローカル（暗号化済み）"
 
 #: common/config.py:196 common/config.py:209
 #: qt/manageprofiles/tab_general.py:394
@@ -119,20 +117,19 @@ msgid "SSH private key"
 msgstr "SSH 秘密鍵"
 
 #: common/config.py:207
-#, fuzzy
 msgid "SSH (encrypted)"
-msgstr "SSH 暗号化"
+msgstr "SSH（暗号化）"
 
 #: common/config.py:1880
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
-msgstr "{mode} モード では、udev スケジュールは使用できません"
+msgstr "\"{mode}\" では、Udev のスケジューリングはサポートされていません。"
 
 #: common/config.py:1907
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
-msgstr ""
+msgstr "認証のタイムアウトが発生しました。Udev ベースのスケジューリングの設定が完了しませんでした。もう一度お試しください。"
 
 #: common/config.py:1945
 msgid "Failed to write new crontab."
@@ -194,19 +191,16 @@ msgid "Details:"
 msgstr "詳細："
 
 #: common/mount/_backends.py:292
-#, fuzzy
 msgid "The remote backup directory is missing or is not a valid directory."
-msgstr "リモートバックアップディレクトリが存在しないか、ディレクトリではありません。"
+msgstr "リモートバックアップディレクトリが存在しないか、有効なディレクトリではありません。"
 
 #: common/mount/_backends.py:298
-#, fuzzy
 msgid "Write access to the remote backup directory was denied."
-msgstr "リモートバックアップディレクトリに書き込み権限がありません。"
+msgstr "リモートバックアップディレクトリへの書き込みアクセスが拒否されました。"
 
 #: common/mount/_backends.py:303
-#, fuzzy
 msgid "Access to the remote backup directory was denied."
-msgstr "リモートバックアップディレクトリに書き込み権限がありません。"
+msgstr "リモートバックアップディレクトリへのアクセスが拒否されました。"
 
 #: common/mount/_backends.py:317 qt/manageprofiles/tab_general.py:126
 msgid "Path:"
@@ -253,9 +247,9 @@ msgid ""
 msgstr "バックアップ先のディレクトリは暗号化に対応していません。パス : {path}"
 
 #: common/mount/_encryptors.py:286
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Decrypted view mountpoint is missing. Path: {path}"
-msgstr "平文で書かれているマウントポイントが見つかりません。パス ：{path}"
+msgstr "復号化されたビューのマウントポイントが存在しません。パス：{path}"
 
 #: common/mount/_encryptors.py:338
 #, python-brace-format
@@ -311,7 +305,7 @@ msgstr "失敗"
 msgid "Restore permissions"
 msgstr "パーミッションを復元"
 
-#: common/snapshots.py:670 qt/app.py:210 qt/app.py:1205 qt/app.py:1231
+#: common/snapshots.py:670 qt/app.py:209 qt/app.py:1216 qt/app.py:1242
 #: qt/qtsystrayicon.py:125
 msgid "Done"
 msgstr "完了"
@@ -429,7 +423,7 @@ msgstr "最小限のフリースペースの確保を試みる"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "最低限でも{perc}分のフリーなinodeを確保中です"
 
-#: common/snapshots.py:3374 qt/app.py:1552 qt/timeline.py:405
+#: common/snapshots.py:3374 qt/app.py:1563 qt/timeline.py:405
 msgid "Now"
 msgstr "現在"
 
@@ -443,14 +437,14 @@ msgid "ssh-agent is not installed"
 msgstr "ssh-agent がインストールされていません"
 
 #: common/sshsetupvalidator.py:236 common/sshsetupvalidator.py:354
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unexpected response from '{process}'."
-msgstr "sshfs から予期せぬ応答が返ってきました。"
+msgstr "'{process}' から予期せぬ応答がありました。"
 
 #: common/sshsetupvalidator.py:255
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unexpected output from '{process}'."
-msgstr "ssh-agent から予期しない出力が表示されました。"
+msgstr "'{process}' から予期しない出力が得られました。"
 
 #: common/sshsetupvalidator.py:258
 msgid "Output:"
@@ -469,9 +463,9 @@ msgid "sshfs is not installed"
 msgstr "sshfs がインストールされていません"
 
 #: common/sshsetupvalidator.py:384
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "The SSH host \"{host}\" is not known yet."
-msgstr "SSHホスト \"{host}\" はまだ信頼されていません。"
+msgstr "SSHホスト \"{host}\" は、まだ認識されていません。"
 
 #: common/sshsetupvalidator.py:388
 msgid "Please connect to the host manually once to confirm its fingerprint."
@@ -517,20 +511,37 @@ msgstr ""
 "{path} の保存先ファイルシステムは NTFS でフォーマットされていて、これはUnix-"
 "styleのファイルシステムと非互換であることが知られています。"
 
-#: common/tools.py:434
+#: common/tools.py:408
+msgid "Write access may be restricted."
+msgstr "書き込み権限が限定されているようです。"
+
+#: common/tools.py:411
+msgid "Not enough free space on the device."
+msgstr ""
+
+#: common/tools.py:415
+msgid "Not enough free space because the disk quota has been exceeded."
+msgstr ""
+
+#: common/tools.py:419
+msgid "Filesystem is read-only."
+msgstr ""
+
+#: common/tools.py:422
+msgid "Unexpected error: "
+msgstr ""
+
+#: common/tools.py:425
+#, fuzzy
+msgid "Creation failed:"
+msgstr "SSH認証に失敗しました："
+
+#: common/tools.py:460
 #, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "{path} は有効なディレクトリではありません。"
 
-#: common/tools.py:452
-msgid "Creation of following directory failed:"
-msgstr "以下のディレクトリの作成に失敗しました:"
-
-#: common/tools.py:454 common/tools.py:557
-msgid "Write access may be restricted."
-msgstr "書き込み権限が限定されているようです。"
-
-#: common/tools.py:501
+#: common/tools.py:522
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -539,7 +550,7 @@ msgstr ""
 "{path} の保存先ファイルシステムは、ハードリンクをサポートしない FAT でフォーマットされています。ネイティブの GNU/Linux "
 "ファイルシステムを使用してください。"
 
-#: common/tools.py:512
+#: common/tools.py:533
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -550,15 +561,15 @@ msgstr ""
 "リモートSMBサーバーがシンボリックリンクをサポートしているか確認してください、または {expertOptions} で {copyLinks} "
 "を有効化してください。"
 
-#: common/tools.py:516
+#: common/tools.py:537
 msgid "Copy links (dereference symbolic links)"
 msgstr "リンクをコピーする（シンボリックリンクの参照解除）"
 
-#: common/tools.py:517
+#: common/tools.py:538
 msgid "Expert Options"
 msgstr "上級者向けオプション"
 
-#: common/tools.py:521
+#: common/tools.py:542
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
@@ -567,11 +578,7 @@ msgstr ""
 "{path} の保存先ファイルシステムは sshfs の共有マウントです。 sshfs はハードリンクをサポートしていません 。代わりにモード "
 "「SSH」 を使用してください。"
 
-#: common/tools.py:555
-msgid "File creation failed in this directory:"
-msgstr "以下のディレクトリへのファイル作成が失敗しました:"
-
-#: common/udev.py:43 qt/app.py:1318 qt/messagebox.py:137
+#: common/udev.py:43 qt/app.py:1329 qt/messagebox.py:137
 msgid "Error"
 msgstr "エラー"
 
@@ -611,15 +618,15 @@ msgstr "このリンク"
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr "全言語の翻訳者一覧は {thislink} にあります。"
 
-#: qt/aboutdlg.py:240 qt/app.py:587
+#: qt/aboutdlg.py:240 qt/app.py:595
 msgid "Project website"
 msgstr "開発元サイト"
 
-#: qt/aboutdlg.py:245 qt/app.py:569
+#: qt/aboutdlg.py:245 qt/app.py:577
 msgid "User manual"
 msgstr "ユーザーマニュアル"
 
-#: qt/aboutdlg.py:247 qt/app.py:571
+#: qt/aboutdlg.py:247 qt/app.py:579
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr "ユーザーマニュアルをブラウザで開く（ローカルファイルがある場合はローカルファイル、ない場合はオンライン）"
 
@@ -628,330 +635,329 @@ msgstr "ユーザーマニュアルをブラウザで開く（ローカルファ
 msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}バージョン{BOLDEND}: {version}"
 
-#: qt/app.py:353
+#: qt/app.py:352
 #, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time because no configuration"
 " is found."
 msgstr "{app_name} は設定が見つからないため、初めて実行されているようです。"
 
-#: qt/app.py:358
+#: qt/app.py:357
 msgid ""
 "Create a new configuration or import an existing configuration from a "
 "backup?"
 msgstr "新しい設定を作成しますか、それともバックアップから既存の設定を読み込みますか？"
 
-#: qt/app.py:363 qt/confirmrestoredialog.py:36 qt/messagebox.py:124
+#: qt/app.py:362 qt/confirmrestoredialog.py:36 qt/messagebox.py:124
 msgid "Question"
 msgstr "質問"
 
-#: qt/app.py:367
+#: qt/app.py:366
 msgid "Create"
 msgstr "作成"
 
-#: qt/app.py:369 qt/restoreconfigdialog.py:136
+#: qt/app.py:368 qt/restoreconfigdialog.py:136
 msgid "Import"
 msgstr "インポート"
 
-#: qt/app.py:506
+#: qt/app.py:514
 msgid "Create a backup"
 msgstr "バックアップを作成"
 
-#: qt/app.py:508
+#: qt/app.py:516
 msgid "Use modification time & size for file change detection."
 msgstr "ファイルの変更検出には、変更時間とサイズを使用します。"
 
-#: qt/app.py:511
+#: qt/app.py:519
 msgid "Create a backup (checksum mode)"
 msgstr "バックアップを作成（チェックサムモード）"
 
-#: qt/app.py:513
+#: qt/app.py:521
 msgid "Use checksums for file change detection."
 msgstr "変更の検出にチェックサムを使用する。"
 
-#: qt/app.py:515 qt/qtsystrayicon.py:132
+#: qt/app.py:523 qt/qtsystrayicon.py:132
 msgid "Pause backup process"
 msgstr "バックアップの作成を一時停止する"
 
-#: qt/app.py:520 qt/qtsystrayicon.py:137
+#: qt/app.py:528 qt/qtsystrayicon.py:137
 msgid "Resume backup process"
 msgstr "バックアップの作成を再開する"
 
-#: qt/app.py:525 qt/qtsystrayicon.py:142
+#: qt/app.py:533 qt/qtsystrayicon.py:142
 msgid "Stop backup process"
 msgstr "バックアップの作成を停止する"
 
-#: qt/app.py:529
+#: qt/app.py:537
 msgid "Refresh backup list"
 msgstr "バックアップのリストを更新"
 
-#: qt/app.py:533
+#: qt/app.py:541
 msgid "Name backup"
 msgstr "バックアップに名前をつける"
 
-#: qt/app.py:537
+#: qt/app.py:545
 msgid "Remove backup"
 msgstr "バックアップの削除"
 
-#: qt/app.py:541
+#: qt/app.py:549
 msgid "Open backup log"
 msgstr "バックアップログを開く"
 
-#: qt/app.py:543
+#: qt/app.py:551
 msgid "View log of the selected backup."
 msgstr "選択したバックアップのログを表示します。"
 
-#: qt/app.py:545
+#: qt/app.py:553
 msgid "Open last backup log"
 msgstr "最後のバックアップログを開く"
 
-#: qt/app.py:547
+#: qt/app.py:555
 msgid "View log of the latest backup."
 msgstr "最新のバックアップのログを表示する。"
 
-#: qt/app.py:549
+#: qt/app.py:557
 msgid "Manage profiles…"
 msgstr "プロファイルの管理…"
 
-#: qt/app.py:553
+#: qt/app.py:561
 msgid "Edit user-callback"
 msgstr "ユーザーコールバックの編集"
 
-#: qt/app.py:557
+#: qt/app.py:565
 msgid "Shutdown"
 msgstr "電源を切る"
 
-#: qt/app.py:559
+#: qt/app.py:567
 msgid "Shut down system after backup has finished."
 msgstr "バックアップの作成終了後に電源を切る。"
 
-#: qt/app.py:561
+#: qt/app.py:569
 msgid "Setup language…"
 msgstr "言語設定…"
 
-#: qt/app.py:565
+#: qt/app.py:573
 msgid "Exit"
 msgstr "終了"
 
-#: qt/app.py:575
+#: qt/app.py:583
 msgid "man page: Back In Time"
 msgstr "man ページ: Back In Time"
 
-#: qt/app.py:577
+#: qt/app.py:585
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "Back In Time (backintime)の man ページを表示する"
 
-#: qt/app.py:580
+#: qt/app.py:588
 msgid "man page: Profiles config file"
 msgstr "man ページ: 設定ファイルのプロファイル"
 
-#: qt/app.py:583
+#: qt/app.py:591
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr "設定ファイル (backintime-config) のプロファイルに関する man ページを表示する"
 
-#: qt/app.py:590
+#: qt/app.py:598
 msgid "Open Back In Time website in browser"
 msgstr "Back In Time の開発サイトをブラウザで開く"
 
-#: qt/app.py:592 qt/app.py:2374
+#: qt/app.py:600 qt/app.py:2385
 msgid "Changelog"
 msgstr "変更履歴"
 
-#: qt/app.py:595
+#: qt/app.py:603
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr "変更履歴を開く（ローカルで利用可能な場合はローカルから、そうでない場合はウェブから）"
 
-#: qt/app.py:598
+#: qt/app.py:606
 msgid "FAQ"
 msgstr "よくある質問"
 
-#: qt/app.py:600
+#: qt/app.py:608
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "よくある質問 (FAQ) をブラウザで開く"
 
-#: qt/app.py:602
+#: qt/app.py:610
 msgid "Report a bug"
 msgstr "バグを報告する"
 
-#: qt/app.py:605
+#: qt/app.py:613
 msgid "Contact"
-msgstr ""
+msgstr "お問い合わせ"
 
-#: qt/app.py:607
-#, fuzzy
+#: qt/app.py:615
 msgid "Shows additional contact options in the browser"
-msgstr "rsync に追加オプションを貼り付ける"
+msgstr "ブラウザに追加の連絡先オプションを表示します"
 
-#: qt/app.py:610
+#: qt/app.py:618
 msgid "Translation"
 msgstr "翻訳"
 
-#: qt/app.py:612
+#: qt/app.py:620
 msgid "Shows the message about participation in translation again."
 msgstr "翻訳への参加に関するメッセージを再度表示。"
 
-#: qt/app.py:622
+#: qt/app.py:630
 msgid "About"
 msgstr "バージョン情報"
 
-#: qt/app.py:625 qt/restoredialog.py:48 qt/snapshotsdialog.py:183
+#: qt/app.py:633 qt/restoredialog.py:48 qt/snapshotsdialog.py:183
 #: qt/snapshotsdialog.py:188
 msgid "Restore"
 msgstr "復元"
 
-#: qt/app.py:627
+#: qt/app.py:635
 msgid "Restore the selected files or directories to the original location."
 msgstr "選択したファイルまたはディレクトリを元の場所に復元します。"
 
-#: qt/app.py:630 qt/app.py:1995 qt/snapshotsdialog.py:185
+#: qt/app.py:638 qt/app.py:2006 qt/snapshotsdialog.py:185
 msgid "Restore to …"
 msgstr "復元…"
 
-#: qt/app.py:632
+#: qt/app.py:640
 msgid "Restore the selected files or directories to a new location."
 msgstr "選択したファイルまたはディレクトリを新しい場所に復元します。"
 
-#: qt/app.py:638
+#: qt/app.py:646
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
 msgstr "現在表示されているディレクトリとそのすべての内容を元の場所に復元します。"
 
-#: qt/app.py:644
+#: qt/app.py:652
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
 msgstr "現在表示されているディレクトリとその全内容を新しい場所に復元します。"
 
-#: qt/app.py:647
+#: qt/app.py:655
 msgid "Up"
 msgstr "上のフォルダへ"
 
-#: qt/app.py:650
+#: qt/app.py:658
 msgid "Show hidden files"
 msgstr "不可視ファイルを表示"
 
-#: qt/app.py:653
+#: qt/app.py:661
 msgid "Compare backups…"
 msgstr "バックアップを比較…"
 
-#: qt/app.py:683 qt/app.py:1815
+#: qt/app.py:691 qt/app.py:1826
 msgid "Release Candidate"
 msgstr "リリース候補版"
 
-#: qt/app.py:686
+#: qt/app.py:694
 msgid "Shows the message about this Release Candidate again."
 msgstr "リリース候補版についてのメッセージを再度表示。"
 
-#: qt/app.py:723
+#: qt/app.py:731
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:728
+#: qt/app.py:736
 msgid "&Backup"
 msgstr "バックアップ(&B)"
 
-#: qt/app.py:740
+#: qt/app.py:748
 msgid "&Restore"
 msgstr "復元(&R)"
 
-#: qt/app.py:746
+#: qt/app.py:754
 msgid "&Help"
 msgstr "ヘルプ(&H)"
 
-#: qt/app.py:796
+#: qt/app.py:804
 msgid "Systray Icon"
 msgstr "システムトレイアイコン"
 
-#: qt/app.py:802
+#: qt/app.py:810
 msgid "Automatic"
 msgstr "自動"
 
-#: qt/app.py:806
+#: qt/app.py:814
 msgid "Light icon"
 msgstr "ライトアイコン"
 
-#: qt/app.py:807
+#: qt/app.py:815
 msgid "Dark icon"
 msgstr "ダークアイコン"
 
-#: qt/app.py:830
+#: qt/app.py:838
 msgid "Icons only"
 msgstr "アイコンのみ"
 
-#: qt/app.py:833
+#: qt/app.py:841
 msgid "Text only"
 msgstr "テキストのみ"
 
-#: qt/app.py:836
+#: qt/app.py:844
 msgid "Text below icons"
 msgstr "テキストをアイコンの下に"
 
-#: qt/app.py:839
+#: qt/app.py:847
 msgid "Text beside icon"
 msgstr "テキストをアイコンの横に"
 
-#: qt/app.py:965
+#: qt/app.py:973
 msgid "This directory doesn't exist in the selected backup."
 msgstr "選択されているバックアップにこのフォルダはありません。"
 
-#: qt/app.py:968
+#: qt/app.py:976
 msgid "This directory doesn't exist on the computer."
 msgstr "選択されているバックアップにこのフォルダはありません。"
 
-#: qt/app.py:1018
+#: qt/app.py:1026
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
 msgstr "このウインドウを閉じると Back In Time はバックアップの作成終了時に電源を切ることができなくなります。"
 
-#: qt/app.py:1022
+#: qt/app.py:1030
 msgid "Close the window anyway?"
 msgstr "本当に閉じますか？"
 
-#: qt/app.py:1112 qt/app.py:1119
+#: qt/app.py:1120 qt/app.py:1127
 msgid "Backup destination unavailable"
 msgstr "バックアップ先が利用できません"
 
-#: qt/app.py:1234
+#: qt/app.py:1245
 msgid "Done, no backup needed"
 msgstr "完了、バックアップの必要はありませんでした"
 
-#: qt/app.py:1305
+#: qt/app.py:1316
 msgid "Working:"
 msgstr "作業中："
 
-#: qt/app.py:1312
+#: qt/app.py:1323
 msgid "Working"
 msgstr "作業中"
 
-#: qt/app.py:1368 qt/qtsystrayicon.py:293
+#: qt/app.py:1379 qt/qtsystrayicon.py:293
 msgid "Sent:"
 msgstr "送信:"
 
-#: qt/app.py:1369 qt/qtsystrayicon.py:294
+#: qt/app.py:1380 qt/qtsystrayicon.py:294
 msgid "Speed:"
 msgstr "速度:"
 
-#: qt/app.py:1370 qt/qtsystrayicon.py:295
+#: qt/app.py:1381 qt/qtsystrayicon.py:295
 msgid "ETA:"
 msgstr "完了予想時間:"
 
-#: qt/app.py:1560
+#: qt/app.py:1571
 msgid "Backup:"
 msgstr "バックアップ:"
 
-#: qt/app.py:1663
+#: qt/app.py:1674
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "{path} を復元"
 
-#: qt/app.py:1665
+#: qt/app.py:1676
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "{path} を復元…"
 
-#: qt/app.py:1689
+#: qt/app.py:1700
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -968,47 +974,47 @@ msgstr ""
 "突然のメッセージを失礼致しました。このメッセージは今後表示されませんが、ヘルプメニューからいつでもご覧いただけます。\n"
 "Back In Time チーム一同"
 
-#: qt/app.py:1718
+#: qt/app.py:1729
 msgid "translation platform"
 msgstr "翻訳プラットフォーム"
 
-#: qt/app.py:1723
+#: qt/app.py:1734
 msgid "Website"
 msgstr "ウェブサイト"
 
-#: qt/app.py:1737
+#: qt/app.py:1748
 msgid "Your translation"
 msgstr "翻訳へのご協力のお願い"
 
-#: qt/app.py:1774
+#: qt/app.py:1785
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Mastodon にある Fediverse で: {link_and_label}。"
 
-#: qt/app.py:1779
+#: qt/app.py:1790
 #, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "{link_and_label}宛のメール。"
 
-#: qt/app.py:1783
+#: qt/app.py:1794
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "メーリングリスト {link_and_label}。"
 
-#: qt/app.py:1787
+#: qt/app.py:1798
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "開発サイトに {link_and_label}。"
 
-#: qt/app.py:1790
+#: qt/app.py:1801
 msgid "Open an issue"
 msgstr "議題を伝える"
 
-#: qt/app.py:1791
+#: qt/app.py:1802
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "その他に、好みのチャンネルを選択することもできます。"
 
-#: qt/app.py:1796
+#: qt/app.py:1807
 #, python-brace-format
 msgid ""
 "This version is a Release Candidate for testing before the next stable release.\n"
@@ -1018,52 +1024,58 @@ msgid ""
 "This message won't be shown again, but it can be opened anytime from the Help menu.\n"
 "Thank you for testing Back In Time and helping us improve it!"
 msgstr ""
+"このバージョンは、次回の安定版リリースに先立ち、テストを行うためのリリース候補版です。\n"
+"このバージョンをテストされた際は、ぜひフィードバックをお寄せください。問題が見つかった場合や、すべてが期待通りに動作した場合など、お知らせください。数分間の簡単なテストでも大変参考になります。\n"
+"Back In Time チームへのお問い合わせは、以下からお願いします：\n"
+"{contact_list}\n"
+"このメッセージは再度表示されませんが、「ヘルプ」メニューからいつでも開くことができます。\n"
+"Back In Time をテストし、改善にご協力いただきありがとうございます！"
 
-#: qt/app.py:1879
+#: qt/app.py:1890
 msgid "Check if remote host is online"
 msgstr "リモートホストがオンラインかどうか確認する"
 
-#: qt/app.py:1880
+#: qt/app.py:1891
 msgid "Check if remote host supports all necessary commands."
 msgstr "リモートホストが必要なコマンドをすべてサポートしているか確認する。"
 
-#: qt/app.py:1923
+#: qt/app.py:1934
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
 "configured threshold of {threshold}."
 msgstr "宛先には {free} の空き領域しかなく、これは設定されたしきい値 {threshold} を下回っています。"
 
-#: qt/app.py:1928
+#: qt/app.py:1939
 msgid "Proceed with the backup?"
 msgstr "バックアップを続行しますか？"
 
-#: qt/app.py:1975
+#: qt/app.py:1986
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr "{path} にあるより新しいファイルは削除されます。続行しますか？"
 
-#: qt/app.py:1978
+#: qt/app.py:1989
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr "元のディレクトリにあるより新しいファイルは削除されます。続行しますか？"
 
-#: qt/app.py:1984
+#: qt/app.py:1995
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
 "the entire system."
 msgstr "{BOLD}警告{BOLDEND}: ファイルシステムルートのファイルを削除すると、システム全体が壊れる可能性があります。"
 
-#: qt/app.py:2233
+#: qt/app.py:2244
 msgid "Backup name"
 msgstr "バックアップ名"
 
-#: qt/app.py:2265
+#: qt/app.py:2276
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "このバックアップを削除しますか？"
 
-#: qt/app.py:2332
+#: qt/app.py:2343
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "言語設定は、Back In Time を再起動した後に有効になります。"
 
@@ -1146,30 +1158,30 @@ msgstr "ユーザーコールバックスクリプトは、最初の行にシェ
 msgid "Show/hide hidden files and directories (Ctrl+H)"
 msgstr "隠しファイルと隠しディレクトリを表示/非表示にする (Ctrl+H)"
 
-#: qt/fileview.py:204
+#: qt/fileview.py:207
 msgid "Add to Include"
 msgstr "含むフォルダを指定"
 
-#: qt/fileview.py:205
+#: qt/fileview.py:208
 msgid "Add to Exclude"
 msgstr "除外するフォルダを指定"
 
-#: qt/fileview.py:292
+#: qt/fileview.py:295
 msgid "The selected item is already in the include list."
 msgid_plural "The selected items are already in the include list."
 msgstr[0] "選択されたアイテムは含むリストに追加済みです。"
 
-#: qt/fileview.py:299
+#: qt/fileview.py:302
 msgid "The following item is already in the include list."
 msgid_plural "The following items are already in the include list."
 msgstr[0] "次のアイテムは含むリストに追加済みです。"
 
-#: qt/fileview.py:313
+#: qt/fileview.py:316
 msgid "The selected item is already in the exclude list."
 msgid_plural "The selected items are already in the exclude list."
 msgstr[0] "選択されたアイテムは除外リストに追加済みです。"
 
-#: qt/fileview.py:320
+#: qt/fileview.py:323
 msgid "The following item is already in the exclude list."
 msgid_plural "The following items are already in the exclude list."
 msgstr[0] "次のアイテムは除外リストに追加済みです。"
@@ -1499,6 +1511,8 @@ msgid ""
 "triggered again at 19:00 because the hour boundary has been crossed. This "
 "schedule mode is useful if the computer is not running regularly."
 msgstr ""
+"たとえば、\"1時間ごとに繰り返し\" "
+"とは、新しい時間が始まるたびにバックアップが実行されることを意味します。前回のバックアップが18:56に正常に完了した場合、19:00には時間の区切りを越えたため、再びバックアップが実行されます。このスケジュールモードは、コンピュータが定期的に稼働していない場合に便利です。"
 
 #: qt/manageprofiles/schedulewidget.py:49
 msgid "Schedule"
@@ -1538,7 +1552,7 @@ msgstr "ドライブが接続されたら Back In Time を実行 (ただし X日
 msgid ""
 "Trigger a backup when a new hour, day, week, or month begins. If the system "
 "was off, it runs on the next start."
-msgstr ""
+msgstr "新しい時間、日、週、または月の開始時にバックアップを実行します。システムが停止していた場合は、次回の起動時に実行されます。"
 
 #: qt/manageprofiles/schedulewidget.py:133
 msgid "Every:"
@@ -1593,9 +1607,8 @@ msgid "Every day"
 msgstr "毎日"
 
 #: qt/manageprofiles/schedulewidget.py:189
-#, fuzzy
 msgid "Repeatedly"
-msgstr "繰り返し (anacron)"
+msgstr "繰り返し"
 
 #: qt/manageprofiles/schedulewidget.py:191
 msgid "When drive gets connected (udev)"
@@ -1957,9 +1970,8 @@ msgid "The encryption password cannot be empty."
 msgstr "暗号化パスワードは空欄にできません。"
 
 #: qt/manageprofiles/tab_general.py:476
-#, fuzzy
 msgid "Issues were found while validating the SSH configuration."
-msgstr "Back In Time は SSH 設定を検証できませんでした。"
+msgstr "SSH の設定の検証中に問題が見つかりました。"
 
 #: qt/manageprofiles/tab_general.py:478
 msgid "SSH profile setup failed"
@@ -1971,20 +1983,20 @@ msgstr "プロファイルの設定に失敗しました"
 
 #: qt/manageprofiles/tab_general.py:657
 msgid "Backups are stored locally."
-msgstr ""
+msgstr "バックアップはローカルに保存されます。"
 
 #: qt/manageprofiles/tab_general.py:659
 msgid "Backups are stored locally and encrypted using gocryptfs."
-msgstr ""
+msgstr "バックアップはローカルに保存され、gocryptfs を使用して暗号化されます。"
 
 #: qt/manageprofiles/tab_general.py:661
 msgid "Backups are stored on a remote system via SSH."
-msgstr ""
+msgstr "バックアップは SSH を介してリモートシステムに保存されます。"
 
 #: qt/manageprofiles/tab_general.py:663
 msgid ""
 "Backups are stored on a remote system via SSH and encrypted using gocryptfs."
-msgstr ""
+msgstr "バックアップは SSH を介してリモートシステムに保存され、gocryptfs を使用して暗号化されます。"
 
 #: qt/manageprofiles/tab_general.py:709
 msgid "Really change the backup directory?"
@@ -2364,7 +2376,7 @@ msgstr "すべてのログを見る"
 msgid ""
 "The restore is still running. The window cannot be closed until it is "
 "finished."
-msgstr ""
+msgstr "復元処理はまだ実行中です。処理が完了するまで、このウィンドウを閉じることができません。"
 
 #: qt/shutdowndlg.py:28
 msgid "Countdown to Shutdown"
@@ -2518,6 +2530,12 @@ msgstr "最終チェック {time}"
 #: qt/timeline.py:402
 msgid "These are your files as they are right now. It is not a backup."
 msgstr "これらは、現在のままのあなたのファイルです。バックアップではありません。"
+
+#~ msgid "Creation of following directory failed:"
+#~ msgstr "以下のディレクトリの作成に失敗しました:"
+
+#~ msgid "File creation failed in this directory:"
+#~ msgstr "以下のディレクトリへのファイル作成が失敗しました:"
 
 #, python-brace-format
 #~ msgid ""
