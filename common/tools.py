@@ -403,6 +403,7 @@ NTFS_FILESYSTEM_WARNING = _(
 
 
 def _handle_mkdir_error(path, exc: OSError):
+    """Generate error message reading OSError error numbers"""
     if exc.errno in (errno.EACCES, errno.EPERM):
         reason = _('Write access may be restricted.')
 
