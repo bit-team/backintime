@@ -17,17 +17,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-08-09 12:53+0200\n"
-"PO-Revision-Date: 2026-06-29 10:28+0000\n"
+"PO-Revision-Date: 2026-08-13 06:03+0000\n"
 "Last-Translator: bittin <bittin@noreply.codeberg.org>\n"
-"Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/common/sv/>\n"
+"Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/"
+"common/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6.1\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #: common/bitbase.py:21 common/config.py:36 common/konfig.py:34
 #: common/mount/_backends.py:23 common/tools.py:88 qt/encfsmsgbox.py:32
@@ -76,7 +77,7 @@ msgstr ""
 
 #: common/check_config.py:113
 msgid "Two settings conflict with each other."
-msgstr ""
+msgstr "Två inställningar står i konflikt med varandra."
 
 #: common/check_config.py:116
 #, fuzzy, python-brace-format
@@ -107,9 +108,8 @@ msgid "Local"
 msgstr "Lokal"
 
 #: common/config.py:195
-#, fuzzy
 msgid "Local (encrypted)"
-msgstr "Lokalt krypterad"
+msgstr "Lokalt (krypterad)"
 
 #: common/config.py:196 common/config.py:209
 #: qt/manageprofiles/tab_general.py:394
@@ -126,14 +126,13 @@ msgid "SSH private key"
 msgstr "SSH privat nyckel"
 
 #: common/config.py:207
-#, fuzzy
 msgid "SSH (encrypted)"
-msgstr "SSH krypterad"
+msgstr "SSH (krypterad)"
 
 #: common/config.py:1880
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
-msgstr "Udev-schema fungerar inte med läge {mode}"
+msgstr "Udev-schemaläggning stöds inte med läget \"{mode}\"."
 
 #: common/config.py:1907
 msgid ""
@@ -204,21 +203,17 @@ msgid "Details:"
 msgstr "Detaljer:"
 
 #: common/mount/_backends.py:292
-#, fuzzy
 msgid "The remote backup directory is missing or is not a valid directory."
 msgstr ""
-"Katalogen för fjärrsäkerhetskopiering existerar inte eller är inte en "
-"katalog."
+"Katalogen för fjärrsäkerhetskopiering saknas eller är inte en giltig katalog."
 
 #: common/mount/_backends.py:298
-#, fuzzy
 msgid "Write access to the remote backup directory was denied."
-msgstr "Katalogen för fjärrsäkerhetskopiering är inte skrivbar."
+msgstr "Skrivåtkomst till fjärrkatalogen för säkerhetskopiering nekades."
 
 #: common/mount/_backends.py:303
-#, fuzzy
 msgid "Access to the remote backup directory was denied."
-msgstr "Katalogen för fjärrsäkerhetskopiering är inte skrivbar."
+msgstr "Åtkomst till katalogen för fjärrsäkerhetskopiering nekades."
 
 #: common/mount/_backends.py:317 qt/manageprofiles/tab_general.py:126
 msgid "Path:"
@@ -269,9 +264,9 @@ msgstr ""
 "Sökväg: {path}"
 
 #: common/mount/_encryptors.py:286
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Decrypted view mountpoint is missing. Path: {path}"
-msgstr "Monteringspunkt som dekrypterad vy saknas. Sökväg: {path}"
+msgstr "Monteringspunkt för dekrypterad vy saknas. Sökväg: {path}"
 
 #: common/mount/_encryptors.py:338
 #, python-brace-format
@@ -465,14 +460,14 @@ msgid "ssh-agent is not installed"
 msgstr "ssh-agent är inte installerad"
 
 #: common/sshsetupvalidator.py:236 common/sshsetupvalidator.py:354
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unexpected response from '{process}'."
-msgstr "Oväntat svar från sshfs."
+msgstr "Oväntat svar från '{process}'."
 
 #: common/sshsetupvalidator.py:255
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unexpected output from '{process}'."
-msgstr "Oväntad utdata från ssh-agent."
+msgstr "Oväntad utdata från '{process}'."
 
 #: common/sshsetupvalidator.py:258
 msgid "Output:"
@@ -491,9 +486,9 @@ msgid "sshfs is not installed"
 msgstr "sshfs är inte installerat"
 
 #: common/sshsetupvalidator.py:384
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "The SSH host \"{host}\" is not known yet."
-msgstr "SSH-värd \"{host}\" är ännu inte betrodd."
+msgstr "SSH-värden \"{host}\" är ännu inte känd."
 
 #: common/sshsetupvalidator.py:388
 msgid "Please connect to the host manually once to confirm its fingerprint."
@@ -2057,9 +2052,8 @@ msgid "The encryption password cannot be empty."
 msgstr "Krypteringslösenordet får inte vara tomt."
 
 #: qt/manageprofiles/tab_general.py:476
-#, fuzzy
 msgid "Issues were found while validating the SSH configuration."
-msgstr "Back In Time kunde inte validera SSH-konfiguration."
+msgstr "Problem upptäcktes vid validering av SSH-konfigurationen."
 
 #: qt/manageprofiles/tab_general.py:478
 msgid "SSH profile setup failed"
@@ -2071,20 +2065,22 @@ msgstr "Profilinställningarna misslyckades"
 
 #: qt/manageprofiles/tab_general.py:657
 msgid "Backups are stored locally."
-msgstr ""
+msgstr "Säkerhetskopior lagras lokalt."
 
 #: qt/manageprofiles/tab_general.py:659
 msgid "Backups are stored locally and encrypted using gocryptfs."
-msgstr ""
+msgstr "Säkerhetskopior lagras lokalt och krypteras med gocryptfs."
 
 #: qt/manageprofiles/tab_general.py:661
 msgid "Backups are stored on a remote system via SSH."
-msgstr ""
+msgstr "Säkerhetskopior lagras på ett fjärrsystem via SSH."
 
 #: qt/manageprofiles/tab_general.py:663
 msgid ""
 "Backups are stored on a remote system via SSH and encrypted using gocryptfs."
 msgstr ""
+"Säkerhetskopior lagras på ett fjärrsystem via SSH och krypteras med "
+"gocryptfs."
 
 #: qt/manageprofiles/tab_general.py:709
 msgid "Really change the backup directory?"
@@ -2491,6 +2487,8 @@ msgid ""
 "The restore is still running. The window cannot be closed until it is "
 "finished."
 msgstr ""
+"Återställningen pågår fortfarande. Fönstret kan inte stängas förrän det är "
+"klart."
 
 #: qt/shutdowndlg.py:28
 msgid "Countdown to Shutdown"
@@ -2674,4 +2672,5 @@ msgstr ""
 #~ "I den här versionen så visas inte det här meddelandet igen, men kan kommas åt när som helst via hjälp-menyn.\n"
 #~ "Tack för ditt stöd och för att du hjälper oss att förbättra Back In Time!\n"
 #~ "Ditt Back In Time-team"
+
 # REUSE-IgnoreEnd

@@ -16,17 +16,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-08-09 12:53+0200\n"
-"PO-Revision-Date: 2026-08-07 13:32+0000\n"
+"PO-Revision-Date: 2026-08-15 10:26+0000\n"
 "Last-Translator: N4ta <codeberg@n4ta.anonaddy.me>\n"
-"Language-Team: Portuguese <https://translate.codeberg.org/projects/backintime/common/pt/>\n"
+"Language-Team: Portuguese <https://translate.codeberg.org/projects/"
+"backintime/common/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 2026.7.1\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #: common/bitbase.py:21 common/config.py:36 common/konfig.py:34
 #: common/mount/_backends.py:23 common/tools.py:88 qt/encfsmsgbox.py:32
@@ -90,14 +91,12 @@ msgstr ""
 "de disco é reduzido abaixo\" ({val_two})."
 
 #: common/check_config.py:123
-#, fuzzy
 msgid ""
 "Please adjust the settings. The threshold for removing old backups must not "
 "be higher for the free disk space warning value."
 msgstr ""
-"Por favor ajuste as definições para que o limite de remoção de cópias de "
-"segurança antigas não é maior do que o limite de aviso de espaço livre no "
-"disco."
+"Por favor, ajuste as definições. O limite de remoção de cópias de segurança "
+"antigas não pode ser maior do que o limite de aviso de espaço livre no disco."
 
 #: common/config.py:175 common/konfig.py:52 common/konfig.py:1427
 msgid "Main profile"
@@ -130,9 +129,9 @@ msgid "SSH (encrypted)"
 msgstr "SSH (criptografado)"
 
 #: common/config.py:1880
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
-msgstr "O agendamento do udev não funciona com o modo {mode}."
+msgstr "O agendamento do udev não é compatível com o modo \"{mode}\"."
 
 #: common/config.py:1907
 msgid ""
@@ -2076,9 +2075,8 @@ msgid "The encryption password cannot be empty."
 msgstr "A password de encriptação não pode estar vazia."
 
 #: qt/manageprofiles/tab_general.py:476
-#, fuzzy
 msgid "Issues were found while validating the SSH configuration."
-msgstr "Back In Time não pôde validar a configuração SSH."
+msgstr "Foram encontrados problemas ao validar a configuração SSH."
 
 #: qt/manageprofiles/tab_general.py:478
 msgid "SSH profile setup failed"
@@ -2705,4 +2703,5 @@ msgstr "Estes são os seus ficheiros atuais. Não é uma cópia de segurança."
 #~ "Nesta versão, esta mensagem não será mais exibida porém poderá ser acessada a qualquer momento através do menu de ajuda.\n"
 #~ "Muito obrigado pelo seu apoio em nos ajudar a melhorar o Back In Time!\n"
 #~ "Equipe Back In Time"
+
 # REUSE-IgnoreEnd

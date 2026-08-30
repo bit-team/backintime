@@ -16,17 +16,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-08-09 12:53+0200\n"
-"PO-Revision-Date: 2026-06-19 13:16+0000\n"
-"Last-Translator: psw1747 <psw1747@noreply.codeberg.org>\n"
-"Language-Team: Japanese <https://translate.codeberg.org/projects/backintime/common/ja/>\n"
+"PO-Revision-Date: 2026-08-13 06:03+0000\n"
+"Last-Translator: kazuo <kazuo@noreply.codeberg.org>\n"
+"Language-Team: Japanese <https://translate.codeberg.org/projects/backintime/"
+"common/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.6.1\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #: common/bitbase.py:21 common/config.py:36 common/konfig.py:34
 #: common/mount/_backends.py:23 common/tools.py:88 qt/encfsmsgbox.py:32
@@ -72,24 +73,26 @@ msgstr "このディレクトリはバックアップ先の一部であるため
 
 #: common/check_config.py:113
 msgid "Two settings conflict with each other."
-msgstr ""
+msgstr "2つの設定が互いに競合しています。"
 
 #: common/check_config.py:116
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal to the value for \"Warn if the free "
 "disk space falls below\" ({val_two})."
 msgstr ""
-"「空き容量が以下になった場合に最古のバックアップを削除する」の値 ({val_one}) は、「空きディスク容量が以下になった場合に警告する」のしきい値"
-" ({val_two}) 以下でなければなりません。"
+"\"空き容量が以下になった場合に最も古いバックアップを削除する\" （{val_one}）"
+"の値は、 \"ディスクの空き容量が以下になった場合に警告を表示する\" （{val_two}"
+"）の値以下でなければなりません。"
 
 #: common/check_config.py:123
-#, fuzzy
 msgid ""
 "Please adjust the settings. The threshold for removing old backups must not "
 "be higher for the free disk space warning value."
-msgstr "バックアップ削除制限が警告制限を超えないよう設定を調整してください。"
+msgstr ""
+"設定を調整してください。古いバックアップを削除するしきい値は、空きディスク容"
+"量の警告値よりも高く設定してはいけません。"
 
 #: common/config.py:175 common/konfig.py:52 common/konfig.py:1427
 msgid "Main profile"
@@ -100,9 +103,8 @@ msgid "Local"
 msgstr "ローカル"
 
 #: common/config.py:195
-#, fuzzy
 msgid "Local (encrypted)"
-msgstr "ローカル暗号化"
+msgstr "ローカル（暗号化済み）"
 
 #: common/config.py:196 common/config.py:209
 #: qt/manageprofiles/tab_general.py:394
@@ -119,20 +121,21 @@ msgid "SSH private key"
 msgstr "SSH 秘密鍵"
 
 #: common/config.py:207
-#, fuzzy
 msgid "SSH (encrypted)"
-msgstr "SSH 暗号化"
+msgstr "SSH（暗号化）"
 
 #: common/config.py:1880
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
-msgstr "{mode} モード では、udev スケジュールは使用できません"
+msgstr "\"{mode}\" では、Udev のスケジューリングはサポートされていません。"
 
 #: common/config.py:1907
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
 msgstr ""
+"認証のタイムアウトが発生しました。Udev ベースのスケジューリングの設定が完了し"
+"ませんでした。もう一度お試しください。"
 
 #: common/config.py:1945
 msgid "Failed to write new crontab."
@@ -194,19 +197,18 @@ msgid "Details:"
 msgstr "詳細："
 
 #: common/mount/_backends.py:292
-#, fuzzy
 msgid "The remote backup directory is missing or is not a valid directory."
-msgstr "リモートバックアップディレクトリが存在しないか、ディレクトリではありません。"
+msgstr ""
+"リモートバックアップディレクトリが存在しないか、有効なディレクトリではありま"
+"せん。"
 
 #: common/mount/_backends.py:298
-#, fuzzy
 msgid "Write access to the remote backup directory was denied."
-msgstr "リモートバックアップディレクトリに書き込み権限がありません。"
+msgstr "リモートバックアップディレクトリへの書き込みアクセスが拒否されました。"
 
 #: common/mount/_backends.py:303
-#, fuzzy
 msgid "Access to the remote backup directory was denied."
-msgstr "リモートバックアップディレクトリに書き込み権限がありません。"
+msgstr "リモートバックアップディレクトリへのアクセスが拒否されました。"
 
 #: common/mount/_backends.py:317 qt/manageprofiles/tab_general.py:126
 msgid "Path:"
@@ -253,9 +255,9 @@ msgid ""
 msgstr "バックアップ先のディレクトリは暗号化に対応していません。パス : {path}"
 
 #: common/mount/_encryptors.py:286
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Decrypted view mountpoint is missing. Path: {path}"
-msgstr "平文で書かれているマウントポイントが見つかりません。パス ：{path}"
+msgstr "復号化されたビューのマウントポイントが存在しません。パス：{path}"
 
 #: common/mount/_encryptors.py:338
 #, python-brace-format
@@ -443,14 +445,14 @@ msgid "ssh-agent is not installed"
 msgstr "ssh-agent がインストールされていません"
 
 #: common/sshsetupvalidator.py:236 common/sshsetupvalidator.py:354
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unexpected response from '{process}'."
-msgstr "sshfs から予期せぬ応答が返ってきました。"
+msgstr "'{process}' から予期せぬ応答がありました。"
 
 #: common/sshsetupvalidator.py:255
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unexpected output from '{process}'."
-msgstr "ssh-agent から予期しない出力が表示されました。"
+msgstr "'{process}' から予期しない出力が得られました。"
 
 #: common/sshsetupvalidator.py:258
 msgid "Output:"
@@ -469,9 +471,9 @@ msgid "sshfs is not installed"
 msgstr "sshfs がインストールされていません"
 
 #: common/sshsetupvalidator.py:384
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "The SSH host \"{host}\" is not known yet."
-msgstr "SSHホスト \"{host}\" はまだ信頼されていません。"
+msgstr "SSHホスト \"{host}\" は、まだ認識されていません。"
 
 #: common/sshsetupvalidator.py:388
 msgid "Please connect to the host manually once to confirm its fingerprint."
@@ -775,12 +777,11 @@ msgstr "バグを報告する"
 
 #: qt/app.py:605
 msgid "Contact"
-msgstr ""
+msgstr "お問い合わせ"
 
 #: qt/app.py:607
-#, fuzzy
 msgid "Shows additional contact options in the browser"
-msgstr "rsync に追加オプションを貼り付ける"
+msgstr "ブラウザに追加の連絡先オプションを表示します"
 
 #: qt/app.py:610
 msgid "Translation"
@@ -1018,6 +1019,16 @@ msgid ""
 "This message won't be shown again, but it can be opened anytime from the Help menu.\n"
 "Thank you for testing Back In Time and helping us improve it!"
 msgstr ""
+"このバージョンは、次回の安定版リリースに先立ち、テストを行うためのリリース候"
+"補版です。\n"
+"このバージョンをテストされた際は、ぜひフィードバックをお寄せください。問題が"
+"見つかった場合や、すべてが期待通りに動作した場合など、お知らせください。数分"
+"間の簡単なテストでも大変参考になります。\n"
+"Back In Time チームへのお問い合わせは、以下からお願いします：\n"
+"{contact_list}\n"
+"このメッセージは再度表示されませんが、「ヘルプ」メニューからいつでも開くこと"
+"ができます。\n"
+"Back In Time をテストし、改善にご協力いただきありがとうございます！"
 
 #: qt/app.py:1879
 msgid "Check if remote host is online"
@@ -1499,6 +1510,10 @@ msgid ""
 "triggered again at 19:00 because the hour boundary has been crossed. This "
 "schedule mode is useful if the computer is not running regularly."
 msgstr ""
+"たとえば、\"1時間ごとに繰り返し\" とは、新しい時間が始まるたびにバックアップ"
+"が実行されることを意味します。前回のバックアップが18:56に正常に完了した場合、"
+"19:00には時間の区切りを越えたため、再びバックアップが実行されます。この"
+"スケジュールモードは、コンピュータが定期的に稼働していない場合に便利です。"
 
 #: qt/manageprofiles/schedulewidget.py:49
 msgid "Schedule"
@@ -1539,6 +1554,8 @@ msgid ""
 "Trigger a backup when a new hour, day, week, or month begins. If the system "
 "was off, it runs on the next start."
 msgstr ""
+"新しい時間、日、週、または月の開始時にバックアップを実行します。システムが停"
+"止していた場合は、次回の起動時に実行されます。"
 
 #: qt/manageprofiles/schedulewidget.py:133
 msgid "Every:"
@@ -1593,9 +1610,8 @@ msgid "Every day"
 msgstr "毎日"
 
 #: qt/manageprofiles/schedulewidget.py:189
-#, fuzzy
 msgid "Repeatedly"
-msgstr "繰り返し (anacron)"
+msgstr "繰り返し"
 
 #: qt/manageprofiles/schedulewidget.py:191
 msgid "When drive gets connected (udev)"
@@ -1957,9 +1973,8 @@ msgid "The encryption password cannot be empty."
 msgstr "暗号化パスワードは空欄にできません。"
 
 #: qt/manageprofiles/tab_general.py:476
-#, fuzzy
 msgid "Issues were found while validating the SSH configuration."
-msgstr "Back In Time は SSH 設定を検証できませんでした。"
+msgstr "SSH の設定の検証中に問題が見つかりました。"
 
 #: qt/manageprofiles/tab_general.py:478
 msgid "SSH profile setup failed"
@@ -1971,20 +1986,22 @@ msgstr "プロファイルの設定に失敗しました"
 
 #: qt/manageprofiles/tab_general.py:657
 msgid "Backups are stored locally."
-msgstr ""
+msgstr "バックアップはローカルに保存されます。"
 
 #: qt/manageprofiles/tab_general.py:659
 msgid "Backups are stored locally and encrypted using gocryptfs."
-msgstr ""
+msgstr "バックアップはローカルに保存され、gocryptfs を使用して暗号化されます。"
 
 #: qt/manageprofiles/tab_general.py:661
 msgid "Backups are stored on a remote system via SSH."
-msgstr ""
+msgstr "バックアップは SSH を介してリモートシステムに保存されます。"
 
 #: qt/manageprofiles/tab_general.py:663
 msgid ""
 "Backups are stored on a remote system via SSH and encrypted using gocryptfs."
 msgstr ""
+"バックアップは SSH を介してリモートシステムに保存され、gocryptfs を使用して暗"
+"号化されます。"
 
 #: qt/manageprofiles/tab_general.py:709
 msgid "Really change the backup directory?"
@@ -2365,6 +2382,8 @@ msgid ""
 "The restore is still running. The window cannot be closed until it is "
 "finished."
 msgstr ""
+"復元処理はまだ実行中です。処理が完了するまで、このウィンドウを閉じることがで"
+"きません。"
 
 #: qt/shutdowndlg.py:28
 msgid "Countdown to Shutdown"
@@ -2538,4 +2557,5 @@ msgstr "これらは、現在のままのあなたのファイルです。バッ
 #~ "このバージョンではメッセージは再度表示されません、が、ヘルプメニューからいつでもアクセスできます。\n"
 #~ "Back In Time をご愛用いただき、多大なる支援を頂いて誠に感謝申し上げます。\n"
 #~ "Back In Time チーム一同"
+
 # REUSE-IgnoreEnd

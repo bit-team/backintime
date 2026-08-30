@@ -15,17 +15,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-08-09 12:53+0200\n"
-"PO-Revision-Date: 2026-08-07 13:32+0000\n"
-"Last-Translator: burned42 <burned42@noreply.codeberg.org>\n"
-"Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
+"PO-Revision-Date: 2026-08-19 19:25+0000\n"
+"Last-Translator: pixelcode <pixelcode@noreply.codeberg.org>\n"
+"Language-Team: German <https://translate.codeberg.org/projects/backintime/"
+"common/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.7.1\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #: common/bitbase.py:21 common/config.py:36 common/konfig.py:34
 #: common/mount/_backends.py:23 common/tools.py:88 qt/encfsmsgbox.py:32
@@ -88,13 +89,12 @@ msgstr ""
 "Speicherplatz weniger als« ({val_two}) sein."
 
 #: common/check_config.py:123
-#, fuzzy
 msgid ""
 "Please adjust the settings. The threshold for removing old backups must not "
 "be higher for the free disk space warning value."
 msgstr ""
-"Bitte die Einstellungen anpassen. Der Schwellenwert zum Entfernen alter "
-"Sicherungen darf nicht höher sein, als der Wertwert für den freien "
+"Bitte die Einstellungen anpassen. Der Schwellenwert für das Löschen alter "
+"Sicherungen darf nicht höher sein als der Warnwert für den freien "
 "Speicherplatz."
 
 #: common/config.py:175 common/konfig.py:52 common/konfig.py:1427
@@ -128,9 +128,9 @@ msgid "SSH (encrypted)"
 msgstr "SSH (verschlüsselt)"
 
 #: common/config.py:1880
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
-msgstr "Udev-Zeitplanung wird im Modus {mode} nicht unterstützt."
+msgstr "Udev-Zeitplanung wird im Modus »{mode}« nicht unterstützt."
 
 #: common/config.py:1907
 msgid ""
@@ -532,11 +532,10 @@ msgstr ""
 "{path}"
 
 #: common/sshtools.py:157
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Copy public SSH key \"{pubkey}\" to remote host \"{host}\"."
 msgstr ""
-"Öffentlichen SSH-Schlüssel »{pubkey}« zum entfernten Rechner »{host}« "
-"kopieren."
+"Öffentlichen SSH-Schlüssel »{pubkey}« zum entfernten Host »{host}« kopieren."
 
 #: common/sshtools.py:159
 #, python-brace-format
@@ -1597,10 +1596,10 @@ msgid ""
 "triggered again at 19:00 because the hour boundary has been crossed. This "
 "schedule mode is useful if the computer is not running regularly."
 msgstr ""
-"Zum Beispiel bedeutet \"wiederholend alle 1 Stunde\", dass eine Sicherung zu"
-" jeder vollen Stunde ausgelöst wird. Wenn die letzte erfolgreiche Sicherung "
-"um 18:56 Uhr erstellt wurde, wird sie bereits um 19:00 Uhr erneut ausgelöst,"
-" weil eine neue volle Stunde begonnen hat. Dieser Modus der Zeitplanung ist "
+"Zum Beispiel bedeutet „wiederholend alle 1 Stunde“, dass eine Sicherung zu "
+"jeder vollen Stunde ausgelöst wird. Wenn die letzte erfolgreiche Sicherung "
+"um 18:56 Uhr erstellt wurde, wird sie bereits um 19:00 Uhr erneut ausgelöst, "
+"weil eine neue volle Stunde begonnen hat. Dieser Modus der Zeitplanung ist "
 "nützlich, wenn der Computer nicht regelmäßig läuft."
 
 #: qt/manageprofiles/schedulewidget.py:49
@@ -1659,7 +1658,7 @@ msgstr "Protokollierung von Debug-Meldungen aktivieren"
 #: qt/manageprofiles/schedulewidget.py:141
 msgid "Writes debug-level messages into the system log via \"--debug\"."
 msgstr ""
-"Schreibt Debug-Nachrichten in das Systemprotokoll (nutzt »--debug« Option)."
+"Schreibt Debug-Nachrichten in das Systemprotokoll (nutzt »--debug«-Option)."
 
 #: qt/manageprofiles/schedulewidget.py:143
 msgid ""
@@ -1707,7 +1706,7 @@ msgstr "Täglich"
 
 #: qt/manageprofiles/schedulewidget.py:189
 msgid "Repeatedly"
-msgstr "Wiederholend"
+msgstr "wiederholend"
 
 #: qt/manageprofiles/schedulewidget.py:191
 msgid "When drive gets connected (udev)"
@@ -1815,8 +1814,8 @@ msgid ""
 "\"ssh_config\" man page for details."
 msgstr ""
 "Verbindet sich mit dem Ziel-Host über diesen Proxy (auch bekannt als Jump-"
-"Host). Für Details siehe \"-J\" in der Dokumentation des \"ssh\"-Befehls "
-"oder \"ProxyJump\" in der \"ssh_config\"-Manpage."
+"Host). Für Details siehe „-J“ in der Dokumentation des „ssh“-Befehls oder „"
+"ProxyJump“ in der „ssh_config“-Handbuchseite."
 
 #: qt/manageprofiles/tab_exclude.py:63
 #, python-brace-format
@@ -1826,8 +1825,8 @@ msgid ""
 "patterns will be ignored (e.g. {example1}). Filenames are unpredictable in "
 "this mode."
 msgstr ""
-"{BOLD}Info{ENDBOLD}: Im Modus 'SSH verschlüsselt' funktionieren nur einzelne"
-" oder doppelte Sternchen (z. B. {example2}). Andere Arten von Platzhaltern "
+"{BOLD}Info{ENDBOLD}: Im Modus „SSH verschlüsselt“ funktionieren nur einzelne "
+"oder doppelte Sternchen (z. B. {example2}). Andere Arten von Platzhaltern "
 "und Mustern werden ignoriert (z. B. {example1}). Aufgrund der "
 "Verschlüsselung durch EncFS sind Dateinamen in diesem Modus nicht "
 "vorhersehbar."
@@ -1872,10 +1871,10 @@ msgid ""
 "Consequently, large files that have already been backed up will remain in "
 "backups even if they are modified."
 msgstr ""
-"Wenn der „Vollständige rsync-Modus“ deaktiviert ist, wirkt sich diese "
+"Wenn der „vollständige rsync-Modus“ deaktiviert ist, wirkt sich diese "
 "Einstellung nur auf neu erstellte Dateien aus, da rsync sie als "
-"Übertragungsoption und nicht als Ausschlussregel behandelt. Folglich bleiben"
-" große Dateien, die bereits gesichert wurden, auch dann in den Sicherungen "
+"Übertragungsoption und nicht als Ausschlussregel behandelt. Folglich bleiben "
+"große Dateien, die bereits gesichert wurden, auch dann in den Sicherungen "
 "erhalten, wenn sie modifiziert werden."
 
 #: qt/manageprofiles/tab_exclude.py:266
@@ -1889,11 +1888,11 @@ msgstr "Ausschlussmuster eingeben:"
 #: qt/manageprofiles/tab_exclude.py:273
 #, python-brace-format
 msgid "For help, see the rsync man page section {link}."
-msgstr "Für Hilfe siehe den Abschnitt {link} der rsync-Manpage."
+msgstr "Für Hilfe siehe den Abschnitt {link} der rsync-Handbuchseite."
 
 #: qt/manageprofiles/tab_exclude.py:276
 msgid "Open rsync man page"
-msgstr "Öffnet die rsync-Manpage"
+msgstr "Öffnet die rsync-Handbuchseite"
 
 #: qt/manageprofiles/tab_exclude.py:304
 msgid "Exclude files"
@@ -2092,9 +2091,8 @@ msgid "The encryption password cannot be empty."
 msgstr "Das Verschlüsselungspasswort darf nicht leer sein."
 
 #: qt/manageprofiles/tab_general.py:476
-#, fuzzy
 msgid "Issues were found while validating the SSH configuration."
-msgstr "Back In Time konnte die SSH-Konfiguration nicht validieren."
+msgstr "Beim Validieren der SSH-Konfiguration wurden Probleme festgestellt."
 
 #: qt/manageprofiles/tab_general.py:478
 msgid "SSH profile setup failed"
@@ -2135,7 +2133,7 @@ msgstr ""
 
 #: qt/manageprofiles/tab_general.py:732
 msgid "It must either be empty or already initialized for gocryptfs."
-msgstr "Es muss entweder leer, oder bereits für gocryptfs initialisiert sein."
+msgstr "Es muss entweder leer oder bereits für gocryptfs initialisiert sein."
 
 #: qt/manageprofiles/tab_general.py:762
 msgid "Invalid file: Not a private SSH key"
@@ -2147,8 +2145,8 @@ msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
-"Die ausgewählte Datei {path} ist ein öffentlicher SSH-Schüssel. Bitte "
-"stattdessen die entsprechende private Schlüsseldatei auswählen (ohne ».pub« "
+"Die ausgewählte Datei ({path}) ist ein öffentlicher SSH-Schüssel. Bitte "
+"stattdessen die entsprechende private Schlüsseldatei auswählen (ohne ».pub«-"
 "Endung)."
 
 #: qt/manageprofiles/tab_general.py:787
@@ -2478,7 +2476,7 @@ msgstr "In Arbeit …"
 #: qt/qttools.py:520
 #, python-brace-format
 msgid "man page: {man_page_name}"
-msgstr "Manpage: {man_page_name}"
+msgstr "Handbuchseite: {man_page_name}"
 
 #: qt/restoreconfigdialog.py:76
 msgid "Import configuration"
@@ -2593,7 +2591,7 @@ msgstr ""
 #, python-brace-format
 msgid "No parameters set for the diff command. Using default value \"{params}\"."
 msgstr ""
-"Keine Parameter für den diff-Befehl festgelegt. Verwendet wird der "
+"Keine Parameter für den Diff-Befehl festgelegt. Verwendet wird der "
 "Standardwert »{params}«."
 
 #: qt/snapshotsdialog.py:140 qt/timeline.py:118
@@ -2724,4 +2722,5 @@ msgstr "Dies sind die Dateien, so wie sie jetzt sind. Es ist keine Sicherung."
 #~ "In dieser Version wird diese Nachricht nicht erneut gezeigt, kann aber jederzeit über das Hilfe-Menü aufgerufen werden.\n"
 #~ "Vielen Dank für Ihre Unterstützung und dafür, dass Sie uns dabei helfen, Back In Time zu verbessern!\n"
 #~ "Ihr Back-In-Time-Team"
+
 # REUSE-IgnoreEnd

@@ -14,17 +14,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-08-09 12:53+0200\n"
-"PO-Revision-Date: 2026-06-29 10:28+0000\n"
+"PO-Revision-Date: 2026-08-23 12:25+0000\n"
 "Last-Translator: AndrewG <andrewg@noreply.codeberg.org>\n"
-"Language-Team: Russian <https://translate.codeberg.org/projects/backintime/common/ru/>\n"
+"Language-Team: Russian <https://translate.codeberg.org/projects/backintime/"
+"common/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2026.6.1\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #: common/bitbase.py:21 common/config.py:36 common/konfig.py:34
 #: common/mount/_backends.py:23 common/tools.py:88 qt/encfsmsgbox.py:32
@@ -73,7 +75,7 @@ msgstr ""
 
 #: common/check_config.py:113
 msgid "Two settings conflict with each other."
-msgstr ""
+msgstr "Две настройки конфликтуют друг с другом."
 
 #: common/check_config.py:116
 #, fuzzy, python-brace-format
@@ -129,15 +131,17 @@ msgid "SSH (encrypted)"
 msgstr "Шифрование SSH"
 
 #: common/config.py:1880
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
-msgstr "Расписание udev не работает в режиме {mode}"
+msgstr "Расписание udev не работает в режиме \"{mode}\"."
 
 #: common/config.py:1907
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
 msgstr ""
+"Тайм-аут аутентификации. Настройка основанного на Udev расписания не была "
+"завершена. Пожалуйста, попробуйте снова."
 
 #: common/config.py:1945
 msgid "Failed to write new crontab."
@@ -1049,6 +1053,16 @@ msgid ""
 "This message won't be shown again, but it can be opened anytime from the Help menu.\n"
 "Thank you for testing Back In Time and helping us improve it!"
 msgstr ""
+"Это версия Release Candidate для тестирования перед следующим стабильным "
+"релизом.\n"
+"Если вы тестируете эту версию, пожалуйста, дайте обратную связь. Дайте нам "
+"знать, что вы нашли проблему или всё работает, как ожидается. Даже короткий "
+"тест на несколько минут будет полезен.\n"
+"Вы можете связаться с командой Back In Time через:\n"
+"{contact_list}\n"
+"Это сообщение не будет показано снова, но оно может быть открыто в любой "
+"момент через меню Справка.\n"
+"Благодарим за тестирование Back In Time и помощь в его улучшении!"
 
 #: qt/app.py:1879
 msgid "Check if remote host is online"
@@ -2072,20 +2086,22 @@ msgstr "Настройка профиля не удалась"
 
 #: qt/manageprofiles/tab_general.py:657
 msgid "Backups are stored locally."
-msgstr ""
+msgstr "Снимки сохраняются локально."
 
 #: qt/manageprofiles/tab_general.py:659
 msgid "Backups are stored locally and encrypted using gocryptfs."
-msgstr ""
+msgstr "Снимки сохраняются локально и зашифрованы с помощью gocryptfs."
 
 #: qt/manageprofiles/tab_general.py:661
 msgid "Backups are stored on a remote system via SSH."
-msgstr ""
+msgstr "Снимки сохраняются на удалённой системе через SSH."
 
 #: qt/manageprofiles/tab_general.py:663
 msgid ""
 "Backups are stored on a remote system via SSH and encrypted using gocryptfs."
 msgstr ""
+"СНимки сохраняются на удалённой системе через SSH и зашифровываются с "
+"помощью gocryptfs."
 
 #: qt/manageprofiles/tab_general.py:709
 msgid "Really change the backup directory?"
@@ -2497,6 +2513,8 @@ msgid ""
 "The restore is still running. The window cannot be closed until it is "
 "finished."
 msgstr ""
+"Восстановление всё ещё работает. Это окно не может быть закрыто до окончания "
+"процесса."
 
 #: qt/shutdowndlg.py:28
 msgid "Countdown to Shutdown"
@@ -2677,4 +2695,5 @@ msgstr "Это ваши файлы как есть сейчас. Это не р�
 #~ "В этой версии это сообщение больше не будет отображаться, но к нему можно получить доступ в любое время через меню \"Справка\".\n"
 #~ "Спасибо вам за вашу поддержку и за помощь в улучшении Back In Time!\n"
 #~ "Ваша команда Back In Time"
+
 # REUSE-IgnoreEnd

@@ -14,17 +14,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-08-09 12:53+0200\n"
-"PO-Revision-Date: 2026-01-31 12:36+0000\n"
+"PO-Revision-Date: 2026-08-17 06:33+0000\n"
 "Last-Translator: artnay <artnay@noreply.codeberg.org>\n"
-"Language-Team: Finnish <https://translate.codeberg.org/projects/backintime/common/fi/>\n"
+"Language-Team: Finnish <https://translate.codeberg.org/projects/backintime/"
+"common/fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #: common/bitbase.py:21 common/config.py:36 common/konfig.py:34
 #: common/mount/_backends.py:23 common/tools.py:88 qt/encfsmsgbox.py:32
@@ -73,7 +74,7 @@ msgstr ""
 
 #: common/check_config.py:113
 msgid "Two settings conflict with each other."
-msgstr ""
+msgstr "Kaksi asetusta on ristiriidassa keskenään."
 
 #: common/check_config.py:116
 #, fuzzy, python-brace-format
@@ -104,9 +105,8 @@ msgid "Local"
 msgstr "Paikallinen"
 
 #: common/config.py:195
-#, fuzzy
 msgid "Local (encrypted)"
-msgstr "Paikallinen salattu"
+msgstr "Paikallinen (salattu)"
 
 #: common/config.py:196 common/config.py:209
 #: qt/manageprofiles/tab_general.py:394
@@ -123,20 +123,21 @@ msgid "SSH private key"
 msgstr "Yksityinen SSH-avain"
 
 #: common/config.py:207
-#, fuzzy
 msgid "SSH (encrypted)"
-msgstr "SSH (EncFS salattu)"
+msgstr "SSH (salattu)"
 
 #: common/config.py:1880
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
-msgstr "Udevin ajoittaminen ei toimi tilassa {mode}"
+msgstr "Udev-ajoittaminen ei toimi tilassa \"{mode}\"."
 
 #: common/config.py:1907
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
 msgstr ""
+"Todennus aikakatkaistiin. Udev-pohjaisen ajoittamisen määritystä ei tehty "
+"loppuun. Yritä uudelleen."
 
 #: common/config.py:1945
 msgid "Failed to write new crontab."
@@ -175,21 +176,21 @@ msgstr ""
 
 #: common/mount/_backends.py:125 qt/manageprofiles/tab_general.py:477
 msgid "Reason:"
-msgstr ""
+msgstr "Syy:"
 
 #: common/mount/_backends.py:176 common/sshsetupvalidator.py:180
 #, python-brace-format
 msgid "Could not reach the SSH proxy host \"{host_port}\"."
-msgstr ""
+msgstr "SSH-välityspalvelinta \"{host_port}\" ei tavoitettu."
 
 #: common/mount/_backends.py:181 common/sshsetupvalidator.py:185
 #, python-brace-format
 msgid "Could not reach the SSH host \"{host_port}\"."
-msgstr ""
+msgstr "SSH-palvelinta \"{host_port}\" ei tavoitettu."
 
 #: common/mount/_backends.py:235
 msgid "SSH authentication failed for:"
-msgstr ""
+msgstr "SSH-todennus epäonnistui:"
 
 #: common/mount/_backends.py:237 common/mount/_backends.py:414
 #: common/mount/_encryptors.py:262 common/sshsetupvalidator.py:239
@@ -197,7 +198,7 @@ msgstr ""
 #: common/sshsetupvalidator.py:430 common/sshsetupvalidator.py:484
 #: common/sshsetupvalidator.py:513 common/sshsetupvalidator.py:563
 msgid "Details:"
-msgstr ""
+msgstr "Yksityiskohdat:"
 
 #: common/mount/_backends.py:292
 #, fuzzy
@@ -220,7 +221,7 @@ msgstr "Sijainti:"
 
 #: common/mount/_backends.py:325
 msgid "No SSH host configured."
-msgstr ""
+msgstr "SSH-palvelinta ei ole määritetty."
 
 #: common/mount/_backends.py:332
 #, fuzzy
@@ -239,24 +240,21 @@ msgid ""
 msgstr "Valittu varmuuskopion sijainti ei ole tyhjä."
 
 #: common/mount/_encryptors.py:191
-#, fuzzy
 msgid "Remove existing files or choose an empty directory."
-msgstr "Etäsijainti on olemassa muttei kansio."
+msgstr "Poista olemassa olevat tiedostot tai valitse tyhjä hakemisto."
 
 #: common/mount/_encryptors.py:208
 #, python-brace-format
 msgid "Required tool \"{tool}\" is not installed or not available."
-msgstr ""
+msgstr "Vaadittu työkalu \"{tool}\" ei ole asennettu tai saatavilla."
 
 #: common/mount/_encryptors.py:209
-#, fuzzy
 msgid "Please install it and try again."
-msgstr "Asenna \"nocache\" ottaaksesi tämän vaihtoehdon käyttöön."
+msgstr "Asenna se ja yritä uudelleen."
 
 #: common/mount/_encryptors.py:261
-#, fuzzy
 msgid "Unable to initialize encryption."
-msgstr "Ei voi liittää '{command}'"
+msgstr "Salausta ei voitu alustaa."
 
 #: common/mount/_encryptors.py:277
 #, python-brace-format
@@ -272,12 +270,11 @@ msgstr ""
 #: common/mount/_encryptors.py:338
 #, python-brace-format
 msgid "Mount failed with return code {rc}."
-msgstr ""
+msgstr "Liitos epäonnistui paluukoodilla {rc}."
 
 #: common/mount/_encryptors.py:341
-#, fuzzy
 msgid "Error:"
-msgstr "Virhe"
+msgstr "Virhe:"
 
 #: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:70
 msgid "Command:"
@@ -285,17 +282,17 @@ msgstr "Komento:"
 
 #: common/mount/_encryptors.py:374
 msgid "Unmount failed"
-msgstr ""
+msgstr "Liitoksen irrottaminen epäonnistui"
 
 #: common/mount/_encryptors.py:376
 #, python-brace-format
 msgid "Return code: {rc}"
-msgstr ""
+msgstr "Paluukoodi: {rc}"
 
 #: common/mount/_encryptors.py:378
 #, python-brace-format
 msgid "Original error: {err}"
-msgstr ""
+msgstr "Alkuperäinen virhe: {err}"
 
 #: common/password.py:297
 #, python-brace-format
@@ -431,14 +428,12 @@ msgid "Unable to rename {new_path} to {path}."
 msgstr "Ei voi uudelleennimetä {new_path} {path}:ksi."
 
 #: common/snapshots.py:2053
-#, fuzzy
 msgid "Applying rules to remove old backups"
-msgstr "Toteuta säännöt poistaaksesi vanhat varmuuskopiot"
+msgstr "Toteutetaan sääntöjä vanhojen varmuuskopioiden poistamiseksi"
 
 #: common/snapshots.py:2090
-#, fuzzy
 msgid "Applying retention policy"
-msgstr "Sovella säilytyskäytäntö"
+msgstr "Toteutetaan säilytyskäytäntöä"
 
 #: common/snapshots.py:2100
 msgid "Trying to keep min free space"
@@ -456,56 +451,55 @@ msgstr "Nyt"
 #: common/sshsetupvalidator.py:123
 #, python-brace-format
 msgid "\"{tool}\" is not installed on the remote host."
-msgstr ""
+msgstr "\"{tool}\" ei ole asennettuna etäjärjestelmässä."
 
 #: common/sshsetupvalidator.py:220
-#, fuzzy
 msgid "ssh-agent is not installed"
-msgstr "ssh-agentia ei löytynyt. Varmista, että se on asennettu."
+msgstr "ssh-agent ei ole asennettu"
 
 #: common/sshsetupvalidator.py:236 common/sshsetupvalidator.py:354
 #, python-brace-format
 msgid "Unexpected response from '{process}'."
-msgstr ""
+msgstr "Odottamaton vastaus prosessilta '{process}'."
 
 #: common/sshsetupvalidator.py:255
 #, python-brace-format
 msgid "Unexpected output from '{process}'."
-msgstr ""
+msgstr "Odottamaton tuloste prosessilta '{process}'."
 
 #: common/sshsetupvalidator.py:258
 msgid "Output:"
-msgstr ""
+msgstr "Tuloste:"
 
 #: common/sshsetupvalidator.py:285
 msgid "The SSH key is not loaded into ssh-agent."
-msgstr ""
+msgstr "SSH-avainta ei ole ladattu ssh-agent:iin."
 
 #: common/sshsetupvalidator.py:314
-#, fuzzy
 msgid "Failed to add SSH key."
-msgstr "Uuden SSH-avaimen luominen {path}:ssa epäonnistui."
+msgstr "SSH-avaimen lisääminen epäonnistui."
 
 #: common/sshsetupvalidator.py:336
 msgid "sshfs is not installed"
-msgstr ""
+msgstr "sshfs ei ole asennettu"
 
 #: common/sshsetupvalidator.py:384
 #, python-brace-format
 msgid "The SSH host \"{host}\" is not known yet."
-msgstr ""
+msgstr "SSH-järjestelmä \"{host}\" ei ole vielä tunnettu."
 
 #: common/sshsetupvalidator.py:388
 msgid "Please connect to the host manually once to confirm its fingerprint."
 msgstr ""
+"Yhdistä järjestelmään manuaalisesti kerran vahvistaaksesi sen sormenjäljen."
 
 #: common/sshsetupvalidator.py:429
 msgid "Could not write files to the remote host using rsync."
-msgstr ""
+msgstr "Tiedostoja ei voitu kirjoittaa etäjärjestelmään rsyncia käyttäen."
 
 #: common/sshsetupvalidator.py:483
 msgid "Could not verify rsync hardlink support."
-msgstr ""
+msgstr "Ei voitu vahvistaa rsyncin hardlink-tukea."
 
 #: common/sshsetupvalidator.py:512
 msgid "Unexpected error while verifying rsync hardlink support."
@@ -522,9 +516,9 @@ msgid "Could not create remote backup directory: {path}"
 msgstr "Etäsijaintia ei voitu luoda."
 
 #: common/sshtools.py:157
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Copy public SSH key \"{pubkey}\" to remote host \"{host}\"."
-msgstr "Kopioi julkinen ssh-avain \"{pubkey}\" palvelimelle \"{host}\"."
+msgstr "Kopioi julkinen SSH-avain \"{pubkey}\" palvelimelle \"{host}\"."
 
 #: common/sshtools.py:159
 #, python-brace-format
@@ -617,7 +611,9 @@ msgstr "Käännökset:"
 
 #: qt/aboutdlg.py:99
 msgid "translator-credits-placeholder"
-msgstr "Ellen Rönnholm"
+msgstr ""
+"Ellen Rönnholm\n"
+"Jiri Grönroos"
 
 #: qt/aboutdlg.py:106
 msgid "Translator credits not available for current language."
@@ -651,22 +647,21 @@ msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}Versio{BOLDEND}: {version}"
 
 #: qt/app.py:353
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time because no configuration"
 " is found."
 msgstr ""
-"{app_name} näyttää käynnistettävän ensimmäistä kertaa, koska asetuksia ei "
+"{app_name} vaikuttaa käynnistyvän ensimmäistä kertaa, koska asetuksia ei "
 "löytynyt."
 
 #: qt/app.py:358
-#, fuzzy
 msgid ""
 "Create a new configuration or import an existing configuration from a "
 "backup?"
 msgstr ""
-"Tuodaanko olemassa oleva kokoonpano (varmuuskopion kohdehakemistosta tai "
-"toisesta tietokoneesta)?"
+"Luodaanko uusi kokoonpano, vai tuodaanko olemassa oleva kokoonpano "
+"varmuuskopiosta?"
 
 #: qt/app.py:363 qt/confirmrestoredialog.py:36 qt/messagebox.py:124
 msgid "Question"
@@ -674,7 +669,7 @@ msgstr "Kysymys"
 
 #: qt/app.py:367
 msgid "Create"
-msgstr ""
+msgstr "Luo"
 
 #: qt/app.py:369 qt/restoreconfigdialog.py:136
 msgid "Import"
@@ -924,18 +919,12 @@ msgid "Text beside icon"
 msgstr "Teksti kuvakkeen vieressä"
 
 #: qt/app.py:965
-#, fuzzy
 msgid "This directory doesn't exist in the selected backup."
-msgstr ""
-"Tätä hakemistoa ei ole olemassa nykyisessä\n"
-"valitussa varmuuskopiossa."
+msgstr "Tätä hakemistoa ei ole olemassa valitussa varmuuskopiossa."
 
 #: qt/app.py:968
-#, fuzzy
 msgid "This directory doesn't exist on the computer."
-msgstr ""
-"Tätä hakemistoa ei ole olemassa nykyisessä\n"
-"valitussa varmuuskopiossa."
+msgstr "Tätä hakemistoa ei ole olemassa tietokoneella."
 
 #: qt/app.py:1018
 msgid ""
@@ -1001,26 +990,29 @@ msgid ""
 "We apologize for the interruption, and this message will not be shown again. This dialog is available at any time via the help menu.\n"
 "Your Back In Time Team"
 msgstr ""
-"Hei,\n"
-"Olet käyttänyt Back In Time -sovellusta kielellä: {language} jo jonkin aikaa.\n"
-"Ohjelmaversiosi käännös kielelle {language} on {perc} valmis. Riippumatta teknisestä osaamisestasi voit osallistua käännöksen ja sitä kautta myös Back In Time -ohjelman kehitykseen itsekin.\n"
-"Siirry osoitteeseen {translation_platform_url} jos haluat osallistua. Lisätietoja saat myös osoitteesta: {back_in_time_project_website}.\n"
-"Pyydämme anteeksi keskeytystä eikä tätä ilmoitusta näytetä uudestaan. Tämä viesti on saatavilla koska tahansa help -menun kautta.\n"
-"Sinun Back In Time Team"
+"Hei\n"
+"Olet käyttänyt Back In Time -sovellusta kielellä {language} jo jonkin "
+"aikaa.\n"
+"Ohjelmaversiosi käännös kielelle {language} on {perc} valmis. Riippumatta "
+"teknisestä osaamisestasi voit osallistua käännöksen ja sitä kautta myös Back "
+"In Time -sovelluksen kehitykseen itsekin.\n"
+"Siirry {translation_platform_url}, jos haluat osallistua. Lisätietoja on "
+"projektin verkkosivustolla: {back_in_time_project_website}.\n"
+"Pahoittelemme keskeytystä; tätä ilmoitusta ei näytetä uudestaan. Tämä viesti "
+"on saatavilla koska tahansa ohjevalikon kautta.\n"
+"Back In Time -tiimi"
 
 #: qt/app.py:1718
-#, fuzzy
 msgid "translation platform"
-msgstr "Käännökset"
+msgstr "käännösalustalle"
 
 #: qt/app.py:1723
 msgid "Website"
 msgstr "Sivusto"
 
 #: qt/app.py:1737
-#, fuzzy
 msgid "Your translation"
-msgstr "Käännökset"
+msgstr "Käännöksesi"
 
 #: qt/app.py:1774
 #, python-brace-format
@@ -1132,6 +1124,8 @@ msgstr "Versioidut varmuuskopiot"
 #: qt/backintime-qt.desktop:23
 msgid "User-friendly GUI for versioned backups that reduces disk usage"
 msgstr ""
+"Helppokäyttöinen käyttöliittymä versioituja, tilaa säästäviä varmuuskopioita "
+"varten"
 
 #: qt/confirmrestoredialog.py:77
 #, python-brace-format
@@ -1390,7 +1384,7 @@ msgstr ""
 
 #: qt/manageprofiles/copylinkswidget.py:62
 msgid "Uses 'rsync --copy-links'."
-msgstr ""
+msgstr "Käyttää 'rsync --copy-links'."
 
 #: qt/manageprofiles/copylinkswidget.py:67
 msgid "Only external"
@@ -1404,7 +1398,7 @@ msgstr ""
 
 #: qt/manageprofiles/copylinkswidget.py:74
 msgid "Uses 'rsync --copy-unsafe-links'."
-msgstr ""
+msgstr "Käyttää 'rsync --copy-unsafe-links'."
 
 #: qt/manageprofiles/excludesuggestions.py:33
 msgid "Editor & Office temporary files"
@@ -1512,11 +1506,11 @@ msgstr ""
 
 #: qt/manageprofiles/excludesuggestions.py:98
 msgid "List of currently mounted filesystems"
-msgstr ""
+msgstr "Lista parhaillaan liitetyistä tiedostojärjestelmistä"
 
 #: qt/manageprofiles/excludesuggestions.py:101
 msgid "System swap file (virtual memory)"
-msgstr ""
+msgstr "Järjestelmän swap-tiedosto (virtuaalimuisti)"
 
 #: qt/manageprofiles/excludesuggestions.py:102
 msgid "GNOME virtual file system mount point"
@@ -1536,12 +1530,11 @@ msgstr ""
 
 #: qt/manageprofiles/excludesuggestions.py:111
 msgid "User recycle bin"
-msgstr ""
+msgstr "Käyttäjän roskakori"
 
 #: qt/manageprofiles/excludesuggestions.py:112
-#, fuzzy
 msgid "System backup files"
-msgstr "Pysäytä varmuuskopiointi"
+msgstr "Järjestelmän varmuuskopiotiedostot"
 
 #: qt/manageprofiles/excludesuggestions.py:139
 #, fuzzy
@@ -1851,7 +1844,7 @@ msgstr "Jätä pois kuvio"
 #: qt/manageprofiles/tab_exclude.py:273
 #, python-brace-format
 msgid "For help, see the rsync man page section {link}."
-msgstr ""
+msgstr "Katso ohje rsyncin man-sivun osiosta {link}."
 
 #: qt/manageprofiles/tab_exclude.py:276
 msgid "Open rsync man page"
@@ -2051,33 +2044,35 @@ msgstr "Salauksen salasana ei voi olla tyhjä."
 
 #: qt/manageprofiles/tab_general.py:476
 msgid "Issues were found while validating the SSH configuration."
-msgstr ""
+msgstr "SSH-määritystä vahvistaessa löytyi ongelmia."
 
 #: qt/manageprofiles/tab_general.py:478
 msgid "SSH profile setup failed"
-msgstr ""
+msgstr "SSH-profiilin määritys epäonnistui"
 
 #: qt/manageprofiles/tab_general.py:522
-#, fuzzy
 msgid "Profile setup failed"
-msgstr "Profiili: ”{profile_name}”"
+msgstr "Profiilin määritys epäonnistui"
 
 #: qt/manageprofiles/tab_general.py:657
 msgid "Backups are stored locally."
-msgstr ""
+msgstr "Varmuuskopiot on talletettu paikallisesti."
 
 #: qt/manageprofiles/tab_general.py:659
 msgid "Backups are stored locally and encrypted using gocryptfs."
 msgstr ""
+"Varmuuskopiot on talletettu paikallisesti, ja salattu käyttäen gocryptfs:ää."
 
 #: qt/manageprofiles/tab_general.py:661
 msgid "Backups are stored on a remote system via SSH."
-msgstr ""
+msgstr "Varmuuskopiot on talletettu etäjärjestelmään SSH:n välityksellä."
 
 #: qt/manageprofiles/tab_general.py:663
 msgid ""
 "Backups are stored on a remote system via SSH and encrypted using gocryptfs."
 msgstr ""
+"Varmuuskopiot on talletettu etäjärjestelmään SSH:n välityksellä, ja salattu "
+"käyttäen gocryptfs:ää."
 
 #: qt/manageprofiles/tab_general.py:709
 msgid "Really change the backup directory?"
@@ -2237,9 +2232,8 @@ msgid "Keep the most recent backup."
 msgstr "Säilytä uusin varmuuskopio."
 
 #: qt/manageprofiles/tab_remove_retention.py:241
-#, fuzzy
 msgid "The most up-to-date backup is kept under all circumstances."
-msgstr "Viimeisin tai tuorein varmuuskopio säilytetään kaikissa olosuhteissa."
+msgstr "Ajantasaisin varmuuskopio säilytetään kaikissa olosuhteissa."
 
 #: qt/manageprofiles/tab_remove_retention.py:243
 msgid "That behavior cannot be changed."
@@ -2486,6 +2480,8 @@ msgid ""
 "The restore is still running. The window cannot be closed until it is "
 "finished."
 msgstr ""
+"Palautus on yhä käynnissä. Ikkunaa ei voi sulkea, ennen kuin palautus "
+"valmistuu."
 
 #: qt/shutdowndlg.py:28
 msgid "Countdown to Shutdown"
@@ -2648,6 +2644,7 @@ msgstr "Viimeksi tarkistettu {time}"
 #: qt/timeline.py:402
 msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
+"Nämä tiedostot ovat juuri niin kuin ne nyt ovat. Kyse ei ole varmuuskopiosta."
 
 #, python-brace-format
 #~ msgid ""
@@ -2668,4 +2665,5 @@ msgstr ""
 #~ "Tässä versiossa tätä viestiä ei enää näytetä, mutta se on käytettävissä milloin tahansa ohjevalikon kautta.\n"
 #~ "Kiitos tuestasi ja siitä, että autat meitä parantamaan Back In Timea!\n"
 #~ "Back In Time -joukkueesi"
+
 # REUSE-IgnoreEnd

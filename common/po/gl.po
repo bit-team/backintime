@@ -14,17 +14,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-08-09 12:53+0200\n"
-"PO-Revision-Date: 2026-06-15 09:24+0000\n"
+"PO-Revision-Date: 2026-08-30 19:10+0000\n"
 "Last-Translator: mbouzada <mbouzada@noreply.codeberg.org>\n"
-"Language-Team: Galician <https://translate.codeberg.org/projects/backintime/common/gl/>\n"
+"Language-Team: Galician <https://translate.codeberg.org/projects/backintime/"
+"common/gl/>\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6.1\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #: common/bitbase.py:21 common/config.py:36 common/konfig.py:34
 #: common/mount/_backends.py:23 common/tools.py:88 qt/encfsmsgbox.py:32
@@ -74,10 +75,10 @@ msgstr ""
 
 #: common/check_config.py:113
 msgid "Two settings conflict with each other."
-msgstr ""
+msgstr "Dous axustes entran en conflito entre si."
 
 #: common/check_config.py:116
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal to the value for \"Warn if the free "
@@ -88,13 +89,12 @@ msgstr ""
 "espazo libre no disco cae por baixo de» ({val_two})."
 
 #: common/check_config.py:123
-#, fuzzy
 msgid ""
 "Please adjust the settings. The threshold for removing old backups must not "
 "be higher for the free disk space warning value."
 msgstr ""
-"Axuste a configuración para que o límite de eliminación da copia de "
-"seguranza non sexa superior ao límite de advertencia."
+"Axuste as configuracións. O limiar para eliminar as copias de seguranza "
+"antigas non debe ser máis alto que o valor do aviso de espazo libre no disco."
 
 #: common/config.py:175 common/konfig.py:52 common/konfig.py:1427
 msgid "Main profile"
@@ -105,9 +105,8 @@ msgid "Local"
 msgstr "Local"
 
 #: common/config.py:195
-#, fuzzy
 msgid "Local (encrypted)"
-msgstr "Cifrado local"
+msgstr "Local (cifrado)"
 
 #: common/config.py:196 common/config.py:209
 #: qt/manageprofiles/tab_general.py:394
@@ -121,23 +120,24 @@ msgstr "SSH"
 #: common/config.py:202 common/config.py:208
 #: qt/manageprofiles/tab_general.py:750
 msgid "SSH private key"
-msgstr "Chave SSH privada"
+msgstr "Chave privada de SSH"
 
 #: common/config.py:207
-#, fuzzy
 msgid "SSH (encrypted)"
-msgstr "SSH (EncFS cifrado)"
+msgstr "SSH (cifrado)"
 
 #: common/config.py:1880
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
-msgstr "A programación de udev non funciona co modo {mode}"
+msgstr "O modo «{mode}» non é compatíbel coa programación de Udev."
 
 #: common/config.py:1907
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
 msgstr ""
+"Esgotouse o tempo de autenticación. A configuración da programación baseada "
+"en Udev non foi completada. Ténteo de novo."
 
 #: common/config.py:1945
 msgid "Failed to write new crontab."
@@ -158,9 +158,8 @@ msgstr ""
 "distribución GNU/Linux que está a usar agora."
 
 #: common/mount/_backends.py:103 common/snapshots.py:972
-#, fuzzy
 msgid "Can't find backup destination directory."
-msgstr "Non é posíbel atopar o directorio de copias de seguranza."
+msgstr "Non é posíbel atopar o directorio de destino da copia de seguranza."
 
 #: common/mount/_backends.py:105 common/snapshots.py:976
 msgid "If it is on a removable drive, please plug it in."
@@ -173,24 +172,26 @@ msgstr "A continuación, prema en Aceptar."
 #: common/mount/_backends.py:123
 msgid "Back In Time could not connect to the remote backup location."
 msgstr ""
+"Back In Time non puido conectarse á localización remota da copia de "
+"seguranza."
 
 #: common/mount/_backends.py:125 qt/manageprofiles/tab_general.py:477
 msgid "Reason:"
-msgstr ""
+msgstr "Motivo:"
 
 #: common/mount/_backends.py:176 common/sshsetupvalidator.py:180
 #, python-brace-format
 msgid "Could not reach the SSH proxy host \"{host_port}\"."
-msgstr ""
+msgstr "Non foi posíbel acadar o servidor proxy SSH «{host_port}«."
 
 #: common/mount/_backends.py:181 common/sshsetupvalidator.py:185
 #, python-brace-format
 msgid "Could not reach the SSH host \"{host_port}\"."
-msgstr ""
+msgstr "Non foi posíbel acadar o servidor SSH «{host_port}»."
 
 #: common/mount/_backends.py:235
 msgid "SSH authentication failed for:"
-msgstr ""
+msgstr "A autenticación SSH fallou para:"
 
 #: common/mount/_backends.py:237 common/mount/_backends.py:414
 #: common/mount/_encryptors.py:262 common/sshsetupvalidator.py:239
@@ -198,22 +199,23 @@ msgstr ""
 #: common/sshsetupvalidator.py:430 common/sshsetupvalidator.py:484
 #: common/sshsetupvalidator.py:513 common/sshsetupvalidator.py:563
 msgid "Details:"
-msgstr ""
+msgstr "Detalles:"
 
 #: common/mount/_backends.py:292
-#, fuzzy
 msgid "The remote backup directory is missing or is not a valid directory."
-msgstr "A ruta remota existe mais non é un cartafol."
+msgstr ""
+"Falta o directorio remoto de copia de seguranza ou non é un directorio "
+"válido."
 
 #: common/mount/_backends.py:298
-#, fuzzy
 msgid "Write access to the remote backup directory was denied."
-msgstr "O directorio de copias de seguranza non é válido."
+msgstr ""
+"Foi denegado o acceso de escritura ao directorio remoto de copias de "
+"seguranza."
 
 #: common/mount/_backends.py:303
-#, fuzzy
 msgid "Access to the remote backup directory was denied."
-msgstr "O directorio de copias de seguranza non é válido."
+msgstr "Foi denegado o acceso ao directorio remoto de copias de seguranza."
 
 #: common/mount/_backends.py:317 qt/manageprofiles/tab_general.py:126
 msgid "Path:"
@@ -221,64 +223,63 @@ msgstr "Ruta:"
 
 #: common/mount/_backends.py:325
 msgid "No SSH host configured."
-msgstr ""
+msgstr "Non hai ningún servidor SSH configurado."
 
 #: common/mount/_backends.py:332
-#, fuzzy
 msgid "No destination backup directory configured."
-msgstr "Non é posíbel atopar o directorio de copias de seguranza."
+msgstr ""
+"Non hai ningún directorio de destino de copias de seguranza configurado."
 
 #: common/mount/_backends.py:412
-#, fuzzy
 msgid "Could not mount the remote backup location."
-msgstr "Non foi posíbel crear a ruta remota."
+msgstr "Non foi posíbel montar a localización de copia de seguranza remota."
 
 #: common/mount/_encryptors.py:188
-#, fuzzy
 msgid ""
 "Cannot initialize encryption because the backup destination is not empty."
-msgstr "O destino da copia de seguranza seleccionado non está baleiro."
+msgstr ""
+"Non é posíbel inicializar o cifrado porque o destino da copia de seguranza "
+"seleccionado non está baleiro."
 
 #: common/mount/_encryptors.py:191
-#, fuzzy
 msgid "Remove existing files or choose an empty directory."
-msgstr "A ruta remota existe mais non é un cartafol."
+msgstr "Eliminar os ficheiros existentes ou escoller un directorio baleiro."
 
 #: common/mount/_encryptors.py:208
 #, python-brace-format
 msgid "Required tool \"{tool}\" is not installed or not available."
 msgstr ""
+"A ferramenta requirida «{tool}» non está instalada ou non está dispoñíbel."
 
 #: common/mount/_encryptors.py:209
-#, fuzzy
 msgid "Please install it and try again."
-msgstr "Instale «nocache» para activar esta opción."
+msgstr "Instálea e ténteo de novo."
 
 #: common/mount/_encryptors.py:261
-#, fuzzy
 msgid "Unable to initialize encryption."
-msgstr "Non é posíbel iniciar a ruta cifrada «{command}»"
+msgstr "Non é posíbel inicializar o cifrado."
 
 #: common/mount/_encryptors.py:277
 #, python-brace-format
 msgid ""
 "Backup destination directory is not prepared for encryption. Path: {path}"
 msgstr ""
+"O directorio de destino da copia de seguranza non está preparado para o "
+"cifrado. Ruta: {path}"
 
 #: common/mount/_encryptors.py:286
 #, python-brace-format
 msgid "Decrypted view mountpoint is missing. Path: {path}"
-msgstr ""
+msgstr "Falta o punto de montaxe da vista descifrada. Ruta: {path}"
 
 #: common/mount/_encryptors.py:338
 #, python-brace-format
 msgid "Mount failed with return code {rc}."
-msgstr ""
+msgstr "A montaxe fallou co código de erro {rc}."
 
 #: common/mount/_encryptors.py:341
-#, fuzzy
 msgid "Error:"
-msgstr "Erro"
+msgstr "Erro:"
 
 #: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:70
 msgid "Command:"
@@ -286,17 +287,17 @@ msgstr "Orde:"
 
 #: common/mount/_encryptors.py:374
 msgid "Unmount failed"
-msgstr ""
+msgstr "Produciuse un fallo na desmontaxe"
 
 #: common/mount/_encryptors.py:376
 #, python-brace-format
 msgid "Return code: {rc}"
-msgstr ""
+msgstr "Erro recibido: {rc}"
 
 #: common/mount/_encryptors.py:378
 #, python-brace-format
 msgid "Original error: {err}"
-msgstr ""
+msgstr "Erro orixinal: {err}"
 
 #: common/password.py:297
 #, python-brace-format
@@ -422,6 +423,8 @@ msgid ""
 "Negative exit codes indicate termination by a signal. The number corresponds"
 " to the signal (see 'kill -l')."
 msgstr ""
+"As alertas con erros negativos indican que o proceso foi interrompido. Para "
+"obter máis información do erro vexa «kill -l»."
 
 #: common/snapshots.py:1599
 msgid "Nothing changed, no new backup necessary"
@@ -456,75 +459,78 @@ msgstr "Agora"
 #: common/sshsetupvalidator.py:123
 #, python-brace-format
 msgid "\"{tool}\" is not installed on the remote host."
-msgstr ""
+msgstr "«{tool}» non está instalada no servidor remoto."
 
 #: common/sshsetupvalidator.py:220
-#, fuzzy
 msgid "ssh-agent is not installed"
-msgstr "Non se atopou ssh-agent. Asegúrese de que está instalado."
+msgstr "ssh-agent non está instalado"
 
 #: common/sshsetupvalidator.py:236 common/sshsetupvalidator.py:354
 #, python-brace-format
 msgid "Unexpected response from '{process}'."
-msgstr ""
+msgstr "O proceso «{process}» non respondeu como se agardaba."
 
 #: common/sshsetupvalidator.py:255
 #, python-brace-format
 msgid "Unexpected output from '{process}'."
-msgstr ""
+msgstr "A saída do proceso «{process}» non é a agaradada."
 
 #: common/sshsetupvalidator.py:258
 msgid "Output:"
-msgstr ""
+msgstr "Saída:"
 
 #: common/sshsetupvalidator.py:285
 msgid "The SSH key is not loaded into ssh-agent."
-msgstr ""
+msgstr "A chave SSH non está cargada en ssh-agent."
 
 #: common/sshsetupvalidator.py:314
-#, fuzzy
 msgid "Failed to add SSH key."
-msgstr "Produciuse un fallo ao crear a nova chave SSH en {path}."
+msgstr "Produciuse un fallo ao engadir a chave SSH."
 
 #: common/sshsetupvalidator.py:336
 msgid "sshfs is not installed"
-msgstr ""
+msgstr "«sshfs» non está instalado"
 
 #: common/sshsetupvalidator.py:384
 #, python-brace-format
 msgid "The SSH host \"{host}\" is not known yet."
-msgstr ""
+msgstr "O servidor SSH «{host}» aínda é descoñecido."
 
 #: common/sshsetupvalidator.py:388
 msgid "Please connect to the host manually once to confirm its fingerprint."
 msgstr ""
+"Conéctate manualmente ao servidor unha vez para confirmar a súa pegada "
+"dixital."
 
 #: common/sshsetupvalidator.py:429
 msgid "Could not write files to the remote host using rsync."
 msgstr ""
+"Non foi posíbel escribir os ficheiros no servidor remoto empregando rsync."
 
 #: common/sshsetupvalidator.py:483
 msgid "Could not verify rsync hardlink support."
-msgstr ""
+msgstr "Non foi posíbel verificar a compatibilidade coa ligazón dura de rsync."
 
 #: common/sshsetupvalidator.py:512
 msgid "Unexpected error while verifying rsync hardlink support."
 msgstr ""
+"Produciuse un erro non agardado ao verificar a compatibilidade coa ligazón "
+"dura de rsync."
 
 #: common/sshsetupvalidator.py:519
-#, fuzzy
 msgid "The remote file system does not support hardlinks."
-msgstr "O servidor remoto {host} non admite ligazóns duras"
+msgstr "O sistema de ficheiros remoto non admite ligazóns duras."
 
 #: common/sshsetupvalidator.py:562
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not create remote backup directory: {path}"
-msgstr "Non foi posíbel crear a ruta remota."
+msgstr ""
+"Non foi posíbel crear o directorio remoto de copias de seguranza: {path}"
 
 #: common/sshtools.py:157
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Copy public SSH key \"{pubkey}\" to remote host \"{host}\"."
-msgstr "Copiar a chave ssh pública «{pubkey}» ao servidor remoto «{host}»."
+msgstr "Copiar a chave SSH pública «{pubkey}» ao servidor remoto «{host}»."
 
 #: common/sshtools.py:159
 #, python-brace-format
@@ -662,13 +668,11 @@ msgstr ""
 "ningunha configuración."
 
 #: qt/app.py:358
-#, fuzzy
 msgid ""
 "Create a new configuration or import an existing configuration from a "
 "backup?"
 msgstr ""
-"Importar unha configuración existente desde unha localización de copia de "
-"seguranza ou doutro computador)?"
+"Crear unha nova configuración ou importar unha desde unha copia de seguranza?"
 
 #: qt/app.py:363 qt/confirmrestoredialog.py:36 qt/messagebox.py:124
 msgid "Question"
@@ -676,7 +680,7 @@ msgstr "Pregunta"
 
 #: qt/app.py:367
 msgid "Create"
-msgstr ""
+msgstr "Crear"
 
 #: qt/app.py:369 qt/restoreconfigdialog.py:136
 msgid "Import"
@@ -809,12 +813,11 @@ msgstr "Informar dun fallo"
 
 #: qt/app.py:605
 msgid "Contact"
-msgstr ""
+msgstr "Contacto"
 
 #: qt/app.py:607
-#, fuzzy
 msgid "Shows additional contact options in the browser"
-msgstr "Pegar as opcións adicionais a rsync"
+msgstr "Amosar as opcións de contacto adicionais no navegador"
 
 #: qt/app.py:610
 msgid "Translation"
@@ -955,7 +958,7 @@ msgstr "Pechar a xanela aínda así?"
 
 #: qt/app.py:1112 qt/app.py:1119
 msgid "Backup destination unavailable"
-msgstr ""
+msgstr "O destino da copia de seguranza non está dispoñíbel"
 
 #: qt/app.py:1234
 msgid "Done, no backup needed"
@@ -1062,6 +1065,16 @@ msgid ""
 "This message won't be shown again, but it can be opened anytime from the Help menu.\n"
 "Thank you for testing Back In Time and helping us improve it!"
 msgstr ""
+"Esta é unha versión candidata (Release Candidate) para probar antes da "
+"próxima versión estábel.\n"
+"Se probas esta versión, por favor, envíanos os teus comentarios. Fainos "
+"saber se atopaches algún problema ou se todo funcionou como agardábas. Ata "
+"unha proba curta de poucos minutos énos moi útil.\n"
+"Podes contactar co equipo de Back In Time a través de:\n"
+"{contact_list}\n"
+"Esta mensaxe non volverá amosarse, mais pódese abrir en calquera momento "
+"desde o menú Axuda.\n"
+"Grazas por probar Back In Time e axudarnos a melloralo!"
 
 #: qt/app.py:1879
 msgid "Check if remote host is online"
@@ -1577,6 +1590,11 @@ msgid ""
 "triggered again at 19:00 because the hour boundary has been crossed. This "
 "schedule mode is useful if the computer is not running regularly."
 msgstr ""
+"Por exemplo, «repetido cada hora» significa que se inicia unha copia de "
+"seguranza en cada nova hora do reloxo. Se a última copia de seguranza "
+"satisfactoria exitosa foi ás 18:56, volverá iniciarse ás 19:00 porque se "
+"superou o límite horario. Este modo de programación é útil se o computador "
+"non funciona con regularidade."
 
 #: qt/manageprofiles/schedulewidget.py:49
 msgid "Schedule"
@@ -1619,6 +1637,8 @@ msgid ""
 "Trigger a backup when a new hour, day, week, or month begins. If the system "
 "was off, it runs on the next start."
 msgstr ""
+"Inicia unha copia de seguranza cando comeza unha nova hora, día, semana ou "
+"mes. Se o sistema estaba apagado, executarase no seguinte arrinque."
 
 #: qt/manageprofiles/schedulewidget.py:133
 msgid "Every:"
@@ -1679,9 +1699,8 @@ msgid "Every day"
 msgstr "Todos os días"
 
 #: qt/manageprofiles/schedulewidget.py:189
-#, fuzzy
 msgid "Repeatedly"
-msgstr "Repetidamente (anacron)"
+msgstr "Repetidamente"
 
 #: qt/manageprofiles/schedulewidget.py:191
 msgid "When drive gets connected (udev)"
@@ -1791,17 +1810,17 @@ msgstr ""
 "«ProxyJump» na páxina de man «ssh_config» para obter máis detalles."
 
 #: qt/manageprofiles/tab_exclude.py:63
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "{BOLD}Info{ENDBOLD}: In 'SSH encrypted' mode, only single or double "
 "asterisks are functional (e.g. {example2}). Other types of wildcards and "
 "patterns will be ignored (e.g. {example1}). Filenames are unpredictable in "
 "this mode."
 msgstr ""
-"{BOLD}Información{ENDBOLD}: no modo «Cifrado SSH», só funcionan os "
+"{BOLD}Información{ENDBOLD}: no modo «SSH cifrado», só funcionan os "
 "asteriscos simples ou dobres (p. ex., {example2}). Ignoraranse outros tipos "
 "de comodíns e patróns (p. ex., {example1}). Os nomes de ficheiros son "
-"imprevisíbeis neste modo por mor do cifrado de EncFS."
+"imprevisíbeis neste modo."
 
 #: qt/manageprofiles/tab_exclude.py:86
 msgid "Exclude patterns, files or directories"
@@ -2067,46 +2086,50 @@ msgstr "O contrasinal de cifrado non pode estar baleiro."
 
 #: qt/manageprofiles/tab_general.py:476
 msgid "Issues were found while validating the SSH configuration."
-msgstr ""
+msgstr "Atopáronse problemas ao validar a configuración SSH."
 
 #: qt/manageprofiles/tab_general.py:478
 msgid "SSH profile setup failed"
-msgstr ""
+msgstr "Produciuse un fallo na configuración do perfil SSH"
 
 #: qt/manageprofiles/tab_general.py:522
-#, fuzzy
 msgid "Profile setup failed"
-msgstr "Perfil: {profile_name}"
+msgstr "No foi posíbel configurar o perfil"
 
 #: qt/manageprofiles/tab_general.py:657
 msgid "Backups are stored locally."
-msgstr ""
+msgstr "As copias de seguranza gárdanse localmente (no propio equipo)."
 
 #: qt/manageprofiles/tab_general.py:659
 msgid "Backups are stored locally and encrypted using gocryptfs."
 msgstr ""
+"As copias de seguranza almacénanse no disco local e cífranse empregando "
+"gocryptfs."
 
 #: qt/manageprofiles/tab_general.py:661
 msgid "Backups are stored on a remote system via SSH."
-msgstr ""
+msgstr "As copias de seguranza almacénanse nun sistema remoto a través de SSH."
 
 #: qt/manageprofiles/tab_general.py:663
 msgid ""
 "Backups are stored on a remote system via SSH and encrypted using gocryptfs."
 msgstr ""
+"As copias de seguranza almacénanse nun sistema remoto a través de SSH e "
+"cífranse empregando gocryptfs."
 
 #: qt/manageprofiles/tab_general.py:709
 msgid "Really change the backup directory?"
 msgstr "Confirma que quere cambiar o directorio de copia de seguranza?"
 
 #: qt/manageprofiles/tab_general.py:729
-#, fuzzy
 msgid "The selected backup destination cannot be used for encryption."
-msgstr "O destino da copia de seguranza seleccionado non está baleiro."
+msgstr ""
+"O destino da copia de seguranza seleccionado non é posíbel usalo para o "
+"cifrado."
 
 #: qt/manageprofiles/tab_general.py:732
 msgid "It must either be empty or already initialized for gocryptfs."
-msgstr ""
+msgstr "Debe estar baleiro ou xa inicializado para gocryptfs."
 
 #: qt/manageprofiles/tab_general.py:762
 msgid "Invalid file: Not a private SSH key"
@@ -2486,9 +2509,8 @@ msgid "Show/hide hidden directories (Ctrl+H)"
 msgstr "Amosar/agochar os directorios agochados (Ctrl+H)"
 
 #: qt/restoreconfigdialog.py:308
-#, fuzzy
 msgid "No config found in this directory."
-msgstr "Non se atopou ningunha configuración neste directorio"
+msgstr "Non se atopou ningunha configuración neste directorio."
 
 #: qt/restoreconfigdialog.py:373
 msgid "Search complete."
@@ -2503,6 +2525,8 @@ msgid ""
 "The restore is still running. The window cannot be closed until it is "
 "finished."
 msgstr ""
+"A restauración aínda está en proceso. Non é posíbel pechar a xanela ata que "
+"remate."
 
 #: qt/shutdowndlg.py:28
 msgid "Countdown to Shutdown"
@@ -2688,4 +2712,5 @@ msgstr ""
 #~ "Nesta versión, esta mensaxe non volverá amosarse, mais pódese acceder en calquera momento a través do menú de axuda.\n"
 #~ "Grazas polo seu apoio e por axudarnos a mellorar Back In Time!\n"
 #~ "O equipo de Back In Time"
+
 # REUSE-IgnoreEnd

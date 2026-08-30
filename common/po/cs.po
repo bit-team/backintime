@@ -14,17 +14,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev\n"
-"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-08-09 12:53+0200\n"
-"PO-Revision-Date: 2026-08-07 13:32+0000\n"
+"PO-Revision-Date: 2026-08-15 10:26+0000\n"
 "Last-Translator: p-bo <p-bo@noreply.codeberg.org>\n"
-"Language-Team: Czech <https://translate.codeberg.org/projects/backintime/common/cs/>\n"
+"Language-Team: Czech <https://translate.codeberg.org/projects/backintime/"
+"common/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 2026.7.1\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #: common/bitbase.py:21 common/config.py:36 common/konfig.py:34
 #: common/mount/_backends.py:23 common/tools.py:88 qt/encfsmsgbox.py:32
@@ -88,13 +89,12 @@ msgstr ""
 " volné místo na disku poklesne pod“ ({val_two})."
 
 #: common/check_config.py:123
-#, fuzzy
 msgid ""
 "Please adjust the settings. The threshold for removing old backups must not "
 "be higher for the free disk space warning value."
 msgstr ""
-"Upravte nastavení tak, aby práh pro odebírání starých záloh nebyl vyšší než "
-"ten pro varování ohledně volného místa."
+"Upravte nastavení. Je třeba, aby práh pro odebírání starých záloh nebyl "
+"vyšší než ten pro varování ohledně volného místa."
 
 #: common/config.py:175 common/konfig.py:52 common/konfig.py:1427
 msgid "Main profile"
@@ -127,9 +127,11 @@ msgid "SSH (encrypted)"
 msgstr "Přes SSH (v šifrované podobě)"
 
 #: common/config.py:1880
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
-msgstr "Plán, používající správce zařízení udev, nefunguje v režimu {mode}."
+msgstr ""
+"Plánování, využívající správce zařízení udev, není podporován s režimem „"
+"{mode}“."
 
 #: common/config.py:1907
 msgid ""
@@ -2065,9 +2067,8 @@ msgid "The encryption password cannot be empty."
 msgstr "Šifrovací heslo je třeba vyplnit."
 
 #: qt/manageprofiles/tab_general.py:476
-#, fuzzy
 msgid "Issues were found while validating the SSH configuration."
-msgstr "Back In Time nemohlo ověřit správnost nastavení SSH."
+msgstr "Nalezeny problémy při ověřování správnosti nastavení SSH."
 
 #: qt/manageprofiles/tab_general.py:478
 msgid "SSH profile setup failed"
@@ -2690,4 +2691,5 @@ msgstr "Toto jsou soubory tak, jaké jsou nyní. Nejedná se o zálohu."
 #~ "V této verzi tato zpráva už nebude znovu zobrazována, ale je možné se k ní kdykoli dostat prostřednictvím nabídky Nápověda.\n"
 #~ "Děkujeme za vaši podporu a pomoc se zlepšováním Back In Time!\n"
 #~ "Váš kolektiv vývojářů Back In Time"
+
 # REUSE-IgnoreEnd

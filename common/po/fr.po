@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-dev\n"
 "Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
 "POT-Creation-Date: 2026-08-09 12:53+0200\n"
-"PO-Revision-Date: 2026-08-11 09:16+0000\n"
-"Last-Translator: marc9876543210 <marc9876543210@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-08-28 10:40+0000\n"
+"Last-Translator: Loufute <loufute@noreply.codeberg.org>\n"
 "Language-Team: French <https://translate.codeberg.org/projects/backintime/"
 "common/fr/>\n"
 "Language: fr\n"
@@ -79,7 +79,7 @@ msgstr ""
 
 #: common/check_config.py:113
 msgid "Two settings conflict with each other."
-msgstr "Deux des réglages effectués sont incompatibles."
+msgstr "Deux paramètres sont incompatibles."
 
 #: common/check_config.py:116
 #, python-brace-format
@@ -98,7 +98,7 @@ msgid ""
 "be higher for the free disk space warning value."
 msgstr ""
 "Veuillez ajuster les paramètres. La limite pour supprimer d'anciennes "
-"sauvegardes ne doit pas être supérieure à la limite pour alerter sur "
+"sauvegardes ne doit pas être supérieure à la valeur d'alerte relative à "
 "l'espace disque disponible."
 
 #: common/config.py:175 common/konfig.py:52 common/konfig.py:1427
@@ -132,15 +132,17 @@ msgid "SSH (encrypted)"
 msgstr "SSH (chiffré)"
 
 #: common/config.py:1880
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
-msgstr "La planification Udev ne fonctionne pas avec le mode {mode}"
+msgstr "La planification Udev ne fonctionne pas avec le mode « {mode} »."
 
 #: common/config.py:1907
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
 msgstr ""
+"Le délai d'authentification est écoulé. La configuration de la planification "
+"via Udev n'a pas été effectuée. Veuillez réessayer."
 
 #: common/config.py:1945
 msgid "Failed to write new crontab."
@@ -174,7 +176,7 @@ msgstr "Appuyez ensuite sur OK."
 
 #: common/mount/_backends.py:123
 msgid "Back In Time could not connect to the remote backup location."
-msgstr "Back In Time ne pourra pas se connecter à la sauvegarde distante."
+msgstr "Back In Time n'a pas pu se connecter à la sauvegarde distante."
 
 #: common/mount/_backends.py:125 qt/manageprofiles/tab_general.py:477
 msgid "Reason:"
@@ -183,7 +185,7 @@ msgstr "Raison :"
 #: common/mount/_backends.py:176 common/sshsetupvalidator.py:180
 #, python-brace-format
 msgid "Could not reach the SSH proxy host \"{host_port}\"."
-msgstr "Impossible d'atteindre l'hôte mandataire SSH \"{host_port}\"."
+msgstr "Impossible d'atteindre l'hôte proxy SSH \"{host_port}\"."
 
 #: common/mount/_backends.py:181 common/sshsetupvalidator.py:185
 #, python-brace-format
@@ -205,7 +207,7 @@ msgstr "Détails :"
 #: common/mount/_backends.py:292
 msgid "The remote backup directory is missing or is not a valid directory."
 msgstr ""
-"Le répertoire de sauvegarde distant n'existe pas ou n'est pas un répertoire "
+"Le répertoire de sauvegarde distant est manquant ou n'est pas un répertoire "
 "valide."
 
 #: common/mount/_backends.py:298
@@ -230,7 +232,7 @@ msgstr "Aucune destination pour le répertoire de sauvegarde n'est configurée."
 
 #: common/mount/_backends.py:412
 msgid "Could not mount the remote backup location."
-msgstr "Impossible de monter la sauvegarde distante."
+msgstr "Impossible de monter l'emplacement de sauvegarde distant."
 
 #: common/mount/_encryptors.py:188
 msgid ""
@@ -250,7 +252,7 @@ msgstr "Nécessite l'outil \"{tool}\" qui n'est pas installé ou pas disponible.
 
 #: common/mount/_encryptors.py:209
 msgid "Please install it and try again."
-msgstr "Veuillez l'installer et réessayer ."
+msgstr "Veuillez l'installer et réessayer."
 
 #: common/mount/_encryptors.py:261
 msgid "Unable to initialize encryption."
@@ -265,10 +267,9 @@ msgstr ""
 "chiffrement. Chemin : {path}"
 
 #: common/mount/_encryptors.py:286
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Decrypted view mountpoint is missing. Path: {path}"
-msgstr ""
-"Le point de montage, tel que déchiffré, est manquant. Chemin d'accès: {path}"
+msgstr "Le point de montage, tel que déchiffré, est manquant. Chemin : {path}"
 
 #: common/mount/_encryptors.py:338
 #, python-brace-format
@@ -419,8 +420,8 @@ msgid ""
 "Negative exit codes indicate termination by a signal. The number corresponds"
 " to the signal (see 'kill -l')."
 msgstr ""
-"Les codes de retour sont négatifs lorsque l'arrêt est du à la réception d'un"
-" signal. La valeur du code correspond au signal (voir 'kill -l')."
+"Des codes de retour négatifs indiquent un arrêt dû à la réception d'un "
+"signal. La valeur du code correspond au signal (voir 'kill -l')."
 
 #: common/snapshots.py:1599
 msgid "Nothing changed, no new backup necessary"
@@ -467,9 +468,9 @@ msgid "Unexpected response from '{process}'."
 msgstr "Réponse inattendue reçue de '{process}'."
 
 #: common/sshsetupvalidator.py:255
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Unexpected output from '{process}'."
-msgstr "Information inattendue reçue de '{process}'."
+msgstr "Résutat inattendu reçu de '{process}'."
 
 #: common/sshsetupvalidator.py:258
 msgid "Output:"
@@ -477,18 +478,18 @@ msgstr "Sortie :"
 
 #: common/sshsetupvalidator.py:285
 msgid "The SSH key is not loaded into ssh-agent."
-msgstr "La clef SSH n'est pas chargée dans ssh-agent."
+msgstr "La clé SSH n'est pas chargée dans ssh-agent."
 
 #: common/sshsetupvalidator.py:314
 msgid "Failed to add SSH key."
-msgstr "Impossible d'ajouter la clef SSH."
+msgstr "Impossible d'ajouter la clé SSH."
 
 #: common/sshsetupvalidator.py:336
 msgid "sshfs is not installed"
 msgstr "sshfs n'est pas installé"
 
 #: common/sshsetupvalidator.py:384
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "The SSH host \"{host}\" is not known yet."
 msgstr "L'hôte SSH \"{host}\" n'est pas de confiance pour le moment."
 
@@ -504,17 +505,19 @@ msgstr ""
 
 #: common/sshsetupvalidator.py:483
 msgid "Could not verify rsync hardlink support."
-msgstr "Impossible de vérifier la prise en charge de lien direct par rsync."
+msgstr ""
+"Impossible de vérifier la prise en charge des liens physiques par rsync."
 
 #: common/sshsetupvalidator.py:512
 msgid "Unexpected error while verifying rsync hardlink support."
 msgstr ""
-"Erreur inattendue lors de la vérification de la prise en charge de lien "
-"direct par rsync."
+"Erreur inattendue lors de la vérification de la prise en charge des liens "
+"physiques par rsync."
 
 #: common/sshsetupvalidator.py:519
 msgid "The remote file system does not support hardlinks."
-msgstr "Le fichier distant ne prend pas en charge les liens directs."
+msgstr ""
+"Le système de fichiers distant ne prend pas en charge les liens physiques."
 
 #: common/sshsetupvalidator.py:562
 #, python-brace-format
@@ -674,8 +677,8 @@ msgid ""
 "Create a new configuration or import an existing configuration from a "
 "backup?"
 msgstr ""
-"Créer une nouvelle ou importer une configuration existante à partir d'un "
-"emplacement de sauvegarde ou d'un autre ordinateur ?"
+"Créer une nouvelle configuration ou importer une configuration existante à "
+"partir d'une sauvegarde ?"
 
 #: qt/app.py:363 qt/confirmrestoredialog.py:36 qt/messagebox.py:124
 msgid "Question"
@@ -1071,16 +1074,16 @@ msgid ""
 "This message won't be shown again, but it can be opened anytime from the Help menu.\n"
 "Thank you for testing Back In Time and helping us improve it!"
 msgstr ""
-"Cette version est une Release Candidate, pour test, avant la prochaine "
-"version stable.\n"
-"Si vous testez cette version, merci de nous faire un retour. Faites nous "
-"savoir si vous rencontrez un problème ou si tout fonctionne comme attendu. "
-"Même un court test de quelques minutes est utile.\n"
-"Vous pouvez contacter l'équipe Back In Time via:\n"
+"Cette version est une Release Candidate destinée aux tests avant la "
+"prochaine version stable.\n"
+"Si vous testez cette version, merci de nous faire un retour. Signalez-nous "
+"si vous rencontrez un problème ou si tout fonctionne comme attendu. Même un "
+"court test de quelques minutes est utile.\n"
+"Vous pouvez contacter l'équipe Back In Time via :\n"
 "{contact_list}\n"
-"Ce message ne sera pas ré-affiché, mais vous pouvez le relire à n'importe "
-"quel moment à partir du menu Aide.\n"
-"Merci de tester Back In Time et de nous aider à l'améliorer!"
+"Ce message ne s'affichera plus, mais vous pouvez le relire à n'importe quel "
+"moment à partir du menu Aide.\n"
+"Merci de tester Back In Time et de nous aider à l'améliorer !"
 
 #: qt/app.py:1879
 msgid "Check if remote host is online"
@@ -1609,10 +1612,10 @@ msgid ""
 "triggered again at 19:00 because the hour boundary has been crossed. This "
 "schedule mode is useful if the computer is not running regularly."
 msgstr ""
-"Par exemple, « de façon répétitive chaque heure » signifie qu'une sauvegarde"
-" se déclenche à chaque nouvelle heure. Si la dernière sauvegarde effective "
-"était à 18:56, la sauvegarde se déclenchera à nouveau à 19:00 car la limite "
-"horaire aura été franchie. Ce mode de planification est très utile si "
+"Par exemple, « à plusieurs reprises chaque heure » signifie qu'une "
+"sauvegarde se déclenche à chaque nouvelle heure. Si la dernière sauvegarde "
+"effective était à 18:56, elle se déclenchera à nouveau à 19:00 car la limite "
+"horaire aura été franchie. Ce mode de planification est utile si "
 "l'ordinateur ne fonctionne pas régulièrement."
 
 #: qt/manageprofiles/schedulewidget.py:49
