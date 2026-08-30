@@ -8,9 +8,18 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-import os
+"""The plugin system is deprecated and will be removed. See issue #2424
+
+None of the existing plugins will be lost. Their features will be integrated
+into BIT without using a plugin-like-system.
+
+Rational: The plugin system adds much complexity to the code with less
+benefit. Also there is no user known using that system for self-written
+plugins. No one will miss it.
+"""
 import sys
 import tools
+from pathlib import Path
 
 tools.register_backintime_path('common')
 tools.register_backintime_path('plugins')
@@ -186,12 +195,12 @@ class PluginManager:
     When you call a plugin function of the PluginManager it will
     call this plugin function for all loaded plugins.
     """
-    # TODO 09/28/2022: Should inherit from + implement class "Plugin"
 
     def __init__(self):
         self.plugins = []
         self.hasGuiPlugins = False
         self.loaded = False
+        self.msg_unknown_plugins = None
 
     def load(self, snapshots=None, cfg=None, force=False):
         """Loads plugins
@@ -224,29 +233,72 @@ class PluginManager:
 
         self.loadedPlugins = []
 
-        # TODO 09/28/2022: Move hard coded plugin folders to configuration
-        for path in ('plugins', 'common/plugins', 'qt/plugins'):
-            fullPath = tools.as_backintime_path(path)
+        candidates = self._find_plugin_candidates()
+        print(candidates)
 
-            if not os.path.isdir(fullPath):
+        known_plugins = [
+            Path('common/usercallbackplugin.py'),
+            Path('qt/notifyplugin.py'),
+            Path('qt/systrayiconplugin.py'),
+        ]
+
+        unknown = set(candidates) - set(known_plugins)
+
+        # See issue #2424 and module docstring for details.
+        if len(unknown) != 0:
+            msg = (
+                'It seems user defined plugins exist on this system. '
+                'The plugin system is deprecated and will be removed. '
+                'See Issue #2424 and feel free to contact the upstream '
+                'project to describe your plugin. We may find a way to '
+                'support that feature otherwise.'
+                '\nPlugins found:'
+            )
+            for fp in candidates:
+                msg += f'\n- {fp}'
+            logger.critical(msg)
+            self.msg_unknown_plugins = msg
+
+        for plugin_fp in candidates:
+            self._load_plugin_from_file(plugin_fp.name, snapshots)
+
+    def _find_plugin_candidates(self) -> list[Path]:
+        """Return a list of files with potential plugins"""
+
+        result = []
+
+        for plugin_dir_name in ('plugins', 'common/plugins', 'qt/plugins'):
+            path = tools.as_backintime_path(plugin_dir_name)
+            path = Path(path)
+
+            if not path.is_dir():
                 continue
 
-            logger.debug(f'Register plugin path {fullPath}', self)
-            tools.register_backintime_path(path)
+            logger.debug(f'Register plugin path {path}', self)
+            tools.register_backintime_path(str(path))
 
-            for f in os.listdir(fullPath):
+            # Each file (not recursive)
+            for fp in path.iterdir():
 
-                if f.startswith('__') or not f.lower().endswith('.py'):
-                    # logger.debug(f'Not a plugin file: {f}', self)
+                # no cache files
+                if fp.name.startswith('__'):
                     continue
 
-                logger.debug(f'Try to load plugin from {f}', self)
-                self._load_plugin_from_file(f, snapshots)
+                # only python files
+                if not fp.name.lower().endswith('.py'):
+                    continue
+
+                result.append(fp)
+
+        return result
 
     def _load_plugin_from_file(self, file_name: str, snapshots: list):
+        """The plugins are loaded by their module names not by their path."""
         if file_name in self.loadedPlugins:
             logger.debug(f'Plugin file still loaded: {file_name}', self)
             return
+
+        logger.info(f'Try to load plugin from {file_name}', self)
 
         try:
             module = __import__(file_name[: -3])

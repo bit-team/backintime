@@ -11,7 +11,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 [![Common Changelog](https://common-changelog.org/badge.svg)](https://common-changelog.org)
 
 <!--- [2.0.0] (Unreleased Development) -->
-## [2.0.0-rc1] (2026-08-12)
+## [2.0.0-rc2] (unreleased)
 
 ### Changed
 - **Breaking**: Configuration file write by 2.0.0 not backward compatible with 
@@ -41,6 +41,8 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - GUI: Schedule mode "Repeatedly (anacron)" re-phrased and extended with
   explanations ([#2507](https://github.com/bit-team/backintime/issues/2507))
 - GUI State: "Show hidden files" is on by default
+- User defined plugins: Deprecate and warn about user defined plugins found 
+  ([#2424](https://github.com/bit-team/backintime/issues/2424))
 
 ### Added
 - Detect and report coreutils variant (GNU, Rust/uutils, BusyBox) in `--diagnostics` output ([#2478](https://github.com/bit-team/backintime/issues/2478))

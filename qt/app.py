@@ -463,6 +463,15 @@ class MainWindow(QMainWindow):
         # BIT is presented to the users.
         state_data.decrement_manual_starts_countdown()
 
+        # Plugin system deprecation (#2424)
+        if self.config.PLUGIN_MANAGER.msg_unknown_plugins:
+            dlg = UserMessageDialog(
+                parent=self,
+                title='Plugin System deprecation',
+                full_label=self.config.PLUGIN_MANAGER.msg_unknown_plugins
+            )
+            dlg.exec()
+
     @property
     def showHiddenFiles(self):
         state_data = StateData()
