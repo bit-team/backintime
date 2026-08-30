@@ -27,7 +27,7 @@ _Options_ > _Edit user-callback_ (see also
 
 ## Arguments and return value
 
-The script can tage **three arguments**. In case of error events, there will be a
+The script can take **three arguments**. In case of error events, there will be a
 fourth argument with an error code and sometimes a fifth argument with
 additional information.
 
