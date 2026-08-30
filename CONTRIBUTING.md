@@ -401,18 +401,18 @@ This list of upcoming developlment steps depending on each other:
 **More stuff**:
 
 - Migration of the logging mechanic to Python's own `logging` module
-  ([#2286](https://github.com/bit-team/backintime/issues/2286).
+  ([#2286](https://github.com/bit-team/backintime/issues/2286)).
 - Re-write interprocess communication (IPC)
-  ([#2260](https://github.com/bit-team/backintime/issues/2260).
+  ([#2260](https://github.com/bit-team/backintime/issues/2260)).
 
 ## Plugin system
 The plugin system adds complexity to the code base with less
 benefit. Therefore, it will be removed. But the functionality of the existing
 plugins (notify, systray, user-callback) will be integrated into _Back In
-Time_. The user should not notice the difference.
-
-This will ease up the way to the new packaging standards described in the next
-section.
+Time_. The user should not notice the difference. This will ease up the way to
+the new packaging standards described in the next section. See issue
+[#2424](https://github.com/bit-team/backintime/issues/2424) for details and
+current state.
 
 ## Packaging
 
