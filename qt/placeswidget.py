@@ -171,9 +171,26 @@ class PlacesWidget(QTreeWidget):
         if not backup_path.exists():
             return None
 
-        folders = [
-            fp.name for fp in backup_path.iterdir() if fp.is_dir()
-        ]
+        # Issue #2572: PlacesWidget crashed for unknown reason.
+        # Because of that some try-except blocks macking it more robust.
+        folders = []
+        try:
+            for fp in backup_path.iterdir():
+                try:
+                    if fp.is_dir():
+                        folders.append(fp.name)
+
+                except OSError as exc:
+                    logger.error(
+                        f'Cannot inspect backup entry "{fp}" because of '
+                        f'error: {exc}'
+                    )
+
+        except OSError as exc:
+            logger.error(
+                f'Cannot read backup directory "{backup_path}" because of '
+                f'error: {exc}'
+            )
 
         include_entries = [(os.path.join(base, f), 0) for f in folders]
 

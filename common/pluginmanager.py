@@ -234,12 +234,11 @@ class PluginManager:
         self.loadedPlugins = []
 
         candidates = self._find_plugin_candidates()
-        print(candidates)
 
         known_plugins = [
-            Path('common/usercallbackplugin.py'),
-            Path('qt/notifyplugin.py'),
-            Path('qt/systrayiconplugin.py'),
+            Path('./common/plugins/usercallbackplugin.py').resolve(),
+            Path('./qt/plugins/notifyplugin.py').resolve(),
+            Path('./qt/plugins/systrayiconplugin.py').resolve(),
         ]
 
         unknown = set(candidates) - set(known_plugins)
@@ -298,7 +297,7 @@ class PluginManager:
             logger.debug(f'Plugin file still loaded: {file_name}', self)
             return
 
-        logger.info(f'Try to load plugin from {file_name}', self)
+        logger.debug(f'Try to load plugin from {file_name}', self)
 
         try:
             module = __import__(file_name[: -3])
