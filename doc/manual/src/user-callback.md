@@ -12,14 +12,27 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 -->
 ## Introduction
 
-During the backup process, `Back In Time` can call a user defined script at
-different steps. This script is named `user-callback` and contained in the directory
-`$XDG_CONFIG_HOME/backintime`. By default `$XDG_CONFIG_HOME` is
-`~/.config`). It can also be configured via the GUI: _Manage profiles_ >
+During the backup process, _Back In Time_ can call a user defined script can be
+called in response to various events. This script is named `user-callback`.
+
+By default, the path is `$XDG_CONFIG_HOME/backintime/user-callback`. It always
+resides in the same location as the config file itself. Therefore, if the
+`--config` option is used to define a config file in another location, _Back
+In Time_ will search in that location for the user-callback script.
+
+The file needs to be executable. The filename cannot be modified.
+The content of the file can be edited via the GUI: _Manage profiles_ >
 _Options_ > _Edit user-callback_ (see also
 [Options tab in Manage profiles dialog](manage-profiles.md#options)).
 
-## Script arguments
+## Arguments and return value
+
+The script can tage **three arguments**. In case of error events, there will be a
+fourth argument with an error code and sometimes a fifth argument with
+additional information.
+
+The **return value** of the script should be `0` if the backup should
+continue. Return values other than `0` will stop the backup.
 
 1. The profile id (1=Main Profile, ...).
 2. Profile name.
@@ -37,7 +50,7 @@ _Options_ > _Edit user-callback_ (see also
 | **8** | Unmounting a filesystem for the profile may be necessary.          |
 
 <a id="errorcodes"></a>
-Possible **error codes** (see _Callback reason_ **4**) are:
+Possible **error codes** (see _Callback reason_ **4**) as fourth argument are:
 
 | Code  | Error                                                              |
 | ------| -------------------------------------------------------------------|
@@ -47,11 +60,6 @@ Possible **error codes** (see _Callback reason_ **4**) are:
 | **4** | A backup for "now" already exists. The fifth argument is the backup ID. |
 | **5** | Error while creating a backup.[^3] The fifth argument contains more error information. |
 | **6** | New backup created but with errors.[^3] The fifth argument is the backup ID. |
-
-## Return value
-
-The script should return `0` if the backup should continue, any value other
-than `0` will cancel the backup.
 
 ## Implementation
 
@@ -64,7 +72,7 @@ It is a child class of `Plugin` which you can be found in
 
 Several example scripts can be found in the directory
 `/usr/share/doc/backintime` or in the
-[projects repository](https://github.com/bit-team/backintime).
+[projects repository](https://github.com/bit-team/backintime/tree/dev/doc/user-callback-examples).
 
 [^1]: Ensure that manual and automatic backups do not run at the same time.
     
