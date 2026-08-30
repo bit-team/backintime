@@ -11,7 +11,12 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
 # Split from test_sid.py
-"""Tests about takesnapshot.log.bz2 file related to snapshots.SID class"""
+"""Tests about takesnapshot.log.bz2 file related to snapshots.SID class
+
+Dev note (2026-08, buhtz):
+- System or integration
+- Highly depending on other modules.
+"""
 import stat
 from pathlib import Path
 from test import generic

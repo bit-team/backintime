@@ -372,16 +372,58 @@ This is a broad overview of the tasks or steps to enhance _Back In Time_ as a
 software and as a project. The schedule is not fixed, nor is the order of
 priority.
 
+- [Tentative rough roadmap](#tentative-rough-roadmap)
+- [Plugin system](#plugin-system)
+- [Packaging](#packaging)
 - [Analyzing code and behavior](#analyzing-code-and-behavior)
 - [Code quality & unit tests](#code-quality--unit-tests)
 - [Issues](#issues)
-- [Replace and remove encryption library EncFS](#replace-and-remove-encryption-library-encfs)
-- [Packaging](#packaging)
 - [Code hosting](#code-hosting)
 - [Graphical User Interface (GUI): Redesign and Refactoring](#graphical-user-interface-gui-redesign-and-refactoring)
 - [Terminal User Interface (TUI)](#terminal-user-interface-tui)
-- [Tentative rough roadmap](#tentative-rough-roadmap)
-- [More stuff](#more-stuff)
+
+
+## Tentative rough roadmap
+This list of upcoming developlment steps depending on each other:
+
+1. Removing the plugin system to reduce code complexity and improve
+   maintainability
+   ([#2424](https://github.com/bit-team/backintime/issues/2424)).
+2. Migrate to modern Python Packaging
+   ([#1575](https://github.com/bit-team/backintime/issues/1575)).
+3. Sligthely adapt the code base to the new config management code. Finally
+   remove the old config management code which currently works as a surrogate.
+4. Reactivate former disabled unit tests
+   ([#2578](https://github.com/bit-team/backintime/issues/2578)).
+5. Implement new config file format (TOML).
+   Related issue: [#1984](https://github.com/bit-team/backintime/issues/1984)
+
+**More stuff**:
+
+- Migration of the logging mechanic to Python's own `logging` module
+  ([#2286](https://github.com/bit-team/backintime/issues/2286)).
+- Re-write interprocess communication (IPC)
+  ([#2260](https://github.com/bit-team/backintime/issues/2260)).
+
+## Plugin system
+The plugin system adds complexity to the code base with less
+benefit. Therefore, it will be removed. But the functionality of the existing
+plugins (notify, systray, user-callback) will be integrated into _Back In
+Time_. The user should not notice the difference. This will ease up the way to
+the new packaging standards described in the next section. See issue
+[#2424](https://github.com/bit-team/backintime/issues/2424) for details and
+current state.
+
+## Packaging
+
+At present, _Back In Time_ utilizes a build system that relies on `make`. However,
+this approach has several shortcomings and does not adhere to modern standards
+in Python packaging ([PEP 621](https://peps.python.org/pep-0621),
+[PEP 517](https://peps.python.org/pep-0517),
+[src layout](https://packaging.python.org/en/latest/tutorials/packaging-projects),
+[pyproject.toml](https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html)).
+The team intends to migrate to these contemporary standards to streamline
+the maintenance of _Back In Time_ ([#1575](https://github.com/bit-team/backintime/issues/1575)).
 
 ## Analyzing code and behavior
 
@@ -412,7 +454,6 @@ The codebase does not adhere to [PEP8](https://peps.python.org/pep-0008/),
 which serves as the minimum Python coding style. Utilizing linters in their
 default configuration is currently not feasible. One of our objectives is to
 align with PEP8 standards and meet the requirements of code linters.
-See [Issue #1755](https://github.com/bit-team/backintime/issues/1755) about it.
 
 ## Issues
 
@@ -425,34 +466,12 @@ long time and involve multiple complex problems. They can be challenging to
 diagnose due to various factors. Enhancing test coverage and code quality is
 one aspect aimed at finding and implementing solutions for these issues.
 
-## Replace and remove encryption library EncFS
-
-Currently, _Back In Time_ uses [EncFS](https://github.com/vgough/encfs) for
-encrypting backups, but it has known security vulnerabilities (see issue
-[#1549](https://github.com/bit-team/backintime/issues/1549)). This requires
-to remove it. A potential candidate for replacement is
-[GoCryptFS](https://github.com/rfjakob/gocryptfs).
-However, lack of resources hinders this effort. If no volunteers step forward,
-the encryption feature will be removed, prioritizing user security and team
-maintenance efforts. See
-[Issue #1734](https://github.com/bit-team/backintime/issues/1734) about the
-transition process and the discussion about alternatives to EncFS.
-
-## Packaging
-
-At present, _Back In Time_ utilizes a build system that relies on `make`. However,
-this approach has several shortcomings and does not adhere to modern standards
-in Python packaging ([PEP 621](https://peps.python.org/pep-0621),
-[PEP 517](https://peps.python.org/pep-0517),
-[src layout](https://packaging.python.org/en/latest/tutorials/packaging-projects),
-[pyproject.toml](https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html)).
-The team intends to migrate to these contemporary standards to streamline
-the maintenance of _Back In Time_ ([#1575](https://github.com/bit-team/backintime/issues/1575)).
-
 ## Code hosting
 
 The plan is to move to [Codeberg.org](https://codeberg.org). See also
 [this FAQ entry](FAQ.md##move-project-to-alternative-code-hoster-eg-codeberg-gitlab-).
+The idea is to start migration after Debian 14 released in the second half of
+the year 2027.
 
 ## Graphical User Interface (GUI): Redesign and Refactoring
 
@@ -468,29 +487,10 @@ to the Qt based GUI: terminal user interface (TUI) or enhance the existing
 command-line interface (CLI)
 ([#254](https://github.com/bit-team/backintime/issues/254)); a web-frontend
 ([#209](https://github.com/bit-team/backintime/issues/209)). All ideas are
-are rejected or postponed in favor of a human readable config file format using
+rejected or postponed in favor of a human readable config file format using
 TOML ([#1984](https://github.com/bit-team/backintime/issues/1984)), assuming
 that a TUI or WebInterface, while convenient and pleasant, would no longer be
 necessary.
-
-## More stuff
-
-- Migration of the logging mechanic to Python's own `logging` module
-  ([#2286](https://github.com/bit-team/backintime/issues/2286).
-- Re-write interprocess communication (IPC)
-  ([#2260](https://github.com/bit-team/backintime/issues/2260).
-
-## Tentative rough roadmap
-This is a broad overview of upcoming developlment steps depending on each other:
-
-1. Implement GoCrypt as an EncFS alternative.
-   Related issue: [#1734](https://github.com/bit-team/backintime/issues/1734)
-2. Removing EncFS.
-   Related issue: [#1734](https://github.com/bit-team/backintime/issues/1734)
-3. Introduce new configuration management code.
-   Pending PR: [#1850](https://github.com/bit-team/backintime/pull/1850)
-4. Implement new config file format (TOML).
-   Related issue: [#1984](https://github.com/bit-team/backintime/issues/1984)
 
 # Licensing of contributed material
 Keep in mind as you contribute, that code, docs and other material submitted to
