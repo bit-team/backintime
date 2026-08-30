@@ -454,7 +454,6 @@ The codebase does not adhere to [PEP8](https://peps.python.org/pep-0008/),
 which serves as the minimum Python coding style. Utilizing linters in their
 default configuration is currently not feasible. One of our objectives is to
 align with PEP8 standards and meet the requirements of code linters.
-See [Issue #1755](https://github.com/bit-team/backintime/issues/1755) about it.
 
 ## Issues
 
@@ -488,7 +487,7 @@ to the Qt based GUI: terminal user interface (TUI) or enhance the existing
 command-line interface (CLI)
 ([#254](https://github.com/bit-team/backintime/issues/254)); a web-frontend
 ([#209](https://github.com/bit-team/backintime/issues/209)). All ideas are
-are rejected or postponed in favor of a human readable config file format using
+rejected or postponed in favor of a human readable config file format using
 TOML ([#1984](https://github.com/bit-team/backintime/issues/1984)), assuming
 that a TUI or WebInterface, while convenient and pleasant, would no longer be
 necessary.
