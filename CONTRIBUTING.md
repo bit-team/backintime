@@ -384,7 +384,7 @@ priority.
 
 
 ## Tentative rough roadmap
-This is a broad overview of upcoming developlment steps depending on each other.
+This list of upcoming developlment steps depending on each other:
 
 1. Removing the plugin system to reduce code complexity and improve
    maintainability
