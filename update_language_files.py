@@ -161,8 +161,10 @@ def _add_spdx_header_to_po_template():
     # REUSE-IgnoreStart
 
     # Header comment with SPDX data
-    spdx_base = get_spdx_metadata_lines(ignore_copyright=True,
-                                        without_comment_prefix=True)
+    spdx_base = get_spdx_metadata_lines(
+        ignore_copyright=True,
+        without_comment_prefix=True
+    )
 
     copyright = f'SPDX-FileCopyrightText: {DEFAULT_COPYRIGHT}'
 
@@ -823,13 +825,16 @@ def create_languages_py_file():
 
     print(f'Result written to {LANGUAGE_NAMES_PY}.')
 
+
     # reload the languages
     importlib.reload(languages)
 
     # Completeness statistics (English is excluded)
+    pof = polib.pofile(TEMPLATE_PO)
     compl = list(compl_dict.values())
     compl.remove(100)  # exclude English
     statistic = {
+        'nstrings': len(pof),
         'compl': round(sum(compl) / len(compl)),
         'n': len(compl),
         '99_100': len(list(filter(lambda val: val >= 99, compl))),
@@ -839,7 +844,9 @@ def create_languages_py_file():
     }
 
     print('STATISTICS')
+
     print(f'\tTotal completeness: {statistic["compl"]}%')
+    print(f'\tNumber of strings: {statistic["nstrings"]}')
     print(f'\tNumber of languages (excl. English): {statistic["n"]}')
     print(f'\t100-99% complete: {statistic["99_100"]} languages')
     print(f'\t90-98% complete: {statistic["90_98"]} languages')
