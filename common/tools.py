@@ -12,21 +12,21 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Collection of helper functions not fitting to other modules.
 """
-import os
-import sys
-import pathlib
-import subprocess
-import shlex
-import signal
-import re
-import math
+import configparser
 import errno
-import locale
 import gettext
 import hashlib
-import shutil
 import json
-import configparser
+import locale
+import math
+import os
+import pathlib
+import re
+import shlex
+import shutil
+import signal
+import subprocess
+import sys
 from io import StringIO, TextIOWrapper
 from datetime import datetime, timedelta
 from collections.abc import MutableMapping
@@ -402,6 +402,31 @@ NTFS_FILESYSTEM_WARNING = _(
     'known incompatibilities with Unix-style filesystems.')
 
 
+def _handle_mkdir_error(path, exc: OSError):
+    if exc.errno in (errno.EACCES, errno.EPERM):
+        reason = _('Write access may be restricted.')
+
+    elif exc.errno == errno.ENOSPC:
+        reason = _('Not enough free space on the device.')
+
+    elif exc.errno == errno.EDQUOT:
+        reason = _(
+            'Not enough free space because the disk quota has been exceeded.'
+        )
+
+    elif exc.errno == errno.EROFS:
+        reason = _('Filesystem is read-only.')
+
+    else:
+        reason = _('Unexpected error: ') + str(exc)
+
+    return '\n'.join([
+        _('Creation failed:'),
+        str(path),
+        reason,
+    ])
+
+
 def validate_and_prepare_snapshots_path(
         path: Union[str, pathlib.Path],
         host_user_profile: tuple[str, str, str],
@@ -446,14 +471,9 @@ def validate_and_prepare_snapshots_path(
         )
         full_path.mkdir(mode=0o777, parents=True, exist_ok=True)
 
-    except PermissionError:
-        error_event.notify('\n'.join(
-            [
-                _('Creation of following directory failed:'),
-                str(full_path),
-                _('Write access may be restricted.')
-            ]
-        ))
+    except OSError as exc:
+        msg = _handle_mkdir_error(full_path, exc)
+        error_event.notify(msg)
         return False
 
     # Test filesystem
@@ -550,11 +570,8 @@ def is_writeable(folder):
             exist_ok=False
         )
 
-    except PermissionError:
-        msg = '\n'.join([
-            _('File creation failed in this directory:'),
-            str(folder),
-            _('Write access may be restricted.')])
+    except OSError as exc:
+        msg = _handle_mkdir_error(check_path, exc)
         return False, msg
 
     else:
