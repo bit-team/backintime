@@ -15,9 +15,9 @@
 # REUSE-IgnoreStart
 msgid ""
 msgstr ""
-"Project-Id-Version: Back In Time 2.0.0-dev\n"
+"Project-Id-Version: Back In Time 2.0.0-rc1\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-08-09 12:53+0200\n"
+"POT-Creation-Date: 2026-08-30 21:13+0200\n"
 "PO-Revision-Date: 2026-04-09 10:27+0000\n"
 "Last-Translator: emmapeel <emmapeel@noreply.codeberg.org>\n"
 "Language-Team: Catalan <https://translate.codeberg.org/projects/backintime/common/ca/>\n"
@@ -34,7 +34,7 @@ msgstr ""
 msgid "Warning"
 msgstr "Avís"
 
-#: common/bitlicense.py:43
+#: common/bitlicense.py:23
 #, python-brace-format
 msgid ""
 "All licenses used in this project are located in the {dir_link} directory. "
@@ -327,7 +327,7 @@ msgstr "S'HA PRODUÏT UN ERROR"
 msgid "Restore permissions"
 msgstr "Restaura els permisos"
 
-#: common/snapshots.py:670 qt/app.py:210 qt/app.py:1205 qt/app.py:1231
+#: common/snapshots.py:670 qt/app.py:209 qt/app.py:1216 qt/app.py:1242
 #: qt/qtsystrayicon.py:125
 msgid "Done"
 msgstr "Fet"
@@ -452,7 +452,7 @@ msgstr "Proveu de mantenir un minim d'espai lliure"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Proveu de mantenir mínim un {perc} d'inodes lliures"
 
-#: common/snapshots.py:3374 qt/app.py:1552 qt/timeline.py:405
+#: common/snapshots.py:3374 qt/app.py:1563 qt/timeline.py:405
 msgid "Now"
 msgstr "Ara"
 
@@ -543,20 +543,36 @@ msgstr ""
 "El sistema de fitxers de destinació per a {path} està formatat amb NTFS, que"
 " té incompatibilitats conegudes amb sistemes de fitxers d'estil Unix."
 
-#: common/tools.py:434
+#: common/tools.py:408
+msgid "Write access may be restricted."
+msgstr "L'accés d'escriptura pot estar restringit."
+
+#: common/tools.py:411
+msgid "Not enough free space on the device."
+msgstr ""
+
+#: common/tools.py:415
+msgid "Not enough free space because the disk quota has been exceeded."
+msgstr ""
+
+#: common/tools.py:419
+msgid "Filesystem is read-only."
+msgstr ""
+
+#: common/tools.py:422
+msgid "Unexpected error: "
+msgstr ""
+
+#: common/tools.py:425
+msgid "Creation failed:"
+msgstr ""
+
+#: common/tools.py:460
 #, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "{path} no és un directori vàlid."
 
-#: common/tools.py:452
-msgid "Creation of following directory failed:"
-msgstr "La creació del directori següent ha fallat:"
-
-#: common/tools.py:454 common/tools.py:557
-msgid "Write access may be restricted."
-msgstr "L'accés d'escriptura pot estar restringit."
-
-#: common/tools.py:501
+#: common/tools.py:522
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -566,7 +582,7 @@ msgstr ""
 "no admet enllaços durs. Si us plau, utilitzeu un sistema de fitxers "
 "GNU/Linux natiu."
 
-#: common/tools.py:512
+#: common/tools.py:533
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -577,15 +593,15 @@ msgstr ""
 "amb SMB. Assegureu-vos que el servidor remot SMB admet enllaços simbòlics o "
 "activeu «{copyLinks}» a «{expertOptions}»."
 
-#: common/tools.py:516
+#: common/tools.py:537
 msgid "Copy links (dereference symbolic links)"
 msgstr "Copia enllaços (dereferencia els enllaços simbòlics)"
 
-#: common/tools.py:517
+#: common/tools.py:538
 msgid "Expert Options"
 msgstr "Opcions avançades"
 
-#: common/tools.py:521
+#: common/tools.py:542
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
@@ -594,11 +610,7 @@ msgstr ""
 "El sistema de fitxers de destí per a {path} és una compartició muntada amb "
 "sshfs. Sshfs no admet hard-links. Utilitzeu el mode 'SSH' en el seu lloc."
 
-#: common/tools.py:555
-msgid "File creation failed in this directory:"
-msgstr "La creació del fitxer ha fallat en aquest directori:"
-
-#: common/udev.py:43 qt/app.py:1318 qt/messagebox.py:137
+#: common/udev.py:43 qt/app.py:1329 qt/messagebox.py:137
 msgid "Error"
 msgstr "Error"
 
@@ -639,15 +651,15 @@ msgid "Follow {thislink} to get translator credits for all languages."
 msgstr ""
 "Segueix {thislink} per obtenir crèdits de traductor per a tots els idiomes."
 
-#: qt/aboutdlg.py:240 qt/app.py:587
+#: qt/aboutdlg.py:240 qt/app.py:595
 msgid "Project website"
 msgstr "Lloc web del projecte"
 
-#: qt/aboutdlg.py:245 qt/app.py:569
+#: qt/aboutdlg.py:245 qt/app.py:577
 msgid "User manual"
 msgstr "Manual d'ús"
 
-#: qt/aboutdlg.py:247 qt/app.py:571
+#: qt/aboutdlg.py:247 qt/app.py:579
 #, fuzzy
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr ""
@@ -658,7 +670,7 @@ msgstr ""
 msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}Versió{BOLDEND}: {version}"
 
-#: qt/app.py:353
+#: qt/app.py:352
 #, fuzzy, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time because no configuration"
@@ -667,7 +679,7 @@ msgstr ""
 "{app_name} sembla que sigui el primer cop que s'executa perquè no s'ha "
 "trobat cap configuració."
 
-#: qt/app.py:358
+#: qt/app.py:357
 #, fuzzy
 msgid ""
 "Create a new configuration or import an existing configuration from a "
@@ -676,189 +688,189 @@ msgstr ""
 "Importeu una configuració existent (des d'una carpeta d'una còpia de "
 "seguretat o d'un altre ordinador)?"
 
-#: qt/app.py:363 qt/confirmrestoredialog.py:36 qt/messagebox.py:124
+#: qt/app.py:362 qt/confirmrestoredialog.py:36 qt/messagebox.py:124
 msgid "Question"
 msgstr "Pregunta"
 
-#: qt/app.py:367
+#: qt/app.py:366
 msgid "Create"
 msgstr ""
 
-#: qt/app.py:369 qt/restoreconfigdialog.py:136
+#: qt/app.py:368 qt/restoreconfigdialog.py:136
 msgid "Import"
 msgstr "Importa"
 
-#: qt/app.py:506
+#: qt/app.py:514
 msgid "Create a backup"
 msgstr "Crea una còpia"
 
-#: qt/app.py:508
+#: qt/app.py:516
 msgid "Use modification time & size for file change detection."
 msgstr ""
 "Utilitza el temps de modificació i mida per a la detecció de canvis de "
 "fitxers."
 
-#: qt/app.py:511
+#: qt/app.py:519
 msgid "Create a backup (checksum mode)"
 msgstr "Crea una còpia (mode suma de verificació)"
 
-#: qt/app.py:513
+#: qt/app.py:521
 msgid "Use checksums for file change detection."
 msgstr "Utilitza sumes de verificació per a la detecció de canvis de fitxers."
 
-#: qt/app.py:515 qt/qtsystrayicon.py:132
+#: qt/app.py:523 qt/qtsystrayicon.py:132
 msgid "Pause backup process"
 msgstr "Pausa el procés de còpia"
 
-#: qt/app.py:520 qt/qtsystrayicon.py:137
+#: qt/app.py:528 qt/qtsystrayicon.py:137
 msgid "Resume backup process"
 msgstr "Reprèn el procés de còpia"
 
-#: qt/app.py:525 qt/qtsystrayicon.py:142
+#: qt/app.py:533 qt/qtsystrayicon.py:142
 msgid "Stop backup process"
 msgstr "Atura el procés de còpia"
 
-#: qt/app.py:529
+#: qt/app.py:537
 msgid "Refresh backup list"
 msgstr "Actualitza la llista de còpies"
 
-#: qt/app.py:533
+#: qt/app.py:541
 msgid "Name backup"
 msgstr "Còpia de seguretat del nom"
 
-#: qt/app.py:537
+#: qt/app.py:545
 msgid "Remove backup"
 msgstr "Elimina la còpia"
 
-#: qt/app.py:541
+#: qt/app.py:549
 #, fuzzy
 msgid "Open backup log"
 msgstr "Visualitza l'últim registre"
 
-#: qt/app.py:543
+#: qt/app.py:551
 #, fuzzy
 msgid "View log of the selected backup."
 msgstr "Almenys cal seleccionar un directori per la copia de seguretat."
 
-#: qt/app.py:545
+#: qt/app.py:553
 #, fuzzy
 msgid "Open last backup log"
 msgstr "Visualitza l'últim registre"
 
-#: qt/app.py:547
+#: qt/app.py:555
 msgid "View log of the latest backup."
 msgstr "Veure el registre de la darrera còpia de seguretat."
 
-#: qt/app.py:549
+#: qt/app.py:557
 msgid "Manage profiles…"
 msgstr "Gestiona els perfils…"
 
-#: qt/app.py:553
+#: qt/app.py:561
 msgid "Edit user-callback"
 msgstr "Edita user-callback"
 
-#: qt/app.py:557
+#: qt/app.py:565
 msgid "Shutdown"
 msgstr "Aturada"
 
-#: qt/app.py:559
+#: qt/app.py:567
 msgid "Shut down system after backup has finished."
 msgstr "Apaga el sistema després d'acabar la còpia."
 
-#: qt/app.py:561
+#: qt/app.py:569
 msgid "Setup language…"
 msgstr "Configura la llengua…"
 
-#: qt/app.py:565
+#: qt/app.py:573
 msgid "Exit"
 msgstr "Surt"
 
-#: qt/app.py:575
+#: qt/app.py:583
 msgid "man page: Back In Time"
 msgstr "pàgina de manual: Back In Time"
 
-#: qt/app.py:577
+#: qt/app.py:585
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "Mostra la pàgina de manual sobre Back In Time (backintime)"
 
-#: qt/app.py:580
+#: qt/app.py:588
 msgid "man page: Profiles config file"
 msgstr "Página Manual: Perfils de config file"
 
-#: qt/app.py:583
+#: qt/app.py:591
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr ""
 "Mostra la pàgina de manual sobre el fitxer de configuració de perfils "
 "(backintime-config)"
 
-#: qt/app.py:590
+#: qt/app.py:598
 msgid "Open Back In Time website in browser"
 msgstr "Obre el lloc web del Back In Time al navegador"
 
-#: qt/app.py:592 qt/app.py:2374
+#: qt/app.py:600 qt/app.py:2385
 msgid "Changelog"
 msgstr "Registre de canvis"
 
-#: qt/app.py:595
+#: qt/app.py:603
 #, fuzzy
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr ""
 "Obre el manual d'usuari al navegador (local si està disponible en línia)"
 
-#: qt/app.py:598
+#: qt/app.py:606
 msgid "FAQ"
 msgstr "Preguntes freqüents"
 
-#: qt/app.py:600
+#: qt/app.py:608
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "Obriu Preguntes freqüents (FAQ) al navegador"
 
-#: qt/app.py:602
+#: qt/app.py:610
 msgid "Report a bug"
 msgstr "Informar d'un error"
 
-#: qt/app.py:605
+#: qt/app.py:613
 msgid "Contact"
 msgstr ""
 
-#: qt/app.py:607
+#: qt/app.py:615
 #, fuzzy
 msgid "Shows additional contact options in the browser"
 msgstr "Enganxa les opcions addicionals al 'rsync'"
 
-#: qt/app.py:610
+#: qt/app.py:618
 msgid "Translation"
 msgstr "Traducció"
 
-#: qt/app.py:612
+#: qt/app.py:620
 msgid "Shows the message about participation in translation again."
 msgstr "Mostra de nou el missatge sobre la participació en la traducció."
 
-#: qt/app.py:622
+#: qt/app.py:630
 msgid "About"
 msgstr "Quant a"
 
-#: qt/app.py:625 qt/restoredialog.py:48 qt/snapshotsdialog.py:183
+#: qt/app.py:633 qt/restoredialog.py:48 qt/snapshotsdialog.py:183
 #: qt/snapshotsdialog.py:188
 msgid "Restore"
 msgstr "Restaura"
 
-#: qt/app.py:627
+#: qt/app.py:635
 #, fuzzy
 msgid "Restore the selected files or directories to the original location."
 msgstr ""
 "Restaura els fitxers o carpetes seleccionades a la destinació original."
 
-#: qt/app.py:630 qt/app.py:1995 qt/snapshotsdialog.py:185
+#: qt/app.py:638 qt/app.py:2006 qt/snapshotsdialog.py:185
 msgid "Restore to …"
 msgstr "Restaura a …"
 
-#: qt/app.py:632
+#: qt/app.py:640
 #, fuzzy
 msgid "Restore the selected files or directories to a new location."
 msgstr "Restaura els fitxers o carpetes seleccionades a una destinació nova."
 
-#: qt/app.py:638
+#: qt/app.py:646
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
@@ -867,7 +879,7 @@ msgstr ""
 "Restaura la carpeta mostrada actualment i tot el seu contingut a la "
 "destinació original."
 
-#: qt/app.py:644
+#: qt/app.py:652
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
@@ -876,89 +888,89 @@ msgstr ""
 "Restaura la carpeta mostrada actualment i tot el seu contingut a una nova "
 "destinació."
 
-#: qt/app.py:647
+#: qt/app.py:655
 msgid "Up"
 msgstr "Amunt"
 
-#: qt/app.py:650
+#: qt/app.py:658
 msgid "Show hidden files"
 msgstr "Mostra els fitxers ocults"
 
-#: qt/app.py:653
+#: qt/app.py:661
 msgid "Compare backups…"
 msgstr "Compara les còpies…"
 
-#: qt/app.py:683 qt/app.py:1815
+#: qt/app.py:691 qt/app.py:1826
 msgid "Release Candidate"
 msgstr "Candidat d'alliberament"
 
-#: qt/app.py:686
+#: qt/app.py:694
 msgid "Shows the message about this Release Candidate again."
 msgstr "Torna a mostrar el missatge sobre aquest candidat a la versió."
 
-#: qt/app.py:723
+#: qt/app.py:731
 msgid "Back In &Time"
 msgstr "Back In &Time"
 
-#: qt/app.py:728
+#: qt/app.py:736
 msgid "&Backup"
 msgstr "&Còpia de seguretat"
 
-#: qt/app.py:740
+#: qt/app.py:748
 msgid "&Restore"
 msgstr "&Restaura"
 
-#: qt/app.py:746
+#: qt/app.py:754
 msgid "&Help"
 msgstr "&Ajuda"
 
-#: qt/app.py:796
+#: qt/app.py:804
 msgid "Systray Icon"
 msgstr "Icona Systray"
 
-#: qt/app.py:802
+#: qt/app.py:810
 msgid "Automatic"
 msgstr "Automàtic"
 
-#: qt/app.py:806
+#: qt/app.py:814
 msgid "Light icon"
 msgstr "Icona Light"
 
-#: qt/app.py:807
+#: qt/app.py:815
 msgid "Dark icon"
 msgstr "Icona Dark"
 
-#: qt/app.py:830
+#: qt/app.py:838
 msgid "Icons only"
 msgstr "Només icones"
 
-#: qt/app.py:833
+#: qt/app.py:841
 msgid "Text only"
 msgstr "Només text"
 
-#: qt/app.py:836
+#: qt/app.py:844
 msgid "Text below icons"
 msgstr "Text a sota de les icones"
 
-#: qt/app.py:839
+#: qt/app.py:847
 msgid "Text beside icon"
 msgstr "Text al costat de la icona"
 
-#: qt/app.py:965
+#: qt/app.py:973
 #, fuzzy
 msgid "This directory doesn't exist in the selected backup."
 msgstr ""
 "Aquesta carpeta no existeix\n"
 "a la snapshot seleccionada."
 
-#: qt/app.py:968
+#: qt/app.py:976
 #, fuzzy
 msgid "This directory doesn't exist on the computer."
 msgstr ""
 "Aquesta carpeta no existeix\n"
 "a la snapshot seleccionada."
 
-#: qt/app.py:1018
+#: qt/app.py:1026
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
@@ -966,54 +978,54 @@ msgstr ""
 "Si tanqueu aquesta finestra, el Back In Time no podrà apagar el sistema quan"
 " s'hagi finalitzat la còpia."
 
-#: qt/app.py:1022
+#: qt/app.py:1030
 msgid "Close the window anyway?"
 msgstr "Voleu tancar la finestra de totes maneres?"
 
-#: qt/app.py:1112 qt/app.py:1119
+#: qt/app.py:1120 qt/app.py:1127
 msgid "Backup destination unavailable"
 msgstr ""
 
-#: qt/app.py:1234
+#: qt/app.py:1245
 msgid "Done, no backup needed"
 msgstr "Fet, no ha estat necessari crear una còpia de seguretat"
 
-#: qt/app.py:1305
+#: qt/app.py:1316
 msgid "Working:"
 msgstr "S'està treballant:"
 
-#: qt/app.py:1312
+#: qt/app.py:1323
 msgid "Working"
 msgstr "Treballant"
 
-#: qt/app.py:1368 qt/qtsystrayicon.py:293
+#: qt/app.py:1379 qt/qtsystrayicon.py:293
 msgid "Sent:"
 msgstr "Enviat:"
 
-#: qt/app.py:1369 qt/qtsystrayicon.py:294
+#: qt/app.py:1380 qt/qtsystrayicon.py:294
 msgid "Speed:"
 msgstr "Velocitat:"
 
-#: qt/app.py:1370 qt/qtsystrayicon.py:295
+#: qt/app.py:1381 qt/qtsystrayicon.py:295
 msgid "ETA:"
 msgstr "ETA:"
 
-#: qt/app.py:1560
+#: qt/app.py:1571
 #, fuzzy
 msgid "Backup:"
 msgstr "Còpies:"
 
-#: qt/app.py:1663
+#: qt/app.py:1674
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "Restaura {path}"
 
-#: qt/app.py:1665
+#: qt/app.py:1676
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "Restaura {path} a …"
 
-#: qt/app.py:1689
+#: qt/app.py:1700
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -1030,47 +1042,47 @@ msgstr ""
 "Demanem disculpes per la interrupció i aquest missatge no es tornarà a mostrar. Aquest diàleg està disponible en qualsevol moment a través del menú d'ajuda.\n"
 "L'equip de Back In Time"
 
-#: qt/app.py:1718
+#: qt/app.py:1729
 msgid "translation platform"
 msgstr "plataforma de traducció"
 
-#: qt/app.py:1723
+#: qt/app.py:1734
 msgid "Website"
 msgstr "Lloc web"
 
-#: qt/app.py:1737
+#: qt/app.py:1748
 msgid "Your translation"
 msgstr "la teva traducció"
 
-#: qt/app.py:1774
+#: qt/app.py:1785
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "Al fedivers, a Mastodon: {link_and_label}."
 
-#: qt/app.py:1779
+#: qt/app.py:1790
 #, fuzzy, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "Llista de correu {link_and_label}"
 
-#: qt/app.py:1783
+#: qt/app.py:1794
 #, fuzzy, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "Llista de correu {link_and_label}"
 
-#: qt/app.py:1787
+#: qt/app.py:1798
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} al lloc web del projecte."
 
-#: qt/app.py:1790
+#: qt/app.py:1801
 msgid "Open an issue"
 msgstr "Obre un problema"
 
-#: qt/app.py:1791
+#: qt/app.py:1802
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "Alternativament, podeu utilitzar un altre canal que trieu."
 
-#: qt/app.py:1796
+#: qt/app.py:1807
 #, python-brace-format
 msgid ""
 "This version is a Release Candidate for testing before the next stable release.\n"
@@ -1081,15 +1093,15 @@ msgid ""
 "Thank you for testing Back In Time and helping us improve it!"
 msgstr ""
 
-#: qt/app.py:1879
+#: qt/app.py:1890
 msgid "Check if remote host is online"
 msgstr "Comprova si l'amfitrió remot està connectat"
 
-#: qt/app.py:1880
+#: qt/app.py:1891
 msgid "Check if remote host supports all necessary commands."
 msgstr "Comprova si l'amfitrió remot admet totes les ordres necessàries."
 
-#: qt/app.py:1923
+#: qt/app.py:1934
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
@@ -1098,23 +1110,23 @@ msgstr ""
 "Només hi ha {free} espai lliure disponible a la destinació, que està per "
 "sota del llindar configurat de {threshold}."
 
-#: qt/app.py:1928
+#: qt/app.py:1939
 #, fuzzy
 msgid "Proceed with the backup?"
 msgstr "Voleu eliminar aquesta còpia?"
 
-#: qt/app.py:1975
+#: qt/app.py:1986
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr "Tots els fitxers més nous de {path} s'eliminaran. Voleu continuar?"
 
-#: qt/app.py:1978
+#: qt/app.py:1989
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr ""
 "Tots els fitxers més nous del directori original s'eliminaran. Voleu "
 "continuar?"
 
-#: qt/app.py:1984
+#: qt/app.py:1995
 #, fuzzy, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -1123,17 +1135,17 @@ msgstr ""
 "{BOLD}AVÍS:{BOLDEND} Esborrar fitxers a l'arrel del sistema de fitxers "
 "podria trencar tot el sistema."
 
-#: qt/app.py:2233
+#: qt/app.py:2244
 msgid "Backup name"
 msgstr "Nom de la còpia"
 
-#: qt/app.py:2265
+#: qt/app.py:2276
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "Voleu eliminar aquesta còpia?"
 msgstr[1] "Voleu eliminar aquestes còpies?"
 
-#: qt/app.py:2332
+#: qt/app.py:2343
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr ""
 "La configuració de la llengua només tindrà efecte després de reiniciar Back "
@@ -1238,27 +1250,27 @@ msgstr ""
 msgid "Show/hide hidden files and directories (Ctrl+H)"
 msgstr "Inclou fitxers i carpetes"
 
-#: qt/fileview.py:204
+#: qt/fileview.py:207
 msgid "Add to Include"
 msgstr "Afegeix a la inclusió"
 
-#: qt/fileview.py:205
+#: qt/fileview.py:208
 msgid "Add to Exclude"
 msgstr "Afegeix a l'exclusió"
 
-#: qt/fileview.py:292
+#: qt/fileview.py:295
 msgid "The selected item is already in the include list."
 msgid_plural "The selected items are already in the include list."
 msgstr[0] ""
 msgstr[1] ""
 
-#: qt/fileview.py:299
+#: qt/fileview.py:302
 msgid "The following item is already in the include list."
 msgid_plural "The following items are already in the include list."
 msgstr[0] ""
 msgstr[1] ""
 
-#: qt/fileview.py:313
+#: qt/fileview.py:316
 #, fuzzy
 msgid "The selected item is already in the exclude list."
 msgid_plural "The selected items are already in the exclude list."
@@ -1269,7 +1281,7 @@ msgstr[1] ""
 "Seleccioneu entre els elements d'ús comú per afegir-los a la llista "
 "d'exclusions."
 
-#: qt/fileview.py:320
+#: qt/fileview.py:323
 #, fuzzy
 msgid "The following item is already in the exclude list."
 msgid_plural "The following items are already in the exclude list."
@@ -2748,6 +2760,12 @@ msgstr "Última comprovació {time}"
 #: qt/timeline.py:402
 msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
+
+#~ msgid "Creation of following directory failed:"
+#~ msgstr "La creació del directori següent ha fallat:"
+
+#~ msgid "File creation failed in this directory:"
+#~ msgstr "La creació del fitxer ha fallat en aquest directori:"
 
 #, python-brace-format
 #~ msgid ""

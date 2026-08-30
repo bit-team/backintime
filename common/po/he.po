@@ -13,9 +13,9 @@
 # REUSE-IgnoreStart
 msgid ""
 msgstr ""
-"Project-Id-Version: Back In Time 2.0.0-dev\n"
+"Project-Id-Version: Back In Time 2.0.0-rc1\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-08-09 12:53+0200\n"
+"POT-Creation-Date: 2026-08-30 21:13+0200\n"
 "PO-Revision-Date: 2025-08-04 20:46+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://translate.codeberg.org/projects/backintime/common/he/>\n"
@@ -32,7 +32,7 @@ msgstr ""
 msgid "Warning"
 msgstr "אזהרה"
 
-#: common/bitlicense.py:43
+#: common/bitlicense.py:23
 #, python-brace-format
 msgid ""
 "All licenses used in this project are located in the {dir_link} directory. "
@@ -317,7 +317,7 @@ msgstr "נכשל"
 msgid "Restore permissions"
 msgstr "שחזור הרשאות"
 
-#: common/snapshots.py:670 qt/app.py:210 qt/app.py:1205 qt/app.py:1231
+#: common/snapshots.py:670 qt/app.py:209 qt/app.py:1216 qt/app.py:1242
 #: qt/qtsystrayicon.py:125
 msgid "Done"
 msgstr "בוצע"
@@ -437,7 +437,7 @@ msgstr "מתבצע ניסיון לשמור על מקום פנוי מזערי"
 msgid "Trying to keep min {perc} free inodes"
 msgstr "מתבצע ניסיון לשמור לפחות {perc} מה־inodes פנויים"
 
-#: common/snapshots.py:3374 qt/app.py:1552 qt/timeline.py:405
+#: common/snapshots.py:3374 qt/app.py:1563 qt/timeline.py:405
 msgid "Now"
 msgstr "עכשיו"
 
@@ -528,20 +528,36 @@ msgstr ""
 "מערכת הקבצים המיועדת ל־{path} מפורמטת ל־NTFS, שידועה בחוסר התאימות שלה "
 "למערכות קבצים תואמות יוניקס."
 
-#: common/tools.py:434
+#: common/tools.py:408
+msgid "Write access may be restricted."
+msgstr "גישת הכתיבה כנראה מוגבלת."
+
+#: common/tools.py:411
+msgid "Not enough free space on the device."
+msgstr ""
+
+#: common/tools.py:415
+msgid "Not enough free space because the disk quota has been exceeded."
+msgstr ""
+
+#: common/tools.py:419
+msgid "Filesystem is read-only."
+msgstr ""
+
+#: common/tools.py:422
+msgid "Unexpected error: "
+msgstr ""
+
+#: common/tools.py:425
+msgid "Creation failed:"
+msgstr ""
+
+#: common/tools.py:460
 #, python-brace-format
 msgid "{path} is not a valid directory."
 msgstr "{path} אינה תיקייה תקפה."
 
-#: common/tools.py:452
-msgid "Creation of following directory failed:"
-msgstr "יצירת התיקייה הבאה נכשלה:"
-
-#: common/tools.py:454 common/tools.py:557
-msgid "Write access may be restricted."
-msgstr "גישת הכתיבה כנראה מוגבלת."
-
-#: common/tools.py:501
+#: common/tools.py:522
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is formatted with FAT which doesn't "
@@ -550,7 +566,7 @@ msgstr ""
 "מערכת הקבצים המיועדת ל־{path} מפורמטת ל־FAT שבה אין תמיכה בקישורים קשיחים. "
 "נא להשתמש במערכת קבצים טבעית של גנו/לינוקס."
 
-#: common/tools.py:512
+#: common/tools.py:533
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via SMB. Please make "
@@ -560,15 +576,15 @@ msgstr ""
 "מערכת היעד עבור {path} היא שיתוף SMB מעוגן. נא לוודא ששרת ה־SMB המרוחק תומך "
 "בקישורים סמליים או להפעיל את„ {copyLinks}” תחת „{expertOptions}”."
 
-#: common/tools.py:516
+#: common/tools.py:537
 msgid "Copy links (dereference symbolic links)"
 msgstr "העתקת קישורים (ביטול הפניה של קישורים סמליים)"
 
-#: common/tools.py:517
+#: common/tools.py:538
 msgid "Expert Options"
 msgstr "אפשרויות מתקדמות"
 
-#: common/tools.py:521
+#: common/tools.py:542
 #, python-brace-format
 msgid ""
 "Destination filesystem for {path} is a share mounted via sshfs. Sshfs "
@@ -577,11 +593,7 @@ msgstr ""
 "מערכת הקבצים המיועדת עבור {path} היא שיתוף בעיגון sshfs. ב־sshfs אין תמיכה "
 "בקישורים קשיחים. נא להשתמש במצב „SSH” במקום."
 
-#: common/tools.py:555
-msgid "File creation failed in this directory:"
-msgstr "יצירת קבצים בתיקייה הזאת נכשלה:"
-
-#: common/udev.py:43 qt/app.py:1318 qt/messagebox.py:137
+#: common/udev.py:43 qt/app.py:1329 qt/messagebox.py:137
 msgid "Error"
 msgstr "שגיאה"
 
@@ -618,15 +630,15 @@ msgstr "לקישור הזה"
 msgid "Follow {thislink} to get translator credits for all languages."
 msgstr "אפשר לגשת {thislink} כדי לצפות בתודות למתרגמים בכל השפות."
 
-#: qt/aboutdlg.py:240 qt/app.py:587
+#: qt/aboutdlg.py:240 qt/app.py:595
 msgid "Project website"
 msgstr "אתר המיזם"
 
-#: qt/aboutdlg.py:245 qt/app.py:569
+#: qt/aboutdlg.py:245 qt/app.py:577
 msgid "User manual"
 msgstr "מדריך למשתמשים"
 
-#: qt/aboutdlg.py:247 qt/app.py:571
+#: qt/aboutdlg.py:247 qt/app.py:579
 #, fuzzy
 msgid "Open user manual in browser (local if available, otherwise online)"
 msgstr "פתיחת מדריך המשתמש בדפדפן (מקומי אם זמין או מקוון אם לא)"
@@ -636,289 +648,289 @@ msgstr "פתיחת מדריך המשתמש בדפדפן (מקומי אם זמי�
 msgid "{BOLD}Version{BOLDEND}: {version}"
 msgstr "{BOLD}גרסה{BOLDEND}: {version}"
 
-#: qt/app.py:353
+#: qt/app.py:352
 #, fuzzy, python-brace-format
 msgid ""
 "{app_name} appears to be running for the first time because no configuration"
 " is found."
 msgstr "נראה כי {app_name} עולה לראשונה כיוון שלא נמצאו הגדרות."
 
-#: qt/app.py:358
+#: qt/app.py:357
 #, fuzzy
 msgid ""
 "Create a new configuration or import an existing configuration from a "
 "backup?"
 msgstr "לייבא הגדרות קיימות (מתיקיית יעד גיבוי או ממחשב אחר)?"
 
-#: qt/app.py:363 qt/confirmrestoredialog.py:36 qt/messagebox.py:124
+#: qt/app.py:362 qt/confirmrestoredialog.py:36 qt/messagebox.py:124
 msgid "Question"
 msgstr "שאלה"
 
-#: qt/app.py:367
+#: qt/app.py:366
 msgid "Create"
 msgstr ""
 
-#: qt/app.py:369 qt/restoreconfigdialog.py:136
+#: qt/app.py:368 qt/restoreconfigdialog.py:136
 msgid "Import"
 msgstr "ייבוא"
 
-#: qt/app.py:506
+#: qt/app.py:514
 msgid "Create a backup"
 msgstr "יצירת גיבוי"
 
-#: qt/app.py:508
+#: qt/app.py:516
 msgid "Use modification time & size for file change detection."
 msgstr "להשתמש בזמן השינוי ובגודל לזיהוי שינויים בקובץ."
 
-#: qt/app.py:511
+#: qt/app.py:519
 msgid "Create a backup (checksum mode)"
 msgstr "יצירת גיבוי (מצב סיכומי ביקורת)"
 
-#: qt/app.py:513
+#: qt/app.py:521
 msgid "Use checksums for file change detection."
 msgstr "להשתמש בסיכומי ביקורת לאיתור שינויים."
 
-#: qt/app.py:515 qt/qtsystrayicon.py:132
+#: qt/app.py:523 qt/qtsystrayicon.py:132
 msgid "Pause backup process"
 msgstr "השהיית תהליך גיבוי"
 
-#: qt/app.py:520 qt/qtsystrayicon.py:137
+#: qt/app.py:528 qt/qtsystrayicon.py:137
 msgid "Resume backup process"
 msgstr "המשך תהליך גיבוי"
 
-#: qt/app.py:525 qt/qtsystrayicon.py:142
+#: qt/app.py:533 qt/qtsystrayicon.py:142
 msgid "Stop backup process"
 msgstr "עצירת תהליך הגיבוי"
 
-#: qt/app.py:529
+#: qt/app.py:537
 msgid "Refresh backup list"
 msgstr "רענון רשימת הגיבויים"
 
-#: qt/app.py:533
+#: qt/app.py:541
 msgid "Name backup"
 msgstr "מתן שם לגיבוי"
 
-#: qt/app.py:537
+#: qt/app.py:545
 msgid "Remove backup"
 msgstr "הסרת גיבוי"
 
-#: qt/app.py:541
+#: qt/app.py:549
 msgid "Open backup log"
 msgstr "פתיחת יומן גיבוי"
 
-#: qt/app.py:543
+#: qt/app.py:551
 msgid "View log of the selected backup."
 msgstr "הצגת יומן הגיבוי הנבחר."
 
-#: qt/app.py:545
+#: qt/app.py:553
 msgid "Open last backup log"
 msgstr "פתיחת יומן הגיבוי האחרון"
 
-#: qt/app.py:547
+#: qt/app.py:555
 msgid "View log of the latest backup."
 msgstr "הצגת יומן הגיבוי האחרון."
 
-#: qt/app.py:549
+#: qt/app.py:557
 msgid "Manage profiles…"
 msgstr "ניהול פרופילים…"
 
-#: qt/app.py:553
+#: qt/app.py:561
 msgid "Edit user-callback"
 msgstr "עריכת משוב משתמש"
 
-#: qt/app.py:557
+#: qt/app.py:565
 msgid "Shutdown"
 msgstr "כיבוי"
 
-#: qt/app.py:559
+#: qt/app.py:567
 msgid "Shut down system after backup has finished."
 msgstr "לכבות את המערכת אחרי ששמירת הגיבוי הסתיימה."
 
-#: qt/app.py:561
+#: qt/app.py:569
 msgid "Setup language…"
 msgstr "הגדרות שפה…"
 
-#: qt/app.py:565
+#: qt/app.py:573
 msgid "Exit"
 msgstr "יציאה"
 
-#: qt/app.py:575
+#: qt/app.py:583
 msgid "man page: Back In Time"
 msgstr "עמוד ה־man‏: Back In Time"
 
-#: qt/app.py:577
+#: qt/app.py:585
 msgid "Displays man page about Back In Time (backintime)"
 msgstr "הצגת עמוד man על Back In Time ‏(backintime)"
 
-#: qt/app.py:580
+#: qt/app.py:588
 msgid "man page: Profiles config file"
 msgstr "עמוד man: קובץ הגדרת פרופילים"
 
-#: qt/app.py:583
+#: qt/app.py:591
 msgid "Displays man page about profiles config file (backintime-config)"
 msgstr "הצגת עמוד man על קובץ הגדרת פרופילים (backintime-config)"
 
-#: qt/app.py:590
+#: qt/app.py:598
 msgid "Open Back In Time website in browser"
 msgstr "פתיחת אתר Back In Time בדפדפן"
 
-#: qt/app.py:592 qt/app.py:2374
+#: qt/app.py:600 qt/app.py:2385
 msgid "Changelog"
 msgstr "יומן שינויים"
 
-#: qt/app.py:595
+#: qt/app.py:603
 msgid "Open changelog (locally if available, otherwise from the web)"
 msgstr "פתיחת יומן השינויים (מקומי אם זמין או מקוון אם לא)"
 
-#: qt/app.py:598
+#: qt/app.py:606
 msgid "FAQ"
 msgstr "שאלות ותשובות"
 
-#: qt/app.py:600
+#: qt/app.py:608
 msgid "Open Frequently Asked Questions (FAQ) in browser"
 msgstr "פתיחת שאלות נפוצות (שו״ת) בדפדפן"
 
-#: qt/app.py:602
+#: qt/app.py:610
 msgid "Report a bug"
 msgstr "דיווח על תקלה"
 
-#: qt/app.py:605
+#: qt/app.py:613
 msgid "Contact"
 msgstr ""
 
-#: qt/app.py:607
+#: qt/app.py:615
 #, fuzzy
 msgid "Shows additional contact options in the browser"
 msgstr "הדבקת אפשרויות נוספות ל־rsync"
 
-#: qt/app.py:610
+#: qt/app.py:618
 msgid "Translation"
 msgstr "תרגום"
 
-#: qt/app.py:612
+#: qt/app.py:620
 msgid "Shows the message about participation in translation again."
 msgstr "הצגת ההודעה בנוגע להשתתפות בתרגום שוב."
 
-#: qt/app.py:622
+#: qt/app.py:630
 msgid "About"
 msgstr "על אודות"
 
-#: qt/app.py:625 qt/restoredialog.py:48 qt/snapshotsdialog.py:183
+#: qt/app.py:633 qt/restoredialog.py:48 qt/snapshotsdialog.py:183
 #: qt/snapshotsdialog.py:188
 msgid "Restore"
 msgstr "שחזור"
 
-#: qt/app.py:627
+#: qt/app.py:635
 #, fuzzy
 msgid "Restore the selected files or directories to the original location."
 msgstr "שחזור הקבצים או התיקיות הנבחרים ליעד המקורי."
 
-#: qt/app.py:630 qt/app.py:1995 qt/snapshotsdialog.py:185
+#: qt/app.py:638 qt/app.py:2006 qt/snapshotsdialog.py:185
 msgid "Restore to …"
 msgstr "שחזור אל…"
 
-#: qt/app.py:632
+#: qt/app.py:640
 #, fuzzy
 msgid "Restore the selected files or directories to a new location."
 msgstr "שחזור הקבצים או התיקיות הנבחרים ליעד חדש."
 
-#: qt/app.py:638
+#: qt/app.py:646
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to the original "
 "location."
 msgstr "שחזור התיקייה שמופיעה ואת כל התוכן שלה ליעד המקורי."
 
-#: qt/app.py:644
+#: qt/app.py:652
 #, fuzzy
 msgid ""
 "Restore the currently shown directory and all its contents to a new "
 "location."
 msgstr "שחזור התיקייה שמופיע ואת כל התוכן שלה ליעד חדש."
 
-#: qt/app.py:647
+#: qt/app.py:655
 msgid "Up"
 msgstr "למעלה"
 
-#: qt/app.py:650
+#: qt/app.py:658
 msgid "Show hidden files"
 msgstr "הצגת קבצים נסתרים"
 
-#: qt/app.py:653
+#: qt/app.py:661
 msgid "Compare backups…"
 msgstr "השוואת גיבויים…"
 
-#: qt/app.py:683 qt/app.py:1815
+#: qt/app.py:691 qt/app.py:1826
 msgid "Release Candidate"
 msgstr "מועמדת להוצאה לאור"
 
-#: qt/app.py:686
+#: qt/app.py:694
 msgid "Shows the message about this Release Candidate again."
 msgstr "הצגת ההודעה על המועמדת להוצאה לאור שוב."
 
-#: qt/app.py:723
+#: qt/app.py:731
 msgid "Back In &Time"
 msgstr "&חזרה בזמן"
 
-#: qt/app.py:728
+#: qt/app.py:736
 msgid "&Backup"
 msgstr "&גיבוי"
 
-#: qt/app.py:740
+#: qt/app.py:748
 msgid "&Restore"
 msgstr "&שחזור"
 
-#: qt/app.py:746
+#: qt/app.py:754
 msgid "&Help"
 msgstr "ע&זרה"
 
-#: qt/app.py:796
+#: qt/app.py:804
 msgid "Systray Icon"
 msgstr ""
 
-#: qt/app.py:802
+#: qt/app.py:810
 msgid "Automatic"
 msgstr ""
 
-#: qt/app.py:806
+#: qt/app.py:814
 msgid "Light icon"
 msgstr ""
 
-#: qt/app.py:807
+#: qt/app.py:815
 msgid "Dark icon"
 msgstr ""
 
-#: qt/app.py:830
+#: qt/app.py:838
 msgid "Icons only"
 msgstr "סמלים בלבד"
 
-#: qt/app.py:833
+#: qt/app.py:841
 msgid "Text only"
 msgstr "טקסט בלבד"
 
-#: qt/app.py:836
+#: qt/app.py:844
 msgid "Text below icons"
 msgstr "טקסט מתחת לסמלים"
 
-#: qt/app.py:839
+#: qt/app.py:847
 msgid "Text beside icon"
 msgstr "טקסט ליד הסמלים"
 
-#: qt/app.py:965
+#: qt/app.py:973
 #, fuzzy
 msgid "This directory doesn't exist in the selected backup."
 msgstr ""
 "התיקייה הזאת לא קיימת\n"
 "בגיבוי הנוכחי שנבחר."
 
-#: qt/app.py:968
+#: qt/app.py:976
 #, fuzzy
 msgid "This directory doesn't exist on the computer."
 msgstr ""
 "התיקייה הזאת לא קיימת\n"
 "בגיבוי הנוכחי שנבחר."
 
-#: qt/app.py:1018
+#: qt/app.py:1026
 msgid ""
 "If this window is closed, Back In Time will not be able to shut down your "
 "system when the backup is finished."
@@ -926,53 +938,53 @@ msgstr ""
 "אם החלון הזה סגור, לא תהיה ל־Back In Time לכבות את המערכת שלך עם סיום "
 "הגיבוי."
 
-#: qt/app.py:1022
+#: qt/app.py:1030
 msgid "Close the window anyway?"
 msgstr "לסגור את החלון הזה בכל זאת?"
 
-#: qt/app.py:1112 qt/app.py:1119
+#: qt/app.py:1120 qt/app.py:1127
 msgid "Backup destination unavailable"
 msgstr ""
 
-#: qt/app.py:1234
+#: qt/app.py:1245
 msgid "Done, no backup needed"
 msgstr "הסתיים, לא נדרש גיבוי"
 
-#: qt/app.py:1305
+#: qt/app.py:1316
 msgid "Working:"
 msgstr "בעבודה:"
 
-#: qt/app.py:1312
+#: qt/app.py:1323
 msgid "Working"
 msgstr "בעבודה"
 
-#: qt/app.py:1368 qt/qtsystrayicon.py:293
+#: qt/app.py:1379 qt/qtsystrayicon.py:293
 msgid "Sent:"
 msgstr "נשלחו:"
 
-#: qt/app.py:1369 qt/qtsystrayicon.py:294
+#: qt/app.py:1380 qt/qtsystrayicon.py:294
 msgid "Speed:"
 msgstr "מהירות:"
 
-#: qt/app.py:1370 qt/qtsystrayicon.py:295
+#: qt/app.py:1381 qt/qtsystrayicon.py:295
 msgid "ETA:"
 msgstr "זמן משוער לסיום:"
 
-#: qt/app.py:1560
+#: qt/app.py:1571
 msgid "Backup:"
 msgstr "גיבוי:"
 
-#: qt/app.py:1663
+#: qt/app.py:1674
 #, python-brace-format
 msgid "Restore {path}"
 msgstr "שחזור {path}"
 
-#: qt/app.py:1665
+#: qt/app.py:1676
 #, python-brace-format
 msgid "Restore {path} to …"
 msgstr "לשחזר את {path} אל…"
 
-#: qt/app.py:1689
+#: qt/app.py:1700
 #, python-brace-format
 msgid ""
 "Hello\n"
@@ -989,47 +1001,47 @@ msgstr ""
 "אנחנו מתנצלים על ההפרעה, וההודעה הזאת לא תופיע שוב. החלונית הזאת זמינה בכל עת דרך תפריט העזרה.\n"
 "צוות Back In Time לרשותכם"
 
-#: qt/app.py:1718
+#: qt/app.py:1729
 msgid "translation platform"
 msgstr "פלטפורמת תרגום"
 
-#: qt/app.py:1723
+#: qt/app.py:1734
 msgid "Website"
 msgstr "אתר"
 
-#: qt/app.py:1737
+#: qt/app.py:1748
 msgid "Your translation"
 msgstr "התרגום שלך"
 
-#: qt/app.py:1774
+#: qt/app.py:1785
 #, python-brace-format
 msgid "In the Fediverse at Mastodon: {link_and_label}."
 msgstr "בפדיברס דרך מסטודון: {link_and_label}."
 
-#: qt/app.py:1779
+#: qt/app.py:1790
 #, fuzzy, python-brace-format
 msgid "Email to {link_and_label}."
 msgstr "רשימת הדיוור {link_and_label}."
 
-#: qt/app.py:1783
+#: qt/app.py:1794
 #, python-brace-format
 msgid "Mailing list {link_and_label}."
 msgstr "רשימת הדיוור {link_and_label}."
 
-#: qt/app.py:1787
+#: qt/app.py:1798
 #, python-brace-format
 msgid "{link_and_label} on the project website."
 msgstr "{link_and_label} באתר המיזם."
 
-#: qt/app.py:1790
+#: qt/app.py:1801
 msgid "Open an issue"
 msgstr "לפתוח דיווח תקלה"
 
-#: qt/app.py:1791
+#: qt/app.py:1802
 msgid "Alternatively, you can use another channel of your choice."
 msgstr "לחלופין, אפשר להשתמש בכל ערוץ אחר לשיקולך."
 
-#: qt/app.py:1796
+#: qt/app.py:1807
 #, python-brace-format
 msgid ""
 "This version is a Release Candidate for testing before the next stable release.\n"
@@ -1040,15 +1052,15 @@ msgid ""
 "Thank you for testing Back In Time and helping us improve it!"
 msgstr ""
 
-#: qt/app.py:1879
+#: qt/app.py:1890
 msgid "Check if remote host is online"
 msgstr "לבדוק אם המארח המרוחק מחובר"
 
-#: qt/app.py:1880
+#: qt/app.py:1891
 msgid "Check if remote host supports all necessary commands."
 msgstr "לבדוק האם המארח המרוחק תומך בכל הפקודות הנחוצות."
 
-#: qt/app.py:1923
+#: qt/app.py:1934
 #, python-brace-format
 msgid ""
 "Only {free} free space available on the destination, which is below the "
@@ -1056,20 +1068,20 @@ msgid ""
 msgstr ""
 "רק {free} של מקום פנוי זמינים ביעד, שזה מתחת ליעד שהוגדר על סך {threshold}."
 
-#: qt/app.py:1928
+#: qt/app.py:1939
 msgid "Proceed with the backup?"
 msgstr "להמשיך עם הגיבוי?"
 
-#: qt/app.py:1975
+#: qt/app.py:1986
 #, python-brace-format
 msgid "All newer files in {path} will be removed. Proceed?"
 msgstr "כל הקבצים החדשים יותר ב־{path} יוסרו. להמשיך?"
 
-#: qt/app.py:1978
+#: qt/app.py:1989
 msgid "All newer files in the original directory will be removed. Proceed?"
 msgstr "כל הקבצים החדשים ביותר בתיקייה המקומית יוסרו. להמשיך?"
 
-#: qt/app.py:1984
+#: qt/app.py:1995
 #, python-brace-format
 msgid ""
 "{BOLD}Warning{BOLDEND}: Deleting files in the filesystem root could break "
@@ -1078,17 +1090,17 @@ msgstr ""
 "{BOLD}אזהרה{BOLDEND}: מחיקת קבצים בשורש מערכת הקבצים יכולה לשבש את כל המערכת"
 " שלך."
 
-#: qt/app.py:2233
+#: qt/app.py:2244
 msgid "Backup name"
 msgstr "שם הגיבוי"
 
-#: qt/app.py:2265
+#: qt/app.py:2276
 msgid "Remove this backup?"
 msgid_plural "Remove these backups?"
 msgstr[0] "להסיר את הגיבוי הזה?"
 msgstr[1] "להסיר את הגיבויים האלה?"
 
-#: qt/app.py:2332
+#: qt/app.py:2343
 msgid "The language settings take effect only after restarting Back In Time."
 msgstr "הגדרות השפה ייכנסו לתוקף רק לאחר הפעלת Back In Time מחדש."
 
@@ -1181,33 +1193,33 @@ msgstr ""
 msgid "Show/hide hidden files and directories (Ctrl+H)"
 msgstr "הצגת/הסתרת קבצים ותיקיות מוסתרים (Ctrl+H)"
 
-#: qt/fileview.py:204
+#: qt/fileview.py:207
 msgid "Add to Include"
 msgstr "הוספה להכללה"
 
-#: qt/fileview.py:205
+#: qt/fileview.py:208
 msgid "Add to Exclude"
 msgstr "הוספה להחרגה"
 
-#: qt/fileview.py:292
+#: qt/fileview.py:295
 msgid "The selected item is already in the include list."
 msgid_plural "The selected items are already in the include list."
 msgstr[0] ""
 msgstr[1] ""
 
-#: qt/fileview.py:299
+#: qt/fileview.py:302
 msgid "The following item is already in the include list."
 msgid_plural "The following items are already in the include list."
 msgstr[0] ""
 msgstr[1] ""
 
-#: qt/fileview.py:313
+#: qt/fileview.py:316
 msgid "The selected item is already in the exclude list."
 msgid_plural "The selected items are already in the exclude list."
 msgstr[0] ""
 msgstr[1] ""
 
-#: qt/fileview.py:320
+#: qt/fileview.py:323
 msgid "The following item is already in the exclude list."
 msgid_plural "The following items are already in the exclude list."
 msgstr[0] ""
@@ -2595,6 +2607,12 @@ msgstr "בדיקה אחרונה {time}"
 #: qt/timeline.py:402
 msgid "These are your files as they are right now. It is not a backup."
 msgstr ""
+
+#~ msgid "Creation of following directory failed:"
+#~ msgstr "יצירת התיקייה הבאה נכשלה:"
+
+#~ msgid "File creation failed in this directory:"
+#~ msgstr "יצירת קבצים בתיקייה הזאת נכשלה:"
 
 #, python-brace-format
 #~ msgid ""
