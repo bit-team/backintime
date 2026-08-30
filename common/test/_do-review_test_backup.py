@@ -5,6 +5,14 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
+"""
+Dev note (2026-08, buhtz):
+- Mostly system tests, except some integration tests (using 'expected_call')
+- Recommendation: Important but won't get enabled for a long time.
+- Maybe pick out one of that tests and try to replicate it without using
+  all that heavy stuff from the generic module.
+- For a start, first try to replicate 'TestBackup.test_with_errors()'.
+"""
 import os
 import sys
 import unittest

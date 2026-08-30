@@ -11,7 +11,14 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 #
 # Split from test_sid.py
-"""Test about FileInfoDict class and files"""
+"""Test about FileInfoDict class and files
+
+Dev note (2026-08, buhtz):
+- Mostly integration tests
+- Extreme dependencies to snapshots.py
+- Recommendation: Keep it (long time) disabled until snapshots.py is
+  refactored.
+"""
 import stat
 from pathlib import Path
 from test import generic
