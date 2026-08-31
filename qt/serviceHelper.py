@@ -49,7 +49,8 @@
 """Handling udev rules via DBUS service"""
 import os
 import re
-from subprocess import Popen, PIPE
+import subprocess
+
 try:
     import pwd
 except ImportError:
@@ -76,8 +77,12 @@ except (ModuleNotFoundError, ImportError) as exc:
     syslog.syslog(syslog.LOG_ERR, f'Back In Time: {msg}')
     sys.exit(os.EX_OSERR)
 
+from PyQt6.QtCore import QCoreApplication, QTimer
 
-from PyQt6.QtCore import QCoreApplication
+import qttools_path
+qttools_path.register_backintime_path('common')
+import bitbase
+
 
 UDEV_RULES_PATH = '/etc/udev/rules.d/99-backintime-%s.rules'
 
@@ -105,8 +110,15 @@ class PermissionDeniedByPolicy(dbus.DBusException):
 class UdevRules(dbus.service.Object):
     """DBus object to manage Udev rules"""
 
-    def __init__(self, conn=None, object_path=None, bus_name=None):
+    def __init__(self,
+                 conn=None,
+                 object_path=None,
+                 bus_name=None,
+                 idle_timeout=None):
         super(UdevRules, self).__init__(conn, object_path, bus_name)
+
+        self.idle_timeout = idle_timeout
+        self.idle_timeout.reset()
 
         # the following variables are used by _checkPolkitPrivilege
         self.polkit = None
@@ -122,7 +134,7 @@ class UdevRules(dbus.service.Object):
         self.max_cmd_len = 120  # was 100 before but was too small (see #1027)
 
     def _which(self, exe, fallback):
-        proc = Popen(['which', exe], stdout=PIPE)
+        proc = subprocess.Popen(['which', exe], stdout=subprocess.PIPE)
 
         ret = proc.communicate()
         # ret = proc.communicate()[0].strip().decode()
@@ -221,6 +233,8 @@ class UdevRules(dbus.service.Object):
         This is done on the service side to prevent malicious code to
         run as root.
         """
+        self.idle_timeout.reset()
+
         # prevent breaking out of su command
         chars = re.findall(r'[^a-zA-Z0-9-/\.>& ]', cmd)
         if chars:
@@ -271,6 +285,7 @@ class UdevRules(dbus.service.Object):
         temporary added rules and current rules in destination file.
         Returns False if files are identical or no rules to be installed.
         """
+        self.idle_timeout.reset()
         info = SenderInfo(sender, conn)
         user = info.connectionUnixUser()
         owner = info.nameOwner()
@@ -307,6 +322,7 @@ class UdevRules(dbus.service.Object):
                          sender_keyword='sender', connection_keyword='conn')
     def delete(self, sender=None, conn=None):
         """Delete existing Udev rule"""
+        self.idle_timeout.reset()
         info = SenderInfo(sender, conn)
         user = info.connectionUnixUser()
         owner = info.nameOwner()
@@ -323,6 +339,7 @@ class UdevRules(dbus.service.Object):
                          sender_keyword='sender', connection_keyword='conn')
     def clean(self, sender=None, conn=None):
         """clean up previous cached rules"""
+        self.idle_timeout.reset()
         info = SenderInfo(sender, conn)
         self._clean(info.nameOwner())
 
@@ -419,13 +436,71 @@ class SenderInfo:
         return self.dbus_info.GetConnectionUnixProcessID(self.sender)
 
 
+def is_gui_running():
+    result = subprocess.run(
+        ['ps', '-C', bitbase.BINARY_NAME_GUI],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        check=False,
+    )
+    return result.returncode == 0
+
+
+class IdleTimeout:
+    """The service helper terminates itself if idle.
+
+    Two stages are defined. If the first longer period (`IDLE_TIMEOUT`)
+    expires, the second and shorter period (`EXIT_GRACE_PERIOD`) starts. At
+    the end the service exits.
+
+    The timeout periods start again on any D-Bus activity. If the Back In Time
+    GUI is running the second period will never start.
+    """
+    IDLE_TIMEOUT = 3 * 60 * 1000  # 3 Minutes
+    EXIT_GRACE_PERIOD = 30 * 1000  # 30 Seconds
+
+    def __init__(self, app: QCoreApplication):
+        self.app = app
+
+        self.idle_timer = QTimer()
+        self.idle_timer.setSingleShot(True)
+        self.idle_timer.timeout.connect(self._on_idle_timeout)
+
+        self.grace_timer = QTimer()
+        self.grace_timer.setSingleShot(True)
+        self.grace_timer.timeout.connect(self._on_exit_grace_timeout)
+
+    def reset(self):
+        self.grace_timer.stop()
+        self.idle_timer.start(self.IDLE_TIMEOUT)
+
+    def _on_idle_timeout(self):
+        if is_gui_running():
+            self.reset()
+            return
+
+        self.grace_timer.start(self.EXIT_GRACE_PERIOD)
+
+    def _on_exit_grace_timeout(self):
+        if is_gui_running():
+            self.reset()
+            return
+
+        self.app.quit()
+
+
 if __name__ == '__main__':
     DBusQtMainLoop(set_as_default=True)
 
     app = QCoreApplication([])
 
+    idle_timeout = IdleTimeout(app)
+
     bus = dbus.SystemBus()
-    name = dbus.service.BusName("net.launchpad.backintime.serviceHelper", bus)
-    object = UdevRules(bus, '/UdevRules')
+    name = dbus.service.BusName(
+        "net.launchpad.backintime.serviceHelper",
+        bus
+    )
+    object = UdevRules(bus, '/UdevRules', idle_timeout=idle_timeout)
 
     app.exec()

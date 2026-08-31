@@ -74,12 +74,11 @@ class SetupUdev:
         conn = None
 
         try:
-            bus = dbus.SystemBus()
-            conn = bus.get_object(SetupUdev.CONNECTION, SetupUdev.OBJECT)
-            self.iface = dbus.Interface(conn, SetupUdev.INTERFACE)
+            conn = self._connect()
+
             # Dummy message to catch org.freedesktop.DBus.Error.AccessDenied
             # See #2366
-            self.iface.clean()
+            self._call('clean')
 
         except dbus.exceptions.DBusException as exc:
             debug_msg = (
@@ -98,6 +97,32 @@ class SetupUdev:
 
         self.isReady = bool(conn)
 
+    def _connect(self):
+        bus = dbus.SystemBus()
+        conn = bus.get_object(
+            SetupUdev.CONNECTION,
+            SetupUdev.OBJECT
+        )
+        self.iface = dbus.Interface(conn, SetupUdev.INTERFACE)
+
+        return conn
+
+    def _call(self, method_name, *args):
+        """Call a service helper method and reconnect if necessary."""
+        try:
+            return getattr(self.iface, method_name)(*args)
+
+        except dbus.exceptions.DBusException as exc:
+            if (exc.get_dbus_name()
+                    != 'org.freedesktop.DBus.Error.ServiceUnknown'):
+                raise
+
+            # Reconnect to service
+            self._connect()
+
+            # Try calling again
+            return getattr(self.iface, method_name)(*args)
+
     # pylint: disable-next=invalid-name
     def addRule(self, cmd, uuid):  # noqa: N802
         """Prepare rules in serviceHelper.py
@@ -106,7 +131,7 @@ class SetupUdev:
             return None
 
         try:
-            return self.iface.addRule(cmd, uuid)
+            return self._call('addRule', cmd, uuid)
 
         except dbus.exceptions.DBusException as exc:
             dbus_name = exc.get_dbus_name()
@@ -137,7 +162,7 @@ class SetupUdev:
             return None
 
         try:
-            return self.iface.save()
+            return self._call('save')
 
         except dbus.exceptions.DBusException as err:
             dbus_name = err.get_dbus_name()
@@ -154,9 +179,8 @@ class SetupUdev:
         return None
 
     def clean(self):
-        """Clean up remote cache.
-        """
+        """Clean up remote cache."""
         if not self.isReady:
             return
 
-        self.iface.clean()
+        self._call('clean')
