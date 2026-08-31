@@ -75,9 +75,6 @@ class SetupUdev:
 
         try:
             conn = self._connect()
-            # bus = dbus.SystemBus()
-            # conn = bus.get_object(SetupUdev.CONNECTION, SetupUdev.OBJECT)
-            # self.iface = dbus.Interface(conn, SetupUdev.INTERFACE)
 
             # Dummy message to catch org.freedesktop.DBus.Error.AccessDenied
             # See #2366

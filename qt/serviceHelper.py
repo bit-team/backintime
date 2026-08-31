@@ -449,17 +449,15 @@ def is_gui_running():
 class IdleTimeout:
     """The service helper terminates itself if idle.
 
-    Two periods are defined. If the first longer period (`IDLE_TIMEOUT`)
+    Two stages are defined. If the first longer period (`IDLE_TIMEOUT`)
     expires, the second and shorter period (`EXIT_GRACE_PERIOD`) starts. At
     the end the service exits.
 
-    The timeout periods start again on any D-Bus activiy. If the Back In Time
+    The timeout periods start again on any D-Bus activity. If the Back In Time
     GUI is running the second period will never start.
     """
-    # IDLE_TIMEOUT = 3 * 60 * 1000  # 3 Minutes
-    # EXIT_GRACE_PERIOD = 30 * 1000  # 30 Seconds
-    IDLE_TIMEOUT = 10 * 1000
-    EXIT_GRACE_PERIOD = 5 * 1000
+    IDLE_TIMEOUT = 3 * 60 * 1000  # 3 Minutes
+    EXIT_GRACE_PERIOD = 30 * 1000  # 30 Seconds
 
     def __init__(self, app: QCoreApplication):
         self.app = app
