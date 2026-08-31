@@ -43,6 +43,8 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - GUI State: "Show hidden files" is on by default
 - User defined plugins: Deprecate and warn about user defined plugins found 
   ([#2424](https://github.com/bit-team/backintime/issues/2424))
+- Idle lifecycle for D-Bus helper (serviceHelper.py) instead of running
+  indefinitely ([#2581](https://github.com/bit-team/backintime/issues/2581))
 
 ### Added
 - Detect and report coreutils variant (GNU, Rust/uutils, BusyBox) in `--diagnostics` output ([#2478](https://github.com/bit-team/backintime/issues/2478))
