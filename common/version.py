@@ -13,7 +13,7 @@ See Issue #1575 for details about that migration.
 import re
 
 # Version string regularyly used by the application and presented to users.
-__version__ = '2.0.0-rc1'
+__version__ = '2.0.0-rc2'
 
 try:
     from buildinfo import git_hash

@@ -14,6 +14,7 @@
 # Split from app.py
 """Module offering the Places widget in the main window.
 """
+import errno
 import os
 import pathlib
 from PyQt6.QtWidgets import (QAbstractItemView,
@@ -181,7 +182,12 @@ class PlacesWidget(QTreeWidget):
                         folders.append(fp.name)
 
                 except OSError as exc:
-                    logger.error(
+                    if exc.errno == errno.ENOENT:
+                        # Broken symlink in the backup.
+                        # No need to log this case.
+                        continue
+
+                    logger.warning(
                         f'Cannot inspect backup entry "{fp}" because of '
                         f'error: {exc}'
                     )
