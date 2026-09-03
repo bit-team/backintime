@@ -1146,6 +1146,8 @@ class MainWindow(QMainWindow):
         else:
             self.places.set_sorting(sorting)
 
+        self.status_bar.set_disk_space_info(self.config.snapshotsPath())
+
     def comboProfileChanged(self, _index):
         if self.disableProfileChanged:
             return
@@ -1248,6 +1250,8 @@ class MainWindow(QMainWindow):
             # function `shutdown` should just focus on shutting down a machine
             if self.shutdown.activate_shutdown and get_shutdown_confirmation():
                 self.shutdown.shutdown()
+
+            self.status_bar.set_disk_space_info(self.config.snapshotsPath())
 
         message = self._set_take_snapshot_message(
             message=takeSnapshotMessage,

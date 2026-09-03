@@ -11,6 +11,7 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """A module offering a status bar widget
 """
+import os
 from PyQt6.QtWidgets import (QFrame,
                              QHBoxLayout,
                              QLabel,
@@ -26,6 +27,7 @@ import bitbase
 import qttools
 
 _PROGRESS_BAR_WIDTH_FX = 10
+_UNIT_MULTIPLIER = 1024
 
 
 class StatusBar(QStatusBar):
@@ -44,7 +46,6 @@ class StatusBar(QStatusBar):
         layout = QHBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
         container.setLayout(layout)
-
         # Status text
         self._status = QLabel(container)
         self._status.setWordWrap(False)
@@ -58,12 +59,23 @@ class StatusBar(QStatusBar):
         self._progress.setTextVisible(False)
         self._progress.setVisible(False)
 
+        # Disk space info label
+        self._disk_space = QLabel(container)
+        self._disk_space.setWordWrap(False)
+        self._disk_space.setSizePolicy(
+            QSizePolicy.Policy.Preferred,
+            QSizePolicy.Policy.Preferred,
+        )
+        self._disk_space.setVisible(False)
+
         # Layout
         if self._root:
             layout.addWidget(self._root)
         layout.addWidget(self._status, stretch=_PROGRESS_BAR_WIDTH_FX-1)
+        layout.addWidget(self._disk_space)
         layout.addStretch(0)
         layout.addWidget(self._progress, stretch=1)
+
         self.addPermanentWidget(container, 1)
         container.resizeEvent = self._on_resize
 
@@ -125,3 +137,34 @@ class StatusBar(QStatusBar):
     def set_progress_value(self, val: int) -> None:
         """Set numeric value of progress bar."""
         self._progress.setValue(val)
+
+    def set_disk_space_info(self, path: str) -> None:
+        """Set the backup disk space information."""
+        if not path:
+            self._disk_space.setVisible(False)
+            return
+
+        try:
+            statvfs = os.statvfs(path)
+
+            free = statvfs.f_frsize
+            if bitbase.IS_IN_ROOT_MODE:
+                free *= statvfs.f_bfree
+            else:
+                free *= statvfs.f_bavail
+
+            for unit in ['B', 'KB', 'MB', 'GB', 'TB']:
+                if free < _UNIT_MULTIPLIER:
+                    break
+                free /= _UNIT_MULTIPLIER
+
+            formatted = f"{free:.1f} {unit}"
+            self._disk_space.setText(_('Free space: ') + formatted)
+            self._disk_space.setVisible(True)
+
+        except OSError:
+            self._disk_space.setVisible(False)
+
+    def hide_disk_space_info(self) -> None:
+        """Hide the disk space information."""
+        self._disk_space.setVisible(False)
