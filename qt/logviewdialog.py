@@ -178,12 +178,14 @@ class LogViewDialog(QDialog):  # pylint: disable=too-many-instance-attributes
         self._combo_profiles.clear()
 
         qttools.update_combo_profiles(
-            self.config, self._combo_profiles, current_profile_id)
+            self.config, self._combo_profiles, current_profile_id
+        )
 
         self._enable_update = True
         self._update_log()
 
-        if len(self.config.profilesSortedByName()) <= 1:
+        # Hide profile selector widget if only one profile exists
+        if len(self.config.profiles()) <= 1:
             self._lbl_profile.setVisible(False)
             self._combo_profiles.setVisible(False)
 
