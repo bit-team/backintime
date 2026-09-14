@@ -127,11 +127,34 @@ to it. Note that the exact file permissions can still be found in
 `fileinfo.bz2` and are also considered when restoring files.
 
 # Contributing and other ways to support the project
-See [CONTRIBUTING](CONTRIBUTING.md) file for an overview about the projects
+See [CONTRIBUTING](CONTRIBUTING.md) file for an overview about the project's
 workflow and strategy.
 
+*Support the maintainer*: The project is maintained in spare time and without
+financial compensation. One way to support the project is
+[donations](https://codeberg.org/buhtz/about-me#donations)
+to the maintainer ([buhtz](https://buhtz.codeberg.page)) via
+<a href="https://liberapay.com/buhtz">
+    <img src="https://codeberg.org/buhtz/about-me/raw/branch/main/liberapay.svg"
+    width="24px" height="24px" />
+    Liberapay</a> and
+<a href="https://ko-fi.com/buhtz">
+    <img src="https://codeberg.org/buhtz/about-me/raw/branch/main/kofi.png"
+    width="24px" height="24px" />
+    Ko-fi</a>.
+Please note that donations are made to the maintainer personally,
+not to _Back In Time_ or any other specific
+[project](https://codeberg.org/buhtz/about-me#projects). They support the
+maintainer's work, including work on _Back In Time_.
+
 # Licenses
-Please read [`LICENSES.md`](LICENSES.md).
+Please keep in mind that code, documentation and other material
+submitted to the project are considered licensed under the same terms (see
+[LICENSES](LICENSES)) as the rest of the work. The project does use the
+specifications from [REUSE Software](https://reuse.software) and
+[SPDX](https://spdx.github.io/spdx-spec) to store license and copyright
+information. See the projects
+[REUSE compliance status](https://api.reuse.software/info/github.com/bit-team/backintime).
 
 ---
-<sub>July 2026</sub>
+<sub>September 2026</sub>
