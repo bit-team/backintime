@@ -6,10 +6,11 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
-import os
-import sys
 import atexit
+import io
+import os
 import shutil
+import sys
 from enum import Enum
 from pathlib import Path
 import tools
@@ -348,7 +349,7 @@ class BackupJobDaemon(daemon.Daemon):
         self.func(self.args, False)
 
 
-def set_quiet(quiet: bool):
+def set_quiet(quiet: bool) -> io.TextIOWrapper:
     """
     Redirect :py:data:`sys.stdout` to ``/dev/null`` if ``--quiet`` was set on
     commandline. Return the original :py:data:`sys.stdout` file object which
