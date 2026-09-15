@@ -1206,6 +1206,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
 
     def removeOldSnapshotsDate(self, profile_id=None):
         enabled, value, unit = self.removeOldSnapshots(profile_id)
+
         if not enabled:
             return datetime.date(1, 1, 1)
 
@@ -2080,19 +2081,21 @@ def _remove_old_snapshots_date(value, unit):
 
     See issue #1943 for further reading.
     """
-    if unit == Config.DAY:
+    if unit == Config.DAY or unit == bitbase.TimeUnit.DAY:
         date = datetime.date.today()
         date = date - datetime.timedelta(days=value)
         return date
 
-    if unit == Config.WEEK:
+    if unit == Config.WEEK or unit == bitbase.TimeUnit.WEEK:
         date = datetime.date.today()
         # Always beginning (Monday) of the week
         date = date - datetime.timedelta(days=date.weekday() + 7 * value)
         return date
 
-    if unit == Config.YEAR:
+    if unit == Config.YEAR or unit == bitbase.TimeUnit.YEAR:
         date = datetime.date.today()
         return date.replace(day=1, year=date.year - value)
+
+    logger.critical(f'Unknown unit: {unit}')
 
     return datetime.date(1, 1, 1)

@@ -124,7 +124,7 @@ def _do_backup(args: argparse.Namespace, force: bool):
     Raises:
         SystemExit:     0 if successful, 1 if not
     """
-    cli.set_quiet(args)
+    cli.set_quiet(args.quiet)
     print(bitbase.APP_HEADER)
     cfg = _get_config(args)
 
@@ -166,7 +166,7 @@ def check_config(args: argparse.Namespace):
         SystemExit: 0 if config is okay, 1 if not.
 
     """
-    force_stdout = cli.set_quiet(args)
+    force_stdout = cli.set_quiet(args.quiet)
     print(bitbase.APP_HEADER, file=force_stdout)
     cfg = _get_config(args)
 
@@ -191,7 +191,7 @@ def _last_snapshot_base(args: argparse.Namespace, path_info: bool):
     Raises:
         SystemExit: 0
     """
-    force_stdout = cli.set_quiet(args)
+    force_stdout = cli.set_quiet(args.quiet)
     cfg = _get_config(args)
 
     mount_manager = MountManager.create(cfg)
@@ -248,7 +248,7 @@ def pw_cache(args: argparse.Namespace):
     Raises:
         SystemExit: 0 if daemon is running, 1 if not.
     """
-    force_stdout = cli.set_quiet(args)
+    force_stdout = cli.set_quiet(args.quiet)
     print(bitbase.APP_HEADER)
 
     cfg = _get_config(args)
@@ -289,7 +289,7 @@ def remove(args: argparse.Namespace):
     Raises:
         SystemExit: 0
     """
-    cli.set_quiet(args)
+    cli.set_quiet(args.quiet)
     print(bitbase.APP_HEADER)
 
     cfg = _get_config(args)
@@ -329,7 +329,7 @@ def restore(args: argparse.Namespace):
     Raises:
         SystemExit: 0
     """
-    cli.set_quiet(args)
+    cli.set_quiet(args.quiet)
     print(bitbase.APP_HEADER)
     cfg = _get_config(args)
 
@@ -367,7 +367,7 @@ def shutdown(args: argparse.Namespace):
             active snapshot for this profile or shutdown is not supported.
 
     """
-    cli.set_quiet(args)
+    cli.set_quiet(args.quiet)
     print(bitbase.APP_HEADER)
     cfg = _get_config(args)
 
@@ -415,7 +415,7 @@ def snapshots_path(args: argparse.Namespace):
     """
     show_deprecation_message('snapshots-path')
 
-    force_stdout = cli.set_quiet(args)
+    force_stdout = cli.set_quiet(args.quiet)
     cfg = _get_config(args)
 
     # if args.keep_mount:
@@ -436,7 +436,7 @@ def _snapshots_list_base(args: argparse.Namespace, path_info: bool):
     Raises:
         SystemExit: 0
     """
-    force_stdout = cli.set_quiet(args)
+    force_stdout = cli.set_quiet(args.quiet)
     cfg = _get_config(args)
 
     mount_manager = MountManager.create(cfg)
@@ -630,7 +630,7 @@ def prune(args: argparse.Namespace):
     Raises:
         SystemExit: 0 if okay. 2 if Remove & Retention is not configured.
     """
-    cli.set_quiet(args)
+    cli.set_quiet(args.quiet)
     print(bitbase.APP_HEADER)
     cfg = _get_config(args)
 
@@ -667,7 +667,7 @@ def unmount(args):
     Raises:
         SystemExit: 0
     """
-    cli.set_quiet(args)
+    cli.set_quiet(args.quiet)
 
     cfg = _get_config(args)
 
