@@ -366,7 +366,7 @@ def set_quiet(quiet: bool):
 
     force_stdout = sys.stdout
 
-    if quiet == True:
+    if quiet is True:
         # do not replace with subprocess.DEVNULL - will not work
         sys.stdout = open(os.devnull, 'w')
         atexit.register(sys.stdout.close)
