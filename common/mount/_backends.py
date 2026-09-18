@@ -416,10 +416,60 @@ class SSHBackend(Backend):
             )
             raise MountError(log_msg, gui_msg)
 
+        self._check_mountpoint_usability()
+
         logger.info(
             'Remote directory mounted '
             f'(source: {self.host.user_host_port} "{self.host.path}" '
             f'-> target: "{self.path}")')
+
+    def _check_mountpoint_usability(self):
+        """Check whether the SSHFS mountpoint is usable.
+
+        Performing some basic filesystem operations on the mountpoint.
+
+        Raises: MountError
+        """
+
+        logger.debug('Checking if mountpoint is usable')
+
+        def _raise_mount_not_usable(operation, exc):
+            log_msg = (
+                f'SSHFS mount is not usable | '
+                f'Operation: {operation} | Error: {exc}'
+            )
+            gui_msg = (
+                self.ERR_MSG_CONTEXT
+                + _('Mountpoint is not usable.')
+                + '\n\n'
+                + _('Failed operation:') + f' {operation}'
+                + '\n'
+                + _('Error:') + f' {exc}'
+            )
+
+            raise MountError(log_msg, gui_msg) from exc
+
+        # ls-like dir listing
+        try:
+            list(self.path.iterdir())
+        except OSError as exc:
+            _raise_mount_not_usable('directory listing', exc)
+
+        # create file
+        check_file = self.path / 'file.backintime-check'
+        try:
+            check_file.touch()
+            check_file.unlink()
+        except OSError as exc:
+            _raise_mount_not_usable('file creation', exc)
+
+        # create dir
+        check_dir = self.path / 'dir.backintime-check'
+        try:
+            check_dir.mkdir()
+            check_dir.rmdir()
+        except OSError as exc:
+            _raise_mount_not_usable('directory creation', exc)
 
     def umount(self):
         if tools.is_mounted(self.path):
