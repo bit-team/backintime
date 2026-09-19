@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-rc2\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-09-08 22:46+0200\n"
+"POT-Creation-Date: 2026-09-19 19:19+0200\n"
 "PO-Revision-Date: 2026-08-31 13:15+0000\n"
 "Last-Translator: asjo <asjo@noreply.codeberg.org>\n"
 "Language-Team: Danish <https://translate.codeberg.org/projects/backintime/common/da/>\n"
@@ -124,12 +124,12 @@ msgstr "SSH privat nøgle"
 msgid "SSH (encrypted)"
 msgstr "SSH (krypteret)"
 
-#: common/config.py:1880
+#: common/config.py:1881
 #, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
 msgstr "Udev-planlægning virker ikke med indstilling \"{mode}\"."
 
-#: common/config.py:1907
+#: common/config.py:1908
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
@@ -137,11 +137,11 @@ msgstr ""
 "Autentificeringstiden udløb. Udev planlægningsopsætningen blev ikke "
 "gennemført. Prøv venligst igen."
 
-#: common/config.py:1945
+#: common/config.py:1946
 msgid "Failed to write new crontab."
 msgstr "Kunne ikke skrive ny crontab."
 
-#: common/config.py:1954
+#: common/config.py:1955
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -227,6 +227,18 @@ msgstr "Der er ikke sat en fjerntilstandsbillede-mappe op."
 msgid "Could not mount the remote backup location."
 msgstr "Kunne ikke forbinde til fjerntilstandsbilledelokationen."
 
+#: common/mount/_backends.py:443
+msgid "Mountpoint is not usable."
+msgstr ""
+
+#: common/mount/_backends.py:445
+msgid "Failed operation:"
+msgstr ""
+
+#: common/mount/_backends.py:447 common/mount/_encryptors.py:341
+msgid "Error:"
+msgstr "Fejl:"
+
 #: common/mount/_encryptors.py:188
 msgid ""
 "Cannot initialize encryption because the backup destination is not empty."
@@ -268,10 +280,6 @@ msgstr "Monteringspunkt for dekrypteret indblik mangler. Sti: {path}"
 #, python-brace-format
 msgid "Mount failed with return code {rc}."
 msgstr "Montering fejlede med returkoden {rc}."
-
-#: common/mount/_encryptors.py:341
-msgid "Error:"
-msgstr "Fejl:"
 
 #: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:70
 msgid "Command:"
@@ -429,20 +437,20 @@ msgstr "Kan ikke omdøbe {new_path} til {path}."
 msgid "Applying rules to remove old backups"
 msgstr "Bruger regler til at fjerne gamle tilstandsbilleder"
 
-#: common/snapshots.py:2090
+#: common/snapshots.py:2092
 msgid "Applying retention policy"
 msgstr "Bruger bevaringspolitik"
 
-#: common/snapshots.py:2100
+#: common/snapshots.py:2102
 msgid "Trying to keep min free space"
 msgstr "Prøv at holde minimum fri plads"
 
-#: common/snapshots.py:2143
+#: common/snapshots.py:2145
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Prøver at holde mindst {perc} inoder fri"
 
-#: common/snapshots.py:3374 qt/app.py:1563 qt/timeline.py:405
+#: common/snapshots.py:3376 qt/app.py:1563 qt/timeline.py:405
 msgid "Now"
 msgstr "Nu"
 

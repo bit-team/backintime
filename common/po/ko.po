@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-rc2\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-09-08 22:46+0200\n"
+"POT-Creation-Date: 2026-09-19 19:19+0200\n"
 "PO-Revision-Date: 2026-08-18 09:26+0000\n"
 "Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>\n"
 "Language-Team: Korean <https://translate.codeberg.org/projects/backintime/common/ko/>\n"
@@ -116,22 +116,22 @@ msgstr "SSH 개인 키"
 msgid "SSH (encrypted)"
 msgstr "SSH (암호화)"
 
-#: common/config.py:1880
+#: common/config.py:1881
 #, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
 msgstr "udev 일정이 \"{mode}\" 모드를 지원하지 않습니다."
 
-#: common/config.py:1907
+#: common/config.py:1908
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
 msgstr "인증 제한 시간을 넘겼습니다. udev 기반 일정 설정을 끝내지 못했습니다. 다시 시도하십시오."
 
-#: common/config.py:1945
+#: common/config.py:1946
 msgid "Failed to write new crontab."
 msgstr "새 크론탭 작성에 실패했습니다."
 
-#: common/config.py:1954
+#: common/config.py:1955
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -213,6 +213,18 @@ msgstr "대상 백업 디렉터리를 설정하지 않았습니다."
 msgid "Could not mount the remote backup location."
 msgstr "원격 백업 경로에 마운트할 수 없습니다."
 
+#: common/mount/_backends.py:443
+msgid "Mountpoint is not usable."
+msgstr ""
+
+#: common/mount/_backends.py:445
+msgid "Failed operation:"
+msgstr ""
+
+#: common/mount/_backends.py:447 common/mount/_encryptors.py:341
+msgid "Error:"
+msgstr "오류:"
+
 #: common/mount/_encryptors.py:188
 msgid ""
 "Cannot initialize encryption because the backup destination is not empty."
@@ -250,10 +262,6 @@ msgstr "암호화를 해제한 뷰 마운트 지점이 빠졌습니다. 경로: 
 #, python-brace-format
 msgid "Mount failed with return code {rc}."
 msgstr "마운트에 실패 하여 {rc} 코드를 반환하였습니다."
-
-#: common/mount/_encryptors.py:341
-msgid "Error:"
-msgstr "오류:"
 
 #: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:70
 msgid "Command:"
@@ -404,20 +412,20 @@ msgstr "{new_path} 경로 이름을 {path} 경로 이름으로 바꿀 수 없습
 msgid "Applying rules to remove old backups"
 msgstr "오래된 백업 제거 규칙 적용 중"
 
-#: common/snapshots.py:2090
+#: common/snapshots.py:2092
 msgid "Applying retention policy"
 msgstr "유지 정책 적용 중"
 
-#: common/snapshots.py:2100
+#: common/snapshots.py:2102
 msgid "Trying to keep min free space"
 msgstr "최소 여유 공간을 유지하려고 합니다"
 
-#: common/snapshots.py:2143
+#: common/snapshots.py:2145
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "최소 {perc}개의 사용 가능한 아이노드를 유지하려고 합니다"
 
-#: common/snapshots.py:3374 qt/app.py:1563 qt/timeline.py:405
+#: common/snapshots.py:3376 qt/app.py:1563 qt/timeline.py:405
 msgid "Now"
 msgstr "지금"
 

@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-rc2\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-09-08 22:46+0200\n"
+"POT-Creation-Date: 2026-09-19 19:19+0200\n"
 "PO-Revision-Date: 2026-08-31 13:15+0000\n"
 "Last-Translator: ktzhao <ktzhao@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hans/>\n"
@@ -115,22 +115,22 @@ msgstr "SSH 私钥"
 msgid "SSH (encrypted)"
 msgstr "SSH（加密）"
 
-#: common/config.py:1880
+#: common/config.py:1881
 #, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
 msgstr "Udev 计划任务不支持“{mode}”模式。"
 
-#: common/config.py:1907
+#: common/config.py:1908
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
 msgstr "身份验证超时。基于 Udev 的计划任务设置未完成。请重试。"
 
-#: common/config.py:1945
+#: common/config.py:1946
 msgid "Failed to write new crontab."
 msgstr "无法写入新 crontab。"
 
-#: common/config.py:1954
+#: common/config.py:1955
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -211,6 +211,18 @@ msgstr "未配置备份目标目录。"
 msgid "Could not mount the remote backup location."
 msgstr "无法挂载远程备份位置。"
 
+#: common/mount/_backends.py:443
+msgid "Mountpoint is not usable."
+msgstr ""
+
+#: common/mount/_backends.py:445
+msgid "Failed operation:"
+msgstr ""
+
+#: common/mount/_backends.py:447 common/mount/_encryptors.py:341
+msgid "Error:"
+msgstr "错误："
+
 #: common/mount/_encryptors.py:188
 msgid ""
 "Cannot initialize encryption because the backup destination is not empty."
@@ -248,10 +260,6 @@ msgstr "解密视图挂载点缺失。路径：{path}"
 #, python-brace-format
 msgid "Mount failed with return code {rc}."
 msgstr "挂载失败，返回码为 {rc}。"
-
-#: common/mount/_encryptors.py:341
-msgid "Error:"
-msgstr "错误："
 
 #: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:70
 msgid "Command:"
@@ -400,20 +408,20 @@ msgstr "无法将 {new_path} 重命名为 {path}。"
 msgid "Applying rules to remove old backups"
 msgstr "正在应用规则以移除旧备份"
 
-#: common/snapshots.py:2090
+#: common/snapshots.py:2092
 msgid "Applying retention policy"
 msgstr "正在应用保留策略"
 
-#: common/snapshots.py:2100
+#: common/snapshots.py:2102
 msgid "Trying to keep min free space"
 msgstr "尝试保留最小可用空间"
 
-#: common/snapshots.py:2143
+#: common/snapshots.py:2145
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "尝试保留至少 {perc} 个可用的 inodes"
 
-#: common/snapshots.py:3374 qt/app.py:1563 qt/timeline.py:405
+#: common/snapshots.py:3376 qt/app.py:1563 qt/timeline.py:405
 msgid "Now"
 msgstr "现在"
 

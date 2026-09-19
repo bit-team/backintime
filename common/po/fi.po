@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-rc2\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-09-08 22:46+0200\n"
+"POT-Creation-Date: 2026-09-19 19:19+0200\n"
 "PO-Revision-Date: 2026-08-17 06:33+0000\n"
 "Last-Translator: artnay <artnay@noreply.codeberg.org>\n"
 "Language-Team: Finnish <https://translate.codeberg.org/projects/backintime/common/fi/>\n"
@@ -126,12 +126,12 @@ msgstr "Yksityinen SSH-avain"
 msgid "SSH (encrypted)"
 msgstr "SSH (salattu)"
 
-#: common/config.py:1880
+#: common/config.py:1881
 #, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
 msgstr "Udev-ajoittaminen ei toimi tilassa \"{mode}\"."
 
-#: common/config.py:1907
+#: common/config.py:1908
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
@@ -139,11 +139,11 @@ msgstr ""
 "Todennus aikakatkaistiin. Udev-pohjaisen ajoittamisen määritystä ei tehty "
 "loppuun. Yritä uudelleen."
 
-#: common/config.py:1945
+#: common/config.py:1946
 msgid "Failed to write new crontab."
 msgstr "Uuden crontabin kirjoittaminen epäonnistui."
 
-#: common/config.py:1954
+#: common/config.py:1955
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -233,6 +233,18 @@ msgstr "Varmuuskopioiden hakemistoa ei löydy."
 msgid "Could not mount the remote backup location."
 msgstr "Etäsijaintia ei voitu luoda."
 
+#: common/mount/_backends.py:443
+msgid "Mountpoint is not usable."
+msgstr ""
+
+#: common/mount/_backends.py:445
+msgid "Failed operation:"
+msgstr ""
+
+#: common/mount/_backends.py:447 common/mount/_encryptors.py:341
+msgid "Error:"
+msgstr "Virhe:"
+
 #: common/mount/_encryptors.py:188
 #, fuzzy
 msgid ""
@@ -271,10 +283,6 @@ msgstr ""
 #, python-brace-format
 msgid "Mount failed with return code {rc}."
 msgstr "Liitos epäonnistui paluukoodilla {rc}."
-
-#: common/mount/_encryptors.py:341
-msgid "Error:"
-msgstr "Virhe:"
 
 #: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:70
 msgid "Command:"
@@ -431,20 +439,20 @@ msgstr "Ei voi uudelleennimetä {new_path} {path}:ksi."
 msgid "Applying rules to remove old backups"
 msgstr "Toteutetaan sääntöjä vanhojen varmuuskopioiden poistamiseksi"
 
-#: common/snapshots.py:2090
+#: common/snapshots.py:2092
 msgid "Applying retention policy"
 msgstr "Toteutetaan säilytyskäytäntöä"
 
-#: common/snapshots.py:2100
+#: common/snapshots.py:2102
 msgid "Trying to keep min free space"
 msgstr "Yritetään pitää vapaa vähimmäistila"
 
-#: common/snapshots.py:2143
+#: common/snapshots.py:2145
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Yritetään pitää vähintään {perc} inodeja vapaana"
 
-#: common/snapshots.py:3374 qt/app.py:1563 qt/timeline.py:405
+#: common/snapshots.py:3376 qt/app.py:1563 qt/timeline.py:405
 msgid "Now"
 msgstr "Nyt"
 

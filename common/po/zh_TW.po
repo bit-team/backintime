@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-rc2\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-09-08 22:46+0200\n"
+"POT-Creation-Date: 2026-09-19 19:19+0200\n"
 "PO-Revision-Date: 2026-08-31 13:15+0000\n"
 "Last-Translator: ktzhao <ktzhao@noreply.codeberg.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://translate.codeberg.org/projects/backintime/common/zh_Hant/>\n"
@@ -119,22 +119,22 @@ msgstr "SSH 私鑰"
 msgid "SSH (encrypted)"
 msgstr "SSH（EncFS 加密）"
 
-#: common/config.py:1880
+#: common/config.py:1881
 #, fuzzy, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
 msgstr "udev 定期排程不適用於 {mode} 模式"
 
-#: common/config.py:1907
+#: common/config.py:1908
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
 msgstr "身份驗證超時。基於 Udev 的調度設定未完成。請重試。"
 
-#: common/config.py:1945
+#: common/config.py:1946
 msgid "Failed to write new crontab."
 msgstr "無法寫入新的 crontab。"
 
-#: common/config.py:1954
+#: common/config.py:1955
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -221,6 +221,19 @@ msgstr "找不到快照目錄。"
 msgid "Could not mount the remote backup location."
 msgstr "無法建立遠端路徑。"
 
+#: common/mount/_backends.py:443
+msgid "Mountpoint is not usable."
+msgstr ""
+
+#: common/mount/_backends.py:445
+msgid "Failed operation:"
+msgstr ""
+
+#: common/mount/_backends.py:447 common/mount/_encryptors.py:341
+#, fuzzy
+msgid "Error:"
+msgstr "錯誤"
+
 #: common/mount/_encryptors.py:188
 msgid ""
 "Cannot initialize encryption because the backup destination is not empty."
@@ -261,11 +274,6 @@ msgstr "解密視圖掛載點缺失。路徑：{path}"
 #, python-brace-format
 msgid "Mount failed with return code {rc}."
 msgstr "掛載失敗，回傳碼為 {rc}。"
-
-#: common/mount/_encryptors.py:341
-#, fuzzy
-msgid "Error:"
-msgstr "錯誤"
 
 #: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:70
 msgid "Command:"
@@ -415,20 +423,20 @@ msgstr "無法將 {new_path} 重新命名為 {path}。"
 msgid "Applying rules to remove old backups"
 msgstr "應用程式規則刪除舊備份"
 
-#: common/snapshots.py:2090
+#: common/snapshots.py:2092
 msgid "Applying retention policy"
 msgstr "正在應用保留策略"
 
-#: common/snapshots.py:2100
+#: common/snapshots.py:2102
 msgid "Trying to keep min free space"
 msgstr "嘗試保留最小剩餘空間"
 
-#: common/snapshots.py:2143
+#: common/snapshots.py:2145
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "嘗試保留最小 {perc} 可用 inode"
 
-#: common/snapshots.py:3374 qt/app.py:1563 qt/timeline.py:405
+#: common/snapshots.py:3376 qt/app.py:1563 qt/timeline.py:405
 msgid "Now"
 msgstr "現在"
 

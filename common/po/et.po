@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-rc2\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-09-08 22:46+0200\n"
+"POT-Creation-Date: 2026-09-19 19:19+0200\n"
 "PO-Revision-Date: 2026-08-31 13:15+0000\n"
 "Last-Translator: Priit Jõerüüt <jrtcdbrg@noreply.codeberg.org>\n"
 "Language-Team: Estonian <https://translate.codeberg.org/projects/backintime/common/et/>\n"
@@ -124,12 +124,12 @@ msgstr "SSH privaatvõti"
 msgid "SSH (encrypted)"
 msgstr "SSH (krüptituna)"
 
-#: common/config.py:1880
+#: common/config.py:1881
 #, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
 msgstr "{mode}-režiimis udev'i kasutamine ajastamiseks ei toimi."
 
-#: common/config.py:1907
+#: common/config.py:1908
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
@@ -137,11 +137,11 @@ msgstr ""
 "Autentimine aegus. Udevi ajastamise seadistamine jäi lõpetamata. Palun "
 "proovi uuesti."
 
-#: common/config.py:1945
+#: common/config.py:1946
 msgid "Failed to write new crontab."
 msgstr "Uue crontabi loomine ei õnnestunud."
 
-#: common/config.py:1954
+#: common/config.py:1955
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -226,6 +226,18 @@ msgstr "Varukoopiate kausta pole seadistatud."
 msgid "Could not mount the remote backup location."
 msgstr "Ei saa haakida välisseadmes asuvat kausta."
 
+#: common/mount/_backends.py:443
+msgid "Mountpoint is not usable."
+msgstr ""
+
+#: common/mount/_backends.py:445
+msgid "Failed operation:"
+msgstr ""
+
+#: common/mount/_backends.py:447 common/mount/_encryptors.py:341
+msgid "Error:"
+msgstr "Viga:"
+
 #: common/mount/_encryptors.py:188
 msgid ""
 "Cannot initialize encryption because the backup destination is not empty."
@@ -266,10 +278,6 @@ msgstr "Haakepunkti dekrüptitud vaade on puudu. Asukoht: {path}"
 #, python-brace-format
 msgid "Mount failed with return code {rc}."
 msgstr "Haakepunkti tuvastamise päringust oli puudu kood {rc}."
-
-#: common/mount/_encryptors.py:341
-msgid "Error:"
-msgstr "Viga:"
 
 #: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:70
 msgid "Command:"
@@ -429,20 +437,20 @@ msgstr "Asukoha „{path}“ uueks nimeks ei saa määrata „{new_path}“."
 msgid "Applying rules to remove old backups"
 msgstr "Kehtestan vanade varukoopiate eemaldamise reegleid"
 
-#: common/snapshots.py:2090
+#: common/snapshots.py:2092
 msgid "Applying retention policy"
 msgstr "Kehtestan säilitamise reegleid"
 
-#: common/snapshots.py:2100
+#: common/snapshots.py:2102
 msgid "Trying to keep min free space"
 msgstr "Üritame jätta vabaks minimaalselt nõutava andmeruumi mahu"
 
-#: common/snapshots.py:2143
+#: common/snapshots.py:2145
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Proovime jätta {perc} indekssõlmedest vabaks"
 
-#: common/snapshots.py:3374 qt/app.py:1563 qt/timeline.py:405
+#: common/snapshots.py:3376 qt/app.py:1563 qt/timeline.py:405
 msgid "Now"
 msgstr "Nüüd"
 

@@ -19,12 +19,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-rc2\n"
-"Report-Msgid-Bugs-To: c.buhtz@posteo.jp\n"
-"POT-Creation-Date: 2026-09-08 22:46+0200\n"
+"Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
+"POT-Creation-Date: 2026-09-19 19:19+0200\n"
 "PO-Revision-Date: 2026-09-19 02:25+0000\n"
 "Last-Translator: \"Sara Leticia S. Silva\" <sara_l_s@noreply.codeberg.org>\n"
-"Language-Team: Portuguese (Brazil) <https://translate.codeberg.org/projects/"
-"backintime/common/pt_BR/>\n"
+"Language-Team: Portuguese (Brazil) <https://translate.codeberg.org/projects/backintime/common/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -130,12 +129,12 @@ msgstr "Chave privada SSH"
 msgid "SSH (encrypted)"
 msgstr "SSH (criptografado)"
 
-#: common/config.py:1880
+#: common/config.py:1881
 #, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
 msgstr "O agendamento Udev não é suportado no modo \"{mode}\"."
 
-#: common/config.py:1907
+#: common/config.py:1908
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
@@ -143,11 +142,11 @@ msgstr ""
 "A autenticação expirou. A configuração do agendamento utilizando Udev não "
 "foi concluída. Por favor, tente novamente."
 
-#: common/config.py:1945
+#: common/config.py:1946
 msgid "Failed to write new crontab."
 msgstr "Falha ao escrever o novo crontab."
 
-#: common/config.py:1954
+#: common/config.py:1955
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -232,6 +231,18 @@ msgstr "Diretório de destino do backup não configurado."
 msgid "Could not mount the remote backup location."
 msgstr "Não foi possível montar o local de backup remoto."
 
+#: common/mount/_backends.py:443
+msgid "Mountpoint is not usable."
+msgstr ""
+
+#: common/mount/_backends.py:445
+msgid "Failed operation:"
+msgstr ""
+
+#: common/mount/_backends.py:447 common/mount/_encryptors.py:341
+msgid "Error:"
+msgstr "Erro:"
+
 #: common/mount/_encryptors.py:188
 msgid ""
 "Cannot initialize encryption because the backup destination is not empty."
@@ -276,10 +287,6 @@ msgstr ""
 #, python-brace-format
 msgid "Mount failed with return code {rc}."
 msgstr "Montagem falhou com o código de retorno {rc}."
-
-#: common/mount/_encryptors.py:341
-msgid "Error:"
-msgstr "Erro:"
 
 #: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:70
 msgid "Command:"
@@ -438,20 +445,20 @@ msgstr "Não foi possível renomear ‘{new_path}’ para ‘{path}’."
 msgid "Applying rules to remove old backups"
 msgstr "Aplicando regras para remover cópias de segurança antigas"
 
-#: common/snapshots.py:2090
+#: common/snapshots.py:2092
 msgid "Applying retention policy"
 msgstr "Aplicando política de retenção"
 
-#: common/snapshots.py:2100
+#: common/snapshots.py:2102
 msgid "Trying to keep min free space"
 msgstr "Tentando manter o mínimo de espaço livre"
 
-#: common/snapshots.py:2143
+#: common/snapshots.py:2145
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Tentando manter o mínimo de {perc} de inodes (nós de índice) livres"
 
-#: common/snapshots.py:3374 qt/app.py:1563 qt/timeline.py:405
+#: common/snapshots.py:3376 qt/app.py:1563 qt/timeline.py:405
 msgid "Now"
 msgstr "Neste momento"
 
@@ -1678,16 +1685,16 @@ msgstr "Ativar o log de registro das mensagens de depuração"
 #: qt/manageprofiles/schedulewidget.py:141
 msgid "Writes debug-level messages into the system log via \"--debug\"."
 msgstr ""
-"Gravar as mensagens do nível de depuração no sistema por meio do comando \"--"
-"debug\"."
+"Gravar as mensagens do nível de depuração no sistema por meio do comando \""
+"--debug\"."
 
 #: qt/manageprofiles/schedulewidget.py:143
 msgid ""
 "Caution: Only use this temporarily for diagnostics, as it generates a large "
 "amount of output."
 msgstr ""
-"Cuidado: Somente use isto temporariamente para diagnósticos, porque gera uma "
-"grande quantidade de dados."
+"Cuidado: Somente use isto temporariamente para diagnósticos, porque gera uma"
+" grande quantidade de dados."
 
 #: qt/manageprofiles/schedulewidget.py:168
 msgid "Disabled"
@@ -1807,7 +1814,8 @@ msgid ""
 "existing client configuration (e.g., ~/.ssh/config)."
 msgstr ""
 "Mantém o arquivo de chave desmarcado. As conexões SSH dependerão das "
-"configurações do cliente existentes no sistema. (Por exemplo: ~/.ssh/config)."
+"configurações do cliente existentes no sistema. (Por exemplo: "
+"~/.ssh/config)."
 
 #: qt/manageprofiles/sshproxywidget.py:47
 msgid "SSH Proxy"
@@ -1834,8 +1842,8 @@ msgid ""
 "\"ssh_config\" man page for details."
 msgstr ""
 "Conectar-se ao host por meio deste proxy (também conhecido como ‘hospedeiro "
-"de salto’ ou ‘jump host’). Veja \"-J\" na documentação do comando \"ssh\" ou "
-"\"ProxyJump\" ou o manual (man) do \"ssh_config\" para mais detalhes."
+"de salto’ ou ‘jump host’). Veja \"-J\" na documentação do comando \"ssh\" ou"
+" \"ProxyJump\" ou o manual (man) do \"ssh_config\" para mais detalhes."
 
 #: qt/manageprofiles/tab_exclude.py:63
 #, python-brace-format
@@ -1909,7 +1917,8 @@ msgstr "Selecione um padrão de exclusão:"
 #: qt/manageprofiles/tab_exclude.py:273
 #, python-brace-format
 msgid "For help, see the rsync man page section {link}."
-msgstr "Para obter ajuda, consulte a seção {link} na página do manual do rsync."
+msgstr ""
+"Para obter ajuda, consulte a seção {link} na página do manual do rsync."
 
 #: qt/manageprofiles/tab_exclude.py:276
 msgid "Open rsync man page"
@@ -2034,9 +2043,9 @@ msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
 "add a prefix for rsync use \"{example_value}\" with {rsync_options_value}."
 msgstr ""
-"As variáveis precisam ser escapadas com ‘\\$FOO’. Esta opção não afeta o ‘"
-"rsync’. Portanto, para adicionar um prefixo para o ‘rsync’, utilize o ‘"
-"{example_value}’ com ‘{rsync_options_value}’."
+"As variáveis precisam ser escapadas com ‘\\$FOO’. Esta opção não afeta o "
+"‘rsync’. Portanto, para adicionar um prefixo para o ‘rsync’, utilize o "
+"‘{example_value}’ com ‘{rsync_options_value}’."
 
 #: qt/manageprofiles/tab_expert_options.py:294
 msgid "default"
@@ -2170,8 +2179,8 @@ msgid ""
 "The selected file ({path}) is a public SSH key. Please choose the "
 "corresponding private key file instead (without \".pub\")."
 msgstr ""
-"O arquivo selecionado ({path}) é uma chave SSH pública. Por favor, escolha o "
-"arquivo de chave privada correspondente (sem \".pub\")."
+"O arquivo selecionado ({path}) é uma chave SSH pública. Por favor, escolha o"
+" arquivo de chave privada correspondente (sem \".pub\")."
 
 #: qt/manageprofiles/tab_general.py:787
 #, python-brace-format
@@ -2363,8 +2372,8 @@ msgid ""
 "locally. The commands \"bash\", \"screen\", and \"flock\" must be installed "
 "and available on that remote machine."
 msgstr ""
-"A política de retenção será executada diretamente na máquina remota e não na "
-"máquina local. Os comandos do \"bash\", \"screen\" e \"flock\" devem estar "
+"A política de retenção será executada diretamente na máquina remota e não na"
+" máquina local. Os comandos do \"bash\", \"screen\" e \"flock\" devem estar "
 "instalados e disponíveis na máquina remota."
 
 #: qt/manageprofiles/tab_remove_retention.py:318
@@ -2521,8 +2530,8 @@ msgid ""
 "Select the backup directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
-"Selecionar o diretório de backup do qual o arquivo de configurações deve ser "
-"importado. O caminho deve ser semelhante a: {samplePath}"
+"Selecionar o diretório de backup do qual o arquivo de configurações deve ser"
+" importado. O caminho deve ser semelhante a: {samplePath}"
 
 #: qt/restoreconfigdialog.py:213
 msgid ""
@@ -2610,8 +2619,8 @@ msgid ""
 "The command \"{cmd}\" cannot be found on this system. Please try something "
 "else or press Cancel."
 msgstr ""
-"O comando \"{cmd}\" não foi encontrado neste sistema. Por favor, tente outro "
-"comando ou clique em Cancelar."
+"O comando \"{cmd}\" não foi encontrado neste sistema. Por favor, tente outro"
+" comando ou clique em Cancelar."
 
 #: qt/snapshotsdialog.py:110
 #, python-brace-format
@@ -2755,5 +2764,4 @@ msgstr ""
 #~ "Nesta versão, esta mensagem não será exibida novamente, mas pode ser acessada a qualquer momento por meio do menu da ajuda.\n"
 #~ "Agradecemos pelo seu apoio e por nos ajudar a melhorar o Back In Time!\n"
 #~ "A equipe de desenvolvedores do Back In Time"
-
 # REUSE-IgnoreEnd
