@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-rc2\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-09-08 22:46+0200\n"
+"POT-Creation-Date: 2026-09-19 19:19+0200\n"
 "PO-Revision-Date: 2026-09-03 07:01+0000\n"
 "Last-Translator: Bone NI <bounkirdni@noreply.codeberg.org>\n"
 "Language-Team: Lao <https://translate.codeberg.org/projects/backintime/common/lo/>\n"
@@ -124,12 +124,12 @@ msgstr "ກະແຈສ່ວນຕົວ SSH"
 msgid "SSH (encrypted)"
 msgstr "SSH (ເຂົ້າລະຫັດ)"
 
-#: common/config.py:1880
+#: common/config.py:1881
 #, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
 msgstr "ບໍ່ຮອງຮັບການກຳນົດເວລາ Udev ດ້ວຍໂໝດ \"{mode}\"."
 
-#: common/config.py:1907
+#: common/config.py:1908
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
@@ -137,11 +137,11 @@ msgstr ""
 "ການຢືນຢັນຕົວຕົນໝົດເວລາ. ການຕັ້ງຄ່າການກຳນົດເວລາແບບ Udev ບໍ່ສຳເລັດ. "
 "ກະລຸນາລອງໃໝ່ອີກຄັ້ງ."
 
-#: common/config.py:1945
+#: common/config.py:1946
 msgid "Failed to write new crontab."
 msgstr "ຂຽນ crontab ໃໝ່ບໍ່ສຳເລັດ."
 
-#: common/config.py:1954
+#: common/config.py:1955
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -224,6 +224,18 @@ msgstr "ບໍ່ໄດ້ກຳນົດຄ່າໄດເຣັກທໍຣີ
 msgid "Could not mount the remote backup location."
 msgstr "ບໍ່ສາມາດເຊື່ອມຕໍ່ (mount) ສະຖານທີ່ສຳຮອງຂໍ້ມູນທາງໄກໄດ້."
 
+#: common/mount/_backends.py:443
+msgid "Mountpoint is not usable."
+msgstr ""
+
+#: common/mount/_backends.py:445
+msgid "Failed operation:"
+msgstr ""
+
+#: common/mount/_backends.py:447 common/mount/_encryptors.py:341
+msgid "Error:"
+msgstr "ຂໍ້ຜິດພາດ:"
+
 #: common/mount/_encryptors.py:188
 msgid ""
 "Cannot initialize encryption because the backup destination is not empty."
@@ -267,10 +279,6 @@ msgstr ""
 #, python-brace-format
 msgid "Mount failed with return code {rc}."
 msgstr "ການເຊື່ອມຕໍ່ (mount) ລົ້ມເຫຼວດ້ວຍລະຫັດ {rc}."
-
-#: common/mount/_encryptors.py:341
-msgid "Error:"
-msgstr "ຂໍ້ຜິດພາດ:"
 
 #: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:70
 msgid "Command:"
@@ -427,20 +435,20 @@ msgstr "ບໍ່ສາມາດປ່ຽນຊື່ {new_path} ເປັນ {p
 msgid "Applying rules to remove old backups"
 msgstr "ກຳລັງໃຊ້ກົດເພື່ອລຶບການສຳຮອງຂໍ້ມູນເກົ່າ"
 
-#: common/snapshots.py:2090
+#: common/snapshots.py:2092
 msgid "Applying retention policy"
 msgstr "ກຳລັງໃຊ້ນະໂຍບາຍການເກັບຮັກສາ"
 
-#: common/snapshots.py:2100
+#: common/snapshots.py:2102
 msgid "Trying to keep min free space"
 msgstr "ກຳລັງພະຍາຍາມຮັກສາພື້ນທີ່ຫວ່າງຕໍ່າສຸດ"
 
-#: common/snapshots.py:2143
+#: common/snapshots.py:2145
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "ກຳລັງພະຍາຍາມຮັກສາໄອນອດ (inodes) ຫວ່າງຕໍ່າສຸດ {perc}"
 
-#: common/snapshots.py:3374 qt/app.py:1563 qt/timeline.py:405
+#: common/snapshots.py:3376 qt/app.py:1563 qt/timeline.py:405
 msgid "Now"
 msgstr "ດຽວນີ້"
 

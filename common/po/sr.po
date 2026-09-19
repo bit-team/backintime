@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-rc2\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-09-08 22:46+0200\n"
+"POT-Creation-Date: 2026-09-19 19:19+0200\n"
 "PO-Revision-Date: 2025-05-01 17:53+0000\n"
 "Last-Translator: reno-tx <reno-tx@noreply.codeberg.org>\n"
 "Language-Team: Serbian <https://translate.codeberg.org/projects/backintime/common/sr/>\n"
@@ -121,22 +121,22 @@ msgstr "SSH приватни кључ"
 msgid "SSH (encrypted)"
 msgstr "SSH (криптовано са EncFS)"
 
-#: common/config.py:1880
+#: common/config.py:1881
 #, fuzzy, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
 msgstr "Udev распоред не ради са режимом {mode}"
 
-#: common/config.py:1907
+#: common/config.py:1908
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
 msgstr ""
 
-#: common/config.py:1945
+#: common/config.py:1946
 msgid "Failed to write new crontab."
 msgstr "Неуспешно чување новог crontab-а."
 
-#: common/config.py:1954
+#: common/config.py:1955
 #, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
@@ -228,6 +228,19 @@ msgstr "Не могу да пронађем директоријум снимк�
 msgid "Could not mount the remote backup location."
 msgstr "Нисам могао креирати удаљену путању."
 
+#: common/mount/_backends.py:443
+msgid "Mountpoint is not usable."
+msgstr ""
+
+#: common/mount/_backends.py:445
+msgid "Failed operation:"
+msgstr ""
+
+#: common/mount/_backends.py:447 common/mount/_encryptors.py:341
+#, fuzzy
+msgid "Error:"
+msgstr "Грешка"
+
 #: common/mount/_encryptors.py:188
 msgid ""
 "Cannot initialize encryption because the backup destination is not empty."
@@ -268,11 +281,6 @@ msgstr ""
 #, python-brace-format
 msgid "Mount failed with return code {rc}."
 msgstr ""
-
-#: common/mount/_encryptors.py:341
-#, fuzzy
-msgid "Error:"
-msgstr "Грешка"
 
 #: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:70
 msgid "Command:"
@@ -429,21 +437,21 @@ msgstr "Није било могуће преименовати {new_path} у {p
 msgid "Applying rules to remove old backups"
 msgstr "Уклањање старог снимка"
 
-#: common/snapshots.py:2090
+#: common/snapshots.py:2092
 #, fuzzy
 msgid "Applying retention policy"
 msgstr "Примените политику задржавања"
 
-#: common/snapshots.py:2100
+#: common/snapshots.py:2102
 msgid "Trying to keep min free space"
 msgstr "Покушавамо сачувати минимални слободан простор"
 
-#: common/snapshots.py:2143
+#: common/snapshots.py:2145
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Покушавам да задржим мин {perc} слободних инода"
 
-#: common/snapshots.py:3374 qt/app.py:1563 qt/timeline.py:405
+#: common/snapshots.py:3376 qt/app.py:1563 qt/timeline.py:405
 msgid "Now"
 msgstr "Сада"
 

@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-rc2\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-09-08 22:46+0200\n"
+"POT-Creation-Date: 2026-09-19 19:19+0200\n"
 "PO-Revision-Date: 2025-04-10 10:35+0000\n"
 "Last-Translator: buhtz <buhtz@noreply.codeberg.org>\n"
 "Language-Team: Serbian (Latin script) <https://translate.codeberg.org/projects/backintime/common/sr_Latn/>\n"
@@ -119,22 +119,22 @@ msgstr "SSH privatni ključ"
 msgid "SSH (encrypted)"
 msgstr "SSH (EncFS šifrovano)"
 
-#: common/config.py:1880
+#: common/config.py:1881
 #, fuzzy, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
 msgstr "Udev raspored ne radi sa režimom {mode}"
 
-#: common/config.py:1907
+#: common/config.py:1908
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
 msgstr ""
 
-#: common/config.py:1945
+#: common/config.py:1946
 msgid "Failed to write new crontab."
 msgstr "Neuspešno čuvanje novog crontab-a."
 
-#: common/config.py:1954
+#: common/config.py:1955
 #, fuzzy
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
@@ -225,6 +225,19 @@ msgstr "Ne mogu da pronađem direktorijum snimaka."
 msgid "Could not mount the remote backup location."
 msgstr "Nije moguće kreirati udaljenu putanju."
 
+#: common/mount/_backends.py:443
+msgid "Mountpoint is not usable."
+msgstr ""
+
+#: common/mount/_backends.py:445
+msgid "Failed operation:"
+msgstr ""
+
+#: common/mount/_backends.py:447 common/mount/_encryptors.py:341
+#, fuzzy
+msgid "Error:"
+msgstr "Greška"
+
 #: common/mount/_encryptors.py:188
 msgid ""
 "Cannot initialize encryption because the backup destination is not empty."
@@ -265,11 +278,6 @@ msgstr ""
 #, python-brace-format
 msgid "Mount failed with return code {rc}."
 msgstr ""
-
-#: common/mount/_encryptors.py:341
-#, fuzzy
-msgid "Error:"
-msgstr "Greška"
 
 #: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:70
 msgid "Command:"
@@ -426,21 +434,21 @@ msgstr "Neuspešno preimenovanje {new_path} u {path}."
 msgid "Applying rules to remove old backups"
 msgstr "Primenite pravila za uklanjanje starih snimaka"
 
-#: common/snapshots.py:2090
+#: common/snapshots.py:2092
 #, fuzzy
 msgid "Applying retention policy"
 msgstr "Primenite smernice čuvanja"
 
-#: common/snapshots.py:2100
+#: common/snapshots.py:2102
 msgid "Trying to keep min free space"
 msgstr "Pokušavam da zadržim minimalno slobodnog prostora"
 
-#: common/snapshots.py:2143
+#: common/snapshots.py:2145
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Pokušavam da zadržim minimalno {perc} slobodnih inode-ova"
 
-#: common/snapshots.py:3374 qt/app.py:1563 qt/timeline.py:405
+#: common/snapshots.py:3376 qt/app.py:1563 qt/timeline.py:405
 msgid "Now"
 msgstr "Sada"
 

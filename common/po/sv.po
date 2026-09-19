@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-rc2\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-09-08 22:46+0200\n"
-"PO-Revision-Date: 2026-08-13 06:03+0000\n"
-"Last-Translator: bittin <bittin@noreply.codeberg.org>\n"
+"POT-Creation-Date: 2026-09-19 19:19+0200\n"
+"PO-Revision-Date: 2026-09-13 12:25+0000\n"
+"Last-Translator: yeager <yeager@noreply.codeberg.org>\n"
 "Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/common/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
@@ -79,24 +79,23 @@ msgid "Two settings conflict with each other."
 msgstr "Två inställningar står i konflikt med varandra."
 
 #: common/check_config.py:116
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The value for \"Remove oldest backup if the free space is less than\" "
 "({val_one}) must be less than or equal to the value for \"Warn if the free "
 "disk space falls below\" ({val_two})."
 msgstr ""
-"Värdet för \"Ta bort äldsta säkerhetskopia om det lediga utrymmet är mindre "
-"än\" ({val_one}) måste vara mindre än eller lika med tröskelvärdet för "
-"\"Varna om det lediga diskutrymmet sjunker under\" ({val_two})."
+"Värdet för ”Ta bort äldsta säkerhetskopia om ledigt utrymme är mindre än” "
+"({val_one}) måste vara mindre än eller lika med värdet för ”Varna om ledigt "
+"diskutrymme understiger” ({val_two})."
 
 #: common/check_config.py:123
-#, fuzzy
 msgid ""
 "Please adjust the settings. The threshold for removing old backups must not "
 "be higher for the free disk space warning value."
 msgstr ""
-"Vänligen justera inställningarna så att gränsen för borttagning av "
-"säkerhetskopior inte överstiger varningsgränsen."
+"Justera inställningarna. Tröskeln för att ta bort gamla säkerhetskopior får "
+"inte vara högre än värdet för varning om ledigt diskutrymme."
 
 #: common/config.py:175 common/konfig.py:52 common/konfig.py:1427
 msgid "Main profile"
@@ -122,28 +121,30 @@ msgstr "SSH"
 #: common/config.py:202 common/config.py:208
 #: qt/manageprofiles/tab_general.py:750
 msgid "SSH private key"
-msgstr "SSH privat nyckel"
+msgstr "Privat SSH-nyckel"
 
 #: common/config.py:207
 msgid "SSH (encrypted)"
 msgstr "SSH (krypterad)"
 
-#: common/config.py:1880
+#: common/config.py:1881
 #, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
 msgstr "Udev-schemaläggning stöds inte med läget \"{mode}\"."
 
-#: common/config.py:1907
+#: common/config.py:1908
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
 msgstr ""
+"Autentiseringen tog för lång tid. Konfigurationen av Udev-baserad "
+"schemaläggning slutfördes inte. Försök igen."
 
-#: common/config.py:1945
+#: common/config.py:1946
 msgid "Failed to write new crontab."
 msgstr "Misslyckades med att skriva ny crontab."
 
-#: common/config.py:1954
+#: common/config.py:1955
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -231,6 +232,18 @@ msgstr "Ingen målkatalog för säkerhetskopiering konfigurerad."
 msgid "Could not mount the remote backup location."
 msgstr "Kunde inte montera fjärr säkerhetskopieringsplats."
 
+#: common/mount/_backends.py:443
+msgid "Mountpoint is not usable."
+msgstr ""
+
+#: common/mount/_backends.py:445
+msgid "Failed operation:"
+msgstr ""
+
+#: common/mount/_backends.py:447 common/mount/_encryptors.py:341
+msgid "Error:"
+msgstr "Fel:"
+
 #: common/mount/_encryptors.py:188
 msgid ""
 "Cannot initialize encryption because the backup destination is not empty."
@@ -272,10 +285,6 @@ msgstr "Monteringspunkt för dekrypterad vy saknas. Sökväg: {path}"
 #, python-brace-format
 msgid "Mount failed with return code {rc}."
 msgstr "Montering misslyckades med returkod {rc}."
-
-#: common/mount/_encryptors.py:341
-msgid "Error:"
-msgstr "Fel:"
 
 #: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:70
 msgid "Command:"
@@ -433,20 +442,20 @@ msgstr "Kan inte byta namn på {new_path} till {path}."
 msgid "Applying rules to remove old backups"
 msgstr "Verkställer regler för att ta bort gamla säkerhetskopior"
 
-#: common/snapshots.py:2090
+#: common/snapshots.py:2092
 msgid "Applying retention policy"
 msgstr "Verkställer bevarandepolicy"
 
-#: common/snapshots.py:2100
+#: common/snapshots.py:2102
 msgid "Trying to keep min free space"
 msgstr "Försöker att behålla minsta lediga utrymme"
 
-#: common/snapshots.py:2143
+#: common/snapshots.py:2145
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Försöker behålla minst {perc} fria inoder"
 
-#: common/snapshots.py:3374 qt/app.py:1563 qt/timeline.py:405
+#: common/snapshots.py:3376 qt/app.py:1563 qt/timeline.py:405
 msgid "Now"
 msgstr "Nu"
 
@@ -541,24 +550,25 @@ msgstr "Skrivåtkomst kan vara begränsad."
 
 #: common/tools.py:411
 msgid "Not enough free space on the device."
-msgstr ""
+msgstr "Det finns inte tillräckligt med ledigt utrymme på enheten."
 
 #: common/tools.py:415
 msgid "Not enough free space because the disk quota has been exceeded."
 msgstr ""
+"Det finns inte tillräckligt med ledigt utrymme eftersom diskkvoten har "
+"överskridits."
 
 #: common/tools.py:419
 msgid "Filesystem is read-only."
-msgstr ""
+msgstr "Filsystemet är skrivskyddat."
 
 #: common/tools.py:422
 msgid "Unexpected error: "
-msgstr ""
+msgstr "Oväntat fel: "
 
 #: common/tools.py:425
-#, fuzzy
 msgid "Creation failed:"
-msgstr "SSH-autentisering misslyckades för:"
+msgstr "Skapandet misslyckades:"
 
 #: common/tools.py:460
 #, python-brace-format
@@ -1062,6 +1072,12 @@ msgid ""
 "This message won't be shown again, but it can be opened anytime from the Help menu.\n"
 "Thank you for testing Back In Time and helping us improve it!"
 msgstr ""
+"Den här versionen är en utgivningskandidat för testning före nästa stabila utgåva.\n"
+"Om du testar denna version får du gärna ge återkoppling. Berätta om du hittade ett problem eller om allt fungerade som förväntat. Även ett kort test på några minuter är till hjälp.\n"
+"Du kan nå Back In Time-teamet via:\n"
+"{contact_list}\n"
+"Det här meddelandet visas inte igen, men kan alltid öppnas från Hjälp-menyn.\n"
+"Tack för att du testar Back In Time och hjälper oss att förbättra det!"
 
 #: qt/app.py:1890
 msgid "Check if remote host is online"

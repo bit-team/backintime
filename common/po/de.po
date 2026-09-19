@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-rc2\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-09-08 22:46+0200\n"
+"POT-Creation-Date: 2026-09-19 19:19+0200\n"
 "PO-Revision-Date: 2026-09-01 06:42+0000\n"
 "Last-Translator: burned42 <burned42@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/backintime/common/de/>\n"
@@ -126,12 +126,12 @@ msgstr "Privater SSH-Schlüssel"
 msgid "SSH (encrypted)"
 msgstr "SSH (verschlüsselt)"
 
-#: common/config.py:1880
+#: common/config.py:1881
 #, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
 msgstr "Udev-Zeitplanung wird im Modus »{mode}« nicht unterstützt."
 
-#: common/config.py:1907
+#: common/config.py:1908
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
@@ -139,11 +139,11 @@ msgstr ""
 "Zeitüberschreitung bei der Authentifizierung. Die Einrichtung der Udev-"
 "basierten Planung wurde nicht abgeschlossen. Bitte erneut versuchen."
 
-#: common/config.py:1945
+#: common/config.py:1946
 msgid "Failed to write new crontab."
 msgstr "Schreiben einer neuen crontab ist fehlgeschlagen."
 
-#: common/config.py:1954
+#: common/config.py:1955
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -236,6 +236,18 @@ msgstr "Kein Backup-Zielverzeichnis konfiguriert."
 msgid "Could not mount the remote backup location."
 msgstr "Das Remote-Backup-Ziel konnte nicht eingehängt werden."
 
+#: common/mount/_backends.py:443
+msgid "Mountpoint is not usable."
+msgstr ""
+
+#: common/mount/_backends.py:445
+msgid "Failed operation:"
+msgstr ""
+
+#: common/mount/_backends.py:447 common/mount/_encryptors.py:341
+msgid "Error:"
+msgstr "Fehler:"
+
 #: common/mount/_encryptors.py:188
 msgid ""
 "Cannot initialize encryption because the backup destination is not empty."
@@ -278,10 +290,6 @@ msgstr "Der Einhängepunkt für die entschlüsselte Ansicht fehlt. Pfad: {path}"
 #, python-brace-format
 msgid "Mount failed with return code {rc}."
 msgstr "Einhängen fehlgeschlagen mit Exit-Code {rc}."
-
-#: common/mount/_encryptors.py:341
-msgid "Error:"
-msgstr "Fehler:"
 
 #: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:70
 msgid "Command:"
@@ -443,20 +451,20 @@ msgstr "Umbenennen von {new_path} in {path} fehlgeschlagen."
 msgid "Applying rules to remove old backups"
 msgstr "Regeln zum Entfernen alter Sicherungen werden angewendet"
 
-#: common/snapshots.py:2090
+#: common/snapshots.py:2092
 msgid "Applying retention policy"
 msgstr "Aufbewahrungs-Richtlinien werden angewendet"
 
-#: common/snapshots.py:2100
+#: common/snapshots.py:2102
 msgid "Trying to keep min free space"
 msgstr "Versuche, das Minimum an freiem Speicher freizuhalten"
 
-#: common/snapshots.py:2143
+#: common/snapshots.py:2145
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "Es wird versucht, mindestens {perc} freie Inodes zu behalten"
 
-#: common/snapshots.py:3374 qt/app.py:1563 qt/timeline.py:405
+#: common/snapshots.py:3376 qt/app.py:1563 qt/timeline.py:405
 msgid "Now"
 msgstr "Jetzt"
 

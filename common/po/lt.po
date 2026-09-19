@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-rc2\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-09-08 22:46+0200\n"
+"POT-Creation-Date: 2026-09-19 19:19+0200\n"
 "PO-Revision-Date: 2026-09-02 10:25+0000\n"
 "Last-Translator: Mooo <mooo@noreply.codeberg.org>\n"
 "Language-Team: Lithuanian <https://translate.codeberg.org/projects/backintime/common/lt/>\n"
@@ -125,12 +125,12 @@ msgstr "SSH privatus raktas"
 msgid "SSH (encrypted)"
 msgstr "SSH (šifruota)"
 
-#: common/config.py:1880
+#: common/config.py:1881
 #, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
 msgstr "Udev planavimas kartu su „{mode}“ veiksena yra nepalaikomas."
 
-#: common/config.py:1907
+#: common/config.py:1908
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
@@ -138,11 +138,11 @@ msgstr ""
 "Pasibaigė tapatybės nustatymui skirtas laikas. Udev pagrįsto planavimo "
 "sąranka nebuvo užbaigta. Bandykite dar kartą."
 
-#: common/config.py:1945
+#: common/config.py:1946
 msgid "Failed to write new crontab."
 msgstr "Nepavyko įrašyti naujo crontab."
 
-#: common/config.py:1954
+#: common/config.py:1955
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -230,6 +230,18 @@ msgstr "Nesukonfigūruotas paskirties atsarginės kopijos katalogas."
 msgid "Could not mount the remote backup location."
 msgstr "Nepavyko prijungti nuotolinę atsarginės kopijos vietą."
 
+#: common/mount/_backends.py:443
+msgid "Mountpoint is not usable."
+msgstr ""
+
+#: common/mount/_backends.py:445
+msgid "Failed operation:"
+msgstr ""
+
+#: common/mount/_backends.py:447 common/mount/_encryptors.py:341
+msgid "Error:"
+msgstr "Klaida:"
+
 #: common/mount/_encryptors.py:188
 msgid ""
 "Cannot initialize encryption because the backup destination is not empty."
@@ -271,10 +283,6 @@ msgstr "Trūksta iššifruotam rodiniui skirto prijungimo taško. Kelias: {path}
 #, python-brace-format
 msgid "Mount failed with return code {rc}."
 msgstr "Prijungimas patyrė nesėkmę grąžindamas kodą {rc}."
-
-#: common/mount/_encryptors.py:341
-msgid "Error:"
-msgstr "Klaida:"
 
 #: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:70
 msgid "Command:"
@@ -435,21 +443,21 @@ msgstr "Nepavyksta pervadinti {new_path} į {path}."
 msgid "Applying rules to remove old backups"
 msgstr "Taikomos taisyklės, kad būtų pašalintos senos atsarginės kopijos"
 
-#: common/snapshots.py:2090
+#: common/snapshots.py:2092
 msgid "Applying retention policy"
 msgstr "Taikoma išsaugojimo taisyklė"
 
-#: common/snapshots.py:2100
+#: common/snapshots.py:2102
 msgid "Trying to keep min free space"
 msgstr "Bandoma išlaikyti minimalų laisvos vietos kiekį"
 
-#: common/snapshots.py:2143
+#: common/snapshots.py:2145
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr ""
 "Bandoma išlaikyti minimalų {perc} laisvų indeksavimo gijų (inode) skaičių"
 
-#: common/snapshots.py:3374 qt/app.py:1563 qt/timeline.py:405
+#: common/snapshots.py:3376 qt/app.py:1563 qt/timeline.py:405
 msgid "Now"
 msgstr "Dabar"
 

@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Back In Time 2.0.0-rc2\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
-"POT-Creation-Date: 2026-09-08 22:46+0200\n"
+"POT-Creation-Date: 2026-09-19 19:19+0200\n"
 "PO-Revision-Date: 2026-08-13 06:03+0000\n"
 "Last-Translator: kazuo <kazuo@noreply.codeberg.org>\n"
 "Language-Team: Japanese <https://translate.codeberg.org/projects/backintime/common/ja/>\n"
@@ -120,22 +120,22 @@ msgstr "SSH 秘密鍵"
 msgid "SSH (encrypted)"
 msgstr "SSH（暗号化）"
 
-#: common/config.py:1880
+#: common/config.py:1881
 #, python-brace-format
 msgid "Udev scheduling is not supported with mode \"{mode}\"."
 msgstr "\"{mode}\" では、Udev のスケジューリングはサポートされていません。"
 
-#: common/config.py:1907
+#: common/config.py:1908
 msgid ""
 "Authentication timed out. The setup of Udev-based scheduling was not "
 "completed. Please try again."
 msgstr "認証のタイムアウトが発生しました。Udev ベースのスケジューリングの設定が完了しませんでした。もう一度お試しください。"
 
-#: common/config.py:1945
+#: common/config.py:1946
 msgid "Failed to write new crontab."
 msgstr "新しい crontab の書き込みに失敗しました。"
 
-#: common/config.py:1954
+#: common/config.py:1955
 msgid ""
 "Cron is not running, even though the crontab command is available. Scheduled"
 " backup jobs will not run. Cron might be installed but not enabled. Try "
@@ -218,6 +218,18 @@ msgstr "バックアップ先のディレクトリが設定されていません
 msgid "Could not mount the remote backup location."
 msgstr "リモートバックアップ先をマウントできませんでした。"
 
+#: common/mount/_backends.py:443
+msgid "Mountpoint is not usable."
+msgstr ""
+
+#: common/mount/_backends.py:445
+msgid "Failed operation:"
+msgstr ""
+
+#: common/mount/_backends.py:447 common/mount/_encryptors.py:341
+msgid "Error:"
+msgstr "エラー："
+
 #: common/mount/_encryptors.py:188
 msgid ""
 "Cannot initialize encryption because the backup destination is not empty."
@@ -255,10 +267,6 @@ msgstr "復号化されたビューのマウントポイントが存在しませ
 #, python-brace-format
 msgid "Mount failed with return code {rc}."
 msgstr "マウントに失敗しました 戻り値 {rc}）。"
-
-#: common/mount/_encryptors.py:341
-msgid "Error:"
-msgstr "エラー："
 
 #: common/mount/_encryptors.py:343 qt/snapshotsdialog.py:70
 msgid "Command:"
@@ -410,20 +418,20 @@ msgstr "{path} を {new_path} に変更できません。"
 msgid "Applying rules to remove old backups"
 msgstr "古いバックアップを削除するためのルールの適用"
 
-#: common/snapshots.py:2090
+#: common/snapshots.py:2092
 msgid "Applying retention policy"
 msgstr "保持ポリシーの適用"
 
-#: common/snapshots.py:2100
+#: common/snapshots.py:2102
 msgid "Trying to keep min free space"
 msgstr "最小限のフリースペースの確保を試みる"
 
-#: common/snapshots.py:2143
+#: common/snapshots.py:2145
 #, python-brace-format
 msgid "Trying to keep min {perc} free inodes"
 msgstr "最低限でも{perc}分のフリーなinodeを確保中です"
 
-#: common/snapshots.py:3374 qt/app.py:1563 qt/timeline.py:405
+#: common/snapshots.py:3376 qt/app.py:1563 qt/timeline.py:405
 msgid "Now"
 msgstr "現在"
 
