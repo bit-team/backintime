@@ -24,7 +24,9 @@ unchanged files are linked to the new directory using rsync's hard link feature,
 saving storage space. Restoring is straightforward via file manager, command
 line or _Back In Time_ itself.
 
-It is written in Python3 and available for all major GNU/Linux distributions
+It is written in Python3 and
+[available](https://repology.org/project/backintime/badges)
+for all major GNU/Linux distributions
 as command line tool `backintime` and GUI `backintime-qt`. Backups can be
 scheduled and stored locally or remotely through SSH.
 
@@ -38,17 +40,16 @@ in summer 2022, continuing the work of the previous maintainer, Germar.
 Development is done voluntarily in spare time so things need to be
 prioritized. Stick with us, we all ♥️ _Back In Time_. 😁
 
-Current focus is on fixing
-[major issues](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen+label%3AHigh)
-instead of implementing new
-[features](https://github.com/bit-team/backintime/labels/Feature).
-Stabilize the code base and its test suite is also a matter. Read the
-[strategy outline](CONTRIBUTING.md#strategy-outline) for details.
+Current development focuses on stabilizing and modernizing the codebase and
+[fixing bugs](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen).
+Existing [features](https://github.com/bit-team/backintime/labels/Feature).
+and the GUI are being simplified and modernized.
+These efforts are ongoing and affect all areas of the project.
+See the [strategy outline](CONTRIBUTING.md#strategy-outline) for details.
+
 Please see [CONTRIBUTING](CONTRIBUTING.md) if you are interested in the
 development and have a look on
-[open issues](https://github.com/bit-team/backintime/issues) especially
-those labeled as [good first issues](https://github.com/bit-team/backintime/labels/GOOD%20FIRST%20ISSUE)
-and [help wanted](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen+label%3AHELP-WANTED).
+[open issues](https://github.com/bit-team/backintime/issues).
 
 ## The team
 Since around 2024, [@buhtz](https://buhtz.codeberg.page/), part of the projects
