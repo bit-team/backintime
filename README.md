@@ -47,7 +47,8 @@ and the GUI are being simplified and modernized.
 These efforts are ongoing and affect all areas of the project.
 See the [strategy outline](CONTRIBUTING.md#strategy-outline) for details.
 Please see
-[how to support the project or contributing to it](#contributing-and-other-ways-to-support-the-project).
+[how to support the project or contributing](#contributing-and-other-ways-to-support-the-project)
+to it.
 
 ## The team
 Since around 2024, [@buhtz](https://buhtz.codeberg.page/), part of the projects
@@ -78,9 +79,7 @@ direction. See [HISTORY](HISTORY.md) for more details.
 # Documentation
 
  * [FAQ - Frequently Asked Questions](FAQ.md)
- * [End user documentation](https://backintime.readthedocs.org/) (not totally up-to-date)
- * [Source code documentation for developers](https://backintime-dev.readthedocs.org)
-   (**Disabled** and not up-2-tdate. Please open an issue if you need to use it.)
+ * [User manual](https://backintime.readthedocs.org/) (not totally up-to-date)
 
 # Contact & Social
 
