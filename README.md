@@ -42,14 +42,12 @@ prioritized. Stick with us, we all ♥️ _Back In Time_. 😁
 
 Current development focuses on stabilizing and modernizing the codebase and
 [fixing bugs](https://github.com/bit-team/backintime/issues?q=is%3Aissue+is%3Aopen).
-Existing [features](https://github.com/bit-team/backintime/labels/Feature).
+Existing [features](https://github.com/bit-team/backintime/labels/Feature)
 and the GUI are being simplified and modernized.
 These efforts are ongoing and affect all areas of the project.
 See the [strategy outline](CONTRIBUTING.md#strategy-outline) for details.
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) if you are interested in the
-development and have a look on
-[open issues](https://github.com/bit-team/backintime/issues).
+Please see
+[how to support the project or contributing to it](#contributing-and-other-ways-to-support-the-project).
 
 ## The team
 Since around 2024, [@buhtz](https://buhtz.codeberg.page/), part of the projects
