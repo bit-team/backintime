@@ -1489,10 +1489,16 @@ class Snapshots:
         new_snapshot.saveToContinue = True
         cmd = rsync_prefix + rsync_suffix
 
-        # No quoting (quote='') because of new argument protection of rsync.
-        cmd.append(self.rsyncRemotePath(
-            new_snapshot.pathBackup(use_mode=['ssh', 'ssh_gocryptfs']),
-            quote=''))
+        # # No quoting (quote='') because of new argument protection of rsync.
+        # cmd.append(self.rsyncRemotePath(
+        #     new_snapshot.pathBackup(use_mode=['ssh', 'ssh_gocryptfs']),
+        #     quote=''))
+
+        cmd.append(
+            self.mount_manager.as_rsync_destination(
+                new_snapshot.pathBackup()
+            )
+        )
 
         self.setTakeSnapshotMessage(0, _('Creating backup'))
 

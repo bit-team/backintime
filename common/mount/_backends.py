@@ -50,6 +50,15 @@ class Backend:
         """Return the real backend source path."""
         raise NotImplementedError
 
+    def as_rsync_destination(self, path: Path) -> str:
+        """Return ``path`` in the form required as an rsync destination.
+
+        The return value may differ depending on the backend.
+        Keep in mind that rsync does not use the local mountpoint in all
+        cases. For example in SSH profiles it uses SSH directly.
+        """
+        raise NotImplementedError
+
     @property
     def fingerprint(self) -> str:
         """See `MountManager.fingerprint`"""
@@ -88,6 +97,10 @@ class LocalBackend(Backend):
     def source_path(self) -> Path:
         """Return the local source path"""
         return self.path
+
+    def as_rsync_destination(self, path: Path) -> str:
+        """Return the local path unachnged as an rsync destination."""
+        return str(path)
 
     def get_fingerprint_base(self) -> str:
         """See ``Backend.get_fingerprint_base()``"""
@@ -152,6 +165,25 @@ class SSHBackend(Backend):
     def source_path(self) -> Path:
         """Return the source path on the remote machine"""
         return Path(self.host.path)
+
+    def as_rsync_destination(self, path: Path) -> str:
+        """Convert a mounted path to the corresponding remote rsync
+        destination.
+
+        For example, a mounted local path such as::
+
+            /home/user/.local/share/backintime/mnt/abc123/ssh/
+            backintime/olaf/backup/profile/20260922-120000/backup
+
+        is converted to::
+
+            backup@olaf:/Daten/Backup/.backintime/backintime/olaf/
+            backup/profile/20260922-120000/backup
+        """
+        relative = path.relative_to(self.path)
+        remote_path = self.source_path / relative
+
+        return f'{self.host.user_host}:{remote_path}'
 
     def set_fingerprint(self, fingerprint: str):
         """See `MountManager.fingerprint`"""
