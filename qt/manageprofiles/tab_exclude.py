@@ -30,6 +30,7 @@ from PyQt6.QtWidgets import (QAbstractItemView,
                              QWidget)
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPalette, QBrush
+import logger
 import tools
 import qttools
 from qttools import custom_sort_order
@@ -303,8 +304,14 @@ class ExcludeTab(QWidget):
         if path is None:
             return Path.cwd()
 
-        if path.is_file():
-            return path.parent
+        try:
+            if path.is_file():
+                return path.parent
+        except OSError as exc:
+            logger.error(
+                f'Unable to determine exclude start dir. Error: {exc}'
+            )
+            return Path.cwd()
 
         return path
 
