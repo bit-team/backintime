@@ -152,6 +152,25 @@ class IncludeTab(QWidget):
         if self.list_include.topLevelItemCount() > 0:
             self.list_include.setCurrentItem(self.list_include.topLevelItem(0))
 
+    def get_recent_include_item(self) -> Path | None:
+        """Return the most recent include item.
+
+        It will be the (first) highlighted/selected dir or file. If no item is
+        currently selected the last item in the list will be used.
+        """
+        item = self.list_include.currentItem()
+
+        if item is None:
+            # Last item the list
+            item = self.list_include.topLevelItem(
+                self.list_include.topLevelItemCount() - 1
+            )
+
+            if item is None:
+                return None
+
+        return Path(item.text(0))
+
     def _copy_links_or_unsafe_links(self) -> bool:
         """Return `True` if one of the two Expert Options "Copy links" and
         "Copy unsafe links" are set/checked.
@@ -181,6 +200,7 @@ class IncludeTab(QWidget):
 
     def btn_include_file_clicked(self):
         """Handle file-adding button click."""
+
         dlg = FileDialog(
             parent=self,
             title=_('Include files'),

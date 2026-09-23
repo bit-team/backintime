@@ -105,10 +105,26 @@ latest development version of _Back In Time_ please see section
 # Known Problems and Workarounds
 
 In the latest stable release:
+- [Files View widget not displaying files or directories](#files-view-widget-not-displaying-files-or-directories)
 - [File permissions handling and therefore possible non-differential backups](#file-permissions-handling-and-therefore-possible-non-differential-backups)
 
 More problems described in
 [this FAQ section](FAQ.md#problems-errors--solutions).
+
+## Files View widget not displaying files or directories
+The main window's
+[files view widget](https://backintime.readthedocs.io/en/latest/main_window.html)
+doesn't show files or directories if a backup is selected in the timeline
+widget. It shows anything but `/` (root directory).
+To **workaround** it, toggle the *Show hidden files* button in the files view
+own toolbar. This might help. 
+
+Problem might be introduced in version `1.5.*` or `1.6.*`. There is no clear
+solution to the problem. Also the real cause is still unknown. The plan is to
+re-write that widget from scratch. See
+[#2567](https://github.com/bit-team/backintime/issues/2567) for further details
+and screenshots.
+
 
 ## File permissions handling and therefore possible non-differential backups
 
