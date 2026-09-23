@@ -105,6 +105,7 @@ latest development version of _Back In Time_ please see section
 # Known Problems and Workarounds
 
 In the latest stable release:
+- [Files View widget not displaying files or directories](#files-view-widget-not-displaying-files-or-directories)
 - [File permissions handling and therefore possible non-differential backups](#file-permissions-handling-and-therefore-possible-non-differential-backups)
 
 More problems described in
