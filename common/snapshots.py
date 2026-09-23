@@ -1496,7 +1496,7 @@ class Snapshots:
 
         cmd.append(
             self.mount_manager.as_rsync_destination(
-                new_snapshot.pathBackup()
+                Path(new_snapshot.pathBackup())
             )
         )
 
@@ -2865,7 +2865,7 @@ class SID:  # -> "BackupID" will be its new name
 
         return str(path_return)
 
-    def pathBackup(self, *path, **kwargs):
+    def pathBackup(self, *path, **kwargs) -> str:
         """
         'backup' folder inside snapshots path
 
