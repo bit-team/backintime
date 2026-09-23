@@ -119,10 +119,12 @@ widget. It shows anything but `/` (root directory).
 To **workaround** it, toggle the *Show hidden files* button in the files view
 own toolbar. This might help. 
 
-There is no clear solution to the problem. Also the real cause is still
-unknown.  The plan is to re-write that widget from scratch. See
+Problem might be introduced in `1.5.*` or `1.6.*`. There is no clear solution
+to the problem. Also the real cause is still unknown. The plan is to re-write
+that widget from scratch. See
 [#2567](https://github.com/bit-team/backintime/issues/2567) for further details
 and screenshots.
+
 
 ## File permissions handling and therefore possible non-differential backups
 
