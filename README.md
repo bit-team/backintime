@@ -116,9 +116,8 @@ The main window's
 [files view widget](https://backintime.readthedocs.io/en/latest/main_window.html)
 doesn't show files or directories if a backup is selected in the timeline
 widget. It shows anything but `/` (root directory).
-
 To **workaround** it, toggle the *Show hidden files* button in the files view
-on toolbar. This might help. 
+own toolbar. This might help. 
 
 There is no clear solution to the problem. Also the real cause is still unknown.
 See [#2567](https://github.com/bit-team/backintime/issues/2567) for further
