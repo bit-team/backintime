@@ -246,6 +246,10 @@ class MountManager:
         """The path to work with after backend and encryptor is mounted."""
         return self.encryptor.path
 
+    def as_rsync_destination(self, path: Path) -> str:
+        """Return the rsync destination for a mounted path."""
+        return self.backend.as_rsync_destination(path)
+
     def is_initialized(self) -> bool:
         """Check if the encryptor is initialized.
 
