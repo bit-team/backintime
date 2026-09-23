@@ -14,6 +14,7 @@
 """The manage profiles dialog"""
 import re
 import copy
+from pathlib import Path
 from PyQt6.QtWidgets import (QDialog,
                              QVBoxLayout,
                              QHBoxLayout,
@@ -397,3 +398,7 @@ class SettingsDialog(QDialog):
             (self.width(), self.height()),
             (self.x(), self.y())
         )
+
+    def get_recent_include_item(self) -> Path | None:
+        """See IncludeTab for details"""
+        return self._tab_include.get_recent_include_item()

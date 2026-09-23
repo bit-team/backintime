@@ -13,6 +13,7 @@
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Module about the Exclude tab"""
 import copy
+from pathlib import Path
 from PyQt6.QtWidgets import (QAbstractItemView,
                              QCheckBox,
                              QDialog,
@@ -254,7 +255,7 @@ class ExcludeTab(QWidget):
         self.list_exclude.setCurrentItem(item)
 
     def btn_exclude_add_clicked(self):
-        """Handle button click
+        """Handle Add Pattern clicked.
 
         Dev note (buhtz, 2025-10): Feature idea for later versions. Use rsync
         --dry-run with --debug=FILTER to see include/exclude decisions. Show
@@ -296,6 +297,17 @@ class ExcludeTab(QWidget):
     def _slot_rsync_pattern_match_link(self):
         qttools.open_man_page('rsync', section='PATTERN MATCHING RULES')
 
+    def _determine_exclude_start_dir(self) -> Path:
+        path = self._parent_dialog.get_recent_include_item()
+
+        if path is None:
+            return Path.cwd()
+
+        if path.is_file():
+            return path.parent
+
+        return path
+
     def btn_exclude_file_clicked(self):
         """Handle button click"""
 
@@ -304,7 +316,9 @@ class ExcludeTab(QWidget):
             title=_('Exclude files'),
             show_hidden=True,
             allow_multiselection=True,
-            dirs_only=False)
+            dirs_only=False,
+            start_dir=self._determine_exclude_start_dir()
+        )
 
         for path in dlg.result():
             self.add_exclude(str(path))
@@ -313,11 +327,14 @@ class ExcludeTab(QWidget):
         """Handle button click"""
 
         # pylint: disable=duplicate-code
-        dlg = FileDialog(parent=self,
-                         title=_('Exclude directories'),
-                         show_hidden=True,
-                         allow_multiselection=True,
-                         dirs_only=True)
+        dlg = FileDialog(
+            parent=self,
+            title=_('Exclude directories'),
+            show_hidden=True,
+            allow_multiselection=True,
+            dirs_only=True,
+            start_dir=self._determine_exclude_start_dir()
+        )
         dirs = dlg.result()
 
         for path in dirs:
