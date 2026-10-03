@@ -21,7 +21,7 @@ import signal
 import textwrap
 import functools
 from pathlib import Path
-from argparse import ArgumentParser
+from argparse import ArgumentParser, SUPPRESS
 from typing import Callable
 # TODO Is this really required? If the client is not configured for X11
 #      it may use Wayland or something else...
@@ -516,6 +516,12 @@ if __name__ == '__main__':
         metavar='PATH',
         type=Path,
         action='store'
+    )
+    argparser.add_argument(
+        '--keep-alive',
+        action='store_true',
+        default=False,
+        help=SUPPRESS
     )
 
     args = argparser.parse_args()
