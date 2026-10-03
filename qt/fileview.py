@@ -31,6 +31,8 @@ from PyQt6.QtWidgets import (QAbstractItemView,
                              QTreeView)
 from PyQt6.QtCore import (QDir,
                           QItemSelectionModel,
+                          QModelIndex,
+                          QPersistentModelIndex,
                           QSortFilterProxyModel,
                           Qt,
                           QTimer)
@@ -49,6 +51,27 @@ class ProxyModel(QSortFilterProxyModel):
         self.setFilterRole(Qt.ItemDataRole.DisplayRole)
         self.setFilterKeyColumn(0)
         # self.setRecursiveFilteringEnabled(False)
+
+        # Source index of the directory shown as root in the view
+        self._root_source_index = QPersistentModelIndex()
+
+    def set_root_source_index(self, index: QModelIndex):
+        """Set the source incdex of the directory shown as root in the view and
+        whose entries are subject to filtering.
+        """
+        self._root_source_index = QPersistentModelIndex(index)
+        self.invalidateFilter()
+
+    def filterAcceptsRow(self, source_row, source_parent):
+        """Filter only entries of the root directory.
+
+        Its ancestors (e.g. "~/.local" for SSH mounts) must pass, otherwise the
+        root directory can't be mapped and the view falls back to "/".
+        """
+        if self._root_source_index != source_parent:
+            return True
+
+        return super().filterAcceptsRow(source_row, source_parent)
 
     def show_hidden(self, show: bool):
         """Set regex based filter to show or hide hidden files."""
@@ -157,11 +180,9 @@ class FilesView(QTreeView):
     def set_root_path(self, path: str):
         # self.selectionModel().clear()
 
-        # print('='*40)  # DEBUG
-        # print(f'FilesView.set_root_path() :: {path=}')  # DEBUG
-
         # model: path to read from
         model_index = self.model.setRootPath(path)
+        self.proxy.set_root_source_index(model_index)
         proxy_model_index = self.proxy.mapFromSource(model_index)
 
         # view: show that path as root path
