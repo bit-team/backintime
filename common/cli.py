@@ -9,6 +9,8 @@
 import os
 import sys
 import atexit
+from enum import Enum
+from pathlib import Path
 import tools
 import daemon
 import snapshots
@@ -342,6 +344,37 @@ def print_header():
     )
 
 
+def _fix_enum_values(path: str, enum_cls: type[Enum]) -> None:
+    """Fixes a bug in the wild where the config file contains enum names
+    instead of the enum integer values. One example is `bitbase.TimeUnit`.
+
+    Dev note (buhtz, 2026-08):
+    Back In Time version 1.6.1 (maybe earlier version) introduced this. But
+    beginning with version 2.0.0 this would make BIT crash.
+    Regarding 1.6.1 was introduced with Debian 13, my recommendation is to
+    remove this fix-workaround not before Debian 15 is released.
+    """
+    if path is None:
+        path = Path.home() / '.config' / 'backintime' / 'config'
+    else:
+        path = Path(path)
+
+    lines = []
+
+    for line in path.read_text().splitlines(keepends=True):
+        # each enum entry
+        for member in enum_cls:
+            line = line.replace(
+                # e.g. "=TimeUnit.YEAR
+                f'={enum_cls.__name__}.{member.name}',
+                # e.g. "=80"
+                f'={member.value!s}',
+            )
+        lines.append(line)
+
+    path.write_text(''.join(lines))
+
+
 def get_config_and_select_profile(
         config_path: str,
         data_path: str,
@@ -364,6 +397,9 @@ def get_config_and_select_profile(
         profile. 2 if ``check`` is ``True`` and config is not configured
 
     """
+    # fix enums in 1.6.1 config files
+    _fix_enum_values(config_path, bitbase.TimeUnit)
+
     cfg = config.Config(
         config_path=config_path,
         data_path=data_path)
