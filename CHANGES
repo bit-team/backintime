@@ -4,6 +4,8 @@ Version 1.6.2 (2026-??-??)
 * Fixed: Enum names in config file are replaced by their values
 * Fixed: Missing backup removal due to a miscalculation in the "Remove backups older than" rule, introduced in version 1.5.4 (#2588#issuecomment-5675126121)
 * Fixed: Prevent crash when a plugin fails (#2447)
+* Fixed: Schedule mode "Repeatedly (anacron)" using "Hourly" units is now consistent with other units (#2507)
+* Changed: Schedule mode "Repeatedly (anacron)" in GUI re-phrased and extended with explanations (#2507)
 
 Version 1.6.1 (2026-02-10)
 * Fixed: SSH-Key selector widget handle binary keys, missing but configured keys (#2399, #2400)

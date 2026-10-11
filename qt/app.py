@@ -454,6 +454,7 @@ class MainWindow(QMainWindow):
             # EncFS deprecation warning (#1734, #1735)
             if encfs_profiles:
                 state_data.msg_encfs_global = bitbase.ENCFS_MSG_STAGE
+                state_data.save()
                 dlg = encfsmsgbox.EncfsExistsWarning(encfs_profiles)
                 dlg.exec()
 
