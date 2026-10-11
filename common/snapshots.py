@@ -2001,7 +2001,7 @@ class Snapshots:
             oldSID = SID(self.config.removeOldSnapshotsDate(), self.config)
             oldBackupId = oldSID.withoutTag
 
-            logger.debug(f'Removing backups older than: {oldBackupId}', self)
+            logger.info(f'Removing backups older than: {oldBackupId}', self)
 
             while True:
                 # Keep min one backup
