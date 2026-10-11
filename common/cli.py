@@ -359,6 +359,9 @@ def _fix_enum_values(path: str, enum_cls: type[Enum]) -> None:
     else:
         path = Path(path)
 
+    if not path.exists():
+        return
+
     lines = []
 
     for line in path.read_text().splitlines(keepends=True):

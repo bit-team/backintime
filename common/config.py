@@ -974,12 +974,16 @@ class Config(configfile.ConfigFileWithProfiles):
         self.setProfileIntValue('schedule.repeatedly.unit', value, profile_id)
 
     def removeOldSnapshots(self, profile_id = None):
-                #?Remove all snapshots older than value + unit
-        return (self.profileBoolValue('snapshots.remove_old_snapshots.enabled', True, profile_id),
-                #?Snapshots older than this times units will be removed
-                self.profileIntValue('snapshots.remove_old_snapshots.value', 10, profile_id),
-                #?20 = days\n30 = weeks\n80 = years;20|30|80;80
-                bitbase.TimeUnit(self.profileIntValue('snapshots.remove_old_snapshots.unit', bitbase.TimeUnit.YEAR, profile_id)))
+        #?Remove all snapshots older than value + unit
+        return (
+            self.profileBoolValue('snapshots.remove_old_snapshots.enabled', True, profile_id),
+            #?Snapshots older than this times units will be removed
+            self.profileIntValue('snapshots.remove_old_snapshots.value', 10, profile_id),
+            #?20 = days\n30 = weeks\n80 = years;20|30|80;80
+            bitbase.TimeUnit(self.profileIntValue('snapshots.remove_old_snapshots.unit',
+                                                  bitbase.TimeUnit.YEAR,
+                                                  profile_id))
+        )
 
     def keepOnlyOneSnapshot(self, profile_id = None):
         #?NOT YET IMPLEMENTED. Remove all snapshots but one.
@@ -1001,7 +1005,7 @@ class Config(configfile.ConfigFileWithProfiles):
     def setRemoveOldSnapshots(self, enabled, value, unit, profile_id = None):
         self.setProfileBoolValue('snapshots.remove_old_snapshots.enabled', enabled, profile_id)
         self.setProfileIntValue('snapshots.remove_old_snapshots.value', value, profile_id)
-        self.setProfileIntValue('snapshots.remove_old_snapshots.unit', unit, profile_id)
+        self.setProfileIntValue('snapshots.remove_old_snapshots.unit', unit.value, profile_id)
 
     def warnFreeSpaceEnabled(self, profile_id=None):
         value = self.profileIntValue('snapshots.warn_free_space.value', 0, profile_id)
