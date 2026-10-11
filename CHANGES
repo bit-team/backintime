@@ -3,6 +3,7 @@ Version 1.6.2 (2026-??-??)
 * Fixed: "Remove backups older than" value was stored only as years (#2460)
 * Fixed: Enum names in config file are replaced by their values
 * Fixed: Missing backup removal due to a miscalculation in the "Remove backups older than" rule, introduced in version 1.5.4 (#2588#issuecomment-5675126121)
+* Fixed: Prevent crash when a plugin fails (#2447)
 
 Version 1.6.1 (2026-02-10)
 * Fixed: SSH-Key selector widget handle binary keys, missing but configured keys (#2399, #2400)
