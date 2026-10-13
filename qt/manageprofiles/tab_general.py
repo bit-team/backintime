@@ -30,7 +30,7 @@ import logger
 import sshtools
 from exceptions import MountException, NoPubKeyLogin, KnownHost
 import mount
-from bitbase import URL_ENCRYPT_TRANSITION, DIR_SSH_KEYS
+from bitbase import URL_ENCRYPT_TRANSITION, DIR_SSH_KEYS, URL_GOCRYPT_MIGRATION
 import version
 import schedule
 import qttools
@@ -71,6 +71,11 @@ class GeneralTab(QDialog):
         # EncFS deprecation (#1734, #1735)
         self._lbl_encfs_warning = self._create_label_encfs_deprecation()
         tab_layout.addWidget(self._lbl_encfs_warning)
+
+        self._lbl_gocrypt_migration_warning \
+            = self._create_label_gocrypt_migration()
+        tab_layout.addWidget(self._lbl_gocrypt_migration_warning)
+
         tab_layout.addWidget(HLineWidget())
 
         # Where to save snapshots
@@ -656,6 +661,23 @@ class GeneralTab(QDialog):
 
         return combobox.BitComboBox(self, snapshot_modes)
 
+    def _create_label_gocrypt_migration(self):
+        further_info = f'<a href="{URL_GOCRYPT_MIGRATION}">'
+        further_info = further_info + 'Further information' + '</a>'
+
+        txt = [
+            'The implementation of local encrypted backups will change in '
+            'version 2.0.0. '
+            'Existing backup data might no longer be accessible.'
+            'However, Back In Time will try to provide a migration path in '
+            f'version 2.0.0. See {further_info}.',
+            'If possible, <strong>avoid creating new local encrypted backup '
+            'profiles</strong> until version 2.0.0 is released.'
+        ]
+        txt = '<p>' + '</p><p>'.join(txt) + '</p>'
+
+        return qttools.create_warning_label(txt, icon_scale_factor=3)
+
     def _create_label_encfs_deprecation(self):
         # encfs deprecation warning (see #1734, #1735)
 
@@ -891,3 +913,9 @@ class GeneralTab(QDialog):
 
         else:
             self._lbl_encfs_warning.hide()
+
+        # Gocryptfs Migration Warning
+        if active_mode == 'local_gocryptfs':
+            self._lbl_gocrypt_migration_warning.show()
+        else:
+            self._lbl_gocrypt_migration_warning.hide()

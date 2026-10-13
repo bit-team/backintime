@@ -47,6 +47,9 @@ TRANSLATION_CREDITS_MISC = (
 # See issue #1734 and #1735
 URL_ENCRYPT_TRANSITION = 'https://github.com/bit-team/backintime' \
                          '/blob/-/doc/ENCRYPT_TRANSITION.md'
+
+URL_GOCRYPT_MIGRATION = 'https://github.com/bit-team/backintime' \
+                        '/blob/-/doc/GOCRYPT_MIGRATION.md'
 URL_SOURCE = 'https://github.com/bit-team/backintime'
 URL_WEBSITE = URL_SOURCE
 URL_FAQ = f'{URL_WEBSITE}/blob/-/FAQ.md'
