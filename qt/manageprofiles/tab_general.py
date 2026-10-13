@@ -623,10 +623,6 @@ class GeneralTab(QDialog):
             if messagebox.question(msg):
                 sshtools.writeKnownHostsFile(hashed_key)
 
-                # --- DEV NOTE TODO ---
-                # AGAIN: Why this recursive call?
-                return self.saveProfile()
-
             return False
 
         except MountException as ex:
