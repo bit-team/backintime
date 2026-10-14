@@ -238,7 +238,8 @@ def selectSnapshot(snapshotsList,
 
     snapshot_id = None
 
-    columns = (terminalSize()[1] - 25) // 26 + 1
+    # At least one column, also on very narrow terminals.
+    columns = max(1, (terminalSize()[1] - 25) // 26 + 1)
     rows = len_snapshots // columns
 
     if len_snapshots % columns > 0:
@@ -275,24 +276,17 @@ def selectSnapshot(snapshotsList,
 
 
 def terminalSize():
+    """Get the size of the terminal.
+
+    Not a terminal (e.g. a pipe or cron) or an unknown size (reported as
+    zero) results in the default 24 lines and 80 columns.
+
+    Returns:
+        (list): Two items, the number of lines and the number of columns.
     """
-    get terminal size
-    """
-    for fd in (sys.stdin, sys.stdout, sys.stderr):
+    size = shutil.get_terminal_size(fallback=(80, 24))
 
-        try:
-            import fcntl
-            import termios
-            import struct
-            return [
-                int(x) for x in struct.unpack(
-                    'hh', fcntl.ioctl(fd, termios.TIOCGWINSZ, '1234'))
-            ]
-
-        except ImportError:
-            pass
-
-    return [24, 80]
+    return [size.lines, size.columns]
 
 
 def frame(msg, size=32):
