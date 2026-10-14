@@ -1288,6 +1288,7 @@ class Snapshots:
         self.backupPermissionsCallback(b'/', (fileInfoDict, decode))
 
         rsync = ['rsync', '--dry-run', '-s', '-r', '--out-format=%n']
+        rsync.extend(tools.rsyncSafeGenericOptions(self.config))
         rsync.extend(tools.rsyncSshArgs(self.config))
         rsync.append(
             self.rsyncRemotePath(

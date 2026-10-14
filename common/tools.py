@@ -1493,6 +1493,59 @@ def rsyncSshArgs(config, use_mode=['ssh', 'ssh_gocryptfs']):
     return cmd
 
 
+def rsyncSafeGenericOptions(config):
+    """
+    Extract rsync options from `config` that are safe for non-sync operations
+    such as removing snapshots or permission scans.
+    Prevents passing destructive or sync-specific options like --link-dest,
+    --delete-excluded, or path arguments, while preserving resource, memory,
+    bandwidth, and connection controls (e.g., --max-alloc, --bwlimit, --timeout).
+
+    Args:
+        config (config.Config): Current config instance.
+
+    Returns:
+        list: Safe rsync arguments.
+    """
+    opts = []
+    if config.bwlimitEnabled():
+        opts.append(f'--bwlimit={config.bwlimit()}')
+
+    if config.rsyncOptionsEnabled():
+        tokens = shlex.split(config.rsyncOptions())
+        safe_prefixes = (
+            '--max-alloc=',
+            '--timeout=',
+            '--contimeout=',
+            '--sockopts=',
+            '--outbuf=',
+            '--info=',
+            '--debug=',
+            '--skip-compress=',
+        )
+        safe_exact = {
+            '--ipv4', '-4',
+            '--ipv6', '-6',
+            '--blocking-io', '--no-blocking-io',
+            '--numeric-ids',
+            '-q', '--quiet',
+            '-v', '--verbose',
+            '-h', '--human-readable',
+        }
+        i = 0
+        while i < len(tokens):
+            token = tokens[i]
+            if any(token.startswith(prefix) for prefix in safe_prefixes) or token in safe_exact:
+                opts.append(token)
+            elif token in ('--max-alloc', '--timeout', '--contimeout', '--sockopts', '--outbuf'):
+                if i + 1 < len(tokens):
+                    opts.extend([token, tokens[i + 1]])
+                    i += 1
+            i += 1
+
+    return opts
+
+
 def rsyncRemove(config, run_local=True):
     """
     Get rsync command and all args for removing snapshots with rsync.
@@ -1506,6 +1559,7 @@ def rsyncRemove(config, run_local=True):
         list:                   rsync command with all args
     """
     cmd = ['rsync', '-a', '--delete', '-s']
+    cmd.extend(rsyncSafeGenericOptions(config))
     if run_local:
         cmd.extend(rsyncSshArgs(config))
     return cmd

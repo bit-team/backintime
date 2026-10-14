@@ -811,3 +811,47 @@ class InfoIniToDict(unittest.TestCase):
         ini_content = StringIO(self.INI)
         result = tools.convert_info_ini_file_to_dict(ini_content)
         self.assertEqual(result, self.DICT)
+
+
+class RsyncRemoveOptions(unittest.TestCase):
+    def test_rsync_safe_generic_options_empty(self):
+        class MockConfig:
+            def bwlimitEnabled(self):
+                return False
+            def rsyncOptionsEnabled(self):
+                return False
+            def snapshotsMode(self):
+                return 'local'
+        cfg = MockConfig()
+        self.assertEqual(tools.rsyncSafeGenericOptions(cfg), [])
+        self.assertEqual(tools.rsyncRemove(cfg), ['rsync', '-a', '--delete', '-s'])
+
+    def test_rsync_safe_generic_options_propagation(self):
+        class MockConfig:
+            def bwlimitEnabled(self):
+                return True
+            def bwlimit(self):
+                return 1500
+            def rsyncOptionsEnabled(self):
+                return True
+            def rsyncOptions(self):
+                return '--max-alloc=5g --timeout=60 --delete --link-dest=/tmp/prev -4 --include=*.txt'
+            def snapshotsMode(self):
+                return 'local'
+        cfg = MockConfig()
+        safe_opts = tools.rsyncSafeGenericOptions(cfg)
+        self.assertIn('--bwlimit=1500', safe_opts)
+        self.assertIn('--max-alloc=5g', safe_opts)
+        self.assertIn('--timeout=60', safe_opts)
+        self.assertIn('-4', safe_opts)
+        self.assertNotIn('--delete', safe_opts)
+        self.assertNotIn('--link-dest=/tmp/prev', safe_opts)
+        self.assertNotIn('--include=*.txt', safe_opts)
+
+        cmd = tools.rsyncRemove(cfg)
+        self.assertEqual(cmd[:4], ['rsync', '-a', '--delete', '-s'])
+        self.assertIn('--max-alloc=5g', cmd)
+        self.assertIn('--bwlimit=1500', cmd)
+        self.assertIn('--timeout=60', cmd)
+        self.assertNotIn('--link-dest=/tmp/prev', cmd)
+
