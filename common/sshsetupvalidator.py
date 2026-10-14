@@ -436,8 +436,34 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
                 + '\n\n' + _('Details:') + f'\n{err.strip()}'
             )
 
+    def _check_direct_hardlinks(self) -> bool:
+        """Check if the remote filesystem directly supports hardlinks via 'ln'."""
+        test_dir = self.ssh_host.path + '/.bit_hl_test'
+        cmd = [
+            'sh', '-c',
+            f'mkdir -p "{test_dir}" && '
+            f': > "{test_dir}/f1" && '
+            f'ln "{test_dir}/f1" "{test_dir}/f2" 2>/dev/null && '
+            f'stat -c "%i" "{test_dir}/f1" "{test_dir}/f2"'
+        ]
+        self._cleanup_commands.append(['rm', '-rf', test_dir])
+        rc, out, _err = self._ssh(cmd)
+        if rc == 0:
+            inodes = out.strip().split()
+            if len(inodes) >= 2 and inodes[0] == inodes[1]:
+                return True
+        return False
+
     def _check_rsync_hardlinks(self):  # pylint: disable=too-many-locals
-        """Checks if rsync creates real hardlinks on remote file system."""
+        """Checks if remote filesystem supports hardlinks, directly and via rsync."""
+        direct_hl_ok = self._check_direct_hardlinks()
+
+        if not direct_hl_ok:
+            raise SSHSetupError(
+                'No hardlinks support on remote file system',
+                _('The remote file system does not support hardlinks.')
+            )
+
         with tempfile.TemporaryDirectory() as tmp:
             local_fp = Path(tmp) / 'a'
             local_fp.write_text('foo', encoding='utf-8')
@@ -484,11 +510,11 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
                 _out, err = proc.communicate()
 
                 if proc.returncode != 0:
-                    raise SSHSetupError(
-                        f'rsync hardlink test failed: {err.strip()}',
-                        _('Could not verify rsync hardlink support.') + '\n\n'
-                        + _('Details:') + f'\n{err.strip()}'
+                    logger.warning(
+                        f'rsync hardlink probe command failed: {err.strip()}',
+                        self
                     )
+                    return
 
             def _remote_stat_inode(path: str) -> int:
                 cmd = self._build_ssh_command()
@@ -513,16 +539,18 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
                 inode_2 = _remote_stat_inode(f'{locale_2}/a')
 
             except RuntimeError as exc:
-                raise SSHSetupError(
-                    f'Unexpected error while receiving inodes: {exc}',
-                    _('Unexpected error while verifying rsync hardlink '
-                      'support.') + '\n\n' + _('Details:') + f'\n{exc}'
-                ) from exc
+                logger.warning(
+                    f'Could not verify rsync inodes ({exc}). Filesystem hardlink support confirmed.',
+                    self
+                )
+                return
 
             if inode_1 != inode_2:
-                raise SSHSetupError(
-                    'No hardlinks support on remote file system',
-                    _('The remote file system does not support hardlinks.')
+                logger.warning(
+                    'Remote filesystem supports hardlinks via ln, but rsync --archive '
+                    'did not link files. This typically indicates remote ownership/permission '
+                    'differences. Snapshots will succeed but may use additional space.',
+                    self
                 )
 
     def _check_remote_shell(self):

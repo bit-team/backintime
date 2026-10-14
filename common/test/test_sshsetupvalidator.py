@@ -110,3 +110,41 @@ class TestSSHSetupValidator(unittest.TestCase):
         with self.assertRaises(SSHSetupError) as ctx:
             self.validator._ensure_remote_directory()
         self.assertIn('restricted shell', ctx.exception.gui_msg.lower())
+
+    def test_check_direct_hardlinks_success(self):
+        self.validator._ssh = MagicMock(return_value=(0, '88888 88888\n', ''))
+        self.assertTrue(self.validator._check_direct_hardlinks())
+
+    def test_check_direct_hardlinks_failure(self):
+        self.validator._ssh = MagicMock(return_value=(1, '', 'ln: failed to create hard link: Operation not permitted\n'))
+        self.assertFalse(self.validator._check_direct_hardlinks())
+
+    def test_check_rsync_hardlinks_direct_failure_raises(self):
+        self.validator._check_direct_hardlinks = MagicMock(return_value=False)
+        with self.assertRaises(SSHSetupError) as ctx:
+            self.validator._check_rsync_hardlinks()
+        self.assertIn('does not support hardlinks', ctx.exception.gui_msg.lower())
+
+    @patch('subprocess.Popen')
+    def test_check_rsync_hardlinks_direct_success_rsync_diff_warns_not_raises(self, mock_popen):
+        self.validator._check_direct_hardlinks = MagicMock(return_value=True)
+
+        # Mock Popen for rsync commands and stat inode commands
+        proc_rsync = MagicMock()
+        proc_rsync.communicate.return_value = ('', '')
+        proc_rsync.returncode = 0
+
+        proc_stat1 = MagicMock()
+        proc_stat1.communicate.return_value = ('1001\n', '')
+        proc_stat1.returncode = 0
+
+        proc_stat2 = MagicMock()
+        proc_stat2.communicate.return_value = ('1002\n', '')
+        proc_stat2.returncode = 0
+
+        mock_popen.side_effect = [proc_rsync, proc_rsync, proc_stat1, proc_stat2]
+
+        # Inodes differ (1001 != 1002), but direct hardlinks succeeded:
+        # must NOT raise SSHSetupError!
+        self.validator._check_rsync_hardlinks()
+
