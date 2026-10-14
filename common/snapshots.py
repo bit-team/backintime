@@ -1199,6 +1199,309 @@ class Snapshots:
                     params[1] = True
                     self.snapshotLog.append('[C] ' + line[12:], 2)
 
+    # Itemize string of an item rsync would CREATE in the destination, e.g.
+    # ">f+++++++++" (file), "cd+++++++++" (directory), "cL+++++++++"
+    # (symlink). See "--itemize-changes" in "man rsync".
+    _re_created_item = re.compile(r'^[<>ch.][a-zA-Z]\+{9} (?P<path>.+)$')
+
+    @staticmethod
+    def _deleted_paths_command(prev_backup_dir: str,
+                               new_backup_dir: str) -> list[str]:
+        """Build the rsync command used to find paths deleted from the source.
+
+        With ``--link-dest`` rsync does not hard-link a file that has been
+        deleted from the source since the previous backup, and it does not
+        print anything about it (rsync bug 5263). The new snapshot is just
+        missing that path. See issue #136.
+
+        The command lists every item that exists in the previous snapshot but
+        is missing in the new one. It is a read-only comparison:
+
+        - The previous snapshot is only the *source* of the comparison.
+        - ``--dry-run`` guarantees that nothing is transferred.
+        - There is no ``--delete`` option. Nothing is removed even if
+          ``--dry-run`` would ever get lost.
+
+        Args:
+            prev_backup_dir: The ``backup`` directory of the previous snapshot.
+            new_backup_dir: The ``backup`` directory of the new snapshot.
+
+        Returns:
+            The command with all its arguments.
+        """
+        return [
+            'rsync',
+            '--dry-run',
+            '--recursive',
+            '--links',
+            '--devices',
+            '--specials',
+            # Report only items that are missing in the new snapshot. Items
+            # that exist on both sides are not of interest here.
+            '--ignore-existing',
+            # Use "new argument protection" like everywhere else.
+            '-s',
+            '--out-format=%i %n%L',
+            # Trailing slash: Compare the content of the directories.
+            os.path.join(prev_backup_dir, ''),
+            os.path.join(new_backup_dir, ''),
+        ]
+
+    @classmethod
+    def _parse_created_item(cls, line: str) -> str | None:
+        """Extract the path from an itemize line of a to-be-created item.
+
+        Returns:
+            The path or ``None`` if the line is something else (e.g. an
+            error message of rsync).
+        """
+        match = cls._re_created_item.match(line)
+
+        if match is None:
+            return None
+
+        return match.group('path')
+
+    def _find_deleted_paths(self, prev_sid, new_snapshot) -> list[str] | None:
+        """Find paths that are in the previous snapshot but not in the new one.
+
+        Because of ``--link-dest`` the new snapshot does contain exactly the
+        content of the source (see :py:func:`_deleted_paths_command`). So paths
+        that are missing there have been deleted from the source. The same
+        happens with paths that are excluded now but were not excluded before.
+
+        Args:
+            prev_sid (SID): The previous snapshot.
+            new_snapshot (NewSnapshot): The new (not finished) snapshot.
+
+        Returns:
+            The paths (rsync notation, directories end with a slash) or
+            ``None`` if the check could not be completed.
+        """
+        prev_dir = prev_sid.pathBackup()
+        new_dir = new_snapshot.pathBackup()
+
+        for directory in (prev_dir, new_dir):
+            if not os.path.isdir(directory):
+                logger.warning(
+                    f'Check for deleted files not possible. Directory '
+                    f'"{directory}" does not exist.', self)
+                return None
+
+        cmd = self._deleted_paths_command(prev_dir, new_dir)
+
+        deleted = []
+        other_output = []
+
+        def collect(line, _user_data):
+            if isinstance(line, bytes):
+                line = line.decode(errors='replace')
+
+            path = self._parse_created_item(line)
+
+            if path is None:
+                other_output.append(line)
+            else:
+                deleted.append(path)
+
+        proc = tools.Execute(
+            cmd, callback=collect, parent=self, conv_str=False)
+
+        try:
+            exit_code = proc.run()
+
+        except OSError as exc:
+            logger.warning(
+                f'Check for deleted files failed. Could not run rsync: '
+                f'{exc}. Command: {proc.printable_cmd}', self)
+            return None
+
+        if exit_code != 0:
+            logger.warning(
+                f'Check for deleted files failed. rsync exit code: '
+                f'{exit_code}. Command: {proc.printable_cmd}. '
+                f'Output: {" | ".join(other_output[-5:])}', self)
+            return None
+
+        return deleted
+
+    def _check_for_deletions(self, prev_sid, new_snapshot) -> bool:
+        """Decide if deleted files make the new snapshot different.
+
+        Only call it if rsync itself did report nothing changed, finished
+        without any error, and a previous snapshot exists (#136).
+
+        If the check can not be completed the answer is ``True``. The new
+        snapshot is kept in this case. Reporting "nothing changed" without
+        knowing could hide deleted files.
+
+        Args:
+            prev_sid (SID): The previous snapshot.
+            new_snapshot (NewSnapshot): The new (not finished) snapshot.
+
+        Returns:
+            ``True`` if the new snapshot must be kept.
+        """
+        deleted = self._find_deleted_paths(prev_sid, new_snapshot)
+
+        if deleted is None:
+            logger.warning(
+                'Deletion detection could not be completed. Keeping the new '
+                'backup to be safe.', self)
+            self.snapshotLog.append(
+                '[E] '
+                + _('Warning: Could not check for deleted files. The new '
+                    'backup is kept to be safe. See the system log for '
+                    'details.'),
+                1)
+            return True
+
+        if not deleted:
+            return False
+
+        logger.info(
+            f'{len(deleted)} path(s) deleted since the previous backup.', self)
+
+        for path in deleted:
+            # Same format as rsync uses to report deletions
+            self.snapshotLog.append(f'[C] *deleting   {path}', 2)
+
+        return True
+
+    def _changes_including_deletions(self,
+                                     has_changes: bool,
+                                     prev_sid,
+                                     new_snapshot,
+                                     rsync_exit_code: int,
+                                     has_errors: bool) -> bool:
+        """Extend the "changes" reported by rsync by deleted files (#136).
+
+        With ``--link-dest`` rsync stays silent about files that have been
+        deleted from the source. If rsync reported nothing else, the new
+        snapshot is compared with the previous one before it is dropped as
+        "nothing changed". This costs one more run of rsync, but only in that
+        case.
+
+        The comparison is skipped (the reported value is returned as is) if
+        it is not needed or not reliable:
+
+        - rsync already reported changes.
+        - There is no previous snapshot.
+        - rsync did not end with exit code 0 or errors were detected. After
+          errors or partial transfers (e.g. exit code 23 or 24) a missing file
+          can not be told apart from a deleted one.
+        - Snapshots are taken regardless of changes anyway.
+
+        Args:
+            has_changes: Changes as reported by rsync.
+            prev_sid (SID): The previous snapshot or ``None``.
+            new_snapshot (NewSnapshot): The new (not finished) snapshot.
+            rsync_exit_code: Exit code of the rsync run that created it.
+            has_errors: Errors have been detected during that rsync run.
+
+        Returns:
+            ``True`` if the new snapshot is different from the previous one
+            or if that could not be checked.
+        """
+        if (has_changes
+                or not prev_sid
+                or rsync_exit_code != 0
+                or has_errors
+                or self.config.takeSnapshotRegardlessOfChanges()):
+            return has_changes
+
+        return self._check_for_deletions(prev_sid, new_snapshot)
+
+    def _log_deleted_paths_from_file_info(self,
+                                          prev_sid,
+                                          new_snapshot) -> None:
+        """Log the paths deleted since the previous snapshot (#136).
+
+        For snapshots where rsync did report other changes. rsync stays silent
+        about deleted files, so they are found by comparing the paths in
+        ``fileinfo.bz2`` of both snapshots. This needs no traversal of the
+        file system.
+
+        It is informational only. Problems are logged but never stop the
+        backup. Paths missing in ``fileinfo.bz2`` (e.g. symbolic links) are
+        not reported.
+
+        Args:
+            prev_sid (SID): The previous snapshot.
+            new_snapshot (NewSnapshot): The new snapshot with its
+                ``fileinfo.bz2`` already written.
+        """
+        try:
+            new_paths = new_snapshot.fileInfo
+
+            # FileInfoDict always contains "/". Nothing more means that
+            # fileinfo.bz2 is missing or empty. Then everything would look
+            # like deleted.
+            if len(new_paths) <= 1:
+                logger.debug(
+                    'No paths in the new fileinfo. Deleted files not logged.',
+                    self)
+                return
+
+            deleted = [path for path in prev_sid.file_info_paths()
+                       if path not in new_paths]
+
+        except (OSError, EOFError, ValueError) as exc:
+            # Unreadable or broken fileinfo.bz2. Only informational here.
+            logger.warning(
+                f'Could not find deleted files in fileinfo: {exc!r}', self)
+            return
+
+        if not deleted:
+            return
+
+        logger.info(
+            f'{len(deleted)} path(s) deleted since the previous backup.', self)
+
+        for path in deleted:
+            # Same format as rsync uses to report deletions
+            self.snapshotLog.append(
+                '[C] *deleting   '
+                + path.decode(errors='replace').lstrip('/'),
+                2)
+
+    def _log_deletions_of_changed_snapshot(self,
+                                           rsync_reported_changes: bool,
+                                           prev_sid,
+                                           new_snapshot,
+                                           rsync_exit_code: int,
+                                           has_errors: bool) -> bool:
+        """Log deleted files of a snapshot that is kept for other changes.
+
+        rsync stays silent about deleted files (#136). If rsync did report
+        other changes the deleted files are logged here. If nothing else
+        changed that is done by :py:func:`_check_for_deletions`.
+
+        It is skipped if there is no previous snapshot or if rsync did not end
+        with exit code 0 or errors were detected. After errors or partial
+        transfers a missing file can not be told apart from a deleted one.
+
+        Args:
+            rsync_reported_changes: Changes as reported by rsync itself.
+            prev_sid (SID): The previous snapshot or ``None``.
+            new_snapshot (NewSnapshot): The new snapshot with its
+                ``fileinfo.bz2`` already written.
+            rsync_exit_code: Exit code of the rsync run that created it.
+            has_errors: Errors have been detected during that rsync run.
+
+        Returns:
+            ``True`` if the comparison was done.
+        """
+        if (not rsync_reported_changes
+                or not prev_sid
+                or rsync_exit_code != 0
+                or has_errors):
+            return False
+
+        self._log_deleted_paths_from_file_info(prev_sid, new_snapshot)
+
+        return True
+
     def makeDirs(self, path):
         """
         Wrapper for :py:func:`tools.makeDirs()`. Create directories ``path``
@@ -1589,6 +1892,11 @@ class Snapshots:
             has_errors = True
             new_snapshot.failed = True
 
+        # Issue #136: rsync does not report files deleted from the source
+        rsync_reported_changes = params[1]
+        params[1] = self._changes_including_deletions(
+            params[1], prev_sid, new_snapshot, rsync_exit_code, has_errors)
+
         # params[1] -> changes?
         if not params[1] and not self.config.takeSnapshotRegardlessOfChanges():
 
@@ -1611,6 +1919,11 @@ class Snapshots:
 
         self.backupConfig(new_snapshot)
         self.backupPermissions(new_snapshot)
+
+        # rsync stays silent about deleted files (#136)
+        self._log_deletions_of_changed_snapshot(
+            rsync_reported_changes, prev_sid, new_snapshot, rsync_exit_code,
+            has_errors)
 
         # copy snapshot log
         try:
@@ -2624,6 +2937,8 @@ class SID:  # -> "BackupID" will be its new name
     NAME = 'name'
     FAILED = 'failed'
     FILEINFO = 'fileinfo.bz2'
+    # Permissions, user and group in front of the path in FILEINFO
+    FILEINFO_FIELDS_BEFORE_PATH = 3
     LOG = 'takesnapshot.log.bz2'
 
     @staticmethod
@@ -3152,6 +3467,32 @@ class SID:  # -> "BackupID" will be its new name
 
         except PermissionError as exc:
             logger.error(f'Failed to write "{fp}": {exc}')
+
+    def file_info_paths(self) -> Generator[bytes, None, None]:
+        """The paths stored in ``fileinfo.bz2``, one after the other.
+
+        The same paths as the keys of :py:attr:`fileInfo` but without keeping
+        all of them in memory.
+
+        Yields:
+            Paths as bytes. Nothing if the file does not exist.
+        """
+        info_file = self.path(self.FILEINFO)
+
+        if not os.path.isfile(info_file):
+            return
+
+        with bz2.BZ2File(info_file, 'rb') as fileinfo:
+            for line in fileinfo:
+                line = line.strip(b'\n')
+                index = line.find(b'/')
+
+                if index < 0:
+                    continue
+
+                if len(line[:index].strip().split(b' ')) \
+                        == self.FILEINFO_FIELDS_BEFORE_PATH:
+                    yield line[index:]
 
     # TODO use @property decorator? IMHO not because it is not
     # a "getter" but processes data
