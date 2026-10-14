@@ -1677,7 +1677,12 @@ def envSave(fp: pathlib.Path):
                 'XAUTHORITY',
                 'GNOME_DESKTOP_SESSION_ID',
                 'KDE_FULL_SESSION',
-                'SSH_AUTH_SOCK'):
+                'SSH_AUTH_SOCK',
+                'WAYLAND_DISPLAY',
+                'XDG_RUNTIME_DIR',
+                'XDG_SESSION_TYPE',
+                'XDG_CURRENT_DESKTOP',
+                'QT_QPA_PLATFORM'):
 
         if key in env:
             content[key] = env[key]

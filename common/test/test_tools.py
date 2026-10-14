@@ -17,6 +17,7 @@ import subprocess
 import random
 import pathlib
 import stat
+import json
 import signal
 import unittest
 from io import StringIO
@@ -854,4 +855,34 @@ class RsyncRemoveOptions(unittest.TestCase):
         self.assertIn('--bwlimit=1500', cmd)
         self.assertIn('--timeout=60', cmd)
         self.assertNotIn('--link-dest=/tmp/prev', cmd)
+
+
+class TestEnvSaveLoad(unittest.TestCase):
+    def test_env_save_load_wayland(self):
+        with TemporaryDirectory() as tmp_dir:
+            env_file = pathlib.Path(tmp_dir) / 'cron_env.json'
+            test_env = {
+                'DISPLAY': ':1',
+                'WAYLAND_DISPLAY': 'wayland-1',
+                'XDG_RUNTIME_DIR': '/run/user/1000',
+                'XDG_SESSION_TYPE': 'wayland',
+                'XDG_CURRENT_DESKTOP': 'GNOME',
+                'QT_QPA_PLATFORM': 'wayland;xcb',
+                'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus'
+            }
+            with patch.dict(os.environ, test_env, clear=True):
+                tools.envSave(env_file)
+                self.assertTrue(env_file.exists())
+                saved_content = json.loads(env_file.read_text(encoding='utf-8'))
+                self.assertEqual(saved_content.get('WAYLAND_DISPLAY'), 'wayland-1')
+                self.assertEqual(saved_content.get('XDG_RUNTIME_DIR'), '/run/user/1000')
+                self.assertEqual(saved_content.get('QT_QPA_PLATFORM'), 'wayland;xcb')
+
+            # Test envLoad into clean environment
+            with patch.dict(os.environ, {}, clear=True):
+                tools.envLoad(env_file)
+                self.assertEqual(os.environ.get('WAYLAND_DISPLAY'), 'wayland-1')
+                self.assertEqual(os.environ.get('XDG_RUNTIME_DIR'), '/run/user/1000')
+                self.assertEqual(os.environ.get('QT_QPA_PLATFORM'), 'wayland;xcb')
+
 

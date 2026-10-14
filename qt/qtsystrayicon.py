@@ -23,11 +23,7 @@ import functools
 from pathlib import Path
 from argparse import ArgumentParser
 from typing import Callable
-# TODO Is this really required? If the client is not configured for X11
-#      it may use Wayland or something else...
-#      Or is this just required when run as root (where GUIs are not
-#      configured normally)?
-if not os.getenv('DISPLAY', ''):
+if not os.getenv('DISPLAY', '') and not os.getenv('WAYLAND_DISPLAY', ''):
     os.putenv('DISPLAY', ':0.0')
 
 import qttools

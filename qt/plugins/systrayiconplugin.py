@@ -32,7 +32,7 @@ import logger
 _ = gettext.gettext
 
 
-if not os.getenv('DISPLAY', ''):
+if not os.getenv('DISPLAY', '') and not os.getenv('WAYLAND_DISPLAY', ''):
     os.putenv('DISPLAY', ':0.0')
 
 
