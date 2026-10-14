@@ -1159,6 +1159,32 @@ class Snapshots:
 
         return '\n'.join(ret)
 
+    @staticmethod
+    def _rsync_exit_code_hint(exit_code: int) -> str:
+        """Describe an rsync exit code that indicates an error (#2037).
+
+        The meanings are taken from the section "EXIT VALUES" in the man page
+        of rsync. Unknown codes get a general hint.
+
+        Args:
+            exit_code: Positive exit code of rsync.
+
+        Returns:
+            A translated description.
+        """
+        hints = {
+            10: _('Error in socket I/O. The connection was lost or the '
+                  'other side stopped, e.g. because it ran out of storage '
+                  'space.'),
+            11: _('Error in file I/O. Often there is no storage space '
+                  'left or a file can not be read or written.'),
+            12: _('Error in the rsync protocol data stream. The connection '
+                  'may have been lost.'),
+            30: _('Timeout in data send/receive.'),
+        }
+
+        return hints.get(exit_code, _("See 'man rsync' for more details"))
+
     def rsyncCallback(self, line, params):
         """
         Parse rsync's stdout, send it to takeSnapshotMessage and
@@ -1198,6 +1224,13 @@ class Snapshots:
                 if line[12] != '.' and line[12:14] != 'cd':
                     params[1] = True
                     self.snapshotLog.append('[C] ' + line[12:], 2)
+
+        # Full storage is a common cause of rsync errors (#2037)
+        if (line.startswith('rsync:')
+                and 'No space left on device' in line):
+            self.setTakeSnapshotMessage(1, _(
+                'There is no storage space left. Free some space on '
+                'the destination.'))
 
     def makeDirs(self, path):
         """
@@ -1566,7 +1599,7 @@ class Snapshots:
             params[0] = True
             self.setTakeSnapshotMessage(
                 1, rsync_exit_code_msg + ": "
-                   + _("See 'man rsync' for more details"))
+                   + self._rsync_exit_code_hint(rsync_exit_code))
 
         elif rsync_exit_code < 0:  # an rsync error caused by a signal
             # HACK to fix #489 (params[0] and has_errors should be merged)
