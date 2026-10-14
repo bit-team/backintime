@@ -13,7 +13,7 @@ import os
 import json
 import re
 from pathlib import Path
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from copy import deepcopy
 from qttools_path import register_backintime_path
 register_backintime_path('common')
@@ -190,8 +190,8 @@ class StateData(dict, metaclass=singleton.Singleton):
 
     def _set_save_meta_data(self):
         meta = {
-            'saved': datetime.now().isoformat(),  # noqa: DTZ005
-            'saved_utc': datetime.now(timezone.utc).isoformat(),
+            'saved': datetime.now().isoformat(),
+            'saved_utc': datetime.now(UTC).isoformat(),
             'bitversion': __version__,
         }
 
