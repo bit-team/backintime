@@ -1657,11 +1657,19 @@ def _check_if_keyring_is_supported():
         # which fixes non-available backends for the first call.
         # See related issue #1321:
         # https://github.com/bit-team/backintime/issues/1321
-        # The module name is used instead of the class name
-        # to show only the keyring name (not the technical name)
-        displayName = keyring.get_keyring().__module__
-    except:
-        displayName = str(keyring.get_keyring())  # technical class name!
+        active_keyring = keyring.get_keyring()
+
+    except Exception as exc:  # noqa: BLE001
+        # A backend forced in keyringrc.cfg can fail to load, e.g. because
+        # there is no D-Bus session when started via cron (#2438). This runs
+        # while importing the module and must never stop the application.
+        logger.warning(f'The keyring is not usable. Error: {exc!r}')
+
+        return False
+
+    # The module name is used instead of the class name
+    # to show only the keyring name (not the technical name)
+    displayName = active_keyring.__module__
 
     logger.debug("Available keyring backends:")
 
@@ -1728,7 +1736,7 @@ def _check_if_keyring_is_supported():
     logger.debug("Available supported backends: " + repr(available_backends))
 
     if (available_backends
-            and isinstance(keyring.get_keyring(), tuple(available_backends))):
+            and isinstance(active_keyring, tuple(available_backends))):
         logger.debug("Found appropriate keyring '{}'".format(displayName))
         return True
 
