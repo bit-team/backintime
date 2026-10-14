@@ -329,16 +329,17 @@ class Snapshots:
         if uid in self.userCache:
             return self.userCache[uid]
 
-        for attempt in range(3):
+        for attempt in range(2):
             try:
                 name = pwd.getpwuid(uid).pw_name
                 self.userCache[uid] = name
                 return name
             except KeyError:
-                break
+                logger.debug(f'UID {uid} not found in system user database', self)
+                self.userCache[uid] = '-'
+                return '-'
             except Exception as e:
-                if attempt < 2:
-                    time.sleep(0.05)
+                if attempt == 0:
                     continue
                 logger.warning(
                     f'Transient failure resolving user name for UID {uid}: {e}',
@@ -346,7 +347,6 @@ class Snapshots:
                 )
                 return '-'
 
-        logger.debug(f'UID {uid} not found in system user database', self)
         return '-'
 
     def groupName(self, gid):
@@ -363,16 +363,17 @@ class Snapshots:
         if gid in self.groupCache:
             return self.groupCache[gid]
 
-        for attempt in range(3):
+        for attempt in range(2):
             try:
                 name = grp.getgrgid(gid).gr_name
                 self.groupCache[gid] = name
                 return name
             except KeyError:
-                break
+                logger.debug(f'GID {gid} not found in system group database', self)
+                self.groupCache[gid] = '-'
+                return '-'
             except Exception as e:
-                if attempt < 2:
-                    time.sleep(0.05)
+                if attempt == 0:
                     continue
                 logger.warning(
                     f'Transient failure resolving group name for GID {gid}: {e}',
@@ -380,7 +381,6 @@ class Snapshots:
                 )
                 return '-'
 
-        logger.debug(f'GID {gid} not found in system group database', self)
         return '-'
 
     def restoreCallback(self, callback, ok, msg):

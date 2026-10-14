@@ -444,14 +444,20 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
             f'mkdir -p "{test_dir}" && '
             f': > "{test_dir}/f1" && '
             f'ln "{test_dir}/f1" "{test_dir}/f2" 2>/dev/null && '
-            f'stat -c "%i" "{test_dir}/f1" "{test_dir}/f2"'
+            f'([ "{test_dir}/f1" -ef "{test_dir}/f2" ] 2>/dev/null || '
+            f'ls -i "{test_dir}/f1" "{test_dir}/f2")'
         ]
         self._cleanup_commands.append(['rm', '-rf', test_dir])
         rc, out, _err = self._ssh(cmd)
         if rc == 0:
-            inodes = out.strip().split()
-            if len(inodes) >= 2 and inodes[0] == inodes[1]:
+            lines = [line.strip() for line in out.strip().splitlines() if line.strip()]
+            if not lines:
                 return True
+            if len(lines) >= 2:
+                tokens0 = lines[0].split()
+                tokens1 = lines[1].split()
+                if tokens0 and tokens1 and tokens0[0] == tokens1[0]:
+                    return True
         return False
 
     def _check_rsync_hardlinks(self):  # pylint: disable=too-many-locals
@@ -518,7 +524,7 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
 
             def _remote_stat_inode(path: str) -> int:
                 cmd = self._build_ssh_command()
-                cmd.extend(['stat', '--format', '%i', path])
+                cmd.extend(['ls', '-id', path])
                 logger.info(f'Calling {cmd}...', self)
 
                 proc = subprocess.Popen(  # pylint: disable=consider-using-with
@@ -531,7 +537,7 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
                 if proc.returncode != 0:
                     raise RuntimeError(err)
 
-                return int(out.strip())
+                return int(out.strip().split()[0])
 
             # inode check via ssh
             try:
@@ -576,7 +582,7 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
             )
 
     def _check_remote_tools(self):
-        """Verify remote tools and gracefully fall back for non-essential tools."""
+        """Verify remote tools and warn if non-essential tools are unavailable."""
         self._check_tool(['bash', '-c', 'true'])
 
         if self.cfg.niceOnRemote():
@@ -584,30 +590,30 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
                 self._check_tool(['nice', '-n', '19', 'true'])
             except SSHSetupError as exc:
                 logger.warning(
-                    f"Remote tool 'nice' unavailable: {exc}. Disabling niceOnRemote.",
+                    f"Optional remote tool 'nice' unavailable: {exc}. "
+                    "Nice scheduling will be skipped on remote host.",
                     self
                 )
-                self.cfg.setNiceOnRemote(False)
 
         if self.cfg.ioniceOnRemote():
             try:
                 self._check_tool(['ionice', '-c2', '-n7', 'true'])
             except SSHSetupError as exc:
                 logger.warning(
-                    f"Remote tool 'ionice' unavailable: {exc}. Disabling ioniceOnRemote.",
+                    f"Optional remote tool 'ionice' unavailable: {exc}. "
+                    "I/O nice scheduling will be skipped on remote host.",
                     self
                 )
-                self.cfg.setIoniceOnRemote(False)
 
         if self.cfg.nocacheOnRemote():
             try:
                 self._check_tool(['nocache', 'true'])
             except SSHSetupError as exc:
                 logger.warning(
-                    f"Remote tool 'nocache' unavailable: {exc}. Disabling nocacheOnRemote.",
+                    f"Optional remote tool 'nocache' unavailable: {exc}. "
+                    "Pagecache throttling will be skipped on remote host.",
                     self
                 )
-                self.cfg.setNocacheOnRemote(False)
 
         if self.cfg.smartRemoveRunRemoteInBackground():
             self._check_tool(['screen', '-d', '-m', 'bash', '-c', 'true'])

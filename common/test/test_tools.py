@@ -877,6 +877,8 @@ class TestEnvSaveLoad(unittest.TestCase):
                 self.assertEqual(saved_content.get('WAYLAND_DISPLAY'), 'wayland-1')
                 self.assertEqual(saved_content.get('XDG_RUNTIME_DIR'), '/run/user/1000')
                 self.assertEqual(saved_content.get('QT_QPA_PLATFORM'), 'wayland;xcb')
+                if os.name != 'nt':
+                    self.assertEqual(oct(env_file.stat().st_mode & 0o777), '0o600')
 
             # Test envLoad into clean environment
             with patch.dict(os.environ, {}, clear=True):

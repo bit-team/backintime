@@ -52,39 +52,27 @@ class _FlockContext:
         if disable:
             return None
 
-        if multi_user is None:
-            try:
-                multi_user = (os.geteuid() == 0)
-            except AttributeError:
-                multi_user = False
-
         candidate_dirs = []
-        if multi_user:
+        if multi_user is not False:
             candidate_dirs.extend([
                 Path(Path.cwd().root) / 'run' / 'lock',
                 Path(Path.cwd().root) / 'var' / 'lock'
             ])
 
-        # User-specific runtime directory (preferred for unprivileged users)
-        xdg_runtime = os.environ.get('XDG_RUNTIME_DIR')
-        if xdg_runtime:
-            candidate_dirs.append(Path(xdg_runtime))
-        else:
-            try:
-                candidate_dirs.append(Path(f'/run/user/{os.getuid()}'))
-            except (AttributeError, OSError):
-                pass
+        if multi_user is not True:
+            # User-specific runtime directory
+            xdg_runtime = os.environ.get('XDG_RUNTIME_DIR')
+            if xdg_runtime:
+                candidate_dirs.append(Path(xdg_runtime))
+            else:
+                try:
+                    candidate_dirs.append(Path(f'/run/user/{os.getuid()}'))
+                except (AttributeError, OSError):
+                    pass
 
-        # User cache directory
-        xdg_cache = os.environ.get('XDG_CACHE_HOME', Path.home() / '.cache')
-        candidate_dirs.append(Path(xdg_cache) / 'backintime')
-
-        # Fallback to system-wide directories if not already tried
-        if not multi_user:
-            candidate_dirs.extend([
-                Path(Path.cwd().root) / 'run' / 'lock',
-                Path(Path.cwd().root) / 'var' / 'lock'
-            ])
+            # User cache directory
+            xdg_cache = os.environ.get('XDG_CACHE_HOME', Path.home() / '.cache')
+            candidate_dirs.append(Path(xdg_cache) / 'backintime')
 
         for folder in candidate_dirs:
             if not folder.exists():
@@ -105,7 +93,8 @@ class _FlockContext:
     def _can_use_file(self, file_path: Path) -> bool:
         """Check if ``file_path`` is usable as a lock file.
 
-        Verifies read/write accessibility if the file exists, or creates it.
+        Verifies read/write accessibility if the file exists, or creates it with
+        permissions accessible to other users (0o666).
         """
         if file_path.exists():
             return os.access(file_path, os.R_OK | os.W_OK)
@@ -114,6 +103,10 @@ class _FlockContext:
             file_path.parent.mkdir(parents=True, exist_ok=True)
             fd = os.open(file_path, os.O_CREAT | os.O_RDWR, 0o666)
             os.close(fd)
+            try:
+                os.chmod(file_path, 0o666)
+            except OSError:
+                pass
         except (PermissionError, OSError) as err:
             logger.debug(f'Cannot use file lock on {file_path}: {err}')
             return False

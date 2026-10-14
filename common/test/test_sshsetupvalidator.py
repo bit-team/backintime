@@ -100,9 +100,9 @@ class TestSSHSetupValidator(unittest.TestCase):
 
         self.validator._ssh = MagicMock(side_effect=mock_ssh)
         self.assertTrue(self.validator.cfg.niceOnRemote())
-        # Should not raise SSHSetupError; instead, niceOnRemote should be automatically disabled
+        # Should not raise SSHSetupError; validator is read-only and does not mutate config
         self.validator._check_remote_tools()
-        self.assertFalse(self.validator.cfg.niceOnRemote())
+        self.assertTrue(self.validator.cfg.niceOnRemote())
         self.assertTrue(self.validator.cfg.ioniceOnRemote())
 
     def test_ensure_remote_directory_restricted_shell_error(self):
@@ -111,8 +111,14 @@ class TestSSHSetupValidator(unittest.TestCase):
             self.validator._ensure_remote_directory()
         self.assertIn('restricted shell', ctx.exception.gui_msg.lower())
 
-    def test_check_direct_hardlinks_success(self):
-        self.validator._ssh = MagicMock(return_value=(0, '88888 88888\n', ''))
+    def test_check_direct_hardlinks_success_ef(self):
+        # When test -ef succeeds, output is empty and rc is 0
+        self.validator._ssh = MagicMock(return_value=(0, '', ''))
+        self.assertTrue(self.validator._check_direct_hardlinks())
+
+    def test_check_direct_hardlinks_success_ls(self):
+        # When test -ef falls back to ls -i, output has matching inodes
+        self.validator._ssh = MagicMock(return_value=(0, '88888 f1\n88888 f2\n', ''))
         self.assertTrue(self.validator._check_direct_hardlinks())
 
     def test_check_direct_hardlinks_failure(self):
@@ -129,17 +135,17 @@ class TestSSHSetupValidator(unittest.TestCase):
     def test_check_rsync_hardlinks_direct_success_rsync_diff_warns_not_raises(self, mock_popen):
         self.validator._check_direct_hardlinks = MagicMock(return_value=True)
 
-        # Mock Popen for rsync commands and stat inode commands
+        # Mock Popen for rsync commands and ls -id inode commands
         proc_rsync = MagicMock()
         proc_rsync.communicate.return_value = ('', '')
         proc_rsync.returncode = 0
 
         proc_stat1 = MagicMock()
-        proc_stat1.communicate.return_value = ('1001\n', '')
+        proc_stat1.communicate.return_value = ('1001 /path/bit_check_1/a\n', '')
         proc_stat1.returncode = 0
 
         proc_stat2 = MagicMock()
-        proc_stat2.communicate.return_value = ('1002\n', '')
+        proc_stat2.communicate.return_value = ('1002 /path/bit_check_2/a\n', '')
         proc_stat2.returncode = 0
 
         mock_popen.side_effect = [proc_rsync, proc_rsync, proc_stat1, proc_stat2]

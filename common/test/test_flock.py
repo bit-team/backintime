@@ -64,3 +64,32 @@ class TestFlock(unittest.TestCase):
                     # It should skip the unreadable bad_file and fall back to cache_dir
                     self.assertNotEqual(lock_ctx._file_path, bad_file)
                     self.assertTrue(str(lock_ctx._file_path).startswith(str(cache_dir)))
+
+    def test_flock_fallback_when_system_lock_inaccessible(self):
+        with patch.dict(os.environ, {'XDG_RUNTIME_DIR': str(self.runtime_dir)}):
+            real_can_use = flock._FlockContext._can_use_file
+
+            def mock_can_use(self, path):
+                p_str = str(path).replace('\\', '/')
+                if '/run/lock' in p_str or '/var/lock' in p_str:
+                    return False
+                return real_can_use(self, path)
+
+            with patch.object(flock._FlockContext, '_can_use_file', mock_can_use):
+                lock_ctx = flock.GlobalFlock(multi_user=None)
+                self.assertEqual(lock_ctx._file_path, self.runtime_dir / 'backintime.lock')
+
+    def test_flock_multi_user_shared_system_lock(self):
+        with patch.dict(os.environ, {'XDG_RUNTIME_DIR': str(self.runtime_dir)}):
+            real_can_use = flock._FlockContext._can_use_file
+
+            def mock_can_use(self, path):
+                p_str = str(path).replace('\\', '/')
+                if '/run/lock' in p_str:
+                    return True
+                return real_can_use(self, path)
+
+            with patch.object(flock._FlockContext, '_can_use_file', mock_can_use):
+                lock_ctx = flock.GlobalFlock(multi_user=None)
+                self.assertTrue(str(lock_ctx._file_path).replace('\\', '/').endswith('/run/lock/backintime.lock'))
+

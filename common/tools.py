@@ -1497,8 +1497,11 @@ def rsyncSafeGenericOptions(config):
     """
     Extract rsync options from `config` that are safe for non-sync operations
     such as removing snapshots or permission scans.
+
+    This acts as a defensive filter (issue #1861) until GUI/configuration separation
+    of generic transport flags vs sync-specific flags (issue #2141) is completed.
     Prevents passing destructive or sync-specific options like --link-dest,
-    --delete-excluded, or path arguments, while preserving resource, memory,
+    --delete-excluded, or filters, while preserving essential resource, memory,
     bandwidth, and connection controls (e.g., --max-alloc, --bwlimit, --timeout).
 
     Args:
@@ -1512,7 +1515,6 @@ def rsyncSafeGenericOptions(config):
         opts.append(f'--bwlimit={config.bwlimit()}')
 
     if config.rsyncOptionsEnabled():
-        tokens = shlex.split(config.rsyncOptions())
         safe_prefixes = (
             '--max-alloc=',
             '--timeout=',
@@ -1532,16 +1534,9 @@ def rsyncSafeGenericOptions(config):
             '-v', '--verbose',
             '-h', '--human-readable',
         }
-        i = 0
-        while i < len(tokens):
-            token = tokens[i]
+        for token in shlex.split(config.rsyncOptions()):
             if any(token.startswith(prefix) for prefix in safe_prefixes) or token in safe_exact:
                 opts.append(token)
-            elif token in ('--max-alloc', '--timeout', '--contimeout', '--sockopts', '--outbuf'):
-                if i + 1 < len(tokens):
-                    opts.extend([token, tokens[i + 1]])
-                    i += 1
-            i += 1
 
     return opts
 
@@ -1688,6 +1683,10 @@ def envSave(fp: pathlib.Path):
             content[key] = env[key]
 
     fp.write_text(json.dumps(content), encoding='utf-8')
+    try:
+        os.chmod(fp, 0o600)
+    except OSError:
+        pass
 
 
 def _check_if_keyring_is_supported():
