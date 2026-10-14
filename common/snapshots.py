@@ -328,17 +328,26 @@ class Snapshots:
         """
         if uid in self.userCache:
             return self.userCache[uid]
-        else:
-            name = '-'
+
+        for attempt in range(3):
             try:
                 name = pwd.getpwuid(uid).pw_name
+                self.userCache[uid] = name
+                return name
+            except KeyError:
+                break
             except Exception as e:
-                logger.debug('Failed to get user name for UID %s: %s'
-                             %(uid, str(e)),
-                             self)
+                if attempt < 2:
+                    time.sleep(0.05)
+                    continue
+                logger.warning(
+                    f'Transient failure resolving user name for UID {uid}: {e}',
+                    self
+                )
+                return '-'
 
-            self.userCache[uid] = name
-            return name
+        logger.debug(f'UID {uid} not found in system user database', self)
+        return '-'
 
     def groupName(self, gid):
         """
@@ -349,21 +358,30 @@ class Snapshots:
             gid (int):  Group identifier (GID) to search for
 
         Returns:
-            str:        name of the Group with GID gid or '.' if not found
+            str:        name of the Group with GID gid or '-' if not found
         """
         if gid in self.groupCache:
             return self.groupCache[gid]
-        else:
-            name = '-'
+
+        for attempt in range(3):
             try:
                 name = grp.getgrgid(gid).gr_name
+                self.groupCache[gid] = name
+                return name
+            except KeyError:
+                break
             except Exception as e:
-                logger.debug('Failed to get group name for GID %s: %s'
-                             %(gid, str(e)),
-                             self)
+                if attempt < 2:
+                    time.sleep(0.05)
+                    continue
+                logger.warning(
+                    f'Transient failure resolving group name for GID {gid}: {e}',
+                    self
+                )
+                return '-'
 
-            self.groupCache[gid] = name
-            return name
+        logger.debug(f'GID {gid} not found in system group database', self)
+        return '-'
 
     def restoreCallback(self, callback, ok, msg):
         """
