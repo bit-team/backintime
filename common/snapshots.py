@@ -1203,12 +1203,12 @@ class Snapshots:
             0, _('Take snapshot') + " (rsync: %s)" % line)
 
         # Did rsync report an error?
-        if line.endswith(')'):
-            if line.startswith('rsync:'):
-                if not line.startswith('rsync: chgrp ') and not line.startswith('rsync: chown '):
-                    # matches rsync error lines like:
-                    # rsync: [generator] link [...] failed: Invalid cross-device link (18)
-                    params[0] = True
+        if line.startswith('rsync:') or 'vanished' in line.lower() or 'failed:' in line.lower():
+            if not line.startswith('rsync: chgrp ') and not line.startswith('rsync: chown '):
+                params[0] = True
+                if len(params) > 2 and isinstance(params[2], list):
+                    params[2].append(line)
+                if line.endswith(')'):
                     self.setTakeSnapshotMessage(1, 'Error: ' + line)
 
         if len(line) >= 13:
@@ -1277,6 +1277,7 @@ class Snapshots:
                 'profile_id': self.config.currentProfile(),
                 'tag': sid.tag,
                 'user': getpass.getuser(),
+                'health': sid.health,
             }
         }
 
@@ -1394,7 +1395,7 @@ class Snapshots:
         encode = self.config.ENCODE
 
         # "return" values set during async rsync execution (as user data "by ref")
-        params = [False, False]  # [error, changes]
+        params = [False, False, []]  # [error, changes, error_lines]
 
         # TODO
         # docstring of return value for this function swaps the meaning of the
@@ -1556,58 +1557,41 @@ class Snapshots:
                          % (self.config.takeSnapshotProgressFile(), str(e)),
                          self)
 
-        # handle errors
-        # TODO
-        # Fix inconsistent usage: Collects return value, but errors are also
-        # checked via params[0]
-        has_errors = False
+        # handle outcome and errors (issue #1587)
+        error_lines = params[2] if len(params) > 2 else []
+        outcome = tools.classify_rsync_outcome(
+            exit_code=rsync_exit_code,
+            error_lines=error_lines,
+            continue_on_errors=self.config.continueOnErrors()
+        )
 
-        # dict of exit codes (as keys) that are treated as INFO only by BiT
-        # (not as ERROR). The values are message strings for the snapshot log.
-        rsync_non_error_exit_codes = {
-            0: _("Success"),
-            # ignored as fix for #1587 (until we introduce a new snapshot
-            # result category "(with warnings)")
-            23: _("Partial transfer due to error"),
-            24: _("Partial transfer due to vanished source files "
-                  "(see 'man rsync')")
-        }
+        rsync_exit_code_msg = _("'rsync' ended with exit code {exit_code}").format(exit_code=rsync_exit_code)
 
-        rsync_exit_code_msg = _("'rsync' ended with exit code {exit_code}") \
-            .format(exit_code=rsync_exit_code)
-
-        if rsync_exit_code in rsync_non_error_exit_codes:
-            self.setTakeSnapshotMessage(
-                0, rsync_exit_code_msg + ": "
-                   + rsync_non_error_exit_codes[rsync_exit_code])
-
-        elif rsync_exit_code > 0:  # an rsync error
-            # HACK to fix #489 (params[0] and has_errors should be merged)
-            params[0] = True
-            self.setTakeSnapshotMessage(
-                1, rsync_exit_code_msg + ": "
-                   + _("See 'man rsync' for more details"))
-
-        elif rsync_exit_code < 0:  # an rsync error caused by a signal
-            # HACK to fix #489 (params[0] and has_errors should be merged)
-            params[0] = True
-            self.setTakeSnapshotMessage(
-                1, rsync_exit_code_msg + ': '
-                   + _('Negative exit codes indicate termination by a '
-                       'signal. The number corresponds to the signal '
-                       "(see 'kill -l').")
-            )
-
-        # params[0] -> error?
-        if params[0]:
+        if outcome == tools.HEALTH_OK:
+            has_errors = False
+            new_snapshot.failed = False
+            new_snapshot.warning = False
+            self.setTakeSnapshotMessage(0, f"{rsync_exit_code_msg}: " + _("Success"))
+        elif outcome == tools.HEALTH_WARNING:
+            has_errors = False
+            new_snapshot.failed = False
+            new_snapshot.warning = True
+            warn_msg = f"{rsync_exit_code_msg}: " + _("Partial transfer completed with warnings")
+            self.setTakeSnapshotMessage(0, warn_msg)
+            self.snapshotLog.append(f'[W] {warn_msg}', 2)
+            logger.warning(warn_msg, self)
+        else:  # tools.HEALTH_FAILED
+            has_errors = True
+            new_snapshot.warning = False
+            new_snapshot.failed = True
+            err_msg = f"{rsync_exit_code_msg}: " + _("Rsync failed with error")
+            self.setTakeSnapshotMessage(1, err_msg)
+            self.snapshotLog.append(f'[E] {err_msg}', 1)
+            logger.error(err_msg, self)
 
             if not self.config.continueOnErrors():
                 self.remove(new_snapshot)
-
                 return [False, True]
-
-            has_errors = True
-            new_snapshot.failed = True
 
         # params[1] -> changes?
         if not params[1] and not self.config.takeSnapshotRegardlessOfChanges():
@@ -2614,6 +2598,7 @@ class SID:  # -> "BackupID" will be its new name
     INFO_JSON = 'info.json'
     NAME = 'name'
     FAILED = 'failed'
+    WARNING = 'warning'
     FILEINFO = 'fileinfo.bz2'
     LOG = 'takesnapshot.log.bz2'
 
@@ -3036,6 +3021,47 @@ class SID:  # -> "BackupID" will be its new name
 
         elif os.path.exists(failedFile):
             os.remove(failedFile)
+
+    @property
+    def warning(self):
+        """This snapshot completed with non-fatal warnings."""
+        warningFile = self.path(self.WARNING)
+        return os.path.isfile(warningFile)
+
+    @warning.setter
+    def warning(self, enable):
+        warningFile = self.path(self.WARNING)
+
+        if enable:
+            self.makeWritable()
+
+            try:
+                with open(warningFile, mode='wt', encoding='utf-8') as handle:
+                    handle.write('')
+
+            except Exception as exc:
+                logger.debug(f'Failed to mark snapshot {self.sid} warning: {exc}', self)
+
+        elif os.path.exists(warningFile):
+            os.remove(warningFile)
+
+    @property
+    def health(self) -> str:
+        """Return snapshot health state: 'failed', 'warning', or 'ok'."""
+        if self.failed:
+            return tools.HEALTH_FAILED
+        if self.warning:
+            return tools.HEALTH_WARNING
+        try:
+            info = self.load_from_info_file()
+            return info.get('backup', {}).get('health', tools.HEALTH_OK)
+        except Exception:
+            return tools.HEALTH_OK
+
+    @property
+    def is_healthy(self) -> bool:
+        """Return True if this snapshot is usable as a clean/non-failed snapshot."""
+        return not self.failed
 
     def load_from_info_file(self) -> dict:
         """

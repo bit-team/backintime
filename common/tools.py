@@ -2580,3 +2580,60 @@ def convert_info_ini_file_to_dict(buffer: Union[TextIOWrapper, StringIO]
             result[f'{item_name}s'][pair_result[id_name]] = pair_result['name']
 
     return result
+
+
+HEALTH_OK = 'ok'
+HEALTH_WARNING = 'warning'
+HEALTH_FAILED = 'failed'
+
+BENIGN_RSYNC_PATTERNS = (
+    'vanished',
+    'readlink',
+    'chgrp',
+    'chown',
+    'cannot delete non-empty directory',
+    'permission denied',
+    'some files/attrs were not transferred',
+)
+
+
+def is_benign_rsync_error(line: str) -> bool:
+    """Check if an rsync error message represents a benign partial-transfer warning."""
+    lower = line.lower()
+    return any(pattern in lower for pattern in BENIGN_RSYNC_PATTERNS)
+
+
+def classify_rsync_outcome(
+    exit_code: int,
+    error_lines: list[str] | None = None,
+    continue_on_errors: bool = False
+) -> str:
+    """Classify the health outcome of an rsync backup operation (issue #1587).
+
+    Args:
+        exit_code: The rsync process return code.
+        error_lines: List of error output lines reported by rsync.
+        continue_on_errors: Whether profile allows continuing past errors.
+
+    Returns:
+        'ok' if exit_code == 0 and there are no error lines.
+        'warning' if exit_code in (0, 23, 24) and errors are benign (or continue_on_errors enabled).
+        'failed' if a fatal rsync exit code or non-benign error occurred.
+    """
+    if error_lines is None:
+        error_lines = []
+
+    if exit_code == 0 and not error_lines:
+        return HEALTH_OK
+
+    # In case of exit 0, 23, 24 with benign errors (e.g. vanished files, dead symlinks)
+    if exit_code in (0, 23, 24):
+        if not error_lines or all(is_benign_rsync_error(line) for line in error_lines):
+            return HEALTH_WARNING
+
+    # If user explicitly opted to continue past errors, mark as warning rather than failed
+    if continue_on_errors and exit_code in (0, 23, 24):
+        return HEALTH_WARNING
+
+    return HEALTH_FAILED
+
