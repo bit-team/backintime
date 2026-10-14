@@ -1554,6 +1554,16 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         p = self.get_profile(profile_id)
         p.preserve_xattr = value
 
+    def ownerGroupMode(self, profile_id: int | None = None) -> str:
+        """Mode for preserving ownership and permissions: 'auto', 'real', 'off', or 'fake-super'."""
+        p = self.get_profile(profile_id)
+        return p.owner_group_mode
+
+    def setOwnerGroupMode(self, mode: str, profile_id: int | None = None) -> None:
+        """Set mode for preserving ownership and permissions: 'auto', 'real', 'off', or 'fake-super'."""
+        p = self.get_profile(profile_id)
+        p.owner_group_mode = mode
+
     def copyUnsafeLinks(self, profile_id = None):
         #?This tells rsync to copy the referent of symbolic links that point
         #?outside the copied tree.  Absolute symlinks are also treated like

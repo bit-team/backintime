@@ -1354,11 +1354,94 @@ def rsyncCaps() -> list[str]:
     return caps
 
 
+def check_xattr_support(path: str) -> bool:
+    """Test if user extended attributes are supported on the given filesystem path.
+
+    Used to decide whether rsync --fake-super can be safely enabled for non-root
+    backups (issue #988 / #994 / #1437).
+    """
+    if not path or not os.path.exists(path):
+        return False
+    if not hasattr(os, 'setxattr') or not hasattr(os, 'removexattr'):
+        return False
+    test_key = 'user.bit_xattr_probe'
+    test_val = b'1'
+    try:
+        os.setxattr(path, test_key, test_val)
+        os.removexattr(path, test_key)
+        return True
+    except (OSError, NotImplementedError, AttributeError):
+        return False
+
+
+def get_effective_owner_group_mode(config, dest_path: str | None = None) -> str:
+    """Determine effective owner/group preservation mode: 'real', 'fake-super', or 'off'.
+
+    Resolves configuration key 'snapshots.owner_group_mode' ('auto' | 'real' | 'off' | 'fake-super')
+    taking into account process privileges (root vs non-root) and destination filesystem xattr support.
+    """
+    configured_mode = 'auto'
+    if hasattr(config, 'ownerGroupMode'):
+        configured_mode = config.ownerGroupMode()
+    elif hasattr(config, 'get_profile'):
+        try:
+            configured_mode = config.get_profile().owner_group_mode
+        except Exception:
+            pass
+
+    if configured_mode in ('real', 'off', 'fake-super'):
+        return configured_mode
+
+    # Auto mode resolution:
+    # 1. Root user has full privileges to set real uid/gid/mode
+    is_root = hasattr(os, 'geteuid') and os.geteuid() == 0
+    if is_root:
+        return 'real'
+
+    # 2. Non-root user: check if rsync supports xattrs
+    caps = rsyncCaps()
+    if 'xattrs' not in caps:
+        logger.warning(
+            "rsync lacks xattrs capability; falling back to '--no-perms --no-group --no-owner' "
+            "to prevent repeated transfers (#988).",
+            config
+        )
+        return 'off'
+
+    # 3. Check destination filesystem xattr support
+    target = dest_path
+    if not target and hasattr(config, 'snapshotsPath'):
+        try:
+            target = config.snapshotsPath()
+        except Exception:
+            target = None
+
+    if target:
+        probe_path = target
+        while probe_path and not os.path.exists(probe_path):
+            parent = os.path.dirname(probe_path)
+            if parent == probe_path:
+                break
+            probe_path = parent
+
+        if probe_path and os.path.exists(probe_path):
+            if not check_xattr_support(probe_path):
+                logger.warning(
+                    f"Destination filesystem '{probe_path}' does not support extended attributes; "
+                    "disabling ownership/group preservation to prevent repeated file transfers (#988).",
+                    config
+                )
+                return 'off'
+
+    return 'fake-super'
+
+
 def rsyncPrefix(config,
                 no_perms: bool = True,
                 use_mode: list[str] = ['ssh', 'ssh_gocryptfs'],
                 progress: bool = True,
-                force_checksum_use: bool = False) -> list[str]:
+                force_checksum_use: bool = False,
+                dest_path: str | None = None) -> list[str]:
     """
     Get rsync command and all args for creating a new snapshot. Args are
     based on current profile in ``config``.
@@ -1428,10 +1511,25 @@ def rsyncPrefix(config,
         cmd.extend(('--no-perms', '--no-group', '--no-owner'))
 
     else:
-        cmd.extend(('--perms',          # preserve permissions
-                    '--executability',  # preserve executability
-                    '--group',         # preserve group
-                    '--owner'))         # preserve owner (super-user only)
+        owner_mode = get_effective_owner_group_mode(config, dest_path=dest_path)
+        if owner_mode == 'fake-super':
+            cmd.extend((
+                '--fake-super',
+                '--numeric-ids',
+                '--perms',          # preserve permissions
+                '--executability',  # preserve executability
+                '--group',          # preserve group
+                '--owner'           # preserve owner
+            ))
+        elif owner_mode == 'off':
+            cmd.extend(('--no-perms', '--no-group', '--no-owner'))
+        else:  # 'real'
+            cmd.extend((
+                '--perms',          # preserve permissions
+                '--executability',  # preserve executability
+                '--group',          # preserve group
+                '--owner'           # preserve owner (super-user only)
+            ))
 
     if progress and 'progress2' in caps:
         cmd.extend(('--info=progress2',

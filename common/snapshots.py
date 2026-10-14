@@ -538,7 +538,8 @@ class Snapshots:
             self.config,
             no_perms=False,
             use_mode=['ssh'],
-            force_checksum_use=force_checksum_use
+            force_checksum_use=force_checksum_use,
+            dest_path=restore_to
         )
         cmd_prefix.extend(('-R', '-v'))
 
@@ -1202,9 +1203,14 @@ class Snapshots:
         self.setTakeSnapshotMessage(
             0, _('Take snapshot') + " (rsync: %s)" % line)
 
-        # Did rsync report an error?
+        # Did rsync report an error or metadata warning?
         if line.startswith('rsync:') or 'vanished' in line.lower() or 'failed:' in line.lower():
-            if not line.startswith('rsync: chgrp ') and not line.startswith('rsync: chown '):
+            if line.startswith('rsync: chgrp ') or line.startswith('rsync: chown '):
+                # Metadata ownership warning (issue #988 / #1587)
+                if len(params) > 2 and isinstance(params[2], list):
+                    params[2].append(line)
+                self.snapshotLog.append('[W] ' + line, 2)
+            else:
                 params[0] = True
                 if len(params) > 2 and isinstance(params[2], list):
                     params[2].append(line)
@@ -1278,6 +1284,7 @@ class Snapshots:
                 'tag': sid.tag,
                 'user': getpass.getuser(),
                 'health': sid.health,
+                'owner_group_mode': tools.get_effective_owner_group_mode(self.config),
             }
         }
 
@@ -1478,7 +1485,8 @@ class Snapshots:
         rsync_prefix = tools.rsyncPrefix(
             self.config,
             no_perms=False,
-            force_checksum_use=force_checksum_use
+            force_checksum_use=force_checksum_use,
+            dest_path=new_snapshot.path()
         )
 
         if self.config.excludeBySizeEnabled():
@@ -2325,7 +2333,17 @@ class Snapshots:
 
         encode = self.config.ENCODE
 
-        ret = ['--chmod=Du+wx']
+        is_root = hasattr(os, 'geteuid') and os.geteuid() == 0
+        owner_mode = tools.get_effective_owner_group_mode(self.config)
+
+        ret = []
+        # Conditional --chmod=Du+wx (issue #988 / #994)
+        # Only inject if running as non-root with 'real' mode where write permissions
+        # are needed on target filesystem and true permissions are recorded in fileinfo.bz2.
+        # Under '--fake-super', directory permissions are simulated via xattr and on-disk
+        # dirs remain writable, avoiding mode corruption.
+        if owner_mode == 'real' and not is_root:
+            ret.append('--chmod=Du+wx')
         ret.extend([
             '--exclude=' + i for i in (
                 encode.exclude(self.config.snapshotsPath()),

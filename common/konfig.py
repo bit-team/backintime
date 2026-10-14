@@ -135,6 +135,7 @@ class Profile:  # pylint: disable=too-many-public-methods
         'snapshots.use_checksum': 'false',
         'snapshots.log_level': 3,
         'snapshots.take_snapshot_regardless_of_changes': 'false',
+        'snapshots.owner_group_mode': 'auto',
     })
 
     def __init__(self, profile_id: int, config: Konfig):
@@ -1092,6 +1093,24 @@ class Profile:  # pylint: disable=too-many-public-methods
     def preserve_xattr(self, preserve: bool) -> None:
         """Preserve extended attributes (xattr)."""
         self['snapshots.preserve_xattr'] = str(preserve).lower()
+
+    @property
+    def owner_group_mode(self) -> str:
+        """Mode for preserving ownership and permissions: 'auto', 'real', 'off', or 'fake-super'."""
+        try:
+            return self['snapshots.owner_group_mode']
+        except KeyError:
+            return 'auto'
+
+    @owner_group_mode.setter
+    def owner_group_mode(self, mode: str) -> None:
+        """Set mode for preserving ownership and permissions."""
+        mode = str(mode).lower()
+        if mode not in ('auto', 'real', 'off', 'fake-super'):
+            raise ValueError(
+                f"Invalid owner_group_mode: '{mode}'. Must be 'auto', 'real', 'off', or 'fake-super'."
+            )
+        self['snapshots.owner_group_mode'] = mode
 
     @property
     def copy_unsafe_links(self) -> bool:

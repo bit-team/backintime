@@ -4,7 +4,7 @@
 import os
 import sys
 import unittest
-from unittest.mock import MagicMock
+from unittest.mock import patch, MagicMock
 import tempfile
 import subprocess
 from pathlib import Path
@@ -29,6 +29,9 @@ class DummyConfig:
     def exclude(self):
         return ['/home/me/Dropbox']
 
+    def ownerGroupMode(self):
+        return 'real'
+
 
 class DummySnapshots:
     def __init__(self):
@@ -43,7 +46,8 @@ class TestRsyncFilters(unittest.TestCase):
     def setUp(self):
         self.sn = DummySnapshots()
 
-    def test_rsync_suffix_standard_ordering(self):
+    @patch('os.geteuid', return_value=1000)
+    def test_rsync_suffix_standard_ordering(self, _mock_geteuid):
         includes = [('/home/me', 0)]
         excludes = ['/home/me/.cache', '*.tmp']
         suffix = self.sn.rsyncSuffix(includeFolders=includes, excludeFolders=excludes)
@@ -61,6 +65,11 @@ class TestRsyncFilters(unittest.TestCase):
         # Catch-all
         self.assertEqual(suffix[-2], '--exclude=*')
         self.assertEqual(suffix[-1], '/')
+
+    def test_rsync_suffix_fake_super_omits_chmod(self):
+        self.sn.config.ownerGroupMode = lambda: 'fake-super'
+        suffix = self.sn.rsyncSuffix(includeFolders=[('/home/me', 0)], excludeFolders=[])
+        self.assertNotIn('--chmod=Du+wx', suffix)
 
     def test_rsync_suffix_include_file_inside_excluded_dir_order(self):
         """Verify issue #561: including keep.txt inside excluded Dropbox folder."""

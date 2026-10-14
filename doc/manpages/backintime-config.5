@@ -581,6 +581,15 @@ Type: bool      Allowed Values: true|false
 Preserve extended attributes (xattr).
 .PP
 
+.RE
+
+.IP "\fIprofile<N>.snapshots.owner_group_mode\fR" 6
+.RS
+Type: str       Allowed Values: auto|real|off|fake-super
+.br
+Mode for preserving ownership (user/group) and permissions. 'auto' (default) uses real super-user ownership when running as root, uses '--fake-super' when running as non-root on an extended-attribute-capable filesystem, and falls back to 'off' ('--no-perms --no-group --no-owner') to prevent repeated transfers of unchanged files (#988).
+.PP
+
 .IP "\fIprofile<N>.snapshots.ssh.host\fR" 6
 .RS
 Type: bool      Allowed Values: true|false
