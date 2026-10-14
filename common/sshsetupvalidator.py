@@ -22,11 +22,14 @@ import subprocess
 import shutil
 import atexit
 import signal
+import gettext
 from pathlib import Path
 import logger
 import sshcore
 from mount import MountManager
 from exceptions import ApplicationError
+
+_ = gettext.gettext
 
 
 class SSHSetupError(ApplicationError):
@@ -133,6 +136,9 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
         self._check_known_hosts()
         self._ensure_ssh_agent_running()
         self._ensure_private_key_loaded()
+
+        # Check if remote target permits running shell commands before attempting directory operations
+        self._check_remote_shell()
 
         self._ensure_remote_directory()
 
@@ -519,20 +525,61 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
                     _('The remote file system does not support hardlinks.')
                 )
 
+    def _check_remote_shell(self):
+        """Check if arbitrary shell commands can be executed on the remote host."""
+        rc, out, err = self._ssh(['echo', 'BIT_OK'])
+
+        if rc != 0 or 'BIT_OK' not in out:
+            err_lower = err.lower()
+            if any(term in err_lower for term in ('sftp', 'rssh', 'scponly', 'restricted', 'not permitted', 'disallowed')):
+                reason = _(
+                    'The remote SSH host operates a restricted shell or SFTP-only service and does not permit interactive command execution.'
+                )
+            else:
+                reason = _(
+                    'Could not execute commands on the remote SSH target.'
+                )
+
+            raise SSHSetupError(
+                f'Remote command execution probe failed (rc={rc}): {err.strip()}',
+                reason + '\n\n'
+                + _('Details:') + f'\n{err.strip()}\n\n'
+                + _('Note: Back In Time requires a POSIX shell with rsync on the remote target.')
+            )
+
     def _check_remote_tools(self):
-        """Dev note (buhtz, 2026-05): Need to re-validate if all this commands
-        are still in use by Back In Time.
-        """
+        """Verify remote tools and gracefully fall back for non-essential tools."""
         self._check_tool(['bash', '-c', 'true'])
 
         if self.cfg.niceOnRemote():
-            self._check_tool(['nice', '-n', '19', 'true'])
+            try:
+                self._check_tool(['nice', '-n', '19', 'true'])
+            except SSHSetupError as exc:
+                logger.warning(
+                    f"Remote tool 'nice' unavailable: {exc}. Disabling niceOnRemote.",
+                    self
+                )
+                self.cfg.setNiceOnRemote(False)
 
         if self.cfg.ioniceOnRemote():
-            self._check_tool(['ionice', '-c2', '-n7', 'true'])
+            try:
+                self._check_tool(['ionice', '-c2', '-n7', 'true'])
+            except SSHSetupError as exc:
+                logger.warning(
+                    f"Remote tool 'ionice' unavailable: {exc}. Disabling ioniceOnRemote.",
+                    self
+                )
+                self.cfg.setIoniceOnRemote(False)
 
         if self.cfg.nocacheOnRemote():
-            self._check_tool(['nocache', 'true'])
+            try:
+                self._check_tool(['nocache', 'true'])
+            except SSHSetupError as exc:
+                logger.warning(
+                    f"Remote tool 'nocache' unavailable: {exc}. Disabling nocacheOnRemote.",
+                    self
+                )
+                self.cfg.setNocacheOnRemote(False)
 
         if self.cfg.smartRemoveRunRemoteInBackground():
             self._check_tool(['screen', '-d', '-m', 'bash', '-c', 'true'])
@@ -549,7 +596,7 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
         If the directory does not exist it will be created.
 
         Raises:
-            RuntimeError: if the path is unusable as backup destination.
+            SSHSetupError: if the path is unusable as backup destination.
         """
         path = self.ssh_host.path
 
@@ -557,8 +604,15 @@ class SSHSetupValidator:  # pylint: disable=too-few-public-methods
         rc, _out, err = self._ssh(['mkdir', '--parents', path])
 
         if rc != 0:
+            err_lower = err.lower()
+            if any(term in err_lower for term in ('sftp', 'rssh', 'scponly', 'restricted', 'not permitted', 'disallowed')):
+                msg = _('The remote SSH host operates a restricted shell or SFTP-only service and does not permit directory creation or command execution.')
+            elif 'permission denied' in err_lower:
+                msg = _('Permission denied creating remote backup directory: {path}').format(path=path)
+            else:
+                msg = _('Could not create remote backup directory: {path}').format(path=path)
+
             raise SSHSetupError(
                 f'Create remote directory failed ("{path}"): {err}',
-                _('Could not create remote backup directory: {path}').format(
-                    path=path) + '\n\n' + _('Details:') + f'\n{err}'
+                msg + '\n\n' + _('Details:') + f'\n{err}'
             )
