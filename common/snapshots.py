@@ -2439,20 +2439,29 @@ class Snapshots:
     def rsyncSuffix(self, includeFolders=None, excludeFolders=None):
         """Create suffixes for rsync.
 
+        Implements precise include/exclude ordering (issue #561):
+        1. Base directory exclusions (internal snapshots/mounts)
+        2. Ancestor directory inclusions so rsync can traverse into targeted trees
+        3. Specific includes located inside excluded folders, followed immediately by
+           re-excluding the enclosing folder contents (--exclude=dir/** and --exclude=dir)
+        4. General user excludes
+        5. Top-level user includes
+        6. Catch-all --exclude=*
+
         Args:
-            includeFolders (list): Folders to include. list of tuples (item,
-                int). Where ``int`` is ``0`` if ``item`` is a folder or ``1``
+            includeFolders (list): Folders to include. List of tuples (item,
+                int) where ``int`` is ``0`` if ``item`` is a folder or ``1``
                 if ``item`` is a file.
-            excludeFolders (list):  List of folders to exclude.
+            excludeFolders (list): List of folders to exclude.
 
         Returns:
             (list): Rsync include and exclude options.
         """
-        # Create exclude patterns string
-        rsync_exclude = self.rsyncExclude(excludeFolders)
+        if includeFolders is None:
+            includeFolders = self.config.include()
 
-        # Create include patterns list
-        rsync_include, rsync_include2 = self.rsyncInclude(includeFolders)
+        if excludeFolders is None:
+            excludeFolders = self.config.exclude()
 
         encode = self.config.ENCODE
 
@@ -2464,13 +2473,102 @@ class Snapshots:
                 encode.exclude(self.config._MOUNT_ROOT)
             )
         ])
-        # TODO: fix bug #561:
-        # after rsync_exclude we need to explicitly include files inside
-        # excluded folders, recursive exclude folder-content again and finally
-        # add the rest from rsync_include2
-        ret.extend(rsync_include)
-        ret.extend(rsync_exclude)
-        ret.extend(rsync_include2)
+
+        def _get_exclude_base(exc_pattern: str) -> str | None:
+            if not exc_pattern:
+                return None
+            norm = exc_pattern.rstrip('/')
+            if norm.endswith('/**'):
+                norm = norm[:-3].rstrip('/')
+            elif norm.endswith('/*'):
+                norm = norm[:-2].rstrip('/')
+            if norm.startswith('/'):
+                return norm
+            return None
+
+        # Map each exclude base path to the raw exclude patterns associated with it
+        exclude_bases = set()
+        for exc in excludeFolders:
+            enc_exc = encode.exclude(exc)
+            if not enc_exc:
+                continue
+            base = _get_exclude_base(enc_exc)
+            if base:
+                exclude_bases.add(base)
+
+        # Categorize includes into overrides (inside an excluded folder) vs top-level
+        overrides = {}  # nearest_base -> list of (encoded_path, is_file)
+        top_level_includes = []
+        ancestor_chain = []
+
+        for item, is_file in includeFolders:
+            if item == '/':
+                top_level_includes.append((item, is_file))
+                continue
+
+            enc_item = encode.include(item)
+
+            matching_bases = [
+                base for base in exclude_bases
+                if enc_item.rstrip('/').startswith(base + '/')
+            ]
+
+            if matching_bases:
+                nearest_base = max(matching_bases, key=len)
+                overrides.setdefault(nearest_base, []).append((enc_item, is_file))
+            else:
+                top_level_includes.append((enc_item, is_file))
+
+            # Build ancestor directory chain for traversal
+            folder = enc_item if is_file == 0 else os.path.split(enc_item)[0]
+            while len(folder) > 1:
+                ancestor_chain.append(f'--include={folder}/')
+                folder = os.path.split(folder)[0]
+
+        # Deduplicate ancestor inclusions while preserving top-down directory order
+        seen_ancestors = set()
+        dedup_ancestors = []
+        for rule in reversed(ancestor_chain):
+            if rule not in seen_ancestors:
+                seen_ancestors.add(rule)
+                dedup_ancestors.append(rule)
+
+        ret.extend(dedup_ancestors)
+
+        # Step 2: Specific includes inside excluded folders, deepest base first (issue #561)
+        sorted_bases = sorted(overrides.keys(), key=len, reverse=True)
+        for base in sorted_bases:
+            items = overrides[base]
+            for enc_item, is_file in items:
+                if is_file == 0:
+                    ret.append(f'--include={enc_item}/')
+                    ret.append(f'--include={enc_item}/**')
+                else:
+                    ret.append(f'--include={enc_item}')
+
+            ret.append(f'--exclude={base}/**')
+            ret.append(f'--exclude={base}')
+
+        # Step 3: General user excludes
+        for exc in excludeFolders:
+            enc_exc = encode.exclude(exc)
+            if not enc_exc:
+                continue
+            rule = f'--exclude={enc_exc}'
+            if rule not in ret:
+                ret.append(rule)
+
+        # Step 4: Top-level user includes
+        for enc_item, is_file in top_level_includes:
+            if enc_item == '/':
+                ret.append('--include=/')
+                ret.append('--include=/**')
+            elif is_file == 0:
+                ret.append(f'--include={enc_item}/**')
+            else:
+                ret.append(f'--include={enc_item}')
+
+        # Step 5: Catch-all exclude and chroot
         ret.append('--exclude=*')
         ret.append(encode.chroot)
 
