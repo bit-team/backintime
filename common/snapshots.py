@@ -36,6 +36,7 @@ import progress
 import snapshotlog
 import flock
 import bitbase
+import retention
 from storagesize import StorageSize
 from typing import Generator
 from inhibitsuspend import InhibitSuspend
@@ -1705,93 +1706,29 @@ class Snapshots:
                              min_date,
                              max_date,
                              keep_healthy=False):
-        """Return the first snapshot between ``min_date`` and ``max_date``.
-
-        The first snapshot in ``snapshots`` that hit the timedetla beginning
-        with ``min_date`` and ending before ``max_date`` will be returned.
-        Snapshots outthat that range are also lost. The list is not ordered by
-        date.
-
-        Args:
-            snapshots (list): Full list of :py:class:`SID` objects.
-            min_date (datetime.date): Minimum date (included in the range).
-            max_date (datetime.date): Maximum date (excluded from the range).
-            keep_healthy (bool): Return the first healthy snapshot (not marked
-                as failed) instead of the first at all. If all snapshots failed
-                this will again return the very first snapshot.
-
-        Returns:
-            set: Set of one snapshot that should be kept or an empty set.
-
-        TODO: It should compare datest not SIDs because of their tag.
-        """
-        logger.debug('Keep first >= {} and < {}'.format(
-            min_date.strftime('%c'), max_date.strftime('%c')), self)
-
-        for sid in snapshots:
-            # try to keep the first healthy snapshot
-            if keep_healthy and sid.failed:
-                logger.debug(f'Do not keep failed snapshot {sid}', self)
-                continue
-
-            if sid.date.date() >= min_date and sid.date.date() < max_date:
-                return set([sid])
-
-        # if all snapshots failed return the first snapshot
-        # no matter if it has errors
-        if keep_healthy:
-            return self.smartRemoveKeepFirst(snapshots,
-                                             min_date,
-                                             max_date,
-                                             keep_healthy=False)
-        return set()
+        """Return the first snapshot between ``min_date`` and ``max_date``."""
+        return retention.keep_first_in_interval(
+            snapshots,
+            min_date,
+            max_date,
+            keep_healthy=keep_healthy
+        )
 
     def incMonth(self, date):
-        """
-        First day of next month of ``date`` with respect on new years. So if
-        ``date`` is December this will return 1st of January next year.
-
-        Args:
-            date (datetime.date):   old date that should be increased
-
-        Returns:
-            datetime.date:          1st day of next month
-        """
-        # Last day in current month
-        last = datetime.date(
-            year=date.year,
-            month=date.month,
-            day=calendar.monthrange(date.year, date.month)[1])
-
-        return last + datetime.timedelta(days=1)
+        """First day of next month of ``date``."""
+        return retention.inc_month(date)
 
     def decMonth(self, date):
-        """
-        First day of previous month of ``date`` with respect on previous years.
-        So if ``date`` is January this will return 1st of December previous
-        year.
-
-        Args:
-            date (datetime.date):   old date that should be decreased
-
-        Returns:
-            datetime.date:          1st day of previous month
-        """
-        # First day of current month
-        first = datetime.date(year=date.year, month=date.month, day=1)
-
-        # Last day of previous month
-        prev = first - datetime.timedelta(days=1)
-
-        # First day of previous month
-        return datetime.date(year=prev.year, month=prev.month, day=1)
+        """First day of previous month of ``date``."""
+        return retention.dec_month(date)
 
     def smartRemoveList(self,
                         now_full,
                         keep_all,
                         keep_one_per_day,
                         keep_one_per_week,
-                        keep_one_per_month):
+                        keep_one_per_month,
+                        keep_one_per_year=True):
         """Get list of backups to be removed based on configurable intervals.
 
         Args:
@@ -1805,12 +1742,13 @@ class Snapshots:
                                             last ``keep_one_per_week`` weeks
             keep_one_per_month (int):       keep one snapshot per month for the
                                             last ``keep_one_per_month`` months
+            keep_one_per_year (int | bool): keep one snapshot per year (True = all years,
+                                            int = last N years, False = disabled)
 
         Returns:
             list:                           snapshots that should be removed
 
         """
-        # Latest/younges backup first, the oldest is last
         snapshots = listSnapshots(
             cfg=self.config,
             includeNewSnapshot=False,
@@ -1828,79 +1766,17 @@ class Snapshots:
 
         now = now_full.date()
 
-        # keep the last/youngest backup
-        keep = set([snapshots[0]])
+        policy = retention.RetentionPolicy(
+            keep_all_days=keep_all,
+            keep_one_per_day=keep_one_per_day,
+            keep_one_per_week=keep_one_per_week,
+            keep_one_per_month=keep_one_per_month,
+            keep_one_per_year=keep_one_per_year,
+            keep_named=self.config.dontRemoveNamedSnapshots()
+        )
 
-        # keep all for the last keep_all days
-        if keep_all > 0:
-            keep |= self.smartRemoveKeepAll(
-                snapshots,
-                now - datetime.timedelta(days=keep_all-1),
-                now + datetime.timedelta(days=1))
-
-        # keep one per day for the last keep_one_per_day days
-        if keep_one_per_day > 0:
-            d = now
-            for i in range(0, keep_one_per_day):
-                keep |= self.smartRemoveKeepFirst(
-                    snapshots,
-                    d,
-                    d + datetime.timedelta(days=1),
-                    keep_healthy=True)
-                d -= datetime.timedelta(days=1)
-
-        # keep one per week for the last keep_one_per_week weeks
-        if keep_one_per_week > 0:
-            # Make sure the period always starts on Monday
-            # Step back in time to the last Monday
-            d = now - datetime.timedelta(days=now.weekday())
-
-            for i in range(0, keep_one_per_week):
-                keep |= self.smartRemoveKeepFirst(
-                    snapshots,
-                    # Monday
-                    d,
-                    # Step one week into the future
-                    d + datetime.timedelta(days=7),
-                    keep_healthy=True)
-                # One week back in time
-                d -= datetime.timedelta(days=7)
-
-        # keep one per month for the last keep_one_per_month months
-        if keep_one_per_month > 0:
-            d1 = datetime.date(now.year, now.month, 1)
-            d2 = self.incMonth(d1)
-
-            for i in range(0, keep_one_per_month):
-                keep |= self.smartRemoveKeepFirst(
-                    snapshots, d1, d2, keep_healthy=True)
-                d2 = d1
-                d1 = self.decMonth(d1)
-
-        # keep one per year for all years
-        first_year = int(snapshots[-1].sid[:4])
-
-        for i in range(first_year, now.year+1):
-            keep |= self.smartRemoveKeepFirst(snapshots,
-                                              datetime.date(i, 1, 1),
-                                              datetime.date(i+1, 1, 1),
-                                              keep_healthy=True)
-
+        keep, del_snapshots = retention.calculate_retention(snapshots, policy, now=now)
         logger.debug(f'Keep snapshots: {keep}', self)
-
-        del_snapshots = []
-
-        for sid in snapshots:
-            if sid in keep:
-                continue
-
-            if self.config.dontRemoveNamedSnapshots():
-                if sid.name:
-                    logger.debug(
-                        f'Keep snapshot: {sid}, because it has a name', self)
-                    continue
-
-            del_snapshots.append(sid)
 
         return del_snapshots
 
