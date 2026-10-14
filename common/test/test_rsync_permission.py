@@ -71,7 +71,7 @@ class RsyncCallbackPermission(unittest.TestCase):
 
     def test_ignored_chown_permission_line(self):
         """Existing behavior: chown/chgrp errors are not backup errors."""
-        line = ('rsync: chown "/a" failed: Operation not permitted (1)')
+        line = 'rsync: chown "/a" failed: Operation not permitted (1)'
         params = [False, False]
 
         self.sn.rsyncCallback(line, params)
