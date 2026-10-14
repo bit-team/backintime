@@ -11,6 +11,7 @@ Offer context managers to manage file lock (flock) files.
 """
 import os
 import fcntl
+import time
 from pathlib import Path
 import logger
 
@@ -18,53 +19,27 @@ import logger
 class _FlockContext:
     """Context manager to manage file locks (flock).
 
-    It will be tried to establish a multi-user file lock; if not feasible a
-    single-user file lock will be used. It depends on the GNU/Linux
-    distribution used and the write permissions to the file lock locations in
-    the file system.
-
-    Usage example ::
-
-        class MyFlock(_FlockContext):
-            def __init__(self):
-                super().__init__('my.lock')
-
-        with MyFlock():
-             do_fancy_things()
-
-    The following directories will be checked in sequence to determine if they
-    exist, if a file lock file exists within them, or if there are sufficient
-    permissions to create such a file within them. ::
-
-        /run/lock
-        /var/lock
-        /run/user/<UID>/
-        ~/.cache
-
-    The first and second directory in that list is for multi-user file lock.
-
-    To the experience of the developers on Debian-based distributions there is
-    no problem having a multi-user file lock. But on Arch-based distributions
-    only a user with root privileges is able to do it. Because of that on Arch
-    a single-user file lock is used by default until Back In Time is started
-    once as root.
+    For non-root users, defaults to a single-user lock located in the user's
+    runtime or cache directory ($XDG_RUNTIME_DIR or ~/.cache/backintime).
+    For root users, system-wide lock locations (/run/lock, /var/lock) are used.
     """
 
     def __init__(self,
                  filename: str,
-                 disable: bool = False):
+                 disable: bool = False,
+                 timeout: int = 600,
+                 multi_user: bool | None = None):
         """Check if an flock file can be used or created.
-
-        See the classes documentation about details.
 
         Args:
             filename: The filename (without path) used for the flock file.
-            disabled: Disable the whole context managers behavior. This is a
-                workaround. See #1751 and :func:``Snapshots.backup()`` for
-                details.
+            disable: Disable the whole context manager behavior.
+            timeout: Maximum seconds to wait for lock acquisition. Defaults to 600s.
+            multi_user: If True, prioritize /run/lock and /var/lock. Defaults to True
+                for root (UID 0) and False for non-root users.
 
         Raises:
-            RuntimeError: If it wasn't possible to use
+            RuntimeError: If it wasn't possible to establish a lock file in any candidate path.
         """
         self._file_path = None
         """Full path used for the flock file"""
@@ -72,124 +47,143 @@ class _FlockContext:
         self._flock_handle = None
         """File handle (descriptor) to the flock file."""
 
-        # Workaround for #1751. Remove after refactoring Snapshots.backup()
+        self.timeout = timeout
+
         if disable:
             return None
 
-        folder = Path(Path.cwd().root) / 'run' / 'lock'
+        if multi_user is None:
+            try:
+                multi_user = (os.geteuid() == 0)
+            except AttributeError:
+                multi_user = False
 
-        if not folder.exists():
-            # On older systems
-            folder = Path(Path.cwd().root) / 'var' / 'lock'
+        candidate_dirs = []
+        if multi_user:
+            candidate_dirs.extend([
+                Path(Path.cwd().root) / 'run' / 'lock',
+                Path(Path.cwd().root) / 'var' / 'lock'
+            ])
 
-        self._file_path = folder / filename
+        # User-specific runtime directory (preferred for unprivileged users)
+        xdg_runtime = os.environ.get('XDG_RUNTIME_DIR')
+        if xdg_runtime:
+            candidate_dirs.append(Path(xdg_runtime))
+        else:
+            try:
+                candidate_dirs.append(Path(f'/run/user/{os.getuid()}'))
+            except (AttributeError, OSError):
+                pass
 
-        if self._can_use_file(self._file_path):
-            return None
+        # User cache directory
+        xdg_cache = os.environ.get('XDG_CACHE_HOME', Path.home() / '.cache')
+        candidate_dirs.append(Path(xdg_cache) / 'backintime')
 
-        # Try user specific file lock
-        # e.g. /run/user/<UID>
-        self._file_path = Path(
-            os.environ.get('XDG_RUNTIME_DIR',
-                           f'/run/user/{os.getuid()}')
-        ) / filename
+        # Fallback to system-wide directories if not already tried
+        if not multi_user:
+            candidate_dirs.extend([
+                Path(Path.cwd().root) / 'run' / 'lock',
+                Path(Path.cwd().root) / 'var' / 'lock'
+            ])
 
-        if self._can_use_file(self._file_path):
-            return None
+        for folder in candidate_dirs:
+            if not folder.exists():
+                try:
+                    folder.mkdir(parents=True, exist_ok=True)
+                except (PermissionError, OSError):
+                    continue
 
-        # At last, try users cache dir.
-        self._file_path = Path(
-            os.environ.get('XDG_CACHE_HOME',
-                           Path.home() / '.cache')
-        ) / filename
-
-        if self._can_use_file(self._file_path):
-            return None
+            test_path = folder / filename
+            if self._can_use_file(test_path):
+                self._file_path = test_path
+                return None
 
         raise RuntimeError(
-            f'Can not establish global flock file {self._file_path}')
+            f'Can not establish flock file {filename} in any candidate directory'
+        )
 
     def _can_use_file(self, file_path: Path) -> bool:
-        """Check if ``file_path`` is usable as an flock file.
+        """Check if ``file_path`` is usable as a lock file.
 
-        The answer is ``True`` if the file exists without checking its
-        permissions. If not the file will be created and if successful
-        ``True`` will be returned.
-
-        Returns:
-            bool: The answer.
-
-        Raises:
-            PermissionError: Not enough permissions to create the file.
-            Exception: Any other error.
+        Verifies read/write accessibility if the file exists, or creates it.
         """
         if file_path.exists():
-            return True
+            return os.access(file_path, os.R_OK | os.W_OK)
 
-        # Try to create it
         try:
-            file_path.touch(mode=0o666)
-
-        except PermissionError:
-            logger.debug(f'Cannot use file lock on {file_path}.')
-
-        except Exception as err:
-            logger.error(
-                f'Unknown error while testing file lock on {file_path}. '
-                f'Please open a bug report. Error was {err}.')
-
+            file_path.parent.mkdir(parents=True, exist_ok=True)
+            fd = os.open(file_path, os.O_CREAT | os.O_RDWR, 0o666)
+            os.close(fd)
+        except (PermissionError, OSError) as err:
+            logger.debug(f'Cannot use file lock on {file_path}: {err}')
+            return False
         else:
             logger.debug(f'Use {file_path} for file lock.')
             return True
 
-        return False
-
     def __enter__(self):
-        """Request an exclucive file lock on :data:``self._file_path``.
-        """
-        # Workaround for #1751. Remove after refactoring Snapshots.backup()
-        # See __init__() for details
+        """Request an exclusive file lock on :data:``self._file_path`` with bounded wait."""
         if self._file_path is None:
             return None
 
         self._log('Set')
 
-        # Open file for reading
-        self._flock_handle = self._file_path.open(mode='r')
+        try:
+            self._flock_handle = self._file_path.open(mode='r+')
+        except (PermissionError, OSError):
+            self._flock_handle = self._file_path.open(mode='r')
 
-        # blocks (waits) until an existing flock is released
-        fcntl.flock(self._flock_handle, fcntl.LOCK_EX)
+        start_time = time.time()
+        warned = False
+        while True:
+            try:
+                fcntl.flock(self._flock_handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                break
+            except (BlockingIOError, OSError):
+                if not warned:
+                    logger.info(
+                        f'Waiting for existing file lock on {self._file_path}...',
+                        self
+                    )
+                    warned = True
+
+                if self.timeout is not None and (time.time() - start_time) >= self.timeout:
+                    self._flock_handle.close()
+                    self._flock_handle = None
+                    raise TimeoutError(
+                        f'Timed out waiting for file lock on {self._file_path} after {self.timeout}s'
+                    )
+                time.sleep(1)
 
         return self
 
     def __exit__(self, exc_type, exc_value, exc_tb):
-        # Workaround for #1751. Remove after refactoring Snapshots.backup()
-        # See __init__() for details
         if self._flock_handle is None:
             return None
 
         self._log('Release')
-        fcntl.fcntl(self._flock_handle, fcntl.LOCK_UN)
+        try:
+            fcntl.flock(self._flock_handle, fcntl.LOCK_UN)
+        except OSError:
+            pass
         self._flock_handle.close()
+        self._flock_handle = None
 
     def _log(self, prefix: str):
-        """Generate a log message including the current lock files path and the
-        process ID.
-
-        Args:
-            prefix: Used in front of the log message.
-        """
         logger.debug(f'{prefix} flock {self._file_path} by PID {os.getpid()}')
 
 
 class GlobalFlock(_FlockContext):
-    """Context manager used for global file lock in Back In Time.
+    """Context manager used for global file lock in Back In Time."""
 
-    If it is a multi-user or single-user flock depends on the several
-    aspects. See :class:`_FlockContext` for details.
-    """
+    def __init__(self,
+                 disable: bool = False,
+                 timeout: int = 600,
+                 multi_user: bool | None = None):
+        super().__init__(
+            'backintime.lock',
+            disable=disable,
+            timeout=timeout,
+            multi_user=multi_user
+        )
 
-    def __init__(self, disable: bool = False):
-        """See :func:`_FlockContext.__init__()` for details.
-        """
-        super().__init__('backintime.lock', disable=disable)
