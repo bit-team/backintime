@@ -42,7 +42,6 @@ from inhibitsuspend import InhibitSuspend
 from applicationinstance import ApplicationInstance
 from uniquenessset import UniquenessSet
 from mount import MountManager, MountError
-from transferprovider import TransferProvider
 
 
 class Snapshots:
@@ -1490,19 +1489,10 @@ class Snapshots:
         new_snapshot.saveToContinue = True
         cmd = rsync_prefix + rsync_suffix
 
-        # # No quoting (quote='') because of new argument protection of rsync.
-        # cmd.append(self.rsyncRemotePath(
-        #     new_snapshot.pathBackup(use_mode=['ssh', 'ssh_gocryptfs']),
-        #     quote=''))
-
-        source = cmd[-1]  # Workaround
-
-        with TransferProvider(self.mount_manager, ???, ???) as provider:
-            cmd.append(
-                self.mount_manager.as_rsync_destination(
-                    Path(new_snapshot.pathBackup())
-                )
-            )
+        # No quoting (quote='') because of new argument protection of rsync.
+        cmd.append(self.rsyncRemotePath(
+            new_snapshot.pathBackup(use_mode=['ssh', 'ssh_gocryptfs']),
+            quote=''))
 
         self.setTakeSnapshotMessage(0, _('Creating backup'))
 
@@ -2019,7 +2009,7 @@ class Snapshots:
             ssh_cmd = None
 
         return tools.free_space(
-            self.mount_manager.backend.source_path,
+            self.mount_manager.path,
             ssh_cmd
         )
 

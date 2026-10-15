@@ -206,14 +206,6 @@ class MountManager:
             else:
                 logger.debug('Password cache started')
 
-    @property
-    def uses_ssh(self):
-        return self.backend.TYPE is Backend.Type.SSH
-
-    @property
-    def uses_encryption(self):
-        return self.encryptor.TYPE is Encryptor.Type.GOCRYPTFS
-
     @contextmanager
     def mounted(self):
         """Mount on enter and umount on exit."""
@@ -253,10 +245,6 @@ class MountManager:
     def path(self) -> Path:
         """The path to work with after backend and encryptor is mounted."""
         return self.encryptor.path
-
-    def as_rsync_destination(self, path: Path | None = None) -> str:
-        """Return the rsync destination for a mounted path."""
-        return self.backend.as_rsync_destination(path)
 
     def is_initialized(self) -> bool:
         """Check if the encryptor is initialized.
