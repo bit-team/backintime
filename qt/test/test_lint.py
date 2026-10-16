@@ -190,7 +190,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         """
 
         if PYLINT_AVAILABLE:
-            version_target = version.parse('4.0.0')
+            version_target = version.parse('4.1.3')
 
             proc = subprocess.run(
                 ['pylint', '--version'],
@@ -207,7 +207,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
                 f'be {version_target} or higher.')
 
         if RUFF_AVAILABLE:
-            version_target = version.parse('0.16.0')
+            version_target = version.parse('0.17.0')
 
             proc = subprocess.run(
                 ['ruff', '--version'],

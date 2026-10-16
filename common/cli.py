@@ -493,7 +493,7 @@ def _backup_and_remove_encfs_config(cfg: Konfig) -> bool:
         return False
 
     # do backup
-    config_fp = Path(cfg._LOCAL_CONFIG_PATH)
+    config_fp = Path(bitbase.context['--config'])
     config_fp_backup = config_fp.with_suffix(
         bitbase.ENCFS_BACKUP_CONFIG_SUFFIX
     )
@@ -502,8 +502,9 @@ def _backup_and_remove_encfs_config(cfg: Konfig) -> bool:
     for pid in encfs_pids:
         cfg.profile(pid).remove()
 
-    if len(cfg.profiles):
+    if len(cfg.profile_ids):
         cfg.save(config_fp)
+
     else:
         # If no profile is left, remove the file itself
         config_fp.unlink()

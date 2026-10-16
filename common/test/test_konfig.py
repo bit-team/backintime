@@ -116,7 +116,7 @@ class ProfilesBasics(unittest.TestCase):
         self.assertIsInstance(sut.ssh_port, int)
 
 
-class ProfilesExistance(unittest.TestCase):
+class ProfilesExistence(unittest.TestCase):
     def setUp(self):
         Singleton.remove_all_instances()
         konfig = Konfig()
@@ -151,6 +151,40 @@ class ProfilesExistance(unittest.TestCase):
     def test_dont_has(self):
         for arg in [321, 'IamNotHere']:
             self.assertFalse(Konfig().has_profile(arg))
+
+
+class CreateAndRemove(unittest.TestCase):
+    def setUp(self):
+        Singleton.remove_all_instances()
+
+    def test_new_profile(self):
+        konf = Konfig()
+        konf.load(StringIO(''))
+
+        # Main profile exists by default
+        self.assertEqual(konf.profile_ids, [1])
+
+        konf.new_profile('Foobar')
+
+        self.assertEqual(konf.profile_ids, [1, 2])
+        self.assertTrue(konf.has_profile('Foobar'))
+
+    def test_remove_profile(self):
+        konf = Konfig()
+        konf.load(StringIO(''))
+
+        # Main profiel
+        self.assertEqual(konf.profile_ids, [1])
+        # Second profile
+        jean = konf.new_profile('Jean')
+        self.assertEqual(konf.profile_ids, [1, 2])
+        self.assertTrue(konf.has_profile('Jean'))
+
+        # Remove second
+        jean.remove()
+
+        self.assertEqual(konf.profile_ids, [1])
+        self.assertFalse(konf.has_profile('Jean'))
 
 
 class IncExc(unittest.TestCase):

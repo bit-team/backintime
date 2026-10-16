@@ -157,7 +157,7 @@ class TimeLine(QTreeWidget):
             super().clear()
             self._header_data = []
             self._default_header_data = _calculate_timeline_periods(
-                today=date.today()  # noqa: DTZ011
+                today=date.today()
             )
             self._specific_month_boundary = self._default_header_data[-1][1]
 
@@ -219,7 +219,7 @@ class TimeLine(QTreeWidget):
         end = start.replace(day=monthrange(start.year, start.month)[1])
 
         label = start.strftime(
-            '%B' if start.year == date.today().year  # noqa: DTZ011
+            '%B' if start.year == date.today().year
             else '%B, %Y'
         )
         label = label.capitalize()
@@ -397,7 +397,7 @@ class NowEntry(_TimeLineItemBase):
 
     def __init__(self):
         super().__init__(
-            timestamp=datetime.max,  # noqa: DTZ901
+            timestamp=datetime.max,
             tooltip=_(
                 'These are your files as they are right now. '
                 'It is not a backup.'

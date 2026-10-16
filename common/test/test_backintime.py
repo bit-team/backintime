@@ -25,7 +25,9 @@ class BackInTime(generic.TestCase):
         # Remove "WARNING:" and "ERROR:" messages from output.
         # They should appear even in quite-mode.
         output = filter(lambda line: not line.startswith('WARNING')
-                        and not line.startswith('ERROR'),
+                        and not line.startswith('ERROR')
+                        and not 'EncFS' in line
+                        and not 'encfs.backup' in line,
                         output.split('\n'))
         output = '\n'.join(list(output))
 

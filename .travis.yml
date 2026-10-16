@@ -53,7 +53,7 @@ jobs:
 
 install:
   - pip install -U pip
-  - pip install pylint ruff flake8 codespell pyfakefs keyring
+  - pip install pylint ruff==0.17 flake8 codespell pyfakefs keyring
   - pip install pyqt6 dbus-python
   # add ssh public / private key pair to ensure user can start ssh session to localhost for tests
   - ssh-keygen -b 2048 -t rsa -f /home/travis/.ssh/id_rsa -N ""

@@ -201,13 +201,7 @@ class Profile:  # pylint: disable=too-many-public-methods
         """Remove the profile including all its keys and values.
         """
 
-        my_keys = list(filter(
-            lambda key: key.startswith(self._prefix),
-            self._config.keys()
-        ))
-
-        for key in my_keys:
-            del self._config[key]
+        self._config.remove_profile(self)
 
     @property
     def mode(self) -> str:
@@ -1324,6 +1318,7 @@ class Konfig(metaclass=singleton.Singleton):
                 val[0].startswith('profile') and val[0].endswith('.name'),
             self._conf.items()
         )
+
         return {
             name: int(pid.replace('profile', '').replace('.name', ''))
             for pid, name in name_items
@@ -1361,6 +1356,34 @@ class Konfig(metaclass=singleton.Singleton):
         self._profiles[name] = new_pid
 
         return self.profile(new_pid)
+
+    def remove_profile(self, profile: Profile):
+        """Removes the profile"""
+        if not self.has_profile(profile.name):
+            raise ValueError(
+                f'Profile {profile} not present in Konfig instance.'
+            )
+
+        if profile.profile_id in self._unsaved_profiles:
+            self._unsaved_profiles.remove(profile.profile_id)
+
+        del self._profiles[profile.name]
+
+        # Remove the keys
+        profile_keys = list(filter(
+            # pylint: disable-next=protected-access
+            lambda key: key.startswith(profile._prefix),
+            self._conf.keys()
+        ))
+        self._remove_keys(profile_keys)
+
+    def _remove_keys(self, keys: str | list[str]):
+        """Remove the config keys"""
+        if isinstance(keys, str):
+            keys = [str]
+
+        for key in keys:
+            del self._conf[key]
 
     def _next_free_id(self) -> int:
         """Compute the next free profile id.
