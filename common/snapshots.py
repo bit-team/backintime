@@ -1465,8 +1465,8 @@ class Snapshots:
 
         rsync_suffix = self.rsyncSuffix(include_folders)
 
-        # When there is no snapshots it takes the last snapshot from the other folders
-        # It should delete the excluded folders then
+        # When there is no snapshots it takes the last snapshot from the other
+        # directories. It should delete the excluded directory then
         rsync_prefix.extend(('--delete', '--delete-excluded'))
         rsync_prefix.append('-v')
 
@@ -1531,10 +1531,8 @@ class Snapshots:
         try:
             os.remove(self.config.takeSnapshotProgressFile())
 
-        except Exception as e:
-            logger.debug('Failed to remove snapshot progress file %s: %s'
-                         % (self.config.takeSnapshotProgressFile(), str(e)),
-                         self)
+        except OSError as exc:
+            logger.debug(f'Failed to remove snapshot progress file. {exc}')
 
         # handle errors
         # TODO
@@ -2859,7 +2857,7 @@ class SID:  # -> "BackupID" will be its new name
 
         return str(path_return)
 
-    def pathBackup(self, *path, **kwargs):
+    def pathBackup(self, *path, **kwargs) -> str:
         """
         'backup' folder inside snapshots path
 

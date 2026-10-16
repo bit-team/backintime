@@ -330,6 +330,8 @@ class SettingsDialog(QDialog):
 
     def validate(self):
         """Save to config and validate"""
+
+        # Store GUI values in the config object
         if not self.save_profile():
             return False
 
@@ -343,6 +345,7 @@ class SettingsDialog(QDialog):
         # This will raise exceptions in case of errors
         self.config.setup_automation()
 
+        # Save the config object to config file
         return self.config.save()
 
     def slot_combo_modes_changed(self, *_params):

@@ -413,15 +413,6 @@ class GeneralTab(QDialog):
         password_1 = self._txt_password1.text()
         password_2 = self._txt_password2.text()
 
-        # mount_kwargs = {}
-
-        # if mode in ('ssh', 'local_encfs'):
-        #     mount_kwargs = {'password': password_1}
-
-        # elif mode == 'ssh_encfs':
-        #     mount_kwargs = {'ssh_password': password_1,
-        #                     'encfs_password': password_2}
-
         self.config.setHostUserProfile(
             self._txt_host.text(),
             self._txt_user.text(),
@@ -443,9 +434,6 @@ class GeneralTab(QDialog):
             key_file = self.key_selector.get_key()
             self.config.setSshPrivateKeyFile(str(key_file) if key_file else '')
 
-        # # save local_encfs
-        # self.config.setLocalEncfsPath(self._edit_backup_path.text())
-
         # _gocryptfs: path & password
         if self._store_local_gocryptfs_destination_path() is False:
             return False
@@ -457,11 +445,14 @@ class GeneralTab(QDialog):
             return False
 
         # save password
-        self.config.setPasswordSave(self._cb_password_save.isChecked(),
-                                    mode=mode)
+        self.config.setPasswordSave(
+            self._cb_password_save.isChecked(),
+            mode=mode
+        )
         self.config.setPasswordUseCache(
             self._cb_password_use_cache.isChecked(),
-            mode=mode)
+            mode=mode
+        )
         self.config.setPassword(password_1, mode=mode)
         self.config.setPassword(password_2, mode=mode, pw_id=2)
 
