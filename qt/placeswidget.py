@@ -19,19 +19,22 @@ import errno
 import os
 import pathlib
 
-from PyQt6.QtWidgets import (QAbstractItemView,QMenu,
-                             QTreeWidget,
-                             QTreeWidgetItem,
-                             QWidget)
-from PyQt6.QtGui import QFont, QIcon, QPalette
-from PyQt6.QtCore import Qt, QUrl
-
 import bitbase
-import konfig
 import config
+import konfig
 import logger
-from profilecontext import ProfileContext
+import qttools
 from profile_operations import ProfileOperations
+from profilecontext import ProfileContext
+from PyQt6.QtCore import Qt, QUrl
+from PyQt6.QtGui import QFont, QIcon, QPalette
+from PyQt6.QtWidgets import (
+    QAbstractItemView,
+    QMenu,
+    QTreeWidget,
+    QTreeWidgetItem,
+    QWidget,
+)
 
 
 class PlacesWidget(QTreeWidget):
@@ -67,7 +70,6 @@ class PlacesWidget(QTreeWidget):
         self.currentItemChanged.connect(self._slot_changed)
         self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.customContextMenuRequested.connect(self._slot_context_menu)
-
 
     def _on_sort_indicator_changed(self, _column: int):
         self.do_update()
@@ -258,7 +260,6 @@ class PlacesWidget(QTreeWidget):
         # ???
         self.parent.path = path
         self.parent.path_history.append(path)
-
         self.parent.updateFilesView(3)
 
     def get_sorting(self) -> tuple[int, int]:
@@ -267,11 +268,11 @@ class PlacesWidget(QTreeWidget):
             self.header().sortIndicatorSection(),
             self.header().sortIndicatorOrder().value
         )
+
     def _slot_context_menu(self, point):
         item = self.itemAt(point)
         if not item:
             return
-
         path = str(item.data(0, Qt.ItemDataRole.UserRole))
         if not path or not os.path.exists(path):
             return
@@ -279,8 +280,6 @@ class PlacesWidget(QTreeWidget):
         menu = QMenu(self)
         act_open = menu.addAction(_('Open in file manager…'))
         action = menu.exec(self.mapToGlobal(point))
-        import qttools
-
         if action == act_open:
             url = QUrl.fromLocalFile(path).toString()
             qttools.open_url(url)

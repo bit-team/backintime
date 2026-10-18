@@ -645,7 +645,8 @@ class MainWindow(QMainWindow):
             'act_open_source_file_manager': (
                 None, _('Open source in file manager…'),
                 self._slot_files_view_open_source_file_manager, None,
-                _('Open the selected item or directory in the source location.')),
+               _('Open the selected item or directory in the '
+                  'source location.')),
 
             'act_restore_to': (
                 icon.RESTORE_TO, _('Restore to …'),

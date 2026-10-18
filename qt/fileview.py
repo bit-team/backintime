@@ -195,13 +195,15 @@ class FilesView(QTreeView):
             self.header().sortIndicatorSection(),
             self.header().sortIndicatorOrder().value
         )
-    def _create_context_menu(self,
-                             action_restore: QAction,
-                             action_restore_to: QAction,
-                             action_snapshots_dialog: QAction,
-                             action_show_hidden: QAction,
-                             action_open_file_manager: QAction,
-                             action_open_source_file_manager: QAction) -> QMenu:
+    def _create_context_menu(  # pylint: disable=too-many-arguments
+        self,
+        action_restore: QAction,
+        action_restore_to: QAction,
+        action_snapshots_dialog: QAction,
+        action_show_hidden: QAction,
+        action_open_file_manager: QAction,
+        action_open_source_file_manager: QAction
+    ) -> QMenu:
 
         """Create a menu instance for later reuse as context menu."""
         self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)

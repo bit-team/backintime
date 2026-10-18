@@ -207,8 +207,10 @@ class SnapshotsDialog(QDialog):
 
         # snapshots list
         self.timeline = TimeLine(self)
-        self.timeline.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
-        self.timeline.customContextMenuRequested.connect(self._slot_timeline_context_menu)
+        self.timeline.setContextMenuPolicy(
+        Qt.ContextMenuPolicy.CustomContextMenu)
+        self.timeline.customContextMenuRequested.connect(
+        self._slot_timeline_context_menu)
         self.timeline.event_now_selected.register([
             self._on_now_selected,
         ])
