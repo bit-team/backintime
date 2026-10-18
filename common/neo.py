@@ -15,27 +15,31 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import bitbase
 import logger
 from mount import MountError
 from password_ipc import TempPasswordThread
 from sshcore import SSHHost
 import tools
 
+# The directory used for all temptorary mount points. In most cases it
+# is $HOME/.local/share/backintime/mnt
+MOUNT_ROOT_PATH = bitbase.XDG_DATA_HOME / bitbase.BINARY_NAME_BASE / 'mnt'
+
 
 class BackupSource:
     """The source endpoint of a backup.
-
     """
     def __init__(self, path: Path):
 
         # The original source path. In mode "local encrypted" it is the not
         # encrypted.
         self._source_path = path
+        self._source_path.mkdir(parents=True, exist_ok=True)
 
         # The (reverse mounted) encrypted view of the original source path
         self._encrypted_path = None
 
-        self._source_path.mkdir(parents=True, exist_ok=True)
 
     def create_encrypted_view(self,
                               backup_destination: BackupDestination) -> Path:
