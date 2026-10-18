@@ -11,6 +11,7 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Entry of GUI application."""
+
 import os
 import sys
 if not os.getenv('DISPLAY', ''):
@@ -193,9 +194,12 @@ class MainWindow(QMainWindow):
             self.act_restore_to,
             self.act_snapshots_dialog,
             self.act_show_hidden,
+            self.act_open_file_manager,
+            self.act_open_source_file_manager,
             sort_column,
             sort_order
         )
+
         self.filesView.event_path_clicked.register(
             self._on_files_view_path_clicked
         )
@@ -634,6 +638,15 @@ class MainWindow(QMainWindow):
                 self._slot_restore_this, None,
                 _('Restore the selected files or directories to the '
                   'original location.')),
+            'act_open_file_manager': (
+                None, _('Open in file manager…'),
+                self._slot_files_view_open_file_manager, None,
+                _('Open the selected item or directory in the file manager.')),
+            'act_open_source_file_manager': (
+                None, _('Open source in file manager…'),
+                self._slot_files_view_open_source_file_manager, None,
+                _('Open the selected item or directory in the source location.')),
+
             'act_restore_to': (
                 icon.RESTORE_TO, _('Restore to …'),
                 self._slot_restore_this_to, None,
@@ -2165,6 +2178,41 @@ class MainWindow(QMainWindow):
                 and backup_id.isExistingPathInsideSnapshotFolder(path)):
             self.path = path
             self.updateFilesView(0)
+
+    def _slot_files_view_open_file_manager(self):
+        paths = self.filesView.get_selected_paths()
+        target_path = paths[0] if paths else self.path
+
+        if not self.timeline.is_now_selected():
+            backup_id = self.selected_backup_id()
+            if backup_id and not paths:
+                target_path = backup_id.pathBackup(self.path)
+
+        if os.path.exists(target_path):
+            if not os.path.isdir(target_path):
+                target_path = os.path.dirname(target_path)
+            url = QUrl.fromLocalFile(target_path).toString()
+            qttools.open_url(url)
+
+    def _slot_files_view_open_source_file_manager(self):
+        paths = self.filesView.get_selected_paths()
+        if paths:
+            target_path = paths[0]
+            if not self.timeline.is_now_selected():
+                backup_id = self.selected_backup_id()
+                if backup_id:
+                    snapshot_backup_prefix = backup_id.pathBackup()
+                    if target_path.startswith(snapshot_backup_prefix):
+                        target_path = target_path[len(snapshot_backup_prefix):]
+        else:
+            target_path = self.path
+
+        if os.path.exists(target_path):
+            if not os.path.isdir(target_path):
+                target_path = os.path.dirname(target_path)
+            url = QUrl.fromLocalFile(target_path).toString()
+            qttools.open_url(url)
+
 
     def _slot_files_view_open_current_item(self):
         path = self.filesView.get_current_path()
