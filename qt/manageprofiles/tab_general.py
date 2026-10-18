@@ -35,6 +35,7 @@ import schedule
 import qttools
 import messagebox
 import core_events
+import neo
 from manageprofiles import combobox, schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
 from manageprofiles.sshkeyselector import SshKeySelector
@@ -380,9 +381,6 @@ class GeneralTab(QDialog):
             )
             return False
 
-        # if not self._is_gocryptfs_path_empty(Path(path)):
-        #     return False
-
         self.config.setLocalGocryptfsPath(path, self.config.currentProfile())
 
         # password
@@ -498,6 +496,46 @@ class GeneralTab(QDialog):
 
         if mode == 'local':
             self.config.set_snapshots_path(self._edit_backup_path.text())
+
+        # --- START Workaround ---
+        if mode == 'local_gocryptfs':
+            gcpath = self.config.localGocryptfsPath(
+                self.config.currentProfile()
+            )
+            gcpath = Path(gcpath)
+
+            # 1. Initialize the destination dir
+            backup_dest = neo.BackupDestination(
+                path=gcpath,
+                gocrypt_password=self.config.get_encryption_password()
+            )
+            backup_dest.initialize_if_needed()
+
+            # 2. Reverse (encrypting) mount of the source dir
+            # Note: Because of how rsync handels include/excludes the file
+            # systems root "/" is treated as the source of the backup.
+            backup_src = neo.BackupSource(
+                path=Path.home() / 'gc_encrypted_source',  # DEBUG
+            )
+
+            neo.reverse_mount_dir(
+                path_to_mount=Path('/'),
+                mountpoint=gc_mount_path_src,
+                cipher_path=gcpath,
+                password=self.config.get_encryption_password()
+            )
+
+            # 3. Forward (decrypting) mount of the destination dir
+            gc_mount_path_dest = Path.home() / 'gc_decrypted_dest'  # DEBUG
+            gc_mount_path_dest.mkdir(parents=True, exist_ok=True)
+            neo.forward_mount_dir(
+                path_to_mount=gcpath,
+                mountpoint=gc_mount_path_dest,
+                password=self.config.get_encryption_password()
+            )
+
+            return True
+        # --- END Workaround ---
 
         # Attention! The mount manager instance need to be fresh at this point
         # because the config was changed.

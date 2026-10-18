@@ -14,6 +14,9 @@ class MountError(ApplicationError):
 
     Design decisions: The class is intentionally kept generic to avoid a
        hierarchy of specialized mount-related exception types.
+
+    Dev note (2026-10, buhtz): Maybe rename the class to a more generic
+    one. Maybe `UserFacingError`.
     """
     def __init__(
             self,

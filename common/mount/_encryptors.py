@@ -219,8 +219,6 @@ class GoCryptFS(Encryptor):
 
         self._ensure_password()
 
-        # Dev note: See docstring in EncFS_mount._mount() for detailed
-        # description about the password thing.
         thread = TempPasswordThread(self.password)
         env = os.environ.copy()
         env['ASKPASS_TEMP'] = thread.temp_file
@@ -229,7 +227,8 @@ class GoCryptFS(Encryptor):
             cmd = [
                 'gocryptfs',
                 '-extpass',
-                'backintime-askpass']
+                'backintime-askpass'
+            ]
 
             cmd.append('-init')
 
