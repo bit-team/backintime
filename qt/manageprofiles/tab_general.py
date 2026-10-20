@@ -514,25 +514,13 @@ class GeneralTab(QDialog):
             # 2. Reverse (encrypting) mount of the source dir
             # Note: Because of how rsync handels include/excludes the file
             # systems root "/" is treated as the source of the backup.
-            backup_src = neo.BackupSource(
-                path=Path.home() / 'gc_encrypted_source',  # DEBUG
-            )
-
-            neo.reverse_mount_dir(
-                path_to_mount=Path('/'),
-                mountpoint=gc_mount_path_src,
-                cipher_path=gcpath,
-                password=self.config.get_encryption_password()
+            backup_src = neo.BackupSources(
+                include_paths=[Path.home() / 'Downloads'],  # TODO,
+                dest=backup_dest
             )
 
             # 3. Forward (decrypting) mount of the destination dir
-            gc_mount_path_dest = Path.home() / 'gc_decrypted_dest'  # DEBUG
-            gc_mount_path_dest.mkdir(parents=True, exist_ok=True)
-            neo.forward_mount_dir(
-                path_to_mount=gcpath,
-                mountpoint=gc_mount_path_dest,
-                password=self.config.get_encryption_password()
-            )
+            dest_decrypt_path = backup_dest.get_decrypted_view_as_path()
 
             return True
         # --- END Workaround ---

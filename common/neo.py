@@ -11,8 +11,11 @@ Dev note (buhtz, 2026-10):
 Code will refactored and restructered later, after I figured out how this
 should work.
 """
+from __future__ import annotations
+import hashlib
 import json
 import os
+import tempfile
 from pathlib import Path
 import subprocess
 import bitbase
@@ -27,24 +30,33 @@ import tools
 MOUNT_ROOT_PATH = bitbase.XDG_DATA_HOME / bitbase.BINARY_NAME_BASE / 'mnt'
 
 
-class BackupSource:
+class BackupSources:
     """The source endpoint of a backup.
-    """
-    def __init__(self, path: Path):
 
+    One instance manage all include entries of a backup profile at once.
+    """
+    def __init__(self, include_paths: list[Path], dest: BackupDestination):
+        """
+        """
         # The original source path. In mode "local encrypted" it is the not
         # encrypted.
-        self._source_path = path
-        self._source_path.mkdir(parents=True, exist_ok=True)
+        self._include_paths = include_paths
 
-        # The (reverse mounted) encrypted view of the original source path
-        self._encrypted_path = None
+        # # The (reverse mounted) encrypted view of the original source path
+        self._reverse_mountpoint = MOUNT_ROOT_PATH / 'reverse'
+        self._reverse_mountpoint.mkdir(parents=True, exist_ok=True)
+        self._reverse_mountpoint = Path(tempfile.mkdtemp(
+            prefix=f'{os.getpid()}.',
+            dir=self._reverse_mountpoint
+        ))
 
+        reverse_mount_dir(
+            path_to_mount=Path('/'),
+            mountpoint=self._reverse_mountpoint,
+            cipher_path=dest.original_path,
+            password=dest.gocrypt_password
+        )
 
-    def create_encrypted_view(self,
-                              backup_destination: BackupDestination) -> Path:
-        """
-        """
 
 class BackupDestination:
     """The destination endpoint of a backup.
@@ -65,7 +77,27 @@ class BackupDestination:
         self._ssh_host = ssh_host
 
         # The (forward mounted) decrypted view of the original destination path
-        self._decrypted_path = None
+        # E.g., ``~/.local/share/backintime/mnt/<fp>/mountpoint/``.
+        self._decrypted_path = MOUNT_ROOT_PATH / \
+            self._get_fingerprint() / 'mountpoint'
+        self._decrypted_path.mkdir(parents=True, exist_ok=True)
+
+    @property
+    def original_path(self) -> Path:
+        return self._destination_path
+
+    @property
+    def gocrypt_password(self):
+        return self._gocrypt_password
+
+    def _get_fingerprint(self):
+        # WORKAROUND DRAFT
+        # This is "local_gocryptfs" only
+        data = f'LOCAL: {self._destination_path}'
+        data = f'{data} | '
+        data = f'{data} GOCRYPTFS: '
+
+        return compute_fingerprint_from_string(data)
 
     def initialize_if_needed(self):
         """Initialize the destination directory if not still initialized.
@@ -73,19 +105,29 @@ class BackupDestination:
         For local encrypted profiles the destination path will be initialized
         for being usable.
         """
-        # 1. Initialize the destination dir
-        if neo.is_initialized(self._destination_path):
+
+        if is_initialized(self._destination_path):
             return
 
-        neo.init_gocryptfs_dir(
+        init_gocryptfs_dir(
             self._destination_path,
             self._gocrypt_password
         )
 
+    def get_decrypted_view_as_path(self):
+        """Create a mountpoint with a decrypted view to the destination"""
+
+        forward_mount_dir(
+            path_to_mount=self._destination_path,
+            mountpoint=self._decrypted_path,
+            password=self.gocrypt_password,
+        )
+
+        return self._decrypted_path
+
 
 def init_gocryptfs_dir(path: Path, password: str):
-
-        """Initialize a fresh gocryptfs directory.
+    """Initialize a fresh gocryptfs directory.
 
     The dir need to be empty. It uses the `-aessiv` option to reuse the config
     for reverse mounts on any other directories.
@@ -311,3 +353,28 @@ def reverse_mount_dir(path_to_mount: Path,
     logger.info(
         'Created encrypted view (reverse mount). '
         f'(source: "{path_to_mount}" -> target: "{mountpoint}")')
+
+
+def compute_fingerprint_from_string(source: str) -> str:
+    """Compute a unique fingerprint used for mountpoints.
+
+    The fingerprint is a deterministic hex string and based on the
+    given `source` string. That source string consists in most cases of the
+    profile configuration regarding destination path, SSH and Gocryptfs
+    configuration.
+
+    That fingerprint is unique to the configuration but independent from
+    the instance used. Every backintime instance with the identical mount
+    setup and configuration should return an identical fingerprint.
+
+    In combination with mountpoint lock mechanic, it serves as a stable
+    identifier for mountpoints, allowing mounts with identical
+    configurations to be recognized and potentially reused across
+    processes.
+
+    Returns:
+        A SHA256 hash cut to a 12-character hexadecimal string.
+    """
+    logger.debug(f'fingerprint: {source=}', self)
+
+    return hashlib.sha256(source.encode()).hexdigest()[:12]
