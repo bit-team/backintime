@@ -46,6 +46,7 @@ _base_dir = pathlib.Path(__file__).resolve().parent.parent
 # Files in this lists will get the full battery of linters and rule sets.
 full_test_files = [_base_dir / fp for fp in (
     'askpass.py',
+    'backupmsg.py',
     'bitbase.py',
     'konfig.py',
     'bitlicense.py',
@@ -72,6 +73,7 @@ full_test_files = [_base_dir / fp for fp in (
     'sshsetupvalidator.py',
     'ssh_max_arg.py',
     'storagesize.py',
+    'take_backup.py',
     'test/test_args.py',
     'test/test_diagnostics.py',
     'test/test_diskusage.py',

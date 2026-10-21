@@ -1725,15 +1725,18 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         return os.path.join(self._LOCAL_DATA_FOLDER,
                             "takesnapshot_%s.log" % self.fileId(profile_id))
 
-    def takeSnapshotMessageFile(self, profile_id=None):
-        return os.path.join(self._LOCAL_DATA_FOLDER,
-                            "worker%s.message" % self.fileId(profile_id))
+    # def takeSnapshotMessageFile(self, profile_id=None):
+    #     return os.path.join(self._LOCAL_DATA_FOLDER,
+    #                         "worker%s.message" % self.fileId(profile_id))
 
-    def takeSnapshotProgressFile(self, profile_id=None):
-        return os.path.join(self._LOCAL_DATA_FOLDER,
-                            "worker%s.progress" % self.fileId(profile_id))
+    # def takeSnapshotProgressFile(self, profile_id=None):
+    #     return os.path.join(self._LOCAL_DATA_FOLDER,
+    #                         "worker%s.progress" % self.fileId(profile_id))
 
     def takeSnapshotInstanceFile(self, profile_id=None):
+        logger.error(
+            'DEPRECATED. Use ProfileContext().app_instance_file instead'
+        )
         return os.path.join(
             self._LOCAL_DATA_FOLDER,
             "worker%s.lock" % self.fileId(profile_id))
@@ -1823,7 +1826,7 @@ class Config:  # (configfile.ConfigFileWithProfiles):
 
         return False
 
-    def backupScheduled(self, profile_id = None):
+    def backupScheduled(self, profile_id=None):
         """Check if the profile is supposed to be run this time.
 
         Returns:

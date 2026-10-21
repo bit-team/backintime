@@ -40,6 +40,7 @@ import logger
 import snapshots
 import guiapplicationinstance
 from mount import MountManager, MountError
+from profilecontext import ProfileContext
 import progress
 import encfsmsgbox
 from inhibitsuspend import InhibitSuspend
@@ -1204,16 +1205,19 @@ class MainWindow(QMainWindow):
         """
         paused, fake_busy = self._handle_wait_locker(force_wait_lock)
 
-        takeSnapshotMessage = self.snapshots.takeSnapshotMessage()
+        msg = None
+
+        if self.snapshots.backup_messenger:
+            msg = self.snapshots.backup_messenger.get_message()
 
         if fake_busy:
-            if takeSnapshotMessage is None:
-                takeSnapshotMessage = (0, '…')
+            if msg is None:
+                msg = (0, '…')
 
-        elif takeSnapshotMessage is None:
-            takeSnapshotMessage = self.lastTakeSnapshotMessage
-            if takeSnapshotMessage is None:
-                takeSnapshotMessage = (0, _('Done'))
+        elif msg is None:
+            msg = self.lastTakeSnapshotMessage
+            if msg is None:
+                msg = (0, _('Done'))
 
         force_update = (
             fake_busy == False
@@ -1239,22 +1243,23 @@ class MainWindow(QMainWindow):
             if snapshotsList != self.snapshotsList:
                 self.snapshotsList = snapshotsList
                 self._rebuild_timeline_without_refresh()
-                takeSnapshotMessage = (0, _('Done'))
+                msg = (0, _('Done'))
             else:
-                if takeSnapshotMessage[0] == 0:
-                    takeSnapshotMessage = (0, _('Done, no backup needed'))
+                if msg[0] == 0:
+                    msg = (0, _('Done, no backup needed'))
 
             # Check `activate_shutdown` here, instead of shutdownagent.py
             # function `shutdown` should just focus on shutting down a machine
             if self.shutdown.activate_shutdown and get_shutdown_confirmation():
                 self.shutdown.shutdown()
 
-        message = self._set_take_snapshot_message(
-            message=takeSnapshotMessage,
+        msg = self._set_take_snapshot_message(
+            message=msg,
             force_update=force_update,
-            fake_busy=fake_busy)
+            fake_busy=fake_busy
+        )
 
-        self._update_progress_bar(message)
+        self._update_progress_bar(msg)
 
     def _handle_wait_locker(self, force_wait_lock):
         if force_wait_lock:
@@ -1334,9 +1339,9 @@ class MainWindow(QMainWindow):
 
     def _update_progress_bar(self, message: str):
 
-        pg = progress.ProgressFile(
-            filename=self.config.takeSnapshotProgressFile()
-        )
+        progress_fp = ProfileContext().progress_file_path
+
+        pg = progress.ProgressFile(filename=str(progress_fp))
 
         if not pg.fileReadable():  # Why not?
             self.status_bar.progress_hide()
