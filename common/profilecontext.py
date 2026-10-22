@@ -15,6 +15,9 @@ import bitbase
 import singleton
 from konfig import Konfig, Profile
 
+PREFIX_WORKER = 'worker'
+PREFIX_RESTORE = 'restore'
+
 
 class ProfileContext(metaclass=singleton.Singleton):
     """Represent the currently selected backup profile.
@@ -61,10 +64,10 @@ class ProfileContext(metaclass=singleton.Singleton):
         else:
             self._profile_ref = profile_ref
 
-    def _get_path(self, suffix: str) -> Path:
+    def _get_path(self, prefix: str, suffix: str) -> Path:
         worker_id = self.profile
         base_path = bitbase.XDG_DATA_HOME / bitbase.BINARY_NAME_BASE
-        return base_path / f'worker{worker_id}.{suffix}'
+        return base_path / f'{prefix}{worker_id}.{suffix}'
 
     @property
     def message_file_path(self) -> Path:
@@ -74,7 +77,7 @@ class ProfileContext(metaclass=singleton.Singleton):
         A workaround. Formally known as
         `config.Config.takeSnapshotMessageFile()`.
         """
-        return self._get_path('message')
+        return self._get_path(PREFIX_WORKER, 'message')
 
     @property
     def progress_file_path(self) -> Path:
@@ -83,13 +86,16 @@ class ProfileContext(metaclass=singleton.Singleton):
         A workaround. Formally known as
         `config.Config.takeSnapshotProgressFile()`.
         """
-        return self._get_path('progress')
+        return self._get_path(PREFIX_WORKER, 'progress')
 
     @property
     def take_backup_instance_file_path(self) -> Path:
-        """The lock file used to indicate the running instance.
-
-        A workaround. Formally known as
-        `config.Config.()`.
+        """The lock file used to indicate the running backup instance.
         """
         return self._get_path('lock')
+
+    @property
+    def restore_instance_file_path(self) -> Path:
+        """The lock file used to indicate the running restore instance.
+        """
+        return self._get_path(PREFIX_RESTORE, 'lock')

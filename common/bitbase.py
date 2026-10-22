@@ -206,6 +206,25 @@ HOURLY_BACKUPS = (
     ScheduleMode.HOURS_12,
     ScheduleMode.CUSTOM_HOUR)
 
+SCHEDULE_MODES_HANDLED_BY_CRON = (
+    ScheduleMode.AT_EVERY_BOOT,
+    ScheduleMode.MINUTES_5,
+    ScheduleMode.MINUTES_10,
+    ScheduleMode.MINUTES_30,
+    ScheduleMode.HOUR,
+    ScheduleMode.HOUR_1,
+    ScheduleMode.HOURS_2,
+    ScheduleMode.HOURS_4,
+    ScheduleMode.HOURS_6,
+    ScheduleMode.HOURS_12,
+    ScheduleMode.CUSTOM_HOUR,
+    ScheduleMode.DAY,
+    ScheduleMode.WEEK,
+    ScheduleMode.MONTH,
+    ScheduleMode.YEAR,
+)
+
+
 # |------|
 # | Misc |
 # |------|

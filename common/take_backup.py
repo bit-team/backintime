@@ -11,11 +11,13 @@ snapshots.Snapshot.backup() and snapshots.Snapshot.takeBackup()
 Current approach is to make it work with local_gocryptfs profile only.
 """
 from __future__ import annotations
-from backupmsg import BackupMessenger
-from konfig import Konfig
+from applicationinstance import ApplicationInstance
+from bitbase import ScheduleMode, SCHEDULE_MODES_HANDLED_BY_CRON
 from pluginmanager import PluginManager
 from profilecontext import ProfileContext
+import schedule
 from snapshots import Snapshots
+import datetime
 import logger
 import tools
 
@@ -40,25 +42,107 @@ class TakeBackup:
         # checks.
         self._force = force_backup
 
+    def proceed(self) -> bool:
+        """The entry point to run/start the backup"""
+
+        # Check some preconditions
+        if not self._force and not self._backup_is_allowed():
+            return False
+
+        # Backup or restore already running?
+        if self._backup_already_running() or self._restore_already_running():
+            return False
+
+        profile = ProfileContext().profile
+
+        # Warn about unknown power status if useful
+        if profile.no_backup_on_battery and not tools.powerStatusAvailable():
+            logger.warning(
+                'Option "'
+                + _('Disable backups when on battery')
+                + '" is enabled but battery power status is not available.'
+            )
+
+    def _backup_already_running(self) -> bool:
+        ctx = ProfileContext()
+        instance = ApplicationInstance(
+            pidFile=str(ctx.take_backup_instance_file_path),
+            autoExit=False,
+            flock=True
+        )
+
+        if instance.is_another_instance_running():
+            logger.warning(
+                'A backup process is already running. The PID of the running '
+                f'backup is stored in {instance.pidFile}. Consider deleting '
+                'the PID file if there is actually no backup process running.'
+            )
+            self.plugin_manager.error(2)
+
+            return True
+
+        return False
+
+    def _restore_already_running(self) -> bool:
+        ctx = ProfileContext()
+        instance = ApplicationInstance(
+            pidFile=str(ctx.restore_instance_file_path),
+            autoExit=False
+        )
+
+        if instance.is_another_instance_running():
+            logger.warning(
+                'A restore process is already running. Backup has been '
+                'stopped. The PID of the running restore is stored in '
+                f'{instance.pidFile}. Consider deleting the PID file '
+                'if there is actually no restore process running.'
+            )
+
+            return True
+
+        return False
+
     def _backup_is_allowed(self) -> bool:
         profile = ProfileContext().profile
 
         # Backup on battery allowed?
         if profile.no_backup_on_battery and tools.onBattery():
-            if not self._force:
-                self.messenger.set_info(_('Deferring backup while on battery'))
-                logger.info('Deferring backup while on battery')
-                logger.warning('Backup not performed')
+            self.messenger.set_info(_('Deferring backup while on battery'))
+            logger.info('Deferring backup while on battery')
+            return False
 
+        # Scheduling
+        if profile.schedule_mode != ScheduleMode.DISABLED:
+            if not self._backup_is_scheduled():
+                logger.info(
+                    f'Profile "{profile}" is not scheduled to run now.'
+                )
                 return False
 
+        return True
 
+    def _backup_is_scheduled(self) -> bool:
+        profile = ProfileContext().profile
 
-        # etc
+        if profile.schedule_mode in SCHEDULE_MODES_HANDLED_BY_CRON:
+            return True
 
-        return False
+        if profile.schedule_mode in (ScheduleMode.REPEATEDLY,
+                                     ScheduleMode.UDEV):
+            timestamp_fp = schedule.get_anacron_spoolfile_path(profile)
+            last_time = tools.readTimeStamp(str(timestamp_fp))
 
-    def proceed(self) -> bool:
-        """The entry point to run/start the backup"""
-        if not self._backup_is_allowed():
-            return False
+            if not last_time:
+                return True
+
+            return tools.crossed_at_least_units(
+                start=last_time,
+                end=datetime.datetime.now(),
+                value=profile.schedule_repeated_period,
+                unit=profile.schedule_repeated_unit
+            )
+
+        # Failsafe
+        raise RuntimeError(
+            f'Unexpected schedule mode {profile.schedule_mode} in {profile}'
+        )

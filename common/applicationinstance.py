@@ -52,6 +52,10 @@ class ApplicationInstance:
     def __del__(self):
         self.flockUnlock()
 
+    def is_another_instance_running(self) -> bool:
+        """Return if another instance is running."""
+        return not self.check()
+
     # TODO Rename to is_single_instance() to make the purpose more obvious
     def check(self, autoExit=False):
         """Check if the current application is already running.

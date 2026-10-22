@@ -930,8 +930,11 @@ class Snapshots:
         # -- do the backup --
         if (self.config.noSnapshotOnBattery()
                 and not tools.powerStatusAvailable()):
-            logger.warning('Backups disabled on battery but power '
-                           'status is not available', self)
+            logger.warning(
+                'Option "'
+                + _('Disable backups when on battery')
+                + '" is enabled but battery power status is not available.'
+            )
 
         instance.startApplication()
 

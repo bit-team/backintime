@@ -27,11 +27,12 @@ import shutil
 import signal
 import subprocess
 import sys
+import unicodedata
 from io import StringIO, TextIOWrapper
 from datetime import datetime, timedelta
 from collections.abc import MutableMapping
 from packaging.version import Version
-from typing import Union
+from typing import Any, Union
 from bitbase import TimeUnit, BINARY_NAME_BASE
 from event import Event
 from storagesize import StorageSize, SizeUnit
@@ -850,7 +851,6 @@ def crossed_at_least_units(start: datetime,
 
         return delta_hours >= value
 
-
     if unit is TimeUnit.DAY:
         return start.date() <= (end.date() - timedelta(days=value))
 
@@ -1260,6 +1260,52 @@ def is_Qt_working(systray_required=False):
     return False
 
 
+def _get_upower_dbus_property(property_name: str) -> Any:
+    """Read a property from UPower.
+
+    Return:
+        ``None`` if D-Bus or the UPower interface is unavailable.
+
+    Raises:
+        ``DBusException`` if reading the property failed.
+    """
+    if dbus is None:
+        return None
+
+    # Establish D-Bus stuff
+    try:
+        bus = dbus.SystemBus()
+        upower_proxy = bus.get_object(
+            bus_name='org.freedesktop.UPower',
+            object_path='/org/freedesktop/UPower'
+        )
+
+        props = dbus.Interface(
+            upower_proxy,  # proxy
+            'org.freedesktop.DBus.Properties'  # interface
+        )
+
+    except dbus.exceptions.DBusException as exc:
+        logger.error(
+            f'DBus exception while establishing UPower interface: {exc}'
+        )
+        return None
+
+    # Read the property
+    try:
+        return props.Get(
+            'org.freedesktop.UPower',  # interface name
+            property_name
+        )
+
+    except dbus.exceptions.DBusException as exc:
+        logger.debug(
+            'DBus exception while getting UPower '
+            f'property "{property_name}": {exc}'
+        )
+        raise
+
+
 def powerStatusAvailable():
     """
     Check if org.freedesktop.UPower is available so that
@@ -1268,45 +1314,30 @@ def powerStatusAvailable():
     Returns:
         bool:   ``True`` if :py:func:`tools.onBattery` can report power status
     """
-    if dbus:
-        try:
-            bus = dbus.SystemBus()
-            proxy = bus.get_object('org.freedesktop.UPower',
-                                   '/org/freedesktop/UPower')
-            return 'OnBattery' in proxy.GetAll(
-                'org.freedesktop.UPower',
-                dbus_interface='org.freedesktop.DBus.Properties')
+    try:
+        status = _get_upower_dbus_property('OnBattery')
 
-        except dbus.exceptions.DBusException:
-            pass
-
-    return False
-
-
-def onBattery():
-    """
-    Checks if the system is on battery power.
-
-    Returns:
-        bool:   ``True`` if system is running on battery
-    """
-    if dbus is None:
+    except dbus.exceptions.DBusException:
         return False
 
+    return status is not None
+
+
+def onBattery() -> bool:
+    """Checks if the system is on battery power.
+
+    Returns:
+        ``True`` if system is running on battery or an error occured.
+    """
     try:
-        bus = dbus.SystemBus()
-        proxy = bus.get_object('org.freedesktop.UPower',
-                                '/org/freedesktop/UPower')
-        return bool(proxy.Get(
-            'org.freedesktop.UPower',
-            'OnBattery',
-            dbus_interface='org.freedesktop.DBus.Properties'))
+        status = _get_upower_dbus_property('OnBattery')
 
     except dbus.exceptions.DBusException as exc:
         logger.debug('DBus exception while determining if running on '
                      f'battery. {exc}')
+        status = False
 
-    return False
+    return bool(status)
 
 
 def rsyncCaps() -> list[str]:
@@ -2522,3 +2553,40 @@ def convert_info_ini_file_to_dict(buffer: Union[TextIOWrapper, StringIO]
             result[f'{item_name}s'][pair_result[id_name]] = pair_result['name']
 
     return result
+
+
+def slugify(value: str) -> str:
+    """Convert a string into a filename-friendly slug.
+
+    Unicode letters and numbers (e.g. 東京, Привет мир) are
+    preserved. Compatibility normalization (NFKD) and combining-mark removal
+    simplify characters such as 'ö' to 'o'. Other characters are replaced with
+    underscores, consecutive underscores are collapsed, and leading and
+    trailing underscores are removed.
+
+    Raises:
+        ValueError: If the resulting slug is empty.
+
+    """
+    # Decompose Unicode characters, e.g. 'ö' into 'o' + diaeresis.
+    value = unicodedata.normalize('NFKD', value)
+
+    # Remove combining marks (e.g. two dots from 'ö' or accents 'ó')
+    value = ''.join(
+        filter(lambda char: unicodedata.category(char)[0] != 'M', value)
+    )
+
+    # Keep Unicode letters and numbers; replace other characters.
+    value = ''.join(
+        char if unicodedata.category(char)[0] in 'LN' else '_'
+        for char in value
+    )
+
+    # Collapse consecutive underscores and strip leading/trailing ones.
+    value = re.sub(r'_+', '_', value).strip('_')
+
+    # Reject input that produces an empty slug.
+    if not value:
+        raise ValueError('Input resulted in an empty slugy')
+
+    return value
