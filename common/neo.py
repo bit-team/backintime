@@ -72,15 +72,23 @@ class BackupSources:
         return list(missing_entries)
 
     def get_transfer_root_path(self) -> Path:
-        """Return the root path used by rsync for the transfer.
+        """Return the path used by rsync as SRC for the transfer.
 
-        Note: Include paths are specified relative to this root path.
+        The return value depends on the backup mode of the current profile.
+        That path is the root of the file system or a mountpoint connected to
+        the filesystems root.
+        Include paths are specified relative to this root path.
+
+        Returns:
+            In "local" or "ssh" mode: File system root.
+            In "local encrypted" or "ssh encrypted" mode: An encrypted view
+                (gocryptfs reverse mount) of file system root.
         """
         pass
 
-    def get_local_mounted_path(self) -> Path:
-        """Return the source path through a local mount."""
-        pass
+    # def get_local_mounted_path(self) -> Path:
+    #     """Return the source path through a local mount."""
+    #     pass
 
 
 class BackupDestination:
@@ -111,11 +119,31 @@ class BackupDestination:
         self._decrypted_path.mkdir(parents=True, exist_ok=True)
 
     def get_transfer_path(self) -> Path | str:
-        """Return the destination path used by rsync for the transfer."""
+        """Return the destination path used by rsync as DEST for the transfer.
+
+        The return value depends on the backup mode of the current profile.
+
+        Returns:
+            In "local" and "local encrypted": The regular destination path.
+            In "ssh" and "ssh encrypted" mode: Remote path in SSH syntax.
+                (e.g. user@host:/path)
+        """
         pass
 
-    def get_local_mounted_path(self) -> Path:
-        """Return the destination path through a local mount."""
+    def get_local_path(self) -> Path:
+        """Return the destination path through a local mount.
+
+        The return value depends on the backup mode of the current profile.
+
+        Returns:
+            In "local": The destination path.
+            In "local encrypted": A decrypted (gocryptfs forward) mounted view
+                of the destination path.
+            In "ssh" mode: An sshfs mounted mountpoint.
+            In "ssh encrypted" mode: A decrypted (gocryptfs forward) mounted
+                mountpoint, of an sshfs mounted mountpoint to the remote
+                destination.
+        """
         pass
 
     @property
