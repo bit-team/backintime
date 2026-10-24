@@ -573,6 +573,12 @@ class Profile:  # pylint: disable=too-many-public-methods
 
         return [item[0] for item in only_dirs]
 
+    @property
+    def includes_as_path(self) -> list[Path]:
+        """Return directories and files as a list of `Path` objects.
+        """
+        return [Path(inc) for inc, _type in self.include]
+
     @include.setter
     def include(self, values: list[str, int]) -> None:
         # delete existing values

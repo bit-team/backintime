@@ -23,6 +23,7 @@ import logger
 from mount import MountError
 from password_ipc import TempPasswordThread
 from sshcore import SSHHost
+from storagesize import StorageSize
 import tools
 
 # The directory used for all temptorary mount points. In most cases it
@@ -38,7 +39,7 @@ class BackupSources:
     def __init__(self, include_paths: list[Path], dest: BackupDestination):
         """
         """
-        # The original source path. In mode "local encrypted" it is the not
+        # The original source paths. In mode "local encrypted" it is the not
         # encrypted.
         self._include_paths = include_paths
 
@@ -57,6 +58,30 @@ class BackupSources:
             password=dest.gocrypt_password
         )
 
+    def get_include_paths_missing_in_source(self) -> list[Paths]:
+        """Return include entries that are missing in the backup source.
+
+        Returns:
+            list: List of entries missing.
+        """
+        missing_entries = filter(
+            lambda path: not path.exists(),
+            self._include_paths
+        )
+
+        return list(missing_entries)
+
+    def get_transfer_root_path(self) -> Path:
+        """Return the root path used by rsync for the transfer.
+
+        Note: Include paths are specified relative to this root path.
+        """
+        pass
+
+    def get_local_mounted_path(self) -> Path:
+        """Return the source path through a local mount."""
+        pass
+
 
 class BackupDestination:
     """The destination endpoint of a backup.
@@ -66,14 +91,17 @@ class BackupDestination:
                  path: Path,
                  gocrypt_password: str | None,
                  ssh_host: SSHHost | None = None):
-        # The original destination path. In mode "local encrypted" it is the
-        # encrypted path.
+        # The original destination path.
+        # In mode "local" it is the original regular path.
+        # In mode "local encrypted" it is the encrypted path.
+        # In mode "ssh" it is the original remote path.
+        # In mode "ssh encrpyted" it is the original remote path.
         self._destination_path = path
 
         # Gocryptfs encryption password
         self._gocrypt_password = gocrypt_password
 
-        # In case of "SSH (encrypted)" profile
+        # In case of SSH profiles
         self._ssh_host = ssh_host
 
         # The (forward mounted) decrypted view of the original destination path
@@ -81,6 +109,14 @@ class BackupDestination:
         self._decrypted_path = MOUNT_ROOT_PATH / \
             self._get_fingerprint() / 'mountpoint'
         self._decrypted_path.mkdir(parents=True, exist_ok=True)
+
+    def get_transfer_path(self) -> Path | str:
+        """Return the destination path used by rsync for the transfer."""
+        pass
+
+    def get_local_mounted_path(self) -> Path:
+        """Return the destination path through a local mount."""
+        pass
 
     @property
     def original_path(self) -> Path:
@@ -99,6 +135,9 @@ class BackupDestination:
 
         return compute_fingerprint_from_string(data)
 
+    def is_initialized(self) -> bool:
+        return is_initialized(self._destination_path)
+
     def initialize_if_needed(self):
         """Initialize the destination directory if not still initialized.
 
@@ -106,7 +145,7 @@ class BackupDestination:
         for being usable.
         """
 
-        if is_initialized(self._destination_path):
+        if self.is_initialized():
             return
 
         init_gocryptfs_dir(
@@ -114,8 +153,15 @@ class BackupDestination:
             self._gocrypt_password
         )
 
-    def get_decrypted_view_as_path(self):
-        """Create a mountpoint with a decrypted view to the destination"""
+    def get_decrypted_view_as_path(self) -> Path:
+        """Create a mountpoint with a decrypted view to the destination
+
+
+        WEITER WEITER WEITER
+        Creation and getting should be separated. Should be created round about
+        initialization() to validate if it works well before getting it the
+        first time.
+        """
 
         forward_mount_dir(
             path_to_mount=self._destination_path,
@@ -124,6 +170,33 @@ class BackupDestination:
         )
 
         return self._decrypted_path
+
+    def is_free_space_less_than(self, value: StorageSize) -> bool:
+        real = self._get_free_space()
+
+        if real is None:
+            return False
+
+        return real < value
+
+    def get_free_space(self) -> StorageSize | None:
+        """Free space at destination.
+
+        Return:
+            A StorageSize object holding the value or `None` in case of errors.
+        """
+
+        ssh_cmd = None
+
+        # TODO
+        # # Prepare getting free space value
+        # if 'ssh' in mode:
+        #     # ...on remote host
+        #     # dest_path = self.config.sshSnapshotsFullPath()
+        #     ssh_cmd = self.config.sshCommand(
+        #         [], nice=False, ionice=False)
+
+        return tools.free_space(self._destination_path, ssh_cmd)
 
 
 def init_gocryptfs_dir(path: Path, password: str):
