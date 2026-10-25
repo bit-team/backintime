@@ -345,6 +345,7 @@ def _simple_cron_line(schedule_mode: ScheduleMode,  # noqa: PLR0913, PLR0917
 
 
 def get_anacron_spoolfile_path(profile: Profile) -> Path:
+    """Path of the timestamp file used by Repeatedly schedule mode"""
     # "Main profile" -> "1_Main_profile"
     file_name = tools.slugify(f'{profile.profile_id}_{profile.name}')
 

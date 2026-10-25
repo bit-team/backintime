@@ -15,10 +15,8 @@ This is an interim module. The mechanic will be replaced by improved
 interprocess communication (see issue #2260).
 """
 from __future__ import annotations
-import os
 import datetime
 import logger
-import bitbase
 from applicationinstance import ApplicationInstance
 from pluginmanager import PluginManager
 from profilecontext import ProfileContext
@@ -40,7 +38,7 @@ class BackupMessenger:
         profile_ctx = ProfileContext()
         self._profile = profile_ctx.profile
 
-        self.lastBusyCheck = datetime.datetime(1, 1, 1)
+        self._last_busy_check = datetime.datetime(1, 1, 1)
 
         self._msg_file = profile_ctx.message_file_path
         self._progress_file = profile_ctx.progress_file_path
@@ -70,8 +68,8 @@ class BackupMessenger:
         # Dev note (buhtz): Not sure what happens here or why this is useful.
         wait = datetime.datetime.now() - datetime.timedelta(seconds=5)
 
-        if self.lastBusyCheck < wait:
-            self.lastBusyCheck = datetime.datetime.now()
+        if self._last_busy_check < wait:
+            self._last_busy_check = datetime.datetime.now()
 
             if not self._is_backup_instance_busy():
                 self.clear_files()
@@ -89,12 +87,12 @@ class BackupMessenger:
         except OSError as exc:
             logger.warning(
                 'Failed to get takeSnapshot message from '
-                f'{self._msg_file}: {str(exc)}'
+                f'{self._msg_file}: {exc!s}'
             )
 
             return None
 
-        if len(items) < 2:
+        if len(items) < 2:  # noqa: PLR2004
             return None
 
         # "Message id": Type of the message.
@@ -103,10 +101,10 @@ class BackupMessenger:
         try:
             mid = int(items[0])
 
-        # TODO (buhtz): Too broad exception
-        except Exception as exc:
+        # pylint: disable-next=broad-exception-caught
+        except Exception as exc:  # noqa: BLE001
             logger.debug('Failed to extract message ID from '
-                         f'{items}: {str(exc)}', self)
+                         f'{items}: {exc!s}', self)
 
         return (mid, '\n'.join(items[1:]))
 
@@ -142,7 +140,7 @@ class BackupMessenger:
         except OSError as exc:
             logger.warning(
                 'Failed to set takeSnapshot message to '
-                f'{self._msg_file}: {str(exc)}'
+                f'{self._msg_file}: {exc!s}'
             )
 
         # Error message?
@@ -161,11 +159,14 @@ class BackupMessenger:
                 timeout=timeout
             )
 
-        except Exception as exc:
-            logger.warning(f'Failed to send message to plugins: {str(exc)}')
+        # pylint: disable-next=broad-exception-caught
+        except Exception as exc:  # noqa: BLE001
+            logger.warning(f'Failed to send message to plugins: {exc!s}')
 
     def set_info(self, message: str, timeout: int = -1):
+        """Update the status message with an info message."""
         self.set_message(type_id=0, message=message, timeout=timeout)
 
     def set_error(self, message: str, timeout: int = -1):
+        """Update the status message with an error message."""
         self.set_message(type_id=1, message=message, timeout=timeout)

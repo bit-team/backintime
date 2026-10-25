@@ -520,7 +520,7 @@ class GeneralTab(QDialog):
             )
 
             # 3. Forward (decrypting) mount of the destination dir
-            dest_decrypt_path = backup_dest.get_decrypted_view_as_path()
+            dest_decrypt_path = backup_dest.get_local_path()
 
             return True
         # --- END Workaround ---

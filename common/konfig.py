@@ -30,6 +30,7 @@ from bitbase import TimeUnit, StorageSizeUnit, ScheduleMode
 # class-based API isn't setup yet.
 # The bigger problem with config.py is that it do use translatable strings.
 # Strings like this do not belong into a config file or its context.
+# pylint: disable=duplicate-code
 try:
     _('Warning')
 except NameError:

@@ -92,7 +92,7 @@ class ProfileContext(metaclass=singleton.Singleton):
     def take_backup_instance_file_path(self) -> Path:
         """The lock file used to indicate the running backup instance.
         """
-        return self._get_path('lock')
+        return self._get_path(PREFIX_WORKER, 'lock')
 
     @property
     def restore_instance_file_path(self) -> Path:

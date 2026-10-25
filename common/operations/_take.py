@@ -29,7 +29,7 @@ from pluginmanager import PluginManager
 from profilecontext import ProfileContext
 from snapshots import Snapshots
 
-
+# pylint: disable=duplicate-code
 try:
     _('Warning')
 except NameError:
@@ -62,7 +62,11 @@ def _application_instance_lock(instance: ApplicationInstance):
         instance.exitApplication()
 
 
-class TakeBackup(_Operation):
+class TakeBackup:
+    """The backup operation.
+
+    The instance holds and coordinates all resources needed to take a backup.
+    """
 
     def __init__(self,
                  snapshots_instance: Snapshots,
@@ -93,7 +97,6 @@ class TakeBackup(_Operation):
 
         self._backup_instance = None
 
-    def backup_log
     def proceed(self) -> bool:
         """The entry point to run/start the backup"""
 
@@ -136,6 +139,7 @@ class TakeBackup(_Operation):
                     self._prepare_endpoints()
                     self._warn_about_free_space_at_destination()
                     self._warn_about_include_entries_missing_in_source()
+
                     result = self._run_backup()
 
         return result
@@ -190,12 +194,14 @@ class TakeBackup(_Operation):
             return False
 
         # Scheduling
-        if profile.schedule_mode != ScheduleMode.DISABLED:
-            if not self._backup_is_scheduled():
-                logger.info(
-                    f'Profile "{profile}" is not scheduled to run now.'
-                )
-                return False
+        if (
+                profile.schedule_mode != ScheduleMode.DISABLED
+                and not self._backup_is_scheduled()
+        ):
+            logger.info(
+                f'Profile "{profile}" is not scheduled to run now.'
+            )
+            return False
 
         return True
 
@@ -346,10 +352,12 @@ class TakeBackup(_Operation):
             logger.warning('A plugin prevented the backup')
             return ERROR
 
-        dt_now = datetime.datetime.today()
+        dt_now = datetime.datetime.now()
 
         self.messenger.set_info('…')
         self.backup_log.new(
             date=dt_now,
             mounted_path=self._destination
         )
+
+        return SUCCESS

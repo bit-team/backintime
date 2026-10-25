@@ -64,6 +64,10 @@ full_test_files = [_base_dir / fp for fp in (
     'mount/_backends.py',
     'mount/_encryptors.py',
     'mount/_error.py',
+    'neo.py',
+    'operations/__init__.py',
+    'operations/_base.py',
+    'operations/_take.py',
     'profilecontext.py',
     'schedule.py',
     'shutdownagent.py',
@@ -73,7 +77,6 @@ full_test_files = [_base_dir / fp for fp in (
     'sshsetupvalidator.py',
     'ssh_max_arg.py',
     'storagesize.py',
-    'take_backup.py',
     'test/test_args.py',
     'test/test_diagnostics.py',
     'test/test_diskusage.py',
@@ -243,10 +246,13 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # - useless noqua (RUF100)
             # - pep8-naming (N)
             '--extend-select=PL,E,W,INT,RUF100,N',
+            # Ignore: unsorted/unformatted import block; until #1575 is fixed
+            '--ignore=I001',
             # Ignore: redefined-loop-name
             '--ignore=PLW2901',
-            # Ignore: unsorted/unformatted import block
-            '--ignore=I001',
+            # Ignore: multiple-with-statements; Nested with is IMHO easier
+            # to understand.
+            '--ignore=SIM117',
             '--line-length', str(PEP8_MAX_LINE_LENGTH),
             # Because of globally installed GNU gettext functions
             '--config', 'builtins=["_", "ngettext"]',

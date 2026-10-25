@@ -22,6 +22,7 @@ import bitbase
 import logger
 from mount import MountError
 from password_ipc import TempPasswordThread
+from profilecontext import ProfileContext
 from sshcore import SSHHost
 from storagesize import StorageSize
 import tools
@@ -38,7 +39,15 @@ class BackupSources:
     """
     def __init__(self, include_paths: list[Path], dest: BackupDestination):
         """
+        Args:
+            include_paths: List of files and directories (set by the user) to
+                be included in the backup.
+            dest: The destination endpoint.
         """
+        profile = ProfileContext().profile
+        if 'local_gocryptfs' != profile.mode:
+            raise NotImplementedError
+
         # The original source paths. In mode "local encrypted" it is the not
         # encrypted.
         self._include_paths = include_paths
@@ -54,11 +63,11 @@ class BackupSources:
         reverse_mount_dir(
             path_to_mount=Path('/'),
             mountpoint=self._reverse_mountpoint,
-            cipher_path=dest.original_path,
+            cipher_path=dest.get_transfer_path(),
             password=dest.gocrypt_password
         )
 
-    def get_include_paths_missing_in_source(self) -> list[Paths]:
+    def get_include_paths_missing_in_source(self) -> list[Path]:
         """Return include entries that are missing in the backup source.
 
         Returns:
@@ -84,7 +93,7 @@ class BackupSources:
             In "local encrypted" or "ssh encrypted" mode: An encrypted view
                 (gocryptfs reverse mount) of file system root.
         """
-        pass
+        # ...
 
     # def get_local_mounted_path(self) -> Path:
     #     """Return the source path through a local mount."""
@@ -99,6 +108,10 @@ class BackupDestination:
                  path: Path,
                  gocrypt_password: str | None,
                  ssh_host: SSHHost | None = None):
+        profile = ProfileContext().profile
+        if 'local_gocryptfs' != profile.mode:
+            raise NotImplementedError
+
         # The original destination path.
         # In mode "local" it is the original regular path.
         # In mode "local encrypted" it is the encrypted path.
@@ -113,10 +126,7 @@ class BackupDestination:
         self._ssh_host = ssh_host
 
         # The (forward mounted) decrypted view of the original destination path
-        # E.g., ``~/.local/share/backintime/mnt/<fp>/mountpoint/``.
-        self._decrypted_path = MOUNT_ROOT_PATH / \
-            self._get_fingerprint() / 'mountpoint'
-        self._decrypted_path.mkdir(parents=True, exist_ok=True)
+        self._decrypted_path = None
 
     def get_transfer_path(self) -> Path | str:
         """Return the destination path used by rsync as DEST for the transfer.
@@ -128,7 +138,7 @@ class BackupDestination:
             In "ssh" and "ssh encrypted" mode: Remote path in SSH syntax.
                 (e.g. user@host:/path)
         """
-        pass
+        return self._destination_path
 
     def get_local_path(self) -> Path:
         """Return the destination path through a local mount.
@@ -144,11 +154,7 @@ class BackupDestination:
                 mountpoint, of an sshfs mounted mountpoint to the remote
                 destination.
         """
-        pass
-
-    @property
-    def original_path(self) -> Path:
-        return self._destination_path
+        return self._decrypted_path
 
     @property
     def gocrypt_password(self):
@@ -164,7 +170,14 @@ class BackupDestination:
         return compute_fingerprint_from_string(data)
 
     def is_initialized(self) -> bool:
-        return is_initialized(self._destination_path)
+        """Return ``True`` if the gocryptfs cipher dir is initialized and a
+        (forward) mountpoint exists providing a decrypted view.
+        """
+
+        if not is_initialized(self._destination_path):
+            return False
+
+        return tools.is_mounted(self._decrypted_path)
 
     def initialize_if_needed(self):
         """Initialize the destination directory if not still initialized.
@@ -181,23 +194,16 @@ class BackupDestination:
             self._gocrypt_password
         )
 
-    def get_decrypted_view_as_path(self) -> Path:
-        """Create a mountpoint with a decrypted view to the destination
-
-
-        WEITER WEITER WEITER
-        Creation and getting should be separated. Should be created round about
-        initialization() to validate if it works well before getting it the
-        first time.
-        """
+        # E.g., ``~/.local/share/backintime/mnt/<fp>/mountpoint/``.
+        self._decrypted_path = MOUNT_ROOT_PATH / \
+            self._get_fingerprint() / 'mountpoint'
+        self._decrypted_path.mkdir(parents=True, exist_ok=True)
 
         forward_mount_dir(
             path_to_mount=self._destination_path,
             mountpoint=self._decrypted_path,
             password=self.gocrypt_password,
         )
-
-        return self._decrypted_path
 
     def is_free_space_less_than(self, value: StorageSize) -> bool:
         real = self._get_free_space()
@@ -476,6 +482,6 @@ def compute_fingerprint_from_string(source: str) -> str:
     Returns:
         A SHA256 hash cut to a 12-character hexadecimal string.
     """
-    logger.debug(f'fingerprint: {source=}', self)
+    logger.debug(f'fingerprint: {source=}')
 
     return hashlib.sha256(source.encode()).hexdigest()[:12]
