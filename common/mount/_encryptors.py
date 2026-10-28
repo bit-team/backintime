@@ -13,6 +13,7 @@ from enum import Enum, auto
 from pathlib import Path
 import logger
 import tools
+import tools_mountinfo
 from password_ipc import TempPasswordThread
 from ._error import MountError
 
@@ -292,7 +293,7 @@ class GoCryptFS(Encryptor):
 
         Raises: MountError
         """
-        if tools.is_mounted(self.path):
+        if tools_mountinfo.is_mounted(self.path):
             logger.info(
                 'Encrypted directory already mounted '
                 f'(source: "{self.cipher_path}" -> target: "{self.path}")'
@@ -355,7 +356,7 @@ class GoCryptFS(Encryptor):
 
         Raises: MountError
         """
-        if not tools.is_mounted(self.path):
+        if not tools_mountinfo.is_mounted(self.path):
             logger.debug(f'Is not mounted. {self.path}', self)
             return
 

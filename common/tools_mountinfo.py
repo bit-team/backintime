@@ -112,12 +112,11 @@ def is_mounted(path: Path) -> bool:
     return get_mount_info(absolute) is not None
 
 
-# mountpoint_of_path
-def mountpoint(path: Path | str) -> str | None:
+def mountpoint_of_path(path: Path | str) -> str | None:
     """Get the mountpoint of the filesystem containing `path`.
 
     For example, if your HOME is on a separate partition
-    mountpoint('/home/user/foo') would return '/home'.
+    mountpoint_of_path('/home/user/foo') would return '/home'.
 
     Args:
         path (str): full path
@@ -137,8 +136,7 @@ def mountpoint(path: Path | str) -> str | None:
     return None
 
 
-# device_of_path
-def device(path: Path | str) -> str | None:
+def device_of_path(path: Path | str) -> str | None:
     """Get the device (aka source) for the filesystem of ``path``.
     """
     info = get_mount_info_for_path(path)
@@ -149,8 +147,7 @@ def device(path: Path | str) -> str | None:
     return None
 
 
-# filesystem_of_path
-def filesystem(path: Path | str) -> str | None:
+def filesystem_of_path(path: Path | str) -> str | None:
     """Get the type of the filesystem containing `path`."""
     info = get_mount_info_for_path(path)
 
