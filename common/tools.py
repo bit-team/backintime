@@ -730,6 +730,7 @@ def _free_space_ssh(path: pathlib.Path, ssh_command: list[str]) -> int | None:
 # | Miscellaneous, not categorized yet |
 # |------------------------------------|
 
+
 def runningFromSource():
     """Check if BackInTime is running from source (without installing).
 
@@ -1774,6 +1775,7 @@ def _check_if_keyring_is_supported():
 
 KEYRING_SUPPORTED = _check_if_keyring_is_supported()
 
+
 def password(*args):
 
     if is_keyring_available:
@@ -1786,6 +1788,67 @@ def setPassword(*args):
     if is_keyring_available:
         return keyring.set_password(*args)
     return False
+
+
+def get_mount_info(path: pathlib.Path) -> dict | None:
+    """Extract mount related infos for `path` from `/proc/self/mountinfo`.
+
+    Returns:
+        A dictionary containing the infos or `None` of mountpoint matches.
+
+    Raises: OSError in case of read errors.
+
+    See also <https://docs.kernel.org/filesystems/proc.html>.
+    The implementation is based on ideas of "moby" (written in Go):
+       <https://github.com/moby/sys/blob/main/mountinfo/
+        mountinfo_linux.go?utm_source=chatgpt.com>
+    """
+    mountinfo = pathlib.Path('/proc/self/mountinfo')
+    path = path.resolve()
+
+    def unescape_mountinfo(value: str) -> str:
+        """Decode three-digit octal escapes starting with 0 or 1.
+
+        The GNU/Linux kernel does escape several characters (e.g. blanks in
+        filenames) when writing the mount info file.
+        """
+        return re.sub(
+            r'\\([01][0-7]{2})',
+            lambda match: chr(int(match.group(1), 8)),
+            value,
+        )
+
+    for row in mountinfo.read_text(encoding='utf-8').splitlines():
+        fields = row.split(' ')
+
+        # The position is not fixed because some of the previous fields are
+        # optional.
+        separator = fields.index('-')
+
+        mountpoint = pathlib.Path(unescape_mountinfo(fields[4]))
+
+        # Depending on the filesystem that field isn't always a path
+        source = unescape_mountinfo(fields[separator + 2])
+        try:
+            if pathlib.Path(source).exists():
+                source = pathlib.Path(source)
+        except (OSError, ValueError):
+            pass
+
+        if mountpoint == path:
+            return {
+                'root': pathlib.Path(unescape_mountinfo(fields[3])),
+                'mountpoint': mountpoint,
+                'fstype': fields[separator + 1],
+                'options': set(fields[5].split(',')),
+                # "filesystem-specific information"
+                # In case of a gocryptfs reverse(!) mount this will be the
+                # cipher dir whos config was used to create the reverse mount,
+                # from "root" to "mountpoint".
+                'source': source,
+            }
+
+    return None
 
 
 def mountpoint(path: Union[pathlib.Path, str]) -> str:
@@ -1824,7 +1887,7 @@ def decodeOctalEscape(s):
     Args:
         s (str):    string with or without octal-escaped characters
 
-    Returns:
+    Returns[[id:dd23f6e9-3004-4a1f-a29e-ef129f4e7530][Persons involved with Back In Time]]:
         str:        human readable string
     """
     def repl(m):

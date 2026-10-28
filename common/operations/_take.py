@@ -18,16 +18,15 @@ import password
 import schedule
 import tools
 from applicationinstance import ApplicationInstance
-from ._base import ERROR, SUCCESS
 from bitbase import SCHEDULE_MODES_HANDLED_BY_CRON, ScheduleMode
+from endpoints import BackupDestination, BackupSources
 from flock import GlobalFlock
 from inhibitsuspend import InhibitSuspend
 from konfig import Konfig
 from mount import MountError
-from neo import BackupDestination, BackupSources
 from pluginmanager import PluginManager
 from profilecontext import ProfileContext
-from snapshots import Snapshots
+from ._base import ERROR, SUCCESS
 
 # pylint: disable=duplicate-code
 try:
@@ -62,7 +61,7 @@ def _application_instance_lock(instance: ApplicationInstance):
         instance.exitApplication()
 
 
-class TakeBackup:
+class TakeBackup:  # pylint: disable=too-few-public-methods
     """The backup operation.
 
     The instance holds and coordinates all resources needed to take a backup.

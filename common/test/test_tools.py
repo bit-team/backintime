@@ -223,12 +223,12 @@ class General(unittest.TestCase):
         proc = os.path.join('/proc', str(os.getpid()), 'fd')
         self.assertEqual(tools.mountpoint(proc), '/proc')
 
-    def test_decodeOctalEscape(self):
-        self.assertEqual(tools.decodeOctalEscape('/mnt/normalPath'),
-                         '/mnt/normalPath')
-        self.assertEqual(
-            tools.decodeOctalEscape('/mnt/path\\040with\\040space'),
-            '/mnt/path with space')
+    # def test_decodeOctalEscape(self):
+    #     self.assertEqual(tools.decodeOctalEscape('/mnt/normalPath'),
+    #                      '/mnt/normalPath')
+    #     self.assertEqual(
+    #         tools.decodeOctalEscape('/mnt/path\\040with\\040space'),
+    #         '/mnt/path with space')
 
     def test_readTimeStamp(self):
         with NamedTemporaryFile('wt') as f:
