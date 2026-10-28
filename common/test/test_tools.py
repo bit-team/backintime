@@ -218,17 +218,17 @@ class General(unittest.TestCase):
             self.assertEqual(tools.md5sum(f.name),
                              'acbd18db4cc2f85cedef654fccc4a4d8')
 
-    def test_mountpoint(self):
-        self.assertEqual(tools.mountpoint('/nonExistingFolder/foo/bar'), '/')
-        proc = os.path.join('/proc', str(os.getpid()), 'fd')
-        self.assertEqual(tools.mountpoint(proc), '/proc')
+    # def test_mountpoint(self):
+    #     self.assertEqual(tools.mountpoint('/nonExistingFolder/foo/bar'), '/')
+    #     proc = os.path.join('/proc', str(os.getpid()), 'fd')
+    #     self.assertEqual(tools.mountpoint(proc), '/proc')
 
-    def test_decodeOctalEscape(self):
-        self.assertEqual(tools.decodeOctalEscape('/mnt/normalPath'),
-                         '/mnt/normalPath')
-        self.assertEqual(
-            tools.decodeOctalEscape('/mnt/path\\040with\\040space'),
-            '/mnt/path with space')
+    # def test_decodeOctalEscape(self):
+    #     self.assertEqual(tools.decodeOctalEscape('/mnt/normalPath'),
+    #                      '/mnt/normalPath')
+    #     self.assertEqual(
+    #         tools.decodeOctalEscape('/mnt/path\\040with\\040space'),
+    #         '/mnt/path with space')
 
     def test_readTimeStamp(self):
         with NamedTemporaryFile('wt') as f:
