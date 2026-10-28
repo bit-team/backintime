@@ -13,7 +13,7 @@ from pathlib import Path
 import os
 import subprocess
 import logger
-import tools
+import tools_mountinfo
 import sshcore
 from sshcore import SSHHost
 from ._error import MountError
@@ -341,7 +341,7 @@ class SSHBackend(Backend):
 
     def mount(self):
         """See ``Backend.mount()``"""
-        if tools.is_mounted(self.path):
+        if tools_mountinfo.is_mounted(self.path):
             logger.info('SSH directory already mounted')
             return
 
@@ -472,7 +472,7 @@ class SSHBackend(Backend):
             _raise_mount_not_usable('directory creation', exc)
 
     def umount(self):
-        if tools.is_mounted(self.path):
+        if tools_mountinfo.is_mounted(self.path):
             cmd = ['fusermount', '-u', str(self.path)]
             logger.debug(f'Calling {cmd=}...')
             subprocess.run(cmd, check=False)

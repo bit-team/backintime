@@ -36,6 +36,9 @@ from typing import Any, Union
 from bitbase import TimeUnit, BINARY_NAME_BASE
 from event import Event
 from storagesize import StorageSize, SizeUnit
+from tools_mountinfo import (device_of_path,
+                             filesystem_of_path,
+                             )
 import logger
 
 # See _check_if_keyring_is_supported()
@@ -513,8 +516,9 @@ def is_filesystem_valid(full_path, msg_path, mode, copy_links):
             msg string.
 
     """
-    fs = filesystem(
-        full_path if isinstance(full_path, str) else str(full_path))
+    fs = filesystem_of_path(
+        full_path if isinstance(full_path, str) else str(full_path)
+    )
 
     msg = None
 
@@ -612,43 +616,6 @@ def nested_dict_update(org: dict, update: dict) -> dict:
 # |-------------------|
 # | File system stuff |
 # |-------------------|
-
-
-def is_mounted(path: pathlib.Path) -> bool:
-    """Checks the path is a mounted mountpoint."""
-
-    absolute = path.resolve()
-
-    if not absolute.exists():
-        return False
-
-    if not absolute.is_mount():
-        return False
-
-    # Keep in mind, that is_mount() can be false positive on btrfs-subvolumes
-    # Issue #2487. That's why we need to be sure and also check the
-    # proc-mountinfo file
-    return in_proc_self_mountinfo(absolute)
-
-
-def in_proc_self_mountinfo(path: pathlib.Path) -> bool:
-    """Test if the path is in /proc/self/mountinfo"""
-
-    mountinfo = pathlib.Path('/proc') / 'self' / 'mountinfo'
-
-    try:
-        all_rows = mountinfo.read_text('utf-8').split('\n')
-    except OSError as exc:
-        logger.critical(f'Unable to read from file "{mountinfo}". {exc}')
-        return False
-
-    for row in reversed(all_rows):
-        parts = row.split()
-
-        if len(parts) > 4 and pathlib.Path(parts[4]) == path:
-            return True
-
-    return False
 
 
 def free_space(path: pathlib.Path, ssh_command: list[str] = None
@@ -1790,183 +1757,6 @@ def setPassword(*args):
     return False
 
 
-def get_mount_info(path: pathlib.Path) -> dict | None:
-    """Extract mount related infos for `path` from `/proc/self/mountinfo`.
-
-    Returns:
-        A dictionary containing the infos or `None` of mountpoint matches.
-
-    Raises: OSError in case of read errors.
-
-    See also <https://docs.kernel.org/filesystems/proc.html>.
-    The implementation is based on ideas of "moby" (written in Go):
-       <https://github.com/moby/sys/blob/main/mountinfo/
-        mountinfo_linux.go?utm_source=chatgpt.com>
-    """
-    mountinfo = pathlib.Path('/proc/self/mountinfo')
-    path = path.resolve()
-
-    def unescape_mountinfo(value: str) -> str:
-        """Decode three-digit octal escapes starting with 0 or 1.
-
-        The GNU/Linux kernel does escape several characters (e.g. blanks in
-        filenames) when writing the mount info file.
-        """
-        return re.sub(
-            r'\\([01][0-7]{2})',
-            lambda match: chr(int(match.group(1), 8)),
-            value,
-        )
-
-    for row in mountinfo.read_text(encoding='utf-8').splitlines():
-        fields = row.split(' ')
-
-        # The position is not fixed because some of the previous fields are
-        # optional.
-        separator = fields.index('-')
-
-        mountpoint = pathlib.Path(unescape_mountinfo(fields[4]))
-
-        # Depending on the filesystem that field isn't always a path
-        source = unescape_mountinfo(fields[separator + 2])
-        try:
-            if pathlib.Path(source).exists():
-                source = pathlib.Path(source)
-        except (OSError, ValueError):
-            pass
-
-        if mountpoint == path:
-            return {
-                'root': pathlib.Path(unescape_mountinfo(fields[3])),
-                'mountpoint': mountpoint,
-                'fstype': fields[separator + 1],
-                'options': set(fields[5].split(',')),
-                # "filesystem-specific information"
-                # In case of a gocryptfs reverse(!) mount this will be the
-                # cipher dir whos config was used to create the reverse mount,
-                # from "root" to "mountpoint".
-                'source': source,
-            }
-
-    return None
-
-
-def mountpoint(path: Union[pathlib.Path, str]) -> str:
-    """
-    Get the mountpoint of ``path``. If your HOME is on a separate partition
-    mountpoint('/home/user/foo') would return '/home'.
-
-    Args:
-        path (str): full path
-
-    Returns:
-        str:        mountpoint of the filesystem
-    """
-    # WORKAROUND
-    if isinstance(path, str):
-        path = pathlib.Path(path)
-
-    path = path.resolve()
-
-    while path != pathlib.Path(path.root):
-
-        if is_mounted(path):
-            return str(path)
-
-        # one dir up
-        path = path.parent
-
-    return str(path)
-
-
-def decodeOctalEscape(s):
-    """
-    Decode octal-escaped characters with its ASCII dependence.
-    For example '\040' will be a space ' '
-
-    Args:
-        s (str):    string with or without octal-escaped characters
-
-    Returns[[id:dd23f6e9-3004-4a1f-a29e-ef129f4e7530][Persons involved with Back In Time]]:
-        str:        human readable string
-    """
-    def repl(m):
-        return chr(int(m.group(1), 8))
-    return re.sub(r'\\(\d{3})', repl, s)
-
-
-def _get_mtab_mount_args(path: str) -> list | None:
-    """
-    Get all /etc/mtab args for the filesystem of ``path`` as a list.
-    Example::
-
-        [DEVICE,      MOUNTPOINT, FILESYSTEM_TYPE, OPTIONS,    DUMP, PASS]
-        ['/dev/sda3', '/',        'ext4',          'defaults', '0',  '0']
-        ['/dev/sda1', '/boot',    'ext4',          'defaults', '0',  '0']
-
-    Args:
-        path (str): full path
-
-    Returns:
-        The mount args.
-    """
-    mp = mountpoint(path)
-
-    with open('/etc/mtab', 'r') as mounts:
-
-        for line in mounts:
-            args = line.strip('\n').split(' ')
-
-            if len(args) >= 2:
-                args[1] = decodeOctalEscape(args[1])
-
-                if args[1] == mp:
-                    return args
-
-    return None
-
-
-def device(path):
-    """
-    Get the device for the filesystem of ``path``.
-    Example::
-
-        /dev/sda1
-        /dev/mapper/vglinux
-        proc
-
-    Args:
-        path (str): full path
-
-    Returns:
-        str:        device
-    """
-    args = _get_mtab_mount_args(path)
-
-    if args:
-        return args[0]
-
-    return None
-
-
-def filesystem(path: str) -> str | None:
-    """
-    Get type of filesystem for ``path``.
-
-    Args:
-        path: full path
-
-    Returns:
-        str:        filesystem
-    """
-    args = _get_mtab_mount_args(path)
-
-    if args and len(args) >= 3:
-        return args[2]
-
-    return None
-
-
 def _uuidFromDev_via_filesystem(dev):
     """Get the UUID for the block device ``dev`` from ``/dev/disk/by-uuid`` in
     the filesystem.
@@ -2108,7 +1898,7 @@ def uuidFromPath(path):
     Returns:
         str:        UUID
     """
-    return uuidFromDev(device(path))
+    return uuidFromDev(device_of_path(path))
 
 
 re_wildcard = re.compile(r'(?:\[|\]|\?)')

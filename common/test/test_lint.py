@@ -93,6 +93,7 @@ full_test_files = [_base_dir / fp for fp in (
     # 'test/test_takesnapshotlog.py',
     'test/test_uniquenessset.py',
     # 'tools.py',
+    'tools_mountinfo.py',
     'udev.py',
     'version.py',
 )]
