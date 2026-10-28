@@ -55,6 +55,11 @@ disabled](https://github.com/bit-team/backintime/issues/2315) in version
 [1.6.1] early 2026. It must be noted, that at this time there was no full
 gocryptfs support implemented.
 
+Full support for gocryptfs in local and remote (SSH) profiles is planed for
+the upcoming
+[major release `2.0.0](https://github.com/bit-team/backintime/milestone/36)`.
+But it can not be guranteed.
+
 ## FAQ - Frequently Asked Questions
 ### How to migrate an EncFS backup profile to a gocryptfs backup profile?
 

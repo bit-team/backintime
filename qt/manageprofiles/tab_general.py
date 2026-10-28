@@ -35,6 +35,7 @@ import schedule
 import qttools
 import messagebox
 import core_events
+from endpoints import BackupDestination, BackupSources
 from manageprofiles import combobox, schedulewidget
 from manageprofiles.sshproxywidget import SshProxyWidget
 from manageprofiles.sshkeyselector import SshKeySelector
@@ -296,6 +297,9 @@ class GeneralTab(QDialog):
         password_2 = self.config.password(
             mode=self.mode, pw_id=2, only_from_keyring=True)
 
+        print('R'*40)
+        print(f'{password_1=} {password_2=}')
+
         if password_1 is None:
             password_1 = ''
 
@@ -379,9 +383,6 @@ class GeneralTab(QDialog):
                 self
             )
             return False
-
-        # if not self._is_gocryptfs_path_empty(Path(path)):
-        #     return False
 
         self.config.setLocalGocryptfsPath(path, self.config.currentProfile())
 
@@ -498,6 +499,44 @@ class GeneralTab(QDialog):
 
         if mode == 'local':
             self.config.set_snapshots_path(self._edit_backup_path.text())
+
+        # --- START Workaround ---
+        if mode == 'local_gocryptfs':
+            gcpath = self.config.localGocryptfsPath(
+                self.config.currentProfile()
+            )
+            gcpath = Path(gcpath)
+
+            # 1. Initialize the destination dir
+            backup_dest = BackupDestination(
+                path=gcpath,
+                gocrypt_password=self.config.get_encryption_password(),
+                plugin_manager=self.config.PLUGIN_MANAGER
+            )
+            backup_dest.mount()
+
+            if not backup_dest.is_ready():
+                raise RuntimeError('Backup destination not ready')
+
+            # 2. Reverse (encrypting) mount of the source dir
+            # Note: Because of how rsync handels include/excludes the file
+            # systems root "/" is treated as the source of the backup.
+            backup_src = BackupSources(
+                include_paths=[Path.home() / 'Downloads'],  # TODO,
+                dest=backup_dest
+            )
+
+            # 3. Forward (decrypting) mount of the destination dir
+            dest_decrypt_path = backup_dest.get_local_path()
+
+            mapper = backup_dest._mapper
+            fp = Path.home() / 'Downloads'
+            x = mapper.encrypt_paths([fp])
+            print('X'*50)
+            print(f'{fp=} --> {x=}')
+
+            return True
+        # --- END Workaround ---
 
         # Attention! The mount manager instance need to be fresh at this point
         # because the config was changed.

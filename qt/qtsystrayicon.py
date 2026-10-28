@@ -77,6 +77,10 @@ class QtSysTrayIcon:
         self.snapshots = snapshots.Snapshots(cfg=self.config)
         self.decode = None
 
+        self.backup_messenger = BackupMessenger(
+            snapshot_log=self.snapshots.snapshotLog,  # WORKAROUND
+            plugin_manager=self.config.PLUGIN_MANAGER
+        )
         self._current_user = pwd.getpwuid(os.getuid()).pw_name
 
         # if profile_id:
@@ -238,7 +242,7 @@ class QtSysTrayIcon:
         self.btnResume.setVisible(paused and self._trust_desktop)
 
         if self._trust_desktop:
-            message = self.snapshots.takeSnapshotMessage()
+            message = self.backup_messenger.get_message()
         else:
             message = None
 
@@ -330,7 +334,7 @@ class QtSysTrayIcon:
         self.btnStop.setEnabled(False)
         self.btnPause.setEnabled(False)
         self.btnResume.setEnabled(False)
-        self.snapshots.setTakeSnapshotMessage(0, 'Backup terminated')
+        self.backup_messenger.set_info('Backup terminated')
 
     def _get_desktop_user_via_loginctl(self) -> str | None:
         """Get name of user logged in to the current desktop session using

@@ -127,6 +127,33 @@ class TempPasswordThread(threading.Thread):
 
     In case BIT is not configured yet this provides a password through temp
     FIFO to backintime-askpass.
+
+    Dev note (2026-01, buhtz):
+
+    Reason why this exists:
+    It is about security. It minimizes password lifetime and exposure.
+    Password never appears in a shell context, is transffered only once.
+
+    Password flow overview:
+
+    1. Back In Time creates a TempPasswordThread and passes the password
+    to it.
+    2. The thread creates a temporary FIFO and blocks while writing the
+        password to it, waiting for a reader.
+    3. Back In Time starts encfs with "--extpass=backintime-askpass".
+    4. The FIFO path is passed via the environment variable ASKPASS_TEMP.
+    5. encfs invokes backintime-askpass as an external password helper.
+    6. backintime-askpass reads the FIFO path from ASKPASS_TEMP, opens
+        the FIFO, reads the password, and writes it to stdout.
+    7. encfs reads the password from backintime-askpass's stdout.
+    8. After the read completes, the FIFO is removed and the thread
+    exits.
+
+    Result:
+    The password is transferred exactly once, synchronously, via a FIFO,
+    without appearing on the command line, in files, or in the process
+    list.
+
     """
 
     def __init__(self, string):

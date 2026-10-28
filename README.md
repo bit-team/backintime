@@ -14,6 +14,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 [![User manual Status](https://readthedocs.org/projects/backintime/badge/?version=latest)](https://backintime.readthedocs.io)
 [![Translation status](https://translate.codeberg.org/widget/backintime/common/svg-badge.svg)](https://translate.codeberg.org/engage/backintime)
 [![REUSE status](https://api.reuse.software/badge/github.com/bit-team/backintime)](https://api.reuse.software/info/github.com/bit-team/backintime)
+[![SemVer](https://api.reuse.software/badge/github.com/bit-team/backintime)](https://api.reuse.software/info/github.com/bit-team/backintime)
 
 # Back In Time
 
@@ -169,4 +170,4 @@ information. See the projects
 [REUSE compliance status](https://api.reuse.software/info/github.com/bit-team/backintime).
 
 ---
-<sub>September 2026</sub>
+<sub>October 2026</sub>

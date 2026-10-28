@@ -46,6 +46,7 @@ _base_dir = pathlib.Path(__file__).resolve().parent.parent
 # Files in this lists will get the full battery of linters and rule sets.
 full_test_files = [_base_dir / fp for fp in (
     'askpass.py',
+    'backupmsg.py',
     'bitbase.py',
     'konfig.py',
     'bitlicense.py',
@@ -55,6 +56,10 @@ full_test_files = [_base_dir / fp for fp in (
     'core_events.py',
     'daemon.py',
     'diskusage.py',
+    'endpoints/__init__.py',
+    'endpoints/_base.py',
+    'endpoints/_destination.py',
+    'endpoints/_source.py',
     'event.py',
     'encode.py',
     'inhibitsuspend.py',
@@ -63,6 +68,9 @@ full_test_files = [_base_dir / fp for fp in (
     'mount/_backends.py',
     'mount/_encryptors.py',
     'mount/_error.py',
+    'operations/__init__.py',
+    'operations/_base.py',
+    'operations/_take.py',
     'profilecontext.py',
     'schedule.py',
     'shutdownagent.py',
@@ -242,10 +250,13 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # - useless noqua (RUF100)
             # - pep8-naming (N)
             '--extend-select=PL,E,W,INT,RUF100,N',
+            # Ignore: unsorted/unformatted import block; until #1575 is fixed
+            '--ignore=I001',
             # Ignore: redefined-loop-name
             '--ignore=PLW2901',
-            # Ignore: unsorted/unformatted import block
-            '--ignore=I001',
+            # Ignore: multiple-with-statements; Nested with is IMHO easier
+            # to understand.
+            '--ignore=SIM117',
             '--line-length', str(PEP8_MAX_LINE_LENGTH),
             # Because of globally installed GNU gettext functions
             '--config', 'builtins=["_", "ngettext"]',
