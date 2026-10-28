@@ -68,9 +68,9 @@ def get_all_mount_infos() -> dict[Path, dict]:
     return result
 
 
-def get_mount_info(path: Path) -> dict | None:
+def get_mount_info_at(mountpoint: Path) -> dict | None:
     """Get mount information for an exact mountpoint."""
-    return get_all_mount_infos().get(path.resolve(), None)
+    return get_all_mount_infos().get(mountpoint.resolve(), None)
 
 
 def get_mount_info_for_path(path: Path) -> dict | None:
@@ -109,7 +109,7 @@ def is_mounted(path: Path) -> bool:
     # Keep in mind, that is_mount() can be false positive on btrfs-subvolumes
     # Issue #2487. That's why we need to be sure and also check the
     # proc-mountinfo file
-    return get_mount_info(absolute) is not None
+    return get_mount_info_at(absolute) is not None
 
 
 def mountpoint_of_path(path: Path | str) -> str | None:
