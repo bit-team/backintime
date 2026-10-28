@@ -112,28 +112,29 @@ def is_mounted(path: Path) -> bool:
     return get_mount_info_at(absolute) is not None
 
 
-def mountpoint_of_path(path: Path | str) -> str | None:
-    """Get the mountpoint of the filesystem containing `path`.
+# The code is OK, but seems not to be used anywhere.
+# def mountpoint_of_path(path: Path | str) -> str | None:
+#     """Get the mountpoint of the filesystem containing `path`.
 
-    For example, if your HOME is on a separate partition
-    mountpoint_of_path('/home/user/foo') would return '/home'.
+#     For example, if your HOME is on a separate partition
+#     mountpoint_of_path('/home/user/foo') would return '/home'.
 
-    Args:
-        path (str): full path
+#     Args:
+#         path (str): full path
 
-    Returns:
-        The mountpoint (as string) or None nothing found.
-    """
-    # WORKAROUND
-    if isinstance(path, str):
-        path = Path(path)
+#     Returns:
+#         The mountpoint (as string) or None nothing found.
+#     """
+#     # WORKAROUND
+#     if isinstance(path, str):
+#         path = Path(path)
 
-    info = get_mount_info_for_path(path)
+#     info = get_mount_info_for_path(path)
 
-    if info is not None:
-        return str(info['mountpoint'])
+#     if info is not None:
+#         return str(info['mountpoint'])
 
-    return None
+#     return None
 
 
 def device_of_path(path: Path | str) -> str | None:
