@@ -54,12 +54,13 @@ third generation of maintainers, has been the sole maintainer. He handles all
 core tasks, from code analysis and documentation to issue resolution and
 feature implementation. The work is carried out voluntarily during spare
 time. The project continues to benefit from an active and engaged community
-that provides advice, expertise, and contributions, ensuring it thrives and
-evolves.
+that provides advice, expertise, tests and contributions, ensuring it thrives
+and evolves.
 
-The project was [reactivated in
-2022](https://github.com/bit-team/backintime/issues/1232) and thanks in large
-part to Michael Büker ([@emtiu](https://github.com/emtiu)) and Jürgen
+The project was
+[reactivated in 2022](https://github.com/bit-team/backintime/issues/1232)
+and thanks in large part to Michael Büker
+([@emtiu](https://github.com/emtiu)) and Jürgen
 ([@aryoda](https://github.com/aryoda)), who helped relaunch and shape its
 direction. See [HISTORY](HISTORY.md) for more details.
 
@@ -100,7 +101,7 @@ latest development version of _Back In Time_ please see section
 
 # Known Problems and Workarounds
 
-- [[#Error InvalidCmd: Parameter 'cmd' contains non-whitelisted with Udev scheduled profiles on Ubuntu]]
+- [Error InvalidCmd: Parameter 'cmd' contains non-whitelisted with Udev scheduled profiles on Ubuntu](#error-invalidcmd-parameter-cmd-contains-non-whitelisted-with-udev-scheduled-profiles-on-ubuntu)
 - [Files View widget not displaying files or directories](#files-view-widget-not-displaying-files-or-directories)
 - [File permissions handling and therefore possible non-differential backups](#file-permissions-handling-and-therefore-possible-non-differential-backups)
 
@@ -124,7 +125,8 @@ Since Canonical introduce the rust-coreutils in Ubuntu the commands `nice` and
 `inoce` are located elsewhere in the file system where _Back In Time_ does not
 expect them. _Back In Time_ throws this exception for security reasons.
 
- **Workaround**, disable the use of `nice` and `ionice` in *Expert Options*.
+ **Workaround**: Disable the use of `nice` and `ionice` in
+ the [Expert Options](https://backintime.readthedocs.io/en/latest/manage-profiles.html#expert-options).
  Backups should then work again. See
  [#2636](https://github.com/bit-team/backintime/issues/2636) for further
  details. A fix is planned for

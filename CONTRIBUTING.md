@@ -372,6 +372,7 @@ This is a broad overview of the tasks or steps to enhance _Back In Time_ as a
 software and as a project. The schedule is not fixed, nor is the order of
 priority.
 
+- [Release & Compatibility map](#release_compatibility_map)
 - [Tentative rough roadmap](#tentative-rough-roadmap)
 - [Plugin system](#plugin-system)
 - [Packaging](#packaging)
@@ -382,6 +383,14 @@ priority.
 - [Graphical User Interface (GUI): Redesign and Refactoring](#graphical-user-interface-gui-redesign-and-refactoring)
 - [Terminal User Interface (TUI)](#terminal-user-interface-tui)
 
+## Release & Compatibility map
+
+The following picture illustrates previous and upcoming releases of _Back In
+Time_ and their (planed) breaking changes. Additionally these releases are
+organized and planed around the _Debian GNU/Linux_ release cycle. _Canonical
+Ubuntu_ is less important in that picture but also considered.
+
+[![Release and Compatibility map](doc/releases_compatibility_map.png)]
 
 ## Tentative rough roadmap
 This list of upcoming developlment steps depending on each other:
@@ -404,6 +413,7 @@ This list of upcoming developlment steps depending on each other:
   ([#2286](https://github.com/bit-team/backintime/issues/2286)).
 - Re-write interprocess communication (IPC)
   ([#2260](https://github.com/bit-team/backintime/issues/2260)).
+- (This list is not complete!)
 
 ## Plugin system
 The plugin system adds complexity to the code base with less
