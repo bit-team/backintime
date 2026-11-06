@@ -372,7 +372,7 @@ This is a broad overview of the tasks or steps to enhance _Back In Time_ as a
 software and as a project. The schedule is not fixed, nor is the order of
 priority.
 
-- [Release & Compatibility map](#release_compatibility_map)
+- [Release & Compatibility map](#release--compatibility-map)
 - [Tentative rough roadmap](#tentative-rough-roadmap)
 - [Plugin system](#plugin-system)
 - [Packaging](#packaging)
@@ -390,7 +390,7 @@ Time_ and their (planed) breaking changes. Additionally these releases are
 organized and planed around the _Debian GNU/Linux_ release cycle. _Canonical
 Ubuntu_ is less important in that picture but also considered.
 
-[![Release and Compatibility map](doc/releases--compatibility-map.png)](doc/releases--compatibility-map.png)
+[![Release and Compatibility map](doc/releases_compatibility_map.png)](doc/releases_compatibility_map.png)
 
 ## Tentative rough roadmap
 This list of upcoming developlment steps depending on each other:
