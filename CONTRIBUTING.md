@@ -390,7 +390,7 @@ Time_ and their (planed) breaking changes. Additionally these releases are
 organized and planed around the _Debian GNU/Linux_ release cycle. _Canonical
 Ubuntu_ is less important in that picture but also considered.
 
-[![Release and Compatibility map](doc/releases_compatibility_map.png)](doc/releases_compatibility_map.png)
+[![Release and Compatibility map](doc/releases_compatibility_map_low.png)](doc/releases_compatibility_map.png)
 
 ## Tentative rough roadmap
 This list of upcoming developlment steps depending on each other:
