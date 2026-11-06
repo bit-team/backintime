@@ -100,12 +100,35 @@ latest development version of _Back In Time_ please see section
 
 # Known Problems and Workarounds
 
-In the latest stable release:
+- [[#Error InvalidCmd: Parameter 'cmd' contains non-whitelisted with Udev scheduled profiles on Ubuntu]]
 - [Files View widget not displaying files or directories](#files-view-widget-not-displaying-files-or-directories)
 - [File permissions handling and therefore possible non-differential backups](#file-permissions-handling-and-therefore-possible-non-differential-backups)
 
 More problems described in
 [this FAQ section](FAQ.md#problems-errors--solutions).
+
+## Error `InvalidCmd: Parameter 'cmd' contains non-whitelisted` with Udev scheduled profiles on Ubuntu
+An Udev schedule backup profile can fail on Ubuntu-based distros with an error
+like this:
+
+```sh
+net.launchpad.backintime.InvalidCmd: Parameter 'cmd' contains non-whitelisted
+cmd/parameter (/usr/lib/cargo/bin/coreutils/nice)
+cmd=dbus.String('/usr/lib/cargo/bin/coreutils/nice -n19 /usr/bin/ionice -c2 -n7
+/usr/bin/backintime backup --background >/dev/null') rest of
+parts=['/usr/lib/cargo/bin/coreutils/nice', '-n19', '/usr/bin/ionice', '-c2',
+'-n7', '/usr/bin/backintime', 'backup', '--background', '>/dev/null']
+```
+
+Since Canonical introduce the rust-coreutils in Ubuntu the commands `nice` and
+`inoce` are located elsewhere in the file system where _Back In Time_ does not
+expect them. _Back In Time_ throws this exception for security reasons.
+
+ **Workaround**, disable the use of `nice` and `ionice` in *Expert Options*.
+ Backups should then work again. See
+ [#2636](https://github.com/bit-team/backintime/issues/2636) for further
+ details. A fix is planned for
+ [`1.7.0`](https://github.com/bit-team/backintime/milestone/38).
 
 ## Files View widget not displaying files or directories
 The main window's

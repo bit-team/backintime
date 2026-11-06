@@ -88,6 +88,24 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 - Enum names in config file are replaced by their values ([11930b68](https://github.com/bit-team/backintime/commit/11930b68))
 - Missing backup removal due to a miscalculation in the "Remove backups older than" rule, introduced in version 1.5.4 ([#2588](https://github.com/bit-team/backintime/issues/2588#issuecomment-5675126121))
 
+## [1.6.2] (2026-10-14)
+
+Backported some fixes from 2.0.0-dev.
+
+## Changed
+
+- Schedule mode "Repeatedly (anacron)" in GUI re-phrased and extended with explanations ([#2507](https://github.com/bit-team/backintime/issues/2507))
+- GUI State "Show hidden files" is On by default
+
+### Fixed
+
+- "Remove backups older than" value was stored only as years ([#2460](https://github.com/bit-team/backintime/issues/2460))
+- Enum names in config file are replaced by their values
+- Missing backup removal due to a miscalculation in the "Remove backups older than" rule, introduced in version 1.5.4 ([#2588](https://github.com/bit-team/backintime/issues/#2588#issuecomment-5675126121)
+- Prevent crash when a plugin fails ([#2447](https://github.com/bit-team/backintime/issues/2447))
+- Schedule mode "Repeatedly (anacron)" using "Hourly" units is now consistent with other units ([#2507](https://github.com/bit-team/backintime/issues/2507))
+- Clear up license and copyright situation of `qt/serviceHelper.py` ([#1986](https://github.com/bit-team/backintime/issues/1986))
+
 ## [1.6.1] (2026-02-10)
 
 ### Fixed
@@ -1676,7 +1694,7 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 -->
 
 [2.0.0]: https://github.com/bit-team/backintime/releases/tag/v2.0.0
-[2.0.0-rc1]: https://github.com/bit-team/backintime/releases/tag/v2.0.0-rc1
+[1.7.0]: https://github.com/bit-team/backintime/releases/tag/v1.7.0
 [1.6.2]: https://github.com/bit-team/backintime/releases/tag/v1.6.2
 [1.6.1]: https://github.com/bit-team/backintime/releases/tag/v1.6.1
 [1.6.0]: https://github.com/bit-team/backintime/releases/tag/v1.6.0
