@@ -15,10 +15,11 @@ This document outlines the status of the encryption feature. Starting with
 _Back In Time_ version [2.0.0], support for [EncFS] will be dropped in favor of
 [gocryptfs]. See
 [meta issue #1734](https://github.com/bit-team/backintime/issues/1734) for
-technical details.
+technical details and also the [Release & Compatibility Map](CONTRIBUTING.md#release--compatibility-map).
 
 You might be looking for the
 [answer about how to access existing EncFS backups without using Back In Time](#how-to-access-existing-encfs-backups-without-using-back-in-time).
+
 
  * [Rationale](#rationale)
  * [The transition process](#the-transition-process)

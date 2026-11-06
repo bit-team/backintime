@@ -386,8 +386,8 @@ priority.
 ## Release & Compatibility map
 
 The following picture illustrates previous and upcoming releases of _Back In
-Time_ and their (planed) breaking changes. Additionally these releases are
-organized and planed around the _Debian GNU/Linux_ release cycle. _Canonical
+Time_ and their (planned) breaking changes. Additionally these releases are
+organized and planned around the _Debian GNU/Linux_ release cycle. _Canonical
 Ubuntu_ is less important in that picture but also considered.
 
 [![Release and Compatibility map](doc/releases_compatibility_map_low.png)](doc/releases_compatibility_map.png)
@@ -413,6 +413,8 @@ This list of upcoming developlment steps depending on each other:
   ([#2286](https://github.com/bit-team/backintime/issues/2286)).
 - Re-write interprocess communication (IPC)
   ([#2260](https://github.com/bit-team/backintime/issues/2260)).
+- Ongonig [Transition of the encryption feature](ENCRYPT_TRANSITION.md) and
+  [Local Encrypted (gocryptfs) Backups in Back In Time 1.6.x and 2.0.0](GOCRYPT_MIGRATION.md).
 - (This list is not complete!)
 
 ## Plugin system

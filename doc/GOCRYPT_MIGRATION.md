@@ -21,9 +21,10 @@ use a reverse mount and to separate mount management from data transfer.
 
 Version `2.0.0` is still under development. The exact technical differences and
 the migration procedure have therefore not yet been finalized.
-
 Version `1.7.0` will be released beforehand, **dropping support** for local encrypted
 profiles.
+
+See also the [Release & Compatibility Map](CONTRIBUTING.md#release--compatibility-map) for a bigger picture.
 
 > [!NOTE]
 > Until version `2.0.0` is released, avoid creating new local encrypted backup
