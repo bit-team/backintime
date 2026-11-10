@@ -9,6 +9,7 @@
 # TravisCI (https://travis-ci.org) configuration file
 os: linux
  
+# https://docs.travis-ci.com/user/reference/linux/#ubuntu-linux-distributions 
 # Support End of "Focal" (20.04 LTS) was April 2025
 # dist: focal
 # Support End of "Jammy" (22.04 LTS) is April 2027
@@ -16,7 +17,7 @@ os: linux
 # Support End of "noble" (24.04 LTS) is April 2029
 dist: noble
 # Support End of "resolute" (or raccoon?) (26.04 LTS) is April 2031
-dist: resolute
+# dist: resolute
 
 language: python
 
