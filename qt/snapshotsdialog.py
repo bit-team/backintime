@@ -28,7 +28,8 @@ from PyQt6.QtWidgets import (QCheckBox,
                              QPushButton,
                              QToolBar,
                              QVBoxLayout)
-from PyQt6.QtCore import Qt, QThread
+from PyQt6.QtCore import Qt, QThread, QUrl
+
 
 from timeline import TimeLine
 from bitwidgets import SnapshotCombo
@@ -38,6 +39,8 @@ import messagebox
 import snapshots
 import logger
 import mount
+import qttools
+
 from inhibitsuspend import InhibitSuspend
 
 DIFF_PARAMS = '%1 %2'
@@ -184,11 +187,15 @@ class SnapshotsDialog(QDialog):
         action.triggered.connect(self.restoreThis)
         action = menuRestore.addAction(icon.RESTORE_TO, _('Restore to …'))
         action.triggered.connect(self.restoreThisTo)
+        menuRestore.addSeparator()
+        action = menuRestore.addAction(_('Open in file manager…'))
+        action.triggered.connect(self.open_file_manager)
+        action = menuRestore.addAction(_('Open source in file manager…'))
+        action.triggered.connect(self.open_source_file_manager)
 
         self.btnRestore = self.toolbar.addAction(icon.RESTORE, _('Restore'))
         self.btnRestore.setMenu(menuRestore)
         self.btnRestore.triggered.connect(self.restoreThis)
-
         # btn delete
         self.btnDelete = self.toolbar.addAction(icon.DELETE_FILE, _('Delete'))
         self.btnDelete.triggered.connect(self.btnDeleteClicked)
@@ -200,7 +207,10 @@ class SnapshotsDialog(QDialog):
 
         # snapshots list
         self.timeline = TimeLine(self)
-
+        self.timeline.setContextMenuPolicy(
+        Qt.ContextMenuPolicy.CustomContextMenu)
+        self.timeline.customContextMenuRequested.connect(
+        self._slot_timeline_context_menu)
         self.timeline.event_now_selected.register([
             self._on_now_selected,
         ])
@@ -358,6 +368,37 @@ class SnapshotsDialog(QDialog):
         if not sid.isRoot:
             # pylint: disable-next=E1101
             restoredialog.restore(self, sid, self.path)
+    def _slot_timeline_context_menu(self, point):
+        menu = QMenu(self)
+        action_open = menu.addAction(_('Open in file manager…'))
+        action_open.triggered.connect(self.open_file_manager)
+        action_source = menu.addAction(_('Open source in file manager…'))
+        action_source.triggered.connect(self.open_source_file_manager)
+        menu.exec(self.timeline.mapToGlobal(point))
+
+    def open_file_manager(self):
+        sid = self.timeline.current_snapshot_id()
+        if not sid:
+            return
+
+        if self.timeline.is_now_selected():
+            target_path = self.path
+        else:
+            target_path = sid.pathBackup(self.path)
+
+        if os.path.exists(target_path):
+            if not os.path.isdir(target_path):
+                target_path = os.path.dirname(target_path)
+            url = QUrl.fromLocalFile(target_path).toString()
+            qttools.open_url(url)
+
+    def open_source_file_manager(self):
+        target_path = self.path
+        if os.path.exists(target_path):
+            if not os.path.isdir(target_path):
+                target_path = os.path.dirname(target_path)
+            url = QUrl.fromLocalFile(target_path).toString()
+            qttools.open_url(url)
 
     def restoreThisTo(self):
         # See #1485 as related bug report

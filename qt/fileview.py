@@ -14,12 +14,15 @@
 # Split from app.py
 """The file view widget in the main window."""
 from __future__ import annotations
+
+
 from functools import partial
 from contextlib import contextmanager
 # We need to import common/tools.py
 import qttools_path
 qttools_path.register_backintime_path('common')
 # Workaround until the codebase is rectified/equalized.
+
 import tools
 tools.initiate_translation(None)
 from event import Event
@@ -114,8 +117,11 @@ class FilesView(QTreeView):
                  action_restore_to: QAction,
                  action_snapshots_dialog: QAction,
                  action_show_hidden: QAction,
+                 action_open_file_manager: QAction,
+                 action_open_source_file_manager: QAction,
                  sort_column,
                  sort_order):
+
         super().__init__(parent)
 
         self._profile_operations = None
@@ -154,8 +160,11 @@ class FilesView(QTreeView):
                  action_restore,
                  action_restore_to,
                  action_snapshots_dialog,
-                 action_show_hidden
+                 action_show_hidden,
+                 action_open_file_manager,
+                 action_open_source_file_manager
         )
+
 
         # Dev note (buhtz, 2026-01): Don't use doubleClicked signal because
         # it won't catch desktops with single-click-as-double-click settings.
@@ -207,12 +216,16 @@ class FilesView(QTreeView):
             self.header().sortIndicatorSection(),
             self.header().sortIndicatorOrder().value
         )
+    def _create_context_menu(  # pylint: disable=too-many-arguments
+        self,
+        action_restore: QAction,
+        action_restore_to: QAction,
+        action_snapshots_dialog: QAction,
+        action_show_hidden: QAction,
+        action_open_file_manager: QAction,
+        action_open_source_file_manager: QAction
+    ) -> QMenu:
 
-    def _create_context_menu(self,
-                             action_restore: QAction,
-                             action_restore_to: QAction,
-                             action_snapshots_dialog: QAction,
-                             action_show_hidden: QAction) -> QMenu:
         """Create a menu instance for later reuse as context menu."""
         self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.customContextMenuRequested.connect(self._slot_context_menu)
@@ -221,8 +234,11 @@ class FilesView(QTreeView):
         menu.addAction(action_restore)
         menu.addAction(action_restore_to)
         menu.addAction(action_snapshots_dialog)
-
         menu.addSeparator()
+        menu.addAction(action_open_file_manager)
+        menu.addAction(action_open_source_file_manager)
+        menu.addSeparator()
+
 
         import icon
         btn_include = menu.addAction(icon.ADD, _('Add to Include'))
