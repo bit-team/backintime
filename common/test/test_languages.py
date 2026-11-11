@@ -14,7 +14,7 @@ import languages
 class Completeness(unittest.TestCase):
     def test_key_types(self):
         """Language codes as strings"""
-        sut = set(type(k) for k in languages.completeness)
+        sut = {type(k) for k in languages.completeness}
 
         self.assertEqual(len(sut), 1)
 
@@ -24,7 +24,7 @@ class Completeness(unittest.TestCase):
 
     def test_value_types(self):
         """Completeness as integers"""
-        sut = set(type(v) for v in languages.completeness.values())
+        sut = {type(v) for v in languages.completeness.values()}
 
         self.assertEqual(len(sut), 1)
 

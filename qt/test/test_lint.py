@@ -238,6 +238,9 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             '--ignore=PLW2901',
             # Ignore: unsorted/unformatted import block
             '--ignore=I001',
+            # Ignore: Use single `with` statement with multiple contexts
+            # Dev note: I am not convinced about that rule.
+            '--ignore=SIM117',
             '--line-length', str(PEP8_MAX_LINE_LENGTH),
             # Because of globally installed GNU gettext functions
             '--config', 'builtins=["_", "ngettext"]',
