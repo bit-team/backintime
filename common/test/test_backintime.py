@@ -91,11 +91,11 @@ class BackInTime(generic.TestCase):
 
         self.assertRegex(output.decode(), re.compile(r'''
 Back In Time
-Version: \d+.\d+.\d+.*
+Version: \d+\.\d+\.\d+\.*
 
 Back In Time comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
-under certain conditions; type `backintime --license' for details.
+under certain conditions\. Type `backintime --license' for details.
 
 (INFO: Update to config version \d+
 )?
@@ -122,15 +122,17 @@ Config .*test/config profile 'Main profile' is fine.''', re.MULTILINE))
         msg = 'Returncode: {}\nstderr: {}\nstdout: {}' \
               .format(proc.returncode, error.decode(), output.decode())
         self.assertEqual(proc.returncode, 0, msg)
-
-        self.assertRegex(output.decode(), re.compile(r'''
-Back In Time
-Version: \d+.\d+.\d+.*
-
-Back In Time comes with ABSOLUTELY NO WARRANTY.
-This is free software, and you are welcome to redistribute it
-under certain conditions; type `backintime --license' for details.
-''', re.MULTILINE))
+        self.assertRegex(
+            output.decode(),
+            re.compile(
+                r'Back In Time\n'
+                r'Version: \d+\.\d+\.\d+.*\n\n'
+                r'Back In Time comes with ABSOLUTELY NO WARRANTY\.\n'
+                r'This is free software, and you are welcome to redistribute it\n'
+                r'under certain conditions\. Type `backintime --license\' for details\.'
+            ),
+            re.MULTILINE
+        )
 
         # Workaround until refactoring was done (Buhtz, Feb.'23)
         # The log output completely goes to stderr.
@@ -213,15 +215,17 @@ INFO: Saving permissions''', re.MULTILINE))
               .format(proc.returncode, error.decode(), output.decode())
         self.assertEqual(proc.returncode, 0, msg)
 
-        self.assertRegex(output.decode(), re.compile(r'''
-Back In Time
-Version: \d+.\d+.\d+.*
-
-Back In Time comes with ABSOLUTELY NO WARRANTY.
-This is free software, and you are welcome to redistribute it
-under certain conditions; type `backintime --license' for details.
-
-''', re.MULTILINE))
+        self.assertRegex(
+            output.decode(),
+            re.compile(
+                r'Back In Time\n'
+                r'Version: \d+\.\d+\.\d+.*\n\n'
+                r'Back In Time comes with ABSOLUTELY NO WARRANTY\.\n'
+                r'This is free software, and you are welcome to redistribute it\n'
+                r'under certain conditions\. Type `backintime --license\' for details\.'
+            ),
+            re.MULTILINE
+        )
 
         # The log output completely goes to stderr
         self.assertRegex(
