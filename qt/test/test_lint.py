@@ -14,7 +14,7 @@ import os
 import pathlib
 import subprocess
 import shutil
-from typing import Iterable
+from collections.abc import Iterable
 from packaging import version
 
 BASE_REASON = ('Using package {0} is mandatory on TravisCI, on '
@@ -106,9 +106,11 @@ def create_pylint_cmd(include_error_codes=None):
     cmd = [
         'pylint',
         # Make sure BIT modules can be imported (to detect "no-member")
-        '--init-hook=import sys;'
-        'sys.path.insert(0, "./../qt");'
-        'sys.path.insert(0, "./../common");',
+        (
+            '--init-hook=import sys;'
+            'sys.path.insert(0, "./../qt");'
+            'sys.path.insert(0, "./../common");'
+        ),
         # Storing results in a pickle file is unnecessary
         '--persistent=n',
         # autodetec number of parallel jobs
@@ -259,7 +261,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         proc = subprocess.run(
             cmd,
             check=False,
-            universal_newlines=True,
+            text=True,
             capture_output=True
         )
 
@@ -290,7 +292,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         proc = subprocess.run(
             cmd,
             check=False,
-            universal_newlines=True,
+            text=True,
             capture_output=True
         )
 
@@ -316,7 +318,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         r = subprocess.run(
             cmd,
             check=False,
-            universal_newlines=True,
+            text=True,
             capture_output=True)
 
         # Count lines except module headings
@@ -431,7 +433,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         r = subprocess.run(
             cmd,
             check=False,
-            universal_newlines=True,
+            text=True,
             capture_output=True)
 
         # Count lines except module headings and output about duplicate code
