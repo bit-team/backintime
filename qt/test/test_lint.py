@@ -184,7 +184,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         """
 
         if PYLINT_AVAILABLE:
-            version_target = version.parse('3.3.0')
+            version_target = version.parse('4.1.3')
 
             proc = subprocess.run(
                 ['pylint', '--version'],
@@ -201,7 +201,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
                 f'be {version_target} or higher.')
 
         if RUFF_AVAILABLE:
-            version_target = version.parse('0.15.0')
+            version_target = version.parse('0.17.0')
 
             proc = subprocess.run(
                 ['ruff', '--version'],
@@ -236,6 +236,8 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             '--extend-select=PL,E,W,INT,RUF100,N',
             # Ignore: redefined-loop-name
             '--ignore=PLW2901',
+            # Ignore: unsorted/unformatted import block
+            '--ignore=I001',
             '--line-length', str(PEP8_MAX_LINE_LENGTH),
             # Because of globally installed GNU gettext functions
             '--config', 'builtins=["_", "ngettext"]',
