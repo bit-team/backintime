@@ -23,6 +23,7 @@ class ConfirmShutdownDlg(QDialog):
     def __init__(self, countdown: int):
         super().__init__()
         self.countdown = countdown
+        self.timer = QTimer(self)
 
         # Initialize UI components
         self.setWindowTitle(_('Countdown to Shutdown'))
@@ -54,7 +55,6 @@ class ConfirmShutdownDlg(QDialog):
         self.setLayout(layout)
 
         # Initialize timer
-        self.timer = QTimer(self)
         self.timer.timeout.connect(self._update_countdown)
         self.timer.start(1000)
 
