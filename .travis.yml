@@ -9,12 +9,15 @@
 # TravisCI (https://travis-ci.org) configuration file
 os: linux
  
+# https://docs.travis-ci.com/user/reference/linux/#ubuntu-linux-distributions 
 # Support End of "Focal" (20.04 LTS) was April 2025
 # dist: focal
 # Support End of "Jammy" (22.04 LTS) is April 2027
 # dist: jammy
 # Support End of "noble" (24.04 LTS) is April 2029
 dist: noble
+# Support End of "resolute" (or raccoon?) (26.04 LTS) is April 2031
+# dist: resolute  # Not yet, available on TravisCI
 
 language: python
 
@@ -22,10 +25,9 @@ arch:
  - amd64
 
 python:
-  - "3.11"
-  - "3.12"
   - "3.13"
   - "3.14"
+  # - "3.15" # not yet available on TravisCI
  
 addons:
   # add localhost to known_hosts to prevent ssh unknown host prompt during unit tests
@@ -46,11 +48,11 @@ before_install:
   - sudo apt-get install -y ruby rubygems asciidoctor encfs gocryptfs
   - sudo gem install asciidoctor
 
-# jobs:
-  # exclude:
-  #   - python: "3.11"
-  #   - python: "3.12"
-  #   - python: "3.13"
+jobs:
+  exclude:
+    # - python: "3.13"
+    - python: "3.14"
+    # - python: "3.15"
 
 install:
   - pip install -U pip
