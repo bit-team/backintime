@@ -11,7 +11,7 @@ from __future__ import annotations
 import os
 import json
 from pathlib import Path
-from datetime import datetime, timezone
+from datetime import datetime, UTC
 from copy import deepcopy
 from qttools_path import register_backintime_path
 register_backintime_path('common')
@@ -34,7 +34,7 @@ class StateData(dict, metaclass=singleton.Singleton):
     # pylint: disable=too-many-instance-attributes
     # The default structure. All properties do rely on them and assuming
     # it is there.
-    _EMPTY_STRUCT = {
+    _EMPTY_STRUCT = {  # noqa: RUF012
         'gui': {
             'mainwindow': {
                 'files_view': {},
@@ -149,7 +149,7 @@ class StateData(dict, metaclass=singleton.Singleton):
 
         return fp
 
-    def __init__(self, data: dict = None):
+    def __init__(self, data: dict | None = None):
         """Constructor."""
 
         # default
@@ -166,7 +166,7 @@ class StateData(dict, metaclass=singleton.Singleton):
     def _set_save_meta_data(self):
         meta = {
             'saved': datetime.now().isoformat(),
-            'saved_utc': datetime.now(timezone.utc).isoformat(),
+            'saved_utc': datetime.now(UTC).isoformat(),
             'bitversion': __version__,
         }
 

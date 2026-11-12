@@ -77,7 +77,7 @@ def info(text, title=None, widget_to_center_on=None):
 
 
 def warning(text: str,
-            title: str = None,
+            title: str | None = None,
             widget_to_center_on: QWidget = None,
             as_question: bool = False) -> bool | None:
     """Show a modal warning message box.
