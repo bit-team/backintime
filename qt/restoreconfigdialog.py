@@ -17,7 +17,8 @@ import datetime
 import getpass
 import threading
 import subprocess
-from typing import Any, Generator
+from typing import Any
+from collections.abc import Generator
 from pathlib import Path
 from queue import Queue
 import logger
@@ -523,7 +524,7 @@ def _get_valid_config(path: Path) -> Config | None:
         pass
 
     # pylint: disable-next=broad-exception-caught
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001
         logger.critical(f'Unhandled branch in code!\n{exc}\n{__file__}')
 
     return None

@@ -16,7 +16,7 @@ import os
 import pathlib
 import subprocess
 import shutil
-from typing import Iterable
+from collections.abc import Iterable
 from packaging import version
 
 BASE_REASON = ('Using package {0} is mandatory on TravisCI, on '
@@ -30,11 +30,14 @@ PYLINT_AVAILABLE = shutil.which('pylint') is not None
 RUFF_AVAILABLE = shutil.which('ruff') is not None
 FLAKE8_AVAILABLE = shutil.which('flake8') is not None
 REUSE_AVAILABLE = shutil.which('reuse') is not None
+CODESPELL_AVAILABLE = shutil.which('codespell') is not None
 
 ANY_LINTER_AVAILABLE = any((
     PYLINT_AVAILABLE,
     RUFF_AVAILABLE,
     FLAKE8_AVAILABLE,
+    REUSE_AVAILABLE,
+    CODESPELL_AVAILABLE,
 ))
 
 # "common" directory
@@ -89,9 +92,11 @@ def create_pylint_cmd(include_error_codes=None):
     cmd = [
         'pylint',
         # Make sure BIT modules can be imported (to detect "no-member")
-        '--init-hook=import sys;'
-        'sys.path.insert(0, "./../qt");'
-        'sys.path.insert(0, "./../common");',
+        (
+            '--init-hook=import sys;'
+            'sys.path.insert(0, "./../qt");'
+            'sys.path.insert(0, "./../common");'
+        ),
         # Storing results in a pickle file is unnecessary
         '--persistent=n',
         # autodetec number of parallel jobs
@@ -168,7 +173,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         """
 
         if PYLINT_AVAILABLE:
-            version_target = version.parse('4.0.0')
+            version_target = version.parse('4.1.3')
 
             proc = subprocess.run(
                 ['pylint', '--version'],
@@ -185,7 +190,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
                 f'be {version_target} or higher.')
 
         if RUFF_AVAILABLE:
-            version_target = version.parse('0.15.0')
+            version_target = version.parse('0.17.0')
 
             proc = subprocess.run(
                 ['ruff', '--version'],
@@ -218,6 +223,11 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             '--extend-select=PL,E,W,INT,RUF100,N',
             # Ignore: redefined-loop-name
             '--ignore=PLW2901',
+            # Ignore: unsorted/unformatted import block
+            '--ignore=I001',
+            # Ignore: Use single `with` statement with multiple contexts
+            # Dev note: I am not convinced about that rule.
+            '--ignore=SIM117',
             '--line-length', str(PEP8_MAX_LINE_LENGTH),
             # Because of globally installed GNU gettext functions
             '--config', 'builtins=["_", "ngettext"]',
@@ -236,7 +246,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         proc = subprocess.run(
             cmd,
             check=False,
-            universal_newlines=True,
+            text=True,
             capture_output=True
         )
 
@@ -259,6 +269,9 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'flake8',
             f'--max-line-length={PEP8_MAX_LINE_LENGTH}',
             '--builtins=_,ngettext',
+            # F841: because flake8 is unable to ignore
+            # variables tarting with "_"
+            '--extend-ignore=F841',
             # '--enable-extensions='
         ]
 
@@ -267,7 +280,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         proc = subprocess.run(
             cmd,
             check=False,
-            universal_newlines=True,
+            text=True,
             capture_output=True
         )
 
@@ -293,7 +306,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         r = subprocess.run(
             cmd,
             check=False,
-            universal_newlines=True,
+            text=True,
             capture_output=True)
 
         # Count lines except module headings
@@ -415,7 +428,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         r = subprocess.run(
             cmd,
             check=False,
-            universal_newlines=True,
+            text=True,
             capture_output=True)
 
         # Count lines except module headings and output about duplicate code
@@ -440,7 +453,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
         proc = subprocess.run(
             ['reuse', 'lint', '--lines'],
             check=False,
-            universal_newlines=True,
+            text=True,
             capture_output=True
         )
 
@@ -453,3 +466,28 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
 
         # any other errors?
         self.assertEqual(proc.stderr, '')
+
+    @unittest.skipUnless(CODESPELL_AVAILABLE, BASE_REASON.format('Codespell'))
+    def test070_codespell(self):
+        """The reuse linter check license and copyright information in the
+        repository.
+
+        The info need to be complete and available for all files. The
+        info need to be provided as meta data conforming the SPDX standard.
+        """
+        proc = subprocess.run(
+            ['codespell'],
+            cwd='..',
+            check=False,
+            text=True,
+            capture_output=True
+        )
+
+        error_n = len(proc.stdout.splitlines())
+        if error_n > 0:
+            print(proc.stdout)
+
+        self.assertEqual(0, error_n, 'Codespell linter found some problem(s).')
+
+        # any other errors?
+        self.assertEqual(proc.stderr.strip(), '0')
