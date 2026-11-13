@@ -1,0 +1,202 @@
+# SPDX-FileCopyrightText: © 2008 Back In Time Team
+#
+# SPDX-License-Identifier: CC0-1.0
+#
+# This file is released under Creative Commons Zero 1.0 (CC0-1.0) and part of
+# the program "Back In Time". The program as a whole is released under GNU
+# General Public License v2 or any later version (GPL-2.0-or-later).
+version: 2.1
+
+jobs:
+  test:
+    parameters:
+      python_version:
+        type: string
+
+    machine:
+      image: ubuntu-2604:current
+
+    environment:
+      PYTHONUNBUFFERED: "1"
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install system dependencies
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y \
+              build-essential \
+              curl \
+              encfs \
+              fuse3 \
+              gocryptfs \
+              libbz2-dev \
+              libdbus-1-dev \
+              libffi-dev \
+              libgdbm-dev \
+              liblzma-dev \
+              libncurses-dev \
+              libreadline-dev \
+              libsqlite3-dev \
+              libssl-dev \
+              openssh-server \
+              pkg-config \
+              ruby \
+              ruby-rubygems \
+              screen \
+              sshfs \
+              tk-dev \
+              util-linux \
+              uuid-dev \
+              zlib1g-dev
+
+            sudo gem install asciidoctor
+
+      - run:
+          name: Build Python and create virtual environment
+          command: |
+            set -euo pipefail
+
+            python_minor="<< parameters.python_version >>"
+            release_index=$(curl -fsSL \
+              "https://www.python.org/ftp/python/${python_minor}/")
+
+            release_file=$(printf '%s\n' "$release_index" |
+              grep -oE \
+                "Python-${python_minor//./\\.}\\.[0-9]+\\.tar\\.xz" |
+              sort -V |
+              tail -n 1)
+
+            if [ -z "$release_file" ]; then
+              echo "Could not find a Python release."
+              exit 1
+            fi
+
+            python_version=${release_file#Python-}
+            python_version=${python_version%.tar.xz}
+
+            echo "Building Python ${python_version}"
+
+            curl -fsSLO \
+              "https://www.python.org/ftp/python/${python_minor}/"\
+              "${release_file}"
+
+            tar -xf "$release_file"
+            cd "$python_version"
+
+            ./configure \
+              --prefix="$HOME/.local/python/$python_version" \
+              --with-ensurepip=install
+
+            make -j2
+            make install
+
+            python_bin="$HOME/.local/python/$python_version/bin/python3"
+            venv="$HOME/.venvs/backintime"
+
+            mkdir -p "$HOME/.venvs"
+            "$python_bin" -m venv "$venv"
+
+            echo "export PATH=\"$venv/bin:\$PATH\"" >> "$BASH_ENV"
+
+            "$venv/bin/python" -m pip install --upgrade pip
+            "$venv/bin/python" -m pip install \
+              pylint \
+              ruff \
+              flake8 \
+              codespell \
+              pyfakefs \
+              keyring \
+              pytest \
+              pyqt6 \
+              dbus-python
+
+      - run:
+          name: Configure SSH for localhost tests
+          command: |
+            sudo service ssh start
+
+            mkdir -p "$HOME/.ssh"
+            chmod 700 "$HOME/.ssh"
+
+            ssh-keygen -q -b 2048 -t rsa \
+              -f "$HOME/.ssh/id_rsa" -N ""
+
+            cat "$HOME/.ssh/id_rsa.pub" \
+              >> "$HOME/.ssh/authorized_keys"
+
+            chmod 600 "$HOME/.ssh/authorized_keys"
+
+            ssh-keyscan -H localhost \
+              >> "$HOME/.ssh/known_hosts" 2>/dev/null
+
+            eval "$(ssh-agent -s)"
+            ssh-add "$HOME/.ssh/id_rsa"
+
+            echo "export SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> "$BASH_ENV"
+            echo "export SSH_AGENT_PID=$SSH_AGENT_PID" >> "$BASH_ENV"
+
+      - run:
+          name: Show tool versions
+          command: |
+            ruff --version
+            flake8 --version
+            pylint --version
+            codespell --version
+            python --version
+            pytest --version
+
+      - run:
+          name: Compile Python files
+          command: |
+            python -m compileall \
+              common \
+              common/test \
+              common/plugins \
+              qt \
+              qt/test \
+              qt/plugins
+
+      - run:
+          name: Build common
+          command: |
+            cd common
+            ./configure
+            make
+            sudo make install
+
+      - run:
+          name: Test common
+          command: |
+            cd common
+            pytest --verbose
+
+      - run:
+          name: Build qt
+          command: |
+            cd qt
+            ./configure
+            make
+
+      - run:
+          name: Test qt
+          command: |
+            cd qt
+            pytest --verbose
+
+      - run:
+          name: Run codespell
+          command: codespell
+
+workflows:
+  test:
+    jobs:
+      - test:
+          matrix:
+            parameters:
+              python_version:
+                - "3.13"
+                - "3.14"
+                - "3.15"
