@@ -83,10 +83,10 @@ class Properties(unittest.TestCase):
 
         with self.assertRaises(KeyError):
             # pylint: disable=pointless-statement
-            sut.mainwindow_coords
-            sut.mainwindow_dims
-            sut.logview_dims
-            sut.files_view_col_widths
+            _useless = sut.mainwindow_coords
+            _useless = sut.mainwindow_dims
+            _useless = sut.logview_dims
+            _useless = sut.files_view_col_widths
 
     def test_profile_not_exist(self):
         """Profile does not exists."""
@@ -95,4 +95,4 @@ class Properties(unittest.TestCase):
 
         with self.assertRaises(KeyError):
             # pylint: disable=pointless-statement
-            profile.last_path
+            _useless = profile.last_path

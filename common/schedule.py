@@ -14,7 +14,7 @@ Basic functions for handling Cron, Crontab, and other scheduling-related
 features.
 """
 import subprocess
-from typing import Callable
+from collections.abc import Callable
 import logger
 import tools
 from bitbase import ScheduleMode, TimeUnit
@@ -262,7 +262,7 @@ def add_udev_rule(pid: str,
 
 
 # pylint: disable-next=too-many-arguments,too-many-positional-arguments
-def create_cron_line(schedule_mode: ScheduleMode,  # noqa: PLR0913
+def create_cron_line(schedule_mode: ScheduleMode,  # noqa: PLR0913,PLR0917
                      cron_command: str,
                      hour: int,
                      minute: int,
@@ -312,7 +312,7 @@ def create_cron_line(schedule_mode: ScheduleMode,  # noqa: PLR0913
 
 
 # pylint: disable-next=too-many-arguments,too-many-positional-arguments
-def _simple_cron_line(schedule_mode: ScheduleMode,  # noqa: PLR0913
+def _simple_cron_line(schedule_mode: ScheduleMode,  # noqa: PLR0913,PLR0917
                       minute,  # pylint: disable=unused-argument
                       hour,  # pylint: disable=unused-argument
                       offset,  # pylint: disable=unused-argument

@@ -169,35 +169,47 @@ class ExpertOptionsTab(QDialog):
             self._cb_bwlimit,
             [
                 "Uses 'rsync --bwlimit=RATE'. From 'man rsync':",
-                'This option allows you to specify the maximum transfer rate '
-                'for the data sent over the socket, specified in units per '
-                'second. The RATE value can be suffixed with a string to '
-                'indicate a size multiplier, and may be a fractional value '
-                '(e.g. "--bwlimit=1.5m").',
-                'If no suffix is specified, the value will be assumed to be '
-                'in units of 1024 bytes (as if "K" or "KiB" had been '
-                'appended).',
-                'See the --max-size option for a description of all the '
-                'available suffixes. A value of zero specifies no limit.'
+                (
+                    'This option allows you to specify the maximum transfer '
+                    'rate for the data sent over the socket, specified in '
+                    'units per second. The RATE value can be suffixed with a '
+                    'string to indicate a size multiplier, and may be a '
+                    'fractional value (e.g. "--bwlimit=1.5m").'
+                ),
+                (
+                    'If no suffix is specified, the value will be assumed to '
+                    'be in units of 1024 bytes (as if "K" or "KiB" had been '
+                    'appended).'
+                ),
+                (
+                    'See the --max-size option for a description of all the '
+                    'available suffixes. A value of zero specifies no limit.'
+                    ''
+                ),
+                (
+                    'For backward-compatibility reasons, the rate limit will '
+                    'be rounded to the nearest KiB unit, so no rate smaller '
+                    'than 1024 bytes per second is possible.'
+                ),
                 '',
-                'For backward-compatibility reasons, the rate limit will be '
-                'rounded to the nearest KiB unit, so no rate smaller than '
-                '1024 bytes per second is possible.',
+                (
+                    'Rsync writes data over the socket in blocks, and this '
+                    'option both limits the size of the blocks that rsync '
+                    'writes, and tries to keep the average transfer rate at '
+                    'the requested limit. Some "burstiness" may be seen where '
+                    'rsync writes out a block of data and then sleeps to bring'
+                    ' the average rate into compliance.'
+                ),
                 '',
-                'Rsync writes data over the socket in blocks, and this option '
-                'both limits the size of the blocks that rsync writes, and '
-                'tries to keep the average transfer rate at the requested '
-                'limit. Some "burstiness" may be seen where rsync writes out '
-                'a block of data and then sleeps to bring the average rate '
-                'into compliance.',
-                '',
-                'Due to the internal buffering of data, the --progress '
-                'option may not be an accurate reflection on how fast the '
-                'data is being sent. This is because some files can show up '
-                'as being rapidly sent when the data is quickly buffered, '
-                'while other can show up as very slow when the flushing of '
-                'the output buffer occurs. This may be fixed in a future '
-                'version.'
+                (
+                    'Due to the internal buffering of data, the --progress '
+                    'option may not be an accurate reflection on how fast the '
+                    'data is being sent. This is because some files can show '
+                    'up as being rapidly sent when the data is quickly '
+                    'buffered, while other can show up as very slow when the '
+                    'flushing of the output buffer occurs. This may be fixed '
+                    'in a future version.'
+                )
             ]
         )
 
@@ -206,14 +218,18 @@ class ExpertOptionsTab(QDialog):
             self._cb_preserve_acl,
             [
                 "Uses 'rsync -A'. From 'man rsync':",
-                'This option causes rsync to update the destination ACLs to '
-                'be the same as the source ACLs. The option also implies '
-                '--perms.',
+                (
+                    'This option causes rsync to update the destination ACLs '
+                    'to be the same as the source ACLs. The option also '
+                    'implies --perms.'
+                ),
                 '',
-                'The source and destination systems must have compatible ACL '
-                'entries for this option to work properly. See the '
-                '--fake-super option for a way to backup and restore ACLs '
-                'that are not compatible.'
+                (
+                    'The source and destination systems must have compatible '
+                    'ACL entries for this option to work properly. See the '
+                    '--fake-super option for a way to backup and restore ACLs '
+                    'that are not compatible.'
+                ),
             ]
         )
         tab_layout.addWidget(self._cb_preserve_acl)
@@ -224,19 +240,25 @@ class ExpertOptionsTab(QDialog):
             self._cb_preserve_xattr,
             [
                 "Uses 'rsync -X'. From 'man rsync':",
-                'This option causes rsync to update the destination extended '
-                'attributes to be the same as the source ones.',
+                (
+                    'This option causes rsync to update the destination '
+                    'extended attributes to be the same as the source ones.'
+                ),
                 '',
-                'For systems that support extended-attribute namespaces, a '
-                'copy being done by a super-user copies all namespaces '
-                'except system.*. A normal user only copies the user.* '
-                'namespace. To be able to backup and restore non-user '
-                'namespaces as a normal user, see the --fake-super option.',
+                (
+                    'For systems that support extended-attribute namespaces, '
+                    'a copy being done by a super-user copies all namespaces '
+                    'except system.*. A normal user only copies the user.* '
+                    'namespace. To be able to backup and restore non-user '
+                    'namespaces as a normal user, see the --fake-super option.'
+                ),
                 '',
-                'Note that this option does not copy rsyncs special xattr '
-                'values (e.g. those used by --fake-super) unless you repeat '
-                'the option (e.g. -XX). This "copy all xattrs" mode cannot be '
-                'used with --fake-super.'
+                (
+                    'Note that this option does not copy rsyncs special xattr '
+                    'values (e.g. those used by --fake-super) unless you '
+                    'repeat the option (e.g. -XX). This "copy all xattrs" '
+                    'mode cannot be used with --fake-super.'
+                )
             ]
         )
         tab_layout.addWidget(self._cb_preserve_xattr)
@@ -251,14 +273,16 @@ class ExpertOptionsTab(QDialog):
             self._cb_one_filesystem,
             [
                 "Uses 'rsync --one-file-system'. From 'man rsync':",
-                'This tells rsync to avoid crossing a filesystem boundary '
-                'when recursing. This does not limit the user\'s ability '
-                'to specify items to copy from multiple filesystems, just '
-                'rsync\'s recursion through the hierarchy of each directory '
-                'that the user specified, and also the analogous recursion '
-                'on the receiving side during deletion. Also keep in mind '
-                'that rsync treats a "bind" mount to the same device as '
-                'being on the same filesystem.'
+                (
+                    'This tells rsync to avoid crossing a filesystem boundary '
+                    'when recursing. This does not limit the user\'s ability '
+                    'to specify items to copy from multiple filesystems, just '
+                    'rsync\'s recursion through the hierarchy of each '
+                    'directory that the user specified, and also the analogous'
+                    ' recursion on the receiving side during deletion. Also '
+                    'keep in mind that rsync treats a "bind" mount to the '
+                    'same device as being on the same filesystem.'
+                )
             ]
         )
         tab_layout.addWidget(self._cb_one_filesystem)

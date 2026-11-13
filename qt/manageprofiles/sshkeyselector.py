@@ -6,11 +6,10 @@
 # General Public License v2 (GPLv2). See file/folder LICENSE or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """Module with widgets regarding SSH Key file selection"""
-# from pathlib import Path
-from typing import Callable
+from collections import deque
+from collections.abc import Callable
 from pathlib import Path
 from functools import partial
-from collections import deque
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtWidgets import (QButtonGroup,
                              QHBoxLayout,

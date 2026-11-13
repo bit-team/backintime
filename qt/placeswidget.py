@@ -55,7 +55,9 @@ class PlacesWidget(QTreeWidget):
         self.header().sortIndicatorChanged.connect(self.do_update)
         self.currentItemChanged.connect(self._slot_changed)
 
-    def do_update(self, _col: int = None, _order: Qt.SortOrder = None) -> None:
+    def do_update(self,
+                  _col: int | None = None,
+                  _order: Qt.SortOrder | None = None) -> None:
         """Update the places view"""
         self.clear()
 
