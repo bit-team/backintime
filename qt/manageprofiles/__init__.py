@@ -197,7 +197,8 @@ class SettingsDialog(QDialog):
     def _slot_edit_profile(self):
         ret_val = QInputDialog.getText(
             self,
-            _('Rename profile'), '',
+            _('Rename profile'),
+            '',
             text=self.config.profileName()
         )
 
