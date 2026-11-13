@@ -98,24 +98,30 @@ class ConfirmRestoreDialog(QDialog):
         tooltip = [
             "From 'man rsync':",
             "",
-            "This forces rsync to skip any files which exist on the "
-            "destination and have a modified time that is newer than the "
-            "source file. (If an existing destination file has a "
-            "modification time equal to the source file’s, it will be "
-            "updated if the sizes are different.)",
+            (
+                "This forces rsync to skip any files which exist on the "
+                "destination and have a modified time that is newer than the "
+                "source file. (If an existing destination file has a "
+                "modification time equal to the source file’s, it will be "
+                "updated if the sizes are different.)"
+            ),
             "",
-            "Note that this does not affect the copying of dirs, symlinks, "
-            "or other special files. Also, a difference of file format "
-            "between the sender and receiver is always considered to be "
-            "important enough for an update, no matter what date is on the "
-            "objects. In other words, if the source has a directory where "
-            "the destination has a file, the transfer would occur regardless "
-            "of the timestamps.",
+            (
+                "Note that this does not affect the copying of dirs, "
+                "symlinks, or other special files. Also, a difference of file "
+                "format between the sender and receiver is always considered "
+                "to be important enough for an update, no matter what date is "
+                "on the objects. In other words, if the source has a "
+                "directory where the destination has a file, the transfer "
+                "would occur regardless of the timestamps."
+            ),
             "",
-            "This option is a transfer rule, not an exclude, so it doesn’t "
-            "affect the data that goes into the file-lists, and thus it "
-            "doesn’t affect deletions. It just limits the files that the "
-            "receiver requests to be transferred."
+            (
+                "This option is a transfer rule, not an exclude, so it "
+                "doesn't affect the data that goes into the file-lists, and "
+                "thus it doesn’t affect deletions. It just limits the files "
+                "that the receiver requests to be transferred."
+            )
         ]
 
         return WrappedCheckBox(label, tooltip)
@@ -136,7 +142,8 @@ class ConfirmRestoreDialog(QDialog):
             'destination and delete files or directories which are not in the '
             'backup. Be extremely careful because this will delete files and '
             'directories which were excluded during the creation of the '
-            'backup.')
+            'backup.'
+        )
 
         return WrappedCheckBox(label, tooltip)
 

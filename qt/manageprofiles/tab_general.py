@@ -528,9 +528,9 @@ class GeneralTab(QDialog):
 
         try:
             mode = self.config.snapshotsMode()
-            if 'gocryptfs' in mode:
-                if not mnt.get_backend(mode).isConfigured():
-                    mnt.init_backend(mode=mode, **mount_kwargs)
+            if ('gocryptfs' in mode
+                    and not mnt.get_backend(mode).isConfigured()):
+                mnt.init_backend(mode=mode, **mount_kwargs)
 
         except MountException as ex:
             messagebox.critical(self, str(ex))
@@ -662,13 +662,16 @@ class GeneralTab(QDialog):
         further_info = further_info + 'Further information' + '</a>'
 
         txt = [
-            'The implementation of local encrypted backups will change in '
-            'version 2.0.0. '
-            'Existing backup data might no longer be accessible.'
-            'However, Back In Time will try to provide a migration path in '
-            f'version 2.0.0. See {further_info}.',
-            'If possible, <strong>avoid creating new local encrypted backup '
-            'profiles</strong> until version 2.0.0 is released.'
+            (
+                'The implementation of local encrypted backups will change in '
+                'version 2.0.0. Existing backup data might no longer be '
+                'accessible. However, Back In Time will try to provide a '
+                f'migration path in version 2.0.0. See {further_info}.'
+            ),
+            (
+                'If possible, <strong>avoid creating new local encrypted '
+                'backup profiles</strong> until version 2.0.0 is released.'
+            ),
         ]
         txt = '<p>' + '</p><p>'.join(txt) + '</p>'
 
@@ -681,16 +684,21 @@ class GeneralTab(QDialog):
         whitepaper = whitepaper + 'whitepaper' + '</a>'
 
         txt = [
-            '<strong>Encrypted profiles using EncFS are no longer '
-            'supported.</strong>',
-            'New EncFS backup profiles can not be created anymore. '
-            'Existing EncFS profiles are still displayed and '
-            'supported for now, but EncFS support will be <strong>'
-            'completely removed</strong> in a future release '
-            '(expected around 2027).',
-            'EncFS is considered insecure and is no longer actively '
-            'maintained. For more information, see this '
-            f'{whitepaper}.'
+            (
+                '<strong>Encrypted profiles using EncFS are no longer '
+                'supported.</strong>'
+            ),
+            (
+                'New EncFS backup profiles can not be created anymore. '
+                'Existing EncFS profiles are still displayed and '
+                'supported for now, but EncFS support will be <strong>'
+                'completely removed</strong> in a future release '
+                '(expected around 2027).'
+            ),
+            (
+                'EncFS is considered insecure and is no longer actively '
+                f'maintained. For more information, see this {whitepaper}.'
+            ),
         ]
         txt = '<p>' + '</p><p>'.join(txt) + '</p>'
 
@@ -717,10 +725,9 @@ class GeneralTab(QDialog):
             return
 
         # gocryptfs destination need to be empty
-        if 'gocryptfs' in self.mode:
-            # is not empty
-            if not self._is_gocryptfs_path_empty(path):
-                return
+        if ('gocryptfs' in self.mode
+                and not self._is_gocryptfs_path_empty(path)):
+            return
 
         # Really change?
         answer = messagebox.question(
