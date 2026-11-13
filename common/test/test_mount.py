@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: © 2024 Christian Buhtz <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2024 Christian BUHTZ <c.buhtz@posteo.jp>
 # SPDX-FileCopyrightText: © 2025 David Wales (@daviewales)
 #
 # SPDX-License-Identifier: GPL-2.0-or-later

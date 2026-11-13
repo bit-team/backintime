@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: © 2022 Christian Buhtz <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2022 Christian BUHTZ <c.buhtz@posteo.jp>
 # SPDX-FileCopyrightText: © 2022 Jürgen Altfeld (aryoda)
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
