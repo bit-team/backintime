@@ -284,6 +284,9 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             'flake8',
             f'--max-line-length={PEP8_MAX_LINE_LENGTH}',
             '--builtins=_,ngettext',
+            # F841: because flake8 is unable to ignore
+            # variables tarting with "_"
+            '--extend-ignore=F841',
             # '--enable-extensions='
         ]
 

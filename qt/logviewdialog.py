@@ -229,7 +229,7 @@ class LogViewDialog(QDialog):  # pylint: disable=too-many-instance-attributes
         self._checkbox_decode.hide()
         self._checkbox_decode.setChecked(False)
 
-    def _update_log(self, watched_path: str = None):
+    def _update_log(self, watched_path: str | None = None):
         """
         Show the log file of the current snapshot in the GUI
 
