@@ -122,7 +122,7 @@ distribution.
 
 * Runtime dependencies for the CLI
 
-  - `python3` (>= 3.14)
+  - `python3` (>= 3.15)
   - `rsync`
   - `cron-daemon`
   - `openssh-client`
