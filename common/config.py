@@ -237,7 +237,7 @@ class Config(configfile.ConfigFileWithProfiles):
                         None, _('Local'), False, False),
                     'local_gocryptfs': (
                         gocryptfstools.GocryptfsMount,
-                        _('Local encrypted') + ' (via gocryptfs)',
+                        'DEPRECATED - Local encrypted (via gocryptfs forward mount)',
                         _('Encryption'),
                         False
                     ),

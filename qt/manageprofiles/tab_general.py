@@ -663,14 +663,24 @@ class GeneralTab(QDialog):
 
         txt = [
             (
-                'The implementation of local encrypted backups will change in '
-                'version 2.0.0. Existing backup data might no longer be '
-                'accessible. However, Back In Time will try to provide a '
-                f'migration path in version 2.0.0. See {further_info}.'
+                '<strong>Gocryptfs-encrypted '
+                'profiles are changing.</strong>'
             ),
             (
-                'If possible, <strong>avoid creating new local encrypted '
-                'backup profiles</strong> until version 2.0.0 is released.'
+                'The current implementation of local encrypted backups, '
+                'introduced in version 1.6, will be <strong>replaced</strong> '
+                'in a future version of Back In Time. '
+                'In version 1.7, existing gocryptfs-encrypted profiles can '
+                'still be loaded and used, but new ones cannot be '
+                'created. '
+            ),
+            (
+                '<span style="color: red;">Support for these profiles will '
+                'be <strong>completely removed</strong> in version 2.0.0. '
+                '<strong>No automatic migration will be offered.'
+                '</strong></span> '
+                'Full support for gocryptfs-encrypted backups will return '
+                f'in version 2.0.0. See {further_info}.'
             ),
         ]
         txt = '<p>' + '</p><p>'.join(txt) + '</p>'
@@ -873,9 +883,12 @@ class GeneralTab(QDialog):
                     self._edit_backup_path.setText('')
 
             # Don't offer deprecated modes (#1734)
-            modes_to_hide = {'local_encfs', 'ssh_encfs'} - {active_mode}
-            for hide in modes_to_hide:
-                self._combo_modes.hide_by_data(hide)
+            # Additionally local-gocryptfs using forward mounts is deprecated
+            # also (#2625).
+            modes_to_hide = {'local_encfs', 'ssh_encfs', 'local_gocryptfs'}
+            modes_to_hide = modes_to_hide - {active_mode}
+            # for hide in modes_to_hide:
+            #     self._combo_modes.hide_by_data(hide)
 
         # A mode using password fields?
         if self.config.modeNeedPassword(active_mode):
