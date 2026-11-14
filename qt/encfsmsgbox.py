@@ -11,7 +11,7 @@ See #1734 and #1735 for details
 """
 from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import QLabel, QToolTip, QMessageBox
-from bitbase import URL_ENCRYPT_TRANSITION
+from bitbase import URL_ENCRYPT_TRANSITION, URL_GOCRYPT_MIGRATION
 
 
 class _EncfsWarningBase(QMessageBox):
@@ -37,30 +37,6 @@ class _EncfsWarningBase(QMessageBox):
             self.setStandardButtons(QMessageBox.StandardButton.Ok)
             ok_button = self.button(QMessageBox.StandardButton.Ok)
             ok_button.setText(button_label)
-
-
-# class EncfsCreateWarning(_EncfsWarningBase):
-#     """Warning box when using EncFS encrypting while creating a new profile
-#     or modify an existing one.
-#     """
-#     # pylint: disable=too-few-public-methods
-
-#     def __init__(self, parent):
-#         text = _('EncFS profile creation will be removed in the next minor '
-#                  'release (1.7), scheduled for 2026.')
-#         text = text + ' ' + _('It is not recommended to use that '
-#                               'mode for a profile furthermore.')
-#         whitepaper = f'<a href="{URL_ENCRYPT_TRANSITION}">' \
-#             + _('whitepaper') + '</a>'
-
-#         informative_text = _('Support for EncFS is being discontinued due '
-#                              'to security vulnerabilities.')
-#         informative_text = informative_text + ' ' + _(
-#             'For more details, including potential alternatives, please '
-#             'refer to this {whitepaper}.').format(
-#                 whitepaper=whitepaper)
-
-#         super().__init__(parent, text, informative_text)
 
 
 class EncfsExistsWarning(_EncfsWarningBase):
@@ -97,5 +73,50 @@ class EncfsExistsWarning(_EncfsWarningBase):
 
         informative_text = ''.join(
             [f'<p>{par}</p>' for par in info_paragraphs])
+
+        super().__init__(text, informative_text, 'Got it')
+
+
+class GocryptfsExistsWarning(_EncfsWarningBase):
+    """Warning box when gocryptfs encrypted profiles exists.
+    """
+    # pylint: disable=too-few-public-methods
+
+    def __init__(self, profiles):
+        further_info = f'<a href="{URL_GOCRYPT_MIGRATION}">'
+        further_info += 'further information</a>'
+
+        profiles = '<ul>' \
+            + ''.join(f'<li>{profile}</li>' for profile in profiles) \
+            + '</ul>'
+
+        info_paragraphs = (
+            'The following profile(s) use local encryption with gocryptfs:',
+            profiles,
+        )
+
+        informative_text = ''.join(
+            [f'<p>{par}</p>' for par in info_paragraphs])
+
+        text = (
+            '<p><span style="color: red;"><strong>Existing '
+            'gocryptfs-encrypted profiles will no longer work in '
+            'Back In Time 2.0.0.</strong></span></p>'
+            '<p>The current implementation of local encrypted backups '
+            '(using gocryptfs forward mounts), introduced in version 1.6, '
+            'will be replaced by a new implementation in version 2.0.0.</p>'
+            '<p>In version 1.7, existing gocryptfs-encrypted profiles '
+            'can still be loaded and used, but new ones cannot be '
+            'created.</p>'
+            '<p><span style="color: red;">Support for these profiles '
+            'will be <strong>completely removed</strong> in version '
+            '2.0.0. <strong>No automatic migration will be '
+            'offered.</strong></span> Full support for gocryptfs-encrypted '
+            'backups will return with the new implementation.</p>'
+            '<p>Gocryptfs-encrypted profiles created with version 1.6 '
+            'will not be compatible with later versions.</p>'
+            f'<p>See {further_info}. '
+            'This dialog is available at any time via the help menu.</p>'
+        )
 
         super().__init__(text, informative_text, 'Got it')

@@ -18,6 +18,7 @@ import bcolors
 import config
 import logger
 import bitbase
+from datetime import datetime
 from typing import Optional
 from version import __version__
 
@@ -424,4 +425,101 @@ def get_config_and_select_profile(
     if checksum is not None:
         cfg.forceUseChecksum = checksum
 
+    # List backup modes of all existing profiles
+    modes = []
+    for pid in cfg.profiles():
+        modes.append(cfg.snapshotsMode(pid))
+
+    # Encfs profile exists?
+    if any(filter(lambda val: 'encfs' in val, modes)):
+        encfs_deprecation_warning()
+
+    # Local gocryptfs?
+    if 'local_gocryptfs' in modes:
+        gocryptfs_foward_mount_deprecation_warning()
+
     return cfg
+
+
+def encfs_deprecation_warning():
+    """Warn about encfs deprecation in syslog.
+
+    See Issue #1734 for details. This function is a workraound and will be
+    removed if #1734 is closed.
+    """
+
+    # Don't warn if EncFS isn't installed
+    if not tools.checkCommand('encfs'):
+        return
+
+    # Timestamp file
+    xdg_state = os.environ.get('XDG_STATE_HOME', None)
+    if xdg_state:
+        xdg_state = Path(xdg_state)
+    else:
+        xdg_state = Path.home() / '.local' / 'state'
+    fp = xdg_state / 'backintime.encfs-warning.timestamp'
+
+    if fp.exists():
+        # Calculate age of that file
+        delta = datetime.now() - datetime.fromtimestamp(fp.stat().st_mtime)
+
+        # Don't warn if to young
+        if delta.days < 30:
+            return
+
+    else:
+        # ensure existence
+        fp.parent.mkdir(parents=True, exist_ok=True)
+
+    logger.error(
+        'EncFS encrypted profiles are no longer supported in Back In Time. '
+        'Existing profiles can be used. New ones can not be created. EncFS '
+        'support will be completely removed in a future release (expected '
+        f'around 2027). For details read: {bitbase.URL_ENCRYPT_TRANSITION}'
+    )
+
+    # refresh timestamp
+    fp.touch()
+
+
+def gocryptfs_foward_mount_deprecation_warning():
+    """Warn about gocryptfs (forward mount) deprecation in syslog.
+
+    See Issue #2625 and #2646 for details.
+    """
+
+    # Don't warn if Gocryptfs isn't installed
+    if not tools.checkCommand('gocryptfs'):
+        return
+
+    # Timestamp file
+    xdg_state = os.environ.get('XDG_STATE_HOME', None)
+    if xdg_state:
+        xdg_state = Path(xdg_state)
+    else:
+        xdg_state = Path.home() / '.local' / 'state'
+    fp = xdg_state / 'backintime.gocryptfs-warning.timestamp'
+
+    if fp.exists():
+        # Calculate age of that file
+        delta = datetime.now() - datetime.fromtimestamp(fp.stat().st_mtime)
+
+        # Don't warn if to young
+        if delta.days < 30:
+            return
+
+    else:
+        # ensure existence
+        fp.parent.mkdir(parents=True, exist_ok=True)
+
+    logger.error(
+        'Local gocryptfs-encrypted backup profiles are no longer supported. '
+        'Existing profiles can be used. New ones cannot be created. '
+        'Full gocryptfs support will return with Back In Time 2.0, but will '
+        'not be compatible with gocryptfs-encrypted profiles created in '
+        f'Back In Time 1.6. For details read: {bitbase.URL_GOCRYPT_MIGRATION}'
+    )
+
+    # refresh timestamp
+    fp.touch()

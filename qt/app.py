@@ -395,7 +395,7 @@ class MainWindow(QMainWindow):
                 + ' ' + _('Then press OK.')
             messagebox.critical(self, msg)
 
-    def _handle_user_messages(self):
+    def _handle_user_messages(self):  # pylint: disable=too-many-branches
         # Ignore if debug or release/testing candidate
         if version.IS_RELEASE_CANDIDATE or logger.DEBUG:
             return
@@ -456,6 +456,26 @@ class MainWindow(QMainWindow):
                 state_data.msg_encfs_global = bitbase.ENCFS_MSG_STAGE
                 state_data.save()
                 dlg = encfsmsgbox.EncfsExistsWarning(encfs_profiles)
+                dlg.exec()
+
+        # If the gocryptfs-foward-mountd-deprecation warning was not shown yet.
+        if not state_data.msg_gocryptfs_global:
+            # Are there profiles using "local_gocryptfs"
+            local_gocryptfs_profiles = []
+
+            for pid in self.config.profiles():
+                if 'local_gocryptfs' in self.config.snapshotsMode(pid):
+                    local_gocryptfs_profiles.append(
+                        f'{self.config.profileName(pid)} ({pid})'
+                    )
+
+            # Gocryptfs deprecation warning (#2646, #2625)
+            if local_gocryptfs_profiles:
+                state_data.msg_gocryptfs_global = True
+                state_data.save()
+                dlg = encfsmsgbox.GocryptfsExistsWarning(
+                    local_gocryptfs_profiles
+                )
                 dlg.exec()
 
     @property

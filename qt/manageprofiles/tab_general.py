@@ -887,8 +887,8 @@ class GeneralTab(QDialog):
             # also (#2625).
             modes_to_hide = {'local_encfs', 'ssh_encfs', 'local_gocryptfs'}
             modes_to_hide = modes_to_hide - {active_mode}
-            # for hide in modes_to_hide:
-            #     self._combo_modes.hide_by_data(hide)
+            for hide in modes_to_hide:
+                self._combo_modes.hide_by_data(hide)
 
         # A mode using password fields?
         if self.config.modeNeedPassword(active_mode):

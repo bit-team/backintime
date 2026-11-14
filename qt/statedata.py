@@ -50,7 +50,8 @@ class StateData(dict, metaclass=singleton.Singleton):
             'user_callback_edit': {},
         },
         'message': {
-            'encfs': {}
+            'encfs': {},
+            'gocryptfs': {},  # See #2646 and #2625
         },
     }
 
@@ -270,6 +271,19 @@ class StateData(dict, metaclass=singleton.Singleton):
     @msg_encfs_global.setter
     def msg_encfs_global(self, val: int) -> None:
         self['message']['encfs']['global'] = val
+
+    @property
+    def msg_gocryptfs_global(self) -> bool:
+        """Global gocryptfs forward-mount deprecation message was shown"""
+        try:
+            return self['message']['gocryptfs']['global']
+        except KeyError:
+            self.msg_gocryptfs_global = False
+            return self.msg_gocryptfs_global
+
+    @msg_gocryptfs_global.setter
+    def msg_gocryptfs_global(self, val: bool) -> None:
+        self['message']['gocryptfs']['global'] = val
 
     @property
     def mainwindow_show_hidden(self) -> bool:
