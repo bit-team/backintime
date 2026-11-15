@@ -436,15 +436,52 @@ def get_config_and_select_profile(
 
     # Local gocryptfs?
     if 'local_gocryptfs' in modes:
-        gocryptfs_foward_mount_deprecation_warning()
+        gocryptfs_forward_mount_deprecation_warning()
 
     return cfg
+
+
+def _is_warning_interval_elapsed(name: str, age_in_days: int) -> bool:
+    """Check whether the warning interval `age_in_days` has elapsed.
+
+    If the interval has elapsed or no previous timestamp exists,
+    update the timestamp and return ``True``. Otherwise, return ``False``.
+
+    Args:
+        name: Used as part of the timestamp file name.
+        age_in_days: The interval to check.
+    """
+    # Timestamp file
+    xdg_state = os.environ.get('XDG_STATE_HOME', None)
+
+    if xdg_state:
+        xdg_state = Path(xdg_state)
+    else:
+        xdg_state = Path.home() / '.local' / 'state'
+    fp = xdg_state / f'backintime.{name}-warning.timestamp'
+
+    if fp.exists():
+        # Calculate age of that file
+        delta = datetime.now() - datetime.fromtimestamp(fp.stat().st_mtime)
+
+        # Don't warn if too young
+        if delta.days < age_in_days:
+            return False
+
+    else:
+        # ensure dir existence
+        fp.parent.mkdir(parents=True, exist_ok=True)
+
+    # update timestamp
+    fp.touch()
+
+    return True
 
 
 def encfs_deprecation_warning():
     """Warn about encfs deprecation in syslog.
 
-    See Issue #1734 for details. This function is a workraound and will be
+    See Issue #1734 for details. This function is a workaround and will be
     removed if #1734 is closed.
     """
 
@@ -452,38 +489,19 @@ def encfs_deprecation_warning():
     if not tools.checkCommand('encfs'):
         return
 
-    # Timestamp file
-    xdg_state = os.environ.get('XDG_STATE_HOME', None)
-    if xdg_state:
-        xdg_state = Path(xdg_state)
-    else:
-        xdg_state = Path.home() / '.local' / 'state'
-    fp = xdg_state / 'backintime.encfs-warning.timestamp'
-
-    if fp.exists():
-        # Calculate age of that file
-        delta = datetime.now() - datetime.fromtimestamp(fp.stat().st_mtime)
-
-        # Don't warn if to young
-        if delta.days < 30:
-            return
-
-    else:
-        # ensure existence
-        fp.parent.mkdir(parents=True, exist_ok=True)
+    # Last warning due?
+    if not _is_warning_interval_elapsed('encfs', 30):
+        return
 
     logger.error(
         'EncFS encrypted profiles are no longer supported in Back In Time. '
-        'Existing profiles can be used. New ones can not be created. EncFS '
+        'Existing profiles can be used. New ones cannot be created. EncFS '
         'support will be completely removed in a future release (expected '
         f'around 2027). For details read: {bitbase.URL_ENCRYPT_TRANSITION}'
     )
 
-    # refresh timestamp
-    fp.touch()
 
-
-def gocryptfs_foward_mount_deprecation_warning():
+def gocryptfs_forward_mount_deprecation_warning():
     """Warn about gocryptfs (forward mount) deprecation in syslog.
 
     See Issue #2625 and #2646 for details.
@@ -493,25 +511,9 @@ def gocryptfs_foward_mount_deprecation_warning():
     if not tools.checkCommand('gocryptfs'):
         return
 
-    # Timestamp file
-    xdg_state = os.environ.get('XDG_STATE_HOME', None)
-    if xdg_state:
-        xdg_state = Path(xdg_state)
-    else:
-        xdg_state = Path.home() / '.local' / 'state'
-    fp = xdg_state / 'backintime.gocryptfs-warning.timestamp'
-
-    if fp.exists():
-        # Calculate age of that file
-        delta = datetime.now() - datetime.fromtimestamp(fp.stat().st_mtime)
-
-        # Don't warn if to young
-        if delta.days < 30:
-            return
-
-    else:
-        # ensure existence
-        fp.parent.mkdir(parents=True, exist_ok=True)
+    # Last warning due?
+    if not _is_warning_interval_elapsed('gocryptfs', 30):
+        return
 
     logger.error(
         'Local gocryptfs-encrypted backup profiles are no longer supported. '
@@ -520,6 +522,3 @@ def gocryptfs_foward_mount_deprecation_warning():
         'not be compatible with gocryptfs-encrypted profiles created in '
         f'Back In Time 1.6. For details read: {bitbase.URL_GOCRYPT_MIGRATION}'
     )
-
-    # refresh timestamp
-    fp.touch()
