@@ -627,6 +627,11 @@ class MainWindow(QMainWindow):
                 _('Encryption Transition (EncFS)'),
                 self._slot_help_encryption, None,
                 _('Shows the message about EncFS removal again.')),
+            'act_help_gocrypt': (
+                icon.ENCRYPT,
+                _('Gocryptfs deprecation & migration (EncFS)'),
+                self._slot_help_gocryptfs, None,
+                _('Shows the message about Gocryptfs deprecation again.')),
             'act_help_cipher': (
                 icon.ENCRYPT,
                 'SSH Cipher deprecation',
@@ -768,6 +773,7 @@ class MainWindow(QMainWindow):
                 self.act_help_bugreport,
                 self.act_help_translation,
                 self.act_help_encryption,
+                self.act_help_gocrypt,
                 self.act_help_cipher,
                 self.act_help_about,
             )
@@ -794,6 +800,7 @@ class MainWindow(QMainWindow):
         help = self.menuBar().actions()[-1].menu()
         help.insertSeparator(self.act_help_website)
         help.insertSeparator(self.act_help_about)
+        help.insertSeparator(self.act_help_encryption)
         if self.act_help_release_candidate:
             help.addSeparator()
             help.addAction(self.act_help_release_candidate)
@@ -2348,6 +2355,10 @@ class MainWindow(QMainWindow):
 
     def _slot_help_encryption(self):
         dlg = encfsmsgbox.EncfsExistsWarning(['(not determined)'])
+        dlg.exec()
+
+    def _slot_help_gocryptfs(self):
+        dlg = encfsmsgbox.GocryptfsExistsWarning(['(not determined)'])
         dlg.exec()
 
     def _slot_edit_user_callback(self):
