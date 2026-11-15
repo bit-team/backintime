@@ -370,7 +370,7 @@ class ExcludeTab(QWidget):
         self._remove_entries(unchecked)
 
     def _remove_entries(self, entries: list[str]) -> None:
-        """Remove entries from the exlucde list if existent."""
+        """Remove entries from the exclude list if existent."""
         for entry in entries:
             # find item
             items = self.list_exclude.findItems(entry, MATCH_FLAGS)

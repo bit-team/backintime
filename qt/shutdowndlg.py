@@ -23,6 +23,7 @@ class ConfirmShutdownDlg(QDialog):
     def __init__(self, countdown: int):
         super().__init__()
         self.countdown = countdown
+        self.timer = QTimer(self)
 
         self.timer = QTimer(self)
 
