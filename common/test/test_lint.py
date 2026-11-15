@@ -469,12 +469,7 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
 
     @unittest.skipUnless(CODESPELL_AVAILABLE, BASE_REASON.format('Codespell'))
     def test070_codespell(self):
-        """The reuse linter check license and copyright information in the
-        repository.
-
-        The info need to be complete and available for all files. The
-        info need to be provided as meta data conforming the SPDX standard.
-        """
+        """Check for common misspellings"""
         proc = subprocess.run(
             ['codespell'],
             cwd='..',
