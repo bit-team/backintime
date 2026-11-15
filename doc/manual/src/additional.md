@@ -9,7 +9,11 @@ General Public License v2 (GPLv2). See LICENSES directory or go to
 <https://spdx.org/licenses/GPL-2.0-or-later.html>
 -->
 - [FAQ - Frequently Asked Questions](https://github.com/bit-team/backintime/blob/dev/FAQ.md)
-- [Source code documentation for developers](https://backintime-dev.readthedocs.org)
+- Man pages
+    - [backintime](https://github.com/bit-team/backintime/blob/dev/doc/manpages/backintime.1.adoc)
+    - [backintime-qt](https://github.com/bit-team/backintime/blob/dev/doc/manpages/backintime-qt.1.adoc)
+    - [backintime-config](https://manpages.debian.org/unstable/backintime-common/backintime-config.1.en.html)
+    - [backintime-askpass](https://github.com/bit-team/backintime/blob/dev/doc/manpages/backintime-askpass.1.adoc)
 - [Issue Tracker](https://github.com/bit-team/backintime/issues)
 - [Contributing to Back In Time](https://github.com/bit-team/backintime/blob/dev/CONTRIBUTING.md)
 - [Project Website at Microsoft GitHub](https://github.com/bit-team/backintime)
