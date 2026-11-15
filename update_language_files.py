@@ -42,7 +42,9 @@ BUG_ADDRESS = 'https://github.com/bit-team/backintime'
 # RegEx pattern: Character & followed by a word character (extract as group)
 REX_SHORTCUT_LETTER = re.compile(r'&(\w)')
 TRANSLATION_PLACEHOLDER_MSGID = 'translator-credits-placeholder'
+# REUSE-IgnoreStart
 DEFAULT_COPYRIGHT = '© 2008 Back In Time Team <bit-dev@python.org>'
+# REUSE-IgnoreEnd
 MISSING_TRANSLATORS_TXT = "Strict and accurate recording of translators' " \
     "names began around 2022. As\n" \
     "the project started in 2008, some earlier translators' names " \
@@ -140,14 +142,16 @@ def _add_spdx_header_to_po_template():
     spdx_base = get_spdx_metadata_lines(ignore_copyright=True,
                                         without_comment_prefix=True)
 
+    # REUSE-IgnoreStart
     copyright = f'SPDX-FileCopyrightText: {DEFAULT_COPYRIGHT}'
 
-    pof =  polib.pofile(TEMPLATE_PO)
+    pof = polib.pofile(TEMPLATE_PO)
 
     print(f'\n{len(pof)} entries in {TEMPLATE_PO}')
 
     pof.header = f'{DEFAULT_COPYRIGHT}\n{spdx_base}\n{MISSING_TRANSLATORS_TXT}'
     pof.save()
+    # REUSE-IgnoreEnd
 
 
 def _update_po_template_from_polkit_policies():
@@ -379,6 +383,8 @@ def _set_header(po_path: Path, spdx_base: str):
     # Version string
     pof.metadata['Project-Id-Version'] = f'{PACKAGE_NAME} {PACKAGE_VERSION}'
 
+    # REUSE-IgnoreStart
+
     copyright = [DEFAULT_COPYRIGHT]
 
     # Extract authors
@@ -397,6 +403,8 @@ def _set_header(po_path: Path, spdx_base: str):
     copyright = '\n'.join(copyright)
 
     pof.header = f'{copyright}\n{spdx_base}\n{MISSING_TRANSLATORS_TXT}'
+
+    # REUSE-IgnoreEnd
 
     # Remove someday
     try:

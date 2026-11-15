@@ -1,6 +1,6 @@
 # Remove & Retention
 <!--
-SPDX-FileCopyrightText: © 2025 Christian Buhtz <c.buhtz@posteo.jp>
+SPDX-FileCopyrightText: © 2025 Christian BUHTZ <c.buhtz@posteo.jp>
 
 SPDX-License-Identifier: GPL-2.0-or-later
 

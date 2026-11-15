@@ -69,6 +69,7 @@ Several example scripts can be found in the directory
 The following is a minimal script to log all calls to user-callback to a file
 in `$HOME/.local/state/backintime_callback_log`.
 
+<! -- REUSE-IgnoreStart -->
 ```sh
 #!/bin/bash
 # SPDX-FileCopyrightText: © 2024 Kosta Vukicevic
@@ -96,6 +97,8 @@ done
 # Append newline character at the end
 echo >> "$LOG_FILE"
 ```
+
+<! -- REUSE-IgnoreEnd -->
 
 [^1]: Ensure that manual and automatic backups do not run at the same time.
     

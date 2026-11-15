@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: © 2012-2022 Germar Reitze
-# SPDX-FileCopyrightText: © 2023 Christian Buhtz <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2023 Christian BUHTZ <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #

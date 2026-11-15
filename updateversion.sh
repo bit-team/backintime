@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: © 2008 Oprea Dan
 # SPDX-FileCopyrightText: © 2012 Germar Reitze
 # SPDX-FileCopyrightText: © 2022 Jürgen Altfeld (aryoda)
-# SPDX-FileCopyrightText: © 2023 Christian Buhtz <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2023 Christian BUHTZ <c.buhtz@posteo.jp>
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
