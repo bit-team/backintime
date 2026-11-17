@@ -582,7 +582,6 @@ class GeneralTab(QDialog):
                 # This will open an extra input dialog to ask for the
                 # SSH password.
                 askPass=tools.which('backintime-askpass'),
-                cipher=self.config.sshCipher()
             )
 
             if not rc_copy_id:

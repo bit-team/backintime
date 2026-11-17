@@ -130,21 +130,6 @@ class General(generic.SSHTestCase):
                 r"Password-less authentication for .+ failed.+"):
             ssh.checkLogin()
 
-    def test_checkCipher_default(self):
-        ssh = sshtools.SSH(cfg = self.cfg, cipher = 'default')
-        ssh.checkCipher()
-
-    def test_checkCipher_specific(self):
-        ssh = sshtools.SSH(cfg = self.cfg, cipher = 'aes128-ctr')
-        ssh.checkCipher()
-
-    def test_checkCipher_fail(self):
-        # fix debug log
-        self.cfg.SSH_CIPHERS['non_existing_cipher'] = 'non_existing_cipher'
-        ssh = sshtools.SSH(cfg = self.cfg, cipher = 'non_existing_cipher')
-        with self.assertRaisesRegex(MountException, r"Cipher .+ failed for.+"):
-            ssh.checkCipher()
-
     def test_checkKnownHosts(self):
         ssh = sshtools.SSH(cfg = self.cfg)
         ssh.checkKnownHosts()
