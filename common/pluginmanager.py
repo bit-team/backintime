@@ -234,7 +234,6 @@ class PluginManager:
         self.loadedPlugins = []
 
         candidates = self._find_plugin_candidates()
-        print(candidates)
 
         known_plugins = [
             Path('common/usercallbackplugin.py'),
