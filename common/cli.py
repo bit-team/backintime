@@ -11,6 +11,7 @@ import sys
 import atexit
 from enum import Enum
 from pathlib import Path
+import shutil
 import tools
 import daemon
 import snapshots
@@ -204,7 +205,8 @@ def selectSnapshot(snapshotsList, cfg, snapshot_id=None, msg='SnapshotID'):
 
     snapshot_id = None
 
-    columns = (terminalSize()[1] - 25) // 26 + 1
+    terminal_size = tuple(shutil.get_terminal_size())
+    columns = (terminal_size()[1] - 25) // 26 + 1
     rows = len_snapshots // columns
 
     if len_snapshots % columns > 0:
@@ -238,27 +240,6 @@ def selectSnapshot(snapshotsList, cfg, snapshot_id=None, msg='SnapshotID'):
             continue
 
     return snapshot_id
-
-
-def terminalSize():
-    """
-    get terminal size
-    """
-    for fd in (sys.stdin, sys.stdout, sys.stderr):
-
-        try:
-            import fcntl
-            import termios
-            import struct
-            return [
-                int(x) for x in struct.unpack(
-                    'hh', fcntl.ioctl(fd, termios.TIOCGWINSZ, '1234'))
-            ]
-
-        except ImportError:
-            pass
-
-    return [24, 80]
 
 
 def frame(msg, size=32):
