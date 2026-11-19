@@ -1469,7 +1469,7 @@ class Konfig(metaclass=singleton.Singleton):
 
         # Write
         if isinstance(buffer_or_path, Path):
-            buffer_or_path.write_text(content, encoding='utf-8')
+            tools.atomic_write_text(buffer_or_path, content)
         else:
             buffer_or_path.write(content)
 
