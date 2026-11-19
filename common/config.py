@@ -1531,7 +1531,6 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         p = self.get_profile(profile_id)
         p.no_backup_on_battery = value
 
-    # --- WEITER WEITER WEITER
     def preserveAcl(self, profile_id=None):
         #?Preserve ACL. The  source  and  destination  systems must have
         #?compatible ACL entries for this option to work properly.
@@ -1725,15 +1724,19 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         return os.path.join(self._LOCAL_DATA_FOLDER,
                             "takesnapshot_%s.log" % self.fileId(profile_id))
 
-    def takeSnapshotMessageFile(self, profile_id=None):
-        return os.path.join(self._LOCAL_DATA_FOLDER,
-                            "worker%s.message" % self.fileId(profile_id))
+    # def takeSnapshotMessageFile(self, profile_id=None):
+    #     return os.path.join(self._LOCAL_DATA_FOLDER,
+    #                         "worker%s.message" % self.fileId(profile_id))
 
-    def takeSnapshotProgressFile(self, profile_id=None):
-        return os.path.join(self._LOCAL_DATA_FOLDER,
-                            "worker%s.progress" % self.fileId(profile_id))
+    # def takeSnapshotProgressFile(self, profile_id=None):
+    #     return os.path.join(self._LOCAL_DATA_FOLDER,
+    #                         "worker%s.progress" % self.fileId(profile_id))
 
     def takeSnapshotInstanceFile(self, profile_id=None):
+        logger.warning(
+            'DEPRECATED. Use ProfileContext().take_backup_instance_file_path '
+            'instead'
+        )
         return os.path.join(
             self._LOCAL_DATA_FOLDER,
             "worker%s.lock" % self.fileId(profile_id))
@@ -1754,9 +1757,9 @@ class Config:  # (configfile.ConfigFileWithProfiles):
     def cronEnvFile(self):
         return os.path.join(self._LOCAL_DATA_FOLDER, "cron_env")
 
-    def anacronSpool(self):
-        # ~/.local/share/backintime/anacron
-        return os.path.join(self._LOCAL_DATA_FOLDER, 'anacron')
+    # def anacronSpool(self):
+    #     # ~/.local/share/backintime/anacron
+    #     return os.path.join(self._LOCAL_DATA_FOLDER, 'anacron')
 
     def anacronSpoolFile(self, profile_id=None):
         """Return the timestamp file related to the current profile.
@@ -1766,17 +1769,21 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         element of this behavior.
         """
         # ~/.local/share/backintime/anacron/1_Main_profile
-        return os.path.join(self.anacronSpool(),
-                            self.anacronJobIdentify(profile_id))
 
-    def anacronJobIdentify(self, profile_id=None):
-        if not profile_id:
-            profile_id = self.currentProfile()
+        return str(
+            schedule.get_anacron_spoolfile_path(
+                ProfileContext().profile
+            )
+        )
 
-        profile_name = self.profileName(profile_id)
+    # def anacronJobIdentify(self, profile_id=None):
+    #     if not profile_id:
+    #         profile_id = self.currentProfile()
 
-        # "Main profile" -> "1_Main_profile"
-        return profile_id + '_' + profile_name.replace(' ', '_')
+    #     profile_name = self.profileName(profile_id)
+
+    #     # "Main profile" -> "1_Main_profile"
+    #     return profile_id + '_' + profile_name.replace(' ', '_')
 
     def udevRulesPath(self):
         return os.path.join(
@@ -1791,6 +1798,10 @@ class Config:  # (configfile.ConfigFileWithProfiles):
         )
 
     def restoreInstanceFile(self, profile_id=None):
+        logger.warning(
+            'DEPRECATED. Use ProfileContext().restore_instance_file_path '
+            'instead'
+        )
         return os.path.join(
             self._LOCAL_DATA_FOLDER,
             "restore%s.lock" % self.fileId(profile_id))
@@ -1823,16 +1834,29 @@ class Config:  # (configfile.ConfigFileWithProfiles):
 
         return False
 
-    def backupScheduled(self, profile_id = None):
+    def backupScheduled(self, profile_id=None):
         """Check if the profile is supposed to be run this time.
+
+        The method name is missleading.
 
         Returns:
             (bool): The answer.
+
+        DEPRECATED: Replace by TakeBackup._backup_is_scheduled().
         """
+        schedule_mode = self.scheduleMode(profile_id)
+
+        # Just don't care about scheduling.
+        if schedule_mode == bitbase.ScheduleMode.DISABLED:
+            return True
+
+        # All other modes are "handled" by cron itself
         if self.scheduleMode(profile_id) not in (
                 bitbase.ScheduleMode.REPEATEDLY,
                 bitbase.ScheduleMode.UDEV):
             return True
+
+        # Only Udev and Repeatedly is handled and calculated by BIT itself.
 
         last_time = tools.readTimeStamp(self.anacronSpoolFile(profile_id))
         if not last_time:

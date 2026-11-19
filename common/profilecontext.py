@@ -10,8 +10,13 @@
 This module contains the runtime context describing which backup profile is
 currently selected.
 """
+from pathlib import Path
+import bitbase
 import singleton
 from konfig import Konfig, Profile
+
+PREFIX_WORKER = 'worker'
+PREFIX_RESTORE = 'restore'
 
 
 class ProfileContext(metaclass=singleton.Singleton):
@@ -58,3 +63,39 @@ class ProfileContext(metaclass=singleton.Singleton):
             self._profile_ref = profile_ref.name
         else:
             self._profile_ref = profile_ref
+
+    def _get_path(self, prefix: str, suffix: str) -> Path:
+        worker_id = self.profile
+        base_path = bitbase.XDG_DATA_HOME / bitbase.BINARY_NAME_BASE
+        return base_path / f'{prefix}{worker_id}.{suffix}'
+
+    @property
+    def message_file_path(self) -> Path:
+        """The file used to transfer messages while rsync and similar backup
+        related tasks are running.
+
+        A workaround. Formally known as
+        `config.Config.takeSnapshotMessageFile()`.
+        """
+        return self._get_path(PREFIX_WORKER, 'message')
+
+    @property
+    def progress_file_path(self) -> Path:
+        """The file used to transfer rsync progress data while it is running.
+
+        A workaround. Formally known as
+        `config.Config.takeSnapshotProgressFile()`.
+        """
+        return self._get_path(PREFIX_WORKER, 'progress')
+
+    @property
+    def take_backup_instance_file_path(self) -> Path:
+        """The lock file used to indicate the running backup instance.
+        """
+        return self._get_path(PREFIX_WORKER, 'lock')
+
+    @property
+    def restore_instance_file_path(self) -> Path:
+        """The lock file used to indicate the running restore instance.
+        """
+        return self._get_path(PREFIX_RESTORE, 'lock')

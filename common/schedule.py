@@ -14,11 +14,13 @@ Basic functions for handling Cron, Crontab, and other scheduling-related
 features.
 """
 import subprocess
+from pathlib import Path
+import core_events
 import logger
 import tools
-import core_events
-from bitbase import ScheduleMode, TimeUnit
+from bitbase import ScheduleMode, TimeUnit, XDG_DATA_HOME
 from exceptions import InvalidChar, InvalidCmd, LimitExceeded
+from konfig import Profile
 from udev import SetupUdev
 
 _MARKER = '#Back In Time system entry, this will be edited by the gui:'
@@ -27,6 +29,8 @@ In Time. **WARNING**: Don't modify that string in code because it is used
 as match target while parsing the crontab file. See
 :func:`remove_bit_from_crontab()` for details.
 """
+
+ANACRON_SPOOL_PATH = XDG_DATA_HOME / 'anacron'
 
 
 def _determine_crontab_command() -> str | None:
@@ -338,3 +342,11 @@ def _simple_cron_line(schedule_mode: ScheduleMode,  # noqa: PLR0913, PLR0917
     }[schedule_mode]
 
     return result.format(**locals())
+
+
+def get_anacron_spoolfile_path(profile: Profile) -> Path:
+    """Path of the timestamp file used by Repeatedly schedule mode"""
+    # "Main profile" -> "1_Main_profile"
+    file_name = tools.slugify(f'{profile.profile_id}_{profile.name}')
+
+    return ANACRON_SPOOL_PATH / file_name

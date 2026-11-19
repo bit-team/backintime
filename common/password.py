@@ -209,11 +209,14 @@ class Password:
 
         password = ''
 
+        print('Password.password()')  # DEBUG
+
         if (self.config.passwordUseCache(profile_id)
                 and not only_from_keyring
                 and not refresh):
             # logger.debug('passwordUseCache')
             # From cache
+            print('CACHTE')  # DEBUG
             password = self.passwordFromCache(service_name, user_name)
 
             if password is not None:
@@ -224,6 +227,7 @@ class Password:
         if self.config.passwordSave(profile_id) and not refresh:
             # logger.debug('passwordSave')
             # From keyring
+            print('KEYRING')  # DEBUG
             password = self.passwordFromKeyring(service_name, user_name)
 
             if password is not None:
@@ -234,6 +238,7 @@ class Password:
         if refresh or not only_from_keyring:
             # logger.debug('passwordFromUser')
             # Ask user and write to cache
+            print('USER')  # DEBUG
             password = self.passwordFromUser(parent, profile_id, mode, pw_id)
 
             if self.config.passwordUseCache(profile_id):

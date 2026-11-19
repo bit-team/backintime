@@ -240,10 +240,13 @@ class MirrorMirrorOnTheWall(unittest.TestCase):
             # Consider UP, ANN, D, DOC (upgrade, annotation, pydocstyle,
             # pydoclint)
             '--extend-select=PL,E,W,INT,RUF100,N',
+            # Ignore: unsorted/unformatted import block; until #1575 is fixed
+            '--ignore=I001',
             # Ignore: redefined-loop-name
             '--ignore=PLW2901',
-            # Ignore: unsorted/unformatted import block
-            '--ignore=I001',
+            # Ignore: multiple-with-statements; Nested with is IMHO easier
+            # to understand.
+            '--ignore=SIM117',
             '--line-length', str(PEP8_MAX_LINE_LENGTH),
             # Because of globally installed GNU gettext functions
             '--config', 'builtins=["_", "ngettext"]',

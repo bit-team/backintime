@@ -30,6 +30,7 @@ from bitbase import TimeUnit, StorageSizeUnit, ScheduleMode
 # class-based API isn't setup yet.
 # The bigger problem with config.py is that it do use translatable strings.
 # Strings like this do not belong into a config file or its context.
+# pylint: disable=duplicate-code
 try:
     _('Warning')
 except NameError:
@@ -572,6 +573,12 @@ class Profile:  # pylint: disable=too-many-public-methods
         only_dirs = filter(lambda entry: entry[1] == 0, self.include)
 
         return [item[0] for item in only_dirs]
+
+    @property
+    def includes_as_path(self) -> list[Path]:
+        """Return directories and files as a list of `Path` objects.
+        """
+        return [Path(inc) for inc, _type in self.include]
 
     @include.setter
     def include(self, values: list[str, int]) -> None:
