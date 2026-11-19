@@ -532,19 +532,31 @@ def _fix_enum_values(path: Path, enum_cls: type[Enum]) -> None:
         return
 
     lines = []
+    modified = False
 
     for line in path.read_text().splitlines(keepends=True):
+        fixed_line = line
+
         # each enum entry
         for member in enum_cls:
-            line = line.replace(
+            fixed_line = fixed_line.replace(
                 # e.g. "=TimeUnit.YEAR
                 f'={enum_cls.__name__}.{member.name}',
                 # e.g. "=80"
                 f'={member.value!s}',
             )
-        lines.append(line)
 
-    path.write_text(''.join(lines))
+        if fixed_line != line:
+            modified = True
+
+        lines.append(fixed_line)
+
+    # Skip the write when nothing was fixed. An unconditional write
+    # truncates the file first and races with concurrent readers (#2638).
+    if not modified:
+        return
+
+    tools.atomic_write_text(path, ''.join(lines))
 
 
 def get_config_and_select_profile(

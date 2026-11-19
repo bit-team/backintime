@@ -27,6 +27,7 @@ import shutil
 import signal
 import subprocess
 import sys
+import tempfile
 from io import StringIO, TextIOWrapper
 from datetime import datetime, timedelta
 from collections.abc import MutableMapping
@@ -583,6 +584,37 @@ def is_writeable(folder):
         check_path.rmdir()
 
     return True, None
+
+
+def atomic_write_text(path, content):
+    """Write text to a file atomically.
+
+    The content is written to a temporary file in the same directory
+    first and then moved over the target with os.replace(). Concurrent
+    readers never see a truncated or half-written file (#2638).
+
+    Args:
+        path (pathlib.Path): Target file.
+        content (str): Text to write.
+    """
+    fd, tmp_name = tempfile.mkstemp(
+        dir=path.parent, prefix=f'.{path.name}.', suffix='.tmp')
+
+    try:
+        with os.fdopen(fd, 'w', encoding='utf-8') as f:
+            f.write(content)
+            f.flush()
+            os.fsync(f.fileno())
+
+        # Keep the permissions of an existing file
+        if path.exists():
+            shutil.copymode(path, tmp_name)
+
+        os.replace(tmp_name, path)
+
+    except BaseException:
+        pathlib.Path(tmp_name).unlink(missing_ok=True)
+        raise
 
 # |-----------------------------------|
 # | Manimpulation of basic data types |

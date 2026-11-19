@@ -5,11 +5,14 @@
 # This file is part of the program "Back In Time" which is released under GNU
 # General Public License v2 (GPLv2).
 # See file LICENSE or go to <https://www.gnu.org/licenses/#GPL>.
+import stat
+import threading
 import unittest
 import configparser
 import pyfakefs.fake_filesystem_unittest as pyfakefs_ut
 from pathlib import Path
 from io import StringIO
+from tempfile import TemporaryDirectory
 from konfig import Konfig, Profile
 from singleton import Singleton
 
@@ -291,3 +294,95 @@ class IncExc(unittest.TestCase):
         profile = config.profile(1)
 
         self.assertEqual(profile.include, [])
+
+
+class SaveAtomic(unittest.TestCase):
+    """Konfig.save() to a path writes atomically (#2638)."""
+
+    def setUp(self):
+        Singleton.remove_all_instances()
+        self._tmp = TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        self.path = Path(self._tmp.name) / 'config'
+
+    def test_save_content_roundtrip(self):
+        """Values saved to a path load back unchanged."""
+        sut = Konfig()
+        sut.load(StringIO(
+            'profile1.name=Main\n'
+            'profile1.snapshots.include.1.value=/home/user\n'))
+        sut.save(self.path)
+
+        Singleton.remove_all_instances()
+        sut = Konfig()
+        sut.load(self.path)
+
+        self.assertEqual(sut['profile1.name'], 'Main')
+        self.assertEqual(
+            sut['profile1.snapshots.include.1.value'], '/home/user')
+
+    def test_save_keeps_existing_permissions(self):
+        """The atomic rewrite does not reset the file mode."""
+        self.path.write_text('profile1.name=Main\n', encoding='utf-8')
+        self.path.chmod(0o640)
+
+        sut = Konfig()
+        sut.load(StringIO('profile1.name=Main\nprofile1.language=en\n'))
+        sut.save(self.path)
+
+        self.assertEqual(
+            stat.S_IMODE(self.path.stat().st_mode), 0o640)
+
+    def test_concurrent_readers_never_see_partial_file(self):
+        """Readers never observe a truncated or half-written config.
+
+        Regression test for #2638: with a plain write_text() the file is
+        truncated first, so a concurrent reader (e.g. a second cron job)
+        can observe an empty config and later overwrite it.
+        """
+        lines = []
+        for pid in range(1, 6):
+            lines.append(f'profile{pid}.name=Profile {pid}')
+            for idx in range(40):
+                lines.append(
+                    f'profile{pid}.snapshots.include.{idx}.value'
+                    f'=/some/path/{pid}/{idx}')
+        content = '\n'.join(lines) + '\n'
+
+        self.path.write_text(content, encoding='utf-8')
+
+        # Bring the file into the canonical (sorted) form save() produces
+        sut = Konfig()
+        sut.load(self.path)
+        sut.save(self.path)
+        content = self.path.read_text(encoding='utf-8')
+
+        stop = threading.Event()
+        bad_reads = []
+
+        def writer():
+            while not stop.is_set():
+                sut.save(self.path)
+
+        def reader():
+            while not stop.is_set():
+                try:
+                    data = self.path.read_text(encoding='utf-8')
+                except FileNotFoundError:
+                    data = ''
+                if data != content:
+                    bad_reads.append(data)
+
+        threads = [threading.Thread(target=writer)]
+        threads += [threading.Thread(target=reader) for _ in range(3)]
+
+        for thread in threads:
+            thread.start()
+
+        stop.wait(1.0)
+        stop.set()
+
+        for thread in threads:
+            thread.join()
+
+        self.assertEqual(bad_reads, [])
