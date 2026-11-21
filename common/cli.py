@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 # SPDX-FileCopyrightText: © 2024 Christian BUHTZ <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2026 goingforstudying-ctrl
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -345,19 +346,31 @@ def _fix_enum_values(path: str, enum_cls: type[Enum]) -> None:
         return
 
     lines = []
+    modified = False
 
     for line in path.read_text().splitlines(keepends=True):
+        fixed_line = line
+
         # each enum entry
         for member in enum_cls:
-            line = line.replace(
+            fixed_line = fixed_line.replace(
                 # e.g. "=TimeUnit.YEAR
                 f'={enum_cls.__name__}.{member.name}',
                 # e.g. "=80"
                 f'={member.value!s}',
             )
-        lines.append(line)
 
-    path.write_text(''.join(lines))
+        if fixed_line != line:
+            modified = True
+
+        lines.append(fixed_line)
+
+    # Skip the write when nothing was fixed. An unconditional write
+    # truncates the file first and races with concurrent readers (#2638).
+    if not modified:
+        return
+
+    tools.atomic_write_text(path, ''.join(lines))
 
 
 def detect_cipher_settings(cfg: config.Config) -> tuple[str, str, str]:
