@@ -18,6 +18,7 @@ class FixEnumValues(unittest.TestCase):
     """_fix_enum_values() rewrites legacy enum names in the config file."""
 
     def setUp(self):
+        # pylint: disable-next=consider-using-with
         self._tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self._tmp.cleanup)
         self.path = Path(self._tmp.name) / FILENAME_CONFIG
@@ -31,7 +32,7 @@ class FixEnumValues(unittest.TestCase):
         # shouldn't raise anything
         _fix_enum_values(self.path, TimeUnit)
 
-        # no confing file was created
+        # no config file was created
         self.assertFalse(self.path.exists())
 
     def test_legacy_enum_values_are_fixed(self):

@@ -330,15 +330,9 @@ def print_header():
 def _fix_enum_values(path: str, enum_cls: type[Enum]) -> None:
     """Fixes a bug in the wild where the config file contains enum names
     instead of the enum integer values. One example is `bitbase.TimeUnit`.
-
-    Dev note (buhtz, 2026-08):
-    Back In Time version 1.6.1 (maybe earlier version) introduced this. But
-    beginning with version 2.0.0 this would make BIT crash.
-    Regarding 1.6.1 was introduced with Debian 13, my recommendation is to
-    remove this fix-workaround not before Debian 15 is released.
     """
     if path is None:
-        path = Path.home() / '.config' / 'backintime' / 'config'
+        path = Path.home() / '.config' / 'backintime' / bitbase.FILENAME_CONFIG
     else:
         path = Path(path)
 

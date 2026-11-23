@@ -547,7 +547,10 @@ def atomic_write_text(path, content):
         content (str): Text to write.
     """
     fd, tmp_name = tempfile.mkstemp(
-        dir=path.parent, prefix=f'.{path.name}.', suffix='.tmp')
+        dir=path.parent,
+        prefix=f'.{path.name}.',
+        suffix='.tmp'
+    )
 
     try:
         with os.fdopen(fd, 'w', encoding='utf-8') as f:
@@ -566,6 +569,7 @@ def atomic_write_text(path, content):
             pathlib.Path(tmp_name).unlink(missing_ok=True)
         except OSError:
             pass
+
         raise
 
 # |-----------------------------------|
