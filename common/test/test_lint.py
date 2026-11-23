@@ -65,6 +65,7 @@ full_test_files = [_base_dir / fp for fp in (
     'ssh_max_arg.py',
     'storagesize.py',
     'test/test_args.py',
+    'test/test_cli.py',
     'test/test_diagnostics.py',
     'test/test_file_info_dict.py',
     'test/test_languages.py',
