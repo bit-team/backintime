@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 # SPDX-FileCopyrightText: © 2024 Christian BUHTZ <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2026 goingforstudying-ctrl
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -329,15 +330,9 @@ def print_header():
 def _fix_enum_values(path: str, enum_cls: type[Enum]) -> None:
     """Fixes a bug in the wild where the config file contains enum names
     instead of the enum integer values. One example is `bitbase.TimeUnit`.
-
-    Dev note (buhtz, 2026-08):
-    Back In Time version 1.6.1 (maybe earlier version) introduced this. But
-    beginning with version 2.0.0 this would make BIT crash.
-    Regarding 1.6.1 was introduced with Debian 13, my recommendation is to
-    remove this fix-workaround not before Debian 15 is released.
     """
     if path is None:
-        path = Path.home() / '.config' / 'backintime' / 'config'
+        path = Path.home() / '.config' / 'backintime' / bitbase.FILENAME_CONFIG
     else:
         path = Path(path)
 
@@ -345,19 +340,31 @@ def _fix_enum_values(path: str, enum_cls: type[Enum]) -> None:
         return
 
     lines = []
+    modified = False
 
     for line in path.read_text().splitlines(keepends=True):
+        fixed_line = line
+
         # each enum entry
         for member in enum_cls:
-            line = line.replace(
+            fixed_line = fixed_line.replace(
                 # e.g. "=TimeUnit.YEAR
                 f'={enum_cls.__name__}.{member.name}',
                 # e.g. "=80"
                 f'={member.value!s}',
             )
-        lines.append(line)
 
-    path.write_text(''.join(lines))
+        if fixed_line != line:
+            modified = True
+
+        lines.append(fixed_line)
+
+    # Skip the write when nothing was fixed. An unconditional write
+    # truncates the file first and races with concurrent readers (#2638).
+    if not modified:
+        return
+
+    tools.atomic_write_text(path, ''.join(lines))
 
 
 def detect_cipher_settings(cfg: config.Config) -> tuple[str, str, str]:
