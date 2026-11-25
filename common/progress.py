@@ -11,24 +11,27 @@ import configfile
 from config import Config
 import logger
 
-# rsync --info=progress2 output
-# search for:     517.38K  26%   14.46MB/s    0:02:36
-# or:             497.84M   4% -449.39kB/s   ??:??:??
-# but filter out: 517.38K  26%   14.46MB/s    0:00:53 (xfr#53, to-chk=169/452)
-#                 because this shows current run time
+# Parsing rsync --info=progress2 output. Option "--humand-readable" need to be
+# set.
+# Examples:
+# 517.38K  26%   14.46MB/s    0:02:36
+# 497.84M   4% -449.39kB/s   ??:??:??
+# 10,86G  99% 10115,73GB/s    0:00:00 (xfr#326, to-chk=0/388)
+# 517.38K  26%   14.46MB/s    0:00:53 (xfr#53, ir-chk=169/452)
+# Ask regex101.com to understand details about that pattern.
 REX_RSYNC_PROGRESS = re.compile(
     # trash at start
     r'.*?'
     # bytes sent
-    r'(\d*[,\.]?\d+(?:[KkMGT](?:i?B)?|B)?)\s+'
+    r'(\d*(?:[,\.]?\d+)*(?:[KkMGT](?:i?B)?|B)?)\s+'
     # percent done
-    r'(\d*)%\s+'
+    r'(\d+)%\s+'
     # speed
-    r'(-?\d*[,\.]?\d*(?:[KkMGT](?:i?B)?|B)/s)\s+'
-    # estimated time of arrival
+    r'(-?\d+(?:[,\.]\d+)*(?:[KkMGT](?:i?B)?|B)/s)\s+'
+    # estimated time (or elapsed time, see next group)
     r'([\d\?]+:[\d\?]{2}:[\d\?]{2})'
-    # trash at the end
-    r'(.*$)'
+    # optional suffix, e.g. (xfr#53, to-chk=169/542)
+    r'(?:\s+\(xfr#\d+, (to|ir)-chk=\d+/\d+\))?'
 )
 
 
@@ -58,8 +61,8 @@ class ProgressFile(configfile.ConfigFile):
 def parse_rsync_progress(line: str) -> dict | None:
     """Parse an rsync progress line.
 
-    If multiple lines (strings with newline) are given no errors is raised,
-    only the first line is considered and the rest will be lost silently.
+    Only the first line is parsed. Any content after a new line is silently
+    ignored without raising an exception.
 
     Args:
         line: A progress line catched from rsync's stdout.
@@ -72,11 +75,15 @@ def parse_rsync_progress(line: str) -> dict | None:
     if not matched:
         return None
 
+    # In case of "to-chk" the timefield is rejected because it can not clearly
+    # be interpreted.
+    eta = '??:??:??' if matched.group(5) == 'to' else matched.group(4)
+
     return {
         'sent': matched.group(1),
         'percent': int(matched.group(2)),
         'speed': matched.group(3),
-        'eta': matched.group(4),
+        'eta': eta,
     }
 
 

@@ -71,6 +71,7 @@ full_test_files = [_base_dir / fp for fp in (
     'test/test_languages.py',
     'test/test_lint.py',
     'test/test_mount.py',
+    'test/test_progress.py',
     'test/test_singleton.py',
     'test/test_storagesize.py',
     'test/test_takesnapshotlog.py',
