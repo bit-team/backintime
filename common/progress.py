@@ -65,7 +65,7 @@ def parse_rsync_progress(line: str) -> dict | None:
     ignored without raising an exception.
 
     Args:
-        line: A progress line catched from rsync's stdout.
+        line: A progress line caught from rsync's stdout.
 
     Returns:
         A dictionary with results or `None` in case of problems.
