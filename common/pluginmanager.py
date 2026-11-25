@@ -236,15 +236,26 @@ class PluginManager:
         candidates = self._find_plugin_candidates()
 
         known_plugins = [
-            Path('common/usercallbackplugin.py'),
-            Path('qt/notifyplugin.py'),
-            Path('qt/systrayiconplugin.py'),
+            # If BIT runs from git repo
+            Path(tools.as_backintime_path('common/plugins/usercallbackplugin.py')),
+            Path(tools.as_backintime_path('qt/plugins/notifyplugin.py')),
+            Path(tools.as_backintime_path('qt/plugins/systrayiconplugin.py')),
+            # If BIT runs from regular installation
+            Path(tools.as_backintime_path('plugins/usercallbackplugin.py')),
+            Path(tools.as_backintime_path('plugins/notifyplugin.py')),
+            Path(tools.as_backintime_path('plugins/systrayiconplugin.py')),
         ]
 
         unknown = set(candidates) - set(known_plugins)
 
         # See issue #2424 and module docstring for details.
         if len(unknown) != 0:
+            logger.debug(
+                f'\nCANDIDATES: {sorted(candidates)}'
+                f'\nKNOWN: {sorted(known_plugins)}'
+                f'\nUN-KNOWN: {sorted(unknown)}'
+            )
+
             msg = (
                 'It seems user defined plugins exist on this system. '
                 'The plugin system is deprecated and will be removed. '
@@ -297,7 +308,7 @@ class PluginManager:
             logger.debug(f'Plugin file still loaded: {file_name}', self)
             return
 
-        logger.info(f'Try to load plugin from {file_name}', self)
+        logger.info(f'Try to load plugin: {file_name}', self)
 
         try:
             module = __import__(file_name[: -3])
@@ -327,7 +338,6 @@ class PluginManager:
         except BaseException as exc:
             logger.critical(f'Failed to load plugin {file_name}: {exc=}', self)
             raise
-
 
     def processBegin(self):
         ret_val = True
