@@ -37,9 +37,6 @@ REX_RSYNC_PROGRESS = re.compile(
 
 class ProgressFile(configfile.ConfigFile):
 
-    # ???
-    RSYNC = 50
-
     def __init__(self, cfg, filename=None):
         super(ProgressFile, self).__init__()
         self.config = cfg
@@ -96,7 +93,6 @@ def write_to_progress_file(progress_info: dict,
     pg = ProgressFile(cfg)
 
     try:
-        pg.setIntValue('status', pg.RSYNC)  # ???
         pg.setStrValue('sent', progress_info['sent'])
         pg.setIntValue('percent', progress_info['percent'])
         pg.setStrValue('speed', progress_info['speed'])
