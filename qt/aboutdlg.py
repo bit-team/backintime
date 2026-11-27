@@ -10,7 +10,6 @@
 # General Public License v2 (GPLv2). See LICENSES directory or go to
 # <https://spdx.org/licenses/GPL-2.0-or-later.html>.
 """The About dialog."""
-import subprocess
 from pathlib import Path
 from PyQt6.QtWidgets import (QDialog,
                              QDialogButtonBox,
@@ -165,31 +164,52 @@ class AboutDlg(QDialog):
         return gpl
 
     def _slot_license_link_acivated(self, link):
-        if link in (_HREF_LICENSES_DIR, _HREF_LICENSES_MD):
-            fp = bitlicense.DIR_LICENSES
+        if link == _HREF_LICENSES_MD:
+            self._show_licenses_md_file()
 
-            if link == _HREF_LICENSES_MD:
-                fp = fp.parent / 'LICENSES.md'
+        elif link == _HREF_LICENSES_DIR:
+            self._show_licenses_dir()
 
-            if fp:
-                try:
-                    subprocess.run(['xdg-open', str(fp)], check=True)
-                except subprocess.CalledProcessError as exc:
-                    logger.critical(str(exc))
-                else:
-                    return
-
-            msg = f'Unable to find {fp}. Please contact the ' \
-                  'Back In Time team and report a bug.'
-            messagebox.critical(self, msg)
-            logger.critical(msg)
-            return
-
-        if link == _HREF_SPDX_GPL:
+        elif link == _HREF_SPDX_GPL:
             qttools.open_url(bitlicense.URL_GPL_TWO)
+
+        else:
+            logger.critical(
+                f'Unknown link "{link}". Please open a bug report.')
+
+    def _show_licenses_dir(self):
+        fp = bitlicense.DIR_LICENSES
+
+        if fp is None:
+            # Fallback to online resources
+            qttools.open_url(bitlicense.FALLBACK_DIR_LICENSES)
             return
 
-        logger.critical(f'Unknown link "{link}". Please open a bug report.')
+        # systems default application
+        if not tools.xdg_open(str(fp)):
+            messagebox.critical(
+                self,
+                f'Unable to open {fp} using "xdg-open". Please contact the '
+                'Back In Time team and report a bug.'
+            )
+
+    def _show_licenses_md_file(self):
+        fp = bitlicense.DIR_LICENSES
+
+        if fp is None:
+            # Fallback to online resources
+            qttools.open_url(bitlicense.FALLBACK_LICENSES_MD)
+            return
+
+        fp = fp.parent / 'LICENSES.md'
+
+        # systems default application
+        if not tools.xdg_open(str(fp)):
+            messagebox.critical(
+                self,
+                f'Unable to open {fp} using "xdg-open". Please contact the '
+                'Back In Time team and report a bug.'
+            )
 
     def _get_authors(self):
         fp = Path('/usr/share/doc') / bitbase.PACKAGE_NAME_CLI / 'AUTHORS'

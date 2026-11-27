@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: © 2008-2022 Germar Reitze
 # SPDX-FileCopyrightText: © 2024 Christian BUHTZ <c.buhtz@posteo.jp>
+# SPDX-FileCopyrightText: © 2026 goingforstudying-ctrl
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -11,6 +12,7 @@ import sys
 import atexit
 from enum import Enum
 from pathlib import Path
+import shutil
 import tools
 import daemon
 import snapshots
@@ -18,6 +20,7 @@ import bcolors
 import config
 import logger
 import bitbase
+from datetime import datetime
 from typing import Optional
 from version import __version__
 
@@ -203,7 +206,8 @@ def selectSnapshot(snapshotsList, cfg, snapshot_id=None, msg='SnapshotID'):
 
     snapshot_id = None
 
-    columns = (terminalSize()[1] - 25) // 26 + 1
+    terminal_size = tuple(shutil.get_terminal_size())
+    columns = (terminal_size()[1] - 25) // 26 + 1
     rows = len_snapshots // columns
 
     if len_snapshots % columns > 0:
@@ -237,27 +241,6 @@ def selectSnapshot(snapshotsList, cfg, snapshot_id=None, msg='SnapshotID'):
             continue
 
     return snapshot_id
-
-
-def terminalSize():
-    """
-    get terminal size
-    """
-    for fd in (sys.stdin, sys.stdout, sys.stderr):
-
-        try:
-            import fcntl
-            import termios
-            import struct
-            return [
-                int(x) for x in struct.unpack(
-                    'hh', fcntl.ioctl(fd, termios.TIOCGWINSZ, '1234'))
-            ]
-
-        except ImportError:
-            pass
-
-    return [24, 80]
 
 
 def frame(msg, size=32):
@@ -347,15 +330,9 @@ def print_header():
 def _fix_enum_values(path: str, enum_cls: type[Enum]) -> None:
     """Fixes a bug in the wild where the config file contains enum names
     instead of the enum integer values. One example is `bitbase.TimeUnit`.
-
-    Dev note (buhtz, 2026-08):
-    Back In Time version 1.6.1 (maybe earlier version) introduced this. But
-    beginning with version 2.0.0 this would make BIT crash.
-    Regarding 1.6.1 was introduced with Debian 13, my recommendation is to
-    remove this fix-workaround not before Debian 15 is released.
     """
     if path is None:
-        path = Path.home() / '.config' / 'backintime' / 'config'
+        path = Path.home() / '.config' / 'backintime' / bitbase.FILENAME_CONFIG
     else:
         path = Path(path)
 
@@ -363,19 +340,65 @@ def _fix_enum_values(path: str, enum_cls: type[Enum]) -> None:
         return
 
     lines = []
+    modified = False
 
     for line in path.read_text().splitlines(keepends=True):
+        fixed_line = line
+
         # each enum entry
         for member in enum_cls:
-            line = line.replace(
+            fixed_line = fixed_line.replace(
                 # e.g. "=TimeUnit.YEAR
                 f'={enum_cls.__name__}.{member.name}',
                 # e.g. "=80"
                 f'={member.value!s}',
             )
-        lines.append(line)
 
-    path.write_text(''.join(lines))
+        if fixed_line != line:
+            modified = True
+
+        lines.append(fixed_line)
+
+    # Skip the write when nothing was fixed. An unconditional write
+    # truncates the file first and races with concurrent readers (#2638).
+    if not modified:
+        return
+
+    tools.atomic_write_text(path, ''.join(lines))
+
+
+def detect_cipher_settings(cfg: config.Config) -> tuple[str, str, str]:
+    """See issue #2176."""
+    result = []
+    cipher_keys = list(filter(
+        lambda key: 'cipher' in key, cfg.dict.keys()
+    ))
+    for key in cipher_keys:
+        val = cfg.dict[key]
+        if val.lower() == 'default':
+            continue
+
+        pid = key.split('.')[0].replace('profile', '')
+        if pid == '1':
+            name = 'Main profile'
+        else:
+            name = cfg.dict[f'{key.split('.')[0]}.name']
+
+        result.append((f'"{name}" ({pid})', val, key))
+
+    return result
+
+
+def _warn_about_cipher(cfg: config.Config) -> None:
+    """See issue #2176. Cipher options is not used anymore by BIT.
+    Therefore, users having it in config need to be warned about it.
+    """
+    for name, val, _key in detect_cipher_settings(cfg):
+        logger.critical(
+            f'Oboslete cipher setting "{val}" detected in profile {name}. '
+            f'Cipher support was removed from Back In Time. Check the backup '
+            'profile and also remove this setting from the config file.'
+        )
 
 
 def get_config_and_select_profile(
@@ -407,6 +430,8 @@ def get_config_and_select_profile(
         config_path=config_path,
         data_path=data_path)
 
+    _warn_about_cipher(cfg)
+
     if profile:
         if profile.isdigit():
             if not cfg.setCurrentProfile(int(profile)):
@@ -424,4 +449,100 @@ def get_config_and_select_profile(
     if checksum is not None:
         cfg.forceUseChecksum = checksum
 
+    # List backup modes of all existing profiles
+    modes = []
+    for pid in cfg.profiles():
+        modes.append(cfg.snapshotsMode(pid))
+
+    # Encfs profile exists?
+    if any(filter(lambda val: 'encfs' in val, modes)):
+        encfs_deprecation_warning()
+
+    # Local gocryptfs?
+    if 'local_gocryptfs' in modes:
+        gocryptfs_forward_mount_deprecation_warning()
+
     return cfg
+
+
+def _is_warning_interval_elapsed(name: str, age_in_days: int) -> bool:
+    """Check whether the warning interval `age_in_days` has elapsed.
+
+    If the interval has elapsed or no previous timestamp exists,
+    update the timestamp and return ``True``. Otherwise, return ``False``.
+
+    Args:
+        name: Used as part of the timestamp file name.
+        age_in_days: The interval to check.
+    """
+    # Timestamp file
+    xdg_state = os.environ.get('XDG_STATE_HOME', None)
+
+    if xdg_state:
+        xdg_state = Path(xdg_state)
+    else:
+        xdg_state = Path.home() / '.local' / 'state'
+    fp = xdg_state / f'backintime.{name}-warning.timestamp'
+
+    if fp.exists():
+        # Calculate age of that file
+        delta = datetime.now() - datetime.fromtimestamp(fp.stat().st_mtime)
+
+        # Don't warn if too young
+        if delta.days < age_in_days:
+            return False
+
+    else:
+        # ensure dir existence
+        fp.parent.mkdir(parents=True, exist_ok=True)
+
+    # update timestamp
+    fp.touch()
+
+    return True
+
+
+def encfs_deprecation_warning():
+    """Warn about encfs deprecation in syslog.
+
+    See Issue #1734 for details. This function is a workaround and will be
+    removed if #1734 is closed.
+    """
+
+    # Don't warn if EncFS isn't installed
+    if not tools.checkCommand('encfs'):
+        return
+
+    # Last warning due?
+    if not _is_warning_interval_elapsed('encfs', 30):
+        return
+
+    logger.error(
+        'EncFS encrypted profiles are no longer supported in Back In Time. '
+        'Existing profiles can be used. New ones cannot be created. EncFS '
+        'support will be completely removed in a future release (expected '
+        f'around 2027). For details read: {bitbase.URL_ENCRYPT_TRANSITION}'
+    )
+
+
+def gocryptfs_forward_mount_deprecation_warning():
+    """Warn about gocryptfs (forward mount) deprecation in syslog.
+
+    See Issue #2625 and #2646 for details.
+    """
+
+    # Don't warn if Gocryptfs isn't installed
+    if not tools.checkCommand('gocryptfs'):
+        return
+
+    # Last warning due?
+    if not _is_warning_interval_elapsed('gocryptfs', 30):
+        return
+
+    logger.error(
+        'Local gocryptfs-encrypted backup profiles are no longer supported. '
+        'Existing profiles can be used. New ones cannot be created. '
+        'Full gocryptfs support will return with Back In Time 2.0, but will '
+        'not be compatible with gocryptfs-encrypted profiles created in '
+        f'Back In Time 1.6. For details read: {bitbase.URL_GOCRYPT_MIGRATION}'
+    )

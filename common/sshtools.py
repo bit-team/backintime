@@ -24,7 +24,6 @@ import password_ipc
 from mount import MountControl
 from exceptions import MountException, NoPubKeyLogin, KnownHost
 import bitbase
-import bcolors
 import version
 
 
@@ -48,7 +47,6 @@ class SSH(MountControl):
         path (str):             remote path where snapshots are stored. Can be
                                 either relative from remote users homedir or
                                 an absolute path
-        cipher (str):           Cipher used to encrypt the network transfer
         private_key_file (str): Private key which is able to log on with
                                 Public/Private Key-Method on remote host
         nice (bool):            use ``nice -n 19`` to run commands with
@@ -97,7 +95,6 @@ class SSH(MountControl):
         self.user = None
         self.host = None
         self.port = None
-        self.cipher = None
         self.proxy_user = None
         self.proxy_host = None
         self.proxy_port = None
@@ -115,8 +112,6 @@ class SSH(MountControl):
             'port', self.config.sshPort(self.profile_id), **kwargs)
         self.setattrKwargs(
             'path', self.config.sshSnapshotsPath(self.profile_id), **kwargs)
-        self.setattrKwargs(
-            'cipher', self.config.sshCipher(self.profile_id), **kwargs)
         self.setattrKwargs(
             'private_key_file',
             self.config.sshPrivateKeyFile(self.profile_id), **kwargs)
@@ -185,9 +180,6 @@ class SSH(MountControl):
         sshfs = [self.mountproc]
         sshfs += self.config.sshDefaultArgs(self.profile_id)
         sshfs += ['-p', str(self.port)]
-
-        if not self.cipher == 'default':
-            sshfs.extend(['-o', 'Ciphers=%s' % self.cipher])
 
         sshfs.extend(['-o', 'idmap=user',
                       '-o', 'cache_dir_timeout=2',
@@ -272,9 +264,6 @@ class SSH(MountControl):
             self.checkKnownHosts()
 
         self.checkLogin()
-
-        if first_run:
-            self.checkCipher()
 
         self.checkRemoteFolder()
 
@@ -530,108 +519,6 @@ class SSH(MountControl):
             raise NoPubKeyLogin(
                 f'Password-less authentication for {self.user}@{self.host} '
                 f'failed: "{err}"')
-
-    def checkCipher(self):
-        """Try to login to remote host with the chosen cipher. This should make
-        sure both `localhost` and the remote host support the chosen cipher.
-
-        Raises:
-            exceptions.MountException: If login with the cipher failed.
-        """
-
-        if not self.cipher == 'default':
-
-            logger.debug('Check cipher', self)
-
-            ssh = self.config.sshCommand(cmd=['exit'],
-                                         custom_args=[
-                                              '-o',
-                                              'Ciphers=%s' % self.cipher,
-                                              '-p',
-                                              str(self.port),
-                                              self.user_host
-                                         ],
-                                         port=False,
-                                         cipher=False,
-                                         user_host=False,
-                                         nice=False,
-                                         ionice=False,
-                                         profile_id=self.profile_id)
-
-            proc = subprocess.Popen(ssh,
-                                    stdout=subprocess.DEVNULL,
-                                    stderr=subprocess.PIPE,
-                                    universal_newlines=True)
-
-            err = proc.communicate()[1]
-
-            if proc.returncode:
-
-                logger.debug(
-                    'Ciper %s is not supported' %
-                    self.config.SSH_CIPHERS[self.cipher], self)
-
-                msg = 'Cipher {cipher} failed for {host}.'.format(
-                    cipher=self.config.SSH_CIPHERS[self.cipher],
-                    host=self.host)
-
-                raise MountException(f'{msg}:\n{err}')
-
-    def benchmarkCipher(self, size=40):
-        """
-        Rudimental benchmark to compare transfer speed of all available
-        ciphers.
-
-        Args:
-            size (int):     size of the testfile in MiB
-        """
-
-        temp = tempfile.mkstemp()[1]
-
-        print('create random data file')
-
-        subprocess.call([
-            'dd',
-            'if=/dev/urandom',
-            'of=%s' % temp,
-            'bs=1M',
-            'count=%s' % size
-        ])
-
-        keys = list(self.config.SSH_CIPHERS.keys())
-        keys.sort()
-
-        for cipher in keys:
-
-            if cipher == 'default':
-                continue
-
-            print('%s%s:%s' % (bcolors.BOLD, cipher, bcolors.ENDC))
-
-            for _ in range(2):
-                # scp uses -P instead of -p for port
-                subprocess.call([
-                    'scp',
-                    '-P',
-                    str(self.port),
-                    '-c',
-                    cipher,
-                    temp,
-                    self.user_host_path
-                ])
-
-        ssh = self.config.sshCommand(
-            cmd=['rm', os.path.join(self.path, os.path.basename(temp))],
-            custom_args=['-p', str(self.port), self.user_host],
-            port=False,
-            cipher=False,
-            user_host=False,
-            nice=False,
-            ionice=False,
-            profile_id=self.profile_id)
-
-        subprocess.call(ssh)
-        os.remove(temp)
 
     def checkKnownHosts(self):
         """Check if the remote host is in current users ``known_hosts`` file.
@@ -1112,7 +999,6 @@ def sshCopyIdCommand(
     proxy_user=None,
     proxy_host=None,
     proxy_port='22',
-    cipher=None
 ):
     """
     Generate a ssh-copy-id command to copy the given public ssh-key to a
@@ -1126,7 +1012,6 @@ def sshCopyIdCommand(
         proxy_user (str):     proxy host user
         proxy_host (str):     proxy host
         proxy_port (str):     proxy host port
-        cipher (str):   cipher used for ssh
 
     Returns:
         list: The ssh-copy-id command as a list.
@@ -1146,10 +1031,6 @@ def sshCopyIdCommand(
         # port
         '-p', str(port),
     ]
-
-    # cipher
-    if cipher and cipher != 'default':
-        cmd.extend(['-o', 'Ciphers={}'.format(cipher)])
 
     # proxy
     if proxy_host:
@@ -1172,7 +1053,6 @@ def sshCopyId(
     proxy_host=None,
     proxy_port=None,
     askPass='backintime-askpass',
-    cipher=None
 ):
     """
     Copy SSH public key ``pubkey`` to remote ``host``.
@@ -1183,7 +1063,6 @@ def sshCopyId(
         host (str):     remote host
         port (str):     ssh port on remote host
         askPass (str):  program used to pipe password into ssh
-        cipher (str):   cipher used for ssh
 
     Returns:
         bool:           True if successful
@@ -1196,7 +1075,6 @@ def sshCopyId(
         proxy_user,
         proxy_host,
         proxy_port,
-        cipher
     )
 
     env = os.environ.copy()

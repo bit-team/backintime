@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: © Luna Jernberg <droidbittin@gmail.com>
 # SPDX-FileCopyrightText: © Niklas Grahn <terra.unknown@yahoo.com>
 # SPDX-FileCopyrightText: © Thomas Johansson <dev@danternas.com>
+# SPDX-FileCopyrightText: © 2026 Jonatan Nyberg
 #
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
@@ -17,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Back In Time 1.6.1\n"
 "Report-Msgid-Bugs-To: https://github.com/bit-team/backintime\n"
 "POT-Creation-Date: 2026-02-10 15:49+0100\n"
-"PO-Revision-Date: 2026-01-30 12:28+0000\n"
-"Last-Translator: bittin <bittin@noreply.codeberg.org>\n"
+"PO-Revision-Date: 2026-11-21 09:35+0200\n"
+"Last-Translator: Jonatan Nyberg\n"
 "Language-Team: Swedish <https://translate.codeberg.org/projects/backintime/common/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
@@ -101,8 +102,8 @@ msgid ""
 "This directory cannot be included in the backup as it is part of the backup "
 "destination itself."
 msgstr ""
-"Den här katalogen kan inte inkluderas i säkerhetskopian, eftersom att "
-"katalogen är en del av själva säkerhetskopian."
+"Katalogen kan inte säkerhetskopieras eftersom den ingår i målkatalogen för "
+"säkerhetskopieringen."
 
 #: common/config.py:366
 #, python-brace-format
@@ -140,11 +141,11 @@ msgid ""
 "cron\", or consult the support channels of the currently used GNU/Linux "
 "distribution for assistance."
 msgstr ""
-"Cron körs inte även fast crontab-kommandot är tillgängligt. Schemalagda "
-"säkerhetskopieringsjobb kommer inte att köras. Cron kan möjligen vara "
-"installerat, men inte aktiverat. Prova att köra kommandona \"systemctl "
-"enable cron\" och \"systemctl start cron\", eller ta kontakt med de aktuella"
-" supportkanalerna för GNU/Linux-distributionen för att få hjälp."
+"Cron körs inte trots att kommandot crontab är tillgängligt. Schemalagda "
+"säkerhetskopieringar kommer därför inte att köras. Cron kan vara installerat"
+" utan att vara aktiverat. Prova att köra kommandona ”systemctl enable cron” "
+"och ”systemctl start cron”, eller vänd dig till supporten för din GNU/Linux-"
+"distribution."
 
 #: common/configfile.py:101
 msgid "Failed to save config"
@@ -270,7 +271,7 @@ msgstr "Om den finns på en flyttbar enhet, vänligen anslut den."
 #, python-brace-format
 msgid "Waiting {n} second."
 msgid_plural "Waiting {n} seconds."
-msgstr[0] "Väntar{n} sekund."
+msgstr[0] "Väntar {n} sekund."
 msgstr[1] "Väntar {n} sekunder."
 
 #: common/snapshots.py:1005
@@ -436,8 +437,8 @@ msgid ""
 "The destination filesystem for {path} is formatted with NTFS, which has "
 "known incompatibilities with Unix-style filesystems."
 msgstr ""
-"Filsystemet för destinationen till \"{path}\" är formaterat med NTFS, vilket"
-" har kända kompabilitetsproblem med filsystem av Unix-typ."
+"Målfilsystemet för {path} är formaterat med NTFS, som har kända "
+"kompatibilitetsproblem med filsystem av Unix-typ."
 
 #: common/tools.py:414
 #, python-brace-format
@@ -514,7 +515,8 @@ msgid "translator-credits-placeholder"
 msgstr ""
 "Luna Jernberg <droidbittin@gmail.com>\n"
 "Niklas Grahn <terra.unknown@yahoo.com>\n"
-"Thomas Johansson <dev@danternas.com>"
+"Thomas Johansson <dev@danternas.com>\n"
+"2026 Jonatan Nyberg"
 
 #: qt/aboutdlg.py:107
 msgid "Translator credits not available for current language."
@@ -575,8 +577,7 @@ msgstr "Skapa en säkerhetskopia"
 
 #: qt/app.py:501
 msgid "Use modification time & size for file change detection."
-msgstr ""
-"Använd tid för senaste ändring & storlek för att upptäcka förändringar."
+msgstr "Använd filernas ändringstid och storlek för att upptäcka ändringar."
 
 #: qt/app.py:504
 msgid "Create a backup (checksum mode)"
@@ -771,7 +772,7 @@ msgstr "Visar meddelandet om denna släppkandidat igen."
 
 #: qt/app.py:716
 msgid "Back In &Time"
-msgstr "Tillbaka I &Tid"
+msgstr "Back In &Time"
 
 #: qt/app.py:721
 msgid "&Backup"
@@ -938,7 +939,7 @@ msgstr "{link_and_label} på projektets hemsida."
 
 #: qt/app.py:1781
 msgid "Open an issue"
-msgstr "Öppna en bugg"
+msgstr "Skapa ett ärende"
 
 #: qt/app.py:1782
 msgid "Alternatively, you can use another channel of your choice."
@@ -985,7 +986,9 @@ msgstr "Alla nyare filer i {path} kommer att tas bort. Fortsätta?"
 
 #: qt/app.py:1925
 msgid "All newer files in the original directory will be removed. Proceed?"
-msgstr "Alla nyare filer i original-katalogen kommer att tas bort. Fortsätta?"
+msgstr ""
+"Alla nyare filer i ursprungskatalogen kommer att tas bort. Vill du "
+"fortsätta?"
 
 #: qt/app.py:1931
 #, python-brace-format
@@ -1008,7 +1011,7 @@ msgstr[1] "Ta bort de här säkerhetskopiorna?"
 
 #: qt/app.py:2261
 msgid "The language settings take effect only after restarting Back In Time."
-msgstr "Språkinställningarna aktiveras inte förrän Back in Time startas om."
+msgstr "Språkinställningarna börjar gälla när du startar om Back In Time."
 
 #: qt/backintime-qt-root.desktop:14
 msgid "Versioned Backups (root)"
@@ -1050,8 +1053,8 @@ msgid ""
 "Before restoring, newer versions of files will be renamed with the appended "
 "{suffix}. These files can be removed with the following command:"
 msgstr ""
-"Innan återställningen så kommer nyare fil-versioner att döpas om med "
-"efterföljande {suffix}. De här filerna kan tas bort med följande kommando:"
+"Före återställningen får nyare versioner av filerna tillägget {suffix} sist "
+"i filnamnet. Du kan ta bort dessa filer med följande kommando:"
 
 #: qt/confirmrestoredialog.py:94
 #, python-brace-format
@@ -1059,8 +1062,8 @@ msgid ""
 "Only restore elements which do not exist or are newer than those in "
 "destination. Using \"{rsync_example}\" option."
 msgstr ""
-"Återställ endast filer som inte existerar eller är nyare än de i "
-"destinationen. Använder alternativet \"{rsync_example}\"."
+"Återställ bara objekt som saknas på målplatsen eller är nyare än motsvarande"
+" objekt där. Alternativet ”{rsync_example}” används."
 
 #: qt/confirmrestoredialog.py:133
 msgid "Remove newer elements in original directory."
@@ -1082,15 +1085,15 @@ msgstr ""
 msgid "Really restore this element into the new directory?"
 msgid_plural "Really restore these elements into the new directory?"
 msgstr[0] ""
-"Vill du verkligen återställa det här elementet till den nya katalogen?"
+"Vill du verkligen återställa det här objektet till den nya katalogen?"
 msgstr[1] ""
-"Vill du verkligen återställa det här dessa elementen till den nya katalogen?"
+"Vill du verkligen återställa de här objekten till den nya katalogen?"
 
 #: qt/confirmrestoredialog.py:157
 msgid "Really restore this element?"
 msgid_plural "Really restore these elements?"
-msgstr[0] "Vill du verkligen återställa det här elementet?"
-msgstr[1] "Vill du verkligen återställa de här elementena?"
+msgstr[0] "Vill du verkligen återställa det här objektet?"
+msgstr[1] "Vill du verkligen återställa de här objekten?"
 
 #: qt/editusercallback.py:43
 #, python-brace-format
@@ -1212,11 +1215,11 @@ msgstr "&Exkludera"
 
 #: qt/manageprofiles/__init__.py:135
 msgid "&Remove & Retention"
-msgstr "Ta &bort & bibehåll"
+msgstr "&Borttagning och bevarande"
 
 #: qt/manageprofiles/__init__.py:139
 msgid "&Options"
-msgstr "Inställningar"
+msgstr "I&nställningar"
 
 #: qt/manageprofiles/__init__.py:143
 msgid "E&xpert Options"
@@ -1282,8 +1285,9 @@ msgid ""
 "Only links pointing outside the backup source are copied as files. This "
 "increases backup size and may store the same files multiple times."
 msgstr ""
-"Endast länkar som pekar utanför säkerhetskopian kopieras som filer. Detta "
-"ökar säkerhetskopians storlek och kan lagra samma filer flera gånger."
+"Endast länkar som pekar utanför källan för säkerhetskopieringen kopieras som"
+" filer. Det gör säkerhetskopian större och kan medföra att samma filer "
+"lagras flera gånger."
 
 #: qt/manageprofiles/copylinkswidget.py:75
 msgid "Uses 'rsync --copy-unsafe-links'."
@@ -1392,7 +1396,7 @@ msgstr "Andra icke-ihållande"
 
 #: qt/manageprofiles/excludesuggestions.py:98
 msgid "List of currently mounted filesystems"
-msgstr "Lista över för närvarande monterade filsystem"
+msgstr "Lista över filsystem som är monterade just nu"
 
 #: qt/manageprofiles/excludesuggestions.py:101
 msgid "System swap file (virtual memory)"
@@ -1400,7 +1404,7 @@ msgstr "System swap fil (virtuellt minne)"
 
 #: qt/manageprofiles/excludesuggestions.py:102
 msgid "GNOME virtual file system mount point"
-msgstr "GNOME virtuellt filsystem monteringpunkt"
+msgstr "Monteringspunkt för GNOME:s virtuella filsystem"
 
 #: qt/manageprofiles/excludesuggestions.py:103
 msgid "Recovered filesystem objects"
@@ -1420,11 +1424,11 @@ msgstr "Användarens papperskorg"
 
 #: qt/manageprofiles/excludesuggestions.py:112
 msgid "System backup files"
-msgstr "System säkerhetskopiering filer"
+msgstr "Systemets säkerhetskopieringsfiler"
 
 #: qt/manageprofiles/excludesuggestions.py:139
 msgid "Exclude Suggestions"
-msgstr "Exkludera Förslag"
+msgstr "Förslag på undantag"
 
 #: qt/manageprofiles/excludesuggestions.py:144
 msgid "Select commonly used items to add to backup exclusions."
@@ -1517,7 +1521,7 @@ msgstr "Vid varje start/omstart"
 msgid "Every minute"
 msgid_plural "Every {n} minutes"
 msgstr[0] "Varje minut"
-msgstr[1] "Var {n}:e minuter"
+msgstr[1] "Med {n} minuters mellanrum"
 
 #: qt/manageprofiles/schedulewidget.py:154
 #: qt/manageprofiles/schedulewidget.py:156
@@ -1528,7 +1532,7 @@ msgstr[1] "Var {n}:e minuter"
 msgid "Every hour"
 msgid_plural "Every {n} hours"
 msgstr[0] "Varje timme"
-msgstr[1] "Varje {n} timmar"
+msgstr[1] "Med {n} timmars mellanrum"
 
 #: qt/manageprofiles/schedulewidget.py:163
 msgid "Custom hours"
@@ -1603,7 +1607,7 @@ msgstr "Skapa en ny SSH-nykel utan lösenfras."
 #: qt/manageprofiles/sshkeyselector.py:92
 #, python-brace-format
 msgid "Full path: {path}"
-msgstr "Fullständig genväg för säkerhetskopian: {path}"
+msgstr "Fullständig sökväg: {path}"
 
 #: qt/manageprofiles/sshkeyselector.py:205
 msgid "Private key:"
@@ -1618,8 +1622,8 @@ msgid ""
 "Leaves the key file unselected. SSH connections will rely on the system’s "
 "existing client configuration (e.g., ~/.ssh/config)."
 msgstr ""
-"Lämnar nyckel filen som ej vald. SSH anslutningarna kommer förlita sig på "
-"systemets befintliga klientkonfiguration (t.ex., ~/.ssh/config)."
+"Ingen nyckelfil väljs. SSH använder systemets befintliga klientkonfiguration"
+" (t.ex. ~/.ssh/config)."
 
 #: qt/manageprofiles/sshproxywidget.py:47
 msgid "SSH Proxy"
@@ -1841,9 +1845,9 @@ msgid ""
 "Variables need to be escaped with \\$FOO. This doesn't touch rsync. So to "
 "add a prefix for rsync use \"{example_value}\" with {rsync_options_value}."
 msgstr ""
-"Variabler måste avslutas med \\$FOO. Detta rör inte rsync. Så för att lägga "
-"till ett prefix för rsync använd \"{example_value}\" med "
-"{rsync_options_value}."
+"Sätt ett omvänt snedstreck före dollartecknet i variabler, till exempel "
+"\\$FOO. Prefixet påverkar inte rsync. Använd ”{example_value}” med "
+"{rsync_options_value} för att lägga till ett prefix även för rsync."
 
 #: qt/manageprofiles/tab_expert_options.py:293
 msgid "default"
@@ -1931,7 +1935,7 @@ msgstr "Avancerat"
 
 #: qt/manageprofiles/tab_general.py:256 qt/manageprofiles/tab_general.py:803
 msgid "Full backup path:"
-msgstr "Fullständig genväg för säkerhetskopian:"
+msgstr "Fullständig sökväg till säkerhetskopian:"
 
 #: qt/manageprofiles/tab_general.py:264
 msgid ""
@@ -1943,7 +1947,7 @@ msgstr ""
 
 #: qt/manageprofiles/tab_general.py:393
 msgid "The backup destination path cannot be empty."
-msgstr "Sökväg för säkerhetskopia får inte vara tom."
+msgstr "Sökvägen till målet för säkerhetskopieringen får inte vara tom."
 
 #: qt/manageprofiles/tab_general.py:404
 msgid "The encryption password cannot be empty."
@@ -2045,7 +2049,7 @@ msgstr ""
 
 #: qt/manageprofiles/tab_include.py:172
 msgid "Include the symlink's target instead?"
-msgstr "Inkludera symlänkens mål istället?"
+msgstr "Vill du inkludera den symboliska länkens mål i stället?"
 
 #: qt/manageprofiles/tab_include.py:180
 msgid "Include files"
@@ -2069,7 +2073,7 @@ msgstr "Strömstatus inte tillgängligt från system"
 
 #: qt/manageprofiles/tab_options.py:52
 msgid "Run only one backup at a time"
-msgstr "Kör enbart en säkerhetskopia i taget"
+msgstr "Kör bara en säkerhetskopiering åt gången"
 
 #: qt/manageprofiles/tab_options.py:56
 msgid ""
@@ -2077,10 +2081,9 @@ msgid ""
 " a global setting, meaning it will affect all profiles for this user. "
 "However, it must also be activated for all other users."
 msgstr ""
-"De andra säkerhetskopieringarna kommer att blockeras tills den aktuella "
-"säkerhetskopieringen är klar. Det här är ett globalt alternativ vilket "
-"betyder att det kommer att drabba alla profiler för den här användaren. Det "
-"måste hur som helst aktiveras för alla andra användare."
+"Andra säkerhetskopieringar får vänta tills den pågående är klar. "
+"Inställningen gäller alla profiler för den här användaren. Den måste också "
+"aktiveras för alla andra användare."
 
 #: qt/manageprofiles/tab_options.py:63
 msgid "Backup replaced files on restore"
@@ -2088,11 +2091,11 @@ msgstr "Säkerhetskopiera ersatta filer vid återställning"
 
 #: qt/manageprofiles/tab_options.py:78
 msgid "Continue on errors (keep incomplete backups)"
-msgstr "Fortsätt vid fel (behåll inte säkerhetskopior som inte är slutförda)"
+msgstr "Fortsätt vid fel (behåll ofullständiga säkerhetskopior)"
 
 #: qt/manageprofiles/tab_options.py:82
 msgid "Use checksum to detect changes"
-msgstr "Använd checksummor för att detektera ändringar"
+msgstr "Använd kontrollsummor för att upptäcka ändringar"
 
 #: qt/manageprofiles/tab_options.py:86
 msgid "Create a new backup whether there were changes or not."
@@ -2116,9 +2119,9 @@ msgid ""
 "based on available free space, this value cannot be lower than the value set"
 " in the policy."
 msgstr ""
-"Om borttags- och behållandepolicyn är aktiverad och äldre säkerhetskopior "
-"blir borttagna baserat på tillgängligt fritt utrymme, kan detta värde inte "
-"vara lägre än värdet satt i den policyn."
+"Om äldre säkerhetskopior tas bort enligt reglerna för borttagning och "
+"bevarande när det lediga utrymmet blir för litet, får varningsgränsen inte "
+"vara lägre än gränsen för borttagning."
 
 #: qt/manageprofiles/tab_options.py:122
 msgid "Log Level:"
@@ -2147,7 +2150,7 @@ msgstr "Öppna användarmanual i webbläsaren."
 
 #: qt/manageprofiles/tab_remove_retention.py:237
 msgid "Keep the most recent backup."
-msgstr "Behåll den mest senaste säkerhetskopian."
+msgstr "Behåll den senaste säkerhetskopian."
 
 #: qt/manageprofiles/tab_remove_retention.py:241
 msgid "The most up-to-date backup is kept under all circumstances."
@@ -2187,7 +2190,7 @@ msgstr "Kalenderveckor med måndag som första dag. Aktuell vecka ignoreras."
 
 #: qt/manageprofiles/tab_remove_retention.py:289
 msgid "12 months periods. Current month is ignored."
-msgstr "Tolvmånaders perioder. Nuvarande månad ignoreras."
+msgstr "Perioder på tolv månader. Den pågående månaden räknas inte."
 
 #: qt/manageprofiles/tab_remove_retention.py:305
 msgid "Retention policy"
@@ -2217,7 +2220,7 @@ msgstr "Dagarna räknas från och med idag."
 
 #: qt/manageprofiles/tab_remove_retention.py:322
 msgid "Keep all backups for the last"
-msgstr "Behåll alla säkerhetskopior för de senaste"
+msgstr "Behåll alla säkerhetskopior från de senaste"
 
 #: qt/manageprofiles/tab_remove_retention.py:327
 #: qt/manageprofiles/tab_remove_retention.py:339
@@ -2226,7 +2229,7 @@ msgstr "dag(ar)."
 
 #: qt/manageprofiles/tab_remove_retention.py:334
 msgid "Keep the last backup for each day for the last"
-msgstr "Behåll den sista säkerhetskopian för varje dag till den sista"
+msgstr "Behåll den sista säkerhetskopian för varje dag under de senaste"
 
 #: qt/manageprofiles/tab_remove_retention.py:344
 msgid ""
@@ -2238,7 +2241,7 @@ msgstr ""
 
 #: qt/manageprofiles/tab_remove_retention.py:347
 msgid "Keep the last backup for each week for the last"
-msgstr "Behåll den sista säkerhetskopian för varje vecka till den sista"
+msgstr "Behåll den sista säkerhetskopian för varje vecka under de senaste"
 
 #: qt/manageprofiles/tab_remove_retention.py:352
 msgid "week(s)."
@@ -2251,7 +2254,7 @@ msgstr "Månaderna räknas som kalendermånader från och med nuvarande månad."
 
 #: qt/manageprofiles/tab_remove_retention.py:360
 msgid "Keep the last backup for each month for the last"
-msgstr "Behåll den sista säkerhetskopian för varje månad till den sista"
+msgstr "Behåll den sista säkerhetskopian för varje månad under de senaste"
 
 #: qt/manageprofiles/tab_remove_retention.py:365
 msgid "month(s)."
@@ -2264,7 +2267,7 @@ msgstr "Åren räknas som kalenderår från och med det nuvarande året."
 
 #: qt/manageprofiles/tab_remove_retention.py:372
 msgid "Keep the last backup for each year for"
-msgstr "Spara den sista säkerhetskopior för varje år för"
+msgstr "Behåll den sista säkerhetskopian för varje år under"
 
 #: qt/manageprofiles/tab_remove_retention.py:374
 msgid "all years."
@@ -2280,7 +2283,7 @@ msgstr "… de lediga inoderna är mindre än"
 
 #: qt/manageprofiles/tab_remove_retention.py:403
 msgid "Remove oldest backup if …"
-msgstr "Ta bort gamla säkerhetskopior om …"
+msgstr "Ta bort den äldsta säkerhetskopian om …"
 
 #: qt/net.launchpad.backintime.policy:21
 msgid "Authentication is required to run Back In Time as root."
@@ -2360,8 +2363,8 @@ msgid ""
 "Select the backup directory from which the configuration file should be "
 "imported. The path may look like: {samplePath}"
 msgstr ""
-"Välj mappen för säkerhetskopian som konfigurationsfilen ska importeras "
-"ifrån. Genvägen kan se ut så här: {samplePath}"
+"Välj den katalog med säkerhetskopior som du vill importera "
+"konfigurationsfilen från. Sökvägen kan se ut så här: {samplePath}"
 
 #: qt/restoreconfigdialog.py:216
 msgid ""
@@ -2524,9 +2527,7 @@ msgstr "Root-läge"
 #: qt/statusbar.py:87
 msgid ""
 "Back In Time is currently running with root privileges (full system access)"
-msgstr ""
-"Back In Time körs för närvarande med root behörigheter (full åtkomst till "
-"systemet)"
+msgstr "Back In Time körs med root-behörighet (full åtkomst till systemet)"
 
 #: qt/timeline.py:69
 msgid "Today"

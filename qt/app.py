@@ -33,6 +33,7 @@ tools.initiate_translation(None)
 import qttools
 import backintime
 import bitbase
+import cli
 import config
 import logger
 import snapshots
@@ -395,19 +396,21 @@ class MainWindow(QMainWindow):
                 + ' ' + _('Then press OK.')
             messagebox.critical(self, msg)
 
-    def _handle_user_messages(self):
+    def _handle_user_messages(self):  # pylint: disable=too-many-branches
         # Ignore if debug or release/testing candidate
         if version.IS_RELEASE_CANDIDATE or logger.DEBUG:
             return
 
         state_data = StateData()
 
-        # SSH Cipher deprecation
-        if state_data.msg_cipher_deprecation is False:
-            cipher_profiles = self._cipher_using_profiles()
-            if cipher_profiles:
-                self._open_ssh_cipher_deprecation_dialog(cipher_profiles)
-                state_data.msg_cipher_deprecation = True
+        # SSH Cipher removal
+        cipher = cli.detect_cipher_settings(self.config)
+        if cipher:
+            self._open_ssh_cipher_remove_dialog(
+                [entry[0] for entry in cipher]
+            )
+        for _name, _val, key in cipher:
+            del self.config.dict[key]
 
         # Issue: https://github.com/bit-team/backintime/issues/2080
         lang_planed_for_removal = [
@@ -457,6 +460,35 @@ class MainWindow(QMainWindow):
                 state_data.save()
                 dlg = encfsmsgbox.EncfsExistsWarning(encfs_profiles)
                 dlg.exec()
+
+        # If the gocryptfs-foward-mountd-deprecation warning was not shown yet.
+        if not state_data.msg_gocryptfs_global:
+            # Are there profiles using "local_gocryptfs"
+            local_gocryptfs_profiles = []
+
+            for pid in self.config.profiles():
+                if 'local_gocryptfs' in self.config.snapshotsMode(pid):
+                    local_gocryptfs_profiles.append(
+                        f'{self.config.profileName(pid)} ({pid})'
+                    )
+
+            # Gocryptfs deprecation warning (#2646, #2625)
+            if local_gocryptfs_profiles:
+                state_data.msg_gocryptfs_global = True
+                state_data.save()
+                dlg = encfsmsgbox.GocryptfsExistsWarning(
+                    local_gocryptfs_profiles
+                )
+                dlg.exec()
+
+        # Plugin system deprecation (#2424)
+        if self.config.PLUGIN_MANAGER.msg_unknown_plugins:
+            dlg = UserMessageDialog(
+                parent=self,
+                title='Plugin System deprecation',
+                full_label=self.config.PLUGIN_MANAGER.msg_unknown_plugins
+            )
+            dlg.exec()
 
     @property
     def showHiddenFiles(self):
@@ -607,11 +639,11 @@ class MainWindow(QMainWindow):
                 _('Encryption Transition (EncFS)'),
                 self._slot_help_encryption, None,
                 _('Shows the message about EncFS removal again.')),
-            'act_help_cipher': (
+            'act_help_gocrypt': (
                 icon.ENCRYPT,
-                'SSH Cipher deprecation',
-                self._slot_help_cipher_deprecation, None,
-                'Shows the message about deprecation of SSH cipher again.'),
+                _('Gocryptfs deprecation & migration (EncFS)'),
+                self._slot_help_gocryptfs, None,
+                _('Shows the message about Gocryptfs deprecation again.')),
             'act_help_about': (
                 icon.ABOUT, _('About'),
                 self._slot_help_about, None, None),
@@ -748,7 +780,7 @@ class MainWindow(QMainWindow):
                 self.act_help_bugreport,
                 self.act_help_translation,
                 self.act_help_encryption,
-                self.act_help_cipher,
+                self.act_help_gocrypt,
                 self.act_help_about,
             )
         }
@@ -774,6 +806,7 @@ class MainWindow(QMainWindow):
         help = self.menuBar().actions()[-1].menu()
         help.insertSeparator(self.act_help_website)
         help.insertSeparator(self.act_help_about)
+        help.insertSeparator(self.act_help_encryption)
         if self.act_help_release_candidate:
             help.addSeparator()
             help.addAction(self.act_help_release_candidate)
@@ -1835,24 +1868,18 @@ class MainWindow(QMainWindow):
 
         return ssh_cipher_profiles
 
-    def _open_ssh_cipher_deprecation_dialog(self, ssh_cipher_profiles):
-        """SSH cipher deprecation warning (#2143, #2176)"""
+    def _open_ssh_cipher_remove_dialog(self, ssh_cipher_profiles):
+        """SSH cipher removed (#2176)"""
 
         def _complete_text(profiles: list[str]) -> str:
             txt = (
-                'The following backup profiles are using an explicitly '
-                'configured SSH cipher.',
-                '{profiles}',
-                'Setting a cipher directly within Back In Time <strong>is '
-                'deprecated and will be removed</strong> in future versions.',
+                'SSH Cipher are not supported anymore!',
+                'Explicitly configured SSH cipher setting detected in the '
+                'following backup profiles:',
+                'The setting will be removed <strong>immediately</strong>.',
                 'Recommended action:',
                 'Please configure the preferred cipher in the SSH client'
-                'config file (e.g. ~/.ssh/config) instead.'
-                ' First remove the config key '
-                '"profile<N>.snapshots.ssh.cipher=" from Back In Time '
-                'config file ("~/.config/backintime/config")',
-                'This message will not be shown again automatically, but is '
-                'available at any time via the Help menu.',
+                'config file (e.g. ~/.ssh/config) instead.',
                 'Your Back In Time Team'
             )
             txt = '\n'.join(txt)
@@ -1870,7 +1897,7 @@ class MainWindow(QMainWindow):
 
         dlg = UserMessageDialog(
             parent=self,
-            title='SSH Cipher is deprecated',
+            title='Removing SSH cipher setting',
             full_label=_complete_text(ssh_cipher_profiles))
         dlg.exec()
 
@@ -2323,11 +2350,12 @@ class MainWindow(QMainWindow):
     def _slot_help_release_candidate(self):
         self._open_release_candidate_dialog()
 
-    def _slot_help_cipher_deprecation(self):
-        self._open_ssh_cipher_deprecation_dialog(self._cipher_using_profiles())
-
     def _slot_help_encryption(self):
         dlg = encfsmsgbox.EncfsExistsWarning(['(not determined)'])
+        dlg.exec()
+
+    def _slot_help_gocryptfs(self):
+        dlg = encfsmsgbox.GocryptfsExistsWarning(['(not determined)'])
         dlg.exec()
 
     def _slot_edit_user_callback(self):
