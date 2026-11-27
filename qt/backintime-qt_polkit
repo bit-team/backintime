@@ -24,27 +24,33 @@ ERR_FILE=$(mktemp)
 # agent is active, e.g. when using IceWM.
 # Details:
 #    https://github.com/bit-team/backintime/pull/2328#issuecomment-3702705290
-# Error message (stderr) of pkexec is written to /tmp/backintime-error
-pkexec --disable-internal-agent $PREFIX "/usr/bin/backintime-qt" "$@" 2> >(tee "$ERR_FILE" >&2)
+# Error message (stderr) of pkexec is written to a temp file
+pkexec --disable-internal-agent $PREFIX "/usr/bin/backintime-qt" "$@" 2> "$ERR_FILE"
 
 STATUS=$?
 
+cat "$ERR_FILE" >&2
+
 if (( STATUS )); then
     ERR=$(< "$ERR_FILE")
-    rm -f "$ERR_FILE"
 
-    # Use zentiy or xmessage
+    # Fancy newline (ANSI-C-Quoting) because of xmessage and bash
+    MSG="Error: ${ERR}"$'\n'"Return code: ${STATUS}"
+    TITLE="Back In Time: Problems running in root mode"
+    FALLBACK=0
+
+    # Use zenity or xmessage
     if command -v zenity >/dev/null 2>&1; then
-        zenity --error \
-            --title="Back In Time - Problems running in root mode" \
-            --text="Error: ${ERR}\nReturn code: ${STATUS}"
+        zenity --error --title="$TITLE" --no-markup --text="$MSG" || FALLBACK=1
     else
-        xmessage -nearmouse "Back In Time: Problems running in root mode
-        Error: ${ERR}
-        Return code: ${STATUS}"
+        FALLBACK=1
     fi
 
-    exit "${STATUS}"
+    if (( FALLBACK )); then
+        xmessage -nearmouse "${TITLE}"$'\n'"${MSG}"
+    fi
+
 fi
 
-
+rm -f "$ERR_FILE"
+exit "${STATUS}"
